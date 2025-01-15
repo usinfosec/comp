@@ -29,7 +29,7 @@ export function Footer() {
       <Row>
         <Link
           className="text-[#707070] text-[12px]"
-          href="https://app.bubba.ai/settings/notifications"
+          href="https://app.trycomp.ai/settings/notifications"
           title="Unsubscribe"
         >
           Notification preferences

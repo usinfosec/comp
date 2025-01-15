@@ -112,7 +112,7 @@ export function SectionTeam() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          To invest, reach out to founders@bubba.ai.
+          To invest, reach out to founders@trycomp.ai.
         </motion.p>
 
         <div className="flex justify-center">

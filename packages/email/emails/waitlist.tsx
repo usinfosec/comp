@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const WaitlistEmail = ({ email }: Props) => {
-  const confirmationUrl = `https://bubba.ai/api/waitlist?email=${email}`;
+  const confirmationUrl = `https://trycomp.ai/api/waitlist?email=${email}`;
 
   return (
     <Html>

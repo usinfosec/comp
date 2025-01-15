@@ -3,7 +3,7 @@ export function getAppUrl() {
     process.env.VERCEL_ENV === "production" ||
     process.env.NODE_ENV === "production"
   ) {
-    return "https://app.bubba.ai";
+    return "https://app.trycomp.ai";
   }
 
   if (process.env.VERCEL_ENV === "preview") {
@@ -14,7 +14,7 @@ export function getAppUrl() {
 }
 
 export function getEmailUrl() {
-  return "https://bubba.ai";
+  return "https://trycomp.ai";
 }
 
 export function getWebsiteUrl() {
@@ -22,7 +22,7 @@ export function getWebsiteUrl() {
     process.env.VERCEL_ENV === "production" ||
     process.env.NODE_ENV === "production"
   ) {
-    return "https://bubba.ai";
+    return "https://trycomp.ai";
   }
 
   if (process.env.VERCEL_ENV === "preview") {
@@ -33,5 +33,5 @@ export function getWebsiteUrl() {
 }
 
 export function getCdnUrl() {
-  return "https://cdn.bubba.ai";
+  return "https://cdn.trycomp.ai";
 }

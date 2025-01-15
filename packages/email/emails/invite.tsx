@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const InviteEmail = ({ email, teamName, inviteCode }: Props) => {
-  const inviteLink = `https://app.bubba.ai/teams/invite/${inviteCode}`;
+  const inviteLink = `https://app.trycomp.ai/teams/invite/${inviteCode}`;
 
   return (
     <Html>

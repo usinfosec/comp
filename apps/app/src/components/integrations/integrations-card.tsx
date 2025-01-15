@@ -218,7 +218,7 @@ export function IntegrationsCard({
             </p>
 
             <a
-              href="mailto:support@bubba.ai"
+              href="mailto:support@trycomp.ai"
               className="text-[10px] text-red-500"
             >
               Report an issue

@@ -31,7 +31,7 @@ export const authConfig: NextAuthConfig = {
     }),
     Resend({
       apiKey: process.env.RESEND_API_KEY!,
-      from: "noreply@mail.bubba.ai",
+      from: "noreply@mail.trycomp.ai",
       async sendVerificationRequest(params) {
         await sendMagicLinkEmail({
           email: params.identifier,

@@ -15,7 +15,7 @@ export function SectionStart() {
             href="/"
             className="hover:underline hover:underline-offset-8 transition-all duration-300"
           >
-            Bubba&nbsp;AI
+            Comp&nbsp;AI
           </NextLink>
         </h1>
       </div>

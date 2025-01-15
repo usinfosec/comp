@@ -91,7 +91,7 @@ export const WelcomeEmail = ({ fullName = "Viktor Hofte" }: Props) => {
             <br />
 
             <Img
-              src={"https://app.bubba.ai/email/founders.jpeg"}
+              src={"https://cdn.trycomp.ai/email/founders.jpeg"}
               alt="Founders"
               className="my-0 mx-auto block w-full"
             />
@@ -99,7 +99,7 @@ export const WelcomeEmail = ({ fullName = "Viktor Hofte" }: Props) => {
             <Text className="text-[#707070]">Best regards, founders</Text>
 
             <Img
-              src={"https://app.bubba.ai/email/signature.png"}
+              src={"https://cdn.trycomp.ai/email/signature.png"}
               alt="Signature"
               className="block w-full w-[143px] h-[20px]"
             />
