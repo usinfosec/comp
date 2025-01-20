@@ -5,6 +5,9 @@ import "@/styles/globals.css";
 import "@bubba/ui/globals.css";
 import { cn } from "@/lib/utils";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { SiteFooter } from "./components/site-footer";
+import { SiteHeader } from "./components/site-header";
+import { ThemeProvider } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,18 +44,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <GoogleTagManager
         gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_ID as string}
       />
       <body
         className={cn(
-          `${geistSans.variable} ${geistMono.variable}`,
-          "whitespace-pre-line overscroll-none antialiased",
+          "min-h-svh bg-background font-sans antialiased",
+          geistSans.variable,
         )}
       >
-        <main>{children}</main>
-        <Toaster richColors />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          enableColorScheme
+        >
+          <div className="flex min-h-svh flex-col">
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </div>
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
