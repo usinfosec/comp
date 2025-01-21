@@ -110,7 +110,7 @@ export default {
         archived: "Archived",
       },
       inherent_risk_description:
-        "Inherent risk is calculated as likelihood * impact. This is the risk level before any controls are applied.",
+        "Inherent risk is calculated as likelihood * impact. Calculated before any controls are applied.",
       residual_risk_description:
         "Residual risk is calculated as likelihood * impact. This is the risk level after controls are applied.",
       risk_assessment_description: "Compare inherent and residual risk levels",

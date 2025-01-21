@@ -3,7 +3,6 @@ import { FrameworkProgress } from "@/components/charts/framework-progress";
 import { RequirementStatus } from "@/components/charts/requirement-status";
 
 import { SkeletonLoader } from "@/components/skeleton-loader";
-import { TestEncryption } from "@/components/test-encryption";
 
 import { db } from "@bubba/db";
 import { redirect } from "next/navigation";
