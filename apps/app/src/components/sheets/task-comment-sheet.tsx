@@ -39,7 +39,7 @@ export function TaskCommentSheet({
         <SheetContent stack>
           <SheetHeader className="mb-8">
             <div className="flex justify-between items-center flex-row">
-              <SheetTitle>{t("risk.tasks.comments.title")}</SheetTitle>
+              <SheetTitle>{t("common.comments.title")}</SheetTitle>
               <Button
                 size="icon"
                 variant="ghost"
@@ -50,7 +50,7 @@ export function TaskCommentSheet({
               </Button>
             </div>{" "}
             <SheetDescription>
-              {t("risk.tasks.comments.description")}
+              {t("common.comments.description")}
             </SheetDescription>
           </SheetHeader>
 
@@ -64,7 +64,7 @@ export function TaskCommentSheet({
 
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-      <DrawerTitle hidden>{t("risk.tasks.comments.title")}</DrawerTitle>
+      <DrawerTitle hidden>{t("common.comments.title")}</DrawerTitle>
       <DrawerContent className="p-6">
         <CreateTaskCommentForm />
       </DrawerContent>

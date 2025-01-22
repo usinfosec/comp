@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { Suspense } from "react";
 
+import { useI18n } from "@/locales/client";
 import { cn } from "@bubba/ui/cn";
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
 import { type RiskTaskType, columns as getColumns } from "./columns";
@@ -32,6 +32,7 @@ export function DataTable<TData, TValue>({
   pageCount,
   currentPage,
 }: DataTableProps<TData, TValue>) {
+  const t = useI18n();
   const clientColumns = getColumns();
   const columns = clientColumns.map((col) => ({
     ...col,
@@ -80,7 +81,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("common.table.no_results")}
                 </TableCell>
               </TableRow>
             )}

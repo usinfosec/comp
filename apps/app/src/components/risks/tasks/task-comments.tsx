@@ -8,7 +8,7 @@ import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { EmptyCard } from "@bubba/ui/empty-card";
 import { format } from "date-fns";
-import { MessageSquare, PencilIcon } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 export function TaskComment({
@@ -26,9 +26,9 @@ export function TaskComment({
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between gap-2">
-            {t("risk.tasks.comments.title")}
+            {t("common.comments.title")}
             <Button variant="outline" onClick={() => setOpen("true")}>
-              {t("risk.tasks.comments.add")}
+              {t("common.comments.add")}
             </Button>
           </div>
         </CardTitle>
@@ -59,9 +59,9 @@ export function TaskComment({
           </div>
         ) : (
           <EmptyCard
-            title={t("risk.tasks.comments.empty.title")}
+            title={t("common.comments.empty.title")}
             icon={MessageSquare}
-            description={t("risk.tasks.comments.empty.description")}
+            description={t("common.comments.empty.description")}
             className="w-full"
           />
         )}

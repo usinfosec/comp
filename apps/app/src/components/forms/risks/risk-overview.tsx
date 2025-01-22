@@ -47,10 +47,10 @@ export function UpdateRiskOverview({
 
   const updateRisk = useAction(updateRiskAction, {
     onSuccess: () => {
-      toast.success("Risk updated successfully");
+      toast.success(t("risk.form.update_risk_success"));
     },
     onError: () => {
-      toast.error("Something went wrong, please try again.");
+      toast.error(t("risk.form.update_risk_error"));
     },
   });
 
@@ -90,7 +90,7 @@ export function UpdateRiskOverview({
             name="ownerId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Risk Owner</FormLabel>
+                <FormLabel>{t("common.assignee.label")}</FormLabel>
                 <FormControl>
                   <Select
                     value={field.value}
@@ -98,7 +98,9 @@ export function UpdateRiskOverview({
                     onOpenChange={() => form.handleSubmit(onSubmit)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a risk owner" />
+                      <SelectValue
+                        placeholder={t("common.assignee.placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectUser
@@ -119,11 +121,13 @@ export function UpdateRiskOverview({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Risk Status</FormLabel>
+                <FormLabel>{t("risk.form.risk_status")}</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a risk status">
+                      <SelectValue
+                        placeholder={t("risk.form.risk_status_placeholder")}
+                      >
                         {field.value && (
                           <Status status={field.value as StatusType} />
                         )}
@@ -147,7 +151,7 @@ export function UpdateRiskOverview({
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Risk Category</FormLabel>
+                <FormLabel>{t("risk.form.risk_category")}</FormLabel>
                 <FormControl>
                   <Select
                     {...field}
@@ -155,7 +159,9 @@ export function UpdateRiskOverview({
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a risk category" />
+                      <SelectValue
+                        placeholder={t("risk.form.risk_category_placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {Object.values(RiskCategory).map((category) => {
@@ -185,7 +191,7 @@ export function UpdateRiskOverview({
             name="department"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Risk Department</FormLabel>
+                <FormLabel>{t("risk.form.risk_department")}</FormLabel>
                 <FormControl>
                   <Select
                     {...field}
@@ -193,7 +199,9 @@ export function UpdateRiskOverview({
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a risk department" />
+                      <SelectValue
+                        placeholder={t("risk.form.risk_department_placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {Object.values(Departments).map((department) => {
@@ -218,7 +226,7 @@ export function UpdateRiskOverview({
             {updateRisk.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              t("common.save")
+              t("common.actions.save")
             )}
           </Button>
         </div>

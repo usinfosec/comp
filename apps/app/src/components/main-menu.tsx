@@ -23,8 +23,8 @@ import { useLongPress } from "use-long-press";
 const icons = {
   "/": () => <Icons.Overview size={22} />,
   "/settings": () => <Icons.Settings size={22} />,
-  "/policies": () => <Icons.Policies size={22} />,
   "/risk": () => <Icons.Risk size={22} />,
+  "/vendors": () => <Icons.Vendors size={22} />,
   "/integrations": () => <Icons.Apps size={22} />,
 };
 
@@ -157,12 +157,12 @@ export function MainMenu({ initialItems, onSelect }: Props) {
       name: t("sidebar.overview"),
     },
     {
-      path: "/policies",
-      name: t("sidebar.policies"),
-    },
-    {
       path: "/risk",
       name: t("sidebar.risk"),
+    },
+    {
+      path: "/vendors",
+      name: t("sidebar.vendors"),
     },
     {
       path: "/integrations",

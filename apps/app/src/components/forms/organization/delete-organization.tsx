@@ -60,7 +60,7 @@ export function DeleteOrganization({
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive" className="hover:bg-destructive">
-              {t("settings.general.delete_button")}
+              {t("common.actions.delete")}
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -86,7 +86,7 @@ export function DeleteOrganization({
 
             <AlertDialogFooter>
               <AlertDialogCancel>
-                {t("settings.general.cancel_button")}
+                {t("common.actions.cancel")}
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() =>
@@ -100,7 +100,7 @@ export function DeleteOrganization({
                 {deleteOrganization.status === "executing" ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  t("settings.general.delete_confirm")
+                  t("common.actions.delete")
                 )}
               </AlertDialogAction>
             </AlertDialogFooter>

@@ -8,6 +8,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
+import { soc2Seed } from "../soc2-seed";
 
 export const createOrganizationAction = authActionClient
   .schema(organizationSchema)
@@ -19,9 +20,6 @@ export const createOrganizationAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    console.log("Starting organization creation process...");
-
-    const cookieStore = await cookies();
     const { name, website } = parsedInput;
     const { id: userId, organizationId } = ctx.user;
 
@@ -76,6 +74,11 @@ export const createOrganizationAction = authActionClient
             onboarded: true,
           },
         });
+      });
+
+      await soc2Seed({
+        organizationId: organization.id,
+        userId,
       });
 
       revalidateTag(`user_${userId}`);

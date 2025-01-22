@@ -54,6 +54,7 @@ export const updateTaskAction = authActionClient
 
       revalidatePath("/risk");
       revalidatePath(`/risk/${riskId.riskId}`);
+      revalidatePath(`/risk/${riskId.riskId}/tasks`);
       revalidatePath(`/risk/${riskId.riskId}/tasks/${id}`);
       revalidateTag("risks");
 

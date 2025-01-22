@@ -4,6 +4,7 @@ import { getOrganizationUsersAction } from "@/actions/organization/get-organizat
 import { createTaskAction } from "@/actions/risk/task/create-task-action";
 import { createTaskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
+import { useI18n } from "@/locales/client";
 import {
   Accordion,
   AccordionContent,
@@ -49,6 +50,8 @@ interface User {
 }
 
 export function CreateTaskForm() {
+  const t = useI18n();
+
   const [users, setUsers] = useState<User[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
   const [_, setCreateTaskSheet] = useQueryState("create-task-sheet");
@@ -68,11 +71,11 @@ export function CreateTaskForm() {
 
   const createTask = useAction(createTaskAction, {
     onSuccess: () => {
-      toast.success("Task created successfully");
+      toast.success(t("risk.tasks.form.success"));
       setCreateTaskSheet(null);
     },
     onError: () => {
-      toast.error("Something went wrong, please try again.");
+      toast.error(t("risk.tasks.form.error"));
     },
   });
 
@@ -98,7 +101,9 @@ export function CreateTaskForm() {
           <div>
             <Accordion type="multiple" defaultValue={["task"]}>
               <AccordionItem value="task">
-                <AccordionTrigger>Task Details</AccordionTrigger>
+                <AccordionTrigger>
+                  {t("risk.tasks.form.title")}
+                </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
@@ -106,13 +111,17 @@ export function CreateTaskForm() {
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Task Title</FormLabel>
+                          <FormLabel>
+                            {t("risk.tasks.form.task_title")}
+                          </FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               autoFocus
                               className="mt-3"
-                              placeholder="Enter a name for the task"
+                              placeholder={t(
+                                "risk.tasks.form.task_title_description",
+                              )}
                               autoCorrect="off"
                             />
                           </FormControl>
@@ -126,12 +135,16 @@ export function CreateTaskForm() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Description</FormLabel>
+                          <FormLabel>
+                            {t("risk.tasks.form.description")}
+                          </FormLabel>
                           <FormControl>
                             <Textarea
                               {...field}
                               className="mt-3 min-h-[80px]"
-                              placeholder="Enter a description for the task"
+                              placeholder={t(
+                                "risk.tasks.form.description_description",
+                              )}
                             />
                           </FormControl>
                           <FormMessage />
@@ -144,7 +157,7 @@ export function CreateTaskForm() {
                       name="dueDate"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>Due Date</FormLabel>
+                          <FormLabel>{t("risk.tasks.form.due_date")}</FormLabel>
                           <Popover>
                             <PopoverTrigger asChild>
                               <FormControl>
@@ -158,7 +171,7 @@ export function CreateTaskForm() {
                                   {field.value ? (
                                     format(field.value, "PPP")
                                   ) : (
-                                    <span>Pick a date</span>
+                                    <span>{t("common.date.pick")}</span>
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -187,14 +200,16 @@ export function CreateTaskForm() {
                       name="ownerId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Assignee</FormLabel>
+                          <FormLabel>{t("common.assignee.label")}</FormLabel>
                           <FormControl>
                             <Select
                               value={field.value}
                               onValueChange={field.onChange}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select an owner" />
+                                <SelectValue
+                                  placeholder={t("common.assignee.placeholder")}
+                                />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectUser
@@ -219,7 +234,7 @@ export function CreateTaskForm() {
           <div className="flex justify-end mt-4">
             <Button type="submit" disabled={createTask.status === "executing"}>
               <div className="flex items-center justify-center">
-                Create Task
+                {t("common.actions.create")}
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>

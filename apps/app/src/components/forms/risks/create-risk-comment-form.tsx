@@ -34,11 +34,11 @@ export function CreateRiskCommentForm() {
 
   const createRiskComment = useAction(createRiskCommentAction, {
     onSuccess: () => {
-      toast.success(t("risk.comments.success"));
+      toast.success(t("common.comments.success"));
       setCreateRiskCommentSheet(null);
     },
     onError: () => {
-      toast.error(t("risk.tasks.comments.error"));
+      toast.error(t("common.comments.error"));
     },
   });
 
@@ -61,9 +61,7 @@ export function CreateRiskCommentForm() {
           <div>
             <Accordion type="multiple" defaultValue={["task"]}>
               <AccordionItem value="task">
-                <AccordionTrigger>
-                  {t("risk.tasks.comments.new")}
-                </AccordionTrigger>
+                <AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
@@ -76,7 +74,7 @@ export function CreateRiskCommentForm() {
                               {...field}
                               autoFocus
                               className="mt-3"
-                              placeholder={t("risk.tasks.comments.placeholder")}
+                              placeholder={t("common.comments.placeholder")}
                               autoCorrect="off"
                             />
                           </FormControl>
@@ -96,7 +94,7 @@ export function CreateRiskCommentForm() {
               disabled={createRiskComment.status === "executing"}
             >
               <div className="flex items-center justify-center">
-                {t("risk.comments.save")}
+                {t("common.actions.save")}
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>

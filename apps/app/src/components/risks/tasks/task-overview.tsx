@@ -45,7 +45,7 @@ export function TaskOverview({
         <CardHeader>
           <CardTitle>
             <div className="flex items-center justify-between gap-2">
-              Overview
+              {t("risk.tasks.overview")}
             </div>
           </CardTitle>
         </CardHeader>

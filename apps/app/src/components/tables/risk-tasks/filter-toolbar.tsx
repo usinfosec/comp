@@ -1,18 +1,9 @@
 "use client";
 
-import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
-import { RiskTaskStatus, type User } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@bubba/ui/select";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { Search, X } from "lucide-react";
 import { Plus } from "lucide-react";
@@ -20,8 +11,6 @@ import { useQueryState } from "nuqs";
 import { useTransition } from "react";
 import { useCallback } from "react";
 import { cn } from "../../../../../../packages/ui/src/utils";
-
-const riskStatuses = Object.values(RiskTaskStatus);
 
 type Props = {
   isEmpty?: boolean;
@@ -107,7 +96,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
       <div className="relative flex-1 sm:max-w-sm">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder={t("risk.tasks.filters.search")}
+          placeholder={t("common.filters.search")}
           className="pl-8"
           value={search || ""}
           onChange={(e) => setSearch(e.target.value || null)}

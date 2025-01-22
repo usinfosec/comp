@@ -12,6 +12,7 @@ import { FilterToolbar } from "@/components/tables/risk-register/filter-toolbar"
 import { Loading } from "@/components/tables/risk-register/loading";
 import { getServerColumnHeaders } from "@/components/tables/risk-register/server-columns";
 import { type Departments, type RiskStatus, db } from "@bubba/db";
+import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -49,7 +50,7 @@ export default async function RiskRegisterPage({ searchParams }: PageProps) {
 
   const hasFilters = !!(search || status || department);
 
-  const { risks: loadedRisks, total } = await risks({
+  const { risks: loadedRisks, total } = await getRisks({
     organizationId,
     search,
     status: status as RiskStatus,
@@ -100,78 +101,81 @@ export default async function RiskRegisterPage({ searchParams }: PageProps) {
   );
 }
 
-async function risks({
-  organizationId,
-  search,
-  status,
-  department,
-  column,
-  order,
-  page = 1,
-  per_page = 10,
-}: {
-  organizationId: string;
-  search?: string;
-  status?: RiskStatus;
-  department?: Departments;
-  column?: string;
-  order?: string;
-  page?: number;
-  per_page?: number;
-}) {
-  const skip = (page - 1) * per_page;
+const getRisks = unstable_cache(
+  async function risks({
+    organizationId,
+    search,
+    status,
+    department,
+    column,
+    order,
+    page = 1,
+    per_page = 10,
+  }: {
+    organizationId: string;
+    search?: string;
+    status?: RiskStatus;
+    department?: Departments;
+    column?: string;
+    order?: string;
+    page?: number;
+    per_page?: number;
+  }) {
+    const skip = (page - 1) * per_page;
 
-  const [risks, total] = await Promise.all([
-    db.risk.findMany({
-      where: {
-        organizationId,
-        AND: [
-          search
-            ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
-                ],
-              }
-            : {},
-          status ? { status } : {},
-          department ? { department } : {},
-        ],
-      },
-      orderBy: column
-        ? {
-            [column]: order === "asc" ? "asc" : "desc",
-          }
-        : undefined,
-      skip,
-      take: per_page,
-      include: {
-        owner: {
-          select: {
-            name: true,
-            image: true,
+    const [risks, total] = await Promise.all([
+      db.risk.findMany({
+        where: {
+          organizationId,
+          AND: [
+            search
+              ? {
+                  OR: [
+                    { title: { contains: search, mode: "insensitive" } },
+                    { description: { contains: search, mode: "insensitive" } },
+                  ],
+                }
+              : {},
+            status ? { status } : {},
+            department ? { department } : {},
+          ],
+        },
+        orderBy: column
+          ? {
+              [column]: order === "asc" ? "asc" : "desc",
+            }
+          : undefined,
+        skip,
+        take: per_page,
+        include: {
+          owner: {
+            select: {
+              name: true,
+              image: true,
+            },
           },
         },
-      },
-    }),
-    db.risk.count({
-      where: {
-        organizationId,
-        AND: [
-          search
-            ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
-                ],
-              }
-            : {},
-          status ? { status } : {},
-          department ? { department } : {},
-        ],
-      },
-    }),
-  ]);
+      }),
+      db.risk.count({
+        where: {
+          organizationId,
+          AND: [
+            search
+              ? {
+                  OR: [
+                    { title: { contains: search, mode: "insensitive" } },
+                    { description: { contains: search, mode: "insensitive" } },
+                  ],
+                }
+              : {},
+            status ? { status } : {},
+            department ? { department } : {},
+          ],
+        },
+      }),
+    ]);
 
-  return { risks, total };
-}
+    return { risks, total };
+  },
+  ["risks-cache"],
+);

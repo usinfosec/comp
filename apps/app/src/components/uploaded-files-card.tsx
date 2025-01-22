@@ -1,6 +1,7 @@
 import type { UploadedFile } from "@/types";
 import Image from "next/image";
 
+import { useI18n } from "@/locales/client";
 import { EmptyCard } from "@bubba/ui/empty-card";
 import { ScrollArea, ScrollBar } from "@bubba/ui/scroll-area";
 import React from "react";
@@ -10,6 +11,8 @@ interface UploadedFilesCardProps {
 }
 
 export function UploadedFilesCard({ uploadedFiles }: UploadedFilesCardProps) {
+  const t = useI18n();
+
   return (
     <>
       {uploadedFiles.length > 0 ? (
@@ -32,8 +35,8 @@ export function UploadedFilesCard({ uploadedFiles }: UploadedFilesCardProps) {
         </ScrollArea>
       ) : (
         <EmptyCard
-          title="No attachments"
-          description="Upload an attachment or link to an external resource"
+          title={t("common.attachments.empty.title")}
+          description={t("common.attachments.empty.description")}
           className="w-full"
         />
       )}

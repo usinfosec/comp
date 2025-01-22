@@ -32,19 +32,19 @@ export function RequirementStatus({ frameworks }: Props) {
 
   const data = [
     {
-      name: t("overview.requirement_chart.non_compliant"),
+      name: t("common.status.non_compliant"),
       value: statusCounts.non_compliant,
       color: "hsl(var(--destructive))",
       colorClass: "bg-[hsl(var(--destructive))]",
     },
     {
-      name: t("overview.requirement_chart.in_progress"),
+      name: t("common.status.in_progress"),
       value: statusCounts.in_progress,
       color: "hsl(var(--warning))",
       colorClass: "bg-[hsl(var(--warning))]",
     },
     {
-      name: t("overview.requirement_chart.compliant"),
+      name: t("common.status.compliant"),
       value: statusCounts.compliant,
       color: "hsl(var(--success))",
       colorClass: "bg-[hsl(var(--success))]",

@@ -34,11 +34,11 @@ export function CreateTaskCommentForm() {
 
   const createTaskComment = useAction(createTaskCommentAction, {
     onSuccess: () => {
-      toast.success(t("risk.tasks.comments.success"));
+      toast.success(t("common.comments.success"));
       setCreateTaskCommentSheet(null);
     },
     onError: () => {
-      toast.error(t("risk.tasks.comments.error"));
+      toast.error(t("common.comments.error"));
     },
   });
 
@@ -62,9 +62,7 @@ export function CreateTaskCommentForm() {
           <div>
             <Accordion type="multiple" defaultValue={["task"]}>
               <AccordionItem value="task">
-                <AccordionTrigger>
-                  {t("risk.tasks.comments.new")}
-                </AccordionTrigger>
+                <AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
@@ -77,7 +75,7 @@ export function CreateTaskCommentForm() {
                               {...field}
                               autoFocus
                               className="mt-3"
-                              placeholder={t("risk.tasks.comments.placeholder")}
+                              placeholder={t("common.comments.placeholder")}
                               autoCorrect="off"
                             />
                           </FormControl>
@@ -97,7 +95,7 @@ export function CreateTaskCommentForm() {
               disabled={createTaskComment.status === "executing"}
             >
               <div className="flex items-center justify-center">
-                {t("risk.tasks.comments.save")}
+                {t("common.comments.save")}
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>

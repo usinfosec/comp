@@ -8,7 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@bubba/ui/chart";
-import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
+import { Cell, Pie, PieChart } from "recharts";
 
 interface StatusChartProps {
   data: Array<{
@@ -23,19 +23,19 @@ export function StatusChart({ data }: StatusChartProps) {
   // Map status keys to their translations
   const config: ChartConfig = {
     open: {
-      label: t("risk.dashboard.risk_status_chart.open"),
+      label: t("common.status.open"),
       color: "hsl(var(--chart-1))",
     },
     pending: {
-      label: t("risk.dashboard.risk_status_chart.pending"),
+      label: t("common.status.pending"),
       color: "hsl(var(--chart-2))",
     },
     closed: {
-      label: t("risk.dashboard.risk_status_chart.closed"),
+      label: t("common.status.closed"),
       color: "hsl(var(--chart-3))",
     },
     archived: {
-      label: t("risk.dashboard.risk_status_chart.archived"),
+      label: t("common.status.archived"),
       color: "hsl(var(--chart-4))",
     },
   } satisfies ChartConfig;
@@ -48,17 +48,32 @@ export function StatusChart({ data }: StatusChartProps) {
     archived: 0,
   };
 
-  // Create a map of the incoming data
   const dataMap = Object.fromEntries(
     data.map((item) => [item.name.toLowerCase(), item.value]),
   );
 
-  // Format data with translations
-  const formattedData = Object.entries(defaultData).map(([key]) => ({
-    name: config[key as keyof typeof config].label,
-    value: dataMap[key] ?? 0,
-    status: key,
-  }));
+  // Filter out zero values from the formatted data
+  const formattedData = Object.entries(defaultData)
+    .map(([key]) => ({
+      name: config[key as keyof typeof config].label,
+      value: dataMap[key] ?? 0,
+      status: key,
+    }))
+    .filter((item) => item.value > 0);
+
+  // If all values are 0, show a message or empty state
+  if (formattedData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("risk.dashboard.risk_status")}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex h-[300px] items-center justify-center text-muted-foreground">
+          No data
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -67,35 +82,42 @@ export function StatusChart({ data }: StatusChartProps) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={config}>
-          <BarChart
-            accessibilityLayer
-            data={formattedData}
-            layout="vertical"
+          <PieChart
             margin={{
-              left: 0,
-              right: 16,
+              top: 20,
+              right: 80,
+              bottom: 20,
+              left: 80,
             }}
+            width={400}
+            height={300}
           >
-            <YAxis
-              dataKey="name"
-              type="category"
-              tickLine={false}
-              tickMargin={5}
-              axisLine={false}
-            />
-            <XAxis dataKey="value" type="number" hide />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Bar dataKey="value" layout="vertical" maxBarSize={30}>
-              <LabelList
-                dataKey="value"
-                position="right"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-              />
+            <Pie
+              data={formattedData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={70}
+              paddingAngle={4}
+              label={({ name, value, x, y, cx, cy }) => (
+                <text
+                  x={x}
+                  y={y}
+                  dy={y > cy ? 15 : -5}
+                  fill="currentColor"
+                  textAnchor={x > cx ? "start" : "end"}
+                  className="text-xs"
+                  dx={x > cx ? 5 : -5}
+                >
+                  {`${name}: ${value}`}
+                </text>
+              )}
+              labelLine={{
+                strokeWidth: 1,
+              }}
+            >
               {formattedData.map((entry) => (
                 <Cell
                   key={entry.status}
@@ -103,8 +125,12 @@ export function StatusChart({ data }: StatusChartProps) {
                   radius={8}
                 />
               ))}
-            </Bar>
-          </BarChart>
+            </Pie>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+          </PieChart>
         </ChartContainer>
       </CardContent>
     </Card>

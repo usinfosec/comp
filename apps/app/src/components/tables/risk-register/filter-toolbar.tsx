@@ -4,6 +4,7 @@ import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useI18n } from "@/locales/client";
 import { Departments, RiskCategory, RiskStatus, type User } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
+import { cn } from "@bubba/ui/cn";
 import { Input } from "@bubba/ui/input";
 import {
   Select,
@@ -18,7 +19,6 @@ import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useTransition } from "react";
 import { useCallback } from "react";
-import { cn } from "../../../../../../packages/ui/src/utils";
 
 const riskStatuses = Object.values(RiskStatus);
 const departments = Object.values(Departments).filter((d) => d !== "none");
@@ -32,10 +32,10 @@ type Props = {
 };
 
 const statusTranslationKeys = {
-  open: "risk.register.statuses.open",
-  pending: "risk.register.statuses.pending",
-  closed: "risk.register.statuses.closed",
-  archived: "risk.register.statuses.archived",
+  open: "common.status.open",
+  pending: "common.status.pending",
+  closed: "common.status.closed",
+  archived: "common.status.archived",
 } as const;
 
 export function FilterToolbar({ isEmpty, users }: Props) {
@@ -114,7 +114,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
       <div className="relative flex-1 sm:max-w-sm">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder={t("risk.register.filters.search")}
+          placeholder={t("common.filters.search")}
           className="pl-8"
           value={search || ""}
           onChange={(e) => setSearch(e.target.value || null)}
@@ -128,7 +128,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             onValueChange={(value) => setStatus(value || null)}
           >
             <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("risk.register.filters.status")} />
+              <SelectValue placeholder={t("common.filters.status")} />
             </SelectTrigger>
             <SelectContent>
               {riskStatuses.map((stat) => (
@@ -148,9 +148,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             onValueChange={(value) => setDepartment(value || null)}
           >
             <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue
-                placeholder={t("risk.register.filters.department")}
-              />
+              <SelectValue placeholder={t("common.filters.department")} />
             </SelectTrigger>
             <SelectContent>
               {departments.map((dept) => (
@@ -166,7 +164,9 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             onValueChange={(value) => setOwnerId(value || null)}
           >
             <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("risk.register.filters.owner")} />
+              <SelectValue
+                placeholder={t("common.filters.owner.placeholder")}
+              />
             </SelectTrigger>
             <SelectContent>
               {users.map((user) => (
@@ -186,7 +186,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             disabled={isPending}
           >
             <X className="h-4 w-4 mr-2" />
-            {t("risk.register.filters.clear")}
+            {t("common.actions.clear")}
           </Button>
         )}
 

@@ -4,13 +4,8 @@ import { useI18n } from "@/locales/client";
 import type { Risk, User } from "@bubba/db";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Icons } from "@bubba/ui/icons";
 import { PencilIcon, ShieldAlert } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { UpdateRiskOverview } from "../forms/risks/risk-overview";
@@ -31,7 +26,7 @@ export function RiskOverview({
   return (
     <div className="space-y-4">
       <Alert>
-        <ShieldAlert className="h-4 w-4" />
+        <Icons.Risk className="h-4 w-4" />
         <AlertTitle>
           <div className="flex items-center justify-between gap-2">
             {risk.title}
@@ -52,7 +47,7 @@ export function RiskOverview({
         <CardHeader>
           <CardTitle>
             <div className="flex items-center justify-between gap-2">
-              Overview
+              {t("risk.dashboard.overview")}
             </div>
           </CardTitle>
         </CardHeader>

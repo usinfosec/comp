@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
 import { useMediaQuery } from "@bubba/ui/hooks";
@@ -10,6 +11,7 @@ import { useQueryState } from "nuqs";
 import { CreateRisk } from "../forms/risks/create-risk-form";
 
 export function CreateRiskSheet() {
+  const t = useI18n();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [open, setOpen] = useQueryState("create-risk-sheet");
   const isOpen = Boolean(open);
@@ -23,7 +25,7 @@ export function CreateRiskSheet() {
       <Sheet open={isOpen} onOpenChange={handleOpenChange}>
         <SheetContent stack>
           <SheetHeader className="mb-8 flex justify-between items-center flex-row">
-            <SheetTitle>Create New Risk</SheetTitle>
+            <SheetTitle>{t("risk.create")}</SheetTitle>
             <Button
               size="icon"
               variant="ghost"
@@ -44,7 +46,7 @@ export function CreateRiskSheet() {
 
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-      <DrawerTitle hidden>Create Risk</DrawerTitle>
+      <DrawerTitle hidden>{t("risk.create")}</DrawerTitle>
       <DrawerContent className="p-6">
         <CreateRisk />
       </DrawerContent>

@@ -85,7 +85,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                               style={{
                                 width: `${(stat.openRisks / stat.totalRisks) * 100}%`,
                               }}
-                              title={`${t("risk.register.statuses.open")}: ${stat.openRisks}`}
+                              title={`${t("common.status.open")}: ${stat.openRisks}`}
                             />
                           )}
                           {stat.pendingRisks > 0 && (
@@ -96,7 +96,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                                   (stat.pendingRisks / stat.totalRisks) * 100
                                 }%`,
                               }}
-                              title={`${t("risk.register.statuses.pending")}: ${stat.pendingRisks}`}
+                              title={`${t("common.status.pending")}: ${stat.pendingRisks}`}
                             />
                           )}
                           {stat.closedRisks > 0 && (
@@ -105,7 +105,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                               style={{
                                 width: `${(stat.closedRisks / stat.totalRisks) * 100}%`,
                               }}
-                              title={`${t("risk.register.statuses.closed")}: ${stat.closedRisks}`}
+                              title={`${t("common.status.closed")}: ${stat.closedRisks}`}
                             />
                           )}
                           {stat.archivedRisks > 0 && (
@@ -114,7 +114,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                               style={{
                                 width: `${(stat.archivedRisks / stat.totalRisks) * 100}%`,
                               }}
-                              title={`${t("risk.register.statuses.archived")}: ${stat.archivedRisks}`}
+                              title={`${t("common.status.archived")}: ${stat.archivedRisks}`}
                             />
                           )}
                         </div>
@@ -126,8 +126,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                         <div className="flex items-center gap-1">
                           <div className="size-2 rounded-full bg-yellow-500" />
                           <span>
-                            {t("risk.register.statuses.open")} ({stat.openRisks}
-                            )
+                            {t("common.status.open")} ({stat.openRisks})
                           </span>
                         </div>
                       )}
@@ -135,8 +134,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                         <div className="flex items-center gap-1">
                           <div className="size-2 rounded-full bg-blue-500" />
                           <span>
-                            {t("risk.register.statuses.pending")} (
-                            {stat.pendingRisks})
+                            {t("common.status.pending")} ({stat.pendingRisks})
                           </span>
                         </div>
                       )}
@@ -144,8 +142,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                         <div className="flex items-center gap-1">
                           <div className="size-2 rounded-full bg-green-500" />
                           <span>
-                            {t("risk.register.statuses.closed")} (
-                            {stat.closedRisks})
+                            {t("common.status.closed")} ({stat.closedRisks})
                           </span>
                         </div>
                       )}
@@ -153,8 +150,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
                         <div className="flex items-center gap-1">
                           <div className="size-2 rounded-full bg-gray-500" />
                           <span>
-                            {t("risk.register.statuses.archived")} (
-                            {stat.archivedRisks})
+                            {t("common.status.archived")} ({stat.archivedRisks})
                           </span>
                         </div>
                       )}

@@ -81,7 +81,7 @@ export function UpdateTaskForm({
             name="ownerId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Task Owner</FormLabel>
+                <FormLabel>{t("common.assignee.label")}</FormLabel>
                 <FormControl>
                   <Select
                     value={field.value}
@@ -89,7 +89,9 @@ export function UpdateTaskForm({
                     onOpenChange={() => form.handleSubmit(onSubmit)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a task owner" />
+                      <SelectValue
+                        placeholder={t("common.assignee.placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectUser
@@ -110,11 +112,13 @@ export function UpdateTaskForm({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Task Status</FormLabel>
+                <FormLabel>{t("risk.tasks.form.status")}</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a task status">
+                      <SelectValue
+                        placeholder={t("risk.tasks.form.status_placeholder")}
+                      >
                         {field.value && (
                           <Status status={field.value as StatusType} />
                         )}
@@ -139,7 +143,7 @@ export function UpdateTaskForm({
             name="dueDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Due Date</FormLabel>
+                <FormLabel>{t("risk.tasks.form.due_date")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -153,7 +157,7 @@ export function UpdateTaskForm({
                         {field.value ? (
                           format(field.value, "PPP")
                         ) : (
-                          <span>Pick a date</span>
+                          <span>{t("common.date.pick")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -179,7 +183,7 @@ export function UpdateTaskForm({
             {updateTask.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              t("common.save")
+              t("common.actions.save")
             )}
           </Button>
         </div>

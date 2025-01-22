@@ -33,8 +33,15 @@ export default async function Layout({ children, params }: LayoutProps) {
       <SecondaryMenu
         isChild
         items={[
-          { path: `/risk/${riskId.riskId}`, label: "Overview" },
-          { path: `/risk/${riskId.riskId}/tasks`, label: "Tasks" },
+          { path: `/risk/${riskId.riskId}`, label: t("risk.overview") },
+          {
+            path: `/risk/${riskId.riskId}/comments`,
+            label: t("common.comments.title"),
+          },
+          {
+            path: `/risk/${riskId.riskId}/tasks`,
+            label: t("risk.tasks.title"),
+          },
         ]}
       />
 

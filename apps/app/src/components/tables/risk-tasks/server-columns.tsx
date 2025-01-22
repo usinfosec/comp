@@ -4,8 +4,8 @@ export async function getServerColumnHeaders() {
   const t = await getI18n();
 
   return {
-    title: t("risk.tasks.table.title"),
-    status: t("risk.tasks.table.status"),
-    ownerId: t("risk.tasks.table.assigned_to"),
+    title: t("risk.tasks.title"),
+    status: t("common.table.status"),
+    ownerId: t("common.table.assigned_to"),
   };
 }

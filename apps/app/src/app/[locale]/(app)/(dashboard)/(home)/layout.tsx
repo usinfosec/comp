@@ -12,12 +12,7 @@ export default async function Layout({
   return (
     <div className="max-w-[1200px]">
       <Suspense fallback={<div>Loading...</div>}>
-        <SecondaryMenu
-          items={[
-            { path: "/", label: t("overview.title") },
-            { path: "/frameworks", label: t("frameworks.title") },
-          ]}
-        />
+        <SecondaryMenu items={[{ path: "/", label: t("overview.title") }]} />
       </Suspense>
 
       <main className="mt-8">{children}</main>

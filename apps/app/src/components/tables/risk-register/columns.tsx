@@ -44,7 +44,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
     {
       id: "status",
       accessorKey: "status",
-      header: t("risk.register.table.status"),
+      header: t("common.table.status"),
       cell: ({ row }) => {
         const status = row.original.status;
 
@@ -60,7 +60,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
       accessorKey: "department",
       header: () => (
         <span className="hidden sm:table-cell">
-          {t("risk.register.table.department")}
+          {t("common.filters.department")}
         </span>
       ),
       cell: ({ row }) => {
@@ -84,7 +84,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
       accessorKey: "ownerId",
       header: () => (
         <span className="hidden sm:table-cell">
-          {t("risk.register.table.assigned_to")}
+          {t("common.assignee.label")}
         </span>
       ),
       cell: ({ row }) => {

@@ -4,6 +4,7 @@ import { getOrganizationUsersAction } from "@/actions/organization/get-organizat
 import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
+import { useI18n } from "@/locales/client";
 import { Departments, RiskCategory } from "@bubba/db";
 import {
   Accordion,
@@ -45,6 +46,8 @@ interface User {
 }
 
 export function CreateRisk() {
+  const t = useI18n();
+
   const [users, setUsers] = useState<User[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
   const [_, setCreateRiskSheet] = useQueryState("create-risk-sheet");
@@ -63,11 +66,11 @@ export function CreateRisk() {
 
   const createRisk = useAction(createRiskAction, {
     onSuccess: () => {
-      toast.success("Risk created successfully");
+      toast.success(t("risk.form.create_risk_success"));
       setCreateRiskSheet(null);
     },
     onError: () => {
-      toast.error("Something went wrong, please try again.");
+      toast.error(t("risk.form.create_risk_error"));
     },
   });
 
@@ -92,7 +95,9 @@ export function CreateRisk() {
           <div>
             <Accordion type="multiple" defaultValue={["risk"]}>
               <AccordionItem value="risk">
-                <AccordionTrigger>Risk Details</AccordionTrigger>
+                <AccordionTrigger>
+                  {t("risk.form.risk_details")}
+                </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
@@ -100,13 +105,15 @@ export function CreateRisk() {
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Risk Title</FormLabel>
+                          <FormLabel>{t("risk.form.risk_title")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               autoFocus
                               className="mt-3"
-                              placeholder="Enter a name for the risk"
+                              placeholder={t(
+                                "risk.form.risk_title_description",
+                              )}
                               autoCorrect="off"
                             />
                           </FormControl>
@@ -119,12 +126,16 @@ export function CreateRisk() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Description</FormLabel>
+                          <FormLabel>
+                            {t("risk.form.risk_description")}
+                          </FormLabel>
                           <FormControl>
                             <Textarea
                               {...field}
                               className="mt-3 min-h-[80px]"
-                              placeholder="Enter a description for the risk"
+                              placeholder={t(
+                                "risk.form.risk_description_description",
+                              )}
                             />
                           </FormControl>
                           <FormMessage />
@@ -136,7 +147,7 @@ export function CreateRisk() {
                       name="category"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Category</FormLabel>
+                          <FormLabel>{t("risk.form.risk_category")}</FormLabel>
                           <FormControl>
                             <Select
                               {...field}
@@ -144,7 +155,11 @@ export function CreateRisk() {
                               onValueChange={field.onChange}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a category" />
+                                <SelectValue
+                                  placeholder={t(
+                                    "risk.form.risk_category_placeholder",
+                                  )}
+                                />
                               </SelectTrigger>
                               <SelectContent>
                                 {Object.values(RiskCategory).map((category) => {
@@ -175,7 +190,9 @@ export function CreateRisk() {
                       name="department"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Department</FormLabel>
+                          <FormLabel>
+                            {t("risk.form.risk_department")}
+                          </FormLabel>
                           <FormControl>
                             <Select
                               {...field}
@@ -183,7 +200,11 @@ export function CreateRisk() {
                               onValueChange={field.onChange}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a department" />
+                                <SelectValue
+                                  placeholder={t(
+                                    "risk.form.risk_department_placeholder",
+                                  )}
+                                />
                               </SelectTrigger>
                               <SelectContent>
                                 {Object.values(Departments).map(
@@ -213,14 +234,16 @@ export function CreateRisk() {
                       name="ownerId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Assignee</FormLabel>
+                          <FormLabel>{t("common.assignee.label")}</FormLabel>
                           <FormControl>
                             <Select
                               value={field.value}
                               onValueChange={field.onChange}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select an owner" />
+                                <SelectValue
+                                  placeholder={t("common.assignee.placeholder")}
+                                />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectUser
@@ -245,7 +268,7 @@ export function CreateRisk() {
           <div className="flex justify-end mt-4">
             <Button type="submit" disabled={createRisk.status === "executing"}>
               <div className="flex items-center justify-center">
-                Create Risk
+                {t("common.actions.create")}
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>

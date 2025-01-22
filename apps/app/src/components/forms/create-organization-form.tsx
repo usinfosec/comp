@@ -2,6 +2,7 @@
 
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Checkbox } from "@bubba/ui/checkbox";
 import {
@@ -50,30 +51,32 @@ interface SelectFieldConfig extends BaseFieldConfig {
 
 type FieldConfig = TextFieldConfig | CheckboxFieldConfig | SelectFieldConfig;
 
-const steps: Array<{
-  title: string;
-  description: string;
-  fields: FieldConfig[];
-}> = [
-  {
-    title: "Create an organization",
-    description: "Tell us a bit about your organization.",
-    fields: [
-      {
-        name: "name",
-        label: "Organization Name",
-        placeholder: "Your organization name",
-      },
-      {
-        name: "website",
-        label: "Website",
-        placeholder: "Your organization website",
-      },
-    ],
-  },
-];
-
 export function Onboarding() {
+  const t = useI18n();
+
+  const steps: Array<{
+    title: string;
+    description: string;
+    fields: FieldConfig[];
+  }> = [
+    {
+      title: t("onboarding.title"),
+      description: t("onboarding.description"),
+      fields: [
+        {
+          name: "name",
+          label: t("onboarding.fields.name.label"),
+          placeholder: t("onboarding.fields.name.placeholder"),
+        },
+        {
+          name: "website",
+          label: t("onboarding.fields.website.label"),
+          placeholder: t("onboarding.fields.website.placeholder"),
+        },
+      ],
+    },
+  ];
+
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleNext = async () => {
@@ -98,10 +101,10 @@ export function Onboarding() {
 
   const createOrganization = useAction(createOrganizationAction, {
     onSuccess: () => {
-      toast.success("Thanks, you're all set!");
+      toast.success(t("onboarding.success"));
     },
     onError: () => {
-      toast.error("Something went wrong, please try again.");
+      toast.error(t("common.actions.error"));
     },
   });
 
@@ -120,7 +123,9 @@ export function Onboarding() {
   return (
     <div className="flex min-h-screen items-center justify-center overflow-hidden p-6 md:p-0">
       <div className="relative z-20 m-auto flex w-full max-w-[380px] flex-col">
-        <h1 className="pb-2 text-2xl font-medium">Comp AI Setup</h1>
+        <h1 className="pb-2 text-2xl font-medium">
+          Comp AI {t("onboarding.setup")}
+        </h1>
         <p className="mb-8 text-sm text-muted-foreground">
           {steps[currentStep].description}
         </p>
@@ -245,9 +250,9 @@ export function Onboarding() {
                   {createOrganization.status === "executing" ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : currentStep === steps.length - 1 ? (
-                    "Complete"
+                    t("common.actions.complete")
                   ) : (
-                    "Next"
+                    t("common.actions.next")
                   )}
                   <ArrowRightIcon className="ml-2 h-4 w-4" />
                 </div>

@@ -8,7 +8,7 @@ import { FilterToolbar } from "@/components/tables/risk-tasks/filter-toolbar";
 import { Loading } from "@/components/tables/risk-tasks/loading";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { type RiskTaskStatus, db } from "@bubba/db";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface PageProps {
@@ -50,7 +50,7 @@ export default async function RiskTaskPage({
 
   const hasFilters = !!(search || status);
 
-  const { tasks: loadedTasks, total } = await tasks({
+  const { tasks: loadedTasks, total } = await getTasks({
     riskId,
     search,
     status: status as RiskTaskStatus,
@@ -99,74 +99,93 @@ export default async function RiskTaskPage({
   );
 }
 
-async function tasks({
-  riskId,
-  search,
-  status,
-  column,
-  order,
-  page = 1,
-  per_page = 10,
-}: {
-  riskId: string;
-  search?: string;
-  status?: RiskTaskStatus;
-  column?: string;
-  order?: string;
-  page?: number;
-  per_page?: number;
-}) {
-  const skip = (page - 1) * per_page;
+const getTasks = unstable_cache(
+  async function tasks({
+    riskId,
+    search,
+    status,
+    column,
+    order,
+    page = 1,
+    per_page = 10,
+  }: {
+    riskId: string;
+    search?: string;
+    status?: RiskTaskStatus;
+    column?: string;
+    order?: string;
+    page?: number;
+    per_page?: number;
+  }) {
+    const skip = (page - 1) * per_page;
 
-  const [tasks, total] = await Promise.all([
-    db.riskMitigationTask.findMany({
-      where: {
-        riskId,
-        AND: [
-          search
-            ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
-                ],
-              }
-            : {},
-          status ? { status } : {},
-        ],
-      },
-      orderBy: column
-        ? {
-            [column]: order === "asc" ? "asc" : "desc",
-          }
-        : undefined,
-      skip,
-      take: per_page,
-      include: {
-        owner: {
-          select: {
-            name: true,
-            image: true,
+    const [tasks, total] = await Promise.all([
+      db.riskMitigationTask
+        .findMany({
+          where: {
+            riskId,
+            AND: [
+              search
+                ? {
+                    OR: [
+                      { title: { contains: search, mode: "insensitive" } },
+                      {
+                        description: { contains: search, mode: "insensitive" },
+                      },
+                    ],
+                  }
+                : {},
+              status ? { status } : {},
+            ],
           },
-        },
-      },
-    }),
-    db.riskMitigationTask.count({
-      where: {
-        riskId,
-        AND: [
-          search
+          orderBy: column
             ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
-                ],
+                [column]: order === "asc" ? "asc" : "desc",
               }
-            : {},
-          status ? { status } : {},
-        ],
-      },
-    }),
-  ]);
+            : undefined,
+          skip,
+          take: per_page,
+          include: {
+            owner: {
+              select: {
+                name: true,
+                image: true,
+              },
+            },
+          },
+        })
+        .then((tasks) =>
+          tasks.map(
+            (task) =>
+              ({
+                ...task,
+                dueDate: task.dueDate?.toISOString() ?? "",
+                owner: {
+                  name: task.owner?.name ?? "",
+                  image: task.owner?.image ?? "",
+                },
+              }) as RiskTaskType,
+          ),
+        ),
+      db.riskMitigationTask.count({
+        where: {
+          riskId,
+          AND: [
+            search
+              ? {
+                  OR: [
+                    { title: { contains: search, mode: "insensitive" } },
+                    { description: { contains: search, mode: "insensitive" } },
+                  ],
+                }
+              : {},
+            status ? { status } : {},
+          ],
+        },
+      }),
+    ]);
 
-  return { tasks, total };
-}
+    return { tasks, total };
+  },
+  ["tasks-cache"],
+);

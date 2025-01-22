@@ -58,7 +58,7 @@ export function InherentRiskChart({ risk }: InherentRiskChartProps) {
 
   const chartConfig = {
     risk: {
-      label: t("risk.chart.inherentRisk"),
+      label: t("risk.metrics.inherentRisk"),
       theme: {
         light: "#ef4444",
         dark: "#dc2626",

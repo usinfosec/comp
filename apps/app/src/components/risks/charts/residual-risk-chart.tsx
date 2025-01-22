@@ -60,7 +60,7 @@ export function ResidualRiskChart({ risk }: ResidualRiskChartProps) {
 
   const chartConfig = {
     risk: {
-      label: t("risk.chart.residualRisk"),
+      label: t("risk.metrics.residualRisk"),
       theme: {
         light: "#ef4444",
         dark: "#dc2626",

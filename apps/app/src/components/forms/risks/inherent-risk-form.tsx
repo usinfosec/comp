@@ -115,7 +115,7 @@ export function InherentRiskForm({
             {updateInherentRisk.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              t("common.save")
+              t("common.actions.save")
             )}
           </Button>
         </div>

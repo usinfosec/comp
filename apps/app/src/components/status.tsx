@@ -23,7 +23,7 @@ export function Status({ status }: { status: StatusType }) {
         className={cn("size-2.5 rounded-full ")}
         style={{ backgroundColor: STATUS_COLORS[status] ?? "  " }}
       />
-      {t(`risk.dashboard.risk_status_chart.${status}`)}
+      {t(`common.status.${status}`)}
     </div>
   );
 }

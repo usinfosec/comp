@@ -5,8 +5,8 @@ export async function getServerColumnHeaders() {
 
   return {
     title: t("risk.register.table.risk"),
-    status: t("risk.register.table.status"),
-    department: t("risk.register.table.department"),
-    ownerId: t("risk.register.table.assigned_to"),
+    status: t("common.table.status"),
+    department: t("common.filters.department"),
+    ownerId: t("common.table.assigned_to"),
   };
 }

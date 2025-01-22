@@ -1,24 +1,27 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { UploadDialog } from "@/components/upload-dialog";
+import { getI18n } from "@/locales/server";
 import type { RiskMitigationTask, TaskAttachment, User } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { EmptyCard } from "@bubba/ui/empty-card";
 import { format } from "date-fns";
 import Link from "next/link";
 
-export function TaskAttachments({
+export async function TaskAttachments({
   task,
   users,
 }: {
   task: RiskMitigationTask & { TaskAttachment: TaskAttachment[] };
   users: User[];
 }) {
+  const t = await getI18n();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between gap-2">
-            Attachments
+            {t("risk.tasks.attachments")}
             <UploadDialog taskId={task.id} riskId={task.riskId} />
           </div>
         </CardTitle>
@@ -58,8 +61,8 @@ export function TaskAttachments({
           </div>
         ) : (
           <EmptyCard
-            title="No attachments"
-            description="Upload an attachment or link to an external resource"
+            title={t("common.attachments.empty.title")}
+            description={t("common.attachments.empty.description")}
             className="w-full"
           />
         )}

@@ -13,7 +13,7 @@ export type RiskTaskType = {
   riskId: string;
   title: string;
   status: RiskTaskStatus;
-  dueDate: Date;
+  dueDate: string;
   ownerId: string;
   owner: {
     image: string;
@@ -28,7 +28,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
     {
       id: "title",
       accessorKey: "title",
-      header: t("risk.tasks.table.title"),
+      header: t("risk.tasks.title"),
       cell: ({ row }) => {
         return (
           <span className="truncate">
@@ -46,7 +46,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
     {
       id: "status",
       accessorKey: "status",
-      header: t("risk.tasks.table.status"),
+      header: t("common.table.status"),
       cell: ({ row }) => {
         const status = row.original.status;
 
@@ -60,13 +60,13 @@ export function columns(): ColumnDef<RiskTaskType>[] {
     {
       id: "dueDate",
       accessorKey: "dueDate",
-      header: t("risk.tasks.table.due_date"),
+      header: t("common.table.due_date"),
       cell: ({ row }) => {
         const status = row.original.status;
 
         return (
           <StatusDate
-            date={row.original.dueDate}
+            date={new Date(row.original.dueDate)}
             isClosed={status === "closed"}
           />
         );
@@ -77,7 +77,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
       accessorKey: "ownerId",
       header: () => (
         <span className="hidden sm:table-cell">
-          {t("risk.tasks.table.assigned_to")}
+          {t("common.table.assigned_to")}
         </span>
       ),
       cell: ({ row }) => {

@@ -34,6 +34,7 @@ export const createRiskCommentAction = authActionClient
     });
 
     revalidatePath(`/risk/${riskId}`);
+    revalidatePath(`/risk/${riskId}/comments`);
     revalidateTag(`risk_${user.organizationId}`);
 
     return { success: true };

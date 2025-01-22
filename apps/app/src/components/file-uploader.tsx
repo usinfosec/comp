@@ -10,6 +10,7 @@ import Dropzone, {
 import { toast } from "sonner";
 
 import { useControllableState } from "@/hooks/use-controllable-state";
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { cn, formatBytes } from "@bubba/ui/cn";
 import { Progress } from "@bubba/ui/progress";
@@ -93,6 +94,8 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function FileUploader(props: FileUploaderProps) {
+  const t = useI18n();
+
   const {
     value: valueProp,
     onValueChange,
@@ -100,6 +103,8 @@ export function FileUploader(props: FileUploaderProps) {
     progresses,
     accept = {
       "image/*": [],
+      "application/pdf": [],
+      "text/*": [],
     },
     maxSize = 1024 * 1024 * 2,
     maxFileCount = 1,
@@ -117,17 +122,19 @@ export function FileUploader(props: FileUploaderProps) {
   const onDrop = React.useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
       if (!multiple && maxFileCount === 1 && acceptedFiles.length > 1) {
-        toast.error("Cannot upload more than 1 file at a time");
+        toast.error(t("common.attachments.toasts.error_uploading_files"));
         return;
       }
 
       if ((files?.length ?? 0) + acceptedFiles.length > maxFileCount) {
-        toast.error(`Cannot upload more than ${maxFileCount} files`);
+        toast.error(
+          t("common.attachments.toasts.error_uploading_files_multiple"),
+        );
         return;
       }
 
       if (acceptedFiles.length === 0) {
-        toast.error("No files selected");
+        toast.error(t("common.attachments.toasts.error_no_files_selected"));
         return;
       }
 
@@ -143,7 +150,11 @@ export function FileUploader(props: FileUploaderProps) {
 
       if (rejectedFiles.length > 0) {
         for (const { file } of rejectedFiles) {
-          toast.error(`File ${file.name} was rejected`);
+          toast.error(
+            t("common.attachments.toasts.error_file_rejected", {
+              file: file.name,
+            }),
+          );
         }
       }
 
@@ -156,12 +167,16 @@ export function FileUploader(props: FileUploaderProps) {
           updatedFiles.length > 0 ? `${updatedFiles.length} files` : "a file";
 
         toast.promise(onUpload(updatedFiles), {
-          loading: `Uploading ${target}...`,
+          loading: t("common.attachments.toasts.uploading_files", {
+            target,
+          }),
           success: () => {
             setFiles([]);
-            return `${target} uploaded`;
+            return t(
+              "common.attachments.toasts.success_uploading_files_target",
+            );
           },
-          error: `Failed to upload ${target}`,
+          error: t("common.attachments.toasts.error_failed_to_upload_files"),
         });
       }
     },
@@ -222,7 +237,7 @@ export function FileUploader(props: FileUploaderProps) {
                   />
                 </div>
                 <p className="font-medium text-muted-foreground">
-                  Drop the files here
+                  {t("common.attachments.drop")}
                 </p>
               </div>
             ) : (
@@ -235,10 +250,11 @@ export function FileUploader(props: FileUploaderProps) {
                 </div>
                 <div className="flex flex-col gap-px">
                   <p className="font-medium text-muted-foreground">
-                    Drop files here or click to choose files from your device.
+                    {t("common.attachments.drop_description")}
                   </p>
                   <p className="text-sm text-muted-foreground/70">
-                    Files can be up to {formatBytes(maxSize)} each.
+                    {t("common.attachments.drop_files_description")}{" "}
+                    {formatBytes(maxSize)}.
                   </p>
                 </div>
               </div>
@@ -271,6 +287,8 @@ interface FileCardProps {
 }
 
 function FileCard({ file, progress, onRemove }: FileCardProps) {
+  const t = useI18n();
+
   return (
     <div className="relative flex items-center gap-2.5">
       <div className="flex flex-1 gap-2.5">
@@ -296,7 +314,9 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
           onClick={onRemove}
         >
           <X className="size-4" aria-hidden="true" />
-          <span className="sr-only">Remove file</span>
+          <span className="sr-only">
+            {t("common.attachments.toasts.remove_file")}
+          </span>
         </Button>
       </div>
     </div>

@@ -75,13 +75,13 @@ export function UpdateRiskForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Risk Title</FormLabel>
+                <FormLabel>{t("risk.form.risk_title")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     autoFocus
                     className="mt-3"
-                    placeholder="Enter a name for the risk"
+                    placeholder={t("risk.form.risk_title_description")}
                     autoCorrect="off"
                   />
                 </FormControl>
@@ -99,7 +99,7 @@ export function UpdateRiskForm({
                   <Textarea
                     {...field}
                     className="mt-3 min-h-[80px]"
-                    placeholder="Enter a description for the risk"
+                    placeholder={t("risk.form.risk_description_description")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,7 +112,7 @@ export function UpdateRiskForm({
             {updateRisk.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              t("common.save")
+              t("common.actions.save")
             )}
           </Button>
         </div>

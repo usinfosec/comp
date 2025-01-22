@@ -77,15 +77,21 @@ model User {
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-  accounts           Account[]
-  sessions           Session[]
-  Risk               Risk[]
-  RiskMitigationTask RiskMitigationTask[]
-  RiskComment        RiskComment[]
-  AuditLog           AuditLog[]
-  TaskAttachment     TaskAttachment[]
-  TaskComments       TaskComments[]
-  Artifact           Artifact[]
+  accounts             Account[]
+  sessions             Session[]
+  Risk                 Risk[]
+  RiskMitigationTask   RiskMitigationTask[]
+  RiskComment          RiskComment[]
+  AuditLog             AuditLog[]
+  TaskAttachment       TaskAttachment[]
+  TaskComments         TaskComments[]
+  Artifact             Artifact[]
+  VendorComment        VendorComment[]
+  VendorMitigationTask VendorMitigationTask[]
+  VendorTaskComments   VendorTaskComments[]
+  VendorTaskAttachment VendorTaskAttachment[]
+  Vendors              Vendors[]
+  VendorRiskAssessment VendorRiskAssessment[]
 
   @@index([organizationId])
 }
@@ -111,6 +117,13 @@ model Organization {
   Artifact                 Artifact[]
   OrganizationFramework    OrganizationFramework[]
   OrganizationIntegrations OrganizationIntegrations[]
+  Vendors                  Vendors[]
+  VendorComment            VendorComment[]
+  VendorMitigationTask     VendorMitigationTask[]
+  VendorTaskComments       VendorTaskComments[]
+  VendorTaskAttachment     VendorTaskAttachment[]
+  VendorRiskAssessment     VendorRiskAssessment[]
+  VendorContact            VendorContact[]
 
   @@index([stripeCustomerId])
 }
@@ -465,4 +478,186 @@ model RiskTreatmentStrategy {
   risk   Risk   @relation(fields: [riskId], references: [id], onDelete: Cascade)
 
   @@index([riskId])
+}
+
+enum VendorCategory {
+  cloud
+  infrastructure
+  software_as_a_service
+  finance
+  marketing
+  sales
+  hr
+  other
+}
+
+enum VendorStatus {
+  not_assessed
+  in_progress
+  assessed
+}
+
+enum VendorInherentRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorResidualRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+model Vendors {
+  id            String             @id @default(cuid())
+  name          String
+  website       String
+  description   String
+  category      VendorCategory
+  status        VendorStatus       @default(not_assessed)
+  inherent_risk VendorInherentRisk @default(unknown)
+  residual_risk VendorResidualRisk @default(unknown)
+
+  lastAssessed   DateTime?
+  nextAssessment DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  ownerId        String?
+  owner          User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  VendorComment        VendorComment[]
+  VendorMitigationTask VendorMitigationTask[]
+  VendorRiskAssessment VendorRiskAssessment[]
+  VendorContact        VendorContact[]
+
+  @@index([organizationId])
+  @@index([ownerId])
+  @@index([category])
+  @@index([status])
+}
+
+model VendorContact {
+  id String @id @default(cuid())
+
+  vendorId String
+  vendor   Vendors @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  name  String
+  email String
+  role  String
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([vendorId])
+  @@index([organizationId])
+}
+
+model VendorComment {
+  id String @id @default(cuid())
+
+  vendorId String
+  vendor   Vendors @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([vendorId])
+  @@index([ownerId])
+  @@index([organizationId])
+}
+
+model VendorMitigationTask {
+  id String @id @default(cuid())
+
+  title       String
+  description String
+  status      RiskTaskStatus @default(open)
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  ownerId  String?
+  owner    User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  vendorId String
+  vendor   Vendors @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  VendorTaskAttachment VendorTaskAttachment[]
+  VendorTaskComments   VendorTaskComments[]
+
+  @@index([vendorId])
+  @@index([ownerId])
+  @@index([organizationId])
+}
+
+model VendorTaskComments {
+  id String @id @default(cuid())
+
+  vendorMitigationTaskId String
+  vendorMitigationTask   VendorMitigationTask @relation(fields: [vendorMitigationTaskId], references: [id], onDelete: Cascade)
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([vendorMitigationTaskId])
+  @@index([organizationId])
+}
+
+model VendorTaskAttachment {
+  id String @id @default(cuid())
+
+  vendorMitigationTaskId String
+  vendorMitigationTask   VendorMitigationTask @relation(fields: [vendorMitigationTaskId], references: [id], onDelete: Cascade)
+
+  name           String
+  fileUrl        String
+  type           RiskAttachmentType @default(file)
+  uploadedAt     DateTime           @default(now())
+  ownerId        String?
+  owner          User?              @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  organizationId String
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([vendorMitigationTaskId])
+  @@index([organizationId])
+}
+
+model VendorRiskAssessment {
+  id String @id @default(cuid())
+
+  vendorId String
+  vendor   Vendors @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  ownerId String?
+  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([vendorId])
+  @@index([organizationId])
 }

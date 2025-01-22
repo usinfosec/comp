@@ -26,9 +26,9 @@ export function RiskComments({
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between gap-2">
-            {t("risk.comments.title")}
+            {t("common.comments.title")}
             <Button variant="outline" onClick={() => setOpen("true")}>
-              {t("risk.comments.add")}
+              {t("common.comments.add")}
             </Button>
           </div>
         </CardTitle>
@@ -59,9 +59,9 @@ export function RiskComments({
           </div>
         ) : (
           <EmptyCard
-            title={t("risk.comments.empty.title")}
+            title={t("common.comments.empty.title")}
             icon={MessageSquare}
-            description={t("risk.comments.empty.description")}
+            description={t("common.comments.empty.description")}
             className="w-full"
           />
         )}

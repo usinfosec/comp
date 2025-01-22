@@ -73,13 +73,13 @@ export function UpdateTaskOverviewForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Task Title</FormLabel>
+                <FormLabel>{t("risk.tasks.form.task_title")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     autoFocus
                     className="mt-3"
-                    placeholder="Enter a name for the task"
+                    placeholder={t("risk.tasks.form.task_title_description")}
                     autoCorrect="off"
                   />
                 </FormControl>
@@ -97,7 +97,7 @@ export function UpdateTaskOverviewForm({
                   <Textarea
                     {...field}
                     className="mt-3 min-h-[80px]"
-                    placeholder="Enter a description for the task"
+                    placeholder={t("risk.tasks.form.description_description")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -110,7 +110,7 @@ export function UpdateTaskOverviewForm({
             {updateTask.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              t("common.save")
+              t("common.actions.save")
             )}
           </Button>
         </div>

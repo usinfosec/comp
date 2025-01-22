@@ -80,7 +80,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("status")}
             >
-              <span>{t("risk.register.table.status")}</span>
+              <span>{t("common.table.status")}</span>
               {"status" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -96,7 +96,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("department")}
             >
-              <span>{t("risk.register.table.department")}</span>
+              <span>{t("common.filters.department")}</span>
               {"department" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -114,7 +114,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("ownerId")}
             >
-              <span>{t("risk.register.table.assigned_to")}</span>
+              <span>{t("common.assignee.label")}</span>
               {"ownerId" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}

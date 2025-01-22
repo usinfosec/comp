@@ -66,7 +66,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("title")}
             >
-              <span>{t("risk.tasks.table.title")}</span>
+              <span>{t("risk.tasks.title")}</span>
               {"title" === column && value === "asc" && <ArrowDown size={16} />}
               {"title" === column && value === "desc" && <ArrowUp size={16} />}
             </Button>
@@ -80,7 +80,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("status")}
             >
-              <span>{t("risk.tasks.table.status")}</span>
+              <span>{t("common.table.status")}</span>
               {"status" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -96,7 +96,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("dueDate")}
             >
-              <span>{t("risk.tasks.table.due_date")}</span>
+              <span>{t("common.table.due_date")}</span>
               {"dueDate" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -114,7 +114,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("ownerId")}
             >
-              <span>{t("risk.tasks.table.assigned_to")}</span>
+              <span>{t("common.table.assigned_to")}</span>
               {"ownerId" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}

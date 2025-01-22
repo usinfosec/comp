@@ -1,14 +1,13 @@
 import { auth } from "@/auth";
 import { db } from "@bubba/db";
-import { revalidateTag } from "next/cache";
-import { revalidatePath } from "next/cache";
+
 import { type FileRouter, createUploadthing } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
 
 export const fileUploader = {
-  uploader: f(["image", "pdf", "text", "video"])
+  uploader: f(["image", "pdf", "text"])
     .middleware(async ({ req }) => {
       const session = await auth();
       const headerList = await req.headers;

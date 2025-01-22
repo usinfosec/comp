@@ -104,6 +104,7 @@ import {
   MdOutlineSettings,
   MdOutlineSpellcheck,
   MdOutlineSquareFoot,
+  MdOutlineStorefront,
   MdOutlineStyle,
   MdOutlineSubject,
   MdOutlineTask,
@@ -738,4 +739,5 @@ export const Icons = {
   ArrowOutward: MdOutlineArrowOutward,
   Straighten: MdOutlineSquareFoot,
   Files: MdOutlineInventory2,
+  Vendors: MdOutlineStorefront,
 };

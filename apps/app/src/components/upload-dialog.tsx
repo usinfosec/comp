@@ -5,6 +5,7 @@ import * as React from "react";
 import { revalidateUpload } from "@/actions/risk/task/revalidate-upload";
 import { FileUploader } from "@/components/file-uploader";
 import { useUploadFile } from "@/hooks/use-upload-file";
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import {
   Dialog,
@@ -23,6 +24,8 @@ interface UploadDialogProps {
 }
 
 export function UploadDialog({ taskId, riskId }: UploadDialogProps) {
+  const t = useI18n();
+
   const [files, setFiles] = React.useState<File[]>([]);
   const [open, setOpen] = React.useState(false);
 
@@ -56,9 +59,9 @@ export function UploadDialog({ taskId, riskId }: UploadDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Upload an attachment</DialogTitle>
+          <DialogTitle>{t("common.attachments.upload")}</DialogTitle>
           <DialogDescription>
-            Upload an attachment or add a link to an external resource.
+            {t("common.attachments.upload_description")}
           </DialogDescription>
         </DialogHeader>
         <FileUploader
