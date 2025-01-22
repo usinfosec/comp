@@ -94,25 +94,25 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             onValueChange={(value) => setStatus(value === "all" ? null : value)}
           >
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder={t("policies.table.status")} />
+              <SelectValue placeholder={t("common.table.status")} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("policies.filters.all")}</SelectItem>
               <SelectItem value="published">
-                {t("policies.table.published")}
+                {t("common.status.published")}
               </SelectItem>
               <SelectItem value="needs_review">
-                {t("policies.table.needs_review")}
+                {t("common.status.needs_review")}
               </SelectItem>
-              <SelectItem value="draft">{t("policies.table.draft")}</SelectItem>
+              <SelectItem value="draft">{t("common.status.draft")}</SelectItem>
             </SelectContent>
-          </Select>{" "}
+          </Select>
           <Select
             value={ownerId || ""}
             onValueChange={(value) => setOwnerId(value || null)}
           >
             <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("risk.register.filters.owner")} />
+              <SelectValue placeholder={t("common.filters.owner.label")} />
             </SelectTrigger>
             <SelectContent>
               {users.map((user) => (
@@ -133,7 +133,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
           disabled={isPending}
         >
           <X className="h-4 w-4 mr-2" />
-          {t("policies.filters.clear")}
+          {t("common.actions.clear")}
         </Button>
       )}
     </div>

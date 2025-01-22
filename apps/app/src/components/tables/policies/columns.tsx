@@ -49,7 +49,7 @@ export function columns(): ColumnDef<PolicyType>[] {
     {
       id: "published",
       accessorKey: "published",
-      header: t("policies.table.status"),
+      header: t("common.table.status"),
       cell: ({ row }) => {
         const status = row.original.published ? "published" : "draft";
 
@@ -65,7 +65,7 @@ export function columns(): ColumnDef<PolicyType>[] {
       accessorKey: "ownerId",
       header: () => (
         <span className="hidden sm:table-cell">
-          {t("risk.register.table.assigned_to")}
+          {t("common.table.assigned_to")}
         </span>
       ),
       cell: ({ row }) => {
@@ -84,7 +84,7 @@ export function columns(): ColumnDef<PolicyType>[] {
       accessorKey: "lastUpdated",
       header: () => (
         <span className="hidden md:table-cell">
-          {t("policies.table.last_updated")}
+          {t("common.table.last_updated")}
         </span>
       ),
       cell: ({ row }) => {
@@ -92,7 +92,7 @@ export function columns(): ColumnDef<PolicyType>[] {
 
         return (
           <div className="hidden md:table-cell">
-            <StatusDate date={date} />
+            <StatusDate date={date ?? new Date()} />
           </div>
         );
       },

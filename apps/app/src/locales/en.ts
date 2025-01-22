@@ -223,6 +223,16 @@ export default {
     },
     table: {
       name: "Policy Name",
+      statuses: {
+        draft: "Draft",
+        published: "Published",
+      },
+      filters: {
+        owner: {
+          label: "Assignee",
+          placeholder: "Filter by assignee",
+        },
+      },
     },
     filters: {
       search: "Search policies...",
@@ -476,8 +486,8 @@ export default {
       },
       statuses: {
         not_started: "Not Started",
-        in_progress: "In Progress",
-        completed: "Completed",
+        compliant: "Compliant",
+        non_compliant: "Non Compliant",
       },
     },
   },

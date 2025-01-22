@@ -79,7 +79,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("published")}
             >
-              <span>{t("policies.table.status")}</span>
+              <span>{t("common.table.status")}</span>
               {"published" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -97,7 +97,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("ownerId")}
             >
-              <span>{t("policies.table.assigned_to")}</span>
+              <span>{t("common.table.assigned_to")}</span>
               {"ownerId" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}
@@ -114,7 +114,7 @@ export function DataTableHeader({ table, loading }: Props) {
               variant="ghost"
               onClick={() => createSortQuery("lastUpdated")}
             >
-              <span>{t("policies.table.last_updated")}</span>
+              <span>{t("common.table.last_updated")}</span>
               {"lastUpdated" === column && value === "asc" && (
                 <ArrowDown size={16} />
               )}

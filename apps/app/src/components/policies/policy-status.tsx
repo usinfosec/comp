@@ -19,7 +19,7 @@ export function PolicyStatus({ status }: { status: StatusType }) {
         className={cn("size-2.5 rounded-full")}
         style={{ backgroundColor: STATUS_COLORS[status] ?? "#ffc107" }}
       />
-      {t(`policies.table.${status}`)}
+      {t(`policies.table.statuses.${status}`)}
     </div>
   );
 }
