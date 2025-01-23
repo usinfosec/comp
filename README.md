@@ -72,7 +72,7 @@ Here is what you need to be able to run Comp AI.
 2. Go to the project folder
 
    ```sh
-   cd bubba
+   cd comp
    ```
 
 3. Install packages with bun
