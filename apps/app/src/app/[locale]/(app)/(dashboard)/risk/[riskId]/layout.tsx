@@ -38,10 +38,6 @@ export default async function Layout({ children, params }: LayoutProps) {
             path: `/risk/${riskId.riskId}/comments`,
             label: t("common.comments.title"),
           },
-          {
-            path: `/risk/${riskId.riskId}/tasks`,
-            label: t("risk.tasks.title"),
-          },
         ]}
       />
 

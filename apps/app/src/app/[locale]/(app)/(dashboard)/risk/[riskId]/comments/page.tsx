@@ -44,7 +44,11 @@ const getRisk = unstable_cache(
       },
       include: {
         owner: true,
-        comments: true,
+        comments: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 

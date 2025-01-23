@@ -65,6 +65,7 @@ export function DataTable<TData, TValue>({
                       key={cell.id}
                       className={cn(
                         cell.column.id === "ownerId" && "hidden sm:table-cell",
+                        cell.column.id === "dueDate" && "hidden sm:table-cell",
                       )}
                     >
                       {flexRender(

@@ -19,7 +19,7 @@ export function NoResults({ hasFilters }: Props) {
   const params = useParams<{ riskId: string }>();
 
   return (
-    <div className="mt-24 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="flex flex-col items-center">
         <Icons.Transactions2 className="mb-4" />
         <div className="text-center mb-6 space-y-2">
@@ -36,7 +36,7 @@ export function NoResults({ hasFilters }: Props) {
         {hasFilters && (
           <Button
             variant="outline"
-            onClick={() => router.push(`/risk/${params.riskId}/tasks`)}
+            onClick={() => router.push(`/risk/${params.riskId}`)}
           >
             {t("common.filters.clear")}
           </Button>
@@ -46,13 +46,13 @@ export function NoResults({ hasFilters }: Props) {
   );
 }
 
-export function NoTasks() {
+export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
   const t = useI18n();
 
   const [open, setOpen] = useQueryState("create-task-sheet");
 
   return (
-    <div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">
+    <div className="absolute w-full top-0 left-0 flex items-center justify-center z-20">
       <div className="text-center max-w-sm mx-auto flex flex-col items-center justify-center">
         <h2 className="text-xl font-medium mb-2">
           {t("common.empty_states.no_results.title_tasks")}

@@ -60,15 +60,21 @@ export function columns(): ColumnDef<RiskTaskType>[] {
     {
       id: "dueDate",
       accessorKey: "dueDate",
-      header: t("common.table.due_date"),
+      header: () => (
+        <span className="hidden sm:table-cell">
+          {t("common.table.due_date")}
+        </span>
+      ),
       cell: ({ row }) => {
         const status = row.original.status;
 
         return (
-          <StatusDate
-            date={new Date(row.original.dueDate)}
-            isClosed={status === "closed"}
-          />
+          <div className="hidden sm:table-cell">
+            <StatusDate
+              date={new Date(row.original.dueDate)}
+              isClosed={status === "closed"}
+            />
+          </div>
         );
       },
     },

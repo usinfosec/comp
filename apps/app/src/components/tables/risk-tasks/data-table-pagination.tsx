@@ -48,14 +48,14 @@ export function DataTablePagination({
     <div className="flex items-center justify-between mt-4">
       <div className="flex items-center space-x-2">
         <Select
-          value={searchParams.get("per_page") || "10"}
+          value={searchParams.get("per_page") || "5"}
           onValueChange={createPerPageQuery}
         >
           <SelectTrigger className="h-8 w-[70px]">
-            <SelectValue placeholder="10" />
+            <SelectValue placeholder="5" />
           </SelectTrigger>
           <SelectContent side="top">
-            {[10, 20, 30, 40, 50].map((pageSize) => (
+            {[5, 10, 20, 30, 40, 50].map((pageSize) => (
               <SelectItem key={pageSize} value={pageSize.toString()}>
                 {pageSize}
               </SelectItem>

@@ -4,17 +4,31 @@ import Image from "next/image";
 type Props = {
   avatarUrl?: string | null;
   fullName?: string | null;
+  date?: string | null;
 };
 
-export function AssignedUser({ avatarUrl, fullName }: Props) {
+export function AssignedUser({ avatarUrl, fullName, date }: Props) {
   return (
-    <div className="flex space-x-2 items-center">
+    <div className="flex items-center gap-2">
       {avatarUrl && (
-        <Avatar className="h-5 w-5">
-          <Image src={avatarUrl} alt={fullName ?? ""} width={20} height={20} />
+        <Avatar className="h-6 w-6">
+          <Image
+            src={avatarUrl}
+            alt={fullName ?? ""}
+            width={24}
+            height={24}
+            className="rounded-full object-cover"
+          />
         </Avatar>
       )}
-      <span className="truncate">{fullName}</span>
+      <div className="flex flex-col">
+        <span className="text-sm font-medium text-foreground">{fullName}</span>
+        {date && (
+          <span className="text-xs text-muted-foreground leading-tight">
+            {date}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
