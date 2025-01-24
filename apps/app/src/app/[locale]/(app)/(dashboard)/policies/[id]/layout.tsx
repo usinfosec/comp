@@ -1,23 +1,29 @@
 import { auth } from "@/auth";
-import { PolicyOverview } from "@/components/policies/policy-overview";
+import { Title } from "@/components/title";
+import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
+import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
-interface PageProps {
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
   params: Promise<{ id: string }>;
-}
-
-export default async function PolicyPage({ params }: PageProps) {
-  const session = await auth();
+}) {
+  const t = await getI18n();
   const { id } = await params;
+  const session = await auth();
 
   if (!session) {
     redirect("/login");
   }
 
   if (!session.user.organizationId || !id) {
-    redirect("/");
+    redirect("/policies");
   }
 
   const policy = await getPolicy(id, session.user.organizationId);
@@ -26,21 +32,20 @@ export default async function PolicyPage({ params }: PageProps) {
     redirect("/policies");
   }
 
-  const users = await getUsers(session.user.organizationId);
-
   return (
-    <div className="space-y-4">
-      <PolicyOverview policy={policy} />
+    <div className="max-w-[1200px] space-y-4">
+      <Title title={policy.name} href="/policies" />
+
+      <main className="mt-8">{children}</main>
     </div>
   );
 }
 
 const getPolicy = unstable_cache(
-  async (id: string, organizationId: string) => {
+  async (policyId: string, organizationId: string) => {
     const policy = await db.artifact.findUnique({
       where: {
-        id,
-        type: "policy",
+        id: policyId,
         organizationId: organizationId,
       },
     });
@@ -48,15 +53,4 @@ const getPolicy = unstable_cache(
     return policy;
   },
   ["policy-cache"],
-);
-
-const getUsers = unstable_cache(
-  async (organizationId: string) => {
-    const users = await db.user.findMany({
-      where: { organizationId: organizationId },
-    });
-
-    return users;
-  },
-  ["users-cache"],
 );

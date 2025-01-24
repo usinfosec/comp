@@ -473,7 +473,7 @@ pre {
 
 /* Editor chrome */
 .tiptap {
-  @apply relative border border-input bg-background rounded-md;
+  @apply relative border border-input bg-background;
 }
 
 /* Bubble menu */
