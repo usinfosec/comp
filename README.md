@@ -129,8 +129,12 @@ Comp AI, Inc. is a commercial open source company, which means some parts of thi
 ### Contributors
 
 <a href="https://github.com/trycompai/comp/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=trycomp/comp" />
+  <img src="https://contrib.rocks/image?repo=trycompai/comp" />
 </a>
+
+## Repo Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/1371c2fe20e274ff1e0e8d4ca225455dea609cb9.svg "Repobeats analytics image")
 
 <!-- LICENSE -->
 
