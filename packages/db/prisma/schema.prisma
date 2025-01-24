@@ -1,6 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -92,6 +93,7 @@ model User {
   VendorTaskAttachment VendorTaskAttachment[]
   Vendors              Vendors[]
   VendorRiskAssessment VendorRiskAssessment[]
+  RiskAttachment       RiskAttachment[]
 
   @@index([organizationId])
 }
@@ -102,6 +104,7 @@ model Organization {
   name             String
   website          String
   tier             Tier    @default(free)
+  policiesCreated  Boolean @default(false)
 
   users              User[]
   Risk               Risk[]
@@ -124,6 +127,7 @@ model Organization {
   VendorTaskAttachment     VendorTaskAttachment[]
   VendorRiskAssessment     VendorRiskAssessment[]
   VendorContact            VendorContact[]
+  RiskAttachment           RiskAttachment[]
 
   @@index([stripeCustomerId])
 }
@@ -289,6 +293,7 @@ model Artifact {
   controls ControlArtifact[]
 
   @@index([organizationId])
+  @@index([type])
 }
 
 model ControlArtifact {
@@ -371,6 +376,7 @@ model Risk {
   comments          RiskComment[]
   treatmentStrategy RiskTreatmentStrategy?
   TaskComments      TaskComments[]
+  attachments       RiskAttachment[]
 
   @@index([organizationId])
   @@index([ownerId])
@@ -456,6 +462,7 @@ model TaskAttachment {
 
   name           String
   fileUrl        String
+  fileKey        String?
   type           RiskAttachmentType @default(file)
   uploadedAt     DateTime           @default(now())
   ownerId        String?
@@ -635,6 +642,7 @@ model VendorTaskAttachment {
 
   name           String
   fileUrl        String
+  fileKey        String?
   type           RiskAttachmentType @default(file)
   uploadedAt     DateTime           @default(now())
   ownerId        String?
@@ -659,5 +667,25 @@ model VendorRiskAssessment {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@index([vendorId])
+  @@index([organizationId])
+}
+
+model RiskAttachment {
+  id String @id @default(cuid())
+
+  riskId String
+  risk   Risk   @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  name           String
+  fileUrl        String
+  fileKey        String?
+  type           RiskAttachmentType @default(file)
+  uploadedAt     DateTime           @default(now())
+  ownerId        String?
+  owner          User?              @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  organizationId String
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([riskId])
   @@index([organizationId])
 }

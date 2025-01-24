@@ -234,16 +234,14 @@ export function Onboarding() {
                 </Button>
               )}
               <Button
-                type="button"
+                type={currentStep === steps.length - 1 ? "submit" : "button"}
                 className="w-full mt-8"
                 disabled={
                   form.formState.isValidating ||
                   createOrganization.status === "executing"
                 }
                 onClick={
-                  currentStep === steps.length - 1
-                    ? () => createOrganization.execute(form.getValues())
-                    : handleNext
+                  currentStep === steps.length - 1 ? undefined : handleNext
                 }
               >
                 <div className="flex items-center justify-center">

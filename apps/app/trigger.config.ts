@@ -1,9 +1,20 @@
+import { PrismaInstrumentation } from "@prisma/instrumentation";
+import { prismaExtension } from "@trigger.dev/build/extensions/prisma";
 import { defineConfig } from "@trigger.dev/sdk/v3";
 
 export default defineConfig({
-  project: "proj_bplstwshgskdzgbdqwif",
+  project: "proj_lhxjliiqgcdyqbgtucda",
   runtime: "node",
   logLevel: "log",
+  instrumentations: [new PrismaInstrumentation()],
+  maxDuration: 300,
+  build: {
+    extensions: [
+      prismaExtension({
+        schema: "packages/db/prisma/schema.prisma",
+      }),
+    ],
+  },
   retries: {
     enabledInDev: true,
     default: {
@@ -14,5 +25,5 @@ export default defineConfig({
       randomize: true,
     },
   },
-  dirs: ["jobs"],
+  dirs: ["./src/jobs"],
 });

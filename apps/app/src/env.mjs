@@ -15,8 +15,10 @@ export const env = createEnv({
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
     UPLOADTHING_TOKEN: z.string(),
+    UPLOADTHING_SECRET: z.string(),
     DISCORD_WEBHOOK_URL: z.string(),
     NANGO_SECRET_KEY: z.string().min(1),
+    TRIGGER_SECRET_KEY: z.string(),
   },
 
   client: {
@@ -38,8 +40,10 @@ export const env = createEnv({
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
+    UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     NANGO_SECRET_KEY: process.env.NANGO_SECRET_KEY,
+    TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

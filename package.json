@@ -23,6 +23,8 @@
   "workspaces": ["apps/*", "packages/*"],
   "dependencies": {
     "@manypkg/cli": "^0.23.0",
-    "gitmoji": "^1.1.1"
+    "gitmoji": "^1.1.1",
+    "gray-matter": "^4.0.3",
+    "use-debounce": "^10.0.4"
   }
 }

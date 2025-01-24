@@ -36,6 +36,7 @@ export const fileUploader = {
         data: {
           name: file.name,
           fileUrl: file.url,
+          fileKey: file.key,
           ownerId: metadata.userId,
           organizationId: metadata.organizationId!,
           riskMitigationTaskId: metadata.taskId,

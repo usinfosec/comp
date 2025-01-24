@@ -3,9 +3,10 @@
 "use server";
 
 import { createOrganizationAndConnectUser } from "@/auth/org";
+import type { createDefaultPoliciesTask } from "@/jobs/tasks/organization/create-default-policies";
 import { db } from "@bubba/db";
+import { tasks } from "@trigger.dev/sdk/v3";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
 import { soc2Seed } from "../soc2-seed";
@@ -80,6 +81,15 @@ export const createOrganizationAction = authActionClient
         organizationId: organization.id,
         userId,
       });
+
+      const handle = await tasks.trigger<typeof createDefaultPoliciesTask>(
+        "create-default-policies",
+        {
+          ownerId: userId,
+          organizationId: organization.id,
+          organizationName: name,
+        },
+      );
 
       revalidateTag(`user_${userId}`);
       revalidateTag(`organization_${organizationId}`);

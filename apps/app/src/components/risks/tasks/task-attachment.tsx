@@ -10,9 +10,11 @@ import Link from "next/link";
 export async function TaskAttachments({
   task,
   users,
+  signedUrls,
 }: {
   task: RiskMitigationTask & { TaskAttachment: TaskAttachment[] };
   users: User[];
+  signedUrls: { signedUrl: string }[];
 }) {
   const t = await getI18n();
 
@@ -29,13 +31,17 @@ export async function TaskAttachments({
       <CardContent>
         {task.TaskAttachment.length > 0 ? (
           <div className="flex flex-col gap-2">
-            {task.TaskAttachment.map((attachment) => (
+            {task.TaskAttachment.map((attachment, index) => (
               <div
                 key={attachment.id}
                 className="flex flex-col gap-2 border p-4"
               >
                 <div className="flex items-center gap-2">
-                  <Link href={attachment.fileUrl} target="_blank">
+                  <Link
+                    href={signedUrls[index].signedUrl}
+                    target="_blank"
+                    className="text-primary hover:underline"
+                  >
                     {attachment.name}
                   </Link>
                 </div>
@@ -52,7 +58,7 @@ export async function TaskAttachments({
                       }
                     />
                     <span className="text-sm text-muted-foreground">
-                      ({format(attachment.uploadedAt, "MMM d, yyyy")})
+                      ({format(attachment.uploadedAt, "MMM dd, yyyy, h:mm a")})
                     </span>
                   </div>
                 </div>

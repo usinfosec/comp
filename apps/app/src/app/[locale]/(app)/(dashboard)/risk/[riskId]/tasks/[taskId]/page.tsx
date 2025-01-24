@@ -3,6 +3,7 @@ import { TaskAttachments } from "@/components/risks/tasks/task-attachment";
 import { TaskComment } from "@/components/risks/tasks/task-comments";
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 
+import { env } from "@/env.mjs";
 import { db } from "@bubba/db";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
@@ -30,15 +31,55 @@ export default async function RiskPage({ params }: PageProps) {
   }
 
   const users = await getUsers(session.user.organizationId);
+  const signedUrls = await getFiles(taskId);
 
   return (
     <div className="flex flex-col gap-4">
       <TaskOverview task={task} users={users} />
-      <TaskAttachments task={task} users={users} />
+      <TaskAttachments task={task} users={users} signedUrls={signedUrls} />
       <TaskComment task={task} users={users} />
     </div>
   );
 }
+
+const getFiles = unstable_cache(
+  async (taskId: string) => {
+    const files = await db.taskAttachment.findMany({
+      where: {
+        riskMitigationTaskId: taskId,
+      },
+    });
+
+    const signedUrls = await Promise.all(
+      files.map(async (file) => {
+        const response = await fetch(
+          "https://api.uploadthing.com/v6/requestFileAccess",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Uploadthing-Api-Key": env.UPLOADTHING_SECRET,
+            },
+            body: JSON.stringify({
+              fileKey: file.fileKey,
+              customId: null,
+              expiresIn: 3600,
+            }),
+          },
+        );
+
+        const data = await response.json();
+
+        return {
+          signedUrl: data.url,
+        };
+      }),
+    );
+
+    return signedUrls;
+  },
+  ["files-cache"],
+);
 
 const getTask = unstable_cache(
   async (riskId: string, taskId: string) => {

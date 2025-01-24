@@ -25,7 +25,8 @@
         "UPLOADTHING_TOKEN",
         "NEXT_PUBLIC_GOOGLE_TAG_ID",
         "DISCORD_WEBHOOK_URL",
-        "NANGO_SECRET_KEY"
+        "NANGO_SECRET_KEY",
+        "TRIGGER_SECRET_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "dependsOn": ["^build", "^db:generate", "clean-react"],
