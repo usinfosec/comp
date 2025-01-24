@@ -33,7 +33,7 @@ export default async function Layout({
   }
 
   return (
-    <div className="max-w-[1200px] space-y-4">
+    <div className="max-w-[1200px]">
       <Title title={policy.name} href="/policies" />
 
       <main className="mt-8">{children}</main>
