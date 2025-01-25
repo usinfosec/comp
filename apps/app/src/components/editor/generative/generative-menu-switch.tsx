@@ -23,41 +23,19 @@ const GenerativeMenuSwitch = ({
   return (
     <EditorBubble
       tippyOptions={{
-        placement: open ? "bottom-start" : "top",
+        placement: open ? "bottom" : "top",
         onHidden: () => {
           onOpenChange(false);
           editor?.chain().unsetHighlight().run();
         },
-        popperOptions: {
-          modifiers: [
-            {
-              name: "preventOverflow",
-              options: {
-                boundary: "viewport",
-                padding: 8,
-              },
-            },
-            {
-              name: "flip",
-              options: {
-                fallbackPlacements: [
-                  "top-start",
-                  "bottom-start",
-                  "right-start",
-                  "left-start",
-                ],
-              },
-            },
-          ],
-        },
       }}
-      className="flex w-fit max-w-[90vw] overflow-hidden border border-muted bg-background shadow-xl"
+      className="flex w-fit  border border-muted bg-background shadow-xl"
     >
       {open && <AISelector open={open} onOpenChange={onOpenChange} />}
       {!open && (
         <Fragment>
           <Button
-            className="gap-1 rounded-none text-purple-500"
+            className="gap-1 rounded-none font-medium"
             variant="ghost"
             onClick={() => onOpenChange(true)}
             size="sm"

@@ -248,3 +248,9 @@ export const updateVendorRiskSchema = z.object({
   inherent_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
   residual_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
 });
+
+// Policies
+export const updatePolicySchema = z.object({
+  id: z.string(),
+  content: z.any(),
+});

@@ -360,7 +360,10 @@ pre {
 
 /* Base editor styles */
 .ProseMirror {
-  @apply min-h-[500px] px-8 py-6 text-sm leading-normal;
+  @apply w-full px-8 py-6 text-sm leading-normal;
+  height: 100%;
+  min-height: 350px;
+  overflow-y: auto;
 }
 
 .ProseMirror:focus {
@@ -473,6 +476,7 @@ pre {
 /* Editor chrome */
 .tiptap {
   @apply relative bg-background;
+  height: 100%;;
 }
 
 /* Bubble menu */
@@ -483,4 +487,23 @@ pre {
 /* Command menu */
 .tiptap .command-menu {
   @apply absolute z-50 w-60 bg-background border border-border;
+}
+
+/* Add custom scrollbar styles */
+.ProseMirror::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.ProseMirror::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.ProseMirror::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30 active:bg-muted-foreground/40;
+}
+
+.ProseMirror {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) transparent;
 }

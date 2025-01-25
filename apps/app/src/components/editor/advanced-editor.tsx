@@ -1,6 +1,8 @@
 "use client";
 
+import { updatePolicyAction } from "@/actions/policies/update-policy-action";
 import { Separator } from "@bubba/ui/separator";
+import { useAction } from "next-safe-action/hooks";
 import {
   EditorCommand,
   EditorCommandEmpty,
@@ -16,6 +18,8 @@ import {
   handleImagePaste,
 } from "novel";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
@@ -26,11 +30,12 @@ import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 
-const hljs = require("highlight.js");
-
 const extensions = [...defaultExtensions, slashCommand];
 
-const PolicyEditor = ({ content }: { content: JSONContent }) => {
+const PolicyEditor = ({
+  policyId,
+  content,
+}: { policyId: string; content: JSONContent }) => {
   const [initialContent, setInitialContent] = useState<JSONContent>(content);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
@@ -50,14 +55,37 @@ const PolicyEditor = ({ content }: { content: JSONContent }) => {
     return new XMLSerializer().serializeToString(doc);
   };
 
-  useEffect(() => {
-    setInitialContent(content);
-  }, [content]);
+  const updatePolicy = useAction(updatePolicyAction, {
+    onSuccess: () => {
+      setSaveStatus("Saved");
+    },
+    onError: () => {
+      toast.error("Failed to update policy");
+    },
+  });
+
+  const debouncedUpdates = useDebouncedCallback(
+    async (editor: EditorInstance) => {
+      const json = editor.getJSON();
+      setCharsCount(editor.storage.characterCount.words());
+
+      updatePolicy.execute({
+        id: policyId,
+        content: json,
+      });
+    },
+    1000,
+  );
 
   if (!initialContent) return null;
 
+  // set initial charcount
+  useEffect(() => {
+    setCharsCount(initialContent.length);
+  }, [initialContent]);
+
   return (
-    <div className="relative min-h-[calc(100vh-20vh)] flex flex-col w-full max-w-screen-lg">
+    <div className="relative h-[calc(100vh-30vh)] w-full">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
         <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
@@ -73,11 +101,11 @@ const PolicyEditor = ({ content }: { content: JSONContent }) => {
           immediatelyRender={false}
           initialContent={initialContent}
           extensions={extensions}
-          className="prose prose-sm max-w-none min-h-[calc(100vh-20vh)] overflow-hidden border"
+          className="prose prose-sm max-w-none border"
           editorProps={{
             attributes: {
               class:
-                "focus:outline text-foreground min-h-[calc(100vh-20vh)] overflow-y-auto p-4",
+                "max-h-[calc(100vh-30vh)] w-full focus:outline-none text-foreground overflow-y-auto px-8 py-6",
             },
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -88,6 +116,7 @@ const PolicyEditor = ({ content }: { content: JSONContent }) => {
               handleImageDrop(view, event, moved, uploadFn),
           }}
           onUpdate={({ editor }) => {
+            debouncedUpdates(editor);
             setSaveStatus("Unsaved");
           }}
           slotAfter={<ImageResizer />}

@@ -6,7 +6,7 @@ import {
   StepForward,
   WrapText,
 } from "lucide-react";
-import { getPrevText, useEditor } from "novel";
+import { useEditor } from "novel";
 
 const options = [
   {
@@ -44,11 +44,14 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {
-              const slice = editor?.state.selection.content();
-              const text = editor?.storage.text.serializer.serialize(
-                slice?.content,
+              if (!editor) return;
+              const selection = editor.state.selection;
+              const selectedText = editor.state.doc.textBetween(
+                selection.from,
+                selection.to,
+                " ",
               );
-              onSelect(text, value);
+              onSelect(selectedText, value);
             }}
             className="flex gap-2"
             key={option.value}
@@ -63,10 +66,23 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
       <CommandGroup heading="Use AI to do more">
         <CommandItem
           onSelect={() => {
-            const pos = editor?.state.selection.from;
-            if (!editor || !pos) return;
-            const text = getPrevText(editor, pos);
-            onSelect(text, "continue");
+            if (!editor) return;
+            const { $from } = editor.state.selection;
+            const node = $from.node();
+
+            // Get the text content of the current node
+            const currentNodeText = node.textContent;
+            console.log("Current node text:", currentNodeText);
+
+            // If there's no text in the current node, try to get text from parent
+            if (!currentNodeText && $from.parent) {
+              const parentText = $from.parent.textContent;
+              console.log("Parent node text:", parentText);
+              onSelect(parentText, "continue");
+              return;
+            }
+
+            onSelect(currentNodeText, "continue");
           }}
           value="continue"
           className="gap-2"
