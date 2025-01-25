@@ -1,9 +1,40 @@
-import { readFile, readdir } from "node:fs/promises";
-import path from "node:path";
 import { ArtifactType, db } from "@bubba/db";
 import type { JSONContent } from "@tiptap/react";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
+import { parseStringPromise } from "xml2js";
 import { z } from "zod";
+
+const S3_BUCKET_URL = "https://compai-policies.s3.eu-central-1.amazonaws.com";
+
+async function listPolicyFiles(): Promise<string[]> {
+  try {
+    const response = await fetch(`${S3_BUCKET_URL}`);
+    const text = await response.text();
+
+    const result = await parseStringPromise(text);
+
+    const keys: string[] = [];
+    const contents = result.ListBucketResult?.Contents || [];
+
+    for (const content of contents) {
+      const key = content.Key?.[0];
+      if (key?.endsWith(".json")) {
+        keys.push(key);
+      }
+    }
+
+    return keys;
+  } catch (error) {
+    logger.error("Error listing policy files from S3:", { error });
+    throw error;
+  }
+}
+
+// Helper to fetch a single policy file
+async function fetchPolicyFile(fileName: string) {
+  const response = await fetch(`${S3_BUCKET_URL}/${fileName}`);
+  return response.json();
+}
 
 export const createDefaultPoliciesTask = schemaTask({
   id: "create-default-policies",
@@ -14,15 +45,12 @@ export const createDefaultPoliciesTask = schemaTask({
   }),
   run: async (payload) => {
     const { organizationId, organizationName, ownerId } = payload;
-    const seedPoliciesPath = path.join(process.cwd(), "src/jobs/seed/policies");
 
     try {
-      const policyFiles = await readdir(seedPoliciesPath);
+      const policyFiles = await listPolicyFiles();
 
       for (const fileName of policyFiles) {
-        const filePath = path.join(seedPoliciesPath, fileName);
-        const fileContent = await readFile(filePath, "utf-8");
-        const policyData = JSON.parse(fileContent) as {
+        const policyData = (await fetchPolicyFile(fileName)) as {
           type: string;
           metadata: { controls: string[] };
           content: JSONContent[];

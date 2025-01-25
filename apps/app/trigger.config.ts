@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     extensions: [
       prismaExtension({
-        schema: "packages/db/prisma/schema.prisma",
+        schema: "../../packages/db/prisma/schema.prisma",
       }),
     ],
   },

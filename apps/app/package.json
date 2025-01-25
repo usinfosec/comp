@@ -32,6 +32,7 @@
     "@tiptap/starter-kit": "^2.11.3",
     "@trigger.dev/react-hooks": "3.3.12",
     "@trigger.dev/sdk": "3.3.12",
+    "@types/xml2js": "^0.4.14",
     "@uploadthing/react": "^7.1.5",
     "@upstash/ratelimit": "^2.0.5",
     "ai": "^4.0.22",
@@ -69,6 +70,7 @@
     "uploadthing": "^7.4.4",
     "use-debounce": "^10.0.4",
     "use-long-press": "^3.2.0",
+    "xml2js": "^0.6.2",
     "yarn": "^1.22.22",
     "zustand": "^5.0.2"
   },
