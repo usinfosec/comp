@@ -1,4 +1,6 @@
 "use client";
+
+import { Separator } from "@bubba/ui/separator";
 import {
   EditorCommand,
   EditorCommandEmpty,
@@ -14,17 +16,13 @@ import {
   handleImagePaste,
 } from "novel";
 import { useEffect, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
+import GenerativeMenuSwitch from "./generative/generative-menu-switch";
+import { uploadFn } from "./image-upload";
 import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
-import { Separator } from "./ui/separator";
-
-import { defaultEditorContent } from "./default-content";
-import GenerativeMenuSwitch from "./generative/generative-menu-switch";
-import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 
@@ -59,13 +57,13 @@ const PolicyEditor = ({ content }: { content: JSONContent }) => {
   if (!initialContent) return null;
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <div className="relative min-h-[calc(100vh-20vh)] flex flex-col w-full max-w-screen-lg">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
         <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
         {charsCount && (
-          <div className=" bg-accent px-2 py-1 text-sm text-muted-foreground">
+          <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
             {charsCount} Words
           </div>
         )}
@@ -75,10 +73,11 @@ const PolicyEditor = ({ content }: { content: JSONContent }) => {
           immediatelyRender={false}
           initialContent={initialContent}
           extensions={extensions}
-          className="prose prose-sm max-w-none sm:mb-[calc(20vh)]"
+          className="prose prose-sm max-w-none min-h-[calc(100vh-20vh)] overflow-hidden border"
           editorProps={{
             attributes: {
-              class: "min-h-[500px] focus:outline-none text-foreground",
+              class:
+                "focus:outline text-foreground min-h-[calc(100vh-20vh)] overflow-y-auto p-4",
             },
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),

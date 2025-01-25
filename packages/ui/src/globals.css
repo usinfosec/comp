@@ -294,7 +294,6 @@
 
 pre {
   background: #0d0d0d;
-  border-radius: 0.5rem;
   color: #fff;
   font-family: "JetBrainsMono", monospace;
   padding: 0.75rem 1rem;
@@ -441,7 +440,7 @@ pre {
 
 /* Code blocks */
 .ProseMirror pre {
-  @apply bg-muted p-4 rounded-md my-4 overflow-x-auto;
+  @apply bg-muted p-4 my-4 overflow-x-auto;
 }
 
 .ProseMirror code {
@@ -473,15 +472,15 @@ pre {
 
 /* Editor chrome */
 .tiptap {
-  @apply relative border border-input bg-background;
+  @apply relative bg-background;
 }
 
 /* Bubble menu */
 .tiptap .bubble-menu {
-  @apply flex gap-1 p-1 rounded-md border border-border bg-background shadow-sm;
+  @apply flex gap-1 p-1 border border-border bg-background shadow-sm;
 }
 
 /* Command menu */
 .tiptap .command-menu {
-  @apply absolute z-50 w-60 bg-background rounded-md shadow-md border border-border;
+  @apply absolute z-50 w-60 bg-background border border-border;
 }

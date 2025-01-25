@@ -1,6 +1,12 @@
-import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, StepForward, WrapText } from "lucide-react";
+import { CommandGroup, CommandItem, CommandSeparator } from "@bubba/ui/command";
+import {
+  ArrowDownWideNarrow,
+  CheckCheck,
+  RefreshCcwDot,
+  StepForward,
+  WrapText,
+} from "lucide-react";
 import { getPrevText, useEditor } from "novel";
-import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
 
 const options = [
   {
@@ -38,11 +44,13 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {
-              const slice = editor.state.selection.content();
-              const text = editor.storage.markdown.serializer.serialize(slice.content);
+              const slice = editor?.state.selection.content();
+              const text = editor?.storage.text.serializer.serialize(
+                slice?.content,
+              );
               onSelect(text, value);
             }}
-            className="flex gap-2 px-4"
+            className="flex gap-2"
             key={option.value}
             value={option.value}
           >
@@ -55,12 +63,13 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
       <CommandGroup heading="Use AI to do more">
         <CommandItem
           onSelect={() => {
-            const pos = editor.state.selection.from;
+            const pos = editor?.state.selection.from;
+            if (!editor || !pos) return;
             const text = getPrevText(editor, pos);
             onSelect(text, "continue");
           }}
           value="continue"
-          className="gap-2 px-4"
+          className="gap-2"
         >
           <StepForward className="h-4 w-4 text-purple-500" />
           Continue writing

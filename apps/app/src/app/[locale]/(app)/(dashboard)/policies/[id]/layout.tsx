@@ -34,9 +34,9 @@ export default async function Layout({
 
   return (
     <div className="max-w-[1200px]">
-      <Title title={policy.name} href="/policies" />
+      <Title title={policy.name} href="/policies/all" />
 
-      <main className="mt-8">{children}</main>
+      <main className="mt-12">{children}</main>
     </div>
   );
 }

@@ -28,11 +28,7 @@ export default async function PolicyPage({ params }: PageProps) {
 
   const users = await getUsers(session.user.organizationId);
 
-  return (
-    <div className="space-y-4">
-      <PolicyOverview policy={policy} />
-    </div>
-  );
+  return <PolicyOverview policy={policy} />;
 }
 
 const getPolicy = unstable_cache(

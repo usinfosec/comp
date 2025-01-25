@@ -279,7 +279,7 @@ model Artifact {
   department Departments @default(none)
 
   type        ArtifactType
-  content     String?
+  content     Json?
   fileUrl     String?
   version     Int          @default(1)
   lastUpdated DateTime?

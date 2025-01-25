@@ -1,8 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { ArtifactType, db } from "@bubba/db";
-import { schemaTask } from "@trigger.dev/sdk/v3";
-import { logger } from "@trigger.dev/sdk/v3";
+import type { JSONContent } from "@tiptap/react";
+import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
 
 export const createDefaultPoliciesTask = schemaTask({
@@ -22,30 +22,62 @@ export const createDefaultPoliciesTask = schemaTask({
       for (const fileName of policyFiles) {
         const filePath = path.join(seedPoliciesPath, fileName);
         const fileContent = await readFile(filePath, "utf-8");
-        const policyData = JSON.parse(fileContent);
+        const policyData = JSON.parse(fileContent) as {
+          type: string;
+          metadata: { controls: string[] };
+          content: JSONContent[];
+        };
 
-        // Replace organization and date placeholders in the JSON content
         const currentDate = new Date().toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
           day: "numeric",
         });
 
-        const processedContent = JSON.stringify(policyData, null, 2)
-          .replace(/\{\{organization\}\}/g, organizationName)
-          .replace(/\{\{date\}\}/g, currentDate);
+        // Replace placeholders in content while preserving node structure
+        const replaceInContent = (node: any): any => {
+          if (!node) return node;
 
-        // Extract the policy name from the first heading in the content
+          if (typeof node === "string") {
+            return node
+              .replace(/\{\{organization\}\}/g, organizationName)
+              .replace(/\{\{date\}\}/g, currentDate);
+          }
+
+          if (Array.isArray(node)) {
+            return node.map((item) => replaceInContent(item));
+          }
+
+          if (typeof node === "object") {
+            const result: any = {};
+            for (const [key, value] of Object.entries(node)) {
+              if (key === "type" || key === "attrs") {
+                result[key] = value;
+              } else {
+                result[key] = replaceInContent(value);
+              }
+            }
+            return result;
+          }
+
+          return node;
+        };
+
+        const processedPolicy = {
+          type: policyData.type,
+          metadata: policyData.metadata,
+          content: replaceInContent(policyData.content),
+        };
+
         const policyName =
-          policyData.content.find(
+          processedPolicy.content?.find(
             (node: any) => node.type === "heading" && node.attrs?.level === 1,
           )?.content?.[0]?.text || fileName.replace(".json", "");
 
-        // Create the artifact
         const artifact = await db.artifact.create({
           data: {
             name: policyName,
-            content: processedContent,
+            content: processedPolicy,
             organizationId,
             type: ArtifactType.policy,
             published: false,
@@ -55,10 +87,8 @@ export const createDefaultPoliciesTask = schemaTask({
           },
         });
 
-        // If the policy has controls specified in its metadata, create the relationships
-        const controls = policyData.metadata?.controls;
+        const controls = processedPolicy.metadata?.controls;
         if (controls && Array.isArray(controls)) {
-          // Get all the controls mentioned in the policy
           const dbControls = await db.control.findMany({
             where: {
               code: {
@@ -67,9 +97,7 @@ export const createDefaultPoliciesTask = schemaTask({
             },
           });
 
-          // For each control, get or create the organization control and link it to the artifact
           for (const control of dbControls) {
-            // Get or create the organization control
             const orgControl = await db.organizationControl.upsert({
               where: {
                 id: `${organizationId}-${control.id}`,
@@ -82,7 +110,6 @@ export const createDefaultPoliciesTask = schemaTask({
               update: {},
             });
 
-            // Create the control-artifact relationship
             await db.controlArtifact.create({
               data: {
                 organizationControlId: orgControl.id,

@@ -1,17 +1,32 @@
 {
   "type": "doc",
+  "metadata": {
+    "controls": ["CC6.1", "CC6.2", "CC6.3"]
+  },
   "content": [
     {
       "type": "heading",
-      "attrs": { "level": 1 },
+      "attrs": {
+        "level": 1
+      },
       "content": [
-        { "type": "text", "text": "Access Onboarding and Termination Policy" }
+        {
+          "type": "text",
+          "text": "Access Onboarding and Termination Policy"
+        }
       ]
     },
     {
       "type": "heading",
-      "attrs": { "level": 2 },
-      "content": [{ "type": "text", "text": "Policy Information" }]
+      "attrs": {
+        "level": 2
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Policy Information"
+        }
+      ]
     },
     {
       "type": "table",
@@ -21,23 +36,48 @@
           "content": [
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Organization" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Organization"
+                }
+              ]
             },
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Last Review" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Last Review"
+                }
+              ]
             },
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Review Frequency" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Review Frequency"
+                }
+              ]
             },
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Approved By" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Approved By"
+                }
+              ]
             },
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Classification" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Classification"
+                }
+              ]
             }
           ]
         },
@@ -46,25 +86,48 @@
           "content": [
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "{{organization}}" }]
-            },
-            {
-              "type": "tableCell",
-              "content": [{ "type": "text", "text": "{{date}}" }]
-            },
-            {
-              "type": "tableCell",
-              "content": [{ "type": "text", "text": "Annual" }]
-            },
-            {
-              "type": "tableCell",
               "content": [
-                { "type": "text", "text": "Chief Information Security Officer" }
+                {
+                  "type": "text",
+                  "text": "{{organization}}"
+                }
               ]
             },
             {
               "type": "tableCell",
-              "content": [{ "type": "text", "text": "Confidential" }]
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{{date}}"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Annual"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Chief Information Security Officer"
+                }
+              ]
+            },
+            {
+              "type": "tableCell",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Confidential"
+                }
+              ]
             }
           ]
         }

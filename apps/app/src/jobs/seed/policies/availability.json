@@ -1,5 +1,8 @@
 {
   "type": "doc",
+  "metadata": {
+    "controls": ["CC9.1"]
+  },
   "content": [
     {
       "type": "heading",

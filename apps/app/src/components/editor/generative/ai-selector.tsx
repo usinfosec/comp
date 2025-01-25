@@ -1,7 +1,8 @@
 "use client";
 
+import { Button } from "@bubba/ui/button";
 import { Command, CommandInput } from "@bubba/ui/command";
-
+import { ScrollArea } from "@bubba/ui/scroll-area";
 import { useCompletion } from "ai/react";
 import { ArrowUp } from "lucide-react";
 import { useEditor } from "novel";
@@ -9,12 +10,11 @@ import { addAIHighlight } from "novel";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
 import CrazySpinner from "../ui/icons/crazy-spinner";
 import Magic from "../ui/icons/magic";
-import { ScrollArea } from "../ui/scroll-area";
 import AICompletionCommands from "./ai-completion-command";
 import AISelectorCommands from "./ai-selector-commands";
+
 //TODO: I think it makes more sense to create a custom Tiptap extension for this functionality https://tiptap.dev/docs/editor/ai/introduction
 
 interface AISelectorProps {
@@ -27,7 +27,6 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
   const [inputValue, setInputValue] = useState("");
 
   const { completion, complete, isLoading } = useCompletion({
-    // id: "novel",
     api: "/api/generate",
     onResponse: (response) => {
       if (response.status === 429) {
@@ -70,6 +69,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
               value={inputValue}
               onValueChange={setInputValue}
               autoFocus
+              className="prose prose-sm max-w-none p-2"
               placeholder={
                 hasCompletion
                   ? "Tell AI what to do next"
@@ -89,7 +89,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
                   }).then(() => setInputValue(""));
 
                 const slice = editor?.state.selection.content();
-                const text = editor?.storage.markdown.serializer.serialize(
+                const text = editor?.storage.text.serializer.serialize(
                   slice?.content,
                 );
                 if (!text) return;

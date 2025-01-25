@@ -1,13 +1,17 @@
 "use client";
 
 import type { Artifact } from "@bubba/db";
-import type { JSONContent } from "novel";
+import type { JSONContent } from "@tiptap/react";
 import PolicyEditor from "../editor/advanced-editor";
 
 export function PolicyOverview({ policy }: { policy: Artifact }) {
-  const content = JSON.parse(policy.content || "{}");
+  const content = policy.content as JSONContent;
 
   if (!content) return null;
 
-  return <PolicyEditor content={content} />;
+  return (
+    <div className="h-[calc(100vh-20vh)] flex flex-col overflow-hidden">
+      <PolicyEditor content={content} />
+    </div>
+  );
 }
