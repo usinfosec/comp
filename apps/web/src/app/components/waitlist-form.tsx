@@ -50,14 +50,16 @@ export function WaitlistForm() {
 
   if (isSent) {
     return (
-      <div className="flex flex-col space-y-4">
-        <span>Check your email for a confirmation link to continue.</span>
+      <div className="flex flex-col items-center space-y-4 p-4 bg-muted/50 rounded-lg">
+        <p className="text-lg font-medium text-center">
+          Check your email for a confirmation link to continue.
+        </p>
         <Button
           variant="outline"
-          className="text-sm font-medium text-primary underline"
+          className="text-sm font-medium"
           onClick={() => setSent(false)}
         >
-          Try again
+          Try another email
         </Button>
       </div>
     );
@@ -67,44 +69,47 @@ export function WaitlistForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
+        className="relative flex flex-col sm:flex-row gap-2"
       >
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormControl>
                 <Input
                   {...field}
                   autoFocus
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your work email"
+                  className="h-12 px-4 text-base bg-background border-border/50 focus:border-primary"
+                  autoComplete="email"
                   autoCorrect="off"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="absolute -bottom-6 left-0 text-sm" />
             </FormItem>
           )}
         />
 
-        <div className="flex">
-          <Button
-            type="submit"
-            disabled={waitlistAction.isExecuting || !form.formState.isValid}
-          >
-            {waitlistAction.isExecuting ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Get Started <ArrowRight className="w-4 h-4" />
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                Get Started <ArrowRight className="w-4 h-4" />
-              </span>
-            )}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          size="lg"
+          className="h-12 px-6 text-base font-medium"
+          disabled={waitlistAction.isExecuting || !form.formState.isValid}
+        >
+          {waitlistAction.isExecuting ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Joining...
+            </span>
+          ) : (
+            <span className="flex items-center gap-2">
+              Get Started
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          )}
+        </Button>
       </form>
     </Form>
   );
