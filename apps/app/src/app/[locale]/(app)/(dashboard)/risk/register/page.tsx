@@ -14,7 +14,6 @@ import { getServerColumnHeaders } from "@/components/tables/risk-register/server
 import { type Departments, type RiskStatus, db } from "@bubba/db";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 interface PageProps {
   searchParams: Promise<{

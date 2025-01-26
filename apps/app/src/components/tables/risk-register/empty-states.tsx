@@ -58,7 +58,7 @@ export function NoRisks() {
         <p className="text-sm text-muted-foreground mb-6">
           {t("risk.register.empty.no_risks.description")}
         </p>
-        <Button onClick={() => setOpen("true")} className="hidden sm:flex">
+        <Button onClick={() => setOpen("true")} className="flex">
           <Plus className="h-4 w-4 mr-2" />
           {t("common.actions.create")}
         </Button>
