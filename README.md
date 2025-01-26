@@ -81,10 +81,14 @@ Here is what you need to be able to run Comp AI.
    bun i
    ```
 
-4. Set up your `.env` file
-
-   - Duplicate `.env.example` to `.env`
-   - Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the `.env` file.
+4. Set up your `.env` files
+   - Copy the example environment files to create your local environment files:
+   ```sh
+   cp apps/web/.env.example apps/web/.env
+   cp apps/app/.env.example apps/app/.env
+   ```
+   - Fill in the required environment variables in both `.env` files
+   - Use `openssl rand -base64 32` to generate a key and add it under `AUTH_SECRET` in the `apps/app/.env` file
 
 5. Setup Node
    If your Node version does not meet the project's requirements as instructed by the docs, "nvm" (Node Version Manager) allows using Node at the version required by the project:
