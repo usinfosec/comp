@@ -193,10 +193,11 @@ export function FilterToolbar({ isEmpty, users }: Props) {
         <Button
           onClick={() => setOpen("true")}
           variant="outline"
-          size="icon"
-          className="hidden sm:flex"
+          size="sm"
+          className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
+          <span className="block md:hidden">{t("common.actions.create")}</span>
         </Button>
       </div>
 

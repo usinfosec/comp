@@ -77,52 +77,50 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-      <div className="flex flex-col sm:flex-row gap-2 sm:justify-between flex-1">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={t("policies.filters.search")}
-            className="pl-8"
-            value={search || ""}
-            onChange={(e) => setSearch(e.target.value || null)}
-          />
-        </div>
+      <div className="relative flex-1 sm:max-w-sm">
+        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder={t("policies.filters.search")}
+          className="pl-8"
+          value={search || ""}
+          onChange={(e) => setSearch(e.target.value || null)}
+        />
+      </div>
 
-        <div className="hidden md:flex gap-2">
-          <Select
-            value={status || "all"}
-            onValueChange={(value) => setStatus(value === "all" ? null : value)}
-          >
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder={t("common.table.status")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t("policies.filters.all")}</SelectItem>
-              <SelectItem value="published">
-                {t("common.status.published")}
+      <div className="hidden md:flex gap-2">
+        <Select
+          value={status || "all"}
+          onValueChange={(value) => setStatus(value === "all" ? null : value)}
+        >
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder={t("common.table.status")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("policies.filters.all")}</SelectItem>
+            <SelectItem value="published">
+              {t("common.status.published")}
+            </SelectItem>
+            <SelectItem value="needs_review">
+              {t("common.status.needs_review")}
+            </SelectItem>
+            <SelectItem value="draft">{t("common.status.draft")}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select
+          value={ownerId || ""}
+          onValueChange={(value) => setOwnerId(value || null)}
+        >
+          <SelectTrigger className="w-[200px] min-w-[200px]">
+            <SelectValue placeholder={t("common.filters.owner.label")} />
+          </SelectTrigger>
+          <SelectContent>
+            {users.map((user) => (
+              <SelectItem key={user.id} value={user.id}>
+                {user.name}
               </SelectItem>
-              <SelectItem value="needs_review">
-                {t("common.status.needs_review")}
-              </SelectItem>
-              <SelectItem value="draft">{t("common.status.draft")}</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            value={ownerId || ""}
-            onValueChange={(value) => setOwnerId(value || null)}
-          >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("common.filters.owner.label")} />
-            </SelectTrigger>
-            <SelectContent>
-              {users.map((user) => (
-                <SelectItem key={user.id} value={user.id}>
-                  {user.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {hasFilters && (

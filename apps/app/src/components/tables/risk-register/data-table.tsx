@@ -48,51 +48,43 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <Suspense fallback={<Loading isEmpty={false} />}>
-      <div className="w-full overflow-auto">
-        <Table>
-          <DataTableHeader table={table} />
+    <div className="w-full overflow-auto">
+      <Table>
+        <DataTableHeader table={table} />
 
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        (cell.column.id === "department" ||
-                          cell.column.id === "ownerId" ||
-                          cell.column.id === "assignedTo" ||
-                          cell.column.id === "status") &&
-                          "hidden md:table-cell",
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cn(
+                      (cell.column.id === "department" ||
+                        cell.column.id === "ownerId" ||
+                        cell.column.id === "assignedTo" ||
+                        cell.column.id === "status") &&
+                        "hidden md:table-cell",
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        <DataTablePagination pageCount={pageCount} currentPage={currentPage} />
-      </div>
-    </Suspense>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <DataTablePagination pageCount={pageCount} currentPage={currentPage} />
+    </div>
   );
 }
