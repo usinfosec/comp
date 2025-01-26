@@ -61,9 +61,11 @@ export function DataTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        cell.column.id === "lastUpdated" &&
+                        (cell.column.id === "lastUpdated" ||
+                          cell.column.id === "ownerId" ||
+                          cell.column.id === "assignedTo" ||
+                          cell.column.id === "published") &&
                           "hidden md:table-cell",
-                        cell.column.id === "ownerId" && "hidden md:table-cell",
                       )}
                     >
                       {flexRender(

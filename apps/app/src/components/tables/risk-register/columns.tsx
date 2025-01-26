@@ -30,26 +30,33 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
       accessorKey: "title",
       header: t("risk.register.table.risk"),
       cell: ({ row }) => {
+        const status = row.original.status;
+
         return (
-          <span className="truncate">
-            <Button variant="link" className="p-0" asChild>
+          <div className="flex flex-col gap-1">
+            <Button variant="link" className="p-0 justify-start" asChild>
               <Link href={`/risk/${row.original.id}`}>
-                {row.original.title}
+                <span className="truncate">{row.original.title}</span>
               </Link>
             </Button>
-          </span>
+            <div className="md:hidden">
+              <Status status={status.toLowerCase() as StatusType} />
+            </div>
+          </div>
         );
       },
     },
     {
       id: "status",
       accessorKey: "status",
-      header: t("common.table.status"),
+      header: () => (
+        <span className="hidden md:table-cell">{t("common.table.status")}</span>
+      ),
       cell: ({ row }) => {
         const status = row.original.status;
 
         return (
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <Status status={status.toLowerCase() as StatusType} />
           </div>
         );
@@ -59,7 +66,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
       id: "department",
       accessorKey: "department",
       header: () => (
-        <span className="hidden sm:table-cell">
+        <span className="hidden md:table-cell">
           {t("common.filters.department")}
         </span>
       ),
@@ -67,11 +74,11 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
         const department = row.original.department;
 
         if (!department) {
-          return <span className="hidden sm:table-cell">—</span>;
+          return <span className="hidden md:table-cell">—</span>;
         }
 
         return (
-          <span className="hidden sm:table-cell">
+          <span className="hidden md:table-cell">
             <Badge variant="secondary">
               {department.replace(/_/g, " ").toUpperCase()}
             </Badge>
@@ -83,13 +90,13 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
       id: "ownerId",
       accessorKey: "ownerId",
       header: () => (
-        <span className="hidden sm:table-cell">
+        <span className="hidden md:table-cell">
           {t("common.assignee.label")}
         </span>
       ),
       cell: ({ row }) => {
         return (
-          <div className="hidden sm:table-cell">
+          <div className="hidden md:table-cell">
             <AssignedUser
               fullName={row.original.owner?.name}
               avatarUrl={row.original.owner?.image}

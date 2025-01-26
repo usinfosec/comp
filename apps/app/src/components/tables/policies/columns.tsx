@@ -33,8 +33,10 @@ export function columns(): ColumnDef<PolicyType>[] {
       accessorKey: "name",
       header: t("policies.table.name"),
       cell: ({ row }) => {
+        const status = row.original.published ? "published" : "draft";
+
         return (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <Button variant="link" className="p-0 justify-start" asChild>
               <Link href={`/policies/${row.original.id}`}>
                 <span className="font-medium overflow-hidden text-ellipsis whitespace-nowrap">
@@ -42,6 +44,9 @@ export function columns(): ColumnDef<PolicyType>[] {
                 </span>
               </Link>
             </Button>
+            <div className="md:hidden">
+              <PolicyStatus status={status.toLowerCase() as StatusType} />
+            </div>
           </div>
         );
       },
@@ -49,12 +54,14 @@ export function columns(): ColumnDef<PolicyType>[] {
     {
       id: "published",
       accessorKey: "published",
-      header: t("common.table.status"),
+      header: () => (
+        <span className="hidden md:table-cell">{t("common.table.status")}</span>
+      ),
       cell: ({ row }) => {
         const status = row.original.published ? "published" : "draft";
 
         return (
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <PolicyStatus status={status.toLowerCase() as StatusType} />
           </div>
         );
@@ -64,13 +71,13 @@ export function columns(): ColumnDef<PolicyType>[] {
       id: "ownerId",
       accessorKey: "ownerId",
       header: () => (
-        <span className="hidden sm:table-cell">
+        <span className="hidden md:table-cell">
           {t("common.table.assigned_to")}
         </span>
       ),
       cell: ({ row }) => {
         return (
-          <div className="hidden sm:table-cell">
+          <div className="hidden md:table-cell">
             <AssignedUser
               fullName={row.original.owner?.name}
               avatarUrl={row.original.owner?.image}
