@@ -87,7 +87,7 @@ export function WaitlistForm() {
                   autoCorrect="off"
                 />
               </FormControl>
-              <FormMessage className="absolute -bottom-6 left-0 text-sm" />
+              <FormMessage className="text-sm" />
             </FormItem>
           )}
         />
