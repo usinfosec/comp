@@ -3,18 +3,12 @@
 "use server";
 
 import { type ArtifactType, db } from "@bubba/db";
-import {
-  soc2Categories,
-  soc2Controls,
-  soc2RequiredArtifacts,
-} from "../lib/soc2-controls";
+import { soc2Categories, soc2Controls } from "../lib/soc2-controls";
 
 export const soc2Seed = async ({
   organizationId,
-  userId,
 }: {
   organizationId: string;
-  userId: string;
 }) => {
   const soc2Framework = await db.framework.findFirst({
     where: {
@@ -65,6 +59,28 @@ export const soc2Seed = async ({
         },
       });
     }
+
+    const controls = await db.control.findMany({
+      where: {
+        category: {
+          frameworkId: framework.id,
+        },
+      },
+    });
+
+    await db.organizationControl.createMany({
+      data: controls.map((control) => ({
+        organizationId,
+        controlId: control.id,
+      })),
+    });
+
+    await db.organizationFramework.create({
+      data: {
+        organizationId,
+        frameworkId: framework.id,
+      },
+    });
   }
 
   const framework = await db.framework.findUnique({

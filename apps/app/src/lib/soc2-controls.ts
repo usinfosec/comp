@@ -334,6 +334,14 @@ export const soc2Controls = [
     categoryId: "CC9",
     requiredArtifactTypes: ["policy", "procedure", "evidence"],
   },
+  {
+    code: "CC9.9",
+    name: "Business Continuity and Disaster Recovery Testing",
+    description:
+      "The organization tests business continuity and disaster recovery plans, evaluates the test results, and updates the plans accordingly.",
+    categoryId: "CC9",
+    requiredArtifactTypes: ["policy", "procedure", "evidence"],
+  },
 ];
 
 export const soc2RequiredArtifacts = [];

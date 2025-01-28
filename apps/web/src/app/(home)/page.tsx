@@ -1,12 +1,8 @@
 import { WaitlistForm } from "@/app/components/waitlist-form";
-import { Button } from "@bubba/ui/button";
-import { Card } from "@bubba/ui/card";
-import { Clock, DollarSign, Shield } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
-import { Logo } from "./components/logo";
+import { Logo } from "../components/logo";
 
 export const metadata: Metadata = {
   title: "Comp AI - SOC 2, ISO 27001 and GDPR compliance",

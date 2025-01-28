@@ -220,6 +220,9 @@ export default {
     dashboard: {
       title: "Dashboard",
       all: "All Policies",
+      policy_status: "Policy Status",
+      policies_by_assignee: "Policies by Assignee",
+      policies_by_framework: "Policies by Framework",
     },
     table: {
       name: "Policy Name",
@@ -238,6 +241,12 @@ export default {
       search: "Search policies...",
       all: "All Policies",
     },
+    status: {
+      draft: "Draft",
+      published: "Published",
+      needs_review: "Needs Review",
+    },
+    policies: "policies",
   },
   risk: {
     risks: "risks",

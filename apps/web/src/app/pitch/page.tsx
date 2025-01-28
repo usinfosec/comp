@@ -1,5 +1,5 @@
+import { PitchCarousel } from "@/app/components/pitch/pitch-carousel";
 import type { Metadata } from "next";
-import { PitchCarousel } from "../components/pitch/pitch-carousel";
 
 export const metadata: Metadata = {
   title: "Pitch | Comp AI",

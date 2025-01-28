@@ -5,7 +5,7 @@
 import { createOrganizationAndConnectUser } from "@/auth/org";
 import type { createDefaultPoliciesTask } from "@/jobs/tasks/organization/create-default-policies";
 import { db } from "@bubba/db";
-import { tasks } from "@trigger.dev/sdk/v3";
+import { tasks, wait } from "@trigger.dev/sdk/v3";
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
@@ -79,10 +79,9 @@ export const createOrganizationAction = authActionClient
 
       await soc2Seed({
         organizationId: organization.id,
-        userId,
       });
 
-      const handle = await tasks.trigger<typeof createDefaultPoliciesTask>(
+      await tasks.trigger<typeof createDefaultPoliciesTask>(
         "create-default-policies",
         {
           ownerId: userId,
