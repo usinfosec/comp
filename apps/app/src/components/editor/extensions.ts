@@ -157,6 +157,8 @@ const table = Table.configure({
   HTMLAttributes: {
     class: "border-collapse table-auto w-full",
   },
+  resizable: true,
+  allowTableNodeSelection: true,
 });
 
 const tableRow = TableRow.configure({
@@ -177,7 +179,12 @@ const tableHeader = TableHeader.configure({
   },
 });
 
+// Modify tableExtensions to use the base extensions
+const tableExtensions = [table, tableRow, tableCell, tableHeader];
+
+// Update defaultExtensions to include table extensions first
 export const defaultExtensions = [
+  ...tableExtensions,
   starterKit,
   placeholder,
   tiptapLink,
@@ -198,8 +205,4 @@ export const defaultExtensions = [
   Color,
   CustomKeymap,
   GlobalDragHandle,
-  table,
-  tableRow,
-  tableCell,
-  tableHeader,
 ];

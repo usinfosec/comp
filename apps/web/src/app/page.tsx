@@ -43,10 +43,10 @@ export default function Home() {
           <div className="mt-12 w-full max-w-[800px]">
             <div className="mt-8 text-center">
               <Link
-                href="/pitch"
+                href="https://discord.gg/3JgpACjae6"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
               >
-                See our pitch deck
+                Join us on Discord
                 <span>→</span>
               </Link>
             </div>

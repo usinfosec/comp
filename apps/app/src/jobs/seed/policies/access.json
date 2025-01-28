@@ -38,8 +38,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Organization"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Organization"
+                    }
+                  ]
                 }
               ]
             },
@@ -47,8 +52,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Last Review"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Last Review"
+                    }
+                  ]
                 }
               ]
             },
@@ -56,8 +66,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Review Frequency"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Review Frequency"
+                    }
+                  ]
                 }
               ]
             },
@@ -65,8 +80,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Approved By"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Approved By"
+                    }
+                  ]
                 }
               ]
             },
@@ -74,8 +94,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Classification"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Classification"
+                    }
+                  ]
                 }
               ]
             }
@@ -88,8 +113,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "{{organization}}"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "{{organization}}"
+                    }
+                  ]
                 }
               ]
             },
@@ -97,8 +127,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "{{date}}"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "{{date}}"
+                    }
+                  ]
                 }
               ]
             },
@@ -106,8 +141,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Annual"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Annual"
+                    }
+                  ]
                 }
               ]
             },
@@ -115,8 +155,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Chief Information Security Officer"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Chief Information Security Officer"
+                    }
+                  ]
                 }
               ]
             },
@@ -124,8 +169,13 @@
               "type": "tableCell",
               "content": [
                 {
-                  "type": "text",
-                  "text": "Confidential"
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Confidential"
+                    }
+                  ]
                 }
               ]
             }
