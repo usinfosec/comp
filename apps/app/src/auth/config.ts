@@ -11,6 +11,8 @@ declare module "next-auth" {
   interface User {
     organizationId?: string;
     onboarded?: boolean;
+    full_name?: string;
+    avatar_url?: string;
   }
 
   interface Session extends DefaultSession {
@@ -18,6 +20,8 @@ declare module "next-auth" {
       id: string;
       organizationId?: string;
       onboarded?: boolean;
+      full_name?: string;
+      avatar_url?: string;
     } & DefaultSession["user"];
   }
 }

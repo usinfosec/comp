@@ -1,11 +1,19 @@
 import { create } from "zustand";
 
-interface AssistantStore {
+interface AssistantState {
   isOpen: boolean;
-  setOpen: (open: boolean) => void;
+  message?: string;
+  setOpen: (value: boolean | string | undefined) => void;
+  setClose: () => void;
 }
 
-export const useAssistantStore = create<AssistantStore>()((set) => ({
+export const useAssistantStore = create<AssistantState>()((set) => ({
   isOpen: false,
-  setOpen: (open) => set((state) => ({ isOpen: open })),
+  message: undefined,
+  setOpen: (value) =>
+    set({
+      isOpen: typeof value === "boolean" ? value : true,
+      message: typeof value === "string" ? value : undefined,
+    }),
+  setClose: () => set({ isOpen: false, message: undefined }),
 }));

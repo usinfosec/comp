@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Comp AI - SOC 2, ISO 27001 and GDPR compliance",
   description:
     "The first open-source compliance automation platform that cuts your security certification time by 50%",
+  alternates: {
+    canonical: "https://trycomp.ai",
+  },
 };
 
 export default function Home() {

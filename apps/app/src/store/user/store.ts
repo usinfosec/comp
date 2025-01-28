@@ -1,15 +1,14 @@
+import type { User as NextAuthUser } from "next-auth";
 import { createContext } from "react";
 import { createStore } from "zustand";
 
 type User = {
   id: string;
-  organization_id: string;
-  name: string;
-  image: string;
-  locale: string;
-  date_format: string;
-  timezone: string;
-};
+  organizationId?: string;
+  onboarded?: boolean;
+  full_name?: string;
+  avatar_url?: string;
+} & NextAuthUser;
 
 export interface UserProps {
   data: User | null;

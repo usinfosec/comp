@@ -4,7 +4,7 @@ type Props = {
   className?: string;
 };
 
-export function Experimental({ className }: Props) {
+export function Beta({ className }: Props) {
   return (
     <span
       className={cn(
@@ -12,7 +12,7 @@ export function Experimental({ className }: Props) {
         className,
       )}
     >
-      Experimental
+      Beta
     </span>
   );
 }

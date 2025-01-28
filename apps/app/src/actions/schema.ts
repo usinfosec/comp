@@ -254,3 +254,7 @@ export const updatePolicySchema = z.object({
   id: z.string(),
   content: z.any(),
 });
+
+export const assistantSettingsSchema = z.object({
+  enabled: z.boolean().optional(),
+});

@@ -1,6 +1,8 @@
 import "./src/env.mjs";
 
 const config = {
+  poweredByHeader: false,
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -8,6 +10,12 @@ const config = {
         hostname: "**",
       },
     ],
+  },
+  transpilePackages: ["@bubba/ui"],
+  logging: {
+    fetches: {
+      fullUrl: process.env.LOG_FETCHES === "true",
+    },
   },
 };
 

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
-
+import { SessionProvider } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 

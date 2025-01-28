@@ -1,11 +1,13 @@
 "use client";
 
+import { useAssistantStore } from "@/store/assistant";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function HotKeys() {
   const router = useRouter();
+  const { setOpen } = useAssistantStore();
 
   const handleSignOut = async () => {
     await signOut();
@@ -50,6 +52,11 @@ export function HotKeys() {
   useHotkeys("shift+meta+q", (evt) => {
     evt.preventDefault();
     handleSignOut();
+  });
+
+  useHotkeys("meta+k", (evt) => {
+    evt.preventDefault();
+    setOpen(true);
   });
 
   return null;

@@ -87,13 +87,12 @@ export const authActionClient = actionClientWithMeta
       throw new Error("Organization not found");
     }
 
-    const data = {
+    const auditData = {
       userId: session.user.id,
       email: session.user.email,
       name: session.user.name,
       organizationId: session.user.organizationId,
       action: metadata.name,
-      input: clientInput,
       ipAddress: headersList.get("x-forwarded-for") || null,
       userAgent: headersList.get("user-agent") || null,
     };
@@ -101,7 +100,7 @@ export const authActionClient = actionClientWithMeta
     try {
       await db.auditLog.create({
         data: {
-          data: JSON.stringify(data),
+          data: auditData,
           userId: session.user.id,
           organizationId: session.user.organizationId,
         },
