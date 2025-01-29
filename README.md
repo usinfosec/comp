@@ -63,7 +63,7 @@ Here is what you need to be able to run Comp AI.
 
 ### Setup
 
-1. Clone the repo into a public GitHub repository (or fork https://github.com/trycompai/comp/fork). If you plan to distribute the code, keep the source code public to comply with [AGPLv3](https://github.com/trycompai/comp/blob/main/LICENSE). To clone in a private repository, [acquire a commercial license](https://trycomp.ai)
+1. Clone the repo into a public GitHub repository (or fork https://github.com/trycompai/comp/fork). If you modify and distribute the code, or run it as a network service, you must provide the source code to users under the terms of AGPLv3. For uses not covered by AGPLv3, a commercial license is available.
 
    ```sh
    git clone https://github.com/trycompai/comp.git
