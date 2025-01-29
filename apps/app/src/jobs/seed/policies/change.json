@@ -322,12 +322,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Planning: "
+                          "text": " Planning"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -345,12 +344,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Evaluation: "
+                          "text": " Evaluation"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -368,12 +366,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Review: "
+                          "text": " Review"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -391,12 +388,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Approval: "
+                          "text": " Approval"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -414,12 +410,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Communication: "
+                          "text": " Communication"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -437,12 +432,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Implementation: "
+                          "text": " Implementation"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -460,12 +454,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Documentation: "
+                          "text": " Documentation"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",
@@ -483,12 +476,11 @@
                       "content": [
                         {
                           "type": "text",
-                          "marks": [
-                            {
-                              "type": "italic"
-                            }
-                          ],
-                          "text": "Post-change review: "
+                          "text": " Post-change review"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
                         },
                         {
                           "type": "text",

@@ -556,6 +556,14 @@
                       "content": [
                         {
                           "type": "text",
+                          "text": " Value"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
+                        },
+                        {
+                          "type": "text",
                           "text": "The value of the information, based on impacts identified during the risk assessment process."
                         }
                       ]
@@ -570,6 +578,14 @@
                       "content": [
                         {
                           "type": "text",
+                          "text": " Sensitivity"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
+                        },
+                        {
+                          "type": "text",
                           "text": "Sensitivity and criticality of the information, based on the highest risk calculated for each information item during the risk assessment."
                         }
                       ]
@@ -582,6 +598,14 @@
                     {
                       "type": "paragraph",
                       "content": [
+                        {
+                          "type": "text",
+                          "text": " Legal obligations"
+                        },
+                        {
+                          "type": "text",
+                          "text": ": "
+                        },
                         {
                           "type": "text",
                           "text": "Legal, regulatory and contractual obligations."

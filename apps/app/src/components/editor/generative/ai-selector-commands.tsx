@@ -57,7 +57,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
             key={option.value}
             value={option.value}
           >
-            <option.icon className="h-4 w-4 text-purple-500" />
+            <option.icon className="h-4 w-4 text-muted-foreground" />
             {option.label}
           </CommandItem>
         ))}
@@ -87,7 +87,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
           value="continue"
           className="gap-2"
         >
-          <StepForward className="h-4 w-4 text-purple-500" />
+          <StepForward className="h-4 w-4 text-muted-foreground" />
           Continue writing
         </CommandItem>
       </CommandGroup>

@@ -79,6 +79,95 @@
     --novel-highlight-pink: #5c1a3a;
     --novel-highlight-gray: #3a3a3a;
   }
+
+  .ProseMirror ol {
+    @apply my-4 ml-6;
+  }
+
+  .ProseMirror ol li {
+    @apply mb-2;
+  }
+
+  .ProseMirror ol li p {
+    @apply my-0.5;
+  }
+
+  /* Nested list styling */
+  .ProseMirror ol ol {
+    @apply mt-2 ml-6;
+    list-style-type: none;
+  }
+
+  .ProseMirror ol li {
+    @apply mb-2;
+    position: relative;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .ProseMirror ol li::before {
+    content: "5." counter(list-item) ".";
+    position: absolute;
+    left: -2rem;
+    text-align: right;
+    @apply text-muted-foreground;
+  }
+
+  /* Style for the label (Planning:, Evaluation:, etc) */
+  .ProseMirror ol li i {
+    @apply text-muted-foreground font-medium mr-2;
+    min-width: 100px;
+  }
+
+  .ProseMirror ol li p i {
+    @apply mr-2 inline-block; /* More space after italic labels */
+  }
+
+  /* Improve spacing for nested list items */
+  .ProseMirror ol ol li {
+    @apply mb-2; /* Keep consistent spacing */
+    @apply pl-2; /* Add padding after the number */
+  }
+
+  .ProseMirror ol ol li p {
+    @apply flex items-baseline gap-2; /* Add gap between number and content */
+  }
+
+  .ProseMirror ol ol li p i {
+    @apply min-w-[100px] font-medium text-muted-foreground whitespace-nowrap;
+  }
+
+  /* Fix nested list numbering spacing */
+  .ProseMirror ol ol {
+    counter-reset: item;
+    list-style-type: none;
+  }
+
+  .ProseMirror ol ol li {
+    counter-increment: item;
+    position: relative;
+  }
+
+  .ProseMirror ol ol li::before {
+    content: counter(parent-counter) "." counter(item) ".";
+    position: absolute;
+    left: -2.5rem;
+    width: 2rem;
+    text-align: right;
+    @apply text-muted-foreground;
+    margin-right: 0.5rem; /* Add space after the number */
+  }
+
+  /* Add space between number and italic label */
+  .ProseMirror ol ol li p {
+    padding-left: 0.5rem; /* Add space between number and content */
+  }
+
+  /* Ensure proper spacing in the flex layout */
+  .ProseMirror ol ol li p i {
+    @apply min-w-[100px] font-medium text-muted-foreground whitespace-nowrap mr-2;
+    padding-left: 0.25rem; /* Add space after the number */
+  }
 }
 
 @layer base {
@@ -383,6 +472,10 @@ pre {
   @apply text-base font-semibold mb-3 text-foreground;
 }
 
+.ProseMirror h4 {
+  @apply text-sm font-semibold mb-2 text-foreground;
+}
+
 .ProseMirror p {
   @apply text-sm leading-6 mb-4 text-foreground;
 }
@@ -437,7 +530,8 @@ pre {
 .ProseMirror div[data-type="heading"] + p,
 .ProseMirror h1 + p,
 .ProseMirror h2 + p,
-.ProseMirror h3 + p {
+.ProseMirror h3 + p,
+.ProseMirror h4 + p {
   @apply mt-2;
 }
 

@@ -87,12 +87,12 @@ const starterKit = StarterKit.configure({
   },
   orderedList: {
     HTMLAttributes: {
-      class: cx("list-decimal list-outside leading-3 -mt-2"),
+      class: cx("list-decimal list-outside leading-7 -mt-2"),
     },
   },
   listItem: {
     HTMLAttributes: {
-      class: cx("leading-normal -mb-2"),
+      class: cx("leading-normal mb-1"),
     },
   },
   blockquote: {
@@ -119,6 +119,16 @@ const starterKit = StarterKit.configure({
     width: 4,
   },
   gapcursor: false,
+  heading: {
+    HTMLAttributes: {
+      class: cx("text-balance"),
+    },
+  },
+  paragraph: {
+    HTMLAttributes: {
+      class: cx("text-pretty"),
+    },
+  },
 });
 
 const codeBlockLowlight = CodeBlockLowlight.configure({

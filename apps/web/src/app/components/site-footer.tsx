@@ -8,7 +8,8 @@ export function SiteFooter() {
           <div className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
             &copy; {new Date().getFullYear()} &bull; Comp AI &bull;{" "}
             <Link href="/pitch">Pitch Deck</Link> &bull;{" "}
-            <Link href="https://github.com/trycompai/comp">Contribute</Link>
+            <Link href="https://github.com/trycompai/comp">Contribute</Link>{" "}
+            &bull; 2261 Market Street, San Francisco, CA 94114
           </div>
         </div>
       </div>
