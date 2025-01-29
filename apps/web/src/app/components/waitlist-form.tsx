@@ -14,6 +14,7 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,7 +26,7 @@ export function WaitlistForm() {
   const waitlistAction = useAction(joinWaitlist, {
     onSuccess: () => {
       setSent(true);
-      toast.success("Please check your email for a confirmation link.");
+      toast.success("Thanks, you're on the list!");
       form.reset();
     },
     onError: () => {
@@ -50,17 +51,17 @@ export function WaitlistForm() {
 
   if (isSent) {
     return (
-      <div className="flex flex-col items-center space-y-4 p-4 bg-muted/50 rounded-lg">
+      <div className="flex flex-col items-center space-y-4 p-4 rounded-lg">
         <p className="text-lg font-medium text-center">
-          Check your email for a confirmation link to continue.
+          Thanks, you're on the list!
         </p>
-        <Button
-          variant="outline"
-          className="text-sm font-medium"
-          onClick={() => setSent(false)}
+        <Link
+          href="https://discord.gg/3JgpACjae6"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
         >
-          Try another email
-        </Button>
+          Join Community
+          <span>→</span>
+        </Link>
       </div>
     );
   }

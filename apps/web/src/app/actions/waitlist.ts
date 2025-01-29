@@ -1,13 +1,8 @@
 "use server";
 
-import { sendWaitlistEmail } from "@bubba/email/lib/waitlist";
+import { resend } from "@bubba/email/lib/resend";
 import { createSafeActionClient } from "next-safe-action";
-import { Resend } from "resend";
 import { waitlistSchema } from "./schema";
-
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
 
 export const joinWaitlist = createSafeActionClient()
   .schema(waitlistSchema)
@@ -26,7 +21,13 @@ export const joinWaitlist = createSafeActionClient()
     );
 
     if (!isInAudience) {
-      await sendWaitlistEmail({ email: parsedInput.email });
+      await resend.contacts.create({
+        email: parsedInput.email,
+        firstName:
+          parsedInput.email.charAt(0).toUpperCase() +
+          parsedInput.email.split("@")[0].slice(1),
+        audienceId: process.env.RESEND_AUDIENCE_ID as string,
+      });
     } else {
       throw new Error("Email already in audience");
     }
