@@ -2,7 +2,7 @@
 
 import { shuffle } from "@bubba/utils";
 import { motion } from "framer-motion";
-import { useMemo, useRef } from "react";
+import { type MutableRefObject, useMemo, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import { chatExamples } from "./examples";
 
@@ -23,10 +23,14 @@ const itemVariant = {
   show: { y: 0, opacity: 1 },
 };
 
-export function ChatExamples({ onSubmit }) {
+export function ChatExamples({
+  onSubmit,
+}: {
+  onSubmit: (example: string) => void;
+}) {
   const items = useMemo(() => shuffle(chatExamples), []);
-  const ref = useRef();
-  const { events } = useDraggable(ref);
+  const ref = useRef<HTMLDivElement>(null);
+  const { events } = useDraggable(ref as MutableRefObject<HTMLElement>);
 
   const totalLength = chatExamples.reduce((accumulator, currentString) => {
     return accumulator + currentString.length * 8.2 + 20;

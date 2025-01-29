@@ -60,7 +60,14 @@ const items: SelectorItem[] = [
     name: "To-do List",
     icon: CheckSquare,
     command: (editor) =>
-      editor?.chain().focus().clearNodes().toggleTaskList().run(),
+      //@ts-ignore
+      editor
+        ?.chain()
+        .focus()
+        .clearNodes()
+        //@ts-ignore
+        .toggleTaskList()
+        .run(),
     isActive: (editor) => editor?.isActive("taskItem") ?? false,
   },
   {

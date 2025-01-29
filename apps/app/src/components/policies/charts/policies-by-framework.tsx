@@ -26,7 +26,7 @@ export function PoliciesByFramework({ data }: PoliciesByFrameworkProps) {
     "SOC 2": { label: "SOC 2" },
     "ISO 27001": { label: "ISO 27001" },
     GDPR: { label: "GDPR" },
-    default: { label: (name: string) => name },
+    default: { label: "Other" },
   } satisfies ChartConfig;
 
   if (!data?.length) {
