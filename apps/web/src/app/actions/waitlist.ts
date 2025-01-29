@@ -1,6 +1,7 @@
 "use server";
 
 import { resend } from "@bubba/email/lib/resend";
+import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
 import { waitlistSchema } from "./schema";
 
@@ -28,6 +29,14 @@ export const joinWaitlist = createSafeActionClient()
           parsedInput.email.split("@")[0].slice(1),
         audienceId: process.env.RESEND_AUDIENCE_ID as string,
       });
+
+      if (process.env.DISCORD_WEBHOOK_URL) {
+        await ky.post(process.env.DISCORD_WEBHOOK_URL as string, {
+          json: {
+            content: `New waitlist signup: ${parsedInput.email}`,
+          },
+        });
+      }
     } else {
       throw new Error("Email already in audience");
     }
