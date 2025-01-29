@@ -81,7 +81,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
             />
             <Button
               size="icon"
-              className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-purple-500 hover:bg-purple-900"
+              className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full"
               onClick={() => {
                 if (completion)
                   return complete(completion, {
@@ -104,7 +104,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
           {hasCompletion ? (
             <AICompletionCommands
               onDiscard={() => {
-                if (editor) editor.chain().unsetHighlight().focus().run();
+                if (editor) editor.chain().unsetAIHighlight().focus().run();
                 onOpenChange(false);
               }}
               completion={completion}

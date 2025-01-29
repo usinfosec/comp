@@ -20,7 +20,10 @@
     "node": ">=18"
   },
   "packageManager": "bun@1.1.36",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "dependencies": {
     "@manypkg/cli": "^0.23.0",
     "gitmoji": "^1.1.1",

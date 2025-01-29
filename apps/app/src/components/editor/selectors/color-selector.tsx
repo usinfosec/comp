@@ -133,12 +133,12 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
             <EditorBubbleItem
               key={name}
               onSelect={() => {
-                editor.commands.unsetColor();
+                editor.commands.unsetAIHighlight();
                 name !== "Default" &&
                   editor
                     .chain()
                     .focus()
-                    .setColor(color || "")
+                    .setAIHighlight({ color: color || "" })
                     .run();
                 onOpenChange(false);
               }}
@@ -164,9 +164,9 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
             <EditorBubbleItem
               key={name}
               onSelect={() => {
-                editor.commands.unsetHighlight();
+                editor.commands.unsetAIHighlight();
                 name !== "Default" &&
-                  editor.chain().focus().setHighlight({ color }).run();
+                  editor.chain().focus().setAIHighlight({ color }).run();
                 onOpenChange(false);
               }}
               className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm hover:bg-accent"
@@ -180,7 +180,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 </div>
                 <span>{name}</span>
               </div>
-              {editor.isActive("highlight", { color }) && (
+              {editor.isActive("aiHighlight", { color }) && (
                 <Check className="h-4 w-4" />
               )}
             </EditorBubbleItem>

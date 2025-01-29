@@ -34,6 +34,7 @@ export const TextButtons = () => {
       name: "underline",
       isActive: (editor) => editor?.isActive("underline") ?? false,
       command: (editor) => {
+        //@ts-ignore
         if (editor) editor.chain().focus().toggleUnderline().run();
       },
       icon: UnderlineIcon,

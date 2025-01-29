@@ -85,13 +85,13 @@ const PolicyEditor = ({
   }, [initialContent]);
 
   return (
-    <div className="relative h-[calc(100vh-30vh)] w-full">
+    <div className="relative h-full w-full">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-        <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
+        <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
           {saveStatus}
         </div>
         {charsCount && (
-          <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
+          <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
             {charsCount} Words
           </div>
         )}
@@ -100,12 +100,13 @@ const PolicyEditor = ({
         <EditorContent
           immediatelyRender={false}
           initialContent={initialContent}
+          // @ts-ignore
           extensions={extensions}
-          className="prose prose-sm max-w-none border"
+          className="prose prose-sm max-w-none"
           editorProps={{
             attributes: {
               class:
-                "max-h-[calc(100vh-30vh)] w-full focus:outline-none text-foreground overflow-y-auto px-8 py-6",
+                "h-full w-full focus:outline-none text-foreground px-16 py-16 max-w-[900px] mx-auto",
             },
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),

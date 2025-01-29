@@ -33,10 +33,11 @@ export default async function Layout({
   }
 
   return (
-    <div className="max-w-[1200px]">
-      <Title title={policy.name} href="/policies/all" />
-
-      <main className="mt-12">{children}</main>
+    <div className="h-[calc(100vh-4rem)] bg-background">
+      <div className="h-16 px-4 border-b flex items-center">
+        <Title title={policy.name} href="/policies/all" />
+      </div>
+      <main className="h-[calc(100vh-4rem-4rem)]">{children}</main>
     </div>
   );
 }

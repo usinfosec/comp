@@ -18,6 +18,7 @@ const GenerativeMenuSwitch = ({
   const { editor } = useEditor();
 
   useEffect(() => {
+    //@ts-ignore
     if (!open) removeAIHighlight(editor as Editor);
   }, [open]);
   return (
@@ -26,7 +27,7 @@ const GenerativeMenuSwitch = ({
         placement: open ? "bottom" : "top",
         onHidden: () => {
           onOpenChange(false);
-          editor?.chain().unsetHighlight().run();
+          editor?.chain().unsetAIHighlight().run();
         },
       }}
       className="flex w-fit  border border-muted bg-background shadow-xl"

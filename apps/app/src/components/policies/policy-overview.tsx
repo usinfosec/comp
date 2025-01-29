@@ -10,7 +10,7 @@ export function PolicyOverview({ policy }: { policy: Artifact }) {
   if (!content) return null;
 
   return (
-    <div className="h-[calc(100vh-20vh)] flex flex-col overflow-hidden">
+    <div className="h-[calc(100vh-8rem)] flex flex-col">
       <PolicyEditor policyId={policy.id} content={content} />
     </div>
   );
