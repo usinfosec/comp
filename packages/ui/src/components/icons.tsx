@@ -25,6 +25,7 @@ import {
   MdErrorOutline,
   MdExpandLess,
   MdExpandMore,
+  MdFactCheck,
   MdFence,
   MdFolder,
   MdFolderSpecial,
@@ -740,4 +741,5 @@ export const Icons = {
   Straighten: MdOutlineSquareFoot,
   Files: MdOutlineInventory2,
   Vendors: MdOutlineStorefront,
+  Evidence: MdOutlineFactCheck,
 };

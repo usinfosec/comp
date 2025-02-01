@@ -170,6 +170,7 @@ export default {
     vendors: "Vendors",
     integrations: "Integrations",
     settings: "Settings",
+    evidence: "Evidence Tasks",
   },
   auth: {
     title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
@@ -247,6 +248,10 @@ export default {
       needs_review: "Needs Review",
     },
     policies: "policies",
+  },
+  evidence_tasks: {
+    evidence_tasks: "Evidence Tasks",
+    overview: "Overview",
   },
   risk: {
     risks: "risks",

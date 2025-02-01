@@ -173,6 +173,11 @@ export function MainMenu({ initialItems, onSelect }: Props) {
       disabled: false,
     },
     {
+      path: "/evidence-tasks",
+      name: t("sidebar.evidence"),
+      disabled: false,
+    },
+    {
       path: "/risk",
       name: t("sidebar.risk"),
       disabled: false,

@@ -1,5 +1,6 @@
 import { PrismaInstrumentation } from "@prisma/instrumentation";
 import { prismaExtension } from "@trigger.dev/build/extensions/prisma";
+import { puppeteer } from "@trigger.dev/build/extensions/puppeteer";
 import { defineConfig } from "@trigger.dev/sdk/v3";
 
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
       prismaExtension({
         schema: "../../packages/db/prisma/schema.prisma",
       }),
+      puppeteer(),
     ],
   },
   retries: {
