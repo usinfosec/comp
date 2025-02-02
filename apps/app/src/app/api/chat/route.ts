@@ -4,9 +4,9 @@ import {
   takeScreenshot,
 } from "@/lib/operator/actions";
 import { getOrCreateBrowser } from "@/lib/operator/browser";
-import { highlightDomElements } from "@/lib/operator/dom";
 import { sleep } from "@/lib/utils";
 import { anthropic } from "@ai-sdk/anthropic";
+import { openai } from "@ai-sdk/openai";
 import {
   convertToCoreMessages,
   createDataStreamResponse,
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
   const { messages, sessionId } = await req.json();
 
   const model = anthropic("claude-3-5-sonnet-latest");
+  const model2 = openai("gpt-4o-mini");
 
   let stepCount = 0;
 

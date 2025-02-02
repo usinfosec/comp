@@ -23,6 +23,7 @@ import { useLongPress } from "use-long-press";
 const icons = {
   "/": () => <Icons.Overview size={22} />,
   "/settings": () => <Icons.Settings size={22} />,
+  "/evidence-tasks": () => <Icons.Evidence size={22} />,
   "/policies": () => <Icons.Policies size={22} />,
   "/risk": () => <Icons.Risk size={22} />,
   "/vendors": () => <Icons.Vendors size={22} />,

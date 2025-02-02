@@ -12,7 +12,7 @@
     <a href="https://trycomp.ai"><strong>Learn more »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/trycompai/comp/discussions">Discussions</a>
+    <a href="https://discord.gg/compai">Discord</a>
     ·
     <a href="https://trycomp.ai">Website</a>
     ·
