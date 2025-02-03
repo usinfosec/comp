@@ -14,7 +14,11 @@ export default async function Layout({
           items={[
             { path: "/settings", label: t("settings.general.title") },
             { path: "/settings/members", label: t("settings.members.title") },
-            { path: "/settings/billing", label: t("settings.billing.title") },
+            {
+              path: "/settings/billing",
+              label: t("settings.billing.title"),
+              enabled: false,
+            },
           ]}
         />
       </Suspense>

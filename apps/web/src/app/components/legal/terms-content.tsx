@@ -1,6 +1,6 @@
 export function TermsContent() {
   return (
-    <div className="prose prose-gray dark:prose-invert max-w-none">
+    <div className="prose prose-gray dark:prose-invert overflow-y-auto scrollbar-hide">
       <p className="text-lg text-muted-foreground">
         Last updated: February 1, 2025
       </p>
@@ -8,10 +8,10 @@ export function TermsContent() {
       <section className="mt-12">
         <h2 className="text-3xl font-semibold mb-6">1. Agreement to Terms</h2>
         <p className="text-lg text-muted-foreground">
-          By accessing or using Bubba AI, Inc.'s services, you agree to be bound
-          by these Terms of Service and all applicable laws and regulations. If
-          you do not agree with any of these terms, you are prohibited from
-          using or accessing our services.
+          By accessing or using Comp AI's services, you agree to be bound by
+          these Terms of Service and all applicable laws and regulations. If you
+          do not agree with any of these terms, you are prohibited from using or
+          accessing our services.
         </p>
       </section>
 
@@ -22,7 +22,7 @@ export function TermsContent() {
           non-exclusive, non-transferable license to use our services for your
           organization's internal business purposes.
         </p>
-        <h3 className="text-2xl font-medium mb-4">2.1 Restrictions</h3>
+        <h3 className="text-2xl font-medium mb-4 mt-6">2.1 Restrictions</h3>
         <p className="text-lg text-muted-foreground">You may not:</p>
         <ul className="space-y-2 list-disc pl-6 text-lg text-muted-foreground">
           <li>Modify or copy our materials without explicit permission</li>

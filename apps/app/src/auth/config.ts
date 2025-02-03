@@ -62,10 +62,10 @@ export const authConfig: NextAuthConfig = {
         await db.user.update({
           where: {
             id: user.id,
-            organizationId: user.organizationId,
           },
           data: {
             lastLogin: new Date(),
+            organizationId: user.organizationId,
           },
         });
       }

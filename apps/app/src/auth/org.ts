@@ -35,9 +35,10 @@ export async function createOrganizationAndConnectUser(input: {
         name: initialName,
         tier: "free",
         website: "",
-        users: {
-          connect: {
-            id: input.userId,
+        members: {
+          create: {
+            userId: input.userId,
+            role: "admin",
           },
         },
       },
@@ -67,6 +68,11 @@ export async function createOrganizationAndConnectUser(input: {
   await db.organization.update({
     where: { id: organization.id },
     data: { stripeCustomerId },
+  });
+
+  await db.user.update({
+    where: { id: input.userId },
+    data: { organizationId: organization.id },
   });
 
   return organization.id;

@@ -80,6 +80,21 @@
     --novel-highlight-gray: #3a3a3a;
   }
 
+
+@layer components {
+  .border-grid {
+    @apply border-border;
+  }
+
+  .container-wrapper {
+    @apply w-full;
+  }
+
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
   .ProseMirror ol {
     @apply my-4 ml-6;
   }
@@ -600,4 +615,15 @@ pre {
 .ProseMirror {
   scrollbar-width: thin;
   scrollbar-color: var(--muted-foreground) transparent;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
 }
