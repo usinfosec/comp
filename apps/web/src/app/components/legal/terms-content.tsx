@@ -89,10 +89,10 @@ export function TermsContent() {
         <p className="text-lg text-muted-foreground">
           Questions about the Terms of Service should be sent to{" "}
           <a
-            href="mailto:legal@trycomp.ai"
+            href="mailto:hello@trycomp.ai"
             className="text-primary hover:underline"
           >
-            legal@trycomp.ai
+            hello@trycomp.ai
           </a>
         </p>
       </section>

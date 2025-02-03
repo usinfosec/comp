@@ -78,10 +78,10 @@ export function PrivacyContent() {
         <p className="text-lg text-muted-foreground">
           If you have questions about this Privacy Policy, please contact us at{" "}
           <a
-            href="mailto:privacy@trycomp.ai"
+            href="mailto:hello@trycomp.ai"
             className="text-primary hover:underline"
           >
-            privacy@trycomp.ai
+            hello@trycomp.ai
           </a>
         </p>
       </section>
