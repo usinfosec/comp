@@ -1,1 +1,30 @@
-sign_off_by: true
+name: DCO Check
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  dco_check:
+    runs-on: ubuntu-latest
+    name: DCO Check
+    steps:
+      - name: Get PR Commits
+        id: 'get-pr-commits'
+        uses: tim-actions/get-pr-commits@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: DCO Check
+        uses: tim-actions/dco@master
+        with:
+          commits: ${{ steps.get-pr-commits.outputs.commits }}
+
+      - name: DCO Check Failed
+        if: ${{ failure() }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('One or more commits are not signed off with DCO. See https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md for instructions.')
