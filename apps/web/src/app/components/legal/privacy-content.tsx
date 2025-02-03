@@ -1,6 +1,6 @@
 export function PrivacyContent() {
   return (
-    <div className="prose prose-gray dark:prose-invert max-w-none">
+    <div className="prose prose-gray dark:prose-invert overflow-y-auto scrollbar-hide">
       <p className="text-lg text-muted-foreground">
         Last updated: February 1, 2025
       </p>

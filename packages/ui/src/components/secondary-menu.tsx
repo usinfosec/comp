@@ -1,11 +1,22 @@
 "use client";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@bubba/ui/tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "../utils";
 
 interface SecondaryMenuProps {
-  items: { path: string; label: string; query?: Record<string, string> }[];
+  items: {
+    enabled?: boolean;
+    path: string;
+    label: string;
+    query?: Record<string, string>;
+  }[];
   isChild?: boolean;
 }
 
@@ -36,22 +47,46 @@ export function SecondaryMenu({ items, isChild }: SecondaryMenuProps) {
           isChild ? "space-x-3" : "space-x-6",
         )}
       >
-        {items.map((item) => (
-          <Link
-            prefetch
-            key={item.path}
-            href={{
-              pathname: item.path,
-            }}
-            className={cn(
-              "text-muted-foreground",
-              isActiveLink(item.path) &&
-                "font-medium text-primary underline underline-offset-8",
-            )}
-          >
-            <span>{item.label}</span>
-          </Link>
-        ))}
+        {items.map((item) => {
+          const isDisabled = item.enabled === false;
+
+          const itemContent = (
+            <span
+              className={cn(
+                "text-muted-foreground",
+                isActiveLink(item.path) &&
+                  "font-medium text-primary underline underline-offset-8",
+                isDisabled && "opacity-50 cursor-pointer",
+              )}
+            >
+              {item.label}
+            </span>
+          );
+
+          return (
+            <li key={item.path}>
+              {isDisabled ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>{itemContent}</TooltipTrigger>
+                    <TooltipContent>
+                      <p>Coming soon</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Link
+                  prefetch
+                  href={{
+                    pathname: item.path,
+                  }}
+                >
+                  {itemContent}
+                </Link>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

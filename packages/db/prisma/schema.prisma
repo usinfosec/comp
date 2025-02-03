@@ -76,25 +76,27 @@ model User {
   lastLogin     DateTime?
 
   organizationId String?
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization? @relation("CurrentOrganization", fields: [organizationId], references: [id], onDelete: SetNull)
 
-  accounts             Account[]
-  sessions             Session[]
-  Risk                 Risk[]
-  RiskMitigationTask   RiskMitigationTask[]
-  RiskComment          RiskComment[]
-  AuditLog             AuditLog[]
-  TaskAttachment       TaskAttachment[]
-  TaskComments         TaskComments[]
-  Artifact             Artifact[]
-  VendorComment        VendorComment[]
-  VendorMitigationTask VendorMitigationTask[]
-  VendorTaskComments   VendorTaskComments[]
-  VendorTaskAttachment VendorTaskAttachment[]
-  Vendors              Vendors[]
-  VendorRiskAssessment VendorRiskAssessment[]
-  RiskAttachment       RiskAttachment[]
+  accounts                Account[]
+  sessions                Session[]
+  Risk                    Risk[]
+  RiskMitigationTask      RiskMitigationTask[]
+  RiskComment             RiskComment[]
+  AuditLog                AuditLog[]
+  TaskAttachment          TaskAttachment[]
+  TaskComments            TaskComments[]
+  Artifact                Artifact[]
+  VendorComment           VendorComment[]
+  VendorMitigationTask    VendorMitigationTask[]
+  VendorTaskComments      VendorTaskComments[]
+  VendorTaskAttachment    VendorTaskAttachment[]
+  Vendors                 Vendors[]
+  VendorRiskAssessment    VendorRiskAssessment[]
+  RiskAttachment          RiskAttachment[]
+  organizationMemberships OrganizationMember[]
 
+  @@index([email])
   @@index([organizationId])
 }
 
@@ -106,7 +108,8 @@ model Organization {
   tier             Tier    @default(free)
   policiesCreated  Boolean @default(false)
 
-  users              User[]
+  users User[] @relation("CurrentOrganization")
+
   Risk               Risk[]
   AuditLog           AuditLog[]
   RiskMitigationTask RiskMitigationTask[]
@@ -128,6 +131,7 @@ model Organization {
   VendorRiskAssessment     VendorRiskAssessment[]
   VendorContact            VendorContact[]
   RiskAttachment           RiskAttachment[]
+  members                  OrganizationMember[]
 
   @@index([stripeCustomerId])
 }
@@ -688,4 +692,31 @@ model RiskAttachment {
 
   @@index([riskId])
   @@index([organizationId])
+}
+
+enum MembershipRole {
+  owner
+  admin
+  member
+  viewer
+}
+
+model OrganizationMember {
+  id           String         @id @default(cuid())
+  role         MembershipRole @default(member)
+  invitedEmail String?
+  accepted     Boolean        @default(false)
+  department   Departments    @default(none)
+  joinedAt     DateTime       @default(now())
+  lastActive   DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+  @@index([userId])
 }

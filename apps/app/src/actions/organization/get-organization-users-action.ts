@@ -26,26 +26,32 @@ export const getOrganizationUsersAction = authActionClient
       }
 
       try {
-        const users = await db.user.findMany({
+        const users = await db.organizationMember.findMany({
           where: {
             organizationId: ctx.user.organizationId,
           },
           select: {
-            id: true,
-            name: true,
-            image: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
           },
           orderBy: {
-            name: "asc",
+            user: {
+              name: "asc",
+            },
           },
         });
 
         return {
           success: true,
-          data: users.map((user: User) => ({
-            id: user.id,
-            name: user.name || "",
-            image: user.image || "",
+          data: users.map((user) => ({
+            id: user.user.id,
+            name: user.user.name || "",
+            image: user.user.image || "",
           })),
         };
       } catch (error) {
