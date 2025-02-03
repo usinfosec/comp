@@ -17,7 +17,7 @@ export function SiteFooter() {
             </Link>
             . The source code is available on{" "}
             <Link
-              href="https://github.com/trycomp/comp"
+              href="https://github.com/trycompai/comp"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
