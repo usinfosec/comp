@@ -2,7 +2,7 @@ export default {
   language: {
     title: "Languages",
     description: "Change the language used in the user interface.",
-    placeholder: "Select a language",
+    placeholder: "Select language",
   },
   languages: {
     en: "English",
