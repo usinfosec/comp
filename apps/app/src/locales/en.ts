@@ -6,7 +6,7 @@ export default {
   },
   languages: {
     en: "English",
-    no: "Norsk",
+    es: "Spanish",
   },
   common: {
     actions: {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useChangeLocale, useCurrentLocale } from "@/locales/client";
-import { useI18n } from "@/locales/client";
+import { useChangeLocale, useCurrentLocale, useI18n } from "@/locales/client";
+import { languages } from "@/locales/client";
 import {
   Select,
   SelectContent,
@@ -11,10 +11,6 @@ import {
   SelectValue,
 } from "@bubba/ui/select";
 import { Globe } from "lucide-react";
-
-const languages = {
-  en: "English",
-} as const;
 
 export const LocaleSwitch = () => {
   const t = useI18n();
