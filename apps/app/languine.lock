@@ -763,13 +763,21 @@ files:
     vendor.empty_states.no_vendors.title: dc57302b77376ef37fe5a5d3f116d2bb
     vendor.empty_states.no_vendors.description: c2303c495a5f1108062ae465394612c2
     vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
+<<<<<<< HEAD
     vendor.empty_states.no_results.description: 5d3f1d31cec631239093a8da2e0c67aa
     vendor.empty_states.no_results.description_with_filters: b8662468f89ba12988a84dfbe186d959
+=======
+    vendor.empty_states.no_results.description: 675eaaaa6fb5ea24545b726a9e9ab3d1
+    vendor.empty_states.no_results.description_with_filters: 245a7d071a2dbd9df604e2a5d88e5b41
+    languages.fr: 75357f6288b1eb7180e56d572a16a0cd
+    languages.pt: d84f5f223e29a650c524f38dfc137165
+>>>>>>> 41ff5bbc2bc4a4de90f730588551632f1f75fea3
   src/locales/pt.ts:
     languages.es: 4c00162f37c68542a6ff4928b0a54ddc
     languages.fr: 2f327580fa61447b4ef7af6b0ecdd2d1
     languages.no: 87ea6257a5a39f7e5f498221f15c4484
     languages.pt: 10fef620608967668bce27dc9ab6fe8e
+<<<<<<< HEAD
     language.title: c88b33a3250b4e28f34e1ececba69206
     language.description: 9955d9bfa3362cc30a28320e9b693a70
     language.placeholder: 888cde41cf10b9387ccb49e6b3382cb0
@@ -1149,11 +1157,14 @@ files:
     vendor.empty_states.no_results.title: 862b1847e091e28b1f598fb563d2886d
     vendor.empty_states.no_results.description: b174c45c623da80e3354e959e25b4455
     vendor.empty_states.no_results.description_with_filters: 7a2e20b527b82016631de60b987185df
+=======
+>>>>>>> 41ff5bbc2bc4a4de90f730588551632f1f75fea3
   src/locales/fr.ts:
     languages.es: 6a77de34cb21ce61732b71a27825c63a
     languages.fr: e0545693906575b04aa1650abd60faba
     languages.no: 1aca30cfbbaac249bf033d480f8e2b73
     languages.pt: 292fba65c6fd3610931fb93fd1b012e8
+<<<<<<< HEAD
     language.title: 1ea21417b4fc870a18d6a244983be72b
     language.description: d070e9c230541b0ea87e9535f819f63c
     language.placeholder: b884345f1cf7b083cbb162cbb91b21a1
@@ -1533,11 +1544,14 @@ files:
     vendor.empty_states.no_results.title: 5bb69fe3b7a4d5220a445c029fb02c19
     vendor.empty_states.no_results.description: 272e8ffa88987801e1ce4df4610db9ea
     vendor.empty_states.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
+=======
+>>>>>>> 41ff5bbc2bc4a4de90f730588551632f1f75fea3
   src/locales/no.ts:
     languages.es: b980859f1670214519fd5cd3942dddf8
     languages.fr: 939843e67f5fd5de8870aed96875c98e
     languages.no: 64435a0abd1ab6bcf0375f5c918b43b3
     languages.pt: d1fcbbcfff8016c8e8193b1009a2f0c9
+<<<<<<< HEAD
     language.title: c2bd871e40a477404d746ca7b6e5a377
     language.description: fd49b803ed37c59214bb26e2795f1679
     language.placeholder: d44825bb4a3981426357c8b2588a8890
@@ -1917,3 +1931,5 @@ files:
     vendor.empty_states.no_results.title: 3c22fe33782fde4bb60715cfba3c18b5
     vendor.empty_states.no_results.description: 1e9b36605d59f796996b61f3311f91c9
     vendor.empty_states.no_results.description_with_filters: 6675ce8f4b11d67226042fd01dcee422
+=======
+>>>>>>> 41ff5bbc2bc4a4de90f730588551632f1f75fea3
