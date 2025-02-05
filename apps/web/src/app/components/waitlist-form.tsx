@@ -59,7 +59,7 @@ export function WaitlistForm() {
           href="https://discord.gg/compai"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
         >
-          Join Community
+          Join us on Discord
           <span aria-hidden="true">→</span>
         </Link>
       </div>
