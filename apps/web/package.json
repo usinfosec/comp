@@ -20,6 +20,8 @@
     "motion": "^11.18.2",
     "next": "^15.1.6",
     "next-turnstile": "^1.0.1",
+    "posthog-js": "^1.215.3",
+    "posthog-node": "^4.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-wrap-balancer": "^1.1.1",

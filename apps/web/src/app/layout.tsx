@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "sonner";
 import "@bubba/ui/globals.css";
-import { ThemeProvider } from "@/app/providers";
+import { Providers } from "@/app/providers";
+import { env } from "@/env.mjs";
 import { cn } from "@/lib/utils";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -37,27 +38,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <GoogleTagManager
-        gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_ID as string}
-      />
+      {env.NEXT_PUBLIC_GOOGLE_TAG_ID && (
+        <GoogleTagManager gtmId={env.NEXT_PUBLIC_GOOGLE_TAG_ID} />
+      )}
+
       <body
         className={cn(
           "min-h-svh bg-background font-sans antialiased",
           geistSans.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          enableColorScheme
-        >
+        <Providers attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-svh flex-col">
             <main className="flex-1">{children}</main>
+            <Toaster richColors />
           </div>
-          <Toaster richColors />
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
