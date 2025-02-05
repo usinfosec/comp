@@ -386,7 +386,7 @@ files:
     language.description: b74d060770289b75ba34d38ea1e05251
     language.placeholder: c90ff5580c52057484a4002000bccd8a
     languages.en: 216df59d4dca0cc05c7678221afc6c97
-    languages.no: 64435a0abd1ab6bcf0375f5c918b43b3
+    languages.no: 8d6a8cdf9b2e593aab0592557e3386ab
     languages.es: de92bbe05815c4eb756acb5897baa99c
     common.actions.save: d3270bdb8d2c1caaca4178dbe19be03a
     common.actions.edit: ef485eb67ac89238a4fede745a0ae94c
@@ -763,9 +763,20 @@ files:
     vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
     vendor.empty_states.no_results.description: 675eaaaa6fb5ea24545b726a9e9ab3d1
     vendor.empty_states.no_results.description_with_filters: 245a7d071a2dbd9df604e2a5d88e5b41
+    languages.fr: 75357f6288b1eb7180e56d572a16a0cd
+    languages.pt: d84f5f223e29a650c524f38dfc137165
   src/locales/pt.ts:
     languages.es: 4c00162f37c68542a6ff4928b0a54ddc
+    languages.fr: 2f327580fa61447b4ef7af6b0ecdd2d1
+    languages.no: 87ea6257a5a39f7e5f498221f15c4484
+    languages.pt: 10fef620608967668bce27dc9ab6fe8e
   src/locales/fr.ts:
     languages.es: 6a77de34cb21ce61732b71a27825c63a
+    languages.fr: e0545693906575b04aa1650abd60faba
+    languages.no: 1aca30cfbbaac249bf033d480f8e2b73
+    languages.pt: 292fba65c6fd3610931fb93fd1b012e8
   src/locales/no.ts:
     languages.es: b980859f1670214519fd5cd3942dddf8
+    languages.fr: 939843e67f5fd5de8870aed96875c98e
+    languages.no: 64435a0abd1ab6bcf0375f5c918b43b3
+    languages.pt: d1fcbbcfff8016c8e8193b1009a2f0c9

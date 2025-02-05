@@ -1,5 +1,8 @@
 export default {
   languages: {
-    es: "Espagnol"
+    es: "Espagnol",
+    fr: "Français",
+    no: "Norvégien",
+    pt: "Portugais"
   }
 } as const;
