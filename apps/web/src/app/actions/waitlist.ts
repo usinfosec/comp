@@ -1,5 +1,6 @@
 "use server";
 
+import * as ServerAnalytics from "@bubba/analytics/src/server";
 import { resend } from "@bubba/email/lib/resend";
 import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
@@ -38,6 +39,14 @@ export const joinWaitlist = createSafeActionClient()
         });
       }
 
+      await ServerAnalytics.track(
+        parsedInput.email,
+        "waitlist_signup",
+        {
+          channel: "web",
+          email: parsedInput.email,
+        }
+      );
 
     } else {
       throw new Error("Email already in audience");
