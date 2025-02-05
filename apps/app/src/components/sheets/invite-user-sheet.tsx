@@ -25,7 +25,6 @@ import { toast } from "sonner";
 import { useState } from "react";
 import type { Departments } from "@prisma/client";
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
-import type { ActionResponse } from "@/actions/types";
 
 const DEPARTMENTS: Departments[] = [
   "none",
@@ -51,19 +50,30 @@ export function InviteUserSheet() {
     setIsLoading(true);
 
     try {
-      const result = (await createEmployeeAction({
+      const result = await createEmployeeAction({
         name,
         email: email.trim(),
         department,
-      })) as ActionResponse;
+      });
 
-      if (result?.success) {
-        toast.success(t("people.invite.success"));
-        setOpen(null);
-        router.refresh();
-      } else {
-        toast.error(result?.error || t("people.invite.error"));
+      if (!result) {
+        toast.error(t("errors.unexpected"));
+        return;
       }
+
+      if (result.validationErrors) {
+        toast.error(Object.values(result.validationErrors).join(", "));
+        return;
+      }
+
+      if (!result.data) {
+        toast.error(t("people.invite.error"));
+        return;
+      }
+
+      toast.success(t("people.invite.success"));
+      setOpen(null);
+      router.refresh();
     } catch (error) {
       toast.error(t("errors.unexpected"));
     } finally {

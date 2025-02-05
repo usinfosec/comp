@@ -33,10 +33,14 @@ export function DataTable<TData, TValue>({
   currentPage,
 }: DataTableProps<TData, TValue>) {
   const clientColumns = getColumns();
-  const columns = clientColumns.map((col) => ({
-    ...col,
-    header: columnHeaders[col.id as keyof typeof columnHeaders],
-  }));
+  const columns = clientColumns.map((col) => {
+    const columnId = col.id as keyof typeof columnHeaders;
+    return {
+      ...col,
+      header: columnHeaders[columnId],
+      accessorFn: (row: any) => row[columnId],
+    };
+  });
 
   const table = useReactTable({
     data: data as PersonType[],
@@ -61,11 +65,11 @@ export function DataTable<TData, TValue>({
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className={cn(
-                      (cell.column.id === "department" ||
-                        cell.column.id === "email") &&
-                        "hidden md:table-cell"
-                    )}
+                    className={cn({
+                      "hidden md:table-cell":
+                        cell.column.id === "email" ||
+                        cell.column.id === "department",
+                    })}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
