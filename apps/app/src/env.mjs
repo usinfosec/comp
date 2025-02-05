@@ -9,7 +9,6 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
     OPENAI_API_KEY: z.string(),
     RESEND_API_KEY: z.string(),
-    OPENPANEL_SECRET_KEY: z.string(),
     UPSTASH_REDIS_REST_URL: z.string(),
     UPSTASH_REDIS_REST_TOKEN: z.string(),
     STRIPE_SECRET_KEY: z.string(),
@@ -17,12 +16,12 @@ export const env = createEnv({
     UPLOADTHING_TOKEN: z.string(),
     UPLOADTHING_SECRET: z.string(),
     DISCORD_WEBHOOK_URL: z.string(),
-    NANGO_SECRET_KEY: z.string().min(1),
     TRIGGER_SECRET_KEY: z.string(),
   },
 
   client: {
-    NEXT_PUBLIC_OPENPANEL_CLIENT_ID: z.string(),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -32,18 +31,16 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    OPENPANEL_SECRET_KEY: process.env.OPENPANEL_SECRET_KEY,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    NEXT_PUBLIC_OPENPANEL_CLIENT_ID:
-      process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
-    NANGO_SECRET_KEY: process.env.NANGO_SECRET_KEY,
     TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

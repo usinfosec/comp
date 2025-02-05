@@ -1,5 +1,6 @@
 "use server";
 
+import PostHogClient from "@/lib/posthog";
 import { resend } from "@bubba/email/lib/resend";
 import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
@@ -35,6 +36,15 @@ export const joinWaitlist = createSafeActionClient()
           json: {
             content: `New waitlist signup: ${parsedInput.email}`,
           },
+        });
+      }
+
+      const posthogClient = PostHogClient();
+
+      if (posthogClient) {
+        posthogClient.capture({
+          distinctId: parsedInput.email,
+          event: "waitlist_signup",
         });
       }
     } else {
