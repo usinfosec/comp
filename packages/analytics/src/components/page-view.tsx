@@ -24,7 +24,7 @@ function PageViewTracker(): null {
 
 export function PostHogPageView() {
   return (
-    <Suspense fallback={null}>
+    <Suspense>
       <PageViewTracker />
     </Suspense>
   );
