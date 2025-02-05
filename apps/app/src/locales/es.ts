@@ -1,0 +1,563 @@
+export default {
+  language: {
+    title: "Idiomas",
+    description: "Cambia el idioma utilizado en la interfaz de usuario.",
+    placeholder: "Seleccionar idioma"
+  },
+  languages: {
+    en: "Inglés",
+    no: "Noruego",
+    es: "Español",
+    fr: "Francés",
+    pt: "Portugués"
+  },
+  common: {
+    actions: {
+      save: "Guardar",
+      edit: "Editar",
+      "delete": "Eliminar",
+      cancel: "Cancelar",
+      clear: "Borrar",
+      create: "Crear",
+      send: "Enviar",
+      "return": "Volver",
+      success: "Éxito",
+      error: "Error",
+      next: "Siguiente",
+      complete: "Completar"
+    },
+    assignee: {
+      label: "Asignado",
+      placeholder: "Seleccionar asignado"
+    },
+    date: {
+      pick: "Seleccionar una fecha",
+      due_date: "Fecha de vencimiento"
+    },
+    status: {
+      open: "Abierto",
+      pending: "Pendiente",
+      closed: "Cerrado",
+      archived: "Archivado",
+      compliant: "Cumplido",
+      non_compliant: "No cumplido",
+      not_started: "No iniciado",
+      in_progress: "En progreso",
+      published: "Publicado",
+      needs_review: "Necesita revisión",
+      draft: "Borrador",
+      not_assessed: "No evaluado",
+      assessed: "Evaluado",
+      active: "Activo",
+      inactive: "Inactivo"
+    },
+    filters: {
+      clear: "Limpiar filtros",
+      search: "Buscar...",
+      status: "Estado",
+      department: "Departamento",
+      owner: {
+        label: "Asignado",
+        placeholder: "Filtrar por asignado"
+      }
+    },
+    table: {
+      title: "Título",
+      status: "Estado",
+      assigned_to: "Asignado a",
+      due_date: "Fecha de vencimiento",
+      last_updated: "Última actualización",
+      no_results: "No se encontraron resultados"
+    },
+    empty_states: {
+      no_results: {
+        title: "Sin resultados",
+        title_tasks: "No se encontraron tareas",
+        title_risks: "No se encontraron riesgos",
+        description: "Prueba con otra búsqueda o ajusta los filtros",
+        description_filters: "Prueba con otra búsqueda o ajusta los filtros",
+        description_no_tasks: "Crea una tarea para empezar",
+        description_no_risks: "Crea un riesgo para empezar"
+      },
+      no_items: {
+        title: "No se encontraron elementos",
+        description: "Prueba ajustando tu búsqueda o filtros"
+      }
+    },
+    pagination: {
+      of: "de",
+      items_per_page: "Elementos por página",
+      rows_per_page: "Filas por página",
+      page_x_of_y: "Página {{current}} de {{total}}",
+      go_to_first_page: "Ir a la primera página",
+      go_to_previous_page: "Ir a la página anterior",
+      go_to_next_page: "Ir a la siguiente página",
+      go_to_last_page: "Ir a la última página"
+    },
+    comments: {
+      title: "Comentarios",
+      description: "Añade un comentario usando el formulario de abajo.",
+      add: "Añadir comentario",
+      "new": "Nuevo comentario",
+      save: "Guardar comentario",
+      success: "Comentario añadido con éxito",
+      error: "No se pudo añadir el comentario",
+      placeholder: "Escribe tu comentario aquí...",
+      empty: {
+        title: "Aún no hay comentarios",
+        description: "Sé el primero en añadir un comentario"
+      }
+    },
+    attachments: {
+      title: "Archivos adjuntos",
+      description: "Añade un archivo haciendo clic en 'Añadir archivo adjunto'.",
+      upload: "Subir un archivo adjunto",
+      upload_description: "Sube un archivo adjunto o añade un enlace a un recurso externo.",
+      drop: "Suelta los archivos aquí",
+      drop_description: "Suelta los archivos aquí o haz clic para seleccionar archivos de tu dispositivo.",
+      drop_files_description: "Los archivos pueden tener hasta ",
+      empty: {
+        title: "Sin archivos adjuntos",
+        description: "Añade un archivo haciendo clic en 'Añadir archivo adjunto'."
+      },
+      toasts: {
+        error: "Algo salió mal, por favor intenta de nuevo.",
+        error_uploading_files: "No se pueden subir más de 1 archivo a la vez",
+        error_uploading_files_multiple: "No se pueden subir más de 10 archivos",
+        error_no_files_selected: "No se seleccionaron archivos",
+        error_file_rejected: "El archivo {file} fue rechazado",
+        error_failed_to_upload_files: "No se pudo subir los archivos",
+        error_failed_to_upload_files_multiple: "No se pudo subir los archivos",
+        error_failed_to_upload_files_single: "No se pudo subir el archivo",
+        success_uploading_files: "Archivos subidos con éxito",
+        success_uploading_files_multiple: "Archivos subidos con éxito",
+        success_uploading_files_single: "Archivo subido con éxito",
+        success_uploading_files_target: "Archivos subidos",
+        uploading_files: "Subiendo {target}...",
+        remove_file: "Eliminar archivo"
+      }
+    }
+  },
+  header: {
+    discord: {
+      button: "Únete a nosotros en Discord"
+    },
+    feedback: {
+      button: "Comentarios",
+      title: "¡Gracias por tus comentarios!",
+      description: "Nos pondremos en contacto contigo lo antes posible",
+      placeholder: "Ideas para mejorar esta página o problemas que estás experimentando.",
+      success: "¡Gracias por tus comentarios!",
+      error: "¿Error al enviar comentarios - intenta de nuevo?",
+      send: "Enviar comentarios"
+    }
+  },
+  not_found: {
+    title: "404 - Página no encontrada",
+    description: "La página que buscas no existe.",
+    "return": "Volver al panel de control"
+  },
+  theme: {
+    options: {
+      light: "Claro",
+      dark: "Oscuro",
+      system: "Sistema"
+    }
+  },
+  sidebar: {
+    overview: "Resumen",
+    policies: "Políticas",
+    risk: "Riesgo",
+    vendors: "Proveedores",
+    integrations: "Integraciones",
+    settings: "Configuración",
+    evidence: "Tareas de evidencia"
+  },
+  auth: {
+    title: "Automatiza el cumplimiento de SOC 2, ISO 27001 y GDPR con IA.",
+    description: "Crea una cuenta gratuita o inicia sesión con una cuenta existente para continuar.",
+    options: "Más opciones",
+    google: "Continuar con Google",
+    email: {
+      description: "Introduce tu dirección de correo electrónico para continuar.",
+      placeholder: "Introduce la dirección de correo electrónico",
+      button: "Continuar con correo electrónico",
+      magic_link_sent: "Enlace mágico enviado",
+      magic_link_description: "Revisa tu bandeja de entrada para encontrar un enlace mágico.",
+      magic_link_try_again: "Inténtalo de nuevo.",
+      success: "Correo enviado - ¡revisa tu bandeja de entrada!",
+      error: "¿Error al enviar el correo - intenta de nuevo?"
+    },
+    terms: "Al hacer clic en continuar, reconoces que has leído y aceptas los Términos de Servicio y la Política de Privacidad."
+  },
+  onboarding: {
+    title: "Crear una organización",
+    setup: "Configuración",
+    description: "Cuéntanos un poco sobre tu organización.",
+    fields: {
+      name: {
+        label: "Nombre de la organización",
+        placeholder: "Nombre de tu organización"
+      },
+      website: {
+        label: "Sitio web",
+        placeholder: "Sitio web de tu organización"
+      }
+    },
+    success: "¡Gracias, ya está todo listo!",
+    error: "Algo salió mal, por favor intenta de nuevo."
+  },
+  overview: {
+    title: "Resumen",
+    framework_chart: {
+      title: "Progreso del marco"
+    },
+    requirement_chart: {
+      title: "Estado de cumplimiento"
+    }
+  },
+  policies: {
+    dashboard: {
+      title: "Panel de control",
+      all: "Todas las políticas",
+      policy_status: "Estado de la política",
+      policies_by_assignee: "Políticas por asignado",
+      policies_by_framework: "Políticas por marco"
+    },
+    table: {
+      name: "Nombre de la política",
+      statuses: {
+        draft: "Borrador",
+        published: "Publicado"
+      },
+      filters: {
+        owner: {
+          label: "Asignado",
+          placeholder: "Filtrar por asignado"
+        }
+      }
+    },
+    filters: {
+      search: "Buscar políticas...",
+      all: "Todas las políticas"
+    },
+    status: {
+      draft: "Borrador",
+      published: "Publicado",
+      needs_review: "Necesita revisión"
+    },
+    policies: "políticas"
+  },
+  evidence_tasks: {
+    evidence_tasks: "Tareas de evidencia",
+    overview: "Resumen"
+  },
+  risk: {
+    risks: "riesgos",
+    overview: "Resumen",
+    create: "Crear nuevo riesgo",
+    vendor: {
+      title: "Gestión de proveedores",
+      dashboard: {
+        title: "Panel de control de proveedores",
+        overview: "Resumen de proveedores",
+        vendor_status: "Estado del proveedor",
+        vendor_category: "Categorías de proveedores",
+        vendors_by_assignee: "Proveedores por asignado",
+        inherent_risk_description: "Nivel de riesgo inicial antes de aplicar cualquier control",
+        residual_risk_description: "Nivel de riesgo restante después de aplicar controles"
+      },
+      register: {
+        title: "Registro de proveedores",
+        table: {
+          name: "Nombre",
+          category: "Categoría",
+          status: "Estado",
+          owner: "Propietario"
+        }
+      },
+      assessment: {
+        title: "Evaluación de proveedores",
+        update_success: "Evaluación de riesgo de proveedor actualizada con éxito",
+        update_error: "No se pudo actualizar la evaluación de riesgo de proveedor",
+        inherent_risk: "Riesgo inherente",
+        residual_risk: "Riesgo residual"
+      },
+      form: {
+        vendor_details: "Detalles del proveedor",
+        vendor_name: "Nombre",
+        vendor_name_placeholder: "Introduce el nombre del proveedor",
+        vendor_website: "Sitio web",
+        vendor_website_placeholder: "Introduce el sitio web del proveedor",
+        vendor_description: "Descripción",
+        vendor_description_placeholder: "Introduce la descripción del proveedor",
+        vendor_category: "Categoría",
+        vendor_category_placeholder: "Selecciona una categoría",
+        vendor_status: "Estado",
+        vendor_status_placeholder: "Selecciona un estado",
+        create_vendor_success: "Proveedor creado con éxito",
+        create_vendor_error: "No se pudo crear el proveedor",
+        update_vendor: "Actualizar proveedor",
+        update_vendor_success: "Proveedor actualizado correctamente",
+        update_vendor_error: "No se pudo actualizar el proveedor",
+        add_comment: "Añadir comentario"
+      },
+      table: {
+        name: "Nombre",
+        category: "Categoría",
+        status: "Estado",
+        owner: "Propietario"
+      },
+      filters: {
+        search_placeholder: "Buscar proveedores...",
+        status_placeholder: "Filtrar por estado",
+        category_placeholder: "Filtrar por categoría",
+        owner_placeholder: "Filtrar por propietario"
+      },
+      empty_states: {
+        no_vendors: {
+          title: "Aún no hay proveedores",
+          description: "Comience creando su primer proveedor"
+        },
+        no_results: {
+          title: "No se encontraron resultados",
+          description: "No hay proveedores que coincidan con su búsqueda",
+          description_with_filters: "Intente ajustar sus filtros"
+        }
+      },
+      actions: {
+        create: "Crear Proveedor"
+      },
+      status: {
+        not_assessed: "No Evaluado",
+        in_progress: "En Progreso",
+        assessed: "Evaluado"
+      },
+      category: {
+        cloud: "Nube",
+        infrastructure: "Infraestructura",
+        software_as_a_service: "Software como Servicio",
+        finance: "Finanzas",
+        marketing: "Marketing",
+        sales: "Ventas",
+        hr: "RRHH",
+        other: "Otro"
+      },
+      risk_level: {
+        low: "Riesgo Bajo",
+        medium: "Riesgo Medio",
+        high: "Riesgo Alto",
+        unknown: "Riesgo Desconocido"
+      }
+    },
+    dashboard: {
+      title: "Panel de Control",
+      overview: "Resumen de Riesgos",
+      risk_status: "Estado de Riesgo",
+      risks_by_department: "Riesgos por Departamento",
+      risks_by_assignee: "Riesgos por Asignado",
+      inherent_risk_description: "El riesgo inherente se calcula como probabilidad * impacto. Se calcula antes de aplicar cualquier control.",
+      residual_risk_description: "El riesgo residual se calcula como probabilidad * impacto. Este es el nivel de riesgo después de aplicar controles.",
+      risk_assessment_description: "Comparar los niveles de riesgo inherente y residual"
+    },
+    register: {
+      title: "Registro de Riesgos",
+      table: {
+        risk: "Riesgo"
+      },
+      empty: {
+        no_risks: {
+          title: "Cree un riesgo para comenzar",
+          description: "Rastree y califique riesgos, cree y asigne tareas de mitigación para su equipo, y gestione su registro de riesgos todo en una interfaz simple."
+        },
+        create_risk: "Crear un riesgo"
+      }
+    },
+    metrics: {
+      probability: "Probabilidad",
+      impact: "Impacto",
+      inherentRisk: "Riesgo Inherente",
+      residualRisk: "Riesgo Residual"
+    },
+    form: {
+      update_inherent_risk: "Guardar Riesgo Inherente",
+      update_inherent_risk_description: "Actualice el riesgo inherente del riesgo. Este es el nivel de riesgo antes de aplicar cualquier control.",
+      update_inherent_risk_success: "Riesgo inherente actualizado correctamente",
+      update_inherent_risk_error: "No se pudo actualizar el riesgo inherente",
+      update_residual_risk: "Guardar Riesgo Residual",
+      update_residual_risk_description: "Actualice el riesgo residual del riesgo. Este es el nivel de riesgo después de aplicar controles.",
+      update_residual_risk_success: "Riesgo residual actualizado correctamente",
+      update_residual_risk_error: "No se pudo actualizar el riesgo residual",
+      update_risk: "Actualizar Riesgo",
+      update_risk_description: "Actualice el título o la descripción del riesgo.",
+      update_risk_success: "Riesgo actualizado correctamente",
+      update_risk_error: "No se pudo actualizar el riesgo",
+      create_risk_success: "Riesgo creado correctamente",
+      create_risk_error: "No se pudo crear el riesgo",
+      risk_details: "Detalles del Riesgo",
+      risk_title: "Título del Riesgo",
+      risk_title_description: "Ingrese un nombre para el riesgo",
+      risk_description: "Descripción",
+      risk_description_description: "Ingrese una descripción para el riesgo",
+      risk_category: "Categoría",
+      risk_category_placeholder: "Seleccione una categoría",
+      risk_department: "Departamento",
+      risk_department_placeholder: "Seleccione un departamento",
+      risk_status: "Estado del Riesgo",
+      risk_status_placeholder: "Seleccione un estado de riesgo"
+    },
+    tasks: {
+      title: "Tareas",
+      attachments: "Archivos Adjuntos",
+      overview: "Resumen de Tareas",
+      form: {
+        title: "Detalles de la Tarea",
+        task_title: "Título de la Tarea",
+        status: "Estado de la Tarea",
+        status_placeholder: "Seleccione un estado de tarea",
+        task_title_description: "Ingrese un nombre para la tarea",
+        description: "Descripción",
+        description_description: "Ingrese una descripción para la tarea",
+        due_date: "Fecha de Vencimiento",
+        due_date_description: "Seleccione la fecha de vencimiento para la tarea",
+        success: "Tarea creada correctamente",
+        error: "No se pudo crear la tarea"
+      },
+      sheet: {
+        title: "Crear Tarea",
+        update: "Actualizar Tarea",
+        update_description: "Actualice el título o la descripción de la tarea."
+      },
+      empty: {
+        description_create: "Cree una tarea de mitigación para este riesgo, añada un plan de tratamiento y asígnela a un miembro del equipo."
+      }
+    }
+  },
+  settings: {
+    general: {
+      title: "General",
+      org_name: "Nombre de la organización",
+      org_name_description: "Este es el nombre visible de su organización. Debe usar el nombre legal de su organización.",
+      org_name_tip: "Por favor, use un máximo de 32 caracteres.",
+      org_website: "Sitio web de la organización",
+      org_website_description: "Este es el URL oficial del sitio web de su organización. Asegúrese de incluir el URL completo con https://.",
+      org_website_tip: "Por favor, ingrese un URL válido incluyendo https://",
+      org_website_error: "Error al actualizar el sitio web de la organización",
+      org_website_updated: "Sitio web de la organización actualizado",
+      org_delete: "Eliminar organización",
+      org_delete_description: "Elimina permanentemente tu organización y todo su contenido de la plataforma Comp AI. Esta acción no es reversible, procede con precaución.",
+      org_delete_alert_title: "¿Estás completamente seguro?",
+      org_delete_alert_description: "Esta acción no se puede deshacer. Esto eliminará permanentemente tu organización y eliminará tus datos de nuestros servidores.",
+      org_delete_error: "Error al eliminar la organización",
+      org_delete_success: "Organización eliminada",
+      org_name_updated: "Nombre de la organización actualizado",
+      org_name_error: "Error al actualizar el nombre de la organización",
+      save_button: "Guardar",
+      delete_button: "Eliminar",
+      delete_confirm: "ELIMINAR",
+      delete_confirm_tip: "Escribe ELIMINAR para confirmar.",
+      cancel_button: "Cancelar"
+    },
+    members: {
+      title: "Miembros"
+    },
+    billing: {
+      title: "Facturación"
+    }
+  },
+  user_menu: {
+    theme: "Tema",
+    language: "Idioma",
+    sign_out: "Cerrar sesión",
+    account: "Cuenta",
+    support: "Soporte",
+    settings: "Configuración",
+    teams: "Equipos"
+  },
+  frameworks: {
+    title: "Marcos",
+    controls: {
+      title: "Controles",
+      description: "Revisa y gestiona los controles de cumplimiento",
+      table: {
+        status: "Estado",
+        control: "Control",
+        artifacts: "Artefactos",
+        actions: "Acciones"
+      },
+      statuses: {
+        not_started: "No iniciado",
+        compliant: "Cumplido",
+        non_compliant: "No cumplido"
+      }
+    }
+  },
+  vendor: {
+    title: "Panel de control",
+    register_title: "Gestión de proveedores",
+    dashboard: {
+      title: "Panel de control",
+      overview: "Resumen de proveedores",
+      vendor_status: "Estado del proveedor",
+      vendor_category: "Categorías de proveedores",
+      vendors_by_assignee: "Proveedores por asignado",
+      inherent_risk_description: "Nivel de riesgo inicial antes de aplicar controles",
+      residual_risk_description: "Nivel de riesgo restante después de aplicar controles"
+    },
+    register: {
+      title: "Registro de proveedores",
+      table: {
+        name: "Nombre",
+        category: "Categoría",
+        status: "Estado",
+        owner: "Propietario"
+      }
+    },
+    category: {
+      cloud: "Nube",
+      infrastructure: "Infraestructura",
+      software_as_a_service: "SaaS",
+      finance: "Finanzas",
+      marketing: "Marketing",
+      sales: "Ventas",
+      hr: "RRHH",
+      other: "Otro"
+    },
+    vendors: "proveedores",
+    form: {
+      vendor_details: "Detalles del proveedor",
+      vendor_name: "Nombre",
+      vendor_name_placeholder: "Introduce el nombre del proveedor",
+      vendor_website: "Sitio web",
+      vendor_website_placeholder: "Introduce el sitio web del proveedor",
+      vendor_description: "Descripción",
+      vendor_description_placeholder: "Introduce la descripción del proveedor",
+      vendor_category: "Categoría",
+      vendor_category_placeholder: "Selecciona una categoría",
+      vendor_status: "Estado",
+      vendor_status_placeholder: "Selecciona un estado",
+      create_vendor_success: "Proveedor creado con éxito",
+      create_vendor_error: "No se pudo crear el proveedor",
+      update_vendor_success: "Proveedor actualizado con éxito",
+      update_vendor_error: "No se pudo actualizar el proveedor",
+      contacts: "Contactos del proveedor",
+      contact_name: "Nombre del contacto",
+      contact_email: "Correo electrónico del contacto",
+      contact_role: "Rol del contacto",
+      add_contact: "Añadir contacto",
+      new_contact: "Nuevo contacto",
+      min_one_contact_required: "Un proveedor debe tener al menos un contacto"
+    },
+    empty_states: {
+      no_vendors: {
+        title: "Aún no hay proveedores",
+        description: "Comienza creando tu primer proveedor"
+      },
+      no_results: {
+        title: "No se encontraron resultados",
+        description: "No hay proveedores que coincidan con tu búsqueda",
+        description_with_filters: "Intenta ajustar tus filtros"
+      }
+    }
+  }
+} as const;

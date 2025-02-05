@@ -1,10 +1,13 @@
 import "@/styles/globals.css";
 import { cn } from "@bubba/ui/cn";
 import "@bubba/ui/globals.css";
+import { env } from "@/env.mjs";
+import { initializeServer } from "@bubba/analytics/src/server";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { extractRouterConfig } from "uploadthing/server";
@@ -67,6 +70,13 @@ export const viewport = {
 export const preferredRegion = ["fra1", "sfo1", "iad1"];
 export const maxDuration = 60;
 
+if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
+  initializeServer({
+    apiKey: env.NEXT_PUBLIC_POSTHOG_KEY,
+    apiHost: env.NEXT_PUBLIC_POSTHOG_HOST,
+  });
+}
+
 export default async function Layout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -86,10 +96,12 @@ export default async function Layout(props: {
         )}
       >
         <NuqsAdapter>
-          <Providers locale={locale}>
-            <NextSSRPlugin routerConfig={extractRouterConfig(fileUploader)} />
-            <main>{children}</main>
-          </Providers>
+          <SessionProvider>
+            <Providers locale={locale}>
+              <NextSSRPlugin routerConfig={extractRouterConfig(fileUploader)} />
+              <main>{children}</main>
+            </Providers>
+          </SessionProvider>
         </NuqsAdapter>
         <Toaster richColors />
       </body>

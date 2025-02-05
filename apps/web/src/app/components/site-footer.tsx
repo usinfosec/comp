@@ -27,20 +27,24 @@ export function SiteFooter() {
             .
           </p>
         </div>
-        <div className="flex gap-4">
-          <Link
-            href="/privacy"
-            className="text-sm text-muted-foreground hover:underline"
-          >
-            Privacy
-          </Link>
-          <Link
-            href="/terms"
-            className="text-sm text-muted-foreground hover:underline"
-          >
-            Terms
-          </Link>
-        </div>
+        <ul className="flex gap-4">
+          <li>
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground hover:underline"
+            >
+              Privacy
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground hover:underline"
+            >
+              Terms
+            </Link>
+          </li>
+        </ul>
       </div>
     </footer>
   );

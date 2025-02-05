@@ -6,7 +6,10 @@ export default {
   },
   languages: {
     en: "English",
-    no: "Norsk",
+    es: "Spanish",
+    fr: "French",
+    no: "Norwegian",
+    pt: "Portuguese",
   },
   common: {
     actions: {
