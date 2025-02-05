@@ -4,7 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { Suspense, useEffect } from "react";
 
-function PostHogPageView(): null {
+function PageViewTracker(): null {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const posthog = usePostHog();
@@ -15,7 +15,6 @@ function PostHogPageView(): null {
       if (searchParams.toString()) {
         url = `${url}?${searchParams.toString()}`;
       }
-
       posthog.capture("$pageview", { $current_url: url });
     }
   }, [pathname, searchParams, posthog]);
@@ -23,10 +22,10 @@ function PostHogPageView(): null {
   return null;
 }
 
-export default function SuspendedPostHogPageView() {
+export function PostHogPageView() {
   return (
     <Suspense fallback={null}>
-      <PostHogPageView />
+      <PageViewTracker />
     </Suspense>
   );
 }

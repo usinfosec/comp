@@ -1,6 +1,5 @@
 "use server";
 
-import PostHogClient from "@/lib/posthog";
 import { resend } from "@bubba/email/lib/resend";
 import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
@@ -39,14 +38,7 @@ export const joinWaitlist = createSafeActionClient()
         });
       }
 
-      const posthogClient = PostHogClient();
 
-      if (posthogClient) {
-        posthogClient.capture({
-          distinctId: parsedInput.email,
-          event: "waitlist_signup",
-        });
-      }
     } else {
       throw new Error("Email already in audience");
     }

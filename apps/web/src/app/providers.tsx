@@ -1,34 +1,42 @@
 "use client";
 
 import { env } from "@/env.mjs";
+import { Analytics, AnalyticsProvider } from "@bubba/analytics";
 import { TooltipProvider } from "@bubba/ui/tooltip";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
 import type * as React from "react";
-import PostHogPageView from "./components/posthog-pageview";
 
-export function Providers({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+interface ProvidersProps
+  extends React.ComponentProps<typeof NextThemesProvider> {
+  children: React.ReactNode;
+}
+
+export function Providers({ children, ...props }: ProvidersProps) {
+  const hasAnalyticsKeys =
+    env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST;
+
   useEffect(() => {
-    if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
-      posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
-        capture_pageview: true,
-        capture_pageleave: true,
+    if (hasAnalyticsKeys) {
+      Analytics.init({
+        apiKey: env.NEXT_PUBLIC_POSTHOG_KEY!,
+        apiHost: env.NEXT_PUBLIC_POSTHOG_HOST!,
       });
     }
-  }, []);
+  }, [hasAnalyticsKeys]);
 
-  return (
-    <PHProvider client={posthog}>
+  return hasAnalyticsKeys ? (
+    <AnalyticsProvider
+      apiKey={env.NEXT_PUBLIC_POSTHOG_KEY!}
+      apiHost={env.NEXT_PUBLIC_POSTHOG_HOST!}
+    >
       <NextThemesProvider {...props} scriptProps={{ "data-cfasync": "false" }}>
-        <PostHogPageView />
         <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
       </NextThemesProvider>
-    </PHProvider>
+    </AnalyticsProvider>
+  ) : (
+    <NextThemesProvider {...props} scriptProps={{ "data-cfasync": "false" }}>
+      <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+    </NextThemesProvider>
   );
 }

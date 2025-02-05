@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { logger } from "@/utils/logger";
+import * as ServerAnalytics from "@bubba/analytics/src/server";
 import { db } from "@bubba/db";
 import { client } from "@bubba/kv";
 import { Ratelimit } from "@upstash/ratelimit";
@@ -75,7 +76,7 @@ export const authActionClient = actionClientWithMeta
       },
     });
   })
-  .use(async ({ next, metadata, clientInput }) => {
+  .use(async ({ next, metadata }) => {
     const headersList = await headers();
     const session = await auth();
 
@@ -105,6 +106,19 @@ export const authActionClient = actionClientWithMeta
           organizationId: session.user.organizationId,
         },
       });
+
+      if (metadata.track) {
+        await ServerAnalytics.track(
+          session.user.id,
+          metadata.track.event,
+          {
+            channel: metadata.track.channel,
+            email: session.user.email,
+            name: session.user.name,
+            organizationId: session.user.organizationId,
+          }
+        );
+      }
     } catch (error) {
       logger("Audit log error:", error);
     }
