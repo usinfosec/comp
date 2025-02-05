@@ -95,6 +95,7 @@ model User {
   VendorRiskAssessment    VendorRiskAssessment[]
   RiskAttachment          RiskAttachment[]
   organizationMemberships OrganizationMember[]
+  Employee                Employee[]
 
   @@index([email])
   @@index([organizationId])
@@ -116,6 +117,7 @@ model Organization {
   TaskAttachment     TaskAttachment[]
   TaskComments       TaskComments[]
   RiskComment        RiskComment[]
+  employees          Employee[]
 
   Framework                Framework?                 @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
   frameworkId              String?
@@ -424,6 +426,9 @@ model RiskMitigationTask {
   ownerId String?
   owner   User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
 
+  // Many-to-many relationship through join table
+  assignments RiskTaskAssignment[]
+
   organizationId String
   organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   TaskAttachment TaskAttachment[]
@@ -592,8 +597,7 @@ model VendorComment {
 }
 
 model VendorMitigationTask {
-  id String @id @default(cuid())
-
+  id          String         @id @default(cuid())
   title       String
   description String
   status      RiskTaskStatus @default(open)
@@ -606,6 +610,9 @@ model VendorMitigationTask {
   owner    User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   vendorId String
   vendor   Vendors @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  // Many-to-many relationship through join table
+  assignments VendorTaskAssignment[]
 
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -719,4 +726,61 @@ model OrganizationMember {
   @@unique([userId, organizationId])
   @@index([organizationId])
   @@index([userId])
+}
+
+model Employee {
+  id         String      @id @default(cuid())
+  name       String
+  email      String
+  department Departments @default(none)
+  isActive   Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Many-to-many relationships through join tables
+  riskTaskAssignments   RiskTaskAssignment[]
+  vendorTaskAssignments VendorTaskAssignment[]
+
+  @@unique([email, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+  @@index([department])
+}
+
+// Join table for risk task assignments
+model RiskTaskAssignment {
+  id         String   @id @default(cuid())
+  assignedAt DateTime @default(now())
+
+  taskId String
+  task   RiskMitigationTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, employeeId])
+  @@index([taskId])
+  @@index([employeeId])
+}
+
+// Join table for vendor task assignments
+model VendorTaskAssignment {
+  id         String   @id @default(cuid())
+  assignedAt DateTime @default(now())
+
+  taskId String
+  task   VendorMitigationTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, employeeId])
+  @@index([taskId])
+  @@index([employeeId])
 }

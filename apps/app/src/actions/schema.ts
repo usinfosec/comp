@@ -35,7 +35,7 @@ export const updaterMenuSchema = z.array(
   z.object({
     path: z.string(),
     name: z.string(),
-  }),
+  })
 );
 
 export const organizationWebsiteSchema = z.object({
@@ -257,4 +257,12 @@ export const updatePolicySchema = z.object({
 
 export const assistantSettingsSchema = z.object({
   enabled: z.boolean().optional(),
+});
+
+export const createEmployeeSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  department: z.nativeEnum(Departments, {
+    required_error: "Department is required",
+  }),
 });
