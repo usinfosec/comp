@@ -1,5 +1,5 @@
 export default {
   languages: {
-    es: "Spansk"
+    es: "Espanhol"
   }
 } as const;
