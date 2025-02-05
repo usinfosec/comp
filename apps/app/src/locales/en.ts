@@ -7,6 +7,9 @@ export default {
   languages: {
     en: "English",
     es: "Spanish",
+    fr: "French",
+    no: "Norwegian",
+    pt: "Portuguese",
   },
   common: {
     actions: {
