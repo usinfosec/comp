@@ -171,7 +171,8 @@ export default {
     vendors: "Proveedores",
     integrations: "Integraciones",
     settings: "Configuración",
-    evidence: "Tareas de evidencia"
+    evidence: "Tareas de evidencia",
+    people: "Personas"
   },
   auth: {
     title: "Automatiza el cumplimiento de SOC 2, ISO 27001 y GDPR con IA.",
@@ -559,5 +560,65 @@ export default {
         description_with_filters: "Intenta ajustar tus filtros"
       }
     }
+  },
+  people: {
+    title: "Personas",
+    details: {
+      taskProgress: "Progreso de la tarea",
+      tasks: "Tareas",
+      noTasks: "No hay tareas asignadas aún"
+    },
+    description: "Gestiona a los miembros de tu equipo y sus roles.",
+    filters: {
+      search: "Buscar personas...",
+      role: "Filtrar por rol"
+    },
+    actions: {
+      invite: "Agregar empleado",
+      clear: "Limpiar filtros"
+    },
+    table: {
+      name: "Nombre",
+      email: "Correo electrónico",
+      department: "Departamento",
+      externalId: "ID externo"
+    },
+    empty: {
+      no_employees: {
+        title: "No hay empleados aún",
+        description: "Comienza invitando a tu primer miembro del equipo."
+      },
+      no_results: {
+        title: "No se encontraron resultados",
+        description: "No hay empleados que coincidan con tu búsqueda",
+        description_with_filters: "Intenta ajustar tus filtros"
+      }
+    },
+    invite: {
+      title: "Agregar empleado",
+      description: "Agrega un empleado a tu organización.",
+      email: {
+        label: "Dirección de correo electrónico",
+        placeholder: "Ingresa la dirección de correo electrónico"
+      },
+      role: {
+        label: "Rol",
+        placeholder: "Selecciona un rol"
+      },
+      name: {
+        label: "Nombre",
+        placeholder: "Ingresa el nombre"
+      },
+      department: {
+        label: "Departamento",
+        placeholder: "Selecciona un departamento"
+      },
+      submit: "Agregar empleado",
+      success: "Empleado agregado con éxito",
+      error: "Error al agregar empleado"
+    }
+  },
+  errors: {
+    unexpected: "Algo salió mal, por favor intenta de nuevo"
   }
 } as const;
