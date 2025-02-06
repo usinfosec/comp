@@ -7,13 +7,18 @@ import { useI18n } from "@/locales/client";
 import { cn } from "@bubba/ui/cn";
 import { useEmployeeDetails } from "../../hooks/useEmployee";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import type { EmployeeTask } from "../types";
 import { Label } from "@bubba/ui/label";
 import { formatDate } from "@/utils/format";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@bubba/ui/accordion";
 interface EmployeeDetailsProps {
   employeeId: string;
 }
@@ -67,14 +72,6 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
   if (!employee) return null;
 
   const tasks = employee.employeeTasks ?? [];
-  const completedTasks = tasks.filter(
-    (task: EmployeeTask) => task.status === "completed"
-  ).length;
-  const totalTasks = tasks.length;
-  const progressPercentage =
-    totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-
-  console.log({ employee });
 
   return (
     <div className="space-y-6 p-6">
@@ -114,11 +111,28 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
           <TabsTrigger value="trainings">Trainings</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="tasks">
+        <TabsContent value="tasks" className="mt-6">
           <div className="space-y-6">
             <div className="flex flex-col gap-2">
-              <Label>Tasks</Label>
-              <p>{tasks.length}</p>
+              {tasks.map((task) => (
+                <Accordion key={task.id} type="multiple">
+                  <AccordionItem value={task.id}>
+                    <AccordionTrigger className="flex flex-row items-center justify-start gap-2">
+                      {task.status === "assigned" && (
+                        <Info className="h-4 w-4 text-yellow-500" />
+                      )}
+                      {task.status === "completed" && (
+                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      )}
+                      {task.requiredTask.name}
+                      <div className="flex-1" />
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p>{task.requiredTask.description}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              ))}
             </div>
           </div>
         </TabsContent>
