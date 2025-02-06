@@ -22,14 +22,18 @@ export async function Header() {
       </div>
 
       <div className="flex space-x-2 ml-auto">
-        <div className="hidden md:flex">
+        <div className="hidden md:flex gap-2">
           <FeedbackForm />
           <Button
             asChild
             variant="outline"
             className="rounded-full font-normal h-[32px] p-0 px-3 text-xs text-muted-foreground gap-2 items-center"
           >
-            <Link href="https://discord.gg/3JgpACjae6" target="_blank">
+            <Link
+              href="https://discord.gg/3JgpACjae6"
+              target="_blank"
+              className="flex gap-2"
+            >
               <Icons.Discord className="h-4 w-4" />
               {t("header.discord.button")}
             </Link>
