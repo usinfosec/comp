@@ -448,6 +448,11 @@ export default {
   },
   people: {
     title: "People",
+    details: {
+      taskProgress: "Task Progress",
+      tasks: "Tasks",
+      noTasks: "No tasks assigned yet",
+    },
     description: "Manage your team members and their roles.",
     filters: {
       search: "Search people...",
@@ -461,6 +466,7 @@ export default {
       name: "Name",
       email: "Email",
       department: "Department",
+      externalId: "External ID",
     },
     empty: {
       no_employees: {

@@ -728,31 +728,6 @@ model OrganizationMember {
   @@index([userId])
 }
 
-model Employee {
-  id         String      @id @default(cuid())
-  name       String
-  email      String
-  department Departments @default(none)
-  isActive   Boolean     @default(true)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  // Many-to-many relationships through join tables
-  riskTaskAssignments   RiskTaskAssignment[]
-  vendorTaskAssignments VendorTaskAssignment[]
-
-  @@unique([email, organizationId])
-  @@index([organizationId])
-  @@index([userId])
-  @@index([department])
-}
-
 // Join table for risk task assignments
 model RiskTaskAssignment {
   id         String   @id @default(cuid())
@@ -783,4 +758,63 @@ model VendorTaskAssignment {
   @@unique([taskId, employeeId])
   @@index([taskId])
   @@index([employeeId])
+}
+
+enum EmployeeTaskStatus {
+  assigned
+  in_progress
+  completed
+  overdue
+}
+
+model EmployeeRequiredTask {
+  id          String   @id @default(cuid())
+  code        String   @unique // e.g. "SEC-TRAINING", "NDA-SIGN"
+  name        String // e.g. "Security Awareness Training"
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  employeeTasks EmployeeTask[]
+}
+
+model EmployeeTask {
+  id                String               @id @default(cuid())
+  employeeId        String
+  employee          Employee             @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  requiredTaskId    String
+  requiredTask      EmployeeRequiredTask @relation(fields: [requiredTaskId], references: [id], onDelete: Cascade)
+  status            EmployeeTaskStatus   @default(assigned)
+  completedAt       DateTime?
+  overrideCompliant Boolean              @default(false)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  @@unique([employeeId, requiredTaskId])
+}
+
+model Employee {
+  id                 String      @id @default(cuid())
+  name               String
+  email              String
+  department         Departments @default(none)
+  isActive           Boolean     @default(true)
+  externalEmployeeId String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  employeeTasks        EmployeeTask[]
+  RiskTaskAssignment   RiskTaskAssignment[]
+  VendorTaskAssignment VendorTaskAssignment[]
+
+  @@unique([email, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+  @@index([department])
 }

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { type PersonType, columns } from "@/components/tables/people/columns";
+import { type PersonType } from "@/components/tables/people/columns";
 import { DataTable } from "@/components/tables/people/data-table";
 import {
   NoResults,

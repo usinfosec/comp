@@ -265,4 +265,6 @@ export const createEmployeeSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Department is required",
   }),
+  externalEmployeeId: z.string().optional(),
+  isActive: z.boolean().default(true),
 });
