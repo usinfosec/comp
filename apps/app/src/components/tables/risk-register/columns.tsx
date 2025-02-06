@@ -26,8 +26,8 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 
   return [
     {
-      id: "title",
-      accessorKey: "title",
+      id: "name",
+      accessorKey: "name",
       header: t("risk.register.table.risk"),
       cell: ({ row }) => {
         const status = row.original.status;
