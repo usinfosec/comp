@@ -1604,7 +1604,7 @@ files:
     vendor.empty_states.no_results.description: 272e8ffa88987801e1ce4df4610db9ea
     vendor.empty_states.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
     people.title: 5557260365f759ca82cf108b3d8bef8f
-    people.details.taskProgress: 3cb06e12073d38f3f21997f827281a23
+    people.details.taskProgress: baaaf8d62581ba13475418248c4a8d0d
     people.details.tasks: 1c309074b8348cf83eef81c27d4e5e97
     people.details.noTasks: d888c934668143d74bd2b16d4759092d
     people.description: fd54f4382097809dd188d5d00c770125
@@ -1623,8 +1623,8 @@ files:
     people.empty.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
     people.invite.title: 0377e2862a56907572c6253feb96ac1e
     people.invite.description: 0d1501eb5ca25a88675a1b67505c6371
-    people.invite.email.label: e920754fa88b7c38cdd1bcc259bac5d0
-    people.invite.email.placeholder: 5a6940a4d212e6c6fd224ae8c9744232
+    people.invite.email.label: 4931fa232e876ae17165d664f56677bb
+    people.invite.email.placeholder: 76698be1004655faa7e80b4f62c4f8a7
     people.invite.role.label: 19772a94ff8636c21be02e839fbc9a09
     people.invite.role.placeholder: 86c306c23929c264d9fe1637bab1b2eb
     people.invite.name.label: d4700b697a54fbd43a1a613d32694e7f
@@ -1634,7 +1634,7 @@ files:
     people.invite.submit: 0377e2862a56907572c6253feb96ac1e
     people.invite.success: 83dd88a7224d8a74ca74127613a347a0
     people.invite.error: 4cca4a705d84aa6194c1788cb1b1b5ca
-    errors.unexpected: 97a0b13a8505e747bfd30b01f1ab78d7
+    errors.unexpected: 18105319b34e382d1e0ed2e165f4d960
   src/locales/no.ts:
     languages.es: b980859f1670214519fd5cd3942dddf8
     languages.fr: 939843e67f5fd5de8870aed96875c98e

@@ -564,7 +564,7 @@ export default {
   people: {
     title: "Personnes",
     details: {
-      taskProgress: "Progression des tâches",
+      taskProgress: "Avancement des tâches",
       tasks: "Tâches",
       noTasks: "Aucune tâche assignée pour le moment"
     },
@@ -598,8 +598,8 @@ export default {
       title: "Ajouter un employé",
       description: "Ajoutez un employé à votre organisation.",
       email: {
-        label: "Adresse e-mail",
-        placeholder: "Entrez l'adresse e-mail"
+        label: "Adresse email",
+        placeholder: "Entrez l'adresse email"
       },
       role: {
         label: "Rôle",
@@ -619,6 +619,6 @@ export default {
     }
   },
   errors: {
-    unexpected: "Une erreur est survenue, veuillez réessayer"
+    unexpected: "Une erreur s'est produite, veuillez réessayer"
   }
 } as const;
