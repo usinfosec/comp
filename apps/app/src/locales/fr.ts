@@ -171,7 +171,8 @@ export default {
     vendors: "Fournisseurs",
     integrations: "Intégrations",
     settings: "Paramètres",
-    evidence: "Tâches de Preuve"
+    evidence: "Tâches de Preuve",
+    people: "Personnes"
   },
   auth: {
     title: "Automatisez la conformité SOC 2, ISO 27001 et RGPD avec l'IA.",
@@ -559,5 +560,65 @@ export default {
         description_with_filters: "Essayez d'ajuster vos filtres"
       }
     }
+  },
+  people: {
+    title: "Personnes",
+    details: {
+      taskProgress: "Progression des tâches",
+      tasks: "Tâches",
+      noTasks: "Aucune tâche assignée pour le moment"
+    },
+    description: "Gérez les membres de votre équipe et leurs rôles.",
+    filters: {
+      search: "Rechercher des personnes...",
+      role: "Filtrer par rôle"
+    },
+    actions: {
+      invite: "Ajouter un employé",
+      clear: "Effacer les filtres"
+    },
+    table: {
+      name: "Nom",
+      email: "Email",
+      department: "Département",
+      externalId: "ID externe"
+    },
+    empty: {
+      no_employees: {
+        title: "Aucun employé pour le moment",
+        description: "Commencez par inviter votre premier membre d'équipe."
+      },
+      no_results: {
+        title: "Aucun résultat trouvé",
+        description: "Aucun employé ne correspond à votre recherche",
+        description_with_filters: "Essayez d'ajuster vos filtres"
+      }
+    },
+    invite: {
+      title: "Ajouter un employé",
+      description: "Ajoutez un employé à votre organisation.",
+      email: {
+        label: "Adresse email",
+        placeholder: "Entrez l'adresse email"
+      },
+      role: {
+        label: "Rôle",
+        placeholder: "Sélectionnez un rôle"
+      },
+      name: {
+        label: "Nom",
+        placeholder: "Entrez le nom"
+      },
+      department: {
+        label: "Département",
+        placeholder: "Sélectionnez un département"
+      },
+      submit: "Ajouter un employé",
+      success: "Employé ajouté avec succès",
+      error: "Échec de l'ajout de l'employé"
+    }
+  },
+  errors: {
+    unexpected: "Une erreur s'est produite, veuillez réessayer"
   }
 } as const;

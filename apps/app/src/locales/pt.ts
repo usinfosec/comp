@@ -171,7 +171,8 @@ export default {
     vendors: "Fornecedores",
     integrations: "Integrações",
     settings: "Configurações",
-    evidence: "Tarefas de Evidência"
+    evidence: "Tarefas de Evidência",
+    people: "Pessoas"
   },
   auth: {
     title: "Automatize a conformidade com SOC 2, ISO 27001 e GDPR com IA.",
@@ -559,5 +560,65 @@ export default {
         description_with_filters: "Tente ajustar seus filtros"
       }
     }
+  },
+  people: {
+    title: "Pessoas",
+    details: {
+      taskProgress: "Progresso da Tarefa",
+      tasks: "Tarefas",
+      noTasks: "Nenhuma tarefa atribuída ainda"
+    },
+    description: "Gerencie os membros da sua equipe e seus papéis.",
+    filters: {
+      search: "Pesquisar pessoas...",
+      role: "Filtrar por papel"
+    },
+    actions: {
+      invite: "Adicionar Funcionário",
+      clear: "Limpar filtros"
+    },
+    table: {
+      name: "Nome",
+      email: "Email",
+      department: "Departamento",
+      externalId: "ID Externo"
+    },
+    empty: {
+      no_employees: {
+        title: "Nenhum funcionário ainda",
+        description: "Comece convidando seu primeiro membro da equipe."
+      },
+      no_results: {
+        title: "Nenhum resultado encontrado",
+        description: "Nenhum funcionário corresponde à sua pesquisa",
+        description_with_filters: "Tente ajustar seus filtros"
+      }
+    },
+    invite: {
+      title: "Adicionar Funcionário",
+      description: "Adicione um funcionário à sua organização.",
+      email: {
+        label: "Endereço de email",
+        placeholder: "Digite o endereço de email"
+      },
+      role: {
+        label: "Papel",
+        placeholder: "Selecione um papel"
+      },
+      name: {
+        label: "Nome",
+        placeholder: "Digite o nome"
+      },
+      department: {
+        label: "Departamento",
+        placeholder: "Selecione um departamento"
+      },
+      submit: "Adicionar Funcionário",
+      success: "Funcionário adicionado com sucesso",
+      error: "Falha ao adicionar funcionário"
+    }
+  },
+  errors: {
+    unexpected: "Algo deu errado, por favor tente novamente"
   }
 } as const;
