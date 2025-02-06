@@ -59,8 +59,8 @@ export function WaitlistForm() {
           href="https://discord.gg/compai"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
         >
-          Join Community
-          <span>→</span>
+          Join us on Discord
+          <span aria-hidden="true">→</span>
         </Link>
       </div>
     );
@@ -86,6 +86,7 @@ export function WaitlistForm() {
                   className="h-12 px-4 text-base bg-background border-border/50 focus:border-primary"
                   autoComplete="email"
                   autoCorrect="off"
+                  aria-label="Email address"
                 />
               </FormControl>
               <FormMessage className="text-sm" />
@@ -96,18 +97,18 @@ export function WaitlistForm() {
         <Button
           type="submit"
           size="lg"
-          className="h-12 px-6 text-base font-medium"
+          className="h-12 px-6 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2"
           disabled={waitlistAction.isExecuting || !form.formState.isValid}
         >
           {waitlistAction.isExecuting ? (
             <span className="flex items-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
               Joining...
             </span>
           ) : (
             <span className="flex items-center gap-2">
               Get Started
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </span>
           )}
         </Button>

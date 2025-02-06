@@ -5,22 +5,22 @@ export const env = createEnv({
   server: {
     RESEND_API_KEY: z.string(),
     RESEND_AUDIENCE_ID: z.string(),
-    TURNSTILE_SECRET_KEY: z.string(),
     DISCORD_WEBHOOK_URL: z.string(),
   },
 
   client: {
-    NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string(),
-    NEXT_PUBLIC_GOOGLE_TAG_ID: z.string(),
+    NEXT_PUBLIC_GOOGLE_TAG_ID: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   },
 
   runtimeEnv: {
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
-    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     NEXT_PUBLIC_GOOGLE_TAG_ID: process.env.NEXT_PUBLIC_GOOGLE_TAG_ID,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
