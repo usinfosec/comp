@@ -123,6 +123,7 @@ files:
     sidebar.integrations: e01aecb528730f3bfe10f9d57f1317bf
     sidebar.settings: f4f70727dc34561dfde1a3c529b6205c
     sidebar.evidence: 63b1eb1a39194d82271ec937fba19714
+    sidebar.people: 78386ec8f2845742c324a3d7d3e800ff
     auth.title: 4b33d501b99fef8f85f32b942fcd0b1f
     auth.description: 1fd4b045f6d46683c611e45b8de4bcf6
     auth.options: 4dab36ac83853282fc0d7bae20c19e90
@@ -293,6 +294,37 @@ files:
     risk.tasks.sheet.update: 4986b7d86bc9802a74158895b131d84d
     risk.tasks.sheet.update_description: 78765e8e89a67c813e41dfb5c8040a2a
     risk.tasks.empty.description_create: cdce579691e73a04fd291956adab6ff0
+    people.title: 78386ec8f2845742c324a3d7d3e800ff
+    people.details.taskProgress: c4e5276dbb142e8e0811592b7c343a8a
+    people.details.tasks: ef615563c8e8ea902c7fcac3cd2c4246
+    people.details.noTasks: 8d86e70a97e8d6620e2600ff76e9a8cd
+    people.description: 96776a8dfd58b0473be8691ff978988e
+    people.filters.search: e21faaa1f7ea9e5fcec30dd028642cdb
+    people.filters.role: 4a49167c423fab80b22db2b551813a81
+    people.actions.invite: 3aa4cd2c53d3d24b465398053e12fe65
+    people.actions.clear: 0b275442d6556cff30b75f37f1918899
+    people.table.name: 49ee3087348e8d44e1feda1917443987
+    people.table.email: ce8ae9da5b7cd6c3df2929543a9af92d
+    people.table.department: 1d17cb9923b99f823da9f5a16dc460e5
+    people.table.externalId: 01ddb49044c161b11fdb0c41adbeb3b3
+    people.empty.no_employees.title: 9047cc33a16248133c3fcc8884523588
+    people.empty.no_employees.description: 3fdb36a3d56c06043da562aaa1045825
+    people.empty.no_results.title: e576c23d915755d83e2d1f47bd9f6c22
+    people.empty.no_results.description: 1d614d90a39e5c90a5bf83674fb0980d
+    people.empty.no_results.description_with_filters: 2b70f835ed5a08e817ec9388ce25b41a
+    people.invite.title: 3aa4cd2c53d3d24b465398053e12fe65
+    people.invite.description: b7b0d6a1bbef42464b89835c1c6d367b
+    people.invite.email.label: b357b524e740bc85b9790a0712d84a30
+    people.invite.email.placeholder: 0a7e62bed14b39cf005db653e04fb3b3
+    people.invite.role.label: bbbabdbe1b262f75d99d62880b953be1
+    people.invite.role.placeholder: 426f18770bd593d4e85931b6fef5cf56
+    people.invite.name.label: 49ee3087348e8d44e1feda1917443987
+    people.invite.name.placeholder: eae6805dee70fead7144e4fdaf9b9471
+    people.invite.department.label: 1d17cb9923b99f823da9f5a16dc460e5
+    people.invite.department.placeholder: aa4fd23252b4fcf84f40febb6271bf2b
+    people.invite.submit: 3aa4cd2c53d3d24b465398053e12fe65
+    people.invite.success: 9620d1961c98d460afe48b485c836033
+    people.invite.error: a4a5d2d9cd70396725b34f2757379aff
     settings.general.title: 0db377921f4ce762c62526131097968f
     settings.general.org_name: 9f6806ada2d5069898dd5d21ca6529cd
     settings.general.org_name_description: c4e6879ed601093e1765258d46270ade
@@ -384,6 +416,7 @@ files:
     vendor.empty_states.no_results.title: e576c23d915755d83e2d1f47bd9f6c22
     vendor.empty_states.no_results.description: d7fd5c52726c5016a59fb01e74069441
     vendor.empty_states.no_results.description_with_filters: 2b70f835ed5a08e817ec9388ce25b41a
+    errors.unexpected: 325a357f60b95f37fec18b15cb39fbb0
   src/locales/es.ts:
     language.title: c88b33a3250b4e28f34e1ececba69206
     language.description: b74d060770289b75ba34d38ea1e05251
@@ -397,15 +430,15 @@ files:
     common.actions.edit: ef485eb67ac89238a4fede745a0ae94c
     common.actions.delete: 5b5c9f9dc839dcc858b3c4371b014930
     common.actions.cancel: 847607d75e504090b5aff16a6e6c8351
-    common.actions.clear: a96f30f0a23d371e93131a420a328180
+    common.actions.clear: 476e7d19b5be911bd99a3de6c31771d1
     common.actions.create: 4f74549a5b17e88d7dd15b2fd7789a59
     common.actions.send: 30cc00aea30ec70b7c1292b6458181c0
-    common.actions.return: 270ca015c037064561c242fac2e8d7bb
+    common.actions.return: e52ece59a8a5b16a2c9fe070ac32c3fe
     common.actions.success: 560650554df187b9bf972d95229b8b15
     common.actions.error: 902b0d55fddef6f8d651fe1035b7d4bd
     common.actions.next: 1ffed09a945050b91aa1f46c7dd45087
     common.actions.complete: 8d7c2bd0727190e37da6f27a86205b2b
-    common.assignee.label: 14c125d88444bd12e79ddb959d69c14e
+    common.assignee.label: c6bed77956f79c7a9657a15f010a773f
     common.assignee.placeholder: e262b3b4d20573cbdcb5b3adef9660de
     common.date.pick: bd29a1cd952610bfeeb0b02ca164aebd
     common.date.due_date: 1cbb3bd12a8661902fe6eb8983e9bb6b
@@ -414,13 +447,13 @@ files:
     common.status.closed: 4e2af90d29d253ccbcff2ce2b459c9ae
     common.status.archived: 1d0d86348d657b60e5f8cc3cc3bc37f3
     common.status.compliant: 447b6bc7e7847f0abe61d2869edf9015
-    common.status.non_compliant: d161b64e6529539818d3fef2b2d0dd1d
-    common.status.not_started: 085cdbd670e41e8db6c3523e31ae29f8
-    common.status.in_progress: d97cef63cfca0ad4115498d2ed0c1e14
+    common.status.non_compliant: 6875f1e57c0dabd95fd3a872414e3e4a
+    common.status.not_started: a9b06b1d4b6cd8b230a54306a318fd42
+    common.status.in_progress: 5af8d2e40ce41d4dcbe8306a9a1c9c6e
     common.status.published: 1f10a7861d15aaf098ad564a7d8a9506
-    common.status.needs_review: 3e291f9e058c033724e84f51329ed2f7
+    common.status.needs_review: 906a777038d2ebda5738cd53a71e74ae
     common.status.draft: a1c7b53d72d9db871a2f3ea94d06f113
-    common.status.not_assessed: 18bce79f3d32e000f75aec1c2654271a
+    common.status.not_assessed: 873ff59465c27a78413d843b190a5919
     common.status.assessed: 3a752f70d3615e5edc52168cb4819e49
     common.status.active: ca49d6ff0b13ddea1e094ce3420b279d
     common.status.inactive: 5b6532a325ae02229cfaeab843a2a682
@@ -428,7 +461,7 @@ files:
     common.filters.search: 7ae8b43332fae10e1930f45401046425
     common.filters.status: 3397e69cce37e37c8605f57b367d6b33
     common.filters.department: 8295f968e1676d62158d33a57b26963b
-    common.filters.owner.label: 14c125d88444bd12e79ddb959d69c14e
+    common.filters.owner.label: c6bed77956f79c7a9657a15f010a773f
     common.filters.owner.placeholder: 7c3c087d24211c351e870e9b836aa166
     common.table.title: 09b79d379db0c82b4615d749b22475f0
     common.table.status: 3397e69cce37e37c8605f57b367d6b33
@@ -439,12 +472,12 @@ files:
     common.empty_states.no_results.title: 08cc2aa4ba9453e2c51af3d4d621e3f5
     common.empty_states.no_results.title_tasks: 51160346497dd7744ce81258b3c405c7
     common.empty_states.no_results.title_risks: 62e0e8d16ec115a0731c00d6ad229541
-    common.empty_states.no_results.description: acb8c45e3a87a77c2b445f501bba31c3
-    common.empty_states.no_results.description_filters: acb8c45e3a87a77c2b445f501bba31c3
-    common.empty_states.no_results.description_no_tasks: e43c44dcac7e63688b5775133028f75b
-    common.empty_states.no_results.description_no_risks: 968376ea07ef6fb4dd9d40a2beebedf9
+    common.empty_states.no_results.description: 96e17a898f418a572561fef5284fd7c8
+    common.empty_states.no_results.description_filters: 96e17a898f418a572561fef5284fd7c8
+    common.empty_states.no_results.description_no_tasks: c55852211c6ff8a81e27eef485055c59
+    common.empty_states.no_results.description_no_risks: d2a2fdeed9b560c7e88edc3796bc1609
     common.empty_states.no_items.title: 75993eb72edfb39dd53a38a56e92f678
-    common.empty_states.no_items.description: b5a04864ce54adfe685574f48113801a
+    common.empty_states.no_items.description: e0591e3b836afdf0de7a705061610bc9
     common.pagination.of: 5f02f0889301fd7be1ac972c11bf3e7d
     common.pagination.items_per_page: 4e2c07359b02a88b897029fc23506a5b
     common.pagination.rows_per_page: 0cdfc20f48b9b095456ddcf01c9145aa
@@ -454,32 +487,32 @@ files:
     common.pagination.go_to_next_page: 83fc9e8dae730acca1538378cc9b09dd
     common.pagination.go_to_last_page: 1bbcb7318f62d1a2289d6d71879901de
     common.comments.title: 30045922163d87daf194d9bcb2aa8ac4
-    common.comments.description: 350627045325913e06cde0d5b8a4c0d8
-    common.comments.add: c390eb6b2d0a08313f5d5427003d119b
-    common.comments.new: 50b88087cdbbd6a90e108cdf52c21613
-    common.comments.save: 2364e2f852738ff8227722cf15d22310
-    common.comments.success: f2b6fd011996666ab5b97b494434a549
-    common.comments.error: ef975734baf054adc8a2e351e6cd6ab8
+    common.comments.description: b4084b5d4e3c36531dfa9e770b202ffe
+    common.comments.add: d7c0f6427402512c742347babca1f0c2
+    common.comments.new: 1cedf59ff856d0c6293af4e8bee06b8b
+    common.comments.save: d136cf0668d2d020699fe6aa3bdebb25
+    common.comments.success: b175901ef041b80825390b2f1a8180ae
+    common.comments.error: 4f4397e6e8c1f7bbec46ef41e91d3195
     common.comments.placeholder: 9351a1212cd1b53e72b6a31769fffe44
-    common.comments.empty.title: 7522d9fc71af7de5e9485aa2b4c8c3bf
-    common.comments.empty.description: 1d32812eac7024198a8a0334975c42f0
-    common.attachments.title: b3058170fb13cdcbd87ae99ad7ab9aa8
-    common.attachments.description: b9f9bd6c9c7aed3b169114ec7de9b106
-    common.attachments.upload: 93379b40ff907f72a269e92307813e94
-    common.attachments.upload_description: fbc0735ba4c3e57c53e39be4c02ebb46
+    common.comments.empty.title: 98a81265d2761078a38b37e7d2cda68f
+    common.comments.empty.description: c5d9c882ed4c78ea628afd9db3146b30
+    common.attachments.title: 3c675ef97f2e8c747c72f7e29e75ca03
+    common.attachments.description: edc822d92ea10ec0c78724263095e13a
+    common.attachments.upload: 66faa15820a6155e9c4cb66df196a86d
+    common.attachments.upload_description: 0b405ecac1cebf12c53fb1a94ac63f5f
     common.attachments.drop: c7792783b2de81d23da293c491c72be6
-    common.attachments.drop_description: 2c0be60a8bbb17010d2a6f996e7dbf29
-    common.attachments.drop_files_description: 9ed50be87314d885a28b1efb0e875801
-    common.attachments.empty.title: 3cf74e99157ddf3f8ef80baea08a36e5
-    common.attachments.empty.description: b9f9bd6c9c7aed3b169114ec7de9b106
+    common.attachments.drop_description: ee8213173b9a1fd5b98545b83491bfd9
+    common.attachments.drop_files_description: fb3233c4709b6030f89321be024f0c80
+    common.attachments.empty.title: 2e5ced3a75e0ff843189c6f835c5625b
+    common.attachments.empty.description: edc822d92ea10ec0c78724263095e13a
     common.attachments.toasts.error: 361a117ad725951e608753f81ef12e5b
-    common.attachments.toasts.error_uploading_files: 22a1b004027f1891d601cc3fce736ea6
+    common.attachments.toasts.error_uploading_files: 2616b5cda9937ffd56c82c2cd8cbfea0
     common.attachments.toasts.error_uploading_files_multiple: 45c6c9461240d67ddafd31b03097ce6e
     common.attachments.toasts.error_no_files_selected: fd5d1d03cb1f3ead611bcf5b0f91fd4e
     common.attachments.toasts.error_file_rejected: 35b81afa54e5590dcf5d69e5e086edfd
-    common.attachments.toasts.error_failed_to_upload_files: eae0030968b66677a8ab52ca72c83c56
-    common.attachments.toasts.error_failed_to_upload_files_multiple: eae0030968b66677a8ab52ca72c83c56
-    common.attachments.toasts.error_failed_to_upload_files_single: f6440d979e1930b66ae2b4a925449830
+    common.attachments.toasts.error_failed_to_upload_files: 76374981ca7701a93226d3647db20f5e
+    common.attachments.toasts.error_failed_to_upload_files_multiple: 76374981ca7701a93226d3647db20f5e
+    common.attachments.toasts.error_failed_to_upload_files_single: 1114768d410514b0fcdb14f27948fdd7
     common.attachments.toasts.success_uploading_files: d3ff7960a885465625c95198731ab5ee
     common.attachments.toasts.success_uploading_files_multiple: d3ff7960a885465625c95198731ab5ee
     common.attachments.toasts.success_uploading_files_single: 89cf650484c02f327f925bc1c573f33a
@@ -489,14 +522,14 @@ files:
     header.discord.button: bb1d159e917b3b1f930b1a94546e284e
     header.feedback.button: 30045922163d87daf194d9bcb2aa8ac4
     header.feedback.title: 655af1f75ab10f676b65f8eb1ab9f500
-    header.feedback.description: 033d497147a822c8933040c4e012dae1
+    header.feedback.description: 72eeffe43e7bb9c2d60a9696767c9c35
     header.feedback.placeholder: 8c97d3fd1885ff7d2ace81ff70cb051a
     header.feedback.success: 655af1f75ab10f676b65f8eb1ab9f500
-    header.feedback.error: 9e027973f7f050460cfd57ba8f3f0e02
-    header.feedback.send: bfec03286d17d640aa237d0e3db85c1f
+    header.feedback.error: 71cf23dcb04bfc5d324f0e482e046ca3
+    header.feedback.send: 3ad5963e1a2d72cb72bdb3ab3110ff1a
     not_found.title: d51c5646e3ecaecea876a931be98d0a6
     not_found.description: 76296f2db5b7725bf728b49b5ab61f6b
-    not_found.return: 2c8530c20f0d55d0098f5d82bac3c6e2
+    not_found.return: 5cee76a8c096296dfb17f29e248dc6b1
     theme.options.light: abfd24adfebef98d653b605aa62baf2f
     theme.options.dark: e453a886a3295deb0ede87645ede5646
     theme.options.system: b431d1485aa37ae09fa4bfa7883356ca
@@ -505,90 +538,90 @@ files:
     sidebar.risk: 3620a2f5d04be0ef2ecd685297baf1d3
     sidebar.vendors: 915a50509a5b968903bdb788f448639e
     sidebar.integrations: adcecead84f6cfdbff4dcbf48f3042f8
-    sidebar.settings: 1a0150117e807caf279cde8bdf66f406
-    sidebar.evidence: 5af41ac93343213b6acf71de2905164c
+    sidebar.settings: 4d3c4eb9f350e268f00f8097de526194
+    sidebar.evidence: 2588e6aa8938f60682e23b2f6fb0d4ee
     sidebar.people: d4e50a9ea2253c9f06bc6bd451fb3a2c
     auth.title: 5fc2b1a1eed0a1823159ab106f2aed7e
     auth.description: 6a082bb3b49331c16f102861ff2ab31d
     auth.options: ef4e58e8acedb82c35fed30955ca137c
     auth.google: 81e754bba3423b76f625af09bb1fcf2c
-    auth.email.description: c3e07185e5c8631ec2c664a5ed713ce7
-    auth.email.placeholder: c6f6d57d636ef82e3bc53d35125ba0ad
+    auth.email.description: 1ffb6589352c18ddd6fc586036f2e7b2
+    auth.email.placeholder: ef2fc7b5a10529a04fa8f06b3f5b9581
     auth.email.button: b717acee66cb275bea78b19c5c6133b7
     auth.email.magic_link_sent: b53dd0e981aa51e21b23ede8579a03be
-    auth.email.magic_link_description: 615d76fe7d058f47b26ac3bf39d04710
-    auth.email.magic_link_try_again: 7b13e20aa1b15e9f2ff7b45e1013045f
+    auth.email.magic_link_description: b6e4cc34ca6d3fa8ad455ed567717032
+    auth.email.magic_link_try_again: 0186c3c01b4329be8b889c2b85c564a0
     auth.email.success: 4b79b5012aab181d9a3e4f0eb7a34ba5
-    auth.email.error: 8076efcb6d07b974ce07e9457a7decbe
+    auth.email.error: b438025bbb832d1ae0e569d74fe8aa2d
     auth.terms: c0cbd618f8f3bfaa7c895c1a6bd05945
     onboarding.title: 0661b25bd7c77c70e4d7b0a930aee5b8
     onboarding.setup: 1a0150117e807caf279cde8bdf66f406
     onboarding.description: 8bc7d119900568c15836bfa5dfc80a8e
-    onboarding.fields.name.label: 478342a6b4ea7f7168b7b8d581ec21c1
-    onboarding.fields.name.placeholder: 9e29f9db1cd2fc1d083053b73fdfa2be
+    onboarding.fields.name.label: f57583eb2f3841ce79b704a8e945a8ac
+    onboarding.fields.name.placeholder: 7f68a09fe2691b6ed382f6dff70d906d
     onboarding.fields.website.label: 4a4cb60dc8cd226c68ffffe713aa9fe3
-    onboarding.fields.website.placeholder: 330ae88d3e01f48a3d4c9660a44f8b75
-    onboarding.success: a5109237c427b0328a80c6a3bd679e56
+    onboarding.fields.website.placeholder: 82d35d943316a67baaf429734ff1528c
+    onboarding.success: f754711017865b6d8cd17ac78bf990b7
     onboarding.error: 361a117ad725951e608753f81ef12e5b
     overview.title: 8332fbec31ac4a3cd9d819230e7a6087
-    overview.framework_chart.title: ba2114976c45459fd2fa1363eb817c0d
-    overview.requirement_chart.title: 1933cb945ebc3dd18dbd2e2f62bdb7a9
-    policies.dashboard.title: f4f4d40f905e5b4cc291770652a4e6d6
-    policies.dashboard.all: 4f6d7e4434d89306bb36d0b0ddf48b3e
-    policies.dashboard.policy_status: 0289054fdcb0707e478a3779b310e3fd
-    policies.dashboard.policies_by_assignee: fa0ada36744b62723e354e5bc8ed717a
-    policies.dashboard.policies_by_framework: fc0628cbe57895c33421c10efeb0664d
-    policies.table.name: 47d6dcfc107d322661a31dee9ccb048d
+    overview.framework_chart.title: 28ab94749a075e5c0485994bf71de1ae
+    overview.requirement_chart.title: 81ebb7d71c25f790c417c8c8c1f9bffe
+    policies.dashboard.title: b8da6df14bf06283cbf588df6998722e
+    policies.dashboard.all: 0357f080f91c24ea0f233561ef828c40
+    policies.dashboard.policy_status: 298f1b71d8b4fcce6f3e3c01c29fe63f
+    policies.dashboard.policies_by_assignee: 75943a8ff82717510e319689202ceba1
+    policies.dashboard.policies_by_framework: 8c3cb8aef0c46f5eb836ebc877372811
+    policies.table.name: c44a478ab23a921aac17d69e34bcba6d
     policies.table.statuses.draft: a1c7b53d72d9db871a2f3ea94d06f113
     policies.table.statuses.published: 1f10a7861d15aaf098ad564a7d8a9506
     policies.table.filters.owner.label: 14c125d88444bd12e79ddb959d69c14e
     policies.table.filters.owner.placeholder: 7c3c087d24211c351e870e9b836aa166
     policies.filters.search: 3214ab7f38a0af1eb4474df80c652d9f
-    policies.filters.all: 4f6d7e4434d89306bb36d0b0ddf48b3e
+    policies.filters.all: 0357f080f91c24ea0f233561ef828c40
     policies.status.draft: a1c7b53d72d9db871a2f3ea94d06f113
     policies.status.published: 1f10a7861d15aaf098ad564a7d8a9506
-    policies.status.needs_review: 3e291f9e058c033724e84f51329ed2f7
+    policies.status.needs_review: 906a777038d2ebda5738cd53a71e74ae
     policies.policies: b1dc11822e33e5f1ecb29739878bb048
-    evidence_tasks.evidence_tasks: 5af41ac93343213b6acf71de2905164c
+    evidence_tasks.evidence_tasks: 2588e6aa8938f60682e23b2f6fb0d4ee
     evidence_tasks.overview: 8332fbec31ac4a3cd9d819230e7a6087
     risk.risks: 3624933eae9a60f077f9f2954c813828
     risk.overview: 8332fbec31ac4a3cd9d819230e7a6087
-    risk.create: a68ce3dceffe267d154bf341d44b78dc
-    risk.vendor.title: 5ce1a6ffb5e88d09fef032c3e8a28c24
-    risk.vendor.dashboard.title: d4d5b3311c11247387e720dafd8249fc
-    risk.vendor.dashboard.overview: ebcf7abfdee9aebfb8615d92814f55ff
-    risk.vendor.dashboard.vendor_status: 872a23023e0e8519b9243dd39f26b5b2
-    risk.vendor.dashboard.vendor_category: dcc913af0597d229d2e30439291e9f0d
-    risk.vendor.dashboard.vendors_by_assignee: 8931f9a8092c319c41199fa735ef6f93
-    risk.vendor.dashboard.inherent_risk_description: 718aaccac56bf9487a4c8a61af1b641a
+    risk.create: f1fc49a78264b7beca09b3932c6b9df6
+    risk.vendor.title: 2986d415899d6faed8ad189f31a432aa
+    risk.vendor.dashboard.title: 9c03a54994928ce527a3599fe438a2c4
+    risk.vendor.dashboard.overview: b5c8e712154fbd4d85ea2da1d22e57cf
+    risk.vendor.dashboard.vendor_status: 4045c50fafbf976963b2abe2ff758864
+    risk.vendor.dashboard.vendor_category: b6bac422c578f759975cdccf39de2401
+    risk.vendor.dashboard.vendors_by_assignee: 5a661e089c7124696f959a6b0cc29606
+    risk.vendor.dashboard.inherent_risk_description: 2551381346d2c58885e11d2b8b988301
     risk.vendor.dashboard.residual_risk_description: b3df7c33bb9576f3e99f490c3ceac25f
-    risk.vendor.register.title: 01c64987b47ee2ed893a989b5b1b2aa9
+    risk.vendor.register.title: 5ff135435abe7b7a293282727d1d0248
     risk.vendor.register.table.name: 4777bbaaa0aebe104606b77947d0e22d
     risk.vendor.register.table.category: 624c6b241d2d14bbd285596ffcf2a9e7
     risk.vendor.register.table.status: 3397e69cce37e37c8605f57b367d6b33
     risk.vendor.register.table.owner: 5f4d7cc1e658cea56da01b8945cec7d4
-    risk.vendor.assessment.title: c999e81d6a3c2112bc7741926da60f82
-    risk.vendor.assessment.update_success: d3c655e7fed072a8e806044215bc03c1
-    risk.vendor.assessment.update_error: 84fb4e67af636a268687dddf08c8a646
-    risk.vendor.assessment.inherent_risk: e1f43765977db0f6f5fc200eb9e9dc06
-    risk.vendor.assessment.residual_risk: 8963e3cbe01d20229d873a79825074a6
-    risk.vendor.form.vendor_details: a83c56d1fb7a07d6a42bd518710821ae
+    risk.vendor.assessment.title: 7a104cdaf33ccdf2565b1856d2e39749
+    risk.vendor.assessment.update_success: 63b1bd53b84ea7522e3e0462079ad004
+    risk.vendor.assessment.update_error: f2453d2c74e4afe1a3dd461b67e554e1
+    risk.vendor.assessment.inherent_risk: 841ad642101241bfb5a8e178d505d45a
+    risk.vendor.assessment.residual_risk: f3f3dd8b7ec390eb4b092758e8511269
+    risk.vendor.form.vendor_details: a6493f216f4fccd070e4283ea652aa7a
     risk.vendor.form.vendor_name: 4777bbaaa0aebe104606b77947d0e22d
-    risk.vendor.form.vendor_name_placeholder: 5f662b9362753fe65d169ac6bd990b08
+    risk.vendor.form.vendor_name_placeholder: f9724e7045086b3ba9b4579232b8c657
     risk.vendor.form.vendor_website: 4a4cb60dc8cd226c68ffffe713aa9fe3
-    risk.vendor.form.vendor_website_placeholder: 0801972cd66654cc9a62f064668a70b5
+    risk.vendor.form.vendor_website_placeholder: 7850594aa937003e92139bd06c21396a
     risk.vendor.form.vendor_description: ef918abfb53ea5bc4fde3764e4c199de
-    risk.vendor.form.vendor_description_placeholder: d23ca1851342036589ad9f06fd9c8f24
+    risk.vendor.form.vendor_description_placeholder: 4f0a6bc526ccf5985a69f595752b9f4e
     risk.vendor.form.vendor_category: 624c6b241d2d14bbd285596ffcf2a9e7
-    risk.vendor.form.vendor_category_placeholder: eef1eb3f6044522aa46e11ae63e25f31
+    risk.vendor.form.vendor_category_placeholder: 9d74ee624d873cf13b64ee6aaed38bd8
     risk.vendor.form.vendor_status: 3397e69cce37e37c8605f57b367d6b33
-    risk.vendor.form.vendor_status_placeholder: fd7ea8a1e86350f3923c5eee393d5b4d
+    risk.vendor.form.vendor_status_placeholder: 4b432aae41faef3522bb0e16fa153e13
     risk.vendor.form.create_vendor_success: a225a3cf6ff8391735995a65c1b21542
-    risk.vendor.form.create_vendor_error: b54cb3c5a33998b8bce7dd9ccd95ac6c
-    risk.vendor.form.update_vendor: ceccbeb5a64370a2c31f7045672bd861
-    risk.vendor.form.update_vendor_success: db4face42ed323c76cf04d54064fb139
-    risk.vendor.form.update_vendor_error: afa96a5cf075b33613819d69e7041758
-    risk.vendor.form.add_comment: c390eb6b2d0a08313f5d5427003d119b
+    risk.vendor.form.create_vendor_error: d12b23040e2ce06fa6e97f31c0525a5b
+    risk.vendor.form.update_vendor: af068734645c7aa74b0659036246140a
+    risk.vendor.form.update_vendor_success: 4041caa00cdc188548d38d48be182f46
+    risk.vendor.form.update_vendor_error: be1d7970075b921eda0e874aef2b5504
+    risk.vendor.form.add_comment: d7c0f6427402512c742347babca1f0c2
     risk.vendor.table.name: 4777bbaaa0aebe104606b77947d0e22d
     risk.vendor.table.category: 624c6b241d2d14bbd285596ffcf2a9e7
     risk.vendor.table.status: 3397e69cce37e37c8605f57b367d6b33
@@ -598,10 +631,10 @@ files:
     risk.vendor.filters.category_placeholder: fa395f277d79168d098cddebc1571864
     risk.vendor.filters.owner_placeholder: 5dcb2b8638fb2a00d999196414631ddd
     risk.vendor.empty_states.no_vendors.title: dc57302b77376ef37fe5a5d3f116d2bb
-    risk.vendor.empty_states.no_vendors.description: 2bdb9c81c6a1da378e7cf7d99008750a
+    risk.vendor.empty_states.no_vendors.description: c2303c495a5f1108062ae465394612c2
     risk.vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
-    risk.vendor.empty_states.no_results.description: 675eaaaa6fb5ea24545b726a9e9ab3d1
-    risk.vendor.empty_states.no_results.description_with_filters: 245a7d071a2dbd9df604e2a5d88e5b41
+    risk.vendor.empty_states.no_results.description: 5d3f1d31cec631239093a8da2e0c67aa
+    risk.vendor.empty_states.no_results.description_with_filters: b8662468f89ba12988a84dfbe186d959
     risk.vendor.actions.create: d0d6becbf94f98e981cc47b89b0ab1d6
     risk.vendor.status.not_assessed: 873ff59465c27a78413d843b190a5919
     risk.vendor.status.in_progress: 5af8d2e40ce41d4dcbe8306a9a1c9c6e
@@ -614,82 +647,82 @@ files:
     risk.vendor.category.sales: adcc30327981bffd4f2f27d482e52e78
     risk.vendor.category.hr: 904ccf096c781e601bd74b5fbe5eb4fd
     risk.vendor.category.other: c2295235a535ea3e85b7a0e5ab85afb0
-    risk.vendor.risk_level.low: fd780d71d789fdc6687109d90a6a64f1
+    risk.vendor.risk_level.low: c3f5d0c1c069ca6c9090620a1ff3c938
     risk.vendor.risk_level.medium: d8e1f99f9ac1c9d7a6110c79daf2d7db
-    risk.vendor.risk_level.high: 04079deeaca4782e65aaabc9c430d539
+    risk.vendor.risk_level.high: f615e2d9443eaa282c99891152c16584
     risk.vendor.risk_level.unknown: da71ed9cc9993f503aea4d64f2c5c9e2
-    risk.dashboard.title: 4254be19c8a9606cbd1f2b41ef155980
+    risk.dashboard.title: 629e199d421911b329a2909925beeb50
     risk.dashboard.overview: 26e76fbba4a3399549740e2eca1dce49
-    risk.dashboard.risk_status: 830e598c54e18a5cc5b39f1d35fd7ec8
+    risk.dashboard.risk_status: 0a627f8ea427c0e25dfc78522d5643c5
     risk.dashboard.risks_by_department: 7888a04699015e06cc29af328d5e423b
     risk.dashboard.risks_by_assignee: 1ec19bb7b98e694f8948089e6f812a20
-    risk.dashboard.inherent_risk_description: 3b4b1658320d464a20418cf477e8594a
+    risk.dashboard.inherent_risk_description: c9613e10af2a68cb4da908a7adc423a3
     risk.dashboard.residual_risk_description: dbcd670168c184733609234c23b2bd85
-    risk.dashboard.risk_assessment_description: ad43a14d1bd1d8ef4613df657b722262
+    risk.dashboard.risk_assessment_description: 30b8f812ab145f121995deb91193d4b2
     risk.register.title: 61d643869401b0def6f6e0e6e7933999
     risk.register.table.risk: 3620a2f5d04be0ef2ecd685297baf1d3
-    risk.register.empty.no_risks.title: 0bf6d49ab105f80868428ad728a61cf6
-    risk.register.empty.no_risks.description: f6e713651bdbceada4a5e1198504a781
+    risk.register.empty.no_risks.title: d2a2fdeed9b560c7e88edc3796bc1609
+    risk.register.empty.no_risks.description: 59d96a7ae35a64898efbfb3d30c9bdf3
     risk.register.empty.create_risk: 4f2f6f3ae82433fa8e43c10678f5f762
     risk.metrics.probability: d3d5c9b1993c4b0dae7f8ee8d3e1d82e
     risk.metrics.impact: 5c5a54a8bb5bb610beec1345cd62c2e9
     risk.metrics.inherentRisk: 841ad642101241bfb5a8e178d505d45a
     risk.metrics.residualRisk: f3f3dd8b7ec390eb4b092758e8511269
     risk.form.update_inherent_risk: 6b8ae77751a43bceac1d9201c0f0aa94
-    risk.form.update_inherent_risk_description: a9dac27ff6e9cf33badc9049ae9da805
-    risk.form.update_inherent_risk_success: d95d946c2bb4dcd2e46e9c53f671c13f
-    risk.form.update_inherent_risk_error: 84b3a7f6193a93a1ad6d9bd7de3f2112
+    risk.form.update_inherent_risk_description: f8f2af5157c0a2e0ce0e0fc0cb057ff8
+    risk.form.update_inherent_risk_success: be5b549489af3cf7e015eb51b03d6c34
+    risk.form.update_inherent_risk_error: 809c88f1edb97468645362e9c55fd653
     risk.form.update_residual_risk: 9dac278cbcaf9fff450e1e2157dbe782
-    risk.form.update_residual_risk_description: 6c1189c6180af5ce600b6080160adfc8
-    risk.form.update_residual_risk_success: ea248ccff95299ea434442fda692fb8f
-    risk.form.update_residual_risk_error: e42dbff6d33516f0418d6755902c3543
+    risk.form.update_residual_risk_description: a061274d1986daf93fa530284a09d62d
+    risk.form.update_residual_risk_success: 3992b5db1b63cd9b708bcdfc77d0a86e
+    risk.form.update_residual_risk_error: 142f02264a202188b9d651f915a48ab3
     risk.form.update_risk: c3658c7b3b0c7ac09af1467c9fdda1ed
-    risk.form.update_risk_description: 10bc4d5700a46c03e42e6eea3b29d316
-    risk.form.update_risk_success: c136d53d1212844f821e8f994bd16259
-    risk.form.update_risk_error: 3b03df34d68923f626d16e2045cd0b32
-    risk.form.create_risk_success: a8f42dd4f157e327350ca3e04e07332c
-    risk.form.create_risk_error: e971ea00a02e796a58380459ed5585a9
+    risk.form.update_risk_description: b2fa15881df6f8ccc32e11323f729a12
+    risk.form.update_risk_success: 73cfa7fd713a79aa930d491e5708cd2c
+    risk.form.update_risk_error: 9abbfda76af7e4b8afc13f1b49de6fee
+    risk.form.create_risk_success: 3756811ec25fdaf619da644b06c6d8c7
+    risk.form.create_risk_error: 2c8ec008bca99e96ec51ceba662c9dc2
     risk.form.risk_details: da8a061c175d7b3c716341be73d7423c
     risk.form.risk_title: ce4c388c597e87c042bc75f127ead96d
-    risk.form.risk_title_description: 5deedda8361e013953adfbbad25deb2f
+    risk.form.risk_title_description: 84c263a458392d15c99684919f1e2f20
     risk.form.risk_description: ef918abfb53ea5bc4fde3764e4c199de
-    risk.form.risk_description_description: e4ba717e133f20243e847113c72cf1b6
+    risk.form.risk_description_description: 8876f07dfe8e3b9e917a2a5172118336
     risk.form.risk_category: 624c6b241d2d14bbd285596ffcf2a9e7
-    risk.form.risk_category_placeholder: eb75399c69e229f7df98da0a8b6a496f
+    risk.form.risk_category_placeholder: eef1eb3f6044522aa46e11ae63e25f31
     risk.form.risk_department: 8295f968e1676d62158d33a57b26963b
-    risk.form.risk_department_placeholder: 5017deb835cd68c68f2932550ddf06b0
+    risk.form.risk_department_placeholder: 311cb58c4ec975e8a66ad3022298e64a
     risk.form.risk_status: 0a627f8ea427c0e25dfc78522d5643c5
-    risk.form.risk_status_placeholder: 0ceee3c7e13c97b2941fc41cd8510e37
+    risk.form.risk_status_placeholder: fd5662cabcd09101dfd36df3e755a2ab
     risk.tasks.title: 8fa33a1f2be10005d07ff40ad5c07833
-    risk.tasks.attachments: 61c1f34f16b15af66613fcffcf91c9c9
+    risk.tasks.attachments: 3c675ef97f2e8c747c72f7e29e75ca03
     risk.tasks.overview: c97c3679892cd9f277a87e31f8f81de7
     risk.tasks.form.title: 061b8973c59e51c470b3f8fb43dc0a6c
     risk.tasks.form.task_title: 45f740f8a769209786f678a35f304c7a
     risk.tasks.form.status: 5dc811f6c15e1ee3b53a1eed289b9716
-    risk.tasks.form.status_placeholder: 582125eacd3222beb00cf5f14a3b9738
-    risk.tasks.form.task_title_description: b28229bb09999f17fafbc2b4f7efb7b8
+    risk.tasks.form.status_placeholder: 67782de260e8eadd7542c52ebc585bca
+    risk.tasks.form.task_title_description: 46d004214a5b4dcf6ba7d2f13f270940
     risk.tasks.form.description: ef918abfb53ea5bc4fde3764e4c199de
-    risk.tasks.form.description_description: 93b1fb96da2234a59e1449768eed161f
+    risk.tasks.form.description_description: cf292bd94791296e7a6915ed78270503
     risk.tasks.form.due_date: d152e4af87d6a196851755fc80feb3b9
-    risk.tasks.form.due_date_description: 1e788480989f37a4f5945cd44268712a
-    risk.tasks.form.success: 3f13c76b479fc0d5ce03c0b86ceac9ac
-    risk.tasks.form.error: c1b7f71ad19badaa6781867b277d61cd
+    risk.tasks.form.due_date_description: b17c1659af2df64d0dd98662782581ae
+    risk.tasks.form.success: 3e28bb124bf2e69e269ba1a526396090
+    risk.tasks.form.error: 99e1f2738e21436abda28e4b86b6cca6
     risk.tasks.sheet.title: ee9156ca95ea9a72b86b19e25aa1fb5f
     risk.tasks.sheet.update: fdae7b5bb7c0a34bb97e38552ed1d98b
-    risk.tasks.sheet.update_description: d10a6eabf05a5b73d4d8f67b228c1525
-    risk.tasks.empty.description_create: 0bf40b32b04fac93842b9e6c97d3743e
+    risk.tasks.sheet.update_description: 45a7233f773abc244687691805ec419c
+    risk.tasks.empty.description_create: 6923bda5bdb36b1850fb0cb3fb964f2a
     settings.general.title: 0db377921f4ce762c62526131097968f
     settings.general.org_name: 478342a6b4ea7f7168b7b8d581ec21c1
-    settings.general.org_name_description: 996fdd5dbeae2515a521ea4e24048b60
-    settings.general.org_name_tip: f8bf6315471449a57c78ec08137206ee
+    settings.general.org_name_description: 80d33dac21009d44ea1176d249ff97d3
+    settings.general.org_name_tip: 3733ffc1871bfb2f144c900911a72a94
     settings.general.org_website: b3b8b0a9b77a6d8af2d9dc6ec8ed07aa
-    settings.general.org_website_description: 8d740b96ed218cca5353a517fcbcfbca
-    settings.general.org_website_tip: e273546d61bbb392f9d82c922d640612
+    settings.general.org_website_description: 131506a8e1a4e993487e88db9f113aae
+    settings.general.org_website_tip: 50c0b81452541b6f33e1aab8d504bf9e
     settings.general.org_website_error: 5db8285329a18a7f31c52124b3812692
     settings.general.org_website_updated: 1a351c5a044de9fd4b45b64d38c29b9b
     settings.general.org_delete: 673c9473e892eef78b5f527de5802443
-    settings.general.org_delete_description: e2665523cc4775abfcd74f0e0fdb1e0e
-    settings.general.org_delete_alert_title: ddaa565739072cefaf2268d84615e406
+    settings.general.org_delete_description: 951f64e6d3fbf0f2677c29087e5a164e
+    settings.general.org_delete_alert_title: 23c2131e46eaf5d4aeffb21da318d7d7
     settings.general.org_delete_alert_description: 956f7ffbf0ac76293bf3fab0e5aba1e1
     settings.general.org_delete_error: 40ab06fb663838d078976dac34d6d490
     settings.general.org_delete_success: 4a9d9e89698322c279786fdaa161d126
@@ -707,7 +740,7 @@ files:
     user_menu.sign_out: 0daed4d43928c4a72d4eabff46d766fe
     user_menu.account: d1ef184f21c6a19615f873478fe03462
     user_menu.support: 54532bac0cc2df67791b1e6c2c172b32
-    user_menu.settings: 1a0150117e807caf279cde8bdf66f406
+    user_menu.settings: 4d3c4eb9f350e268f00f8097de526194
     user_menu.teams: 4b511bad2c32b63ff2afb991137d1d32
     frameworks.title: dfefdb66581190514404f57cdf74a8eb
     frameworks.controls.title: 26beed84513191c01e2574d317c239d0
@@ -717,12 +750,12 @@ files:
     frameworks.controls.table.artifacts: 669da5aa8d89fb83aea89a92341f1f4f
     frameworks.controls.table.actions: a6f0cb2b955bb2e7116afe7a52e40092
     frameworks.controls.statuses.not_started: 085cdbd670e41e8db6c3523e31ae29f8
-    frameworks.controls.statuses.compliant: 447b6bc7e7847f0abe61d2869edf9015
-    frameworks.controls.statuses.non_compliant: d161b64e6529539818d3fef2b2d0dd1d
-    vendor.title: f4f4d40f905e5b4cc291770652a4e6d6
+    frameworks.controls.statuses.compliant: d47dc6e6227796be6bb0e78f77644f13
+    frameworks.controls.statuses.non_compliant: 947a679a4f62277537c4fb0e1f73b5fe
+    vendor.title: 629e199d421911b329a2909925beeb50
     vendor.register_title: 5ce1a6ffb5e88d09fef032c3e8a28c24
-    vendor.dashboard.title: f4f4d40f905e5b4cc291770652a4e6d6
-    vendor.dashboard.overview: ebcf7abfdee9aebfb8615d92814f55ff
+    vendor.dashboard.title: 629e199d421911b329a2909925beeb50
+    vendor.dashboard.overview: f3067058fb1f7b2557690ad96d828e16
     vendor.dashboard.vendor_status: 872a23023e0e8519b9243dd39f26b5b2
     vendor.dashboard.vendor_category: dcc913af0597d229d2e30439291e9f0d
     vendor.dashboard.vendors_by_assignee: 8931f9a8092c319c41199fa735ef6f93
@@ -744,24 +777,24 @@ files:
     vendor.vendors: 8de6d4c46d616eb4c358ba6f63bb54dc
     vendor.form.vendor_details: a83c56d1fb7a07d6a42bd518710821ae
     vendor.form.vendor_name: 4777bbaaa0aebe104606b77947d0e22d
-    vendor.form.vendor_name_placeholder: 5f662b9362753fe65d169ac6bd990b08
+    vendor.form.vendor_name_placeholder: f9724e7045086b3ba9b4579232b8c657
     vendor.form.vendor_website: 4a4cb60dc8cd226c68ffffe713aa9fe3
-    vendor.form.vendor_website_placeholder: 0801972cd66654cc9a62f064668a70b5
+    vendor.form.vendor_website_placeholder: 7850594aa937003e92139bd06c21396a
     vendor.form.vendor_description: ef918abfb53ea5bc4fde3764e4c199de
-    vendor.form.vendor_description_placeholder: d23ca1851342036589ad9f06fd9c8f24
+    vendor.form.vendor_description_placeholder: 4f0a6bc526ccf5985a69f595752b9f4e
     vendor.form.vendor_category: 624c6b241d2d14bbd285596ffcf2a9e7
-    vendor.form.vendor_category_placeholder: eef1eb3f6044522aa46e11ae63e25f31
+    vendor.form.vendor_category_placeholder: 9d74ee624d873cf13b64ee6aaed38bd8
     vendor.form.vendor_status: 3397e69cce37e37c8605f57b367d6b33
-    vendor.form.vendor_status_placeholder: fd7ea8a1e86350f3923c5eee393d5b4d
+    vendor.form.vendor_status_placeholder: 4b432aae41faef3522bb0e16fa153e13
     vendor.form.create_vendor_success: a225a3cf6ff8391735995a65c1b21542
-    vendor.form.create_vendor_error: b54cb3c5a33998b8bce7dd9ccd95ac6c
+    vendor.form.create_vendor_error: d12b23040e2ce06fa6e97f31c0525a5b
     vendor.form.update_vendor_success: 4041caa00cdc188548d38d48be182f46
-    vendor.form.update_vendor_error: afa96a5cf075b33613819d69e7041758
+    vendor.form.update_vendor_error: be1d7970075b921eda0e874aef2b5504
     vendor.form.contacts: 1561016df889501b9f81d66980057904
     vendor.form.contact_name: 7ff12886818a3171be16929855c25f79
     vendor.form.contact_email: c78d63f5dd66fcbebee54239bed70af4
     vendor.form.contact_role: e81f4b49bcb5e9bd84a750d57746d15e
-    vendor.form.add_contact: b7fa6fa9deed2798f9ff380cb0caacc5
+    vendor.form.add_contact: 1c18151e2bc992ce6346630c477b11ed
     vendor.form.new_contact: 02c00537619bd598542714092e1538f3
     vendor.form.min_one_contact_required: 8b223d20058218bd5e6404469451f357
     vendor.empty_states.no_vendors.title: dc57302b77376ef37fe5a5d3f116d2bb
@@ -769,11 +802,10 @@ files:
     vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
     vendor.empty_states.no_results.description: 5d3f1d31cec631239093a8da2e0c67aa
     vendor.empty_states.no_results.description_with_filters: b8662468f89ba12988a84dfbe186d959
-    sidebar.people: d4e50a9ea2253c9f06bc6bd451fb3a2c
     people.title: d4e50a9ea2253c9f06bc6bd451fb3a2c
-    people.details.taskProgress: c13f2bd415a13c41bcaa18f98135b7af
+    people.details.taskProgress: 81905e40b816572e1d218a616ae4fb48
     people.details.tasks: 8fa33a1f2be10005d07ff40ad5c07833
-    people.details.noTasks: 9fdbbe6ec1622ea0c662f88396bf55d1
+    people.details.noTasks: 67b0ecfdfae8700dc31823a6d8d436d7
     people.description: 796c2736dca73a8857bb6c500a7a05a0
     people.filters.search: 2b8dfea5416a9f1dc0394116fcb4d8c8
     people.filters.role: 1d7524a32f2cdd7a4df73f44d73582db
@@ -783,7 +815,7 @@ files:
     people.table.email: f04c54105510249e49af8b509e3f7a42
     people.table.department: 8295f968e1676d62158d33a57b26963b
     people.table.externalId: 14988ff2367a22226ec1919c356a8aaf
-    people.empty.no_employees.title: 9aaaf60499bbd83d7a8fea5a81b22941
+    people.empty.no_employees.title: e18d1f56154b4ce21b2bae2635bbf0a3
     people.empty.no_employees.description: 73ab164c7f2f753c4d091d2aa4f34e09
     people.empty.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
     people.empty.no_results.description: 6922b396db0c34d86471c54bae62dc63
@@ -884,7 +916,7 @@ files:
     common.attachments.title: 270774c2dc685cc979a7d7a2426bf193
     common.attachments.description: 272867e7e9ee50c8632e60934733e97b
     common.attachments.upload: 28686e8efadb180216b27d20424b5bd4
-    common.attachments.upload_description: 796cfcc99d74d568721e711d3d816d64
+    common.attachments.upload_description: 457a5ac0995f69b9692f7a2916a77041
     common.attachments.drop: fdebed8eb8723cab5c1ea83ab596419b
     common.attachments.drop_description: d2c708b154d306fa050140cc6b37c4bd
     common.attachments.drop_files_description: ed7ceed3975376362e27564de1f49140
@@ -914,7 +946,7 @@ files:
     header.feedback.send: 05e0c6e79a7616e75690a1940e77c8dd
     not_found.title: 28c595576890f8fac581ab66bd47a8ff
     not_found.description: 5b03bd3a1e1f0c56f21f0070d1b2141e
-    not_found.return: 3d51c7277aa28498f3d5b332c4fb345a
+    not_found.return: 2e69b282e6b87d393ddd0f63fad2ac5e
     theme.options.light: abfd24adfebef98d653b605aa62baf2f
     theme.options.dark: ae89b1e92ad911530a418a02d22ce2be
     theme.options.system: b431d1485aa37ae09fa4bfa7883356ca
@@ -946,7 +978,7 @@ files:
     onboarding.fields.name.placeholder: c7fdda77b1c21c452a28665395b85bdd
     onboarding.fields.website.label: 15bbb9d0bbf25e8d2978de1168c749dc
     onboarding.fields.website.placeholder: d81cdec86f715b8622cf347dc4973016
-    onboarding.success: 3da0c35222488824bba5895a4d209cad
+    onboarding.success: f169b0588571a64267de3cbf9db7b33e
     onboarding.error: 2d6168312ef0924cb02dca314a930a27
     overview.title: cd28583cdbf0f1c34b19e9d0873507a1
     overview.framework_chart.title: 96e7fa45ec20d87983cbf574d0dd6764
@@ -974,13 +1006,13 @@ files:
     risk.create: aa66bfbc1954619721cc70562df00658
     risk.vendor.title: ce8b8497c0273fa2f2ef89813324a694
     risk.vendor.dashboard.title: 5ab98eaf54ba7f97b14e9a8d33911774
-    risk.vendor.dashboard.overview: 2e36d54666859c9fea4b575c8dee0263
+    risk.vendor.dashboard.overview: 86d10b5fa129cb56914ea9bdd36f54d6
     risk.vendor.dashboard.vendor_status: 91730c68a5fed0e1346dafe2ae32a2b4
-    risk.vendor.dashboard.vendor_category: b9e1a36460339f92adb7067998e4235c
+    risk.vendor.dashboard.vendor_category: a81f5288b74e8d16de1e446fec13bd7c
     risk.vendor.dashboard.vendors_by_assignee: aec30b4652068d4ef3745d04c01bda25
-    risk.vendor.dashboard.inherent_risk_description: 9ca9ae831dd8fe54aa74a2c029708cfd
-    risk.vendor.dashboard.residual_risk_description: 88ded78fd2f850aa21a42afb1f6cdc34
-    risk.vendor.register.title: 45c2a6584380c72eb9623df5c0c968c8
+    risk.vendor.dashboard.inherent_risk_description: f965942278a201c2aa1d0d8f7a008afa
+    risk.vendor.dashboard.residual_risk_description: 2440cac623c600164a04f3b05f78c373
+    risk.vendor.register.title: f6e06a1f3c90f935e2b5bca7d0788382
     risk.vendor.register.table.name: c0289e98897ab58f231c168b19a67b2e
     risk.vendor.register.table.category: 70c4fe802624c6daef688eced9f59cbc
     risk.vendor.register.table.status: ec53a8c4f07baed5d8825072c89799be
@@ -1010,11 +1042,11 @@ files:
     risk.vendor.table.name: c0289e98897ab58f231c168b19a67b2e
     risk.vendor.table.category: 70c4fe802624c6daef688eced9f59cbc
     risk.vendor.table.status: ec53a8c4f07baed5d8825072c89799be
-    risk.vendor.table.owner: 42e17d509c98db2d608023fd35845109
+    risk.vendor.table.owner: e61f95fd2a8da8531a4052e6d619d03d
     risk.vendor.filters.search_placeholder: 526ab1f4258f972d442accfbf7d628a0
     risk.vendor.filters.status_placeholder: 0a37cd71955558ebceb296071b5771e5
     risk.vendor.filters.category_placeholder: e56a33cc92809bf48100557efe063f4d
-    risk.vendor.filters.owner_placeholder: ea01cc33ecd9b3f7f9f5fd60c8a64171
+    risk.vendor.filters.owner_placeholder: dd71b7bc9e24213f4dbc1098a57ac73f
     risk.vendor.empty_states.no_vendors.title: 744210194114cc4a2fd31524e50eba40
     risk.vendor.empty_states.no_vendors.description: 3e90762081ce5f2740438c6ff481038d
     risk.vendor.empty_states.no_results.title: 862b1847e091e28b1f598fb563d2886d
@@ -1069,9 +1101,9 @@ files:
     risk.form.create_risk_error: 3cd55fed30677567cb4b350bdc8fbe67
     risk.form.risk_details: 83aec7283c39c233747d587584953af7
     risk.form.risk_title: 68652ef8c5e1e00cec64b5a4edba7d83
-    risk.form.risk_title_description: 974ef6711d4c295da6d2ea2afaf6e5c3
+    risk.form.risk_title_description: dbdad73e6af7ec2848ff4862bfddcbd0
     risk.form.risk_description: c1c2501bcc9382417cb275c94f29fc48
-    risk.form.risk_description_description: 78dec9674b8dd153661255fee0385a61
+    risk.form.risk_description_description: dedf417f4b4d7ce71ee2c48cb70fc877
     risk.form.risk_category: 70c4fe802624c6daef688eced9f59cbc
     risk.form.risk_category_placeholder: 65fc9322f796e9e58ed1487dcca329ab
     risk.form.risk_department: 8295f968e1676d62158d33a57b26963b
@@ -1085,9 +1117,9 @@ files:
     risk.tasks.form.task_title: 8268ad91fb6ddfdd262e3fa550b0dcc4
     risk.tasks.form.status: dc2c81cba8d9027d9b6a980d1daa7de4
     risk.tasks.form.status_placeholder: cadec19150249777b87de5c742fab360
-    risk.tasks.form.task_title_description: f8690f4d4b1d02a8e7ab79388358fae9
+    risk.tasks.form.task_title_description: e9211721622d13836564fd13f87f4552
     risk.tasks.form.description: c1c2501bcc9382417cb275c94f29fc48
-    risk.tasks.form.description_description: 2fef62eb4ae1d8dac9d703e56eb162be
+    risk.tasks.form.description_description: 88a401fc067062292a0c7979fb0ecbde
     risk.tasks.form.due_date: cb1fc9039c600277139f70bb49a33e2b
     risk.tasks.form.due_date_description: fe5f76727449a9d858ec1f609f176372
     risk.tasks.form.success: d75b32b4a0df4a9035b59ca005c8ecdd
@@ -1101,7 +1133,7 @@ files:
     settings.general.org_name_description: 9ce71182dd9e5e85a2f62b56f8a691f2
     settings.general.org_name_tip: 7b8522878ea20a58b8c520d9e1db95f5
     settings.general.org_website: 1bebecedcdca28f65a6061ad9b224733
-    settings.general.org_website_description: efb6cb1e632a387c4d438712d3bc5598
+    settings.general.org_website_description: c75b8827b23ca3cb1149fbf33d526e59
     settings.general.org_website_tip: 28df9ff1b1948735dc9459625998327b
     settings.general.org_website_error: 218e614be93028229c3b1fe86075f1d7
     settings.general.org_website_updated: c89da6ad5dbe9ec8800c1343178e2fbd
@@ -1119,7 +1151,7 @@ files:
     settings.general.delete_confirm_tip: 716577e83795c92f3b36b6586ce5af39
     settings.general.cancel_button: 847607d75e504090b5aff16a6e6c8351
     settings.members.title: 0a32c571a23ff25825a98355c504e644
-    settings.billing.title: 76eaefcbcbf248c802a28fc195a5e974
+    settings.billing.title: 4cef1eb01568374a2f344dc7ab04d5de
     user_menu.theme: f055088fba41cb53e3806e55a9f6896e
     user_menu.language: d62a3259ece127d00905fbe37f1b5cea
     user_menu.sign_out: 790ed91ff5545849d3b4cb2e88c750e4
@@ -1129,7 +1161,7 @@ files:
     user_menu.teams: efd4f70e8bf06861f8037d6e3ce93ea9
     frameworks.title: e9a26954f3386e69508ceb81f858cc21
     frameworks.controls.title: 26beed84513191c01e2574d317c239d0
-    frameworks.controls.description: 7db8b354b66bbee212ea43a1665c4ff7
+    frameworks.controls.description: c1e880d8b3d944000e8945d03adfd389
     frameworks.controls.table.status: ec53a8c4f07baed5d8825072c89799be
     frameworks.controls.table.control: 35c43f0e9257f550812716f62519b08c
     frameworks.controls.table.artifacts: 6a755bbcf3e0bfd53426ff65a839caae
@@ -1138,15 +1170,15 @@ files:
     frameworks.controls.statuses.compliant: 324646500393a11e761356c6a0771cfd
     frameworks.controls.statuses.non_compliant: 680dc7e2c72ac15e6785794cfc625110
     vendor.title: 96a7b5490bcd3652a0c2bf36c1ffce2b
-    vendor.register_title: ce8b8497c0273fa2f2ef89813324a694
+    vendor.register_title: e9688c6f464f67883d1e0698e11353db
     vendor.dashboard.title: 96a7b5490bcd3652a0c2bf36c1ffce2b
     vendor.dashboard.overview: 2e36d54666859c9fea4b575c8dee0263
     vendor.dashboard.vendor_status: 91730c68a5fed0e1346dafe2ae32a2b4
     vendor.dashboard.vendor_category: a81f5288b74e8d16de1e446fec13bd7c
     vendor.dashboard.vendors_by_assignee: aec30b4652068d4ef3745d04c01bda25
-    vendor.dashboard.inherent_risk_description: f965942278a201c2aa1d0d8f7a008afa
+    vendor.dashboard.inherent_risk_description: f0d48ce192ae0b005e7ec35ca57cb7b3
     vendor.dashboard.residual_risk_description: 2440cac623c600164a04f3b05f78c373
-    vendor.register.title: 45c2a6584380c72eb9623df5c0c968c8
+    vendor.register.title: f6e06a1f3c90f935e2b5bca7d0788382
     vendor.register.table.name: c0289e98897ab58f231c168b19a67b2e
     vendor.register.table.category: 70c4fe802624c6daef688eced9f59cbc
     vendor.register.table.status: ec53a8c4f07baed5d8825072c89799be
@@ -1187,7 +1219,6 @@ files:
     vendor.empty_states.no_results.title: 862b1847e091e28b1f598fb563d2886d
     vendor.empty_states.no_results.description: b174c45c623da80e3354e959e25b4455
     vendor.empty_states.no_results.description_with_filters: 7a2e20b527b82016631de60b987185df
-    sidebar.people: de14276d9e07d3296ba1bce76ad662c9
     people.title: de14276d9e07d3296ba1bce76ad662c9
     people.details.taskProgress: 99f91ad5736e6e0e28293ea4666f9325
     people.details.tasks: b3cbbfcad6f3e417a9806b2aef4bc1e7
@@ -1210,8 +1241,8 @@ files:
     people.invite.description: 0b0a1c58aa1e24551cee8f736a8811dc
     people.invite.email.label: 1967607bee452269643095c8444907cf
     people.invite.email.placeholder: 6d30afa49e14951befc0a3cb5e7ad0cc
-    people.invite.role.label: 54dc7aa076455de72474a3b54aa0d57e
-    people.invite.role.placeholder: 89eab6e5f2bdfd25e8fe17c458fd8cb1
+    people.invite.role.label: 8dd5e244a5bb391135b671b9a0b1ba67
+    people.invite.role.placeholder: 3a30ffd4e9ccb21876bfa08fea6e2eac
     people.invite.name.label: c0289e98897ab58f231c168b19a67b2e
     people.invite.name.placeholder: fada62ea46d5b3f957f2ecc64032c1dd
     people.invite.department.label: 8295f968e1676d62158d33a57b26963b
@@ -1241,8 +1272,8 @@ files:
     common.actions.error: fe7d2cb7d4db59ae3c13b1d29aa2515e
     common.actions.next: 257a7b4c17035553819990bc73114989
     common.actions.complete: a2824b0e3feba7627a4fa3cbc0e52857
-    common.assignee.label: 94f728b28589461f04b6abb1e640a0c5
-    common.assignee.placeholder: 4ca324d8270e3e2a64096110859682e1
+    common.assignee.label: ff63fdc126b306fc67c01e481a93eda9
+    common.assignee.placeholder: 2c8be12ef0c2e4bfdf2984c75a6dee61
     common.date.pick: c9baf91d28972545488f147e10b713c9
     common.date.due_date: de9507035b945d2715634ac4c1baa402
     common.status.open: b19a0a5407807fe32f57d10a3f53ce2f
@@ -1264,8 +1295,8 @@ files:
     common.filters.search: da21962e48634867f8aec7b5e6488bf4
     common.filters.status: 87a831bc99060c55b50dbe91c6aab6e9
     common.filters.department: df393600825b049c6ee18c9980aaf28a
-    common.filters.owner.label: 94f728b28589461f04b6abb1e640a0c5
-    common.filters.owner.placeholder: 02df7b272efd320aeed21b2c623ee4f7
+    common.filters.owner.label: ff63fdc126b306fc67c01e481a93eda9
+    common.filters.owner.placeholder: 09950ebe6f41d2edf4fd543f6afea6f9
     common.table.title: 99fb48ddce014d8ad24810eeb3bfde68
     common.table.status: 87a831bc99060c55b50dbe91c6aab6e9
     common.table.assigned_to: ff63fdc126b306fc67c01e481a93eda9
@@ -1304,7 +1335,7 @@ files:
     common.attachments.upload: 84ee1b7210866cf40ecd985f355864c9
     common.attachments.upload_description: 0b8f185d25b8584a6d514cdfc4d46cc0
     common.attachments.drop: a622b08f62d1e86d8f2624f6f583e3d7
-    common.attachments.drop_description: b7205c929a68c09a4c18098caf1b873f
+    common.attachments.drop_description: 5425dcc731eac557b7ff621205d04e17
     common.attachments.drop_files_description: f80b7f937fe32459859ca9744578f231
     common.attachments.empty.title: 274d7e6eb96b1f13f5afec3e17f8de50
     common.attachments.empty.description: 07e4e32a76a7ca28ad8d55130e8798da
@@ -1324,12 +1355,12 @@ files:
     common.attachments.toasts.remove_file: 207436b9083d98b60132bf2d835053f9
     header.discord.button: 323331b0d9775db6561544fefa3aa793
     header.feedback.button: 19d8c9f2c75b15539dd3168a41d85ba1
-    header.feedback.title: 53e971a20793dc661623e40dd667e78e
+    header.feedback.title: fa8254ef84a9eff403cf44b4babbaf25
     header.feedback.description: ebeeae5e45bcd0d10936e1c60b8226ad
     header.feedback.placeholder: 3d33a19a5f33da89cab0678e2f7285a5
-    header.feedback.success: 53e971a20793dc661623e40dd667e78e
-    header.feedback.error: 24d4ecb95d79b1e18834f19768582d4d
-    header.feedback.send: 52c94a8894f1eca094f59a431c435336
+    header.feedback.success: fa8254ef84a9eff403cf44b4babbaf25
+    header.feedback.error: 8bec949efd475a5e9e481e2a90325964
+    header.feedback.send: 9356894a834f01c9c761606799ad6e33
     not_found.title: 5c44cae06137d5abc98833d14009e91f
     not_found.description: d4ea72f060fea4b7be9f293620babb7f
     not_found.return: f27714bfa8734faaa1621bed3a939d93
@@ -1342,7 +1373,7 @@ files:
     sidebar.vendors: 20a50f9498efd294c6c653d2804c0827
     sidebar.integrations: 4c772dc39d61569ecea19082f498b8e6
     sidebar.settings: e7785de91330713fc2d12404bb6bd556
-    sidebar.evidence: f98a5479bbad8c1b94a64d4941a8b9c0
+    sidebar.evidence: d45cf3774e592d0684d86c7e054949ff
     sidebar.people: 5557260365f759ca82cf108b3d8bef8f
     auth.title: ebdfba346dd9e4711096c80e9e9c2e87
     auth.description: 3aee5e88dd1aaaee41469153656b49bd
@@ -1364,51 +1395,51 @@ files:
     onboarding.fields.name.placeholder: 008dcd606c353e78aa6406768db89870
     onboarding.fields.website.label: ca09410963c66f80a9bd39bdc8ae95cf
     onboarding.fields.website.placeholder: d0db696a804edd4fd8dda2c727dc3539
-    onboarding.success: 6b25704fcc5fd30c57caae1d912f959c
-    onboarding.error: 720eacf6a0805646bef6815e86505d19
+    onboarding.success: 8c85b7115a0125bcdee80439d80a897d
+    onboarding.error: 34056dd5780c5ce0db55bbbe40ed7908
     overview.title: 39909e63e1c7c5c0be8caab4e5e04b70
-    overview.framework_chart.title: 378ccdcfb23eb88c48fc02d41008cff9
-    overview.requirement_chart.title: 3e7c52fb64d6738fca56b1b8af908d66
+    overview.framework_chart.title: c854a940f23a125f6284b589155184f3
+    overview.requirement_chart.title: f2b3b5556d4c3bef00fd5eabb5078d28
     policies.dashboard.title: 4a37efc27391cc18714c72981d59c072
-    policies.dashboard.all: 471f5ccfe8c3918e567fc1da19a50bf1
-    policies.dashboard.policy_status: fc3383c8f5892b295f82399a5dda23b7
-    policies.dashboard.policies_by_assignee: 40e496920f736603ab47ecd78ea859d4
-    policies.dashboard.policies_by_framework: ccdf906e15df6d8c25dfb86d9e750465
-    policies.table.name: bd96c8203e54dd3cad30bc84ad5b693c
+    policies.dashboard.all: 88f396f7dfc148c975e87eae138752a5
+    policies.dashboard.policy_status: e920d82fba73ed51d5276bf69030b2cb
+    policies.dashboard.policies_by_assignee: a9e4d167fe7ed9733c0247b0ec565911
+    policies.dashboard.policies_by_framework: 77c8d6f367e8cdf9dd716fab866a1025
+    policies.table.name: c00be24152065be8946cbfb9ea8680b3
     policies.table.statuses.draft: 540e360892172e34f1d10ba632cebb01
     policies.table.statuses.published: daaf3c6e6a7579155c08ff51243512c6
     policies.table.filters.owner.label: d7c40c83e9f9d6509c9bc4326c6b122d
     policies.table.filters.owner.placeholder: 2159fb1a6c2a7408629642faa64d218d
     policies.filters.search: add69877c7aaf3ce79382a81ba94acf7
-    policies.filters.all: 471f5ccfe8c3918e567fc1da19a50bf1
+    policies.filters.all: 88f396f7dfc148c975e87eae138752a5
     policies.status.draft: 540e360892172e34f1d10ba632cebb01
     policies.status.published: daaf3c6e6a7579155c08ff51243512c6
-    policies.status.needs_review: 2b0d2a9dadc78a7d337be54b4710ea6e
+    policies.status.needs_review: 7b6b03f2f1c7eb07108ee383dd0cdd1b
     policies.policies: 301a659b98579990507bb5fd0c87aacb
-    evidence_tasks.evidence_tasks: f98a5479bbad8c1b94a64d4941a8b9c0
+    evidence_tasks.evidence_tasks: d45cf3774e592d0684d86c7e054949ff
     evidence_tasks.overview: 39909e63e1c7c5c0be8caab4e5e04b70
     risk.risks: 653844d548b2148728f6fb70ee8263f7
     risk.overview: 39909e63e1c7c5c0be8caab4e5e04b70
-    risk.create: 5762105c939f2261197e38a127e321ab
-    risk.vendor.title: 62a2d05358a332618f62aa91ee546bca
-    risk.vendor.dashboard.title: d8fa431b17b5096c41c8e4b6696fff6b
-    risk.vendor.dashboard.overview: 974ef6b7f286984db13ce9f2420cd23f
-    risk.vendor.dashboard.vendor_status: e9c7749e03fd99e10efb600b3407f723
-    risk.vendor.dashboard.vendor_category: ad86faa1f9169f749232a37c58007b19
-    risk.vendor.dashboard.vendors_by_assignee: ebdce081b7d15720c2075cc536684d12
+    risk.create: 8a3449d840bc2e83e264c5b72dd7ae3a
+    risk.vendor.title: d329c47d548a0b3361120bbf4fd8078c
+    risk.vendor.dashboard.title: fbf3e31e131c3418d0634807c7439c5c
+    risk.vendor.dashboard.overview: 4aa84eb88453f8e042500f2869ab4158
+    risk.vendor.dashboard.vendor_status: f7575b36883502afd77ff2bce285f15b
+    risk.vendor.dashboard.vendor_category: 682dfd2d7c6c78fc44e6e161c4b7f3be
+    risk.vendor.dashboard.vendors_by_assignee: 5bb86b827c40ab9f69c2b26e6d24668d
     risk.vendor.dashboard.inherent_risk_description: d9e71f7212a9487e2e2b3509774eff72
     risk.vendor.dashboard.residual_risk_description: f6650c5de31a483d483fd9b36337a963
-    risk.vendor.register.title: 84e5c19137bc92311f3833c0aa2e8e55
+    risk.vendor.register.title: 0f9930d48eca11656701168f119d050d
     risk.vendor.register.table.name: d4700b697a54fbd43a1a613d32694e7f
     risk.vendor.register.table.category: 8c6b7f206708b567f49f36edb123c060
     risk.vendor.register.table.status: 87a831bc99060c55b50dbe91c6aab6e9
-    risk.vendor.register.table.owner: d7c40c83e9f9d6509c9bc4326c6b122d
-    risk.vendor.assessment.title: 94ee512965d60790db0c81890a500140
+    risk.vendor.register.table.owner: 79115f7790c58d35dd8ca592f8fc7540
+    risk.vendor.assessment.title: 1e9051147a298718e743803c2e85156c
     risk.vendor.assessment.update_success: e38ad4046bb8dc7baa3fb84672cc61a7
     risk.vendor.assessment.update_error: 54e23257ca5c1e96e7aa1cf381588992
-    risk.vendor.assessment.inherent_risk: 2dddfca168727d416e1b4ba4b9b6f5eb
-    risk.vendor.assessment.residual_risk: 6032818dd1ba3a6138dfb7cd79fe7d9a
-    risk.vendor.form.vendor_details: bc9565fd10657862938874fc9d20f300
+    risk.vendor.assessment.inherent_risk: d0f6eef6f70a0f4460ff7f23e2521173
+    risk.vendor.assessment.residual_risk: c7ae88c7793fd7dac31fe5da239d25e5
+    risk.vendor.form.vendor_details: 1bb4aeaae548a238511f99d518238478
     risk.vendor.form.vendor_name: d4700b697a54fbd43a1a613d32694e7f
     risk.vendor.form.vendor_name_placeholder: cd2aa7cd16fb54955e164de2b43b8fb9
     risk.vendor.form.vendor_website: ca09410963c66f80a9bd39bdc8ae95cf
@@ -1416,12 +1447,12 @@ files:
     risk.vendor.form.vendor_description: b5a7adde1af5c87d7fd797b6245c2a39
     risk.vendor.form.vendor_description_placeholder: be93ad19bb1bc1ea3d35f4696bb461c2
     risk.vendor.form.vendor_category: 8c6b7f206708b567f49f36edb123c060
-    risk.vendor.form.vendor_category_placeholder: 73afde2770e9a28ad6e5fff3f6a9e8b0
+    risk.vendor.form.vendor_category_placeholder: ba77a55f2b2d0042a894b0ba568716e6
     risk.vendor.form.vendor_status: 87a831bc99060c55b50dbe91c6aab6e9
-    risk.vendor.form.vendor_status_placeholder: a18028b8653aadc0752bed46725b6aa8
+    risk.vendor.form.vendor_status_placeholder: 374dfef4c4c0a7491740b2f7331b5406
     risk.vendor.form.create_vendor_success: 63c2cb7f1cfab5fff3da2cebb0ebc830
     risk.vendor.form.create_vendor_error: 2afbd110bb32876e75f4926cee33a773
-    risk.vendor.form.update_vendor: 8a6492503a4bd80e0f13744df013d051
+    risk.vendor.form.update_vendor: af5047e83fb1724263d1d0ebfb2629e0
     risk.vendor.form.update_vendor_success: 45ae9b8988aeb3a9e7c2543023f81a3f
     risk.vendor.form.update_vendor_error: 0172d1b03b3209f32668261a5996b8c8
     risk.vendor.form.add_comment: 04979267671e33bcd261434689879386
@@ -1465,22 +1496,22 @@ files:
     risk.register.title: b71a48800257700e97a6d80e00764e38
     risk.register.table.risk: 508428a451143207631e5bbd5d88e4d5
     risk.register.empty.no_risks.title: afe3d187294fb343c64c78892f7a60d6
-    risk.register.empty.no_risks.description: 0e62d8691f99a5dda4b77c9fdd5d29d7
+    risk.register.empty.no_risks.description: f4059eab05090c769c968bc47d06e1e5
     risk.register.empty.create_risk: 1974b648b6f3c54cebb3aa9b0e3a6a8c
     risk.metrics.probability: ec7d137de973ceb6b9dde7dca67775f5
     risk.metrics.impact: 21f59b54f62b5b8b4bc0f63f0f617fc1
     risk.metrics.inherentRisk: d0f6eef6f70a0f4460ff7f23e2521173
     risk.metrics.residualRisk: c7ae88c7793fd7dac31fe5da239d25e5
     risk.form.update_inherent_risk: 179a98c3fbd8287c68b5accd4a46bbbe
-    risk.form.update_inherent_risk_description: eff8af378c61663529469052d15975ea
+    risk.form.update_inherent_risk_description: 6cc90d6d4161ede7385d9b146dd62ff6
     risk.form.update_inherent_risk_success: 044b069647b121465ab413db136e98ab
     risk.form.update_inherent_risk_error: 0c3bf80ed4fb6e9a8899a655f2c9e37f
     risk.form.update_residual_risk: 5729da992f06cf7e5a50fa065a755072
-    risk.form.update_residual_risk_description: 6c91d2c611262bf1fbfa4c07abc69282
+    risk.form.update_residual_risk_description: 9d3008937a441babb184c82ba7bf7574
     risk.form.update_residual_risk_success: 607f04ebbc5f9237d0d157707cf37320
     risk.form.update_residual_risk_error: bfd971908edc0764c1abb494c77f0d69
     risk.form.update_risk: af545b421aea216f5a54d5f2edf2c6f8
-    risk.form.update_risk_description: 06c7968dcaa884f47a24c18f3b5a1498
+    risk.form.update_risk_description: 1c59d3eae2538af10d6cb7a5ba68237b
     risk.form.update_risk_success: 2d92a27e195c17c8782c7edb9b833de6
     risk.form.update_risk_error: 7be0c206936eec9c64a725392b5080e5
     risk.form.create_risk_success: d24add5516b958aff0932d64cd2d2f0d
@@ -1512,19 +1543,19 @@ files:
     risk.tasks.form.error: 299ad6b4dbf762b2fe83942b837bfd87
     risk.tasks.sheet.title: 62eca27b8ceec030ca201df371221438
     risk.tasks.sheet.update: 98563374b52f32c0eb1c01190d309639
-    risk.tasks.sheet.update_description: 3f62317e00c3a54aa2add10e0f3991dd
+    risk.tasks.sheet.update_description: e39c8c82c6f171d3e8d283d81a6e84a0
     risk.tasks.empty.description_create: e6af67c7415ff61de82b4dc75797d50a
     settings.general.title: cbf5d231135412fb14429e086c09a722
     settings.general.org_name: a4cd2eb4b24cfd61f366e642e6a05186
     settings.general.org_name_description: b07616ecf1de337807310db01f2fbbe0
-    settings.general.org_name_tip: 7c56752d5aa01e0a2e8ac2da215d76c9
+    settings.general.org_name_tip: 5a927b41121a0e11406517374044713f
     settings.general.org_website: ed5531a245693e022188fed5d2223154
     settings.general.org_website_description: 864a5f3b2aae67461a5ec67439277bc4
     settings.general.org_website_tip: f5709a2d62e3a5a61bfe489a25362b6a
     settings.general.org_website_error: 3f29010229d70705c4faebc5074052a9
-    settings.general.org_website_updated: 8601d123962f1e3256dba4016cec48b6
+    settings.general.org_website_updated: 5a665fd851d34d4e9c932b5ca10f79ff
     settings.general.org_delete: c6f33d653b62ccbfef5bfe13daf0cc61
-    settings.general.org_delete_description: 989c003a4d5828301b0a800b7de07271
+    settings.general.org_delete_description: 0852031d9ecf38fc602d78eb4fc3b317
     settings.general.org_delete_alert_title: 71ca62b605390d06886fada52e020d1f
     settings.general.org_delete_alert_description: abb6f206e997df56c39afc67447ac370
     settings.general.org_delete_error: 5c0f0a41659ebc25df85b0dc5dcb77b1
@@ -1559,7 +1590,7 @@ files:
     vendor.register_title: d329c47d548a0b3361120bbf4fd8078c
     vendor.dashboard.title: 4a37efc27391cc18714c72981d59c072
     vendor.dashboard.overview: 4aa84eb88453f8e042500f2869ab4158
-    vendor.dashboard.vendor_status: 29899a0123613d5cf49f30b4db9685c5
+    vendor.dashboard.vendor_status: 4e863e715f7ef7ec95c440a5ca4c0344
     vendor.dashboard.vendor_category: 682dfd2d7c6c78fc44e6e161c4b7f3be
     vendor.dashboard.vendors_by_assignee: 5bb86b827c40ab9f69c2b26e6d24668d
     vendor.dashboard.inherent_risk_description: d9e71f7212a9487e2e2b3509774eff72
@@ -1581,8 +1612,8 @@ files:
     vendor.form.vendor_details: 1bb4aeaae548a238511f99d518238478
     vendor.form.vendor_name: d4700b697a54fbd43a1a613d32694e7f
     vendor.form.vendor_name_placeholder: cd2aa7cd16fb54955e164de2b43b8fb9
-    vendor.form.vendor_website: 73e6bf29e294192b7ee8490a200616d9
-    vendor.form.vendor_website_placeholder: ed7e2c081b250e0bb20424a44392ab3f
+    vendor.form.vendor_website: ca09410963c66f80a9bd39bdc8ae95cf
+    vendor.form.vendor_website_placeholder: e638609e6b476e4afc5c0c5acf5e4a3f
     vendor.form.vendor_description: b5a7adde1af5c87d7fd797b6245c2a39
     vendor.form.vendor_description_placeholder: be93ad19bb1bc1ea3d35f4696bb461c2
     vendor.form.vendor_category: 8c6b7f206708b567f49f36edb123c060
@@ -1600,17 +1631,16 @@ files:
     vendor.form.add_contact: b95a1f3ac003992336e117277d6e3083
     vendor.form.new_contact: d22a6b31fb3b4b6206ff1e3243aa4b3b
     vendor.form.min_one_contact_required: 5db2db62acd3124d08688425d17d079f
-    vendor.empty_states.no_vendors.title: f7d0c09c30e426c04f6dcda9843486c5
+    vendor.empty_states.no_vendors.title: 606073a51edd78da1425c242ddb2f7ed
     vendor.empty_states.no_vendors.description: 4067f9154a8581c979ef6b890aea8dd1
     vendor.empty_states.no_results.title: 5bb69fe3b7a4d5220a445c029fb02c19
     vendor.empty_states.no_results.description: 272e8ffa88987801e1ce4df4610db9ea
     vendor.empty_states.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
-    sidebar.people: 5557260365f759ca82cf108b3d8bef8f
     people.title: 5557260365f759ca82cf108b3d8bef8f
     people.details.taskProgress: 3cb06e12073d38f3f21997f827281a23
     people.details.tasks: 1c309074b8348cf83eef81c27d4e5e97
     people.details.noTasks: d888c934668143d74bd2b16d4759092d
-    people.description: fd54f4382097809dd188d5d00c770125
+    people.description: 6605f724e235a56bfec58d3e9b4c8848
     people.filters.search: 73644c4eb55d832abf7004b551a68365
     people.filters.role: fc7996777084d85145881ce61b277ada
     people.actions.invite: 0377e2862a56907572c6253feb96ac1e
@@ -1626,8 +1656,8 @@ files:
     people.empty.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
     people.invite.title: 0377e2862a56907572c6253feb96ac1e
     people.invite.description: 0d1501eb5ca25a88675a1b67505c6371
-    people.invite.email.label: 4931fa232e876ae17165d664f56677bb
-    people.invite.email.placeholder: 76698be1004655faa7e80b4f62c4f8a7
+    people.invite.email.label: e920754fa88b7c38cdd1bcc259bac5d0
+    people.invite.email.placeholder: 5a6940a4d212e6c6fd224ae8c9744232
     people.invite.role.label: 19772a94ff8636c21be02e839fbc9a09
     people.invite.role.placeholder: 86c306c23929c264d9fe1637bab1b2eb
     people.invite.name.label: d4700b697a54fbd43a1a613d32694e7f
@@ -1667,12 +1697,12 @@ files:
     common.status.pending: 8a02ac12947e6ea465c54e580ccd4234
     common.status.closed: c8e65a1761beace0612b3e060723d4f9
     common.status.archived: 4d3c61e248204d279c0cb0ddc28cc1f5
-    common.status.compliant: 6794126adda846768777e380f3261fb8
-    common.status.non_compliant: d4ec60b0fb306838ce1935d2383aadf9
+    common.status.compliant: 4a89f1f84dcc4f6200247a826f3ce895
+    common.status.non_compliant: 4ad91f27c8831896c11a989c421773e7
     common.status.not_started: 7dbd6504ae0b5c2f8e085eafb34357d7
     common.status.in_progress: 57d6a98183069a501704325d2d4a59e2
     common.status.published: 0b6fd91ab02b565b70b08f08fe5513ff
-    common.status.needs_review: 03b0c7909be559aa6fe26cdc0d39ed80
+    common.status.needs_review: 624b773af82bf224be675b95e0d3b51e
     common.status.draft: abfde03cf0ca2e57e306b6c72a9be650
     common.status.not_assessed: 1354bd740ef68d84a4f275a3b64f01f3
     common.status.assessed: df6410132c5eb02a8f490cc29eaeaca5
@@ -1748,7 +1778,7 @@ files:
     header.feedback.success: 5207d2e0d8ad08de13c3565be04b70db
     header.feedback.error: 33d6eadd01633cf0ecea7ba3d257bc20
     header.feedback.send: 7c0b657754697e4aaeda7832df9ce445
-    not_found.title: 3bff0f6f318dfc6b06a3a7ec7c97c2ca
+    not_found.title: 56dfbbed261a89fc7959b1f5a10d73dc
     not_found.description: 90241036bbe7b7e262aa2aad45d90594
     not_found.return: 570c33e07d133b138852af03003eab2b
     theme.options.light: 84e8b4db17288b8890eccfba74b1d534
@@ -1785,7 +1815,7 @@ files:
     onboarding.success: 6302ce973c31767ec3960672d19980f0
     onboarding.error: 9883526e2173eaf1752a19d871ced330
     overview.title: a0d7e99227de0ca1ed7eba299cbb329c
-    overview.framework_chart.title: 89c4150e86565629d7480205fb6fd41c
+    overview.framework_chart.title: a982893125a0818af19d3d3e02d6a5ba
     overview.requirement_chart.title: 8c0cc6e516853b1d41b278d894255486
     policies.dashboard.title: 5967ab15ec405a77b8db5dcdb885d6c6
     policies.dashboard.all: 9f02efc5bbf283daeeedc9d41d434dba
@@ -1808,7 +1838,7 @@ files:
     risk.risks: 7ad52774933cd98cab80a32956a2004d
     risk.overview: a0d7e99227de0ca1ed7eba299cbb329c
     risk.create: 25bf0fff8c9a046dc7399522def19630
-    risk.vendor.title: 665cda7031f197bec0d81a2e3a923276
+    risk.vendor.title: b9a2b4aa2cf65b26cd6ae81c13510609
     risk.vendor.dashboard.title: b9fc9d911bf90c2edcc10f615dad432d
     risk.vendor.dashboard.overview: 6dd1c0ce1dc8cd66be5b885c4ae31350
     risk.vendor.dashboard.vendor_status: 2a4d7e041e4848f784a1fb71b4956388
@@ -1822,15 +1852,15 @@ files:
     risk.vendor.register.table.status: ec53a8c4f07baed5d8825072c89799be
     risk.vendor.register.table.owner: 087deef1a4032da761fa539a6dab8435
     risk.vendor.assessment.title: c68280e303c3c84fcfbbcde1c0772dd9
-    risk.vendor.assessment.update_success: 8b5f59f24fcda33abeada178ac02067b
-    risk.vendor.assessment.update_error: 4e1fe1d6af98207d7ad301d07cb4f3b7
+    risk.vendor.assessment.update_success: 4c8b118e3f8a3ead1897233e504d7d2c
+    risk.vendor.assessment.update_error: 4f7d9289eef697c1bf4e4ba92e754a79
     risk.vendor.assessment.inherent_risk: ebeb800cea23f9bdb9351397f255471a
     risk.vendor.assessment.residual_risk: fca8b654cd31477d05212b045f810d31
     risk.vendor.form.vendor_details: 7975806fd497b6a6fe1a82beca89b540
     risk.vendor.form.vendor_name: 3ffcaf33f0c7f7a222bdff749d3d48a4
     risk.vendor.form.vendor_name_placeholder: 8bec3408fe198dea51a31316cb386896
     risk.vendor.form.vendor_website: e94da4372d39f6cd24a3bd48330172aa
-    risk.vendor.form.vendor_website_placeholder: 14d90d193cffcea996c6384e7fb44e7a
+    risk.vendor.form.vendor_website_placeholder: d411635d010c8782a5e9e0c7abd1870a
     risk.vendor.form.vendor_description: 59869029490390f1fc4943085f8e08bb
     risk.vendor.form.vendor_description_placeholder: 3178d56056e36d3013963c3110a4b86d
     risk.vendor.form.vendor_category: 21a0269431d5e6ba1eebf25827cadeba
@@ -1838,11 +1868,11 @@ files:
     risk.vendor.form.vendor_status: ec53a8c4f07baed5d8825072c89799be
     risk.vendor.form.vendor_status_placeholder: 72ce53e5caf4c43fba49352b71378968
     risk.vendor.form.create_vendor_success: df6e4b976bdafb8bb510ea5bfca35e82
-    risk.vendor.form.create_vendor_error: 923686330ce1ef7c1c5592ce43d69a30
-    risk.vendor.form.update_vendor: e7fff31b82c10c0fc22629490382601c
+    risk.vendor.form.create_vendor_error: 28eb3c7da59123eb74980cfc5a51b108
+    risk.vendor.form.update_vendor: ea05096345cc5439bdb51047b7dff5a6
     risk.vendor.form.update_vendor_success: de1cbdb65ca00cc0a0c1dc228a572f0e
     risk.vendor.form.update_vendor_error: 32573ca330db2ace4eb6e4f176443714
-    risk.vendor.form.add_comment: 01121e35f9097773e7d599beeaf25dc8
+    risk.vendor.form.add_comment: 9bcbc9d0a1d75326277586befe6e5a3f
     risk.vendor.table.name: 3ffcaf33f0c7f7a222bdff749d3d48a4
     risk.vendor.table.category: 21a0269431d5e6ba1eebf25827cadeba
     risk.vendor.table.status: ec53a8c4f07baed5d8825072c89799be
@@ -1854,57 +1884,57 @@ files:
     risk.vendor.empty_states.no_vendors.title: e8a9538b069b592bda0f6c405123e6c2
     risk.vendor.empty_states.no_vendors.description: 6e69538c9cda2e6d2badf016b9d55885
     risk.vendor.empty_states.no_results.title: 3c22fe33782fde4bb60715cfba3c18b5
-    risk.vendor.empty_states.no_results.description: 1e9b36605d59f796996b61f3311f91c9
+    risk.vendor.empty_states.no_results.description: a72b67b1eda315e9ba64841737db162f
     risk.vendor.empty_states.no_results.description_with_filters: 6675ce8f4b11d67226042fd01dcee422
-    risk.vendor.actions.create: 292f139b9a13add9638db9c2ff101bae
-    risk.vendor.status.not_assessed: 1354bd740ef68d84a4f275a3b64f01f3
-    risk.vendor.status.in_progress: 4cb7343002b9929b157122ffcc19788f
+    risk.vendor.actions.create: 84a73ff941e3416297f07171c5bf530d
+    risk.vendor.status.not_assessed: 444dfd899cc9fbfdf0158b61e3fd31ae
+    risk.vendor.status.in_progress: 99ac75396490fa878f622e311f7a1d11
     risk.vendor.status.assessed: df6410132c5eb02a8f490cc29eaeaca5
     risk.vendor.category.cloud: 03462a41aec357b74c89eb8d272532f7
     risk.vendor.category.infrastructure: 555b6edf52d9fda65d141d7bba972f45
-    risk.vendor.category.software_as_a_service: 80f40ae3c2fccc1d3664e299a0157b0d
+    risk.vendor.category.software_as_a_service: 84fde0bec68d395cf70da59e4c45cd00
     risk.vendor.category.finance: 5999a773cd1e8f482778926f4666f152
     risk.vendor.category.marketing: 913ca6cf2b6df9a4dd2bdff7bfbde3b4
     risk.vendor.category.sales: 9c04f49a10b7f08fd66c28ef73ce6293
     risk.vendor.category.hr: fd4c638da5f85d025963f99fe90b1b1a
     risk.vendor.category.other: ec56ec1646b8b5163ea5455385d6c016
-    risk.vendor.risk_level.low: 1a155e3b9955f11cbc5236f361293402
-    risk.vendor.risk_level.medium: ffe4eb3a2476326bd731bdd515ea93ee
-    risk.vendor.risk_level.high: c585567dad5efa4c5dfd324f96f43bc4
-    risk.vendor.risk_level.unknown: 6fa5922bf97d0f343b7c084b39edf855
+    risk.vendor.risk_level.low: 5b19c2e26db7f72ab6079aea9f9d216a
+    risk.vendor.risk_level.medium: d8c994d8fa7ee584e8f4fc017d56f5b5
+    risk.vendor.risk_level.high: d778a39f67247b3782739849fc70078b
+    risk.vendor.risk_level.unknown: c968a8e299ba16db050ecafc7518384c
     risk.dashboard.title: 5967ab15ec405a77b8db5dcdb885d6c6
     risk.dashboard.overview: c6b910bd1da16aa119d9371f43d5c5de
-    risk.dashboard.risk_status: d436c4676dd30f52f8b78e2a86fbe5f1
-    risk.dashboard.risks_by_department: f9a8d87dedc734de74959ccaa1e0e2af
-    risk.dashboard.risks_by_assignee: 4fb8019421fd1d6103588f343d95aae8
+    risk.dashboard.risk_status: cc668db25736d5f07de2e8905167e873
+    risk.dashboard.risks_by_department: acfcacbdb05fd0e6ca58916bdf8f41f0
+    risk.dashboard.risks_by_assignee: 87a5c70685dea39094b83082e2585887
     risk.dashboard.inherent_risk_description: f3d3dffa59354153dce56ff83b48939a
-    risk.dashboard.residual_risk_description: 8d2673f0f6181f89ce5a7a06e4bb0723
-    risk.dashboard.risk_assessment_description: 8ed9677748b2476403b6ba416fe077d2
-    risk.register.title: db2451907ef5613f1416723517f33ed4
+    risk.dashboard.residual_risk_description: 6d09af7428c85094c3e98b910ed3b655
+    risk.dashboard.risk_assessment_description: b09917a6480e6e8f023fa08f26c313c1
+    risk.register.title: 852e03af9adf456a284af6fb605e1fd6
     risk.register.table.risk: 33d37f9288ad443f3861e5ce991f23f1
     risk.register.empty.no_risks.title: 69f58dd05fc7f78c2db9b5648aaa04a6
     risk.register.empty.no_risks.description: 0e6f54b2eaf2782f1540587be785a261
     risk.register.empty.create_risk: 7f5a9aae7bb10b20c7c452538144d6d0
     risk.metrics.probability: 82b9c969f45e983725f58f2738efed1f
     risk.metrics.impact: fb5af28f02b70e35f56126da295ff956
-    risk.metrics.inherentRisk: ebeb800cea23f9bdb9351397f255471a
-    risk.metrics.residualRisk: 98dd48c9e4f54a0bc685c024723a8a17
-    risk.form.update_inherent_risk: 3ea1f602f29a9e8035eee273302b4234
-    risk.form.update_inherent_risk_description: 5a10e18dbb4efca9f607f96cf91c0570
+    risk.metrics.inherentRisk: 7b6224c6f170f3317c31453ffb0b2687
+    risk.metrics.residualRisk: 89b09d808513840bdad57114b82c9e83
+    risk.form.update_inherent_risk: b0d99b156ee80ca5890d56bc2b46da32
+    risk.form.update_inherent_risk_description: 5d93c2d955cc5538be98319d6aab08cb
     risk.form.update_inherent_risk_success: 99798521b546f029efc82b581c37ab50
     risk.form.update_inherent_risk_error: c535e2d625b7ff39da544e54fa16cec8
-    risk.form.update_residual_risk: 0498243b02254f78a000aa9ab3cc0180
-    risk.form.update_residual_risk_description: 4d397af03216d2ee5af789f280382249
-    risk.form.update_residual_risk_success: 7aeb587185ebb6da50686ac62bca8d69
-    risk.form.update_residual_risk_error: 3f8d343e904036ed903382dc04697702
-    risk.form.update_risk: 47a51ba609d024529a28c6bbe1a32e04
+    risk.form.update_residual_risk: 2e1cd6be7671ad8ea4c3a4975ba2f3f7
+    risk.form.update_residual_risk_description: 2b7721040569e6a85050eae0a2130728
+    risk.form.update_residual_risk_success: deea9345ed9058774d5b94e891b4a460
+    risk.form.update_residual_risk_error: 128e8230b5915be48ee2025a59b6d704
+    risk.form.update_risk: b03a8bb3efc718e4e85bf7fc843f8951
     risk.form.update_risk_description: a71071ec63e5f68387535e800568d008
     risk.form.update_risk_success: d7d4d38b82644dc9092c0846b6e5b9ce
     risk.form.update_risk_error: 5e022203fa27addde9c0d126f3aa50ca
     risk.form.create_risk_success: 67dd75a055ba3ea196ffac0216f1e0eb
     risk.form.create_risk_error: 6c5284d17c8e50860f5c9e63312aaa23
-    risk.form.risk_details: 5e89f82a2740dc18732124a5d22322f3
-    risk.form.risk_title: 537fb73e85ce9196fa303e28d30ed056
+    risk.form.risk_details: 67e029f15edaea66fbc83d344e7bfebe
+    risk.form.risk_title: 2a6820651706cf5fbb406d1ac6c3fc87
     risk.form.risk_title_description: b2e8fe1fee5adb1e27cac79fef44a5d2
     risk.form.risk_description: 59869029490390f1fc4943085f8e08bb
     risk.form.risk_description_description: 2dec2c48afdfc3baa26ebacdb564f3f5
@@ -1912,14 +1942,14 @@ files:
     risk.form.risk_category_placeholder: 94ace2a9e405df2178c6936d8cbfde80
     risk.form.risk_department: 6aa4e6545f4382dacc5dc92afa154494
     risk.form.risk_department_placeholder: f17b6366c86ebceb7c12b4f81a2417f3
-    risk.form.risk_status: d436c4676dd30f52f8b78e2a86fbe5f1
+    risk.form.risk_status: cc668db25736d5f07de2e8905167e873
     risk.form.risk_status_placeholder: b7566c9295e0cb655e290213238ac0fa
     risk.tasks.title: 11f2d40053448dfc357a23fada3d2130
     risk.tasks.attachments: 302a01ac24f797a7597958a1f8ef4a58
     risk.tasks.overview: d45e699e336e33398934eb23ae44b7c0
-    risk.tasks.form.title: 7da5433e54926efef6c20c07f7dea6d4
-    risk.tasks.form.task_title: edf160c9ceb9dd1cef25a41f0c70651f
-    risk.tasks.form.status: 1d9360aa9bee7405071acee769af3888
+    risk.tasks.form.title: d532d940b70df86fa502b5d2c61bfc9b
+    risk.tasks.form.task_title: fba51f3e94e6458c96d35ca036d24b6e
+    risk.tasks.form.status: a09877d1ca9d81884641a41392505bdb
     risk.tasks.form.status_placeholder: a8de2d77b56de6df29926e3fcd6e2c04
     risk.tasks.form.task_title_description: 699f09812cd95c3bd5554fe97bcd3be3
     risk.tasks.form.description: 59869029490390f1fc4943085f8e08bb
@@ -1928,21 +1958,21 @@ files:
     risk.tasks.form.due_date_description: 28b58558d733ef7e34a778662acd5ba8
     risk.tasks.form.success: 2be9cf9fe0b95a001f56f1d43d24519f
     risk.tasks.form.error: a3db672d6e4f09620076b714d34cb989
-    risk.tasks.sheet.title: 11e6ffe592e62cbfe9b5397aa8bef8ee
-    risk.tasks.sheet.update: cfaa80505af49f7f94550624da22bf25
+    risk.tasks.sheet.title: 7bc38b246dfbc678df009ec511a37a7f
+    risk.tasks.sheet.update: 8fab9b71f562163e6d8183ebf9475230
     risk.tasks.sheet.update_description: 52c43fc3885953a8227f554bd826b345
     risk.tasks.empty.description_create: 3bedf7b927e56cf72bcec34b9f45d29a
     settings.general.title: a3f43d574940dccc8643842769e48fd4
     settings.general.org_name: ad98ea7d155525c139fd76ee8449f241
     settings.general.org_name_description: f816e289306aead6e86f11ce20df123b
     settings.general.org_name_tip: d67ab36fb0cb52a2c0ec8d18ccab83e3
-    settings.general.org_website: 0e877e5bf0760455881baf427e799869
-    settings.general.org_website_description: fd837c8edff6306a52944e3d48855b68
-    settings.general.org_website_tip: dfe8160509b1036b24772c3fb74c0d27
-    settings.general.org_website_error: f05f32938ff6b4bbb6c23fdf692a96ad
+    settings.general.org_website: 2afa3b90ad5edb80e331a01312bf2f71
+    settings.general.org_website_description: 9e13af26c62c865e9e2060363684617c
+    settings.general.org_website_tip: 003f6177401607c0a97fbe4df22e53ff
+    settings.general.org_website_error: 9df88c469148c58d613481074d803ec6
     settings.general.org_website_updated: bba518754e4ac5379b8df2d460866a63
     settings.general.org_delete: eefaac2f1d2c89aa35586f30fdfea891
-    settings.general.org_delete_description: dc461a355b38ad88235222a1038900e1
+    settings.general.org_delete_description: 421c9ce555e53bb5901f236ef85566fc
     settings.general.org_delete_alert_title: 170543bdda8321f62b9b238b09fb4bb7
     settings.general.org_delete_alert_description: b54aa40ee6730901940d7a483b32dad4
     settings.general.org_delete_error: ee2fc465207ed530bcad83a9adc0c553
@@ -1963,9 +1993,9 @@ files:
     user_menu.support: 895cc6b3d812c01b304d5dd06a2be816
     user_menu.settings: c049758877fff5326b89af831719c191
     user_menu.teams: ac848fa228f49ba2b8a5fbd76596817d
-    frameworks.title: 21bdd7dc7e91422446d3a5312c21c756
+    frameworks.title: 21e683e741607c45ef400c7dbf6e8798
     frameworks.controls.title: 2ca21079513381553a995babdfef91bf
-    frameworks.controls.description: 00bdf2f07960010dc4e954b54b8114d3
+    frameworks.controls.description: 1b4bffb0093416c8a6477e1f666f6a63
     frameworks.controls.table.status: ec53a8c4f07baed5d8825072c89799be
     frameworks.controls.table.control: ec25fac07d54a790dc31af1f6b77045e
     frameworks.controls.table.artifacts: 4940c8f25276c5117930e1f6cbac1a9b
@@ -2008,11 +2038,11 @@ files:
     vendor.form.vendor_status: ec53a8c4f07baed5d8825072c89799be
     vendor.form.vendor_status_placeholder: 72ce53e5caf4c43fba49352b71378968
     vendor.form.create_vendor_success: 71b14513b7176035227d3faef318cb44
-    vendor.form.create_vendor_error: 28eb3c7da59123eb74980cfc5a51b108
+    vendor.form.create_vendor_error: 923686330ce1ef7c1c5592ce43d69a30
     vendor.form.update_vendor_success: de1cbdb65ca00cc0a0c1dc228a572f0e
-    vendor.form.update_vendor_error: 80169ec47a5aefdd473e3ee6dcd6e879
+    vendor.form.update_vendor_error: 32573ca330db2ace4eb6e4f176443714
     vendor.form.contacts: b6303e3ce1e97c541b2a8c87f67e9102
-    vendor.form.contact_name: dd3533179081b427d8e5a0a62432de5e
+    vendor.form.contact_name: 576e829681f05a3ae8e7305f1ab85144
     vendor.form.contact_email: 622881fa45db8af48bdaa6168fdcf799
     vendor.form.contact_role: 1eabc34be8786645573ce7dd7803d885
     vendor.form.add_contact: 156ee98c09a38359c14640316eac062f
@@ -2023,9 +2053,8 @@ files:
     vendor.empty_states.no_results.title: 3c22fe33782fde4bb60715cfba3c18b5
     vendor.empty_states.no_results.description: 1e9b36605d59f796996b61f3311f91c9
     vendor.empty_states.no_results.description_with_filters: 6675ce8f4b11d67226042fd01dcee422
-    sidebar.people: 57e876a07af4ab8a4ebcf862d4dd5a27
     people.title: 57e876a07af4ab8a4ebcf862d4dd5a27
-    people.details.taskProgress: 934e8f13279b640e03453a126cdb96e6
+    people.details.taskProgress: 997fd2d3bb0f6f02d416828712f0a2ec
     people.details.tasks: 11f2d40053448dfc357a23fada3d2130
     people.details.noTasks: 4c9f41882ac15524da29d87d298d96de
     people.description: 2eba0390b6febbaee197811e6b7db571
@@ -2053,6 +2082,6 @@ files:
     people.invite.department.label: 6aa4e6545f4382dacc5dc92afa154494
     people.invite.department.placeholder: f17b6366c86ebceb7c12b4f81a2417f3
     people.invite.submit: 37c4a5450b50726eee1d78a367c993a0
-    people.invite.success: c40baedf374cf680c4090b1fe4b2fa2d
+    people.invite.success: 935b6980e030df518e8197b96f087ca1
     people.invite.error: ceb8416eedbe080470864058cd64b494
     errors.unexpected: 2a8556e4045893123086934cbcc5487b
