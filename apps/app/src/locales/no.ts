@@ -614,7 +614,7 @@ export default {
         placeholder: "Velg en avdeling"
       },
       submit: "Legg til ansatt",
-      success: "Ansatt lagt til med suksess",
+      success: "Ansatt lagt til",
       error: "Kunne ikke legge til ansatt"
     }
   },

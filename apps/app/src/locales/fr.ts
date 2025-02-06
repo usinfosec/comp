@@ -598,8 +598,8 @@ export default {
       title: "Ajouter un employé",
       description: "Ajoutez un employé à votre organisation.",
       email: {
-        label: "Adresse email",
-        placeholder: "Entrez l'adresse email"
+        label: "Adresse e-mail",
+        placeholder: "Entrez l'adresse e-mail"
       },
       role: {
         label: "Rôle",
@@ -619,6 +619,6 @@ export default {
     }
   },
   errors: {
-    unexpected: "Une erreur s'est produite, veuillez réessayer"
+    unexpected: "Une erreur est survenue, veuillez réessayer"
   }
 } as const;
