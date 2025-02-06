@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@bubba/ui/table";
 import { Button } from "@bubba/ui/button";
-import { type PersonType } from "./columns";
+import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { useRouter } from "next/navigation";

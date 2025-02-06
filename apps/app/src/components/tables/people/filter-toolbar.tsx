@@ -29,13 +29,13 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
     (params: Record<string, string | null>) => {
       const newSearchParams = new URLSearchParams(searchParams?.toString());
 
-      Object.entries(params).forEach(([key, value]) => {
+      for (const [key, value] of Object.entries(params)) {
         if (value === null) {
           newSearchParams.delete(key);
         } else {
           newSearchParams.set(key, value);
         }
-      });
+      }
 
       return newSearchParams.toString();
     },
