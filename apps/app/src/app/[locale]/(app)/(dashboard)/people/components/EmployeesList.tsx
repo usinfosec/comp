@@ -10,8 +10,7 @@ import { Loading } from "@/components/tables/people/loading";
 import { useEmployees } from "../hooks/useEmployees";
 import { useSearchParams } from "next/navigation";
 import type { PersonType } from "@/components/tables/people/columns";
-import type { EmployeesResponse } from "../types";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { EmployeesListSkeleton } from "./EmployeesListSkeleton";
 
 interface EmployeesListProps {
   columnHeaders: {
@@ -31,12 +30,7 @@ export function EmployeesList({ columnHeaders }: EmployeesListProps) {
   const { employees, total, isLoading, error } = useEmployees();
 
   if (isLoading) {
-    return (
-      <div className="relative overflow-hidden">
-        <FilterToolbar isEmpty={true} />
-        <Skeleton className="h-[500px] w-full" />
-      </div>
-    );
+    return <EmployeesListSkeleton />;
   }
 
   if (error) {

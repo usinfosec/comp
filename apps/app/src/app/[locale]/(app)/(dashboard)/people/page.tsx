@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getServerColumnHeaders } from "@/components/tables/people/server-columns";
 import { redirect } from "next/navigation";
-import { EmployeesList } from "./components/employees-list";
+import { EmployeesList } from "./components/EmployeesList";
 
 export default async function PeoplePage() {
   const session = await auth();
