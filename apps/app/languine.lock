@@ -507,6 +507,7 @@ files:
     sidebar.integrations: adcecead84f6cfdbff4dcbf48f3042f8
     sidebar.settings: 1a0150117e807caf279cde8bdf66f406
     sidebar.evidence: 5af41ac93343213b6acf71de2905164c
+    sidebar.people: d4e50a9ea2253c9f06bc6bd451fb3a2c
     auth.title: 5fc2b1a1eed0a1823159ab106f2aed7e
     auth.description: 6a082bb3b49331c16f102861ff2ab31d
     auth.options: ef4e58e8acedb82c35fed30955ca137c
@@ -768,7 +769,6 @@ files:
     vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
     vendor.empty_states.no_results.description: 5d3f1d31cec631239093a8da2e0c67aa
     vendor.empty_states.no_results.description_with_filters: b8662468f89ba12988a84dfbe186d959
-    sidebar.people: d4e50a9ea2253c9f06bc6bd451fb3a2c
     people.title: d4e50a9ea2253c9f06bc6bd451fb3a2c
     people.details.taskProgress: c13f2bd415a13c41bcaa18f98135b7af
     people.details.tasks: 8fa33a1f2be10005d07ff40ad5c07833
@@ -924,6 +924,7 @@ files:
     sidebar.integrations: 6ea79a8a769fc5a36cec1433f739cce6
     sidebar.settings: 2571dd516a1452eb3b5a17d007c5bac8
     sidebar.evidence: 79659c6536da5576e799c8963d424989
+    sidebar.people: de14276d9e07d3296ba1bce76ad662c9
     auth.title: d3dee5288f72e4006f7b387b33e8b0fd
     auth.description: 44d8091282bf87cc8b02cb7b50fbc272
     auth.options: 9febeddd5826cda96b734eff7e15c2f6
@@ -1185,7 +1186,6 @@ files:
     vendor.empty_states.no_results.title: 862b1847e091e28b1f598fb563d2886d
     vendor.empty_states.no_results.description: b174c45c623da80e3354e959e25b4455
     vendor.empty_states.no_results.description_with_filters: 7a2e20b527b82016631de60b987185df
-    sidebar.people: de14276d9e07d3296ba1bce76ad662c9
     people.title: de14276d9e07d3296ba1bce76ad662c9
     people.details.taskProgress: 99f91ad5736e6e0e28293ea4666f9325
     people.details.tasks: b3cbbfcad6f3e417a9806b2aef4bc1e7
@@ -1341,6 +1341,7 @@ files:
     sidebar.integrations: 4c772dc39d61569ecea19082f498b8e6
     sidebar.settings: e7785de91330713fc2d12404bb6bd556
     sidebar.evidence: f98a5479bbad8c1b94a64d4941a8b9c0
+    sidebar.people: 5557260365f759ca82cf108b3d8bef8f
     auth.title: ebdfba346dd9e4711096c80e9e9c2e87
     auth.description: 3aee5e88dd1aaaee41469153656b49bd
     auth.options: 46b0e6460135122c2066d3a59fc99a7c
@@ -1602,7 +1603,6 @@ files:
     vendor.empty_states.no_results.title: 5bb69fe3b7a4d5220a445c029fb02c19
     vendor.empty_states.no_results.description: 272e8ffa88987801e1ce4df4610db9ea
     vendor.empty_states.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
-    sidebar.people: 5557260365f759ca82cf108b3d8bef8f
     people.title: 5557260365f759ca82cf108b3d8bef8f
     people.details.taskProgress: 3cb06e12073d38f3f21997f827281a23
     people.details.tasks: 1c309074b8348cf83eef81c27d4e5e97
@@ -1623,8 +1623,8 @@ files:
     people.empty.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
     people.invite.title: 0377e2862a56907572c6253feb96ac1e
     people.invite.description: 0d1501eb5ca25a88675a1b67505c6371
-    people.invite.email.label: 4931fa232e876ae17165d664f56677bb
-    people.invite.email.placeholder: 76698be1004655faa7e80b4f62c4f8a7
+    people.invite.email.label: e920754fa88b7c38cdd1bcc259bac5d0
+    people.invite.email.placeholder: 5a6940a4d212e6c6fd224ae8c9744232
     people.invite.role.label: 19772a94ff8636c21be02e839fbc9a09
     people.invite.role.placeholder: 86c306c23929c264d9fe1637bab1b2eb
     people.invite.name.label: d4700b697a54fbd43a1a613d32694e7f
@@ -1634,7 +1634,7 @@ files:
     people.invite.submit: 0377e2862a56907572c6253feb96ac1e
     people.invite.success: 83dd88a7224d8a74ca74127613a347a0
     people.invite.error: 4cca4a705d84aa6194c1788cb1b1b5ca
-    errors.unexpected: 18105319b34e382d1e0ed2e165f4d960
+    errors.unexpected: 97a0b13a8505e747bfd30b01f1ab78d7
   src/locales/no.ts:
     languages.es: b980859f1670214519fd5cd3942dddf8
     languages.fr: 939843e67f5fd5de8870aed96875c98e
@@ -1758,6 +1758,7 @@ files:
     sidebar.integrations: 5a68d939af838db8152ed6d9578aa26d
     sidebar.settings: c049758877fff5326b89af831719c191
     sidebar.evidence: 905fbb72b445394a3e752b6ddd1a2c23
+    sidebar.people: 57e876a07af4ab8a4ebcf862d4dd5a27
     auth.title: b6ec3d7a6754a230e89a097b3d1c2297
     auth.description: 7afbd5d2815f3bbabf2df979be6c3424
     auth.options: eadbdc1841301752c51cbd7036d50909
@@ -2019,7 +2020,6 @@ files:
     vendor.empty_states.no_results.title: 3c22fe33782fde4bb60715cfba3c18b5
     vendor.empty_states.no_results.description: 1e9b36605d59f796996b61f3311f91c9
     vendor.empty_states.no_results.description_with_filters: 6675ce8f4b11d67226042fd01dcee422
-    sidebar.people: 57e876a07af4ab8a4ebcf862d4dd5a27
     people.title: 57e876a07af4ab8a4ebcf862d4dd5a27
     people.details.taskProgress: 934e8f13279b640e03453a126cdb96e6
     people.details.tasks: 11f2d40053448dfc357a23fada3d2130
@@ -2049,6 +2049,6 @@ files:
     people.invite.department.label: 6aa4e6545f4382dacc5dc92afa154494
     people.invite.department.placeholder: f17b6366c86ebceb7c12b4f81a2417f3
     people.invite.submit: 37c4a5450b50726eee1d78a367c993a0
-    people.invite.success: c40baedf374cf680c4090b1fe4b2fa2d
+    people.invite.success: 935b6980e030df518e8197b96f087ca1
     people.invite.error: ceb8416eedbe080470864058cd64b494
     errors.unexpected: 2a8556e4045893123086934cbcc5487b
