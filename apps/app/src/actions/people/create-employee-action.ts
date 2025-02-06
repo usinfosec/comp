@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { revalidatePath } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createEmployeeSchema } from "../schema";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
@@ -36,8 +35,7 @@ export const createEmployeeAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse> => {
-    const { name, email, department, externalEmployeeId, isActive } =
-      parsedInput;
+    const { name, email, department, externalEmployeeId } = parsedInput;
     const { user } = ctx;
 
     if (!user.organizationId) {
@@ -55,45 +53,38 @@ export const createEmployeeAction = authActionClient
           email,
           department,
           organizationId: user.organizationId,
-          isActive,
+          isActive: true,
           externalEmployeeId,
         },
       });
 
-      // Create or get the required tasks
+      // Create or get the required task definitions first and store their IDs
       const requiredTasks = await Promise.all(
         DEFAULT_TASKS.map(async (task) => {
-          return db.employeeTask.upsert({
-            where: {
-              employeeId_requiredTaskId: {
-                employeeId: employee.id,
-                requiredTaskId: task.code,
-              },
-            },
+          return db.employeeRequiredTask.upsert({
+            where: { code: task.code },
             create: {
-              employeeId: employee.id,
-              requiredTaskId: task.code,
-              status: "assigned",
+              code: task.code,
+              name: task.name,
+              description: task.description,
             },
             update: {},
           });
         })
       );
 
-      // Assign tasks to the employee
+      // Now create the employee tasks using the actual task IDs
       await Promise.all(
-        requiredTasks.map((requiredTask) =>
-          db.employeeTask.create({
+        requiredTasks.map(async (task) => {
+          return db.employeeTask.create({
             data: {
               employeeId: employee.id,
-              requiredTaskId: requiredTask.id,
+              requiredTaskId: task.id,
               status: "assigned",
             },
-          })
-        )
+          });
+        })
       );
-
-      revalidatePath("/people");
 
       return {
         success: true,
