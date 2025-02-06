@@ -769,6 +769,7 @@ files:
     vendor.empty_states.no_results.title: 3fcc064a645e61dd3d642ff1e52b3754
     vendor.empty_states.no_results.description: 5d3f1d31cec631239093a8da2e0c67aa
     vendor.empty_states.no_results.description_with_filters: b8662468f89ba12988a84dfbe186d959
+    sidebar.people: d4e50a9ea2253c9f06bc6bd451fb3a2c
     people.title: d4e50a9ea2253c9f06bc6bd451fb3a2c
     people.details.taskProgress: c13f2bd415a13c41bcaa18f98135b7af
     people.details.tasks: 8fa33a1f2be10005d07ff40ad5c07833
@@ -1186,6 +1187,7 @@ files:
     vendor.empty_states.no_results.title: 862b1847e091e28b1f598fb563d2886d
     vendor.empty_states.no_results.description: b174c45c623da80e3354e959e25b4455
     vendor.empty_states.no_results.description_with_filters: 7a2e20b527b82016631de60b987185df
+    sidebar.people: de14276d9e07d3296ba1bce76ad662c9
     people.title: de14276d9e07d3296ba1bce76ad662c9
     people.details.taskProgress: 99f91ad5736e6e0e28293ea4666f9325
     people.details.tasks: b3cbbfcad6f3e417a9806b2aef4bc1e7
@@ -1603,8 +1605,9 @@ files:
     vendor.empty_states.no_results.title: 5bb69fe3b7a4d5220a445c029fb02c19
     vendor.empty_states.no_results.description: 272e8ffa88987801e1ce4df4610db9ea
     vendor.empty_states.no_results.description_with_filters: 85a145167c2b86ce831cbed8aa8ad9da
+    sidebar.people: 5557260365f759ca82cf108b3d8bef8f
     people.title: 5557260365f759ca82cf108b3d8bef8f
-    people.details.taskProgress: baaaf8d62581ba13475418248c4a8d0d
+    people.details.taskProgress: 3cb06e12073d38f3f21997f827281a23
     people.details.tasks: 1c309074b8348cf83eef81c27d4e5e97
     people.details.noTasks: d888c934668143d74bd2b16d4759092d
     people.description: fd54f4382097809dd188d5d00c770125
@@ -2020,6 +2023,7 @@ files:
     vendor.empty_states.no_results.title: 3c22fe33782fde4bb60715cfba3c18b5
     vendor.empty_states.no_results.description: 1e9b36605d59f796996b61f3311f91c9
     vendor.empty_states.no_results.description_with_filters: 6675ce8f4b11d67226042fd01dcee422
+    sidebar.people: 57e876a07af4ab8a4ebcf862d4dd5a27
     people.title: 57e876a07af4ab8a4ebcf862d4dd5a27
     people.details.taskProgress: 934e8f13279b640e03453a126cdb96e6
     people.details.tasks: 11f2d40053448dfc357a23fada3d2130
@@ -2049,6 +2053,6 @@ files:
     people.invite.department.label: 6aa4e6545f4382dacc5dc92afa154494
     people.invite.department.placeholder: f17b6366c86ebceb7c12b4f81a2417f3
     people.invite.submit: 37c4a5450b50726eee1d78a367c993a0
-    people.invite.success: 935b6980e030df518e8197b96f087ca1
+    people.invite.success: c40baedf374cf680c4090b1fe4b2fa2d
     people.invite.error: ceb8416eedbe080470864058cd64b494
     errors.unexpected: 2a8556e4045893123086934cbcc5487b

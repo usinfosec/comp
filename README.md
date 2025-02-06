@@ -18,7 +18,7 @@
     ·
     <a href="https://github.com/trycompai/comp/issues">Issues</a>
     ·
-    <a href="#">Roadmap (coming soon)</a>
+    <a href="https://github.com/orgs/trycompai/projects/1">Roadmap</a>
   </p>
 </p>
 
