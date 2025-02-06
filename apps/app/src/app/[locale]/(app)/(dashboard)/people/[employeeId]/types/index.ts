@@ -14,6 +14,9 @@ export const employeeDetailsSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
+  department: z.string(),
+  createdAt: z.date(),
+  isActive: z.boolean(),
   employeeTasks: z.array(employeeTaskSchema),
 });
 

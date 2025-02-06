@@ -2,7 +2,12 @@
 
 import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
-import { type AppError, employeeDetailsInputSchema, appErrors } from "../types";
+import {
+  type AppError,
+  employeeDetailsInputSchema,
+  appErrors,
+  EmployeeDetails,
+} from "../types";
 import { auth } from "@/auth";
 
 // Type-safe action response
@@ -34,12 +39,14 @@ export const getEmployeeDetails = authActionClient
         where: {
           id: employeeId,
           organizationId,
-          isActive: true,
         },
         select: {
           id: true,
           name: true,
           email: true,
+          department: true,
+          createdAt: true,
+          isActive: true,
           employeeTasks: {
             select: {
               id: true,

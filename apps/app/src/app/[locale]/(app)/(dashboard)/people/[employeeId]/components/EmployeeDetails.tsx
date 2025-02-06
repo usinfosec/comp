@@ -10,6 +10,9 @@ import { Skeleton } from "@bubba/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import type { EmployeeTask } from "../types";
+import { Label } from "@bubba/ui/label";
+import { formatDate } from "@/utils/format";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 
 interface EmployeeDetailsProps {
   employeeId: string;
@@ -71,73 +74,67 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
   const progressPercentage =
     totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
+  console.log({ employee });
+
   return (
     <div className="space-y-6 p-6">
-      <div className="flex flex-col space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight">{employee.name}</h1>
-        <p className="text-muted-foreground">{employee.email}</p>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("people.details.taskProgress")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Progress value={progressPercentage} />
-              <p className="text-sm text-muted-foreground">
-                {completedTasks} of {totalTasks} tasks completed
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <h1 className="text-2xl font-bold">
+        {employee.name} ({employee.isActive ? "Active" : "Inactive"})
+      </h1>
 
       <Card>
-        <CardHeader>
-          <CardTitle>{t("people.details.tasks")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {tasks.length > 0 ? (
-            <div className="space-y-4">
-              {tasks.map((task: EmployeeTask) => (
-                <div
-                  key={task.id}
-                  className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0"
-                >
-                  <div>
-                    <p className="font-medium">{task.requiredTask.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {task.requiredTask.description}
-                    </p>
-                  </div>
-                  <div className="text-sm">
-                    <span
-                      className={cn(
-                        "rounded-full px-2 py-1",
-                        task.status === "completed"
-                          ? "bg-green-100 text-green-700"
-                          : task.status === "in_progress"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : task.status === "overdue"
-                              ? "bg-red-100 text-red-700"
-                              : "bg-gray-100 text-gray-700"
-                      )}
-                    >
-                      {task.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
+        <CardContent className="p-8">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2">
+              <Label>Name</Label>
+              <p>{employee.name}</p>
             </div>
-          ) : (
-            <p className="text-muted-foreground">
-              {t("people.details.noTasks")}
-            </p>
-          )}
+            <div className="flex flex-col gap-2">
+              <Label>Email</Label>
+              <p>{employee.email}</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Join Date</Label>
+              <p>
+                {formatDate(employee.createdAt.toISOString(), "MMM d, yyyy")}
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Department</Label>
+              <p>{employee.department}</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
+
+      <Tabs defaultValue="tasks">
+        <TabsList>
+          <TabsTrigger value="tasks">Tasks</TabsTrigger>
+          <TabsTrigger value="documents">Documents</TabsTrigger>
+          <TabsTrigger value="trainings">Trainings</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="tasks">
+          <div className="space-y-6">
+            <div className="flex flex-col gap-2">
+              <Label>Tasks</Label>
+              <p>{tasks.length}</p>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <div className="space-y-6">
+            <Label>Documents</Label>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="trainings">
+          <div className="space-y-6">
+            <Label>Trainings</Label>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

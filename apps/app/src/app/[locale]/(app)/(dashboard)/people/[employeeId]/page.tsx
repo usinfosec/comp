@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { EmployeeDetails } from "./components/employee-details";
+import { EmployeeDetails } from "./components/EmployeeDetails";
 
 export default async function EmployeeDetailsPage({
   params,
