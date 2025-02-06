@@ -174,6 +174,7 @@ export default {
     integrations: "Integrations",
     settings: "Settings",
     evidence: "Evidence Tasks",
+    people: "People",
   },
   auth: {
     title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
@@ -445,6 +446,63 @@ export default {
       },
     },
   },
+  people: {
+    title: "People",
+    details: {
+      taskProgress: "Task Progress",
+      tasks: "Tasks",
+      noTasks: "No tasks assigned yet",
+    },
+    description: "Manage your team members and their roles.",
+    filters: {
+      search: "Search people...",
+      role: "Filter by role",
+    },
+    actions: {
+      invite: "Add Employee",
+      clear: "Clear filters",
+    },
+    table: {
+      name: "Name",
+      email: "Email",
+      department: "Department",
+      externalId: "External ID",
+    },
+    empty: {
+      no_employees: {
+        title: "No employees yet",
+        description: "Get started by inviting your first team member.",
+      },
+      no_results: {
+        title: "No results found",
+        description: "No employees match your search",
+        description_with_filters: "Try adjusting your filters",
+      },
+    },
+    invite: {
+      title: "Add Employee",
+      description: "Add an employee to your organization.",
+      email: {
+        label: "Email address",
+        placeholder: "Enter email address",
+      },
+      role: {
+        label: "Role",
+        placeholder: "Select a role",
+      },
+      name: {
+        label: "Name",
+        placeholder: "Enter name",
+      },
+      department: {
+        label: "Department",
+        placeholder: "Select a department",
+      },
+      submit: "Add Employee",
+      success: "Employee added successfully",
+      error: "Failed to add employee",
+    },
+  },
   settings: {
     general: {
       title: "General",
@@ -577,5 +635,8 @@ export default {
         description_with_filters: "Try adjusting your filters",
       },
     },
+  },
+  errors: {
+    unexpected: "Something went wrong, please try again",
   },
 } as const;

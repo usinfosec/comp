@@ -171,7 +171,8 @@ export default {
     vendors: "Leverandører",
     integrations: "Integrasjoner",
     settings: "Innstillinger",
-    evidence: "Bevisoppgaver"
+    evidence: "Bevisoppgaver",
+    people: "Personer"
   },
   auth: {
     title: "Automatiser SOC 2, ISO 27001 og GDPR-overholdelse med AI.",
@@ -559,5 +560,65 @@ export default {
         description_with_filters: "Prøv å justere filtrene dine"
       }
     }
+  },
+  people: {
+    title: "Personer",
+    details: {
+      taskProgress: "Oppgaveprogresjon",
+      tasks: "Oppgaver",
+      noTasks: "Ingen oppgaver tildelt ennå"
+    },
+    description: "Administrer teammedlemmene dine og deres roller.",
+    filters: {
+      search: "Søk etter personer...",
+      role: "Filtrer etter rolle"
+    },
+    actions: {
+      invite: "Legg til ansatt",
+      clear: "Fjern filtre"
+    },
+    table: {
+      name: "Navn",
+      email: "E-post",
+      department: "Avdeling",
+      externalId: "Ekstern ID"
+    },
+    empty: {
+      no_employees: {
+        title: "Ingen ansatte ennå",
+        description: "Kom i gang med å invitere ditt første teammedlem."
+      },
+      no_results: {
+        title: "Ingen resultater funnet",
+        description: "Ingen ansatte samsvarer med søket ditt",
+        description_with_filters: "Prøv å justere filtrene dine"
+      }
+    },
+    invite: {
+      title: "Legg til ansatt",
+      description: "Legg til en ansatt i organisasjonen din.",
+      email: {
+        label: "E-postadresse",
+        placeholder: "Skriv inn e-postadresse"
+      },
+      role: {
+        label: "Rolle",
+        placeholder: "Velg en rolle"
+      },
+      name: {
+        label: "Navn",
+        placeholder: "Skriv inn navn"
+      },
+      department: {
+        label: "Avdeling",
+        placeholder: "Velg en avdeling"
+      },
+      submit: "Legg til ansatt",
+      success: "Ansatt lagt til med suksess",
+      error: "Kunne ikke legge til ansatt"
+    }
+  },
+  errors: {
+    unexpected: "Noe gikk galt, vennligst prøv igjen"
   }
 } as const;
