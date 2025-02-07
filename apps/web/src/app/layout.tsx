@@ -3,9 +3,7 @@ import { Geist } from "next/font/google";
 import { Toaster } from "sonner";
 import "@bubba/ui/globals.css";
 import { Providers } from "@/app/providers";
-import { env } from "@/env.mjs";
 import { cn } from "@/lib/utils";
-import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,10 +36,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {env.NEXT_PUBLIC_GOOGLE_TAG_ID && (
-        <GoogleTagManager gtmId={env.NEXT_PUBLIC_GOOGLE_TAG_ID} />
-      )}
-
       <body
         className={cn(
           "min-h-svh bg-background font-sans antialiased",
