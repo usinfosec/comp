@@ -199,10 +199,15 @@ export default {
     title: "Create an organization",
     setup: "Setup",
     description: "Tell us a bit about your organization.",
+    unavailable: "Please choose a different subdomain. Only lowercase letters, numbers, and hyphens are allowed.",
     fields: {
       name: {
         label: "Organization Name",
         placeholder: "Your organization name",
+      },
+      subdomain: {
+        label: "Subdomain",
+        placeholder: "example",
       },
       website: {
         label: "Website",
