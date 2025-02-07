@@ -4,8 +4,9 @@
 
 import { createOrganizationAndConnectUser } from "@/auth/org";
 import type { createDefaultPoliciesTask } from "@/jobs/tasks/organization/create-default-policies";
+import { addDomainToVercel, removeDomainFromVercelProject } from "@/lib/domains";
 import { db } from "@bubba/db";
-import { tasks, wait } from "@trigger.dev/sdk/v3";
+import { tasks } from "@trigger.dev/sdk/v3";
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
@@ -21,19 +22,35 @@ export const createOrganizationAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { name, website } = parsedInput;
+    const { name, website, subdomain } = parsedInput;
     const { id: userId, organizationId } = ctx.user;
 
     if (!name || !website) {
       console.log("Invalid input detected:", { name, website });
-
       throw new Error("Invalid user input");
+    }
+
+    const hasVercelConfig = Boolean(
+      process.env.NEXT_PUBLIC_VERCEL_URL &&
+      process.env.VERCEL_AUTH_TOKEN &&
+      process.env.VERCEL_TEAM_ID &&
+      process.env.VERCEL_PROJECT_ID
+    );
+
+    if (hasVercelConfig && subdomain) {
+      try {
+        await addDomainToVercel(`${subdomain}.${process.env.NEXT_PUBLIC_VERCEL_URL}`);
+      } catch (error) {
+        console.error("Failed to add domain to Vercel:", error);
+        throw new Error("Failed to set up subdomain");
+      }
     }
 
     if (!organizationId) {
       await createOrganizationAndConnectUser({
         userId,
         normalizedEmail: ctx.user.email!,
+        subdomain: hasVercelConfig ? (subdomain || "") : "",
       });
     }
 
@@ -60,10 +77,12 @@ export const createOrganizationAction = authActionClient
           update: {
             name,
             website,
+            subdomain: hasVercelConfig ? (subdomain || "") : "",
           },
           create: {
             name,
             website,
+            subdomain: hasVercelConfig ? (subdomain || "") : "",
           },
         });
 
@@ -97,6 +116,14 @@ export const createOrganizationAction = authActionClient
         success: true,
       };
     } catch (error) {
+      if (hasVercelConfig && subdomain) {
+        try {
+          await removeDomainFromVercelProject(`${subdomain}.${process.env.NEXT_PUBLIC_VERCEL_URL}`);
+        } catch (cleanupError) {
+          console.error("Failed to clean up subdomain after error:", cleanupError);
+        }
+      }
+
       console.error("Error during organization update:", error);
       throw new Error("Failed to update organization");
     }
