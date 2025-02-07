@@ -203,10 +203,15 @@ export default {
       website: {
         label: "Nettsted",
         placeholder: "Ditt organisasjonsnettsted"
+      },
+      subdomain: {
+        label: "Underdomen",
+        placeholder: "eksempel"
       }
     },
     success: "Takk, du er klar!",
-    error: "Noe gikk galt, vennligst prøv igjen."
+    error: "Noe gikk galt, vennligst prøv igjen.",
+    unavailable: "Vennligst velg et annet underdomene. Kun små bokstaver, tall og bindestreker er tillatt."
   },
   overview: {
     title: "Oversikt",
