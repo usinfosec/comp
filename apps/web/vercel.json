@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://docs.trycomp.ai"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://docs.trycomp.ai/:match*"
+    }
+  ]
+}
