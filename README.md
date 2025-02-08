@@ -16,6 +16,8 @@
     ·
     <a href="https://trycomp.ai">Website</a>
     ·
+    <a href="https://trycomp.ai/docs">Documentation</a>
+    ·
     <a href="https://github.com/trycompai/comp/issues">Issues</a>
     ·
     <a href="https://github.com/orgs/trycompai/projects/1">Roadmap</a>
