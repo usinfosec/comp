@@ -1,9 +1,6 @@
-import { Body, Container, Html, Text } from "@react-email/components";
+import { Body, Html, Text } from "@react-email/components";
 
 export const WelcomeEmail = () => {
-  const previewText =
-    "Hey, I'm Lewis, one of the founders. Saw that you signed up for Comp AI.";
-
   return (
     <Html>
       <Body
