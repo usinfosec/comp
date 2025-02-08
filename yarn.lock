@@ -3604,7 +3604,7 @@
   resolved "https://registry.npmjs.org/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz"
   integrity sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==
 
-"@trigger.dev/build@3.3.13":
+"@trigger.dev/build@3.3.13", "@trigger.dev/build@^3.3.13":
   version "3.3.13"
   resolved "https://registry.npmjs.org/@trigger.dev/build/-/build-3.3.13.tgz"
   integrity sha512-2R7FTvo/3XYhc+uB4vm2mzuH5UTP7kq4E9T2jEBQMEfz4KbiIjQwWtak366ApPKYRbBU1+xm0Mfx4EWtAriWhA==
@@ -3654,7 +3654,7 @@
     "@trigger.dev/core" "^3.3.13"
     swr "^2.2.5"
 
-"@trigger.dev/sdk@3.3.13":
+"@trigger.dev/sdk@3.3.13", "@trigger.dev/sdk@^3.3.13":
   version "3.3.13"
   resolved "https://registry.npmjs.org/@trigger.dev/sdk/-/sdk-3.3.13.tgz"
   integrity sha512-iXtHMnzvzmPfBk7+whpWOElBJt6viCoA3r8xgrrrurj8oxjIVe4UvdDiB7wbUJJ44WROWEb0wVKyQut1L/FwQQ==
@@ -11555,6 +11555,7 @@ wcwidth@^1.0.1:
   version "workspace:apps/web"
   resolved "workspace:apps/web"
   devDependencies:
+    "@trigger.dev/build" "^3.3.13"
     "@types/node" "^22.12.0"
     "@types/react" "^19.0.8"
     "@types/react-dom" "^19.0.3"
@@ -11564,6 +11565,7 @@ wcwidth@^1.0.1:
   dependencies:
     "@next/third-parties" "^15.1.6"
     "@t3-oss/env-nextjs" "^0.11.1"
+    "@trigger.dev/sdk" "^3.3.13"
     class-variance-authority "^0.7.1"
     clsx "^2.1.1"
     framer-motion "^11.18.2"

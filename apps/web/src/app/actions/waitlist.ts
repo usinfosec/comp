@@ -1,7 +1,9 @@
 "use server";
 
+import type { introductionEmailTask } from "@/jobs/introduction";
 import * as ServerAnalytics from "@bubba/analytics/src/server";
 import { resend } from "@bubba/email/lib/resend";
+import { tasks } from "@trigger.dev/sdk/v3";
 import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
 import { waitlistSchema } from "./schema";
@@ -31,6 +33,13 @@ export const joinWaitlist = createSafeActionClient()
         audienceId: process.env.RESEND_AUDIENCE_ID as string,
       });
 
+      await tasks.trigger<typeof introductionEmailTask>(
+        "introduction-email",
+        {
+          email: parsedInput.email,
+        },
+      );
+
       if (process.env.DISCORD_WEBHOOK_URL) {
         await ky.post(process.env.DISCORD_WEBHOOK_URL as string, {
           json: {
@@ -39,15 +48,10 @@ export const joinWaitlist = createSafeActionClient()
         });
       }
 
-      await ServerAnalytics.track(
-        parsedInput.email,
-        "waitlist_signup",
-        {
-          channel: "web",
-          email: parsedInput.email,
-        }
-      );
-
+      await ServerAnalytics.track(parsedInput.email, "waitlist_signup", {
+        channel: "web",
+        email: parsedInput.email,
+      });
     } else {
       throw new Error("Email already in audience");
     }
