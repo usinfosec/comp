@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/docs",
-      "destination": "https://bubbaaiinc.mintlify.dev/introduction"
+      "destination": "https://bubbaaiinc.mintlify.app/introduction"
     },
     {
       "source": "/docs/:match*",
-      "destination": "https://bubbaaiinc.mintlify.dev/docs/:match*"
+      "destination": "https://bubbaaiinc.mintlify.app/docs/:match*"
     }
   ]
 }
