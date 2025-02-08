@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/docs",
-      "destination": "https://docs.trycomp.ai"
+      "destination": "https://bubbaaiinc.mintlify.app/introduction"
     },
     {
       "source": "/docs/:match*",
-      "destination": "https://docs.trycomp.ai/:match*"
+      "destination": "https://bubbaaiinc.mintlify.app/docs/:match*"
     }
   ]
 }
