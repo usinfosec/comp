@@ -140,8 +140,11 @@ files:
     onboarding.title: deecac09e6560d6f0f98401d9852d514
     onboarding.setup: ad2376beebecdcf7846ba973fa1a005b
     onboarding.description: 7cd2a7692cfacbbea2045f2e6416b805
+    onboarding.unavailable: c321ca4d67424a3a48aaef9053753cc4
     onboarding.fields.name.label: c1ca926603dc454ba981aa514db8402b
     onboarding.fields.name.placeholder: 0ad99cd46646d542668f0f40ab982477
+    onboarding.fields.subdomain.label: beed05bccb8b6f21466910eb4a4f142b
+    onboarding.fields.subdomain.placeholder: 1a79a4d60de6718e8e5b326e338ae533
     onboarding.fields.website.label: 15bbb9d0bbf25e8d2978de1168c749dc
     onboarding.fields.website.placeholder: 4ebd8773cbf5dc2531d6b28b6fe32a26
     onboarding.success: 13ff66cec7127e895b2e463771341c13
