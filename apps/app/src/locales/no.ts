@@ -205,7 +205,7 @@ export default {
         placeholder: "Ditt organisasjonsnettsted"
       },
       subdomain: {
-        label: "Underdomen",
+        label: "Underdomene",
         placeholder: "eksempel"
       }
     },
