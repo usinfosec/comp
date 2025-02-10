@@ -1,6 +1,7 @@
 "use client";
 
 import { useNotifications } from "@/hooks/use-notifications";
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
@@ -78,18 +79,13 @@ function NotificationItem({
         </div>
       );
     default:
-      return (
-        <div className="flex items-between justify-between space-x-4 px-3 py-3 hover:bg-secondary">
-          <p className="text-sm">{description}</p>
-          <span className="text-xs text-muted">
-            {formatDistanceToNow(new Date(createdAt))} ago
-          </span>
-        </div>
-      );
+      return null;
   }
 }
 
 export function NotificationCenter() {
+  const t = useI18n();
+
   const [isOpen, setOpen] = useState(false);
   const {
     hasUnseenNotifications,
@@ -113,8 +109,6 @@ export function NotificationCenter() {
     }
   }, [hasUnseenNotifications, isOpen]);
 
-  console.log(notifications);
-
   return (
     <Popover onOpenChange={setOpen} open={isOpen}>
       <PopoverTrigger asChild>
@@ -137,10 +131,10 @@ export function NotificationCenter() {
         <Tabs defaultValue="inbox">
           <TabsList className="w-full justify-start bg-transparent border-b-[1px] rounded-none py-6">
             <TabsTrigger value="inbox" className="font-normal">
-              Inbox
+              {t("common.notifications.inbox")}
             </TabsTrigger>
             <TabsTrigger value="archive" className="font-normal">
-              Archive
+              {t("common.notifications.archive")}
             </TabsTrigger>
           </TabsList>
 
@@ -151,10 +145,10 @@ export function NotificationCenter() {
             <Button
               variant="secondary"
               size="icon"
-              className="rounded-full bg-ransparent hover:bg-accent"
+              className="rounded-full bg-transparent hover:bg-accent"
               onClick={() => setOpen(false)}
             >
-              <Icons.Settings className="text-[#606060]" size={16} />
+              <Icons.Settings className="text-muted" size={16} />
             </Button>
           </Link>
 
@@ -193,7 +187,7 @@ export function NotificationCenter() {
                   className="bg-transparent"
                   onClick={markAllMessagesAsRead}
                 >
-                  Archive all
+                  {t("common.notifications.archive_all")}
                 </Button>
               </div>
             )}
@@ -201,7 +195,9 @@ export function NotificationCenter() {
 
           <TabsContent value="archive" className="mt-0">
             {!archivedNotifications.length && (
-              <EmptyState description="Nothing in the archive" />
+              <EmptyState
+                description={t("common.notifications.no_notifications")}
+              />
             )}
 
             {archivedNotifications.length > 0 && (
