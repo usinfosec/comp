@@ -136,6 +136,12 @@ export default {
         uploading_files: "Laster opp {target}...",
         remove_file: "Fjern fil"
       }
+    },
+    notifications: {
+      inbox: "Innboks",
+      archive: "Arkiv",
+      archive_all: "Arkiver alt",
+      no_notifications: "Ingen nye varsler"
     }
   },
   header: {

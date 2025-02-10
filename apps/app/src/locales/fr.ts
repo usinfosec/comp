@@ -136,6 +136,12 @@ export default {
         uploading_files: "Téléchargement de {target}...",
         remove_file: "Supprimer le fichier"
       }
+    },
+    notifications: {
+      inbox: "Boîte de réception",
+      archive: "Archive",
+      archive_all: "Archiver tout",
+      no_notifications: "Aucune nouvelle notification"
     }
   },
   header: {
