@@ -9,6 +9,10 @@ files:
     languages.fr: ad225f707802ba118c22987186dd38e8
     languages.no: da550ca06bcacbd30b7c6ed32c864c70
     languages.pt: 30e32c7c4cf434e9c75e60c14c442541
+    common.notifications.inbox: 3882d32c66e7e768145ecd8f104b0c08
+    common.notifications.archive: e727b00944f81e1d0a95c12886ac4641
+    common.notifications.archive_all: 449e2fbab2a05e2f9f3cc1717f58eee0
+    common.notifications.no_notifications: bb76b111a28211312083c68b2efabae7
     common.actions.save: c9cc8cce247e49bae79f15173ce97354
     common.actions.edit: 7dce122004969d56ae2e0245cb754d35
     common.actions.delete: f2a6c498fb90ee345d997f888fce3b18

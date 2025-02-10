@@ -136,6 +136,12 @@ export default {
         uploading_files: "Subiendo {target}...",
         remove_file: "Eliminar archivo"
       }
+    },
+    notifications: {
+      inbox: "Bandeja de entrada",
+      archive: "Archivo",
+      archive_all: "Archivar todo",
+      no_notifications: "No hay nuevas notificaciones"
     }
   },
   header: {

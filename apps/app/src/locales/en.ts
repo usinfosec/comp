@@ -12,6 +12,12 @@ export default {
     pt: "Portuguese",
   },
   common: {
+    notifications: {
+      inbox: "Inbox",
+      archive: "Archive",
+      archive_all: "Archive all",
+      no_notifications: "No new notifications",
+    },
     actions: {
       save: "Save",
       edit: "Edit",

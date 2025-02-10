@@ -3,11 +3,14 @@ import { getI18n } from "@/locales/server";
 import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
 import { Skeleton } from "@bubba/ui/skeleton";
+import { Inbox } from "@novu/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AssistantButton } from "./assistant/button";
 import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
+import { NotificationCenter } from "./notification-center";
 
 export async function Header() {
   const t = await getI18n();
@@ -38,6 +41,9 @@ export async function Header() {
             </Link>
           </Button>
         </div>
+
+        <NotificationCenter />
+
         <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
           <UserMenu />
         </Suspense>

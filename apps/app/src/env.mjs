@@ -26,6 +26,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
+    NEXT_PUBLIC_NOVU_IDENTIFIER: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -49,6 +50,7 @@ export const env = createEnv({
     VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+    NEXT_PUBLIC_NOVU_IDENTIFIER: process.env.NEXT_PUBLIC_NOVU_IDENTIFIER,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
