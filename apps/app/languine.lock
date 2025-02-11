@@ -364,6 +364,21 @@ files:
     user_menu.settings: f4f70727dc34561dfde1a3c529b6205c
     user_menu.teams: 1fe1b6cf4f52930c301b03e5a69c42c2
     frameworks.title: 04fb5df59766a9852e5dd2d0430ca27e
+    frameworks.overview.error: 4b391acbc8dd7f27c6b1a3a7424ca32b
+    frameworks.overview.loading: 5419fcb0c4ef464156ab6a3ddb84a1b2
+    frameworks.overview.empty.title: 52dfa6681993843928351cd9c5276ce0
+    frameworks.overview.empty.description: 12c6ccdede82f3bac2b486157ab5c98b
+    frameworks.overview.progress.title: 9c53d5a3379ee2c9bc7c1c55f54724b9
+    frameworks.overview.progress.empty.title: d58046b18909d6337ef6fa050b44f690
+    frameworks.overview.progress.empty.description: 6d27f139ab529d4ef3311f719a5e7c83
+    frameworks.overview.progress.empty.action: 1eb71b6f13a7af1f1c88fded44717525
+    frameworks.overview.grid.welcome.title: 54efd9605180a9a74e6d1a53529f858e
+    frameworks.overview.grid.welcome.description: 6d8ed4e08e874457c002a9db2075c813
+    frameworks.overview.grid.welcome.action: e0c4332e8c13be976552a059f106354f
+    frameworks.overview.grid.title: 55ffb038f3a6c5b740ec2b5ec6dd1733
+    frameworks.overview.grid.version: 34b6cd75171affba6957e308dcbd92be
+    frameworks.overview.grid.actions.clear: dc30bc0c7914db5918da4263fce93ad2
+    frameworks.overview.grid.actions.confirm: f1e36ba5764b8ddcf6064d977f0482bb
     frameworks.controls.title: 24b6472fcfa59cddd3f7bbc326582b5f
     frameworks.controls.description: de7fdb6cf858368e9e60bb991149b912
     frameworks.controls.table.status: ec53a8c4f07baed5d8825072c89799be
