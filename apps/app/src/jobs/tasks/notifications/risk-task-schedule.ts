@@ -53,11 +53,23 @@ export const sendRiskTaskSchedule = schedules.task({
       }));
 
     if (triggerPayloads.length > 0) {
-      await sendRiskTaskNotification.batchTrigger(
-        triggerPayloads,
-      );
+      try {
 
-      logger.info(`Triggered ${triggerPayloads.length} task notifications`);
+        await sendRiskTaskNotification.batchTrigger(
+          triggerPayloads,
+        );
+
+        logger.info(`Triggered ${triggerPayloads.length} task notifications`);
+      } catch (error) {
+        logger.error(`Failed to trigger batch notifications: ${error}`);
+
+        return {
+          success: false,
+          totalTasks: tasks.length,
+          triggeredTasks: triggerPayloads.length,
+          error: error instanceof Error ? error.message : String(error),
+        };
+      }
     }
 
     return {
