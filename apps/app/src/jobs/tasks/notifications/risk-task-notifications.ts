@@ -53,33 +53,32 @@ export const sendRiskTaskNotifications = schedules.task({
         : "soon";
 
       try {
-        await db.$transaction(async (tx) => {
-          if (!owner || !owner.email || !owner.organizationId) {
-            logger.warn(`Skipping task ${task.id} - owner ${owner?.id} missing email or organizationId`);
-            return;
-          }
+        if (!owner || !owner.email || !owner.organizationId) {
+          logger.warn(`Skipping task ${task.id} - owner ${owner?.id} missing email or organizationId`);
+          return;
+        }
 
-          await tx.riskMitigationTask.update({
-            where: { id: task.id },
-            data: { notifiedAt: new Date() },
-          });
-
-          await trigger({
-            name: TriggerEvents.TaskReminderInApp,
-            user: {
-              subscriberId: `${owner.organizationId}_${owner.id}`,
-              email: owner.email,
-              fullName: owner.name,
-              image: owner.image,
-              organizationId: owner.organizationId,
-            },
-            payload: {
-              description: `${task.title} is due ${timeUntilDue}`,
-              recordId: `/risk/${task.riskId}/tasks/${task.id}`,
-              type: NotificationTypes.Task,
-            },
-          });
+        await db.riskMitigationTask.update({
+          where: { id: task.id },
+          data: { notifiedAt: new Date() },
         });
+
+        await trigger({
+          name: TriggerEvents.TaskReminderInApp,
+          user: {
+            subscriberId: `${owner.organizationId}_${owner.id}`,
+            email: owner.email,
+            fullName: owner.name,
+            image: owner.image,
+            organizationId: owner.organizationId,
+          },
+          payload: {
+            description: `${task.title} is due ${timeUntilDue}`,
+            recordId: `/risk/${task.riskId}/tasks/${task.id}`,
+            type: NotificationTypes.Task,
+          },
+        });
+
 
         notifiedTasks.push(task.id);
       } catch (error) {
