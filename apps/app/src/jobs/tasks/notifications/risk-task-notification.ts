@@ -1,5 +1,9 @@
 import { db } from "@bubba/db";
-import { NotificationTypes, TriggerEvents, trigger } from "@bubba/notifications";
+import {
+  NotificationTypes,
+  TriggerEvents,
+  trigger,
+} from "@bubba/notifications";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { formatDistance } from "date-fns";
 import { z } from "zod";
@@ -17,7 +21,7 @@ export const sendRiskTaskNotification = schemaTask({
         organizationId: z.string(),
       }),
       riskId: z.string(),
-    })
+    }),
   }),
   run: async (payload) => {
     const { task } = payload;
@@ -25,7 +29,9 @@ export const sendRiskTaskNotification = schemaTask({
     try {
       const owner = task.owner;
 
-      const timeUntilDue = task.dueDate ? formatDistance(task.dueDate, new Date(), { addSuffix: true }) : "soon";
+      const timeUntilDue = task.dueDate
+        ? formatDistance(task.dueDate, new Date(), { addSuffix: true })
+        : "soon";
 
       await db.riskMitigationTask.update({
         where: { id: task.id },

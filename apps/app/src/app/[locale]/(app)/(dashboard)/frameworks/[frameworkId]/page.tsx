@@ -65,7 +65,7 @@ const getFramework = unstable_cache(
   ["framework-cache"],
   {
     tags: ["framework-cache"],
-  },
+  }
 );
 
 const getOrganizationFramework = unstable_cache(
@@ -88,7 +88,7 @@ const getOrganizationFramework = unstable_cache(
   ["org-framework-cache"],
   {
     tags: ["org-framework-cache"],
-  },
+  }
 );
 
 const getFrameworkCategories = unstable_cache(
@@ -120,8 +120,8 @@ const getFrameworkCategories = unstable_cache(
         name: control.name,
         code: control.code,
         description: control.description,
-        categoryId: control.categoryId,
-        requiredArtifactTypes: control.requiredArtifactTypes,
+        domain: control.domain,
+        frameworkCategoryId: control.frameworkCategoryId,
         status: control.organizationControls[0]?.status || "not_started",
         artifacts: control.organizationControls[0]?.artifacts || [],
       })),
@@ -130,5 +130,5 @@ const getFrameworkCategories = unstable_cache(
   ["framework-categories-cache"],
   {
     tags: ["framework-categories-cache"],
-  },
+  }
 );
