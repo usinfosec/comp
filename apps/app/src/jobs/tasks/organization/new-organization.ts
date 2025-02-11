@@ -1,7 +1,5 @@
-import { soc2Seed } from "@/actions/soc2-seed";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
-import createDefaultPoliciesTask from "./create-default-policies";
 
 export const newOrganizationTask = schemaTask({
   id: "new-organization",

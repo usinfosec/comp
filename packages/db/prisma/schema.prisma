@@ -30,6 +30,15 @@ enum Departments {
   qms
 }
 
+enum RequirementType {
+  policy
+  file
+  link
+  procedure
+  evidence
+  training
+}
+
 // Authentication and Organization
 
 model Account {
@@ -134,6 +143,7 @@ model Organization {
   VendorContact            VendorContact[]
   RiskAttachment           RiskAttachment[]
   members                  OrganizationMember[]
+  OrganizationPolicy       OrganizationPolicy[]
 
   @@index([stripeCustomerId])
 }
@@ -247,14 +257,18 @@ model Control {
   code        String  @unique
   name        String
   description String?
+  domain      String?
 
-  categoryId String
-  category   FrameworkCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  organizationControls OrganizationControl[]
+  PolicyControl        PolicyControl[]
 
-  requiredArtifactTypes ArtifactType[] // What types of artifacts are needed
-  organizationControls  OrganizationControl[]
+  // NEW: Requirements associated with this control.
+  requirements ControlRequirement[]
 
-  @@index([categoryId])
+  frameworkCategoryId String?
+  frameworkCategory   FrameworkCategory? @relation(fields: [frameworkCategoryId], references: [id], onDelete: SetNull)
+
+  @@index([frameworkCategoryId])
 }
 
 model OrganizationControl {
@@ -830,6 +844,7 @@ model Policy {
   description String?
   template    String
   version     String?
+  usedBy      Json
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -837,6 +852,9 @@ model Policy {
   policyFrameworks    PolicyFramework[]
   employeeAcceptances EmployeePolicyAcceptance[]
   policyFiles         PolicyFile[]
+  PolicyControl       PolicyControl[]
+  ControlRequirement  ControlRequirement[]
+  OrganizationPolicy  OrganizationPolicy[]
 }
 
 model PolicyFile {
@@ -879,4 +897,53 @@ model EmployeePolicyAcceptance {
   policy   Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
 
   @@unique([employeeId, policyId])
+}
+
+model PolicyControl {
+  id        String @id @default(cuid())
+  policyId  String
+  controlId String
+
+  policy  Policy  @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  control Control @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@unique([policyId, controlId])
+}
+
+model ControlRequirement {
+  id          String          @id @default(cuid())
+  controlId   String
+  control     Control         @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  type        RequirementType
+  description String?
+  policyId    String?
+  policy      Policy?         @relation(fields: [policyId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([controlId])
+}
+
+enum PolicyStatus {
+  draft
+  published
+  archived
+}
+
+model OrganizationPolicy {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  status    PolicyStatus @default(draft)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  policyId String
+  policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, policyId])
+  @@index([organizationId])
+  @@index([policyId])
 }

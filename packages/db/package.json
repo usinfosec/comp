@@ -27,5 +27,8 @@
   "devDependencies": {
     "@bubba/tsconfig": "workspace:*",
     "typescript": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
