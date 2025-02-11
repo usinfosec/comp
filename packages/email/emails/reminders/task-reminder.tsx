@@ -15,7 +15,7 @@ import { Footer } from "../../components/footer";
 import { Logo } from "../../components/logo";
 
 interface Props {
-  email?: string;
+  email: string;
   name: string;
   dueDate: string;
   recordId: string;
@@ -27,7 +27,7 @@ export const TaskReminderEmail = ({
   dueDate,
   recordId,
 }: Props) => {
-  const link = `${process.env.NEXT_PUBLIC_APP_URL}${recordId}`;
+  const link = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://app.trycomp.ai"}${recordId}`;
 
   return (
     <Html>

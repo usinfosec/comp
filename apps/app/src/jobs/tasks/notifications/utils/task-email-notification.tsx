@@ -16,28 +16,34 @@ interface Props {
 }
 
 export async function sendTaskEmailNotification({ owner, task }: Props) {
-  const html = await render(
-    <TaskReminderEmail
-      name={owner.fullName ?? "there"}
-      dueDate={task.dueDate}
-      recordId={task.recordId}
-    />,
-  );
+  try {
+    const html = await render(
+      <TaskReminderEmail
+        email={owner.email}
+        name={owner.fullName ?? "there"}
+        dueDate={task.dueDate}
+        recordId={task.recordId}
+      />,
+    );
 
-  const triggerData = {
-    name: TriggerEvents.TaskReminderEmail,
-    payload: {
-      subject: "Task Reminder",
-      html,
-    },
-    replyTo: owner.email,
-    user: {
-      subscriberId: `${owner.organizationId}_${owner.id}`,
-      organizationId: owner.organizationId,
-      email: owner.email,
-      fullName: owner.fullName,
-    },
-  };
+    const triggerData = {
+      name: TriggerEvents.TaskReminderEmail,
+      payload: {
+        subject: "Task Reminder",
+        html,
+      },
+      replyTo: owner.email,
+      user: {
+        subscriberId: `${owner.organizationId}_${owner.id}`,
+        organizationId: owner.organizationId,
+        email: owner.email,
+        fullName: owner.fullName,
+      },
+    };
 
-  await trigger(triggerData);
+    await trigger(triggerData);
+  } catch (error) {
+    console.error("Failed to send task email notification: ", error);
+    throw error;
+  }
 }

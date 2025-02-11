@@ -9,7 +9,6 @@ import { ScrollArea } from "@bubba/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { type } from "os";
 import { useEffect, useState } from "react";
 
 function EmptyState({ description }: { description: string }) {
@@ -29,17 +28,20 @@ function NotificationItem({
   description,
   createdAt,
   recordId,
+  from,
+  to,
   markMessageAsRead,
+  type,
 }: {
   id: string;
   setOpen: (open: boolean) => void;
-  description: string;
+  description: string | undefined;
   createdAt: string;
-  recordId?: string;
-  from?: string;
-  to?: string;
+  recordId: string | undefined;
+  from: string | undefined;
+  to: string | undefined;
   markMessageAsRead: (id: string) => void;
-  type?: string;
+  type: string | undefined;
 }) {
   switch (type) {
     case "task":
@@ -85,18 +87,13 @@ export function NotificationCenter() {
   const t = useI18n();
 
   const [isOpen, setOpen] = useState(false);
-
   const {
     hasUnseenNotifications,
     notifications,
     markMessageAsRead,
     markAllMessagesAsSeen,
     markAllMessagesAsRead,
-    subscriberId,
   } = useNotifications();
-
-  console.log(subscriberId);
-  console.log(notifications);
 
   const unreadNotifications = notifications.filter(
     (notification) => !notification.read,
@@ -111,8 +108,6 @@ export function NotificationCenter() {
       markAllMessagesAsSeen();
     }
   }, [hasUnseenNotifications, isOpen]);
-
-  console.log(notifications);
 
   return (
     <Popover onOpenChange={setOpen} open={isOpen}>
@@ -172,9 +167,12 @@ export function NotificationCenter() {
                         id={notification.id}
                         markMessageAsRead={markMessageAsRead}
                         setOpen={setOpen}
-                        description={notification.payload.description || ""}
+                        description={notification.payload.description}
                         createdAt={notification.createdAt}
                         recordId={notification.payload.recordId}
+                        type={notification.payload.type}
+                        from={notification.payload?.from}
+                        to={notification.payload?.to}
                       />
                     );
                   })}
@@ -211,9 +209,12 @@ export function NotificationCenter() {
                         key={notification.id}
                         id={notification.id}
                         setOpen={setOpen}
-                        description={notification.payload.description || ""}
+                        description={notification.payload.description}
                         createdAt={notification.createdAt}
                         recordId={notification.payload.recordId}
+                        type={notification.payload.type}
+                        from={notification.payload?.from}
+                        to={notification.payload?.to}
                         markMessageAsRead={markMessageAsRead}
                       />
                     );
