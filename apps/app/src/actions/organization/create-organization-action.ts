@@ -32,7 +32,7 @@ export const createOrganizationAction = authActionClient
 
     const hasVercelConfig = Boolean(
       process.env.NEXT_PUBLIC_VERCEL_URL &&
-      process.env.VERCEL_AUTH_TOKEN &&
+      process.env.VERCEL_ACCESS_TOKEN &&
       process.env.VERCEL_TEAM_ID &&
       process.env.VERCEL_PROJECT_ID
     );

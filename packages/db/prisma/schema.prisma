@@ -418,6 +418,7 @@ model RiskMitigationTask {
   description String
   status      RiskTaskStatus @default(open)
   dueDate     DateTime?
+  notifiedAt  DateTime?
   completedAt DateTime?
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
