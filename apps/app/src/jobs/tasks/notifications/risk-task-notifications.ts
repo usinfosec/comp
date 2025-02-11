@@ -55,7 +55,7 @@ export const sendRiskTaskNotifications = schedules.task({
       try {
         if (!owner || !owner.email || !owner.organizationId) {
           logger.warn(`Skipping task ${task.id} - owner ${owner?.id} missing email or organizationId`);
-          return;
+          continue;
         }
 
         await db.riskMitigationTask.update({
