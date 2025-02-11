@@ -44,17 +44,17 @@ function NotificationItem({
   type: string;
 }) {
   switch (type) {
-    case "inapp_task_reminder":
+    case "task":
       return (
         <div className="flex items-between justify-between space-x-4 px-3 py-3 hover:bg-secondary">
           <Link
             className="flex items-between justify-between space-x-4"
             onClick={() => setOpen(false)}
-            href={`/tasks/${recordId}`}
+            href={`${recordId}`}
           >
             <div>
               <div className="h-9 w-9 flex items-center justify-center space-y-0 border rounded-full">
-                <Icons.Match />
+                <Icons.Risk />
               </div>
             </div>
             <div>
@@ -108,6 +108,8 @@ export function NotificationCenter() {
       markAllMessagesAsSeen();
     }
   }, [hasUnseenNotifications, isOpen]);
+
+  console.log(notifications);
 
   return (
     <Popover onOpenChange={setOpen} open={isOpen}>

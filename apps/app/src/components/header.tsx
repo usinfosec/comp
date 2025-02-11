@@ -3,8 +3,6 @@ import { getI18n } from "@/locales/server";
 import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { Inbox } from "@novu/react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AssistantButton } from "./assistant/button";
