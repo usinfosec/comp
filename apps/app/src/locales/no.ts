@@ -491,6 +491,35 @@ export default {
         compliant: "Samsvarende",
         non_compliant: "Ikke samsvarende"
       }
+    },
+    overview: {
+      error: "Kunne ikke laste rammeverk",
+      loading: "Laster rammeverk...",
+      empty: {
+        title: "Ingen rammeverk valgt",
+        description: "Velg rammeverk for å komme i gang med din samsvarsreise"
+      },
+      progress: {
+        title: "Rammeverksprogresjon",
+        empty: {
+          title: "Ingen rammeverk ennå",
+          description: "Kom i gang ved å legge til et samsvarsrammeverk for å spore fremgangen din",
+          action: "Legg til rammeverk"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Velkommen til Comp AI",
+          description: "Kom i gang ved å velge samsvarsrammeverkene du ønsker å implementere. Vi hjelper deg med å administrere og spore samsvarsreisen din på tvers av flere standarder.",
+          action: "Kom i gang"
+        },
+        title: "Velg rammeverk",
+        version: "Versjon",
+        actions: {
+          clear: "Tøm",
+          confirm: "Bekreft valg"
+        }
+      }
     }
   },
   vendor: {

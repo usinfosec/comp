@@ -491,6 +491,35 @@ export default {
         compliant: "Conforme",
         non_compliant: "Non conforme"
       }
+    },
+    overview: {
+      error: "Échec du chargement des cadres",
+      loading: "Chargement des cadres...",
+      empty: {
+        title: "Aucun cadre sélectionné",
+        description: "Sélectionnez des cadres pour commencer votre parcours de conformité"
+      },
+      progress: {
+        title: "Progression du cadre",
+        empty: {
+          title: "Aucun cadre pour le moment",
+          description: "Commencez par ajouter un cadre de conformité pour suivre vos progrès",
+          action: "Ajouter un cadre"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Bienvenue dans Comp AI",
+          description: "Commencez par sélectionner les cadres de conformité que vous souhaitez mettre en œuvre. Nous vous aiderons à gérer et à suivre votre parcours de conformité à travers plusieurs normes.",
+          action: "Commencer"
+        },
+        title: "Sélectionner des cadres",
+        version: "Version",
+        actions: {
+          clear: "Effacer",
+          confirm: "Confirmer la sélection"
+        }
+      }
     }
   },
   vendor: {

@@ -491,6 +491,35 @@ export default {
         compliant: "Conforme",
         non_compliant: "Não Conforme"
       }
+    },
+    overview: {
+      error: "Falha ao carregar frameworks",
+      loading: "Carregando frameworks...",
+      empty: {
+        title: "Nenhum framework selecionado",
+        description: "Selecione frameworks para começar sua jornada de conformidade"
+      },
+      progress: {
+        title: "Progresso do Framework",
+        empty: {
+          title: "Nenhum framework ainda",
+          description: "Comece adicionando um framework de conformidade para acompanhar seu progresso",
+          action: "Adicionar Framework"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Bem-vindo ao Comp AI",
+          description: "Comece selecionando os frameworks de conformidade que você gostaria de implementar. Nós o ajudaremos a gerenciar e acompanhar sua jornada de conformidade em múltiplos padrões.",
+          action: "Começar"
+        },
+        title: "Selecionar Frameworks",
+        version: "Versão",
+        actions: {
+          clear: "Limpar",
+          confirm: "Confirmar Seleção"
+        }
+      }
     }
   },
   vendor: {

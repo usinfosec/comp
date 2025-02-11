@@ -491,6 +491,35 @@ export default {
         compliant: "Cumple",
         non_compliant: "No cumple"
       }
+    },
+    overview: {
+      error: "Error al cargar los marcos",
+      loading: "Cargando marcos...",
+      empty: {
+        title: "No se han seleccionado marcos",
+        description: "Seleccione marcos para comenzar su viaje de cumplimiento"
+      },
+      progress: {
+        title: "Progreso del marco",
+        empty: {
+          title: "Aún no hay marcos",
+          description: "Comience agregando un marco de cumplimiento para rastrear su progreso",
+          action: "Agregar marco"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Bienvenido a Comp AI",
+          description: "Comience seleccionando los marcos de cumplimiento que le gustaría implementar. Le ayudaremos a gestionar y rastrear su viaje de cumplimiento a través de múltiples estándares.",
+          action: "Comenzar"
+        },
+        title: "Seleccionar marcos",
+        version: "Versión",
+        actions: {
+          clear: "Borrar",
+          confirm: "Confirmar selección"
+        }
+      }
     }
   },
   vendor: {
