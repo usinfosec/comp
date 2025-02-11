@@ -9,11 +9,12 @@ interface Notification {
   seen: boolean;
   createdAt: string;
   payload: {
-    description: string;
-    recordId: string;
-    type: string;
-    from: string;
-    to: string;
+    description?: string;
+    recordId?: string;
+    type?: string;
+    from?: string;
+    to?: string;
+    [key: string]: any; // Allow for other payload fields
   }
 }
 
@@ -83,13 +84,7 @@ export function useNotifications() {
               read: msg.read,
               seen: msg.seen,
               createdAt: msg.createdAt,
-              payload: {
-                description: msg.payload.description as string,
-                recordId: msg.payload.recordId as string,
-                type: msg.payload.type as string,
-                from: msg.payload.from as string,
-                to: msg.payload.to as string,
-              }
+              payload: msg.payload || {} // Handle case where payload might be empty
             }))
           );
         },
@@ -160,5 +155,6 @@ export function useNotifications() {
     markAllMessagesAsSeen,
     hasUnseenNotifications: notifications.some((notification) => !notification.seen),
     notifications,
+    subscriberId,
   };
 }
