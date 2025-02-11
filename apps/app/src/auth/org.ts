@@ -25,6 +25,7 @@ async function createStripeCustomer(input: {
 export async function createOrganizationAndConnectUser(input: {
   userId: string;
   normalizedEmail: string;
+  subdomain?: string;
 }): Promise<string> {
   const initialName = "New Organization";
 
@@ -34,6 +35,7 @@ export async function createOrganizationAndConnectUser(input: {
         name: initialName,
         tier: "free",
         website: "",
+        subdomain: input.subdomain || "",
         members: {
           create: {
             userId: input.userId,

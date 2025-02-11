@@ -114,6 +114,7 @@ model Organization {
   id               String  @id @default(cuid())
   stripeCustomerId String?
   name             String
+  subdomain        String  @unique
   website          String
   tier             Tier    @default(free)
   policiesCreated  Boolean @default(false)
@@ -432,6 +433,7 @@ model RiskMitigationTask {
   description String
   status      RiskTaskStatus @default(open)
   dueDate     DateTime?
+  notifiedAt  DateTime?
   completedAt DateTime?
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt

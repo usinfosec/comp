@@ -136,6 +136,12 @@ export default {
         uploading_files: "Téléchargement de {target}...",
         remove_file: "Supprimer le fichier"
       }
+    },
+    notifications: {
+      inbox: "Boîte de réception",
+      archive: "Archive",
+      archive_all: "Archiver tout",
+      no_notifications: "Aucune nouvelle notification"
     }
   },
   header: {
@@ -203,10 +209,15 @@ export default {
       website: {
         label: "Site Web",
         placeholder: "Le site Web de votre organisation"
+      },
+      subdomain: {
+        label: "Sous-domaine",
+        placeholder: "exemple"
       }
     },
     success: "Merci, vous êtes prêt !",
-    error: "Une erreur s'est produite, veuillez réessayer."
+    error: "Une erreur s'est produite, veuillez réessayer.",
+    unavailable: "Veuillez choisir un autre sous-domaine. Seules les lettres minuscules, les chiffres et les tirets sont autorisés."
   },
   overview: {
     title: "Aperçu",

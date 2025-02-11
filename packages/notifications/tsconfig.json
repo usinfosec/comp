@@ -1,0 +1,5 @@
+{
+  "extends": "@bubba/tsconfig/base.json",
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

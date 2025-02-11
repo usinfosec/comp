@@ -17,11 +17,16 @@ export const env = createEnv({
     UPLOADTHING_SECRET: z.string(),
     DISCORD_WEBHOOK_URL: z.string(),
     TRIGGER_SECRET_KEY: z.string(),
+    VERCEL_ACCESS_TOKEN: z.string().optional(),
+    VERCEL_TEAM_ID: z.string().optional(),
+    VERCEL_PROJECT_ID: z.string().optional(),
   },
 
   client: {
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
+    NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
+    NEXT_PUBLIC_NOVU_IDENTIFIER: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -41,6 +46,11 @@ export const env = createEnv({
     TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    VERCEL_ACCESS_TOKEN: process.env.VERCEL_ACCESS_TOKEN,
+    VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
+    VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
+    NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+    NEXT_PUBLIC_NOVU_IDENTIFIER: process.env.NEXT_PUBLIC_NOVU_IDENTIFIER,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

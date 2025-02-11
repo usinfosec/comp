@@ -136,6 +136,12 @@ export default {
         uploading_files: "Laster opp {target}...",
         remove_file: "Fjern fil"
       }
+    },
+    notifications: {
+      inbox: "Innboks",
+      archive: "Arkiv",
+      archive_all: "Arkiver alt",
+      no_notifications: "Ingen nye varsler"
     }
   },
   header: {
@@ -203,10 +209,15 @@ export default {
       website: {
         label: "Nettsted",
         placeholder: "Ditt organisasjonsnettsted"
+      },
+      subdomain: {
+        label: "Underdomene",
+        placeholder: "eksempel"
       }
     },
     success: "Takk, du er klar!",
-    error: "Noe gikk galt, vennligst prøv igjen."
+    error: "Noe gikk galt, vennligst prøv igjen.",
+    unavailable: "Vennligst velg et annet underdomene. Kun små bokstaver, tall og bindestreker er tillatt."
   },
   overview: {
     title: "Oversikt",

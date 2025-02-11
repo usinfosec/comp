@@ -136,6 +136,12 @@ export default {
         uploading_files: "Subiendo {target}...",
         remove_file: "Eliminar archivo"
       }
+    },
+    notifications: {
+      inbox: "Bandeja de entrada",
+      archive: "Archivo",
+      archive_all: "Archivar todo",
+      no_notifications: "No hay nuevas notificaciones"
     }
   },
   header: {
@@ -203,10 +209,15 @@ export default {
       website: {
         label: "Sitio web",
         placeholder: "El sitio web de tu organización"
+      },
+      subdomain: {
+        label: "Subdominio",
+        placeholder: "ejemplo"
       }
     },
     success: "¡Gracias, estás listo!",
-    error: "Algo salió mal, por favor intenta de nuevo."
+    error: "Algo salió mal, por favor intenta de nuevo.",
+    unavailable: "Por favor, elige un subdominio diferente. Solo se permiten letras minúsculas, números y guiones."
   },
   overview: {
     title: "Resumen",

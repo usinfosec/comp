@@ -5,10 +5,10 @@ import { Icons } from "@bubba/ui/icons";
 import { Skeleton } from "@bubba/ui/skeleton";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Assistant } from "./assistant";
 import { AssistantButton } from "./assistant/button";
 import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
+import { NotificationCenter } from "./notification-center";
 
 export async function Header() {
   const t = await getI18n();
@@ -30,7 +30,7 @@ export async function Header() {
             className="rounded-full font-normal h-[32px] p-0 px-3 text-xs text-muted-foreground gap-2 items-center"
           >
             <Link
-              href="https://discord.gg/3JgpACjae6"
+              href="https://discord.gg/compai"
               target="_blank"
               className="flex gap-2"
             >
@@ -39,6 +39,9 @@ export async function Header() {
             </Link>
           </Button>
         </div>
+
+        <NotificationCenter />
+
         <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
           <UserMenu />
         </Suspense>

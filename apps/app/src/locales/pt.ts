@@ -136,6 +136,12 @@ export default {
         uploading_files: "Carregando {target}...",
         remove_file: "Remover arquivo"
       }
+    },
+    notifications: {
+      inbox: "Caixa de entrada",
+      archive: "Arquivo",
+      archive_all: "Arquivar tudo",
+      no_notifications: "Sem novas notificações"
     }
   },
   header: {
@@ -203,10 +209,15 @@ export default {
       website: {
         label: "Website",
         placeholder: "O website da sua organização"
+      },
+      subdomain: {
+        label: "Subdomínio",
+        placeholder: "exemplo"
       }
     },
     success: "Obrigado, tudo pronto!",
-    error: "Algo deu errado, por favor tente novamente."
+    error: "Algo deu errado, por favor tente novamente.",
+    unavailable: "Por favor, escolha um subdomínio diferente. Apenas letras minúsculas, números e hífens são permitidos."
   },
   overview: {
     title: "Visão Geral",
