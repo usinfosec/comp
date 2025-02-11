@@ -427,11 +427,11 @@
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/db@packages/db", "@bubba/db@workspace:*":
+"@bubba/db@packages/db":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
-    "@bubba/tsconfig" "workspace:*"
+    "@bubba/tsconfig" "packages/tsconfig"
     typescript "^5.0.0"
   dependencies:
     "@auth/prisma-adapter" "^2.7.2"
@@ -448,8 +448,8 @@
     "@types/react-dom" "^19.0.0"
     typescript "^5.7.2"
   dependencies:
-    "@bubba/ui" "workspace:*"
-    "@bubba/utils" "workspace:*"
+    "@bubba/ui" "packages/ui"
+    "@bubba/utils" "packages/utils"
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"
@@ -479,7 +479,7 @@
     "@upstash/redis" "^1.34.2"
     server-only "^0.0.1"
 
-"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@packages/notifications":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -488,11 +488,11 @@
     "@novu/node" "^2.0.1"
     nanoid "^5.0.7"
 
-"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@packages/tsconfig":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@packages/ui":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -555,7 +555,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@packages/utils":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -4958,8 +4958,7 @@ commander@11.1.0:
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
-    "@bubba/db" "workspace:*"
-    "@bubba/notifications" "workspace:*"
+    "@bubba/db" "packages/db"
     "@trigger.dev/build" "3.3.13"
     "@types/node" "^22.13.0"
     "@types/react" "^19.0.8"
@@ -4972,6 +4971,7 @@ commander@11.1.0:
     "@ai-sdk/google" "^1.1.8"
     "@ai-sdk/openai" "^1.1.9"
     "@browserbasehq/sdk" "^2.2.0"
+    "@bubba/notifications" "packages/notifications"
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.48.4"
@@ -11274,7 +11274,7 @@ tunnel-rat@^0.1.2:
   dependencies:
     zustand "^4.3.2"
 
-turbo@^2.3.4:
+turbo@^2.4.1:
   version "2.4.1"
   resolved "https://registry.npmjs.org/turbo/-/turbo-2.4.1.tgz"
   integrity sha512-XIIHXAhvD3sv34WLaN/969WTHCHYmm3zf0XQ+CrEP1A7ffIQG50cwNcp7Gh96CaGyjEXMh9odoHyggoZQ3Prvw==
