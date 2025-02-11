@@ -1,11 +1,29 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { revalidatePath } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createEmployeeSchema } from "../schema";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ActionResponse } from "../types";
+import type { ActionResponse } from "../types";
+
+const DEFAULT_TASKS = [
+  {
+    code: "POLICY-ACCEPT",
+    name: "Policy Acceptance",
+    description: "Review and accept company policies",
+  },
+  {
+    code: "INSTALL-AGENT",
+    name: "Install Monitoring Agent",
+    description:
+      "Install and configure the security monitoring agent on your device",
+  },
+  {
+    code: "DEVICE-SECURITY",
+    name: "Device Security",
+    description: "Complete device security checklist and configuration",
+  },
+] as const;
 
 export const createEmployeeAction = authActionClient
   .schema(createEmployeeSchema)
@@ -17,7 +35,7 @@ export const createEmployeeAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse> => {
-    const { name, email, department } = parsedInput;
+    const { name, email, department, externalEmployeeId } = parsedInput;
     const { user } = ctx;
 
     if (!user.organizationId) {
@@ -28,20 +46,49 @@ export const createEmployeeAction = authActionClient
     }
 
     try {
-      await db.employee.create({
+      // Create the employee
+      const employee = await db.employee.create({
         data: {
           name,
           email,
           department,
           organizationId: user.organizationId,
+          isActive: true,
+          externalEmployeeId,
         },
       });
 
-      revalidatePath("/people");
+      // Create or get the required task definitions first and store their IDs
+      const requiredTasks = await Promise.all(
+        DEFAULT_TASKS.map(async (task) => {
+          return db.employeeRequiredTask.upsert({
+            where: { code: task.code },
+            create: {
+              code: task.code,
+              name: task.name,
+              description: task.description,
+            },
+            update: {},
+          });
+        })
+      );
+
+      // Now create the employee tasks using the actual task IDs
+      await Promise.all(
+        requiredTasks.map(async (task) => {
+          return db.employeeTask.create({
+            data: {
+              employeeId: employee.id,
+              requiredTaskId: task.id,
+              status: "assigned",
+            },
+          });
+        })
+      );
 
       return {
         success: true,
-        data: null,
+        data: employee,
       };
     } catch (error) {
       console.error("Error creating employee:", error);

@@ -1,23 +1,14 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-import { useI18n } from "@/locales/client";
-import { Input } from "@bubba/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@bubba/ui/select";
-import { Button } from "@bubba/ui/button";
-import { Plus, Search, X } from "lucide-react";
-import type { Role } from "@prisma/client";
-import { useQueryState } from "nuqs";
 import { InviteUserSheet } from "@/components/sheets/invite-user-sheet";
-
-const ROLES: Role[] = ["member", "admin"];
+import { useI18n } from "@/locales/client";
+import { Button } from "@bubba/ui/button";
+import { Input } from "@bubba/ui/input";
+import { Plus, X } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
+import { useCallback, useState, useTransition, useEffect } from "react";
+import { useDebounce } from "use-debounce";
 
 interface FilterToolbarProps {
   isEmpty?: boolean;
@@ -29,26 +20,40 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   const searchParams = useSearchParams();
   const t = useI18n();
   const [open, setOpen] = useQueryState("invite-user-sheet");
+  const [isPending, startTransition] = useTransition();
+  const [inputValue, setInputValue] = useState(
+    searchParams?.get("search") ?? ""
+  );
 
   const createQueryString = useCallback(
     (params: Record<string, string | null>) => {
       const newSearchParams = new URLSearchParams(searchParams?.toString());
 
-      Object.entries(params).forEach(([key, value]) => {
+      for (const [key, value] of Object.entries(params)) {
         if (value === null) {
           newSearchParams.delete(key);
         } else {
           newSearchParams.set(key, value);
         }
-      });
+      }
 
       return newSearchParams.toString();
     },
     [searchParams]
   );
 
-  const search = searchParams?.get("search") ?? "";
-  const role = searchParams?.get("role") as Role | null;
+  const [debouncedValue] = useDebounce(inputValue, 300);
+
+  useEffect(() => {
+    startTransition(() => {
+      router.push(
+        `${pathname}?${createQueryString({
+          search: debouncedValue || null,
+          page: null,
+        })}`
+      );
+    });
+  }, [debouncedValue, createQueryString, pathname, router]);
 
   return (
     <div className="sticky top-0 z-10 -mx-6 mb-4 w-[calc(100%+48px)] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75">
@@ -58,44 +63,15 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
             <Input
               placeholder={t("people.filters.search")}
               className="h-8 w-[150px] lg:w-[250px]"
-              value={search}
-              onChange={(e) => {
-                const value = e.target.value;
-                router.push(
-                  `${pathname}?${createQueryString({
-                    search: value || null,
-                    page: null,
-                  })}`
-                );
-              }}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
             />
-            <Select
-              value={role ?? undefined}
-              onValueChange={(value) => {
-                router.push(
-                  `${pathname}?${createQueryString({
-                    role: value || null,
-                    page: null,
-                  })}`
-                );
-              }}
-            >
-              <SelectTrigger className="h-8 w-[150px]">
-                <SelectValue placeholder={t("people.filters.role")} />
-              </SelectTrigger>
-              <SelectContent>
-                {ROLES.map((role) => (
-                  <SelectItem key={role} value={role}>
-                    {role.replace(/_/g, " ").toUpperCase()}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {(search || role) && (
+            {inputValue && (
               <Button
                 variant="ghost"
                 className="h-8 px-2 lg:px-3"
                 onClick={() => {
+                  setInputValue("");
                   router.push(pathname);
                 }}
               >

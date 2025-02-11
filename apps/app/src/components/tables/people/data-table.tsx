@@ -6,40 +6,98 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Suspense } from "react";
 
 import { cn } from "@bubba/ui/cn";
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { type PersonType, columns as getColumns } from "./columns";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@bubba/ui/table";
+import { Button } from "@bubba/ui/button";
+import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
-import { Loading } from "./loading";
+import { useRouter } from "next/navigation";
+import { useI18n } from "@/locales/client";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps {
   columnHeaders: {
     name: string;
     email: string;
     department: string;
   };
-  data: TData[];
+  data: PersonType[];
   pageCount: number;
   currentPage: number;
 }
 
-export function DataTable<TData, TValue>({
+function getColumns(): ColumnDef<PersonType>[] {
+  const t = useI18n();
+
+  return [
+    {
+      id: "email",
+      accessorKey: "email",
+      header: ({ column }) => (
+        <TableHead>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            {t("people.table.email")}
+          </Button>
+        </TableHead>
+      ),
+    },
+    {
+      id: "name",
+      accessorKey: "name",
+      header: ({ column }) => (
+        <TableHead>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            {t("people.table.name")}
+          </Button>
+        </TableHead>
+      ),
+    },
+    {
+      id: "department",
+      accessorKey: "department",
+      header: ({ column }) => (
+        <TableHead>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            {t("people.table.department")}
+          </Button>
+        </TableHead>
+      ),
+    },
+  ];
+}
+
+export function DataTable({
   columnHeaders,
   data,
   pageCount,
   currentPage,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps) {
+  const router = useRouter();
   const clientColumns = getColumns();
   const columns = clientColumns.map((col) => ({
     ...col,
     header: columnHeaders[col.id as keyof typeof columnHeaders],
+    accessorFn: (row: PersonType) => row[col.id as keyof PersonType],
   }));
 
   const table = useReactTable({
-    data: data as PersonType[],
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -57,15 +115,20 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => {
+                  const person = row.original;
+                  router.push(`/people/${person.id}`);
+                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className={cn(
-                      (cell.column.id === "department" ||
-                        cell.column.id === "email") &&
-                        "hidden md:table-cell"
-                    )}
+                    className={cn({
+                      "hidden md:table-cell":
+                        cell.column.id === "email" ||
+                        cell.column.id === "department",
+                    })}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

@@ -39,12 +39,12 @@ export default {
       pending: "Venter",
       closed: "Lukket",
       archived: "Arkivert",
-      compliant: "Samsvarende",
-      non_compliant: "Ikke samsvarende",
+      compliant: "I samsvar",
+      non_compliant: "Ikke i samsvar",
       not_started: "Ikke startet",
       in_progress: "Pågår",
       published: "Publisert",
-      needs_review: "Trenger gjennomgang",
+      needs_review: "Trenger vurdering",
       draft: "Utkast",
       not_assessed: "Ikke vurdert",
       assessed: "Vurdert",
@@ -136,6 +136,12 @@ export default {
         uploading_files: "Laster opp {target}...",
         remove_file: "Fjern fil"
       }
+    },
+    notifications: {
+      inbox: "Innboks",
+      archive: "Arkiv",
+      archive_all: "Arkiver alt",
+      no_notifications: "Ingen nye varsler"
     }
   },
   header: {
@@ -153,7 +159,7 @@ export default {
     }
   },
   not_found: {
-    title: "404 - Side ikke funnet",
+    title: "404 - Siden ble ikke funnet",
     description: "Siden du leter etter eksisterer ikke.",
     "return": "Gå tilbake til dashbordet"
   },
@@ -171,7 +177,8 @@ export default {
     vendors: "Leverandører",
     integrations: "Integrasjoner",
     settings: "Innstillinger",
-    evidence: "Bevisoppgaver"
+    evidence: "Bevisoppgaver",
+    people: "Personer"
   },
   auth: {
     title: "Automatiser SOC 2, ISO 27001 og GDPR-overholdelse med AI.",
@@ -202,15 +209,20 @@ export default {
       website: {
         label: "Nettsted",
         placeholder: "Ditt organisasjonsnettsted"
+      },
+      subdomain: {
+        label: "Underdomene",
+        placeholder: "eksempel"
       }
     },
     success: "Takk, du er klar!",
-    error: "Noe gikk galt, vennligst prøv igjen."
+    error: "Noe gikk galt, vennligst prøv igjen.",
+    unavailable: "Vennligst velg et annet underdomene. Kun små bokstaver, tall og bindestreker er tillatt."
   },
   overview: {
     title: "Oversikt",
     framework_chart: {
-      title: "Rammeverkets fremdrift"
+      title: "Rammeverk Fremdrift"
     },
     requirement_chart: {
       title: "Overholdelsesstatus"
@@ -257,7 +269,7 @@ export default {
     overview: "Oversikt",
     create: "Opprett ny risiko",
     vendor: {
-      title: "Leverandørstyring",
+      title: "Leverandøradministrasjon",
       dashboard: {
         title: "Leverandørdashbord",
         overview: "Leverandøroversikt",
@@ -278,8 +290,8 @@ export default {
       },
       assessment: {
         title: "Leverandørvurdering",
-        update_success: "Leverandørens risikovurdering oppdatert vellykket",
-        update_error: "Kunne ikke oppdatere leverandørens risikovurdering",
+        update_success: "Leverandørvurdering oppdatert vellykket",
+        update_error: "Feil ved oppdatering av leverandørvurdering",
         inherent_risk: "Inherent risiko",
         residual_risk: "Gjenstående risiko"
       },
@@ -288,7 +300,7 @@ export default {
         vendor_name: "Navn",
         vendor_name_placeholder: "Skriv inn leverandørnavn",
         vendor_website: "Nettsted",
-        vendor_website_placeholder: "Skriv inn leverandørens nettsted",
+        vendor_website_placeholder: "Skriv inn leverandørnettsted",
         vendor_description: "Beskrivelse",
         vendor_description_placeholder: "Skriv inn leverandørbeskrivelse",
         vendor_category: "Kategori",
@@ -296,11 +308,11 @@ export default {
         vendor_status: "Status",
         vendor_status_placeholder: "Velg status",
         create_vendor_success: "Leverandør opprettet vellykket",
-        create_vendor_error: "Kunne ikke opprette leverandør",
-        update_vendor: "Oppdater leverandør",
+        create_vendor_error: "Feil ved oppretting av leverandør",
+        update_vendor: "Oppdater Leverandør",
         update_vendor_success: "Leverandør oppdatert",
         update_vendor_error: "Kunne ikke oppdatere leverandør",
-        add_comment: "Legg til kommentar"
+        add_comment: "Legg til Kommentar"
       },
       table: {
         name: "Navn",
@@ -321,22 +333,22 @@ export default {
         },
         no_results: {
           title: "Ingen resultater funnet",
-          description: "Ingen leverandører samsvarer med søket ditt",
+          description: "Ingen leverandører matcher søket ditt",
           description_with_filters: "Prøv å justere filtrene dine"
         }
       },
       actions: {
-        create: "Opprett leverandør"
+        create: "Opprett Leverandør"
       },
       status: {
-        not_assessed: "Ikke vurdert",
-        in_progress: "Under behandling",
+        not_assessed: "Ikke Vurdert",
+        in_progress: "Under Behandling",
         assessed: "Vurdert"
       },
       category: {
         cloud: "Sky",
         infrastructure: "Infrastruktur",
-        software_as_a_service: "Programvare som en tjeneste",
+        software_as_a_service: "Programvare som en Tjeneste",
         finance: "Finans",
         marketing: "Markedsføring",
         sales: "Salg",
@@ -344,24 +356,24 @@ export default {
         other: "Annet"
       },
       risk_level: {
-        low: "Lav risiko",
-        medium: "Moderat risiko",
-        high: "Høy risiko",
-        unknown: "Ukjent risiko"
+        low: "Lav Risiko",
+        medium: "Moderat Risiko",
+        high: "Høy Risiko",
+        unknown: "Ukjent Risiko"
       }
     },
     dashboard: {
       title: "Dashbord",
       overview: "Risikooversikt",
-      risk_status: "Risiko status",
-      risks_by_department: "Risikoer etter avdeling",
-      risks_by_assignee: "Risikoer etter ansvarlig",
+      risk_status: "Risiko Status",
+      risks_by_department: "Risikoer etter Avdeling",
+      risks_by_assignee: "Risikoer etter Tildelt",
       inherent_risk_description: "Inherent risiko beregnes som sannsynlighet * påvirkning. Beregnet før noen kontroller er anvendt.",
-      residual_risk_description: "Rest risiko beregnes som sannsynlighet * påvirkning. Dette er risikonivået etter at kontroller er anvendt.",
-      risk_assessment_description: "Sammenlign inherent og rest risikonivåer"
+      residual_risk_description: "Residual risiko beregnes som sannsynlighet * påvirkning. Dette er risikonivået etter at kontroller er anvendt.",
+      risk_assessment_description: "Sammenlign inherent og residual risikonivåer"
     },
     register: {
-      title: "Risiko register",
+      title: "Risiko Register",
       table: {
         risk: "Risiko"
       },
@@ -376,26 +388,26 @@ export default {
     metrics: {
       probability: "Sannsynlighet",
       impact: "Påvirkning",
-      inherentRisk: "Inherent risiko",
-      residualRisk: "Rest risiko"
+      inherentRisk: "Inherent Risiko",
+      residualRisk: "Residual Risiko"
     },
     form: {
-      update_inherent_risk: "Lagre inherent risiko",
-      update_inherent_risk_description: "Oppdater den inherente risikoen for risikoen. Dette er risikonivået før noen kontroller er anvendt.",
+      update_inherent_risk: "Lagre Inherent Risiko",
+      update_inherent_risk_description: "Oppdater den inherent risikoen for risikoen. Dette er risikonivået før noen kontroller er anvendt.",
       update_inherent_risk_success: "Inherent risiko oppdatert",
       update_inherent_risk_error: "Kunne ikke oppdatere inherent risiko",
-      update_residual_risk: "Lagre rest risiko",
-      update_residual_risk_description: "Oppdater rest risikoen for risikoen. Dette er risikonivået etter at kontroller er anvendt.",
-      update_residual_risk_success: "Rest risiko oppdatert",
-      update_residual_risk_error: "Kunne ikke oppdatere rest risiko",
-      update_risk: "Oppdater risiko",
+      update_residual_risk: "Lagre Residual Risiko",
+      update_residual_risk_description: "Oppdater den residual risikoen for risikoen. Dette er risikonivået etter at kontroller er anvendt.",
+      update_residual_risk_success: "Residual risiko oppdatert",
+      update_residual_risk_error: "Kunne ikke oppdatere residual risiko",
+      update_risk: "Oppdater Risiko",
       update_risk_description: "Oppdater risikotittelen eller beskrivelsen.",
       update_risk_success: "Risiko oppdatert",
       update_risk_error: "Kunne ikke oppdatere risiko",
       create_risk_success: "Risiko opprettet",
       create_risk_error: "Kunne ikke opprette risiko",
-      risk_details: "Risiko detaljer",
-      risk_title: "Risiko tittel",
+      risk_details: "Risiko Detaljer",
+      risk_title: "Risiko Tittel",
       risk_title_description: "Skriv inn et navn for risikoen",
       risk_description: "Beskrivelse",
       risk_description_description: "Skriv inn en beskrivelse for risikoen",
@@ -403,7 +415,7 @@ export default {
       risk_category_placeholder: "Velg en kategori",
       risk_department: "Avdeling",
       risk_department_placeholder: "Velg en avdeling",
-      risk_status: "Risiko status",
+      risk_status: "Risiko Status",
       risk_status_placeholder: "Velg en risikostatus"
     },
     tasks: {
@@ -411,9 +423,9 @@ export default {
       attachments: "Vedlegg",
       overview: "Oppgaveoversikt",
       form: {
-        title: "Oppgave detaljer",
-        task_title: "Oppgave tittel",
-        status: "Oppgave status",
+        title: "Oppgave Detaljer",
+        task_title: "Oppgave Tittel",
+        status: "Oppgave Status",
         status_placeholder: "Velg en oppgavestatus",
         task_title_description: "Skriv inn et navn for oppgaven",
         description: "Beskrivelse",
@@ -424,8 +436,8 @@ export default {
         error: "Kunne ikke opprette oppgave"
       },
       sheet: {
-        title: "Opprett oppgave",
-        update: "Oppdater oppgave",
+        title: "Opprett Oppgave",
+        update: "Oppdater Oppgave",
         update_description: "Oppdater oppgavetittelen eller beskrivelsen."
       },
       empty: {
@@ -439,13 +451,13 @@ export default {
       org_name: "Organisasjonsnavn",
       org_name_description: "Dette er organisasjonens synlige navn. Du bør bruke det juridiske navnet på organisasjonen din.",
       org_name_tip: "Vennligst bruk maks 32 tegn.",
-      org_website: "Organisasjonens nettsted",
-      org_website_description: "Dette er organisasjonens offisielle nettadresse. Sørg for å inkludere den fullstendige nettadressen med https://.",
-      org_website_tip: "Vennligst skriv inn en gyldig nettadresse inkludert https://",
-      org_website_error: "Feil ved oppdatering av organisasjonens nettsted",
+      org_website: "Organisasjonsnettsted",
+      org_website_description: "Dette er organisasjonens offisielle nettsted-URL. Sørg for å inkludere hele URL-en med https://.",
+      org_website_tip: "Vennligst skriv inn en gyldig URL inkludert https://",
+      org_website_error: "Feil ved oppdatering av organisasjonsnettsted",
       org_website_updated: "Organisasjonsnettsted oppdatert",
       org_delete: "Slett organisasjon",
-      org_delete_description: "Fjern organisasjonen din og alt innholdet permanent fra Comp AI-plattformen. Denne handlingen kan ikke angres - vennligst fortsett med forsiktighet.",
+      org_delete_description: "Fjern organisasjonen din og alt innhold permanent fra Comp AI-plattformen. Denne handlingen kan ikke angres - vennligst fortsett med forsiktighet.",
       org_delete_alert_title: "Er du helt sikker?",
       org_delete_alert_description: "Denne handlingen kan ikke angres. Dette vil permanent slette organisasjonen din og fjerne dataene dine fra våre servere.",
       org_delete_error: "Feil ved sletting av organisasjon",
@@ -475,10 +487,10 @@ export default {
     teams: "Team"
   },
   frameworks: {
-    title: "Rammer",
+    title: "Rammeverk",
     controls: {
       title: "Kontroller",
-      description: "Gjennomgå og administrer samsvarskontroller",
+      description: "Gå gjennom og administrer samsvarskontroller",
       table: {
         status: "Status",
         control: "Kontroll",
@@ -489,6 +501,35 @@ export default {
         not_started: "Ikke startet",
         compliant: "Samsvarende",
         non_compliant: "Ikke samsvarende"
+      }
+    },
+    overview: {
+      error: "Kunne ikke laste rammeverk",
+      loading: "Laster rammeverk...",
+      empty: {
+        title: "Ingen rammeverk valgt",
+        description: "Velg rammeverk for å komme i gang med din samsvarsreise"
+      },
+      progress: {
+        title: "Rammeverksprogresjon",
+        empty: {
+          title: "Ingen rammeverk ennå",
+          description: "Kom i gang ved å legge til et samsvarsrammeverk for å spore fremgangen din",
+          action: "Legg til rammeverk"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Velkommen til Comp AI",
+          description: "Kom i gang ved å velge samsvarsrammeverkene du ønsker å implementere. Vi hjelper deg med å administrere og spore samsvarsreisen din på tvers av flere standarder.",
+          action: "Kom i gang"
+        },
+        title: "Velg rammeverk",
+        version: "Versjon",
+        actions: {
+          clear: "Tøm",
+          confirm: "Bekreft valg"
+        }
       }
     }
   },
@@ -537,11 +578,11 @@ export default {
       vendor_status: "Status",
       vendor_status_placeholder: "Velg status",
       create_vendor_success: "Leverandør opprettet",
-      create_vendor_error: "Feil ved oppretting av leverandør",
+      create_vendor_error: "Kunne ikke opprette leverandør",
       update_vendor_success: "Leverandør oppdatert",
-      update_vendor_error: "Feil ved oppdatering av leverandør",
+      update_vendor_error: "Kunne ikke oppdatere leverandør",
       contacts: "Leverandørkontakter",
-      contact_name: "Kontaktpersonnavn",
+      contact_name: "Kontaktpersonens navn",
       contact_email: "Kontaktpersonens e-post",
       contact_role: "Kontaktpersonens rolle",
       add_contact: "Legg til kontakt",
@@ -559,5 +600,65 @@ export default {
         description_with_filters: "Prøv å justere filtrene dine"
       }
     }
+  },
+  people: {
+    title: "Personer",
+    details: {
+      taskProgress: "Oppgavefremdrift",
+      tasks: "Oppgaver",
+      noTasks: "Ingen oppgaver tildelt ennå"
+    },
+    description: "Administrer teammedlemmene dine og deres roller.",
+    filters: {
+      search: "Søk etter personer...",
+      role: "Filtrer etter rolle"
+    },
+    actions: {
+      invite: "Legg til ansatt",
+      clear: "Fjern filtre"
+    },
+    table: {
+      name: "Navn",
+      email: "E-post",
+      department: "Avdeling",
+      externalId: "Ekstern ID"
+    },
+    empty: {
+      no_employees: {
+        title: "Ingen ansatte ennå",
+        description: "Kom i gang med å invitere ditt første teammedlem."
+      },
+      no_results: {
+        title: "Ingen resultater funnet",
+        description: "Ingen ansatte samsvarer med søket ditt",
+        description_with_filters: "Prøv å justere filtrene dine"
+      }
+    },
+    invite: {
+      title: "Legg til ansatt",
+      description: "Legg til en ansatt i organisasjonen din.",
+      email: {
+        label: "E-postadresse",
+        placeholder: "Skriv inn e-postadresse"
+      },
+      role: {
+        label: "Rolle",
+        placeholder: "Velg en rolle"
+      },
+      name: {
+        label: "Navn",
+        placeholder: "Skriv inn navn"
+      },
+      department: {
+        label: "Avdeling",
+        placeholder: "Velg en avdeling"
+      },
+      submit: "Legg til ansatt",
+      success: "Ansatt lagt til",
+      error: "Kunne ikke legge til ansatt"
+    }
+  },
+  errors: {
+    unexpected: "Noe gikk galt, vennligst prøv igjen"
   }
 } as const;

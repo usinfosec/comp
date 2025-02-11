@@ -25,7 +25,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import type { Departments } from "@prisma/client";
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
-import type { ActionResponse } from "@/actions/types";
+import { useEmployees } from "@/app/[locale]/(app)/(dashboard)/people/hooks/useEmployees";
+import { Loader2 } from "lucide-react";
 
 const DEPARTMENTS: Departments[] = [
   "none",
@@ -38,36 +39,27 @@ const DEPARTMENTS: Departments[] = [
 ];
 
 export function InviteUserSheet() {
-  const router = useRouter();
   const t = useI18n();
   const [open, setOpen] = useQueryState("invite-user-sheet");
-  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState<Departments>("none");
   const [name, setName] = useState("");
+  const { addEmployee, isMutating } = useEmployees();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
     try {
-      const result = (await createEmployeeAction({
+      await addEmployee({
         name,
         email: email.trim(),
         department,
-      })) as ActionResponse;
+      });
 
-      if (result?.success) {
-        toast.success(t("people.invite.success"));
-        setOpen(null);
-        router.refresh();
-      } else {
-        toast.error(result?.error || t("people.invite.error"));
-      }
+      toast.success(t("people.invite.success"));
+      setOpen(null);
     } catch (error) {
       toast.error(t("errors.unexpected"));
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -134,8 +126,12 @@ export function InviteUserSheet() {
           </div>
 
           <SheetFooter>
-            <Button type="submit" disabled={isLoading || !email.trim()}>
-              {isLoading
+            <Button
+              type="submit"
+              disabled={isMutating || !email.trim()}
+              isLoading={isMutating}
+            >
+              {isMutating
                 ? t("people.invite.submit")
                 : t("people.invite.submit")}
             </Button>

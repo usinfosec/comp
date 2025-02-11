@@ -12,6 +12,12 @@ export default {
     pt: "Portuguese",
   },
   common: {
+    notifications: {
+      inbox: "Inbox",
+      archive: "Archive",
+      archive_all: "Archive all",
+      no_notifications: "No new notifications",
+    },
     actions: {
       save: "Save",
       edit: "Edit",
@@ -199,10 +205,15 @@ export default {
     title: "Create an organization",
     setup: "Setup",
     description: "Tell us a bit about your organization.",
+    unavailable: "Please choose a different subdomain. Only lowercase letters, numbers, and hyphens are allowed.",
     fields: {
       name: {
         label: "Organization Name",
         placeholder: "Your organization name",
+      },
+      subdomain: {
+        label: "Subdomain",
+        placeholder: "example",
       },
       website: {
         label: "Website",
@@ -448,6 +459,11 @@ export default {
   },
   people: {
     title: "People",
+    details: {
+      taskProgress: "Task Progress",
+      tasks: "Tasks",
+      noTasks: "No tasks assigned yet",
+    },
     description: "Manage your team members and their roles.",
     filters: {
       search: "Search people...",
@@ -461,6 +477,7 @@ export default {
       name: "Name",
       email: "Email",
       department: "Department",
+      externalId: "External ID",
     },
     empty: {
       no_employees: {
@@ -544,6 +561,38 @@ export default {
   },
   frameworks: {
     title: "Frameworks",
+    overview: {
+      error: "Failed to load frameworks",
+      loading: "Loading frameworks...",
+      empty: {
+        title: "No frameworks selected",
+        description:
+          "Select frameworks to get started with your compliance journey",
+      },
+      progress: {
+        title: "Framework Progress",
+        empty: {
+          title: "No frameworks yet",
+          description:
+            "Get started by adding a compliance framework to track your progress",
+          action: "Add Framework",
+        },
+      },
+      grid: {
+        welcome: {
+          title: "Welcome to Comp AI",
+          description:
+            "Get started by selecting the compliance frameworks you would like to implement. We'll help you manage and track your compliance journey across multiple standards.",
+          action: "Get Started",
+        },
+        title: "Select Frameworks",
+        version: "Version",
+        actions: {
+          clear: "Clear",
+          confirm: "Confirm Selection",
+        },
+      },
+    },
     controls: {
       title: "Controls",
       description: "Review and manage compliance controls",

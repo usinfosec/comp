@@ -1,64 +1,17 @@
 "use client";
-import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import type { Departments } from "@prisma/client";
-import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+
+import type { Departments } from "@bubba/db";
 
 export interface PersonType {
   id: string;
   name: string;
   email: string;
   department: Departments;
+  externalEmployeeId?: string;
+  isActive: boolean;
 }
 
-export function columns(): ColumnDef<PersonType>[] {
-  const t = useI18n();
-
-  return [
-    {
-      id: "name",
-      accessorKey: "name",
-      header: t("people.table.name"),
-      cell: ({ row }) => {
-        return (
-          <div className="flex flex-col gap-1">
-            <Button variant="link" className="p-0 justify-start" asChild>
-              <Link href={`/people/${row.original.id}`}>
-                <span className="truncate">{row.original.name}</span>
-              </Link>
-            </Button>
-          </div>
-        );
-      },
-    },
-    {
-      id: "email",
-      accessorKey: "email",
-      header: () => (
-        <span className="hidden md:table-cell">{t("people.table.email")}</span>
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="hidden md:table-cell">
-            <span>{row.original.email}</span>
-          </div>
-        );
-      },
-    },
-    {
-      id: "department",
-      accessorKey: "department",
-      header: () => (
-        <span className="hidden md:table-cell">
-          {t("people.table.department")}
-        </span>
-      ),
-      cell: ({ row }) => {
-        return (
-          <div className="hidden md:table-cell">{row.original.department}</div>
-        );
-      },
-    },
-  ];
-}
+// Note: Column definitions have been moved to data-table.tsx
+// This file now only exports the PersonType interface
+// The actual column definitions are handled by the DataTable component
+// which receives server-side translated headers and client-side sorting handlers

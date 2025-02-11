@@ -27,8 +27,8 @@ export default {
       complete: "Terminer"
     },
     assignee: {
-      label: "Attribué à",
-      placeholder: "Sélectionner l'attribué"
+      label: "Assigné à",
+      placeholder: "Sélectionner l'assigné"
     },
     date: {
       pick: "Choisir une date",
@@ -57,8 +57,8 @@ export default {
       status: "Statut",
       department: "Département",
       owner: {
-        label: "Attribué à",
-        placeholder: "Filtrer par attribué"
+        label: "Assigné à",
+        placeholder: "Filtrer par assigné"
       }
     },
     table: {
@@ -114,7 +114,7 @@ export default {
       upload: "Télécharger une pièce jointe",
       upload_description: "Téléchargez une pièce jointe ou ajoutez un lien vers une ressource externe.",
       drop: "Déposez les fichiers ici",
-      drop_description: "Déposez des fichiers ici ou cliquez pour choisir des fichiers depuis votre appareil.",
+      drop_description: "Déposez des fichiers ici ou cliquez pour choisir des fichiers sur votre appareil.",
       drop_files_description: "Les fichiers peuvent aller jusqu'à ",
       empty: {
         title: "Aucune pièce jointe",
@@ -136,6 +136,12 @@ export default {
         uploading_files: "Téléchargement de {target}...",
         remove_file: "Supprimer le fichier"
       }
+    },
+    notifications: {
+      inbox: "Boîte de réception",
+      archive: "Archive",
+      archive_all: "Archiver tout",
+      no_notifications: "Aucune nouvelle notification"
     }
   },
   header: {
@@ -144,12 +150,12 @@ export default {
     },
     feedback: {
       button: "Retour d'information",
-      title: "Merci pour votre retour d'information !",
+      title: "Merci pour vos retours !",
       description: "Nous reviendrons vers vous dès que possible",
       placeholder: "Idées pour améliorer cette page ou problèmes que vous rencontrez.",
-      success: "Merci pour votre retour d'information !",
-      error: "Erreur lors de l'envoi du retour d'information - réessayer ?",
-      send: "Envoyer un retour d'information"
+      success: "Merci pour vos retours !",
+      error: "Erreur lors de l'envoi du retour - réessayer ?",
+      send: "Envoyer un retour"
     }
   },
   not_found: {
@@ -171,7 +177,8 @@ export default {
     vendors: "Fournisseurs",
     integrations: "Intégrations",
     settings: "Paramètres",
-    evidence: "Tâches de Preuve"
+    evidence: "Tâches de preuve",
+    people: "Personnes"
   },
   auth: {
     title: "Automatisez la conformité SOC 2, ISO 27001 et RGPD avec l'IA.",
@@ -202,30 +209,35 @@ export default {
       website: {
         label: "Site Web",
         placeholder: "Le site Web de votre organisation"
+      },
+      subdomain: {
+        label: "Sous-domaine",
+        placeholder: "exemple"
       }
     },
-    success: "Merci, tout est prêt !",
-    error: "Quelque chose a mal tourné, veuillez réessayer."
+    success: "Merci, vous êtes prêt !",
+    error: "Une erreur s'est produite, veuillez réessayer.",
+    unavailable: "Veuillez choisir un autre sous-domaine. Seules les lettres minuscules, les chiffres et les tirets sont autorisés."
   },
   overview: {
     title: "Aperçu",
     framework_chart: {
-      title: "Progression du Cadre"
+      title: "Progrès du cadre"
     },
     requirement_chart: {
-      title: "Statut de Conformité"
+      title: "État de conformité"
     }
   },
   policies: {
     dashboard: {
       title: "Tableau de bord",
-      all: "Toutes les Politiques",
-      policy_status: "Statut de la Politique",
-      policies_by_assignee: "Politiques par Responsable",
-      policies_by_framework: "Politiques par Cadre"
+      all: "Toutes les politiques",
+      policy_status: "État de la politique",
+      policies_by_assignee: "Politiques par responsable",
+      policies_by_framework: "Politiques par cadre"
     },
     table: {
-      name: "Nom de la Politique",
+      name: "Nom de la politique",
       statuses: {
         draft: "Brouillon",
         published: "Publié"
@@ -239,52 +251,52 @@ export default {
     },
     filters: {
       search: "Rechercher des politiques...",
-      all: "Toutes les Politiques"
+      all: "Toutes les politiques"
     },
     status: {
       draft: "Brouillon",
       published: "Publié",
-      needs_review: "Besoin de Révision"
+      needs_review: "Nécessite une révision"
     },
     policies: "politiques"
   },
   evidence_tasks: {
-    evidence_tasks: "Tâches de Preuve",
+    evidence_tasks: "Tâches de preuve",
     overview: "Aperçu"
   },
   risk: {
     risks: "risques",
     overview: "Aperçu",
-    create: "Créer un Nouveau Risque",
+    create: "Créer un nouveau risque",
     vendor: {
-      title: "Gestion des Fournisseurs",
+      title: "Gestion des fournisseurs",
       dashboard: {
-        title: "Tableau de bord des Fournisseurs",
-        overview: "Aperçu des Fournisseurs",
-        vendor_status: "Statut du Fournisseur",
-        vendor_category: "Catégories de Fournisseurs",
-        vendors_by_assignee: "Fournisseurs par Responsable",
+        title: "Tableau de bord des fournisseurs",
+        overview: "Aperçu des fournisseurs",
+        vendor_status: "État du fournisseur",
+        vendor_category: "Catégories de fournisseurs",
+        vendors_by_assignee: "Fournisseurs par responsable",
         inherent_risk_description: "Niveau de risque initial avant l'application de tout contrôle",
         residual_risk_description: "Niveau de risque restant après l'application des contrôles"
       },
       register: {
-        title: "Registre des Fournisseurs",
+        title: "Registre des fournisseurs",
         table: {
           name: "Nom",
           category: "Catégorie",
           status: "Statut",
-          owner: "Responsable"
+          owner: "Propriétaire"
         }
       },
       assessment: {
-        title: "Évaluation du Fournisseur",
+        title: "Évaluation des fournisseurs",
         update_success: "Évaluation du risque fournisseur mise à jour avec succès",
         update_error: "Échec de la mise à jour de l'évaluation du risque fournisseur",
-        inherent_risk: "Risque Inhérent",
-        residual_risk: "Risque Résiduel"
+        inherent_risk: "Risque inhérent",
+        residual_risk: "Risque résiduel"
       },
       form: {
-        vendor_details: "Détails du Fournisseur",
+        vendor_details: "Détails du fournisseur",
         vendor_name: "Nom",
         vendor_name_placeholder: "Entrez le nom du fournisseur",
         vendor_website: "Site Web",
@@ -292,12 +304,12 @@ export default {
         vendor_description: "Description",
         vendor_description_placeholder: "Entrez la description du fournisseur",
         vendor_category: "Catégorie",
-        vendor_category_placeholder: "Sélectionnez la catégorie",
+        vendor_category_placeholder: "Sélectionnez une catégorie",
         vendor_status: "Statut",
-        vendor_status_placeholder: "Sélectionnez le statut",
+        vendor_status_placeholder: "Sélectionnez un statut",
         create_vendor_success: "Fournisseur créé avec succès",
         create_vendor_error: "Échec de la création du fournisseur",
-        update_vendor: "Mettre à jour le Fournisseur",
+        update_vendor: "Mettre à jour le fournisseur",
         update_vendor_success: "Fournisseur mis à jour avec succès",
         update_vendor_error: "Échec de la mise à jour du fournisseur",
         add_comment: "Ajouter un commentaire"
@@ -368,7 +380,7 @@ export default {
       empty: {
         no_risks: {
           title: "Créez un risque pour commencer",
-          description: "Suivez et évaluez les risques, créez et assignez des tâches d'atténuation pour votre équipe, et gérez votre registre des risques dans une interface simple."
+          description: "Suivez et évaluez les risques, créez et assignez des tâches d'atténuation à votre équipe, et gérez votre registre des risques dans une interface simple."
         },
         create_risk: "Créer un risque"
       }
@@ -381,15 +393,15 @@ export default {
     },
     form: {
       update_inherent_risk: "Enregistrer le risque inhérent",
-      update_inherent_risk_description: "Mettre à jour le risque inhérent du risque. C'est le niveau de risque avant l'application de tout contrôle.",
+      update_inherent_risk_description: "Mettez à jour le risque inhérent du risque. C'est le niveau de risque avant l'application de tout contrôle.",
       update_inherent_risk_success: "Risque inhérent mis à jour avec succès",
       update_inherent_risk_error: "Échec de la mise à jour du risque inhérent",
       update_residual_risk: "Enregistrer le risque résiduel",
-      update_residual_risk_description: "Mettre à jour le risque résiduel du risque. C'est le niveau de risque après l'application des contrôles.",
+      update_residual_risk_description: "Mettez à jour le risque résiduel du risque. C'est le niveau de risque après l'application des contrôles.",
       update_residual_risk_success: "Risque résiduel mis à jour avec succès",
       update_residual_risk_error: "Échec de la mise à jour du risque résiduel",
       update_risk: "Mettre à jour le risque",
-      update_risk_description: "Mettre à jour le titre ou la description du risque.",
+      update_risk_description: "Mettez à jour le titre ou la description du risque.",
       update_risk_success: "Risque mis à jour avec succès",
       update_risk_error: "Échec de la mise à jour du risque",
       create_risk_success: "Risque créé avec succès",
@@ -426,7 +438,7 @@ export default {
       sheet: {
         title: "Créer une tâche",
         update: "Mettre à jour la tâche",
-        update_description: "Mettre à jour le titre ou la description de la tâche."
+        update_description: "Mettez à jour le titre ou la description de la tâche."
       },
       empty: {
         description_create: "Créez une tâche d'atténuation pour ce risque, ajoutez un plan de traitement et assignez-le à un membre de l'équipe."
@@ -438,14 +450,14 @@ export default {
       title: "Général",
       org_name: "Nom de l'organisation",
       org_name_description: "Ceci est le nom visible de votre organisation. Vous devez utiliser le nom légal de votre organisation.",
-      org_name_tip: "Veuillez utiliser au maximum 32 caractères.",
+      org_name_tip: "Veuillez utiliser un maximum de 32 caractères.",
       org_website: "Site Web de l'organisation",
       org_website_description: "Ceci est l'URL du site Web officiel de votre organisation. Assurez-vous d'inclure l'URL complète avec https://.",
       org_website_tip: "Veuillez entrer une URL valide incluant https://",
       org_website_error: "Erreur lors de la mise à jour du site Web de l'organisation",
-      org_website_updated: "Site web de l'organisation mis à jour",
+      org_website_updated: "Site Web de l'organisation mis à jour",
       org_delete: "Supprimer l'organisation",
-      org_delete_description: "Supprimez définitivement votre organisation et tout son contenu de la plateforme Comp AI. Cette action est irréversible - veuillez continuer avec prudence.",
+      org_delete_description: "Supprimez définitivement votre organisation et tout son contenu de la plateforme Comp AI. Cette action n'est pas réversible - veuillez continuer avec prudence.",
       org_delete_alert_title: "Êtes-vous absolument sûr ?",
       org_delete_alert_description: "Cette action ne peut pas être annulée. Cela supprimera définitivement votre organisation et retirera vos données de nos serveurs.",
       org_delete_error: "Erreur lors de la suppression de l'organisation",
@@ -490,6 +502,35 @@ export default {
         compliant: "Conforme",
         non_compliant: "Non conforme"
       }
+    },
+    overview: {
+      error: "Échec du chargement des cadres",
+      loading: "Chargement des cadres...",
+      empty: {
+        title: "Aucun cadre sélectionné",
+        description: "Sélectionnez des cadres pour commencer votre parcours de conformité"
+      },
+      progress: {
+        title: "Progression du cadre",
+        empty: {
+          title: "Aucun cadre pour le moment",
+          description: "Commencez par ajouter un cadre de conformité pour suivre vos progrès",
+          action: "Ajouter un cadre"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Bienvenue dans Comp AI",
+          description: "Commencez par sélectionner les cadres de conformité que vous souhaitez mettre en œuvre. Nous vous aiderons à gérer et à suivre votre parcours de conformité à travers plusieurs normes.",
+          action: "Commencer"
+        },
+        title: "Sélectionner des cadres",
+        version: "Version",
+        actions: {
+          clear: "Effacer",
+          confirm: "Confirmer la sélection"
+        }
+      }
     }
   },
   vendor: {
@@ -498,7 +539,7 @@ export default {
     dashboard: {
       title: "Tableau de bord",
       overview: "Aperçu des fournisseurs",
-      vendor_status: "Statut du fournisseur",
+      vendor_status: "Statut des fournisseurs",
       vendor_category: "Catégories de fournisseurs",
       vendors_by_assignee: "Fournisseurs par responsable",
       inherent_risk_description: "Niveau de risque initial avant l'application de tout contrôle",
@@ -528,8 +569,8 @@ export default {
       vendor_details: "Détails du fournisseur",
       vendor_name: "Nom",
       vendor_name_placeholder: "Entrez le nom du fournisseur",
-      vendor_website: "Site web",
-      vendor_website_placeholder: "Entrez le site web du fournisseur",
+      vendor_website: "Site Web",
+      vendor_website_placeholder: "Entrez le site Web du fournisseur",
       vendor_description: "Description",
       vendor_description_placeholder: "Entrez la description du fournisseur",
       vendor_category: "Catégorie",
@@ -550,7 +591,7 @@ export default {
     },
     empty_states: {
       no_vendors: {
-        title: "Pas encore de fournisseurs",
+        title: "Aucun fournisseur pour le moment",
         description: "Commencez par créer votre premier fournisseur"
       },
       no_results: {
@@ -559,5 +600,65 @@ export default {
         description_with_filters: "Essayez d'ajuster vos filtres"
       }
     }
+  },
+  people: {
+    title: "Personnes",
+    details: {
+      taskProgress: "Progression des tâches",
+      tasks: "Tâches",
+      noTasks: "Aucune tâche assignée pour le moment"
+    },
+    description: "Gérez vos membres d'équipe et leurs rôles.",
+    filters: {
+      search: "Rechercher des personnes...",
+      role: "Filtrer par rôle"
+    },
+    actions: {
+      invite: "Ajouter un employé",
+      clear: "Effacer les filtres"
+    },
+    table: {
+      name: "Nom",
+      email: "Email",
+      department: "Département",
+      externalId: "ID externe"
+    },
+    empty: {
+      no_employees: {
+        title: "Aucun employé pour le moment",
+        description: "Commencez par inviter votre premier membre d'équipe."
+      },
+      no_results: {
+        title: "Aucun résultat trouvé",
+        description: "Aucun employé ne correspond à votre recherche",
+        description_with_filters: "Essayez d'ajuster vos filtres"
+      }
+    },
+    invite: {
+      title: "Ajouter un employé",
+      description: "Ajoutez un employé à votre organisation.",
+      email: {
+        label: "Adresse e-mail",
+        placeholder: "Entrez l'adresse e-mail"
+      },
+      role: {
+        label: "Rôle",
+        placeholder: "Sélectionnez un rôle"
+      },
+      name: {
+        label: "Nom",
+        placeholder: "Entrez le nom"
+      },
+      department: {
+        label: "Département",
+        placeholder: "Sélectionnez un département"
+      },
+      submit: "Ajouter un employé",
+      success: "Employé ajouté avec succès",
+      error: "Échec de l'ajout de l'employé"
+    }
+  },
+  errors: {
+    unexpected: "Une erreur s'est produite, veuillez réessayer"
   }
 } as const;

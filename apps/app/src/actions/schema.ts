@@ -9,12 +9,25 @@ import {
 import { z } from "zod";
 
 export const organizationSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
+  name: z.string().min(1, "Name is required"),
   website: z.string().url("Must be a valid URL"),
+  subdomain: z.string().min(1, "Subdomain is required").optional(),
 });
 
 export const organizationNameSchema = z.object({
-  name: z.string().min(1).max(255),
+  name: z.string()
+    .min(1, "Organization name is required")
+    .max(255, "Organization name cannot exceed 255 characters")
+});
+
+export const subdomainAvailabilitySchema = z.object({
+  subdomain: z.string()
+    .min(1, "Subdomain is required")
+    .max(255, "Subdomain cannot exceed 255 characters")
+    .regex(/^[a-z0-9-]+$/, {
+      message:
+        "Subdomain can only contain lowercase letters, numbers, and hyphens",
+    })
 });
 
 export const uploadSchema = z.object({
@@ -265,4 +278,6 @@ export const createEmployeeSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Department is required",
   }),
+  externalEmployeeId: z.string().optional(),
+  isActive: z.boolean().default(true),
 });

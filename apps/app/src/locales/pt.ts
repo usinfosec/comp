@@ -112,7 +112,7 @@ export default {
       title: "Anexos",
       description: "Adicione um arquivo clicando em 'Adicionar Anexo'.",
       upload: "Carregar um anexo",
-      upload_description: "Carregue um anexo ou adicione um link a um recurso externo.",
+      upload_description: "Carregue um anexo ou adicione um link para um recurso externo.",
       drop: "Solte os arquivos aqui",
       drop_description: "Solte arquivos aqui ou clique para escolher arquivos do seu dispositivo.",
       drop_files_description: "Os arquivos podem ter até ",
@@ -136,6 +136,12 @@ export default {
         uploading_files: "Carregando {target}...",
         remove_file: "Remover arquivo"
       }
+    },
+    notifications: {
+      inbox: "Caixa de entrada",
+      archive: "Arquivo",
+      archive_all: "Arquivar tudo",
+      no_notifications: "Sem novas notificações"
     }
   },
   header: {
@@ -155,7 +161,7 @@ export default {
   not_found: {
     title: "404 - Página não encontrada",
     description: "A página que você está procurando não existe.",
-    "return": "Voltar ao painel"
+    "return": "Retornar ao painel"
   },
   theme: {
     options: {
@@ -171,7 +177,8 @@ export default {
     vendors: "Fornecedores",
     integrations: "Integrações",
     settings: "Configurações",
-    evidence: "Tarefas de Evidência"
+    evidence: "Tarefas de Evidência",
+    people: "Pessoas"
   },
   auth: {
     title: "Automatize a conformidade com SOC 2, ISO 27001 e GDPR com IA.",
@@ -202,10 +209,15 @@ export default {
       website: {
         label: "Website",
         placeholder: "O website da sua organização"
+      },
+      subdomain: {
+        label: "Subdomínio",
+        placeholder: "exemplo"
       }
     },
-    success: "Obrigado, você está pronto!",
-    error: "Algo deu errado, por favor tente novamente."
+    success: "Obrigado, tudo pronto!",
+    error: "Algo deu errado, por favor tente novamente.",
+    unavailable: "Por favor, escolha um subdomínio diferente. Apenas letras minúsculas, números e hífens são permitidos."
   },
   overview: {
     title: "Visão Geral",
@@ -260,15 +272,15 @@ export default {
       title: "Gestão de Fornecedores",
       dashboard: {
         title: "Painel de Fornecedores",
-        overview: "Visão Geral do Fornecedor",
+        overview: "Visão Geral dos Fornecedores",
         vendor_status: "Status do Fornecedor",
-        vendor_category: "Categorias de Fornecedores",
+        vendor_category: "Categorias de Fornecedor",
         vendors_by_assignee: "Fornecedores por Responsável",
-        inherent_risk_description: "Nível de risco inicial antes de qualquer controle ser aplicado",
-        residual_risk_description: "Nível de risco remanescente após a aplicação de controles"
+        inherent_risk_description: "Nível de risco inicial antes da aplicação de quaisquer controles",
+        residual_risk_description: "Nível de risco restante após a aplicação de controles"
       },
       register: {
-        title: "Registro de Fornecedores",
+        title: "Registro de Fornecedor",
         table: {
           name: "Nome",
           category: "Categoria",
@@ -306,13 +318,13 @@ export default {
         name: "Nome",
         category: "Categoria",
         status: "Status",
-        owner: "Responsável"
+        owner: "Proprietário"
       },
       filters: {
         search_placeholder: "Pesquisar fornecedores...",
         status_placeholder: "Filtrar por status",
         category_placeholder: "Filtrar por categoria",
-        owner_placeholder: "Filtrar por responsável"
+        owner_placeholder: "Filtrar por proprietário"
       },
       empty_states: {
         no_vendors: {
@@ -396,9 +408,9 @@ export default {
       create_risk_error: "Falha ao criar risco",
       risk_details: "Detalhes do Risco",
       risk_title: "Título do Risco",
-      risk_title_description: "Insira um nome para o risco",
+      risk_title_description: "Digite um nome para o risco",
       risk_description: "Descrição",
-      risk_description_description: "Insira uma descrição para o risco",
+      risk_description_description: "Digite uma descrição para o risco",
       risk_category: "Categoria",
       risk_category_placeholder: "Selecione uma categoria",
       risk_department: "Departamento",
@@ -415,9 +427,9 @@ export default {
         task_title: "Título da Tarefa",
         status: "Status da Tarefa",
         status_placeholder: "Selecione um status de tarefa",
-        task_title_description: "Insira um nome para a tarefa",
+        task_title_description: "Digite um nome para a tarefa",
         description: "Descrição",
-        description_description: "Insira uma descrição para a tarefa",
+        description_description: "Digite uma descrição para a tarefa",
         due_date: "Data de Vencimento",
         due_date_description: "Selecione a data de vencimento para a tarefa",
         success: "Tarefa criada com sucesso",
@@ -440,7 +452,7 @@ export default {
       org_name_description: "Este é o nome visível da sua organização. Você deve usar o nome legal da sua organização.",
       org_name_tip: "Por favor, use no máximo 32 caracteres.",
       org_website: "Website da Organização",
-      org_website_description: "Este é o URL oficial do website da sua organização. Certifique-se de incluir o URL completo com https://.",
+      org_website_description: "Este é o URL do website oficial da sua organização. Certifique-se de incluir o URL completo com https://.",
       org_website_tip: "Por favor, insira um URL válido incluindo https://",
       org_website_error: "Erro ao atualizar o website da organização",
       org_website_updated: "Website da organização atualizado",
@@ -462,7 +474,7 @@ export default {
       title: "Membros"
     },
     billing: {
-      title: "Cobrança"
+      title: "Faturamento"
     }
   },
   user_menu: {
@@ -478,7 +490,7 @@ export default {
     title: "Estruturas",
     controls: {
       title: "Controles",
-      description: "Revise e gerencie os controles de conformidade",
+      description: "Revise e gerencie controles de conformidade",
       table: {
         status: "Status",
         control: "Controle",
@@ -490,22 +502,51 @@ export default {
         compliant: "Conforme",
         non_compliant: "Não Conforme"
       }
+    },
+    overview: {
+      error: "Falha ao carregar frameworks",
+      loading: "Carregando frameworks...",
+      empty: {
+        title: "Nenhum framework selecionado",
+        description: "Selecione frameworks para começar sua jornada de conformidade"
+      },
+      progress: {
+        title: "Progresso do Framework",
+        empty: {
+          title: "Nenhum framework ainda",
+          description: "Comece adicionando um framework de conformidade para acompanhar seu progresso",
+          action: "Adicionar Framework"
+        }
+      },
+      grid: {
+        welcome: {
+          title: "Bem-vindo ao Comp AI",
+          description: "Comece selecionando os frameworks de conformidade que você gostaria de implementar. Nós o ajudaremos a gerenciar e acompanhar sua jornada de conformidade em múltiplos padrões.",
+          action: "Começar"
+        },
+        title: "Selecionar Frameworks",
+        version: "Versão",
+        actions: {
+          clear: "Limpar",
+          confirm: "Confirmar Seleção"
+        }
+      }
     }
   },
   vendor: {
     title: "Painel",
-    register_title: "Gestão de Fornecedores",
+    register_title: "Gerenciamento de Fornecedores",
     dashboard: {
       title: "Painel",
       overview: "Visão Geral do Fornecedor",
       vendor_status: "Status do Fornecedor",
       vendor_category: "Categorias de Fornecedor",
       vendors_by_assignee: "Fornecedores por Responsável",
-      inherent_risk_description: "Nível de risco inicial antes da aplicação de quaisquer controles",
+      inherent_risk_description: "Nível de risco inicial antes que quaisquer controles sejam aplicados",
       residual_risk_description: "Nível de risco restante após a aplicação de controles"
     },
     register: {
-      title: "Registro de Fornecedores",
+      title: "Registro de Fornecedor",
       table: {
         name: "Nome",
         category: "Categoria",
@@ -559,5 +600,65 @@ export default {
         description_with_filters: "Tente ajustar seus filtros"
       }
     }
+  },
+  people: {
+    title: "Pessoas",
+    details: {
+      taskProgress: "Progresso da Tarefa",
+      tasks: "Tarefas",
+      noTasks: "Nenhuma tarefa atribuída ainda"
+    },
+    description: "Gerencie os membros da sua equipe e seus papéis.",
+    filters: {
+      search: "Pesquisar pessoas...",
+      role: "Filtrar por papel"
+    },
+    actions: {
+      invite: "Adicionar Funcionário",
+      clear: "Limpar filtros"
+    },
+    table: {
+      name: "Nome",
+      email: "Email",
+      department: "Departamento",
+      externalId: "ID Externo"
+    },
+    empty: {
+      no_employees: {
+        title: "Nenhum funcionário ainda",
+        description: "Comece convidando seu primeiro membro da equipe."
+      },
+      no_results: {
+        title: "Nenhum resultado encontrado",
+        description: "Nenhum funcionário corresponde à sua pesquisa",
+        description_with_filters: "Tente ajustar seus filtros"
+      }
+    },
+    invite: {
+      title: "Adicionar Funcionário",
+      description: "Adicione um funcionário à sua organização.",
+      email: {
+        label: "Endereço de email",
+        placeholder: "Digite o endereço de email"
+      },
+      role: {
+        label: "Função",
+        placeholder: "Selecione uma função"
+      },
+      name: {
+        label: "Nome",
+        placeholder: "Digite o nome"
+      },
+      department: {
+        label: "Departamento",
+        placeholder: "Selecione um departamento"
+      },
+      submit: "Adicionar Funcionário",
+      success: "Funcionário adicionado com sucesso",
+      error: "Falha ao adicionar funcionário"
+    }
+  },
+  errors: {
+    unexpected: "Algo deu errado, por favor tente novamente"
   }
 } as const;

@@ -16,6 +16,7 @@ export const Analytics = {
     if (!clientInstance) {
       posthog.init(config.apiKey, {
         api_host: config.apiHost,
+        ui_host: "https://us.posthog.com",
         person_profiles: "always",
         capture_pageview: true,
         capture_pageleave: true,

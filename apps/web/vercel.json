@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://bubbaaiinc.mintlify.dev/docs/introduction"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://bubbaaiinc.mintlify.dev/docs/:match*"
+    }
+  ]
+}

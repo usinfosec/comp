@@ -21,11 +21,14 @@
     "@auth/prisma-adapter": "^2.7.2",
     "@neondatabase/serverless": "^0.10.4",
     "@prisma/adapter-neon": "^6.1.0",
-    "@prisma/client": "^6.3.0",
-    "prisma": "^6.3.0"
+    "@prisma/client": "^6.3.1",
+    "prisma": "^6.3.1"
   },
   "devDependencies": {
     "@bubba/tsconfig": "workspace:*",
     "typescript": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

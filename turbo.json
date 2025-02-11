@@ -1,6 +1,8 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": ["**/.env"],
+  "globalDependencies": [
+    "**/.env"
+  ],
   "ui": "stream",
   "tasks": {
     "clean-react": {
@@ -25,12 +27,27 @@
         "UPLOADTHING_TOKEN",
         "NEXT_PUBLIC_GOOGLE_TAG_ID",
         "DISCORD_WEBHOOK_URL",
-        "NANGO_SECRET_KEY",
-        "TRIGGER_SECRET_KEY"
+        "TRIGGER_SECRET_KEY",
+        "VERCEL_AUTH_TOKEN",
+        "VERCEL_TEAM_ID",
+        "VERCEL_PROJECT_ID",
+        "NEXT_PUBLIC_VERCEL_URL",
+        "NOVU_API_KEY"
       ],
-      "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build", "^db:generate", "clean-react"],
-      "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^build",
+        "^db:generate",
+        "clean-react"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "next-env.d.ts"
+      ]
     },
     "db:generate": {
       "cache": false
@@ -45,17 +62,28 @@
       "cache": false
     },
     "dev": {
-      "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^db:generate"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^db:generate"
+      ],
       "persistent": true,
       "cache": false
     },
     "lint": {
-      "dependsOn": ["^topo"]
+      "dependsOn": [
+        "^topo"
+      ]
     },
     "typecheck": {
-      "dependsOn": ["^topo"],
-      "outputs": ["node_modules/.cache/tsbuildinfo.json"]
+      "dependsOn": [
+        "^topo"
+      ],
+      "outputs": [
+        "node_modules/.cache/tsbuildinfo.json"
+      ]
     }
   }
 }
