@@ -11,6 +11,9 @@ CREATE TYPE "Role" AS ENUM ('member', 'admin');
 CREATE TYPE "Departments" AS ENUM ('none', 'admin', 'gov', 'hr', 'it', 'itsm', 'qms');
 
 -- CreateEnum
+CREATE TYPE "RequirementType" AS ENUM ('policy', 'file', 'link', 'procedure', 'evidence', 'training');
+
+-- CreateEnum
 CREATE TYPE "FrameworkStatus" AS ENUM ('not_started', 'in_progress', 'compliant', 'non_compliant');
 
 -- CreateEnum
@@ -54,6 +57,9 @@ CREATE TYPE "MembershipRole" AS ENUM ('owner', 'admin', 'member', 'viewer');
 
 -- CreateEnum
 CREATE TYPE "EmployeeTaskStatus" AS ENUM ('assigned', 'in_progress', 'completed', 'overdue');
+
+-- CreateEnum
+CREATE TYPE "PolicyStatus" AS ENUM ('draft', 'published', 'archived');
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -105,6 +111,7 @@ CREATE TABLE "Organization" (
     "id" TEXT NOT NULL,
     "stripeCustomerId" TEXT,
     "name" TEXT NOT NULL,
+    "subdomain" TEXT NOT NULL,
     "website" TEXT NOT NULL,
     "tier" "Tier" NOT NULL DEFAULT 'free',
     "policiesCreated" BOOLEAN NOT NULL DEFAULT false,
@@ -183,8 +190,8 @@ CREATE TABLE "Control" (
     "code" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "categoryId" TEXT NOT NULL,
-    "requiredArtifactTypes" "ArtifactType"[],
+    "domain" TEXT,
+    "frameworkCategoryId" TEXT,
 
     CONSTRAINT "Control_pkey" PRIMARY KEY ("id")
 );
@@ -269,6 +276,7 @@ CREATE TABLE "RiskMitigationTask" (
     "description" TEXT NOT NULL,
     "status" "RiskTaskStatus" NOT NULL DEFAULT 'open',
     "dueDate" TIMESTAMP(3),
+    "notifiedAt" TIMESTAMP(3),
     "completedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -518,8 +526,9 @@ CREATE TABLE "Policy" (
     "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "template" TEXT NOT NULL,
+    "content" JSONB[],
     "version" TEXT,
+    "usedBy" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -561,6 +570,41 @@ CREATE TABLE "EmployeePolicyAcceptance" (
     CONSTRAINT "EmployeePolicyAcceptance_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "PolicyControl" (
+    "id" TEXT NOT NULL,
+    "policyId" TEXT NOT NULL,
+    "controlId" TEXT NOT NULL,
+
+    CONSTRAINT "PolicyControl_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ControlRequirement" (
+    "id" TEXT NOT NULL,
+    "controlId" TEXT NOT NULL,
+    "type" "RequirementType" NOT NULL,
+    "description" TEXT,
+    "policyId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ControlRequirement_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrganizationPolicy" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "status" "PolicyStatus" NOT NULL DEFAULT 'draft',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "policyId" TEXT NOT NULL,
+    "content" JSONB[],
+
+    CONSTRAINT "OrganizationPolicy_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE INDEX "Account_userId_idx" ON "Account"("userId");
 
@@ -581,6 +625,9 @@ CREATE INDEX "User_email_idx" ON "User"("email");
 
 -- CreateIndex
 CREATE INDEX "User_organizationId_idx" ON "User"("organizationId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Organization_subdomain_key" ON "Organization"("subdomain");
 
 -- CreateIndex
 CREATE INDEX "Organization_stripeCustomerId_idx" ON "Organization"("stripeCustomerId");
@@ -622,7 +669,7 @@ CREATE INDEX "FrameworkCategory_frameworkId_idx" ON "FrameworkCategory"("framewo
 CREATE UNIQUE INDEX "Control_code_key" ON "Control"("code");
 
 -- CreateIndex
-CREATE INDEX "Control_categoryId_idx" ON "Control"("categoryId");
+CREATE INDEX "Control_frameworkCategoryId_idx" ON "Control"("frameworkCategoryId");
 
 -- CreateIndex
 CREATE INDEX "OrganizationControl_organizationId_idx" ON "OrganizationControl"("organizationId");
@@ -810,6 +857,21 @@ CREATE UNIQUE INDEX "PolicyFramework_policyId_frameworkId_key" ON "PolicyFramewo
 -- CreateIndex
 CREATE UNIQUE INDEX "EmployeePolicyAcceptance_employeeId_policyId_key" ON "EmployeePolicyAcceptance"("employeeId", "policyId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "PolicyControl_policyId_controlId_key" ON "PolicyControl"("policyId", "controlId");
+
+-- CreateIndex
+CREATE INDEX "ControlRequirement_controlId_idx" ON "ControlRequirement"("controlId");
+
+-- CreateIndex
+CREATE INDEX "OrganizationPolicy_organizationId_idx" ON "OrganizationPolicy"("organizationId");
+
+-- CreateIndex
+CREATE INDEX "OrganizationPolicy_policyId_idx" ON "OrganizationPolicy"("policyId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationPolicy_organizationId_policyId_key" ON "OrganizationPolicy"("organizationId", "policyId");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -841,7 +903,7 @@ ALTER TABLE "OrganizationFramework" ADD CONSTRAINT "OrganizationFramework_framew
 ALTER TABLE "FrameworkCategory" ADD CONSTRAINT "FrameworkCategory_frameworkId_fkey" FOREIGN KEY ("frameworkId") REFERENCES "Framework"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Control" ADD CONSTRAINT "Control_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "FrameworkCategory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Control" ADD CONSTRAINT "Control_frameworkCategoryId_fkey" FOREIGN KEY ("frameworkCategoryId") REFERENCES "FrameworkCategory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OrganizationControl" ADD CONSTRAINT "OrganizationControl_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1022,3 +1084,22 @@ ALTER TABLE "EmployeePolicyAcceptance" ADD CONSTRAINT "EmployeePolicyAcceptance_
 
 -- AddForeignKey
 ALTER TABLE "EmployeePolicyAcceptance" ADD CONSTRAINT "EmployeePolicyAcceptance_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PolicyControl" ADD CONSTRAINT "PolicyControl_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PolicyControl" ADD CONSTRAINT "PolicyControl_controlId_fkey" FOREIGN KEY ("controlId") REFERENCES "Control"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ControlRequirement" ADD CONSTRAINT "ControlRequirement_controlId_fkey" FOREIGN KEY ("controlId") REFERENCES "Control"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ControlRequirement" ADD CONSTRAINT "ControlRequirement_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationPolicy" ADD CONSTRAINT "OrganizationPolicy_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationPolicy" ADD CONSTRAINT "OrganizationPolicy_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
