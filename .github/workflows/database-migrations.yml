@@ -7,14 +7,48 @@ on:
     paths:
       - "packages/db/prisma/schema.prisma"
       - "packages/db/prisma/migrations/**"
+  pull_request:
+    paths:
+      - "packages/db/prisma/schema.prisma"
+      - "packages/db/prisma/migrations/**"
   workflow_dispatch: # Allows manual triggering
 
 env:
   NODE_VERSION: "20.x"
 
 jobs:
+  check-migrations:
+    name: Check Migrations
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check migration diff
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_PROD }}
+        run: |
+          cd packages/db
+          # Show what changes would be applied
+          npx prisma migrate diff \
+            --from-url "$DATABASE_URL" \
+            --to-schema-datamodel ./prisma/schema.prisma \
+            --exit-code
+
   migrate:
     name: Run Database Migrations
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
