@@ -6,9 +6,7 @@
     "name": "Access Onboarding and Termination Policy",
     "description": "This policy outlines the procedures for onboarding and offboarding users to technical infrastructure.",
     "usedBy": {
-      "soc2": {
-        "CC6": ["CC6.1", "CC6.2", "CC6.3"]
-      }
+      "soc2": ["CC6.1", "CC6.2", "CC6.4", "CC6.8"]
     }
   },
   "content": [

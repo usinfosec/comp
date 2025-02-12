@@ -43,5 +43,25 @@
     "name": "CC9: Risk Mitigation",
     "code": "CC9",
     "description": "This criterion ensures that the organization has a process for mitigating risks to its security posture."
+  },
+  "A1": {
+    "name": "A1: Availability",
+    "code": "A1",
+    "description": "This criterion ensures that systems are available for operation and use as committed or agreed."
+  },
+  "C1": {
+    "name": "C1: Data Integrity",
+    "code": "C1",
+    "description": "This criterion ensures that data is accurate, complete, and consistent."
+  },
+  "PI1": {
+    "name": "PI1: Processing Integrity",
+    "code": "PI1",
+    "description": "This criterion ensures that data is accurate, complete, and consistent."
+  },
+  "P1": {
+    "name": "P1: Privacy",
+    "code": "P1",
+    "description": "This criterion ensures that data is accurate, complete, and consistent."
   }
 }
