@@ -14,19 +14,6 @@ import type { JsonValue } from "@prisma/client/runtime/library";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("\n🗑️  Cleaning up existing data...");
-  // For testing, we will delete all existing data, except for the users.
-  await prisma.policyControl.deleteMany();
-  await prisma.policyFramework.deleteMany();
-  await prisma.controlRequirement.deleteMany();
-  await prisma.control.deleteMany();
-  await prisma.frameworkCategory.deleteMany();
-  await prisma.framework.deleteMany();
-  await prisma.policy.deleteMany();
-  await prisma.organizationPolicy.deleteMany();
-  await prisma.organizationFramework.deleteMany();
-  console.log("✅ Database cleaned");
-
   console.log("\n📋 Seeding policies...");
   await seedPolicies();
   console.log("✅ Policies seeded");
