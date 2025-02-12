@@ -9,7 +9,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
 
   if (!policy) return null;
 
-  const content = policy.policy.content as JSONContent;
+  const content = policy.content as JSONContent;
 
   if (!content) return null;
 

@@ -945,6 +945,8 @@ model OrganizationPolicy {
   policyId String
   policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
 
+  content Json[]
+
   @@unique([organizationId, policyId])
   @@index([organizationId])
   @@index([policyId])
