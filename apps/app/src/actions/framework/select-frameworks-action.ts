@@ -4,6 +4,7 @@ import { db, type Policy, type User } from "@bubba/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
 import type { ActionData } from "../types";
+import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 const selectFrameworksSchema = z.object({
   frameworkIds: z.array(z.string()),
@@ -136,6 +137,7 @@ const createOrganizationPolicy = async (user: User, frameworkIds: string[]) => {
       organizationId: user.organizationId!,
       policyId: policy.id,
       status: "draft",
+      content: policy.content as InputJsonValue[],
     })),
   });
 

@@ -844,7 +844,7 @@ model Policy {
   slug        String   @unique
   name        String
   description String?
-  template    String
+  content     Json[]
   version     String?
   usedBy      Json
   createdAt   DateTime @default(now())
@@ -944,6 +944,8 @@ model OrganizationPolicy {
 
   policyId String
   policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  content Json[]
 
   @@unique([organizationId, policyId])
   @@index([organizationId])

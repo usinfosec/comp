@@ -1,19 +1,30 @@
-import { PrismaClient, type RequirementType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import type { RequirementType, Prisma } from "@prisma/client";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import fs from "node:fs";
-import type { FrameworkCategory, Framework, Control } from "./seedTypes";
+import type {
+  FrameworkCategory,
+  Framework,
+  Control,
+  Policy,
+} from "./seedTypes";
+import type { JsonValue } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("\n🗑️  Cleaning up existing data...");
   // For testing, we will delete all existing data, except for the users.
-  await prisma.framework.deleteMany();
-  await prisma.frameworkCategory.deleteMany();
-  await prisma.policy.deleteMany();
-  await prisma.control.deleteMany();
+  await prisma.policyControl.deleteMany();
+  await prisma.policyFramework.deleteMany();
   await prisma.controlRequirement.deleteMany();
+  await prisma.control.deleteMany();
+  await prisma.frameworkCategory.deleteMany();
+  await prisma.framework.deleteMany();
+  await prisma.policy.deleteMany();
+  await prisma.organizationPolicy.deleteMany();
+  await prisma.organizationFramework.deleteMany();
   console.log("✅ Database cleaned");
 
   console.log("\n📋 Seeding policies...");
@@ -52,23 +63,23 @@ async function seedPolicies() {
     console.log(`  ⏳ Processing ${file}...`);
     const policyData = JSON.parse(
       readFileSync(join(policiesDir, file), "utf8")
-    );
+    ) as Policy;
 
     await prisma.policy.upsert({
-      where: { id: policyData.id },
+      where: { id: policyData.metadata.id },
       update: {
-        name: policyData.name,
-        description: policyData.description,
-        template: policyData.template,
-        usedBy: policyData.usedBy,
+        name: policyData.metadata.name,
+        description: policyData.metadata.description,
+        content: policyData.content as Prisma.InputJsonValue[],
+        usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
       },
       create: {
-        id: policyData.id,
-        slug: policyData.slug,
-        name: policyData.name,
-        description: policyData.description,
-        template: policyData.template,
-        usedBy: policyData.usedBy,
+        id: policyData.metadata.id,
+        slug: policyData.metadata.slug,
+        name: policyData.metadata.name,
+        description: policyData.metadata.description,
+        content: policyData.content as Prisma.InputJsonValue[],
+        usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
       },
     });
     console.log(`  ✅ ${file} processed`);
@@ -194,6 +205,7 @@ async function seedFrameworkCategoryControls(
         frameworkCategoryId: categoryCode,
       },
       create: {
+        // Use the control code (e.g. CC1.1) as both the id and code
         id: controlCode,
         code: controlCode,
         name: controlData.name,
@@ -208,13 +220,27 @@ async function seedFrameworkCategoryControls(
       `          📝 Processing ${controlData.requirements.length} requirements for ${controlCode}`
     );
     for (const requirement of controlData.requirements) {
+      // For policy requirements, verify the policy exists first
+      if (requirement.type === "policy" && requirement.policyId) {
+        const policy = await prisma.policy.findUnique({
+          where: { id: requirement.policyId },
+        });
+
+        if (!policy) {
+          console.log(
+            `  ⚠️  Policy ${requirement.policyId} not found for requirement ${requirement.id}, skipping`
+          );
+          continue;
+        }
+      }
+
       await prisma.controlRequirement.upsert({
         where: {
           id: requirement.id,
         },
         create: {
           id: requirement.id,
-          controlId: insertedControl.id,
+          controlId: controlCode,
           type: requirement.type as RequirementType,
           description: requirement.description,
           policyId:
@@ -247,39 +273,53 @@ async function seedPolicyFramework() {
       continue;
     }
 
-    for (const [frameworkId, categories] of Object.entries(
+    for (const [frameworkId, controlCodes] of Object.entries(
       policy.usedBy as Record<string, string[]>
     )) {
-      // Upsert the policy framework mapping.
+      // First verify the framework exists
+      const framework = await prisma.framework.findUnique({
+        where: { id: frameworkId },
+      });
+
+      if (!framework) {
+        console.log(`  ⚠️  Framework ${frameworkId} not found, skipping`);
+        continue;
+      }
+
+      // Upsert the policy framework mapping
       await prisma.policyFramework.upsert({
         where: { id: `${frameworkId}_${policy.id}` },
         update: {
           policyId: policy.id,
-          frameworkId: frameworkId as string,
+          frameworkId: frameworkId,
         },
         create: {
           id: `${frameworkId}_${policy.id}`,
           policyId: policy.id,
-          frameworkId: frameworkId as string,
+          frameworkId: frameworkId,
         },
       });
 
-      for (const [categoryCode, controlCodes] of Object.entries(categories)) {
-        for (const controlCode of controlCodes) {
-          // Upsert the policy control mapping.
-          await prisma.policyControl.upsert({
-            where: { id: `${frameworkId}_${categoryCode}_${controlCode}` },
-            update: {
-              policyId: policy.id,
-              controlId: controlCode,
-            },
-            create: {
-              id: `${frameworkId}_${categoryCode}_${controlCode}`,
-              policyId: policy.id,
-              controlId: controlCode,
-            },
-          });
-        }
+      // For each control code, create the policy control mapping directly
+      for (const controlCode of controlCodes) {
+        console.log(
+          `          ⏳ Mapping control ${controlCode} to policy ${policy.name}`
+        );
+        // Now create the policy control mapping using the control code directly
+        await prisma.policyControl.upsert({
+          where: {
+            id: `${frameworkId}_${policy.id}_${controlCode}`,
+          },
+          update: {
+            policyId: policy.id,
+            controlId: controlCode, // Use the control code directly
+          },
+          create: {
+            id: `${frameworkId}_${policy.id}_${controlCode}`,
+            policyId: policy.id,
+            controlId: controlCode, // Use the control code directly
+          },
+        });
       }
     }
     console.log(`  ✅ Policy ${policy.name} mapped`);

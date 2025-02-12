@@ -1,9 +1,8 @@
 "use client";
 
-import { PoliciesByAssignee } from "@/components/policies/charts/policies-by-assignee";
 import { PoliciesByFramework } from "@/components/policies/charts/policies-by-framework";
-import { usePolicies } from "../hooks/usePolicies";
 import { Skeleton } from "@bubba/ui/skeleton";
+import { usePolicies } from "../../hooks/usePolicies";
 
 export function PoliciesOverview() {
   const { data, isLoading, error } = usePolicies();

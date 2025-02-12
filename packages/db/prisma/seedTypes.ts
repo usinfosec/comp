@@ -1,3 +1,5 @@
+import type { JsonArray } from "@prisma/client/runtime/library";
+
 export interface Framework {
   name: string;
   description: string;
@@ -22,4 +24,18 @@ export interface ControlRequirement {
   type: string;
   description: string;
   policyId?: string;
+}
+
+export interface Policy {
+  metadata: {
+    id: string;
+    slug: string;
+    name: string;
+    description: string;
+    type: string;
+    usedBy: {
+      [key: string]: string[];
+    };
+  };
+  content: JsonArray;
 }
