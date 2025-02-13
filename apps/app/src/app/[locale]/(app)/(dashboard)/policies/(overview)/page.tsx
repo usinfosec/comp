@@ -3,7 +3,7 @@ import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { PoliciesOverview } from "./Components/PoliciesOverview";
+import { PoliciesOverview } from "./components/PoliciesOverview";
 
 export default async function PoliciesOverviewPage({
   params,

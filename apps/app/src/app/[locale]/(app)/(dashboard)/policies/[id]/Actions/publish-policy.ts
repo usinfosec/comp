@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db, type OrganizationPolicy } from "@bubba/db";
+import { type OrganizationPolicy, db } from "@bubba/db";
 import { z } from "zod";
 
 const schema = z.object({

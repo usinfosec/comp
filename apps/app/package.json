@@ -10,6 +10,8 @@
     "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^1.1.7",
+    "@ai-sdk/google": "^1.1.12",
     "@browserbasehq/sdk": "^2.3.0",
     "@bubba/notifications": "workspace:*",
     "@date-fns/tz": "^1.2.0",
@@ -37,6 +39,7 @@
     "@types/xml2js": "^0.4.14",
     "@uploadthing/react": "^7.2.0",
     "@upstash/ratelimit": "^2.0.5",
+    "ai": "^4.1.37",
     "argon2": "^0.41.1",
     "bun": "^1.2.2",
     "crypto": "^1.0.1",
@@ -73,6 +76,7 @@
     "resend": "^4.1.2",
     "sonner": "^1.7.4",
     "stripe": "^17.6.0",
+    "tiptap-extension-global-drag-handle": "^0.1.17",
     "tiptap-markdown": "^0.8.10",
     "ts-pattern": "^5.6.2",
     "uploadthing": "^7.5.0",

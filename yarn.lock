@@ -3,6 +3,22 @@
 # bun ./bun.lockb --hash: 0000000000000000-0000000000000000-0000000000000000-0000000000000000
 
 
+"@ai-sdk/anthropic@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.npmjs.org/@ai-sdk/anthropic/-/anthropic-1.1.7.tgz"
+  integrity sha512-d/w9VUah/KVxOj1BRdzPFJGtHG5/XcPYbvjnRSwm9hA5bzlP+Yl6f1EdabPruUOTDTG+dkYuccQkBe+5xPmF8A==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.7"
+
+"@ai-sdk/google@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.npmjs.org/@ai-sdk/google/-/google-1.1.12.tgz"
+  integrity sha512-SlS6q6TtgwkSHV/bp11rH+n+mMhTATPpecoqsTg9A/MmcopCkO5BCg3AnVX2peDYpBiboBjr9bg1L5FoMJr7sw==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.7"
+
 "@ai-sdk/openai@^0.0.66":
   version "0.0.66"
   resolved "https://registry.npmjs.org/@ai-sdk/openai/-/openai-0.0.66.tgz"
@@ -22,6 +38,13 @@
   version "0.0.26"
   resolved "https://registry.npmjs.org/@ai-sdk/provider/-/provider-0.0.26.tgz"
   integrity sha512-dQkfBDs2lTYpKM8389oopPdQgIU007GQyCbuPPrV+K6MtSII3HBfE0stUIMXUb44L+LK1t6GXPP7wjSzjO6uKg==
+  dependencies:
+    json-schema "^0.4.0"
+
+"@ai-sdk/provider@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@ai-sdk/provider/-/provider-1.0.7.tgz"
+  integrity sha512-q1PJEZ0qD9rVR+8JFEd01/QM++csMT5UVwYXSN2u54BrVw/D8TZLTeg2FEfKK00DgAx0UtWd8XOhhwITP9BT5g==
   dependencies:
     json-schema "^0.4.0"
 
@@ -45,6 +68,16 @@
     nanoid "^3.3.7"
     secure-json-parse "^2.7.0"
 
+"@ai-sdk/provider-utils@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@ai-sdk/provider-utils/-/provider-utils-2.1.7.tgz"
+  integrity sha512-5pliIKahXPlx3PZNBL3TtOBosFftoCq8bUNYdLi2M3YPBdQen9G9mR1BCrhC5hhEk4i3XTM8boqYeuRN6kLfsA==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    eventsource-parser "^3.0.0"
+    nanoid "^3.3.8"
+    secure-json-parse "^2.7.0"
+
 "@ai-sdk/react@0.0.70":
   version "0.0.70"
   resolved "https://registry.npmjs.org/@ai-sdk/react/-/react-0.0.70.tgz"
@@ -52,6 +85,16 @@
   dependencies:
     "@ai-sdk/provider-utils" "1.0.22"
     "@ai-sdk/ui-utils" "0.0.50"
+    swr "^2.2.5"
+    throttleit "2.1.0"
+
+"@ai-sdk/react@1.1.13":
+  version "1.1.13"
+  resolved "https://registry.npmjs.org/@ai-sdk/react/-/react-1.1.13.tgz"
+  integrity sha512-gA4eJnElSDEaPjf38VYb2Grz6B4a9o9IXjm7wF1DeyED8LX4xrllzZL8nathyQlj644yQPLzpO2yy83pQCDolQ==
+  dependencies:
+    "@ai-sdk/provider-utils" "2.1.7"
+    "@ai-sdk/ui-utils" "1.1.13"
     swr "^2.2.5"
     throttleit "2.1.0"
 
@@ -82,6 +125,15 @@
     json-schema "^0.4.0"
     secure-json-parse "^2.7.0"
     zod-to-json-schema "^3.23.3"
+
+"@ai-sdk/ui-utils@1.1.13":
+  version "1.1.13"
+  resolved "https://registry.npmjs.org/@ai-sdk/ui-utils/-/ui-utils-1.1.13.tgz"
+  integrity sha512-79NmeAugHibjKxZDOTwkkmqsC5AgPDfsxEP5pcXF4dnyPIPdPaR3uESIyJ6W3a919/DCasnJBvYwV0h5rhc5fA==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.7"
+    zod-to-json-schema "^3.24.1"
 
 "@ai-sdk/vue@0.0.59":
   version "0.0.59"
@@ -360,19 +412,18 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-"@bubba/analytics@^workspace:packages/analytics":
+"@bubba/analytics@packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/db@^workspace:packages/db", "@bubba/db@workspace:*":
+"@bubba/db@packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
-  devDependencies:
     typescript "^5.7.3"
   dependencies:
     "@auth/prisma-adapter" "^2.7.4"
@@ -381,7 +432,7 @@
     "@prisma/client" "^6.3.1"
     prisma "^6.3.1"
 
-"@bubba/email@^workspace:packages/email":
+"@bubba/email@packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -401,27 +452,28 @@
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
-"@bubba/integrations@^workspace:packages/integrations":
+"@bubba/integrations@packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
-    "@types/node" "^22.7.4"
-    typescript "^5.6.3"
+    "@types/node" "^22.13.2"
+    typescript "^5.7.3"
   dependencies:
     "@ai-sdk/openai" "^0.0.66"
     "@slack/bolt" "^3.22.0"
-    "@slack/web-api" "^7.5.0"
-    ai "^3.4.9"
-    zod "^3.23.8"
+    "@slack/web-api" "^7.8.0"
+    ai "^3.4.33"
+    sharp "^0.33.5"
+    zod "^3.24.2"
 
-"@bubba/kv@^workspace:packages/kv":
+"@bubba/kv@packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "^0.0.1"
 
-"@bubba/notifications@^workspace:packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -430,11 +482,11 @@
     "@novu/node" "^2.0.1"
     nanoid "^5.0.7"
 
-"@bubba/tsconfig@^workspace:packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@^workspace:packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -497,7 +549,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@^workspace:packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -2898,7 +2950,7 @@
     p-queue "^6.6.1"
     p-retry "^4.0.0"
 
-"@slack/web-api@^7.5.0":
+"@slack/web-api@^7.8.0":
   version "7.8.0"
   resolved "https://registry.npmjs.org/@slack/web-api/-/web-api-7.8.0.tgz"
   integrity sha512-d4SdG+6UmGdzWw38a4sN3lF/nTEzsDxhzU13wm10ejOpPehtmRoqBKnPztQUfFiWbNvSb4czkWYJD4kt+5+Fuw==
@@ -3635,7 +3687,7 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@*", "@types/node@>=10.0.0", "@types/node@>=12", "@types/node@>=13.7.0", "@types/node@>=18.0.0", "@types/node@>=8.1.0", "@types/node@^22.10.6", "@types/node@^22.13.2", "@types/node@^22.7.4":
+"@types/node@*", "@types/node@>=10.0.0", "@types/node@>=12", "@types/node@>=13.7.0", "@types/node@>=18.0.0", "@types/node@>=8.1.0", "@types/node@^22.10.6", "@types/node@^22.13.2":
   version "22.13.2"
   resolved "https://registry.npmjs.org/@types/node/-/node-22.13.2.tgz"
   integrity sha512-Z+r8y3XL9ZpI2EY52YYygAFmo2/oWfNSj4BCpAXE2McAexDk8VcnBMGC9Djn9gTKt4d2T/hhXqmPzo4hfIXtTg==
@@ -3959,7 +4011,7 @@ agentkeepalive@^4.2.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-ai@^3.4.9:
+ai@^3.4.33:
   version "3.4.33"
   resolved "https://registry.npmjs.org/ai/-/ai-3.4.33.tgz"
   integrity sha512-plBlrVZKwPoRTmM8+D1sJac9Bq8eaa2jiZlHLZIWekKWI1yMWYZvCCEezY9ASPwRhULYDJB2VhKOBUUeg3S5JQ==
@@ -3977,6 +4029,18 @@ ai@^3.4.9:
     jsondiffpatch "0.6.0"
     secure-json-parse "^2.7.0"
     zod-to-json-schema "^3.23.3"
+
+ai@^4.1.37:
+  version "4.1.37"
+  resolved "https://registry.npmjs.org/ai/-/ai-4.1.37.tgz"
+  integrity sha512-muE4XDrggYKGDM3o1pXpSvJqn2CGz7h30EQtaDgph9Hqmc5d2AfgFftXgl+YNbmr1kYrUR2HZS/Q0Y2QWAwsHA==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.7"
+    "@ai-sdk/react" "1.1.13"
+    "@ai-sdk/ui-utils" "1.1.13"
+    "@opentelemetry/api" "1.9.0"
+    jsondiffpatch "0.6.0"
 
 ajv@^6.12.3:
   version "6.12.6"
@@ -4689,12 +4753,11 @@ commander@11.1.0:
   resolved "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz"
   integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
 
-comp.ai@^workspace:apps/app:
+"comp.ai@apps/app":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
     "@bubba/db" "workspace:*"
-  devDependencies:
     "@trigger.dev/build" "3.3.13"
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"
@@ -4703,10 +4766,10 @@ comp.ai@^workspace:apps/app:
     tailwindcss "^3.4.17"
     typescript "^5.7.3"
   dependencies:
+    "@ai-sdk/anthropic" "^1.1.7"
+    "@ai-sdk/google" "^1.1.12"
     "@browserbasehq/sdk" "^2.3.0"
-  dependencies:
     "@bubba/notifications" "workspace:*"
-  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.48.4"
@@ -4732,6 +4795,7 @@ comp.ai@^workspace:apps/app:
     "@types/xml2js" "^0.4.14"
     "@uploadthing/react" "^7.2.0"
     "@upstash/ratelimit" "^2.0.5"
+    ai "^4.1.37"
     argon2 "^0.41.1"
     bun "^1.2.2"
     crypto "^1.0.1"
@@ -4768,6 +4832,7 @@ comp.ai@^workspace:apps/app:
     resend "^4.1.2"
     sonner "^1.7.4"
     stripe "^17.6.0"
+    tiptap-extension-global-drag-handle "^0.1.17"
     tiptap-markdown "^0.8.10"
     ts-pattern "^5.6.2"
     uploadthing "^7.5.0"
@@ -10941,7 +11006,7 @@ tippy.js@^6.3.7:
   dependencies:
     "@popperjs/core" "^2.9.0"
 
-tiptap-extension-global-drag-handle@^0.1.16:
+tiptap-extension-global-drag-handle@^0.1.16, tiptap-extension-global-drag-handle@^0.1.17:
   version "0.1.17"
   resolved "https://registry.npmjs.org/tiptap-extension-global-drag-handle/-/tiptap-extension-global-drag-handle-0.1.17.tgz"
   integrity sha512-ISbX0NhIf9R2kpXHeDW37C5IpFKPNv9A5zkWo0lr4BpkofiNDoCMYOJV+EZ9mRFA7C2YuXNz4lr1YBtH9urbkA==
@@ -11513,7 +11578,7 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web@^workspace:apps/web:
+"web@apps/web":
   version "workspace:apps/web"
   resolved "workspace:apps/web"
   devDependencies:
@@ -11872,7 +11937,7 @@ zod@3.23.8:
   resolved "https://registry.npmjs.org/zod/-/zod-3.23.8.tgz"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.1:
+"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.24.1, zod@^3.24.2:
   version "3.24.2"
   resolved "https://registry.npmjs.org/zod/-/zod-3.24.2.tgz"
   integrity sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==
@@ -11884,7 +11949,7 @@ zod-error@1.5.0:
   dependencies:
     zod "^3.20.2"
 
-zod-to-json-schema@^3.23.3:
+zod-to-json-schema@^3.23.3, zod-to-json-schema@^3.24.1:
   version "3.24.1"
   resolved "https://registry.npmjs.org/zod-to-json-schema/-/zod-to-json-schema-3.24.1.tgz"
   integrity sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==

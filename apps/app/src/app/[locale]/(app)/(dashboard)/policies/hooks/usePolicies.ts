@@ -1,8 +1,8 @@
 "use client";
 
-import { getPolicies } from "../Actions/get-policies";
-import useSWR from "swr";
-import type { OrganizationPolicy } from "@bubba/db";
+import type tyOrganizationPolicyzationPol@bubbaodb
+  import useSWR from "swr";
+import PogetPoliciesactionsig../actionsiget-policieseseseseses";
 
 const POLICIES_OVERVIEW_KEY = "policies-overview";
 
