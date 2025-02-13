@@ -188,8 +188,8 @@ async function seedFrameworkCategoryControls(
   const controlsData = JSON.parse(controls) as Record<string, Control>;
 
   const filteredControlsData = Object.fromEntries(
-    Object.entries(controlsData).filter(([code, data]) =>
-      code.includes(categoryCode)
+    Object.entries(controlsData).filter(
+      ([_, data]) => data.categoryId === categoryCode
     )
   );
 

@@ -12,11 +12,20 @@ export interface FrameworkCategory {
   code: string;
 }
 
+export interface Requirement {
+  id: string;
+  type: string;
+  description: string;
+  policyId?: string;
+}
+
 export interface Control {
   name: string;
   description: string;
+  code: string;
   domain: string;
-  requirements: ControlRequirement[];
+  categoryId: string;
+  requirements: Requirement[];
 }
 
 export interface ControlRequirement {
