@@ -21,8 +21,6 @@ export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
   const { data: organizationCategories } =
     useOrganizationCategories(frameworkId);
 
-  console.log({ organizationCategories, frameworkId });
-
   if (!organizationCategories) {
     return null;
   }
