@@ -21,8 +21,6 @@ export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
   const { data: organizationFramework } = useOrganizationFramework(frameworkId);
   console.log({ organizationFramework });
 
-  return null;
-
   // Calculate compliance metrics
   const totalControls = data?.categories.reduce(
     (acc, cat) => acc + cat.controls.length,
