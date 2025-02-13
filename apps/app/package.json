@@ -10,9 +10,6 @@
     "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.1.7",
-    "@ai-sdk/google": "^1.1.12",
-    "@browserbasehq/sdk": "^2.3.0",
     "@bubba/notifications": "workspace:*",
     "@date-fns/tz": "^1.2.0",
     "@hookform/resolvers": "^3.10.0",

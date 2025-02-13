@@ -19,6 +19,7 @@ const serverless_1 = require("@neondatabase/serverless");
 const serverless_2 = require("@neondatabase/serverless");
 const adapter_neon_1 = require("@prisma/adapter-neon");
 const client_1 = require("@prisma/client");
+// Only import and use ws in Node.js environment
 if (!("WebSocket" in globalThis)) {
     const ws = require("ws");
     serverless_1.neonConfig.webSocketConstructor = ws;
