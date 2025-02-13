@@ -3,11 +3,13 @@ import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode;
+}) {
   const t = await getI18n();
 
   return (
-    <div className="max-w-[1200px]">
+    <div className="max-w-[1200px] mx-auto">
       <SecondaryMenu
         items={[
           { path: "/risk", label: t("risk.dashboard.title") },
