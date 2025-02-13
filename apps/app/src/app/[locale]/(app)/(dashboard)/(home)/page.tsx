@@ -1,7 +1,7 @@
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { FrameworksOverview } from "./Components/FrameworksOverview";
+import { FrameworksOverview } from "./components/FrameworksOverview";
 
 export default async function DashboardPage({
   params,
