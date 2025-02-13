@@ -10,7 +10,7 @@ async function fetchPolicies(): Promise<OrganizationPolicy[]> {
   const response = await getPolicies({});
 
   if (!response?.data?.success || !response.data.data) {
-    throw new Error(response?.data?.error || "Failed to fetch policy data");
+    throw new Error(response?.data?.error || "Failed to fetch policy");
   }
 
   return response.data.data;
