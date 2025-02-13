@@ -173,7 +173,7 @@ export default {
   sidebar: {
     overview: "Oversikt",
     policies: "Retningslinjer",
-    risk: "Risiko",
+    risk: "Risikoledelse",
     vendors: "Leverandører",
     integrations: "Integrasjoner",
     settings: "Innstillinger",
@@ -213,11 +213,17 @@ export default {
       subdomain: {
         label: "Underdomene",
         placeholder: "eksempel"
+      },
+      fullName: {
+        label: "Ditt navn",
+        placeholder: "Ditt fulle navn"
       }
     },
     success: "Takk, du er klar!",
     error: "Noe gikk galt, vennligst prøv igjen.",
-    unavailable: "Vennligst velg et annet underdomene. Kun små bokstaver, tall og bindestreker er tillatt."
+    unavailable: "Ikke tilgjengelig",
+    check_availability: "Sjekker tilgjengelighet",
+    available: "Tilgjengelig"
   },
   overview: {
     title: "Oversikt",
@@ -660,5 +666,30 @@ export default {
   },
   errors: {
     unexpected: "Noe gikk galt, vennligst prøv igjen"
+  },
+  sub_pages: {
+    risk: {
+      overview: "Risikoledelse",
+      register: "Risiko-register",
+      risk_overview: "Risikooversikt",
+      risk_comments: "Risiko-kommentarer",
+      tasks: {
+        task_overview: "Oppgaveoversikt"
+      }
+    },
+    policies: {
+      all: "Alle retningslinjer",
+      editor: "Retningslinje-redigerer"
+    },
+    people: {
+      all: "Personer",
+      employee_details: "Ansattdetaljer"
+    },
+    settings: {
+      members: "Teammedlemmer"
+    },
+    frameworks: {
+      overview: "Rammeverk"
+    }
   }
 } as const;

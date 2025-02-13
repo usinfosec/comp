@@ -173,7 +173,7 @@ export default {
   sidebar: {
     overview: "Visão Geral",
     policies: "Políticas",
-    risk: "Risco",
+    risk: "Gestão de Riscos",
     vendors: "Fornecedores",
     integrations: "Integrações",
     settings: "Configurações",
@@ -213,11 +213,17 @@ export default {
       subdomain: {
         label: "Subdomínio",
         placeholder: "exemplo"
+      },
+      fullName: {
+        label: "Seu Nome",
+        placeholder: "Seu nome completo"
       }
     },
     success: "Obrigado, tudo pronto!",
     error: "Algo deu errado, por favor tente novamente.",
-    unavailable: "Por favor, escolha um subdomínio diferente. Apenas letras minúsculas, números e hífens são permitidos."
+    unavailable: "Indisponível",
+    check_availability: "Verificando disponibilidade",
+    available: "Disponível"
   },
   overview: {
     title: "Visão Geral",
@@ -660,5 +666,30 @@ export default {
   },
   errors: {
     unexpected: "Algo deu errado, por favor tente novamente"
+  },
+  sub_pages: {
+    risk: {
+      overview: "Gestão de Riscos",
+      register: "Registro de Riscos",
+      risk_overview: "Visão Geral dos Riscos",
+      risk_comments: "Comentários sobre Riscos",
+      tasks: {
+        task_overview: "Visão Geral da Tarefa"
+      }
+    },
+    policies: {
+      all: "Todas as Políticas",
+      editor: "Editor de Políticas"
+    },
+    people: {
+      all: "Pessoas",
+      employee_details: "Detalhes do Funcionário"
+    },
+    settings: {
+      members: "Membros da Equipe"
+    },
+    frameworks: {
+      overview: "Estruturas"
+    }
   }
 } as const;

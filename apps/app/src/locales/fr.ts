@@ -173,7 +173,7 @@ export default {
   sidebar: {
     overview: "Aperçu",
     policies: "Politiques",
-    risk: "Risque",
+    risk: "Gestion des Risques",
     vendors: "Fournisseurs",
     integrations: "Intégrations",
     settings: "Paramètres",
@@ -213,11 +213,17 @@ export default {
       subdomain: {
         label: "Sous-domaine",
         placeholder: "exemple"
+      },
+      fullName: {
+        label: "Votre Nom",
+        placeholder: "Votre nom complet"
       }
     },
     success: "Merci, vous êtes prêt !",
     error: "Une erreur s'est produite, veuillez réessayer.",
-    unavailable: "Veuillez choisir un autre sous-domaine. Seules les lettres minuscules, les chiffres et les tirets sont autorisés."
+    unavailable: "Indisponible",
+    check_availability: "Vérification de la disponibilité",
+    available: "Disponible"
   },
   overview: {
     title: "Aperçu",
@@ -660,5 +666,30 @@ export default {
   },
   errors: {
     unexpected: "Une erreur s'est produite, veuillez réessayer"
+  },
+  sub_pages: {
+    risk: {
+      overview: "Gestion des Risques",
+      register: "Registre des Risques",
+      risk_overview: "Aperçu des Risques",
+      risk_comments: "Commentaires sur les Risques",
+      tasks: {
+        task_overview: "Aperçu des Tâches"
+      }
+    },
+    policies: {
+      all: "Toutes les Politiques",
+      editor: "Éditeur de Politique"
+    },
+    people: {
+      all: "Personnes",
+      employee_details: "Détails de l'Employé"
+    },
+    settings: {
+      members: "Membres de l'Équipe"
+    },
+    frameworks: {
+      overview: "Cadres"
+    }
   }
 } as const;
