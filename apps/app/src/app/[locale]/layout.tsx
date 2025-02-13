@@ -67,8 +67,8 @@ export const viewport = {
   ],
 };
 
-export const preferredRegion = ["fra1", "sfo1", "iad1"];
-export const maxDuration = 60;
+export const preferredRegion = ["auto"];
+export const maxDuration = 5;
 
 if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
   initializeServer({
