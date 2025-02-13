@@ -3,7 +3,6 @@ import { Pool } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
 
-// Only import and use ws in Node.js environment
 if (!("WebSocket" in globalThis)) {
   const ws = require("ws");
   neonConfig.webSocketConstructor = ws;

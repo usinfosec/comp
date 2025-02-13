@@ -1,12 +1,11 @@
 "use client";
 
-import type { JSONContent } from "@tiptap/react";
-import PolicyEditor from "../editor/advanced-editor";
+import { publishPolicy } from "@/app/[locale]/(app)/(dashboard)/policies/[id]/actions/publish-policy";
 import { usePolicy } from "@/app/[locale]/(app)/(dashboard)/policies/hooks/usePolicy";
 import { Button } from "@bubba/ui/button";
 import { Separator } from "@bubba/ui/separator";
+import type { JSONContent } from "@tiptap/react";
 import { useAction } from "next-safe-action/hooks";
-import { publishPolicy } from "@/app/[locale]/(app)/(dashboard)/policies/[id]/Actions/publish-policy";
 import { toast } from "sonner";
 
 export function PolicyOverview({ policyId }: { policyId: string }) {
@@ -17,7 +16,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
       onSuccess: () => {
         toast.success("Policy published successfully");
       },
-    }
+    },
   );
 
   if (!policy) return null;
@@ -38,7 +37,6 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
         </Button>
       </div>
       <Separator className="opacity-50" />
-      <PolicyEditor policyId={policyId} content={content} />
     </div>
   );
 }

@@ -14,7 +14,6 @@ import {
 } from "ai";
 import { z } from "zod";
 import {
-  clickableElementsPrompt,
   getCachedMessages,
 } from "./lib/prompts";
 import {
