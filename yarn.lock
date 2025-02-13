@@ -200,7 +200,7 @@
     preact "10.24.3"
     preact-render-to-string "6.5.11"
 
-"@auth/prisma-adapter@^2.7.2":
+"@auth/prisma-adapter@^2.7.4":
   version "2.7.4"
   resolved "https://registry.npmjs.org/@auth/prisma-adapter/-/prisma-adapter-2.7.4.tgz"
   integrity sha512-3T/X94R9J1sxOLQtsD3ijIZ0JGHPXlZQxRr/8NpnZBJ3KGxun/mNsZ1MwMRhTxy0mmn9JWXk7u9+xCcVn0pu3A==
@@ -432,11 +432,11 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
-    typescript "^5.0.0"
+    typescript "^5.7.3"
   dependencies:
-    "@auth/prisma-adapter" "^2.7.2"
+    "@auth/prisma-adapter" "^2.7.4"
     "@neondatabase/serverless" "^0.10.4"
-    "@prisma/adapter-neon" "^6.1.0"
+    "@prisma/adapter-neon" "^6.3.1"
     "@prisma/client" "^6.3.1"
     prisma "^6.3.1"
 
@@ -1856,7 +1856,7 @@
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@prisma/adapter-neon@^6.1.0":
+"@prisma/adapter-neon@^6.3.1":
   version "6.3.1"
   resolved "https://registry.npmjs.org/@prisma/adapter-neon/-/adapter-neon-6.3.1.tgz"
   integrity sha512-yDCeqQ0EYT/DBL6G2uh01IlVrCr9Jli6SXa1yvdl/Kq4O/Hjj1i+Oxg4FskHVStLvlo6bqNxEFtLEuFCLCXG1A==
@@ -11566,7 +11566,7 @@ typescript@5.7.2:
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.7.2.tgz"
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
-typescript@>=5.7.2, typescript@^5.0.0, typescript@^5.5.4, typescript@^5.6.3, typescript@^5.7.2, typescript@^5.7.3:
+typescript@>=5.7.2, typescript@^5.5.4, typescript@^5.6.3, typescript@^5.7.2, typescript@^5.7.3:
   version "5.7.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.7.3.tgz"
   integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
