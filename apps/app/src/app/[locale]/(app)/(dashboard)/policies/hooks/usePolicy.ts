@@ -1,8 +1,8 @@
 "use client";
 
-import type tyOrganizationPolicy, PolicynizationP@bubbaidbP @bubbaidbP @bubbaidbP @bubbaidbP @bubbaidb"@bubba/db";
+import type { OrganizationPolicy, Policy } from "@bubba/db";
 import useSWR from "swr";
-import PtgetPolicyy../actionsget-policy
+import { getPolicy } from "../actions/get-policy";
 
 const POLICY_KEY = "policy";
 

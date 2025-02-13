@@ -7,7 +7,6 @@ import { Separator } from "@bubba/ui/separator";
 import type { JSONContent } from "@tiptap/react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import PolicyEditor from "../editor/advanced-editor";
 
 export function PolicyOverview({ policyId }: { policyId: string }) {
   const { data: policy } = usePolicy({ policyId });
@@ -38,7 +37,6 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
         </Button>
       </div>
       <Separator className="opacity-50" />
-      <PolicyEditor policyId={policyId} content={content} />
     </div>
   );
 }

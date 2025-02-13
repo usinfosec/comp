@@ -5,7 +5,6 @@ import { Icons } from "@bubba/ui/icons";
 import { Skeleton } from "@bubba/ui/skeleton";
 import Link from "next/link";
 import { Suspense } from "react";
-import { AssistantButton } from "./assistant/button";
 import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
 import { NotificationCenter } from "./notification-center";
