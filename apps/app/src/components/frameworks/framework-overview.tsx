@@ -1,5 +1,6 @@
 "use client";
 
+import { useOrganizationFramework } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationFramework";
 import type {
   Control,
   Framework,
@@ -13,32 +14,27 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 interface FrameworkOverviewProps {
-  framework: Framework & {
-    categories: {
-      controls: Control[];
-    }[];
-  };
-  organizationFramework: OrganizationFramework & {
-    organizationControl: OrganizationControl[];
-  };
+  frameworkId: string;
 }
 
-export function FrameworkOverview({
-  framework,
-  organizationFramework,
-}: FrameworkOverviewProps) {
+export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
+  const { data: organizationFramework } = useOrganizationFramework(frameworkId);
+  console.log({ organizationFramework });
+
+  return null;
+
   // Calculate compliance metrics
-  const totalControls = framework.categories.reduce(
+  const totalControls = data?.categories.reduce(
     (acc, cat) => acc + cat.controls.length,
-    0,
+    0
   );
 
   const compliantControls = organizationFramework.organizationControl.filter(
-    (oc) => oc.status === "compliant",
+    (oc) => oc.status === "compliant"
   ).length;
 
   const compliancePercentage = Math.round(
-    (compliantControls / totalControls) * 100,
+    (compliantControls / totalControls) * 100
   );
 
   return (

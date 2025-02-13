@@ -10,16 +10,23 @@ import {
 } from "@bubba/ui/card";
 
 import { DataTable } from "@/components/tables/frameworks/data-table";
+import { useOrganizationFramework } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationFramework";
+import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationCategories";
 
 interface FrameworkControlsProps {
-  categories: TransformedCategory[];
   frameworkId: string;
 }
 
-export function FrameworkControls({
-  categories,
-  frameworkId,
-}: FrameworkControlsProps) {
+export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
+  const { data: organizationCategories } =
+    useOrganizationCategories(frameworkId);
+
+  console.log({ organizationCategories, frameworkId });
+
+  if (!organizationCategories) {
+    return null;
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -27,15 +34,17 @@ export function FrameworkControls({
         <CardDescription>Review and manage compliance controls</CardDescription>
       </CardHeader>
       <CardContent>
-        {categories.map((category) => (
+        {organizationCategories.map((category) => (
           <div key={category.id} className="mb-8">
             <h3 className="text-lg font-semibold mb-4">{category.name}</h3>
             <DataTable
-              data={category.controls.map((control) => ({
-                ...control,
+              data={category.organizationControl.map((control) => ({
+                code: control.control.code,
+                description: control.control.description,
+                name: control.control.name,
+                status: control.status,
+                id: control.id,
                 frameworkId,
-                categoryId: category.id,
-                requiredArtifactTypes: [],
               }))}
             />
           </div>

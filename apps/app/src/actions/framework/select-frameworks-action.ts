@@ -30,12 +30,18 @@ export const selectFrameworksAction = authActionClient
     }
 
     try {
-      await Promise.all([
+      // First create categories
+      await createOrganizationCategories(user as User, frameworkIds);
+
+      // Then create frameworks and controls
+      await Promise.all(
         frameworkIds.map((frameworkId) =>
           createOrganizationFramework(user as User, frameworkId)
-        ),
-        createOrganizationPolicy(user as User, frameworkIds),
-      ]);
+        )
+      );
+
+      // Finally create policies
+      await createOrganizationPolicy(user as User, frameworkIds);
 
       return {
         data: true,
@@ -65,46 +71,40 @@ const createOrganizationFramework = async (user: User, frameworkId: string) => {
     },
   });
 
-  // For each framework we need to get the categories and controls.
-  const framework = await db.framework.findUnique({
-    where: { id: frameworkId },
-  });
-
-  if (!framework) {
-    throw new Error("Framework not found");
-  }
-
+  // Get the framework categories and their corresponding organization categories
   const frameworkCategories = await db.frameworkCategory.findMany({
     where: { frameworkId },
-    select: {
-      id: true,
+    include: {
+      controls: true,
     },
   });
 
-  // For each category we need to get the controls.
-  const frameworkControls = await db.control.findMany({
+  // Get the organization categories that were just created
+  const organizationCategories = await db.organizationCategory.findMany({
     where: {
-      frameworkCategoryId: {
-        in: frameworkCategories.map((category) => category.id),
-      },
-    },
-    select: {
-      id: true,
+      organizationId: user.organizationId,
+      frameworkId,
     },
   });
 
-  if (!user.organizationId) {
-    throw new Error("Organization ID is required");
+  // Create controls for each category
+  for (const frameworkCategory of frameworkCategories) {
+    const organizationCategory = organizationCategories.find(
+      (oc) => oc.name === frameworkCategory.name
+    );
+
+    if (!organizationCategory) continue;
+
+    await db.organizationControl.createMany({
+      data: frameworkCategory.controls.map((control) => ({
+        organizationFrameworkId: organizationFramework.id,
+        controlId: control.id,
+        organizationId: user.organizationId!,
+        status: "not_started",
+        organizationCategoryId: organizationCategory.id,
+      })),
+    });
   }
-
-  await db.organizationControl.createMany({
-    data: frameworkControls.map((control) => ({
-      organizationFrameworkId: organizationFramework.id,
-      controlId: control.id,
-      organizationId: user.organizationId!,
-      status: "not_started",
-    })),
-  });
 };
 
 const createOrganizationPolicy = async (user: User, frameworkIds: string[]) => {
@@ -142,4 +142,32 @@ const createOrganizationPolicy = async (user: User, frameworkIds: string[]) => {
   });
 
   return organizationPolicies;
+};
+
+const createOrganizationCategories = async (
+  user: User,
+  frameworkIds: string[]
+) => {
+  if (!user.organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
+
+  // For each frameworkCategory we need to get the controls.
+  const frameworkCategories = await db.frameworkCategory.findMany({
+    where: {
+      frameworkId: { in: frameworkIds },
+    },
+  });
+
+  // Create the organization categories.
+  const organizationCategories = await db.organizationCategory.createMany({
+    data: frameworkCategories.map((category) => ({
+      name: category.name,
+      description: category.description,
+      organizationId: user.organizationId!,
+      frameworkId: category.frameworkId,
+    })),
+  });
+
+  return organizationCategories;
 };

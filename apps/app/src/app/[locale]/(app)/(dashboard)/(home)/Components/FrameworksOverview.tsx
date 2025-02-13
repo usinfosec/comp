@@ -12,7 +12,6 @@ export const FrameworksOverview = () => {
     frameworks,
     availableFrameworks,
     isLoading,
-    isMutating,
     error,
     selectFrameworks,
   } = useFrameworks();

@@ -145,6 +145,7 @@ model Organization {
   RiskAttachment           RiskAttachment[]
   members                  OrganizationMember[]
   OrganizationPolicy       OrganizationPolicy[]
+  OrganizationCategory     OrganizationCategory[]
 
   @@index([stripeCustomerId])
 }
@@ -218,6 +219,7 @@ model Framework {
   organizations         Organization[]
   OrganizationFramework OrganizationFramework[]
   PolicyFramework       PolicyFramework[]
+  OrganizationCategory  OrganizationCategory[]
 
   @@index([id])
 }
@@ -286,6 +288,8 @@ model OrganizationControl {
   artifacts               ControlArtifact[]
   OrganizationFramework   OrganizationFramework? @relation(fields: [organizationFrameworkId], references: [id])
   organizationFrameworkId String?
+  OrganizationCategory    OrganizationCategory?  @relation(fields: [organizationCategoryId], references: [id])
+  organizationCategoryId  String?
 
   @@index([organizationId])
   @@index([organizationFrameworkId])
@@ -950,4 +954,23 @@ model OrganizationPolicy {
   @@unique([organizationId, policyId])
   @@index([organizationId])
   @@index([policyId])
+}
+
+model OrganizationCategory {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  frameworkId String
+  framework   Framework @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+
+  organizationControl OrganizationControl[]
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([id])
+  @@index([organizationId])
 }

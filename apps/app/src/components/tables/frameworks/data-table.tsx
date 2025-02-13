@@ -8,11 +8,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Suspense } from "react";
-import { type FrameworkControlType, columns as getColumns } from "./columns";
+import { type OrganizationControlType, columns as getColumns } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 
 interface DataTableProps {
-  data: FrameworkControlType[];
+  data: OrganizationControlType[];
 }
 
 export function DataTable({ data }: DataTableProps) {
@@ -41,7 +41,7 @@ export function DataTable({ data }: DataTableProps) {
                     <TableCell key={cell.id} className="px-3 md:px-4 py-2">
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

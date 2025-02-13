@@ -8,23 +8,16 @@ import { useI18n } from "@/locales/client";
 import type { ArtifactType, ComplianceStatus } from "@bubba/db";
 import type { ColumnDef } from "@tanstack/react-table";
 
-export type FrameworkControlType = {
+export type OrganizationControlType = {
   id: string;
   name: string;
   code: string;
   description: string | null;
-  categoryId: string;
   status: ComplianceStatus;
-  artifacts: {
-    id: string;
-    organizationControlId: string;
-    artifactId: string;
-  }[];
   frameworkId: string;
-  requiredArtifactTypes: ArtifactType[];
 };
 
-export function columns(): ColumnDef<FrameworkControlType>[] {
+export function columns(): ColumnDef<OrganizationControlType>[] {
   const t = useI18n();
 
   return [
