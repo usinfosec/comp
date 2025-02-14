@@ -1,5 +1,11 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
+import "@bubba/ui/globals.css";
+import "@bubba/ui/text-editor";
+import "@bubba/ui/prosemirror";
+import { Providers } from "./providers";
 
 export default async function Layout({
   children,
@@ -20,8 +26,10 @@ export default async function Layout({
   }
 
   return (
-    <div className="max-w-[1200px] m-auto space-y-4">
-      <main className="h-[calc(100vh-4rem-4rem)]">{children}</main>
+    <div className="max-w-[1200px] space-y-4">
+      <Providers>
+        <main className="h-[calc(100vh-4rem-4rem)]">{children}</main>
+      </Providers>
     </div>
   );
 }

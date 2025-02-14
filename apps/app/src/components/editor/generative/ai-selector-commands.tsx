@@ -7,6 +7,7 @@ import {
   WrapText,
 } from "lucide-react";
 import { useEditor } from "novel";
+import { getPrevText } from "novel/utils";
 
 const options = [
   {
@@ -14,6 +15,7 @@ const options = [
     label: "Improve writing",
     icon: RefreshCcwDot,
   },
+
   {
     value: "fix",
     label: "Fix grammar",
@@ -44,20 +46,21 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {
-              if (!editor) return;
-              const selection = editor.state.selection;
-              const selectedText = editor.state.doc.textBetween(
-                selection.from,
-                selection.to,
-                " ",
+              if (!editor) {
+                return;
+              }
+
+              const slice = editor.state.selection.content();
+              const text = editor.storage.markdown.serializer.serialize(
+                slice.content,
               );
-              onSelect(selectedText, value);
+              onSelect(text, value);
             }}
-            className="flex gap-2"
+            className="flex gap-2 px-4"
             key={option.value}
             value={option.value}
           >
-            <option.icon className="h-4 w-4 text-muted-foreground" />
+            <option.icon className="h-4 w-4 text-purple-500" />
             {option.label}
           </CommandItem>
         ))}
@@ -66,28 +69,19 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
       <CommandGroup heading="Use AI to do more">
         <CommandItem
           onSelect={() => {
-            if (!editor) return;
-            const { $from } = editor.state.selection;
-            const node = $from.node();
-
-            // Get the text content of the current node
-            const currentNodeText = node.textContent;
-            console.log("Current node text:", currentNodeText);
-
-            // If there's no text in the current node, try to get text from parent
-            if (!currentNodeText && $from.parent) {
-              const parentText = $from.parent.textContent;
-              console.log("Parent node text:", parentText);
-              onSelect(parentText, "continue");
+            if (!editor) {
               return;
             }
 
-            onSelect(currentNodeText, "continue");
+            const pos = editor.state.selection.from;
+
+            const text = getPrevText(editor, pos);
+            onSelect(text, "continue");
           }}
           value="continue"
-          className="gap-2"
+          className="gap-2 px-4"
         >
-          <StepForward className="h-4 w-4 text-muted-foreground" />
+          <StepForward className="h-4 w-4 text-purple-500" />
           Continue writing
         </CommandItem>
       </CommandGroup>

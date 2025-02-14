@@ -2,6 +2,7 @@ import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { Room } from "./room";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -11,7 +12,11 @@ export default async function PolicyPage({ params }: PageProps) {
   const { locale, id } = await params;
   setStaticParamsLocale(locale);
 
-  return <PolicyOverview policyId={id} />;
+  return (
+    <Room>
+      <PolicyOverview policyId={id} />
+    </Room>
+  );
 }
 
 export async function generateMetadata({

@@ -94,95 +94,6 @@
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
-
-  .ProseMirror ol {
-    @apply my-4 ml-6;
-  }
-
-  .ProseMirror ol li {
-    @apply mb-2;
-  }
-
-  .ProseMirror ol li p {
-    @apply my-0.5;
-  }
-
-  /* Nested list styling */
-  .ProseMirror ol ol {
-    @apply mt-2 ml-6;
-    list-style-type: none;
-  }
-
-  .ProseMirror ol li {
-    @apply mb-2;
-    position: relative;
-    display: flex;
-    gap: 1rem;
-  }
-
-  .ProseMirror ol li::before {
-    content: "5." counter(list-item) ".";
-    position: absolute;
-    left: -2rem;
-    text-align: right;
-    @apply text-muted-foreground;
-  }
-
-  /* Style for the label (Planning:, Evaluation:, etc) */
-  .ProseMirror ol li i {
-    @apply text-muted-foreground font-medium mr-2;
-    min-width: 100px;
-  }
-
-  .ProseMirror ol li p i {
-    @apply mr-2 inline-block; /* More space after italic labels */
-  }
-
-  /* Improve spacing for nested list items */
-  .ProseMirror ol ol li {
-    @apply mb-2; /* Keep consistent spacing */
-    @apply pl-2; /* Add padding after the number */
-  }
-
-  .ProseMirror ol ol li p {
-    @apply flex items-baseline gap-2; /* Add gap between number and content */
-  }
-
-  .ProseMirror ol ol li p i {
-    @apply min-w-[100px] font-medium text-muted-foreground whitespace-nowrap;
-  }
-
-  /* Fix nested list numbering spacing */
-  .ProseMirror ol ol {
-    counter-reset: item;
-    list-style-type: none;
-  }
-
-  .ProseMirror ol ol li {
-    counter-increment: item;
-    position: relative;
-  }
-
-  .ProseMirror ol ol li::before {
-    content: counter(parent-counter) "." counter(item) ".";
-    position: absolute;
-    left: -2.5rem;
-    width: 2rem;
-    text-align: right;
-    @apply text-muted-foreground;
-    margin-right: 0.5rem; /* Add space after the number */
-  }
-
-  /* Add space between number and italic label */
-  .ProseMirror ol ol li p {
-    padding-left: 0.5rem; /* Add space between number and content */
-  }
-
-  /* Ensure proper spacing in the flex layout */
-  .ProseMirror ol ol li p i {
-    @apply min-w-[100px] font-medium text-muted-foreground whitespace-nowrap mr-2;
-    padding-left: 0.25rem; /* Add space after the number */
-  }
 }
 
 @layer base {
@@ -396,8 +307,46 @@
   border-radius: 0px;
 }
 
+html,
+body {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--font-sans);
+}
+
+html,
+body,
+#__next {
+  max-width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+html.grabbing {
+  cursor: grabbing;
+}
+
+html.grabbing * {
+  user-select: none;
+}
+
+.lb-root {
+  --lb-foreground: hsl(var(--foreground));
+  --lb-background: hsl(var(--background));
+
+  &.lb-elevation,
+  &.lb-tooltip {
+    --lb-background: hsl(var(--background));
+  }
+}
+
+.dark .lb-root {
+  --lb-inset-shadow: inset 0 0 0 1px hsl(var(--border));
+}
+
 pre {
   background: #0d0d0d;
+  border-radius: 0.5rem;
   color: #fff;
   font-family: "JetBrainsMono", monospace;
   padding: 0.75rem 1rem;
@@ -459,171 +408,5 @@ pre {
 
   .hljs-strong {
     font-weight: 700;
-  }
-}
-
-/* Base editor styles */
-.ProseMirror {
-  @apply w-full px-8 py-6 text-sm leading-normal;
-  height: 100%;
-  min-height: 350px;
-  overflow-y: auto;
-}
-
-.ProseMirror:focus {
-  @apply outline-none;
-}
-
-/* Typography */
-.ProseMirror h1 {
-  @apply text-xl font-semibold mb-6 text-foreground;
-}
-
-.ProseMirror h2 {
-  @apply text-lg font-semibold mb-4 text-foreground;
-}
-
-.ProseMirror h3 {
-  @apply text-base font-semibold mb-3 text-foreground;
-}
-
-.ProseMirror h4 {
-  @apply text-sm font-semibold mb-2 text-foreground;
-}
-
-.ProseMirror p {
-  @apply text-sm leading-6 mb-4 text-foreground;
-}
-
-/* Lists */
-.ProseMirror ul,
-.ProseMirror ol {
-  @apply my-2 ml-6 space-y-2;
-}
-
-.ProseMirror li {
-  @apply text-sm leading-6;
-  margin: 0 !important;
-}
-
-.ProseMirror li > p {
-  @apply m-0;
-}
-
-/* Numbered lists specific styling */
-.ProseMirror ol {
-  list-style-type: decimal;
-  counter-reset: item;
-}
-
-.ProseMirror ol li {
-  display: block;
-  position: relative;
-}
-
-.ProseMirror ol li::before {
-  content: counters(item, ".") ".";
-  counter-increment: item;
-  position: absolute;
-  left: -1.5em;
-}
-
-/* Tables */
-.ProseMirror table {
-  @apply w-full border-collapse my-4 border border-border;
-}
-
-.ProseMirror th {
-  @apply bg-muted text-sm font-medium p-3 border border-border;
-}
-
-.ProseMirror td {
-  @apply text-sm p-3 border border-border;
-}
-
-/* Spacing between sections */
-.ProseMirror div[data-type="heading"] + p,
-.ProseMirror h1 + p,
-.ProseMirror h2 + p,
-.ProseMirror h3 + p,
-.ProseMirror h4 + p {
-  @apply mt-2;
-}
-
-/* Code blocks */
-.ProseMirror pre {
-  @apply bg-muted p-4 my-4 overflow-x-auto;
-}
-
-.ProseMirror code {
-  @apply font-mono text-sm;
-}
-
-/* Blockquotes */
-.ProseMirror blockquote {
-  @apply border-l-4 border-primary pl-4 italic my-4;
-}
-
-/* Task lists */
-.ProseMirror ul[data-type="taskList"] {
-  @apply list-none p-0;
-}
-
-.ProseMirror ul[data-type="taskList"] li {
-  @apply flex items-start gap-2;
-}
-
-/* Placeholder */
-.ProseMirror p.is-empty::before {
-  @apply text-muted-foreground;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
-
-/* Editor chrome */
-.tiptap {
-  @apply relative bg-background;
-  height: 100%;;
-}
-
-/* Bubble menu */
-.tiptap .bubble-menu {
-  @apply flex gap-1 p-1 border border-border bg-background shadow-sm;
-}
-
-/* Command menu */
-.tiptap .command-menu {
-  @apply absolute z-50 w-60 bg-background border border-border;
-}
-
-/* Add custom scrollbar styles */
-.ProseMirror::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.ProseMirror::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-.ProseMirror::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30 active:bg-muted-foreground/40;
-}
-
-.ProseMirror {
-  scrollbar-width: thin;
-  scrollbar-color: var(--muted-foreground) transparent;
-}
-
-@layer utilities {
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
   }
 }

@@ -1,7 +1,3 @@
-import Table from "@tiptap/extension-table";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import TableRow from "@tiptap/extension-table-row";
 import {
   AIHighlight,
   CharacterCount,
@@ -11,20 +7,18 @@ import {
   GlobalDragHandle,
   HighlightExtension,
   HorizontalRule,
+  MarkdownExtension,
   Mathematics,
   Placeholder,
   StarterKit,
   TaskItem,
   TaskList,
   TextStyle,
-  TiptapImage,
   TiptapLink,
   TiptapUnderline,
   Twitter,
-  UpdatedImage,
-  UploadImagesPlugin,
   Youtube,
-} from "novel";
+} from "novel/extensions";
 
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
@@ -34,29 +28,8 @@ const placeholder = Placeholder;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
-      "text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer",
+      "text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer"
     ),
-  },
-});
-
-const tiptapImage = TiptapImage.extend({
-  addProseMirrorPlugins() {
-    return [
-      UploadImagesPlugin({
-        imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
-      }),
-    ];
-  },
-}).configure({
-  allowBase64: true,
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
-  },
-});
-
-const updatedImage = UpdatedImage.configure({
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
   },
 });
 
@@ -65,7 +38,6 @@ const taskList = TaskList.configure({
     class: cx("not-prose pl-2 "),
   },
 });
-
 const taskItem = TaskItem.configure({
   HTMLAttributes: {
     class: cx("flex gap-2 items-start my-4"),
@@ -80,6 +52,9 @@ const horizontalRule = HorizontalRule.configure({
 });
 
 const starterKit = StarterKit.configure({
+  // The Liveblocks extension comes with its own history handling
+  history: false,
+
   bulletList: {
     HTMLAttributes: {
       class: cx("list-disc list-outside leading-3 -mt-2"),
@@ -87,12 +62,12 @@ const starterKit = StarterKit.configure({
   },
   orderedList: {
     HTMLAttributes: {
-      class: cx("list-decimal list-outside leading-7 -mt-2"),
+      class: cx("list-decimal list-outside leading-3 -mt-2"),
     },
   },
   listItem: {
     HTMLAttributes: {
-      class: cx("leading-normal mb-1"),
+      class: cx("leading-normal -mb-2"),
     },
   },
   blockquote: {
@@ -100,13 +75,7 @@ const starterKit = StarterKit.configure({
       class: cx("border-l-4 border-primary"),
     },
   },
-  codeBlock: {
-    HTMLAttributes: {
-      class: cx(
-        "rounded-md bg-muted text-muted-foreground border p-5 font-mono font-medium",
-      ),
-    },
-  },
+  codeBlock: false,
   code: {
     HTMLAttributes: {
       class: cx("rounded-md bg-muted  px-1.5 py-1 font-mono font-medium"),
@@ -119,16 +88,6 @@ const starterKit = StarterKit.configure({
     width: 4,
   },
   gapcursor: false,
-  heading: {
-    HTMLAttributes: {
-      class: cx("text-balance"),
-    },
-  },
-  paragraph: {
-    HTMLAttributes: {
-      class: cx("text-pretty"),
-    },
-  },
 });
 
 const codeBlockLowlight = CodeBlockLowlight.configure({
@@ -160,41 +119,10 @@ const mathematics = Mathematics.configure({
 
 const characterCount = CharacterCount.configure();
 
-const table = Table.configure({
-  HTMLAttributes: {
-    class: "border-collapse table-auto w-full",
-  },
-  resizable: true,
-  allowTableNodeSelection: true,
-});
-
-const tableRow = TableRow.configure({
-  HTMLAttributes: {
-    class: "border-b border-muted",
-  },
-});
-
-const tableCell = TableCell.configure({
-  HTMLAttributes: {
-    class: "border border-muted p-2",
-  },
-});
-
-const tableHeader = TableHeader.configure({
-  HTMLAttributes: {
-    class: "border border-muted bg-muted p-2 font-medium",
-  },
-});
-
-const tableExtensions = [table, tableRow, tableCell, tableHeader];
-
 export const defaultExtensions = [
-  ...tableExtensions,
   starterKit,
   placeholder,
   tiptapLink,
-  tiptapImage,
-  updatedImage,
   taskList,
   taskItem,
   horizontalRule,
@@ -205,6 +133,7 @@ export const defaultExtensions = [
   mathematics,
   characterCount,
   TiptapUnderline,
+  MarkdownExtension,
   HighlightExtension,
   TextStyle,
   Color,

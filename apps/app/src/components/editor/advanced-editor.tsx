@@ -1,49 +1,35 @@
 "use client";
 
-import { updatePolicyAction } from "@/actions/policies/update-policy-action";
 import { Separator } from "@bubba/ui/separator";
-import { useAction } from "next-safe-action/hooks";
 import {
   EditorCommand,
   EditorCommandEmpty,
   EditorCommandItem,
   EditorCommandList,
   EditorContent,
-  type EditorInstance,
   EditorRoot,
-  ImageResizer,
-  type JSONContent,
-  handleCommandNavigation,
-  handleImageDrop,
-  handleImagePaste,
 } from "novel";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useDebouncedCallback } from "use-debounce";
+import { ImageResizer, handleCommandNavigation } from "novel/extensions";
+import { useState } from "react";
 import { defaultExtensions } from "./extensions";
-import GenerativeMenuSwitch from "./generative/generative-menu-switch";
-import { uploadFn } from "./image-upload";
 import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
+
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { useSyncStatus } from "@liveblocks/react/suspense";
+import { handleImageDrop, handleImagePaste } from "novel/plugins";
+import GenerativeMenuSwitch from "./generative/generative-menu-switch";
+import { uploadFn } from "./image-upload";
+import { AddCommentSelector } from "./selectors/add-comment-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
+import { Threads } from "./threads";
 
-const extensions = [...defaultExtensions, slashCommand];
-
-const PolicyEditor = ({
-  policyId,
-  content,
-}: {
-  policyId: string;
-  content: JSONContent;
-}) => {
-  const [initialContent, setInitialContent] = useState<JSONContent>({
-    type: "doc",
-    content: content as JSONContent[],
-  });
-  const [saveStatus, setSaveStatus] = useState("Saved");
+export const AdvancedEditor = () => {
+  const liveblocks = useLiveblocksExtension();
+  const extensions = [...defaultExtensions, slashCommand, liveblocks];
   const [charsCount, setCharsCount] = useState();
 
   const [openNode, setOpenNode] = useState(false);
@@ -51,69 +37,29 @@ const PolicyEditor = ({
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
 
-  const highlightCodeblocks = (content: string) => {
-    const doc = new DOMParser().parseFromString(content, "text/html");
-    for (const el of doc.querySelectorAll("pre code")) {
-      // @ts-ignore
-      // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
-      hljs.highlightElement(el);
-    }
-    return new XMLSerializer().serializeToString(doc);
-  };
-
-  const updatePolicy = useAction(updatePolicyAction, {
-    onSuccess: () => {
-      setSaveStatus("Saved");
-    },
-    onError: () => {
-      toast.error("Failed to update policy");
-    },
-  });
-
-  const debouncedUpdates = useDebouncedCallback(
-    async (editor: EditorInstance) => {
-      const json = editor.getJSON();
-      setCharsCount(editor.storage.characterCount.words());
-
-      updatePolicy.execute({
-        id: policyId,
-        content: json,
-      });
-    },
-    1000
-  );
-
-  if (!initialContent) return null;
-
-  // set initial charcount
-  useEffect(() => {
-    setCharsCount(initialContent.length);
-  }, [initialContent]);
+  const syncStatus = useSyncStatus({ smooth: true });
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative w-full max-w-screen-lg">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-        <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
-          {saveStatus}
+        <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
+          {syncStatus === "synchronizing" ? "Unsaved" : "Saved"}
         </div>
-        {charsCount && (
-          <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
-            {charsCount} Words
-          </div>
-        )}
+        <div
+          className={
+            charsCount
+              ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground"
+              : "hidden"
+          }
+        >
+          {charsCount} Words
+        </div>
       </div>
       <EditorRoot>
         <EditorContent
-          immediatelyRender={false}
-          initialContent={initialContent}
-          // @ts-ignore
           extensions={extensions}
-          className="prose prose-sm max-w-none"
+          className="p-12 relative min-h-[500px] w-full"
           editorProps={{
-            attributes: {
-              class:
-                "h-full w-full focus:outline-none text-foreground px-16 py-16 max-w-[900px] mx-auto",
-            },
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
             },
@@ -121,26 +67,36 @@ const PolicyEditor = ({
               handleImagePaste(view, event, uploadFn),
             handleDrop: (view, event, _slice, moved) =>
               handleImageDrop(view, event, moved, uploadFn),
+            attributes: {
+              class:
+                "prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+            },
           }}
-          onUpdate={({ editor }) => {
-            debouncedUpdates(editor);
-            setSaveStatus("Unsaved");
-          }}
+          onUpdate={({ editor }) =>
+            setCharsCount(editor.storage.characterCount.words())
+          }
           slotAfter={<ImageResizer />}
+          immediatelyRender={false}
         >
-          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto border border-muted bg-background px-1 py-2 transition-all">
+          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">
               No results
             </EditorCommandEmpty>
             <EditorCommandList>
-              {suggestionItems.map((item) => (
+              {suggestionItems.map((item: any) => (
                 <EditorCommandItem
                   value={item.title}
-                  onCommand={(val) => item.command?.(val)}
-                  className="flex w-full items-center space-x-2 px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
+                  onCommand={(val) => {
+                    if (!item?.command) {
+                      return;
+                    }
+
+                    item.command(val);
+                  }}
+                  className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
                   key={item.title}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center  border border-muted bg-background">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
                     {item.icon}
                   </div>
                   <div>
@@ -158,7 +114,6 @@ const PolicyEditor = ({
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
             <MathSelector />
@@ -172,5 +127,3 @@ const PolicyEditor = ({
     </div>
   );
 };
-
-export default PolicyEditor;

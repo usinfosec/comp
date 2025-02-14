@@ -1,6 +1,6 @@
 import { Button } from "@bubba/ui/button";
-import type { Editor } from "@tiptap/react";
-import { EditorBubble, removeAIHighlight, useEditor } from "novel";
+import { EditorBubble, useEditor } from "novel";
+import { removeAIHighlight } from "novel/extensions";
 import { Fragment, type ReactNode, useEffect } from "react";
 import Magic from "../ui/icons/magic";
 import { AISelector } from "./ai-selector";
@@ -18,25 +18,29 @@ const GenerativeMenuSwitch = ({
   const { editor } = useEditor();
 
   useEffect(() => {
-    //@ts-ignore
-    if (!open) removeAIHighlight(editor as Editor);
+    if (!open && editor) removeAIHighlight(editor);
   }, [open]);
+
   return (
     <EditorBubble
       tippyOptions={{
-        placement: open ? "bottom" : "top",
+        placement: open ? "bottom-start" : "top",
         onHidden: () => {
+          if (!editor) {
+            return;
+          }
+
           onOpenChange(false);
-          editor?.chain().unsetAIHighlight().run();
+          editor.chain().unsetHighlight().run();
         },
       }}
-      className="flex w-fit  border border-muted bg-background shadow-xl"
+      className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-muted bg-background shadow-xl"
     >
       {open && <AISelector open={open} onOpenChange={onOpenChange} />}
       {!open && (
         <Fragment>
           <Button
-            className="gap-1 rounded-none font-medium"
+            className="gap-1 rounded-none"
             variant="ghost"
             onClick={() => onOpenChange(true)}
             size="sm"
