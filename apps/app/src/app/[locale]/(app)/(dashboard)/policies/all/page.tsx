@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { PoliciesTable } from "./Components/PoliciesTable";
+import { PoliciesTable } from "./components/PoliciesTable";
 
 export default async function PoliciesPage({
   params,

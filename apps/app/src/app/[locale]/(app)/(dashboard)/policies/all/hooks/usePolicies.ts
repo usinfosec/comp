@@ -1,8 +1,8 @@
 "use client";
 
-import useSWR from "swr";
-import { getPolicies } from "../Actions/get-policies";
 import type { OrganizationPolicy, Policy } from "@bubba/db";
+import useSWR from "swr";
+import { getPolicies } from "../actions/get-policies";
 
 const POLICIES_KEY = "policies";
 
