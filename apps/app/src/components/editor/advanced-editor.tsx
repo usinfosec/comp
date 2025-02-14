@@ -26,7 +26,7 @@ import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 
-export default function AdvancedEditor({ content }: { content: JSONContent }) {
+export default function AdvancedEditor() {
   const liveblocks = useLiveblocksExtension();
   const extensions = [...defaultExtensions, slashCommand, liveblocks];
   const [charsCount, setCharsCount] = useState();
