@@ -347,18 +347,19 @@
   resolved "https://registry.npmjs.org/@biomejs/cli-win32-x64/-/cli-win32-x64-1.9.4.tgz"
   integrity sha512-8Y5wMhVIPaWe6jw2H+KlEm4wP/f7EW3810ZLmDlrEEy5KvBsb9ECEfu/kMWD484ijfQ8+nIi0giMgu9g1UAuuA==
 
-"@bubba/analytics@packages/analytics":
+"@bubba/analytics@^workspace:packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/db@packages/db", "@bubba/db@workspace:*":
+"@bubba/db@^workspace:packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.7.3"
   dependencies:
     "@auth/prisma-adapter" "^2.7.4"
@@ -368,7 +369,7 @@
     "@prisma/extension-accelerate" "^1.2.2"
     prisma "^6.3.1"
 
-"@bubba/email@packages/email":
+"@bubba/email@^workspace:packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -388,7 +389,7 @@
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
-"@bubba/integrations@packages/integrations":
+"@bubba/integrations@^workspace:packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -402,14 +403,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@bubba/kv@packages/kv":
+"@bubba/kv@^workspace:packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "^0.0.1"
 
-"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@^workspace:packages/notifications", "@bubba/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -418,11 +419,11 @@
     "@novu/node" "^2.0.1"
     nanoid "^5.0.7"
 
-"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@^workspace:packages/tsconfig", "@bubba/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@^workspace:packages/ui", "@bubba/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -486,7 +487,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@^workspace:packages/utils", "@bubba/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -4804,11 +4805,12 @@ commander@11.1.0:
   resolved "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz"
   integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
 
-"comp.ai@apps/app":
+comp.ai@^workspace:apps/app:
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
     "@bubba/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.13"
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"
@@ -4818,6 +4820,7 @@ commander@11.1.0:
     typescript "^5.7.3"
   dependencies:
     "@bubba/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@liveblocks/client" "^2.18.1"
@@ -12134,7 +12137,7 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web@apps/web":
+web@^workspace:apps/web:
   version "workspace:apps/web"
   resolved "workspace:apps/web"
   devDependencies:
