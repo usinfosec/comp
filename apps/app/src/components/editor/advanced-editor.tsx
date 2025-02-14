@@ -1,6 +1,9 @@
 "use client";
 
 import { Separator } from "@bubba/ui/separator";
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import { useSyncStatus } from "@liveblocks/react/suspense";
+import type { Extensions } from "@tiptap/react";
 import {
   EditorCommand,
   EditorCommandEmpty,
@@ -11,24 +14,25 @@ import {
   type JSONContent,
 } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel";
+import { handleImageDrop, handleImagePaste } from "novel";
 import { useState } from "react";
 import { defaultExtensions } from "./extensions";
+import GenerativeMenuSwitch from "./generative/generative-menu-switch";
+import { uploadFn } from "./image-upload";
 import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
-
-import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-import { useSyncStatus } from "@liveblocks/react/suspense";
-import { handleImageDrop, handleImagePaste } from "novel";
-import GenerativeMenuSwitch from "./generative/generative-menu-switch";
-import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 
 export default function AdvancedEditor() {
   const liveblocks = useLiveblocksExtension();
-  const extensions = [...defaultExtensions, slashCommand, liveblocks];
+  const extensions: Extensions = [
+    ...defaultExtensions,
+    slashCommand,
+    liveblocks,
+  ] as Extensions;
   const [charsCount, setCharsCount] = useState();
 
   const [openNode, setOpenNode] = useState(false);
