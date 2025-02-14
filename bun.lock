@@ -87,7 +87,7 @@
         "resend": "^4.1.2",
         "sonner": "^1.7.4",
         "stripe": "^17.6.0",
-        "tiptap-extension-global-drag-handle": "^0.1.17",
+        "tiptap-extension-global-drag-handle": "0.1.16",
         "tiptap-markdown": "^0.8.10",
         "ts-pattern": "^5.6.2",
         "uploadthing": "^7.5.0",
@@ -2982,7 +2982,7 @@
 
     "tippy.js": ["tippy.js@6.3.7", "", { "dependencies": { "@popperjs/core": "^2.9.0" } }, "sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ=="],
 
-    "tiptap-extension-global-drag-handle": ["tiptap-extension-global-drag-handle@0.1.17", "", {}, "sha512-ISbX0NhIf9R2kpXHeDW37C5IpFKPNv9A5zkWo0lr4BpkofiNDoCMYOJV+EZ9mRFA7C2YuXNz4lr1YBtH9urbkA=="],
+    "tiptap-extension-global-drag-handle": ["tiptap-extension-global-drag-handle@0.1.16", "", {}, "sha512-Toke8gAgvgmSTmpU5Zome29ywdcIPxVZVkzI3GpUbaX8DF7o2ukyb+g/x5PAwBWQt/E4nhX91QlClo96psSYHQ=="],
 
     "tiptap-markdown": ["tiptap-markdown@0.8.10", "", { "dependencies": { "@types/markdown-it": "^13.0.7", "markdown-it": "^14.1.0", "markdown-it-task-lists": "^2.1.1", "prosemirror-markdown": "^1.11.1" }, "peerDependencies": { "@tiptap/core": "^2.0.3" } }, "sha512-iDVkR2BjAqkTDtFX0h94yVvE2AihCXlF0Q7RIXSJPRSR5I0PA1TMuAg6FHFpmqTn4tPxJ0by0CK7PUMlnFLGEQ=="],
 
@@ -3485,6 +3485,8 @@
     "novel/react-dom": ["react-dom@18.2.0", "", { "dependencies": { "loose-envify": "^1.1.0", "scheduler": "^0.23.0" }, "peerDependencies": { "react": "^18.2.0" } }, "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="],
 
     "novel/react-markdown": ["react-markdown@8.0.7", "", { "dependencies": { "@types/hast": "^2.0.0", "@types/prop-types": "^15.0.0", "@types/unist": "^2.0.0", "comma-separated-tokens": "^2.0.0", "hast-util-whitespace": "^2.0.0", "prop-types": "^15.0.0", "property-information": "^6.0.0", "react-is": "^18.0.0", "remark-parse": "^10.0.0", "remark-rehype": "^10.0.0", "space-separated-tokens": "^2.0.0", "style-to-object": "^0.4.0", "unified": "^10.0.0", "unist-util-visit": "^4.0.0", "vfile": "^5.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-bvWbzG4MtOU62XqBx3Xx+zB2raaFFsq4mYiAzfjXJMEz2sixgeAfraA3tvzULF02ZdOMUOKTBFFaZJDDrq+BJQ=="],
+
+    "novel/tiptap-extension-global-drag-handle": ["tiptap-extension-global-drag-handle@0.1.17", "", {}, "sha512-ISbX0NhIf9R2kpXHeDW37C5IpFKPNv9A5zkWo0lr4BpkofiNDoCMYOJV+EZ9mRFA7C2YuXNz4lr1YBtH9urbkA=="],
 
     "novu/commander": ["commander@9.5.0", "", {}, "sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ=="],
 
