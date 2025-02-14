@@ -4884,7 +4884,7 @@ commander@11.1.0:
     resend "^4.1.2"
     sonner "^1.7.4"
     stripe "^17.6.0"
-    tiptap-extension-global-drag-handle "0.1.16"
+    tiptap-extension-global-drag-handle "^0.1.18"
     tiptap-markdown "^0.8.10"
     ts-pattern "^5.6.2"
     uploadthing "^7.5.0"
@@ -11483,15 +11483,15 @@ tippy.js@^6.3.7:
   dependencies:
     "@popperjs/core" "^2.9.0"
 
-tiptap-extension-global-drag-handle@0.1.16:
-  version "0.1.16"
-  resolved "https://registry.npmjs.org/tiptap-extension-global-drag-handle/-/tiptap-extension-global-drag-handle-0.1.16.tgz"
-  integrity sha512-Toke8gAgvgmSTmpU5Zome29ywdcIPxVZVkzI3GpUbaX8DF7o2ukyb+g/x5PAwBWQt/E4nhX91QlClo96psSYHQ==
-
 tiptap-extension-global-drag-handle@^0.1.7:
   version "0.1.17"
   resolved "https://registry.npmjs.org/tiptap-extension-global-drag-handle/-/tiptap-extension-global-drag-handle-0.1.17.tgz"
   integrity sha512-ISbX0NhIf9R2kpXHeDW37C5IpFKPNv9A5zkWo0lr4BpkofiNDoCMYOJV+EZ9mRFA7C2YuXNz4lr1YBtH9urbkA==
+
+tiptap-extension-global-drag-handle@^0.1.18:
+  version "0.1.18"
+  resolved "https://registry.npmjs.org/tiptap-extension-global-drag-handle/-/tiptap-extension-global-drag-handle-0.1.18.tgz"
+  integrity sha512-jwFuy1K8DP3a4bFy76Hpc63w1Sil0B7uZ3mvhQomVvUFCU787Lg2FowNhn7NFzeyok761qY2VG+PZ/FDthWUdg==
 
 tiptap-markdown@^0.8.10, tiptap-markdown@^0.8.9:
   version "0.8.10"
