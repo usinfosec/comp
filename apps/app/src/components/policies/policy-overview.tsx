@@ -44,7 +44,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
         <div className="min-h-0 h-auto">
           <div className="relative min-h-[1100px] w-full  mx-auto border border-border bg-background">
             <ClientSideSuspense fallback={<DocumentSpinner />}>
-              <AdvancedEditor />
+              <AdvancedEditor content={content} />
             </ClientSideSuspense>
           </div>
         </div>

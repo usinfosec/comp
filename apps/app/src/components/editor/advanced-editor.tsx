@@ -3,7 +3,7 @@
 import { Separator } from "@bubba/ui/separator";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useSyncStatus } from "@liveblocks/react/suspense";
-import type { Extensions } from "@tiptap/react";
+import type { Extensions, JSONContent } from "@tiptap/react";
 import {
   EditorCommand,
   EditorCommandEmpty,
@@ -11,7 +11,6 @@ import {
   EditorCommandList,
   EditorContent,
   EditorRoot,
-  type JSONContent,
 } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel";
 import { handleImageDrop, handleImagePaste } from "novel";
@@ -19,15 +18,20 @@ import { useState } from "react";
 import { defaultExtensions } from "./extensions";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
+import { AddCommentSelector } from "./selectors/add-comment-selector";
 import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
+import { Threads } from "./threads";
 
 export default function AdvancedEditor() {
-  const liveblocks = useLiveblocksExtension();
+  const liveblocks = useLiveblocksExtension({
+    offlineSupport_experimental: true,
+  });
+
   const extensions: Extensions = [
     ...defaultExtensions,
     slashCommand,
@@ -61,7 +65,7 @@ export default function AdvancedEditor() {
       <EditorRoot>
         <EditorContent
           extensions={extensions}
-          className="p-12 relative min-h-[500px] w-full"
+          className="p-12 relative min-h-[calc(100vh-250px)] w-full"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -81,6 +85,7 @@ export default function AdvancedEditor() {
           slotAfter={<ImageResizer />}
           immediatelyRender={false}
         >
+          <Threads />
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">
               No results
@@ -124,6 +129,8 @@ export default function AdvancedEditor() {
             <TextButtons />
             <Separator orientation="vertical" />
             <ColorSelector open={openColor} onOpenChange={setOpenColor} />
+            <Separator orientation="vertical" />
+            <AddCommentSelector />
           </GenerativeMenuSwitch>
         </EditorContent>
       </EditorRoot>

@@ -332,11 +332,11 @@ html.grabbing * {
 
 .lb-root {
   --lb-foreground: hsl(var(--foreground));
-  --lb-background: hsl(var(--background));
+  --lb-background: hsl(var(--foreground));
 
   &.lb-elevation,
   &.lb-tooltip {
-    --lb-background: hsl(var(--background));
+    --lb-background: hsl(var(--foreground));
   }
 }
 

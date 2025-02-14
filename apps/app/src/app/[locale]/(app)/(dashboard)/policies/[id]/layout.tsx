@@ -27,7 +27,7 @@ export default async function Layout({
 
   return (
     <div className="max-w-[1200px] space-y-4">
-      <Providers>
+      <Providers policyId={id}>
         <main className="h-[calc(100vh-4rem-4rem)]">{children}</main>
       </Providers>
     </div>
