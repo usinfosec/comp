@@ -6,7 +6,7 @@ import { ScrollArea } from "@bubba/ui/scroll-area";
 import { useCompletion } from "ai/react";
 import { ArrowUp } from "lucide-react";
 import { useEditor } from "novel";
-import { addAIHighlight } from "novel/extensions";
+import { addAIHighlight } from "novel";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { toast } from "sonner";

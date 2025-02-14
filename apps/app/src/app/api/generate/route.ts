@@ -138,5 +138,5 @@ export async function POST(req: Request): Promise<Response> {
     model: openai("gpt-4o-mini"),
   });
 
-  return result.toDataStreamResponse();
+  return (await result).toDataStreamResponse();
 }

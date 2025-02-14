@@ -7,7 +7,6 @@ import {
   GlobalDragHandle,
   HighlightExtension,
   HorizontalRule,
-  MarkdownExtension,
   Mathematics,
   Placeholder,
   StarterKit,
@@ -18,7 +17,7 @@ import {
   TiptapUnderline,
   Twitter,
   Youtube,
-} from "novel/extensions";
+} from "novel";
 
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
@@ -133,7 +132,6 @@ export const defaultExtensions = [
   mathematics,
   characterCount,
   TiptapUnderline,
-  MarkdownExtension,
   HighlightExtension,
   TextStyle,
   Color,

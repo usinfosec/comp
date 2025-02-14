@@ -8,7 +8,7 @@ import { ClientSideSuspense } from "@liveblocks/react";
 import type { JSONContent } from "@tiptap/react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { AdvancedEditor } from "../editor/advanced-editor";
+import AdvancedEditor from "../editor/advanced-editor";
 import { DocumentSpinner } from "../editor/spinner";
 
 export function PolicyOverview({ policyId }: { policyId: string }) {
@@ -44,7 +44,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
         <div className="min-h-0 h-auto">
           <div className="relative min-h-[1100px] w-full  mx-auto border border-border bg-background">
             <ClientSideSuspense fallback={<DocumentSpinner />}>
-              <AdvancedEditor />
+              <AdvancedEditor content={content} />
             </ClientSideSuspense>
           </div>
         </div>

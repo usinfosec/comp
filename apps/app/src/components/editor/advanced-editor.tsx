@@ -8,8 +8,9 @@ import {
   EditorCommandList,
   EditorContent,
   EditorRoot,
+  type JSONContent,
 } from "novel";
-import { ImageResizer, handleCommandNavigation } from "novel/extensions";
+import { ImageResizer, handleCommandNavigation } from "novel";
 import { useState } from "react";
 import { defaultExtensions } from "./extensions";
 import { ColorSelector } from "./selectors/color-selector";
@@ -19,15 +20,13 @@ import { NodeSelector } from "./selectors/node-selector";
 
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useSyncStatus } from "@liveblocks/react/suspense";
-import { handleImageDrop, handleImagePaste } from "novel/plugins";
+import { handleImageDrop, handleImagePaste } from "novel";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
-import { AddCommentSelector } from "./selectors/add-comment-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-import { Threads } from "./threads";
 
-export const AdvancedEditor = () => {
+export default function AdvancedEditor({ content }: { content: JSONContent }) {
   const liveblocks = useLiveblocksExtension();
   const extensions = [...defaultExtensions, slashCommand, liveblocks];
   const [charsCount, setCharsCount] = useState();
@@ -126,4 +125,4 @@ export const AdvancedEditor = () => {
       </EditorRoot>
     </div>
   );
-};
+}

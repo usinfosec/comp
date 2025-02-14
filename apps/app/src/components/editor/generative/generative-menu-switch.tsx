@@ -1,6 +1,6 @@
 import { Button } from "@bubba/ui/button";
 import { EditorBubble, useEditor } from "novel";
-import { removeAIHighlight } from "novel/extensions";
+import { removeAIHighlight } from "novel";
 import { Fragment, type ReactNode, useEffect } from "react";
 import Magic from "../ui/icons/magic";
 import { AISelector } from "./ai-selector";

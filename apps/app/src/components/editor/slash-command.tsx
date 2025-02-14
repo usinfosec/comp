@@ -12,8 +12,8 @@ import {
   Twitter,
   Youtube,
 } from "lucide-react";
-import { createSuggestionItems } from "novel/extensions";
-import { Command, renderItems } from "novel/extensions";
+import { createSuggestionItems } from "novel";
+import { Command, renderItems } from "novel";
 import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([
