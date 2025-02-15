@@ -1,10 +1,5 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import "@liveblocks/react-ui/styles.css";
-import "@liveblocks/react-tiptap/styles.css";
-import "@bubba/ui/globals.css";
-import "@bubba/ui/text-editor";
-import "@bubba/ui/prosemirror";
 
 export default async function Layout({
   children,
