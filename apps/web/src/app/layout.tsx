@@ -18,17 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)" },
-    { media: "(prefers-color-scheme: dark)" },
-  ],
-};
-
 export const preferredRegion = ["auto"];
 
 export default function RootLayout({
@@ -40,7 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-svh bg-background font-sans antialiased",
+          "bg-background font-sans antialiased",
           geistSans.variable,
         )}
       >

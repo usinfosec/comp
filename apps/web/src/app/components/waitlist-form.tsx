@@ -80,7 +80,6 @@ export function WaitlistForm() {
               <FormControl>
                 <Input
                   {...field}
-                  autoFocus
                   type="email"
                   placeholder="Enter your work email"
                   className="h-12 px-4 text-base bg-background border-border/50 focus:border-primary"
