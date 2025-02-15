@@ -70,6 +70,7 @@ export default function AdvancedEditor() {
       </div>
       <EditorRoot>
         <EditorContent
+          //@ts-ignore tiptap errors
           extensions={extensions}
           className="p-12 relative min-h-[calc(100vh-250px)] w-full"
           editorProps={{
