@@ -1,11 +1,7 @@
 "use client";
 
-import AdvancedEditor from "@/components/editor/advanced-editor";
-import { DocumentSpinner } from "@/components/editor/spinner";
-import { PolicyOverview } from "@/components/policies/policy-overview";
 import { Button } from "@bubba/ui/button";
 import { Separator } from "@bubba/ui/separator";
-import { ClientSideSuspense } from "@liveblocks/react";
 import { useAction } from "next-safe-action/hooks";
 import { useParams } from "next/navigation";
 import type { JSONContent } from "novel";
@@ -48,9 +44,7 @@ export default function PolicyPage() {
       <div className="flex-1">
         <div className="min-h-0 h-auto">
           <div className="relative min-h-[calc(100vh-250px)] w-full  mx-auto border border-border bg-background">
-            <ClientSideSuspense fallback={<DocumentSpinner />}>
-              <AdvancedEditor />
-            </ClientSideSuspense>
+            Editor
           </div>
         </div>
       </div>

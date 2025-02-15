@@ -691,5 +691,24 @@ export default {
     frameworks: {
       overview: "Marcos"
     }
+  },
+  editor: {
+    ai: {
+      thinking: "La IA está pensando",
+      thinking_spinner: "La IA está pensando",
+      edit_or_generate: "Editar o generar...",
+      tell_ai_what_to_do_next: "Dile a la IA qué hacer a continuación",
+      request_limit_reached: "Has alcanzado tu límite de solicitudes para el día."
+    },
+    ai_selector: {
+      improve: "Mejorar la redacción",
+      fix: "Corregir la gramática",
+      shorter: "Hacer más corto",
+      longer: "Hacer más largo",
+      "continue": "Continuar escribiendo",
+      replace: "Reemplazar selección",
+      insert: "Insertar abajo",
+      discard: "Descartar"
+    }
   }
 } as const;
