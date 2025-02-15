@@ -1,9 +1,27 @@
 "use client";
 
-import { LiveblocksProvider } from "@liveblocks/react";
+import { LiveblocksProvider, RoomProvider } from "@liveblocks/react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import type { JSONContent } from "novel";
 import type { PropsWithChildren } from "react";
+import { usePolicy } from "../hooks/usePolicy";
 
-export function Providers({ children }: PropsWithChildren) {
+interface ProvidersProps extends PropsWithChildren {
+  policyId: string;
+}
+
+export function Providers({ children, policyId }: ProvidersProps) {
+  const { data: session } = useSession();
+  const { data: policy } = usePolicy({ policyId });
+
+  if (!policyId || !session?.user?.organizationId) {
+    redirect("/policies");
+  }
+
+  const content = policy?.content as JSONContent;
+  const roomId = `liveblocks:policies:${session.user.organizationId}:${policyId}`;
+
   return (
     <LiveblocksProvider
       authEndpoint="/api/liveblocks"
@@ -33,7 +51,9 @@ export function Providers({ children }: PropsWithChildren) {
         return userIds;
       }}
     >
-      {children}
+      <RoomProvider id={roomId} initialStorage={content}>
+        {children}
+      </RoomProvider>
     </LiveblocksProvider>
   );
 }

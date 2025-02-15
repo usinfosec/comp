@@ -1,6 +1,6 @@
 import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
-import { MessageSquarePlus, SigmaIcon } from "lucide-react";
+import { MessageSquarePlus } from "lucide-react";
 import { useEditor } from "novel";
 
 export const AddCommentSelector = () => {

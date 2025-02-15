@@ -34,7 +34,7 @@ const tiptapLink = TiptapLink.configure({
 
 const taskList = TaskList.configure({
   HTMLAttributes: {
-    class: cx("not-prose pl-2 "),
+    class: cx("not-prose pl-2"),
   },
 });
 const taskItem = TaskItem.configure({

@@ -1,18 +1,10 @@
-import {
-  AnchoredThreads,
-  FloatingComposer,
-  FloatingThreads,
-} from "@liveblocks/react-tiptap";
+import { FloatingComposer, FloatingThreads } from "@liveblocks/react-tiptap";
 import { useThreads } from "@liveblocks/react/suspense";
 import { useEditor } from "novel";
 import { useSyncExternalStore } from "react";
-import "@bubba/ui/globals.css";
-import "@bubba/ui/prosemirror";
-import "@bubba/ui/text-editor";
 
 export function Threads() {
   const { editor } = useEditor();
-  const isMobile = useIsMobile();
   const { threads } = useThreads({ query: { resolved: false } });
 
   if (!editor) {
@@ -21,20 +13,8 @@ export function Threads() {
 
   return (
     <>
-      <FloatingComposer editor={editor} style={{ width: "350px" }} />
-      {isMobile ? (
-        <FloatingThreads
-          editor={editor}
-          threads={threads}
-          style={{ width: "350px" }}
-        />
-      ) : (
-        <AnchoredThreads
-          editor={editor}
-          threads={threads}
-          style={{ width: "350px" }}
-        />
-      )}
+      <FloatingComposer editor={editor} color="light" />
+      <FloatingThreads editor={editor} threads={threads} color="light" />
     </>
   );
 }
