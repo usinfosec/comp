@@ -691,5 +691,24 @@ export default {
     frameworks: {
       overview: "Cadres"
     }
+  },
+  editor: {
+    ai: {
+      thinking: "L'IA réfléchit",
+      thinking_spinner: "L'IA réfléchit",
+      edit_or_generate: "Modifier ou générer...",
+      tell_ai_what_to_do_next: "Dites à l'IA quoi faire ensuite",
+      request_limit_reached: "Vous avez atteint votre limite de demandes pour la journée."
+    },
+    ai_selector: {
+      improve: "Améliorer l'écriture",
+      fix: "Corriger la grammaire",
+      shorter: "Rendre plus court",
+      longer: "Rendre plus long",
+      "continue": "Continuer à écrire",
+      replace: "Remplacer la sélection",
+      insert: "Insérer ci-dessous",
+      discard: "Jeter"
+    }
   }
 } as const;
