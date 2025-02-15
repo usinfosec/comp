@@ -1,3 +1,4 @@
+import { useI18n } from "@/locales/client";
 import { CommandGroup, CommandItem, CommandSeparator } from "@bubba/ui/command";
 import {
   ArrowDownWideNarrow,
@@ -9,36 +10,37 @@ import {
 import { useEditor } from "novel";
 import { getPrevText } from "novel";
 
-const options = [
-  {
-    value: "improve",
-    label: "Improve writing",
-    icon: RefreshCcwDot,
-  },
-
-  {
-    value: "fix",
-    label: "Fix grammar",
-    icon: CheckCheck,
-  },
-  {
-    value: "shorter",
-    label: "Make shorter",
-    icon: ArrowDownWideNarrow,
-  },
-  {
-    value: "longer",
-    label: "Make longer",
-    icon: WrapText,
-  },
-];
-
 interface AISelectorCommandsProps {
   onSelect: (value: string, option: string) => void;
 }
 
 const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
   const { editor } = useEditor();
+  const t = useI18n();
+
+  const options = [
+    {
+      value: "improve",
+      label: t("editor.ai_selector.improve"),
+      icon: RefreshCcwDot,
+    },
+
+    {
+      value: "fix",
+      label: t("editor.ai_selector.fix"),
+      icon: CheckCheck,
+    },
+    {
+      value: "shorter",
+      label: t("editor.ai_selector.shorter"),
+      icon: ArrowDownWideNarrow,
+    },
+    {
+      value: "longer",
+      label: t("editor.ai_selector.longer"),
+      icon: WrapText,
+    },
+  ];
 
   return (
     <>
@@ -82,7 +84,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
           className="gap-2 px-4"
         >
           <StepForward className="h-4 w-4 text-purple-500" />
-          Continue writing
+          {t("editor.ai_selector.continue")}
         </CommandItem>
       </CommandGroup>
     </>

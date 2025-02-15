@@ -26,12 +26,18 @@ import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { Threads } from "./threads";
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
+import "@bubba/ui/globals.css";
+import "@bubba/ui/text-editor";
+import "@bubba/ui/prosemirror";
 
 export default function AdvancedEditor() {
   const liveblocks = useLiveblocksExtension({
     offlineSupport_experimental: true,
   });
 
+  //@ts-ignore tiptap errors
   const extensions: Extensions = [
     ...defaultExtensions,
     slashCommand,
@@ -47,7 +53,7 @@ export default function AdvancedEditor() {
   const syncStatus = useSyncStatus({ smooth: true });
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <div className="relative w-full max-w-screen-lg overflow-hidden max-h-[calc(100vh-250px)]">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {syncStatus === "synchronizing" ? "Unsaved" : "Saved"}
@@ -76,7 +82,7 @@ export default function AdvancedEditor() {
               handleImageDrop(view, event, moved, uploadFn),
             attributes: {
               class:
-                "prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+                "overflow-hidden prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
             },
           }}
           onUpdate={({ editor }) =>

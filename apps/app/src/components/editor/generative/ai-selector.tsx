@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Command, CommandInput } from "@bubba/ui/command";
 import { ScrollArea } from "@bubba/ui/scroll-area";
@@ -14,7 +15,6 @@ import CrazySpinner from "../ui/icons/crazy-spinner";
 import Magic from "../ui/icons/magic";
 import AICompletionCommands from "./ai-completion-command";
 import AISelectorCommands from "./ai-selector-commands";
-//TODO: I think it makes more sense to create a custom Tiptap extension for this functionality https://tiptap.dev/docs/editor/ai/introduction
 
 interface AISelectorProps {
   open: boolean;
@@ -22,15 +22,16 @@ interface AISelectorProps {
 }
 
 export function AISelector({ onOpenChange }: AISelectorProps) {
+  const t = useI18n();
+
   const { editor } = useEditor();
   const [inputValue, setInputValue] = useState("");
 
   const { completion, complete, isLoading } = useCompletion({
-    // id: "novel",
     api: "/api/generate",
     onResponse: (response) => {
       if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
+        toast.error(t("editor.ai.request_limit_reached"));
         return;
       }
     },
@@ -56,7 +57,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
       {isLoading && (
         <div className="flex h-12 w-full items-center px-4 text-sm font-medium text-muted-foreground text-purple-500">
           <Magic className="mr-2 h-4 w-4 shrink-0  " />
-          AI is thinking
+          {t("editor.ai.thinking")}
           <div className="ml-2 mt-1">
             <CrazySpinner />
           </div>
@@ -71,8 +72,8 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
               autoFocus
               placeholder={
                 hasCompletion
-                  ? "Tell AI what to do next"
-                  : "Ask AI to edit or generate..."
+                  ? t("editor.ai.tell_ai_what_to_do_next")
+                  : t("editor.ai.edit_or_generate")
               }
               onFocus={() => {
                 if (!editor) {
