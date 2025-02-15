@@ -4,12 +4,9 @@ import { publishPolicy } from "@/app/[locale]/(app)/(dashboard)/policies/[id]/ac
 import { usePolicy } from "@/app/[locale]/(app)/(dashboard)/policies/hooks/usePolicy";
 import { Button } from "@bubba/ui/button";
 import { Separator } from "@bubba/ui/separator";
-import { ClientSideSuspense } from "@liveblocks/react";
-import type { JSONContent } from "@tiptap/react";
 import { useAction } from "next-safe-action/hooks";
+import type { JSONContent } from "novel";
 import { toast } from "sonner";
-import AdvancedEditor from "../editor/advanced-editor";
-import { DocumentSpinner } from "../editor/spinner";
 
 export function PolicyOverview({ policyId }: { policyId: string }) {
   const { data: policy } = usePolicy({ policyId });
@@ -43,9 +40,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
       <div className="flex-1">
         <div className="min-h-0 h-auto">
           <div className="relative min-h-[1100px] w-full  mx-auto border border-border bg-background">
-            <ClientSideSuspense fallback={<DocumentSpinner />}>
-              <AdvancedEditor content={content} />
-            </ClientSideSuspense>
+            Editor
           </div>
         </div>
       </div>
