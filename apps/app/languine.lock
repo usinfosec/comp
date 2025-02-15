@@ -454,6 +454,19 @@ files:
     vendor.empty_states.no_results.description: d7fd5c52726c5016a59fb01e74069441
     vendor.empty_states.no_results.description_with_filters: 2b70f835ed5a08e817ec9388ce25b41a
     errors.unexpected: 325a357f60b95f37fec18b15cb39fbb0
+    editor.ai.thinking: aba464039b337eb2e75c2520039de58f
+    editor.ai.thinking_spinner: aba464039b337eb2e75c2520039de58f
+    editor.ai.edit_or_generate: 7d46fd8c65c35acb13973849b035cc53
+    editor.ai.tell_ai_what_to_do_next: 44de6614358c04f76015a3c9646b3f8f
+    editor.ai.request_limit_reached: 73b31a4d9ba135f8ef97768899c18836
+    editor.ai_selector.improve: 92769395d4986d32c599e0eff5824cb3
+    editor.ai_selector.fix: a71ef487bc9bac7c65fd3ff8a7b4fe0d
+    editor.ai_selector.shorter: 73c9649c6a97008d3ae6880e8350b334
+    editor.ai_selector.longer: e0737d9beb7fa3a5541f275b76139d86
+    editor.ai_selector.continue: 29f3b5417ce466da5ac5720ce6e28d4f
+    editor.ai_selector.replace: 05fdc089c4c320832588a69475ff5e79
+    editor.ai_selector.insert: 3005820694a4944d91c4c4e8b8a016d3
+    editor.ai_selector.discard: d94b42030b9785fd754d5c1754961269
   src/locales/es.ts:
     language.title: c88b33a3250b4e28f34e1ececba69206
     language.description: b74d060770289b75ba34d38ea1e05251

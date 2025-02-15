@@ -691,5 +691,24 @@ export default {
     frameworks: {
       overview: "Rammeverk"
     }
+  },
+  editor: {
+    ai: {
+      thinking: "AI tenker",
+      thinking_spinner: "AI tenker",
+      edit_or_generate: "Rediger eller generer...",
+      tell_ai_what_to_do_next: "Fortell AI hva den skal gjøre neste gang",
+      request_limit_reached: "Du har nådd forespørselgrensen for dagen."
+    },
+    ai_selector: {
+      improve: "Forbedre skriving",
+      fix: "Rett grammatikk",
+      shorter: "Gjør kortere",
+      longer: "Gjør lengre",
+      "continue": "Fortsett å skrive",
+      replace: "Erstatt valg",
+      insert: "Sett inn under",
+      discard: "Forkast"
+    }
   }
 } as const;
