@@ -97,7 +97,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
                   }).then(() => setInputValue(""));
 
                 const slice = editor.state.selection.content();
-                const text = editor.storage.markdown.serializer.serialize(
+                const text = editor.storage?.markdown?.serializer?.serialize(
                   slice.content,
                 );
 
@@ -116,7 +116,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
                   return;
                 }
 
-                editor.chain().unsetHighlight().focus().run();
+                editor.chain().unsetHighlight()?.focus()?.run();
                 onOpenChange(false);
               }}
               completion={completion}
