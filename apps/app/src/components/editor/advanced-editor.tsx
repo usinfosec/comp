@@ -3,7 +3,7 @@
 import { Separator } from "@bubba/ui/separator";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useSyncStatus } from "@liveblocks/react/suspense";
-import type { Extensions, JSONContent } from "@tiptap/react";
+import type { Extensions } from "@tiptap/react";
 import {
   EditorCommand,
   EditorCommandEmpty,
@@ -70,7 +70,7 @@ export default function AdvancedEditor() {
       </div>
       <EditorRoot>
         <EditorContent
-          //@ts-ignore tiptap errors
+          // @ts-ignore tiptap errors
           extensions={extensions}
           className="p-12 relative min-h-[calc(100vh-250px)] w-full"
           editorProps={{
