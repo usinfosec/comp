@@ -20,13 +20,6 @@ type Props = {
   }[];
 };
 
-const statusTranslationKeys = {
-  open: "risk.tasks.statuses.open",
-  pending: "risk.tasks.statuses.pending",
-  closed: "risk.tasks.statuses.closed",
-  archived: "risk.tasks.statuses.archived",
-} as const;
-
 export function FilterToolbar({ isEmpty, users }: Props) {
   const t = useI18n();
   const [isPending, startTransition] = useTransition();

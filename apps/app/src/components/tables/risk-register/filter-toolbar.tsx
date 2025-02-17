@@ -110,8 +110,8 @@ export function FilterToolbar({ isEmpty, users }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-      <div className="relative flex-1 sm:max-w-sm">
+    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between mb-4">
+      <div className="relative flex-1 max-w-sm">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder={t("common.filters.search")}
@@ -121,13 +121,13 @@ export function FilterToolbar({ isEmpty, users }: Props) {
         />
       </div>
 
-      <div className="flex gap-2 items-center flex-wrap">
+      <div className="flex gap-2 items-center">
         <div className="sm:flex gap-2 sm:flex-row sm:items-center hidden">
           <Select
             value={status || ""}
             onValueChange={(value) => setStatus(value || null)}
           >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
+            <SelectTrigger className="w-auto min-w-[100px]">
               <SelectValue placeholder={t("common.filters.status")} />
             </SelectTrigger>
             <SelectContent>
@@ -147,7 +147,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
             value={department || ""}
             onValueChange={(value) => setDepartment(value || null)}
           >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
+            <SelectTrigger className="w-[150px] min-w-[150px]">
               <SelectValue placeholder={t("common.filters.department")} />
             </SelectTrigger>
             <SelectContent>
@@ -192,12 +192,10 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 
         <Button
           onClick={() => setOpen("true")}
-          variant="outline"
-          size="sm"
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
-          <span className="block md:hidden">{t("common.actions.create")}</span>
+          {t("common.actions.addNew")}
         </Button>
       </div>
 

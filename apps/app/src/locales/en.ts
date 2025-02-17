@@ -25,6 +25,7 @@ export default {
       cancel: "Cancel",
       clear: "Clear",
       create: "Create",
+      addNew: "Add New",
       send: "Send",
       return: "Return",
       success: "Success",
