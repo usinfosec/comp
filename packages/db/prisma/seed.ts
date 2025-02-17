@@ -66,28 +66,34 @@ async function seedPolicies() {
 
   for (const file of policyFiles) {
     console.log(`  ⏳ Processing ${file}...`);
-    const policyData = JSON.parse(
-      readFileSync(join(policiesDir, file), "utf8")
-    ) as Policy;
 
-    await prisma.policy.upsert({
-      where: { id: policyData.metadata.id },
-      update: {
-        name: policyData.metadata.name,
-        description: policyData.metadata.description,
-        content: policyData.content as Prisma.InputJsonValue[],
-        usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
-      },
-      create: {
-        id: policyData.metadata.id,
-        slug: policyData.metadata.slug,
-        name: policyData.metadata.name,
-        description: policyData.metadata.description,
-        content: policyData.content as Prisma.InputJsonValue[],
-        usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
-      },
-    });
-    console.log(`  ✅ ${file} processed`);
+    try {
+      const fileContent = readFileSync(join(policiesDir, file), "utf8");
+      const policyData = JSON.parse(fileContent) as Policy;
+
+      await prisma.policy.upsert({
+        where: {
+          id: policyData.metadata.id,
+        },
+        update: {
+          name: policyData.metadata.name,
+          description: policyData.metadata.description,
+          content: policyData.content as Prisma.InputJsonValue[],
+          usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
+        },
+        create: {
+          id: policyData.metadata.id,
+          slug: policyData.metadata.slug,
+          name: policyData.metadata.name,
+          description: policyData.metadata.description,
+          content: policyData.content as Prisma.InputJsonValue[],
+          usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
+        },
+      });
+      console.log(`  ✅ ${file} processed`);
+    } catch (error) {
+      console.error(`  ❌ Error processing ${file}:`, error);
+    }
   }
 }
 

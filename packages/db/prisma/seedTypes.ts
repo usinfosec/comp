@@ -36,15 +36,27 @@ export interface ControlRequirement {
 }
 
 export interface Policy {
+  type: string;
   metadata: {
     id: string;
     slug: string;
     name: string;
     description: string;
-    type: string;
     usedBy: {
       [key: string]: string[];
     };
   };
-  content: JsonArray;
+  content: Array<{
+    type: string;
+    attrs?: {
+      level?: number;
+      [key: string]: unknown;
+    };
+    content?: Array<{
+      type: string;
+      text?: string;
+      [key: string]: unknown;
+    }>;
+    [key: string]: unknown;
+  }>;
 }
