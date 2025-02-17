@@ -1,7 +1,13 @@
 {
   "type": "doc",
   "metadata": {
-    "controls": ["CC1.1", "CC6.1"]
+    "id": "code-of-conduct",
+    "slug": "code-of-conduct",
+    "name": "Code of Conduct Policy",
+    "description": "This policy outlines the expected behavior from employees towards their colleagues, supervisors, and the organization as a whole.",
+    "usedBy": {
+      "soc2": ["CC1.1", "CC6.1"]
+    }
   },
   "content": [
     {

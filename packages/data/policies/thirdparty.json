@@ -1,7 +1,13 @@
 {
   "type": "doc",
   "metadata": {
-    "controls": ["CC2.3", "CC7.3", "CC8.1"]
+    "id": "thirdparty",
+    "slug": "thirdparty",
+    "name": "Third-Party Management Policy",
+    "description": "This policy defines the rules for relationships with the organization’s Information Technology (IT) third-parties and partners.",
+    "usedBy": {
+      "soc2": ["CC2.3", "CC7.3", "CC8.1"]
+    }
   },
   "content": [
     {
