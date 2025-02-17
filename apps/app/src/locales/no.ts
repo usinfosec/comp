@@ -98,7 +98,7 @@ export default {
     comments: {
       title: "Kommentarer",
       description: "Legg til en kommentar ved å bruke skjemaet nedenfor.",
-      add: "Legg til kommentar",
+      add: "Ny kommentar",
       "new": "Ny kommentar",
       save: "Lagre kommentar",
       success: "Kommentar lagt til",
@@ -112,7 +112,7 @@ export default {
     attachments: {
       title: "Vedlegg",
       description: "Legg til en fil ved å klikke på 'Legg til vedlegg'.",
-      upload: "Last opp et vedlegg",
+      upload: "Last opp vedlegg",
       upload_description: "Last opp et vedlegg eller legg til en lenke til en ekstern ressurs.",
       drop: "Slipp filene her",
       drop_description: "Slipp filer her eller klikk for å velge filer fra enheten din.",

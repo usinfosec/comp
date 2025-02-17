@@ -98,7 +98,7 @@ export default {
     comments: {
       title: "Comentarios",
       description: "Agrega un comentario utilizando el formulario a continuación.",
-      add: "Agregar Comentario",
+      add: "Nuevo comentario",
       "new": "Nuevo Comentario",
       save: "Guardar Comentario",
       success: "Comentario agregado con éxito",
@@ -112,7 +112,7 @@ export default {
     attachments: {
       title: "Adjuntos",
       description: "Agrega un archivo haciendo clic en 'Agregar Adjunto'.",
-      upload: "Subir un adjunto",
+      upload: "Subir archivo adjunto",
       upload_description: "Sube un adjunto o agrega un enlace a un recurso externo.",
       drop: "Suelta los archivos aquí",
       drop_description: "Suelta archivos aquí o haz clic para elegir archivos de tu dispositivo.",
