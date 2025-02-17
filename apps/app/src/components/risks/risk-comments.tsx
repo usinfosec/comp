@@ -30,12 +30,7 @@ export function RiskComments({
             <div className="flex items-center gap-2">
               {t("common.comments.title")}
             </div>
-            <Button
-              variant="outline"
-              onClick={() => setOpen("true")}
-              size="sm"
-              className="gap-2"
-            >
+            <Button variant="action" onClick={() => setOpen("true")}>
               <MessageSquare className="h-4 w-4" />
               {t("common.comments.add")}
             </Button>

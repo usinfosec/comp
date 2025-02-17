@@ -110,6 +110,7 @@ export function InherentRiskForm({
         <div className="flex justify-end">
           <Button
             type="submit"
+            variant="action"
             disabled={updateInherentRisk.status === "executing"}
           >
             {updateInherentRisk.status === "executing" ? (

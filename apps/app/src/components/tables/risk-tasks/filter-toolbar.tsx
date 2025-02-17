@@ -3,6 +3,7 @@
 import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
+import { cn } from "@bubba/ui/cn";
 import { Input } from "@bubba/ui/input";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { Search, X } from "lucide-react";
@@ -10,7 +11,6 @@ import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useTransition } from "react";
 import { useCallback } from "react";
-import { cn } from "../../../../../../packages/ui/src/utils";
 
 type Props = {
   isEmpty?: boolean;
@@ -97,8 +97,9 @@ export function FilterToolbar({ isEmpty, users }: Props) {
       </div>
 
       <div className="flex">
-        <Button onClick={() => setOpen("true")} variant="outline" size="icon">
+        <Button onClick={() => setOpen("true")} variant="action">
           <Plus className="h-4 w-4" />
+          {t("common.actions.addNew")}
         </Button>
       </div>
       <CreateTaskSheet />

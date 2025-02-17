@@ -3,31 +3,18 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="border-t py-6 md:py-0">
-      <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built by{" "}
-            <Link
-              href="https://trycomp.ai"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Comp AI
-            </Link>
-            . The source code is available on{" "}
+      <div className="container flex flex-col items-center justify-end gap-4 md:h-16 md:flex-row">
+        <ul className="flex gap-4">
+          <li>
             <Link
               href="https://github.com/trycompai/comp"
               target="_blank"
               rel="noreferrer"
-              className="font-medium underline underline-offset-4"
+              className="text-sm text-muted-foreground hover:underline"
             >
               GitHub
             </Link>
-            .
-          </p>
-        </div>
-        <ul className="flex gap-4">
+          </li>
           <li>
             <Link
               href="/privacy"

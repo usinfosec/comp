@@ -1,4 +1,5 @@
 import { WaitlistForm } from "@/app/components/waitlist-form";
+import { Button } from "@bubba/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
@@ -33,21 +34,18 @@ export default function Home() {
 
           <div className="mt-10 w-full max-w-md">
             <WaitlistForm />
-            <p className="text-sm text-muted-foreground mt-2 text-center">
+            <p className="text-xs text-muted-foreground mt-2 text-center">
               Join our waitlist to help make 100,000 companies compliant by
               2032.
             </p>
           </div>
 
           <div className="mt-12 w-full max-w-[800px]">
-            <div className="mt-8 text-center">
-              <Link
-                href="https://discord.gg/compai"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
-              >
-                Join us on Discord
+            <div className="mt-8 flex justify-center">
+              <Button variant="action">
+                Discord
                 <span>→</span>
-              </Link>
+              </Button>
             </div>
           </div>
         </div>

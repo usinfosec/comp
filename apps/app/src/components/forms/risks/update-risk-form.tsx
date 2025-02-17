@@ -108,7 +108,11 @@ export function UpdateRiskForm({
           />
         </div>
         <div className="flex justify-end mt-8">
-          <Button type="submit" disabled={updateRisk.status === "executing"}>
+          <Button
+            type="submit"
+            variant="action"
+            disabled={updateRisk.status === "executing"}
+          >
             {updateRisk.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

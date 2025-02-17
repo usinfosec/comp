@@ -44,7 +44,7 @@ export function SecondaryMenu({ items, isChild }: SecondaryMenuProps) {
       <ul
         className={cn(
           "scrollbar-hide flex overflow-auto text-sm",
-          isChild ? "space-x-3" : "space-x-6"
+          isChild ? "space-x-3" : "space-x-6",
         )}
       >
         {items.map((item) => {
@@ -55,8 +55,8 @@ export function SecondaryMenu({ items, isChild }: SecondaryMenuProps) {
               className={cn(
                 "text-muted-foreground",
                 isActiveLink(item.path) &&
-                  "font-medium text-primary underline underline-offset-8",
-                isDisabled && "opacity-50 cursor-pointer"
+                  "font-medium underline underline-offset-8",
+                isDisabled && "opacity-50 cursor-pointer",
               )}
             >
               {item.label}

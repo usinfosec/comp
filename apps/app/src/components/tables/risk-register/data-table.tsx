@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
                         cell.column.id === "ownerId" ||
                         cell.column.id === "assignedTo" ||
                         cell.column.id === "status") &&
-                        "hidden lg:table-cell",
+                        "hidden md:table-cell",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
