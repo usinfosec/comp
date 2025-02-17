@@ -43,8 +43,13 @@ export default function Home() {
           <div className="mt-12 w-full max-w-[800px]">
             <div className="mt-8 flex justify-center">
               <Button variant="action">
-                Discord
-                <span>→</span>
+                <Link
+                  href="https://discord.gg/compai"
+                  className="flex items-center gap-2"
+                >
+                  Discord
+                  <span>→</span>
+                </Link>
               </Button>
             </div>
           </div>

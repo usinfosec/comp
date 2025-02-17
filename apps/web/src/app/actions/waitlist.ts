@@ -15,7 +15,6 @@ export const joinWaitlist = createSafeActionClient()
       throw new Error("Resend not initialized - missing API key");
     }
 
-    // Existing resend audience
     const audience = await resend.contacts.list({
       audienceId: process.env.RESEND_AUDIENCE_ID!,
     });

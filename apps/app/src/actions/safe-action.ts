@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
 import { logger } from "@/utils/logger";
-import * as ServerAnalytics from "@bubba/analytics/src/server";
-import { db } from "@bubba/db";
 import { client } from "@bubba/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import {
