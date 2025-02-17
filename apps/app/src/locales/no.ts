@@ -24,7 +24,8 @@ export default {
       success: "Suksess",
       error: "Feil",
       next: "Neste",
-      complete: "Fullfør"
+      complete: "Fullfør",
+      addNew: "Legg til ny"
     },
     assignee: {
       label: "Tildelt",

@@ -24,7 +24,8 @@ export default {
       success: "Éxito",
       error: "Error",
       next: "Siguiente",
-      complete: "Completar"
+      complete: "Completar",
+      addNew: "Agregar Nuevo"
     },
     assignee: {
       label: "Asignado a",
