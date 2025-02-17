@@ -91,6 +91,7 @@ export function UpdateOrganizationWebsite({
             <div>{t("settings.general.org_website_tip")}</div>
             <Button
               type="submit"
+              variant="action"
               disabled={updateOrganizationWebsite.status === "executing"}
             >
               {updateOrganizationWebsite.status === "executing" ? (

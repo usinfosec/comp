@@ -24,7 +24,8 @@ export default {
       success: "Sucesso",
       error: "Erro",
       next: "Próximo",
-      complete: "Completo"
+      complete: "Completo",
+      addNew: "Adicionar Novo"
     },
     assignee: {
       label: "Responsável",
@@ -97,7 +98,7 @@ export default {
     comments: {
       title: "Comentários",
       description: "Adicione um comentário usando o formulário abaixo.",
-      add: "Adicionar Comentário",
+      add: "Novo Comentário",
       "new": "Novo Comentário",
       save: "Salvar Comentário",
       success: "Comentário adicionado com sucesso",
@@ -111,7 +112,7 @@ export default {
     attachments: {
       title: "Anexos",
       description: "Adicione um arquivo clicando em 'Adicionar Anexo'.",
-      upload: "Carregar um anexo",
+      upload: "Enviar anexo",
       upload_description: "Carregue um anexo ou adicione um link para um recurso externo.",
       drop: "Solte os arquivos aqui",
       drop_description: "Solte arquivos aqui ou clique para escolher arquivos do seu dispositivo.",

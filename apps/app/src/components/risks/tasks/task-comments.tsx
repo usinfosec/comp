@@ -27,7 +27,7 @@ export function TaskComment({
         <CardTitle>
           <div className="flex items-center justify-between gap-2">
             {t("common.comments.title")}
-            <Button variant="outline" onClick={() => setOpen("true")}>
+            <Button variant="action" onClick={() => setOpen("true")}>
               {t("common.comments.add")}
             </Button>
           </div>

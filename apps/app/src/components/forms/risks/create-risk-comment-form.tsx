@@ -91,11 +91,11 @@ export function CreateRiskCommentForm() {
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
+              variant="action"
               disabled={createRiskComment.status === "executing"}
             >
               <div className="flex items-center justify-center">
                 {t("common.actions.save")}
-                <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>
           </div>

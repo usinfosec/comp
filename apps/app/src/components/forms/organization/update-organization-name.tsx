@@ -89,6 +89,7 @@ export function UpdateOrganizationName({
             <div>{t("settings.general.org_name_tip")}</div>
             <Button
               type="submit"
+              variant="action"
               disabled={updateOrganizationName.status === "executing"}
             >
               {updateOrganizationName.status === "executing" ? (

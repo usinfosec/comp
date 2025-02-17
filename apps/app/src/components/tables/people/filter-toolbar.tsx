@@ -7,7 +7,7 @@ import { Input } from "@bubba/ui/input";
 import { Plus, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { useCallback, useState, useTransition, useEffect } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { useDebounce } from "use-debounce";
 
 interface FilterToolbarProps {
@@ -22,7 +22,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   const [open, setOpen] = useQueryState("invite-user-sheet");
   const [isPending, startTransition] = useTransition();
   const [inputValue, setInputValue] = useState(
-    searchParams?.get("search") ?? ""
+    searchParams?.get("search") ?? "",
   );
 
   const createQueryString = useCallback(
@@ -39,7 +39,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 
       return newSearchParams.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   const [debouncedValue] = useDebounce(inputValue, 300);
@@ -50,7 +50,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
         `${pathname}?${createQueryString({
           search: debouncedValue || null,
           page: null,
-        })}`
+        })}`,
       );
     });
   }, [debouncedValue, createQueryString, pathname, router]);
@@ -80,14 +80,9 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
               </Button>
             )}
           </div>
-          <Button
-            onClick={() => setOpen("true")}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
+          <Button onClick={() => setOpen("true")} variant="action">
             <Plus className="h-4 w-4" />
-            <span>{t("people.actions.invite")}</span>
+            {t("people.actions.invite")}
           </Button>
         </div>
       </div>

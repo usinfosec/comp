@@ -11,7 +11,7 @@ export type StatusType = Exclude<
 const STATUS_COLORS: Record<StatusType, string> = {
   open: "#ffc107",
   pending: "#0ea5e9",
-  closed: "#22c55e",
+  closed: "#00DC73",
 } as const;
 
 export function Status({ status }: { status: StatusType }) {

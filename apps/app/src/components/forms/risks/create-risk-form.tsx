@@ -266,7 +266,11 @@ export function CreateRisk() {
           </div>
 
           <div className="flex justify-end mt-4">
-            <Button type="submit" disabled={createRisk.status === "executing"}>
+            <Button
+              type="submit"
+              variant="action"
+              disabled={createRisk.status === "executing"}
+            >
               <div className="flex items-center justify-center">
                 {t("common.actions.create")}
                 <ArrowRightIcon className="ml-2 h-4 w-4" />

@@ -54,8 +54,9 @@ export function UploadDialog({ taskId, riskId }: UploadDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          Upload attachment {files.length > 0 && `(${files.length})`}
+        <Button variant="action">
+          {t("common.attachments.upload")}{" "}
+          {files.length > 0 && `(${files.length})`}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">

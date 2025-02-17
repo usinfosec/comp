@@ -92,6 +92,7 @@ export function CreateTaskCommentForm() {
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
+              variant="action"
               disabled={createTaskComment.status === "executing"}
             >
               <div className="flex items-center justify-center">

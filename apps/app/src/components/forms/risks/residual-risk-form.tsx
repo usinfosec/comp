@@ -116,6 +116,7 @@ export function ResidualRiskForm({
         <div className="flex justify-end">
           <Button
             type="submit"
+            variant="action"
             disabled={updateResidualRisk.status === "executing"}
           >
             {updateResidualRisk.status === "executing" ? (

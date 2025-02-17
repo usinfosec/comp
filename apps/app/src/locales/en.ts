@@ -25,6 +25,7 @@ export default {
       cancel: "Cancel",
       clear: "Clear",
       create: "Create",
+      addNew: "Add New",
       send: "Send",
       return: "Return",
       success: "Success",
@@ -103,7 +104,7 @@ export default {
     comments: {
       title: "Comments",
       description: "Add a comment using the form below.",
-      add: "Add Comment",
+      add: "New Comment",
       new: "New Comment",
       save: "Save Comment",
       success: "Comment added successfully",
@@ -117,7 +118,7 @@ export default {
     attachments: {
       title: "Attachments",
       description: "Add a file by clicking 'Add Attachment'.",
-      upload: "Upload an attachment",
+      upload: "Upload attachment",
       upload_description:
         "Upload an attachment or add a link to an external resource.",
       drop: "Drop the files here",

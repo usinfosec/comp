@@ -82,7 +82,7 @@ export function WaitlistForm() {
                   {...field}
                   type="email"
                   placeholder="Enter your work email"
-                  className="h-12 px-4 text-base bg-background border-border/50 focus:border-primary"
+                  className="text-base"
                   autoComplete="email"
                   autoCorrect="off"
                   aria-label="Email address"
@@ -95,8 +95,7 @@ export function WaitlistForm() {
 
         <Button
           type="submit"
-          size="lg"
-          className="h-12 px-6 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2"
+          variant="action"
           disabled={waitlistAction.isExecuting || !form.formState.isValid}
         >
           {waitlistAction.isExecuting ? (

@@ -19,6 +19,7 @@ files:
     common.actions.cancel: ea4788705e6873b424c65e91c2846b19
     common.actions.clear: dc30bc0c7914db5918da4263fce93ad2
     common.actions.create: 686e697538050e4664636337cc3b834f
+    common.actions.addNew: de9ced9bf5e9829de4a93ad8c9d7a170
     common.actions.send: 94966d90747b97d1f0f206c98a8b1ac3
     common.actions.return: 988fd738de9c6d177440c5dcf69e73ce
     common.actions.success: 505a83f220c02df2f85c3810cd9ceb38
@@ -75,7 +76,7 @@ files:
     common.pagination.go_to_last_page: 261e818736ac3798b888949dd433e318
     common.comments.title: 8413c683b4b27cc3f4dbd4c90329d8ba
     common.comments.description: 08359c42a550b6de768196bb7a57572e
-    common.comments.add: a508cd6ee07b35ea8efdf98d6520ce83
+    common.comments.add: 73da8a9e52c10215e474553f4266c277
     common.comments.new: 73da8a9e52c10215e474553f4266c277
     common.comments.save: b665daa2bba746f14cfd89ff7da8d5e5
     common.comments.success: eb493b3987aa6dab3977b22ce64394aa
@@ -85,7 +86,7 @@ files:
     common.comments.empty.description: 0a0df874a9a6b1f3b710b48f10bcd494
     common.attachments.title: 7e2708aeb65763c54052f57ed1a1ec1d
     common.attachments.description: b8f87f50e2e7eb3a7e67cd28395428d1
-    common.attachments.upload: fa0354450b4127b5105471ad9bcd12cd
+    common.attachments.upload: 18924edc9e6a8120618ae1f429332b16
     common.attachments.upload_description: 91475bf0f0e5ecf5315b4c96fa9c6367
     common.attachments.drop: 74ea35329104cad8e805ffa86e613cfb
     common.attachments.drop_description: b97d68051d1914fd89cbab928a6277bd

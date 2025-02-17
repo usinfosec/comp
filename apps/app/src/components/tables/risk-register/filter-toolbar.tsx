@@ -110,73 +110,78 @@ export function FilterToolbar({ isEmpty, users }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-      <div className="relative flex-1 sm:max-w-sm">
-        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder={t("common.filters.search")}
-          className="pl-8"
-          value={search || ""}
-          onChange={(e) => setSearch(e.target.value || null)}
-        />
+    <div className="flex flex-row items-center justify-between gap-2 mb-4">
+      <div className="flex flex-1 items-center gap-2 min-w-0">
+        <div className="relative flex-1 md:max-w-sm">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder={t("common.filters.search")}
+            className="pl-8"
+            value={search || ""}
+            onChange={(e) => setSearch(e.target.value || null)}
+          />
+        </div>
+
+        <div className="md:hidden">
+          <Button onClick={() => setOpen("true")} variant="action">
+            <Plus className="h-4 w-4" />
+            {t("common.actions.addNew")}
+          </Button>
+        </div>
       </div>
 
-      <div className="flex gap-2 items-center flex-wrap">
-        <div className="sm:flex gap-2 sm:flex-row sm:items-center hidden">
-          <Select
-            value={status || ""}
-            onValueChange={(value) => setStatus(value || null)}
-          >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("common.filters.status")} />
-            </SelectTrigger>
-            <SelectContent>
-              {riskStatuses.map((stat) => (
-                <SelectItem key={stat} value={stat}>
-                  {t(
-                    statusTranslationKeys[
-                      stat.toLowerCase() as keyof typeof statusTranslationKeys
-                    ],
-                  )}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="hidden md:flex items-center gap-2">
+        <Select
+          value={status || ""}
+          onValueChange={(value) => setStatus(value || null)}
+        >
+          <SelectTrigger className="w-auto min-w-[100px]">
+            <SelectValue placeholder={t("common.filters.status")} />
+          </SelectTrigger>
+          <SelectContent>
+            {riskStatuses.map((stat) => (
+              <SelectItem key={stat} value={stat}>
+                {t(
+                  statusTranslationKeys[
+                    stat.toLowerCase() as keyof typeof statusTranslationKeys
+                  ],
+                )}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-          <Select
-            value={department || ""}
-            onValueChange={(value) => setDepartment(value || null)}
-          >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue placeholder={t("common.filters.department")} />
-            </SelectTrigger>
-            <SelectContent>
-              {departments.map((dept) => (
-                <SelectItem key={dept} value={dept}>
-                  {dept.replace(/_/g, " ").toUpperCase()}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <Select
+          value={department || ""}
+          onValueChange={(value) => setDepartment(value || null)}
+        >
+          <SelectTrigger className="w-[150px] min-w-[150px]">
+            <SelectValue placeholder={t("common.filters.department")} />
+          </SelectTrigger>
+          <SelectContent>
+            {departments.map((dept) => (
+              <SelectItem key={dept} value={dept}>
+                {dept.replace(/_/g, " ").toUpperCase()}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-          <Select
-            value={ownerId || ""}
-            onValueChange={(value) => setOwnerId(value || null)}
-          >
-            <SelectTrigger className="w-[200px] min-w-[200px]">
-              <SelectValue
-                placeholder={t("common.filters.owner.placeholder")}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {users.map((user) => (
-                <SelectItem key={user.id} value={user.id}>
-                  {user.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Select
+          value={ownerId || ""}
+          onValueChange={(value) => setOwnerId(value || null)}
+        >
+          <SelectTrigger className="w-[200px] min-w-[200px]">
+            <SelectValue placeholder={t("common.filters.owner.placeholder")} />
+          </SelectTrigger>
+          <SelectContent>
+            {users.map((user) => (
+              <SelectItem key={user.id} value={user.id}>
+                {user.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         {hasFilters && (
           <Button
@@ -190,14 +195,9 @@ export function FilterToolbar({ isEmpty, users }: Props) {
           </Button>
         )}
 
-        <Button
-          onClick={() => setOpen("true")}
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-        >
+        <Button onClick={() => setOpen("true")} variant="action">
           <Plus className="h-4 w-4" />
-          <span className="block md:hidden">{t("common.actions.create")}</span>
+          {t("common.actions.addNew")}
         </Button>
       </div>
 

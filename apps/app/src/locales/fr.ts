@@ -24,7 +24,8 @@ export default {
       success: "Succès",
       error: "Erreur",
       next: "Suivant",
-      complete: "Terminer"
+      complete: "Terminer",
+      addNew: "Ajouter Nouveau"
     },
     assignee: {
       label: "Assigné à",
@@ -97,7 +98,7 @@ export default {
     comments: {
       title: "Commentaires",
       description: "Ajoutez un commentaire en utilisant le formulaire ci-dessous.",
-      add: "Ajouter un commentaire",
+      add: "Nouveau commentaire",
       "new": "Nouveau commentaire",
       save: "Enregistrer le commentaire",
       success: "Commentaire ajouté avec succès",

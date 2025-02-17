@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 export function PolicyOverview({ policyId }: { policyId: string }) {
   const { data: policy } = usePolicy({ policyId });
+
   const { execute, isExecuting } = useAction(
     () => publishPolicy({ id: policyId }),
     {
@@ -39,7 +40,7 @@ export function PolicyOverview({ policyId }: { policyId: string }) {
       <Separator />
       <div className="flex-1">
         <div className="min-h-0 h-auto">
-          <div className="relative min-h-[1100px] w-full  mx-auto border border-border bg-background">
+          <div className="relative min-h-[1100px] w-full mx-auto border border-border bg-background">
             Editor
           </div>
         </div>

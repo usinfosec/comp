@@ -106,7 +106,11 @@ export function UpdateTaskOverviewForm({
           />
         </div>
         <div className="flex justify-end mt-8">
-          <Button type="submit" disabled={updateTask.status === "executing"}>
+          <Button
+            type="submit"
+            variant="action"
+            disabled={updateTask.status === "executing"}
+          >
             {updateTask.status === "executing" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
