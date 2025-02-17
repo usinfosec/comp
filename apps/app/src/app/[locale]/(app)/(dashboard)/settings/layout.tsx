@@ -4,11 +4,13 @@ import { Suspense } from "react";
 
 export default async function Layout({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode;
+}) {
   const t = await getI18n();
 
   return (
-    <div className="max-w-[800px]">
+    <div className="max-w-[800px] mx-auto">
       <Suspense fallback={<div>Loading...</div>}>
         <SecondaryMenu
           items={[

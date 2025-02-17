@@ -27,7 +27,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   }
 
   return (
-    <div className="max-w-[1200px] space-y-4">
+    <div className="max-w-[1200px] mx-auto space-y-4">
       <Title title={risk.title} href="/risk/register" />
 
       <SecondaryMenu
@@ -57,5 +57,5 @@ const getRisk = unstable_cache(
 
     return risk;
   },
-  ["risk-cache"],
+  ["risk-cache"]
 );

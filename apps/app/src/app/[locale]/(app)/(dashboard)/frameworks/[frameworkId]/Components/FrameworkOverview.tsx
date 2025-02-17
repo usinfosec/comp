@@ -1,5 +1,7 @@
 "use client";
 
+import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationCategories";
+import { useOrganizationFramework } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationFramework";
 import type {
   Control,
   Framework,
@@ -13,45 +15,46 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 interface FrameworkOverviewProps {
-  framework: Framework & {
-    categories: {
-      controls: Control[];
-    }[];
-  };
-  organizationFramework: OrganizationFramework & {
-    organizationControl: OrganizationControl[];
-  };
+  frameworkId: string;
 }
 
-export function FrameworkOverview({
-  framework,
-  organizationFramework,
-}: FrameworkOverviewProps) {
-  const totalControls = framework.categories.reduce(
-    (acc, cat) => acc + cat.controls.length,
-    0,
+export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
+  const { data } = useOrganizationCategories(frameworkId);
+  const { data: framework } = useOrganizationFramework(frameworkId);
+
+  console.log({ data });
+
+  // Calculate compliance metrics
+  const totalControls = data?.reduce(
+    (acc, cat) => acc + cat.organizationControl.length,
+    0
   );
 
-  const compliantControls = organizationFramework.organizationControl.filter(
-    (oc) => oc.status === "compliant",
-  ).length;
+  const compliantControls = data?.reduce(
+    (acc, cat) =>
+      acc +
+      cat.organizationControl.filter((oc) => oc.status === "compliant").length,
+    0
+  );
 
   const compliancePercentage = Math.round(
-    (compliantControls / totalControls) * 100,
+    (compliantControls ?? 0 / (totalControls ?? 0)) * 100
   );
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>
         <CardHeader>
-          <CardTitle>{framework.name}</CardTitle>
+          <CardTitle>{framework?.framework.name}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            {framework.description}
+            {framework?.framework.description}
           </p>
           <div className="mt-4">
-            <Badge variant="outline">Version {framework.version}</Badge>
+            <Badge variant="outline">
+              Version {framework?.framework.version}
+            </Badge>
           </div>
         </CardContent>
       </Card>
@@ -80,8 +83,8 @@ export function FrameworkOverview({
               <CalendarIcon className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm">
                 Last assessed:{" "}
-                {organizationFramework.lastAssessed
-                  ? format(organizationFramework.lastAssessed, "MMM d, yyyy")
+                {framework?.lastAssessed
+                  ? format(framework?.lastAssessed, "MMM d, yyyy")
                   : "Never"}
               </span>
             </div>
@@ -89,8 +92,8 @@ export function FrameworkOverview({
               <CalendarIcon className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm">
                 Next assessment:{" "}
-                {organizationFramework.nextAssessment
-                  ? format(organizationFramework.nextAssessment, "MMM d, yyyy")
+                {framework?.nextAssessment
+                  ? format(framework?.nextAssessment, "MMM d, yyyy")
                   : "Not scheduled"}
               </span>
             </div>
