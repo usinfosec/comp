@@ -5,24 +5,24 @@
 @layer base {
   :root {
     --background: 0 0% 98%;
-    --foreground: 228 10% 10%;
-    --card: 0 0% 98%;
-    --card-foreground: 228 10% 10%;
-    --popover: 0 0% 98%;
-    --popover-foreground: 228 10% 10%;
-    --primary: 151 100% 43%;
+    --foreground: 240 3% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 3% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 3% 10%;
+    --primary: 155 100% 43%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 88%;
-    --secondary-foreground: 228 10% 10%;
-    --muted: 0 0% 88%;
-    --muted-foreground: 225 2% 36%;
+    --secondary-foreground: 240 3% 10%;
+    --muted: 240 3% 37%;
+    --muted-foreground: 240 5% 65%;
     --accent: 0 0% 88%;
-    --accent-foreground: 228 10% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --accent-foreground: 240 3% 10%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 88%;
     --input: 0 0% 88%;
-    --ring: 151 100% 43%;
+    --ring: 155 100% 43%;
     --radius: 0.5rem;
 
     /* Keeping the success/warning/chart colors as they were */
@@ -47,25 +47,25 @@
   }
 
   .dark {
-    --background: 228 10% 10%;
+    --background: 240 3% 10%;
     --foreground: 0 0% 98%;
-    --card: 228 10% 10%;
+    --card: 240 3% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 228 10% 10%;
+    --popover: 240 3% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 151, 100%, 43%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 225 2% 36%;
+    --primary: 155 100% 43%;
+    --primary-foreground: 240 3% 10%;
+    --secondary: 240 3% 37%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 225 2% 36%;
-    --muted-foreground: 0 0% 88%;
-    --accent: 225 2% 36%;
+    --muted: 240 3% 37%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 3% 37%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 60% 50%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 225 2% 36%;
-    --input: 225 2% 36%;
-    --ring: 151 100% 43%;
+    --border: 240 3% 37%;
+    --input: 240 3% 37%;
+    --ring: 155 100% 43%;
 
     /* Keeping the success/warning/chart colors as they were */
     --success: 142 76% 36%;

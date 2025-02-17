@@ -53,7 +53,7 @@ export function SecondaryMenu({ items, isChild }: SecondaryMenuProps) {
           const itemContent = (
             <span
               className={cn(
-                "text-muted-foreground",
+                "",
                 isActiveLink(item.path) &&
                   "font-medium underline underline-offset-8",
                 isDisabled && "opacity-50 cursor-pointer",
