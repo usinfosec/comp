@@ -700,7 +700,7 @@
         "id": "CC7.3-policy",
         "type": "policy",
         "description": "Reference to the Business Continuity & Disaster Recovery Policy that outlines strategies for restoring systems and data.",
-        "policyId": "business_continuity_dr"
+        "policyId": "business_continuity"
       },
       {
         "id": "CC7.3-procedure",
@@ -800,7 +800,7 @@
         "id": "CC9.1-policy",
         "type": "policy",
         "description": "Reference to the Business Continuity & Disaster Recovery Policy that outlines recovery objectives, strategies, and responsibilities.",
-        "policyId": "business_continuity_dr"
+        "policyId": "business_continuity"
       },
       {
         "id": "CC9.1-procedure",
@@ -850,7 +850,7 @@
         "id": "CC9.9-policy",
         "type": "policy",
         "description": "Reference to the Business Continuity & Disaster Recovery Policy that defines testing frequency, methodologies, and remediation procedures.",
-        "policyId": "business_continuity_dr"
+        "policyId": "business_continuity"
       },
       {
         "id": "CC9.9-procedure",
@@ -925,7 +925,7 @@
         "id": "A1.3-policy",
         "type": "policy",
         "description": "Reference to the Business Continuity & Disaster Recovery Policy that outlines procedures to restore services after an outage.",
-        "policyId": "business_continuity_dr"
+        "policyId": "business_continuity"
       },
       {
         "id": "A1.3-procedure",
