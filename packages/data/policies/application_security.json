@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "application-security-policy",
+    "id": "application_security",
     "slug": "application-security-policy",
     "name": "Application Security Policy",
     "description": "This policy outlines the security framework and requirements for applications, notably web applications, within the organization's production environment.",

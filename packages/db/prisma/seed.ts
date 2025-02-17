@@ -14,23 +14,22 @@ import type { JsonValue } from "@prisma/client/runtime/library";
 const prisma = new PrismaClient();
 
 async function main() {
-  // console.log("\n🗑️  Cleaning up existing data...");
-  // Delete in order of dependencies
-  // await prisma.organizationFramework.deleteMany();
-  // await prisma.organizationCategory.deleteMany();
-  // await prisma.organizationControl.deleteMany();
-  // await prisma.organizationPolicy.deleteMany();
+  console.log("\n🗑️  Cleaning up existing data...");
+  await prisma.organizationFramework.deleteMany();
+  await prisma.organizationCategory.deleteMany();
+  await prisma.organizationControl.deleteMany();
+  await prisma.organizationPolicy.deleteMany();
 
-  // await prisma.policy.deleteMany();
-  // await prisma.policyControl.deleteMany();
-  // await prisma.policyFramework.deleteMany();
+  await prisma.policy.deleteMany();
+  await prisma.policyControl.deleteMany();
+  await prisma.policyFramework.deleteMany();
 
-  // await prisma.control.deleteMany();
-  // await prisma.controlRequirement.deleteMany();
+  await prisma.control.deleteMany();
+  await prisma.controlRequirement.deleteMany();
 
-  // await prisma.framework.deleteMany();
-  // await prisma.frameworkCategory.deleteMany();
-  // console.log("✅ Database cleaned");
+  await prisma.framework.deleteMany();
+  await prisma.frameworkCategory.deleteMany();
+  console.log("✅ Database cleaned");
 
   console.log("\n📋 Seeding policies...");
   await seedPolicies();

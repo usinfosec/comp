@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "risk-assessment",
+    "id": "risk_assessment",
     "slug": "risk-assessment",
     "name": "Risk Assessment Policy",
     "description": "This policy outlines the requirements for conducting risk assessments to identify, evaluate, and mitigate risks associated with the organization's information systems, operations, and assets.",

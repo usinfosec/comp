@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "system-change-policy",
+    "id": "system_change",
     "slug": "system-change-policy",
     "name": "System Change Policy",
     "description": "This policy outlines the requirements for system changes.",

@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "availability-policy",
+    "id": "availability",
     "slug": "availability-policy",
     "name": "Availability Policy",
     "description": "This policy outlines the requirements for proper controls to protect the availability of the organization's information systems.",

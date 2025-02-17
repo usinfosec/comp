@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "incident-response-policy",
+    "id": "incident_response",
     "slug": "incident-response-policy",
     "name": "Incident Response Policy",
     "description": "This policy establishes the framework and procedures for detecting, responding to, and recovering from security incidents.",
