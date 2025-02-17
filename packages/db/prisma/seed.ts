@@ -71,12 +71,32 @@ async function seedPolicies() {
       const fileContent = readFileSync(join(policiesDir, file), "utf8");
       const policyData = JSON.parse(fileContent) as Policy;
 
+      // Check for any existing policies with the same slug
+      const existingPolicyWithSlug = await prisma.policy.findFirst({
+        where: {
+          slug: policyData.metadata.slug,
+          NOT: { id: policyData.metadata.id },
+        },
+      });
+
+      // If there's a conflict, delete the existing policy
+      if (existingPolicyWithSlug) {
+        console.log(
+          `    ⚠️  Found existing policy with slug "${policyData.metadata.slug}", replacing it...`
+        );
+        await prisma.policy.delete({
+          where: { id: existingPolicyWithSlug.id },
+        });
+      }
+
+      // Now we can safely upsert the new policy
       await prisma.policy.upsert({
         where: {
           id: policyData.metadata.id,
         },
         update: {
           name: policyData.metadata.name,
+          slug: policyData.metadata.slug,
           description: policyData.metadata.description,
           content: policyData.content as Prisma.InputJsonValue[],
           usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
@@ -93,6 +113,9 @@ async function seedPolicies() {
       console.log(`  ✅ ${file} processed`);
     } catch (error) {
       console.error(`  ❌ Error processing ${file}:`, error);
+      if (error instanceof Error) {
+        console.error(`     Error details: ${error.message}`);
+      }
     }
   }
 }
