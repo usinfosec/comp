@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "data-classification-policy",
+    "id": "data_classification",
     "slug": "data-classification-policy",
     "name": "Data Classification Policy",
     "description": "This policy outlines the requirements for data classification.",

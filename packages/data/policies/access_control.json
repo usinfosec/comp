@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "access-control-policy",
+    "id": "access_control",
     "slug": "access-control-policy",
     "name": "Access Control Policy",
     "description": "This policy defines the requirements for granting, monitoring, and revoking access to the organization’s information systems and data based on the principle of least privilege.",

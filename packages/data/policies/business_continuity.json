@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "metadata": {
-    "id": "business-continuity-dr-policy",
+    "id": "business_continuity",
     "slug": "business-continuity-dr-policy",
     "name": "Business Continuity & Disaster Recovery Policy",
     "description": "This policy outlines the strategies and procedures for ensuring the availability of critical systems and data during and after a disruptive event.",

@@ -1,7 +1,13 @@
 {
   "type": "doc",
   "metadata": {
-    "controls": ["CC6.2", "CC6.7", "CC7.2"]
+    "id": "workstation",
+    "slug": "workstation",
+    "name": "Workstation Policy",
+    "description": "This policy outlines the requirements for workstations to ensure secure, reliable, and high-quality software development practices.",
+    "usedBy": {
+      "soc2": ["CC6.2", "CC6.7", "CC7.2"]
+    }
   },
   "content": [
     {
