@@ -19,6 +19,7 @@ files:
     common.actions.cancel: ea4788705e6873b424c65e91c2846b19
     common.actions.clear: dc30bc0c7914db5918da4263fce93ad2
     common.actions.create: 686e697538050e4664636337cc3b834f
+    common.actions.addNew: de9ced9bf5e9829de4a93ad8c9d7a170
     common.actions.send: 94966d90747b97d1f0f206c98a8b1ac3
     common.actions.return: 988fd738de9c6d177440c5dcf69e73ce
     common.actions.success: 505a83f220c02df2f85c3810cd9ceb38
