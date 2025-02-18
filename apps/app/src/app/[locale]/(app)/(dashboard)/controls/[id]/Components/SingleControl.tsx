@@ -11,6 +11,7 @@ import { Button } from "@bubba/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useOrganizationControlRequirements } from "../hooks/useOrganizationControlRequirements";
+import Link from "next/link";
 
 interface SingleControlProps {
   controlId: string;
@@ -67,15 +68,38 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
             </tr>
           </thead>
           <tbody>
-            {requirements?.map((requirement) => (
-              <tr key={requirement.id} className="border-b hover:bg-muted/50">
-                <td className="p-4 w-1/6">{requirement.type}</td>
-                <td className="p-4 truncate max-w-[200px]">
-                  {requirement.description}
-                </td>
-                <td className="p-4">{requirement.published ? "Yes" : "No"}</td>
-              </tr>
-            ))}
+            {requirements?.map((requirement) => {
+              const url =
+                requirement.type === "policy"
+                  ? `/policies/${requirement.controlRequirement.policyId}`
+                  : "_blank";
+
+              return (
+                <tr
+                  key={requirement.id}
+                  className="border-b hover:bg-muted/50 cursor-pointer"
+                >
+                  <td className="p-0">
+                    <Link href={url} className="block p-4 w-full h-full">
+                      {requirement.type}
+                    </Link>
+                  </td>
+                  <td className="p-0">
+                    <Link
+                      href={url}
+                      className="block p-4 w-full h-full truncate"
+                    >
+                      {requirement.description}
+                    </Link>
+                  </td>
+                  <td className="p-0">
+                    <Link href={url} className="block p-4 w-full h-full">
+                      {requirement.published ? "Yes" : "No"}
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

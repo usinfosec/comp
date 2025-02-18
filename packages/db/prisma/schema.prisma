@@ -918,6 +918,7 @@ model PolicyControl {
 
 model ControlRequirement {
   id          String          @id @default(cuid())
+  name        String?
   controlId   String
   control     Control         @relation(fields: [controlId], references: [id], onDelete: Cascade)
   type        RequirementType

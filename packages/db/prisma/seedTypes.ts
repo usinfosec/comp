@@ -17,6 +17,7 @@ export interface Requirement {
   type: string;
   description: string;
   policyId?: string;
+  name?: string;
 }
 
 export interface Control {

@@ -1,12 +1,9 @@
 "use client";
 
-import type { OrganizationControlRequirement } from "@bubba/db";
 import useSWR from "swr";
 import { getOrganizationControlRequirements } from "../Actions/getOrganizationControlRequirements";
 
-async function fetchOrganizationControlRequirements(
-  controlId: string
-): Promise<OrganizationControlRequirement[]> {
+async function fetchOrganizationControlRequirements(controlId: string) {
   const result = await getOrganizationControlRequirements({ controlId });
 
   if (!result) {
@@ -22,9 +19,7 @@ async function fetchOrganizationControlRequirements(
 }
 
 export function useOrganizationControlRequirements(controlId: string) {
-  const { data, error, isLoading, mutate } = useSWR<
-    OrganizationControlRequirement[]
-  >(
+  const { data, error, isLoading, mutate } = useSWR(
     ["organization-control-requirements", controlId],
     () => fetchOrganizationControlRequirements(controlId),
     {
@@ -34,7 +29,7 @@ export function useOrganizationControlRequirements(controlId: string) {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
     mutate,

@@ -1,13 +1,13 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import type { OrganizationControlRequirement } from "@bubba/db";
+import type {
+  ControlRequirement,
+  OrganizationControlRequirement,
+  Policy,
+} from "@bubba/db";
 import { db } from "@bubba/db";
 import { z } from "zod";
-
-export interface OrganizationControlRequirementsResponse {
-  organizationControlRequirements: OrganizationControlRequirement[];
-}
 
 export const getOrganizationControlRequirements = authActionClient
   .schema(z.object({ controlId: z.string() }))
@@ -33,6 +33,13 @@ export const getOrganizationControlRequirements = authActionClient
         await db.organizationControlRequirement.findMany({
           where: {
             organizationControlId: controlId,
+          },
+          include: {
+            controlRequirement: {
+              include: {
+                policy: true,
+              },
+            },
           },
         });
 
