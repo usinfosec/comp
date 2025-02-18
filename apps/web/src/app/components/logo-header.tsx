@@ -7,6 +7,7 @@ const LogoHeader = (props: React.SVGProps<SVGSVGElement>) => (
     viewBox="0 0 227 56"
     fill="currentColor"
     aria-label="Comp AI Logo"
+    role="img"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

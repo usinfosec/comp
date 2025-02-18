@@ -8,6 +8,7 @@ const Logo = (props: React.SVGProps<SVGSVGElement>) => (
     height={64}
     viewBox="0 0 64 64"
     fill="currentColor"
+    role="img"
     xmlns="http://www.w3.org/2000/svg"
     aria-label="Comp AI Logo"
     {...props}
