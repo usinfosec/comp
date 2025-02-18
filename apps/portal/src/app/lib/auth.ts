@@ -3,7 +3,6 @@ import { OTPVerificationEmail } from "@bubba/email/emails/otp"
 import { sendEmail } from "@bubba/email/lib/resend"
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { emailOTPClient } from "better-auth/client/plugins"
 import { nextCookies } from "better-auth/next-js";
 import { emailOTP } from "better-auth/plugins";
 
