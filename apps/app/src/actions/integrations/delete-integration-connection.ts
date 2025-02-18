@@ -3,7 +3,6 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { Nango } from "@nangohq/node";
 import { revalidatePath } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { deleteIntegrationConnectionSchema } from "../schema";
@@ -20,10 +19,6 @@ export const deleteIntegrationConnectionAction = authActionClient
   .action(async ({ parsedInput, ctx }) => {
     const { integrationId } = parsedInput;
     const { user } = ctx;
-
-    const nango = new Nango({
-      secretKey: process.env.NANGO_SECRET_KEY as string,
-    });
 
     const integration = await db.organizationIntegrations.findUnique({
       where: {

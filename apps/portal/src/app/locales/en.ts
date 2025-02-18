@@ -1,7 +1,7 @@
 export default {
   auth: {
-    title: "Welcome to the Comp AI User Portal",
-    description: "Enter your email to login",
+    title: "Employee Portal",
+    description: "Enter your email and one time password to continue",
     options: "More options",
     email: {
       otp_sent: "One time password sent",

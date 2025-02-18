@@ -10,12 +10,12 @@ import { Toaster } from "sonner";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://app.trycomp.ai"),
-  title: "Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
-  description: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
+  metadataBase: new URL("https://portal.trycomp.ai"),
+  title: "Comp AI | Employee Portal",
+  description: "Enter your email and one time password to continue",
   twitter: {
-    title: "Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
-    description: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
+    title: "Comp AI | Employee Portal",
+    description: "Enter your email and one time password to continue",
     images: [
       {
         url: "https://cdn.trycomp.ai/opengraph-image.jpg",
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Comp AI | Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
-    description: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
-    url: "https://app.trycomp.ai",
+    title: "Comp AI | Employee Portal",
+    description: "Enter your email and one time password to continue",
+    url: "https://portal.trycomp.ai",
     siteName: "Comp AI",
     images: [
       {
