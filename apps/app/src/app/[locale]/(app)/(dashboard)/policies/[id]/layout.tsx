@@ -20,7 +20,7 @@ export default async function Layout({
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1200px]">
       <main className="h-[calc(100vh-4rem-4rem)]">{children}</main>
     </div>
   );

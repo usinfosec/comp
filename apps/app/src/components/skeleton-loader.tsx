@@ -14,13 +14,13 @@ export const SkeletonLoader = ({ amount, prefix = "item" }: Props) => {
         <Card key={`${prefix}-skeleton-${i + 1}`}>
           <CardHeader>
             <CardTitle>
-              <Skeleton className="h-8 w-full rounded-md" />
+              <Skeleton className="h-8 w-full" />
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <Skeleton className="h-8 w-full rounded-md" />
-            <Skeleton className="h-8 w-full rounded-md" />
-            <Skeleton className="h-8 w-full rounded-md" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
           </CardContent>
         </Card>
       ))}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useQueryState } from "nuqs";
+import { useEmployees } from "@/app/[locale]/(app)/(dashboard)/people/hooks/useEmployees";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
@@ -21,12 +20,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@bubba/ui/sheet";
-import { toast } from "sonner";
-import { useState } from "react";
 import type { Departments } from "@prisma/client";
-import { createEmployeeAction } from "@/actions/people/create-employee-action";
-import { useEmployees } from "@/app/[locale]/(app)/(dashboard)/people/hooks/useEmployees";
-import { Loader2 } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const DEPARTMENTS: Departments[] = [
   "none",
