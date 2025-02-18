@@ -52,16 +52,9 @@ export function WaitlistForm() {
   if (isSent) {
     return (
       <div className="flex flex-col items-center space-y-4 p-4 rounded-lg">
-        <p className="text-lg font-medium text-center">
-          Thanks, you're on the list!
+        <p className="text-md mt-2 text-center">
+          You're on the list! We'll be in touch soon!
         </p>
-        <Link
-          href="https://discord.gg/compai"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
-        >
-          Join us on Discord
-          <span aria-hidden="true">→</span>
-        </Link>
       </div>
     );
   }
@@ -70,7 +63,7 @@ export function WaitlistForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="relative flex flex-col sm:flex-row gap-2"
+        className="flex flex-col sm:flex-row gap-2"
       >
         <FormField
           control={form.control}
@@ -88,7 +81,7 @@ export function WaitlistForm() {
                   aria-label="Email address"
                 />
               </FormControl>
-              <FormMessage className="text-sm" />
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -96,7 +89,7 @@ export function WaitlistForm() {
         <Button
           type="submit"
           variant="action"
-          disabled={waitlistAction.isExecuting || !form.formState.isValid}
+          disabled={waitlistAction.isExecuting}
         >
           {waitlistAction.isExecuting ? (
             <span className="flex items-center gap-2">
@@ -111,6 +104,10 @@ export function WaitlistForm() {
           )}
         </Button>
       </form>
+
+      <p className="text-xs text-muted-foreground mt-2 text-center">
+        Join our waitlist to help make 100,000 companies compliant by 2032.
+      </p>
     </Form>
   );
 }
