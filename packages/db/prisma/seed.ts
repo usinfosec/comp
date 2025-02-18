@@ -29,6 +29,8 @@ async function main() {
 
     await prisma.framework.deleteMany();
     await prisma.frameworkCategory.deleteMany();
+
+    await prisma.organizationControlRequirement.deleteMany();
     console.log("✅ Database cleaned");
   }
 
@@ -275,6 +277,7 @@ async function seedFrameworkCategoryControls(
         create: {
           id: requirement.id,
           controlId: controlCode,
+          name: requirement.name,
           type: requirement.type as RequirementType,
           description: requirement.description,
           policyId:
@@ -283,6 +286,7 @@ async function seedFrameworkCategoryControls(
               : null,
         },
         update: {
+          name: requirement.name,
           description: requirement.description,
           policyId:
             (requirement.type as RequirementType) === "policy"

@@ -5,8 +5,8 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Tier {
@@ -282,11 +282,12 @@ model OrganizationControl {
   lastReviewDate DateTime?
   nextReviewDate DateTime?
 
-  artifacts               ControlArtifact[]
-  OrganizationFramework   OrganizationFramework? @relation(fields: [organizationFrameworkId], references: [id])
-  organizationFrameworkId String?
-  OrganizationCategory    OrganizationCategory?  @relation(fields: [organizationCategoryId], references: [id])
-  organizationCategoryId  String?
+  artifacts                      ControlArtifact[]
+  OrganizationFramework          OrganizationFramework?           @relation(fields: [organizationFrameworkId], references: [id])
+  organizationFrameworkId        String?
+  OrganizationCategory           OrganizationCategory?            @relation(fields: [organizationCategoryId], references: [id])
+  organizationCategoryId         String?
+  OrganizationControlRequirement OrganizationControlRequirement[]
 
   @@index([organizationId])
   @@index([organizationFrameworkId])
@@ -918,6 +919,7 @@ model PolicyControl {
 
 model ControlRequirement {
   id          String          @id @default(cuid())
+  name        String?
   controlId   String
   control     Control         @relation(fields: [controlId], references: [id], onDelete: Cascade)
   type        RequirementType
@@ -925,10 +927,35 @@ model ControlRequirement {
   policyId    String?
   policy      Policy?         @relation(fields: [policyId], references: [id], onDelete: SetNull)
 
+  createdAt                      DateTime                         @default(now())
+  updatedAt                      DateTime                         @updatedAt
+  OrganizationControlRequirement OrganizationControlRequirement[]
+
+  @@index([controlId])
+}
+
+model OrganizationControlRequirement {
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([controlId])
+  type        RequirementType
+  description String?
+
+  published Boolean @default(false)
+  content   Json?
+  fileUrl   String?
+
+  organizationControlId String
+  organizationControl   OrganizationControl @relation(fields: [organizationControlId], references: [id], onDelete: Cascade)
+
+  controlRequirementId String
+  controlRequirement   ControlRequirement @relation(fields: [controlRequirementId], references: [id], onDelete: Cascade)
+
+  organizationPolicyId String?
+  organizationPolicy   OrganizationPolicy? @relation(fields: [organizationPolicyId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationControlId, controlRequirementId])
 }
 
 enum PolicyStatus {
@@ -949,7 +976,8 @@ model OrganizationPolicy {
   policyId String
   policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
 
-  content Json[]
+  content                        Json[]
+  OrganizationControlRequirement OrganizationControlRequirement[]
 
   @@unique([organizationId, policyId])
   @@index([organizationId])

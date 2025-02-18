@@ -34,10 +34,27 @@ export const publishPolicy = authActionClient
       };
     }
 
+    const policy = await db.organizationPolicy.findFirst({
+      where: {
+        policyId: id,
+        organizationId: user.organizationId!,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!policy?.id) {
+      return {
+        success: false,
+        error: "Policy not found",
+      };
+    }
+
     try {
-      const policy = await db.organizationPolicy.update({
+      const organizationPolicy = await db.organizationPolicy.update({
         where: {
-          id,
+          id: policy.id,
           organizationId: user.organizationId!,
         },
         data: {
@@ -48,7 +65,7 @@ export const publishPolicy = authActionClient
 
       return {
         success: true,
-        data: policy,
+        data: organizationPolicy,
       };
     } catch (error) {
       return {

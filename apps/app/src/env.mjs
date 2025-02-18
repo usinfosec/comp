@@ -20,6 +20,7 @@ export const env = createEnv({
     VERCEL_ACCESS_TOKEN: z.string().optional(),
     VERCEL_TEAM_ID: z.string().optional(),
     VERCEL_PROJECT_ID: z.string().optional(),
+    NODE_ENV: z.string().optional(),
   },
 
   client: {
@@ -51,6 +52,7 @@ export const env = createEnv({
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     NEXT_PUBLIC_NOVU_IDENTIFIER: process.env.NEXT_PUBLIC_NOVU_IDENTIFIER,
+    NODE_ENV: process.env.NODE_ENV,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

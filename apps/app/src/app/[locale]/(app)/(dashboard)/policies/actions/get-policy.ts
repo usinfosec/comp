@@ -38,7 +38,7 @@ export const getPolicy = authActionClient
       const policy = await db.organizationPolicy.findFirst({
         where: {
           organizationId: user.organizationId!,
-          id: policyId,
+          policyId,
         },
         include: {
           policy: true,

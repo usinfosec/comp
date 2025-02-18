@@ -1,17 +1,10 @@
 "use client";
 
 import useSWR from "swr";
-import {
-  getOrganizationCategories,
-  OrganizationCategoryWithControls,
-} from "../Actions/getOrganizationCategories";
+import { getOrganizationCategories } from "../Actions/getOrganizationCategories";
 
-async function fetchOrganizationCategories(
-  frameworkId: string
-): Promise<OrganizationCategoryWithControls[]> {
+async function fetchOrganizationCategories(frameworkId: string) {
   const result = await getOrganizationCategories({ frameworkId });
-
-  console.log({ result });
 
   if (!result) {
     throw new Error("Failed to fetch frameworks");
@@ -26,9 +19,7 @@ async function fetchOrganizationCategories(
 }
 
 export function useOrganizationCategories(frameworkId: string) {
-  const { data, error, isLoading, mutate } = useSWR<
-    OrganizationCategoryWithControls[]
-  >(
+  const { data, error, isLoading, mutate } = useSWR(
     ["organization-categories", frameworkId],
     () => fetchOrganizationCategories(frameworkId),
     {

@@ -1,7 +1,7 @@
 "use server";
 
-import { db, OrganizationControl, Control } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
+import { db, type Control, type OrganizationControl } from "@bubba/db";
 import { z } from "zod";
 
 export interface OrganizationControlResponse {

@@ -8,12 +8,17 @@ import type {
   OrganizationFramework,
   OrganizationCategory,
   Control,
+  OrganizationControlRequirement,
+  OrganizationPolicy,
 } from "@bubba/db";
 import { z } from "zod";
 
 export type OrganizationCategoryWithControls = OrganizationCategory & {
   organizationControl: (OrganizationControl & {
     control: Control;
+    OrganizationControlRequirement: (OrganizationControlRequirement & {
+      organizationPolicy: Pick<OrganizationPolicy, "status"> | null;
+    })[];
   })[];
 };
 
@@ -50,6 +55,15 @@ export const getOrganizationCategories = authActionClient
           organizationControl: {
             include: {
               control: true,
+              OrganizationControlRequirement: {
+                include: {
+                  organizationPolicy: {
+                    select: {
+                      status: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
