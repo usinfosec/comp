@@ -38,8 +38,6 @@ enum RequirementType {
   training
 }
 
-// Authentication and Organization
-
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -829,6 +827,9 @@ model Employee {
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  linkId String?
+  link   PortalUser? @relation(fields: [linkId], references: [id], onDelete: SetNull)
+
   employeeTasks            EmployeeTask[]
   RiskTaskAssignment       RiskTaskAssignment[]
   VendorTaskAssignment     VendorTaskAssignment[]
@@ -972,4 +973,67 @@ model OrganizationCategory {
 
   @@unique([id])
   @@index([organizationId])
+}
+
+// Employee Portal
+
+model PortalUser {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      PortalSession[]
+  accounts      PortalAccount[]
+  employees     Employee[]
+
+  @@unique([email])
+  @@map("portal_user")
+}
+
+model PortalSession {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      PortalUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("portal_session")
+}
+
+model PortalAccount {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  PortalUser      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("portal_account")
+}
+
+model PortalVerification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("portal_verification")
 }
