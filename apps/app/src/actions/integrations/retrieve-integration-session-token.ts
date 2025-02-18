@@ -30,7 +30,7 @@ export const retrieveIntegrationSessionTokenAction = authActionClient
         display_name: user.name || undefined,
       },
       organization: {
-        id: user.organizationId,
+        id: user.organizationId || "",
       },
       allowed_integrations: [integrationId],
     });

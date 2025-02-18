@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "@manypkg/cli": "^0.23.0",
+    "@nangohq/node": "^0.53.1",
     "gitmoji": "^1.1.1",
     "gray-matter": "^4.0.3",
     "sharp": "^0.33.5",
