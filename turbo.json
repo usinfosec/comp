@@ -32,7 +32,8 @@
         "VERCEL_TEAM_ID",
         "VERCEL_PROJECT_ID",
         "NEXT_PUBLIC_VERCEL_URL",
-        "NOVU_API_KEY"
+        "NOVU_API_KEY",
+        "ZAP_WEBHOOK_URL"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
