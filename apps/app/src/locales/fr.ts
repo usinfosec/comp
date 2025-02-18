@@ -507,7 +507,9 @@ export default {
       statuses: {
         not_started: "Non commencé",
         compliant: "Conforme",
-        non_compliant: "Non conforme"
+        non_compliant: "Non conforme",
+        completed: "Terminé",
+        in_progress: "En cours"
       }
     },
     overview: {

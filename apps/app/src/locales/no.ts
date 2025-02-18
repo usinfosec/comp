@@ -507,7 +507,9 @@ export default {
       statuses: {
         not_started: "Ikke startet",
         compliant: "Samsvarende",
-        non_compliant: "Ikke samsvarende"
+        non_compliant: "Ikke samsvarende",
+        completed: "Fullført",
+        in_progress: "Pågår"
       }
     },
     overview: {

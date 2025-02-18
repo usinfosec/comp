@@ -401,9 +401,9 @@ files:
     frameworks.controls.table.control: a1595abbb4c3a326636dd178757cd6c1
     frameworks.controls.table.artifacts: 08004d9d4c599f44814a861568d200cb
     frameworks.controls.table.actions: 06df33001c1d7187fdd81ea1f5b277aa
+    frameworks.controls.statuses.completed: 07ca5050e697392c9ed47e6453f1453f
+    frameworks.controls.statuses.in_progress: c9413dd7682a45da9ecc9efa8cea47d7
     frameworks.controls.statuses.not_started: 10db56f8b10dc989c43fbe33202e5339
-    frameworks.controls.statuses.compliant: 952358fc53c0167a1ea7354f338ed5af
-    frameworks.controls.statuses.non_compliant: a0ecb19f7c90c0d5c1e919aec4d33aac
     vendor.title: 2938c7f7e560ed972f8a4f68e80ff834
     vendor.register_title: 97f6291ea1000272b34fdfaeb3a9e2d2
     vendor.dashboard.title: 2938c7f7e560ed972f8a4f68e80ff834
