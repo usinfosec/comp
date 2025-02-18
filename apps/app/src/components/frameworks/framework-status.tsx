@@ -2,8 +2,8 @@ import { useI18n } from "@/locales/client";
 import { cn } from "@bubba/ui/cn";
 
 export const STATUS_TYPES = [
-  "compliant",
-  "non_compliant",
+  "completed",
+  "in_progress",
   "not_started",
 ] as const;
 
@@ -13,8 +13,8 @@ export type StatusType = Exclude<
 >;
 
 const STATUS_COLORS: Record<StatusType, string> = {
-  compliant: "#22c55e",
-  non_compliant: "#f43f5e",
+  completed: "#22c55e",
+  in_progress: "#eab308",
   not_started: "#f43f5e",
 } as const;
 

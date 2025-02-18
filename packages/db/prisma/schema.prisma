@@ -951,6 +951,9 @@ model OrganizationControlRequirement {
   controlRequirementId String
   controlRequirement   ControlRequirement @relation(fields: [controlRequirementId], references: [id], onDelete: Cascade)
 
+  organizationPolicyId String?
+  organizationPolicy   OrganizationPolicy? @relation(fields: [organizationPolicyId], references: [id], onDelete: Cascade)
+
   @@unique([organizationControlId, controlRequirementId])
 }
 
@@ -972,7 +975,8 @@ model OrganizationPolicy {
   policyId String
   policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
 
-  content Json[]
+  content                        Json[]
+  OrganizationControlRequirement OrganizationControlRequirement[]
 
   @@unique([organizationId, policyId])
   @@index([organizationId])

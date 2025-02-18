@@ -35,7 +35,7 @@ export const getOrganizationControlRequirements = authActionClient
             organizationControlId: controlId,
           },
           include: {
-            controlRequirement: {
+            organizationPolicy: {
               include: {
                 policy: true,
               },

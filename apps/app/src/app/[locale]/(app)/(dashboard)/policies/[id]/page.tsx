@@ -22,10 +22,12 @@ export default function PolicyPage() {
       onError: () => {
         toast.error("Failed to publish policy, please try again.");
       },
-    },
+    }
   );
 
   const { data: policy } = usePolicy({ policyId: id as string });
+
+  console.log({ policy });
 
   if (!policy) return null;
 

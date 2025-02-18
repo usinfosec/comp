@@ -34,7 +34,7 @@ export const selectFrameworksAction = authActionClient
       await createOrganizationCategories(user as User, frameworkIds);
 
       // Then create frameworks and controls
-      await Promise.all(
+      const organizationFrameworks = await Promise.all(
         frameworkIds.map((frameworkId) =>
           createOrganizationFramework(user as User, frameworkId)
         )
@@ -42,6 +42,12 @@ export const selectFrameworksAction = authActionClient
 
       // Finally create policies
       await createOrganizationPolicy(user as User, frameworkIds);
+
+      // Finally create control requirements
+      await createOrganizationControlRequirements(
+        user as User,
+        organizationFrameworks.map((framework) => framework.id)
+      );
 
       return {
         data: true,
@@ -95,7 +101,7 @@ const createOrganizationFramework = async (user: User, frameworkId: string) => {
 
     if (!organizationCategory) continue;
 
-    const controls = await db.organizationControl.createManyAndReturn({
+    await db.organizationControl.createMany({
       data: frameworkCategory.controls.map((control) => ({
         organizationFrameworkId: organizationFramework.id,
         controlId: control.id,
@@ -104,29 +110,9 @@ const createOrganizationFramework = async (user: User, frameworkId: string) => {
         organizationCategoryId: organizationCategory.id,
       })),
     });
-
-    // Create control requirements for each control
-    const controlRequirements = await db.controlRequirement.findMany({
-      where: {
-        controlId: { in: controls.map((control) => control.controlId) },
-      },
-    });
-
-    for (const control of controls) {
-      const requirements = controlRequirements.filter(
-        (req) => req.controlId === control.controlId
-      );
-
-      await db.organizationControlRequirement.createMany({
-        data: requirements.map((requirement) => ({
-          organizationControlId: control.id,
-          controlRequirementId: requirement.id,
-          type: requirement.type,
-          description: requirement.description,
-        })),
-      });
-    }
   }
+
+  return organizationFramework;
 };
 
 const createOrganizationPolicy = async (user: User, frameworkIds: string[]) => {
@@ -192,4 +178,69 @@ const createOrganizationCategories = async (
   });
 
   return organizationCategories;
+};
+
+const createOrganizationControlRequirements = async (
+  user: User,
+  organizationFrameworkIds: string[]
+) => {
+  if (!user.organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
+
+  const controls = await db.organizationControl.findMany({
+    where: {
+      organizationId: user.organizationId!,
+      organizationFrameworkId: {
+        in: organizationFrameworkIds,
+      },
+    },
+    include: {
+      control: true,
+    },
+  });
+
+  // Create control requirements for each control
+  const controlRequirements = await db.controlRequirement.findMany({
+    where: {
+      controlId: { in: controls.map((control) => control.controlId) },
+    },
+    include: {
+      policy: true, // Include the policy to get its ID
+    },
+  });
+
+  // Get all organization policies for this organization
+  const organizationPolicies = await db.organizationPolicy.findMany({
+    where: {
+      organizationId: user.organizationId,
+    },
+  });
+
+  for (const control of controls) {
+    const requirements = controlRequirements.filter(
+      (req) => req.controlId === control.controlId
+    );
+
+    await db.organizationControlRequirement.createMany({
+      data: requirements.map((requirement) => {
+        // Find the corresponding organization policy if this is a policy requirement
+        const policyId =
+          requirement.type === "policy" ? requirement.policy?.id : null;
+        const organizationPolicy = policyId
+          ? organizationPolicies.find((op) => op.policyId === policyId)
+          : null;
+
+        return {
+          organizationControlId: control.id,
+          controlRequirementId: requirement.id,
+          type: requirement.type,
+          description: requirement.description,
+          organizationPolicyId: organizationPolicy?.id || null,
+        };
+      }),
+    });
+  }
+
+  return controlRequirements;
 };

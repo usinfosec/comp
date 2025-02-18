@@ -635,9 +635,9 @@ export default {
         actions: "Actions",
       },
       statuses: {
+        completed: "Completed",
+        in_progress: "In Progress",
         not_started: "Not Started",
-        compliant: "Compliant",
-        non_compliant: "Non Compliant",
       },
     },
   },
