@@ -2,11 +2,15 @@
 
 import {
   DisplayFrameworkStatus,
-  StatusType,
+  type StatusType,
 } from "@/components/frameworks/framework-status";
 import { useOrganizationControl } from "../hooks/useOrganizationControl";
 import { Card } from "@bubba/ui/card";
 import { Label } from "@bubba/ui/label";
+import { Button } from "@bubba/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useOrganizationControlRequirements } from "../hooks/useOrganizationControlRequirements";
 
 interface SingleControlProps {
   controlId: string;
@@ -14,10 +18,19 @@ interface SingleControlProps {
 
 export const SingleControl = ({ controlId }: SingleControlProps) => {
   const { data: control } = useOrganizationControl(controlId);
+  const { data: requirements } = useOrganizationControlRequirements(controlId);
   if (!control) return null;
 
+  const router = useRouter();
+
   return (
-    <div className="max-w-[1200px] mx-auto py-8 gap-4 flex flex-col">
+    <div className="max-w-[1200px] mx-auto py-8 gap-8 flex flex-col">
+      <div>
+        <Button variant="ghost" className="gap-2" onClick={() => router.back()}>
+          <ArrowLeft size={16} />
+          <p>Back</p>
+        </Button>
+      </div>
       <div className="flex flex-row justify-between items-center">
         <h1 className="text-3xl font-bold">{control?.control.name}</h1>
         <DisplayFrameworkStatus
@@ -41,6 +54,30 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
             <p className="text-sm">{control?.control.domain}</p>
           </div>
         </Card>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl font-bold">Requirements</h1>
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b">
+              <th className="text-left p-4 font-medium">Type</th>
+              <th className="text-left p-4 font-medium">Description</th>
+              <th className="text-left p-4 font-medium">Published</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requirements?.map((requirement) => (
+              <tr key={requirement.id} className="border-b hover:bg-muted/50">
+                <td className="p-4 w-1/6">{requirement.type}</td>
+                <td className="p-4 truncate max-w-[200px]">
+                  {requirement.description}
+                </td>
+                <td className="p-4">{requirement.published ? "Yes" : "No"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -95,7 +95,7 @@ const createOrganizationFramework = async (user: User, frameworkId: string) => {
 
     if (!organizationCategory) continue;
 
-    await db.organizationControl.createMany({
+    const controls = await db.organizationControl.createManyAndReturn({
       data: frameworkCategory.controls.map((control) => ({
         organizationFrameworkId: organizationFramework.id,
         controlId: control.id,
@@ -104,6 +104,28 @@ const createOrganizationFramework = async (user: User, frameworkId: string) => {
         organizationCategoryId: organizationCategory.id,
       })),
     });
+
+    // Create control requirements for each control
+    const controlRequirements = await db.controlRequirement.findMany({
+      where: {
+        controlId: { in: controls.map((control) => control.controlId) },
+      },
+    });
+
+    for (const control of controls) {
+      const requirements = controlRequirements.filter(
+        (req) => req.controlId === control.controlId
+      );
+
+      await db.organizationControlRequirement.createMany({
+        data: requirements.map((requirement) => ({
+          organizationControlId: control.id,
+          controlRequirementId: requirement.id,
+          type: requirement.type,
+          description: requirement.description,
+        })),
+      });
+    }
   }
 };
 

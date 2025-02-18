@@ -16,6 +16,7 @@ export type OrganizationControlType = {
   description: string | null;
   status: ComplianceStatus;
   frameworkId: string;
+  category: string;
 };
 
 export function columns(): ColumnDef<OrganizationControlType>[] {
@@ -41,6 +42,16 @@ export function columns(): ColumnDef<OrganizationControlType>[] {
           </div>
         );
       },
+    },
+    {
+      id: "category",
+      accessorKey: "category",
+      header: t("risk.vendor.table.category"),
+      cell: ({ row }) => (
+        <div className="w-[200px]">
+          <span className="text-sm">{row.original.category}</span>
+        </div>
+      ),
     },
     {
       id: "status",

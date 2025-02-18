@@ -9,17 +9,20 @@
       {
         "id": "CC1.1-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy that defines board oversight responsibilities, roles, review frequency, and reporting requirements.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC1.1-procedure",
         "type": "procedure",
+        "name": "Board Oversight Procedures",
         "description": "Documented procedures for board oversight, including scheduled reviews, risk assessments, and communication channels with management."
       },
       {
         "id": "CC1.1-evidence",
         "type": "evidence",
+        "name": "Board Meeting Documentation",
         "description": "Minutes of board meetings and oversight reports demonstrating active review of internal controls."
       }
     ]
@@ -34,22 +37,26 @@
       {
         "id": "CC1.2-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy that outlines management responsibilities and the organizational structure for effective oversight.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC1.2-procedure",
         "type": "procedure",
+        "name": "Management Oversight Procedures",
         "description": "Procedures for management oversight, including decision-making processes and periodic reporting."
       },
       {
         "id": "CC1.2-training",
         "type": "training",
+        "name": "Management Control Training",
         "description": "Training for management on internal control responsibilities and ethical decision-making."
       },
       {
         "id": "CC1.2-evidence",
         "type": "evidence",
+        "name": "Management Structure Documentation",
         "description": "Organizational charts, management meeting minutes, and training records."
       }
     ]
@@ -64,17 +71,20 @@
       {
         "id": "CC1.3-policy",
         "type": "policy",
+        "name": "Human Resources Policy",
         "description": "Reference to the Human Resources Policy that defines recruitment, retention, and competency requirements.",
         "policyId": "human_resources"
       },
       {
         "id": "CC1.3-procedure",
         "type": "procedure",
+        "name": "Talent Management Procedures",
         "description": "Procedures for talent acquisition, performance management, and professional development."
       },
       {
         "id": "CC1.3-evidence",
         "type": "evidence",
+        "name": "HR Documentation",
         "description": "HR records, training logs, and performance evaluations."
       }
     ]
@@ -89,22 +99,26 @@
       {
         "id": "CC1.4-policy",
         "type": "policy",
+        "name": "Human Resources Policy",
         "description": "Reference to the Human Resources Policy that outlines roles, responsibilities, and disciplinary measures.",
         "policyId": "human_resources"
       },
       {
         "id": "CC1.4-procedure",
         "type": "procedure",
+        "name": "Personnel Accountability Procedures",
         "description": "Procedures for monitoring, enforcing, and reviewing personnel accountability."
       },
       {
         "id": "CC1.4-training",
         "type": "training",
+        "name": "Control Responsibility Training",
         "description": "Mandatory training on internal control responsibilities and ethical conduct."
       },
       {
         "id": "CC1.4-evidence",
         "type": "evidence",
+        "name": "Personnel Compliance Documentation",
         "description": "Employee acknowledgment forms, training records, and disciplinary documentation."
       }
     ]
@@ -119,22 +133,26 @@
       {
         "id": "CC1.5-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy (or a dedicated Code of Conduct within it) that defines ethical behavior and compliance expectations.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC1.5-procedure",
         "type": "procedure",
+        "name": "Ethics Compliance Procedures",
         "description": "Procedures for reporting, investigating, and addressing breaches of the code."
       },
       {
         "id": "CC1.5-training",
         "type": "training",
+        "name": "Ethics Training",
         "description": "Regular ethics and integrity training for all employees."
       },
       {
         "id": "CC1.5-evidence",
         "type": "evidence",
+        "name": "Ethics Compliance Documentation",
         "description": "Signed acknowledgment forms, training completion records, and records of investigations or disciplinary actions."
       }
     ]
@@ -149,17 +167,20 @@
       {
         "id": "CC2.1-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that outlines data accuracy, completeness, and timeliness requirements.",
         "policyId": "information_security"
       },
       {
         "id": "CC2.1-procedure",
         "type": "procedure",
+        "name": "Data Quality Procedures",
         "description": "Procedures for validating data inputs and correcting errors throughout data processing."
       },
       {
         "id": "CC2.1-evidence",
         "type": "evidence",
+        "name": "Data Quality Documentation",
         "description": "Data quality reports, audit logs, and records of corrective actions."
       }
     ]
@@ -174,17 +195,20 @@
       {
         "id": "CC2.2-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy that includes guidelines for internal communications of control objectives.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC2.2-procedure",
         "type": "procedure",
+        "name": "Internal Communication Procedures",
         "description": "Procedures for internal reporting, announcements, and feedback regarding internal controls."
       },
       {
         "id": "CC2.2-evidence",
         "type": "evidence",
+        "name": "Communication Records",
         "description": "Communication logs, email distributions, and meeting minutes."
       }
     ]
@@ -199,17 +223,20 @@
       {
         "id": "CC2.3-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy that outlines external communication guidelines for control-related matters.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC2.3-procedure",
         "type": "procedure",
+        "name": "External Communication Procedures",
         "description": "Procedures for drafting, approving, and disseminating external communications related to internal controls."
       },
       {
         "id": "CC2.3-evidence",
         "type": "evidence",
+        "name": "External Communication Records",
         "description": "Records of external communications, press releases, and stakeholder correspondence."
       }
     ]
@@ -224,17 +251,20 @@
       {
         "id": "CC3.1-policy",
         "type": "policy",
+        "name": "Risk Management Policy",
         "description": "Reference to the Risk Management Policy that defines methodologies, frequency, and scope for risk assessments.",
         "policyId": "risk_management"
       },
       {
         "id": "CC3.1-procedure",
         "type": "procedure",
+        "name": "Risk Assessment Procedures",
         "description": "Procedures for conducting regular risk assessments, documenting risks, and assigning risk owners."
       },
       {
         "id": "CC3.1-evidence",
         "type": "evidence",
+        "name": "Risk Assessment Documentation",
         "description": "Risk assessment reports, risk registers, and management review minutes."
       }
     ]
@@ -249,17 +279,20 @@
       {
         "id": "CC3.2-policy",
         "type": "policy",
+        "name": "Risk Management Policy",
         "description": "Reference to the Risk Management Policy requiring systematic identification of risks across all business areas.",
         "policyId": "risk_management"
       },
       {
         "id": "CC3.2-procedure",
         "type": "procedure",
+        "name": "Risk Identification Procedures",
         "description": "Procedures for risk identification using workshops, surveys, and data analysis."
       },
       {
         "id": "CC3.2-evidence",
         "type": "evidence",
+        "name": "Risk Identification Records",
         "description": "Risk register entries, workshop records, and risk analysis documentation."
       }
     ]
@@ -274,17 +307,20 @@
       {
         "id": "CC3.3-policy",
         "type": "policy",
+        "name": "Risk Management Policy",
         "description": "Reference to the Risk Management Policy with provisions for assessing and mitigating fraud risks.",
         "policyId": "risk_management"
       },
       {
         "id": "CC3.3-procedure",
         "type": "procedure",
+        "name": "Fraud Risk Assessment Procedures",
         "description": "Procedures for conducting fraud risk assessments and reporting findings."
       },
       {
         "id": "CC3.3-evidence",
         "type": "evidence",
+        "name": "Fraud Risk Documentation",
         "description": "Fraud risk assessment reports, internal audit findings, and remediation tracking records."
       }
     ]
@@ -299,17 +335,20 @@
       {
         "id": "CC3.4-policy",
         "type": "policy",
+        "name": "Change Management Policy",
         "description": "Reference to the Change Management Policy that outlines how risks associated with changes are evaluated.",
         "policyId": "change_management"
       },
       {
         "id": "CC3.4-procedure",
         "type": "procedure",
+        "name": "Change Risk Assessment Procedures",
         "description": "Procedures for assessing the impact of changes and planning mitigations for associated risks."
       },
       {
         "id": "CC3.4-evidence",
         "type": "evidence",
+        "name": "Change Risk Documentation",
         "description": "Change impact assessments, risk logs, and management approval records."
       }
     ]
@@ -324,17 +363,20 @@
       {
         "id": "CC4.1-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that outlines monitoring requirements for internal controls.",
         "policyId": "information_security"
       },
       {
         "id": "CC4.1-procedure",
         "type": "procedure",
+        "name": "Control Testing Procedures",
         "description": "Procedures for ongoing and periodic testing of internal controls."
       },
       {
         "id": "CC4.1-evidence",
         "type": "evidence",
+        "name": "Control Testing Documentation",
         "description": "Internal audit reports, control testing records, and management review documentation."
       }
     ]
@@ -349,17 +391,20 @@
       {
         "id": "CC4.2-policy",
         "type": "policy",
+        "name": "Risk Management Policy",
         "description": "Reference to the Risk Management Policy that establishes a framework for identifying, reporting, and remediating control deficiencies.",
         "policyId": "risk_management"
       },
       {
         "id": "CC4.2-procedure",
         "type": "procedure",
+        "name": "Deficiency Management Procedures",
         "description": "Procedures for documenting, tracking, and remediating control deficiencies."
       },
       {
         "id": "CC4.2-evidence",
         "type": "evidence",
+        "name": "Deficiency Management Records",
         "description": "Deficiency logs, remediation plans, and follow-up audit reports."
       }
     ]
@@ -374,17 +419,20 @@
       {
         "id": "CC5.1-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that outlines criteria for the design and selection of controls.",
         "policyId": "information_security"
       },
       {
         "id": "CC5.1-procedure",
         "type": "procedure",
+        "name": "Control Implementation Procedures",
         "description": "Procedures for developing, documenting, and implementing controls to mitigate risks."
       },
       {
         "id": "CC5.1-evidence",
         "type": "evidence",
+        "name": "Control Implementation Records",
         "description": "Control design documents, implementation records, and risk mitigation assessments."
       }
     ]
@@ -399,17 +447,20 @@
       {
         "id": "CC5.2-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that specifies baseline security configurations and technology management practices.",
         "policyId": "information_security"
       },
       {
         "id": "CC5.2-procedure",
         "type": "procedure",
+        "name": "Technology Control Procedures",
         "description": "Procedures for implementing and monitoring technology controls such as firewalls, antivirus, and system hardening."
       },
       {
         "id": "CC5.2-evidence",
         "type": "evidence",
+        "name": "Technology Control Records",
         "description": "System configuration records, monitoring reports, and technology audit logs."
       }
     ]
@@ -424,17 +475,20 @@
       {
         "id": "CC5.3-policy",
         "type": "policy",
+        "name": "Corporate Governance Policy",
         "description": "Reference to the Corporate Governance Policy that outlines how policies are communicated, enforced, and monitored.",
         "policyId": "corporate_governance"
       },
       {
         "id": "CC5.3-procedure",
         "type": "procedure",
+        "name": "Policy Implementation Procedures",
         "description": "Procedures for operationalizing policies including documentation, training, and compliance monitoring."
       },
       {
         "id": "CC5.3-evidence",
         "type": "evidence",
+        "name": "Policy Implementation Records",
         "description": "Policy distribution records, training logs, and compliance monitoring reports."
       }
     ]
@@ -449,17 +503,20 @@
       {
         "id": "CC6.1-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy that defines controls for network and system access including segmentation and firewalls.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.1-procedure",
         "type": "procedure",
+        "name": "Access Management Procedures",
         "description": "Procedures for granting, monitoring, and revoking system access including access logging and periodic reviews."
       },
       {
         "id": "CC6.1-evidence",
         "type": "evidence",
+        "name": "Access Control Records",
         "description": "Access control configurations, firewall logs, and system access review reports."
       }
     ]
@@ -474,17 +531,20 @@
       {
         "id": "CC6.2-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy requiring strong authentication methods including passwords and multi-factor authentication.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.2-procedure",
         "type": "procedure",
+        "name": "Authentication Management Procedures",
         "description": "Procedures for user registration, credential issuance, and ongoing authentication management."
       },
       {
         "id": "CC6.2-evidence",
         "type": "evidence",
+        "name": "Authentication Records",
         "description": "Authentication logs, MFA configuration records, and user account management records."
       }
     ]
@@ -499,17 +559,20 @@
       {
         "id": "CC6.3-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy detailing prompt revocation of user access upon termination or role change.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.3-procedure",
         "type": "procedure",
+        "name": "Access Removal Procedures",
         "description": "Procedures for de-provisioning user access immediately after termination or role change."
       },
       {
         "id": "CC6.3-evidence",
         "type": "evidence",
+        "name": "Access Removal Records",
         "description": "User termination logs, de-provisioning records, and access review reports."
       }
     ]
@@ -524,17 +587,20 @@
       {
         "id": "CC6.4-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy mandating periodic reviews of user access rights and privileges.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.4-procedure",
         "type": "procedure",
+        "name": "Access Review Procedures",
         "description": "Procedures for conducting regular access reviews and validating that user permissions align with current roles."
       },
       {
         "id": "CC6.4-evidence",
         "type": "evidence",
+        "name": "Access Review Records",
         "description": "Access review logs, user access reports, and management sign-off documentation."
       }
     ]
@@ -549,17 +615,20 @@
       {
         "id": "CC6.5-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy that defines processes for creating, maintaining, and terminating system accounts.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.5-procedure",
         "type": "procedure",
+        "name": "Account Management Procedures",
         "description": "Procedures for provisioning system accounts, managing privileged access, and monitoring account activity."
       },
       {
         "id": "CC6.5-evidence",
         "type": "evidence",
+        "name": "Account Management Records",
         "description": "Account provisioning logs, privileged account review reports, and system audit logs."
       }
     ]
@@ -574,17 +643,20 @@
       {
         "id": "CC6.6-policy",
         "type": "policy",
+        "name": "Access Control Policy",
         "description": "Reference to the Access Control Policy that establishes requirements for securing facilities and restricting physical entry to sensitive areas.",
         "policyId": "access_control"
       },
       {
         "id": "CC6.6-procedure",
         "type": "procedure",
+        "name": "Physical Access Procedures",
         "description": "Procedures for issuing physical access credentials, managing visitor access, and monitoring facility entry."
       },
       {
         "id": "CC6.6-evidence",
         "type": "evidence",
+        "name": "Physical Access Records",
         "description": "Facility access logs, visitor sign-in records, and security camera reports."
       }
     ]
@@ -599,17 +671,20 @@
       {
         "id": "CC6.7-policy",
         "type": "policy",
+        "name": "Change Management Policy",
         "description": "Reference to the Change Management Policy that governs modifications to information assets.",
         "policyId": "change_management"
       },
       {
         "id": "CC6.7-procedure",
         "type": "procedure",
+        "name": "Change Management Procedures",
         "description": "Procedures for managing, reviewing, and approving changes to information assets, including rollback measures."
       },
       {
         "id": "CC6.7-evidence",
         "type": "evidence",
+        "name": "Change Management Records",
         "description": "Change logs, approval records, and configuration management documentation."
       }
     ]
@@ -624,17 +699,20 @@
       {
         "id": "CC6.8-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that requires the use of antivirus, anti-malware, and threat detection solutions.",
         "policyId": "information_security"
       },
       {
         "id": "CC6.8-procedure",
         "type": "procedure",
+        "name": "Malware Prevention Procedures",
         "description": "Procedures for scanning, detecting, and responding to malware incidents on endpoints and networks."
       },
       {
         "id": "CC6.8-evidence",
         "type": "evidence",
+        "name": "Malware Prevention Records",
         "description": "Antivirus logs, malware detection alerts, and remediation records."
       }
     ]
@@ -649,17 +727,20 @@
       {
         "id": "CC7.1-policy",
         "type": "policy",
+        "name": "Information Security Policy",
         "description": "Reference to the Information Security Policy that outlines monitoring requirements for infrastructure and systems.",
         "policyId": "information_security"
       },
       {
         "id": "CC7.1-procedure",
         "type": "procedure",
+        "name": "Infrastructure Monitoring Procedures",
         "description": "Procedures for real-time monitoring of infrastructure performance, security events, and system vulnerabilities."
       },
       {
         "id": "CC7.1-evidence",
         "type": "evidence",
+        "name": "Infrastructure Monitoring Records",
         "description": "Monitoring tool reports, alert logs, and incident tracking records."
       }
     ]
@@ -674,17 +755,20 @@
       {
         "id": "CC7.2-policy",
         "type": "policy",
+        "name": "Incident Response Policy",
         "description": "Reference to the Incident Response Policy that defines roles, responsibilities, and procedures for addressing security events.",
         "policyId": "incident_response"
       },
       {
         "id": "CC7.2-procedure",
         "type": "procedure",
+        "name": "Security Incident Response Procedures",
         "description": "Procedures for detecting, containing, eradicating, and recovering from security incidents."
       },
       {
         "id": "CC7.2-evidence",
         "type": "evidence",
+        "name": "Incident Response Records",
         "description": "Incident logs, response drill reports, and post-incident review documentation."
       }
     ]
@@ -699,12 +783,14 @@
       {
         "id": "CC7.3-policy",
         "type": "policy",
+        "name": "Business Continuity Policy",
         "description": "Reference to the Business Continuity & Disaster Recovery Policy that outlines strategies for restoring systems and data.",
         "policyId": "business_continuity"
       },
       {
         "id": "CC7.3-procedure",
         "type": "procedure",
+        "name": "Recovery Procedures",
         "description": "Procedures for restoring systems and data following a security incident, including backup restoration and validation."
       },
       {

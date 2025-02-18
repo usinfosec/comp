@@ -29,6 +29,8 @@ async function main() {
 
     await prisma.framework.deleteMany();
     await prisma.frameworkCategory.deleteMany();
+
+    await prisma.organizationControlRequirement.deleteMany();
     console.log("✅ Database cleaned");
   }
 

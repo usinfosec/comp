@@ -10,7 +10,6 @@ import {
 } from "@bubba/ui/card";
 
 import { DataTable } from "@/components/tables/frameworks/data-table";
-import { useOrganizationFramework } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationFramework";
 import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationCategories";
 
 interface FrameworkControlsProps {
@@ -25,6 +24,18 @@ export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
     return null;
   }
 
+  const allControls = organizationCategories.flatMap((category) =>
+    category.organizationControl.map((control) => ({
+      code: control.control.code,
+      description: control.control.description,
+      name: control.control.name,
+      status: control.status,
+      id: control.id,
+      frameworkId,
+      category: category.name,
+    }))
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -32,21 +43,7 @@ export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
         <CardDescription>Review and manage compliance controls</CardDescription>
       </CardHeader>
       <CardContent>
-        {organizationCategories.map((category) => (
-          <div key={category.id} className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">{category.name}</h3>
-            <DataTable
-              data={category.organizationControl.map((control) => ({
-                code: control.control.code,
-                description: control.control.description,
-                name: control.control.name,
-                status: control.status,
-                id: control.id,
-                frameworkId,
-              }))}
-            />
-          </div>
-        ))}
+        <DataTable data={allControls} />
       </CardContent>
     </Card>
   );

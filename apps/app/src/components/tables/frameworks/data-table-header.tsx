@@ -45,7 +45,7 @@ export function DataTableHeader({ table, loading }: Props) {
 
       router.replace(`${pathname}?${params.toString()}`);
     },
-    [searchParams, router, pathname],
+    [searchParams, router, pathname]
   );
 
   const isVisible = (id: string) =>
@@ -68,6 +68,24 @@ export function DataTableHeader({ table, loading }: Props) {
               <span>{t("frameworks.controls.table.control")}</span>
               {"name" === column && value === "asc" && <ArrowDown size={16} />}
               {"name" === column && value === "desc" && <ArrowUp size={16} />}
+            </Button>
+          </TableHead>
+        )}
+
+        {isVisible("category") && (
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
+            <Button
+              className="p-0 hover:bg-transparent space-x-2"
+              variant="ghost"
+              onClick={() => createSortQuery("category")}
+            >
+              <span>{t("risk.vendor.table.category")}</span>
+              {"category" === column && value === "asc" && (
+                <ArrowDown size={16} />
+              )}
+              {"category" === column && value === "desc" && (
+                <ArrowUp size={16} />
+              )}
             </Button>
           </TableHead>
         )}
