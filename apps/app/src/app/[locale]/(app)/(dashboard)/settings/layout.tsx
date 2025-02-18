@@ -10,7 +10,7 @@ export default async function Layout({
   const t = await getI18n();
 
   return (
-    <div className="max-w-[800px] mx-auto">
+    <div className="max-w-[800px]">
       <Suspense fallback={<div>Loading...</div>}>
         <SecondaryMenu
           items={[

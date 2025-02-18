@@ -3,12 +3,12 @@ import { Button } from "@bubba/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
-import { Logo } from "../components/logo";
+import Logo from "../components/logo";
 
 export const metadata: Metadata = {
-  title: "Comp AI - SOC 2, ISO 27001 and GDPR compliance",
+  title: "Comp AI - Get SOC 2, ISO 27001 and GDPR compliant",
   description:
-    "The first open-source compliance automation platform that cuts your security certification time by 50%",
+    "The open-source compliance automation platform for SOC 2, ISO 27001, GDPR and more.",
   alternates: {
     canonical: "https://trycomp.ai",
   },
@@ -19,25 +19,24 @@ export default function Home() {
     <section className="w-full">
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="flex flex-col items-center text-center space-y-6">
-          <Logo width={64} height={64} className="h-16 w-16" />
+          <Logo />
 
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tighter lg:leading-[1.1] max-w-[800px] mx-auto bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            <Balancer>Get SOC 2, ISO 27001 and GDPR certified</Balancer>
+          <h1 className="max-w-[800px] text-4xl md:text-5xl font-semibold leading-tight tracking-tighter lg:leading-[1.1] mx-auto">
+            <Balancer>
+              Open Source Automation For SOC 2, ISO 27001 and GDPR
+            </Balancer>
           </h1>
 
-          <p className="text-lg md:text-xl font-light text-muted-foreground mt-6 max-w-[600px] mx-auto">
+          <p className="text-lg md:text-xl font-light text-muted-foreground mt-6 mx-auto max-w-[800px]">
             <Balancer>
-              The only open-source compliance automation platform that does
-              everything you need to get certified, fast.
+              We're launching the first open-source compliance automation
+              platform that does everything you need to achieve and maintain
+              compliance with frameworks like SOC 2, ISO 27001, GDPR and more.
             </Balancer>
           </p>
 
           <div className="mt-10 w-full max-w-md">
             <WaitlistForm />
-            <p className="text-xs text-muted-foreground mt-2 text-center">
-              Join our waitlist to help make 100,000 companies compliant by
-              2032.
-            </p>
           </div>
 
           <div className="mt-12 w-full max-w-[800px]">
@@ -47,7 +46,7 @@ export default function Home() {
                   href="https://discord.gg/compai"
                   className="flex items-center gap-2"
                 >
-                  Discord
+                  Join us on Discord
                   <span>→</span>
                 </Link>
               </Button>

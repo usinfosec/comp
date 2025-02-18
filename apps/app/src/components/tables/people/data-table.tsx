@@ -7,6 +7,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { useI18n } from "@/locales/client";
+import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
 import {
   Table,
@@ -15,12 +17,10 @@ import {
   TableHead,
   TableRow,
 } from "@bubba/ui/table";
-import { Button } from "@bubba/ui/button";
+import { useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
-import { useRouter } from "next/navigation";
-import { useI18n } from "@/locales/client";
 
 interface DataTableProps {
   columnHeaders: {

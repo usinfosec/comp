@@ -6,11 +6,11 @@ import type {
   OrganizationControl,
   OrganizationFramework,
 } from "@bubba/db";
+import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import { FileStack } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@bubba/ui/button";
 
 interface Props {
   frameworks: (OrganizationFramework & {
@@ -48,7 +48,7 @@ export function FrameworkProgress({ frameworks }: Props) {
             {frameworks.map((framework) => {
               const total = framework.organizationControl.length;
               const completed = framework.organizationControl.filter(
-                (control) => control.status === "compliant"
+                (control) => control.status === "compliant",
               ).length;
               const progress = total ? (completed / total) * 100 : 0;
 
@@ -56,7 +56,7 @@ export function FrameworkProgress({ frameworks }: Props) {
                 <Link
                   key={framework.id}
                   href={`/frameworks/${framework.framework.id}`}
-                  className="block space-y-3 rounded-lg p-4 hover:bg-muted transition-colors duration-200"
+                  className="block space-y-3 rounded-lg p-4 hover:bg-muted/60 transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-medium">

@@ -4,7 +4,7 @@ import { InviteUserSheet } from "@/components/sheets/invite-user-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
-import { Plus, X } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useState, useTransition } from "react";
@@ -56,35 +56,46 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   }, [debouncedValue, createQueryString, pathname, router]);
 
   return (
-    <div className="sticky top-0 z-10 -mx-6 mb-4 w-[calc(100%+48px)] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75">
-      <div className="flex flex-col gap-4 border-b px-6 pb-4">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex flex-1 items-center gap-2">
-            <Input
-              placeholder={t("people.filters.search")}
-              className="h-8 w-[150px] lg:w-[250px]"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            {inputValue && (
-              <Button
-                variant="ghost"
-                className="h-8 px-2 lg:px-3"
-                onClick={() => {
-                  setInputValue("");
-                  router.push(pathname);
-                }}
-              >
-                <X className="h-4 w-4 mr-2" />
-                {t("people.actions.clear")}
-              </Button>
-            )}
-          </div>
+    <div className="flex flex-row items-center justify-between gap-2 mb-4">
+      <div className="flex flex-1 items-center gap-2 min-w-0">
+        <div className="relative flex-1 md:max-w-sm">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder={t("people.filters.search")}
+            className="pl-8"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        </div>
+
+        <div className="md:hidden">
           <Button onClick={() => setOpen("true")} variant="action">
             <Plus className="h-4 w-4" />
-            {t("people.actions.invite")}
+            {t("common.actions.addNew")}
           </Button>
         </div>
+      </div>
+
+      <div className="hidden md:flex items-center gap-2">
+        {inputValue && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setInputValue("");
+              router.push(pathname);
+            }}
+            disabled={isPending}
+          >
+            <X className="h-4 w-4 mr-2" />
+            {t("common.actions.clear")}
+          </Button>
+        )}
+
+        <Button onClick={() => setOpen("true")} variant="action">
+          <Plus className="h-4 w-4" />
+          {t("common.actions.addNew")}
+        </Button>
       </div>
 
       <InviteUserSheet />

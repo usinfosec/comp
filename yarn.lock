@@ -11,6 +11,14 @@
     "@ai-sdk/provider" "0.0.24"
     "@ai-sdk/provider-utils" "1.0.20"
 
+"@ai-sdk/openai@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.npmjs.org/@ai-sdk/openai/-/openai-1.1.12.tgz"
+  integrity sha512-lh3zN4J/XEqkjpZAOBajSttF1Nl2qV/7WxRbORn+4jZmQkmzWQbsEUpgQ6ME+heyRvnsRCNq3fkMGehWWxWuXg==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.8"
+
 "@ai-sdk/provider@0.0.24":
   version "0.0.24"
   resolved "https://registry.npmjs.org/@ai-sdk/provider/-/provider-0.0.24.tgz"
@@ -22,6 +30,13 @@
   version "0.0.26"
   resolved "https://registry.npmjs.org/@ai-sdk/provider/-/provider-0.0.26.tgz"
   integrity sha512-dQkfBDs2lTYpKM8389oopPdQgIU007GQyCbuPPrV+K6MtSII3HBfE0stUIMXUb44L+LK1t6GXPP7wjSzjO6uKg==
+  dependencies:
+    json-schema "^0.4.0"
+
+"@ai-sdk/provider@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@ai-sdk/provider/-/provider-1.0.7.tgz"
+  integrity sha512-q1PJEZ0qD9rVR+8JFEd01/QM++csMT5UVwYXSN2u54BrVw/D8TZLTeg2FEfKK00DgAx0UtWd8XOhhwITP9BT5g==
   dependencies:
     json-schema "^0.4.0"
 
@@ -45,6 +60,16 @@
     secure-json-parse "^2.7.0"
     eventsource-parser "^1.1.2"
 
+"@ai-sdk/provider-utils@2.1.8":
+  version "2.1.8"
+  resolved "https://registry.npmjs.org/@ai-sdk/provider-utils/-/provider-utils-2.1.8.tgz"
+  integrity sha512-1j9niMUAFlCBdYRYJr1yoB5kwZcRFBVuBiL1hhrf0ONFNrDiJYA6F+gROOuP16NHhezMfTo60+GeeV1xprHFjg==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    eventsource-parser "^3.0.0"
+    nanoid "^3.3.8"
+    secure-json-parse "^2.7.0"
+
 "@ai-sdk/react@0.0.70":
   version "0.0.70"
   resolved "https://registry.npmjs.org/@ai-sdk/react/-/react-0.0.70.tgz"
@@ -54,6 +79,16 @@
     throttleit "2.1.0"
     "@ai-sdk/ui-utils" "0.0.50"
     "@ai-sdk/provider-utils" "1.0.22"
+
+"@ai-sdk/react@1.1.16":
+  version "1.1.16"
+  resolved "https://registry.npmjs.org/@ai-sdk/react/-/react-1.1.16.tgz"
+  integrity sha512-4Jx1piCte2+YoDd6ZdwM0Mw29046edw7MMNICImCPv2s7sfwFwe4c1t8waA4PYRefuETmzheqjh80kafQYJf8g==
+  dependencies:
+    "@ai-sdk/provider-utils" "2.1.8"
+    "@ai-sdk/ui-utils" "1.1.14"
+    swr "^2.2.5"
+    throttleit "2.1.0"
 
 "@ai-sdk/solid@0.0.54":
   version "0.0.54"
@@ -82,6 +117,15 @@
     secure-json-parse "^2.7.0"
     zod-to-json-schema "^3.23.3"
     "@ai-sdk/provider-utils" "1.0.22"
+
+"@ai-sdk/ui-utils@1.1.14":
+  version "1.1.14"
+  resolved "https://registry.npmjs.org/@ai-sdk/ui-utils/-/ui-utils-1.1.14.tgz"
+  integrity sha512-JQXcnPRnDfeH1l503s/8+SxJdmgyUKC3QvKjOpTV6Z/LyRWJZrruBoZnVB1OrL9o/WHEguC+rD+p9udv281KzQ==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.8"
+    zod-to-json-schema "^3.24.1"
 
 "@ai-sdk/vue@0.0.59":
   version "0.0.59"
@@ -3113,7 +3157,7 @@
     prosemirror-schema-basic "^1.2.3"
     prosemirror-trailing-node "^3.0.0"
 
-"@tiptap/react@^2.9.1":
+"@tiptap/react@^2.11.5", "@tiptap/react@^2.9.1":
   version "2.11.5"
   resolved "https://registry.npmjs.org/@tiptap/react/-/react-2.11.5.tgz"
   integrity sha512-Dp8eHL1G+R/C4+QzAczyb3t1ovexEIZx9ln7SGEM+cT1KHKAw9XGPRgsp92+NQaYI+EdEb/YqoBOSzQcd18/OQ==
@@ -3124,7 +3168,7 @@
     "@types/use-sync-external-store" "^0.0.6"
     "@tiptap/extension-floating-menu" "^2.11.5"
 
-"@tiptap/starter-kit@^2.9.1":
+"@tiptap/starter-kit@^2.11.5", "@tiptap/starter-kit@^2.9.1":
   version "2.11.5"
   resolved "https://registry.npmjs.org/@tiptap/starter-kit/-/starter-kit-2.11.5.tgz"
   integrity sha512-SLI7Aj2ruU1t//6Mk8f+fqW+18uTqpdfLUJYgwu0CkqBckrkRZYZh6GVLk/02k3H2ki7QkFxiFbZrdbZdng0JA==
@@ -3826,6 +3870,18 @@ ai@^3.4.33:
     eventsource-parser "1.1.2"
     zod-to-json-schema "^3.23.3"
     "@ai-sdk/provider-utils" "1.0.22"
+
+ai@^4.1.41:
+  version "4.1.41"
+  resolved "https://registry.npmjs.org/ai/-/ai-4.1.41.tgz"
+  integrity sha512-qQ5eVm5ivTij0/auLaoggfW3Y+IgWL0uNCCH79P8eUODeJTTqCRvB0B3iz9xl9b4uqOPcgZCVELgLfVODnCJ9g==
+  dependencies:
+    "@ai-sdk/provider" "1.0.7"
+    "@ai-sdk/provider-utils" "2.1.8"
+    "@ai-sdk/react" "1.1.16"
+    "@ai-sdk/ui-utils" "1.1.14"
+    "@opentelemetry/api" "1.9.0"
+    jsondiffpatch "0.6.0"
 
 ajv@^6.12.3:
   version "6.12.6"
@@ -4536,6 +4592,7 @@ commander@11.1.0:
     tailwindcss "^3.4.17"
     typescript "^5.7.3"
   dependencies:
+    "@ai-sdk/openai" "^1.1.12"
     "@browserbasehq/sdk" "^2.3.0"
     "@bubba/notifications" "packages/notifications"
     "@date-fns/tz" "^1.2.0"
@@ -4545,10 +4602,14 @@ commander@11.1.0:
     "@prisma/instrumentation" "^6.3.1"
     "@tanstack/react-query" "^5.66.0"
     "@tanstack/react-table" "^8.21.2"
+    "@tiptap/pm" "^2.11.5"
+    "@tiptap/react" "^2.11.5"
+    "@tiptap/starter-kit" "^2.11.5"
     "@trigger.dev/react-hooks" "3.3.16"
     "@trigger.dev/sdk" "3.3.16"
     "@uploadthing/react" "^7.2.0"
     "@upstash/ratelimit" "^2.0.5"
+    ai "^4.1.41"
     argon2 "^0.41.1"
     bun "^1.2.2"
     crypto "^1.0.1"
@@ -11497,7 +11558,7 @@ zod-error@1.5.0:
   dependencies:
     zod "^3.20.2"
 
-zod-to-json-schema@^3.23.3:
+zod-to-json-schema@^3.23.3, zod-to-json-schema@^3.24.1:
   version "3.24.1"
   resolved "https://registry.npmjs.org/zod-to-json-schema/-/zod-to-json-schema-3.24.1.tgz"
   integrity sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==
