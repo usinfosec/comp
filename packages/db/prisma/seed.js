@@ -9,6 +9,21 @@ const node_path_1 = require("node:path");
 const node_fs_2 = __importDefault(require("node:fs"));
 const prisma = new client_1.PrismaClient();
 async function main() {
+    if (process.env.NODE_ENV === "development") {
+        console.log("\n🗑️  Cleaning up existing data...");
+        await prisma.organizationFramework.deleteMany();
+        await prisma.organizationCategory.deleteMany();
+        await prisma.organizationControl.deleteMany();
+        await prisma.organizationPolicy.deleteMany();
+        await prisma.policy.deleteMany();
+        await prisma.policyControl.deleteMany();
+        await prisma.policyFramework.deleteMany();
+        await prisma.control.deleteMany();
+        await prisma.controlRequirement.deleteMany();
+        await prisma.framework.deleteMany();
+        await prisma.frameworkCategory.deleteMany();
+        console.log("✅ Database cleaned");
+    }
     console.log("\n📋 Seeding policies...");
     await seedPolicies();
     console.log("✅ Policies seeded");
@@ -34,25 +49,52 @@ async function seedPolicies() {
     console.log(`📄 Found ${policyFiles.length} policy files to process`);
     for (const file of policyFiles) {
         console.log(`  ⏳ Processing ${file}...`);
-        const policyData = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)(policiesDir, file), "utf8"));
-        await prisma.policy.upsert({
-            where: { id: policyData.metadata.id },
-            update: {
-                name: policyData.metadata.name,
-                description: policyData.metadata.description,
-                content: policyData.content,
-                usedBy: policyData.metadata.usedBy,
-            },
-            create: {
-                id: policyData.metadata.id,
-                slug: policyData.metadata.slug,
-                name: policyData.metadata.name,
-                description: policyData.metadata.description,
-                content: policyData.content,
-                usedBy: policyData.metadata.usedBy,
-            },
-        });
-        console.log(`  ✅ ${file} processed`);
+        try {
+            const fileContent = (0, node_fs_1.readFileSync)((0, node_path_1.join)(policiesDir, file), "utf8");
+            const policyData = JSON.parse(fileContent);
+            // Check for any existing policies with the same slug
+            const existingPolicyWithSlug = await prisma.policy.findFirst({
+                where: {
+                    slug: policyData.metadata.slug,
+                    NOT: { id: policyData.metadata.id },
+                },
+            });
+            // If there's a conflict, delete the existing policy
+            if (existingPolicyWithSlug) {
+                console.log(`    ⚠️  Found existing policy with slug "${policyData.metadata.slug}", replacing it...`);
+                await prisma.policy.delete({
+                    where: { id: existingPolicyWithSlug.id },
+                });
+            }
+            // Now we can safely upsert the new policy
+            await prisma.policy.upsert({
+                where: {
+                    id: policyData.metadata.id,
+                },
+                update: {
+                    name: policyData.metadata.name,
+                    slug: policyData.metadata.slug,
+                    description: policyData.metadata.description,
+                    content: policyData.content,
+                    usedBy: policyData.metadata.usedBy,
+                },
+                create: {
+                    id: policyData.metadata.id,
+                    slug: policyData.metadata.slug,
+                    name: policyData.metadata.name,
+                    description: policyData.metadata.description,
+                    content: policyData.content,
+                    usedBy: policyData.metadata.usedBy,
+                },
+            });
+            console.log(`  ✅ ${file} processed`);
+        }
+        catch (error) {
+            console.error(`  ❌ Error processing ${file}:`, error);
+            if (error instanceof Error) {
+                console.error(`     Error details: ${error.message}`);
+            }
+        }
     }
 }
 async function seedFrameworks() {
@@ -120,7 +162,7 @@ async function seedFrameworkCategories(frameworkId) {
 async function seedFrameworkCategoryControls(frameworkId, categoryCode) {
     const controls = node_fs_2.default.readFileSync((0, node_path_1.join)(__dirname, `../../data/controls/${frameworkId}.json`), "utf8");
     const controlsData = JSON.parse(controls);
-    const filteredControlsData = Object.fromEntries(Object.entries(controlsData).filter(([code, data]) => code.includes(categoryCode)));
+    const filteredControlsData = Object.fromEntries(Object.entries(controlsData).filter(([_, data]) => data.categoryId === categoryCode));
     console.log(`        🎮 Processing ${Object.keys(filteredControlsData).length} controls`);
     for (const [controlCode, controlData] of Object.entries(filteredControlsData)) {
         // First, upsert the controls itself for the given category.
