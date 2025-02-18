@@ -31,10 +31,10 @@ export default async function IntegrationsPage({
   }
 
   return (
-    <div className="mt-4 max-w-[1200px] mx-auto">
+    <div className="mt-4 max-w-[1200px]">
       <IntegrationsHeader />
 
-      <Suspense fallback={<SkeletonLoader amount={8} />}>
+      <Suspense fallback={<SkeletonLoader amount={2} />}>
         <IntegrationsServer />
       </Suspense>
     </div>
