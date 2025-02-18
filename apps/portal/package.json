@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@bubba/ui": "workspace:*",
+    "@bubba/db": "workspace:*",
     "@types/node": "^22.13.2",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
