@@ -34,7 +34,7 @@ export default async function Home() {
   );
 }
 
-export const getUser = unstable_cache(async (email: string) => {
+const getUser = unstable_cache(async (email: string) => {
   "use server";
 
   const employee_data = await db.employee.findFirst({
