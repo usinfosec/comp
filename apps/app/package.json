@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.12",
+    "@ai-sdk/provider": "^1.0.7",
     "@browserbasehq/sdk": "^2.3.0",
     "@bubba/notifications": "workspace:*",
     "@date-fns/tz": "^1.2.0",
