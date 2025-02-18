@@ -10,7 +10,6 @@ import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { ScrollArea } from "@bubba/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader } from "@bubba/ui/sheet";
-import Nango from "@nangohq/frontend";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
@@ -46,11 +45,6 @@ export function IntegrationsCard({
   category: string;
   installedSettings: Record<string, any>;
 }) {
-  const nango = new Nango({
-    width: 400,
-    height: 600,
-  });
-
   const router = useRouter();
 
   const [params, setParams] = useQueryStates({
@@ -83,21 +77,6 @@ export function IntegrationsCard({
       const res = await retrieveIntegrationSessionToken.executeAsync({
         integrationId: id,
       });
-
-      const connect = nango.openConnectUI({
-        onEvent: async (event) => {
-          if (event.type === "close") {
-            setLoading(false);
-          } else if (event.type === "connect") {
-            toast.success("Integration connected successfully");
-            router.replace("/integrations");
-          }
-        },
-      });
-
-      if (res?.data?.sessionToken) {
-        connect.setSessionToken(res.data.sessionToken);
-      }
     } catch (error) {
       console.error("Connection error:", error);
       toast.error("Failed to connect integration");
