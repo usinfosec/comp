@@ -1,6 +1,5 @@
 "use client";
 
-import type { TransformedCategory } from "@/types/framework";
 import {
   Card,
   CardContent,
@@ -12,7 +11,6 @@ import {
 import { DataTable } from "@/components/tables/frameworks/data-table";
 import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/frameworks/[frameworkId]/hooks/useOrganizationCategories";
 import { useMemo } from "react";
-import type { ComplianceStatus } from "@bubba/db";
 import type { OrganizationControlType } from "@/components/tables/frameworks/columns";
 
 interface FrameworkControlsProps {
