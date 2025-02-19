@@ -7,7 +7,7 @@ export default {
       otp_sent: "Engangspassord sendt",
       otp_description: "Sjekk e-posten din for engangspassordet",
       otp_try_again: "Prøv igjen",
-      placeholder: "Din jobb-e-post",
+      placeholder: "Din jobbmail",
       button: "Fortsett",
     },
   },
@@ -19,6 +19,8 @@ export default {
     learn_more_link: "https://trycomp.ai",
   },
   user_menu: {
+    theme: "Tema",
+    language: "Språk",
     sign_out: "Logg ut",
   },
   not_found: {
@@ -28,5 +30,15 @@ export default {
   },
   sidebar: {
     dashboard: "Oversikt over ansattportal",
+  },
+  language: {
+    placeholder: "Velg språk",
+  },
+  theme: {
+    options: {
+      dark: "Mørk",
+      light: "Lys",
+      system: "System",
+    },
   },
 } as const;

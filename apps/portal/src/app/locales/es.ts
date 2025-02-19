@@ -7,7 +7,7 @@ export default {
       otp_sent: "Contraseña de un solo uso enviada",
       otp_description: "Revisa tu correo electrónico para ver la contraseña de un solo uso",
       otp_try_again: "Intentar de nuevo",
-      placeholder: "Tu correo electrónico del trabajo",
+      placeholder: "Tu correo del trabajo",
       button: "Continuar",
     },
   },
@@ -19,6 +19,8 @@ export default {
     learn_more_link: "https://trycomp.ai",
   },
   user_menu: {
+    theme: "Tema",
+    language: "Idioma",
     sign_out: "Cerrar Sesión",
   },
   not_found: {
@@ -28,5 +30,15 @@ export default {
   },
   sidebar: {
     dashboard: "Vista General del Portal del Empleado",
+  },
+  language: {
+    placeholder: "Seleccionar Idioma",
+  },
+  theme: {
+    options: {
+      dark: "Oscuro",
+      light: "Claro",
+      system: "Sistema",
+    },
   },
 } as const;

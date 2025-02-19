@@ -1,6 +1,6 @@
 export default {
   auth: {
-    title: "Portail Employé",
+    title: "Portail des Employés",
     description: "Saisissez votre adresse e-mail pour recevoir un mot de passe à usage unique.",
     options: "Plus d'options",
     email: {
@@ -15,10 +15,12 @@ export default {
     title: "Comp AI - Plateforme de Conformité OSS",
     description:
       "Obtenez la conformité SOC 2, ISO 27001 et RGPD en quelques semaines, pas en mois. Open source, inscription instantanée, essai gratuit.",
-    learn_more: "Commencer l'essai gratuit et devenir conforme",
+    learn_more: "Commencer l'essai gratuit et être conforme",
     learn_more_link: "https://trycomp.ai",
   },
   user_menu: {
+    theme: "Thème",
+    language: "Langue",
     sign_out: "Se déconnecter",
   },
   not_found: {
@@ -27,6 +29,16 @@ export default {
     return: "Retourner à la page d'accueil",
   },
   sidebar: {
-    dashboard: "Vue d'ensemble du portail employé",
+    dashboard: "Vue d'ensemble du Portail des Employés",
+  },
+  language: {
+    placeholder: "Sélectionner la langue",
+  },
+  theme: {
+    options: {
+      dark: "Sombre",
+      light: "Clair",
+      system: "Système",
+    },
   },
 } as const;
