@@ -9,10 +9,7 @@
     "dev": "turbo dev --parallel",
     "lint": "turbo lint && manypkg check",
     "format": "biome format --write .",
-    "typecheck": "turbo typecheck",
-    "db:generate": "cd packages/db && bunx prisma generate",
-    "db:push": "cd packages/db && bunx prisma db push",
-    "db:migrate": "cd packages/db && bunx prisma migrate deploy"
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
