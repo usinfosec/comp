@@ -1,16 +1,10 @@
 import { UserMenu } from "@/app/components/user-menu";
 import { getI18n } from "@/app/locales/server";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { headers } from "next/headers";
 import { Suspense } from "react";
-import { auth } from "../lib/auth";
 import { MobileMenu } from "./mobile-menu";
 
 export async function Header() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   const t = await getI18n();
 
   return (
@@ -18,12 +12,8 @@ export async function Header() {
       <MobileMenu />
 
       <div className="flex space-x-2 ml-auto">
-        <div className="flex gap-2">Employee Portal</div>
-      </div>
-
-      <div className="flex space-x-2 ml-auto">
         <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
-          <UserMenu session={session} />
+          <UserMenu />
         </Suspense>
       </div>
     </header>
