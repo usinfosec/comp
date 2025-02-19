@@ -1,19 +1,32 @@
 export default {
   auth: {
     title: "Portal do Funcionário",
-    description: "Digite seu e-mail e senha única para continuar",
+    description: "Digite seu endereço de e-mail para receber uma senha única.",
     options: "Mais opções",
     email: {
       otp_sent: "Senha única enviada",
       otp_description: "Verifique seu e-mail para ver a senha única",
       otp_try_again: "Tentar novamente",
-      placeholder: "Seu e-mail do trabalho",
-      button: "Obter senha única",
+      placeholder: "Seu e-mail profissional",
+      button: "Continuar",
     },
+  },
+  powered_by: {
+    title: "Comp AI - Plataforma de Conformidade OSS",
+    description:
+      "Obtenha conformidade com SOC 2, ISO 27001 e GDPR em semanas, não meses. Código aberto, inscrição instantânea, teste gratuito.",
+    learn_more: "Comece o Teste Gratuito e Obtenha Conformidade",
+    learn_more_link: "https://trycomp.ai",
+  },
+  user_menu: {
+    sign_out: "Sair",
   },
   not_found: {
     title: "Não Encontrado",
     description: "A página que você está procurando não existe.",
-    return: "Voltar à página inicial",
+    return: "Voltar para a página inicial",
+  },
+  sidebar: {
+    dashboard: "Visão Geral do Portal do Funcionário",
   },
 } as const;

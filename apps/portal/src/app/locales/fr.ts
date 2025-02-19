@@ -1,19 +1,32 @@
 export default {
   auth: {
-    title: "Portail des Employés",
-    description: "Entrez votre email et votre mot de passe à usage unique pour continuer",
+    title: "Portail Employé",
+    description: "Saisissez votre adresse e-mail pour recevoir un mot de passe à usage unique.",
     options: "Plus d'options",
     email: {
       otp_sent: "Mot de passe à usage unique envoyé",
-      otp_description: "Vérifiez votre email pour le mot de passe à usage unique",
+      otp_description: "Vérifiez votre e-mail pour le mot de passe à usage unique",
       otp_try_again: "Réessayer",
-      placeholder: "Votre email professionnel",
-      button: "Obtenir un mot de passe à usage unique",
+      placeholder: "Votre e-mail professionnel",
+      button: "Continuer",
     },
+  },
+  powered_by: {
+    title: "Comp AI - Plateforme de Conformité OSS",
+    description:
+      "Obtenez la conformité SOC 2, ISO 27001 et RGPD en quelques semaines, pas en mois. Open source, inscription instantanée, essai gratuit.",
+    learn_more: "Commencer l'essai gratuit et devenir conforme",
+    learn_more_link: "https://trycomp.ai",
+  },
+  user_menu: {
+    sign_out: "Se déconnecter",
   },
   not_found: {
     title: "Page Non Trouvée",
     description: "La page que vous recherchez n'existe pas.",
     return: "Retourner à la page d'accueil",
+  },
+  sidebar: {
+    dashboard: "Vue d'ensemble du portail employé",
   },
 } as const;

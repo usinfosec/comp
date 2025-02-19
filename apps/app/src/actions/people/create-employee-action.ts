@@ -1,9 +1,9 @@
 "use server";
 
 import { db } from "@bubba/db";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { authActionClient } from "../safe-action";
 import { createEmployeeSchema } from "../schema";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import type { ActionResponse } from "../types";
 
 const DEFAULT_TASKS = [
@@ -55,6 +55,23 @@ export const createEmployeeAction = authActionClient
           organizationId: user.organizationId,
           isActive: true,
           externalEmployeeId,
+        },
+      });
+
+      const portalUser = await db.portalUser.create({
+        data: {
+          id: employee.id,
+          name,
+          email,
+          organizationId: user.organizationId,
+          emailVerified: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          employees: {
+            connect: {
+              id: employee.id,
+            },
+          },
         },
       });
 
