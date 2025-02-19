@@ -10,6 +10,7 @@ import {
 } from "@bubba/ui/dropdown-menu";
 import { headers } from "next/headers";
 import { auth } from "../lib/auth";
+import { LocaleSwitch } from "./locale-switch";
 import { Logout } from "./logout";
 import { ThemeSwitch } from "./theme-switch";
 
@@ -48,7 +49,7 @@ export async function UserMenu() {
               <span className="truncate line-clamp-1 max-w-[155px] block">
                 {session?.user?.name}
               </span>
-              <span className="truncate text-xs text-[#606060] font-normal">
+              <span className="truncate text-xs text-muted-foreground font-normal">
                 {session?.user?.email}
               </span>
             </div>
@@ -62,6 +63,12 @@ export async function UserMenu() {
           <p className="text-sm">{t("user_menu.theme")}</p>
           <ThemeSwitch />
         </div>{" "}
+        <DropdownMenuSeparator />{" "}
+        <div className="flex flex-row justify-between items-center p-2">
+          <p className="text-sm">{t("user_menu.language")}</p>
+          <LocaleSwitch />
+        </div>{" "}
+        <DropdownMenuSeparator />
         <Logout />
       </DropdownMenuContent>
     </DropdownMenu>

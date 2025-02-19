@@ -31,6 +31,9 @@ export default {
   sidebar: {
     dashboard: "Employee Portal Overview",
   },
+  language: {
+    placeholder: "Select Language",
+  },
   theme: {
     options: {
       dark: "Dark",
