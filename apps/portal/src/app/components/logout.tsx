@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "../lib/auth-client";
 
-export async function Logout() {
+export function Logout() {
   const t = useI18n();
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
