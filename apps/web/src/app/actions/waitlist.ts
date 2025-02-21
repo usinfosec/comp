@@ -1,9 +1,7 @@
 "use server";
 
-import type { introductionEmailTask } from "@/jobs/introduction";
 import * as ServerAnalytics from "@bubba/analytics/src/server";
 import { resend } from "@bubba/email/lib/resend";
-import { tasks } from "@trigger.dev/sdk/v3";
 import ky from "ky";
 import { createSafeActionClient } from "next-safe-action";
 import { waitlistSchema } from "./schema";
