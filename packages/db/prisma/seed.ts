@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import type { RequirementType, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import { RequirementType } from "@prisma/client";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import fs from "node:fs";
@@ -45,6 +46,10 @@ async function main() {
   console.log("\n🔗 Seeding policy frameworks...");
   await seedPolicyFramework();
   console.log("✅ Policy frameworks seeded");
+
+  console.log("\n🔗 Seeding evidence");
+  await seedEvidence();
+  console.log("✅ Evidence seeded");
 
   console.log("\n🎉 All data seeded successfully!");
 }
@@ -361,5 +366,34 @@ async function seedPolicyFramework() {
       }
     }
     console.log(`  ✅ Policy ${policy.name} mapped`);
+  }
+}
+
+async function seedEvidence() {
+  const evidenceRequirements = await prisma.controlRequirement.findMany({
+    where: {
+      type: RequirementType.evidence,
+    },
+  });
+
+  console.log(`🔄 Processing ${evidenceRequirements.length} evidences`);
+
+  for (const evidence of evidenceRequirements) {
+    console.log(`  ⏳ Processing evidence: ${evidence.name}...`);
+
+    await prisma.evidence.upsert({
+      where: {
+        id: evidence.id,
+      },
+      update: {
+        name: evidence.name,
+        description: evidence.description,
+      },
+      create: {
+        id: evidence.id,
+        name: evidence.name,
+        description: evidence.description,
+      },
+    });
   }
 }

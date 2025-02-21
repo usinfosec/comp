@@ -21,6 +21,10 @@ export const env = createEnv({
     VERCEL_TEAM_ID: z.string().optional(),
     VERCEL_PROJECT_ID: z.string().optional(),
     NODE_ENV: z.string().optional(),
+    AWS_ACCESS_KEY_ID: z.string(),
+    AWS_SECRET_ACCESS_KEY: z.string(),
+    AWS_REGION: z.string(),
+    AWS_BUCKET_NAME: z.string(),
   },
 
   client: {
@@ -53,6 +57,10 @@ export const env = createEnv({
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     NEXT_PUBLIC_NOVU_IDENTIFIER: process.env.NEXT_PUBLIC_NOVU_IDENTIFIER,
     NODE_ENV: process.env.NODE_ENV,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

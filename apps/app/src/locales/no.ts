@@ -713,5 +713,9 @@ export default {
       insert: "Sett inn under",
       discard: "Forkast"
     }
+  },
+  evidence: {
+    title: "Bevisoppgaver",
+    description: "Administrer og spor bevisoppgaver for dine samsvarsbehov."
   }
 } as const;

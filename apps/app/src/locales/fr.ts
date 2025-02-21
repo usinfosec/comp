@@ -713,5 +713,9 @@ export default {
       insert: "Insérer ci-dessous",
       discard: "Jeter"
     }
+  },
+  evidence: {
+    title: "Tâches de preuve",
+    description: "Gérez et suivez les tâches de preuve pour vos exigences de conformité."
   }
 } as const;

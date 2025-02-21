@@ -8,11 +8,11 @@ import { useOrganizationControl } from "../hooks/useOrganizationControl";
 import { Card } from "@bubba/ui/card";
 import { Label } from "@bubba/ui/label";
 import { Button } from "@bubba/ui/button";
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useOrganizationControlRequirements } from "../hooks/useOrganizationControlRequirements";
-import Link from "next/link";
 import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
+import { DataTable } from "./data-table/data-table";
 
 interface SingleControlProps {
   controlId: string;
@@ -66,53 +66,7 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Requirements</h1>
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b">
-              <th className="text-left p-4 font-medium">Type</th>
-              <th className="text-left p-4 font-medium">Description</th>
-              <th className="text-left p-4 font-medium">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requirements?.map((requirement) => {
-              const url =
-                requirement.type === "policy"
-                  ? `/policies/${requirement.organizationPolicy?.policy?.id}`
-                  : "_blank";
-
-              const isCompleted =
-                requirement.type === "policy"
-                  ? requirement.organizationPolicy?.status === "published"
-                  : false;
-
-              return (
-                <tr
-                  key={requirement.id}
-                  className="border-b hover:bg-muted/50 cursor-pointer"
-                >
-                  <td className="p-4">
-                    <Link href={url} className="block w-full h-full">
-                      {requirement.type}
-                    </Link>
-                  </td>
-                  <td className="p-4">
-                    <Link href={url} className="block w-full h-full truncate">
-                      {requirement.description}
-                    </Link>
-                  </td>
-                  <td className="p-4 flex items-center justify-center">
-                    {isCompleted ? (
-                      <CheckCircle2 size={16} className="text-green-500" />
-                    ) : (
-                      <XCircle size={16} className="text-red-500" />
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {requirements && <DataTable data={requirements} />}
       </div>
     </div>
   );

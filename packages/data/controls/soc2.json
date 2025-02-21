@@ -796,6 +796,7 @@
       {
         "id": "CC7.3-evidence",
         "type": "evidence",
+        "name": "Recovery Records",
         "description": "Recovery test results, restoration logs, and incident recovery reports."
       }
     ]
@@ -821,6 +822,7 @@
       {
         "id": "CC7.4-evidence",
         "type": "evidence",
+        "name": "Incident Analysis Records",
         "description": "Incident analysis reports, lessons learned documentation, and remediation tracking records."
       }
     ]
@@ -846,6 +848,7 @@
       {
         "id": "CC7.5-evidence",
         "type": "evidence",
+        "name": "Incident Communication Records",
         "description": "Communication logs, notifications, and records of stakeholder communications during incidents."
       }
     ]
@@ -871,6 +874,7 @@
       {
         "id": "CC8.1-evidence",
         "type": "evidence",
+        "name": "Change Request Logs",
         "description": "Change request logs, approval records, and post-change review reports."
       }
     ]
@@ -896,6 +900,7 @@
       {
         "id": "CC9.1-evidence",
         "type": "evidence",
+        "name": "Business Continuity Plans",
         "description": "Business continuity plans, BIA reports, and disaster recovery test results."
       }
     ]
@@ -921,6 +926,7 @@
       {
         "id": "CC9.2-evidence",
         "type": "evidence",
+        "name": "Vendor Risk Assessment Records",
         "description": "Vendor risk assessment reports, due diligence records, and contract reviews."
       }
     ]
@@ -946,6 +952,7 @@
       {
         "id": "CC9.9-evidence",
         "type": "evidence",
+        "name": "Business Continuity and Disaster Recovery Testing Records",
         "description": "Test reports, remediation logs, and updated BC/DR plans."
       }
     ]
@@ -971,6 +978,7 @@
       {
         "id": "A1.1-evidence",
         "type": "evidence",
+        "name": "Uptime Reports",
         "description": "Uptime reports, incident logs, and SLA monitoring records."
       }
     ]
@@ -996,6 +1004,7 @@
       {
         "id": "A1.2-evidence",
         "type": "evidence",
+        "name": "Capacity Reports",
         "description": "Capacity reports, trend analysis, and resource utilization logs."
       }
     ]
@@ -1021,6 +1030,7 @@
       {
         "id": "A1.3-evidence",
         "type": "evidence",
+        "name": "Incident Recovery Records",
         "description": "Incident recovery test results, post-incident reviews, and restoration logs."
       }
     ]
@@ -1046,6 +1056,7 @@
       {
         "id": "C1.1-evidence",
         "type": "evidence",
+        "name": "Data Classification Records",
         "description": "Data classification records, labeling practices, and access control lists for confidential information."
       }
     ]
@@ -1071,6 +1082,7 @@
       {
         "id": "C1.2-evidence",
         "type": "evidence",
+        "name": "Access Logs",
         "description": "Access logs, periodic access reviews, and certification records."
       }
     ]
@@ -1096,6 +1108,7 @@
       {
         "id": "C1.3-evidence",
         "type": "evidence",
+        "name": "Disposal Records",
         "description": "Disposal records, certificates of destruction, and audit logs."
       }
     ]
@@ -1121,6 +1134,7 @@
       {
         "id": "PI1.1-evidence",
         "type": "evidence",
+        "name": "Data Validation Records",
         "description": "Data validation reports, exception logs, and audit records."
       }
     ]
@@ -1146,6 +1160,7 @@
       {
         "id": "PI1.2-evidence",
         "type": "evidence",
+        "name": "Data Processing Logs",
         "description": "Data processing logs, validation reports, and exception handling records."
       }
     ]
@@ -1171,6 +1186,7 @@
       {
         "id": "PI1.3-evidence",
         "type": "evidence",
+        "name": "Exception Logs",
         "description": "Exception logs, resolution documentation, and process improvement records."
       }
     ]
@@ -1196,6 +1212,7 @@
       {
         "id": "P1.1-evidence",
         "type": "evidence",
+        "name": "Privacy Notice",
         "description": "Copies of the privacy notice, version history, and distribution logs."
       }
     ]
@@ -1221,6 +1238,7 @@
       {
         "id": "P1.2-evidence",
         "type": "evidence",
+        "name": "Consent Records",
         "description": "Consent records, opt-in logs, and audit trails for consent management."
       }
     ]
@@ -1246,6 +1264,7 @@
       {
         "id": "P1.3-evidence",
         "type": "evidence",
+        "name": "Retention Schedules",
         "description": "Retention schedules, disposal logs, and certificates of data destruction."
       }
     ]
