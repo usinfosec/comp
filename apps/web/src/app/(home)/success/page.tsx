@@ -10,10 +10,12 @@ export default function SuccessPage() {
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="flex flex-col items-center space-y-6">
             <Logo />
+
             <h1 className="max-w-[900px] text-4xl font-semibold leading-tight tracking-tighter lg:leading-[1.1] mx-auto">
               <Balancer>Thank you 🎉</Balancer>
             </h1>
-            <p className="text-lg md:text-xl font-light text-muted-foreground mt-6 mx-auto max-w-[800px]">
+
+            <p className="text-center text-lg md:text-xl font-light text-muted-foreground mt-6 mx-auto max-w-[800px]">
               <Balancer>
                 We'll be in touch when we're close to launching. In the
                 meantime, join us on the community{" "}

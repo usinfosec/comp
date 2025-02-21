@@ -14,7 +14,8 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,12 +23,13 @@ import type { z } from "zod";
 
 export function WaitlistForm() {
   const [isSent, setSent] = useState(false);
+  const router = useRouter();
 
   const waitlistAction = useAction(joinWaitlist, {
-    onSuccess: () => {
+    onSuccess: async () => {
       setSent(true);
       toast.success("Thanks, you're on the list!");
-      form.reset();
+      await router.push("/success");
     },
     onError: () => {
       toast.error(

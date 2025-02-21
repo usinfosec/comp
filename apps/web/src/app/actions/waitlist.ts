@@ -30,12 +30,8 @@ export const joinWaitlist = createSafeActionClient()
         },
       });
     }
-    if (process.env.ZAP_WEBHOOK_URL) {
-      const zapPayload: ZapSubscriberPayload = {
-        email_address: parsedInput.email,
-        referrer: typeof window !== 'undefined' ? window.location.href : 'https://trycomp.ai',
-      };
 
+    if (process.env.ZAP_WEBHOOK_URL) {
       await ky.post(
         process.env.ZAP_WEBHOOK_URL as string,
         {
