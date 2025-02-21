@@ -19,6 +19,8 @@ export default {
     learn_more_link: "https://trycomp.ai",
   },
   user_menu: {
+    theme: "Theme",
+    language: "Language",
     sign_out: "Sign Out",
   },
   not_found: {
@@ -28,5 +30,15 @@ export default {
   },
   sidebar: {
     dashboard: "Employee Portal Overview",
+  },
+  language: {
+    placeholder: "Select Language",
+  },
+  theme: {
+    options: {
+      dark: "Dark",
+      light: "Light",
+      system: "System",
+    },
   },
 } as const;
