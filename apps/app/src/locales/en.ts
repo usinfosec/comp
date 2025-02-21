@@ -733,4 +733,9 @@ export default {
       discard: "Discard",
     },
   },
+  evidence: {
+    title: "Evidence Tasks",
+    description:
+      "Manage and track evidence tasks for your compliance requirements.",
+  },
 } as const;

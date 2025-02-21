@@ -1,6 +1,6 @@
 "use server";
 
-import { db, type Policy, type User } from "@bubba/db";
+import { db, RequirementType, type Policy, type User } from "@bubba/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
 import type { ActionData } from "../types";
@@ -30,24 +30,27 @@ export const selectFrameworksAction = authActionClient
     }
 
     try {
-      // First create categories
+      // Create categories
       await createOrganizationCategories(user as User, frameworkIds);
 
-      // Then create frameworks and controls
+      // Create frameworks and controls
       const organizationFrameworks = await Promise.all(
         frameworkIds.map((frameworkId) =>
           createOrganizationFramework(user as User, frameworkId)
         )
       );
 
-      // Finally create policies
+      // Create policies
       await createOrganizationPolicy(user as User, frameworkIds);
 
-      // Finally create control requirements
+      // Create control requirements
       await createOrganizationControlRequirements(
         user as User,
         organizationFrameworks.map((framework) => framework.id)
       );
+
+      // Create organization evidence
+      await createOrganizationEvidence(user as User);
 
       return {
         data: true,
@@ -243,4 +246,27 @@ const createOrganizationControlRequirements = async (
   }
 
   return controlRequirements;
+};
+
+const createOrganizationEvidence = async (user: User) => {
+  if (!user.organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
+
+  const evidence = await db.controlRequirement.findMany({
+    where: {
+      type: RequirementType.evidence,
+    },
+  });
+
+  const organizationEvidence = await db.organizationEvidence.createMany({
+    data: evidence.map((evidence) => ({
+      organizationId: user.organizationId!,
+      evidenceId: evidence.id,
+      name: evidence.name,
+      description: evidence.description,
+    })),
+  });
+
+  return organizationEvidence;
 };
