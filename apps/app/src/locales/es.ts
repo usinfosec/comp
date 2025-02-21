@@ -713,5 +713,9 @@ export default {
       insert: "Insertar abajo",
       discard: "Descartar"
     }
+  },
+  evidence: {
+    title: "Tareas de Evidencia",
+    description: "Gestiona y rastrea las tareas de evidencia para tus requisitos de cumplimiento."
   }
 } as const;

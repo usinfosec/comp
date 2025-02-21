@@ -468,6 +468,8 @@ files:
     editor.ai_selector.replace: 05fdc089c4c320832588a69475ff5e79
     editor.ai_selector.insert: 3005820694a4944d91c4c4e8b8a016d3
     editor.ai_selector.discard: d94b42030b9785fd754d5c1754961269
+    evidence.title: 63b1eb1a39194d82271ec937fba19714
+    evidence.description: c8fcd9bc15a38dcd7f6d0cbdeb65f33c
   src/locales/es.ts:
     language.title: c88b33a3250b4e28f34e1ececba69206
     language.description: b74d060770289b75ba34d38ea1e05251
