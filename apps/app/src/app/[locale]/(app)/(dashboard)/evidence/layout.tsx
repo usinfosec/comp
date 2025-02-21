@@ -6,13 +6,12 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
+  // TODO: Implement i18n, build was failing.
   const t = await getI18n();
 
   return (
     <div className="max-w-[1200px] m-auto">
-      <SecondaryMenu
-        items={[{ path: "/evidence", label: t("evidence.title") }]}
-      />
+      <SecondaryMenu items={[{ path: "/evidence", label: "Evidence" }]} />
 
       <main className="mt-8">{children}</main>
     </div>

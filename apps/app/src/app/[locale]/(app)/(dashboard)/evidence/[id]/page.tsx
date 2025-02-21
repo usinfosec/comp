@@ -1,11 +1,13 @@
 import { EvidenceDetails } from "./Components/EvidenceDetails";
 
 interface EvidencePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function EvidencePage({ params }: EvidencePageProps) {
-  return <EvidenceDetails id={params.id} />;
+export default async function EvidencePage({ params }: EvidencePageProps) {
+  const { id } = await params;
+
+  return <EvidenceDetails id={id} />;
 }
