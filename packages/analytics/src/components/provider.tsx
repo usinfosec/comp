@@ -2,7 +2,7 @@
 
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { PostHogPageView } from "./page-view";
 
 interface ProviderProps {
@@ -34,9 +34,11 @@ export function AnalyticsProvider({
   }, [apiKey, apiHost, userId]);
 
   return (
-    <PHProvider client={posthog}>
-      <PostHogPageView />
-      {children}
-    </PHProvider>
+    <Suspense fallback={null}>
+      <PHProvider client={posthog}>
+        <PostHogPageView />
+        {children}
+      </PHProvider>
+    </Suspense>
   );
 }
