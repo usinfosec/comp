@@ -1,14 +1,13 @@
 "use client";
 
-import { OrganizationControl } from "@bubba/db";
 import useSWR from "swr";
 import {
+  type OrganizationControlResponse,
   getOrganizationControl,
-  OrganizationControlResponse,
 } from "../Actions/getOrganizationControl";
 
 async function fetchOrganizationControl(
-  controlId: string
+  controlId: string,
 ): Promise<OrganizationControlResponse> {
   const result = await getOrganizationControl({ controlId });
 
@@ -32,7 +31,7 @@ export function useOrganizationControl(controlId: string) {
       {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
-      }
+      },
     );
 
   return {
