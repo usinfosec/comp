@@ -89,7 +89,8 @@
     "./inner-menu": "./src/components/inner-menu.tsx",
     "./empty-card": "./src/components/empty-card.tsx",
     "./text-editor": "./src/text-editor.css",
-    "./prosemirror": "./src/prosemirror.css"
+    "./prosemirror": "./src/prosemirror.css",
+    "./editor.css": "./src/editor.css"
   },
   "dependencies": {
     "@mui/icons-material": "^6.1.6",

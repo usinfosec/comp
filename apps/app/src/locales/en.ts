@@ -57,6 +57,7 @@ export default {
       assessed: "Assessed",
       active: "Active",
       inactive: "Inactive",
+      title: "Status",
     },
     filters: {
       clear: "Clear filters",
@@ -78,7 +79,7 @@ export default {
     },
     empty_states: {
       no_results: {
-        title: "No results",
+        title: "No results found",
         title_tasks: "No tasks found",
         title_risks: "No risks found",
         description: "Try another search, or adjusting the filters",
@@ -146,6 +147,12 @@ export default {
         remove_file: "Remove file",
       },
     },
+    edit: "Edit",
+    errors: {
+      unexpected_error: "An unexpected error occurred"
+    },
+    description: "Description",
+    last_updated: "Last Updated",
   },
   header: {
     discord: {
@@ -196,6 +203,7 @@ export default {
     policies: {
       all: "All Policies",
       editor: "Policy Editor",
+      policy_details: "Policy Details"
     },
     people: {
       all: "People",
@@ -277,6 +285,7 @@ export default {
       statuses: {
         draft: "Draft",
         published: "Published",
+        archived: "Archived",
       },
       filters: {
         owner: {
@@ -293,8 +302,23 @@ export default {
       draft: "Draft",
       published: "Published",
       needs_review: "Needs Review",
+      archived: "Archived",
     },
     policies: "policies",
+    title: "Policies",
+    create_new: "Create New Policy",
+    search_placeholder: "Search policies...",
+    status_filter: "Filter by status",
+    all_statuses: "All statuses",
+    no_policies_title: "No policies yet",
+    no_policies_description: "Get started by creating your first policy",
+    create_first: "Create first policy",
+    no_description: "No description provided",
+    last_updated: "Last updated: {{date}}",
+    save: "Save",
+    saving: "Saving...",
+    saved_success: "Policy saved successfully",
+    saved_error: "Failed to save policy"
   },
   evidence_tasks: {
     evidence_tasks: "Evidence Tasks",

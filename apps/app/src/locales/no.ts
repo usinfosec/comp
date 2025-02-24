@@ -50,7 +50,8 @@ export default {
       not_assessed: "Ikke vurdert",
       assessed: "Vurdert",
       active: "Aktiv",
-      inactive: "Inaktiv"
+      inactive: "Inaktiv",
+      title: "Status"
     },
     filters: {
       clear: "Tøm filtre",
@@ -72,7 +73,7 @@ export default {
     },
     empty_states: {
       no_results: {
-        title: "Ingen resultater",
+        title: "Ingen resultater funnet",
         title_tasks: "Ingen oppgaver funnet",
         title_risks: "Ingen risikoer funnet",
         description: "Prøv et annet søk, eller juster filtrene",
@@ -143,7 +144,13 @@ export default {
       archive: "Arkiv",
       archive_all: "Arkiver alt",
       no_notifications: "Ingen nye varsler"
-    }
+    },
+    edit: "Rediger",
+    errors: {
+      unexpected_error: "En uventet feil oppstod"
+    },
+    description: "Beskrivelse",
+    last_updated: "Sist oppdatert"
   },
   header: {
     discord: {
@@ -247,7 +254,8 @@ export default {
       name: "Retningslinjenavn",
       statuses: {
         draft: "Utkast",
-        published: "Publisert"
+        published: "Publisert",
+        archived: "Arkivert"
       },
       filters: {
         owner: {
@@ -263,9 +271,24 @@ export default {
     status: {
       draft: "Utkast",
       published: "Publisert",
-      needs_review: "Trenger gjennomgang"
+      needs_review: "Trenger gjennomgang",
+      archived: "Arkivert"
     },
-    policies: "retningslinjer"
+    policies: "retningslinjer",
+    title: "Retningslinjer",
+    create_new: "Opprett ny retningslinje",
+    search_placeholder: "Søk etter retningslinjer...",
+    status_filter: "Filtrer etter status",
+    all_statuses: "Alle statuser",
+    no_policies_title: "Ingen retningslinjer ennå",
+    no_policies_description: "Kom i gang med å opprette din første retningslinje",
+    create_first: "Opprett første retningslinje",
+    no_description: "Ingen beskrivelse gitt",
+    last_updated: "Sist oppdatert: {{date}}",
+    save: "Lagre",
+    saving: "Lagrer...",
+    saved_success: "Retningslinje lagret",
+    saved_error: "Kunne ikke lagre retningslinje"
   },
   evidence_tasks: {
     evidence_tasks: "Bevisoppgaver",
@@ -682,7 +705,8 @@ export default {
     },
     policies: {
       all: "Alle retningslinjer",
-      editor: "Retningslinje-redigerer"
+      editor: "Retningslinje-redigerer",
+      policy_details: "Policy Detaljer"
     },
     people: {
       all: "Personer",

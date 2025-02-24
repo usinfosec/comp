@@ -1,25 +1,52 @@
 "use client";
 
-import type { OrganizationPolicy } from "@bubba/db";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 import useSWR from "swr";
+
 import { getPolicies } from "../actions/get-policies";
 
-const POLICIES_OVERVIEW_KEY = "policies-overview";
+import type { AppError, PoliciesInput, PoliciesResponse } from "../types";
 
-async function fetchPolicies(): Promise<OrganizationPolicy[]> {
-  const response = await getPolicies({});
+async function fetchPolicies(
+  input: PoliciesInput
+): Promise<PoliciesResponse> {
+  const result = await getPolicies(input);
 
-  if (!response?.data?.success || !response.data.data) {
-    throw new Error(response?.data?.error || "Failed to fetch policy");
+  if (!result) {
+    const error: AppError = {
+      code: "UNEXPECTED_ERROR",
+      message: "An unexpected error occurred",
+    };
+    throw error;
   }
 
-  return response.data.data;
+  if (result.serverError) {
+    const error: AppError = {
+      code: "UNEXPECTED_ERROR",
+      message: result.serverError || "An unexpected error occurred",
+    };
+    throw error;
+  }
+
+  return result.data?.data as PoliciesResponse;
 }
 
 export function usePolicies() {
-  const { data, error, isLoading, mutate } = useSWR<OrganizationPolicy[]>(
-    [POLICIES_OVERVIEW_KEY],
-    fetchPolicies,
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || undefined;
+  const status = searchParams.get("status") || undefined;
+  const page = Number(searchParams.get("page")) || 1;
+  const per_page = Number(searchParams.get("per_page")) || 10;
+
+  const {
+    data,
+    error,
+    isLoading,
+    mutate: revalidatePolicies,
+  } = useSWR<PoliciesResponse, AppError>(
+    ["policies", { search, status, page, per_page }],
+    () => fetchPolicies({ search, status, page, per_page }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -27,9 +54,10 @@ export function usePolicies() {
   );
 
   return {
-    data,
+    policies: data?.policies ?? [],
+    total: data?.total ?? 0,
     isLoading,
     error,
-    mutate,
+    revalidatePolicies,
   };
 }

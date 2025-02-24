@@ -1,7 +1,6 @@
 import posthog from "posthog-js";
 import type { Properties } from "posthog-js";
 
-// Simple wrapper around PostHog for server-side safety
 export const Analytics = {
   track: (eventName: string, properties?: Properties) => {
     if (typeof window === "undefined") return;

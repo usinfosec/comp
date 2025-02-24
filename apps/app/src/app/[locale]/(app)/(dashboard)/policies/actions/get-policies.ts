@@ -1,19 +1,11 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db, type OrganizationPolicy } from "@bubba/db";
-import { z } from "zod";
-
-const schema = z.object({});
-
-export type PolicyStatsResponse = {
-  success: boolean;
-  data?: OrganizationPolicy[];
-  error?: string;
-};
+import { db } from "@bubba/db";
+import { appErrors, policiesInputSchema } from "../types";
 
 export const getPolicies = authActionClient
-  .schema(schema)
+  .schema(policiesInputSchema)
   .metadata({
     name: "get-policies",
     track: {
@@ -21,34 +13,85 @@ export const getPolicies = authActionClient
       channel: "server",
     },
   })
-  .action(async ({ ctx }) => {
+  .action(async ({ parsedInput, ctx }) => {
+    const { search, status, page = 1, per_page = 10 } = parsedInput;
     const { user } = ctx;
 
     if (!user.organizationId) {
       return {
         success: false,
-        error: "Not authorized - no organization found",
+        error: appErrors.UNAUTHORIZED.message,
       };
     }
 
     try {
-      const policies = await db.organizationPolicy.findMany({
-        where: {
-          organizationId: user.organizationId!,
-        },
-        include: {
-          policy: true,
-        },
-      });
+      const skip = (page - 1) * per_page;
+
+      const [policies, total] = await Promise.all([
+        db.organizationPolicy.findMany({
+          where: {
+            organizationId: user.organizationId,
+            AND: [
+              search
+                ? {
+                  policy: {
+                    OR: [
+                      { name: { contains: search, mode: "insensitive" } },
+                      { description: { contains: search, mode: "insensitive" } },
+                    ],
+                  },
+                }
+                : {},
+              status ? { status: status as any } : {},
+            ],
+          },
+          select: {
+            id: true,
+            status: true,
+            createdAt: true,
+            updatedAt: true,
+            policy: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                slug: true,
+              },
+            },
+          },
+          skip,
+          take: per_page,
+          orderBy: { updatedAt: 'desc' },
+        }),
+        db.organizationPolicy.count({
+          where: {
+            organizationId: user.organizationId,
+            AND: [
+              search
+                ? {
+                  policy: {
+                    OR: [
+                      { name: { contains: search, mode: "insensitive" } },
+                      { description: { contains: search, mode: "insensitive" } },
+                    ],
+                  },
+                }
+                : {},
+              status ? { status: status as any } : {},
+            ],
+          },
+        }),
+      ]);
 
       return {
         success: true,
-        data: policies,
+        data: { policies, total },
       };
     } catch (error) {
+      console.error("Error fetching policies:", error);
       return {
         success: false,
-        error: "Failed to fetch policy statistics",
+        error: appErrors.UNEXPECTED_ERROR.message,
       };
     }
   });

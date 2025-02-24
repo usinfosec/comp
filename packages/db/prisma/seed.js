@@ -16,6 +16,8 @@ async function main() {
         await prisma.organizationCategory.deleteMany();
         await prisma.organizationControl.deleteMany();
         await prisma.organizationPolicy.deleteMany();
+        await prisma.organizationControlRequirement.deleteMany();
+        await prisma.organizationEvidence.deleteMany();
         await prisma.policy.deleteMany();
         await prisma.policyControl.deleteMany();
         await prisma.policyFramework.deleteMany();
@@ -23,7 +25,7 @@ async function main() {
         await prisma.controlRequirement.deleteMany();
         await prisma.framework.deleteMany();
         await prisma.frameworkCategory.deleteMany();
-        await prisma.organizationControlRequirement.deleteMany();
+        await prisma.evidence.deleteMany();
         console.log("✅ Database cleaned");
     }
     console.log("\n📋 Seeding policies...");
@@ -82,6 +84,7 @@ async function seedPolicies() {
                     description: policyData.metadata.description,
                     content: policyData.content,
                     usedBy: policyData.metadata.usedBy,
+                    frequency: policyData.metadata?.frequency ?? null,
                 },
                 create: {
                     id: policyData.metadata.id,
@@ -90,6 +93,7 @@ async function seedPolicies() {
                     description: policyData.metadata.description,
                     content: policyData.content,
                     usedBy: policyData.metadata.usedBy,
+                    frequency: policyData.metadata?.frequency ?? null,
                 },
             });
             console.log(`  ✅ ${file} processed`);
@@ -215,6 +219,7 @@ async function seedFrameworkCategoryControls(frameworkId, categoryCode) {
                     policyId: requirement.type === "policy"
                         ? requirement.policyId
                         : null,
+                    frequency: requirement?.frequency ?? null,
                 },
                 update: {
                     name: requirement.name,
@@ -222,6 +227,7 @@ async function seedFrameworkCategoryControls(frameworkId, categoryCode) {
                     policyId: requirement.type === "policy"
                         ? requirement.policyId
                         : null,
+                    frequency: requirement?.frequency ?? null,
                 },
             });
         }
@@ -288,20 +294,22 @@ async function seedEvidence() {
         },
     });
     console.log(`🔄 Processing ${evidenceRequirements.length} evidences`);
-    for (const evidence of evidenceRequirements) {
-        console.log(`  ⏳ Processing evidence: ${evidence.name}...`);
+    for (const evidenceReq of evidenceRequirements) {
+        console.log(`  ⏳ Processing evidence: ${evidenceReq.name}...`);
         await prisma.evidence.upsert({
             where: {
-                id: evidence.id,
+                id: evidenceReq.id,
             },
             update: {
-                name: evidence.name,
-                description: evidence.description,
+                name: evidenceReq.name,
+                description: evidenceReq.description,
+                frequency: evidenceReq.frequency ?? null,
             },
             create: {
-                id: evidence.id,
-                name: evidence.name,
-                description: evidence.description,
+                id: evidenceReq.id,
+                name: evidenceReq.name,
+                description: evidenceReq.description,
+                frequency: evidenceReq.frequency ?? null,
             },
         });
     }

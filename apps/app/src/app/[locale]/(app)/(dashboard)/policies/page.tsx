@@ -1,11 +1,12 @@
 import { auth } from "@/auth";
+import { getServerColumnHeaders } from "@/components/tables/policies/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { PoliciesOverview } from "./components/PoliciesOverview";
+import { PoliciesList } from "./components/PoliciesList";
 
-export default async function PoliciesOverviewPage({
+export default async function PoliciesPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -14,12 +15,15 @@ export default async function PoliciesOverviewPage({
   setStaticParamsLocale(locale);
 
   const session = await auth();
+  const organizationId = session?.user.organizationId;
 
-  if (!session?.user?.organizationId) {
-    redirect("/onboarding");
+  if (!organizationId) {
+    return redirect("/");
   }
 
-  return <PoliciesOverview />;
+  const columnHeaders = await getServerColumnHeaders();
+
+  return <PoliciesList columnHeaders={columnHeaders} />;
 }
 
 export async function generateMetadata({
@@ -28,6 +32,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+
   setStaticParamsLocale(locale);
   const t = await getI18n();
 

@@ -50,7 +50,8 @@ export default {
       not_assessed: "Não Avaliado",
       assessed: "Avaliado",
       active: "Ativo",
-      inactive: "Inativo"
+      inactive: "Inativo",
+      title: "Status"
     },
     filters: {
       clear: "Limpar filtros",
@@ -72,7 +73,7 @@ export default {
     },
     empty_states: {
       no_results: {
-        title: "Nenhum resultado",
+        title: "Nenhum resultado encontrado",
         title_tasks: "Nenhuma tarefa encontrada",
         title_risks: "Nenhum risco encontrado",
         description: "Tente outra pesquisa ou ajuste os filtros",
@@ -143,7 +144,13 @@ export default {
       archive: "Arquivo",
       archive_all: "Arquivar tudo",
       no_notifications: "Sem novas notificações"
-    }
+    },
+    edit: "Editar",
+    errors: {
+      unexpected_error: "Ocorreu um erro inesperado"
+    },
+    description: "Descrição",
+    last_updated: "Última atualização"
   },
   header: {
     discord: {
@@ -247,7 +254,8 @@ export default {
       name: "Nome da Política",
       statuses: {
         draft: "Rascunho",
-        published: "Publicado"
+        published: "Publicado",
+        archived: "Arquivado"
       },
       filters: {
         owner: {
@@ -263,9 +271,24 @@ export default {
     status: {
       draft: "Rascunho",
       published: "Publicado",
-      needs_review: "Necessita Revisão"
+      needs_review: "Necessita Revisão",
+      archived: "Arquivado"
     },
-    policies: "políticas"
+    policies: "políticas",
+    title: "Políticas",
+    create_new: "Criar nova política",
+    search_placeholder: "Pesquisar políticas...",
+    status_filter: "Filtrar por status",
+    all_statuses: "Todos os status",
+    no_policies_title: "Nenhuma política ainda",
+    no_policies_description: "Comece criando sua primeira política",
+    create_first: "Criar primeira política",
+    no_description: "Nenhuma descrição fornecida",
+    last_updated: "Última atualização: {{date}}",
+    save: "Salvar",
+    saving: "Salvando...",
+    saved_success: "Política salva com sucesso",
+    saved_error: "Falha ao salvar a política"
   },
   evidence_tasks: {
     evidence_tasks: "Tarefas de Evidência",
@@ -682,7 +705,8 @@ export default {
     },
     policies: {
       all: "Todas as Políticas",
-      editor: "Editor de Políticas"
+      editor: "Editor de Políticas",
+      policy_details: "Detalhes da política"
     },
     people: {
       all: "Pessoas",
