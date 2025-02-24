@@ -51,17 +51,31 @@ export function FileCard({
   const isPdf = /\.pdf$/i.test(fileName);
 
   return (
-    <Card className="group transition-all hover:shadow-md">
-      <CardContent className="pt-6">
+    <Card className="group transition-all hover:shadow-md h-[220px] flex flex-col overflow-hidden">
+      <CardContent className="p-0 flex-grow overflow-hidden">
         <Dialog open={isDialogOpen} onOpenChange={onOpenChange}>
           <DialogTrigger asChild>
-            <button type="button" className="w-full focus:outline-none">
-              <div className="flex items-center justify-center h-32 bg-accent/20 rounded-md overflow-hidden">
-                {previewState.isLoading ? (
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                ) : (
-                  <FileIcon fileName={fileName} />
-                )}
+            <button type="button" className="w-full h-full focus:outline-none">
+              <div className="flex flex-col items-center justify-center p-4 h-full">
+                <div className="flex items-center justify-center h-20 w-20 bg-accent/20 rounded-md overflow-hidden mb-2">
+                  {previewState.isLoading ? (
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  ) : (
+                    <FileIcon fileName={fileName} />
+                  )}
+                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <h4 className="text-sm font-medium truncate text-center max-w-full">
+                        {fileName}
+                      </h4>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{fileName}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </button>
           </DialogTrigger>
@@ -100,46 +114,58 @@ export function FileCard({
             )}
           </DialogContent>
         </Dialog>
+      </CardContent>
+      <CardFooter className="justify-center gap-3 py-2 px-3 border-t mt-auto">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <h4 className="mt-4 text-sm font-medium truncate text-center">
-                {fileName}
-              </h4>
+              <Button
+                size="sm"
+                variant="outline"
+                asChild
+                className="h-10 w-10 rounded-full"
+              >
+                <a
+                  href={previewState.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 flex items-center justify-center"
+                  onClick={(e) => {
+                    if (!previewState.url) {
+                      e.preventDefault();
+                      onPreviewClick(url);
+                    }
+                  }}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{fileName}</p>
+              <p>Open file</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </CardContent>
-      <CardFooter className="justify-center gap-2 p-2">
-        <Button size="sm" variant="ghost" asChild className="h-8 w-8">
-          <a
-            href={previewState.url || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:text-primary/80"
-            onClick={(e) => {
-              if (!previewState.url) {
-                e.preventDefault();
-                onPreviewClick(url);
-              }
-            }}
-          >
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        </Button>
+
         <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              size="sm"
-              variant="ghost"
-              className="h-8 w-8 hover:text-destructive"
-            >
-              <Trash className="h-4 w-4" />
-            </Button>
-          </AlertDialogTrigger>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-full hover:text-destructive hover:border-destructive h-10 w-10"
+                  >
+                    <Trash className="w-full h-full" />
+                  </Button>
+                </AlertDialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Delete file</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Delete File</AlertDialogTitle>
@@ -150,10 +176,7 @@ export function FileCard({
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => onDelete(url)}
-                className="bg-destructive hover:bg-destructive/90"
-              >
+              <AlertDialogAction onClick={() => onDelete(url)}>
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>

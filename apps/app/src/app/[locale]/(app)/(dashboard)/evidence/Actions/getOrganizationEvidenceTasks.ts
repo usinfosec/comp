@@ -1,13 +1,33 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db, Frequency } from "@bubba/db";
+import type { Prisma, OrganizationEvidence } from "@bubba/db";
 import { z } from "zod";
+
+// Define the response types for better type safety
+export interface PaginationMetadata {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export interface EvidenceTasksData {
+  data: OrganizationEvidence[];
+  pagination: PaginationMetadata;
+}
 
 export const getOrganizationEvidenceTasks = authActionClient
   .schema(
     z.object({
       search: z.string().optional().nullable(),
+      status: z.enum(["published", "draft"]).optional().nullable(),
+      frequency: z.nativeEnum(Frequency).optional().nullable(),
+      page: z.number().int().positive().optional().default(1),
+      pageSize: z.number().int().positive().optional().default(10),
     })
   )
   .metadata({
@@ -19,7 +39,7 @@ export const getOrganizationEvidenceTasks = authActionClient
   })
   .action(async ({ ctx, parsedInput }) => {
     const { user } = ctx;
-    const { search } = parsedInput;
+    const { search, status, frequency, page, pageSize } = parsedInput;
 
     if (!user.organizationId) {
       return {
@@ -29,44 +49,78 @@ export const getOrganizationEvidenceTasks = authActionClient
     }
 
     try {
-      const evidenceTasks = await db.organizationEvidence.findMany({
-        where: {
-          organizationId: user.organizationId,
-          ...(search
-            ? {
-                OR: [
-                  {
+      // Create the where clause for both count and data queries
+      const whereClause: Prisma.OrganizationEvidenceWhereInput = {
+        organizationId: user.organizationId,
+        // Status filter
+        ...(status === "published" ? { published: true } : {}),
+        ...(status === "draft" ? { published: false } : {}),
+        // Frequency filter
+        ...(frequency ? { frequency } : {}),
+        // Search filter
+        ...(search
+          ? {
+              OR: [
+                {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as Prisma.QueryMode,
+                  },
+                },
+                {
+                  description: {
+                    contains: search,
+                    mode: "insensitive" as Prisma.QueryMode,
+                  },
+                },
+                {
+                  evidence: {
                     name: {
                       contains: search,
-                      mode: "insensitive",
+                      mode: "insensitive" as Prisma.QueryMode,
                     },
                   },
-                  {
-                    description: {
-                      contains: search,
-                      mode: "insensitive",
-                    },
-                  },
-                  {
-                    evidence: {
-                      name: {
-                        contains: search,
-                        mode: "insensitive",
-                      },
-                    },
-                  },
-                ],
-              }
-            : {}),
-        },
+                },
+              ],
+            }
+          : {}),
+      };
+
+      // Get total count for pagination
+      const totalCount = await db.organizationEvidence.count({
+        where: whereClause,
+      });
+
+      // Calculate pagination values
+      const skip = (page - 1) * pageSize;
+      const totalPages = Math.ceil(totalCount / pageSize);
+
+      // Get paginated data
+      const evidenceTasks = await db.organizationEvidence.findMany({
+        where: whereClause,
         include: {
           evidence: true,
+        },
+        skip,
+        take: pageSize,
+        orderBy: {
+          updatedAt: "desc", // Most recently updated first
         },
       });
 
       return {
         success: true,
-        data: evidenceTasks,
+        data: {
+          data: evidenceTasks,
+          pagination: {
+            page,
+            pageSize,
+            totalCount,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPreviousPage: page > 1,
+          },
+        },
       };
     } catch (error) {
       console.error("Error fetching evidence tasks:", error);

@@ -4,18 +4,30 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@bubba/ui/button";
 import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { useI18n } from "@/locales/client";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 import { FileSection } from "./FileSection";
 import { UrlSection } from "./UrlSection";
+import { ReviewDateCard } from "./ReviewDateCard";
+import { publishEvidence } from "../Actions/publishEvidence";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 import type { EvidenceDetailsProps } from "../types";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
-  const t = useI18n();
   const router = useRouter();
   const { data, isLoading, error, mutate } = useOrganizationEvidence({ id });
+
+  const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
+    onSuccess: () => {
+      toast.success("Evidence published successfully");
+      mutate();
+    },
+    onError: () => {
+      toast.error("Failed to publish evidence, please try again.");
+    },
+  });
 
   useEffect(() => {
     if (error) {
@@ -55,16 +67,30 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 
   return (
     <div className="w-full space-y-4">
-      <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => router.push("/evidence")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <h1 className="text-2xl font-bold">{evidence.name}</h1>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => router.push("/evidence")}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-2xl font-bold">{evidence.name}</h1>
+        </div>
+        {!evidence.published && (
+          <Button onClick={() => publishAction({ id })} disabled={isExecuting}>
+            {isExecuting ? "Publishing..." : "Publish"}
+          </Button>
+        )}
       </div>
+
+      {evidence.frequency && (
+        <ReviewDateCard
+          lastPublishedAt={evidence.lastPublishedAt}
+          frequency={evidence.frequency}
+        />
+      )}
 
       <Card>
         <CardHeader className="flex-row items-center justify-between">

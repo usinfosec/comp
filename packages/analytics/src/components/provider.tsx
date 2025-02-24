@@ -3,7 +3,6 @@
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
-import { Analytics } from "..";
 import { PostHogPageView } from "./page-view";
 
 interface ProviderProps {
@@ -19,15 +18,21 @@ export function AnalyticsProvider({
   apiHost,
   userId,
 }: ProviderProps) {
+  // Initialize PostHog in a useEffect to avoid hydration issues
   useEffect(() => {
-    const posthog = Analytics.init({ apiKey, apiHost });
+    // Initialize PostHog only once on the client side
+    posthog.init(apiKey, {
+      api_host: apiHost,
+      loaded: (ph) => {
+        if (userId) {
+          ph.identify(userId);
+        }
+      },
+    });
 
-    if (userId) {
-      posthog?.identify(userId);
-    }
-
+    // Clean up
     return () => {
-      posthog?.reset();
+      posthog.reset();
     };
   }, [apiKey, apiHost, userId]);
 
