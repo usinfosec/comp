@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const client_2 = require("@prisma/client");
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const node_fs_2 = __importDefault(require("node:fs"));
@@ -34,6 +35,9 @@ async function main() {
     console.log("\n🔗 Seeding policy frameworks...");
     await seedPolicyFramework();
     console.log("✅ Policy frameworks seeded");
+    console.log("\n🔗 Seeding evidence");
+    await seedEvidence();
+    console.log("✅ Evidence seeded");
     console.log("\n🎉 All data seeded successfully!");
 }
 main()
@@ -275,5 +279,30 @@ async function seedPolicyFramework() {
             }
         }
         console.log(`  ✅ Policy ${policy.name} mapped`);
+    }
+}
+async function seedEvidence() {
+    const evidenceRequirements = await prisma.controlRequirement.findMany({
+        where: {
+            type: client_2.RequirementType.evidence,
+        },
+    });
+    console.log(`🔄 Processing ${evidenceRequirements.length} evidences`);
+    for (const evidence of evidenceRequirements) {
+        console.log(`  ⏳ Processing evidence: ${evidence.name}...`);
+        await prisma.evidence.upsert({
+            where: {
+                id: evidence.id,
+            },
+            update: {
+                name: evidence.name,
+                description: evidence.description,
+            },
+            create: {
+                id: evidence.id,
+                name: evidence.name,
+                description: evidence.description,
+            },
+        });
     }
 }
