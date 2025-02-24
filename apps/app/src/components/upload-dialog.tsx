@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@bubba/ui/dialog";
+import { Cloud } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 
@@ -55,8 +56,8 @@ export function UploadDialog({ taskId, riskId }: UploadDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="action">
-          {t("common.attachments.upload")}{" "}
-          {files.length > 0 && `(${files.length})`}
+          <Cloud className="h-4 w-4" />
+          {t("common.attachments.upload")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">

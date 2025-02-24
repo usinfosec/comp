@@ -40,7 +40,7 @@ export async function TaskAttachments({
                   <Link
                     href={signedUrls[index].signedUrl}
                     target="_blank"
-                    className="text-primary hover:underline"
+                    className="hover:underline"
                   >
                     {attachment.name}
                   </Link>

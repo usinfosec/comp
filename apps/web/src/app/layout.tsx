@@ -1,24 +1,26 @@
+import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import { Toaster } from "sonner";
 import "@bubba/ui/globals.css";
 import { Providers } from "@/app/providers";
 import { env } from "@/env.mjs";
 import { cn } from "@/lib/utils";
 import { GoogleTagManager } from "@next/third-parties/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Comp AI",
   description: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
   icons: {
-    icon: "/android-chrome-192x192.png",
+    icon: "/favicon-96x96.png",
   },
 };
+
+const font = localFont({
+  src: "../../public/fonts/GeneralSans-Variable.ttf",
+  display: "swap",
+  variable: "--font-general-sans",
+});
 
 export const preferredRegion = ["auto"];
 
@@ -33,7 +35,7 @@ export default function RootLayout({
       <body
         className={cn(
           "bg-background font-sans antialiased",
-          geistSans.variable,
+          `${GeistMono.variable} ${font.variable}`,
         )}
       >
         <Providers attribute="class" defaultTheme="system" enableSystem>
