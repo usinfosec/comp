@@ -18,9 +18,7 @@ export function AnalyticsProvider({
   apiHost,
   userId,
 }: ProviderProps) {
-  // Initialize PostHog in a useEffect to avoid hydration issues
   useEffect(() => {
-    // Initialize PostHog only once on the client side
     posthog.init(apiKey, {
       api_host: apiHost,
       loaded: (ph) => {
@@ -30,7 +28,6 @@ export function AnalyticsProvider({
       },
     });
 
-    // Clean up
     return () => {
       posthog.reset();
     };

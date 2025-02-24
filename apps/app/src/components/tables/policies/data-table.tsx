@@ -19,7 +19,6 @@ interface DataTableProps<TData, TValue> {
   columnHeaders: {
     name: string;
     status: string;
-    description: string;
     updatedAt: string;
   };
   data: TData[];

@@ -22,7 +22,6 @@ interface PoliciesListProps {
   columnHeaders: {
     name: string;
     status: string;
-    description: string;
     updatedAt: string;
   };
 }
