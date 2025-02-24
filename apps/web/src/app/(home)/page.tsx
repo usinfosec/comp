@@ -5,15 +5,6 @@ import Link from "next/link";
 import Balancer from "react-wrap-balancer";
 import Logo from "../components/logo";
 
-export const metadata: Metadata = {
-  title: "Comp AI - Get SOC 2, ISO 27001 and GDPR compliant",
-  description:
-    "The open-source compliance automation platform for SOC 2, ISO 27001, GDPR and more.",
-  alternates: {
-    canonical: "https://trycomp.ai",
-  },
-};
-
 export default function Home() {
   return (
     <section className="w-full">
