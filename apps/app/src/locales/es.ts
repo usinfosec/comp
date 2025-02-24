@@ -50,7 +50,8 @@ export default {
       not_assessed: "No Evaluado",
       assessed: "Evaluado",
       active: "Activo",
-      inactive: "Inactivo"
+      inactive: "Inactivo",
+      title: "Estado"
     },
     filters: {
       clear: "Limpiar filtros",
@@ -72,7 +73,7 @@ export default {
     },
     empty_states: {
       no_results: {
-        title: "Sin resultados",
+        title: "No se encontraron resultados",
         title_tasks: "No se encontraron tareas",
         title_risks: "No se encontraron riesgos",
         description: "Intenta otra búsqueda o ajusta los filtros",
@@ -143,7 +144,13 @@ export default {
       archive: "Archivo",
       archive_all: "Archivar todo",
       no_notifications: "No hay nuevas notificaciones"
-    }
+    },
+    edit: "Editar",
+    errors: {
+      unexpected_error: "Ocurrió un error inesperado"
+    },
+    description: "Descripción",
+    last_updated: "Última actualización"
   },
   header: {
     discord: {
@@ -247,7 +254,8 @@ export default {
       name: "Nombre de la Política",
       statuses: {
         draft: "Borrador",
-        published: "Publicado"
+        published: "Publicado",
+        archived: "Archivado"
       },
       filters: {
         owner: {
@@ -263,9 +271,24 @@ export default {
     status: {
       draft: "Borrador",
       published: "Publicado",
-      needs_review: "Necesita Revisión"
+      needs_review: "Necesita Revisión",
+      archived: "Archivado"
     },
-    policies: "políticas"
+    policies: "políticas",
+    title: "Políticas",
+    create_new: "Crear nueva política",
+    search_placeholder: "Buscar políticas...",
+    status_filter: "Filtrar por estado",
+    all_statuses: "Todos los estados",
+    no_policies_title: "No hay políticas aún",
+    no_policies_description: "Comienza creando tu primera política",
+    create_first: "Crear primera política",
+    no_description: "No se proporcionó descripción",
+    last_updated: "Última actualización: {{date}}",
+    save: "Guardar",
+    saving: "Guardando...",
+    saved_success: "Política guardada con éxito",
+    saved_error: "Error al guardar la política"
   },
   evidence_tasks: {
     evidence_tasks: "Tareas de Evidencia",
@@ -682,7 +705,8 @@ export default {
     },
     policies: {
       all: "Todas las Políticas",
-      editor: "Editor de Políticas"
+      editor: "Editor de Políticas",
+      policy_details: "Detalles de la política"
     },
     people: {
       all: "Personas",
