@@ -4,17 +4,14 @@ import { Toaster } from "sonner";
 import "@bubba/ui/globals.css";
 import { Providers } from "@/app/providers";
 import { env } from "@/env.mjs";
+import { generatePageMeta } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { GoogleTagManager } from "@next/third-parties/google";
 import localFont from "next/font/local";
 
-export const metadata: Metadata = {
-  title: "Comp AI",
-  description: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
-  icons: {
-    icon: "/favicon-96x96.png",
-  },
-};
+export const metadata = generatePageMeta({
+  url: "/",
+});
 
 const font = localFont({
   src: "../../public/fonts/GeneralSans-Variable.ttf",
