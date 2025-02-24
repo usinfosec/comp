@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@bubba/ui/button";
 import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 import { FileSection } from "./FileSection";
 import { UrlSection } from "./UrlSection";
+import { ReviewDateCard } from "./ReviewDateCard";
 import { publishEvidence } from "../Actions/publishEvidence";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
@@ -83,6 +84,13 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
           </Button>
         )}
       </div>
+
+      {evidence.frequency && (
+        <ReviewDateCard
+          lastPublishedAt={evidence.lastPublishedAt}
+          frequency={evidence.frequency}
+        />
+      )}
 
       <Card>
         <CardHeader className="flex-row items-center justify-between">

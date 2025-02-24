@@ -2,36 +2,66 @@
 
 import useSWR from "swr";
 import { getOrganizationEvidenceTasks } from "../Actions/getOrganizationEvidenceTasks";
+import type { PaginationMetadata } from "../Actions/getOrganizationEvidenceTasks";
+import type { Frequency, OrganizationEvidence } from "@bubba/db";
 
+// Define the props interface with clear types
 interface UseOrganizationEvidenceTasksProps {
   search?: string | null;
+  status?: "published" | "draft" | null;
+  frequency?: Frequency | null;
+  page?: number;
+  pageSize?: number;
 }
 
-async function fetchEvidenceTasks({
-  search,
-}: UseOrganizationEvidenceTasksProps) {
-  const result = await getOrganizationEvidenceTasks({ search });
+// Define the hook result type
+interface UseOrganizationEvidenceTasksResult {
+  data: OrganizationEvidence[] | undefined;
+  pagination: PaginationMetadata | undefined;
+  isLoading: boolean;
+  error: Error | undefined;
+  mutate: () => void;
+}
 
-  if (!result || "error" in result) {
+async function fetchEvidenceTasks(props: UseOrganizationEvidenceTasksProps) {
+  const result = await getOrganizationEvidenceTasks(props);
+
+  if (!result) {
+    throw new Error("No result received");
+  }
+
+  if (result.serverError) {
+    throw new Error(result.serverError);
+  }
+
+  if (result.validationErrors) {
     throw new Error(
-      typeof result?.error === "string"
-        ? result.error
-        : "Failed to fetch evidence tasks"
+      result.validationErrors._errors?.join(", ") ?? "Unknown error"
     );
   }
 
   return result.data?.data;
 }
 
-export function useOrganizationEvidenceTasks({
-  search,
-}: UseOrganizationEvidenceTasksProps = {}) {
-  return useSWR(
-    ["organization-evidence-tasks", search],
-    () => fetchEvidenceTasks({ search }),
+export function useOrganizationEvidenceTasks(
+  props: UseOrganizationEvidenceTasksProps = {}
+): UseOrganizationEvidenceTasksResult {
+  const { search, status, frequency, page = 1, pageSize = 10 } = props;
+
+  const { data, error, isLoading, mutate } = useSWR(
+    ["organization-evidence-tasks", search, status, frequency, page, pageSize],
+    () => fetchEvidenceTasks({ search, status, frequency, page, pageSize }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     }
   );
+
+  return {
+    data: data?.data ?? [],
+    pagination: data?.pagination,
+    isLoading,
+    error,
+    mutate,
+  };
 }

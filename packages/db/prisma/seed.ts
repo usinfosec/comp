@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import type { Prisma } from "@prisma/client";
+import type { Frequency, Prisma } from "@prisma/client";
 import { RequirementType } from "@prisma/client";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
@@ -21,6 +21,7 @@ async function main() {
     await prisma.organizationControl.deleteMany();
     await prisma.organizationPolicy.deleteMany();
     await prisma.organizationControlRequirement.deleteMany();
+    await prisma.organizationEvidence.deleteMany();
 
     await prisma.policy.deleteMany();
     await prisma.policyControl.deleteMany();
@@ -31,6 +32,8 @@ async function main() {
 
     await prisma.framework.deleteMany();
     await prisma.frameworkCategory.deleteMany();
+
+    await prisma.evidence.deleteMany();
 
     console.log("✅ Database cleaned");
   }
@@ -107,6 +110,7 @@ async function seedPolicies() {
           description: policyData.metadata.description,
           content: policyData.content as Prisma.InputJsonValue[],
           usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
+          frequency: policyData.metadata?.frequency ?? null,
         },
         create: {
           id: policyData.metadata.id,
@@ -115,6 +119,7 @@ async function seedPolicies() {
           description: policyData.metadata.description,
           content: policyData.content as Prisma.InputJsonValue[],
           usedBy: policyData.metadata.usedBy as Prisma.InputJsonValue,
+          frequency: policyData.metadata?.frequency ?? null,
         },
       });
       console.log(`  ✅ ${file} processed`);
@@ -289,6 +294,7 @@ async function seedFrameworkCategoryControls(
             (requirement.type as RequirementType) === "policy"
               ? requirement.policyId
               : null,
+          frequency: requirement?.frequency ?? null,
         },
         update: {
           name: requirement.name,
@@ -297,6 +303,7 @@ async function seedFrameworkCategoryControls(
             (requirement.type as RequirementType) === "policy"
               ? requirement.policyId
               : null,
+          frequency: requirement?.frequency ?? null,
         },
       });
     }
@@ -378,21 +385,23 @@ async function seedEvidence() {
 
   console.log(`🔄 Processing ${evidenceRequirements.length} evidences`);
 
-  for (const evidence of evidenceRequirements) {
-    console.log(`  ⏳ Processing evidence: ${evidence.name}...`);
+  for (const evidenceReq of evidenceRequirements) {
+    console.log(`  ⏳ Processing evidence: ${evidenceReq.name}...`);
 
     await prisma.evidence.upsert({
       where: {
-        id: evidence.id,
+        id: evidenceReq.id,
       },
       update: {
-        name: evidence.name,
-        description: evidence.description,
+        name: evidenceReq.name,
+        description: evidenceReq.description,
+        frequency: evidenceReq.frequency ?? null,
       },
       create: {
-        id: evidence.id,
-        name: evidence.name,
-        description: evidence.description,
+        id: evidenceReq.id,
+        name: evidenceReq.name,
+        description: evidenceReq.description,
+        frequency: evidenceReq.frequency ?? null,
       },
     });
   }

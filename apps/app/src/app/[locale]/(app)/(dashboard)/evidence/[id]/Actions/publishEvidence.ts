@@ -60,6 +60,7 @@ export const publishEvidence = authActionClient
         where: { id },
         data: {
           published: true,
+          lastPublishedAt: new Date(),
         },
       });
 

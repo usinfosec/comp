@@ -38,6 +38,12 @@ enum RequirementType {
   training
 }
 
+enum Frequency {
+  monthly
+  quarterly
+  yearly
+}
+
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -847,15 +853,16 @@ model Employee {
 // --- Policy Templates and Files ---
 
 model Policy {
-  id          String   @id @default(cuid())
-  slug        String   @unique
+  id          String     @id @default(cuid())
+  slug        String     @unique
   name        String
   description String?
   content     Json[]
   version     String?
   usedBy      Json
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  frequency   Frequency?
 
   // Relations
   policyFrameworks    PolicyFramework[]
@@ -927,6 +934,8 @@ model ControlRequirement {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
+  frequency Frequency?
+
   controlId String
   control   Control @relation(fields: [controlId], references: [id], onDelete: Cascade)
 
@@ -976,9 +985,12 @@ model OrganizationPolicy {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-  status    PolicyStatus @default(draft)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  status          PolicyStatus @default(draft)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  lastPublishedAt DateTime?
+
+  frequency Frequency?
 
   policyId String
   policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
@@ -1012,9 +1024,10 @@ model OrganizationCategory {
 
 // Evidence metadata
 model Evidence {
-  id          String  @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
+  frequency   Frequency?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1032,7 +1045,11 @@ model OrganizationEvidence {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  published   Boolean  @default(false)
+
+  published       Boolean   @default(false)
+  lastPublishedAt DateTime?
+
+  frequency Frequency?
 
   fileUrls       String[]
   additionalUrls String[]

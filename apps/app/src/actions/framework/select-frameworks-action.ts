@@ -149,6 +149,7 @@ const createOrganizationPolicy = async (user: User, frameworkIds: string[]) => {
       policyId: policy.id,
       status: "draft",
       content: policy.content as InputJsonValue[],
+      frequency: policy.frequency,
     })),
   });
 
@@ -265,6 +266,7 @@ const createOrganizationEvidence = async (user: User) => {
       evidenceId: evidence.id,
       name: evidence.name,
       description: evidence.description,
+      frequency: evidence.frequency,
     })),
   });
 
