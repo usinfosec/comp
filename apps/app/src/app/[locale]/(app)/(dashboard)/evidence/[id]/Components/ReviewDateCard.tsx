@@ -3,6 +3,7 @@
 import type { Frequency } from "@bubba/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
+import { format } from "date-fns";
 
 export function ReviewDateCard({
   lastPublishedAt,
@@ -34,7 +35,7 @@ export function ReviewDateCard({
       <CardContent>
         <div className={reviewInfo.isUrgent ? "text-red-500" : ""}>
           {reviewInfo.daysUntil} days (
-          {reviewInfo.nextReviewDate.toLocaleDateString()})
+          {format(reviewInfo.nextReviewDate, "MM/dd/yyyy")})
         </div>
       </CardContent>
     </Card>

@@ -10,6 +10,7 @@ import {
 } from "@bubba/ui/tooltip";
 import type { EvidenceTaskRow } from "./types";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<EvidenceTaskRow>[] = [
   {
@@ -101,7 +102,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
           className={`truncate ${reviewInfo.isUrgent ? "text-red-500" : ""}`}
         >
           {reviewInfo.daysUntil} days (
-          {reviewInfo.nextReviewDate.toLocaleDateString()})
+          {format(reviewInfo.nextReviewDate, "MM/dd/yyyy")})
         </div>
       );
     },

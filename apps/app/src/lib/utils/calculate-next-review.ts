@@ -1,4 +1,5 @@
 import type { Frequency } from "@bubba/db";
+import { differenceInDays, startOfDay } from "date-fns";
 
 interface ReviewInfo {
   nextReviewDate: Date;
@@ -30,9 +31,10 @@ export function calculateNextReview(
       return null;
   }
 
-  const daysUntil = Math.ceil(
-    (nextReviewDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
-  );
+  // Use date-fns for consistent date calculations
+  const today = startOfDay(new Date());
+  const reviewDay = startOfDay(nextReviewDate);
+  const daysUntil = differenceInDays(reviewDay, today);
 
   return {
     nextReviewDate,
