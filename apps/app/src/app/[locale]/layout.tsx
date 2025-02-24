@@ -5,7 +5,6 @@ import { env } from "@/env.mjs";
 import { initializeServer } from "@bubba/analytics/src/server";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
