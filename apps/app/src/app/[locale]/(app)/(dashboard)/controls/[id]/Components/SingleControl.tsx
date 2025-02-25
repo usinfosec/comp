@@ -9,25 +9,28 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
 import { DataTable } from "./data-table/data-table";
+import { useMemo } from "react";
 
 interface SingleControlProps {
   controlId: string;
 }
 
 export const SingleControl = ({ controlId }: SingleControlProps) => {
+  const router = useRouter();
   const { data: control } = useOrganizationControl(controlId);
   const { data: controlProgress } = useOrganizationControlProgress(controlId);
 
-  if (!control || !controlProgress) return null;
+  const progressStatus = useMemo(() => {
+    if (!controlProgress) return "not_started";
 
-  const router = useRouter();
-
-  const progressStatus =
-    controlProgress?.progress?.completed > 0
+    return controlProgress.progress?.completed > 0
       ? "in_progress"
-      : controlProgress?.progress?.completed === 0
+      : controlProgress.progress?.completed === 0
         ? "not_started"
         : "completed";
+  }, [controlProgress]);
+
+  if (!control || !controlProgress) return null;
 
   return (
     <div className="max-w-[1200px] mx-auto py-8 gap-8 flex flex-col">
