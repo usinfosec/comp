@@ -7,12 +7,23 @@ import {
 } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { type RequirementType, columns } from "./columns";
+import { columns } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { useRouter } from "next/navigation";
+import type {
+  OrganizationControlRequirement,
+  OrganizationEvidence,
+  OrganizationPolicy,
+} from "@bubba/db";
+
+// Define the type that matches what we receive from the hook
+export type RequirementTableData = OrganizationControlRequirement & {
+  organizationPolicy: OrganizationPolicy | null;
+  organizationEvidence: OrganizationEvidence | null;
+};
 
 interface DataTableProps {
-  data: RequirementType[];
+  data: RequirementTableData[];
 }
 
 export function DataTable({ data }: DataTableProps) {
@@ -24,12 +35,23 @@ export function DataTable({ data }: DataTableProps) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const onRowClick = (requirement: RequirementType) => {
-    if (
-      requirement.type === "policy" &&
-      requirement.organizationPolicy?.policy?.id
-    ) {
-      router.push(`/policies/${requirement.organizationPolicy.policy.id}`);
+  const onRowClick = (requirement: RequirementTableData) => {
+    console.log({
+      requirement,
+    });
+    switch (requirement.type) {
+      case "policy":
+        if (requirement.organizationPolicyId) {
+          router.push(`/policies/${requirement.organizationPolicyId}`);
+        }
+        break;
+      case "evidence":
+        if (requirement.organizationEvidenceId) {
+          router.push(`/evidence/${requirement.organizationEvidenceId}`);
+        }
+        break;
+      default:
+        break;
     }
   };
 

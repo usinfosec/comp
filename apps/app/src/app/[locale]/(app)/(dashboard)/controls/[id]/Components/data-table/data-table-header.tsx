@@ -1,17 +1,11 @@
 "use client";
 
 import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
+import type { Table } from "@tanstack/react-table";
+import type { RequirementTableData } from "./data-table";
 
 type Props = {
-  table?: {
-    getIsAllPageRowsSelected: () => boolean;
-    getIsSomePageRowsSelected: () => boolean;
-    getAllLeafColumns: () => {
-      id: string;
-      getIsVisible: () => boolean;
-    }[];
-    toggleAllPageRowsSelected: (value: boolean) => void;
-  };
+  table: Table<RequirementTableData>;
   loading?: boolean;
 };
 
@@ -19,7 +13,7 @@ export function DataTableHeader({ table, loading }: Props) {
   const isVisible = (id: string) =>
     loading ||
     table
-      ?.getAllLeafColumns()
+      .getAllLeafColumns()
       .find((col) => col.id === id)
       ?.getIsVisible();
 

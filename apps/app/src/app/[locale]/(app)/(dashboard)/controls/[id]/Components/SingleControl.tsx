@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  DisplayFrameworkStatus,
-  type StatusType,
-} from "@/components/frameworks/framework-status";
+import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
 import { useOrganizationControl } from "../hooks/useOrganizationControl";
 import { Card } from "@bubba/ui/card";
 import { Label } from "@bubba/ui/label";
 import { Button } from "@bubba/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useOrganizationControlRequirements } from "../hooks/useOrganizationControlRequirements";
 import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
 import { DataTable } from "./data-table/data-table";
 
@@ -20,8 +16,8 @@ interface SingleControlProps {
 
 export const SingleControl = ({ controlId }: SingleControlProps) => {
   const { data: control } = useOrganizationControl(controlId);
-  const { data: requirements } = useOrganizationControlRequirements(controlId);
   const { data: controlProgress } = useOrganizationControlProgress(controlId);
+
   if (!control || !controlProgress) return null;
 
   const router = useRouter();
@@ -66,7 +62,9 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Requirements</h1>
-        {requirements && <DataTable data={requirements} />}
+        {control.OrganizationControlRequirement && (
+          <DataTable data={control.OrganizationControlRequirement} />
+        )}
       </div>
     </div>
   );

@@ -43,14 +43,14 @@ export const selectFrameworksAction = authActionClient
       // Create policies
       await createOrganizationPolicy(user as User, frameworkIds);
 
-      // Create control requirements
+      // Create organization evidence first
+      await createOrganizationEvidence(user as User);
+
+      // Create control requirements after evidence is created
       await createOrganizationControlRequirements(
         user as User,
         organizationFrameworks.map((framework) => framework.id)
       );
-
-      // Create organization evidence
-      await createOrganizationEvidence(user as User);
 
       return {
         data: true,
@@ -211,11 +211,19 @@ const createOrganizationControlRequirements = async (
     },
     include: {
       policy: true, // Include the policy to get its ID
+      evidence: true, // Include the evidence to get its ID
     },
   });
 
   // Get all organization policies for this organization
   const organizationPolicies = await db.organizationPolicy.findMany({
+    where: {
+      organizationId: user.organizationId,
+    },
+  });
+
+  // Get all organization evidences for this organization
+  const organizationEvidences = await db.organizationEvidence.findMany({
     where: {
       organizationId: user.organizationId,
     },
@@ -235,12 +243,28 @@ const createOrganizationControlRequirements = async (
           ? organizationPolicies.find((op) => op.policyId === policyId)
           : null;
 
+        const evidenceId =
+          requirement.type === "evidence" ? requirement.evidenceId : null;
+
+        console.log({
+          evidenceId,
+        });
+
+        const organizationEvidence = evidenceId
+          ? organizationEvidences.find((e) => e.evidenceId === evidenceId)
+          : null;
+
+        console.log({
+          organizationEvidence,
+        });
+
         return {
           organizationControlId: control.id,
           controlRequirementId: requirement.id,
           type: requirement.type,
           description: requirement.description,
           organizationPolicyId: organizationPolicy?.id || null,
+          organizationEvidenceId: organizationEvidence?.id || null,
         };
       }),
     });

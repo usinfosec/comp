@@ -32,6 +32,9 @@ export type OrganizationControlType = {
     organizationPolicy: {
       status: "draft" | "published" | "archived";
     } | null;
+    organizationEvidence: {
+      published: boolean;
+    } | null;
   })[];
 };
 
@@ -48,7 +51,7 @@ function getControlStatus(
       case "file":
         return !!req.fileUrl;
       case "evidence":
-        return !!req.content;
+        return req.organizationEvidence?.published === true;
       default:
         return req.published;
     }
@@ -109,7 +112,7 @@ export function columns(): ColumnDef<OrganizationControlType>[] {
             case "file":
               return !!req.fileUrl;
             case "evidence":
-              return !!req.content;
+              return req.organizationEvidence?.published === true;
             default:
               return req.published;
           }
