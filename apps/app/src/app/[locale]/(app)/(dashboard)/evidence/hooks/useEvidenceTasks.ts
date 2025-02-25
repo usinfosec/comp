@@ -26,23 +26,34 @@ interface UseOrganizationEvidenceTasksResult {
 }
 
 async function fetchEvidenceTasks(props: UseOrganizationEvidenceTasksProps) {
-  const result = await getOrganizationEvidenceTasks(props);
+  await new Promise((resolve) => setTimeout(resolve, 1));
 
-  if (!result) {
-    throw new Error("No result received");
+  try {
+    const result = await getOrganizationEvidenceTasks(props);
+
+    if (!result) {
+      throw new Error("No result received");
+    }
+
+    if (result.serverError) {
+      throw new Error(result.serverError);
+    }
+
+    if (result.validationErrors) {
+      throw new Error(
+        result.validationErrors._errors?.join(", ") ?? "Unknown error"
+      );
+    }
+
+    // Log the result to help debug
+    console.log("Evidence tasks result:", result);
+
+    // Return the data property from the result
+    return result.data?.data;
+  } catch (error) {
+    console.error("Error fetching evidence tasks:", error);
+    throw error;
   }
-
-  if (result.serverError) {
-    throw new Error(result.serverError);
-  }
-
-  if (result.validationErrors) {
-    throw new Error(
-      result.validationErrors._errors?.join(", ") ?? "Unknown error"
-    );
-  }
-
-  return result.data?.data;
 }
 
 export function useOrganizationEvidenceTasks(
@@ -78,12 +89,10 @@ export function useOrganizationEvidenceTasks(
         assigneeId,
         page,
         pageSize,
-      }),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
+      })
   );
+
+  console.log("useOrganizationEvidenceTasks data:", data);
 
   return {
     data: data?.data ?? [],

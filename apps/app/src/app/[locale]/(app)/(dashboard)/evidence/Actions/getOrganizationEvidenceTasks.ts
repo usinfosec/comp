@@ -52,6 +52,7 @@ export const getOrganizationEvidenceTasks = authActionClient
     } = parsedInput;
 
     if (!user.organizationId) {
+      console.error("Not authorized - no organization found");
       return {
         success: false,
         error: "Not authorized - no organization found",

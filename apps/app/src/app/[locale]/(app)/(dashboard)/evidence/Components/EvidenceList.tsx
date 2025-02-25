@@ -10,18 +10,27 @@ import {
   SearchInput,
 } from "./EvidenceFilters";
 import { useEvidenceTable } from "../hooks/useEvidenceTableContext";
+import { EvidenceSummaryCards } from "./EvidenceSummaryCards";
 
 export function EvidenceList() {
   const t = useI18n();
   const { evidenceTasks = [], isLoading, error } = useEvidenceTable();
 
+  // Add more detailed logging to help debug
+  console.log("EvidenceList - evidenceTasks:", evidenceTasks);
+  console.log("EvidenceList - isLoading:", isLoading);
+  console.log("EvidenceList - error:", error);
+
   if (error) return <div>Error: {error.message}</div>;
-  if (!evidenceTasks.length && !isLoading) return null;
 
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="flex flex-col gap-4">
         <h1 className="text-2xl font-bold">Evidence Tasks</h1>
+
+        {/* Summary Cards - handles its own loading state */}
+        <EvidenceSummaryCards />
+
         <div className="flex flex-wrap items-center gap-2">
           {/* Search Input */}
           <div className="w-full max-w-sm">
@@ -40,7 +49,13 @@ export function EvidenceList() {
         <SkeletonTable />
       ) : (
         <>
-          <DataTable data={evidenceTasks} />
+          {evidenceTasks.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No evidence tasks found. Try adjusting your filters.
+            </div>
+          ) : (
+            <DataTable data={evidenceTasks} />
+          )}
 
           {/* Pagination Controls */}
           <PaginationControls />
