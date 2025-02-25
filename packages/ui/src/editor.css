@@ -67,7 +67,7 @@ pre {
 
 /* Base editor styles */
 .ProseMirror {
-  @apply w-full px-8 py-6 text-sm leading-normal;
+  @apply w-full py-6 text-sm leading-normal;
   height: 100%;
   min-height: 350px;
   overflow-y: auto;

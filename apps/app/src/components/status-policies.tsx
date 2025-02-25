@@ -17,11 +17,17 @@ const STATUS_COLORS: Record<StatusType, string> = {
   needs_review: "#ff0000",
 } as const;
 
-export function StatusPolicies({ status }: { status: StatusType }) {
+export function StatusPolicies({
+  status,
+  className,
+}: {
+  status: StatusType;
+  className?: string;
+}) {
   const t = useI18n();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn("flex items-center gap-2", className)}>
       <div
         className={cn("size-2.5")}
         style={{ backgroundColor: STATUS_COLORS[status] ?? "  " }}

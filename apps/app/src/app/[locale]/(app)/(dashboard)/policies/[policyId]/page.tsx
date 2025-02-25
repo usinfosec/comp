@@ -5,9 +5,6 @@ import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { PolicyDetails } from "./components/PolicyDetails";
 
-export const dynamic = "force-dynamic"; // Force dynamic rendering
-export const revalidate = 0; // Disable caching
-
 export default async function PolicyDetailsPage({
   params,
 }: {
@@ -26,7 +23,6 @@ export default async function PolicyDetailsPage({
   return <PolicyDetails policyId={policyId} />;
 }
 
-// Add these headers to prevent caching
 export async function generateMetadata({
   params,
 }: {
@@ -39,11 +35,5 @@ export async function generateMetadata({
 
   return {
     title: t("sub_pages.policies.policy_details"),
-    // Add cache control headers
-    other: {
-      "Cache-Control": "no-cache, no-store, must-revalidate",
-      Pragma: "no-cache",
-      Expires: "0",
-    },
   };
 }
