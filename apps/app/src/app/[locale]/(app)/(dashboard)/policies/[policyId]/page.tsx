@@ -3,35 +3,37 @@ import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { PoliciesOverview } from "./components/PoliciesOverview";
+import { PolicyDetails } from "./components/PolicyDetails";
 
-export default async function PoliciesOverviewPage({
+export default async function PolicyDetailsPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; policyId: string }>;
 }) {
-  const { locale } = await params;
+  const { locale, policyId } = await params;
   setStaticParamsLocale(locale);
 
   const session = await auth();
+  const organizationId = session?.user.organizationId;
 
-  if (!session?.user?.organizationId) {
-    redirect("/onboarding");
+  if (!organizationId) {
+    redirect("/");
   }
 
-  return <PoliciesOverview />;
+  return <PolicyDetails policyId={policyId} />;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; policyId: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+
   setStaticParamsLocale(locale);
   const t = await getI18n();
 
   return {
-    title: t("sidebar.policies"),
+    title: t("sub_pages.policies.policy_details"),
   };
 }

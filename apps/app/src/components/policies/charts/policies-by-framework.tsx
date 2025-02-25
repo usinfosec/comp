@@ -13,7 +13,7 @@ import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 export function PoliciesByFramework() {
   const t = useI18n();
-  const { data } = usePolicies();
+  const { policies } = usePolicies();
 
   const config = {
     "SOC 2": { label: "SOC 2" },
@@ -22,7 +22,7 @@ export function PoliciesByFramework() {
     default: { label: "Other" },
   } satisfies ChartConfig;
 
-  if (!data?.length) {
+  if (!policies?.length) {
     return (
       <Card>
         <CardHeader>
@@ -43,7 +43,7 @@ export function PoliciesByFramework() {
       <CardContent>
         <ChartContainer config={config}>
           <BarChart
-            data={data}
+            data={policies}
             layout="vertical"
             margin={{
               left: 0,
@@ -73,8 +73,8 @@ export function PoliciesByFramework() {
                 className="fill-foreground"
                 fontSize={12}
               />
-              {data.map((entry) => (
-                <Cell key={entry.policyId} radius={8} />
+              {policies.map((policy) => (
+                <Cell key={policy.id} radius={8} />
               ))}
             </Bar>
           </BarChart>

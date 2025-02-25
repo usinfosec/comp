@@ -9,15 +9,12 @@ export function PostHogPageView(): null {
   const searchParams = useSearchParams();
   const posthog = usePostHog();
 
-  // Track pageviews
   useEffect(() => {
     if (pathname && posthog) {
-      // Track page views
       const url = searchParams.toString()
         ? `${pathname}?${searchParams.toString()}`
         : pathname;
 
-      // Track pageview with current URL
       posthog.capture("$pageview", {
         $current_url: url,
       });

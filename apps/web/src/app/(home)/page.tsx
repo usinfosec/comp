@@ -1,7 +1,4 @@
 import { WaitlistForm } from "@/app/components/waitlist-form";
-import { Button } from "@bubba/ui/button";
-import type { Metadata } from "next";
-import Link from "next/link";
 import Balancer from "react-wrap-balancer";
 import Logo from "../components/logo";
 
@@ -26,20 +23,6 @@ export default function Home() {
 
           <div className="mt-10 w-full max-w-md">
             <WaitlistForm />
-          </div>
-
-          <div className="mt-12 w-full max-w-[800px]">
-            <div className="mt-8 flex justify-center">
-              <Button variant="action">
-                <Link
-                  href="https://discord.gg/compai"
-                  className="flex items-center gap-2"
-                >
-                  Join us on Discord
-                  <span>→</span>
-                </Link>
-              </Button>
-            </div>
           </div>
         </div>
       </div>

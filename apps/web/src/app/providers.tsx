@@ -1,10 +1,9 @@
 "use client";
 
 import { env } from "@/env.mjs";
-import { Analytics, AnalyticsProvider } from "@bubba/analytics";
+import { AnalyticsProvider } from "@bubba/analytics";
 import { TooltipProvider } from "@bubba/ui/tooltip";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { useEffect } from "react";
 import type * as React from "react";
 
 interface ProvidersProps
@@ -15,15 +14,6 @@ interface ProvidersProps
 export function Providers({ children, ...props }: ProvidersProps) {
   const hasAnalyticsKeys =
     env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST;
-
-  useEffect(() => {
-    if (hasAnalyticsKeys) {
-      Analytics.init({
-        apiKey: env.NEXT_PUBLIC_POSTHOG_KEY!,
-        apiHost: env.NEXT_PUBLIC_POSTHOG_HOST!,
-      });
-    }
-  }, [hasAnalyticsKeys]);
 
   return hasAnalyticsKeys ? (
     <AnalyticsProvider
