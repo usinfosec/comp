@@ -2,7 +2,6 @@
 
 import { useI18n } from "@/locales/client";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
 import Bold from "@tiptap/extension-bold";
@@ -22,13 +21,13 @@ import TableRow from "@tiptap/extension-table-row";
 import Text from "@tiptap/extension-text";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { AlertCircle, Save } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { redirect } from "next/navigation";
-import { EditorRoot } from "novel";
 import React, { useEffect, useState } from "react";
-import { usePolicyDetails } from "../../hooks/usePolicy";
-import "@bubba/ui/editor.css";
 import { useDebouncedCallback } from "use-debounce";
+import { usePolicyDetails } from "../../hooks/usePolicy";
+import { PolicyHeader } from "./PolicyHeader";
+import "@bubba/ui/editor.css";
 
 interface PolicyDetailsProps {
   policyId: string;
@@ -45,11 +44,11 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
   const [currentContent, setCurrentContent] = useState<any>(null);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-  // Function to save content with debounce
   const debouncedSave = useDebouncedCallback(async (content: any) => {
     if (!policy) return;
 
     setSaveStatus("Saving");
+
     try {
       const contentToSave =
         content.type === "doc" && Array.isArray(content.content)
@@ -66,7 +65,7 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
       console.error("Failed to save policy:", err);
       setSaveStatus("Unsaved");
     }
-  }, 1000);
+  }, 1500);
 
   const editor = useEditor({
     extensions: [
@@ -97,7 +96,7 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert focus:outline-none h-full w-full focus:outline-none text-foreground px-16 py-16 max-w-[900px] mx-auto",
+          "prose dark:prose-invert focus:outline-none h-full w-full focus:outline-none text-foreground max-w-none",
       },
     },
     onUpdate: ({ editor }) => {
@@ -136,12 +135,6 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
       }
     }
   }, [editor, policy, initialLoadComplete]);
-
-  // Manual save function
-  const handleManualSave = () => {
-    if (!editor || !policy) return;
-    debouncedSave.flush();
-  };
 
   if (error) {
     if (error.code === "NOT_FOUND") {
@@ -184,25 +177,17 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
     );
   }
 
-  if (!policy) return null;
+  if (!policy) return redirect("/policies");
 
   return (
-    <div className="relative max-h-[calc(100vh-100px)] w-full">
-      <div className="absolute right-5 top-5 z-10 mb-5 gap-2 hidden sm:flex">
-        <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
-          {saveStatus}
-        </div>
-        <div className="bg-accent/50 px-2 py-1 text-sm text-muted-foreground rounded-md">
-          {wordCount} Words
-        </div>
-      </div>
-
-      <EditorRoot>
-        <EditorContent
-          className="max-h-[calc(100vh-100px)] prose prose-sm max-w-none overflow-auto"
-          editor={editor}
-        />
-      </EditorRoot>
+    <div className="flex flex-col h-full mx-auto">
+      <PolicyHeader
+        policy={policy}
+        saveStatus={saveStatus}
+        wordCount={wordCount}
+        status={policy.status}
+      />
+      <EditorContent className="prose prose-sm max-w-none" editor={editor} />
     </div>
   );
 }
