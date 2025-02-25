@@ -14,6 +14,8 @@ import {
   XCircle,
   ChevronLeft,
   ChevronRight,
+  Building,
+  User,
 } from "lucide-react";
 import { Button } from "@bubba/ui/button";
 import {
@@ -25,7 +27,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@bubba/ui/dropdown-menu";
 import { Badge } from "@bubba/ui/badge";
-import type { Frequency } from "@bubba/db";
+import type { Frequency, Departments } from "@bubba/db";
 import {
   Select,
   SelectContent,
@@ -34,12 +36,28 @@ import {
   SelectValue,
 } from "@bubba/ui/select";
 import type { EvidenceTaskRow } from "./data-table/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+
+// Define all available departments from the enum
+const ALL_DEPARTMENTS: Departments[] = [
+  "admin",
+  "gov",
+  "hr",
+  "it",
+  "itsm",
+  "qms",
+];
+
+// Define all available frequencies from the enum
+const ALL_FREQUENCIES: Frequency[] = ["monthly", "quarterly", "yearly"];
 
 export const EvidenceList = () => {
   const t = useI18n();
   const [search, setSearch] = useQueryState("search");
   const [status, setStatus] = useQueryState("status");
   const [frequency, setFrequency] = useQueryState("frequency");
+  const [department, setDepartment] = useQueryState("department");
+  const [assigneeId, setAssigneeId] = useQueryState("assigneeId");
   const [page, setPage] = useQueryState("page", { defaultValue: "1" });
   const [pageSize, setPageSize] = useQueryState("pageSize", {
     defaultValue: "10",
@@ -57,6 +75,8 @@ export const EvidenceList = () => {
     search,
     status: status as "published" | "draft" | null,
     frequency: frequency as Frequency | null,
+    department: department as Departments | null,
+    assigneeId,
     page: currentPage,
     pageSize: currentPageSize,
   });
@@ -72,24 +92,48 @@ export const EvidenceList = () => {
 
   console.log({ evidenceTasks, error });
 
-  // Get unique frequencies for the dropdown
+  // We now use the predefined frequencies instead of extracting from data
   const frequencies = useMemo(() => {
+    return ALL_FREQUENCIES;
+  }, []);
+
+  // We now use the predefined departments instead of extracting from data
+  const departments = useMemo(() => {
+    return ALL_DEPARTMENTS;
+  }, []);
+
+  // Get unique assignees for the dropdown
+  const assignees = useMemo(() => {
     if (!evidenceTasks) return [];
 
-    const uniqueFrequencies = new Set<string>();
+    const uniqueAssignees = new Map<
+      string,
+      { id: string; name: string | null; image: string | null }
+    >();
+
     for (const task of evidenceTasks) {
-      if (task.frequency) {
-        uniqueFrequencies.add(task.frequency);
+      // Convert to EvidenceTaskRow to access the assignee property
+      const taskWithAssignee = task as unknown as EvidenceTaskRow;
+      if (taskWithAssignee.assignee) {
+        uniqueAssignees.set(taskWithAssignee.assignee.id, {
+          id: taskWithAssignee.assignee.id,
+          name: taskWithAssignee.assignee.name,
+          image: taskWithAssignee.assignee.image,
+        });
       }
     }
 
-    return Array.from(uniqueFrequencies).sort();
+    return Array.from(uniqueAssignees.values()).sort((a, b) => {
+      return (a.name || "").localeCompare(b.name || "");
+    });
   }, [evidenceTasks]);
 
   // Clear all filters
   const clearFilters = () => {
     setStatus(null);
     setFrequency(null);
+    setDepartment(null);
+    setAssigneeId(null);
     // Reset to first page when clearing filters
     setPage("1");
   };
@@ -107,7 +151,11 @@ export const EvidenceList = () => {
   };
 
   // Check if any filters are active
-  const hasActiveFilters = status !== null || frequency !== null;
+  const hasActiveFilters =
+    status !== null ||
+    frequency !== null ||
+    department !== null ||
+    assigneeId !== null;
 
   if (error) return <div>Error: {error.message}</div>;
   if (!evidenceTasks && !isLoading) return null;
@@ -120,6 +168,12 @@ export const EvidenceList = () => {
         name: task.name,
       },
     })) || [];
+
+  // Find the selected assignee name for the badge
+  const selectedAssigneeName = assigneeId
+    ? tableData.find((task) => task.assignee?.id === assigneeId)?.assignee
+        ?.name || "Unknown"
+    : null;
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -140,7 +194,10 @@ export const EvidenceList = () => {
                 Filters
                 {hasActiveFilters && (
                   <Badge variant="secondary" className="ml-2 px-1 py-0">
-                    {(status ? 1 : 0) + (frequency ? 1 : 0)}
+                    {(status ? 1 : 0) +
+                      (frequency ? 1 : 0) +
+                      (department ? 1 : 0) +
+                      (assigneeId ? 1 : 0)}
                   </Badge>
                 )}
               </Button>
@@ -188,6 +245,54 @@ export const EvidenceList = () => {
                 </DropdownMenuCheckboxItem>
               ))}
 
+              <DropdownMenuSeparator />
+
+              <DropdownMenuLabel>Filter by Department</DropdownMenuLabel>
+              {departments.map((dept) => (
+                <DropdownMenuCheckboxItem
+                  key={dept}
+                  checked={department === dept}
+                  onCheckedChange={() => {
+                    setDepartment(department === dept ? null : dept);
+                    setPage("1"); // Reset to first page when filtering
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Building size={16} className="text-muted-foreground" />
+                    <span>{dept.replace(/_/g, " ").toUpperCase()}</span>
+                  </div>
+                </DropdownMenuCheckboxItem>
+              ))}
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuLabel>Filter by Assignee</DropdownMenuLabel>
+              {assignees.map((assignee) => (
+                <DropdownMenuCheckboxItem
+                  key={assignee.id}
+                  checked={assigneeId === assignee.id}
+                  onCheckedChange={() => {
+                    setAssigneeId(
+                      assigneeId === assignee.id ? null : assignee.id
+                    );
+                    setPage("1"); // Reset to first page when filtering
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-5 w-5">
+                      <AvatarImage
+                        src={assignee.image || undefined}
+                        alt={assignee.name || ""}
+                      />
+                      <AvatarFallback className="text-xs">
+                        {assignee.name ? assignee.name.charAt(0) : "?"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{assignee.name}</span>
+                  </div>
+                </DropdownMenuCheckboxItem>
+              ))}
+
               {hasActiveFilters && (
                 <>
                   <DropdownMenuSeparator />
@@ -232,6 +337,34 @@ export const EvidenceList = () => {
               <XCircle size={14} />
             </Badge>
           )}
+
+          {department && (
+            <Badge
+              variant="secondary"
+              className="gap-1 cursor-pointer"
+              onClick={() => {
+                setDepartment(null);
+                setPage("1"); // Reset to first page when removing filter
+              }}
+            >
+              Department: {department.replace(/_/g, " ").toUpperCase()}
+              <XCircle size={14} />
+            </Badge>
+          )}
+
+          {assigneeId && selectedAssigneeName && (
+            <Badge
+              variant="secondary"
+              className="gap-1 cursor-pointer"
+              onClick={() => {
+                setAssigneeId(null);
+                setPage("1"); // Reset to first page when removing filter
+              }}
+            >
+              Assignee: {selectedAssigneeName}
+              <XCircle size={14} />
+            </Badge>
+          )}
         </div>
       </div>
 
@@ -266,20 +399,20 @@ export const EvidenceList = () => {
                 <div className="flex items-center gap-1">
                   <Button
                     variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={!pagination.hasPreviousPage}
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <div className="text-sm mx-2">
+                  <span className="text-sm">
                     Page {currentPage} of {pagination.totalPages}
-                  </div>
+                  </span>
                   <Button
                     variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={!pagination.hasNextPage}
                   >
