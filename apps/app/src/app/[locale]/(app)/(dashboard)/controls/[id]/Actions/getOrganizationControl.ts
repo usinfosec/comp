@@ -1,14 +1,8 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db, type Control, type OrganizationControl } from "@bubba/db";
+import { db } from "@bubba/db";
 import { z } from "zod";
-
-export interface OrganizationControlResponse {
-  organizationControl: OrganizationControl & {
-    control: Control;
-  };
-}
 
 export const getOrganizationControl = authActionClient
   .schema(z.object({ controlId: z.string() }))
@@ -37,6 +31,12 @@ export const getOrganizationControl = authActionClient
         },
         include: {
           control: true,
+          OrganizationControlRequirement: {
+            include: {
+              organizationPolicy: true,
+              organizationEvidence: true,
+            },
+          },
         },
       });
 

@@ -290,11 +290,12 @@ model OrganizationControl {
   lastReviewDate DateTime?
   nextReviewDate DateTime?
 
-  artifacts                      ControlArtifact[]
-  OrganizationFramework          OrganizationFramework?           @relation(fields: [organizationFrameworkId], references: [id])
-  organizationFrameworkId        String?
-  OrganizationCategory           OrganizationCategory?            @relation(fields: [organizationCategoryId], references: [id])
-  organizationCategoryId         String?
+  artifacts               ControlArtifact[]
+  OrganizationFramework   OrganizationFramework? @relation(fields: [organizationFrameworkId], references: [id])
+  organizationFrameworkId String?
+  OrganizationCategory    OrganizationCategory?  @relation(fields: [organizationCategoryId], references: [id])
+  organizationCategoryId  String?
+
   OrganizationControlRequirement OrganizationControlRequirement[]
 
   @@index([organizationId])
@@ -971,6 +972,9 @@ model OrganizationControlRequirement {
   organizationPolicyId String?
   organizationPolicy   OrganizationPolicy? @relation(fields: [organizationPolicyId], references: [id], onDelete: Cascade)
 
+  organizationEvidenceId String?
+  organizationEvidence   OrganizationEvidence? @relation(fields: [organizationEvidenceId], references: [id], onDelete: Cascade)
+
   @@unique([organizationControlId, controlRequirementId])
 }
 
@@ -1057,8 +1061,9 @@ model OrganizationEvidence {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-  evidenceId String
-  evidence   Evidence @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  evidenceId                     String
+  evidence                       Evidence                         @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  OrganizationControlRequirement OrganizationControlRequirement[]
 
   @@unique([id])
   @@index([organizationId])

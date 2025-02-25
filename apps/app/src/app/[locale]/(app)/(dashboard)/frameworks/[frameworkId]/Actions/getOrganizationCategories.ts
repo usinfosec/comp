@@ -62,6 +62,11 @@ export const getOrganizationCategories = authActionClient
                       status: true,
                     },
                   },
+                  organizationEvidence: {
+                    select: {
+                      published: true,
+                    },
+                  },
                 },
               },
             },

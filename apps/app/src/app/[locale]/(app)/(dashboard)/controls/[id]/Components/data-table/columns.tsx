@@ -2,21 +2,9 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2, XCircle } from "lucide-react";
+import type { RequirementTableData } from "./data-table";
 
-export interface RequirementType {
-  id: string;
-  type: string;
-  description: string | null;
-  organizationPolicy?: {
-    policy?: {
-      id: string;
-      name: string;
-    };
-    status?: string;
-  } | null;
-}
-
-export const columns: ColumnDef<RequirementType>[] = [
+export const columns: ColumnDef<RequirementTableData>[] = [
   {
     id: "type",
     accessorKey: "type",
@@ -40,7 +28,9 @@ export const columns: ColumnDef<RequirementType>[] = [
       const isCompleted =
         requirement.type === "policy"
           ? requirement.organizationPolicy?.status === "published"
-          : false;
+          : requirement.type === "evidence"
+            ? requirement.organizationEvidence?.published
+            : false;
 
       return (
         <div className="flex items-center justify-center">

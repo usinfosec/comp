@@ -1,37 +1,36 @@
 "use client";
 
-import {
-  DisplayFrameworkStatus,
-  type StatusType,
-} from "@/components/frameworks/framework-status";
+import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
 import { useOrganizationControl } from "../hooks/useOrganizationControl";
 import { Card } from "@bubba/ui/card";
 import { Label } from "@bubba/ui/label";
 import { Button } from "@bubba/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useOrganizationControlRequirements } from "../hooks/useOrganizationControlRequirements";
 import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
 import { DataTable } from "./data-table/data-table";
+import { useMemo } from "react";
 
 interface SingleControlProps {
   controlId: string;
 }
 
 export const SingleControl = ({ controlId }: SingleControlProps) => {
-  const { data: control } = useOrganizationControl(controlId);
-  const { data: requirements } = useOrganizationControlRequirements(controlId);
-  const { data: controlProgress } = useOrganizationControlProgress(controlId);
-  if (!control || !controlProgress) return null;
-
   const router = useRouter();
+  const { data: control } = useOrganizationControl(controlId);
+  const { data: controlProgress } = useOrganizationControlProgress(controlId);
 
-  const progressStatus =
-    controlProgress?.progress?.completed > 0
+  const progressStatus = useMemo(() => {
+    if (!controlProgress) return "not_started";
+
+    return controlProgress.progress?.completed > 0
       ? "in_progress"
-      : controlProgress?.progress?.completed === 0
+      : controlProgress.progress?.completed === 0
         ? "not_started"
         : "completed";
+  }, [controlProgress]);
+
+  if (!control || !controlProgress) return null;
 
   return (
     <div className="max-w-[1200px] mx-auto py-8 gap-8 flex flex-col">
@@ -66,7 +65,9 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Requirements</h1>
-        {requirements && <DataTable data={requirements} />}
+        {control.OrganizationControlRequirement && (
+          <DataTable data={control.OrganizationControlRequirement} />
+        )}
       </div>
     </div>
   );

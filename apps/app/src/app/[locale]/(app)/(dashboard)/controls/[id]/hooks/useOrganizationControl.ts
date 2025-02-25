@@ -1,14 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import {
-  type OrganizationControlResponse,
-  getOrganizationControl,
-} from "../Actions/getOrganizationControl";
+import { getOrganizationControl } from "../Actions/getOrganizationControl";
 
-async function fetchOrganizationControl(
-  controlId: string,
-): Promise<OrganizationControlResponse> {
+async function fetchOrganizationControl(controlId: string) {
   const result = await getOrganizationControl({ controlId });
 
   if (!result) {
@@ -24,15 +19,14 @@ async function fetchOrganizationControl(
 }
 
 export function useOrganizationControl(controlId: string) {
-  const { data, error, isLoading, mutate } =
-    useSWR<OrganizationControlResponse>(
-      ["organization-control", controlId],
-      () => fetchOrganizationControl(controlId),
-      {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
-      },
-    );
+  const { data, error, isLoading, mutate } = useSWR(
+    ["organization-control", controlId],
+    () => fetchOrganizationControl(controlId),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   return {
     data: data?.organizationControl,

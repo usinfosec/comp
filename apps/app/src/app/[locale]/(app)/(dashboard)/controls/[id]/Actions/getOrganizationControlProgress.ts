@@ -42,6 +42,7 @@ export const getOrganizationControlProgress = authActionClient
         },
         include: {
           organizationPolicy: true,
+          organizationEvidence: true,
         },
       });
 
@@ -74,7 +75,7 @@ export const getOrganizationControlProgress = authActionClient
             isCompleted = !!requirement.fileUrl;
             break;
           case "evidence":
-            isCompleted = !!requirement.content;
+            isCompleted = requirement.organizationEvidence?.published === true;
             break;
           default:
             isCompleted = requirement.published;
