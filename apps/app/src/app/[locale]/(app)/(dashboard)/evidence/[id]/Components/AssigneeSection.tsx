@@ -70,85 +70,67 @@ export function AssigneeSection({
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">Assignee:</span>
-        <div className="h-9 w-full animate-pulse rounded-md bg-muted" />
-      </div>
-    );
+    return <div className="h-9 w-full animate-pulse rounded-md bg-muted" />;
   }
 
   if (error || !admins) {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">Assignee:</span>
-        <p className="text-sm text-red-500">Failed to load</p>
-      </div>
-    );
+    return <p className="text-sm text-red-500">Failed to load</p>;
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground whitespace-nowrap">
-        Assignee:
-      </span>
-
-      <div className="w-full max-w-[200px] overflow-hidden">
-        <Select
-          value={assigneeId || "none"}
-          onValueChange={handleAssigneeChange}
-          disabled={isExecuting}
+    <div className="w-full">
+      <Select
+        value={assigneeId || "none"}
+        onValueChange={handleAssigneeChange}
+        disabled={isExecuting}
+      >
+        <SelectTrigger className="w-full">
+          {selectedAdmin ? (
+            <div className="flex items-center gap-2">
+              <Avatar className="h-5 w-5 shrink-0">
+                <AvatarImage
+                  src={selectedAdmin.image || undefined}
+                  alt={selectedAdmin.name}
+                />
+                <AvatarFallback>{selectedAdmin.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <span className="truncate">{selectedAdmin.name}</span>
+            </div>
+          ) : (
+            <SelectValue placeholder="Assign to..." />
+          )}
+        </SelectTrigger>
+        <SelectContent
+          className="min-w-[var(--radix-select-trigger-width)] w-auto max-w-[250px] z-50"
+          position="popper"
+          sideOffset={5}
+          align="start"
         >
-          <SelectTrigger className="w-full">
-            {selectedAdmin ? (
-              <div className="flex items-center gap-2">
+          <SelectItem value="none" className="w-full p-0 overflow-hidden">
+            <div className="py-1.5 px-3 w-full">
+              <span className="pl-7">None</span>
+            </div>
+          </SelectItem>
+          {admins.map((admin) => (
+            <SelectItem
+              key={admin.id}
+              value={admin.id}
+              className="w-full p-0 overflow-hidden"
+            >
+              <div className="flex items-center gap-2 py-1.5 px-3 w-full">
                 <Avatar className="h-5 w-5 shrink-0">
                   <AvatarImage
-                    src={selectedAdmin.image || undefined}
-                    alt={selectedAdmin.name}
+                    src={admin.image || undefined}
+                    alt={admin.name}
                   />
-                  <AvatarFallback>
-                    {selectedAdmin.name.charAt(0)}
-                  </AvatarFallback>
+                  <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <span className="truncate">{selectedAdmin.name}</span>
-              </div>
-            ) : (
-              <SelectValue placeholder="Assign to..." />
-            )}
-          </SelectTrigger>
-          <SelectContent
-            className="min-w-[var(--radix-select-trigger-width)] w-auto max-w-[250px] z-50"
-            position="popper"
-            sideOffset={5}
-            align="start"
-          >
-            <SelectItem value="none" className="w-full p-0 overflow-hidden">
-              <div className="py-1.5 px-3 w-full">
-                <span className="pl-7">None</span>
+                <span className="truncate">{admin.name}</span>
               </div>
             </SelectItem>
-            {admins.map((admin) => (
-              <SelectItem
-                key={admin.id}
-                value={admin.id}
-                className="w-full p-0 overflow-hidden"
-              >
-                <div className="flex items-center gap-2 py-1.5 px-3 w-full">
-                  <Avatar className="h-5 w-5 shrink-0">
-                    <AvatarImage
-                      src={admin.image || undefined}
-                      alt={admin.name}
-                    />
-                    <AvatarFallback>{admin.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <span className="truncate">{admin.name}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }

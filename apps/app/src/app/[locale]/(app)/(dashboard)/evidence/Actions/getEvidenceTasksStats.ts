@@ -87,7 +87,11 @@ export const getEvidenceTasksStats = authActionClient
 
         const isPastDue = nextReviewDate && nextReviewDate < now;
 
-        if (!hasContent) {
+        if (isPublished) {
+          upToDateCount++;
+        }
+
+        if (!hasContent && !isPublished) {
           // No files or links
           emptyCount++;
         } else if (!isPublished) {
@@ -96,9 +100,6 @@ export const getEvidenceTasksStats = authActionClient
         } else if (isPastDue) {
           // Published but needs review
           needsReviewCount++;
-        } else {
-          // Published and up to date
-          upToDateCount++;
         }
       }
 

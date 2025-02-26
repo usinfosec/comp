@@ -20,6 +20,7 @@ interface EvidenceTableContextType {
   frequency: string | null;
   department: string | null;
   assigneeId: string | null;
+  relevance: string | null;
   page: string;
   pageSize: string;
 
@@ -29,6 +30,7 @@ interface EvidenceTableContextType {
   setFrequency: (value: string | null) => void;
   setDepartment: (value: string | null) => void;
   setAssigneeId: (value: string | null) => void;
+  setRelevance: (value: string | null) => void;
   setPage: (value: string) => void;
   setPageSize: (value: string) => void;
 
@@ -66,6 +68,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
   const [frequency, setFrequency] = useQueryState("frequency");
   const [department, setDepartment] = useQueryState("department");
   const [assigneeId, setAssigneeId] = useQueryState("assigneeId");
+  const [relevance, setRelevance] = useQueryState("relevance");
   const [page, setPage] = useQueryState("page", { defaultValue: "1" });
   const [pageSize, setPageSize] = useQueryState("pageSize", {
     defaultValue: "10",
@@ -86,6 +89,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     frequency: frequency as any,
     department: department as any,
     assigneeId,
+    relevance: relevance as "relevant" | "not-relevant" | null,
     page: currentPage,
     pageSize: currentPageSize,
   });
@@ -134,9 +138,10 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
       status !== null ||
       frequency !== null ||
       department !== null ||
-      assigneeId !== null
+      assigneeId !== null ||
+      relevance !== null
     );
-  }, [status, frequency, department, assigneeId]);
+  }, [status, frequency, department, assigneeId, relevance]);
 
   // Clear all filters
   const clearFilters = () => {
@@ -144,6 +149,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     setFrequency(null);
     setDepartment(null);
     setAssigneeId(null);
+    setRelevance(null);
     setPage("1"); // Reset to first page when clearing filters
   };
 
@@ -155,6 +161,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     frequency,
     department,
     assigneeId,
+    relevance,
     page,
     pageSize,
 
@@ -164,6 +171,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     setFrequency,
     setDepartment,
     setAssigneeId,
+    setRelevance,
     setPage,
     setPageSize,
 

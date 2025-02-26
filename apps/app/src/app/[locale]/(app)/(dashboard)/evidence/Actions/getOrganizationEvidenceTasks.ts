@@ -28,6 +28,7 @@ export const getOrganizationEvidenceTasks = authActionClient
       frequency: z.nativeEnum(Frequency).optional().nullable(),
       department: z.nativeEnum(Departments).optional().nullable(),
       assigneeId: z.string().optional().nullable(),
+      relevance: z.enum(["relevant", "not-relevant"]).optional().nullable(),
       page: z.number().int().positive().optional().default(1),
       pageSize: z.number().int().positive().optional().default(10),
     })
@@ -47,6 +48,7 @@ export const getOrganizationEvidenceTasks = authActionClient
       frequency,
       department,
       assigneeId,
+      relevance,
       page,
       pageSize,
     } = parsedInput;
@@ -72,6 +74,9 @@ export const getOrganizationEvidenceTasks = authActionClient
         ...(department ? { department } : {}),
         // Assignee filter
         ...(assigneeId ? { assigneeId } : {}),
+        // Relevance filter
+        ...(relevance === "relevant" ? { isNotRelevant: false } : {}),
+        ...(relevance === "not-relevant" ? { isNotRelevant: true } : {}),
         // Search filter
         ...(search
           ? {

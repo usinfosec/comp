@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { CheckCircle2, XCircle, Building } from "lucide-react";
+import { CheckCircle2, XCircle, Building, AlertTriangle } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -158,6 +158,34 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
             </AvatarFallback>
           </Avatar>
           <span className="truncate text-sm">{assignee.name}</span>
+        </div>
+      );
+    },
+  },
+  {
+    id: "relevance",
+    accessorKey: "isNotRelevant",
+    header: "Relevance",
+    enableResizing: true,
+    enableSorting: true,
+    size: 150,
+    minSize: 120,
+    cell: ({ row }) => {
+      const isNotRelevant = row.original.isNotRelevant;
+
+      if (!isNotRelevant) {
+        return (
+          <div className="flex gap-2">
+            <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+            <span className="text-sm text-green-600">Relevant</span>
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex gap-2">
+          <AlertTriangle size={16} className="text-yellow-500 shrink-0" />
+          <span className="text-sm text-yellow-600">Not Relevant</span>
         </div>
       );
     },

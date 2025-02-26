@@ -12,6 +12,7 @@ interface UseOrganizationEvidenceTasksProps {
   frequency?: Frequency | null;
   department?: Departments | null;
   assigneeId?: string | null;
+  relevance?: "relevant" | "not-relevant" | null;
   page?: number;
   pageSize?: number;
 }
@@ -65,6 +66,7 @@ export function useOrganizationEvidenceTasks(
     frequency,
     department,
     assigneeId,
+    relevance,
     page = 1,
     pageSize = 10,
   } = props;
@@ -77,6 +79,7 @@ export function useOrganizationEvidenceTasks(
       frequency,
       department,
       assigneeId,
+      relevance,
       page,
       pageSize,
     ],
@@ -87,6 +90,7 @@ export function useOrganizationEvidenceTasks(
         frequency,
         department,
         assigneeId,
+        relevance,
         page,
         pageSize,
       })

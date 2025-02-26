@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@bubba/ui/button";
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, MoreVertical, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
@@ -14,6 +14,13 @@ import { publishEvidence } from "../Actions/publishEvidence";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import type { EvidenceDetailsProps } from "../types";
+import { toggleRelevance } from "../Actions/toggleRelevance";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@bubba/ui/dropdown-menu";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
   const router = useRouter();
@@ -106,13 +113,22 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
         </div>
       </div>
 
+      {evidence.isNotRelevant && (
+        <div className="bg-yellow-800 border border-yellow-600 rounded-md p-3 text-yellow-300 text-sm">
+          This evidence has been marked as not relevant and will not be included
+          in compliance reports.
+        </div>
+      )}
+
       <ReviewSection
+        evidence={evidence}
         evidenceId={id}
         lastPublishedAt={evidence.lastPublishedAt}
         frequency={evidence.frequency}
         department={evidence.department || null}
         currentAssigneeId={evidence.assigneeId}
         onSuccess={handleMutate}
+        id={id}
       />
 
       <Card>

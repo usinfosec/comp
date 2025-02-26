@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "./data-table/data-table";
+import { DataTable } from "./data-table/EvidenceListTable";
 import { useI18n } from "@/locales/client";
 import { SkeletonTable } from "./SkeletonTable";
 import {

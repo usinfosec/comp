@@ -1,3 +1,3 @@
-export { DataTable } from "./data-table";
+export { DataTable } from "./EvidenceListTable";
 export { columns } from "./columns";
 export type { EvidenceTaskRow } from "./types";
