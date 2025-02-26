@@ -3,8 +3,9 @@ import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { PolicyDetails } from "./components/PolicyDetails";
 
-export default async function PolicyDetails({
+export default async function PolicyEditor({
   params,
 }: {
   params: Promise<{ locale: string; policyId: string }>;
@@ -19,7 +20,7 @@ export default async function PolicyDetails({
     redirect("/");
   }
 
-  return <>Hi</>;
+  return <PolicyDetails policyId={policyId} />;
 }
 
 export async function generateMetadata({

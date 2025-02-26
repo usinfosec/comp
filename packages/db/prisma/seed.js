@@ -296,7 +296,8 @@ async function seedEvidence() {
     console.log(`🔄 Processing ${evidenceRequirements.length} evidences`);
     for (const evidenceReq of evidenceRequirements) {
         console.log(`  ⏳ Processing evidence: ${evidenceReq.name}...`);
-        await prisma.evidence.upsert({
+        // Create the evidence record with the same ID as the requirement
+        const evidence = await prisma.evidence.upsert({
             where: {
                 id: evidenceReq.id,
             },
@@ -312,5 +313,15 @@ async function seedEvidence() {
                 frequency: evidenceReq.frequency ?? null,
             },
         });
+        // Update the control requirement to link back to the evidence
+        await prisma.controlRequirement.update({
+            where: {
+                id: evidenceReq.id,
+            },
+            data: {
+                evidenceId: evidence.id,
+            },
+        });
+        console.log(`  ✅ Evidence ${evidenceReq.name} processed and linked`);
     }
 }

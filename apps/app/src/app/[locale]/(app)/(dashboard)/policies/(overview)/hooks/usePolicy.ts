@@ -1,9 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import { getPolicyDetails } from "../[policyId]/actions/get-policy-details";
-import { updatePolicy } from "../[policyId]/actions/update-policy";
-import type { AppError, PolicyDetails, UpdatePolicyInput } from "../[policyId]/types";
+import { getPolicyDetails } from "../../[policyId]/editor/actions/get-policy-details";
+import { updatePolicy } from "../../[policyId]/editor/actions/update-policy";
+import type { AppError, PolicyDetails, UpdatePolicyInput } from "../../[policyId]/editor/types";
 
 interface ContentNode {
   type: string;

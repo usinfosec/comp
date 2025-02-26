@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
 import useSWR from "swr";
 
 import { getPolicies } from "../actions/get-policies";
