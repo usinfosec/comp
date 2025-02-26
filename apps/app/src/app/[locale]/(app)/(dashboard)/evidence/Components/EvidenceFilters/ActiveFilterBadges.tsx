@@ -14,6 +14,8 @@ export function ActiveFilterBadges() {
     setDepartment,
     assigneeId,
     setAssigneeId,
+    relevance,
+    setRelevance,
     setPage,
     assignees,
   } = useEvidenceTable();
@@ -24,7 +26,7 @@ export function ActiveFilterBadges() {
     : null;
 
   // Only render if there are active filters
-  if (!status && !frequency && !department && !assigneeId) {
+  if (!status && !frequency && !department && !assigneeId && !relevance) {
     return null;
   }
 
@@ -37,6 +39,18 @@ export function ActiveFilterBadges() {
             className="h-3 w-3 cursor-pointer"
             onClick={() => {
               setStatus(null);
+              setPage("1");
+            }}
+          />
+        </Badge>
+      )}
+      {relevance && (
+        <Badge variant="outline" className="flex items-center gap-1">
+          Relevance: {relevance === "relevant" ? "Relevant" : "Not Relevant"}
+          <X
+            className="h-3 w-3 cursor-pointer"
+            onClick={() => {
+              setRelevance(null);
               setPage("1");
             }}
           />

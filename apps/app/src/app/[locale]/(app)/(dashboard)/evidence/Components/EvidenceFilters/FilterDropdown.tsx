@@ -10,7 +10,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@bubba/ui/dropdown-menu";
-import { CheckCircle2, Filter, XCircle, Building } from "lucide-react";
+import {
+  CheckCircle2,
+  Filter,
+  XCircle,
+  Building,
+  AlertTriangle,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { useEvidenceTable } from "../../hooks/useEvidenceTableContext";
 
@@ -24,6 +30,8 @@ export function FilterDropdown() {
     setDepartment,
     assigneeId,
     setAssigneeId,
+    relevance,
+    setRelevance,
     setPage,
     frequencies,
     departments,
@@ -43,14 +51,15 @@ export function FilterDropdown() {
               {(status ? 1 : 0) +
                 (frequency ? 1 : 0) +
                 (department ? 1 : 0) +
-                (assigneeId ? 1 : 0)}
+                (assigneeId ? 1 : 0) +
+                (relevance ? 1 : 0)}
             </Badge>
           )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[500px] max-w-[90vw]">
         <div className="grid grid-cols-2 gap-4 p-2">
-          {/* Status and Frequency in first column */}
+          {/* Status, Frequency, and Relevance in first column */}
           <div>
             <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
             <div className="space-y-1 mb-3">
@@ -76,6 +85,36 @@ export function FilterDropdown() {
                 <div className="flex items-center gap-2">
                   <XCircle size={16} className="text-red-500" />
                   <span>Draft</span>
+                </div>
+              </DropdownMenuCheckboxItem>
+            </div>
+
+            <DropdownMenuLabel>Filter by Relevance</DropdownMenuLabel>
+            <div className="space-y-1 mb-3">
+              <DropdownMenuCheckboxItem
+                checked={relevance === "relevant"}
+                onCheckedChange={() => {
+                  setRelevance(relevance === "relevant" ? null : "relevant");
+                  setPage("1"); // Reset to first page when filtering
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-green-500" />
+                  <span>Relevant</span>
+                </div>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={relevance === "not-relevant"}
+                onCheckedChange={() => {
+                  setRelevance(
+                    relevance === "not-relevant" ? null : "not-relevant"
+                  );
+                  setPage("1"); // Reset to first page when filtering
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <AlertTriangle size={16} className="text-yellow-500" />
+                  <span>Not Relevant</span>
                 </div>
               </DropdownMenuCheckboxItem>
             </div>
