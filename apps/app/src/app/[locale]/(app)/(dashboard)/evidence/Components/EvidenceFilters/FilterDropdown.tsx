@@ -48,107 +48,119 @@ export function FilterDropdown() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
-        <DropdownMenuCheckboxItem
-          checked={status === "published"}
-          onCheckedChange={() => {
-            setStatus(status === "published" ? null : "published");
-            setPage("1"); // Reset to first page when filtering
-          }}
-        >
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={16} className="text-green-500" />
-            <span>Published</span>
-          </div>
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={status === "draft"}
-          onCheckedChange={() => {
-            setStatus(status === "draft" ? null : "draft");
-            setPage("1"); // Reset to first page when filtering
-          }}
-        >
-          <div className="flex items-center gap-2">
-            <XCircle size={16} className="text-red-500" />
-            <span>Draft</span>
-          </div>
-        </DropdownMenuCheckboxItem>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuLabel>Filter by Frequency</DropdownMenuLabel>
-        {frequencies.map((freq) => (
-          <DropdownMenuCheckboxItem
-            key={freq}
-            checked={frequency === freq}
-            onCheckedChange={() => {
-              setFrequency(frequency === freq ? null : freq);
-              setPage("1"); // Reset to first page when filtering
-            }}
-          >
-            {freq}
-          </DropdownMenuCheckboxItem>
-        ))}
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuLabel>Filter by Department</DropdownMenuLabel>
-        {departments.map((dept) => (
-          <DropdownMenuCheckboxItem
-            key={dept}
-            checked={department === dept}
-            onCheckedChange={() => {
-              setDepartment(department === dept ? null : dept);
-              setPage("1"); // Reset to first page when filtering
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <Building size={16} className="text-muted-foreground" />
-              <span>{dept.replace(/_/g, " ").toUpperCase()}</span>
+      <DropdownMenuContent align="end" className="w-[500px] max-w-[90vw]">
+        <div className="grid grid-cols-2 gap-4 p-2">
+          {/* Status and Frequency in first column */}
+          <div>
+            <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+            <div className="space-y-1 mb-3">
+              <DropdownMenuCheckboxItem
+                checked={status === "published"}
+                onCheckedChange={() => {
+                  setStatus(status === "published" ? null : "published");
+                  setPage("1"); // Reset to first page when filtering
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-green-500" />
+                  <span>Published</span>
+                </div>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={status === "draft"}
+                onCheckedChange={() => {
+                  setStatus(status === "draft" ? null : "draft");
+                  setPage("1"); // Reset to first page when filtering
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <XCircle size={16} className="text-red-500" />
+                  <span>Draft</span>
+                </div>
+              </DropdownMenuCheckboxItem>
             </div>
-          </DropdownMenuCheckboxItem>
-        ))}
 
-        <DropdownMenuSeparator />
-
-        <DropdownMenuLabel>Filter by Assignee</DropdownMenuLabel>
-        {assignees.map((assignee) => (
-          <DropdownMenuCheckboxItem
-            key={assignee.id}
-            checked={assigneeId === assignee.id}
-            onCheckedChange={() => {
-              setAssigneeId(assigneeId === assignee.id ? null : assignee.id);
-              setPage("1"); // Reset to first page when filtering
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <Avatar className="h-5 w-5">
-                <AvatarImage
-                  src={assignee.image || undefined}
-                  alt={assignee.name || ""}
-                />
-                <AvatarFallback className="text-xs">
-                  {assignee.name ? assignee.name.charAt(0) : "?"}
-                </AvatarFallback>
-              </Avatar>
-              <span>{assignee.name}</span>
+            <DropdownMenuLabel>Filter by Frequency</DropdownMenuLabel>
+            <div className="space-y-1">
+              {frequencies.map((freq) => (
+                <DropdownMenuCheckboxItem
+                  key={freq}
+                  checked={frequency === freq}
+                  onCheckedChange={() => {
+                    setFrequency(frequency === freq ? null : freq);
+                    setPage("1"); // Reset to first page when filtering
+                  }}
+                >
+                  {freq}
+                </DropdownMenuCheckboxItem>
+              ))}
             </div>
-          </DropdownMenuCheckboxItem>
-        ))}
+          </div>
+
+          {/* Department and Assignee in second column */}
+          <div>
+            <DropdownMenuLabel>Filter by Department</DropdownMenuLabel>
+            <div className="space-y-1 mb-3 max-h-[150px] overflow-y-auto">
+              {departments.map((dept) => (
+                <DropdownMenuCheckboxItem
+                  key={dept}
+                  checked={department === dept}
+                  onCheckedChange={() => {
+                    setDepartment(department === dept ? null : dept);
+                    setPage("1"); // Reset to first page when filtering
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Building size={16} className="text-muted-foreground" />
+                    <span>{dept.replace(/_/g, " ").toUpperCase()}</span>
+                  </div>
+                </DropdownMenuCheckboxItem>
+              ))}
+            </div>
+
+            <DropdownMenuLabel>Filter by Assignee</DropdownMenuLabel>
+            <div className="space-y-1 max-h-[150px] overflow-y-auto">
+              {assignees.map((assignee) => (
+                <DropdownMenuCheckboxItem
+                  key={assignee.id}
+                  checked={assigneeId === assignee.id}
+                  onCheckedChange={() => {
+                    setAssigneeId(
+                      assigneeId === assignee.id ? null : assignee.id
+                    );
+                    setPage("1"); // Reset to first page when filtering
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-5 w-5">
+                      <AvatarImage
+                        src={assignee.image || undefined}
+                        alt={assignee.name || ""}
+                      />
+                      <AvatarFallback className="text-xs">
+                        {assignee.name ? assignee.name.charAt(0) : "?"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{assignee.name}</span>
+                  </div>
+                </DropdownMenuCheckboxItem>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {hasActiveFilters && (
-          <>
+          <div className="px-2 pb-2">
             <DropdownMenuSeparator />
             <Button
               variant="ghost"
               size="sm"
-              className="w-full justify-start text-sm font-normal"
+              className="w-full justify-start text-sm font-normal mt-2"
               onClick={clearFilters}
             >
               Clear all filters
             </Button>
-          </>
+          </div>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
