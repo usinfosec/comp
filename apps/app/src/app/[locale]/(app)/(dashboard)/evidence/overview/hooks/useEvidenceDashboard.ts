@@ -15,6 +15,17 @@ async function fetchEvidenceDashboard() {
       throw new Error(result.serverError);
     }
 
+    // Debug: Log the data received from the server action
+    console.log("Evidence Dashboard Data:", result.data?.data);
+
+    // Check if the data contains status information
+    if (result.data?.data?.byAssignee) {
+      const firstAssignee = Object.values(result.data.data.byAssignee)[0];
+      if (firstAssignee && firstAssignee.length > 0) {
+        console.log("First assignee's first item:", firstAssignee[0]);
+      }
+    }
+
     return result.data?.data;
   } catch (error) {
     console.error("Error fetching evidence dashboard:", error);
@@ -23,8 +34,24 @@ async function fetchEvidenceDashboard() {
 }
 
 export function useEvidenceDashboard() {
-  return useSWR("evidence-dashboard", fetchEvidenceDashboard, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data, error, isLoading, mutate } = useSWR(
+    "evidence-dashboard",
+    fetchEvidenceDashboard,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  // Debug: Log the data in the hook
+  if (data) {
+    console.log("useEvidenceDashboard hook data:", data);
+  }
+
+  return {
+    data,
+    error,
+    isLoading,
+    mutate,
+  };
 }

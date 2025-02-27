@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import type { CSSProperties } from "react";
-import { scaleBand, scaleLinear, max } from "d3";
-import { AnimatedBar } from "./AnimatedBar";
+import React, { useEffect } from "react";
+import type { CSSProperties, Key } from "react";
 
 export interface ChartDataItem<K = string> {
   key: K;
@@ -30,25 +28,25 @@ const defaultColors = [
   "#6b7280", // Gray (muted)
 ];
 
-export function HorizontalBarChart<K = string>({
+export function HorizontalBarChart<K extends Key>({
   data,
   title,
-  height = 288,
+  height = 12, // Default bar height matching policies-by-assignee
   showZeroValues = true,
   colors = defaultColors,
   valueFormatter = (value) => `${value}`,
 }: HorizontalBarChartProps<K>) {
-  const [hoveredItem, setHoveredItem] = useState<ChartDataItem<K> | null>(null);
+  // Debug: Log the incoming data
+  useEffect(() => {
+    console.log("HorizontalBarChart - data:", data);
+  }, [data]);
 
   if (!data || data.length === 0) {
-    return <div>No data available</div>;
+    return <div className="h-3 bg-muted">No data available</div>;
   }
 
-  // Sort data by value in descending order
-  const sortedData = [...data].sort((a, b) => b.value - a.value);
-
   // Assign colors if not provided
-  const chartData = sortedData.map((item, index) => {
+  const chartData = data.map((item, index) => {
     // For single color arrays, use that color for all bars
     const color =
       colors.length === 1
@@ -66,170 +64,89 @@ export function HorizontalBarChart<K = string>({
     ? chartData
     : chartData.filter((d) => d.value > 0);
 
-  // Scales
-  const yScale = scaleBand()
-    .domain(filteredData.map((d) => d.label))
-    .range([0, 100])
-    .padding(0.175);
+  // Debug: Log the filtered data
+  useEffect(() => {
+    console.log("HorizontalBarChart - filteredData:", filteredData);
+  }, [filteredData]);
 
-  const xScale = scaleLinear()
-    .domain([0, max(filteredData.map((d) => d.value)) ?? 0])
-    .range([0, 100]);
+  // Calculate the total value for percentage calculations
+  const totalValue = filteredData.reduce((sum, item) => sum + item.value, 0);
 
-  const longestWord = max(filteredData.map((d) => d.label.length)) || 1;
+  if (totalValue === 0) {
+    return <div className="h-3 bg-muted" />;
+  }
+
+  const barHeight = height;
+  let cumulativePercentage = 0;
+  const cornerRadius = 0; // No rounded corners in the policies-by-assignee chart
 
   return (
     <div className="space-y-4">
       {title && <h3 className="text-lg font-medium">{title}</h3>}
+
       <div
-        className="relative w-full"
-        style={{
-          height: `${height}px`,
-          ...({
-            "--marginTop": "20px",
-            "--marginRight": "8px",
-            "--marginBottom": "25px",
-            "--marginLeft": `${longestWord * 7}px`,
-          } as CSSProperties),
-        }}
+        className="relative h-[var(--height)]"
+        style={
+          {
+            "--marginTop": "0px",
+            "--marginRight": "0px",
+            "--marginBottom": "0px",
+            "--marginLeft": "0px",
+            "--height": `${barHeight}px`,
+          } as CSSProperties
+        }
       >
-        {/* Chart Area */}
         <div
           className="absolute inset-0
-            z-10
             h-[calc(100%-var(--marginTop)-var(--marginBottom))]
             w-[calc(100%-var(--marginLeft)-var(--marginRight))]
             translate-x-[var(--marginLeft)]
             translate-y-[var(--marginTop)]
             overflow-visible"
         >
-          {/* Bars with Rounded Right Corners */}
-          {filteredData.map((d, index) => {
-            const barWidth = xScale(d.value);
-            const barHeight = yScale.bandwidth();
-            const barTop = yScale(d.label) || 0;
-            const isHovered = hoveredItem?.key === d.key;
+          {filteredData.map((d) => {
+            const percentage = (d.value / totalValue) * 100;
+            const xPosition = cumulativePercentage;
+            cumulativePercentage += percentage;
 
             return (
-              <AnimatedBar key={`bar-${String(d.key)}`} index={index}>
+              <div
+                key={d.key}
+                className="relative"
+                style={{
+                  width: `${percentage}%`,
+                  height: `${barHeight}px`,
+                  left: `${xPosition}%`,
+                  position: "absolute",
+                }}
+              >
                 <div
                   style={{
-                    position: "absolute",
-                    left: "0",
-                    top: `${barTop}%`,
-                    width: `${Math.max(barWidth, 5)}%`,
-                    height: `${barHeight}%`,
+                    width: "100%",
+                    height: "100%",
                     backgroundColor: d.color,
-                    borderRadius: "0 6px 6px 0", // Rounded right corners
                   }}
-                  onMouseEnter={() => setHoveredItem(d)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                >
-                  {/* Tooltip */}
-                  {isHovered && (
-                    <div
-                      className="absolute z-[9999] px-3 py-2 text-sm font-medium text-white bg-black/90 rounded shadow-md pointer-events-none whitespace-nowrap"
-                      style={{
-                        left: "50%",
-                        bottom: "calc(100% + 8px)",
-                        transform: "translateX(-50%)",
-                      }}
-                    >
-                      <div className="flex flex-col items-center">
-                        <span className="font-semibold">{d.label}</span>
-                        <span>{valueFormatter(d.value)}</span>
-                      </div>
-                      <div
-                        className="absolute w-2 h-2 bg-black/90 rotate-45"
-                        style={{
-                          bottom: "-4px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </AnimatedBar>
+                  title={`${d.label}: ${valueFormatter(d.value)}`}
+                />
+              </div>
             );
           })}
-
-          {/* Grid lines */}
-          <svg
-            className="h-full w-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            {xScale.ticks(4).map((value) => (
-              <g
-                key={`grid-line-${value}`}
-                transform={`translate(${xScale(value)},0)`}
-                className="text-gray-300/80 dark:text-gray-800/80"
-              >
-                <line
-                  y1={0}
-                  y2={100}
-                  stroke="currentColor"
-                  strokeDasharray="6,5"
-                  strokeWidth={0.5}
-                  vectorEffect="non-scaling-stroke"
-                />
-              </g>
-            ))}
-          </svg>
         </div>
+      </div>
 
-        {/* Y Axis (Labels) */}
-        <svg
-          className="absolute inset-0
-            h-[calc(100%-var(--marginTop)-var(--marginBottom))]
-            translate-y-[var(--marginTop)]
-            overflow-visible"
-        >
-          <g className="translate-x-[calc(var(--marginLeft)-8px)]">
-            {filteredData.map((entry, i) => (
-              <text
-                key={`y-axis-${String(entry.key)}`}
-                x="0"
-                y={`${yScale(entry.label)! + yScale.bandwidth() / 2}%`}
-                dy=".35em"
-                textAnchor="end"
-                fill="currentColor"
-                className="text-xs text-zinc-400"
-              >
-                {entry.label}
-                {entry.value === 0 && showZeroValues && (
-                  <tspan className="text-zinc-400/70"> (0)</tspan>
-                )}
-              </text>
-            ))}
-          </g>
-        </svg>
-
-        {/* X Axis (Values) */}
-        <svg
-          className="absolute inset-0
-            w-[calc(100%-var(--marginLeft)-var(--marginRight))]
-            translate-x-[var(--marginLeft)]
-            h-[calc(100%-var(--marginBottom))]
-            translate-y-4
-            overflow-visible"
-        >
-          <g className="overflow-visible">
-            {xScale.ticks(4).map((value, i) => (
-              <text
-                key={`x-axis-${value}`}
-                x={`${xScale(value)}%`}
-                y="100%"
-                textAnchor="middle"
-                fill="currentColor"
-                className="text-xs tabular-nums text-gray-400"
-              >
-                {value}
-              </text>
-            ))}
-          </g>
-        </svg>
+      {/* Legend */}
+      <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mt-2">
+        {filteredData.map((item) => (
+          <div
+            key={`legend-${String(item.key)}`}
+            className="flex items-center gap-1"
+          >
+            <div className="size-2" style={{ backgroundColor: item.color }} />
+            <span>
+              {item.label} ({valueFormatter(item.value)})
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

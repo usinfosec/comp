@@ -306,6 +306,7 @@ const createOrganizationEvidence = async (
       description: evidence.description,
       frequency: evidence.frequency,
       frameworkId: evidence.control.frameworkCategory?.framework.id || "",
+      assigneeId: user.id,
     })),
   });
 

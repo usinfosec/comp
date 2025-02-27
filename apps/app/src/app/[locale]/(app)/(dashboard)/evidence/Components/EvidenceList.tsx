@@ -16,11 +16,6 @@ export function EvidenceList() {
   const t = useI18n();
   const { evidenceTasks = [], isLoading, error } = useEvidenceTable();
 
-  // Add more detailed logging to help debug
-  console.log("EvidenceList - evidenceTasks:", evidenceTasks);
-  console.log("EvidenceList - isLoading:", isLoading);
-  console.log("EvidenceList - error:", error);
-
   if (error) return <div>Error: {error.message}</div>;
 
   return (
