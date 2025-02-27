@@ -149,7 +149,7 @@ export default {
     },
     edit: "Edit",
     errors: {
-      unexpected_error: "An unexpected error occurred"
+      unexpected_error: "An unexpected error occurred",
     },
     description: "Description",
     last_updated: "Last Updated",
@@ -191,6 +191,11 @@ export default {
     people: "People",
   },
   sub_pages: {
+    evidence: {
+      title: "Evidence",
+      list: "Evidence List",
+      overview: "Evidence Overview",
+    },
     risk: {
       overview: "Risk Management",
       register: "Risk Register",
@@ -203,7 +208,7 @@ export default {
     policies: {
       all: "All Policies",
       editor: "Policy Editor",
-      policy_details: "Policy Details"
+      policy_details: "Policy Details",
     },
     people: {
       all: "People",
@@ -318,7 +323,7 @@ export default {
     save: "Save",
     saving: "Saving...",
     saved_success: "Policy saved successfully",
-    saved_error: "Failed to save policy"
+    saved_error: "Failed to save policy",
   },
   evidence_tasks: {
     evidence_tasks: "Evidence Tasks",
@@ -761,5 +766,7 @@ export default {
     title: "Evidence Tasks",
     description:
       "Manage and track evidence tasks for your compliance requirements.",
+    dashboard: "Dashboard",
+    list: "All Evidence",
   },
 } as const;

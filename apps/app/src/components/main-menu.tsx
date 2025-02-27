@@ -29,6 +29,7 @@ const icons = {
   "/integrations": () => <Icons.Apps size={22} />,
   "/people": () => <Icons.Peolple size={22} />,
   "/evidence": () => <Icons.Evidence size={22} />,
+  "/evidence/overview": () => <Icons.Evidence size={22} />,
 };
 
 interface ItemProps {
@@ -175,7 +176,7 @@ export function MainMenu({ initialItems, onSelect }: Props) {
       disabled: false,
     },
     {
-      path: "/evidence",
+      path: "/evidence/overview",
       name: t("sidebar.evidence"),
       disabled: false,
     },
