@@ -721,6 +721,11 @@ export default {
     },
     frameworks: {
       overview: "Estruturas"
+    },
+    evidence: {
+      title: "Evidência",
+      list: "Lista de Evidências",
+      overview: "Visão Geral das Evidências"
     }
   },
   editor: {
@@ -744,6 +749,8 @@ export default {
   },
   evidence: {
     title: "Tarefas de Evidência",
-    description: "Gerencie e acompanhe as tarefas de evidência para seus requisitos de conformidade."
+    description: "Gerencie e acompanhe as tarefas de evidência para seus requisitos de conformidade.",
+    dashboard: "Painel",
+    list: "Todas as Evidências"
   }
 } as const;

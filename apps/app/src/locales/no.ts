@@ -721,6 +721,11 @@ export default {
     },
     frameworks: {
       overview: "Rammeverk"
+    },
+    evidence: {
+      title: "Bevis",
+      list: "Bevisliste",
+      overview: "Oversikt over Bevis"
     }
   },
   editor: {
@@ -744,6 +749,8 @@ export default {
   },
   evidence: {
     title: "Bevisoppgaver",
-    description: "Administrer og spor bevisoppgaver for dine samsvarsbehov."
+    description: "Administrer og spor bevisoppgaver for dine samsvarsbehov.",
+    dashboard: "Dashbord",
+    list: "Alle Bevis"
   }
 } as const;

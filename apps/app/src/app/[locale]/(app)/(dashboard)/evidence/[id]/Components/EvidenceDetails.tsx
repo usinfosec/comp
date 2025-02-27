@@ -1,26 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@bubba/ui/button";
-import { ArrowLeft, CheckCircle2, MoreVertical, XCircle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
-import { FileSection } from "./FileSection";
-import { UrlSection } from "./UrlSection";
-import { ReviewSection } from "./ReviewSection";
-import { publishEvidence } from "../Actions/publishEvidence";
+import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "sonner";
+import { publishEvidence } from "../Actions/publishEvidence";
+import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 import type { EvidenceDetailsProps } from "../types";
-import { toggleRelevance } from "../Actions/toggleRelevance";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+import { FileSection } from "./FileSection";
+import { ReviewSection } from "./ReviewSection";
+import { UrlSection } from "./UrlSection";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
   const router = useRouter();
@@ -29,7 +22,7 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
   const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
     onSuccess: () => {
       toast.success("Evidence published successfully");
-      mutate();
+      handleMutate();
     },
     onError: () => {
       toast.error("Failed to publish evidence, please try again.");

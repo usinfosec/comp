@@ -157,6 +157,7 @@ model Framework {
   OrganizationCategory  OrganizationCategory[]
   OrganizationFramework OrganizationFramework[]
   PolicyFramework       PolicyFramework[]
+  OrganizationEvidence  OrganizationEvidence[]
 
   @@index([id])
 }
@@ -703,16 +704,17 @@ model ControlRequirement {
 }
 
 model OrganizationControlRequirement {
-  id                     String                @id @default(cuid())
-  organizationControlId  String
-  controlRequirementId   String
-  content                Json?
-  createdAt              DateTime              @default(now())
-  description            String?
-  fileUrl                String?
-  published              Boolean               @default(false)
-  type                   RequirementType
-  updatedAt              DateTime              @updatedAt
+  id                    String          @id @default(cuid())
+  organizationControlId String
+  controlRequirementId  String
+  content               Json?
+  createdAt             DateTime        @default(now())
+  description           String?
+  fileUrl               String?
+  published             Boolean         @default(false)
+  type                  RequirementType
+  updatedAt             DateTime        @updatedAt
+
   organizationPolicyId   String?
   organizationEvidenceId String?
   controlRequirement     ControlRequirement    @relation(fields: [controlRequirementId], references: [id], onDelete: Cascade)
@@ -769,21 +771,25 @@ model Evidence {
 }
 
 model OrganizationEvidence {
-  id                             String                           @id @unique @default(cuid())
-  name                           String
-  description                    String?
-  createdAt                      DateTime                         @default(now())
-  updatedAt                      DateTime                         @updatedAt
-  published                      Boolean                          @default(false)
-  organizationId                 String
-  additionalUrls                 String[]
-  evidenceId                     String
-  fileUrls                       String[]
-  frequency                      Frequency?
-  lastPublishedAt                DateTime?
-  assigneeId                     String?
-  department                     Departments?                     @default(none)
-  isNotRelevant                  Boolean                          @default(false)
+  id              String       @id @unique @default(cuid())
+  name            String
+  description     String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  published       Boolean      @default(false)
+  organizationId  String
+  additionalUrls  String[]
+  evidenceId      String
+  fileUrls        String[]
+  frequency       Frequency?
+  lastPublishedAt DateTime?
+  assigneeId      String?
+  department      Departments? @default(none)
+  isNotRelevant   Boolean      @default(false)
+
+  frameworkId String
+  framework   Framework @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+
   OrganizationControlRequirement OrganizationControlRequirement[]
   assignee                       User?                            @relation(fields: [assigneeId], references: [id])
   evidence                       Evidence                         @relation(fields: [evidenceId], references: [id], onDelete: Cascade)

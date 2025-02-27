@@ -1,10 +1,5 @@
-import { EvidenceList } from "./Components/EvidenceList";
-import { EvidenceTableProvider } from "./hooks/useEvidenceTableContext";
+import { redirect } from "next/navigation";
 
 export default function EvidencePage() {
-  return (
-    <EvidenceTableProvider>
-      <EvidenceList />
-    </EvidenceTableProvider>
-  );
+  redirect("/evidence/overview");
 }
