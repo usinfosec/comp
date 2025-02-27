@@ -5,9 +5,9 @@ import LogoHeader from "./logo-header";
 
 export function MainNav() {
   return (
-    <div className="mr-4 flex">
+    <div className="flex mt-8">
       <Link href="/" className="flex items-center gap-2">
-        <LogoHeader className="w-24 h-24" />
+        <LogoHeader className="w-48" />
       </Link>
     </div>
   );

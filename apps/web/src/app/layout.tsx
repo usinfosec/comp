@@ -35,7 +35,7 @@ export default function RootLayout({
           `${GeistMono.variable} ${font.variable}`,
         )}
       >
-        <Providers attribute="class" defaultTheme="system" enableSystem>
+        <Providers attribute="class" defaultTheme="dark">
           <div className="flex min-h-svh flex-col">
             <main className="flex-1">{children}</main>
             <Toaster richColors />

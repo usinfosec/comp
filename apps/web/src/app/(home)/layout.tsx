@@ -9,8 +9,7 @@ export default function RootLayout({
   return (
     <div className="min-h-svh flex flex-col">
       <SiteHeader />
-      <main className="flex-1 overflow-y-auto">{children}</main>
-      <SiteFooter />
+      <main className="flex-1 overflow-y-auto w-full">{children}</main>
     </div>
   );
 }

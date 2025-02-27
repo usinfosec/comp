@@ -75,8 +75,6 @@ export const updatePolicy = authActionClient
         };
       }
 
-      console.log("Updating policy with data:", JSON.stringify(updateData));
-
       const updatedPolicy = await db.organizationPolicy.update({
         where: {
           id: policyId,
@@ -87,11 +85,6 @@ export const updatePolicy = authActionClient
           status: true,
         },
       });
-
-      revalidatePath(`/policies/${policyId}`);
-      revalidatePath("/policies");
-      revalidatePath(`/[locale]/policies/${policyId}`);
-      revalidatePath("/[locale]/policies");
 
       return {
         success: true,

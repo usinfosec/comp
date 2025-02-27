@@ -14,20 +14,16 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
 export function WaitlistForm() {
-  const [isSent, setSent] = useState(false);
   const router = useRouter();
 
   const waitlistAction = useAction(joinWaitlist, {
     onSuccess: async () => {
-      setSent(true);
       toast.success("Thanks, you're on the list!");
       await router.push("/success");
     },
@@ -51,16 +47,6 @@ export function WaitlistForm() {
     });
   };
 
-  if (isSent) {
-    return (
-      <div className="flex flex-col items-center space-y-4 p-4 rounded-lg">
-        <p className="text-md mt-2 text-center">
-          You're on the list! We'll be in touch soon!
-        </p>
-      </div>
-    );
-  }
-
   return (
     <Form {...form}>
       <form
@@ -77,10 +63,11 @@ export function WaitlistForm() {
                   {...field}
                   type="email"
                   placeholder="Enter your work email"
-                  className="text-base"
+                  className="text-base h-12"
                   autoComplete="email"
                   autoCorrect="off"
                   aria-label="Email address"
+                  required
                 />
               </FormControl>
               <FormMessage />
@@ -92,11 +79,12 @@ export function WaitlistForm() {
           type="submit"
           variant="action"
           disabled={waitlistAction.isExecuting}
+          className="h-12"
         >
           {waitlistAction.isExecuting ? (
             <span className="flex items-center gap-2">
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Joining...
+              Please wait...
             </span>
           ) : (
             <span className="flex items-center gap-2">
