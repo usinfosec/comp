@@ -721,6 +721,11 @@ export default {
     },
     frameworks: {
       overview: "Marcos"
+    },
+    evidence: {
+      title: "Evidencia",
+      list: "Lista de Evidencias",
+      overview: "Resumen de Evidencias"
     }
   },
   editor: {
@@ -744,6 +749,8 @@ export default {
   },
   evidence: {
     title: "Tareas de Evidencia",
-    description: "Gestiona y rastrea las tareas de evidencia para tus requisitos de cumplimiento."
+    description: "Gestiona y rastrea las tareas de evidencia para tus requisitos de cumplimiento.",
+    dashboard: "Tablero",
+    list: "Todas las Evidencias"
   }
 } as const;
