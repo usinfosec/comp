@@ -248,7 +248,11 @@ export default {
       all: "Todas las Políticas",
       policy_status: "Estado de la Política",
       policies_by_assignee: "Políticas por Asignado",
-      policies_by_framework: "Políticas por Marco"
+      policies_by_framework: "Políticas por Marco",
+      sub_pages: {
+        overview: "Descripción general",
+        edit_policy: "Editar política"
+      }
     },
     table: {
       name: "Nombre de la Política",

@@ -248,7 +248,11 @@ export default {
       all: "Alle retningslinjer",
       policy_status: "Retningslinjestatus",
       policies_by_assignee: "Retningslinjer etter tildelt",
-      policies_by_framework: "Retningslinjer etter rammeverk"
+      policies_by_framework: "Retningslinjer etter rammeverk",
+      sub_pages: {
+        overview: "Oversikt",
+        edit_policy: "Rediger policy"
+      }
     },
     table: {
       name: "Retningslinjenavn",

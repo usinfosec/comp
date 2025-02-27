@@ -31,15 +31,17 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <div className="max-w-[1200px] space-y-4 m-auto">
-      <Title title={policy.policy.name} href="/policies" />
-
       <SecondaryMenu
-        isChild
+        showBackButton
+        backButtonHref="/policies/all"
         items={[
-          { path: `/policies/${policyId.policyId}`, label: "Overview" },
           {
-            path: `/policies/${policyId.policyId}/editor`,
-            label: "Edit Policy",
+            path: `/policies/all/${policyId.policyId}`,
+            label: t("policies.dashboard.sub_pages.overview"),
+          },
+          {
+            path: `/policies/all/${policyId.policyId}/editor`,
+            label: t("policies.dashboard.sub_pages.edit_policy"),
           },
         ]}
       />

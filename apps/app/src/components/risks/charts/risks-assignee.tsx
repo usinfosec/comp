@@ -7,52 +7,50 @@ interface Props {
   organizationId: string;
 }
 
-interface UserPolicyStats {
+interface UserRiskStats {
   user: {
     id: string;
     name: string | null;
     image: string | null;
   };
-  totalPolicies: number | undefined;
-  publishedPolicies: number | undefined;
-  draftPolicies: number | undefined;
-  archivedPolicies: number | undefined;
+  totalRisks: number;
+  openRisks: number;
+  pendingRisks: number;
+  closedRisks: number;
+  archivedRisks: number;
 }
 
-const policyStatus = {
-  published: "bg-primary",
-  draft: "bg-[#ffc107]",
-  archived: "bg-[#0ea5e9]",
+const riskStatusColors = {
+  open: "bg-[#ffc107]",
+  pending: "bg-[#0ea5e9]",
+  closed: "bg-primary",
+  archived: "bg-[#64748b]",
 };
 
-export async function PoliciesByAssignee({ organizationId }: Props) {
+export async function RisksAssignee({ organizationId }: Props) {
   const t = await getI18n();
   const userStats = await userData(organizationId);
 
-  const stats: UserPolicyStats[] = userStats.map((user) => ({
+  const stats: UserRiskStats[] = userStats.map((user) => ({
     user: {
       id: user.id,
       name: user.name,
       image: user.image,
     },
-    totalPolicies: user.organization?.OrganizationPolicy.length,
-    publishedPolicies: user.organization?.OrganizationPolicy.filter(
-      (policy) => policy.status === "published",
-    ).length,
-    draftPolicies: user.organization?.OrganizationPolicy.filter(
-      (policy) => policy.status === "draft",
-    ).length,
-    archivedPolicies: user.organization?.OrganizationPolicy.filter(
-      (policy) => policy.status === "archived",
-    ).length,
+    totalRisks: user.Risk.length,
+    openRisks: user.Risk.filter((risk) => risk.status === "open").length,
+    pendingRisks: user.Risk.filter((risk) => risk.status === "pending").length,
+    closedRisks: user.Risk.filter((risk) => risk.status === "closed").length,
+    archivedRisks: user.Risk.filter((risk) => risk.status === "archived")
+      .length,
   }));
 
-  stats.sort((a, b) => (b.totalPolicies ?? 0) - (a.totalPolicies ?? 0));
+  stats.sort((a, b) => b.totalRisks - a.totalRisks);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("policies.dashboard.policies_by_assignee")}</CardTitle>
+        <CardTitle>{t("risk.dashboard.risks_by_assignee")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-8">
@@ -61,7 +59,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
               <div className="flex justify-between items-center">
                 <p className="text-sm">{stat.user.name || "Unknown User"}</p>
                 <span className="text-sm text-muted-foreground">
-                  {stat.totalPolicies} {t("policies.policies")}
+                  {stat.totalRisks} {t("risk.risks")}
                 </span>
               </div>
 
@@ -69,21 +67,28 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 
               <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <div className="size-2 bg-primary" />
+                  <div className="size-2  bg-yellow-400" />
                   <span>
-                    {t("common.status.published")} ({stat.publishedPolicies})
+                    {t("common.status.open")} ({stat.openRisks})
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2 bg-[#ffc107]" />
+                  <div className="size-2  bg-blue-400" />
                   <span>
-                    {t("common.status.draft")} ({stat.draftPolicies})
+                    {t("common.status.pending")} ({stat.pendingRisks})
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2 bg-[#0ea5e9]" />
+                  <div className="size-2  bg-primary" />
                   <span>
-                    {t("common.status.archived")} ({stat.archivedPolicies})
+                    {t("common.status.closed")} ({stat.closedRisks})
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <div className="size-2  bg-gray-400" />
+                  <span>
+                    {t("common.status.archived")} ({stat.archivedRisks})
                   </span>
                 </div>
               </div>
@@ -95,34 +100,44 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
   );
 }
 
-function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
+function RiskBarChart({ stat, t }: { stat: UserRiskStats; t: any }) {
   const data = [
-    ...(stat.publishedPolicies && stat.publishedPolicies > 0
+    ...(stat.openRisks > 0
       ? [
           {
-            key: "published",
-            value: stat.publishedPolicies,
-            color: policyStatus.published,
-            label: t("common.status.published"),
+            key: "open",
+            value: stat.openRisks,
+            color: riskStatusColors.open,
+            label: t("common.status.open"),
           },
         ]
       : []),
-    ...(stat.draftPolicies && stat.draftPolicies > 0
+    ...(stat.pendingRisks > 0
       ? [
           {
-            key: "draft",
-            value: stat.draftPolicies,
-            color: policyStatus.draft,
-            label: t("common.status.draft"),
+            key: "pending",
+            value: stat.pendingRisks,
+            color: riskStatusColors.pending,
+            label: t("common.status.pending"),
           },
         ]
       : []),
-    ...(stat.archivedPolicies && stat.archivedPolicies > 0
+    ...(stat.closedRisks > 0
+      ? [
+          {
+            key: "closed",
+            value: stat.closedRisks,
+            color: riskStatusColors.closed,
+            label: t("common.status.closed"),
+          },
+        ]
+      : []),
+    ...(stat.archivedRisks > 0
       ? [
           {
             key: "archived",
-            value: stat.archivedPolicies,
-            color: policyStatus.archived,
+            value: stat.archivedRisks,
+            color: riskStatusColors.archived,
             label: t("common.status.archived"),
           },
         ]
@@ -130,7 +145,7 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
   ];
 
   const gap = 0.3;
-  const totalValue = stat.totalPolicies ?? 0;
+  const totalValue = stat.totalRisks;
   const barHeight = 12;
   const totalWidth = totalValue + gap * (data.length - 1);
   let cumulativeWidth = 0;
@@ -199,18 +214,17 @@ async function userData(organizationId: string) {
   return await db.user.findMany({
     where: {
       organizationId,
+      Risk: {
+        some: {},
+      },
     },
     select: {
       id: true,
       name: true,
       image: true,
-      organization: {
+      Risk: {
         select: {
-          OrganizationPolicy: {
-            select: {
-              status: true,
-            },
-          },
+          status: true,
         },
       },
     },
