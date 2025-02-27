@@ -32,7 +32,7 @@ export function columns(): ColumnDef<PolicyType>[] {
         return (
           <div className="flex flex-col gap-1">
             <Button variant="link" className="p-0 justify-start" asChild>
-              <Link href={`/policies/${id}`}>
+              <Link href={`/policies/all/${id}`}>
                 <span className="truncate">{name}</span>
               </Link>
             </Button>

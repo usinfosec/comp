@@ -284,6 +284,10 @@ export default {
       policy_status: "Policy Status",
       policies_by_assignee: "Policies by Assignee",
       policies_by_framework: "Policies by Framework",
+      sub_pages: {
+        overview: "Overview",
+        edit_policy: "Edit Policy",
+      },
     },
     table: {
       name: "Policy Name",
