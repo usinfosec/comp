@@ -721,6 +721,11 @@ export default {
     },
     frameworks: {
       overview: "Cadres"
+    },
+    evidence: {
+      title: "Preuve",
+      list: "Liste des preuves",
+      overview: "Aperçu des preuves"
     }
   },
   editor: {
@@ -744,6 +749,8 @@ export default {
   },
   evidence: {
     title: "Tâches de preuve",
-    description: "Gérez et suivez les tâches de preuve pour vos exigences de conformité."
+    description: "Gérez et suivez les tâches de preuve pour vos exigences de conformité.",
+    dashboard: "Tableau de bord",
+    list: "Toutes les preuves"
   }
 } as const;
