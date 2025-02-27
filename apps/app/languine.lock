@@ -183,6 +183,8 @@ files:
     policies.dashboard.policy_status: 52786fa7ae1ab7c63781647461d378ae
     policies.dashboard.policies_by_assignee: 78a5313bf44384663f9ddf1253a26d02
     policies.dashboard.policies_by_framework: b6c2212b46c6baa166b653aae7d5b014
+    policies.dashboard.sub_pages.overview: 3b878279a04dc47d60932cb294d96259
+    policies.dashboard.sub_pages.edit_policy: 49f0aa41a6a6350d9888573e1435281d
     policies.table.name: 002f7378a5fcfc2f66cfea851a7fd5f4
     policies.table.statuses.draft: f03ab16cd58372c77ba45a3d9a5a1cb9
     policies.table.statuses.published: 9b9d8a976b42e0bd66381797644943d5
