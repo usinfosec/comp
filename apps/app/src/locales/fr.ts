@@ -248,7 +248,11 @@ export default {
       all: "Toutes les politiques",
       policy_status: "État de la politique",
       policies_by_assignee: "Politiques par responsable",
-      policies_by_framework: "Politiques par cadre"
+      policies_by_framework: "Politiques par cadre",
+      sub_pages: {
+        overview: "Aperçu",
+        edit_policy: "Modifier la politique"
+      }
     },
     table: {
       name: "Nom de la politique",
