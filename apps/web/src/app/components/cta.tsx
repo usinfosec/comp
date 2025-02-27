@@ -5,9 +5,7 @@ import { Badge } from "@bubba/ui/badge";
 export default function CTA() {
   return (
     <div className="relative overflow-hidden bg-background py-24">
-      {/* Background elements - with pointer-events-none to prevent click interference */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        {/* Base gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background/40" />
         <div className="absolute inset-0 diagonal-gradient z-1" />
 

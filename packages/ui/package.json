@@ -90,7 +90,8 @@
     "./empty-card": "./src/components/empty-card.tsx",
     "./text-editor": "./src/text-editor.css",
     "./prosemirror": "./src/prosemirror.css",
-    "./editor.css": "./src/editor.css"
+    "./editor.css": "./src/editor.css",
+    "./chart-tooltip": "./src/components/chart-tooltip.tsx"
   },
   "dependencies": {
     "@mui/icons-material": "^6.1.6",

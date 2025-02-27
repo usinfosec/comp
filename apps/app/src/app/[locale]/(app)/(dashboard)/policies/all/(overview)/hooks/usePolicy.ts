@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import { getPolicyDetails } from "../../[policyId]/editor/actions/get-policy-details";
 import { updatePolicy } from "../../[policyId]/editor/actions/update-policy";
-import type { AppError, PolicyDetails, UpdatePolicyInput } from "../../[policyId]/editor/types";
+import type { AppError, PolicyDetails } from "../../[policyId]/editor/types";
 
 interface ContentNode {
   type: string;

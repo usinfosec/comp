@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { RiskOverview } from "@/components/risks/charts/risk-overview";
+import { RisksAssignee } from "@/components/risks/charts/risks-assignee";
 import { RisksByAssignee } from "@/components/risks/charts/risks-by-assignee";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
@@ -38,7 +39,7 @@ export default async function RiskManagement({
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <RisksByAssignee organizationId={session.user.organizationId} />
+        <RisksAssignee organizationId={session.user.organizationId} />
       </div>
     </div>
   );

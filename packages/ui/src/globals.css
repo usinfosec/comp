@@ -34,6 +34,11 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
+    --chart-closed: #00DC73;
+    --chart-pending: #0BA5E9;
+    --chart-open: #FFC007;
+    --chart-archived: #64748B;
+
     /* Keeping the novel-highlight colors as they were */
     --novel-highlight-default: #ffffff;
     --novel-highlight-purple: #f6f3f8;
@@ -67,14 +72,11 @@
     --input: 225 2% 36%;
     --ring: 151 100% 43%;
 
-    /* Keeping the success/warning/chart colors as they were */
-    --success: 142 76% 36%;
-    --warning: 45 89% 53%;
-    --chart-1: 359 2% 90%;
-    --chart-2: 240 1% 74%;
-    --chart-3: 240 1% 58%;
-    --chart-4: 240 1% 42%;
-    --chart-5: 240 2% 26%;
+    --chart-1: #2662d9;
+    --chart-2: #00DC73;
+    --chart-3: #FFC007;
+    --chart-4: ##af57db;
+    --chart-5: ##e23670;
 
     /* Keeping the novel-highlight colors as they were */
     --novel-highlight-default: #000000;
@@ -86,6 +88,11 @@
     --novel-highlight-orange: #5c3a1a;
     --novel-highlight-pink: #5c1a3a;
     --novel-highlight-gray: #3a3a3a;
+
+    --chart-closed: #00DC73;
+    --chart-pending: #0BA5E9;
+    --chart-open: #FFC007;
+    --chart-archived: #64748B;
   }
 
 @layer components {

@@ -2,13 +2,9 @@
 
 import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@bubba/ui/chart";
-import { Cell, Pie, PieChart } from "recharts";
+import type { ChartConfig } from "@bubba/ui/chart";
+import { ChartTooltip } from "@bubba/ui/chart";
+import { DonutChart } from "./donut-chart";
 
 interface StatusChartProps {
   data: Array<{
@@ -20,23 +16,22 @@ interface StatusChartProps {
 export function StatusChart({ data }: StatusChartProps) {
   const t = useI18n();
 
-  // Map status keys to their translations
   const config: ChartConfig = {
     open: {
       label: t("common.status.open"),
-      color: "hsl(var(--chart-1))",
+      color: "var(--chart-open)",
     },
     pending: {
       label: t("common.status.pending"),
-      color: "hsl(var(--chart-2))",
+      color: "var(--chart-pending)",
     },
     closed: {
       label: t("common.status.closed"),
-      color: "hsl(var(--chart-3))",
+      color: "var(--chart-closed)",
     },
     archived: {
       label: t("common.status.archived"),
-      color: "hsl(var(--chart-4))",
+      color: "var(--chart-archived)",
     },
   } satisfies ChartConfig;
 
@@ -55,13 +50,14 @@ export function StatusChart({ data }: StatusChartProps) {
   // Filter out zero values from the formatted data
   const formattedData = Object.entries(defaultData)
     .map(([key]) => ({
-      name: config[key as keyof typeof config].label,
+      name: config[key as keyof typeof config].label as string,
       value: dataMap[key] ?? 0,
       status: key,
     }))
     .filter((item) => item.value > 0);
 
-  // If all values are 0, show a message or empty state
+  const colors = Object.values(config).map((item) => item.color as string);
+
   if (formattedData.length === 0) {
     return (
       <Card>
@@ -81,57 +77,7 @@ export function StatusChart({ data }: StatusChartProps) {
         <CardTitle>{t("risk.dashboard.risk_status")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={config}>
-          <PieChart
-            margin={{
-              top: 20,
-              right: 80,
-              bottom: 20,
-              left: 80,
-            }}
-            width={400}
-            height={300}
-          >
-            <Pie
-              data={formattedData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius={50}
-              outerRadius={70}
-              paddingAngle={4}
-              label={({ name, value, x, y, cx, cy }) => (
-                <text
-                  x={x}
-                  y={y}
-                  dy={y > cy ? 15 : -5}
-                  fill="currentColor"
-                  textAnchor={x > cx ? "start" : "end"}
-                  className="text-xs"
-                  dx={x > cx ? 5 : -5}
-                >
-                  {`${name}: ${value}`}
-                </text>
-              )}
-              labelLine={{
-                strokeWidth: 1,
-              }}
-            >
-              {formattedData.map((entry) => (
-                <Cell
-                  key={entry.status}
-                  fill={config[entry.status as keyof typeof config].color}
-                  radius={8}
-                />
-              ))}
-            </Pie>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-          </PieChart>
-        </ChartContainer>
+        <DonutChart data={formattedData} colors={colors} />
       </CardContent>
     </Card>
   );
