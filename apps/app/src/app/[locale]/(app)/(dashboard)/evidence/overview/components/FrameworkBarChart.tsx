@@ -100,7 +100,7 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
 
       return {
         id: frameworkId,
-        name: `Framework ${frameworkId}`,
+        name: `${frameworkId}`,
         totalItems: items.length,
         items,
         statusCounts,
