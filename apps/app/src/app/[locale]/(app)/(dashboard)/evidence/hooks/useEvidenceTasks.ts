@@ -42,7 +42,7 @@ async function fetchEvidenceTasks(props: UseOrganizationEvidenceTasksProps) {
 
     if (result.validationErrors) {
       throw new Error(
-        result.validationErrors._errors?.join(", ") ?? "Unknown error"
+        result.validationErrors._errors?.join(", ") ?? "Unknown error",
       );
     }
 
@@ -58,7 +58,7 @@ async function fetchEvidenceTasks(props: UseOrganizationEvidenceTasksProps) {
 }
 
 export function useOrganizationEvidenceTasks(
-  props: UseOrganizationEvidenceTasksProps = {}
+  props: UseOrganizationEvidenceTasksProps = {},
 ): UseOrganizationEvidenceTasksResult {
   const {
     search,
@@ -93,7 +93,7 @@ export function useOrganizationEvidenceTasks(
         relevance,
         page,
         pageSize,
-      })
+      }),
   );
 
   console.log("useOrganizationEvidenceTasks data:", data);

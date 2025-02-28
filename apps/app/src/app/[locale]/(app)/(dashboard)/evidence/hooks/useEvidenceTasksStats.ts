@@ -19,7 +19,7 @@ async function fetchEvidenceTasksStats() {
 
     if (result.validationErrors) {
       throw new Error(
-        result.validationErrors._errors?.join(", ") ?? "Unknown error"
+        result.validationErrors._errors?.join(", ") ?? "Unknown error",
       );
     }
 
@@ -37,7 +37,7 @@ export function useEvidenceTasksStats() {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   return {

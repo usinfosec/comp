@@ -27,7 +27,7 @@ export function AssigneeSection({
   onSuccess,
 }: AssigneeSectionProps) {
   const [assigneeId, setAssigneeId] = useState<string | null>(
-    currentAssigneeId || null
+    currentAssigneeId || null,
   );
   const { data: admins, isLoading, error } = useOrganizationAdmins();
   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);

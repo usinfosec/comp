@@ -187,7 +187,7 @@ export const getEvidenceDashboard = authActionClient
           acc[dept] = [];
           return acc;
         },
-        {} as Record<Departments, EvidenceWithStatus[]>
+        {} as Record<Departments, EvidenceWithStatus[]>,
       );
 
       // Group evidence by department

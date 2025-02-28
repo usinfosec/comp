@@ -12,7 +12,7 @@ function generatePoliciesCacheKey(
   status?: string,
   page = 1,
   per_page = 10,
-  sort?: string
+  sort?: string,
 ) {
   return `policies-${organizationId}-${search || ""}-${status || ""}-${page}-${per_page}-${sort || ""}`;
 }
@@ -37,18 +37,18 @@ const getCachedPolicies = unstable_cache(
     const skip = (page - 1) * per_page;
     const [column, order] = sort?.split(":") ?? [];
 
-    let orderByClause: any = { updatedAt: 'desc' };
+    let orderByClause: any = { updatedAt: "desc" };
 
     if (column) {
       if (column === "name") {
         orderByClause = {
           policy: {
-            name: order === "asc" ? "asc" : "desc"
-          }
+            name: order === "asc" ? "asc" : "desc",
+          },
         };
       } else {
         orderByClause = {
-          [column]: order === "asc" ? "asc" : "desc"
+          [column]: order === "asc" ? "asc" : "desc",
         };
       }
     }
@@ -60,13 +60,15 @@ const getCachedPolicies = unstable_cache(
           AND: [
             search
               ? {
-                policy: {
-                  OR: [
-                    { name: { contains: search, mode: "insensitive" } },
-                    { description: { contains: search, mode: "insensitive" } },
-                  ],
-                },
-              }
+                  policy: {
+                    OR: [
+                      { name: { contains: search, mode: "insensitive" } },
+                      {
+                        description: { contains: search, mode: "insensitive" },
+                      },
+                    ],
+                  },
+                }
               : {},
             status ? { status: status as any } : {},
           ],
@@ -95,13 +97,15 @@ const getCachedPolicies = unstable_cache(
           AND: [
             search
               ? {
-                policy: {
-                  OR: [
-                    { name: { contains: search, mode: "insensitive" } },
-                    { description: { contains: search, mode: "insensitive" } },
-                  ],
-                },
-              }
+                  policy: {
+                    OR: [
+                      { name: { contains: search, mode: "insensitive" } },
+                      {
+                        description: { contains: search, mode: "insensitive" },
+                      },
+                    ],
+                  },
+                }
               : {},
             status ? { status: status as any } : {},
           ],
@@ -113,8 +117,8 @@ const getCachedPolicies = unstable_cache(
   },
   ["policies"],
   {
-    tags: ["policies"]
-  }
+    tags: ["policies"],
+  },
 );
 
 export const getPolicies = authActionClient
@@ -144,7 +148,7 @@ export const getPolicies = authActionClient
         status,
         page,
         per_page,
-        sort
+        sort,
       });
 
       return {

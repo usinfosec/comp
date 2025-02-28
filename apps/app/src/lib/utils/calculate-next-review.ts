@@ -10,7 +10,7 @@ interface ReviewInfo {
 export function calculateNextReview(
   lastPublishedAt: Date | null,
   frequency: Frequency | null,
-  urgentThresholdDays = 7
+  urgentThresholdDays = 7,
 ): ReviewInfo | null {
   if (!frequency || !lastPublishedAt) return null;
 

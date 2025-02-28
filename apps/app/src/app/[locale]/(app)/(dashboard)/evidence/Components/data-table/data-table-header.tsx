@@ -26,14 +26,14 @@ export function DataTableHeader({ table }: DataTableHeaderProps) {
                 <div
                   className={cn(
                     "flex items-center overflow-hidden",
-                    header.column.getCanSort() && "cursor-pointer select-none"
+                    header.column.getCanSort() && "cursor-pointer select-none",
                   )}
                   style={{ width: header.getSize() - 32 }}
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   )}
                   {{
                     asc: <ArrowUp className="ml-2 h-4 w-4" />,

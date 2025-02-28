@@ -25,7 +25,7 @@ export function useOrganizationCategories(frameworkId: string) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   return {

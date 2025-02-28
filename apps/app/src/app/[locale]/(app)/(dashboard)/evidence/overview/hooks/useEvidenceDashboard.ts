@@ -40,7 +40,7 @@ export function useEvidenceDashboard() {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   // Debug: Log the data in the hook

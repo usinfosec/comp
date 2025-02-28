@@ -14,12 +14,10 @@ interface ContentNode {
   [key: string]: any;
 }
 
-async function fetchPolicyDetails(
-  policyId: string
-): Promise<PolicyDetails> {
+async function fetchPolicyDetails(policyId: string): Promise<PolicyDetails> {
   const result = await getPolicyDetails({
     policyId,
-    _cache: Date.now()
+    _cache: Date.now(),
   });
 
   if (!result) {
@@ -49,8 +47,8 @@ export function usePolicyDetails(policyId: string) {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       revalidateIfStale: true,
-      dedupingInterval: 0
-    }
+      dedupingInterval: 0,
+    },
   );
 
   const updatePolicyContent = async (updateData: Partial<PolicyDetails>) => {
@@ -69,7 +67,7 @@ export function usePolicyDetails(policyId: string) {
       await mutate(fetchPolicyDetails(policyId), {
         revalidate: true,
         populateCache: true,
-        rollbackOnError: false
+        rollbackOnError: false,
       });
 
       return true;
@@ -84,7 +82,7 @@ export function usePolicyDetails(policyId: string) {
     isLoading,
     error,
     updatePolicy: updatePolicyContent,
-    refreshPolicy: () => mutate(fetchPolicyDetails(policyId), true)
+    refreshPolicy: () => mutate(fetchPolicyDetails(policyId), true),
   };
 }
 

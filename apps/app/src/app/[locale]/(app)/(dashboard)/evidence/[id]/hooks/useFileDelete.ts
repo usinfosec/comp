@@ -43,7 +43,7 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
         });
       }
     },
-    [evidenceId, onSuccess, toast]
+    [evidenceId, onSuccess, toast],
   );
 
   return {

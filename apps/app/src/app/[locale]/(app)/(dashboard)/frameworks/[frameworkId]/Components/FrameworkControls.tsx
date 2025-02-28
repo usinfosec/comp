@@ -34,7 +34,7 @@ export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
         frameworkId,
         category: category.name,
         requirements: control.OrganizationControlRequirement,
-      }))
+      })),
     );
   }, [organizationCategories, frameworkId]) as OrganizationControlType[];
 

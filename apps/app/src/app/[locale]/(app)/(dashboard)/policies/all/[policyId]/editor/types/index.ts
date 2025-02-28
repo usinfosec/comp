@@ -16,7 +16,7 @@ export const policyDetailsSchema = z.object({
 
 export const policyDetailsInputSchema = z.object({
   policyId: z.string(),
-  _cache: z.number().optional()
+  _cache: z.number().optional(),
 });
 
 export const updatePolicySchema = z.object({

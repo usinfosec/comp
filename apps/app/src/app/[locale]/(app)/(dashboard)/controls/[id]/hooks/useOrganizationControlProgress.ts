@@ -20,7 +20,7 @@ export function useOrganizationControlProgress(controlId: string) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   return {

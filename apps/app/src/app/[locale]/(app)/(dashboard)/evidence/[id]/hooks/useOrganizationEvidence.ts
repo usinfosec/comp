@@ -14,7 +14,7 @@ async function fetchOrganizationEvidence({ id }: UseOrganizationEvidenceProps) {
     throw new Error(
       typeof result?.error === "string"
         ? result.error
-        : "Failed to fetch organization evidence"
+        : "Failed to fetch organization evidence",
     );
   }
 
@@ -28,6 +28,6 @@ export function useOrganizationEvidence({ id }: UseOrganizationEvidenceProps) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 }

@@ -42,7 +42,7 @@ export const defaultExtensions = [
     openOnClick: false,
   }),
   Placeholder.configure({
-    placeholder: 'Start writing…',
+    placeholder: "Start writing…",
   }),
   Blockquote,
   HardBreak,

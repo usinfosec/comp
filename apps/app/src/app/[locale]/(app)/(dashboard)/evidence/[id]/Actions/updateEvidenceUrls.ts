@@ -9,7 +9,7 @@ export const updateEvidenceUrls = authActionClient
     z.object({
       evidenceId: z.string(),
       urls: z.array(z.string().url()),
-    })
+    }),
   )
   .metadata({
     name: "updateEvidenceUrls",

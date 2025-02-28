@@ -81,7 +81,7 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
       if (firstDepartment && firstDepartment.length > 0) {
         console.log(
           "First department's first item status:",
-          firstDepartment[0].status
+          firstDepartment[0].status,
         );
       }
     }

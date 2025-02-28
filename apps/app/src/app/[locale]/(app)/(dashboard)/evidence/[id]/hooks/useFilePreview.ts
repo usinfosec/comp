@@ -60,7 +60,7 @@ export function useFilePreview({
         setIsLoading(false);
       }
     },
-    [evidenceId, toast]
+    [evidenceId, toast],
   );
 
   return {

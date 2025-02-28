@@ -206,7 +206,7 @@ export function useEvidenceTable() {
 
   if (context === undefined) {
     throw new Error(
-      "useEvidenceTable must be used within an EvidenceTableProvider"
+      "useEvidenceTable must be used within an EvidenceTableProvider",
     );
   }
 

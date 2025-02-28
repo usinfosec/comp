@@ -71,7 +71,7 @@ export function useFileUpload({
           onUploadProgress: (progressEvent: AxiosProgressEvent): void => {
             if (progressEvent.total) {
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
+                (progressEvent.loaded * 100) / progressEvent.total,
               );
               console.debug(`Upload progress: ${percentCompleted}%`);
             }
@@ -104,7 +104,7 @@ export function useFileUpload({
         setIsUploading(false);
       }
     },
-    [evidenceId, onSuccess, toast]
+    [evidenceId, onSuccess, toast],
   );
 
   return {

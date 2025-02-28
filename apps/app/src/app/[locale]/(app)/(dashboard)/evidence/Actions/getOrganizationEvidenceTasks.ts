@@ -31,7 +31,7 @@ export const getOrganizationEvidenceTasks = authActionClient
       relevance: z.enum(["relevant", "not-relevant"]).optional().nullable(),
       page: z.number().int().positive().optional().default(1),
       pageSize: z.number().int().positive().optional().default(10),
-    })
+    }),
   )
   .metadata({
     name: "getOrganizationEvidenceTasks",

@@ -53,7 +53,7 @@ export function FileUpload({
         onFileSelect(acceptedFiles[0]);
       }
     },
-    [onFileSelect]
+    [onFileSelect],
   );
 
   const {
@@ -82,7 +82,7 @@ export function FileUpload({
             isDragActive && "border-primary border-2 bg-primary/5",
             isDragAccept && "border-green-500 border-2 bg-green-50",
             isDragReject && "border-red-500 border-2 bg-red-50",
-            isUploading && "pointer-events-none opacity-60"
+            isUploading && "pointer-events-none opacity-60",
           )}
         >
           <CardContent className="flex flex-col items-center justify-center h-full p-4">
@@ -136,7 +136,7 @@ export function FileUpload({
             ? "border-primary/50 bg-primary/5"
             : "border-muted-foreground/25",
           isDragReject && "border-destructive/50 bg-destructive/5",
-          isUploading && "pointer-events-none opacity-60"
+          isUploading && "pointer-events-none opacity-60",
         )}
       >
         <input {...getInputProps()} />

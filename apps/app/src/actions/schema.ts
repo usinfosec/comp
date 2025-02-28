@@ -18,19 +18,21 @@ export const organizationSchema = z.object({
 });
 
 export const organizationNameSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .min(1, "Organization name is required")
-    .max(255, "Organization name cannot exceed 255 characters")
+    .max(255, "Organization name cannot exceed 255 characters"),
 });
 
 export const subdomainAvailabilitySchema = z.object({
-  subdomain: z.string()
+  subdomain: z
+    .string()
     .min(1, "Subdomain is required")
     .max(255, "Subdomain cannot exceed 255 characters")
     .regex(/^[a-z0-9-]+$/, {
       message:
         "Subdomain can only contain lowercase letters, numbers, and hyphens",
-    })
+    }),
 });
 
 export const uploadSchema = z.object({
@@ -51,7 +53,7 @@ export const updaterMenuSchema = z.array(
   z.object({
     path: z.string(),
     name: z.string(),
-  })
+  }),
 );
 
 export const organizationWebsiteSchema = z.object({
