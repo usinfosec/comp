@@ -9,6 +9,11 @@ files:
     languages.fr: ad225f707802ba118c22987186dd38e8
     languages.no: da550ca06bcacbd30b7c6ed32c864c70
     languages.pt: 30e32c7c4cf434e9c75e60c14c442541
+    common.frequency.daily: c512b685438f41daa7386329a3b8f8d3
+    common.frequency.weekly: 6c25e6a6da95b3d583c6ec4c3f82ed4d
+    common.frequency.monthly: 9030e39f00132d583da4122532e509e9
+    common.frequency.quarterly: be92c62702dcec6751c101b5adb0ce3b
+    common.frequency.yearly: cf5ea7953dc47105e0eb179dbefaaf46
     common.notifications.inbox: 3882d32c66e7e768145ecd8f104b0c08
     common.notifications.archive: e727b00944f81e1d0a95c12886ac4641
     common.notifications.archive_all: 449e2fbab2a05e2f9f3cc1717f58eee0
@@ -183,11 +188,21 @@ files:
     overview.requirement_chart.title: 69d9304854b767112e32573d7eeddc24
     policies.dashboard.title: 2938c7f7e560ed972f8a4f68e80ff834
     policies.dashboard.all: 4992678c2f629035e5c3bcde296b596a
-    policies.dashboard.policy_status: 52786fa7ae1ab7c63781647461d378ae
+    policies.dashboard.policy_status: 62bd1c8670133f413764396fbb6fb915
     policies.dashboard.policies_by_assignee: 78a5313bf44384663f9ddf1253a26d02
     policies.dashboard.policies_by_framework: b6c2212b46c6baa166b653aae7d5b014
     policies.dashboard.sub_pages.overview: 3b878279a04dc47d60932cb294d96259
     policies.dashboard.sub_pages.edit_policy: 49f0aa41a6a6350d9888573e1435281d
+    policies.overview.title: 70969d63756e17e0a4fff52300b4f2ae
+    policies.overview.form.update_policy: 7de565d9eb96fe141ef7482d77bdb4c7
+    policies.overview.form.update_policy_description: 7b66e59bef3e4d699fc4569c01c18366
+    policies.overview.form.update_policy_success: 9e251bb8955d7db5e5935856c11798ab
+    policies.overview.form.update_policy_error: a287c230191e50a5c67ccc27696a8c6c
+    policies.overview.form.update_policy_title: 002f7378a5fcfc2f66cfea851a7fd5f4
+    policies.overview.form.review_frequency: 54a9e105043639a3c97397b407aa8367
+    policies.overview.form.review_frequency_placeholder: e15b23026dcebfa15a44f21070396880
+    policies.overview.form.review_date: 43629fb18eed3c436735459e66be4225
+    policies.overview.form.review_date_placeholder: c57e1d47519b366741cb8cb65cc0a51d
     policies.table.name: 002f7378a5fcfc2f66cfea851a7fd5f4
     policies.table.statuses.draft: f03ab16cd58372c77ba45a3d9a5a1cb9
     policies.table.statuses.published: 9b9d8a976b42e0bd66381797644943d5

@@ -2,6 +2,7 @@ import React, { type CSSProperties } from "react";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { unstable_cache } from "next/cache";
 
 interface Props {
   organizationId: string;
@@ -21,10 +22,10 @@ interface UserRiskStats {
 }
 
 const riskStatusColors = {
-  open: "bg-[#ffc107]",
-  pending: "bg-[#0ea5e9]",
-  closed: "bg-primary",
-  archived: "bg-[#64748b]",
+  open: "bg-[var(--chart-open)]",
+  pending: "bg-[var(--chart-pending)]",
+  closed: "bg-[var(--chart-closed)]",
+  archived: "bg-[var(--chart-archived)]",
 };
 
 export async function RisksAssignee({ organizationId }: Props) {
@@ -67,26 +68,26 @@ export async function RisksAssignee({ organizationId }: Props) {
 
               <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <div className="size-2  bg-yellow-400" />
+                  <div className="size-2  bg-[var(--chart-open)]" />
                   <span>
                     {t("common.status.open")} ({stat.openRisks})
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2  bg-blue-400" />
+                  <div className="size-2  bg-[var(--chart-pending)]" />
                   <span>
                     {t("common.status.pending")} ({stat.pendingRisks})
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2  bg-primary" />
+                  <div className="size-2  bg-[var(--chart-closed)]" />
                   <span>
                     {t("common.status.closed")} ({stat.closedRisks})
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1">
-                  <div className="size-2  bg-gray-400" />
+                  <div className="size-2  bg-[var(--chart-archived)]" />
                   <span>
                     {t("common.status.archived")} ({stat.archivedRisks})
                   </span>
@@ -210,23 +211,27 @@ function RiskBarChart({ stat, t }: { stat: UserRiskStats; t: any }) {
   );
 }
 
-async function userData(organizationId: string) {
-  return await db.user.findMany({
-    where: {
-      organizationId,
-      Risk: {
-        some: {},
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      image: true,
-      Risk: {
-        select: {
-          status: true,
+const userData = unstable_cache(
+  async (organizationId: string) => {
+    return await db.user.findMany({
+      where: {
+        organizationId,
+        Risk: {
+          some: {},
         },
       },
-    },
-  });
-}
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        Risk: {
+          select: {
+            status: true,
+          },
+        },
+      },
+    });
+  },
+  ["users-with-risks"],
+  { tags: ["risks", "users"] },
+);

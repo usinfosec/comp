@@ -2,6 +2,7 @@ import React, { type CSSProperties } from "react";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { unstable_cache } from "next/cache";
 
 interface Props {
   organizationId: string;
@@ -17,12 +18,14 @@ interface UserPolicyStats {
   publishedPolicies: number | undefined;
   draftPolicies: number | undefined;
   archivedPolicies: number | undefined;
+  needsReviewPolicies: number | undefined;
 }
 
 const policyStatus = {
   published: "bg-primary",
-  draft: "bg-[#ffc107]",
-  archived: "bg-[#0ea5e9]",
+  draft: "bg-[var(--chart-open)]",
+  archived: "bg-[var(--chart-pending)]",
+  needs_review: "bg-[hsl(var(--destructive))]",
 };
 
 export async function PoliciesByAssignee({ organizationId }: Props) {
@@ -44,6 +47,9 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
     ).length,
     archivedPolicies: user.organization?.OrganizationPolicy.filter(
       (policy) => policy.status === "archived",
+    ).length,
+    needsReviewPolicies: user.organization?.OrganizationPolicy.filter(
+      (policy) => policy.status === "needs_review",
     ).length,
   }));
 
@@ -75,15 +81,22 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2 bg-[#ffc107]" />
+                  <div className="size-2 bg-[var(--chart-open)]" />
                   <span>
                     {t("common.status.draft")} ({stat.draftPolicies})
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="size-2 bg-[#0ea5e9]" />
+                  <div className="size-2 bg-[var(--chart-pending)]" />
                   <span>
                     {t("common.status.archived")} ({stat.archivedPolicies})
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="size-2 bg-[hsl(var(--destructive))]" />
+                  <span>
+                    {t("common.status.needs_review")} (
+                    {stat.needsReviewPolicies})
                   </span>
                 </div>
               </div>
@@ -195,24 +208,28 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
   );
 }
 
-async function userData(organizationId: string) {
-  return await db.user.findMany({
-    where: {
-      organizationId,
-    },
-    select: {
-      id: true,
-      name: true,
-      image: true,
-      organization: {
-        select: {
-          OrganizationPolicy: {
-            select: {
-              status: true,
+const userData = unstable_cache(
+  async (organizationId: string) => {
+    return await db.user.findMany({
+      where: {
+        organizationId,
+      },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        organization: {
+          select: {
+            OrganizationPolicy: {
+              select: {
+                status: true,
+              },
             },
           },
         },
       },
-    },
-  });
-}
+    });
+  },
+  ["users-policies-data-cache"],
+  { revalidate: 3600 }, // Cache for 1 hour
+);

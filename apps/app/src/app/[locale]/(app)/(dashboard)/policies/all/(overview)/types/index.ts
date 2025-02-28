@@ -16,6 +16,8 @@ export const policySchema = z.object({
 export const policiesInputSchema = z.object({
   search: z.string().optional(),
   status: z.string().optional(),
+  ownerId: z.string().optional(),
+  sort: z.string().optional(),
   page: z.number().default(1),
   per_page: z.number().default(10),
 });

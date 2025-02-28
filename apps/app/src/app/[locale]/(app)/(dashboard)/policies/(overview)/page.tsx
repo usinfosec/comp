@@ -36,6 +36,7 @@ export default async function PoliciesOverview({
           publishedPolicies={overview.publishedPolicies}
           draftPolicies={overview.draftPolicies}
           archivedPolicies={overview.archivedPolicies}
+          needsReviewPolicies={overview.needsReviewPolicies}
         />
         <PoliciesByAssignee organizationId={session.user.organizationId} />
       </div>
@@ -50,6 +51,7 @@ const getPoliciesOverview = unstable_cache(
         publishedPolicies,
         draftPolicies,
         archivedPolicies,
+        needsReviewPolicies,
       ] = await Promise.all([
         tx.organizationPolicy.count({
           where: {
@@ -74,6 +76,12 @@ const getPoliciesOverview = unstable_cache(
             status: "archived",
           },
         }),
+        tx.organizationPolicy.count({
+          where: {
+            organizationId,
+            status: "needs_review",
+          },
+        }),
       ]);
 
       return {
@@ -81,6 +89,7 @@ const getPoliciesOverview = unstable_cache(
         publishedPolicies,
         draftPolicies,
         archivedPolicies,
+        needsReviewPolicies,
       };
     });
   },

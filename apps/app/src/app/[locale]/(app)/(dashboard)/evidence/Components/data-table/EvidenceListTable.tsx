@@ -39,56 +39,54 @@ export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
 
   return (
     <div className="relative w-full">
-      <div className="rounded-md border">
-        <div className="overflow-auto">
-          <Table>
-            <DataTableHeader table={table} />
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className="hover:bg-muted/50 cursor-pointer"
-                    onClick={() => router.push(`/evidence/${row.original.id}`)}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="p-4 relative whitespace-nowrap"
-                        style={{ width: cell.column.getSize() }}
-                      >
-                        <div>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </div>
-                        <div
-                          className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none bg-border opacity-0 hover:opacity-100 ${
-                            table.getState().columnSizingInfo
-                              .isResizingColumn === cell.column.id
-                              ? "bg-primary opacity-100"
-                              : ""
-                          }`}
-                        />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No evidence tasks found.
-                  </TableCell>
+      <div className="overflow-auto">
+        <Table>
+          <DataTableHeader table={table} />
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-muted/50 cursor-pointer"
+                  onClick={() => router.push(`/evidence/${row.original.id}`)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className="p-4 relative whitespace-nowrap"
+                      style={{ width: cell.column.getSize() }}
+                    >
+                      <div>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </div>
+                      <div
+                        className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none bg-border opacity-0 hover:opacity-100 ${
+                          table.getState().columnSizingInfo.isResizingColumn ===
+                          cell.column.id
+                            ? "bg-primary opacity-100"
+                            : ""
+                        }`}
+                      />
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No evidence tasks found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

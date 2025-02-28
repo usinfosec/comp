@@ -38,6 +38,7 @@
     --chart-pending: #0BA5E9;
     --chart-open: #FFC007;
     --chart-archived: #64748B;
+    --chart-needs_review: #FF0000;
 
     /* Keeping the novel-highlight colors as they were */
     --novel-highlight-default: #ffffff;

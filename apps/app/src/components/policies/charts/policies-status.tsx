@@ -1,14 +1,7 @@
 "use client";
 
 import { PieChart } from "@/components/ui/pie-chart";
-import { COLORS } from "@/constants/colors";
 import { useI18n } from "@/locales/client";
-import type {
-  Framework,
-  OrganizationControl,
-  OrganizationFramework,
-  OrganizationPolicy,
-} from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { cn } from "@bubba/ui/cn";
 
@@ -17,6 +10,7 @@ interface Props {
   publishedPolicies: number;
   draftPolicies: number;
   archivedPolicies: number;
+  needsReviewPolicies: number;
 }
 
 export function PoliciesStatus({
@@ -24,6 +18,7 @@ export function PoliciesStatus({
   publishedPolicies,
   draftPolicies,
   archivedPolicies,
+  needsReviewPolicies,
 }: Props) {
   const t = useI18n();
 
@@ -31,6 +26,7 @@ export function PoliciesStatus({
     published: publishedPolicies,
     draft: draftPolicies,
     archived: archivedPolicies,
+    needs_review: needsReviewPolicies,
   };
 
   const data = [
@@ -52,6 +48,12 @@ export function PoliciesStatus({
       color: "var(--chart-pending)",
       colorClass: "bg-[var(--chart-pending)]",
     },
+    {
+      name: t("policies.status.needs_review"),
+      value: statusCounts.needs_review,
+      color: "hsl(var(--destructive))",
+      colorClass: "bg-[hsl(var(--destructive))]",
+    },
   ];
 
   return (
@@ -61,7 +63,7 @@ export function PoliciesStatus({
       </CardHeader>
       <CardContent>
         <PieChart data={data} />
-        <div className="mt-4 2xl:grid 2xl:grid-cols-3 gap-4 text-sm">
+        <div className="mt-4 gap-2 text-sm">
           {data.map((item) => (
             <div key={item.name} className="flex items-center gap-2">
               <div className={cn("h-3 w-3", item.colorClass)} />
