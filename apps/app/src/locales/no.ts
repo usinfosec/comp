@@ -150,7 +150,14 @@ export default {
       unexpected_error: "En uventet feil oppstod"
     },
     description: "Beskrivelse",
-    last_updated: "Sist oppdatert"
+    last_updated: "Sist oppdatert",
+    frequency: {
+      daily: "Daglig",
+      weekly: "Ukentlig",
+      monthly: "Månedlig",
+      quarterly: "Kvartalsvis",
+      yearly: "Årlig"
+    }
   },
   header: {
     discord: {
@@ -246,7 +253,7 @@ export default {
     dashboard: {
       title: "Dashbord",
       all: "Alle retningslinjer",
-      policy_status: "Retningslinjestatus",
+      policy_status: "Policy etter status",
       policies_by_assignee: "Retningslinjer etter tildelt",
       policies_by_framework: "Retningslinjer etter rammeverk",
       sub_pages: {
@@ -292,7 +299,21 @@ export default {
     save: "Lagre",
     saving: "Lagrer...",
     saved_success: "Retningslinje lagret",
-    saved_error: "Kunne ikke lagre retningslinje"
+    saved_error: "Kunne ikke lagre retningslinje",
+    overview: {
+      title: "Oversikt over policy",
+      form: {
+        update_policy: "Oppdater policy",
+        update_policy_description: "Oppdater policyens tittel eller beskrivelse.",
+        update_policy_success: "Policy oppdatert vellykket",
+        update_policy_error: "Feil ved oppdatering av policy",
+        update_policy_title: "Policy navn",
+        review_frequency: "Gjennomgangsfrekvens",
+        review_frequency_placeholder: "Velg en gjennomgangsfrekvens",
+        review_date: "Gjennomgangsdato",
+        review_date_placeholder: "Velg en gjennomgangsdato"
+      }
+    }
   },
   evidence_tasks: {
     evidence_tasks: "Bevisoppgaver",

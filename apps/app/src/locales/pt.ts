@@ -150,7 +150,14 @@ export default {
       unexpected_error: "Ocorreu um erro inesperado"
     },
     description: "Descrição",
-    last_updated: "Última atualização"
+    last_updated: "Última atualização",
+    frequency: {
+      daily: "Diário",
+      weekly: "Semanal",
+      monthly: "Mensal",
+      quarterly: "Trimestral",
+      yearly: "Anual"
+    }
   },
   header: {
     discord: {
@@ -246,7 +253,7 @@ export default {
     dashboard: {
       title: "Painel",
       all: "Todas as Políticas",
-      policy_status: "Status da Política",
+      policy_status: "Política por Status",
       policies_by_assignee: "Políticas por Responsável",
       policies_by_framework: "Políticas por Framework",
       sub_pages: {
@@ -292,7 +299,21 @@ export default {
     save: "Salvar",
     saving: "Salvando...",
     saved_success: "Política salva com sucesso",
-    saved_error: "Falha ao salvar a política"
+    saved_error: "Falha ao salvar a política",
+    overview: {
+      title: "Visão Geral da Política",
+      form: {
+        update_policy: "Atualizar Política",
+        update_policy_description: "Atualize o título ou a descrição da política.",
+        update_policy_success: "Política atualizada com sucesso",
+        update_policy_error: "Falha ao atualizar a política",
+        update_policy_title: "Nome da Política",
+        review_frequency: "Frequência de Revisão",
+        review_frequency_placeholder: "Selecione uma frequência de revisão",
+        review_date: "Data da Revisão",
+        review_date_placeholder: "Selecione uma data de revisão"
+      }
+    }
   },
   evidence_tasks: {
     evidence_tasks: "Tarefas de Evidência",
