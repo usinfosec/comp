@@ -14,7 +14,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/lodash": "^4.17.15",
-    "turbo": "^2.4.2",
+    "turbo": "^2.4.4",
     "typescript": "5.7.3"
   },
   "engines": {
@@ -26,9 +26,9 @@
     "packages/*"
   ],
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.750.0",
+    "@aws-sdk/client-s3": "^3.758.0",
     "@manypkg/cli": "^0.23.0",
-    "@nangohq/node": "^0.53.1",
+    "@nangohq/node": "^0.53.2",
     "@types/d3": "^7.4.3",
     "d3": "^7.9.0",
     "gitmoji": "^1.1.1",
