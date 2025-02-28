@@ -65,7 +65,9 @@ export function PolicyOverviewSheet({
 
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-      <DrawerTitle hidden>{t("risk.form.update_risk")}</DrawerTitle>
+      <DrawerTitle hidden>
+        {t("policies.overview.form.update_policy")}
+      </DrawerTitle>
       <DrawerContent className="p-6">
         <UpdatePolicyForm policy={policy} />
       </DrawerContent>

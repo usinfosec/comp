@@ -63,7 +63,7 @@ export function UpdatePolicyOverview({
       toast.success(t("policies.overview.form.update_policy_success"));
     },
     onError: () => {
-      toast.error(t("risk.form.update_risk_error"));
+      toast.error(t("policies.overview.form.update_policy_error"));
     },
   });
 
