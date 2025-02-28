@@ -21,21 +21,15 @@ export function EvidenceList() {
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Evidence Tasks</h1>
-
-        {/* Summary Cards - handles its own loading state */}
         <EvidenceSummaryCards />
 
         <div className="flex flex-wrap items-center gap-2">
-          {/* Search Input */}
           <div className="w-full max-w-sm">
             <SearchInput placeholder={t("common.filters.search")} />
           </div>
 
-          {/* Filter Dropdown */}
           <FilterDropdown />
 
-          {/* Active Filter Badges */}
           <ActiveFilterBadges />
         </div>
       </div>
@@ -52,7 +46,6 @@ export function EvidenceList() {
             <DataTable data={evidenceTasks} />
           )}
 
-          {/* Pagination Controls */}
           <PaginationControls />
         </>
       )}

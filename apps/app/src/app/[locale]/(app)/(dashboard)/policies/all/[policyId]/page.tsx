@@ -1,7 +1,10 @@
 import { auth } from "@/auth";
+import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
+import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function PolicyDetails({
@@ -10,6 +13,7 @@ export default async function PolicyDetails({
   params: Promise<{ locale: string; policyId: string }>;
 }) {
   const { locale, policyId } = await params;
+
   setStaticParamsLocale(locale);
 
   const session = await auth();
@@ -19,7 +23,18 @@ export default async function PolicyDetails({
     redirect("/");
   }
 
-  return <>Hi</>;
+  const policy = await getPolicy(policyId, organizationId);
+  const users = await getUsers(organizationId);
+
+  if (!policy) {
+    redirect("/policies");
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <PolicyOverview policy={policy} users={users} />
+    </div>
+  );
 }
 
 export async function generateMetadata({
@@ -36,3 +51,28 @@ export async function generateMetadata({
     title: t("sub_pages.policies.policy_details"),
   };
 }
+
+const getPolicy = unstable_cache(
+  async (policyId: string, organizationId: string) => {
+    const policy = await db.organizationPolicy.findUnique({
+      where: { id: policyId, organizationId },
+      include: {
+        policy: true,
+      },
+    });
+    return policy;
+  },
+  ["policy-details"],
+  { tags: ["policies", "policy-details"] },
+);
+
+const getUsers = unstable_cache(
+  async (organizationId: string) => {
+    const users = await db.user.findMany({
+      where: { organizationId: organizationId },
+    });
+
+    return users;
+  },
+  ["users-cache"],
+);

@@ -12,6 +12,13 @@ export default {
     pt: "Portuguese",
   },
   common: {
+    frequency: {
+      daily: "Daily",
+      weekly: "Weekly",
+      monthly: "Monthly",
+      quarterly: "Quarterly",
+      yearly: "Yearly",
+    },
     notifications: {
       inbox: "Inbox",
       archive: "Archive",
@@ -281,12 +288,26 @@ export default {
     dashboard: {
       title: "Dashboard",
       all: "All Policies",
-      policy_status: "Policy Status",
+      policy_status: "Policy by Status",
       policies_by_assignee: "Policies by Assignee",
       policies_by_framework: "Policies by Framework",
       sub_pages: {
         overview: "Overview",
         edit_policy: "Edit Policy",
+      },
+    },
+    overview: {
+      title: "Policy Overview",
+      form: {
+        update_policy: "Update Policy",
+        update_policy_description: "Update the policy title or description.",
+        update_policy_success: "Policy updated successfully",
+        update_policy_error: "Failed to update policy",
+        update_policy_title: "Policy Name",
+        review_frequency: "Review Frequency",
+        review_frequency_placeholder: "Select a review frequency",
+        review_date: "Review Date",
+        review_date_placeholder: "Select a review date",
       },
     },
     table: {

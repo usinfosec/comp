@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import type { EvidenceTaskRow } from "./types";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
 import { format } from "date-fns";
+import { StatusPolicies, type StatusType } from "@/components/status-policies";
 
 export const columns: ColumnDef<EvidenceTaskRow>[] = [
   {
@@ -47,18 +48,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 
       return (
         <div className="flex gap-2">
-          {isPublished ? (
-            <CheckCircle2 size={16} className="text-green-500 shrink-0" />
-          ) : (
-            <XCircle size={16} className="text-red-500 shrink-0" />
-          )}
-          <span
-            className={
-              isPublished ? "text-sm text-green-600" : "text-sm text-red-600"
-            }
-          >
-            {label}
-          </span>
+          <StatusPolicies status={isPublished ? "published" : "draft"} />
         </div>
       );
     },
@@ -116,7 +106,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 
       const reviewInfo = calculateNextReview(
         row.original.lastPublishedAt,
-        row.original.frequency
+        row.original.frequency,
       );
 
       if (!reviewInfo) return null;

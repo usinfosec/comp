@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { usePolicies } from "../hooks/usePolicies";
 import { PoliciesListSkeleton } from "./PoliciesListSkeleton";
+import type { User } from "next-auth";
 
 interface PoliciesListProps {
   columnHeaders: {
@@ -24,13 +25,15 @@ interface PoliciesListProps {
     status: string;
     updatedAt: string;
   };
+  users: User[];
 }
 
-export function PoliciesList({ columnHeaders }: PoliciesListProps) {
+export function PoliciesList({ columnHeaders, users }: PoliciesListProps) {
   const t = useI18n();
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const status = searchParams.get("status");
+  const sort = searchParams.get("sort");
   const per_page = Number(searchParams.get("per_page")) || 10;
   const page = Number(searchParams.get("page")) || 1;
 
@@ -53,7 +56,7 @@ export function PoliciesList({ columnHeaders }: PoliciesListProps) {
     );
   }
 
-  const hasFilters = !!(search || status);
+  const hasFilters = !!(search || status || sort);
 
   if (policies.length === 0 && !hasFilters) {
     return (
@@ -64,7 +67,7 @@ export function PoliciesList({ columnHeaders }: PoliciesListProps) {
             <Button>{t("policies.create_new")}</Button>
           </Link>
         </div>
-        <FilterToolbar isEmpty={true} users={[]} />
+        <FilterToolbar isEmpty={true} users={users} />
         <NoPolicies />
         <Loading isEmpty />
       </div>
@@ -75,7 +78,7 @@ export function PoliciesList({ columnHeaders }: PoliciesListProps) {
     <div className="relative">
       <FilterToolbar
         isEmpty={policies.length === 0 && !hasFilters}
-        users={[]}
+        users={users}
       />
 
       {policies.length > 0 ? (

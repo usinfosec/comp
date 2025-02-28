@@ -24,13 +24,28 @@ export async function RisksByDepartment({ organizationId }: Props) {
     };
   }).sort((a, b) => b.value - a.value);
 
+  // Separate departments with values > 0 and departments with values = 0
+  const departmentsWithValues = data.filter((dept) => dept.value > 0);
+  const departmentsWithoutValues = data.filter((dept) => dept.value === 0);
+
+  // Determine which departments to show
+  let departmentsToShow = [...departmentsWithValues];
+
+  // If we have fewer than 4 departments with values, show up to 2 departments with no values
+  if (departmentsWithValues.length < 4 && departmentsWithoutValues.length > 0) {
+    departmentsToShow = [
+      ...departmentsWithValues,
+      ...departmentsWithoutValues.slice(0, 2),
+    ];
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Risks by Department</CardTitle>
       </CardHeader>
       <CardContent>
-        <DepartmentChart data={data} />
+        <DepartmentChart data={departmentsToShow} showEmptyDepartments={true} />
       </CardContent>
     </Card>
   );

@@ -1,5 +1,7 @@
 import {
   Departments,
+  Frequency,
+  PolicyStatus,
   RiskCategory,
   RiskStatus,
   RiskTaskStatus,
@@ -281,4 +283,19 @@ export const createEmployeeSchema = z.object({
   }),
   externalEmployeeId: z.string().optional(),
   isActive: z.boolean().default(true),
+});
+
+export const updatePolicyOverviewSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+});
+
+export const updatePolicyFormSchema = z.object({
+  id: z.string(),
+  status: z.nativeEnum(PolicyStatus),
+  ownerId: z.string(),
+  department: z.nativeEnum(Departments),
+  review_frequency: z.nativeEnum(Frequency),
+  review_date: z.date(),
 });

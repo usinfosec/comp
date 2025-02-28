@@ -32,10 +32,7 @@ export default async function RiskManagement({
   return (
     <div className="space-y-4 sm:space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <RiskOverview
-          data={overview}
-          organizationId={session.user.organizationId}
-        />
+        <RiskOverview organizationId={session.user.organizationId} />
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
@@ -48,60 +45,14 @@ export default async function RiskManagement({
 const getRiskOverview = unstable_cache(
   async (organizationId: string) => {
     return await db.$transaction(async (tx) => {
-      const [
-        risks,
-        highRisks,
-        openRisks,
-        pendingRisks,
-        closedRisks,
-        archivedRisks,
-      ] = await Promise.all([
+      const [risks] = await Promise.all([
         tx.risk.count({
           where: { organizationId },
-        }),
-
-        tx.risk.count({
-          where: {
-            organizationId,
-          },
-        }),
-
-        tx.risk.count({
-          where: {
-            organizationId,
-            status: "closed",
-          },
-        }),
-
-        tx.risk.count({
-          where: {
-            organizationId,
-            status: "pending",
-          },
-        }),
-
-        tx.risk.count({
-          where: {
-            organizationId,
-            status: "open",
-          },
-        }),
-
-        tx.risk.count({
-          where: {
-            organizationId,
-            status: "archived",
-          },
         }),
       ]);
 
       return {
         risks,
-        highRisks,
-        openRisks,
-        pendingRisks,
-        closedRisks,
-        archivedRisks,
       };
     });
   },

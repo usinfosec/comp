@@ -1,33 +1,33 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Risk, User } from "@bubba/db";
+import type { OrganizationPolicy, Policy, User } from "@bubba/db";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Icons } from "@bubba/ui/icons";
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { UpdateRiskOverview } from "../forms/risks/risk-overview";
-import { RiskOverviewSheet } from "../sheets/risk-overview-sheet";
+import { PolicyOverviewSheet } from "./sheets/policy-overview-sheet";
+import { UpdatePolicyOverview } from "../forms/policies/policy-overview";
 
-export function RiskOverview({
-  risk,
+export function PolicyOverview({
+  policy,
   users,
 }: {
-  risk: Risk & { owner: User | null };
+  policy: OrganizationPolicy & { policy: Policy };
   users: User[];
 }) {
   const t = useI18n();
-  const [open, setOpen] = useQueryState("risk-overview-sheet");
+  const [open, setOpen] = useQueryState("policy-overview-sheet");
 
   return (
     <div className="space-y-4">
       <Alert>
-        <Icons.Risk className="h-4 w-4" />
+        <Icons.Policies className="h-4 w-4" />
         <AlertTitle>
           <div className="flex items-center justify-between gap-2">
-            {risk.title}
+            {policy.policy.name}
             <Button
               size="icon"
               variant="ghost"
@@ -38,23 +38,25 @@ export function RiskOverview({
             </Button>
           </div>
         </AlertTitle>
-        <AlertDescription className="mt-4">{risk.description}</AlertDescription>
+        <AlertDescription className="mt-4">
+          {policy.policy.description}
+        </AlertDescription>
       </Alert>
 
       <Card>
         <CardHeader>
           <CardTitle>
             <div className="flex items-center justify-between gap-2">
-              {t("risk.dashboard.overview")}
+              {t("policies.overview.title")}
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <UpdateRiskOverview risk={risk} users={users} />
+          <UpdatePolicyOverview organizationPolicy={policy} users={users} />
         </CardContent>
       </Card>
 
-      <RiskOverviewSheet risk={risk} />
+      <PolicyOverviewSheet policy={policy} />
     </div>
   );
 }

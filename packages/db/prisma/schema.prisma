@@ -70,6 +70,7 @@ model User {
   VendorTaskAttachment    VendorTaskAttachment[]
   VendorTaskComments      VendorTaskComments[]
   Vendors                 Vendors[]
+  OrganizationPolicy      OrganizationPolicy[]
 
   @@index([email])
   @@index([organizationId])
@@ -738,6 +739,10 @@ model OrganizationPolicy {
   OrganizationControlRequirement OrganizationControlRequirement[]
   organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   policy                         Policy                           @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  ownerId                        String?
+  owner                          User?                            @relation(fields: [ownerId], references: [id])
+  department                     Departments?
+  reviewDate                     DateTime?
 
   @@unique([organizationId, policyId])
   @@index([organizationId])
@@ -1009,4 +1014,5 @@ enum PolicyStatus {
   draft
   published
   archived
+  needs_review
 }

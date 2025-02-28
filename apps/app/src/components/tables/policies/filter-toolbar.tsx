@@ -16,19 +16,18 @@ import { Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import { useQueryState } from "nuqs";
 import { useTransition } from "react";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
+import type { User } from "next-auth";
 
 interface FilterToolbarProps {
   isEmpty?: boolean;
-  users: {
-    id: string;
-    name: string | null;
-  }[];
+  users: User[];
 }
 
 export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
   const t = useI18n();
   const [isPending, startTransition] = useTransition();
+  const [searchInput, setSearchInput] = useState<string>("");
 
   const [search, setSearch] = useQueryState("search", {
     shallow: false,
@@ -48,15 +47,39 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
     parse: (value) => value || null,
   });
 
+  const [sort, setSort] = useQueryState("sort", {
+    shallow: false,
+    history: "push",
+    parse: (value) => value || null,
+  });
+
+  // Initialize searchInput with the current search value
+  useEffect(() => {
+    setSearchInput(search || "");
+  }, [search]);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInput !== (search || "")) {
+        setSearch(searchInput || null);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchInput, search, setSearch]);
+
   const handleReset = useCallback(() => {
     startTransition(() => {
       setSearch(null);
       setStatus(null);
       setOwnerId(null);
+      setSort(null);
+      setSearchInput("");
     });
-  }, [setSearch, setStatus, setOwnerId]);
+  }, [setSearch, setStatus, setOwnerId, setSort]);
 
-  const hasFilters = search || status || ownerId;
+  const hasFilters = search || status || ownerId || sort;
 
   const handleStatusChange = (value: string) => {
     setStatus(value === "all" ? null : value);
@@ -92,8 +115,8 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
           <Input
             placeholder={t("policies.search_placeholder")}
             className="pl-8"
-            value={search || ""}
-            onChange={(e) => setSearch(e.target.value || null)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
 
@@ -118,6 +141,9 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
             <SelectItem value="published">
               {t("common.status.published")}
             </SelectItem>
+            <SelectItem value="needs_review">
+              {t("common.status.needs_review")}
+            </SelectItem>
             <SelectItem value="archived">
               {t("common.status.archived")}
             </SelectItem>
@@ -133,7 +159,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
           </SelectTrigger>
           <SelectContent>
             {users.map((user) => (
-              <SelectItem key={user.id} value={user.id}>
+              <SelectItem key={user.id} value={user?.id || ""}>
                 {user.name}
               </SelectItem>
             ))}

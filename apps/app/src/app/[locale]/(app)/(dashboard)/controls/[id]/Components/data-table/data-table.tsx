@@ -42,7 +42,7 @@ export function DataTable({ data }: DataTableProps) {
     switch (requirement.type) {
       case "policy":
         if (requirement.organizationPolicyId) {
-          router.push(`/policies/${requirement.organizationPolicyId}`);
+          router.push(`/policies/all/${requirement.organizationPolicyId}`);
         }
         break;
       case "evidence":
@@ -73,7 +73,7 @@ export function DataTable({ data }: DataTableProps) {
                     <TableCell key={cell.id} className="p-4">
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

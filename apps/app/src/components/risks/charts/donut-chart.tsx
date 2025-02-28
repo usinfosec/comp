@@ -1,11 +1,7 @@
 "use client";
 
 import { pie, arc, type PieArcDatum } from "d3";
-import {
-  ClientTooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@bubba/ui/chart-tooltip";
+import { ClientTooltip, TooltipTrigger } from "@bubba/ui/chart-tooltip";
 
 interface ChartItem {
   name: string;
@@ -113,23 +109,6 @@ export function DonutChart({
                       strokeWidth={lightStrokeEffect}
                       d={arcGenerator(d) || undefined}
                     />
-                  </g>
-                  {/* Labels with conditional rendering */}
-                  <g opacity={angle > minAngle ? 1 : 0}>
-                    <text
-                      transform={`translate(${centroid})`}
-                      textAnchor="middle"
-                      fontSize={36}
-                    >
-                      <tspan y="-0.4em" fontWeight="600">
-                        {d.data.name}
-                      </tspan>
-                      {angle > minAngle && (
-                        <tspan x={0} y="0.7em">
-                          {d.data.value.toLocaleString("en-US")}%
-                        </tspan>
-                      )}
-                    </text>
                   </g>
                 </g>
               </TooltipTrigger>
