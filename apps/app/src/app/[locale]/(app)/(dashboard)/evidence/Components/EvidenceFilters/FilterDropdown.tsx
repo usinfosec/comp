@@ -107,7 +107,7 @@ export function FilterDropdown() {
                 checked={relevance === "not-relevant"}
                 onCheckedChange={() => {
                   setRelevance(
-                    relevance === "not-relevant" ? null : "not-relevant"
+                    relevance === "not-relevant" ? null : "not-relevant",
                   );
                   setPage("1"); // Reset to first page when filtering
                 }}
@@ -165,7 +165,7 @@ export function FilterDropdown() {
                   checked={assigneeId === assignee.id}
                   onCheckedChange={() => {
                     setAssigneeId(
-                      assigneeId === assignee.id ? null : assignee.id
+                      assigneeId === assignee.id ? null : assignee.id,
                     );
                     setPage("1"); // Reset to first page when filtering
                   }}

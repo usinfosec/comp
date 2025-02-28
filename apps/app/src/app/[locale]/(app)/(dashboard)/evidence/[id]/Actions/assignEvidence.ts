@@ -10,7 +10,7 @@ export const assignEvidence = authActionClient
     z.object({
       id: z.string(),
       assigneeId: z.string().nullable(),
-    })
+    }),
   )
   .metadata({
     name: "assignEvidence",

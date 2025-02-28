@@ -39,7 +39,7 @@ export type OrganizationControlType = {
 };
 
 function getControlStatus(
-  requirements: OrganizationControlType["requirements"]
+  requirements: OrganizationControlType["requirements"],
 ): StatusType {
   if (!requirements || requirements.length === 0) return "not_started";
 
@@ -131,7 +131,7 @@ export function columns(): ColumnDef<OrganizationControlType>[] {
                   <p>
                     Progress:{" "}
                     {Math.round(
-                      (completedRequirements / totalRequirements) * 100
+                      (completedRequirements / totalRequirements) * 100,
                     ) || 0}
                     %
                   </p>

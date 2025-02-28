@@ -3,10 +3,7 @@
 import { authActionClient } from "@/actions/safe-action";
 import { auth } from "@/auth";
 import { db } from "@bubba/db";
-import {
-  appErrors,
-  policyDetailsInputSchema,
-} from "../types";
+import { appErrors, policyDetailsInputSchema } from "../types";
 
 export const getPolicyDetails = authActionClient
   .schema(policyDetailsInputSchema)

@@ -8,7 +8,7 @@ export const getAllOrganizationControlRequirements = authActionClient
   .schema(
     z.object({
       search: z.string().optional().nullable(),
-    })
+    }),
   )
   .metadata({
     name: "getAllOrganizationControlRequirements",

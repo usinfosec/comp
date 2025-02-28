@@ -74,7 +74,7 @@ export function AssigneeBarChart({
       if (firstAssignee && firstAssignee.length > 0) {
         console.log(
           "First assignee's first item status:",
-          firstAssignee[0].status
+          firstAssignee[0].status,
         );
       }
     }
@@ -110,7 +110,7 @@ export function AssigneeBarChart({
         items,
         statusCounts,
       };
-    }
+    },
   );
 
   // Add unassigned items if any

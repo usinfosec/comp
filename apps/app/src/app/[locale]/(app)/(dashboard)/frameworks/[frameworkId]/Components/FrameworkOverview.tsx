@@ -27,18 +27,18 @@ export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
   // Calculate compliance metrics
   const totalControls = data?.reduce(
     (acc, cat) => acc + cat.organizationControl.length,
-    0
+    0,
   );
 
   const compliantControls = data?.reduce(
     (acc, cat) =>
       acc +
       cat.organizationControl.filter((oc) => oc.status === "compliant").length,
-    0
+    0,
   );
 
   const compliancePercentage = Math.round(
-    (compliantControls ?? 0 / (totalControls ?? 0)) * 100
+    (compliantControls ?? 0 / (totalControls ?? 0)) * 100,
   );
 
   return (

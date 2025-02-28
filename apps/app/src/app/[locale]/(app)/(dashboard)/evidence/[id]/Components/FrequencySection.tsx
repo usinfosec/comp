@@ -25,7 +25,7 @@ export function FrequencySection({
   onSuccess,
 }: FrequencySectionProps) {
   const [frequency, setFrequency] = useState<Frequency | null>(
-    currentFrequency || null
+    currentFrequency || null,
   );
 
   const { execute: updateFrequency, isExecuting } = useAction(
@@ -38,7 +38,7 @@ export function FrequencySection({
       onError: () => {
         toast.error("Failed to update review frequency");
       },
-    }
+    },
   );
 
   useEffect(() => {

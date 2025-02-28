@@ -9,7 +9,10 @@ import { updatePolicyFormSchema } from "../schema";
 import { PolicyStatus } from "@bubba/db";
 
 // Helper function to calculate next review date based on frequency
-function calculateNextReviewDate(frequency: string, baseDate: Date = new Date()): Date {
+function calculateNextReviewDate(
+  frequency: string,
+  baseDate: Date = new Date(),
+): Date {
   const nextDate = new Date(baseDate);
 
   switch (frequency) {
@@ -65,7 +68,10 @@ export const updatePolicyFormAction = authActionClient
       let lastPublishedAt = undefined;
 
       // If status is changing to 'published', calculate next review date based on frequency
-      if (status === PolicyStatus.published && currentPolicy?.status !== PolicyStatus.published) {
+      if (
+        status === PolicyStatus.published &&
+        currentPolicy?.status !== PolicyStatus.published
+      ) {
         reviewDate = calculateNextReviewDate(review_frequency);
         lastPublishedAt = new Date(); // Set lastPublishedAt to now when publishing
       }

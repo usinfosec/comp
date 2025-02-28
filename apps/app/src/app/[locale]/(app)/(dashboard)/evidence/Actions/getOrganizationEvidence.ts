@@ -8,7 +8,7 @@ export const getOrganizationEvidenceById = authActionClient
   .schema(
     z.object({
       id: z.string(),
-    })
+    }),
   )
   .metadata({
     name: "getOrganizationEvidenceById",

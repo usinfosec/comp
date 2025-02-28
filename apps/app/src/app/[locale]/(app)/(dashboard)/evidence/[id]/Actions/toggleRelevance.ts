@@ -10,7 +10,7 @@ export const toggleRelevance = authActionClient
     z.object({
       id: z.string(),
       isNotRelevant: z.boolean(),
-    })
+    }),
   )
   .metadata({
     name: "toggleRelevance",

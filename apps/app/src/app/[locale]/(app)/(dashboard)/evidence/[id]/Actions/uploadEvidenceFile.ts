@@ -24,7 +24,7 @@ export const getUploadUrl = authActionClient
       evidenceId: z.string(),
       fileName: z.string(),
       fileType: z.string(),
-    })
+    }),
   )
   .metadata({
     name: "getUploadUrl",

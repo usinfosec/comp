@@ -7,9 +7,7 @@ import { getPolicies } from "../actions/get-policies";
 
 import type { AppError, PoliciesInput, PoliciesResponse } from "../types";
 
-async function fetchPolicies(
-  input: PoliciesInput
-): Promise<PoliciesResponse> {
+async function fetchPolicies(input: PoliciesInput): Promise<PoliciesResponse> {
   const result = await getPolicies(input);
 
   if (!result) {
@@ -51,7 +49,7 @@ export function usePolicies() {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   return {

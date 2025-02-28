@@ -25,7 +25,7 @@ export function useOrganizationControl(controlId: string) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   return {

@@ -49,8 +49,13 @@ export const updatePolicy = authActionClient
       if (content !== undefined) {
         console.log("CONTENT TYPE:", typeof content);
 
-        if (typeof content === 'object' && content !== null) {
-          if ('type' in content && content.type === 'doc' && 'content' in content && Array.isArray(content.content)) {
+        if (typeof content === "object" && content !== null) {
+          if (
+            "type" in content &&
+            content.type === "doc" &&
+            "content" in content &&
+            Array.isArray(content.content)
+          ) {
             updateData.content = content.content;
             console.log("Extracted content array from TipTap doc");
           } else if (Array.isArray(content)) {

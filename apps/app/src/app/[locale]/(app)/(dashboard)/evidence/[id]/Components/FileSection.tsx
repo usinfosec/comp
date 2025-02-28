@@ -70,7 +70,7 @@ export function FileSection({
         }));
       }
     },
-    [getPreviewUrl, previewStates]
+    [getPreviewUrl, previewStates],
   );
 
   // Load all previews when component mounts or when fileUrls change

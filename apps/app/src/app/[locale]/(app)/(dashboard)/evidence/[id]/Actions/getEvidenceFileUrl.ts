@@ -100,7 +100,7 @@ export const getEvidenceFileUrl = authActionClient
       } catch (error) {
         console.error("S3 Error:", error);
         throw new Error(
-          `Failed to access file: ${error instanceof Error ? error.message : "unknown error"}`
+          `Failed to access file: ${error instanceof Error ? error.message : "unknown error"}`,
         );
       }
     } catch (error) {

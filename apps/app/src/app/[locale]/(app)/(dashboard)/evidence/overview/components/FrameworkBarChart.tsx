@@ -69,7 +69,7 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
       if (firstFramework && firstFramework.length > 0) {
         console.log(
           "First framework's first item status:",
-          firstFramework[0].status
+          firstFramework[0].status,
         );
       }
     }
@@ -105,7 +105,7 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
         items,
         statusCounts,
       };
-    }
+    },
   );
 
   // Sort by count in descending order
