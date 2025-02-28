@@ -11,6 +11,16 @@ export default async function Layout({
 
   return (
     <div className="max-w-[1200px] m-auto">
+      <SecondaryMenu
+        items={[
+          {
+            path: "/evidence/overview",
+            label: t("evidence.dashboard"),
+          },
+          { path: "/evidence/list", label: t("evidence.list") },
+        ]}
+      />
+
       <main className="py-8">{children}</main>
     </div>
   );

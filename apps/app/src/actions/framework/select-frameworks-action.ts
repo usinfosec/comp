@@ -44,7 +44,7 @@ export const selectFrameworksAction = authActionClient
       await createOrganizationPolicy(user as User, frameworkIds);
 
       // Create organization evidence first
-      await createOrganizationEvidence(user as User);
+      await createOrganizationEvidence(user as User, frameworkIds);
 
       // Create control requirements after evidence is created
       await createOrganizationControlRequirements(
@@ -273,7 +273,10 @@ const createOrganizationControlRequirements = async (
   return controlRequirements;
 };
 
-const createOrganizationEvidence = async (user: User) => {
+const createOrganizationEvidence = async (
+  user: User,
+  frameworkIds: string[]
+) => {
   if (!user.organizationId) {
     throw new Error("Not authorized - no organization found");
   }
@@ -281,6 +284,17 @@ const createOrganizationEvidence = async (user: User) => {
   const evidence = await db.controlRequirement.findMany({
     where: {
       type: RequirementType.evidence,
+    },
+    include: {
+      control: {
+        include: {
+          frameworkCategory: {
+            include: {
+              framework: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -291,6 +305,8 @@ const createOrganizationEvidence = async (user: User) => {
       name: evidence.name,
       description: evidence.description,
       frequency: evidence.frequency,
+      frameworkId: evidence.control.frameworkCategory?.framework.id || "",
+      assigneeId: user.id,
     })),
   });
 

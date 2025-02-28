@@ -33,6 +33,7 @@ interface EvidenceTableContextType {
   setRelevance: (value: string | null) => void;
   setPage: (value: string) => void;
   setPageSize: (value: string) => void;
+  mutate: () => void;
 
   // Data
   evidenceTasks: EvidenceTaskRow[] | undefined;
@@ -83,6 +84,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     pagination,
     isLoading,
     error,
+    mutate,
   } = useOrganizationEvidenceTasks({
     search,
     status: status as "published" | "draft" | null,
@@ -174,6 +176,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
     setRelevance,
     setPage,
     setPageSize,
+    mutate,
 
     // Data
     evidenceTasks,

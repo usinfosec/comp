@@ -134,6 +134,9 @@ files:
     sidebar.settings: f4f70727dc34561dfde1a3c529b6205c
     sidebar.evidence: 63b1eb1a39194d82271ec937fba19714
     sidebar.people: 78386ec8f2845742c324a3d7d3e800ff
+    sub_pages.evidence.title: c7b2a4d55fbea4d044644cf5b2b45d29
+    sub_pages.evidence.list: d2b5512c16318cc8738eff7dbe7de9ca
+    sub_pages.evidence.overview: 376eeb70e956ecef2611d88a28269c5b
     sub_pages.risk.overview: 7228bb53bb7855d458965d2f15fc6cd7
     sub_pages.risk.register: e4c28136d96146bd5fe9dfe41214138c
     sub_pages.risk.risk_overview: 5226ebb7d548f2d3a8f8c4fd08851405
@@ -494,6 +497,8 @@ files:
     editor.ai_selector.discard: d94b42030b9785fd754d5c1754961269
     evidence.title: 63b1eb1a39194d82271ec937fba19714
     evidence.description: c8fcd9bc15a38dcd7f6d0cbdeb65f33c
+    evidence.dashboard: 2938c7f7e560ed972f8a4f68e80ff834
+    evidence.list: ed2c6e00de11f3eb621cd348bb8f5806
   src/locales/es.ts:
     language.title: c88b33a3250b4e28f34e1ececba69206
     language.description: b74d060770289b75ba34d38ea1e05251
