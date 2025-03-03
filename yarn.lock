@@ -996,7 +996,7 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-"@bubba/analytics@packages/analytics":
+"@bubba/analytics@packages/analytics", "@bubba/analytics@workspace:*":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
@@ -1008,6 +1008,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.7.3"
   dependencies:
     "@auth/prisma-adapter" "^2.7.4"
@@ -6136,6 +6137,7 @@ commander@11.1.0:
   resolved "workspace:apps/app"
   devDependencies:
     "@bubba/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.16"
     "@types/node" "^22.13.2"
     "@types/react" "19.0.10"
@@ -6149,7 +6151,9 @@ commander@11.1.0:
     "@aws-sdk/client-s3" "^3.758.0"
     "@aws-sdk/s3-request-presigner" "^3.758.0"
     "@browserbasehq/sdk" "^2.3.0"
+  dependencies:
     "@bubba/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.53.1"
@@ -13231,6 +13235,7 @@ wcwidth@^1.0.1:
   version "workspace:apps/web"
   resolved "workspace:apps/web"
   devDependencies:
+    "@bubba/analytics" "workspace:*"
     "@trigger.dev/build" "^3.3.15"
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"

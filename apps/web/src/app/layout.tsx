@@ -10,38 +10,36 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import localFont from "next/font/local";
 
 export const metadata = generatePageMeta({
-  url: "/",
+	url: "/",
 });
 
 const font = localFont({
-  src: "../../public/fonts/GeneralSans-Variable.ttf",
-  display: "swap",
-  variable: "--font-general-sans",
+	src: "../../public/fonts/GeneralSans-Variable.ttf",
+	display: "swap",
+	variable: "--font-general-sans",
 });
 
 export const preferredRegion = ["auto"];
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <GoogleTagManager gtmId={env.NEXT_PUBLIC_GOOGLE_TAG_ID!} />
-      <body
-        className={cn(
-          "bg-background font-sans antialiased",
-          `${GeistMono.variable} ${font.variable}`,
-        )}
-      >
-        <Providers attribute="class" defaultTheme="dark">
-          <div className="flex min-h-svh flex-col">
-            <main className="flex-1">{children}</main>
-            <Toaster richColors />
-          </div>
-        </Providers>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<GoogleTagManager gtmId={env.NEXT_PUBLIC_GOOGLE_TAG_ID!} />
+			<body
+				className={cn(
+					"bg-background font-sans antialiased",
+					`${GeistMono.variable} ${font.variable}`,
+				)}
+			>
+				<Providers>
+					<main>{children}</main>
+				</Providers>
+				<Toaster richColors />
+			</body>
+		</html>
+	);
 }
