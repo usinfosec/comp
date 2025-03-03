@@ -4,36 +4,36 @@ export default {
     fr: "Francês",
     no: "Norueguês",
     pt: "Português",
-    en: "Inglês",
+    en: "Inglês"
   },
   language: {
     title: "Idiomas",
     description: "Altere o idioma usado na interface do usuário.",
-    placeholder: "Selecione o idioma",
+    placeholder: "Selecione o idioma"
   },
   common: {
     actions: {
       save: "Salvar",
       edit: "Editar",
-      delete: "Excluir",
+      "delete": "Excluir",
       cancel: "Cancelar",
       clear: "Limpar",
       create: "Criar",
       send: "Enviar",
-      return: "Retornar",
+      "return": "Retornar",
       success: "Sucesso",
       error: "Erro",
       next: "Próximo",
       complete: "Completo",
-      addNew: "Adicionar Novo",
+      addNew: "Adicionar Novo"
     },
     assignee: {
       label: "Responsável",
-      placeholder: "Selecione o responsável",
+      placeholder: "Selecione o responsável"
     },
     date: {
       pick: "Escolher uma data",
-      due_date: "Data de Vencimento",
+      due_date: "Data de Vencimento"
     },
     status: {
       open: "Aberto",
@@ -51,7 +51,7 @@ export default {
       assessed: "Avaliado",
       active: "Ativo",
       inactive: "Inativo",
-      title: "Status",
+      title: "Status"
     },
     filters: {
       clear: "Limpar filtros",
@@ -60,8 +60,8 @@ export default {
       department: "Departamento",
       owner: {
         label: "Responsável",
-        placeholder: "Filtrar por responsável",
-      },
+        placeholder: "Filtrar por responsável"
+      }
     },
     table: {
       title: "Título",
@@ -69,7 +69,7 @@ export default {
       assigned_to: "Atribuído A",
       due_date: "Data de Vencimento",
       last_updated: "Última Atualização",
-      no_results: "Nenhum resultado encontrado",
+      no_results: "Nenhum resultado encontrado"
     },
     empty_states: {
       no_results: {
@@ -79,12 +79,12 @@ export default {
         description: "Tente outra pesquisa ou ajuste os filtros",
         description_filters: "Tente outra pesquisa ou ajuste os filtros",
         description_no_tasks: "Crie uma tarefa para começar",
-        description_no_risks: "Crie um risco para começar",
+        description_no_risks: "Crie um risco para começar"
       },
       no_items: {
         title: "Nenhum item encontrado",
-        description: "Tente ajustar sua pesquisa ou filtros",
-      },
+        description: "Tente ajustar sua pesquisa ou filtros"
+      }
     },
     pagination: {
       of: "de",
@@ -94,42 +94,38 @@ export default {
       go_to_first_page: "Ir para a primeira página",
       go_to_previous_page: "Ir para a página anterior",
       go_to_next_page: "Ir para a próxima página",
-      go_to_last_page: "Ir para a última página",
+      go_to_last_page: "Ir para a última página"
     },
     comments: {
       title: "Comentários",
       description: "Adicione um comentário usando o formulário abaixo.",
       add: "Novo Comentário",
-      new: "Novo Comentário",
+      "new": "Novo Comentário",
       save: "Salvar Comentário",
       success: "Comentário adicionado com sucesso",
       error: "Falha ao adicionar comentário",
       placeholder: "Escreva seu comentário aqui...",
       empty: {
         title: "Nenhum comentário ainda",
-        description: "Seja o primeiro a adicionar um comentário",
-      },
+        description: "Seja o primeiro a adicionar um comentário"
+      }
     },
     attachments: {
       title: "Anexos",
       description: "Adicione um arquivo clicando em 'Adicionar Anexo'.",
       upload: "Enviar anexo",
-      upload_description:
-        "Carregue um anexo ou adicione um link para um recurso externo.",
+      upload_description: "Carregue um anexo ou adicione um link para um recurso externo.",
       drop: "Solte os arquivos aqui",
-      drop_description:
-        "Solte arquivos aqui ou clique para escolher arquivos do seu dispositivo.",
+      drop_description: "Solte arquivos aqui ou clique para escolher arquivos do seu dispositivo.",
       drop_files_description: "Os arquivos podem ter até ",
       empty: {
         title: "Nenhum anexo",
-        description: "Adicione um arquivo clicando em 'Adicionar Anexo'.",
+        description: "Adicione um arquivo clicando em 'Adicionar Anexo'."
       },
       toasts: {
         error: "Algo deu errado, por favor tente novamente.",
-        error_uploading_files:
-          "Não é possível carregar mais de 1 arquivo por vez",
-        error_uploading_files_multiple:
-          "Não é possível carregar mais de 10 arquivos",
+        error_uploading_files: "Não é possível carregar mais de 1 arquivo por vez",
+        error_uploading_files_multiple: "Não é possível carregar mais de 10 arquivos",
         error_no_files_selected: "Nenhum arquivo selecionado",
         error_file_rejected: "Arquivo {file} foi rejeitado",
         error_failed_to_upload_files: "Falha ao carregar arquivos",
@@ -140,18 +136,18 @@ export default {
         success_uploading_files_single: "Arquivo carregado com sucesso",
         success_uploading_files_target: "Arquivos carregados",
         uploading_files: "Carregando {target}...",
-        remove_file: "Remover arquivo",
-      },
+        remove_file: "Remover arquivo"
+      }
     },
     notifications: {
       inbox: "Caixa de entrada",
       archive: "Arquivo",
       archive_all: "Arquivar tudo",
-      no_notifications: "Sem novas notificações",
+      no_notifications: "Sem novas notificações"
     },
     edit: "Editar",
     errors: {
-      unexpected_error: "Ocorreu um erro inesperado",
+      unexpected_error: "Ocorreu um erro inesperado"
     },
     description: "Descrição",
     last_updated: "Última atualização",
@@ -160,35 +156,34 @@ export default {
       weekly: "Semanal",
       monthly: "Mensal",
       quarterly: "Trimestral",
-      yearly: "Anual",
-    },
+      yearly: "Anual"
+    }
   },
   header: {
     discord: {
-      button: "Junte-se a nós no Discord",
+      button: "Junte-se a nós no Discord"
     },
     feedback: {
       button: "Feedback",
       title: "Obrigado pelo seu feedback!",
       description: "Voltaremos a você assim que possível",
-      placeholder:
-        "Ideias para melhorar esta página ou problemas que você está enfrentando.",
+      placeholder: "Ideias para melhorar esta página ou problemas que você está enfrentando.",
       success: "Obrigado pelo seu feedback!",
       error: "Erro ao enviar feedback - tentar novamente?",
-      send: "Enviar Feedback",
-    },
+      send: "Enviar Feedback"
+    }
   },
   not_found: {
     title: "404 - Página não encontrada",
     description: "A página que você está procurando não existe.",
-    return: "Retornar ao painel",
+    "return": "Retornar ao painel"
   },
   theme: {
     options: {
       light: "Claro",
       dark: "Escuro",
-      system: "Sistema",
-    },
+      system: "Sistema"
+    }
   },
   sidebar: {
     overview: "Visão Geral",
@@ -198,12 +193,11 @@ export default {
     integrations: "Integrações",
     settings: "Configurações",
     evidence: "Tarefas de Evidência",
-    people: "Pessoas",
+    people: "Pessoas"
   },
   auth: {
     title: "Automatize a conformidade com SOC 2, ISO 27001 e GDPR com IA.",
-    description:
-      "Crie uma conta gratuita ou faça login com uma conta existente para continuar.",
+    description: "Crie uma conta gratuita ou faça login com uma conta existente para continuar.",
     options: "Mais opções",
     google: "Continuar com o Google",
     email: {
@@ -211,14 +205,12 @@ export default {
       placeholder: "Insira o endereço de e-mail",
       button: "Continuar com e-mail",
       magic_link_sent: "Link mágico enviado",
-      magic_link_description:
-        "Verifique sua caixa de entrada para um link mágico.",
+      magic_link_description: "Verifique sua caixa de entrada para um link mágico.",
       magic_link_try_again: "Tente novamente.",
       success: "E-mail enviado - verifique sua caixa de entrada!",
-      error: "Erro ao enviar e-mail - tentar novamente?",
+      error: "Erro ao enviar e-mail - tentar novamente?"
     },
-    terms:
-      "Ao clicar em continuar, você reconhece que leu e concorda com os Termos de Serviço e a Política de Privacidade.",
+    terms: "Ao clicar em continuar, você reconhece que leu e concorda com os Termos de Serviço e a Política de Privacidade."
   },
   onboarding: {
     title: "Criar uma organização",
@@ -227,35 +219,35 @@ export default {
     fields: {
       name: {
         label: "Nome da Organização",
-        placeholder: "O nome da sua organização",
+        placeholder: "O nome da sua organização"
       },
       website: {
         label: "Website",
-        placeholder: "O website da sua organização",
+        placeholder: "O website da sua organização"
       },
       subdomain: {
         label: "Subdomínio",
-        placeholder: "exemplo",
+        placeholder: "exemplo"
       },
       fullName: {
         label: "Seu Nome",
-        placeholder: "Seu nome completo",
-      },
+        placeholder: "Seu nome completo"
+      }
     },
     success: "Obrigado, tudo pronto!",
     error: "Algo deu errado, por favor tente novamente.",
     unavailable: "Indisponível",
     check_availability: "Verificando disponibilidade",
-    available: "Disponível",
+    available: "Disponível"
   },
   overview: {
     title: "Visão Geral",
     framework_chart: {
-      title: "Progresso do Framework",
+      title: "Progresso do Framework"
     },
     requirement_chart: {
-      title: "Status de Conformidade",
-    },
+      title: "Status de Conformidade"
+    }
   },
   policies: {
     dashboard: {
@@ -266,32 +258,32 @@ export default {
       policies_by_framework: "Políticas por Framework",
       sub_pages: {
         overview: "Visão Geral",
-        edit_policy: "Editar Política",
-      },
+        edit_policy: "Editar Política"
+      }
     },
     table: {
       name: "Nome da Política",
       statuses: {
         draft: "Rascunho",
         published: "Publicado",
-        archived: "Arquivado",
+        archived: "Arquivado"
       },
       filters: {
         owner: {
           label: "Responsável",
-          placeholder: "Filtrar por responsável",
-        },
-      },
+          placeholder: "Filtrar por responsável"
+        }
+      }
     },
     filters: {
       search: "Pesquisar políticas...",
-      all: "Todas as Políticas",
+      all: "Todas as Políticas"
     },
     status: {
       draft: "Rascunho",
       published: "Publicado",
       needs_review: "Necessita Revisão",
-      archived: "Arquivado",
+      archived: "Arquivado"
     },
     policies: "políticas",
     title: "Políticas",
@@ -312,21 +304,20 @@ export default {
       title: "Visão Geral da Política",
       form: {
         update_policy: "Atualizar Política",
-        update_policy_description:
-          "Atualize o título ou a descrição da política.",
+        update_policy_description: "Atualize o título ou a descrição da política.",
         update_policy_success: "Política atualizada com sucesso",
         update_policy_error: "Falha ao atualizar a política",
         update_policy_title: "Nome da Política",
         review_frequency: "Frequência de Revisão",
         review_frequency_placeholder: "Selecione uma frequência de revisão",
         review_date: "Data da Revisão",
-        review_date_placeholder: "Selecione uma data de revisão",
-      },
-    },
+        review_date_placeholder: "Selecione uma data de revisão"
+      }
+    }
   },
   evidence_tasks: {
     evidence_tasks: "Tarefas de Evidência",
-    overview: "Visão Geral",
+    overview: "Visão Geral"
   },
   risk: {
     risks: "riscos",
@@ -340,10 +331,8 @@ export default {
         vendor_status: "Status do Fornecedor",
         vendor_category: "Categorias de Fornecedor",
         vendors_by_assignee: "Fornecedores por Responsável",
-        inherent_risk_description:
-          "Nível de risco inicial antes da aplicação de quaisquer controles",
-        residual_risk_description:
-          "Nível de risco restante após a aplicação de controles",
+        inherent_risk_description: "Nível de risco inicial antes da aplicação de quaisquer controles",
+        residual_risk_description: "Nível de risco restante após a aplicação de controles"
       },
       register: {
         title: "Registro de Fornecedor",
@@ -351,16 +340,15 @@ export default {
           name: "Nome",
           category: "Categoria",
           status: "Status",
-          owner: "Responsável",
-        },
+          owner: "Responsável"
+        }
       },
       assessment: {
         title: "Avaliação de Fornecedor",
-        update_success:
-          "Avaliação de risco do fornecedor atualizada com sucesso",
+        update_success: "Avaliação de risco do fornecedor atualizada com sucesso",
         update_error: "Falha ao atualizar a avaliação de risco do fornecedor",
         inherent_risk: "Risco Inerente",
-        residual_risk: "Risco Residual",
+        residual_risk: "Risco Residual"
       },
       form: {
         vendor_details: "Detalhes do Fornecedor",
@@ -379,38 +367,38 @@ export default {
         update_vendor: "Atualizar Fornecedor",
         update_vendor_success: "Fornecedor atualizado com sucesso",
         update_vendor_error: "Falha ao atualizar fornecedor",
-        add_comment: "Adicionar Comentário",
+        add_comment: "Adicionar Comentário"
       },
       table: {
         name: "Nome",
         category: "Categoria",
         status: "Status",
-        owner: "Proprietário",
+        owner: "Proprietário"
       },
       filters: {
         search_placeholder: "Pesquisar fornecedores...",
         status_placeholder: "Filtrar por status",
         category_placeholder: "Filtrar por categoria",
-        owner_placeholder: "Filtrar por proprietário",
+        owner_placeholder: "Filtrar por proprietário"
       },
       empty_states: {
         no_vendors: {
           title: "Nenhum fornecedor ainda",
-          description: "Comece criando seu primeiro fornecedor",
+          description: "Comece criando seu primeiro fornecedor"
         },
         no_results: {
           title: "Nenhum resultado encontrado",
           description: "Nenhum fornecedor corresponde à sua pesquisa",
-          description_with_filters: "Tente ajustar seus filtros",
-        },
+          description_with_filters: "Tente ajustar seus filtros"
+        }
       },
       actions: {
-        create: "Criar Fornecedor",
+        create: "Criar Fornecedor"
       },
       status: {
         not_assessed: "Não Avaliado",
         in_progress: "Em Andamento",
-        assessed: "Avaliado",
+        assessed: "Avaliado"
       },
       category: {
         cloud: "Nuvem",
@@ -420,14 +408,14 @@ export default {
         marketing: "Marketing",
         sales: "Vendas",
         hr: "RH",
-        other: "Outro",
+        other: "Outro"
       },
       risk_level: {
         low: "Baixo Risco",
         medium: "Risco Médio",
         high: "Alto Risco",
-        unknown: "Risco Desconhecido",
-      },
+        unknown: "Risco Desconhecido"
+      }
     },
     dashboard: {
       title: "Painel",
@@ -435,42 +423,36 @@ export default {
       risk_status: "Status do Risco",
       risks_by_department: "Riscos por Departamento",
       risks_by_assignee: "Riscos por Responsável",
-      inherent_risk_description:
-        "O risco inerente é calculado como probabilidade * impacto. Calculado antes de qualquer controle ser aplicado.",
-      residual_risk_description:
-        "O risco residual é calculado como probabilidade * impacto. Este é o nível de risco após a aplicação de controles.",
-      risk_assessment_description:
-        "Compare os níveis de risco inerente e residual",
+      inherent_risk_description: "O risco inerente é calculado como probabilidade * impacto. Calculado antes de qualquer controle ser aplicado.",
+      residual_risk_description: "O risco residual é calculado como probabilidade * impacto. Este é o nível de risco após a aplicação de controles.",
+      risk_assessment_description: "Compare os níveis de risco inerente e residual"
     },
     register: {
       title: "Registro de Risco",
       table: {
-        risk: "Risco",
+        risk: "Risco"
       },
       empty: {
         no_risks: {
           title: "Crie um risco para começar",
-          description:
-            "Acompanhe e classifique riscos, crie e atribua tarefas de mitigação para sua equipe e gerencie seu registro de risco tudo em uma interface simples.",
+          description: "Acompanhe e classifique riscos, crie e atribua tarefas de mitigação para sua equipe e gerencie seu registro de risco tudo em uma interface simples."
         },
-        create_risk: "Criar um risco",
-      },
+        create_risk: "Criar um risco"
+      }
     },
     metrics: {
       probability: "Probabilidade",
       impact: "Impacto",
       inherentRisk: "Risco Inerente",
-      residualRisk: "Risco Residual",
+      residualRisk: "Risco Residual"
     },
     form: {
       update_inherent_risk: "Salvar Risco Inerente",
-      update_inherent_risk_description:
-        "Atualize o risco inerente do risco. Este é o nível de risco antes de qualquer controle ser aplicado.",
+      update_inherent_risk_description: "Atualize o risco inerente do risco. Este é o nível de risco antes de qualquer controle ser aplicado.",
       update_inherent_risk_success: "Risco inerente atualizado com sucesso",
       update_inherent_risk_error: "Falha ao atualizar risco inerente",
       update_residual_risk: "Salvar Risco Residual",
-      update_residual_risk_description:
-        "Atualize o risco residual do risco. Este é o nível de risco após a aplicação de controles.",
+      update_residual_risk_description: "Atualize o risco residual do risco. Este é o nível de risco após a aplicação de controles.",
       update_residual_risk_success: "Risco residual atualizado com sucesso",
       update_residual_risk_error: "Falha ao atualizar risco residual",
       update_risk: "Atualizar Risco",
@@ -489,7 +471,7 @@ export default {
       risk_department: "Departamento",
       risk_department_placeholder: "Selecione um departamento",
       risk_status: "Status do Risco",
-      risk_status_placeholder: "Selecione um status de risco",
+      risk_status_placeholder: "Selecione um status de risco"
     },
     tasks: {
       title: "Tarefas",
@@ -506,38 +488,33 @@ export default {
         due_date: "Data de Vencimento",
         due_date_description: "Selecione a data de vencimento para a tarefa",
         success: "Tarefa criada com sucesso",
-        error: "Falha ao criar tarefa",
+        error: "Falha ao criar tarefa"
       },
       sheet: {
         title: "Criar Tarefa",
         update: "Atualizar Tarefa",
-        update_description: "Atualize o título ou a descrição da tarefa.",
+        update_description: "Atualize o título ou a descrição da tarefa."
       },
       empty: {
-        description_create:
-          "Crie uma tarefa de mitigação para este risco, adicione um plano de tratamento e atribua a um membro da equipe.",
-      },
-    },
+        description_create: "Crie uma tarefa de mitigação para este risco, adicione um plano de tratamento e atribua a um membro da equipe."
+      }
+    }
   },
   settings: {
     general: {
       title: "Geral",
       org_name: "Nome da Organização",
-      org_name_description:
-        "Este é o nome visível da sua organização. Você deve usar o nome legal da sua organização.",
+      org_name_description: "Este é o nome visível da sua organização. Você deve usar o nome legal da sua organização.",
       org_name_tip: "Por favor, use no máximo 32 caracteres.",
       org_website: "Website da Organização",
-      org_website_description:
-        "Este é o URL do website oficial da sua organização. Certifique-se de incluir o URL completo com https://.",
+      org_website_description: "Este é o URL do website oficial da sua organização. Certifique-se de incluir o URL completo com https://.",
       org_website_tip: "Por favor, insira um URL válido incluindo https://",
       org_website_error: "Erro ao atualizar o website da organização",
       org_website_updated: "Website da organização atualizado",
       org_delete: "Excluir organização",
-      org_delete_description:
-        "Remova permanentemente sua organização e todo o seu conteúdo da plataforma Comp AI. Esta ação não é reversível - continue com cautela.",
+      org_delete_description: "Remova permanentemente sua organização e todo o seu conteúdo da plataforma Comp AI. Esta ação não é reversível - continue com cautela.",
       org_delete_alert_title: "Você tem certeza absoluta?",
-      org_delete_alert_description:
-        "Esta ação não pode ser desfeita. Isso excluirá permanentemente sua organização e removerá seus dados de nossos servidores.",
+      org_delete_alert_description: "Esta ação não pode ser desfeita. Isso excluirá permanentemente sua organização e removerá seus dados de nossos servidores.",
       org_delete_error: "Erro ao excluir organização",
       org_delete_success: "Organização excluída",
       org_name_updated: "Nome da organização atualizado",
@@ -546,14 +523,14 @@ export default {
       delete_button: "Excluir",
       delete_confirm: "EXCLUIR",
       delete_confirm_tip: "Digite EXCLUIR para confirmar.",
-      cancel_button: "Cancelar",
+      cancel_button: "Cancelar"
     },
     members: {
-      title: "Membros",
+      title: "Membros"
     },
     billing: {
-      title: "Faturamento",
-    },
+      title: "Faturamento"
+    }
   },
   user_menu: {
     theme: "Tema",
@@ -562,7 +539,7 @@ export default {
     account: "Conta",
     support: "Suporte",
     settings: "Configurações",
-    teams: "Equipes",
+    teams: "Equipes"
   },
   frameworks: {
     title: "Estruturas",
@@ -573,48 +550,43 @@ export default {
         status: "Status",
         control: "Controle",
         artifacts: "Artefatos",
-        actions: "Ações",
+        actions: "Ações"
       },
       statuses: {
         not_started: "Não Iniciado",
-        compliant: "Conforme",
-        non_compliant: "Não Conforme",
         completed: "Concluído",
-        in_progress: "Em Andamento",
-      },
+        in_progress: "Em Andamento"
+      }
     },
     overview: {
       error: "Falha ao carregar frameworks",
       loading: "Carregando frameworks...",
       empty: {
         title: "Nenhum framework selecionado",
-        description:
-          "Selecione frameworks para começar sua jornada de conformidade",
+        description: "Selecione frameworks para começar sua jornada de conformidade"
       },
       progress: {
         title: "Progresso do Framework",
         empty: {
           title: "Nenhum framework ainda",
-          description:
-            "Comece adicionando um framework de conformidade para acompanhar seu progresso",
-          action: "Adicionar Framework",
-        },
+          description: "Comece adicionando um framework de conformidade para acompanhar seu progresso",
+          action: "Adicionar Framework"
+        }
       },
       grid: {
         welcome: {
           title: "Bem-vindo ao Comp AI",
-          description:
-            "Comece selecionando os frameworks de conformidade que você gostaria de implementar. Nós o ajudaremos a gerenciar e acompanhar sua jornada de conformidade em múltiplos padrões.",
-          action: "Começar",
+          description: "Comece selecionando os frameworks de conformidade que você gostaria de implementar. Nós o ajudaremos a gerenciar e acompanhar sua jornada de conformidade em múltiplos padrões.",
+          action: "Começar"
         },
         title: "Selecionar Frameworks",
         version: "Versão",
         actions: {
           clear: "Limpar",
-          confirm: "Confirmar Seleção",
-        },
-      },
-    },
+          confirm: "Confirmar Seleção"
+        }
+      }
+    }
   },
   vendor: {
     title: "Painel",
@@ -625,10 +597,8 @@ export default {
       vendor_status: "Status do Fornecedor",
       vendor_category: "Categorias de Fornecedor",
       vendors_by_assignee: "Fornecedores por Responsável",
-      inherent_risk_description:
-        "Nível de risco inicial antes que quaisquer controles sejam aplicados",
-      residual_risk_description:
-        "Nível de risco restante após a aplicação de controles",
+      inherent_risk_description: "Nível de risco inicial antes que quaisquer controles sejam aplicados",
+      residual_risk_description: "Nível de risco restante após a aplicação de controles"
     },
     register: {
       title: "Registro de Fornecedor",
@@ -636,8 +606,8 @@ export default {
         name: "Nome",
         category: "Categoria",
         status: "Status",
-        owner: "Proprietário",
-      },
+        owner: "Proprietário"
+      }
     },
     category: {
       cloud: "Nuvem",
@@ -647,7 +617,7 @@ export default {
       marketing: "Marketing",
       sales: "Vendas",
       hr: "RH",
-      other: "Outro",
+      other: "Outro"
     },
     vendors: "fornecedores",
     form: {
@@ -672,79 +642,79 @@ export default {
       contact_role: "Função do Contato",
       add_contact: "Adicionar Contato",
       new_contact: "Novo Contato",
-      min_one_contact_required: "Um fornecedor deve ter pelo menos um contato",
+      min_one_contact_required: "Um fornecedor deve ter pelo menos um contato"
     },
     empty_states: {
       no_vendors: {
         title: "Nenhum fornecedor ainda",
-        description: "Comece criando seu primeiro fornecedor",
+        description: "Comece criando seu primeiro fornecedor"
       },
       no_results: {
         title: "Nenhum resultado encontrado",
         description: "Nenhum fornecedor corresponde à sua pesquisa",
-        description_with_filters: "Tente ajustar seus filtros",
-      },
-    },
+        description_with_filters: "Tente ajustar seus filtros"
+      }
+    }
   },
   people: {
     title: "Pessoas",
     details: {
       taskProgress: "Progresso da Tarefa",
       tasks: "Tarefas",
-      noTasks: "Nenhuma tarefa atribuída ainda",
+      noTasks: "Nenhuma tarefa atribuída ainda"
     },
     description: "Gerencie os membros da sua equipe e seus papéis.",
     filters: {
       search: "Pesquisar pessoas...",
-      role: "Filtrar por papel",
+      role: "Filtrar por papel"
     },
     actions: {
       invite: "Adicionar Funcionário",
-      clear: "Limpar filtros",
+      clear: "Limpar filtros"
     },
     table: {
       name: "Nome",
       email: "Email",
       department: "Departamento",
-      externalId: "ID Externo",
+      externalId: "ID Externo"
     },
     empty: {
       no_employees: {
         title: "Nenhum funcionário ainda",
-        description: "Comece convidando seu primeiro membro da equipe.",
+        description: "Comece convidando seu primeiro membro da equipe."
       },
       no_results: {
         title: "Nenhum resultado encontrado",
         description: "Nenhum funcionário corresponde à sua pesquisa",
-        description_with_filters: "Tente ajustar seus filtros",
-      },
+        description_with_filters: "Tente ajustar seus filtros"
+      }
     },
     invite: {
       title: "Adicionar Funcionário",
       description: "Adicione um funcionário à sua organização.",
       email: {
         label: "Endereço de email",
-        placeholder: "Digite o endereço de email",
+        placeholder: "Digite o endereço de email"
       },
       role: {
         label: "Função",
-        placeholder: "Selecione uma função",
+        placeholder: "Selecione uma função"
       },
       name: {
         label: "Nome",
-        placeholder: "Digite o nome",
+        placeholder: "Digite o nome"
       },
       department: {
         label: "Departamento",
-        placeholder: "Selecione um departamento",
+        placeholder: "Selecione um departamento"
       },
       submit: "Adicionar Funcionário",
       success: "Funcionário adicionado com sucesso",
-      error: "Falha ao adicionar funcionário",
-    },
+      error: "Falha ao adicionar funcionário"
+    }
   },
   errors: {
-    unexpected: "Algo deu errado, por favor tente novamente",
+    unexpected: "Algo deu errado, por favor tente novamente"
   },
   sub_pages: {
     risk: {
@@ -753,29 +723,29 @@ export default {
       risk_overview: "Visão Geral dos Riscos",
       risk_comments: "Comentários sobre Riscos",
       tasks: {
-        task_overview: "Visão Geral da Tarefa",
-      },
+        task_overview: "Visão Geral da Tarefa"
+      }
     },
     policies: {
       all: "Todas as Políticas",
       editor: "Editor de Políticas",
-      policy_details: "Detalhes da política",
+      policy_details: "Detalhes da política"
     },
     people: {
       all: "Pessoas",
-      employee_details: "Detalhes do Funcionário",
+      employee_details: "Detalhes do Funcionário"
     },
     settings: {
-      members: "Membros da Equipe",
+      members: "Membros da Equipe"
     },
     frameworks: {
-      overview: "Estruturas",
+      overview: "Estruturas"
     },
     evidence: {
       title: "Evidência",
       list: "Lista de Evidências",
-      overview: "Visão Geral das Evidências",
-    },
+      overview: "Visão Geral das Evidências"
+    }
   },
   editor: {
     ai: {
@@ -783,25 +753,21 @@ export default {
       thinking_spinner: "A IA está pensando",
       edit_or_generate: "Editar ou gerar...",
       tell_ai_what_to_do_next: "Diga à IA o que fazer a seguir",
-      request_limit_reached:
-        "Você atingiu seu limite de solicitações para o dia.",
+      request_limit_reached: "Você atingiu seu limite de solicitações para o dia."
     },
     ai_selector: {
       improve: "Melhorar a escrita",
       fix: "Corrigir gramática",
       shorter: "Tornar mais curto",
       longer: "Tornar mais longo",
-      continue: "Continuar escrevendo",
+      "continue": "Continuar escrevendo",
       replace: "Substituir seleção",
       insert: "Inserir abaixo",
-      discard: "Descartar",
-    },
+      discard: "Descartar"
+    }
   },
   evidence: {
     title: "Tarefas de Evidência",
-    description:
-      "Gerencie e acompanhe as tarefas de evidência para seus requisitos de conformidade.",
-    dashboard: "Painel",
-    list: "Todas as Evidências",
-  },
+    list: "Todas as Evidências"
+  }
 } as const;
