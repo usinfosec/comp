@@ -1,4 +1,4 @@
-import { EvidenceDetails } from "./Components/EvidenceDetails";
+import { EvidenceDetails } from "./components/EvidenceDetails";
 
 interface EvidencePageProps {
   params: Promise<{

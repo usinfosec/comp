@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { useToast } from "@bubba/ui/use-toast";
-import { deleteEvidenceFile } from "../Actions/deleteEvidenceFile";
+import { deleteEvidenceFile } from "../actions/deleteEvidenceFile";
 
 interface UseFileDeleteProps {
   evidenceId: string;
@@ -43,7 +43,7 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
         });
       }
     },
-    [evidenceId, onSuccess, toast],
+    [evidenceId, onSuccess, toast]
   );
 
   return {

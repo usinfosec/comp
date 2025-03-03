@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { getOrganizationAdmins } from "../../Actions/getOrganizationAdmins";
+import { getOrganizationAdmins } from "../../actions/getOrganizationAdmins";
 
 export interface Admin {
   id: string;

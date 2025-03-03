@@ -1,17 +1,16 @@
 "use client";
 
+import { Badge } from "@bubba/ui/badge";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
-import { Card, CardContent } from "@bubba/ui/card";
-import { Plus, Trash, Save, Link, ExternalLink, Copy } from "lucide-react";
-import { useUrlManagement } from "../hooks/useUrlManagement";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@bubba/ui/tooltip";
-import { Badge } from "@bubba/ui/badge";
+import { Copy, ExternalLink, Link, Plus, Save, Trash } from "lucide-react";
+import { useUrlManagement } from "../hooks/useUrlManagement";
 
 interface UrlSectionProps {
   evidenceId: string;

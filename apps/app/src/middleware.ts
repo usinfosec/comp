@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const response = await I18nMiddleware(request);
+  const response = I18nMiddleware(request);
   response.headers.set("x-pathname", request.nextUrl.pathname);
 
   return response;

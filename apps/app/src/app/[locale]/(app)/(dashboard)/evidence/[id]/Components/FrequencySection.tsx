@@ -10,7 +10,7 @@ import {
 } from "@bubba/ui/select";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { updateEvidenceFrequency } from "../Actions/updateEvidenceFrequency";
+import { updateEvidenceFrequency } from "../actions/updateEvidenceFrequency";
 import type { Frequency } from "@bubba/db";
 
 interface FrequencySectionProps {
@@ -25,7 +25,7 @@ export function FrequencySection({
   onSuccess,
 }: FrequencySectionProps) {
   const [frequency, setFrequency] = useState<Frequency | null>(
-    currentFrequency || null,
+    currentFrequency || null
   );
 
   const { execute: updateFrequency, isExecuting } = useAction(
@@ -38,7 +38,7 @@ export function FrequencySection({
       onError: () => {
         toast.error("Failed to update review frequency");
       },
-    },
+    }
   );
 
   useEffect(() => {

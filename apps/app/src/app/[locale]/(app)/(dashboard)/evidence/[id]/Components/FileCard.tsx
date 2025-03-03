@@ -1,14 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardFooter } from "@bubba/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-} from "@bubba/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,16 +11,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@bubba/ui/alert-dialog";
+import { Button } from "@bubba/ui/button";
+import { Card, CardContent, CardFooter } from "@bubba/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@bubba/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@bubba/ui/tooltip";
-import { ExternalLink, Loader2, Trash, Maximize2 } from "lucide-react";
+import { ExternalLink, Loader2, Maximize2, Trash } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { FileIcon } from "./FileIcon";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface FilePreviewState {
   url: string | null;

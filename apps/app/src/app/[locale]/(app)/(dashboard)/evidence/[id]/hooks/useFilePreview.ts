@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useToast } from "@bubba/ui/use-toast";
-import { getEvidenceFileUrl } from "../Actions/getEvidenceFileUrl";
+import { getEvidenceFileUrl } from "../actions/getEvidenceFileUrl";
 
 interface UseFilePreviewProps {
   evidenceId: string;
@@ -60,7 +60,7 @@ export function useFilePreview({
         setIsLoading(false);
       }
     },
-    [evidenceId, toast],
+    [evidenceId, toast]
   );
 
   return {

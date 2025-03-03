@@ -11,7 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { assignEvidence } from "../Actions/assignEvidence";
+import { assignEvidence } from "../actions/assignEvidence";
 import { useOrganizationAdmins } from "../hooks/useOrganizationAdmins";
 import type { Admin } from "../hooks/useOrganizationAdmins";
 
@@ -27,7 +27,7 @@ export function AssigneeSection({
   onSuccess,
 }: AssigneeSectionProps) {
   const [assigneeId, setAssigneeId] = useState<string | null>(
-    currentAssigneeId || null,
+    currentAssigneeId || null
   );
   const { data: admins, isLoading, error } = useOrganizationAdmins();
   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
