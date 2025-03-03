@@ -1,8 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { getEvidenceTasksStats } from "../Actions/getEvidenceTasksStats";
-import type { EvidenceTasksStats } from "../Actions/getEvidenceTasksStats";
+import { getEvidenceTasksStats } from "../actions/getEvidenceTasksStats";
 
 // Define a simpler fetcher function
 async function fetchEvidenceTasksStats() {
@@ -19,7 +18,7 @@ async function fetchEvidenceTasksStats() {
 
     if (result.validationErrors) {
       throw new Error(
-        result.validationErrors._errors?.join(", ") ?? "Unknown error",
+        result.validationErrors._errors?.join(", ") ?? "Unknown error"
       );
     }
 
@@ -37,7 +36,7 @@ export function useEvidenceTasksStats() {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    },
+    }
   );
 
   return {

@@ -1,15 +1,15 @@
 "use client";
 
-import { DataTable } from "./data-table/EvidenceListTable";
 import { useI18n } from "@/locales/client";
-import { SkeletonTable } from "./SkeletonTable";
+import { useEvidenceTable } from "../hooks/useEvidenceTableContext";
+import { DataTable } from "./data-table/EvidenceListTable";
 import {
-  FilterDropdown,
   ActiveFilterBadges,
+  FilterDropdown,
   PaginationControls,
   SearchInput,
 } from "./EvidenceFilters";
-import { useEvidenceTable } from "../hooks/useEvidenceTableContext";
+import { SkeletonTable } from "./SkeletonTable";
 import { EvidenceSummaryCards } from "./EvidenceSummaryCards";
 
 export function EvidenceList() {

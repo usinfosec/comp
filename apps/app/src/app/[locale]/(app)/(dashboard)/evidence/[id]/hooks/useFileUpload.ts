@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useToast } from "@bubba/ui/use-toast";
-import { getUploadUrl } from "../Actions/uploadEvidenceFile";
+import { getUploadUrl } from "../actions/uploadEvidenceFile";
 import axios, { type AxiosProgressEvent } from "axios";
 
 interface UploadUrlResponse {
@@ -71,7 +71,7 @@ export function useFileUpload({
           onUploadProgress: (progressEvent: AxiosProgressEvent): void => {
             if (progressEvent.total) {
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
+                (progressEvent.loaded * 100) / progressEvent.total
               );
               console.debug(`Upload progress: ${percentCompleted}%`);
             }
@@ -104,7 +104,7 @@ export function useFileUpload({
         setIsUploading(false);
       }
     },
-    [evidenceId, onSuccess, toast],
+    [evidenceId, onSuccess, toast]
   );
 
   return {

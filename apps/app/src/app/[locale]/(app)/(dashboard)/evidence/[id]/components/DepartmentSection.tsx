@@ -11,7 +11,7 @@ import {
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { Departments } from "@bubba/db";
-import { updateEvidenceDepartment } from "../Actions/updateEvidenceDepartment";
+import { updateEvidenceDepartment } from "../actions/updateEvidenceDepartment";
 
 interface DepartmentSectionProps {
   evidenceId: string;
@@ -25,7 +25,7 @@ export function DepartmentSection({
   onSuccess,
 }: DepartmentSectionProps) {
   const [department, setDepartment] = useState<string | null>(
-    currentDepartment || null,
+    currentDepartment || null
   );
 
   const { execute: updateDepartment, isExecuting } = useAction(
@@ -39,7 +39,7 @@ export function DepartmentSection({
         console.error("Error updating department:", error);
         toast.error("Failed to update department");
       },
-    },
+    }
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export function DepartmentSection({
   };
 
   const departmentOptions = Object.values(Departments).filter(
-    (dept) => dept !== "none",
+    (dept) => dept !== "none"
   );
 
   return (

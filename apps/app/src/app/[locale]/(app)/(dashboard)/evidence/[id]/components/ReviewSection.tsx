@@ -1,24 +1,19 @@
 "use client";
 
-import type { OrganizationEvidence, Frequency } from "@bubba/db";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardDescription,
-} from "@bubba/ui/card";
-import { CalendarClock, Pencil, RefreshCw, Building, User } from "lucide-react";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import { format } from "date-fns";
-import { FrequencySection } from "./FrequencySection";
-import { DepartmentSection } from "./DepartmentSection";
-import { AssigneeSection } from "./AssigneeSection";
+import type { Frequency, OrganizationEvidence } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { format } from "date-fns";
+import { Building, CalendarClock, RefreshCw, User } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { toggleRelevance } from "../Actions/toggleRelevance";
 import { toast } from "sonner";
+import { publishEvidence } from "../actions/publishEvidence";
+import { toggleRelevance } from "../actions/toggleRelevance";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
+import { AssigneeSection } from "./AssigneeSection";
+import { DepartmentSection } from "./DepartmentSection";
+import { FrequencySection } from "./FrequencySection";
 
 interface ReviewSectionProps {
   evidence: OrganizationEvidence;
@@ -55,11 +50,27 @@ export function ReviewSection({
       },
     });
 
+  const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
+    onSuccess: () => {
+      toast.success("Evidence published successfully");
+      mutate();
+    },
+    onError: () => {
+      toast.error("Failed to publish evidence, please try again.");
+    },
+  });
+
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base flex items-center justify-between gap-2">
-          Evidence Details
+      <CardHeader>
+        <CardTitle className="text-base flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-medium">Evidence Overview</h2>
+            <h3 className="text-sm text-muted-foreground">
+              Manage review frequency, department assignment, and track upcoming
+              review dates
+            </h3>
+          </div>
           <Button
             variant="outline"
             size="sm"
@@ -77,14 +88,10 @@ export function ReviewSection({
               : "Mark as not relevant"}
           </Button>
         </CardTitle>
-        <CardDescription className="text-xs">
-          Manage review frequency, department assignment, and track upcoming
-          review dates
-        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 pt-2">
-        <div className="flex flex-col sm:flex-row gap-8 items-start">
-          <div className="flex-1 max-w-[150px]">
+        <div className="grid grid-cols-2 gap-8">
+          <div className="flex-1">
             <div className="flex items-center gap-2 mb-1.5">
               <Building className="h-3.5 w-3.5 text-muted-foreground" />
               <h3 className="text-xs font-medium text-muted-foreground">
@@ -98,7 +105,7 @@ export function ReviewSection({
             />
           </div>
 
-          <div className="flex-1 max-w-[150px]">
+          <div className="flex-1">
             <div className="flex items-center gap-2 mb-1.5">
               <RefreshCw className="h-3.5 w-3.5 text-muted-foreground" />
               <h3 className="text-xs font-medium text-muted-foreground">
@@ -112,7 +119,7 @@ export function ReviewSection({
             />
           </div>
 
-          <div className="flex-1 min-w-[180px]">
+          <div>
             <div className="flex items-center gap-2 mb-1.5">
               <CalendarClock className="h-3.5 w-3.5 text-muted-foreground" />
               <h3 className="text-xs font-medium text-muted-foreground">
@@ -130,20 +137,30 @@ export function ReviewSection({
               </div>
             )}
           </div>
-        </div>
-        <div className="flex-1 max-w-sm">
-          <div className="flex items-center gap-2 mb-1.5">
-            <User className="h-3.5 w-3.5 text-muted-foreground" />
-            <h3 className="text-xs font-medium text-muted-foreground">
-              ASSIGNEE
-            </h3>
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <User className="h-3.5 w-3.5 text-muted-foreground" />
+              <h3 className="text-xs font-medium text-muted-foreground">
+                ASSIGNEE
+              </h3>
+            </div>
+            <AssigneeSection
+              evidenceId={evidenceId}
+              currentAssigneeId={currentAssigneeId}
+              onSuccess={onSuccess}
+            />
           </div>
-          <AssigneeSection
-            evidenceId={evidenceId}
-            currentAssigneeId={currentAssigneeId}
-            onSuccess={onSuccess}
-          />
         </div>
+        {!evidence.published && (
+          <Button
+            size="sm"
+            className="w-fit self-end"
+            onClick={() => publishAction({ id })}
+            disabled={isExecuting}
+          >
+            {isExecuting ? "Publishing..." : "Publish"}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

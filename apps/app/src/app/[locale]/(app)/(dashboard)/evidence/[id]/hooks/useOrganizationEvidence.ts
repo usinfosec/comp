@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { getOrganizationEvidenceById } from "../../Actions/getOrganizationEvidence";
+import { getOrganizationEvidenceById } from "../../actions/getOrganizationEvidence";
 
 interface UseOrganizationEvidenceProps {
   id: string;
@@ -14,7 +14,7 @@ async function fetchOrganizationEvidence({ id }: UseOrganizationEvidenceProps) {
     throw new Error(
       typeof result?.error === "string"
         ? result.error
-        : "Failed to fetch organization evidence",
+        : "Failed to fetch organization evidence"
     );
   }
 
@@ -28,6 +28,6 @@ export function useOrganizationEvidence({ id }: UseOrganizationEvidenceProps) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    },
+    }
   );
 }

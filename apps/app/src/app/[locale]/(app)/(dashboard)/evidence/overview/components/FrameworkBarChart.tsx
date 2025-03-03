@@ -4,17 +4,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { HorizontalBarChart, type ChartDataItem } from "./HorizontalBarChart";
 import type { EvidenceWithStatus } from "../actions/getEvidenceDashboard";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useI18n } from "@/locales/client";
 
 interface FrameworkBarChartProps {
   byFramework?: Record<string, EvidenceWithStatus[]>;
 }
 
-// Status colors matching the EvidenceSummaryCards
+// Status colors using CSS variables to match policies-by-assignee.tsx
 const STATUS_COLORS = {
-  empty: "#6b7280", // Gray for empty
-  draft: "#f59e0b", // Amber for draft
-  needsReview: "#ef4444", // Red for needs review
-  upToDate: "#10b981", // Green for up to date
+  upToDate: "bg-primary",
+  draft: "bg-[var(--chart-open)]",
+  needsReview: "bg-[hsl(var(--destructive))]",
+  empty: "bg-[var(--chart-pending)]",
 };
 
 // Status priority order for display (determines the order in the bar)
@@ -22,6 +23,7 @@ const STATUS_PRIORITY = ["upToDate", "draft", "needsReview", "empty"] as const;
 type StatusType = (typeof STATUS_PRIORITY)[number];
 
 export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
+  const t = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollDown, setCanScrollDown] = useState(false);
   const [canScrollUp, setCanScrollUp] = useState(false);
@@ -69,7 +71,7 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
       if (firstFramework && firstFramework.length > 0) {
         console.log(
           "First framework's first item status:",
-          firstFramework[0].status,
+          firstFramework[0].status
         );
       }
     }
@@ -100,12 +102,12 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
 
       return {
         id: frameworkId,
-        name: `${frameworkId}`,
+        name: frameworkId,
         totalItems: items.length,
         items,
         statusCounts,
       };
-    },
+    }
   );
 
   // Sort by count in descending order
@@ -124,14 +126,9 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
               if (framework.statusCounts[status] > 0) {
                 chartData.push({
                   key: status,
-                  label:
-                    status === "upToDate"
-                      ? "Up to Date"
-                      : status === "needsReview"
-                        ? "Needs Review"
-                        : status.charAt(0).toUpperCase() + status.slice(1),
+                  label: getStatusLabel(status, t),
                   value: framework.statusCounts[status],
-                  color: STATUS_COLORS[status],
+                  color: getStatusColor(status),
                 });
               }
             }
@@ -141,7 +138,7 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
                 <div className="flex justify-between items-center">
                   <p className="text-sm">{framework.name}</p>
                   <span className="text-sm text-muted-foreground">
-                    {framework.totalItems} items
+                    {framework.totalItems} {t("evidence.items")}
                   </span>
                 </div>
 
@@ -152,20 +149,37 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
                   valueFormatter={(value) => `${value}`}
                   height={12}
                 />
+
+                {/* Legend - similar to policies-by-assignee.tsx */}
+                <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                  {STATUS_PRIORITY.map((status) => {
+                    if (framework.statusCounts[status] > 0) {
+                      return (
+                        <div key={status} className="flex items-center gap-1">
+                          <div className={`size-2 ${STATUS_COLORS[status]}`} />
+                          <span>
+                            {getStatusLabel(status, t)} (
+                            {framework.statusCounts[status]})
+                          </span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Scroll up indicator */}
+      {/* Scroll indicators */}
       {canScrollUp && (
         <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-background to-transparent flex justify-center items-center pointer-events-none">
           <ChevronUp className="h-4 w-4 text-muted-foreground" />
         </div>
       )}
 
-      {/* Scroll down indicator */}
       {canScrollDown && (
         <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-background to-transparent flex justify-center items-center pointer-events-none">
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
@@ -173,4 +187,36 @@ export function FrameworkBarChart({ byFramework }: FrameworkBarChartProps) {
       )}
     </div>
   );
+}
+
+// Helper function to get status label
+function getStatusLabel(status: StatusType, t: any): string {
+  switch (status) {
+    case "upToDate":
+      return t("evidence.status.up_to_date");
+    case "needsReview":
+      return t("evidence.status.needs_review");
+    case "draft":
+      return t("evidence.status.draft");
+    case "empty":
+      return t("evidence.status.empty");
+    default:
+      return status;
+  }
+}
+
+// Helper function to get status color
+function getStatusColor(status: StatusType): string {
+  switch (status) {
+    case "upToDate":
+      return "#10b981"; // Green
+    case "draft":
+      return "#f59e0b"; // Amber
+    case "needsReview":
+      return "#ef4444"; // Red
+    case "empty":
+      return "#6b7280"; // Gray
+    default:
+      return "#6b7280"; // Default gray
+  }
 }

@@ -6,7 +6,7 @@
     "dev": "NODE_OPTIONS='--inspect' next dev --turbopack --turbo -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "biome lint ./src",
     "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom"
   },
   "dependencies": {

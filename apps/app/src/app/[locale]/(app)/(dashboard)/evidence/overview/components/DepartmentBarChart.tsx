@@ -5,17 +5,18 @@ import { HorizontalBarChart, type ChartDataItem } from "./HorizontalBarChart";
 import type { Departments } from "@prisma/client";
 import type { EvidenceWithStatus } from "../actions/getEvidenceDashboard";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useI18n } from "@/locales/client";
 
 interface DepartmentBarChartProps {
   byDepartment?: Record<Departments, EvidenceWithStatus[]>;
 }
 
-// Status colors matching the EvidenceSummaryCards
+// Status colors using CSS variables to match policies-by-assignee.tsx
 const STATUS_COLORS = {
-  empty: "#6b7280", // Gray for empty
-  draft: "#f59e0b", // Amber for draft
-  needsReview: "#ef4444", // Red for needs review
-  upToDate: "#10b981", // Green for up to date
+  upToDate: "bg-primary",
+  draft: "bg-[var(--chart-open)]",
+  needsReview: "bg-[hsl(var(--destructive))]",
+  empty: "bg-[var(--chart-pending)]",
 };
 
 // Status priority order for display (determines the order in the bar)
@@ -34,6 +35,7 @@ const DEPARTMENT_NAMES: Record<Departments, string> = {
 };
 
 export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
+  const t = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollDown, setCanScrollDown] = useState(false);
   const [canScrollUp, setCanScrollUp] = useState(false);
@@ -81,7 +83,7 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
       if (firstDepartment && firstDepartment.length > 0) {
         console.log(
           "First department's first item status:",
-          firstDepartment[0].status,
+          firstDepartment[0].status
         );
       }
     }
@@ -115,7 +117,9 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
 
       return {
         id: department,
-        name: DEPARTMENT_NAMES[department] || "Unknown",
+        name:
+          DEPARTMENT_NAMES[department] ||
+          t(`evidence.departments.${department}`),
         totalItems: items.length,
         items,
         statusCounts,
@@ -138,14 +142,9 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
               if (department.statusCounts[status] > 0) {
                 chartData.push({
                   key: status,
-                  label:
-                    status === "upToDate"
-                      ? "Up to Date"
-                      : status === "needsReview"
-                        ? "Needs Review"
-                        : status.charAt(0).toUpperCase() + status.slice(1),
+                  label: getStatusLabel(status, t),
                   value: department.statusCounts[status],
-                  color: STATUS_COLORS[status],
+                  color: getStatusColor(status),
                 });
               }
             }
@@ -155,7 +154,7 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
                 <div className="flex justify-between items-center">
                   <p className="text-sm">{department.name}</p>
                   <span className="text-sm text-muted-foreground">
-                    {department.totalItems} items
+                    {department.totalItems} {t("evidence.items")}
                   </span>
                 </div>
 
@@ -166,6 +165,24 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
                   valueFormatter={(value) => `${value}`}
                   height={12}
                 />
+
+                {/* Legend - similar to policies-by-assignee.tsx */}
+                <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                  {STATUS_PRIORITY.map((status) => {
+                    if (department.statusCounts[status] > 0) {
+                      return (
+                        <div key={status} className="flex items-center gap-1">
+                          <div className={`size-2 ${STATUS_COLORS[status]}`} />
+                          <span>
+                            {getStatusLabel(status, t)} (
+                            {department.statusCounts[status]})
+                          </span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             );
           })}
@@ -187,4 +204,36 @@ export function DepartmentBarChart({ byDepartment }: DepartmentBarChartProps) {
       )}
     </div>
   );
+}
+
+// Helper function to get status label
+function getStatusLabel(status: StatusType, t: any): string {
+  switch (status) {
+    case "upToDate":
+      return t("evidence.status.up_to_date");
+    case "needsReview":
+      return t("evidence.status.needs_review");
+    case "draft":
+      return t("evidence.status.draft");
+    case "empty":
+      return t("evidence.status.empty");
+    default:
+      return status;
+  }
+}
+
+// Helper function to get status color
+function getStatusColor(status: StatusType): string {
+  switch (status) {
+    case "upToDate":
+      return "#10b981"; // Green
+    case "draft":
+      return "#f59e0b"; // Amber
+    case "needsReview":
+      return "#ef4444"; // Red
+    case "empty":
+      return "#6b7280"; // Gray
+    default:
+      return "#6b7280"; // Default gray
+  }
 }
