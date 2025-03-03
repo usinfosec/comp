@@ -1,65 +1,25 @@
 "use client";
 
+import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardHeader } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, FileIcon, XCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { toast } from "sonner";
 import { publishEvidence } from "../Actions/publishEvidence";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 import type { EvidenceDetailsProps } from "../types";
-import { FileSection } from "./FileSection";
 import { ReviewSection } from "./ReviewSection";
-import { UrlSection } from "./UrlSection";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
-  const router = useRouter();
   const { data, isLoading, error, mutate } = useOrganizationEvidence({ id });
-
-  const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
-    onSuccess: () => {
-      toast.success("Evidence published successfully");
-      handleMutate();
-    },
-    onError: () => {
-      toast.error("Failed to publish evidence, please try again.");
-    },
-  });
-
-  useEffect(() => {
-    if (error) {
-      router.push("/evidence");
-    }
-  }, [error, router]);
-
-  const handleMutate = async () => {
-    await mutate();
-  };
 
   if (isLoading) {
     return (
-      <div className="w-full space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" disabled>
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <Skeleton className="h-8 w-48" />
-          </div>
-          <Skeleton className="h-10 w-48" />
-        </div>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-32" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-3/4" />
-          </CardContent>
-        </Card>
+      <div className="flex flex-col gap-4">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-60 w-full" />
       </div>
     );
   }
@@ -68,50 +28,44 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 
   const evidence = data.data;
 
-  return (
-    <div className="w-full space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.push("/evidence")}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-2xl font-bold">{evidence.name}</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            {evidence.published ? (
-              <>
-                <CheckCircle2 size={16} className="text-green-500 shrink-0" />
-                <span className="text-sm text-green-600">Published</span>
-              </>
-            ) : (
-              <>
-                <XCircle size={16} className="text-red-500 shrink-0" />
-                <span className="text-sm text-red-600">Draft</span>
-              </>
-            )}
-          </div>
-          {!evidence.published && (
-            <Button
-              onClick={() => publishAction({ id })}
-              disabled={isExecuting}
-            >
-              {isExecuting ? "Publishing..." : "Publish"}
-            </Button>
-          )}
-        </div>
-      </div>
+  const handleMutate = async () => {
+    await mutate();
+  };
 
-      {evidence.isNotRelevant && (
-        <div className="bg-yellow-800 border border-yellow-600 rounded-md p-3 text-yellow-300 text-sm">
-          This evidence has been marked as not relevant and will not be included
-          in compliance reports.
-        </div>
-      )}
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Alert with evidence info and status */}
+      <Alert>
+        <FileIcon className="h-4 w-4" />
+        <AlertTitle>
+          <div className="flex items-center justify-between gap-2">
+            {evidence.evidence.name} Evidence
+            <div className="flex items-center gap-2">
+              {evidence.published ? (
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+                  <span className="text-sm text-green-600">Published</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <XCircle size={16} className="text-red-500 shrink-0" />
+                  <span className="text-sm text-red-600">Draft</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </AlertTitle>
+        <AlertDescription className="mt-4">
+          {evidence.description || "No description provided."}
+
+          {evidence.isNotRelevant && (
+            <div className="bg-yellow-800 border border-yellow-600 rounded-md p-3 mt-4 text-yellow-300 text-sm">
+              This evidence has been marked as not relevant and will not be
+              included in compliance reports.
+            </div>
+          )}
+        </AlertDescription>
+      </Alert>
 
       <ReviewSection
         evidence={evidence}
@@ -123,29 +77,6 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
         onSuccess={handleMutate}
         id={id}
       />
-
-      <Card>
-        <CardHeader className="flex-row items-center justify-between">
-          <div className="text-lg font-semibold">{evidence.evidence.name}</div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {evidence.description && (
-            <p className="text-muted-foreground">{evidence.description}</p>
-          )}
-
-          <FileSection
-            evidenceId={id}
-            fileUrls={evidence.fileUrls}
-            onSuccess={handleMutate}
-          />
-
-          <UrlSection
-            evidenceId={id}
-            additionalUrls={evidence.additionalUrls}
-            onSuccess={handleMutate}
-          />
-        </CardContent>
-      </Card>
     </div>
   );
 }

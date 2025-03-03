@@ -6,7 +6,6 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  // TODO: Implement i18n, build was failing.
   const t = await getI18n();
 
   return (
@@ -15,7 +14,7 @@ export default async function Layout({
         items={[
           {
             path: "/evidence/overview",
-            label: t("evidence.dashboard"),
+            label: t("evidence.dashboard.layout"),
           },
           { path: "/evidence/list", label: t("evidence.list") },
         ]}

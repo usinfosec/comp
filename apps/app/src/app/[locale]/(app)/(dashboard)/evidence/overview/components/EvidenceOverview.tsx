@@ -5,9 +5,12 @@ import { useEvidenceDashboard } from "../hooks/useEvidenceDashboard";
 import { DepartmentBarChart } from "./DepartmentBarChart";
 import { AssigneeBarChart } from "./AssigneeBarChart";
 import { FrameworkBarChart } from "./FrameworkBarChart";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { useI18n } from "@/locales/client";
 
 export const EvidenceOverview = () => {
   const { data, isLoading, error } = useEvidenceDashboard();
+  const t = useI18n();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -23,39 +26,41 @@ export const EvidenceOverview = () => {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-semibold">Evidence Dashboard</h2>
+      <h2 className="text-2xl font-semibold">
+        {t("evidence.dashboard.title")}
+      </h2>
 
       {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-card text-card-foreground shadow-sm border overflow-hidden h-[400px]">
-          <div className="p-6 h-full flex flex-col">
-            <h3 className="text-lg font-medium mb-4">By Department</h3>
-            <div className="flex-1">
-              <DepartmentBarChart byDepartment={data.byDepartment} />
-            </div>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("evidence.dashboard.by_department")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DepartmentBarChart byDepartment={data.byDepartment} />
+          </CardContent>
+        </Card>
 
-        <div className="bg-card text-card-foreground shadow-sm border overflow-hidden h-[400px]">
-          <div className="p-6 h-full flex flex-col">
-            <h3 className="text-lg font-medium mb-4">By Assignee</h3>
-            <div className="flex-1">
-              <AssigneeBarChart
-                byAssignee={data.byAssignee}
-                unassigned={data.unassigned}
-              />
-            </div>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("evidence.dashboard.by_assignee")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AssigneeBarChart
+              byAssignee={data.byAssignee}
+              unassigned={data.unassigned}
+            />
+          </CardContent>
+        </Card>
 
-        <div className="bg-card text-card-foreground shadow-sm border overflow-hidden md:col-span-2 h-[400px]">
-          <div className="p-6 h-full flex flex-col">
-            <h3 className="text-lg font-medium mb-4">By Framework</h3>
-            <div className="flex-1">
-              <FrameworkBarChart byFramework={data.byFramework} />
-            </div>
-          </div>
-        </div>
+        <Card className="md:col-span-2">
+          <CardHeader>
+            <CardTitle>{t("evidence.dashboard.by_framework")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <FrameworkBarChart byFramework={data.byFramework} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

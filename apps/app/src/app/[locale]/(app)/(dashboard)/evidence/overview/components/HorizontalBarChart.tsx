@@ -17,6 +17,7 @@ interface HorizontalBarChartProps<K = string> {
   showZeroValues?: boolean;
   colors?: string[];
   valueFormatter?: (value: number) => string;
+  showLegend?: boolean;
 }
 
 // Default array of colors using Tailwind's HSL color palette
@@ -35,6 +36,7 @@ export function HorizontalBarChart<K extends Key>({
   showZeroValues = true,
   colors = defaultColors,
   valueFormatter = (value) => `${value}`,
+  showLegend = false,
 }: HorizontalBarChartProps<K>) {
   // Debug: Log the incoming data
   useEffect(() => {
@@ -77,7 +79,9 @@ export function HorizontalBarChart<K extends Key>({
   }
 
   const barHeight = height;
-  let cumulativePercentage = 0;
+  const gap = 0.3; // Add gap between segments like in policies-by-assignee
+  const totalWidth = totalValue + gap * (filteredData.length - 1);
+  let cumulativeWidth = 0;
   const cornerRadius = 0; // No rounded corners in the policies-by-assignee chart
 
   return (
@@ -104,27 +108,29 @@ export function HorizontalBarChart<K extends Key>({
             translate-y-[var(--marginTop)]
             overflow-visible"
         >
-          {filteredData.map((d) => {
-            const percentage = (d.value / totalValue) * 100;
-            const xPosition = cumulativePercentage;
-            cumulativePercentage += percentage;
+          {filteredData.map((d, index) => {
+            const barWidth = (d.value / totalWidth) * 100;
+            const xPosition = cumulativeWidth;
+            cumulativeWidth += barWidth + gap;
 
             return (
               <div
                 key={d.key}
                 className="relative"
                 style={{
-                  width: `${percentage}%`,
+                  width: `${barWidth}%`,
                   height: `${barHeight}px`,
                   left: `${xPosition}%`,
                   position: "absolute",
                 }}
               >
                 <div
+                  className="bg-gradient-to-b"
                   style={{
                     width: "100%",
                     height: "100%",
                     backgroundColor: d.color,
+                    borderRadius: `${cornerRadius}px`,
                   }}
                   title={`${d.label}: ${valueFormatter(d.value)}`}
                 />
@@ -135,19 +141,21 @@ export function HorizontalBarChart<K extends Key>({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mt-2">
-        {filteredData.map((item) => (
-          <div
-            key={`legend-${String(item.key)}`}
-            className="flex items-center gap-1"
-          >
-            <div className="size-2" style={{ backgroundColor: item.color }} />
-            <span>
-              {item.label} ({valueFormatter(item.value)})
-            </span>
-          </div>
-        ))}
-      </div>
+      {showLegend && (
+        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mt-2">
+          {filteredData.map((item) => (
+            <div
+              key={`legend-${String(item.key)}`}
+              className="flex items-center gap-1"
+            >
+              <div className="size-2" style={{ backgroundColor: item.color }} />
+              <span>
+                {item.label} ({valueFormatter(item.value)})
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
