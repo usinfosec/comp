@@ -1,10 +1,10 @@
-import { EvidenceList } from "../Components/EvidenceList";
+import { EvidenceList } from "../components/EvidenceList";
 import { EvidenceTableProvider } from "../hooks/useEvidenceTableContext";
 
 export default function EvidencePage() {
-  return (
-    <EvidenceTableProvider>
-      <EvidenceList />
-    </EvidenceTableProvider>
-  );
+	return (
+		<EvidenceTableProvider>
+			<EvidenceList />
+		</EvidenceTableProvider>
+	);
 }
