@@ -31,6 +31,7 @@ export function Providers({ children }: ProviderProps) {
 			attribute="class"
 			defaultTheme="dark"
 			disableTransitionOnChange
+			scriptProps={{ "data-cfasync": "false" }}
 		>
 			<div suppressHydrationWarning>
 				<AnalyticsWrapper>{children}</AnalyticsWrapper>

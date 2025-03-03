@@ -1,5 +1,4 @@
 import { GeistMono } from "geist/font/mono";
-import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import "@bubba/ui/globals.css";
 import { Providers } from "@/app/providers";
