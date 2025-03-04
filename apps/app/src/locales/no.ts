@@ -829,7 +829,7 @@ export default {
     fileUrl: {
       additionalLinks: "Ytterligere lenker",
       add: "Legg til",
-      linksAdded: "{{count}} lenke{{s}} lagt til",
+      linksAdded: "{count} lenke{s} lagt til",
       enterUrl: "Skriv inn URL",
       addAnotherLink: "Legg til en annen lenke",
       saveLinks: "Lagre lenker",

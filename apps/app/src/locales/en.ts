@@ -823,15 +823,15 @@ export default {
 	},
 	upload: {
 		fileSection: {
-			filesUploaded: "{{count}} file{{s}} uploaded",
-			upload: "{{count}} file{{s}} uploaded",
+			filesUploaded: "{count} file{s} uploaded",
+			upload: "{count} file{s} uploaded",
 		},
 		fileUpload: {
 			uploadingText: "Uploading...",
 			dropFileHere: "Drop file here",
 			releaseToUpload: "Release to upload",
 			addFiles: "Add Files",
-			uploadAdditionalEvidence: "Upload additional evidence files",
+			uploadAdditionalEvidence: "Upload a file",
 			dragDropOrClick: "Drag & drop or click to upload",
 			dropFileHereAlt: "Drop the file here",
 			dragDropOrClickToSelect: "Drag & drop a file here, or click to select",
@@ -852,7 +852,7 @@ export default {
 		fileUrl: {
 			additionalLinks: "Additional Links",
 			add: "Add",
-			linksAdded: "{{count}} link{{s}} added",
+			linksAdded: "{count} link{s} added",
 			enterUrl: "Enter URL",
 			addAnotherLink: "Add Another Link",
 			saveLinks: "Save Links",

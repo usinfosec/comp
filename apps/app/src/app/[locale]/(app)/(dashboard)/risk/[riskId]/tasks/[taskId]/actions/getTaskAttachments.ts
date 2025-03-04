@@ -40,7 +40,7 @@ export const getTaskAttachments = authActionClient
 				},
 			});
 
-			if (attachments.length === 0) {
+			if (!attachments) {
 				return {
 					success: false,
 					error: "Task attachments not found",

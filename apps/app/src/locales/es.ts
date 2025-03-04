@@ -814,7 +814,7 @@ export default {
       dragDropOrClick: "Arrastra y suelta o haz clic para subir",
       dropFileHereAlt: "Suelta el archivo aquí",
       dragDropOrClickToSelect: "Arrastra y suelta un archivo aquí, o haz clic para seleccionar",
-      maxFileSize: "Tamaño máximo del archivo: {{size}}MB",
+      maxFileSize: "Tamaño máximo del archivo: {size}MB",
       uploadingFile: "Subiendo archivo..."
     },
     fileCard: {
@@ -829,7 +829,7 @@ export default {
     fileUrl: {
       additionalLinks: "Enlaces Adicionales",
       add: "Agregar",
-      linksAdded: "{{count}} enlace{{s}} agregado",
+      linksAdded: "{count} enlace{s} agregado",
       enterUrl: "Ingresa la URL",
       addAnotherLink: "Agregar Otro Enlace",
       saveLinks: "Guardar Enlaces",

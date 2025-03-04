@@ -253,10 +253,7 @@ export function FileCard({
 							<AlertDialogCancel>
 								{t("common.actions.cancel")}
 							</AlertDialogCancel>
-							<AlertDialogAction
-								onClick={() => onDelete(url)}
-								className="bg-destructive hover:bg-destructive/90"
-							>
+							<AlertDialogAction onClick={() => onDelete(url)}>
 								{t("common.actions.delete")}
 							</AlertDialogAction>
 						</AlertDialogFooter>
