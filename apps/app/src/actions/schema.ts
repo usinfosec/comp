@@ -301,6 +301,7 @@ export const updatePolicyFormSchema = z.object({
   department: z.nativeEnum(Departments),
   review_frequency: z.nativeEnum(Frequency),
   review_date: z.date(),
+  isRequiredToSign: z.boolean().optional(),
 });
 
 export const apiKeySchema = z.object({

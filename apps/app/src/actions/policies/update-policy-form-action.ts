@@ -43,7 +43,7 @@ export const updatePolicyFormAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, status, ownerId, department, review_frequency, review_date } =
+    const { id, status, ownerId, department, review_frequency, review_date, isRequiredToSign } =
       parsedInput;
     const { user } = ctx;
 
@@ -88,6 +88,13 @@ export const updatePolicyFormAction = authActionClient
           frequency: review_frequency,
           reviewDate,
           ...(lastPublishedAt && { lastPublishedAt }),
+          ...(isRequiredToSign !== undefined ? { 
+            policy: {
+              update: {
+                isRequiredToSign
+              }
+            } 
+          } : {}),
         },
       });
 

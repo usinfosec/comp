@@ -21,6 +21,7 @@ import {
   type User,
 } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
+import { Checkbox } from "@bubba/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -85,6 +86,7 @@ export function UpdatePolicyOverview({
       department: organizationPolicy.department ?? Departments.admin,
       review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
       review_date: reviewDate,
+      isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign ?? false,
     },
   });
 
@@ -96,6 +98,7 @@ export function UpdatePolicyOverview({
       department: data.department,
       review_frequency: data.review_frequency,
       review_date: data.review_date,
+      isRequiredToSign: data.isRequiredToSign,
     });
   };
 
@@ -270,6 +273,25 @@ export function UpdatePolicyOverview({
                   </PopoverContent>
                 </Popover>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="isRequiredToSign"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    {t("policies.overview.form.required_to_sign")}
+                  </FormLabel>
+                </div>
               </FormItem>
             )}
           />
