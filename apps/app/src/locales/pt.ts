@@ -312,7 +312,11 @@ export default {
         review_frequency_placeholder: "Selecione uma frequência de revisão",
         review_date: "Data da Revisão",
         review_date_placeholder: "Selecione uma data de revisão",
-        required_to_sign: "Necessário ser assinado pelos funcionários"
+        required_to_sign: "Necessário ser assinado pelos funcionários",
+        signature_required: "Exigir assinatura dos funcionários",
+        signature_not_required: "Não peça para os funcionários assinarem",
+        signature_requirement: "Requisito de Assinatura",
+        signature_requirement_placeholder: "Selecionar requisito de assinatura"
       }
     }
   },

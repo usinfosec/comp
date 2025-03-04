@@ -312,7 +312,11 @@ export default {
         review_frequency_placeholder: "Velg en gjennomgangsfrekvens",
         review_date: "Gjennomgangsdato",
         review_date_placeholder: "Velg en gjennomgangsdato",
-        required_to_sign: "Må signeres av ansatte"
+        required_to_sign: "Må signeres av ansatte",
+        signature_required: "Krev ansattes signatur",
+        signature_not_required: "Ikke be ansatte om å signere",
+        signature_requirement: "Signaturkrav",
+        signature_requirement_placeholder: "Velg signaturkrav"
       }
     }
   },

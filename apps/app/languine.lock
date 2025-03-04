@@ -204,6 +204,10 @@ files:
     policies.overview.form.review_date: 43629fb18eed3c436735459e66be4225
     policies.overview.form.review_date_placeholder: c57e1d47519b366741cb8cb65cc0a51d
     policies.overview.form.required_to_sign: 2e12edca902651327b394f4765a28d0a
+    policies.overview.form.signature_required: f73e9ae6dcd2d73f04db9a4c5b9a053d
+    policies.overview.form.signature_not_required: 55abefe222df069df1dd008e45614832
+    policies.overview.form.signature_requirement: 1841e3cd80cda4b097bcf4891c76c8da
+    policies.overview.form.signature_requirement_placeholder: cc5fbf3cb132bc8fa226997c1834d3a9
     policies.table.name: 002f7378a5fcfc2f66cfea851a7fd5f4
     policies.table.statuses.draft: f03ab16cd58372c77ba45a3d9a5a1cb9
     policies.table.statuses.published: 9b9d8a976b42e0bd66381797644943d5
