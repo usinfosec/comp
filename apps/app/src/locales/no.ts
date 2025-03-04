@@ -802,8 +802,8 @@ export default {
   },
   upload: {
     fileSection: {
-      filesUploaded: "{count} fil{S} lastet opp",
-      upload: "{count} fil{S} lastet opp"
+      filesUploaded: "{count} fil(er) lastet opp",
+      upload: "{count} fil(er) lastet opp"
     },
     fileUpload: {
       uploadingText: "Laster opp...",

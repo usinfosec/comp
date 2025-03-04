@@ -802,8 +802,8 @@ export default {
   },
   upload: {
     fileSection: {
-      filesUploaded: "{count} archivo{s} subido{s}",
-      upload: "{count} archivo{s} subido{s}"
+      filesUploaded: "{count} archivo(s) subido(s)",
+      upload: "{count} archivo(s) subido(s)"
     },
     fileUpload: {
       uploadingText: "Subiendo...",
