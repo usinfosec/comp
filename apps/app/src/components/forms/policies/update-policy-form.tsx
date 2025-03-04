@@ -5,7 +5,6 @@ import { updatePolicyOverviewSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import type { OrganizationPolicy, Policy } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
-import { Checkbox } from "@bubba/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,6 +14,13 @@ import {
   FormMessage,
 } from "@bubba/ui/form";
 import { Input } from "@bubba/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@bubba/ui/select";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -48,7 +54,7 @@ export function UpdatePolicyForm({
       id: policy.id,
       title: policy.policy.name,
       description: policy.policy.description ?? "",
-      isRequiredToSign: (policy.policy as any).isRequiredToSign ?? false,
+      isRequiredToSign: (policy.policy as any).isRequiredToSign ? "required" : "not_required",
     },
   });
 
@@ -109,18 +115,31 @@ export function UpdatePolicyForm({
             control={form.control}
             name="isRequiredToSign"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-4">
+              <FormItem>
+                <FormLabel>
+                  {t("policies.overview.form.signature_requirement")}
+                </FormLabel>
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    defaultValue="required"
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={t("policies.overview.form.signature_requirement_placeholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="required">
+                        {t("policies.overview.form.signature_required")}
+                      </SelectItem>
+                      <SelectItem value="not_required">
+                        {t("policies.overview.form.signature_not_required")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>
-                    {t("policies.overview.form.required_to_sign")}
-                  </FormLabel>
-                </div>
               </FormItem>
             )}
           />

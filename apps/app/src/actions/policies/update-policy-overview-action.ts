@@ -49,7 +49,7 @@ export const updatePolicyOverviewAction = authActionClient
             update: {
               name: title,
               description,
-              ...(isRequiredToSign !== undefined ? { isRequiredToSign } : {}),
+              ...(isRequiredToSign !== undefined ? { isRequiredToSign: isRequiredToSign === "required" } : {}),
             },
           },
         },

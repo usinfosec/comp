@@ -309,6 +309,10 @@ export default {
         review_date: "Review Date",
         review_date_placeholder: "Select a review date",
         required_to_sign: "Required to be signed by employees",
+        signature_required: "Require employees signature",
+        signature_not_required: "Do not ask employees to sign",
+        signature_requirement: "Signature Requirement",
+        signature_requirement_placeholder: "Select signature requirement",
       },
     },
     table: {

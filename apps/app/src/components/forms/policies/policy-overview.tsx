@@ -86,7 +86,7 @@ export function UpdatePolicyOverview({
       department: organizationPolicy.department ?? Departments.admin,
       review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
       review_date: reviewDate,
-      isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign ?? false,
+      isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign ? "required" : "not_required",
     },
   });
 
@@ -280,18 +280,31 @@ export function UpdatePolicyOverview({
             control={form.control}
             name="isRequiredToSign"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-4">
+              <FormItem className="pt-4">
+                <FormLabel>
+                  {t("policies.overview.form.signature_requirement")}
+                </FormLabel>
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    defaultValue="required"
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={t("policies.overview.form.signature_requirement_placeholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="required">
+                        {t("policies.overview.form.signature_required")}
+                      </SelectItem>
+                      <SelectItem value="not_required">
+                        {t("policies.overview.form.signature_not_required")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>
-                    {t("policies.overview.form.required_to_sign")}
-                  </FormLabel>
-                </div>
               </FormItem>
             )}
           />

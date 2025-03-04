@@ -291,7 +291,7 @@ export const updatePolicyOverviewSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string(),
-  isRequiredToSign: z.boolean().optional(),
+  isRequiredToSign: z.enum(["required", "not_required"]).optional(),
 });
 
 export const updatePolicyFormSchema = z.object({
@@ -301,7 +301,7 @@ export const updatePolicyFormSchema = z.object({
   department: z.nativeEnum(Departments),
   review_frequency: z.nativeEnum(Frequency),
   review_date: z.date(),
-  isRequiredToSign: z.boolean().optional(),
+  isRequiredToSign: z.enum(["required", "not_required"]).optional(),
 });
 
 export const apiKeySchema = z.object({

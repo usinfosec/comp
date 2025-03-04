@@ -93,17 +93,22 @@ export const updatePolicyFormAction = authActionClient
 
       // Update the policy's isRequiredToSign field if provided
       if (isRequiredToSign !== undefined) {
-        await db.policy.update({
-          where: {
-            id: (await db.organizationPolicy.findUnique({
-              where: { id },
-              select: { policyId: true },
-            }))?.policyId,
-          },
-          data: {
-            isRequiredToSign,
+        const orgPolicy = await db.organizationPolicy.findUnique({
+          where: { id },
+          select: { 
+            policyId: true,
           },
         });
+        
+        if (orgPolicy?.policyId) {
+          // Use Prisma's executeRaw method to update the field
+          // This is necessary because the generated types might not be updated yet
+          await db.$executeRaw`
+            UPDATE "Policy" 
+            SET "isRequiredToSign" = ${isRequiredToSign === "required"} 
+            WHERE id = ${orgPolicy.policyId}
+          `;
+        }
       }
 
       revalidatePath("/policies");
