@@ -802,8 +802,8 @@ export default {
   },
   upload: {
     fileSection: {
-      filesUploaded: "{count} fichier{s} téléchargé{s}",
-      upload: "{count} fichier{s} téléchargé{s}"
+      filesUploaded: "{count} fichier(s) téléchargé(s)",
+      upload: "{count} fichier(s) téléchargé(s)"
     },
     fileUpload: {
       uploadingText: "Téléchargement en cours...",

@@ -772,8 +772,8 @@ export default {
   },
   upload: {
     fileSection: {
-      filesUploaded: "{count} arquivo{s} enviado",
-      upload: "{count} arquivo{s} enviado"
+      filesUploaded: "{count} arquivo(s) enviado(s)",
+      upload: "{count} arquivo(s) enviado(s)"
     },
     fileUpload: {
       uploadingText: "Enviando...",
