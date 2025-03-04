@@ -769,5 +769,44 @@ export default {
   evidence: {
     title: "Tarefas de Evidência",
     list: "Todas as Evidências"
+  },
+  upload: {
+    fileSection: {
+      filesUploaded: "{count} arquivo(s) enviado(s)",
+      upload: "{count} arquivo(s) enviado(s)"
+    },
+    fileUpload: {
+      uploadingText: "Enviando...",
+      dropFileHere: "Solte o arquivo aqui",
+      releaseToUpload: "Solte para enviar",
+      addFiles: "Adicionar Arquivos",
+      uploadAdditionalEvidence: "Enviar um arquivo",
+      dragDropOrClick: "Arraste e solte ou clique para enviar",
+      dropFileHereAlt: "Solte o arquivo aqui",
+      dragDropOrClickToSelect: "Arraste e solte um arquivo aqui ou clique para selecionar",
+      maxFileSize: "Tamanho máximo do arquivo: {size}MB",
+      uploadingFile: "Enviando arquivo..."
+    },
+    fileCard: {
+      preview: "Pré-visualização",
+      previewNotAvailable: "Pré-visualização não disponível. Clique no botão de download para visualizar o arquivo.",
+      filePreview: "Pré-visualização do arquivo: {fileName}",
+      openFile: "Abrir arquivo",
+      deleteFile: "Excluir arquivo",
+      deleteFileConfirmTitle: "Excluir Arquivo",
+      deleteFileConfirmDescription: "Você tem certeza de que deseja excluir este arquivo? Esta ação não pode ser desfeita."
+    },
+    fileUrl: {
+      additionalLinks: "Links Adicionais",
+      add: "Adicionar",
+      linksAdded: "{count} link{s} adicionado",
+      enterUrl: "Digite a URL",
+      addAnotherLink: "Adicionar Outro Link",
+      saveLinks: "Salvar Links",
+      urlBadge: "URL",
+      copyLink: "Copiar link",
+      openLink: "Abrir link",
+      deleteLink: "Excluir link"
+    }
   }
 } as const;

@@ -799,5 +799,44 @@ export default {
       review_section: "Gjennomgå Informasjon",
       content: "Bevisinnhold"
     }
+  },
+  upload: {
+    fileSection: {
+      filesUploaded: "{count} fil(er) lastet opp",
+      upload: "{count} fil(er) lastet opp"
+    },
+    fileUpload: {
+      uploadingText: "Laster opp...",
+      dropFileHere: "Slipp fil her",
+      releaseToUpload: "Slipp for å laste opp",
+      addFiles: "Legg til filer",
+      uploadAdditionalEvidence: "Last opp en fil",
+      dragDropOrClick: "Dra og slipp eller klikk for å laste opp",
+      dropFileHereAlt: "Slipp filen her",
+      dragDropOrClickToSelect: "Dra og slipp en fil her, eller klikk for å velge",
+      maxFileSize: "Maks filstørrelse: {size}MB",
+      uploadingFile: "Laster opp fil..."
+    },
+    fileCard: {
+      preview: "Forhåndsvisning",
+      previewNotAvailable: "Forhåndsvisning ikke tilgjengelig. Klikk på nedlastingsknappen for å se filen.",
+      filePreview: "Filforhåndsvisning: {fileName}",
+      openFile: "Åpne fil",
+      deleteFile: "Slett fil",
+      deleteFileConfirmTitle: "Slett fil",
+      deleteFileConfirmDescription: "Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres."
+    },
+    fileUrl: {
+      additionalLinks: "Ytterligere lenker",
+      add: "Legg til",
+      linksAdded: "{count} lenke{S} lagt til",
+      enterUrl: "Skriv inn URL",
+      addAnotherLink: "Legg til en annen lenke",
+      saveLinks: "Lagre lenker",
+      urlBadge: "URL",
+      copyLink: "Kopier lenke",
+      openLink: "Åpne lenke",
+      deleteLink: "Slett lenke"
+    }
   }
 } as const;

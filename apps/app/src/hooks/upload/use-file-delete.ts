@@ -2,21 +2,33 @@
 
 import { useCallback } from "react";
 import { useToast } from "@bubba/ui/use-toast";
-import { deleteEvidenceFile } from "../actions/deleteEvidenceFile";
+import { deleteFile } from "@/actions/files/delete-file";
+import type { UPLOAD_TYPE } from "@/actions/types";
+
+type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
 interface UseFileDeleteProps {
-	evidenceId: string;
+	uploadType: UploadType;
+	evidenceId?: string;
+	taskId?: string;
 	onSuccess: () => Promise<void>;
 }
 
-export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
+export function useFileDelete({
+	uploadType,
+	evidenceId,
+	taskId,
+	onSuccess,
+}: UseFileDeleteProps) {
 	const { toast } = useToast();
 
 	const handleDelete = useCallback(
 		async (fileUrl: string) => {
 			try {
-				const response = await deleteEvidenceFile({
-					evidenceId,
+				const response = await deleteFile({
+					uploadType,
+					evidenceId: evidenceId || "",
+					taskId: taskId || "",
 					fileUrl,
 				});
 
@@ -29,6 +41,7 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
 				}
 
 				await onSuccess();
+
 				toast({
 					title: "Success",
 					description: "File deleted successfully",
@@ -43,7 +56,7 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
 				});
 			}
 		},
-		[evidenceId, onSuccess, toast],
+		[evidenceId, taskId, uploadType, onSuccess, toast],
 	);
 
 	return {

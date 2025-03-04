@@ -799,5 +799,44 @@ export default {
       review_section: "Revisar Información",
       content: "Contenido de Evidencia"
     }
+  },
+  upload: {
+    fileSection: {
+      filesUploaded: "{count} archivo(s) subido(s)",
+      upload: "{count} archivo(s) subido(s)"
+    },
+    fileUpload: {
+      uploadingText: "Subiendo...",
+      dropFileHere: "Suelta el archivo aquí",
+      releaseToUpload: "Suelta para subir",
+      addFiles: "Agregar Archivos",
+      uploadAdditionalEvidence: "Subir un archivo",
+      dragDropOrClick: "Arrastra y suelta o haz clic para subir",
+      dropFileHereAlt: "Suelta el archivo aquí",
+      dragDropOrClickToSelect: "Arrastra y suelta un archivo aquí, o haz clic para seleccionar",
+      maxFileSize: "Tamaño máximo de archivo: {size}MB",
+      uploadingFile: "Subiendo archivo..."
+    },
+    fileCard: {
+      preview: "Vista previa",
+      previewNotAvailable: "Vista previa no disponible. Haz clic en el botón de descarga para ver el archivo.",
+      filePreview: "Vista previa del archivo: {fileName}",
+      openFile: "Abrir archivo",
+      deleteFile: "Eliminar archivo",
+      deleteFileConfirmTitle: "Eliminar Archivo",
+      deleteFileConfirmDescription: "¿Estás seguro de que deseas eliminar este archivo? Esta acción no se puede deshacer."
+    },
+    fileUrl: {
+      additionalLinks: "Enlaces Adicionales",
+      add: "Agregar",
+      linksAdded: "{count} enlace{s} añadido{s}",
+      enterUrl: "Ingresa la URL",
+      addAnotherLink: "Agregar Otro Enlace",
+      saveLinks: "Guardar Enlaces",
+      urlBadge: "URL",
+      copyLink: "Copiar enlace",
+      openLink: "Abrir enlace",
+      deleteLink: "Eliminar enlace"
+    }
   }
 } as const;
