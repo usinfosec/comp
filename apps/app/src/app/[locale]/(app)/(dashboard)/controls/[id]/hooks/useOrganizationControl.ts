@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { getOrganizationControl } from "../Actions/getOrganizationControl";
+import { getOrganizationControl } from "../actions/getOrganizationControl";
 
 async function fetchOrganizationControl(controlId: string) {
   const result = await getOrganizationControl({ controlId });
