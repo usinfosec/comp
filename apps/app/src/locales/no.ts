@@ -814,7 +814,7 @@ export default {
       dragDropOrClick: "Dra og slipp eller klikk for å laste opp",
       dropFileHereAlt: "Slipp filen her",
       dragDropOrClickToSelect: "Dra og slipp en fil her, eller klikk for å velge",
-      maxFileSize: "Maksimal filstørrelse: {{size}}MB",
+      maxFileSize: "Maks filstørrelse: {size}MB",
       uploadingFile: "Laster opp fil..."
     },
     fileCard: {

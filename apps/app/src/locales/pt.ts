@@ -784,7 +784,7 @@ export default {
       dragDropOrClick: "Arraste e solte ou clique para enviar",
       dropFileHereAlt: "Solte o arquivo aqui",
       dragDropOrClickToSelect: "Arraste e solte um arquivo aqui ou clique para selecionar",
-      maxFileSize: "Tamanho máximo do arquivo: {{size}}MB",
+      maxFileSize: "Tamanho máximo do arquivo: {size}MB",
       uploadingFile: "Enviando arquivo..."
     },
     fileCard: {

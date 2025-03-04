@@ -814,7 +814,7 @@ export default {
       dragDropOrClick: "Glissez-déposez ou cliquez pour télécharger",
       dropFileHereAlt: "Déposez le fichier ici",
       dragDropOrClickToSelect: "Glissez-déposez un fichier ici, ou cliquez pour sélectionner",
-      maxFileSize: "Taille maximale du fichier : {{size}} Mo",
+      maxFileSize: "Taille maximale du fichier : {size} Mo",
       uploadingFile: "Téléchargement du fichier..."
     },
     fileCard: {
