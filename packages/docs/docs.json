@@ -33,6 +33,18 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "API Reference",
+            "pages": [
+              "api-reference/v1/index",
+              "api-reference/v1/employees"
+            ]
+          }
+        ]
       }
     ],
     "global": {
@@ -46,8 +58,8 @@
     }
   },
   "logo": {
-    "light": "/logo/comp-logo-black.png",
-    "dark": "/logo/comp-logo-white.png"
+    "light": "/logo/compai-white.png",
+    "dark": "/logo/compai-dark.png"
   },
   "navbar": {
     "links": [
