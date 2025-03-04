@@ -109,7 +109,6 @@ export function FileSection({
 				<span className="text-xs text-muted-foreground">
 					{t("upload.fileSection.filesUploaded", {
 						count: fileUrls.length,
-						s: fileUrls.length !== 1 ? "s" : "",
 					})}
 				</span>
 			</div>

@@ -823,8 +823,8 @@ export default {
 	},
 	upload: {
 		fileSection: {
-			filesUploaded: "{count} file{s} uploaded",
-			upload: "{count} file{s} uploaded",
+			filesUploaded: "{count} file(s) uploaded",
+			upload: "{count} file(s) uploaded",
 		},
 		fileUpload: {
 			uploadingText: "Uploading...",
