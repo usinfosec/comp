@@ -12,51 +12,53 @@ import { PolicyOverviewSheet } from "./sheets/policy-overview-sheet";
 import { UpdatePolicyOverview } from "../forms/policies/policy-overview";
 
 export function PolicyOverview({
-  policy,
-  users,
+	policy,
+	users,
 }: {
-  policy: OrganizationPolicy & { policy: Policy };
-  users: User[];
+	policy: OrganizationPolicy & {
+		policy: Policy;
+	};
+	users: User[];
 }) {
-  const t = useI18n();
-  const [open, setOpen] = useQueryState("policy-overview-sheet");
+	const t = useI18n();
+	const [open, setOpen] = useQueryState("policy-overview-sheet");
 
-  return (
-    <div className="space-y-4">
-      <Alert>
-        <Icons.Policies className="h-4 w-4" />
-        <AlertTitle>
-          <div className="flex items-center justify-between gap-2">
-            {policy.policy.name}
-            <Button
-              size="icon"
-              variant="ghost"
-              className="p-0 m-0 size-auto"
-              onClick={() => setOpen("true")}
-            >
-              <PencilIcon className="h-3 w-3" />
-            </Button>
-          </div>
-        </AlertTitle>
-        <AlertDescription className="mt-4">
-          {policy.policy.description}
-        </AlertDescription>
-      </Alert>
+	return (
+		<div className="space-y-4">
+			<Alert>
+				<Icons.Policies className="h-4 w-4" />
+				<AlertTitle>
+					<div className="flex items-center justify-between gap-2">
+						{policy.policy.name}
+						<Button
+							size="icon"
+							variant="ghost"
+							className="p-0 m-0 size-auto"
+							onClick={() => setOpen("true")}
+						>
+							<PencilIcon className="h-3 w-3" />
+						</Button>
+					</div>
+				</AlertTitle>
+				<AlertDescription className="mt-4">
+					{policy.policy.description}
+				</AlertDescription>
+			</Alert>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <div className="flex items-center justify-between gap-2">
-              {t("policies.overview.title")}
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <UpdatePolicyOverview organizationPolicy={policy} users={users} />
-        </CardContent>
-      </Card>
+			<Card>
+				<CardHeader>
+					<CardTitle>
+						<div className="flex items-center justify-between gap-2">
+							{t("policies.overview.title")}
+						</div>
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<UpdatePolicyOverview organizationPolicy={policy} users={users} />
+				</CardContent>
+			</Card>
 
-      <PolicyOverviewSheet policy={policy} />
-    </div>
-  );
+			<PolicyOverviewSheet policy={policy} />
+		</div>
+	);
 }
