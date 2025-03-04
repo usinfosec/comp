@@ -311,7 +311,8 @@ export default {
         review_frequency: "Frequência de Revisão",
         review_frequency_placeholder: "Selecione uma frequência de revisão",
         review_date: "Data da Revisão",
-        review_date_placeholder: "Selecione uma data de revisão"
+        review_date_placeholder: "Selecione uma data de revisão",
+        required_to_sign: "Necessário ser assinado pelos funcionários"
       }
     }
   },

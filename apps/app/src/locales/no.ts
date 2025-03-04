@@ -311,7 +311,8 @@ export default {
         review_frequency: "Gjennomgangsfrekvens",
         review_frequency_placeholder: "Velg en gjennomgangsfrekvens",
         review_date: "Gjennomgangsdato",
-        review_date_placeholder: "Velg en gjennomgangsdato"
+        review_date_placeholder: "Velg en gjennomgangsdato",
+        required_to_sign: "Må signeres av ansatte"
       }
     }
   },

@@ -311,7 +311,8 @@ export default {
         review_frequency: "Frecuencia de Revisión",
         review_frequency_placeholder: "Selecciona una frecuencia de revisión",
         review_date: "Fecha de revisión",
-        review_date_placeholder: "Seleccionar una fecha de revisión"
+        review_date_placeholder: "Seleccionar una fecha de revisión",
+        required_to_sign: "Requerido que sea firmado por los empleados"
       }
     }
   },
