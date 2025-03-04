@@ -802,15 +802,15 @@ export default {
   },
   upload: {
     fileSection: {
-      filesUploaded: "{{count}} fil{{s}} lastet opp",
-      upload: "{{count}} fil{{s}} lastet opp"
+      filesUploaded: "{count} fil{S} lastet opp",
+      upload: "{count} fil{S} lastet opp"
     },
     fileUpload: {
       uploadingText: "Laster opp...",
       dropFileHere: "Slipp fil her",
       releaseToUpload: "Slipp for å laste opp",
       addFiles: "Legg til filer",
-      uploadAdditionalEvidence: "Last opp ytterligere bevisfiler",
+      uploadAdditionalEvidence: "Last opp en fil",
       dragDropOrClick: "Dra og slipp eller klikk for å laste opp",
       dropFileHereAlt: "Slipp filen her",
       dragDropOrClickToSelect: "Dra og slipp en fil her, eller klikk for å velge",
@@ -829,7 +829,7 @@ export default {
     fileUrl: {
       additionalLinks: "Ytterligere lenker",
       add: "Legg til",
-      linksAdded: "{count} lenke{s} lagt til",
+      linksAdded: "{count} lenke{S} lagt til",
       enterUrl: "Skriv inn URL",
       addAnotherLink: "Legg til en annen lenke",
       saveLinks: "Lagre lenker",
