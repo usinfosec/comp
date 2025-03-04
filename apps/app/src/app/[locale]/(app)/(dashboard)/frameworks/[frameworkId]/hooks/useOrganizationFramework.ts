@@ -4,7 +4,7 @@ import useSWR from "swr";
 import {
   type FrameworkWithControls,
   getOrganizationFramework,
-} from "../Actions/getOrganizationFramework";
+} from "../actions/getOrganizationFramework";
 
 async function fetchOrganizationFramework(
   frameworkId: string,
