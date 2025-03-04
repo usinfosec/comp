@@ -855,7 +855,7 @@ export default {
 			dropFileHereAlt: "Déposez le fichier ici",
 			dragDropOrClickToSelect:
 				"Glissez-déposez un fichier ici, ou cliquez pour sélectionner",
-			maxFileSize: "Taille maximale du fichier : {{size}} Mo",
+			maxFileSize: "Taille maximale du fichier : {size} Mo",
 			uploadingFile: "Téléchargement du fichier...",
 		},
 		fileCard: {
@@ -872,7 +872,7 @@ export default {
 		fileUrl: {
 			additionalLinks: "Liens supplémentaires",
 			add: "Ajouter",
-			linksAdded: "{count} lien{s} ajouté",
+			linksAdded: "{{count}} lien{{s}} ajouté",
 			enterUrl: "Entrez l'URL",
 			addAnotherLink: "Ajouter un autre lien",
 			saveLinks: "Enregistrer les liens",
