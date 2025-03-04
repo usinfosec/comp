@@ -123,7 +123,6 @@ export function UpdatePolicyForm({
                   <Select
                     value={field.value}
                     onValueChange={field.onChange}
-                    defaultValue="required"
                   >
                     <SelectTrigger>
                       <SelectValue
