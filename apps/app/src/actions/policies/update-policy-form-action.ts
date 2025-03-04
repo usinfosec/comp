@@ -88,15 +88,23 @@ export const updatePolicyFormAction = authActionClient
           frequency: review_frequency,
           reviewDate,
           ...(lastPublishedAt && { lastPublishedAt }),
-          ...(isRequiredToSign !== undefined ? { 
-            policy: {
-              update: {
-                isRequiredToSign
-              }
-            } 
-          } : {}),
         },
       });
+
+      // Update the policy's isRequiredToSign field if provided
+      if (isRequiredToSign !== undefined) {
+        await db.policy.update({
+          where: {
+            id: (await db.organizationPolicy.findUnique({
+              where: { id },
+              select: { policyId: true },
+            }))?.policyId,
+          },
+          data: {
+            isRequiredToSign,
+          },
+        });
+      }
 
       revalidatePath("/policies");
       revalidatePath(`/policies/all/${id}`);
