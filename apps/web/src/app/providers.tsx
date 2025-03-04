@@ -6,36 +6,31 @@ import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
 type ProviderProps = {
-	children: ReactNode;
+  children: ReactNode;
 };
 
-function AnalyticsWrapper({ children }: ProviderProps) {
-	const hasAnalyticsKeys =
-		env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST;
-
-	if (!hasAnalyticsKeys) return <>{children}</>;
-
-	return (
-		<AnalyticsProvider
-			apiKey={env.NEXT_PUBLIC_POSTHOG_KEY!}
-			apiHost={env.NEXT_PUBLIC_POSTHOG_HOST!}
-		>
-			{children}
-		</AnalyticsProvider>
-	);
-}
-
 export function Providers({ children }: ProviderProps) {
-	return (
-		<ThemeProvider
-			attribute="class"
-			defaultTheme="dark"
-			disableTransitionOnChange
-			scriptProps={{ "data-cfasync": "false" }}
-		>
-			<div suppressHydrationWarning>
-				<AnalyticsWrapper>{children}</AnalyticsWrapper>
-			</div>
-		</ThemeProvider>
-	);
+  const hasAnalyticsKeys =
+    env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST;
+
+  return (
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        scriptProps={{ "data-cfasync": "false" }}
+      >
+        {hasAnalyticsKeys ? (
+          <AnalyticsProvider
+            apiKey={env.NEXT_PUBLIC_POSTHOG_KEY!}
+            apiHost={env.NEXT_PUBLIC_POSTHOG_HOST!}
+          >
+            {children}
+          </AnalyticsProvider>
+        ) : (
+          children
+        )}
+      </ThemeProvider>
+  );
 }
