@@ -21,6 +21,7 @@ import {
   type User,
 } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
+import { Checkbox } from "@bubba/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -85,6 +86,7 @@ export function UpdatePolicyOverview({
       department: organizationPolicy.department ?? Departments.admin,
       review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
       review_date: reviewDate,
+      isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign ? "required" : "not_required",
     },
   });
 
@@ -96,6 +98,7 @@ export function UpdatePolicyOverview({
       department: data.department,
       review_frequency: data.review_frequency,
       review_date: data.review_date,
+      isRequiredToSign: data.isRequiredToSign,
     });
   };
 
@@ -270,6 +273,37 @@ export function UpdatePolicyOverview({
                   </PopoverContent>
                 </Popover>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="isRequiredToSign"
+            render={({ field }) => (
+              <FormItem className="pt-4">
+                <FormLabel>
+                  {t("policies.overview.form.signature_requirement")}
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={t("policies.overview.form.signature_requirement_placeholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="required">
+                        {t("policies.overview.form.signature_required")}
+                      </SelectItem>
+                      <SelectItem value="not_required">
+                        {t("policies.overview.form.signature_not_required")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
               </FormItem>
             )}
           />

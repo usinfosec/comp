@@ -14,6 +14,13 @@ import {
   FormMessage,
 } from "@bubba/ui/form";
 import { Input } from "@bubba/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@bubba/ui/select";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -47,6 +54,7 @@ export function UpdatePolicyForm({
       id: policy.id,
       title: policy.policy.name,
       description: policy.policy.description ?? "",
+      isRequiredToSign: (policy.policy as any).isRequiredToSign ? "required" : "not_required",
     },
   });
 
@@ -55,6 +63,7 @@ export function UpdatePolicyForm({
       id: data.id,
       title: data.title,
       description: data.description,
+      isRequiredToSign: data.isRequiredToSign,
     });
   };
 
@@ -99,6 +108,37 @@ export function UpdatePolicyForm({
                   />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="isRequiredToSign"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  {t("policies.overview.form.signature_requirement")}
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={t("policies.overview.form.signature_requirement_placeholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="required">
+                        {t("policies.overview.form.signature_required")}
+                      </SelectItem>
+                      <SelectItem value="not_required">
+                        {t("policies.overview.form.signature_not_required")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
               </FormItem>
             )}
           />

@@ -311,7 +311,12 @@ export default {
         review_frequency: "Frecuencia de Revisión",
         review_frequency_placeholder: "Selecciona una frecuencia de revisión",
         review_date: "Fecha de revisión",
-        review_date_placeholder: "Seleccionar una fecha de revisión"
+        review_date_placeholder: "Seleccionar una fecha de revisión",
+        required_to_sign: "Requerido que sea firmado por los empleados",
+        signature_required: "Requerir la firma de los empleados",
+        signature_not_required: "No pedir a los empleados que firmen",
+        signature_requirement: "Requisito de firma",
+        signature_requirement_placeholder: "Seleccionar requisito de firma"
       }
     }
   },
