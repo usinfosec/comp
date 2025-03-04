@@ -1,7 +1,7 @@
 export interface ActionResponse<T = any> {
   success: boolean;
   data?: T | null;
-  error?: string;
+  error?: string | { code: string; message: string };
 }
 
 export type ActionData<T> =
