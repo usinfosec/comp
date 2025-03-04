@@ -111,6 +111,7 @@ model Organization {
   VendorTaskComments       VendorTaskComments[]
   Vendors                  Vendors[]
   PortalUser               PortalUser[]
+  apiKeys                  OrganizationApiKey[]
 
   @@index([stripeCustomerId])
 }
@@ -863,6 +864,22 @@ model PortalVerification {
   updatedAt  DateTime?
 
   @@map("portal_verification")
+}
+
+model OrganizationApiKey {
+  id             String       @id @default(cuid())
+  name           String // A friendly name for the API key
+  key            String       @unique // The hashed API key
+  salt           String? // Salt used for hashing the API key (nullable for backward compatibility)
+  createdAt      DateTime     @default(now())
+  expiresAt      DateTime? // Optional expiration date
+  lastUsedAt     DateTime? // Track when the key was last used
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  isActive       Boolean      @default(true)
+
+  @@index([organizationId])
+  @@index([key])
 }
 
 enum Tier {

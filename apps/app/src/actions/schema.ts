@@ -53,7 +53,7 @@ export const updaterMenuSchema = z.array(
   z.object({
     path: z.string(),
     name: z.string(),
-  }),
+  })
 );
 
 export const organizationWebsiteSchema = z.object({
@@ -300,4 +300,12 @@ export const updatePolicyFormSchema = z.object({
   department: z.nativeEnum(Departments),
   review_frequency: z.nativeEnum(Frequency),
   review_date: z.date(),
+});
+
+export const apiKeySchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(64, { message: "Name must be less than 64 characters" }),
+  expiresAt: z.enum(["30days", "90days", "1year", "never"]),
 });
