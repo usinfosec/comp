@@ -101,13 +101,15 @@ export const updatePolicyFormAction = authActionClient
         });
         
         if (orgPolicy?.policyId) {
-          // Use Prisma's executeRaw method to update the field
-          // This is necessary because the generated types might not be updated yet
-          await db.$executeRaw`
-            UPDATE "Policy" 
-            SET "isRequiredToSign" = ${isRequiredToSign === "required"} 
-            WHERE id = ${orgPolicy.policyId}
-          `;
+          // Update the policy using the Prisma client with type assertion
+          await db.policy.update({
+            where: { id: orgPolicy.policyId },
+            data: { 
+              // Use type assertion to handle the new field
+              // that might not be in the generated types yet
+              isRequiredToSign: isRequiredToSign === "required" 
+            } as any,
+          });
         }
       }
 

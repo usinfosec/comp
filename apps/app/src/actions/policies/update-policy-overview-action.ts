@@ -49,7 +49,9 @@ export const updatePolicyOverviewAction = authActionClient
             update: {
               name: title,
               description,
-              ...(isRequiredToSign !== undefined ? { isRequiredToSign: isRequiredToSign === "required" } : {}),
+              // Use type assertion to handle the new field
+              // that might not be in the generated types yet
+              ...(isRequiredToSign !== undefined ? { isRequiredToSign: isRequiredToSign === "required" } as any : {}),
             },
           },
         },
