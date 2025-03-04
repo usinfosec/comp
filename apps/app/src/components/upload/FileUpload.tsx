@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { Cloud, Loader2, Plus, Upload } from "lucide-react";
 import { cn } from "@bubba/ui/cn";
 import { Card, CardContent } from "@bubba/ui/card";
+import { useI18n } from "@/locales/client";
 
 interface FileUploadProps {
 	onFileSelect: (file: File) => void;
@@ -47,6 +48,8 @@ export function FileUpload({
 	cardHeight = "h-[220px]",
 	onClick,
 }: FileUploadProps) {
+	const t = useI18n();
+
 	const onDrop = useCallback(
 		(acceptedFiles: File[]) => {
 			if (acceptedFiles.length > 0) {
@@ -91,7 +94,9 @@ export function FileUpload({
 								<div className="rounded-full bg-primary/10 p-3 mb-2">
 									<Upload className="h-6 w-6 text-primary animate-pulse" />
 								</div>
-								<p className="text-sm font-medium text-center">Uploading...</p>
+								<p className="text-sm font-medium text-center">
+									{t("uploadingText")}
+								</p>
 							</div>
 						) : isDragActive ? (
 							<div className="flex flex-col items-center justify-center">
@@ -99,10 +104,10 @@ export function FileUpload({
 									<Cloud className="h-6 w-6 text-primary" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									Drop file here
+									{t("dropFileHere")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									Release to upload
+									{t("releaseToUpload")}
 								</p>
 							</div>
 						) : (
@@ -110,12 +115,14 @@ export function FileUpload({
 								<div className="rounded-full bg-primary/10 p-3 mb-2">
 									<Plus className="h-6 w-6 text-primary" />
 								</div>
-								<p className="text-sm font-medium text-center">Add Files</p>
+								<p className="text-sm font-medium text-center">
+									{t("addFiles")}
+								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									Upload additional evidence files
+									{t("uploadAdditionalEvidence")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-2 text-center">
-									Drag & drop or click to upload
+									{t("dragDropOrClick")}
 								</p>
 							</>
 						)}
@@ -144,18 +151,18 @@ export function FileUpload({
 					{isUploading ? (
 						<>
 							<Loader2 className="h-6 w-6 animate-spin text-primary" />
-							<p className="mt-2">Uploading file...</p>
+							<p className="mt-2">{t("uploadingFile")}</p>
 						</>
 					) : (
 						<>
 							<Cloud className="h-6 w-6 text-primary" />
 							<p className="mt-2">
 								{isDragActive
-									? "Drop the file here"
-									: "Drag & drop a file here, or click to select"}
+									? t("dropFileHereAlt")
+									: t("dragDropOrClickToSelect")}
 							</p>
 							<p className="mt-1">
-								Max file size: {Math.round(maxSize / 1024 / 1024)}MB
+								{t("maxFileSize", { size: Math.round(maxSize / 1024 / 1024) })}
 							</p>
 						</>
 					)}

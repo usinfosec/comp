@@ -7,6 +7,7 @@ import { useFileDelete } from "@/hooks/upload/use-file-delete";
 import { useFilePreview } from "@/hooks/upload/use-file-preview";
 import { FileCard } from "./FileCard";
 import type { UPLOAD_TYPE } from "@/actions/types";
+import { useI18n } from "@/locales/client";
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -30,6 +31,8 @@ export function FileSection({
 	fileUrls,
 	onSuccess,
 }: FileSectionProps) {
+	const t = useI18n();
+
 	const { isUploading, handleFileUpload } = useFileUpload({
 		uploadType,
 		evidenceId: evidenceId || "",
@@ -103,11 +106,11 @@ export function FileSection({
 	return (
 		<div className="space-y-6">
 			<div className="flex items-center justify-between">
-				<h3 className="font-medium">
-					{uploadType === "evidence" ? "Evidence Files" : "Task Files"}
-				</h3>
 				<span className="text-xs text-muted-foreground">
-					{fileUrls.length} file{fileUrls.length !== 1 ? "s" : ""} uploaded
+					{t("upload.fileSection.filesUploaded", {
+						count: fileUrls.length,
+						s: fileUrls.length !== 1 ? "s" : "",
+					})}
 				</span>
 			</div>
 

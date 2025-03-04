@@ -11,6 +11,7 @@ import {
 } from "@bubba/ui/tooltip";
 import { Copy, ExternalLink, Link, Plus, Save, Trash } from "lucide-react";
 import { useUrlManagement } from "@/hooks/upload/use-url-management";
+import { useTranslations } from "next-intl";
 
 interface UrlSectionProps {
 	evidenceId: string;
@@ -23,6 +24,8 @@ export function UrlSection({
 	additionalUrls,
 	onSuccess,
 }: UrlSectionProps) {
+	const t = useTranslations("upload.fileUrl");
+
 	const {
 		draftUrls,
 		handleAddDraft,
@@ -55,7 +58,7 @@ export function UrlSection({
 		<div className="space-y-6">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<h3 className="font-medium">Additional Links</h3>
+					<h3 className="font-medium">{t("additionalLinks")}</h3>
 					{draftUrls.length === 0 && (
 						<Button
 							variant="outline"
@@ -64,13 +67,15 @@ export function UrlSection({
 							onClick={handleAddDraft}
 						>
 							<Plus className="h-3 w-3" />
-							Add
+							{t("add")}
 						</Button>
 					)}
 				</div>
 				<span className="text-xs text-muted-foreground">
-					{additionalUrls.length} link{additionalUrls.length !== 1 ? "s" : ""}{" "}
-					added
+					{t("linksAdded", {
+						count: additionalUrls.length,
+						s: additionalUrls.length !== 1 ? "s" : "",
+					})}
 				</span>
 			</div>
 
@@ -84,7 +89,7 @@ export function UrlSection({
 						>
 							<Input
 								type="url"
-								placeholder="Enter URL"
+								placeholder={t("enterUrl")}
 								value={draft.url}
 								onChange={(e) => handleUpdateDraft(draft.id, e.target.value)}
 								className="flex-1"
@@ -114,7 +119,7 @@ export function UrlSection({
 							onClick={handleAddDraft}
 						>
 							<Plus className="h-4 w-4 mr-2" />
-							Add Another Link
+							{t("addAnotherLink")}
 						</Button>
 						<Button
 							variant="default"
@@ -123,7 +128,7 @@ export function UrlSection({
 							onClick={handleSaveUrls}
 						>
 							<Save className="h-4 w-4 mr-2" />
-							Save Links
+							{t("saveLinks")}
 						</Button>
 					</div>
 				</div>
@@ -152,7 +157,7 @@ export function UrlSection({
 												variant="outline"
 												className="hidden sm:flex text-xs"
 											>
-												URL
+												{t("urlBadge")}
 											</Badge>
 										</div>
 										<p className="text-xs text-muted-foreground truncate">
@@ -174,7 +179,7 @@ export function UrlSection({
 													</Button>
 												</TooltipTrigger>
 												<TooltipContent>
-													<p>Copy link</p>
+													<p>{t("copyLink")}</p>
 												</TooltipContent>
 											</Tooltip>
 										</TooltipProvider>
@@ -199,7 +204,7 @@ export function UrlSection({
 													</Button>
 												</TooltipTrigger>
 												<TooltipContent>
-													<p>Open link</p>
+													<p>{t("openLink")}</p>
 												</TooltipContent>
 											</Tooltip>
 										</TooltipProvider>
@@ -217,7 +222,7 @@ export function UrlSection({
 													</Button>
 												</TooltipTrigger>
 												<TooltipContent>
-													<p>Delete link</p>
+													<p>{t("deleteLink")}</p>
 												</TooltipContent>
 											</Tooltip>
 										</TooltipProvider>
