@@ -7,6 +7,7 @@ import { generatePageMeta } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { GoogleTagManager } from "@next/third-parties/google";
 import localFont from "next/font/local";
+import { initializeServer } from "@bubba/analytics";
 
 export const metadata = generatePageMeta({
 	url: "/",
@@ -17,6 +18,13 @@ const font = localFont({
 	display: "swap",
 	variable: "--font-general-sans",
 });
+
+if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
+  initializeServer({
+    apiKey: env.NEXT_PUBLIC_POSTHOG_KEY,
+    apiHost: env.NEXT_PUBLIC_POSTHOG_HOST,
+  });
+}
 
 export const preferredRegion = ["auto"];
 

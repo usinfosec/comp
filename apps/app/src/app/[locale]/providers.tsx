@@ -24,6 +24,7 @@ export function Providers({ children, locale }: ProviderProps) {
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
+        scriptProps={{ "data-cfasync": "false" }}
       >
         {hasAnalyticsKeys ? (
           <AnalyticsProvider

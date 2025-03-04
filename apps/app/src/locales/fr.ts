@@ -845,5 +845,44 @@ export default {
       review_section: "Informations de révision",
       content: "Contenu de la preuve"
     }
+  },
+  upload: {
+    fileSection: {
+      filesUploaded: "{count} fichier(s) téléchargé(s)",
+      upload: "{count} fichier(s) téléchargé(s)"
+    },
+    fileUpload: {
+      uploadingText: "Téléchargement en cours...",
+      dropFileHere: "Déposez le fichier ici",
+      releaseToUpload: "Relâchez pour télécharger",
+      addFiles: "Ajouter des fichiers",
+      uploadAdditionalEvidence: "Télécharger un fichier",
+      dragDropOrClick: "Glissez-déposez ou cliquez pour télécharger",
+      dropFileHereAlt: "Déposez le fichier ici",
+      dragDropOrClickToSelect: "Glissez-déposez un fichier ici, ou cliquez pour sélectionner",
+      maxFileSize: "Taille maximale du fichier : {size} Mo",
+      uploadingFile: "Téléchargement du fichier..."
+    },
+    fileCard: {
+      preview: "Aperçu",
+      previewNotAvailable: "Aperçu non disponible. Cliquez sur le bouton de téléchargement pour voir le fichier.",
+      filePreview: "Aperçu du fichier : {fileName}",
+      openFile: "Ouvrir le fichier",
+      deleteFile: "Supprimer le fichier",
+      deleteFileConfirmTitle: "Supprimer le fichier",
+      deleteFileConfirmDescription: "Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action ne peut pas être annulée."
+    },
+    fileUrl: {
+      additionalLinks: "Liens supplémentaires",
+      add: "Ajouter",
+      linksAdded: "{count} lien{s} ajouté{s}",
+      enterUrl: "Entrez l'URL",
+      addAnotherLink: "Ajouter un autre lien",
+      saveLinks: "Enregistrer les liens",
+      urlBadge: "URL",
+      copyLink: "Copier le lien",
+      openLink: "Ouvrir le lien",
+      deleteLink: "Supprimer le lien"
+    }
   }
 } as const;

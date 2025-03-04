@@ -72,3 +72,8 @@ export interface DomainVerificationResponse {
     reason: string;
   }[];
 }
+
+export const UPLOAD_TYPE = {
+  evidence: "evidence",
+  riskTask: "risk-task",
+} as const;
