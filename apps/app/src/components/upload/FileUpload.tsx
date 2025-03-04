@@ -22,10 +22,6 @@ interface FileUploadProps {
 	 * @default "h-[220px]"
 	 */
 	cardHeight?: string;
-	/**
-	 * Optional click handler for the card variant
-	 */
-	onClick?: (e: React.MouseEvent) => void;
 }
 
 export function FileUpload({
@@ -46,7 +42,6 @@ export function FileUpload({
 	maxSize = 10 * 1024 * 1024, // 10MB
 	variant = "default",
 	cardHeight = "h-[220px]",
-	onClick,
 }: FileUploadProps) {
 	const t = useI18n();
 
@@ -95,7 +90,7 @@ export function FileUpload({
 									<Upload className="h-6 w-6 text-primary animate-pulse" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("uploadingText")}
+									{t("upload.fileUpload.uploadingText")}
 								</p>
 							</div>
 						) : isDragActive ? (
@@ -104,10 +99,10 @@ export function FileUpload({
 									<Cloud className="h-6 w-6 text-primary" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("dropFileHere")}
+									{t("upload.fileUpload.dropFileHere")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("releaseToUpload")}
+									{t("upload.fileUpload.releaseToUpload")}
 								</p>
 							</div>
 						) : (
@@ -116,13 +111,13 @@ export function FileUpload({
 									<Plus className="h-6 w-6 text-primary" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("addFiles")}
+									{t("upload.fileUpload.addFiles")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("uploadAdditionalEvidence")}
+									{t("upload.fileUpload.uploadAdditionalEvidence")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-2 text-center">
-									{t("dragDropOrClick")}
+									{t("upload.fileUpload.dragDropOrClick")}
 								</p>
 							</>
 						)}
@@ -151,18 +146,20 @@ export function FileUpload({
 					{isUploading ? (
 						<>
 							<Loader2 className="h-6 w-6 animate-spin text-primary" />
-							<p className="mt-2">{t("uploadingFile")}</p>
+							<p className="mt-2">{t("upload.fileUpload.uploadingText")}</p>
 						</>
 					) : (
 						<>
 							<Cloud className="h-6 w-6 text-primary" />
 							<p className="mt-2">
 								{isDragActive
-									? t("dropFileHereAlt")
-									: t("dragDropOrClickToSelect")}
+									? t("upload.fileUpload.dropFileHereAlt")
+									: t("upload.fileUpload.dragDropOrClickToSelect")}
 							</p>
 							<p className="mt-1">
-								{t("maxFileSize", { size: Math.round(maxSize / 1024 / 1024) })}
+								{t("upload.fileUpload.maxFileSize", {
+									size: Math.round(maxSize / 1024 / 1024),
+								})}
 							</p>
 						</>
 					)}

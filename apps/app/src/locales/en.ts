@@ -835,7 +835,7 @@ export default {
 			dragDropOrClick: "Drag & drop or click to upload",
 			dropFileHereAlt: "Drop the file here",
 			dragDropOrClickToSelect: "Drag & drop a file here, or click to select",
-			maxFileSize: "Max file size: {{size}}MB",
+			maxFileSize: "Max file size: {size}MB",
 			uploadingFile: "Uploading file...",
 		},
 		fileCard: {

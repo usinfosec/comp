@@ -78,6 +78,7 @@ export const getFileUrl = authActionClient
 				const evidence = await db.organizationEvidence.findFirst({
 					where: {
 						id: parsedInput.evidenceId,
+						organizationId: user.organizationId,
 					},
 				});
 
@@ -107,6 +108,7 @@ export const getFileUrl = authActionClient
 				const task = await db.riskMitigationTask.findFirst({
 					where: {
 						id: parsedInput.taskId,
+						organizationId: user.organizationId,
 					},
 				});
 

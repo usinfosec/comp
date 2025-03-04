@@ -113,7 +113,7 @@ export function useFileUpload({
 				setIsUploading(false);
 			}
 		},
-		[evidenceId, onSuccess, toast],
+		[evidenceId, taskId, uploadType, onSuccess, toast],
 	);
 
 	return {

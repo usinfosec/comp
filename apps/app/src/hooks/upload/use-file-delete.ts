@@ -56,7 +56,7 @@ export function useFileDelete({
 				});
 			}
 		},
-		[evidenceId, onSuccess, toast],
+		[evidenceId, taskId, uploadType, onSuccess, toast],
 	);
 
 	return {
