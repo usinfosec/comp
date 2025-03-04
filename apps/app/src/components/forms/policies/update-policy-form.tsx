@@ -5,6 +5,7 @@ import { updatePolicyOverviewSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import type { OrganizationPolicy, Policy } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
+import { Checkbox } from "@bubba/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -47,6 +48,7 @@ export function UpdatePolicyForm({
       id: policy.id,
       title: policy.policy.name,
       description: policy.policy.description ?? "",
+      isRequiredToSign: (policy.policy as any).isRequiredToSign ?? false,
     },
   });
 
@@ -55,6 +57,7 @@ export function UpdatePolicyForm({
       id: data.id,
       title: data.title,
       description: data.description,
+      isRequiredToSign: data.isRequiredToSign,
     });
   };
 
@@ -99,6 +102,25 @@ export function UpdatePolicyForm({
                   />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="isRequiredToSign"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    {t("policies.overview.form.required_to_sign")}
+                  </FormLabel>
+                </div>
               </FormItem>
             )}
           />

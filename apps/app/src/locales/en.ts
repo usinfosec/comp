@@ -308,6 +308,7 @@ export default {
         review_frequency_placeholder: "Select a review frequency",
         review_date: "Review Date",
         review_date_placeholder: "Select a review date",
+        required_to_sign: "Required to be signed by employees",
       },
     },
     table: {

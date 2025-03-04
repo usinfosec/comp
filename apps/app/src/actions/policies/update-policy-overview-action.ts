@@ -17,7 +17,7 @@ export const updatePolicyOverviewAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, title, description } = parsedInput;
+    const { id, title, description, isRequiredToSign } = parsedInput;
     const { user } = ctx;
 
     if (!user) {
@@ -49,6 +49,7 @@ export const updatePolicyOverviewAction = authActionClient
             update: {
               name: title,
               description,
+              ...(isRequiredToSign !== undefined ? { isRequiredToSign } : {}),
             },
           },
         },

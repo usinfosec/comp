@@ -291,6 +291,7 @@ export const updatePolicyOverviewSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string(),
+  isRequiredToSign: z.boolean().optional(),
 });
 
 export const updatePolicyFormSchema = z.object({
