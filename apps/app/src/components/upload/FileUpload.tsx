@@ -146,7 +146,7 @@ export function FileUpload({
 					{isUploading ? (
 						<>
 							<Loader2 className="h-6 w-6 animate-spin text-primary" />
-							<p className="mt-2">{t("upload.fileUpload.uploading")}</p>
+							<p className="mt-2">{t("upload.fileUpload.uploadingFile")}</p>
 						</>
 					) : (
 						<>
