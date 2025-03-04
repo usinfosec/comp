@@ -534,3 +534,32 @@ files:
     evidence.departments.qms: 3b88c0772d938028236e5098c096b2d5
     evidence.details.review_section: 659514b42799e5982d28793d9e003ae3
     evidence.details.content: 393ae95538cd395eb8d1f7521f652b10
+    upload.fileSection.filesUploaded: add253d4ce52cc0d136c30a66ac14c23
+    upload.fileSection.upload: add253d4ce52cc0d136c30a66ac14c23
+    upload.fileUpload.uploadingText: f2870421907fa4e9e9c6fbe349234ecf
+    upload.fileUpload.dropFileHere: 8ea866b321e27837bd677bd711f20020
+    upload.fileUpload.releaseToUpload: 71611d0ba234b4775232cd78dd6ba086
+    upload.fileUpload.addFiles: 5f4514405d9574e7b2b4c6c16573c5ca
+    upload.fileUpload.uploadAdditionalEvidence: c66fbe095b24cbc03a6061f5dde9074c
+    upload.fileUpload.dragDropOrClick: 14b48f6e1261da76387c088af3627a54
+    upload.fileUpload.dropFileHereAlt: 2fc6d5dd6b01157bf9929b5a720458e4
+    upload.fileUpload.dragDropOrClickToSelect: f44b7ad378c59ad4bbf5cd061f66e736
+    upload.fileUpload.maxFileSize: 8696cb15f510b77f2a1f246504e4a94a
+    upload.fileUpload.uploadingFile: 5d8792ec4500487cd04d588e4dabd830
+    upload.fileCard.preview: 31fde7b05ac8952dacf4af8a704074ec
+    upload.fileCard.previewNotAvailable: 39cbb918de331a8f2f27a4fde2834710
+    upload.fileCard.filePreview: 2f9e2860469a0a7176e029379ffb772b
+    upload.fileCard.openFile: 74540c79e377bea903e1023a46df5574
+    upload.fileCard.deleteFile: 9bef626805b43ecb7584824958a3dbca
+    upload.fileCard.deleteFileConfirmTitle: 7d1e2483f22443e6aa5e0c3212fc312a
+    upload.fileCard.deleteFileConfirmDescription: 778642957cde8ad5b6a1a21c157a4fa4
+    upload.fileUrl.additionalLinks: 93823085d6dc9b7eba33ee74ca7ff786
+    upload.fileUrl.add: ec211f7c20af43e742bf2570c3cb84f9
+    upload.fileUrl.linksAdded: 47540d6f2ea48cd578085bcb9fad3888
+    upload.fileUrl.enterUrl: e1f70f4a4265cb51c1b219aa60eaa441
+    upload.fileUrl.addAnotherLink: d53fe8cfe74a5ec2e99bf0dca0e5327f
+    upload.fileUrl.saveLinks: d7fa2bfcc59f0361b9445d7808ac4675
+    upload.fileUrl.urlBadge: e6b391a8d2c4d45902a23a8b6585703d
+    upload.fileUrl.copyLink: b75833669968adbef634495636e3fe50
+    upload.fileUrl.openLink: d755f2315905c3dbc605d4b56c9ef974
+    upload.fileUrl.deleteLink: 9720971d619678cfc15ae1b4ae98955b
