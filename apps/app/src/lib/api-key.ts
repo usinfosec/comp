@@ -11,7 +11,7 @@ export function generateApiKey(): string {
   // Generate a random string for the API key
   const apiKey = randomBytes(32).toString("hex");
   // Add a prefix to make it easily identifiable
-  return `bubba_${apiKey}`;
+  return `comp_${apiKey}`;
 }
 
 /**
