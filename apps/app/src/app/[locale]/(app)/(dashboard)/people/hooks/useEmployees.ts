@@ -12,7 +12,7 @@ import type { Departments } from "@bubba/db";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(
-  input: EmployeesInput,
+  input: EmployeesInput
 ): Promise<EmployeesResponse> {
   const result = await getEmployees(input);
 
@@ -52,9 +52,9 @@ export function useEmployees() {
     ["employees", { search, role, page, per_page }],
     () => fetchEmployees({ search, role, page, per_page }),
     {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    },
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+    }
   );
 
   /** Track local mutation (creating an employee) loading state */
@@ -101,7 +101,7 @@ export function useEmployees() {
         setIsMutating(false);
       }
     },
-    [revalidateEmployees],
+    [revalidateEmployees]
   );
 
   return {

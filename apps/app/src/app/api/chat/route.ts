@@ -1,6 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { convertToCoreMessages, streamText } from "ai";
 
+export const runtime = "nodejs";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {

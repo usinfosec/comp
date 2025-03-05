@@ -5,7 +5,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { streamText } from "ai";
 import { match } from "ts-pattern";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function POST(req: Request): Promise<Response> {
   if (!env.OPENAI_API_KEY || env.OPENAI_API_KEY === "") {
@@ -13,7 +13,7 @@ export async function POST(req: Request): Promise<Response> {
       "Missing OPENAI_API_KEY - make sure to add it to your .env file.",
       {
         status: 400,
-      },
+      }
     );
   }
 
@@ -25,7 +25,7 @@ export async function POST(req: Request): Promise<Response> {
     });
 
     const { success, limit, reset, remaining } = await ratelimit.limit(
-      `novel_ratelimit_${ip}`,
+      `novel_ratelimit_${ip}`
     );
 
     if (!success) {
