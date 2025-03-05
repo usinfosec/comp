@@ -5,7 +5,7 @@ description: "Endpoints for managing organization employees"
 
 # Employees
 
-The Employees endpoints allow you to manage employees within your organization. You can list employees, filter them by various parameters, and add new employees.
+The Employees endpoints allow you to manage employees within your organization. You can list employees, create new employees, and delete existing employees.
 
 ## Base URL
 
@@ -27,6 +27,12 @@ All API endpoints require authentication using an API key. You can pass the API 
 - In the `X-API-Key` header: `X-API-Key: {api_key}`
 
 ## Endpoints
+
+The following endpoints are available for managing employees:
+
+- `GET /api/v1/employees` - List all employees with optional filtering
+- `POST /api/v1/employees` - Create a new employee
+- `DELETE /api/v1/employees/:id` - Delete an employee by ID
 
 ### List Employees
 
@@ -86,6 +92,20 @@ All API endpoints require authentication using an API key. You can pass the API 
   </Expandable>
 </ResponseField>
 
+#### Error Responses
+
+<ResponseField name="success" type="boolean">
+  Will be `false` when an error occurs.
+</ResponseField>
+
+<ResponseField name="error" type="string">
+  Error message describing what went wrong.
+</ResponseField>
+
+<ResponseField name="details" type="object">
+  Detailed validation errors, if applicable.
+</ResponseField>
+
 #### Example Request
 
 ```bash
@@ -115,7 +135,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engi
 
 ### Add Employee
 
-<ParamField path="POST /api/v1/employees/add" method="POST">
+<ParamField path="POST /api/v1/employees" method="POST">
   Adds a new employee to your organization.
 </ParamField>
 
@@ -197,6 +217,10 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engi
 
 #### Error Responses
 
+<ResponseField name="success" type="boolean">
+  Will be `false` when an error occurs.
+</ResponseField>
+
 <ResponseField name="error" type="string">
   Error message describing what went wrong.
 </ResponseField>
@@ -208,7 +232,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engi
 #### Example Request
 
 ```bash
-curl -X POST "https://app.trycomp.ai/api/v1/employees/add" \
+curl -X POST "https://app.trycomp.ai/api/v1/employees" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -237,6 +261,23 @@ curl -X POST "https://app.trycomp.ai/api/v1/employees/add" \
     "organizationId": "org_123456",
     "userId": null,
     "linkId": null
+  }
+}
+```
+
+#### Example Response for Validation Error
+
+```json
+{
+  "success": false,
+  "error": "Validation failed",
+  "details": {
+    "name": {
+      "_errors": ["Name is required"]
+    },
+    "email": {
+      "_errors": ["Valid email is required"]
+    }
   }
 }
 ```
@@ -299,5 +340,19 @@ curl -X DELETE "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9
 {
   "success": false,
   "error": "Employee not found"
+}
+```
+
+#### Example Response for Validation Error
+
+```json
+{
+  "success": false,
+  "error": "Validation failed",
+  "details": {
+    "email": {
+      "_errors": ["Valid email is required"]
+    }
+  }
 }
 ```

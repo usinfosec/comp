@@ -13,8 +13,22 @@ const queryParamsSchema = z.object({
   search: z.string().optional(),
 });
 
+// Define the schema for employee creation
+const employeeCreateSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  email: z.string().email({ message: "Valid email is required" }),
+  department: z.nativeEnum(Departments).optional().default(Departments.none),
+  isActive: z.boolean().optional().default(true),
+  externalEmployeeId: z.string().optional().nullable(),
+  userId: z.string().optional().nullable(),
+  linkId: z.string().optional().nullable(),
+});
+
 // Type for the validated query parameters
 type QueryParams = z.infer<typeof queryParamsSchema>;
+
+// Type for the validated employee creation data
+type EmployeeCreateInput = z.infer<typeof employeeCreateSchema>;
 
 /**
  * GET /api/v1/employees
@@ -135,6 +149,91 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching employees:", error);
     return NextResponse.json(
       { error: "Failed to fetch employees" },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/v1/employees
+ *
+ * Create a new employee for the organization associated with the API key
+ *
+ * Headers:
+ * - Authorization: Bearer {api_key} or X-API-Key: {api_key}
+ *
+ * Body:
+ * - name: string - The name of the employee (required)
+ * - email: string - The email of the employee (required)
+ * - department: Departments - The department of the employee (optional, defaults to "none")
+ * - isActive: boolean - Whether the employee is active (optional, defaults to true)
+ * - externalEmployeeId: string - External employee ID (optional)
+ * - userId: string - User ID (optional)
+ * - linkId: string - Link ID (optional)
+ *
+ * Returns:
+ * - 200: { success: true, data: Employee }
+ * - 400: { error: "Validation failed", details: {...} }
+ * - 401: { error: "Invalid or missing API key" }
+ * - 500: { error: "Failed to create employee" }
+ */
+export async function POST(request: NextRequest) {
+  // Get the organization ID from the API key
+  const { organizationId, errorResponse } =
+    await getOrganizationFromApiKey(request);
+
+  // If there's an error response, return it
+  if (errorResponse) {
+    return errorResponse;
+  }
+
+  try {
+    const body = await request.json();
+
+    // Validate the request body against the schema
+    const validationResult = employeeCreateSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      // Return validation errors
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Validation failed",
+          details: validationResult.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    // Extract validated data
+    const validatedData: EmployeeCreateInput = validationResult.data;
+
+    // Create the employee using the organization ID from the API key
+    const employee = await db.employee.create({
+      data: {
+        ...validatedData,
+        organizationId: organizationId!,
+      },
+    });
+
+    // Format dates for JSON response
+    const formattedEmployee = {
+      ...employee,
+      createdAt: employee.createdAt.toISOString(),
+      updatedAt: employee.updatedAt.toISOString(),
+    };
+
+    return NextResponse.json({
+      success: true,
+      data: formattedEmployee,
+    });
+  } catch (error) {
+    console.error("Error creating employee:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Failed to create employee",
+      },
       { status: 500 }
     );
   }
