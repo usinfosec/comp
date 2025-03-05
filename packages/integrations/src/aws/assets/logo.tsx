@@ -10,7 +10,6 @@ export const Logo = () => {
 			width={131.417}
 			height={50}
 			viewBox="0 0 500 182"
-			style={{ enableBackground: "new 0 0 304 182" }}
 			xmlSpace="preserve">
 
 			<style type="text/css">
