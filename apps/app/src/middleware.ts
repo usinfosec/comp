@@ -2,8 +2,6 @@ import { auth as authMiddleware } from "@/auth";
 import { createI18nMiddleware } from "next-international/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 
-export const runtime = "nodejs";
-
 const I18nMiddleware = createI18nMiddleware({
   locales: ["en", "es", "fr", "no", "pt"],
   defaultLocale: "en",
