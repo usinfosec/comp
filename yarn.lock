@@ -321,6 +321,51 @@
     "@smithy/util-waiter" "^4.0.2"
     tslib "^2.6.2"
 
+"@aws-sdk/client-securityhub@^3.751.0":
+  version "3.758.0"
+  resolved "https://registry.npmjs.org/@aws-sdk/client-securityhub/-/client-securityhub-3.758.0.tgz"
+  integrity sha512-J8pmXU5qOoDIzYr3NTOdmPiTRZW65ayW/tkEMCZ+HxEdjpNDjdPJzuqDZW4uSHcrgLwzKmyXmPNpJb2xxXj6HA==
+  dependencies:
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "5.2.0"
+    "@aws-sdk/core" "3.758.0"
+    "@aws-sdk/credential-provider-node" "3.758.0"
+    "@aws-sdk/middleware-host-header" "3.734.0"
+    "@aws-sdk/middleware-logger" "3.734.0"
+    "@aws-sdk/middleware-recursion-detection" "3.734.0"
+    "@aws-sdk/middleware-user-agent" "3.758.0"
+    "@aws-sdk/region-config-resolver" "3.734.0"
+    "@aws-sdk/types" "3.734.0"
+    "@aws-sdk/util-endpoints" "3.743.0"
+    "@aws-sdk/util-user-agent-browser" "3.734.0"
+    "@aws-sdk/util-user-agent-node" "3.758.0"
+    "@smithy/config-resolver" "^4.0.1"
+    "@smithy/core" "^3.1.5"
+    "@smithy/fetch-http-handler" "^5.0.1"
+    "@smithy/hash-node" "^4.0.1"
+    "@smithy/invalid-dependency" "^4.0.1"
+    "@smithy/middleware-content-length" "^4.0.1"
+    "@smithy/middleware-endpoint" "^4.0.6"
+    "@smithy/middleware-retry" "^4.0.7"
+    "@smithy/middleware-serde" "^4.0.2"
+    "@smithy/middleware-stack" "^4.0.1"
+    "@smithy/node-config-provider" "^4.0.1"
+    "@smithy/node-http-handler" "^4.0.3"
+    "@smithy/protocol-http" "^5.0.1"
+    "@smithy/smithy-client" "^4.1.6"
+    "@smithy/types" "^4.1.0"
+    "@smithy/url-parser" "^4.0.1"
+    "@smithy/util-base64" "^4.0.0"
+    "@smithy/util-body-length-browser" "^4.0.0"
+    "@smithy/util-body-length-node" "^4.0.0"
+    "@smithy/util-defaults-mode-browser" "^4.0.7"
+    "@smithy/util-defaults-mode-node" "^4.0.7"
+    "@smithy/util-endpoints" "^3.0.1"
+    "@smithy/util-middleware" "^4.0.1"
+    "@smithy/util-retry" "^4.0.1"
+    "@smithy/util-utf8" "^4.0.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/client-sso@3.758.0":
   version "3.758.0"
   resolved "https://registry.npmjs.org/@aws-sdk/client-sso/-/client-sso-3.758.0.tgz"
@@ -4515,12 +4560,22 @@
   resolved "https://registry.npmjs.org/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz"
   integrity sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==
 
-"@trigger.dev/build@3.3.16", "@trigger.dev/build@^3.3.15":
+"@trigger.dev/build@^3.3.15":
   version "3.3.16"
   resolved "https://registry.npmjs.org/@trigger.dev/build/-/build-3.3.16.tgz"
   integrity sha512-PATGwN8bvDlOESmOgJO3mofulxActkSClBCdlsTT3NYzT6umFFXOieWzq5fLrPpaHsujrkazTERSiHOEdxEXxw==
   dependencies:
     "@trigger.dev/core" "3.3.16"
+    pkg-types "^1.1.3"
+    tinyglobby "^0.2.2"
+    tsconfck "3.1.3"
+
+"@trigger.dev/build@3.3.17":
+  version "3.3.17"
+  resolved "https://registry.npmjs.org/@trigger.dev/build/-/build-3.3.17.tgz"
+  integrity sha512-dfreMuVeLAcZypS3kkUA9nWNviiuOPIQ3ldy2ywPCmwmbHyd0BE8tI5D3A4kmVq/f53TdRMls4c+cYafxlwubQ==
+  dependencies:
+    "@trigger.dev/core" "3.3.17"
     pkg-types "^1.1.3"
     tinyglobby "^0.2.2"
     tsconfck "3.1.3"
@@ -4557,7 +4612,7 @@
     zod-error "1.5.0"
     zod-validation-error "^1.5.0"
 
-"@trigger.dev/core@3.3.16", "@trigger.dev/core@^3.3.16":
+"@trigger.dev/core@3.3.16":
   version "3.3.16"
   resolved "https://registry.npmjs.org/@trigger.dev/core/-/core-3.3.16.tgz"
   integrity sha512-OCxl9A7QvqLnGlnl195p8lw0pTY7hJQyaY35Sdy2GuYcm28ktwzx3F2Iu3ulgcmDlKQTpf1VZsSA5wP/enRRpQ==
@@ -4589,12 +4644,44 @@
     zod-error "1.5.0"
     zod-validation-error "^1.5.0"
 
-"@trigger.dev/react-hooks@3.3.16":
-  version "3.3.16"
-  resolved "https://registry.npmjs.org/@trigger.dev/react-hooks/-/react-hooks-3.3.16.tgz"
-  integrity sha512-9XhGy92TKDM0WtquiNqGqtZJIBsKdXxUHUK2aleSPOvmSf4lPTTLrKMgU+6SDSmhhW6xEZ7NgoDwCeAndBHyjQ==
+"@trigger.dev/core@3.3.17", "@trigger.dev/core@^3.3.17":
+  version "3.3.17"
+  resolved "https://registry.npmjs.org/@trigger.dev/core/-/core-3.3.17.tgz"
+  integrity sha512-KjnRxCuHq4R+MnE0zPvIQ7EIz4QSpJL+1Yn74n2cCGjyHYgQ/g8rcARn0Nxf2s8jzE38CnyRufjUrwG8k+DJrw==
   dependencies:
-    "@trigger.dev/core" "^3.3.16"
+    "@electric-sql/client" "1.0.0-beta.1"
+    "@google-cloud/precise-date" "^4.0.0"
+    "@jsonhero/path" "^1.0.21"
+    "@opentelemetry/api" "1.9.0"
+    "@opentelemetry/api-logs" "0.52.1"
+    "@opentelemetry/exporter-logs-otlp-http" "0.52.1"
+    "@opentelemetry/exporter-trace-otlp-http" "0.52.1"
+    "@opentelemetry/instrumentation" "0.52.1"
+    "@opentelemetry/resources" "1.25.1"
+    "@opentelemetry/sdk-logs" "0.52.1"
+    "@opentelemetry/sdk-node" "0.52.1"
+    "@opentelemetry/sdk-trace-base" "1.25.1"
+    "@opentelemetry/sdk-trace-node" "1.25.1"
+    "@opentelemetry/semantic-conventions" "1.25.1"
+    dequal "^2.0.3"
+    eventsource "^3.0.5"
+    eventsource-parser "^3.0.0"
+    execa "^8.0.1"
+    humanize-duration "^3.27.3"
+    jose "^5.4.0"
+    nanoid "^3.3.4"
+    socket.io-client "4.7.5"
+    superjson "^2.2.1"
+    zod "3.23.8"
+    zod-error "1.5.0"
+    zod-validation-error "^1.5.0"
+
+"@trigger.dev/react-hooks@3.3.17":
+  version "3.3.17"
+  resolved "https://registry.npmjs.org/@trigger.dev/react-hooks/-/react-hooks-3.3.17.tgz"
+  integrity sha512-1icVcYE7fuoB912KjeUxeTBiKygW82sy1XIWsYhEr6qyj7LcmfNzkNuL4qUdbqgcwJD0z91eKskRmd7MkjQrDg==
+  dependencies:
+    "@trigger.dev/core" "^3.3.17"
     swr "^2.2.5"
 
 "@trigger.dev/sdk@3.3.13":
@@ -4616,7 +4703,7 @@
     uuid "^9.0.0"
     ws "^8.11.0"
 
-"@trigger.dev/sdk@3.3.16", "@trigger.dev/sdk@^3.3.15":
+"@trigger.dev/sdk@^3.3.15":
   version "3.3.16"
   resolved "https://registry.npmjs.org/@trigger.dev/sdk/-/sdk-3.3.16.tgz"
   integrity sha512-vObHP0P5ugyZNKiAOLTD1rWeHKiX97K82aj06HaOceRZxwztbBnuhD3AXAODISvroKguySUcrLDCMOSTpXUung==
@@ -4625,6 +4712,26 @@
     "@opentelemetry/api-logs" "0.52.1"
     "@opentelemetry/semantic-conventions" "1.25.1"
     "@trigger.dev/core" "3.3.16"
+    chalk "^5.2.0"
+    cronstrue "^2.21.0"
+    debug "^4.3.4"
+    evt "^2.4.13"
+    slug "^6.0.0"
+    terminal-link "^3.0.0"
+    ulid "^2.3.0"
+    uncrypto "^0.1.3"
+    uuid "^9.0.0"
+    ws "^8.11.0"
+
+"@trigger.dev/sdk@3.3.17":
+  version "3.3.17"
+  resolved "https://registry.npmjs.org/@trigger.dev/sdk/-/sdk-3.3.17.tgz"
+  integrity sha512-wjIjlQWKybYWw/J7LxFIOO1pXzxXoj9lxbFMvjb51JtfebxnQnh6aExN47nOGhVhV38wHYstfBI/8ClWwBnFYw==
+  dependencies:
+    "@opentelemetry/api" "1.9.0"
+    "@opentelemetry/api-logs" "0.52.1"
+    "@opentelemetry/semantic-conventions" "1.25.1"
+    "@trigger.dev/core" "3.3.17"
     chalk "^5.2.0"
     cronstrue "^2.21.0"
     debug "^4.3.4"
@@ -6138,7 +6245,7 @@ comp.ai@^workspace:apps/app:
   devDependencies:
     "@bubba/db" "workspace:*"
   devDependencies:
-    "@trigger.dev/build" "3.3.16"
+    "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.2"
     "@types/react" "19.0.10"
     "@types/react-dom" "19.0.4"
@@ -6169,8 +6276,8 @@ comp.ai@^workspace:apps/app:
     "@tiptap/pm" "^2.11.5"
     "@tiptap/react" "^2.11.5"
     "@tiptap/starter-kit" "^2.11.5"
-    "@trigger.dev/react-hooks" "3.3.16"
-    "@trigger.dev/sdk" "3.3.16"
+    "@trigger.dev/react-hooks" "3.3.17"
+    "@trigger.dev/sdk" "3.3.17"
     "@types/d3" "^7.4.3"
     "@uploadthing/react" "^7.2.0"
     "@upstash/ratelimit" "^2.0.5"

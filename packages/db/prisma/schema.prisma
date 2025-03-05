@@ -72,6 +72,7 @@ model User {
   VendorTaskComments      VendorTaskComments[]
   Vendors                 Vendors[]
   OrganizationPolicy      OrganizationPolicy[]
+  integrationResults      OrganizationIntegrationResults[]
 
   @@index([email])
   @@index([organizationId])
@@ -114,6 +115,7 @@ model Organization {
   Vendors                  Vendors[]
   PortalUser               PortalUser[]
   apiKeys                  OrganizationApiKey[]
+  OrganizationIntegrationResults OrganizationIntegrationResults[]
 
   @@index([stripeCustomerId])
 }
@@ -126,8 +128,30 @@ model OrganizationIntegrations {
   user_settings  Json
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  results        OrganizationIntegrationResults[]
 
   @@index([organizationId])
+}
+
+model OrganizationIntegrationResults {
+  id                        String        @id @default(cuid())
+  title                     String?
+  status                    String
+  label                     String?       // PASS, FAIL, ERROR
+  resultDetails             Json?         // Stores detailed test results
+  completedAt               DateTime?     @default(now())
+  organizationIntegrationId String
+  organizationId            String
+  assignedUserId            String?
+
+  assignedUser              User?          @relation(fields: [assignedUserId], references: [id], onDelete: Cascade)
+  organizationIntegration   OrganizationIntegrations @relation(fields: [organizationIntegrationId], references: [id], onDelete: Cascade)
+  organization              Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  @@index([assignedUserId])
+  @@index([organizationIntegrationId])
+  @@index([organizationId])
+  @@map("Organization_integration_results")
 }
 
 model AuditLog {
