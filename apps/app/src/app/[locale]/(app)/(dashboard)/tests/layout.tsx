@@ -11,7 +11,6 @@ export default async function Layout({
   return (
     <div className="max-w-[1200px]">
       <SecondaryMenu items={[{ path: "/tests", label: t("tests.title") }]} />
-
       <main className="mt-8">{children}</main>
     </div>
   );
