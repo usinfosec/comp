@@ -2,6 +2,9 @@ import { db } from "@bubba/db";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 
+// Configure this route to use Node.js runtime instead of Edge
+export const runtime = "nodejs";
+
 /**
  * GET /api/v1/employees/:id
  *

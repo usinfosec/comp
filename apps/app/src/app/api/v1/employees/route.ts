@@ -3,6 +3,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";
 
+// Configure this route to use Node.js runtime instead of Edge
+export const runtime = "nodejs";
+
 // Define the schema for query parameters
 const queryParamsSchema = z.object({
   active: z
