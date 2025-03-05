@@ -1,4 +1,4 @@
-import { db } from "@bubba/db";
+import { db, Departments, RiskCategory, RiskStatus } from "@bubba/db";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";
@@ -8,24 +8,9 @@ export const runtime = "nodejs";
 
 // Define the schema for query parameters
 const queryParamsSchema = z.object({
-  status: z.enum(["open", "pending", "closed", "archived"]).optional(),
-  category: z
-    .enum([
-      "customer",
-      "governance",
-      "operations",
-      "other",
-      "people",
-      "regulatory",
-      "reporting",
-      "resilience",
-      "technology",
-      "vendor_management",
-    ])
-    .optional(),
-  department: z
-    .enum(["none", "admin", "gov", "hr", "it", "itsm", "qms"])
-    .optional(),
+  status: z.nativeEnum(RiskStatus).optional(),
+  category: z.nativeEnum(RiskCategory).optional(),
+  department: z.nativeEnum(Departments).optional(),
   search: z.string().optional(),
 });
 
@@ -33,34 +18,15 @@ const queryParamsSchema = z.object({
 const riskCreateSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  category: z.enum([
-    "customer",
-    "governance",
-    "operations",
-    "other",
-    "people",
-    "regulatory",
-    "reporting",
-    "resilience",
-    "technology",
-    "vendor_management",
-  ]),
-  department: z
-    .enum(["none", "admin", "gov", "hr", "it", "itsm", "qms"])
-    .optional(),
-  status: z
-    .enum(["open", "pending", "closed", "archived"])
-    .optional()
-    .default("open"),
+  category: z.nativeEnum(RiskCategory),
+  department: z.nativeEnum(Departments).optional(),
+  status: z.nativeEnum(RiskStatus).optional().default(RiskStatus.open),
   probability: z.number().min(0).max(10).optional().default(0),
   impact: z.number().min(0).max(10).optional().default(0),
   residual_probability: z.number().min(0).max(10).optional().default(0),
   residual_impact: z.number().min(0).max(10).optional().default(0),
   ownerId: z.string().optional().nullable(),
 });
-
-// Type for the validated query parameters
-type QueryParams = z.infer<typeof queryParamsSchema>;
 
 // Type for the validated risk creation data
 type RiskCreateInput = z.infer<typeof riskCreateSchema>;
