@@ -1064,7 +1064,7 @@
     typescript "^5.6.3"
   dependencies:
     "@novu/node" "^2.0.1"
-    nanoid "^5.0.7"
+    nanoid "5.1.0"
 
 "@bubba/tsconfig@packages/tsconfig":
   version "workspace:packages/tsconfig"
@@ -1105,7 +1105,7 @@
     "@radix-ui/react-toast" "^1.2.2"
     "@radix-ui/react-tooltip" "^1.1.3"
     "@tailwindcss/typography" "^0.5.16"
-    "@tiptap/extension-bold" "^2.9.1"
+    "@tiptap/extension-bold" "2.11.5"
     "@tiptap/extension-link" "^2.9.1"
     "@tiptap/extension-placeholder" "^2.9.1"
     "@tiptap/extension-underline" "^2.9.1"
@@ -4295,7 +4295,7 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-blockquote/-/extension-blockquote-2.11.5.tgz"
   integrity sha512-MZfcRIzKRD8/J1hkt/eYv49060GTL6qGR3NY/oTDuw2wYzbQXXLEbjk8hxAtjwNn7G+pWQv3L+PKFzZDxibLuA==
 
-"@tiptap/extension-bold@^2.11.5", "@tiptap/extension-bold@^2.9.1":
+"@tiptap/extension-bold@2.11.5", "@tiptap/extension-bold@^2.11.5":
   version "2.11.5"
   resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.11.5.tgz"
   integrity sha512-OAq03MHEbl7MtYCUzGuwb0VpOPnM0k5ekMbEaRILFU5ZC7cEAQ36XmPIw1dQayrcuE8GZL35BKub2qtRxyC9iA==
@@ -9924,7 +9924,7 @@ nanoid@^3.3.4, nanoid@^3.3.6, nanoid@^3.3.7, nanoid@^3.3.8:
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.8.tgz"
   integrity sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==
 
-nanoid@^5.0.7:
+nanoid@5.1.0:
   version "5.1.0"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-5.1.0.tgz"
   integrity sha512-zDAl/llz8Ue/EblwSYwdxGBYfj46IM1dhjVi8dyp9LQffoIGxJEAHj2oeZ4uNcgycSRcQ83CnfcZqEJzVDLcDw==
