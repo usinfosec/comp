@@ -1,6 +1,6 @@
 ---
-title: 'Employees'
-description: 'Endpoints for managing organization employees'
+title: "Employees"
+description: "Endpoints for managing organization employees"
 ---
 
 # Employees
@@ -37,7 +37,8 @@ All API endpoints require authentication using an API key. You can pass the API 
 #### Query Parameters
 
 <ParamField query="active" type="boolean">
-  Filter employees by active status. If not provided, all employees are returned.
+  Filter employees by active status. If not provided, all employees are
+  returned.
 </ParamField>
 
 <ParamField query="department" type="string">
@@ -237,5 +238,66 @@ curl -X POST "https://app.trycomp.ai/api/v1/employees/add" \
     "userId": null,
     "linkId": null
   }
+}
+```
+
+### Delete Employee
+
+<ParamField path="DELETE /api/v1/employees/:id" method="DELETE">
+  Deletes an employee from your organization by ID.
+</ParamField>
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the employee to delete.
+</ParamField>
+
+#### Response
+
+<ResponseField name="success" type="boolean">
+  Indicates if the request was successful.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <ResponseField name="message" type="string">
+    A success message confirming the employee was deleted.
+  </ResponseField>
+</ResponseField>
+
+#### Error Responses
+
+<ResponseField name="success" type="boolean">
+  Will be `false` when an error occurs.
+</ResponseField>
+
+<ResponseField name="error" type="string">
+  Error message describing what went wrong.
+</ResponseField>
+
+#### Example Request
+
+```bash
+curl -X DELETE "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9f" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Employee deleted successfully"
+  }
+}
+```
+
+#### Example Error Response
+
+```json
+{
+  "success": false,
+  "error": "Employee not found"
 }
 ```
