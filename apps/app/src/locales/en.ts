@@ -750,6 +750,7 @@ export default {
     table: {
       title: "Title",
       provider: "Provider",
+      status: "Status",
       severity: "Severity",
       result: "Result",
       createdAt: "Created At",
