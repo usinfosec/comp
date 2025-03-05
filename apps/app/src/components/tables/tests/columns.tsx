@@ -7,7 +7,11 @@ export interface TestType {
   title: string;
   provider: string;
   createdAt: Date;
-  assignedUser: null;
+  assignedUser: {
+    id: string;
+    name: string | null;
+    image: string | null;
+  } | null;
 }
 
 

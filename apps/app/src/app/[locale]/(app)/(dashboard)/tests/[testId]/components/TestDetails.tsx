@@ -4,20 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
 import { useTest } from "../../hooks/useTest";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle, CheckCircle2, Clock, Info, XCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, Info, XCircle, User } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Label } from "@bubba/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { Badge } from "@bubba/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bubba/ui/table";
+import { AssigneeSection } from "./AssigneeSection";
 
 interface CloudTestDetailsProps {
   testId: string;
 }
 
-export function Test({ testId }: CloudTestDetailsProps) {
+export function TestDetails({ testId }: CloudTestDetailsProps) {
   const t = useI18n();
-  const { cloudTest, isLoading, error } = useTest(testId);
+  const { cloudTest, isLoading, error, mutate } = useTest(testId);
 
   if (error) {
     return (
@@ -104,7 +105,7 @@ export function Test({ testId }: CloudTestDetailsProps) {
         <h1 className="text-2xl font-bold flex items-center gap-2">
           {cloudTest.title} {getStatusBadge(cloudTest.status)}
         </h1>
-        <div>
+        <div className="flex items-center gap-2">
           <Badge variant="outline" className="ml-2">{providerLabel}</Badge>
         </div>
       </div>
@@ -117,8 +118,20 @@ export function Test({ testId }: CloudTestDetailsProps) {
         <CardHeader>
           <CardTitle>Concerns</CardTitle>
         </CardHeader>
-        <CardContent className="p-3">
-          {cloudTest.resultDetails?.Description}
+        <CardContent>
+          <p>{cloudTest.resultDetails?.Description}</p>
+          <div className="flex items-center gap-2 mt-3">
+            <User className="h-3.5 w-3.5 text-muted-foreground" />
+            <h3 className="text-xs font-medium text-muted-foreground">
+              ASSIGNEE
+            </h3>
+          </div>
+          <AssigneeSection
+            testId={cloudTest.id}
+            currentAssigneeId={cloudTest.assignedUserId}
+            onSuccess={() => mutate() as Promise<void>}
+          />
+
         </CardContent>
       </Card>
 
@@ -126,7 +139,7 @@ export function Test({ testId }: CloudTestDetailsProps) {
         <CardHeader>
           <CardTitle>Remediation</CardTitle>
         </CardHeader>
-        <CardContent className="p-3">
+        <CardContent>
           <p>{cloudTest.resultDetails?.Remediation?.Recommendation?.Text}</p>
           {cloudTest.resultDetails?.Remediation?.Recommendation?.Url}
         </CardContent>
@@ -154,26 +167,26 @@ export function Test({ testId }: CloudTestDetailsProps) {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {cloudTest.resultDetails?.Resources.map((run: any) => (
-                      <TableRow key={run.id}>
+                    {cloudTest.resultDetails?.Resources.map((resource: any) => (
+                      <TableRow key={resource.id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {run.Id}
+                            {resource.Id}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {run.Type}
+                            {resource.Type}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {run.Region}
+                            {resource.Region}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {run.Partition}
+                            {resource.Partition}
                           </div>
                         </TableCell>
                       
@@ -205,4 +218,4 @@ export function Test({ testId }: CloudTestDetailsProps) {
       </Tabs>
     </div>
   );
-} 
+}

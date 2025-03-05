@@ -9,11 +9,8 @@ export const testSchema = z.object({
   resultDetails: z.any(),
   label: z.string().nullable(),
   completedAt: z.date(),
-  assignedUserId: z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    email: z.string().nullable(),
-  })
+  organizationId: z.string(),
+  assignedUserId: z.string()
 });
 
 export const testsInputSchema = z.object({

@@ -30,6 +30,8 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       LIMIT 1
     `;
 
+    console.log("results", results);
+
     if (!results || results.length === 0) {
       return {
         success: false,
@@ -38,13 +40,6 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
     }
 
     const integrationResult = results[0];
-
-    // Create a placeholder user object since the schema doesn't have user info anymore
-    const placeholderUser = {
-      id: session.user.id,
-      name: session.user.name || null,
-      email: session.user.email || null,
-    };
 
     // Format the result to match the expected CloudTestResult structure
     const result: Test = {
@@ -57,7 +52,8 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       status: integrationResult.status,
       resultDetails: integrationResult.resultDetails,
       label: integrationResult.label,
-      assignedUserId: placeholderUser,
+      assignedUserId: integrationResult.assignedUserId,
+      organizationId: organizationId,
       completedAt: integrationResult.completedAt,
     };
 

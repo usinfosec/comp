@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import type { TestType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
+import { AssignedUser } from "@/components/assigned-user";
 
 interface DataTableProps {
   columnHeaders: {
@@ -123,6 +124,13 @@ function getColumns(): ColumnDef<TestType>[] {
           </Button>
         </TableHead>
       ),
+      cell: ({ row }) => {
+        const assignedUser = row.original.assignedUser;
+        if (!assignedUser) {
+          return <span className="text-muted-foreground text-sm">{t("tests.table.assignedUserEmpty")}</span>;
+        }
+        return <AssignedUser avatarUrl={assignedUser.image} fullName={assignedUser.name} />;
+      },
     }
   ];
 }

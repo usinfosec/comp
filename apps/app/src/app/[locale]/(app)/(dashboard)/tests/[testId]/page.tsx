@@ -3,7 +3,7 @@ import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { Test } from "./components/Test";
+import { TestDetails } from "./components/TestDetails";
 
 export default async function EmployeeDetailsPage({
   params,
@@ -20,7 +20,7 @@ export default async function EmployeeDetailsPage({
     redirect("/");
   }
 
-  return <Test testId={testId} />;
+  return <TestDetails testId={testId} />;
 }
 
 export async function generateMetadata({

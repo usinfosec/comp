@@ -65,6 +65,14 @@ export const getTests = authActionClient
                 integration_id: true,
               },
             },
+            assignedUser: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
           },
           skip,
           take: per_page,
@@ -111,7 +119,7 @@ export const getTests = authActionClient
           provider: result.organizationIntegration.integration_id,
           createdAt: result.completedAt || new Date(),
           // The executedBy information is no longer available in the new schema
-          assignedUser: null,
+          assignedUser: result.assignedUser,
         };
       });
 
