@@ -659,6 +659,7 @@ model Policy {
   createdAt           DateTime                   @default(now())
   updatedAt           DateTime                   @updatedAt
   frequency           Frequency?
+  isRequiredToSign    Boolean                    @default(false)
   ControlRequirement  ControlRequirement[]
   employeeAcceptances EmployeePolicyAcceptance[]
   OrganizationPolicy  OrganizationPolicy[]

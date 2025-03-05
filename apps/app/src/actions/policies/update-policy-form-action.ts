@@ -43,7 +43,7 @@ export const updatePolicyFormAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, status, ownerId, department, review_frequency, review_date } =
+    const { id, status, ownerId, department, review_frequency, review_date, isRequiredToSign } =
       parsedInput;
     const { user } = ctx;
 
@@ -90,6 +90,28 @@ export const updatePolicyFormAction = authActionClient
           ...(lastPublishedAt && { lastPublishedAt }),
         },
       });
+
+      // Update the policy's isRequiredToSign field if provided
+      if (isRequiredToSign !== undefined) {
+        const orgPolicy = await db.organizationPolicy.findUnique({
+          where: { id },
+          select: { 
+            policyId: true,
+          },
+        });
+        
+        if (orgPolicy?.policyId) {
+          // Update the policy using the Prisma client with type assertion
+          await db.policy.update({
+            where: { id: orgPolicy.policyId },
+            data: { 
+              // Use type assertion to handle the new field
+              // that might not be in the generated types yet
+              isRequiredToSign: isRequiredToSign === "required" 
+            } as any,
+          });
+        }
+      }
 
       revalidatePath("/policies");
       revalidatePath(`/policies/all/${id}`);

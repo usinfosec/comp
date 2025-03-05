@@ -1,6 +1,6 @@
 "use client";
 
-import { createPolicyCommentAction } from "@/actions/policies/create-policy-comment";
+import { createPolicyCommentAction } from "@/actions/policy/create-policy-comment";
 import { createPolicyCommentSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import {
