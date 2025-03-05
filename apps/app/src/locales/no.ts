@@ -949,7 +949,8 @@ export default {
       createdAt: "Opprettet den",
       assignedUser: "Tildelt bruker",
       assignedUserEmpty: "Ikke tildelt",
-      no_results: "Ingen resultater funnet"
+      no_results: "Ingen resultater funnet",
+      status: "Status"
     }
   }
 } as const;

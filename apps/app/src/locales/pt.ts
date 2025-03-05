@@ -919,7 +919,8 @@ export default {
       createdAt: "Criado Em",
       assignedUser: "Usuário Atribuído",
       assignedUserEmpty: "Não Atribuído",
-      no_results: "Nenhum resultado encontrado"
+      no_results: "Nenhum resultado encontrado",
+      status: "Status"
     }
   }
 } as const;

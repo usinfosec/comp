@@ -949,7 +949,8 @@ export default {
       createdAt: "Creado En",
       assignedUser: "Usuario Asignado",
       assignedUserEmpty: "No Asignado",
-      no_results: "No se encontraron resultados"
+      no_results: "No se encontraron resultados",
+      status: "Estado"
     }
   }
 } as const;

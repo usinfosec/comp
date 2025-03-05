@@ -493,6 +493,7 @@ files:
     tests.register.auth_config.placeholder: 6909c5abd5f0a9e9a96b4a0233722cd4
     tests.table.title: b78a3223503896721cca1303f776159b
     tests.table.provider: 27703c8f150ac4bb0a3a83a7857353af
+    tests.table.status: ec53a8c4f07baed5d8825072c89799be
     tests.table.severity: 007cc9547ae8884ad597cd92ba505422
     tests.table.result: 8eea62084ca7e541d918e823422bd82e
     tests.table.createdAt: 6e9a375edaa0f55f2b86e1f415a33172
