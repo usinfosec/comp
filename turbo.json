@@ -3,9 +3,6 @@
   "globalDependencies": ["**/.env"],
   "ui": "stream",
   "tasks": {
-    "clean-react": {
-      "cache": false
-    },
     "build": {
       "env": [
         "AUTH_GOOGLE_ID",
@@ -39,19 +36,10 @@
         "ANTHROPIC_API_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build", "^db:generate", "clean-react"],
+      "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
     },
     "db:generate": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
-    "clean": {
-      "cache": false
-    },
-    "integrations:dev": {
       "cache": false
     },
     "dev": {
