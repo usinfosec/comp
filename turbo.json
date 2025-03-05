@@ -1,8 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": [
-    "**/.env"
-  ],
+  "globalDependencies": ["**/.env"],
   "ui": "stream",
   "tasks": {
     "clean-react": {
@@ -37,22 +35,12 @@
         "AWS_BUCKET_NAME",
         "AWS_REGION",
         "AWS_ACCESS_KEY_ID",
-        "AWS_SECRET_ACCESS_KEY"
+        "AWS_SECRET_ACCESS_KEY",
+        "ANTHROPIC_API_KEY"
       ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env"
-      ],
-      "dependsOn": [
-        "^build",
-        "^db:generate",
-        "clean-react"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "next-env.d.ts"
-      ]
+      "inputs": ["$TURBO_DEFAULT$", ".env"],
+      "dependsOn": ["^build", "^db:generate", "clean-react"],
+      "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
     },
     "db:generate": {
       "cache": false
@@ -67,28 +55,17 @@
       "cache": false
     },
     "dev": {
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env"
-      ],
-      "dependsOn": [
-        "^db:generate"
-      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env"],
+      "dependsOn": ["^db:generate"],
       "persistent": true,
       "cache": false
     },
     "lint": {
-      "dependsOn": [
-        "^topo"
-      ]
+      "dependsOn": ["^topo"]
     },
     "typecheck": {
-      "dependsOn": [
-        "^topo"
-      ],
-      "outputs": [
-        "node_modules/.cache/tsbuildinfo.json"
-      ]
+      "dependsOn": ["^topo"],
+      "outputs": ["node_modules/.cache/tsbuildinfo.json"]
     }
   }
 }
