@@ -21,7 +21,7 @@ import { getOrganizationFromApiKey } from "@/lib/api-key";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Get the organization ID from the API key
   const { organizationId, errorResponse } =
@@ -33,7 +33,7 @@ export async function GET(
   }
 
   try {
-    const employeeId = params.id;
+    const employeeId = (await params).id;
 
     // Fetch the employee
     const employee = await db.employee.findFirst({
@@ -106,7 +106,7 @@ export async function GET(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Get the organization ID from the API key
   const { organizationId, errorResponse } =
@@ -118,7 +118,7 @@ export async function DELETE(
   }
 
   try {
-    const employeeId = params.id;
+    const employeeId = (await params).id;
 
     // Check if the employee exists and belongs to the organization
     const existingEmployee = await db.employee.findFirst({
