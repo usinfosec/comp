@@ -20,7 +20,11 @@ export default async function ApiKeysPage({
 		return redirect("/");
 	}
 
-	return <ApiKeysTable />;
+	return (
+		<div className="container px-4 sm:px-6 py-6 mx-auto max-w-7xl">
+			<ApiKeysTable />
+		</div>
+	);
 }
 
 export async function generateMetadata({
