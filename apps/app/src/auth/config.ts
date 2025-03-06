@@ -6,6 +6,8 @@ import GoogleProvider from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
 import { createOrganizationAndConnectUser } from "./org";
 
+export const runtime = "nodejs";
+
 declare module "next-auth" {
   interface User {
     organizationId?: string;

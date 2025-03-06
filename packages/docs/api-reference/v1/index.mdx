@@ -1,6 +1,6 @@
 ---
-title: 'Overview'
-description: 'Comp AI API v1 Reference'
+title: "Overview"
+description: "Comp AI API v1 Reference"
 ---
 
 # Comp AI API v1
@@ -12,6 +12,7 @@ Welcome to the Comp AI API v1 reference documentation. This section provides det
 Most API endpoints require authentication using an API key. You can manage your API keys in the [Settings > API Keys](https://app.trycomp.ai/settings/api-keys) section of the dashboard.
 
 API keys can be passed in one of two ways:
+
 - In the `Authorization` header as a Bearer token: `Authorization: Bearer {api_key}`
 - In the `X-API-Key` header: `X-API-Key: {api_key}`
 
@@ -28,6 +29,13 @@ or, if you self-host:
 ```
 https://app.yourdomain.com/v1/employees
 ```
+
+## Available Endpoints
+
+The API provides access to the following resources:
+
+- [Employees](/api-reference/v1/employees) - Manage employees in your organization
+- [Risks](/api-reference/v1/risks) - Manage risks and their mitigations
 
 ## Response Format
 
@@ -46,14 +54,14 @@ All API responses follow a consistent JSON format:
 
 Common error codes you might encounter:
 
-| Status Code | Description |
-|-------------|-------------|
-| 400 | Bad Request - Often due to missing or invalid parameters |
-| 401 | Unauthorized - Invalid or missing API key |
-| 403 | Forbidden - Valid API key but insufficient permissions |
-| 404 | Not Found - The requested resource doesn't exist |
-| 429 | Too Many Requests - Rate limit exceeded |
-| 500 | Internal Server Error - Something went wrong on our end |
+| Status Code | Description                                              |
+| ----------- | -------------------------------------------------------- |
+| 400         | Bad Request - Often due to missing or invalid parameters |
+| 401         | Unauthorized - Invalid or missing API key                |
+| 403         | Forbidden - Valid API key but insufficient permissions   |
+| 404         | Not Found - The requested resource doesn't exist         |
+| 429         | Too Many Requests - Rate limit exceeded                  |
+| 500         | Internal Server Error - Something went wrong on our end  |
 
 ## Need Help?
 

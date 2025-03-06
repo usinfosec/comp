@@ -1,6 +1,8 @@
 import { db } from "@bubba/db";
 import { stripe } from "./stripe";
 
+export const runtime = "nodejs";
+
 async function createStripeCustomer(input: {
   name: string;
   email: string;
