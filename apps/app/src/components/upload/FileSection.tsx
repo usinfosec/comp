@@ -107,7 +107,7 @@ export function FileSection({
 		<div className="space-y-6">
 			<div className="flex items-center justify-between">
 				<span className="text-xs text-muted-foreground">
-					{t("upload.fileSection.filesUploaded", {
+					{t("common.upload.fileSection.filesUploaded", {
 						count: fileUrls.length,
 					})}
 				</span>

@@ -59,7 +59,6 @@ export function FileCard({
 	const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
 	const isPdf = /\.pdf$/i.test(fileName);
 
-	// Load preview automatically when component mounts
 	const [hasLoadedPreview, setHasLoadedPreview] = useState(false);
 
 	useEffect(() => {
@@ -130,7 +129,7 @@ export function FileCard({
 										variant="ghost"
 										className="text-xs text-muted-foreground hover:text-foreground"
 									>
-										{t("upload.fileCard.preview")}
+										{t("common.upload.fileCard.preview")}
 									</Button>
 								</DialogTrigger>
 							</div>
@@ -152,7 +151,9 @@ export function FileCard({
 
 					<DialogContent className="max-w-4xl w-full">
 						<DialogTitle className="flex items-center justify-between mb-4">
-							<span>{t("upload.fileCard.filePreview", { fileName })}</span>
+							<span>
+								{t("common.upload.fileCard.filePreview", { fileName })}
+							</span>
 						</DialogTitle>
 
 						{previewState.url ? (
@@ -176,7 +177,7 @@ export function FileCard({
 								) : (
 									<div className="flex items-center justify-center h-full">
 										<p className="text-muted-foreground">
-											{t("upload.fileCard.previewNotAvailable")}
+											{t("common.upload.fileCard.previewNotAvailable")}
 										</p>
 									</div>
 								)}
@@ -216,7 +217,7 @@ export function FileCard({
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent>
-							<p>{t("upload.fileCard.openFile")}</p>
+							<p>{t("common.upload.fileCard.openFile")}</p>
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
@@ -236,17 +237,17 @@ export function FileCard({
 								</AlertDialogTrigger>
 							</TooltipTrigger>
 							<TooltipContent>
-								<p>{t("upload.fileCard.deleteFile")}</p>
+								<p>{t("common.upload.fileCard.deleteFile")}</p>
 							</TooltipContent>
 						</Tooltip>
 					</TooltipProvider>
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
-								{t("upload.fileCard.deleteFileConfirmTitle")}
+								{t("common.upload.fileCard.deleteFileConfirmTitle")}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t("upload.fileCard.deleteFileConfirmDescription")}
+								{t("common.upload.fileCard.deleteFileConfirmDescription")}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>

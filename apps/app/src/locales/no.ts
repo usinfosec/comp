@@ -157,6 +157,44 @@ export default {
       monthly: "Månedlig",
       quarterly: "Kvartalsvis",
       yearly: "Årlig"
+    },
+    upload: {
+      fileUpload: {
+        uploadingText: "Laster opp...",
+        uploadingFile: "Laster opp fil...",
+        dropFileHere: "Slipp fil her",
+        dropFileHereAlt: "Slipp fil her",
+        releaseToUpload: "Slipp for å laste opp",
+        addFiles: "Legg til filer",
+        uploadAdditionalEvidence: "Last opp en fil eller dokument",
+        dragDropOrClick: "Dra og slipp eller klikk for å bla",
+        dragDropOrClickToSelect: "Dra og slipp eller klikk for å velge fil",
+        maxFileSize: "Maks filstørrelse: {size}MB"
+      },
+      fileUrl: {
+        additionalLinks: "Ytterligere lenker",
+        add: "Legg til",
+        linksAdded: "{count} lenke{S} lagt til",
+        enterUrl: "Skriv inn URL",
+        addAnotherLink: "Legg til en annen lenke",
+        saveLinks: "Lagre lenker",
+        urlBadge: "URL",
+        copyLink: "Kopier lenke",
+        openLink: "Åpne lenke",
+        deleteLink: "Slett lenke"
+      },
+      fileCard: {
+        preview: "Forhåndsvisning",
+        filePreview: "Filforhåndsvisning: {fileName}",
+        previewNotAvailable: "Forhåndsvisning ikke tilgjengelig for denne filtypen",
+        openFile: "Åpne fil",
+        deleteFile: "Slett fil",
+        deleteFileConfirmTitle: "Slett fil",
+        deleteFileConfirmDescription: "Denne handlingen kan ikke angres. Filen vil bli permanent slettet."
+      },
+      fileSection: {
+        filesUploaded: "{count} filer lastet opp"
+      }
     }
   },
   header: {

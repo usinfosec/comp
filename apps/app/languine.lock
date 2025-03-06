@@ -90,6 +90,34 @@ files:
     common.comments.placeholder: dc11131e02964ba21e7418a386add056
     common.comments.empty.title: f3a648d591b6c76efb96f7a77071d23c
     common.comments.empty.description: 0a0df874a9a6b1f3b710b48f10bcd494
+    common.upload.fileUpload.uploadingText: f2870421907fa4e9e9c6fbe349234ecf
+    common.upload.fileUpload.uploadingFile: 5d8792ec4500487cd04d588e4dabd830
+    common.upload.fileUpload.dropFileHere: 8ea866b321e27837bd677bd711f20020
+    common.upload.fileUpload.dropFileHereAlt: 8ea866b321e27837bd677bd711f20020
+    common.upload.fileUpload.releaseToUpload: 71611d0ba234b4775232cd78dd6ba086
+    common.upload.fileUpload.addFiles: 5f4514405d9574e7b2b4c6c16573c5ca
+    common.upload.fileUpload.uploadAdditionalEvidence: 46b0e2e3da5518086b9a39ecea20507a
+    common.upload.fileUpload.dragDropOrClick: 91ccb262f46331f20a9a3e44f0392703
+    common.upload.fileUpload.dragDropOrClickToSelect: 9ffee77fccb7b4804451d4a20f078240
+    common.upload.fileUpload.maxFileSize: 54f591179ba34ce8d3eb9d941a56878a
+    common.upload.fileUrl.additionalLinks: 93823085d6dc9b7eba33ee74ca7ff786
+    common.upload.fileUrl.add: ec211f7c20af43e742bf2570c3cb84f9
+    common.upload.fileUrl.linksAdded: de53b2e4348255782648fe8c449c4db6
+    common.upload.fileUrl.enterUrl: e1f70f4a4265cb51c1b219aa60eaa441
+    common.upload.fileUrl.addAnotherLink: d53fe8cfe74a5ec2e99bf0dca0e5327f
+    common.upload.fileUrl.saveLinks: d7fa2bfcc59f0361b9445d7808ac4675
+    common.upload.fileUrl.urlBadge: e6b391a8d2c4d45902a23a8b6585703d
+    common.upload.fileUrl.copyLink: 78fc13f46174a57416493b60e99777c7
+    common.upload.fileUrl.openLink: ff161e0db9bfff8b46662512b662b5e3
+    common.upload.fileUrl.deleteLink: d008a25cd6325ee1fbd11e43225ece3d
+    common.upload.fileCard.preview: 31fde7b05ac8952dacf4af8a704074ec
+    common.upload.fileCard.filePreview: 2f9e2860469a0a7176e029379ffb772b
+    common.upload.fileCard.previewNotAvailable: e6b101b4b3bfa818b2d1e351e4f08112
+    common.upload.fileCard.openFile: 6dbd6898da5ec262f46c9a3ecf1f9fe4
+    common.upload.fileCard.deleteFile: 7d1e2483f22443e6aa5e0c3212fc312a
+    common.upload.fileCard.deleteFileConfirmTitle: 7d1e2483f22443e6aa5e0c3212fc312a
+    common.upload.fileCard.deleteFileConfirmDescription: cdcf3ab5d2a2177da6d02ccf32bbc76d
+    common.upload.fileSection.filesUploaded: 3031c6bab57d63c21aad3d1aeffda1a4
     common.attachments.title: 7e2708aeb65763c54052f57ed1a1ec1d
     common.attachments.description: b8f87f50e2e7eb3a7e67cd28395428d1
     common.attachments.upload: 18924edc9e6a8120618ae1f429332b16
