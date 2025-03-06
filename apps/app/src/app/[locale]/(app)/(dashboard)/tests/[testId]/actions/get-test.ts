@@ -55,6 +55,7 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       assignedUserId: integrationResult.assignedUserId,
       organizationId: organizationId,
       completedAt: integrationResult.completedAt,
+      organizationIntegrationId: integrationResult.organizationIntegrationId,
     };
 
     return {
