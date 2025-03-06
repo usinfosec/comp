@@ -860,7 +860,7 @@ export default {
     title: "Bevis",
     list: "Alle Bevis",
     overview: "Oversikt over Bevis",
-    edit: "Rediger Bevis",
+    edit: "Opplastet Bevis",
     dashboard: {
       layout: "Dashbord",
       layout_back_button: "Tilbake",

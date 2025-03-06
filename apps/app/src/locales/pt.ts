@@ -858,7 +858,8 @@ export default {
   },
   evidence: {
     title: "Tarefas de Evidência",
-    list: "Todas as Evidências"
+    list: "Todas as Evidências",
+    edit: "Evidência Carregada"
   },
   upload: {
     fileSection: {

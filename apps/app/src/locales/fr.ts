@@ -860,7 +860,7 @@ export default {
     title: "Preuve",
     list: "Toutes les preuves",
     overview: "Aperçu des preuves",
-    edit: "Modifier la preuve",
+    edit: "Preuve Téléchargée",
     dashboard: {
       layout: "Tableau de bord",
       layout_back_button: "Retour",
