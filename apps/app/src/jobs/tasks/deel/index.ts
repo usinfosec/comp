@@ -1,6 +1,5 @@
 import { db } from "@bubba/db";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
-import axios from "axios";
 import { z } from "zod";
 import { Departments } from "@bubba/db";
 
