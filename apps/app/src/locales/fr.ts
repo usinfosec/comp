@@ -157,6 +157,44 @@ export default {
       monthly: "Mensuel",
       quarterly: "Trimestriel",
       yearly: "Annuel"
+    },
+    upload: {
+      fileUpload: {
+        uploadingText: "Téléchargement...",
+        uploadingFile: "Téléchargement du fichier...",
+        dropFileHere: "Déposez le fichier ici",
+        dropFileHereAlt: "Déposez le fichier ici",
+        releaseToUpload: "Relâchez pour télécharger",
+        addFiles: "Ajouter des fichiers",
+        uploadAdditionalEvidence: "Téléchargez un fichier ou un document",
+        dragDropOrClick: "Faites glisser et déposez ou cliquez pour parcourir",
+        dragDropOrClickToSelect: "Faites glisser et déposez ou cliquez pour sélectionner le fichier",
+        maxFileSize: "Taille maximale du fichier : {size} Mo"
+      },
+      fileUrl: {
+        additionalLinks: "Liens supplémentaires",
+        add: "Ajouter",
+        linksAdded: "{count} lien{s} ajouté{s}",
+        enterUrl: "Entrez l'URL",
+        addAnotherLink: "Ajouter un autre lien",
+        saveLinks: "Enregistrer les liens",
+        urlBadge: "URL",
+        copyLink: "Copier le lien",
+        openLink: "Ouvrir le lien",
+        deleteLink: "Supprimer le lien"
+      },
+      fileCard: {
+        preview: "Aperçu",
+        filePreview: "Aperçu du fichier : {fileName}",
+        previewNotAvailable: "Aperçu non disponible pour ce type de fichier",
+        openFile: "Ouvrir le fichier",
+        deleteFile: "Supprimer le fichier",
+        deleteFileConfirmTitle: "Supprimer le fichier",
+        deleteFileConfirmDescription: "Cette action ne peut pas être annulée. Le fichier sera définitivement supprimé."
+      },
+      fileSection: {
+        filesUploaded: "{count} fichiers téléchargés"
+      }
     }
   },
   header: {
