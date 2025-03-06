@@ -99,7 +99,7 @@ export function ApiKeysTable() {
 	return (
 		<>
 			<Card>
-				<CardHeader className="flex flex-row items-center justify-between">
+				<CardHeader className="flex md:flex-row flex-col md:items-center justify-between">
 					<div>
 						<CardTitle>{t("settings.api_keys.list_title")}</CardTitle>
 						<CardDescription>
