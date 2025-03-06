@@ -1,0 +1,63 @@
+model EmployeeRequiredTask {
+  id            String         @id @default(cuid())
+  code          String         @unique
+  name          String
+  description   String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  employeeTasks EmployeeTask[]
+}
+
+model EmployeeTask {
+  id                String               @id @default(cuid())
+  employeeId        String
+  requiredTaskId    String
+  status            EmployeeTaskStatus   @default(assigned)
+  completedAt       DateTime?
+  overrideCompliant Boolean              @default(false)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  employee          Employee             @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  requiredTask      EmployeeRequiredTask @relation(fields: [requiredTaskId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, requiredTaskId])
+}
+
+model Employee {
+  id                       String                     @id @default(cuid())
+  name                     String
+  email                    String
+  department               Departments                @default(none)
+  isActive                 Boolean                    @default(true)
+  externalEmployeeId       String?
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  organizationId           String
+  userId                   String?
+  linkId                   String?
+  link                     PortalUser?                @relation(fields: [linkId], references: [id])
+  organization             Organization               @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user                     User?                      @relation(fields: [userId], references: [id])
+  EmployeePolicyAcceptance EmployeePolicyAcceptance[]
+  employeeTasks            EmployeeTask[]
+  RiskTaskAssignment       RiskTaskAssignment[]
+
+  @@unique([email, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+  @@index([department])
+}
+
+model EmployeePolicyAcceptance {
+  id         String    @id @default(cuid())
+  employeeId String
+  policyId   String
+  readAt     DateTime?
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  policy     Policy    @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, policyId])
+}
