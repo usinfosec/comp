@@ -104,8 +104,17 @@ model Organization {
   apiKeys                        OrganizationApiKey[]
   OrganizationIntegrationResults OrganizationIntegrationResults[]
   IntegrationLastRun             IntegrationLastRun[]
+  vendors                        Vendor[]
+  VendorContact                  VendorContact[]
+  VendorComment                  VendorComment[]
+  VendorAttachment               VendorAttachment[]
+  VendorTask                     VendorTask[]
+  VendorTaskAttachment           VendorTaskAttachment[]
+  VendorTaskComment              VendorTaskComment[]
+  VendorTaskAssignment           VendorTaskAssignment[]
 
   @@index([stripeCustomerId])
+  @@index([id])
 }
 
 model VerificationToken {
@@ -275,37 +284,6 @@ enum RiskTaskStatus {
 enum RiskAttachmentType {
   file
   url
-}
-
-enum VendorCategory {
-  cloud
-  infrastructure
-  software_as_a_service
-  finance
-  marketing
-  sales
-  hr
-  other
-}
-
-enum VendorStatus {
-  not_assessed
-  in_progress
-  assessed
-}
-
-enum VendorInherentRisk {
-  low
-  medium
-  high
-  unknown
-}
-
-enum VendorResidualRisk {
-  low
-  medium
-  high
-  unknown
 }
 
 enum MembershipRole {

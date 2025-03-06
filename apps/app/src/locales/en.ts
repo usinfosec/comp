@@ -684,8 +684,8 @@ export default {
 			list_title: "API Keys",
 			list_description:
 				"API keys allow secure access to your organization's data via our API.",
-			create: "Create API Key",
-			create_title: "Create API Key",
+			create: "New API Key",
+			create_title: "New API Key",
 			create_description:
 				"Create a new API key for programmatic access to your organization's data.",
 			created_title: "API Key Created",
@@ -857,76 +857,6 @@ export default {
 			},
 		},
 	},
-	vendor: {
-		title: "Dashboard",
-		register_title: "Vendor Management",
-		dashboard: {
-			title: "Dashboard",
-			overview: "Vendor Overview",
-			vendor_status: "Vendor Status",
-			vendor_category: "Vendor Categories",
-			vendors_by_assignee: "Vendors by Assignee",
-			inherent_risk_description:
-				"Initial risk level before any controls are applied",
-			residual_risk_description:
-				"Remaining risk level after controls are applied",
-		},
-		register: {
-			title: "Vendor Register",
-			table: {
-				name: "Name",
-				category: "Category",
-				status: "Status",
-				owner: "Owner",
-			},
-		},
-		category: {
-			cloud: "Cloud",
-			infrastructure: "Infrastructure",
-			software_as_a_service: "SaaS",
-			finance: "Finance",
-			marketing: "Marketing",
-			sales: "Sales",
-			hr: "HR",
-			other: "Other",
-		},
-		vendors: "vendors",
-		form: {
-			vendor_details: "Vendor Details",
-			vendor_name: "Name",
-			vendor_name_placeholder: "Enter vendor name",
-			vendor_website: "Website",
-			vendor_website_placeholder: "Enter vendor website",
-			vendor_description: "Description",
-			vendor_description_placeholder: "Enter vendor description",
-			vendor_category: "Category",
-			vendor_category_placeholder: "Select category",
-			vendor_status: "Status",
-			vendor_status_placeholder: "Select status",
-			create_vendor_success: "Vendor created successfully",
-			create_vendor_error: "Failed to create vendor",
-			update_vendor_success: "Vendor updated successfully",
-			update_vendor_error: "Failed to update vendor",
-			contacts: "Vendor Contacts",
-			contact_name: "Contact Name",
-			contact_email: "Contact Email",
-			contact_role: "Contact Role",
-			add_contact: "Add Contact",
-			new_contact: "New Contact",
-			min_one_contact_required: "A vendor must have at least one contact",
-		},
-		empty_states: {
-			no_vendors: {
-				title: "No vendors yet",
-				description: "Get started by creating your first vendor",
-			},
-			no_results: {
-				title: "No results found",
-				description: "No vendors match your search",
-				description_with_filters: "Try adjusting your filters",
-			},
-		},
-	},
 	errors: {
 		unexpected: "Something went wrong, please try again",
 	},
@@ -982,5 +912,20 @@ export default {
 			review_section: "Review Information",
 			content: "Evidence Content",
 		},
+	},
+	vendors: {
+		title: "Vendors",
+		register: {
+			title: "Vendor Register",
+		},
+		dashboard: {
+			title: "Vendor Overview",
+		},
+	},
+	dashboard: {
+		risk_status: "Risk Status",
+		risks_by_department: "Risks by Department",
+		vendor_status: "Vendor Status",
+		vendors_by_category: "Vendors by Category",
 	},
 } as const;

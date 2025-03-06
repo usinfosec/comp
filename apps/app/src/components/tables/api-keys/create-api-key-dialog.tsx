@@ -1,7 +1,6 @@
 "use client";
 
 import { createApiKeyAction } from "@/actions/organization/create-api-key-action";
-import { apiKeySchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import {
@@ -212,12 +211,7 @@ export function CreateApiKeyDialog({
 								</Select>
 							</div>
 							<DialogFooter className="flex-col sm:flex-row gap-2 pt-2">
-								<Button
-									type="button"
-									variant="outline"
-									onClick={handleClose}
-									className="w-full sm:w-auto"
-								>
+								<Button type="button" variant="outline" onClick={handleClose}>
 									{t("common.actions.cancel")}
 								</Button>
 								<Button

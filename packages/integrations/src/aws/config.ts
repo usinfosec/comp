@@ -1,5 +1,4 @@
 import image from "./assets/image.png";
-import { Logo } from "./assets/logo";
 
 export default {
   name: "AWS",
@@ -37,6 +36,5 @@ export default {
       value: "",
     },
   ],
-  config: {},
   category: "Cloud",
 };

@@ -580,8 +580,8 @@ export default {
       description: "Administra las claves API para el acceso programático a los datos de tu organización.",
       list_title: "Claves API",
       list_description: "Las claves API permiten el acceso seguro a los datos de tu organización a través de nuestra API.",
-      create: "Crear clave API",
-      create_title: "Crear clave API",
+      create: "Nueva clave de API",
+      create_title: "Nueva clave de API",
       create_description: "Crea una nueva clave API para el acceso programático a los datos de tu organización.",
       created_title: "Clave API creada",
       created_description: "Tu clave API ha sido creada. Asegúrate de copiarla ahora, ya que no podrás volver a verla.",
@@ -990,5 +990,20 @@ export default {
       no_results: "No se encontraron resultados",
       status: "Estado"
     }
+  },
+  vendors: {
+    title: "Proveedores",
+    register: {
+      title: "Registro de proveedores"
+    },
+    dashboard: {
+      title: "Resumen de proveedores"
+    }
+  },
+  dashboard: {
+    risk_status: "Estado de riesgo",
+    risks_by_department: "Riesgos por departamento",
+    vendor_status: "Estado del proveedor",
+    vendors_by_category: "Proveedores por categoría"
   }
 } as const;
