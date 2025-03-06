@@ -99,7 +99,7 @@ export function ApiKeysTable() {
 	return (
 		<>
 			<Card>
-				<CardHeader className="flex md:flex-row flex-col md:items-center justify-between">
+				<CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 					<div>
 						<CardTitle>{t("settings.api_keys.list_title")}</CardTitle>
 						<CardDescription>
@@ -108,7 +108,7 @@ export function ApiKeysTable() {
 					</div>
 					<Button
 						onClick={() => setIsCreateDialogOpen(true)}
-						className="flex items-center gap-1"
+						className="flex items-center gap-1 self-start sm:self-auto"
 					>
 						<Plus className="h-4 w-4" />
 						{t("settings.api_keys.create")}
@@ -124,47 +124,72 @@ export function ApiKeysTable() {
 							{t("settings.api_keys.no_keys")}
 						</div>
 					) : (
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>{t("settings.api_keys.name")}</TableHead>
-									<TableHead>{t("settings.api_keys.created")}</TableHead>
-									<TableHead>{t("settings.api_keys.expires")}</TableHead>
-									<TableHead>{t("settings.api_keys.last_used")}</TableHead>
-									<TableHead className="text-right">
-										{t("settings.api_keys.actions")}
-									</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{apiKeys.map((apiKey) => (
-									<TableRow key={apiKey.id}>
-										<TableCell className="font-medium">{apiKey.name}</TableCell>
-										<TableCell>{formatDate(apiKey.createdAt)}</TableCell>
-										<TableCell>
-											{apiKey.expiresAt
-												? formatDate(apiKey.expiresAt)
-												: t("settings.api_keys.never")}
-										</TableCell>
-										<TableCell>
-											{apiKey.lastUsedAt
-												? formatDate(apiKey.lastUsedAt)
-												: t("settings.api_keys.never_used")}
-										</TableCell>
-										<TableCell className="text-right">
-											<Button
-												variant="ghost"
-												size="icon"
-												onClick={() => handleRevokeClick(apiKey.id)}
-												disabled={isRevoking === "executing"}
-											>
-												<Trash2 className="h-4 w-4 text-destructive" />
-											</Button>
-										</TableCell>
+						<div className="overflow-auto">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>{t("settings.api_keys.name")}</TableHead>
+										<TableHead className="hidden sm:table-cell">
+											{t("settings.api_keys.created")}
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											{t("settings.api_keys.expires")}
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											{t("settings.api_keys.last_used")}
+										</TableHead>
+										<TableHead className="text-right">
+											{t("settings.api_keys.actions")}
+										</TableHead>
 									</TableRow>
-								))}
-							</TableBody>
-						</Table>
+								</TableHeader>
+								<TableBody>
+									{apiKeys.map((apiKey) => (
+										<TableRow key={apiKey.id}>
+											<TableCell className="font-medium">
+												<div>
+													{apiKey.name}
+													<div className="sm:hidden mt-1 text-xs text-muted-foreground">
+														{t("settings.api_keys.created")}:{" "}
+														{formatDate(apiKey.createdAt)}
+													</div>
+													<div className="md:hidden mt-1 text-xs text-muted-foreground">
+														{t("settings.api_keys.expires")}:{" "}
+														{apiKey.expiresAt
+															? formatDate(apiKey.expiresAt)
+															: t("settings.api_keys.never")}
+													</div>
+												</div>
+											</TableCell>
+											<TableCell className="hidden sm:table-cell">
+												{formatDate(apiKey.createdAt)}
+											</TableCell>
+											<TableCell className="hidden md:table-cell">
+												{apiKey.expiresAt
+													? formatDate(apiKey.expiresAt)
+													: t("settings.api_keys.never")}
+											</TableCell>
+											<TableCell className="hidden md:table-cell">
+												{apiKey.lastUsedAt
+													? formatDate(apiKey.lastUsedAt)
+													: t("settings.api_keys.never_used")}
+											</TableCell>
+											<TableCell className="text-right">
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => handleRevokeClick(apiKey.id)}
+													disabled={isRevoking === "executing"}
+													aria-label={t("settings.api_keys.revoke")}
+												>
+													<Trash2 className="h-4 w-4 text-destructive" />
+												</Button>
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</div>
 					)}
 				</CardContent>
 				<CardFooter className="text-sm text-muted-foreground">
@@ -179,19 +204,20 @@ export function ApiKeysTable() {
 			</Card>
 
 			<Dialog open={isRevokeDialogOpen} onOpenChange={handleCancelRevoke}>
-				<DialogContent className="sm:max-w-md">
+				<DialogContent className="sm:max-w-md mx-4 w-[calc(100%-2rem)] sm:w-full">
 					<DialogHeader>
 						<DialogTitle>{t("settings.api_keys.revoke_title")}</DialogTitle>
 						<DialogDescription>
 							{t("settings.api_keys.revoke_confirm")}
 						</DialogDescription>
 					</DialogHeader>
-					<DialogFooter className="gap-2 sm:justify-end">
+					<DialogFooter className="flex-col sm:flex-row gap-2 sm:justify-end">
 						<Button
 							type="button"
 							variant="outline"
 							onClick={handleCancelRevoke}
 							disabled={isRevoking === "executing"}
+							className="w-full sm:w-auto"
 						>
 							{t("common.actions.cancel")}
 						</Button>
@@ -200,6 +226,7 @@ export function ApiKeysTable() {
 							variant="destructive"
 							onClick={handleConfirmRevoke}
 							disabled={isRevoking === "executing"}
+							className="w-full sm:w-auto"
 						>
 							{isRevoking === "executing" && (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />

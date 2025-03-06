@@ -321,7 +321,7 @@
     "@smithy/util-waiter" "^4.0.2"
     tslib "^2.6.2"
 
-"@aws-sdk/client-securityhub@^3.751.0":
+"@aws-sdk/client-securityhub@^3.758.0":
   version "3.758.0"
   resolved "https://registry.npmjs.org/@aws-sdk/client-securityhub/-/client-securityhub-3.758.0.tgz"
   integrity sha512-J8pmXU5qOoDIzYr3NTOdmPiTRZW65ayW/tkEMCZ+HxEdjpNDjdPJzuqDZW4uSHcrgLwzKmyXmPNpJb2xxXj6HA==
@@ -1053,6 +1053,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.7.3"
   dependencies:
     "@auth/prisma-adapter" "^2.7.4"
@@ -1072,6 +1073,7 @@
   dependencies:
     "@bubba/ui" "workspace:*"
     "@bubba/utils" "workspace:*"
+  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"
@@ -5143,7 +5145,7 @@
   resolved "https://registry.npmjs.org/@types/linkify-it/-/linkify-it-5.0.0.tgz"
   integrity sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==
 
-"@types/lodash@^4.17.15":
+"@types/lodash@^4.17.16":
   version "4.17.16"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.16.tgz"
   integrity sha512-HX7Em5NYQAXKW+1T+FiuG27NGwzJfCX3s1GjOa7ujxZa52kjJLOr4FUxT+giF6Tgxv1e+/czV/iTtBw27WTU9g==
@@ -6299,6 +6301,7 @@ commander@11.1.0:
   resolved "workspace:apps/app"
   devDependencies:
     "@bubba/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.2"
     "@types/react" "19.0.10"
@@ -6312,7 +6315,9 @@ commander@11.1.0:
     "@aws-sdk/client-s3" "^3.758.0"
     "@aws-sdk/s3-request-presigner" "^3.758.0"
     "@browserbasehq/sdk" "^2.3.0"
+  dependencies:
     "@bubba/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.53.1"
@@ -10834,6 +10839,7 @@ plist@^3.1.0:
   devDependencies:
     "@bubba/db" "workspace:*"
     "@bubba/ui" "workspace:*"
+  devDependencies:
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"
     "@types/react-dom" "^19.0.3"
@@ -13461,6 +13467,7 @@ wcwidth@^1.0.1:
   resolved "workspace:apps/web"
   devDependencies:
     "@bubba/analytics" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "^3.3.15"
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"

@@ -5,7 +5,7 @@ export default {
   name: "Gusto",
   id: "gusto-demo",
   active: true,
-  logo: Logo,
+  logo: image,
   short_description:
     "Connect your Gusto account to Bubba to automate evidence collection for HR resources",
   description:

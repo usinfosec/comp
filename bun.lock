@@ -5,7 +5,7 @@
       "name": "comp",
       "dependencies": {
         "@aws-sdk/client-s3": "^3.758.0",
-        "@aws-sdk/client-securityhub": "^3.751.0",
+        "@aws-sdk/client-securityhub": "^3.758.0",
         "@manypkg/cli": "^0.23.0",
         "@nangohq/node": "^0.53.2",
         "@types/d3": "^7.4.3",
@@ -19,7 +19,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
-        "@types/lodash": "^4.17.15",
+        "@types/lodash": "^4.17.16",
         "turbo": "^2.4.4",
         "typescript": "5.7.3",
       },
