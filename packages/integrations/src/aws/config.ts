@@ -5,7 +5,7 @@ export default {
   name: "AWS",
   id: "aws",
   active: true,
-  logo: Logo,
+  logo: image,
   short_description:
     "Connect your AWS account to Comp AI to automate evidence collection for cloud resources",
   description:
@@ -38,5 +38,5 @@ export default {
     },
   ],
   config: {},
-  category: "Cloud"
+  category: "Cloud",
 };

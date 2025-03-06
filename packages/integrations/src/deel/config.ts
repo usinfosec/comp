@@ -1,11 +1,10 @@
 import image from "./assets/image.png";
-import { Logo } from "./assets/logo";
 
 export default {
   name: "Deel",
   id: "deel",
   active: true,
-  logo: Logo,
+  logo: image,
   short_description:
     "Connect your Deel account to Bubba to automate evidence collection for payroll and contractor management",
   description:
