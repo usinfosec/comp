@@ -860,7 +860,7 @@ export default {
     title: "Evidencia",
     list: "Toda la Evidencia",
     overview: "Resumen de Evidencia",
-    edit: "Editar Evidencia",
+    edit: "Evidencia Cargada",
     dashboard: {
       layout: "Tablero",
       layout_back_button: "Atrás",
