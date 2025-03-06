@@ -2,16 +2,16 @@ import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
+	const t = await getI18n();
 
-  return (
-    <div className="max-w-[1200px]">
-      <SecondaryMenu items={[{ path: "/tests", label: t("tests.title") }]} />
-      <main className="mt-8">{children}</main>
-    </div>
-  );
+	return (
+		<div className="max-w-[1200px] mx-auto">
+			<SecondaryMenu items={[{ path: "/tests", label: t("tests.title") }]} />
+			<main className="mt-8">{children}</main>
+		</div>
+	);
 }
