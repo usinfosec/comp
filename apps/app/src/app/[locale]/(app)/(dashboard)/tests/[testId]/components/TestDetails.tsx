@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { Badge } from "@bubba/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { AssigneeSection } from "./AssigneeSection";
+import { TestCommentSheet } from "@/components/sheets/test-comment-sheet";
 
 interface CloudTestDetailsProps {
   testId: string;
@@ -216,6 +217,7 @@ export function TestDetails({ testId }: CloudTestDetailsProps) {
           </Card>
         </TabsContent>
       </Tabs>
+      <TestCommentSheet test={cloudTest} />
     </div>
   );
 }
