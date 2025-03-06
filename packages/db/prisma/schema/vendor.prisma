@@ -1,1 +1,138 @@
+model Vendor {
+  id              String                 @id @default(cuid())
+  name            String
+  description     String
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+  organizationId  String
+  organization    Organization           @relation(fields: [organizationId], references: [id])
+  contacts        VendorContact[]
+  comments        VendorComment[]
+  attachments     VendorAttachment[]
+  tasks           VendorTask[]
+  taskAttachments VendorTaskAttachment[]
+  taskComments    VendorTaskComment[]
+  taskAssignments VendorTaskAssignment[]
+  category        VendorCategory         @default(other)
+  status          VendorStatus           @default(not_assessed)
+  inherentRisk    VendorInherentRisk     @default(unknown)
+  residualRisk    VendorResidualRisk     @default(unknown)
 
+  @@index([organizationId])
+  @@index([category])
+  @@index([status])
+  @@index([inherentRisk])
+  @@index([residualRisk])
+}
+
+model VendorContact {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  name           String
+  email          String
+  phone          String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  Vendor         Vendor       @relation(fields: [vendorId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorComment {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  content        String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  Vendor         Vendor       @relation(fields: [vendorId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorAttachment {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorTask {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorTaskAttachment {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorTaskComment {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+model VendorTaskAssignment {
+  id             String       @id @default(cuid())
+  vendorId       String
+  organizationId String
+  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([vendorId])
+}
+
+enum VendorCategory {
+  cloud
+  infrastructure
+  software_as_a_service
+  finance
+  marketing
+  sales
+  hr
+  other
+}
+
+enum VendorStatus {
+  not_assessed
+  in_progress
+  assessed
+}
+
+enum VendorInherentRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorResidualRisk {
+  low
+  medium
+  high
+  unknown
+}

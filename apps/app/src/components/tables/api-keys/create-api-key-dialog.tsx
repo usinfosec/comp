@@ -211,7 +211,7 @@ export function CreateApiKeyDialog({
 									</SelectContent>
 								</Select>
 							</div>
-							<DialogFooter>
+							<DialogFooter className="gap-2">
 								<Button type="button" variant="outline" onClick={handleClose}>
 									{t("common.actions.cancel")}
 								</Button>
