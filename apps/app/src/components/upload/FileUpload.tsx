@@ -90,7 +90,7 @@ export function FileUpload({
 									<Upload className="h-6 w-6 text-primary animate-pulse" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("upload.fileUpload.uploadingText")}
+									{t("common.upload.fileUpload.uploadingText")}
 								</p>
 							</div>
 						) : isDragActive ? (
@@ -99,10 +99,10 @@ export function FileUpload({
 									<Cloud className="h-6 w-6 text-primary" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("upload.fileUpload.dropFileHere")}
+									{t("common.upload.fileUpload.dropFileHere")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("upload.fileUpload.releaseToUpload")}
+									{t("common.upload.fileUpload.releaseToUpload")}
 								</p>
 							</div>
 						) : (
@@ -111,13 +111,13 @@ export function FileUpload({
 									<Plus className="h-6 w-6 text-primary" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("upload.fileUpload.addFiles")}
+									{t("common.upload.fileUpload.addFiles")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("upload.fileUpload.uploadAdditionalEvidence")}
+									{t("common.upload.fileUpload.uploadAdditionalEvidence")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-2 text-center">
-									{t("upload.fileUpload.dragDropOrClick")}
+									{t("common.upload.fileUpload.dragDropOrClick")}
 								</p>
 							</>
 						)}
@@ -146,18 +146,20 @@ export function FileUpload({
 					{isUploading ? (
 						<>
 							<Loader2 className="h-6 w-6 animate-spin text-primary" />
-							<p className="mt-2">{t("upload.fileUpload.uploadingFile")}</p>
+							<p className="mt-2">
+								{t("common.upload.fileUpload.uploadingFile")}
+							</p>
 						</>
 					) : (
 						<>
 							<Cloud className="h-6 w-6 text-primary" />
 							<p className="mt-2">
 								{isDragActive
-									? t("upload.fileUpload.dropFileHereAlt")
-									: t("upload.fileUpload.dragDropOrClickToSelect")}
+									? t("common.upload.fileUpload.dropFileHereAlt")
+									: t("common.upload.fileUpload.dragDropOrClickToSelect")}
 							</p>
 							<p className="mt-1">
-								{t("upload.fileUpload.maxFileSize", {
+								{t("common.upload.fileUpload.maxFileSize", {
 									size: Math.round(maxSize / 1024 / 1024),
 								})}
 							</p>
