@@ -91,6 +91,7 @@ function mapDeelDepartment(deelDepartment?: string): Departments {
 export const syncDeelEmployees = schemaTask({
   id: "sync-deel-employees",
   schema: deelTaskSchema,
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   run: async ({ integration }) => {
     logger.info(`Running Deel employee sync for ${integration.name}`);
 

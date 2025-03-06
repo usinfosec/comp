@@ -5,6 +5,7 @@ import { syncDeelEmployees } from "./index";
 export const deelEmployeeSchedule = schedules.task({
   id: "deel-employee-schedule",
   cron: "0 0 * * *", // Run at midnight every day
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   run: async () => {
     logger.info("Starting Deel employee sync schedule");
 

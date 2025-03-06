@@ -38,6 +38,7 @@ async function fetchPolicyFile(fileName: string) {
 
 export const createDefaultPoliciesTask = schemaTask({
   id: "create-default-policies",
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   schema: z.object({
     organizationId: z.string(),
     organizationName: z.string(),
@@ -99,7 +100,7 @@ export const createDefaultPoliciesTask = schemaTask({
 
         const policyName =
           processedPolicy.content?.find(
-            (node: any) => node.type === "heading" && node.attrs?.level === 1,
+            (node: any) => node.type === "heading" && node.attrs?.level === 1
           )?.content?.[0]?.text || fileName.replace(".json", "");
 
         const artifact = await db.artifact.create({

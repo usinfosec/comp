@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const newOrganizationTask = schemaTask({
   id: "new-organization",
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   schema: z.object({
     organizationId: z.string(),
     userId: z.string(),

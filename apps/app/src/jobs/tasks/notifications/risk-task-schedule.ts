@@ -5,12 +5,13 @@ import { sendRiskTaskNotification } from "./risk-task-notification";
 export const sendRiskTaskSchedule = schedules.task({
   id: "risk-task-schedule",
   cron: "0 * * * *",
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   run: async () => {
     const now = new Date();
     const upcomingThreshold = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     logger.info(
-      `Sending risk task notifications from now: ${now} to ${upcomingThreshold}`,
+      `Sending risk task notifications from now: ${now} to ${upcomingThreshold}`
     );
 
     const tasks = await db.riskMitigationTask.findMany({
@@ -39,10 +40,10 @@ export const sendRiskTaskSchedule = schedules.task({
     const triggerPayloads = tasks
       .filter(
         (
-          task,
+          task
         ): task is typeof task & {
           owner: { id: string; email: string; organizationId: string };
-        } => Boolean(task.owner?.email && task.owner.organizationId),
+        } => Boolean(task.owner?.email && task.owner.organizationId)
       )
       .map((task) => ({
         payload: {

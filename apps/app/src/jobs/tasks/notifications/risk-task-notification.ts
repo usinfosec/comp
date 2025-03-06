@@ -10,6 +10,7 @@ import { z } from "zod";
 
 export const sendRiskTaskNotification = schemaTask({
   id: "send-risk-task-notification",
+  maxDuration: 1000 * 60 * 10, // 10 minutes
   schema: z.object({
     task: z.object({
       id: z.string(),
