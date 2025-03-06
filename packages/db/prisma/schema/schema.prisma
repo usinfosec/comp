@@ -40,67 +40,69 @@ model Session {
 }
 
 model User {
-  id                      String                 @id @default(cuid())
-  name                    String?
-  full_name               String?
-  email                   String?                @unique
-  role                    Role                   @default(member)
-  onboarded               Boolean                @default(false)
-  emailVerified           DateTime?
-  image                   String?
-  lastLogin               DateTime?
-  organizationId          String?
-  accounts                Account[]
-  Artifact                Artifact[]
-  AuditLog                AuditLog[]
-  Employee                Employee[]
-  AssignedEvidence        OrganizationEvidence[]
-  organizationMemberships OrganizationMember[]
-  Risk                    Risk[]
-  RiskAttachment          RiskAttachment[]
-  RiskComment             RiskComment[]
-  RiskMitigationTask      RiskMitigationTask[]
-  sessions                Session[]
-  TaskAttachment          TaskAttachment[]
-  TaskComments            TaskComments[]
-  PolicyComments          PolicyComments[]
-  organization            Organization?          @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  OrganizationPolicy      OrganizationPolicy[]
+  id                             String                           @id @default(cuid())
+  name                           String?
+  full_name                      String?
+  email                          String?                          @unique
+  role                           Role                             @default(member)
+  onboarded                      Boolean                          @default(false)
+  emailVerified                  DateTime?
+  image                          String?
+  lastLogin                      DateTime?
+  organizationId                 String?
+  accounts                       Account[]
+  Artifact                       Artifact[]
+  AuditLog                       AuditLog[]
+  Employee                       Employee[]
+  AssignedEvidence               OrganizationEvidence[]
+  organizationMemberships        OrganizationMember[]
+  Risk                           Risk[]
+  RiskAttachment                 RiskAttachment[]
+  RiskComment                    RiskComment[]
+  RiskMitigationTask             RiskMitigationTask[]
+  sessions                       Session[]
+  TaskAttachment                 TaskAttachment[]
+  TaskComments                   TaskComments[]
+  PolicyComments                 PolicyComments[]
+  organization                   Organization?                    @relation("CurrentOrganization", fields: [organizationId], references: [id])
+  OrganizationPolicy             OrganizationPolicy[]
+  OrganizationIntegrationResults OrganizationIntegrationResults[]
 
   @@index([email])
   @@index([organizationId])
 }
 
 model Organization {
-  id                       String                     @id @default(cuid())
-  stripeCustomerId         String?
-  name                     String
-  subdomain                String                     @unique
-  website                  String
-  tier                     Tier                       @default(free)
-  policiesCreated          Boolean                    @default(false)
-  frameworkId              String?
-  Artifact                 Artifact[]
-  AuditLog                 AuditLog[]
-  employees                Employee[]
-  Framework                Framework?                 @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
-  OrganizationCategory     OrganizationCategory[]
-  OrganizationControl      OrganizationControl[]
-  OrganizationEvidence     OrganizationEvidence[]
-  OrganizationFramework    OrganizationFramework[]
-  OrganizationIntegrations OrganizationIntegrations[]
-  members                  OrganizationMember[]
-  OrganizationPolicy       OrganizationPolicy[]
-  Risk                     Risk[]
-  RiskAttachment           RiskAttachment[]
-  RiskComment              RiskComment[]
-  RiskMitigationTask       RiskMitigationTask[]
-  TaskAttachment           TaskAttachment[]
-  TaskComments             TaskComments[]
-  PolicyComments           PolicyComments[]
-  users                    User[]                     @relation("CurrentOrganization")
-  PortalUser               PortalUser[]
-  apiKeys                  OrganizationApiKey[]
+  id                             String                           @id @default(cuid())
+  stripeCustomerId               String?
+  name                           String
+  subdomain                      String                           @unique
+  website                        String
+  tier                           Tier                             @default(free)
+  policiesCreated                Boolean                          @default(false)
+  frameworkId                    String?
+  Artifact                       Artifact[]
+  AuditLog                       AuditLog[]
+  employees                      Employee[]
+  Framework                      Framework?                       @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+  OrganizationCategory           OrganizationCategory[]
+  OrganizationControl            OrganizationControl[]
+  OrganizationEvidence           OrganizationEvidence[]
+  OrganizationFramework          OrganizationFramework[]
+  OrganizationIntegrations       OrganizationIntegrations[]
+  members                        OrganizationMember[]
+  OrganizationPolicy             OrganizationPolicy[]
+  Risk                           Risk[]
+  RiskAttachment                 RiskAttachment[]
+  RiskComment                    RiskComment[]
+  RiskMitigationTask             RiskMitigationTask[]
+  TaskAttachment                 TaskAttachment[]
+  TaskComments                   TaskComments[]
+  PolicyComments                 PolicyComments[]
+  users                          User[]                           @relation("CurrentOrganization")
+  PortalUser                     PortalUser[]
+  apiKeys                        OrganizationApiKey[]
+  OrganizationIntegrationResults OrganizationIntegrationResults[]
 
   @@index([stripeCustomerId])
 }
@@ -148,13 +150,14 @@ model OrganizationApiKey {
 }
 
 model OrganizationIntegrations {
-  id             String       @id @default(cuid())
-  name           String       @unique
+  id             String                           @id @default(cuid())
+  name           String                           @unique
   integration_id String
   settings       Json
   user_settings  Json
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  results        OrganizationIntegrationResults[]
 
   @@index([organizationId])
 }
