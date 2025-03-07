@@ -18,10 +18,11 @@ export default async function TestDetailsPage({
   const session = await auth();
   const organizationId = session?.user.organizationId;
 
-  const users = await getUsers(organizationId);
   if (!organizationId) {
     redirect("/");
   }
+
+  const users = await getUsers(organizationId);
 
   return <TestDetails testId={testId} users={users} />;
 }

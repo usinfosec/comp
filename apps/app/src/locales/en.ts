@@ -267,6 +267,10 @@ export default {
 		frameworks: {
 			overview: "Frameworks",
 		},
+		tests: {
+			overview: "Cloud Tests",
+			test_details: "Test Details",
+		},
 	},
 	auth: {
 		title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",

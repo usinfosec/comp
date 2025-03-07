@@ -11,7 +11,8 @@ export const testSchema = z.object({
   completedAt: z.date(),
   organizationId: z.string(),
   assignedUserId: z.string(),
-  organizationIntegrationId: z.string()
+  organizationIntegrationId: z.string(),
+  TestComments: z.array(z.any())
 });
 
 export const testsInputSchema = z.object({

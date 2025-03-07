@@ -4,6 +4,7 @@ import { db } from "@bubba/db";
 import { revalidatePath } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
 import { decrypt } from "@/lib/encryption";
+import type { EncryptedData } from "@/lib/encryption";
 import {
 	SecurityHubClient,
 	GetFindingsCommand,
@@ -100,18 +101,31 @@ export const refreshTestsAction = authActionClient
 
 	for (const integration of integrations) {
 		if (integration.integration_id === "aws") {
-      const { region, access_key_id, secret_access_key, session_token } = integration.user_settings;
+      const { region, access_key_id, secret_access_key, session_token } = integration.user_settings as unknown as {
+        region: EncryptedData;
+        access_key_id: EncryptedData;
+        secret_access_key: EncryptedData;
+        session_token: EncryptedData;
+      };
       const decryptedRegion = await decrypt(region);
       const decryptedAccessKeyId = await decrypt(access_key_id);
       const decryptedSecretAccessKey = await decrypt(secret_access_key);
       const decryptedSessionToken = await decrypt(session_token);
 
-      console.log(decryptedRegion, decryptedAccessKeyId, decryptedSecretAccessKey, decryptedSessionToken);
-
       const results = await fetchSecurityFindings(decryptedRegion, decryptedAccessKeyId, decryptedSecretAccessKey, decryptedSessionToken);
 
       // Store the integration results using model name that matches the database
       for (const result of results) {
+        // First verify the integration exists
+        const existingIntegration =
+          await db.organizationIntegrations.findUnique({
+            where: { id: integration.id },
+          });
+
+        if (!existingIntegration) {
+          console.log(`Integration with ID ${integration.id} not found`);
+          continue;
+        }
 
         // Check if a result with the same AWS Security Hub finding ID already exists
         const existingResult = await db.organizationIntegrationResults.findFirst({
@@ -120,7 +134,7 @@ export const refreshTestsAction = authActionClient
               path: ['Id'],
               equals: result?.Id
             },
-            organizationIntegrationId: integration.integration_id,
+            organizationIntegrationId: existingIntegration.id,
           },
         });
 
@@ -143,7 +157,7 @@ export const refreshTestsAction = authActionClient
             status: result?.Compliance?.Status || "unknown",
             label: result?.Severity?.Label || "INFO",
             resultDetails: result || { error: "No result returned" },
-            organizationIntegrationId: integration.integration_id,
+            organizationIntegrationId: existingIntegration.id,
             organizationId: integration.organizationId,
             // assignedUserId is now optional, so we don't need to provide it
           },

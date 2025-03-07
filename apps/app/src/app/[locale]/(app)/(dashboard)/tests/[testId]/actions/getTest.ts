@@ -33,9 +33,7 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       },
     });
 
-    console.log("results", results);
-
-    if (!results || results.length === 0) {
+    if (!results) {
       return {
         success: false,
         error: appErrors.NOT_FOUND,
@@ -47,7 +45,7 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
     // Format the result to match the expected CloudTestResult structure
     const result: Test = {
       id: integrationResult.id,
-      title: integrationResult.title,
+      title: integrationResult.title || "",
       description: typeof integrationResult.resultDetails === 'object' && integrationResult.resultDetails 
         ? (integrationResult.resultDetails as any).description || "" 
         : "",
@@ -55,9 +53,9 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       status: integrationResult.status,
       resultDetails: integrationResult.resultDetails,
       label: integrationResult.label,
-      assignedUserId: integrationResult.assignedUserId,
+      assignedUserId: integrationResult.assignedUserId || "",
       organizationId: organizationId,
-      completedAt: integrationResult.completedAt,
+      completedAt: integrationResult.completedAt || new Date(),
       organizationIntegrationId: integrationResult.organizationIntegrationId,
       TestComments: integrationResult.IntegrationResultsComments,
     };
