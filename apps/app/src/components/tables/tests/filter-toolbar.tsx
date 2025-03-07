@@ -10,9 +10,15 @@ import { useCallback, useEffect, useState, useTransition } from "react";
 import { useDebounce } from "use-debounce";
 import Link from "next/link";
 
+
+import { refreshTestsAction } from "@/app/[locale]/(app)/(dashboard)/tests/actions/refreshTests";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
+
 interface FilterToolbarProps {
   isEmpty?: boolean;
 }
+
 
 export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   const router = useRouter();
@@ -23,6 +29,19 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   const [inputValue, setInputValue] = useState(
     searchParams?.get("search") ?? "",
   );
+
+  const refreshTests = useAction(refreshTestsAction, {
+    onSuccess: () => {
+      toast.success(t("common.comments.success"));
+    },
+    onError: () => {
+      toast.error(t("common.comments.error"));
+    },
+  });
+
+  const refreshTestsClick = () => {
+    refreshTests.execute();
+  };
 
   const createQueryString = useCallback(
     (params: Record<string, string | null>) => {
@@ -68,11 +87,9 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
         </div>
 
         <div className="md:hidden">
-          {<Button asChild variant="action">
-            <Link href="/integrations">
-              {t("tests.actions.refresh")}
-            </Link>
-          </Button>}
+          {<Button asChild variant="action" onClick={refreshTestsClick}>
+            {t("tests.actions.refresh")}
+        </Button>}
         </div>
       </div>
 
@@ -92,10 +109,8 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
           </Button>
         )}
 {
-        <Button asChild variant="action">
-          <Link href="/integrations">
+        <Button asChild variant="action" onClick={refreshTestsClick}>
             {t("tests.actions.refresh")}
-          </Link>
         </Button> }
       </div>
     </div>
