@@ -1,25 +1,50 @@
+// Don't try to import the image, use a public path
+// @ts-ignore
 import image from "./assets/image.png";
 
 export default {
   name: "Deel",
-  id: "deel",
-  active: true,
-  logo: image,
-  short_description:
-    "Connect your Deel account to Bubba to automate evidence collection for payroll and contractor management",
   description:
-    "Integrating with Deel allows you to automate evidence collection for payroll and contractor management. We'll run a daily read-only scan of your resources and store the results in Bubba.",
-  images: [image],
+    "Sync your employees from Deel to automatically onboard them in your system.",
+  short_description: "Integrate with Deel to sync employee data automatically.",
+  id: "deel",
+  // Use direct reference to the public image
+  logo: image,
+  category: "HR",
+  active: true,
+  // Include both fields and settings for backward compatibility
   settings: [
     {
       id: "api_key",
       label: "API Key",
-      description: "The API key for your Deel account",
+      description: "Enter your Deel API key",
       type: "text",
-      required: false,
+      required: true,
       value: "",
     },
   ],
-  config: {},
-  category: "HR",
+  fields: [
+    {
+      name: "api_key",
+      label: "API Key",
+      type: "password",
+      required: true,
+      placeholder: "Enter your Deel API key",
+      description: "You can find your API key in your Deel account settings.",
+      encrypted: true,
+    },
+  ],
+  // Add metadata about the integration runs
+  metadata: {
+    // Define fields for displaying the last run and next run
+    lastRun: {
+      label: "Last Sync",
+      description: "The last time this integration successfully ran",
+    },
+    nextRun: {
+      label: "Next Sync",
+      description: "When this integration will run next (every 24 hours)",
+    },
+  },
+  images: [], // Add empty images array for compatibility
 };
