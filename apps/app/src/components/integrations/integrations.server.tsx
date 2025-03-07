@@ -41,23 +41,27 @@ export async function IntegrationsServer() {
 		(integration) => {
 			const lastRun = integration.lastRuns[0];
 
-			// Calculate next run time (at midnight after the last run)
+			// Calculate next run time (at midnight UTC)
 			let nextRunAt = null;
 			if (lastRun) {
-				const lastRunDate = new Date(lastRun.lastRunAt);
-				// Set to next midnight after the last run
-				const nextMidnight = new Date(lastRunDate);
-				nextMidnight.setDate(nextMidnight.getDate() + 1);
-				nextMidnight.setHours(0, 0, 0, 0);
-
-				// If next midnight is in the past (because lastRun was more than a day ago),
-				// use upcoming midnight instead
+				// Get the current UTC date
 				const now = new Date();
-				if (nextMidnight < now) {
-					nextMidnight.setDate(now.getDate() + 1);
-				}
 
-				nextRunAt = nextMidnight;
+				// Calculate the next midnight in UTC
+				const nextMidnightUTC = new Date(
+					Date.UTC(
+						now.getUTCFullYear(),
+						now.getUTCMonth(),
+						// If we're already past midnight UTC today, use tomorrow
+						now.getUTCHours() >= 0 ? now.getUTCDate() + 1 : now.getUTCDate(),
+						0,
+						0,
+						0,
+						0, // Set to midnight UTC (00:00:00.000)
+					),
+				);
+
+				nextRunAt = nextMidnightUTC;
 			}
 
 			return {

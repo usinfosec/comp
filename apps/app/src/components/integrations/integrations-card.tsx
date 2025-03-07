@@ -204,6 +204,32 @@ export function IntegrationsCard({
 		}
 	};
 
+	// Function to get a friendly message about time to midnight UTC
+	const getUTCMidnightMessage = (nextRunAt: Date): string => {
+		if (!nextRunAt) return "";
+
+		const now = new Date();
+		const diffInMs = nextRunAt.getTime() - now.getTime();
+		const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+		const diffInMinutes = Math.floor(
+			(diffInMs % (1000 * 60 * 60)) / (1000 * 60),
+		);
+
+		if (diffInHours <= 0 && diffInMinutes <= 0) {
+			return "Running soon";
+		}
+
+		if (diffInHours === 0) {
+			return `Runs in ${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""}`;
+		}
+
+		if (diffInMinutes === 0) {
+			return `Runs in ${diffInHours} hour${diffInHours !== 1 ? "s" : ""}`;
+		}
+
+		return `Runs in ${diffInHours} hour${diffInHours !== 1 ? "s" : ""} and ${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""}`;
+	};
+
 	return (
 		<Card key={id} className="w-full flex flex-col">
 			<Sheet open={params.app === id} onOpenChange={() => setParams(null)}>
@@ -349,39 +375,54 @@ export function IntegrationsCard({
 												<div className="flex items-start gap-2">
 													<Clock className="h-4 w-4 mt-0.5 text-muted-foreground" />
 													<div>
-														<div className="flex items-center gap-1">
+														<div className="flex items-center gap-1.5">
 															<p className="text-sm font-medium text-foreground">
 																Next Sync
 															</p>
+															<div className="bg-muted text-xs rounded px-1.5 py-0.5">
+																UTC 00:00
+															</div>
 															<TooltipProvider>
 																<Tooltip>
 																	<TooltipTrigger asChild>
 																		<Globe className="h-3 w-3 text-muted-foreground cursor-help" />
 																	</TooltipTrigger>
-																	<TooltipContent>
+																	<TooltipContent
+																		side="top"
+																		align="start"
+																		className="max-w-[250px]"
+																	>
 																		<p>
-																			Dates are shown in your local timezone
+																			This integration runs at midnight UTC
+																			(00:00). Times are converted to your local
+																			timezone for display.
 																		</p>
 																	</TooltipContent>
 																</Tooltip>
 															</TooltipProvider>
 														</div>
 														{nextRunAt ? (
-															<p className="text-xs text-muted-foreground">
-																{format(new Date(nextRunAt), "PPP 'at' p")}
-																<span className="text-xs text-muted-foreground ml-1">
-																	(
-																	{formatDistanceToNow(new Date(nextRunAt), {
-																		addSuffix: true,
-																	})}
-																	)
-																</span>
-															</p>
+															<div className="space-y-0.5">
+																<p className="text-xs text-muted-foreground">
+																	{format(new Date(nextRunAt), "PPP 'at' p")}
+																	<span className="text-xs text-muted-foreground ml-1">
+																		(
+																		{formatDistanceToNow(new Date(nextRunAt), {
+																			addSuffix: true,
+																		})}
+																		)
+																	</span>
+																</p>
+																<p className="text-xs text-muted-foreground flex items-center gap-1">
+																	<span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+																	{getUTCMidnightMessage(nextRunAt)}
+																</p>
+															</div>
 														) : (
 															<p className="text-xs text-muted-foreground">
 																{lastRunAt
 																	? "Calculating..."
-																	: "Will run after first sync"}
+																	: "Will run at the next midnight UTC"}
 															</p>
 														)}
 													</div>
@@ -390,7 +431,7 @@ export function IntegrationsCard({
 												<div className="text-xs bg-muted p-3 rounded-md">
 													<p>
 														This integration syncs automatically every day at
-														midnight.
+														midnight UTC (00:00).
 													</p>
 												</div>
 											</div>
