@@ -37,7 +37,7 @@ export const deelEmployeeSchedule = schedules.task({
         integration: {
           id: integration.id,
           name: integration.name,
-          integration_id: integration.integration_id,
+          integration_id: "deel" as const,
           settings: integration.settings as Record<string, any>,
           user_settings: integration.user_settings as Record<string, any>,
           organization: integration.organization,
