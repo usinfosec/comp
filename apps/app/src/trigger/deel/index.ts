@@ -1,7 +1,9 @@
 import { db } from "@bubba/db";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
+import axios from "axios";
 import { z } from "zod";
 import { Departments } from "@bubba/db";
+import { decrypt } from "@/lib/encryption";
 
 // Define the input schema for the Deel task
 const deelTaskSchema = z.object({
@@ -127,12 +129,51 @@ export const syncDeelEmployees = schemaTask({
       }
 
       // Extract access token from user settings
-      const accessToken = integration.user_settings.accessToken;
-      if (!accessToken) {
+      let accessToken: string | undefined;
+      try {
+        if (
+          integration.user_settings.api_key &&
+          typeof integration.user_settings.api_key === "object" &&
+          "encrypted" in integration.user_settings.api_key
+        ) {
+          // Decrypt the access token
+          try {
+            accessToken = await decrypt(integration.user_settings.api_key);
+            logger.info("Successfully decrypted Deel API key");
+          } catch (decryptError) {
+            logger.error(`Failed to decrypt Deel API key: ${decryptError}`);
+
+            // Check if SECRET_KEY is set
+            if (!process.env.SECRET_KEY) {
+              return {
+                success: false,
+                error:
+                  "Missing SECRET_KEY environment variable required for decryption",
+              };
+            }
+
+            return {
+              success: false,
+              error:
+                "Failed to decrypt API key. Make sure SECRET_KEY is correct.",
+            };
+          }
+        } else {
+          // For backward compatibility, in case it's stored as a plain string
+          accessToken = integration.user_settings.api_key;
+        }
+
+        if (!accessToken) {
+          logger.error(
+            `Deel integration ${integration.name} is missing an access token`
+          );
+          return { success: false, error: "Missing access token" };
+        }
+      } catch (error) {
         logger.error(
-          `Deel integration ${integration.name} is missing an access token`
+          `Failed to decrypt access token for Deel integration ${integration.name}: ${error}`
         );
-        return { success: false, error: "Missing access token" };
+        return { success: false, error: "Failed to decrypt access token" };
       }
 
       // Fetch employees from Deel

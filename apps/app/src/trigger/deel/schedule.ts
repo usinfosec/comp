@@ -11,7 +11,7 @@ export const deelEmployeeSchedule = schedules.task({
 
     const deelIntegrations = await db.organizationIntegrations.findMany({
       where: {
-        integration_id: "Deel",
+        integration_id: "deel",
       },
       select: {
         id: true,

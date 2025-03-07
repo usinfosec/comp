@@ -1,5 +1,9 @@
-import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
-import argon2 from "argon2";
+import {
+  createCipheriv,
+  createDecipheriv,
+  randomBytes,
+  scryptSync,
+} from "node:crypto";
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 12;
@@ -14,16 +18,14 @@ export interface EncryptedData {
   salt: string;
 }
 
-export async function deriveKey(secret: string, salt: Buffer): Promise<Buffer> {
-  const hash = await argon2.hash(secret, {
-    salt,
-    memoryCost: 19456,
-    timeCost: 2,
-    parallelism: 1,
-    raw: true,
+// Simple key derivation using Node's built-in scrypt instead of argon2
+function deriveKey(secret: string, salt: Buffer): Buffer {
+  return scryptSync(secret, salt, KEY_LENGTH, {
+    // These are reasonable defaults for scrypt
+    N: 16384,
+    r: 8,
+    p: 1,
   });
-
-  return Buffer.from(hash);
 }
 
 export async function encrypt(text: string): Promise<EncryptedData> {
@@ -35,7 +37,7 @@ export async function encrypt(text: string): Promise<EncryptedData> {
 
   const salt = randomBytes(SALT_LENGTH);
   const iv = randomBytes(IV_LENGTH);
-  const key = await deriveKey(secretKey, salt);
+  const key = deriveKey(secretKey, salt);
   const cipher = createCipheriv(ALGORITHM, key, iv);
 
   const encrypted = Buffer.concat([
@@ -64,7 +66,7 @@ export async function decrypt(encryptedData: EncryptedData): Promise<string> {
   const tag = Buffer.from(encryptedData.tag, "base64");
   const salt = Buffer.from(encryptedData.salt, "base64");
 
-  const key = await deriveKey(secretKey, salt);
+  const key = deriveKey(secretKey, salt);
 
   const decipher = createDecipheriv(ALGORITHM, key, iv);
   decipher.setAuthTag(tag);
