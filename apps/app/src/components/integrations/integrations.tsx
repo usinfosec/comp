@@ -3,128 +3,178 @@
 import type { OrganizationIntegrations } from "@bubba/db";
 import { integrations } from "@bubba/integrations";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
 } from "@bubba/ui/accordion";
 import { Button } from "@bubba/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IntegrationsCard } from "./integrations-card";
 
+// Define a type for the integration object to handle both formats
+type IntegrationType = {
+	id: string;
+	name: string;
+	description: string;
+	short_description?: string;
+	category: string;
+	logo: any;
+	active?: boolean;
+	settings?: any[];
+	fields?: any[];
+	images?: any[];
+	metadata?: Record<string, any>;
+};
+
+// Update the type to include lastRunAt and nextRunAt
+type ExtendedOrganizationIntegrations = OrganizationIntegrations & {
+	lastRunAt?: Date | null;
+	nextRunAt?: Date | null;
+};
+
 export function OrganizationIntegration({
-  installed,
+	installed,
 }: {
-  installed: OrganizationIntegrations[];
+	installed: ExtendedOrganizationIntegrations[];
 }) {
-  const searchParams = useSearchParams();
-  const isInstalledPage = searchParams.get("tab") === "installed";
-  const search = searchParams.get("q");
-  const router = useRouter();
-  const installedIntegrations = installed.map((i) => i.name.toLowerCase());
+	const searchParams = useSearchParams();
+	const isInstalledPage = searchParams.get("tab") === "installed";
+	const search = searchParams.get("q");
+	const router = useRouter();
 
-  const installedSettings: Record<string, unknown> = installed.reduce(
-    (acc, integration) => {
-      acc[integration.name.toLowerCase()] = integration.user_settings;
-      return acc;
-    },
-    {} as Record<string, unknown>,
-  );
+	// Map installed integrations by their integration_id rather than name
+	const installedIntegrations = installed.map((i) =>
+		i.integration_id.toLowerCase(),
+	);
 
-  const integrationsByCategory = integrations
-    .filter(
-      (integration) =>
-        !isInstalledPage || installedIntegrations.includes(integration.id),
-    )
-    .filter(
-      (integration) =>
-        !search ||
-        integration.name.toLowerCase().includes(search.toLowerCase()),
-    )
-    .filter((integration) => integration.settings)
-    .reduce(
-      (acc, integration) => {
-        const category = integration.category;
-        if (!acc[category]) {
-          acc[category] = [];
-        }
-        acc[category].push(integration);
-        return acc;
-      },
-      {} as Record<string, typeof integrations>,
-    );
+	// Debug: Log all available integrations and installed integrations
+	console.log("All integrations:", integrations);
+	console.log("Installed integrations:", installedIntegrations);
 
-  if (search && Object.keys(integrationsByCategory).length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-400px)]">
-        <h3 className="text-lg font-semibold text-foreground">
-          No integrations found
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
-          No integrations found for your search, let us know if you want to see
-          a specific integration.
-        </p>
+	const installedSettings: Record<string, unknown> = installed.reduce(
+		(acc, integration) => {
+			acc[integration.integration_id.toLowerCase()] = integration.user_settings;
+			return acc;
+		},
+		{} as Record<string, unknown>,
+	);
 
-        <Button
-          onClick={() => router.push("/integrations")}
-          className="mt-4"
-          variant="outline"
-        >
-          Clear search
-        </Button>
-      </div>
-    );
-  }
+	const integrationsByCategory = integrations
+		.filter((integration) => {
+			const shouldInclude =
+				!isInstalledPage || installedIntegrations.includes(integration.id);
+			// Debug: Log which integrations get filtered out by installed tab
+			if (!shouldInclude) {
+				console.log("Filtered out (installed tab):", integration.name);
+			}
+			return shouldInclude;
+		})
+		.filter((integration) => {
+			const matchesSearch =
+				!search ||
+				integration.name.toLowerCase().includes(search.toLowerCase());
+			// Debug: Log which integrations get filtered out by search
+			if (!matchesSearch) {
+				console.log("Filtered out (search):", integration.name);
+			}
+			return matchesSearch;
+		})
+		.reduce(
+			(acc, integration) => {
+				const category = integration.category;
+				if (!acc[category]) {
+					acc[category] = [];
+				}
+				acc[category].push(integration);
+				return acc;
+			},
+			{} as Record<string, typeof integrations>,
+		);
 
-  if (!search && Object.keys(integrationsByCategory).length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-400px)]">
-        <h3 className="text-lg font-semibold text-foreground">
-          No integrations installed
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
-          You haven't installed any integrations yet. Go to the 'All
-          Integrations' tab to browse available integrations.
-        </p>
-      </div>
-    );
-  }
+	if (search && Object.keys(integrationsByCategory).length === 0) {
+		return (
+			<div className="flex flex-col items-center justify-center h-[calc(100vh-400px)]">
+				<h3 className="text-lg font-semibold text-foreground">
+					No integrations found
+				</h3>
+				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
+					No integrations found for your search, let us know if you want to see
+					a specific integration.
+				</p>
 
-  return (
-    <div className="w-full mt-8">
-      <Accordion
-        type="multiple"
-        defaultValue={Object.keys(integrationsByCategory)}
-      >
-        {Object.entries(integrationsByCategory).map(
-          ([category, integrations]) => (
-            <AccordionItem key={category} value={category}>
-              <AccordionTrigger className="text-lg font-semibold">
-                {category}
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                  {integrations.map((integration) => (
-                    <IntegrationsCard
-                      key={integration.id}
-                      {...integration}
-                      images={integration.images.map((img) => img.src)}
-                      installed={installedIntegrations.includes(
-                        integration.id.toLowerCase(),
-                      )}
-                      settings={integration.settings}
-                      category={integration.category}
-                      installedSettings={
-                        installedSettings[integration.id.toLowerCase()] || {}
-                      }
-                    />
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ),
-        )}
-      </Accordion>
-    </div>
-  );
+				<Button
+					onClick={() => router.push("/integrations")}
+					className="mt-4"
+					variant="outline"
+				>
+					Clear search
+				</Button>
+			</div>
+		);
+	}
+
+	if (!search && Object.keys(integrationsByCategory).length === 0) {
+		return (
+			<div className="flex flex-col items-center justify-center h-[calc(100vh-400px)]">
+				<h3 className="text-lg font-semibold text-foreground">
+					No integrations installed
+				</h3>
+				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
+					You haven't installed any integrations yet. Go to the 'All
+					Integrations' tab to browse available integrations.
+				</p>
+			</div>
+		);
+	}
+
+	return (
+		<div className="space-y-8">
+			{Object.entries(integrationsByCategory).map(([category, items]) => (
+				<div key={category}>
+					<h2 className="text-lg font-medium mb-4">{category}</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+						{items.map((integration) => {
+							// Find the installed integration data
+							const installedIntegration = installed.find(
+								(i) => i.integration_id.toLowerCase() === integration.id,
+							);
+
+							// Handle different integration formats
+							const integrationProps = {
+								id: integration.id,
+								logo: integration.logo,
+								name: integration.name,
+								short_description:
+									"short_description" in integration
+										? integration.short_description
+										: (integration as any).description || "",
+								description: (integration as any).description || "",
+								settings:
+									"settings" in integration
+										? (integration as any).settings
+										: "fields" in integration
+											? (integration as any).fields
+											: [],
+								images:
+									"images" in integration ? (integration as any).images : [],
+								active:
+									"active" in integration ? (integration as any).active : true,
+								installed: installedIntegrations.includes(integration.id),
+								category: integration.category,
+								installedSettings: installedSettings[integration.id] || {},
+								// Pass the last run and next run information
+								lastRunAt: installedIntegration?.lastRunAt,
+								nextRunAt: installedIntegration?.nextRunAt,
+							};
+
+							return (
+								<IntegrationsCard key={integration.id} {...integrationProps} />
+							);
+						})}
+					</div>
+				</div>
+			))}
+		</div>
+	);
 }

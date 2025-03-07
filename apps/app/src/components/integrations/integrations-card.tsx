@@ -21,6 +21,20 @@ import {
 } from "./integration-settings";
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
+import { Calendar, Clock, Check, Globe } from "lucide-react";
+import { formatDistanceToNow, format } from "date-fns";
+import { Loader2 } from "lucide-react";
+import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
+import { Input } from "@bubba/ui/input";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@bubba/ui/tooltip";
+
+// Add a type for the logo
+type LogoType = StaticImageData | { light: string; dark: string };
 
 export function IntegrationsCard({
 	id,
@@ -34,21 +48,29 @@ export function IntegrationsCard({
 	installed,
 	category,
 	installedSettings,
+	lastRunAt,
+	nextRunAt,
 }: {
 	id: string;
-	logo: StaticImageData;
+	logo: LogoType;
 	name: string;
 	short_description: string;
 	description: string;
-	settings: Record<string, any>;
-	images: string[];
+	settings: IntegrationSettingsItem[] | Record<string, any> | any;
+	images: any[];
 	active: boolean;
 	installed: boolean;
 	category: string;
 	installedSettings: Record<string, any>;
+	lastRunAt?: Date | null;
+	nextRunAt?: Date | null;
 }) {
 	const router = useRouter();
 
+	// Add state to track if we're in edit mode for API key
+	const [isEditingApiKey, setIsEditingApiKey] = useState(false);
+
+	// Start with empty component
 	const [params, setParams] = useQueryStates({
 		app: parseAsString,
 		settings: parseAsBoolean,
@@ -70,19 +92,115 @@ export function IntegrationsCard({
 		},
 	);
 
+	const updateIntegrationSettings = useAction(updateIntegrationSettingsAction, {
+		onSuccess: () => {
+			toast.success("Settings updated successfully");
+			setIsEditingApiKey(false); // Exit edit mode on success
+		},
+		onError: () => {
+			toast.error("Failed to update settings");
+		},
+	});
+
 	const [isLoading, setLoading] = useState(false);
+	const [apiKeyInput, setApiKeyInput] = useState("");
+	const [isSaving, setIsSaving] = useState(false);
+
+	// Debug output to see what settings contains
+	console.log(`Integration ${name} settings:`, {
+		id,
+		settings,
+		settingsIsArray: Array.isArray(settings),
+		settingsLength: Array.isArray(settings) ? settings.length : "N/A",
+		installedSettings,
+	});
 
 	const handleConnect = async () => {
 		try {
 			setLoading(true);
+			setIsSaving(true);
 
-			const res = await retrieveIntegrationSessionToken.executeAsync({
-				integrationId: id,
+			// Use the API key from the state
+			const keyToUse = apiKeyInput.trim();
+			if (!keyToUse) {
+				toast.error("Please enter an API key");
+				setLoading(false);
+				setIsSaving(false);
+				return;
+			}
+
+			// First save the API key if provided
+			await updateIntegrationSettings.executeAsync({
+				integration_id: id,
+				option: { id: "api_key", value: keyToUse },
 			});
+
+			// Show appropriate message based on whether we're updating or setting for first time
+			if (isEditingApiKey) {
+				toast.success("API key updated successfully");
+			} else {
+				toast.success("API key saved successfully");
+			}
+
+			// If not already installed (first time setup), then retrieve session token to complete connection
+			if (!installed) {
+				const res = await retrieveIntegrationSessionToken.executeAsync({
+					integrationId: id,
+				});
+			}
+
+			// Handle success
+			setApiKeyInput("");
+			setIsEditingApiKey(false);
+			router.refresh();
 		} catch (error) {
 			console.error("Connection error:", error);
 			toast.error("Failed to connect integration");
+		} finally {
 			setLoading(false);
+			setIsSaving(false);
+		}
+	};
+
+	// Function to render the logo
+	const renderLogo = () => {
+		if (typeof logo === "string") {
+			// It's a direct URL string
+			return <img src={logo} alt={name} width={64} height={64} />;
+		}
+
+		if ("light" in logo && "dark" in logo) {
+			// It's a URL-based logo object with light/dark variants
+			return (
+				<>
+					<img
+						src={logo.light}
+						alt={name}
+						width={64}
+						height={64}
+						className="dark:hidden"
+					/>
+					<img
+						src={logo.dark}
+						alt={name}
+						width={64}
+						height={64}
+						className="hidden dark:block"
+					/>
+				</>
+			);
+		}
+
+		// It's a StaticImageData or other object with src
+		try {
+			return <Image src={logo as any} alt={name} width={64} height={64} />;
+		} catch (error) {
+			console.error("Error rendering logo:", error);
+			return (
+				<div className="w-16 h-16 bg-muted rounded-md flex items-center justify-center">
+					{name.substring(0, 1)}
+				</div>
+			);
 		}
 	};
 
@@ -90,7 +208,7 @@ export function IntegrationsCard({
 		<Card key={id} className="w-full flex flex-col">
 			<Sheet open={params.app === id} onOpenChange={() => setParams(null)}>
 				<div className="pt-6 px-6 h-16 flex items-center justify-between">
-					<Image src={logo} alt={name} width={64} height={64} />
+					{renderLogo()}
 
 					{installed && (
 						<div className="text-green-600 bg-green-100 text-[10px] dark:bg-green-900 dark:text-green-300 px-3 py-1 rounded-none">
@@ -127,16 +245,16 @@ export function IntegrationsCard({
 					</Button>
 				</div>
 
-				<SheetContent>
-					<SheetHeader>
-						<div className="flex items-center justify-between border-b border-border pb-2">
+				<SheetContent className="h-full p-0 flex flex-col">
+					<div className="p-6 pb-4 border-b">
+						<div className="flex items-center justify-between">
 							<div className="flex items-center space-x-2">
-								<Image src={logo} alt={name} width={64} height={64} />
+								{renderLogo()}
 								<div>
 									<div className="flex items-center space-x-2">
 										<h3 className="text-lg leading-none">{name}</h3>
 										{installed && (
-											<div className="bg-green-600 text-[9px]  rounded-full size-1" />
+											<div className="bg-green-600 text-[9px] rounded-full size-1" />
 										)}
 									</div>
 
@@ -144,7 +262,7 @@ export function IntegrationsCard({
 										{category} • Published by Comp AI
 									</span>
 								</div>
-							</div>{" "}
+							</div>
 							<div>
 								{installed && (
 									<Button
@@ -163,36 +281,236 @@ export function IntegrationsCard({
 								)}
 							</div>
 						</div>
-					</SheetHeader>
-					<ScrollArea className="h-[calc(100vh-530px)] pt-2" hideScrollbar>
-						<Accordion
-							type="multiple"
-							defaultValue={["description", "settings"]}
-							className="mt-4"
-						>
-							<AccordionItem value="description" className="border-none">
-								<AccordionTrigger>How it works</AccordionTrigger>
-								<AccordionContent className="text-muted-foreground text-sm">
-									{description}
-								</AccordionContent>
-							</AccordionItem>
+					</div>
 
-							{settings && settings.length > 0 && (
-								<AccordionItem value="settings" className="border-none">
-									<AccordionTrigger>Settings</AccordionTrigger>
-									<AccordionContent className="text-muted-foreground text-sm">
-										<IntegrationSettings
-											integrationId={id}
-											settings={settings as IntegrationSettingsItem[]}
-											installedSettings={installedSettings}
-										/>
+					{/* Main content area with scroll */}
+					<div className="flex-1 overflow-hidden flex flex-col">
+						<ScrollArea className="flex-1 px-6">
+							<Accordion
+								type="multiple"
+								defaultValue={["description", "settings", "sync-status"]}
+								className="mt-4 space-y-4"
+							>
+								<AccordionItem value="description" className="border-none">
+									<AccordionTrigger className="py-3 hover:no-underline">
+										<span className="text-sm font-medium">How it works</span>
+									</AccordionTrigger>
+									<AccordionContent className="text-muted-foreground text-sm pb-3">
+										{description}
 									</AccordionContent>
 								</AccordionItem>
-							)}
-						</Accordion>
-					</ScrollArea>
 
-					<div className="absolute bottom-4 pt-8 border-t border-border">
+								{installed && (
+									<AccordionItem value="sync-status" className="border-none">
+										<AccordionTrigger className="py-3 hover:no-underline">
+											<span className="text-sm font-medium">Sync Status</span>
+										</AccordionTrigger>
+										<AccordionContent className="text-muted-foreground text-sm pb-3">
+											<div className="space-y-4">
+												<div className="flex items-start gap-2">
+													<Calendar className="h-4 w-4 mt-0.5 text-muted-foreground" />
+													<div>
+														<div className="flex items-center gap-1">
+															<p className="text-sm font-medium text-foreground">
+																Last Sync
+															</p>
+															<TooltipProvider>
+																<Tooltip>
+																	<TooltipTrigger asChild>
+																		<Globe className="h-3 w-3 text-muted-foreground cursor-help" />
+																	</TooltipTrigger>
+																	<TooltipContent>
+																		<p>
+																			Dates are shown in your local timezone
+																		</p>
+																	</TooltipContent>
+																</Tooltip>
+															</TooltipProvider>
+														</div>
+														{lastRunAt ? (
+															<p className="text-xs text-muted-foreground">
+																{format(new Date(lastRunAt), "PPP 'at' p")}
+																<span className="text-xs text-muted-foreground ml-1">
+																	(
+																	{formatDistanceToNow(new Date(lastRunAt), {
+																		addSuffix: true,
+																	})}
+																	)
+																</span>
+															</p>
+														) : (
+															<p className="text-xs text-muted-foreground">
+																Never run
+															</p>
+														)}
+													</div>
+												</div>
+
+												<div className="flex items-start gap-2">
+													<Clock className="h-4 w-4 mt-0.5 text-muted-foreground" />
+													<div>
+														<div className="flex items-center gap-1">
+															<p className="text-sm font-medium text-foreground">
+																Next Sync
+															</p>
+															<TooltipProvider>
+																<Tooltip>
+																	<TooltipTrigger asChild>
+																		<Globe className="h-3 w-3 text-muted-foreground cursor-help" />
+																	</TooltipTrigger>
+																	<TooltipContent>
+																		<p>
+																			Dates are shown in your local timezone
+																		</p>
+																	</TooltipContent>
+																</Tooltip>
+															</TooltipProvider>
+														</div>
+														{nextRunAt ? (
+															<p className="text-xs text-muted-foreground">
+																{format(new Date(nextRunAt), "PPP 'at' p")}
+																<span className="text-xs text-muted-foreground ml-1">
+																	(
+																	{formatDistanceToNow(new Date(nextRunAt), {
+																		addSuffix: true,
+																	})}
+																	)
+																</span>
+															</p>
+														) : (
+															<p className="text-xs text-muted-foreground">
+																{lastRunAt
+																	? "Calculating..."
+																	: "Will run after first sync"}
+															</p>
+														)}
+													</div>
+												</div>
+
+												<div className="text-xs bg-muted p-3 rounded-md">
+													<p>
+														This integration syncs automatically every day at
+														midnight.
+													</p>
+												</div>
+											</div>
+										</AccordionContent>
+									</AccordionItem>
+								)}
+
+								<AccordionItem value="settings" className="border-none">
+									<AccordionTrigger className="py-3 hover:no-underline">
+										<span className="text-sm font-medium">Settings</span>
+									</AccordionTrigger>
+									<AccordionContent className="text-muted-foreground text-sm pb-3">
+										{/* For Deel, always show the API key input */}
+										{id === "deel" ? (
+											<div className="space-y-4">
+												{/* API Key status with checkmark if set */}
+												<div className="flex items-center justify-between">
+													<div className="flex items-center gap-2">
+														<span className="font-medium text-foreground">
+															API Key
+														</span>
+														{installedSettings?.api_key && (
+															<div className="text-green-600">
+																<Check className="h-4 w-4" />
+															</div>
+														)}
+													</div>
+
+													{/* Show update button when key is set and not in edit mode */}
+													{installedSettings?.api_key && !isEditingApiKey ? (
+														<Button
+															variant="outline"
+															size="sm"
+															onClick={() => setIsEditingApiKey(true)}
+														>
+															Update
+														</Button>
+													) : null}
+												</div>
+
+												{/* Show input field either when:
+													1. No API key is set yet, or
+													2. User clicked the update button */}
+												{(!installedSettings?.api_key || isEditingApiKey) && (
+													<div className="space-y-4">
+														<div className="space-y-2">
+															<label
+																htmlFor={`${id}-api-key`}
+																className="text-sm font-medium leading-none"
+															>
+																{isEditingApiKey
+																	? "Update API Key"
+																	: "Enter API Key"}
+															</label>
+															<Input
+																id={`${id}-api-key`}
+																type="password"
+																placeholder="Enter your Deel API key"
+																value={apiKeyInput}
+																onChange={(e) => setApiKeyInput(e.target.value)}
+															/>
+															<p className="text-xs text-muted-foreground">
+																You can find your API key in your Deel account
+																settings.
+															</p>
+														</div>
+														<div className="flex gap-2">
+															{isEditingApiKey && (
+																<Button
+																	type="button"
+																	variant="outline"
+																	className="flex-1"
+																	onClick={() => setIsEditingApiKey(false)}
+																>
+																	Cancel
+																</Button>
+															)}
+															<Button
+																type="button"
+																className="flex-1"
+																onClick={handleConnect}
+																disabled={isSaving}
+															>
+																{isSaving ? (
+																	<>
+																		<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+																		Saving...
+																	</>
+																) : isEditingApiKey ? (
+																	"Update"
+																) : (
+																	"Save"
+																)}
+															</Button>
+														</div>
+													</div>
+												)}
+											</div>
+										) : Array.isArray(settings) && settings.length > 0 ? (
+											<IntegrationSettings
+												integrationId={id}
+												settings={settings as IntegrationSettingsItem[]}
+												installedSettings={installedSettings}
+											/>
+										) : (
+											<p className="text-sm text-muted-foreground">
+												No settings available
+											</p>
+										)}
+									</AccordionContent>
+								</AccordionItem>
+							</Accordion>
+
+							{/* Add extra space at the bottom to ensure content doesn't get cut off */}
+							<div className="h-20" />
+						</ScrollArea>
+					</div>
+
+					{/* Footer positioned at the bottom */}
+					<div className="p-6 mt-auto border-t border-border">
 						<p className="text-[10px] text-muted-foreground">
 							All integrations on the Comp AI store are open-source and
 							peer-reviewed.
