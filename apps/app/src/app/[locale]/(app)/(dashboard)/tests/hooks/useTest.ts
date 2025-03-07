@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { getTest } from "@/app/[locale]/(app)/(dashboard)/tests/[testId]/actions/get-test";
+import { getTest } from "@/app/[locale]/(app)/(dashboard)/tests/[testId]/actions/getTest";
 import type { AppError, Test } from "@/app/[locale]/(app)/(dashboard)/tests/types";
 
 async function fetchTest(testId: string): Promise<Test> {

@@ -112,11 +112,6 @@ export const refreshTestsAction = authActionClient
 
       // Store the integration results using model name that matches the database
       for (const result of results) {
-        // First verify the integration exists
-        const existingIntegration =
-          await db.organizationIntegrations.findUnique({
-            where: { id: integration.id },
-          });
 
         // Check if a result with the same AWS Security Hub finding ID already exists
         const existingResult = await db.organizationIntegrationResults.findFirst({
@@ -125,7 +120,7 @@ export const refreshTestsAction = authActionClient
               path: ['Id'],
               equals: result?.Id
             },
-            organizationIntegrationId: existingIntegration.id,
+            organizationIntegrationId: integration.integration_id,
           },
         });
 
@@ -148,7 +143,7 @@ export const refreshTestsAction = authActionClient
             status: result?.Compliance?.Status || "unknown",
             label: result?.Severity?.Label || "INFO",
             resultDetails: result || { error: "No result returned" },
-            organizationIntegrationId: existingIntegration.id,
+            organizationIntegrationId: integration.integration_id,
             organizationId: integration.organizationId,
             // assignedUserId is now optional, so we don't need to provide it
           },
