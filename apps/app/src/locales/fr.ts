@@ -835,6 +835,10 @@ export default {
       title: "Preuve",
       list: "Liste des preuves",
       overview: "Aperçu des preuves"
+    },
+    tests: {
+      overview: "Tests en nuage",
+      test_details: "Détails du test"
     }
   },
   editor: {

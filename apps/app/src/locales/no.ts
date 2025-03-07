@@ -835,6 +835,10 @@ export default {
       title: "Bevis",
       list: "Bevisliste",
       overview: "Bevisoversikt"
+    },
+    tests: {
+      overview: "Skytester",
+      test_details: "Testdetaljer"
     }
   },
   editor: {

@@ -183,6 +183,8 @@ files:
     sub_pages.people.employee_details: 62fa24399196c3b1bcb1cf2cdf771da4
     sub_pages.settings.members: 8196446d7293bfeb288d7c21e36a1886
     sub_pages.frameworks.overview: 04fb5df59766a9852e5dd2d0430ca27e
+    sub_pages.tests.overview: 107f3983ed2f362df6195c163001fe7b
+    sub_pages.tests.test_details: cb6255fb6a9fb2ec5de81a7eed81fa21
     auth.title: 4b33d501b99fef8f85f32b942fcd0b1f
     auth.description: 1fd4b045f6d46683c611e45b8de4bcf6
     auth.options: 4dab36ac83853282fc0d7bae20c19e90

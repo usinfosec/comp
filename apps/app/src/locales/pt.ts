@@ -835,6 +835,10 @@ export default {
       title: "Evidência",
       list: "Lista de Evidências",
       overview: "Visão Geral das Evidências"
+    },
+    tests: {
+      overview: "Testes em Nuvem",
+      test_details: "Detalhes do Teste"
     }
   },
   editor: {

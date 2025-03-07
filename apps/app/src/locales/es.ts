@@ -835,6 +835,10 @@ export default {
       title: "Evidencia",
       list: "Lista de Evidencia",
       overview: "Resumen de Evidencia"
+    },
+    tests: {
+      overview: "Pruebas en la Nube",
+      test_details: "Detalles de la Prueba"
     }
   },
   editor: {
