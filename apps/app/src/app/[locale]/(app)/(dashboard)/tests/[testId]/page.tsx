@@ -4,8 +4,10 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { TestDetails } from "./components/TestDetails";
+import { db } from "@bubba/db";
+import { unstable_cache } from "next/cache";
 
-export default async function EmployeeDetailsPage({
+export default async function TestDetailsPage({
   params,
 }: {
   params: Promise<{ locale: string; testId: string }>;
@@ -16,11 +18,12 @@ export default async function EmployeeDetailsPage({
   const session = await auth();
   const organizationId = session?.user.organizationId;
 
+  const users = await getUsers(organizationId);
   if (!organizationId) {
     redirect("/");
   }
 
-  return <TestDetails testId={testId} />;
+  return <TestDetails testId={testId} users={users} />;
 }
 
 export async function generateMetadata({
@@ -34,6 +37,18 @@ export async function generateMetadata({
   const t = await getI18n();
 
   return {
-    title: t("sub_pages.people.employee_details"),
+    title: t("sub_pages.tests.test_details"),
   };
 }
+
+
+const getUsers = unstable_cache(
+	async (organizationId: string) => {
+		const users = await db.user.findMany({
+			where: { organizationId: organizationId },
+		});
+
+		return users;
+	},
+	["users-cache"],
+);
