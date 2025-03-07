@@ -8,6 +8,7 @@ import {
 } from "./types";
 
 import type { Test } from "../../types";
+import { OrganizationIntegration } from "@/components/integrations/integrations";
 
 export async function getTest(input: { testId: string }): Promise<ActionResponse<Test>> {
   const { testId } = input;
@@ -20,15 +21,17 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
   }
 
   try {
-    // Using raw SQL query to get the result since the Prisma client property name is causing issues
-    const results = await db.$queryRaw<any[]>`
-      SELECT r.*, i.id as "integrationId", i.name as "integrationName", 
-             i.integration_id, i.settings, i.user_settings
-      FROM "Organization_integration_results" r
-      JOIN "OrganizationIntegrations" i ON r."organizationIntegrationId" = i.id
-      WHERE r.id = ${testId} AND r."organizationId" = ${organizationId}
-      LIMIT 1
-    `;
+
+    const results = await db.organizationIntegrationResults.findUnique({
+      where: {
+        id: testId,
+        organizationId: organizationId,
+      },
+      include: {
+        organizationIntegration: true,
+        IntegrationResultsComments: true,
+      },
+    });
 
     console.log("results", results);
 
@@ -39,16 +42,16 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       };
     }
 
-    const integrationResult = results[0];
+    const integrationResult = results;
 
     // Format the result to match the expected CloudTestResult structure
     const result: Test = {
       id: integrationResult.id,
-      title: integrationResult.title || integrationResult.integrationName,
+      title: integrationResult.title,
       description: typeof integrationResult.resultDetails === 'object' && integrationResult.resultDetails 
         ? (integrationResult.resultDetails as any).description || "" 
         : "",
-      provider: integrationResult.integration_id,
+      provider: integrationResult.organizationIntegration.name,
       status: integrationResult.status,
       resultDetails: integrationResult.resultDetails,
       label: integrationResult.label,
@@ -56,6 +59,7 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       organizationId: organizationId,
       completedAt: integrationResult.completedAt,
       organizationIntegrationId: integrationResult.organizationIntegrationId,
+      TestComments: integrationResult.IntegrationResultsComments,
     };
 
     return {

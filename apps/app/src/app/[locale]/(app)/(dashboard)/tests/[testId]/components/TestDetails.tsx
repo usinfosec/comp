@@ -136,7 +136,7 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
         </CardHeader>
         <CardContent>
           <p>{cloudTest.resultDetails?.Description}</p>
-          <div className="flex items-center gap-2 mt-3">
+          <div className="flex items-center gap-2 mt-3 mb-3">
             <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
             <h3 className="text-xs font-medium text-muted-foreground">
               ASSIGNEE
@@ -232,7 +232,7 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
           </Card>
         </TabsContent>
       </Tabs>
-      {/* <TestComment test={cloudTest} users={users} /> */}
+      <TestComment test={cloudTest} users={users} />
     </div>
   );
 }
