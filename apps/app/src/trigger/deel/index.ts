@@ -5,7 +5,6 @@ import { z } from "zod";
 import { Departments } from "@bubba/db";
 import { decrypt } from "@/lib/encryption";
 
-// Define the input schema for the Deel task
 const deelTaskSchema = z.object({
   integration: z.object({
     id: z.string(),
@@ -20,7 +19,6 @@ const deelTaskSchema = z.object({
   }),
 });
 
-// Define the schema for Deel employee data
 interface DeelEmployee {
   id: string;
   created_at: string;
