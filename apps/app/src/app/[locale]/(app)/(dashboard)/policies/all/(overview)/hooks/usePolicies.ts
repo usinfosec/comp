@@ -29,27 +29,26 @@ async function fetchPolicies(input: PoliciesInput): Promise<PoliciesResponse> {
   return result.data?.data as PoliciesResponse;
 }
 
-export function usePolicies() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
-  const status = searchParams.get("status") || undefined;
-  const ownerId = searchParams.get("ownerId") || undefined;
-  const sort = searchParams.get("sort") || undefined;
-  const page = Number(searchParams.get("page")) || 1;
-  const per_page = Number(searchParams.get("per_page")) || 10;
-
+export function usePolicies({
+  search = "",
+  status = "",
+  ownerId = "",
+  sort = "",
+  page = 1,
+  pageSize = 10,
+}: PoliciesInput) {
   const {
     data,
     error,
     isLoading,
     mutate: revalidatePolicies,
   } = useSWR<PoliciesResponse, AppError>(
-    ["policies", { search, status, page, per_page, ownerId, sort }],
-    () => fetchPolicies({ search, status, page, per_page, ownerId, sort }),
+    ["policies", { search, status, page, pageSize, ownerId, sort }],
+    () => fetchPolicies({ search, status, page, pageSize, ownerId, sort }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    },
+    }
   );
 
   return {
