@@ -8,9 +8,9 @@ import type {
 } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Progress } from "@bubba/ui/progress";
-import { FileStack } from "lucide-react";
+import { FileStack, FileText, CheckCircle, Cloud } from "lucide-react";
 import Link from "next/link";
+import { useComplianceScores } from "@/hooks/use-compliance-scores";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
@@ -21,14 +21,84 @@ interface Props {
 
 export function FrameworkProgress({ frameworks }: Props) {
 	const t = useI18n();
+	const {
+		policiesCompliance,
+		evidenceTasksCompliance,
+		cloudTestsCompliance,
+		overallCompliance,
+		isLoading,
+	} = useComplianceScores({ frameworks });
+
+	const CircleProgress = ({
+		percentage,
+		label,
+		icon,
+		href,
+	}: {
+		percentage: number;
+		label: string;
+		icon: React.ReactNode;
+		href: string;
+	}) => (
+		<Link
+			href={href}
+			className="flex flex-col items-center hover:opacity-80 transition-opacity"
+		>
+			<div className="relative h-24 w-24">
+				<svg className="h-24 w-24" viewBox="0 0 100 100">
+					{/* Background circle */}
+					<circle
+						className="stroke-muted"
+						strokeWidth="8"
+						fill="transparent"
+						r="46"
+						cx="50"
+						cy="50"
+					/>
+					{/* Progress circle */}
+					<circle
+						className="stroke-primary transition-all duration-300 ease-in-out"
+						strokeWidth="8"
+						strokeLinecap="round"
+						fill="transparent"
+						r="46"
+						cx="50"
+						cy="50"
+						strokeDasharray={`${percentage * 2.89}, 1000`}
+						transform="rotate(-90 50 50)"
+					/>
+				</svg>
+				<div className="absolute inset-0 flex flex-col items-center justify-center">
+					<div className="text-xl font-semibold">{percentage}%</div>
+				</div>
+			</div>
+			<div className="mt-2 flex items-center gap-1.5">
+				{icon}
+				<span className="text-sm font-medium">{label}</span>
+			</div>
+		</Link>
+	);
 
 	return (
 		<Card>
-			<CardHeader>
+			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>{t("frameworks.overview.progress.title")}</CardTitle>
+				<Link
+					href="/overview/frameworks"
+					className="text-sm text-primary hover:underline"
+				>
+					View All
+				</Link>
 			</CardHeader>
 			<CardContent>
-				{frameworks.length === 0 ? (
+				{isLoading ? (
+					<div className="flex flex-col items-center justify-center py-8 text-center">
+						<div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+						<p className="mt-4 text-sm text-muted-foreground">
+							Loading compliance data...
+						</p>
+					</div>
+				) : frameworks.length === 0 ? (
 					<div className="flex flex-col items-center justify-center py-8 text-center">
 						<FileStack className="h-12 w-12 text-muted-foreground/50" />
 						<h3 className="mt-4 text-lg font-semibold">
@@ -44,32 +114,63 @@ export function FrameworkProgress({ frameworks }: Props) {
 						</Button>
 					</div>
 				) : (
-					<div className="space-y-4">
-						{frameworks.map((framework) => {
-							const total = framework.organizationControl.length;
-							const completed = framework.organizationControl.filter(
-								(control) => control.status === "compliant",
-							).length;
-							const progress = total ? (completed / total) * 100 : 0;
-
-							return (
-								<Link
-									key={framework.id}
-									href={`/overview/frameworks/${framework.framework.id}`}
-									className="block space-y-3 rounded-lg p-4 hover:bg-muted/60 transition-colors duration-200"
-								>
-									<div className="flex items-center justify-between text-sm">
-										<span className="font-medium">
-											{framework.framework.name}
-										</span>
-										<span className="font-medium text-muted-foreground">
-											{Math.round(progress)}%
-										</span>
+					<div className="flex flex-col space-y-8">
+						{/* Main compliance circle */}
+						<div className="flex justify-center">
+							<div className="relative h-32 w-32">
+								<svg className="h-32 w-32" viewBox="0 0 100 100">
+									{/* Background circle */}
+									<circle
+										className="stroke-muted"
+										strokeWidth="8"
+										fill="transparent"
+										r="46"
+										cx="50"
+										cy="50"
+									/>
+									{/* Progress circle */}
+									<circle
+										className="stroke-primary transition-all duration-300 ease-in-out"
+										strokeWidth="8"
+										strokeLinecap="round"
+										fill="transparent"
+										r="46"
+										cx="50"
+										cy="50"
+										strokeDasharray={`${overallCompliance * 2.89}, 1000`}
+										transform="rotate(-90 50 50)"
+									/>
+								</svg>
+								<div className="absolute inset-0 flex flex-col items-center justify-center">
+									<div className="text-2xl font-semibold">
+										{overallCompliance}%
 									</div>
-									<Progress value={progress} />
-								</Link>
-							);
-						})}
+									<div className="text-xs text-muted-foreground">Compliant</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Three smaller circles */}
+						<div className="grid grid-cols-3 gap-4">
+							<CircleProgress
+								percentage={policiesCompliance}
+								label="Policies"
+								icon={<FileText className="h-4 w-4" />}
+								href="/policies/all"
+							/>
+							<CircleProgress
+								percentage={evidenceTasksCompliance}
+								label="Evidence Tasks"
+								icon={<CheckCircle className="h-4 w-4" />}
+								href="/evidence/list"
+							/>
+							<CircleProgress
+								percentage={cloudTestsCompliance}
+								label="Cloud Tests"
+								icon={<Cloud className="h-4 w-4" />}
+								href="/tests"
+							/>
+						</div>
 					</div>
 				)}
 			</CardContent>
