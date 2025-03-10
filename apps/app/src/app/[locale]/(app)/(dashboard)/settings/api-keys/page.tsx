@@ -21,7 +21,7 @@ export default async function ApiKeysPage({
 	}
 
 	return (
-		<div className="container px-4 sm:px-6 py-6 mx-auto max-w-7xl">
+		<div className="mx-auto max-w-7xl">
 			<ApiKeysTable />
 		</div>
 	);
