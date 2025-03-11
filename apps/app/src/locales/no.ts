@@ -766,7 +766,8 @@ export default {
       name: "Ansattnavn",
       email: "E-post",
       department: "Avdeling",
-      externalId: "Ekstern ID"
+      externalId: "Ekstern ID",
+      status: "Status"
     },
     empty: {
       no_employees: {

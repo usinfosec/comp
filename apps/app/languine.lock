@@ -405,6 +405,7 @@ files:
     people.table.name: 717231b5b2cf0543d46d6555f25c56b4
     people.table.email: ce8ae9da5b7cd6c3df2929543a9af92d
     people.table.department: 1d17cb9923b99f823da9f5a16dc460e5
+    people.table.status: ec53a8c4f07baed5d8825072c89799be
     people.table.externalId: 01ddb49044c161b11fdb0c41adbeb3b3
     people.empty.no_employees.title: 9047cc33a16248133c3fcc8884523588
     people.empty.no_employees.description: 3fdb36a3d56c06043da562aaa1045825
