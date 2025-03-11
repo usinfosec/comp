@@ -4,6 +4,10 @@ import axios from "axios";
 import { z } from "zod";
 import { Departments } from "@bubba/db";
 import { decrypt } from "@/lib/encryption";
+import {
+  findEmployeeByEmail,
+  completeEmployeeCreation,
+} from "@/lib/db/employee";
 
 const deelTaskSchema = z.object({
   integration: z.object({
@@ -187,26 +191,26 @@ export const syncDeelEmployees = schemaTask({
       }
 
       // Check if we've run this integration within the last 24 hours
-      // const lastRun = await db.integrationLastRun.findUnique({
-      //   where: {
-      //     integrationId_organizationId: {
-      //       integrationId: integration.id,
-      //       organizationId: integration.organization.id,
-      //     },
-      //   },
-      // });
+      const lastRun = await db.integrationLastRun.findUnique({
+        where: {
+          integrationId_organizationId: {
+            integrationId: integration.id,
+            organizationId: integration.organization.id,
+          },
+        },
+      });
 
       const now = new Date();
-      // if (
-      //   lastRun &&
-      //   lastRun.lastRunAt > new Date(now.getTime() - 24 * 60 * 60 * 1000)
-      // ) {
-      //   logger.info("Skipping Deel sync as it was run less than 24 hours ago");
-      //   return {
-      //     success: true,
-      //     message: "Skipped - run less than 24 hours ago",
-      //   };
-      // }
+      if (
+        lastRun &&
+        lastRun.lastRunAt > new Date(now.getTime() - 24 * 60 * 60 * 1000)
+      ) {
+        logger.info("Skipping Deel sync as it was run less than 24 hours ago");
+        return {
+          success: true,
+          message: "Skipped - run less than 24 hours ago",
+        };
+      }
 
       // Extract access token from user settings
       let accessToken: string | undefined;
@@ -267,8 +271,12 @@ export const syncDeelEmployees = schemaTask({
         (emp) =>
           emp.hiring_status === "active" || emp.new_hiring_status === "active"
       );
+      const inactiveEmployees = deelEmployees.filter(
+        (emp) =>
+          emp.hiring_status !== "active" && emp.new_hiring_status !== "active"
+      );
       logger.info(
-        `Found ${activeEmployees.length} active employees out of ${deelEmployees.length} total`
+        `Found ${activeEmployees.length} active employees and ${inactiveEmployees.length} inactive employees out of ${deelEmployees.length} total`
       );
 
       // Process each employee
@@ -276,19 +284,13 @@ export const syncDeelEmployees = schemaTask({
       logger.info("Starting to process employees...");
 
       for (const deelEmployee of deelEmployees) {
-        // Skip inactive employees - check both hiring_status and new_hiring_status
-        if (
-          deelEmployee.hiring_status !== "active" &&
-          deelEmployee.new_hiring_status !== "active"
-        ) {
-          logger.info(
-            `Skipping inactive employee: ${deelEmployee.full_name} (ID: ${deelEmployee.id})`
-          );
-          continue;
-        }
+        // Process all employees, both active and inactive
+        const isActive =
+          deelEmployee.hiring_status === "active" ||
+          deelEmployee.new_hiring_status === "active";
 
         logger.info(
-          `Processing employee: ${deelEmployee.full_name} (ID: ${deelEmployee.id})`
+          `Processing employee: ${deelEmployee.full_name} (ID: ${deelEmployee.id}, Status: ${isActive ? "active" : "inactive"})`
         );
 
         const name =
@@ -333,15 +335,11 @@ export const syncDeelEmployees = schemaTask({
 
         logger.info(`Looking for existing employee with email: ${email}`);
 
-        // Check if employee already exists
-        const existingEmployee = await db.employee.findUnique({
-          where: {
-            email_organizationId: {
-              email,
-              organizationId: integration.organization.id,
-            },
-          },
-        });
+        // Check if employee already exists using the reusable function
+        const existingEmployee = await findEmployeeByEmail(
+          email,
+          integration.organization.id
+        );
 
         if (existingEmployee) {
           logger.info(
@@ -356,33 +354,58 @@ export const syncDeelEmployees = schemaTask({
               name,
               department,
               externalEmployeeId: deelEmployee.id,
-              // Keep isActive true as we're filtering inactive employees already
+              isActive, // Set isActive based on Deel status
             },
           });
-          logger.info(`Successfully updated employee: ${name}`);
+          logger.info(
+            `Successfully updated employee: ${name} with isActive: ${isActive}`
+          );
           processedEmployees.push({
             id: existingEmployee.id,
             action: "updated",
+            isActive,
           });
         } else {
           logger.info(
             `No existing employee found for ${email}, creating new employee...`
           );
-          // Create new employee
-          const newEmployee = await db.employee.create({
-            data: {
+          try {
+            // Create new employee using the reusable function
+            const newEmployee = await completeEmployeeCreation({
               name,
               email,
               department,
-              isActive: true,
-              externalEmployeeId: deelEmployee.id,
               organizationId: integration.organization.id,
-            },
-          });
-          logger.info(
-            `Successfully created new employee: ${name} with ID: ${newEmployee.id}`
-          );
-          processedEmployees.push({ id: newEmployee.id, action: "created" });
+              externalEmployeeId: deelEmployee.id,
+            });
+
+            // If employee is inactive, update the isActive status after creation
+            if (!isActive) {
+              await db.employee.update({
+                where: {
+                  id: newEmployee.id,
+                },
+                data: {
+                  isActive: false,
+                },
+              });
+              logger.info("Updated new employee to inactive status");
+            }
+
+            logger.info(
+              `Successfully created new employee: ${name} with ID: ${newEmployee.id}, isActive: ${isActive}`
+            );
+            processedEmployees.push({
+              id: newEmployee.id,
+              action: "created",
+              isActive,
+            });
+          } catch (error) {
+            logger.error(
+              `Error creating employee: ${error instanceof Error ? error.message : String(error)}`
+            );
+            // Skip to the next employee if there's an error
+          }
         }
       }
 

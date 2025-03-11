@@ -890,10 +890,11 @@ export default {
       clear: "Fjern filtre"
     },
     table: {
-      name: "Navn",
+      name: "Ansattnavn",
       email: "E-post",
       department: "Avdeling",
-      externalId: "Ekstern ID"
+      externalId: "Ekstern ID",
+      status: "Status"
     },
     empty: {
       no_employees: {

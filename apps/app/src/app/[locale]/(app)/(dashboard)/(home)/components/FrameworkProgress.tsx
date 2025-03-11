@@ -1,5 +1,6 @@
 "use client";
 
+import { useComplianceScores } from "@/hooks/use-compliance-scores";
 import { useI18n } from "@/locales/client";
 import type {
 	Framework,
@@ -8,9 +9,8 @@ import type {
 } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { FileStack, FileText, CheckCircle, Cloud } from "lucide-react";
+import { FileStack } from "lucide-react";
 import Link from "next/link";
-import { useComplianceScores } from "@/hooks/use-compliance-scores";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
@@ -32,12 +32,10 @@ export function FrameworkProgress({ frameworks }: Props) {
 	const CircleProgress = ({
 		percentage,
 		label,
-		icon,
 		href,
 	}: {
 		percentage: number;
 		label: string;
-		icon: React.ReactNode;
 		href: string;
 	}) => (
 		<Link
@@ -73,7 +71,6 @@ export function FrameworkProgress({ frameworks }: Props) {
 				</div>
 			</div>
 			<div className="mt-2 flex items-center gap-1.5">
-				{icon}
 				<span className="text-sm font-medium">{label}</span>
 			</div>
 		</Link>
@@ -155,19 +152,16 @@ export function FrameworkProgress({ frameworks }: Props) {
 							<CircleProgress
 								percentage={policiesCompliance}
 								label="Policies"
-								icon={<FileText className="h-4 w-4" />}
 								href="/policies/all"
 							/>
 							<CircleProgress
 								percentage={evidenceTasksCompliance}
 								label="Evidence Tasks"
-								icon={<CheckCircle className="h-4 w-4" />}
 								href="/evidence/list"
 							/>
 							<CircleProgress
 								percentage={cloudTestsCompliance}
 								label="Cloud Tests"
-								icon={<Cloud className="h-4 w-4" />}
 								href="/tests"
 							/>
 						</div>
