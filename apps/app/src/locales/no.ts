@@ -1067,7 +1067,9 @@ export default {
     actions: {
       create: "Legg til skytest",
       clear: "Fjern filtre",
-      refresh: "Oppdater"
+      refresh: "Oppdater",
+      refresh_success: "Testene ble oppdatert vellykket",
+      refresh_error: "Kunne ikke oppdatere testene"
     },
     empty: {
       no_tests: {

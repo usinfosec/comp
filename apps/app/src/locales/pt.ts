@@ -1038,7 +1038,9 @@ export default {
     actions: {
       create: "Adicionar Teste em Nuvem",
       clear: "Limpar filtros",
-      refresh: "Atualizar"
+      refresh: "Atualizar",
+      refresh_success: "Testes atualizados com sucesso",
+      refresh_error: "Falha ao atualizar os testes"
     },
     empty: {
       no_tests: {

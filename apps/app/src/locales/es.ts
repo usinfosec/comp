@@ -1067,7 +1067,9 @@ export default {
     actions: {
       create: "Agregar Prueba en la Nube",
       clear: "Limpiar filtros",
-      refresh: "Actualizar"
+      refresh: "Actualizar",
+      refresh_success: "Pruebas actualizadas con éxito",
+      refresh_error: "Error al actualizar las pruebas"
     },
     empty: {
       no_tests: {

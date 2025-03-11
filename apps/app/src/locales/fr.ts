@@ -1067,7 +1067,9 @@ export default {
     actions: {
       create: "Ajouter un test Cloud",
       clear: "Effacer les filtres",
-      refresh: "Rafraîchir"
+      refresh: "Rafraîchir",
+      refresh_success: "Tests actualisés avec succès",
+      refresh_error: "Échec de l'actualisation des tests"
     },
     empty: {
       no_tests: {
