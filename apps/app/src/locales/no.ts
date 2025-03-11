@@ -763,7 +763,7 @@ export default {
       clear: "Fjern filtre"
     },
     table: {
-      name: "Navn",
+      name: "Ansattnavn",
       email: "E-post",
       department: "Avdeling",
       externalId: "Ekstern ID"
