@@ -20,41 +20,43 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
   }
 
   try {
-    // Using raw SQL query to get the result since the Prisma client property name is causing issues
-    const results = await db.$queryRaw<any[]>`
-      SELECT r.*, i.id as "integrationId", i.name as "integrationName", 
-             i.integration_id, i.settings, i.user_settings
-      FROM "Organization_integration_results" r
-      JOIN "OrganizationIntegrations" i ON r."organizationIntegrationId" = i.id
-      WHERE r.id = ${testId} AND r."organizationId" = ${organizationId}
-      LIMIT 1
-    `;
 
-    console.log("results", results);
+    const results = await db.organizationIntegrationResults.findUnique({
+      where: {
+        id: testId,
+        organizationId: organizationId,
+      },
+      include: {
+        organizationIntegration: true,
+        IntegrationResultsComments: true,
+      },
+    });
 
-    if (!results || results.length === 0) {
+    if (!results) {
       return {
         success: false,
         error: appErrors.NOT_FOUND,
       };
     }
 
-    const integrationResult = results[0];
+    const integrationResult = results;
 
     // Format the result to match the expected CloudTestResult structure
     const result: Test = {
       id: integrationResult.id,
-      title: integrationResult.title || integrationResult.integrationName,
+      title: integrationResult.title || "",
       description: typeof integrationResult.resultDetails === 'object' && integrationResult.resultDetails 
         ? (integrationResult.resultDetails as any).description || "" 
         : "",
-      provider: integrationResult.integration_id,
+      provider: integrationResult.organizationIntegration.name,
       status: integrationResult.status,
       resultDetails: integrationResult.resultDetails,
       label: integrationResult.label,
-      assignedUserId: integrationResult.assignedUserId,
+      assignedUserId: integrationResult.assignedUserId || "",
       organizationId: organizationId,
-      completedAt: integrationResult.completedAt,
+      completedAt: integrationResult.completedAt || new Date(),
+      organizationIntegrationId: integrationResult.organizationIntegrationId,
+      TestComments: integrationResult.IntegrationResultsComments,
     };
 
     return {

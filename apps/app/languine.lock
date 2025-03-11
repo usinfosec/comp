@@ -183,6 +183,8 @@ files:
     sub_pages.people.employee_details: 62fa24399196c3b1bcb1cf2cdf771da4
     sub_pages.settings.members: 8196446d7293bfeb288d7c21e36a1886
     sub_pages.frameworks.overview: 04fb5df59766a9852e5dd2d0430ca27e
+    sub_pages.tests.overview: 107f3983ed2f362df6195c163001fe7b
+    sub_pages.tests.test_details: cb6255fb6a9fb2ec5de81a7eed81fa21
     auth.title: 4b33d501b99fef8f85f32b942fcd0b1f
     auth.description: 1fd4b045f6d46683c611e45b8de4bcf6
     auth.options: 4dab36ac83853282fc0d7bae20c19e90
@@ -568,11 +570,23 @@ files:
     settings.team.member_actions.toast.update_role_success: 1684df20410d7616d2fb777bfddebad4
     settings.team.member_actions.toast.update_role_error: 028ae3137e2cb73735b4365a5e2c5ffc
     settings.team.member_actions.toast.update_role_unexpected: 92b723c3dca6aaafd5de145aab7dd9d2
+    tests.dashboard.overview: 3b878279a04dc47d60932cb294d96259
+    tests.dashboard.all: 4af914ce814e18174e3b7b38f8bdf9e9
+    tests.dashboard.tests_by_assignee: 7548b0d1d9be13db03c63788b36637e8
+    tests.dashboard.passed: a0d0628f6b4e4d78d2ffef4d4d1c4b15
+    tests.dashboard.failed: d7c8c85bf79bbe1b7188497c32c3b0ca
+    tests.dashboard.severity_distribution: ae8a57ea08a489cace7c1d66e826e112
+    tests.severity.low: 28d0edd045e05cf5af64e35ae0c4c6ef
+    tests.severity.medium: 87f8a6ab85c9ced3702b4ea641ad4bb5
+    tests.severity.high: 655d20c1ca69519ca647684edbb2db35
+    tests.severity.critical: 278d01e5af56273bae1bb99a98b370cd
     tests.name: 107f3983ed2f362df6195c163001fe7b
     tests.title: 107f3983ed2f362df6195c163001fe7b
     tests.actions.create: 348a2d59fd6abf9c9ba4e1ce664f6fc5
     tests.actions.clear: 0b275442d6556cff30b75f37f1918899
     tests.actions.refresh: 63a6a88c066880c5ac42394a22803ca6
+    tests.actions.refresh_success: 11281eaf86ba5078cf03963120b4eab5
+    tests.actions.refresh_error: 2b2cfe41efbe7013ec1c7ee808f8a14d
     tests.empty.no_tests.title: 32aca943b703843c5449d5ebb8f82845
     tests.empty.no_tests.description: b96a1b141b00cb3def88e4b16db515aa
     tests.empty.no_results.title: e576c23d915755d83e2d1f47bd9f6c22

@@ -12,6 +12,14 @@ export default {
   images: [image],
   settings: [
     {
+      id: "region",
+      label: "AWS region",
+      description: "The region of your AWS account",
+      type: "text",
+      required: true,
+      value: "",
+    },
+    {
       id: "access_key_id",
       label: "AWS access key ID",
       description: "The API access key ID for your AWS account",

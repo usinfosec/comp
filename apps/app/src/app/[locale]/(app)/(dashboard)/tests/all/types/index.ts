@@ -10,7 +10,9 @@ export const testSchema = z.object({
   label: z.string().nullable(),
   completedAt: z.date(),
   organizationId: z.string(),
-  assignedUserId: z.string()
+  assignedUserId: z.string(),
+  organizationIntegrationId: z.string(),
+  TestComments: z.array(z.any())
 });
 
 export const testsInputSchema = z.object({

@@ -267,6 +267,10 @@ export default {
 		frameworks: {
 			overview: "Frameworks",
 		},
+		tests: {
+			overview: "Cloud Tests",
+			test_details: "Test Details",
+		},
 	},
 	auth: {
 		title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
@@ -872,12 +876,28 @@ export default {
 		},
 	},
 	tests: {
+		dashboard: {
+			overview: "Overview",
+			all: "All Tests",
+			tests_by_assignee: "Tests by Assignee",
+			passed: "Passed",
+			failed: "Failed",
+			severity_distribution: "Test Severity Distribution",
+		},
+		severity: {
+			low: "Low",
+			medium: "Medium",
+			high: "High",
+			critical: "Critical",
+		},
 		name: "Cloud Tests",
 		title: "Cloud Tests",
 		actions: {
 			create: "Add Cloud Test",
 			clear: "Clear filters",
 			refresh: "Refresh",
+			refresh_success: "Tests refreshed successfully",
+			refresh_error: "Failed to refresh tests",
 		},
 		empty: {
 			no_tests: {

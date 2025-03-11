@@ -963,6 +963,10 @@ export default {
       title: "Bevis",
       list: "Bevisliste",
       overview: "Bevisoversikt"
+    },
+    tests: {
+      overview: "Skytester",
+      test_details: "Testdetaljer"
     }
   },
   editor: {
@@ -1063,7 +1067,9 @@ export default {
     actions: {
       create: "Legg til skytest",
       clear: "Fjern filtre",
-      refresh: "Oppdater"
+      refresh: "Oppdater",
+      refresh_success: "Testene ble oppdatert vellykket",
+      refresh_error: "Kunne ikke oppdatere testene"
     },
     empty: {
       no_tests: {
@@ -1117,6 +1123,20 @@ export default {
       assignedUserEmpty: "Ikke tildelt",
       no_results: "Ingen resultater funnet",
       status: "Status"
+    },
+    dashboard: {
+      overview: "Oversikt",
+      all: "Alle tester",
+      tests_by_assignee: "Tester av tildelt",
+      passed: "Bestått",
+      failed: "Feilet",
+      severity_distribution: "Test alvorlighetsfordeling"
+    },
+    severity: {
+      low: "Lav",
+      medium: "Moderat",
+      high: "Høy",
+      critical: "Kritisk"
     }
   },
   vendors: {

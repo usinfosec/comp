@@ -171,7 +171,7 @@ export function DataTable({
                 className="cursor-pointer hover:bg-muted/50"
                 onClick={() => {
                   const test = row.original;
-                  router.push(`/tests/${test.id}`);
+                  router.push(`/tests/all/${test.id}`);
                 }}
               >
                 {row.getVisibleCells().map((cell) => (

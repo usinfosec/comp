@@ -4,19 +4,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
 import { useTest } from "../../hooks/useTest";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle, CheckCircle2, Clock, Info, XCircle, User } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, Info, XCircle, User as UserIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Label } from "@bubba/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { Badge } from "@bubba/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { AssigneeSection } from "./AssigneeSection";
+import { TestComment } from "./TestComments";
+import { unstable_cache } from "next/cache";
+import { db } from "@bubba/db";
+import type { User } from "@bubba/db";
 
 interface CloudTestDetailsProps {
   testId: string;
+  users: User[];
 }
 
-export function TestDetails({ testId }: CloudTestDetailsProps) {
+const getUsers = unstable_cache(
+	async (organizationId: string) => {
+		const users = await db.user.findMany({
+			where: { organizationId: organizationId },
+		});
+
+		return users;
+	},
+	["users-cache"],
+);
+
+export function TestDetails({ testId, users }: CloudTestDetailsProps) {
   const t = useI18n();
   const { cloudTest, isLoading, error, mutate } = useTest(testId);
 
@@ -120,8 +136,8 @@ export function TestDetails({ testId }: CloudTestDetailsProps) {
         </CardHeader>
         <CardContent>
           <p>{cloudTest.resultDetails?.Description}</p>
-          <div className="flex items-center gap-2 mt-3">
-            <User className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="flex items-center gap-2 mt-3 mb-3">
+            <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
             <h3 className="text-xs font-medium text-muted-foreground">
               ASSIGNEE
             </h3>
@@ -168,7 +184,7 @@ export function TestDetails({ testId }: CloudTestDetailsProps) {
                   </TableHeader>
                   <TableBody>
                     {cloudTest.resultDetails?.Resources.map((resource: any) => (
-                      <TableRow key={resource.id}>
+                      <TableRow key="{resource.id}">
                         <TableCell>
                           <div className="flex items-center gap-2">
                             {resource.Id}
@@ -216,6 +232,7 @@ export function TestDetails({ testId }: CloudTestDetailsProps) {
           </Card>
         </TabsContent>
       </Tabs>
+      <TestComment test={cloudTest} users={users} />
     </div>
   );
 }

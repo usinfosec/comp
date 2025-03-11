@@ -963,6 +963,10 @@ export default {
       title: "Evidencia",
       list: "Lista de Evidencia",
       overview: "Resumen de Evidencia"
+    },
+    tests: {
+      overview: "Pruebas en la Nube",
+      test_details: "Detalles de la Prueba"
     }
   },
   editor: {
@@ -1063,7 +1067,9 @@ export default {
     actions: {
       create: "Agregar Prueba en la Nube",
       clear: "Limpiar filtros",
-      refresh: "Actualizar"
+      refresh: "Actualizar",
+      refresh_success: "Pruebas actualizadas con éxito",
+      refresh_error: "Error al actualizar las pruebas"
     },
     empty: {
       no_tests: {
@@ -1117,6 +1123,20 @@ export default {
       assignedUserEmpty: "No Asignado",
       no_results: "No se encontraron resultados",
       status: "Estado"
+    },
+    dashboard: {
+      overview: "Resumen",
+      all: "Todas las pruebas",
+      tests_by_assignee: "Pruebas por Asignado",
+      passed: "Aprobado",
+      failed: "Fallido",
+      severity_distribution: "Distribución de la Severidad de las Pruebas"
+    },
+    severity: {
+      low: "Bajo",
+      medium: "Medio",
+      high: "Alto",
+      critical: "Crítico"
     }
   },
   vendors: {

@@ -963,6 +963,10 @@ export default {
       title: "Preuve",
       list: "Liste des preuves",
       overview: "Aperçu des preuves"
+    },
+    tests: {
+      overview: "Tests en nuage",
+      test_details: "Détails du test"
     }
   },
   editor: {
@@ -1063,7 +1067,9 @@ export default {
     actions: {
       create: "Ajouter un test Cloud",
       clear: "Effacer les filtres",
-      refresh: "Rafraîchir"
+      refresh: "Rafraîchir",
+      refresh_success: "Tests actualisés avec succès",
+      refresh_error: "Échec de l'actualisation des tests"
     },
     empty: {
       no_tests: {
@@ -1117,6 +1123,20 @@ export default {
       assignedUserEmpty: "Non assigné",
       no_results: "Aucun résultat trouvé",
       status: "Statut"
+    },
+    dashboard: {
+      overview: "Aperçu",
+      all: "Tous les tests",
+      tests_by_assignee: "Tests par le responsable",
+      passed: "Réussi",
+      failed: "Échoué",
+      severity_distribution: "Distribution de la gravité des tests"
+    },
+    severity: {
+      low: "Faible",
+      medium: "Moyen",
+      high: "Élevé",
+      critical: "Critique"
     }
   },
   vendors: {

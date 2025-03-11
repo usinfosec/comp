@@ -963,6 +963,10 @@ export default {
       title: "Evidência",
       list: "Lista de Evidências",
       overview: "Visão Geral das Evidências"
+    },
+    tests: {
+      overview: "Testes em Nuvem",
+      test_details: "Detalhes do Teste"
     }
   },
   editor: {
@@ -1034,7 +1038,9 @@ export default {
     actions: {
       create: "Adicionar Teste em Nuvem",
       clear: "Limpar filtros",
-      refresh: "Atualizar"
+      refresh: "Atualizar",
+      refresh_success: "Testes atualizados com sucesso",
+      refresh_error: "Falha ao atualizar os testes"
     },
     empty: {
       no_tests: {
@@ -1088,6 +1094,20 @@ export default {
       assignedUserEmpty: "Não Atribuído",
       no_results: "Nenhum resultado encontrado",
       status: "Status"
+    },
+    dashboard: {
+      overview: "Visão Geral",
+      all: "Todos os Testes",
+      tests_by_assignee: "Testes por Atribuidor",
+      passed: "Aprovado",
+      failed: "Reprovado",
+      severity_distribution: "Distribuição da Severidade do Teste"
+    },
+    severity: {
+      low: "Baixo",
+      medium: "Médio",
+      high: "Alto",
+      critical: "Crítico"
     }
   },
   vendors: {

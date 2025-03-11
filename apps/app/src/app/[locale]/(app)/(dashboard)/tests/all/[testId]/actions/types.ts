@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+export const createTestCommentSchema = z.object({
+  testId: z.string().min(1, {
+    message: "Test ID is required",
+  }),
+  content: z
+    .string()
+    .min(1, {
+      message: "Comment content is required",
+    })
+    .max(1000, {
+      message: "Comment content should be at most 1000 characters",
+    }),
+});
+
 // Define the app errors
 export const appErrors = {
   NOT_FOUND: { message: "Cloud test not found" },

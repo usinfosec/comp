@@ -3,7 +3,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 
-import { getTests } from "../actions/get-tests";
+import { getTests } from "../actions/getTests";
 import type { TestsResponse, TestsInput, AppError } from "../types";
 
 /** Fetcher function for tests */

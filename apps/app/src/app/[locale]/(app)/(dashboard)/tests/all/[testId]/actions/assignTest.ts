@@ -23,8 +23,6 @@ export const assignTest = authActionClient
     const { user } = ctx;
     const { id, assigneeId } = parsedInput;
 
-    console.log("assigneeId", assigneeId);
-
     if (!user.organizationId) {
       return {
         success: false,
