@@ -993,6 +993,10 @@ export default {
       assignedUserEmpty: "Ikke tildelt",
       no_results: "Ingen resultater funnet",
       status: "Status"
+    },
+    dashboard: {
+      overview: "Oversikt",
+      all: "Alle tester"
     }
   },
   vendors: {

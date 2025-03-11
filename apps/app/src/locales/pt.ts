@@ -964,6 +964,10 @@ export default {
       assignedUserEmpty: "Não Atribuído",
       no_results: "Nenhum resultado encontrado",
       status: "Status"
+    },
+    dashboard: {
+      overview: "Visão Geral",
+      all: "Todos os Testes"
     }
   },
   vendors: {
