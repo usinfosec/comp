@@ -743,6 +743,9 @@ export default {
 		dashboard: {
 			overview: "Overview",
 			all: "All Tests",
+			tests_by_assignee: "Tests by Assignee",
+			passed: "Passed",
+			failed: "Failed",
 		},
 		name: "Cloud Tests",
 		title: "Cloud Tests",

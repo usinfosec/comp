@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { PoliciesStatus } from "@/components/policies/charts/policies-status";
-import { PoliciesByAssignee } from "@/components/policies/charts/policies-by-assignee";
+import { TestsByAssignee } from "@/components/tests/charts/tests-by-assignee";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
@@ -38,7 +38,7 @@ export default async function PoliciesOverview({
           archivedPolicies={overview.archivedPolicies}
           needsReviewPolicies={overview.needsReviewPolicies}
         />
-        <PoliciesByAssignee organizationId={session.user.organizationId} />
+        <TestsByAssignee organizationId={session.user.organizationId} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
-import { createTestCommentAction } from "@/app/[locale]/(app)/(dashboard)/tests/[testId]/actions/createTestComment";
-import { createTestCommentSchema } from "@/app/[locale]/(app)/(dashboard)/tests/[testId]/actions/types";
+import { createTestCommentAction } from "@/app/[locale]/(app)/(dashboard)/tests/all/[testId]/actions/createTestComment";
+import { createTestCommentSchema } from "@/app/[locale]/(app)/(dashboard)/tests/all/[testId]/actions/types";
 import { useI18n } from "@/locales/client";
 import {
   Accordion,
