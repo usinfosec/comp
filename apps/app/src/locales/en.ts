@@ -746,6 +746,13 @@ export default {
 			tests_by_assignee: "Tests by Assignee",
 			passed: "Passed",
 			failed: "Failed",
+			severity_distribution: "Test Severity Distribution",
+		},
+		severity: {
+			low: "Low",
+			medium: "Medium",
+			high: "High",
+			critical: "Critical",
 		},
 		name: "Cloud Tests",
 		title: "Cloud Tests",

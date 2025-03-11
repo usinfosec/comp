@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { PoliciesStatus } from "@/components/policies/charts/policies-status";
+import { TestsSeverity } from "@/components/tests/charts/tests-severity";
 import { TestsByAssignee } from "@/components/tests/charts/tests-by-assignee";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
@@ -8,7 +8,7 @@ import { setStaticParamsLocale } from "next-international/server";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
-export default async function PoliciesOverview({
+export default async function TestsOverview({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -22,78 +22,79 @@ export default async function PoliciesOverview({
     redirect("/onboarding");
   }
 
-  const overview = await getPoliciesOverview(session.user.organizationId);
+  const overview = await getTestsOverview(session.user.organizationId);
 
-  if (overview?.totalPolicies === 0) {
-    redirect("/policies/all");
+  if (overview?.totalTests === 0) {
+    redirect("/tests/all");
   }
 
   return (
     <div className="space-y-4 sm:space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <PoliciesStatus
-          totalPolicies={overview.totalPolicies}
-          publishedPolicies={overview.publishedPolicies}
-          draftPolicies={overview.draftPolicies}
-          archivedPolicies={overview.archivedPolicies}
-          needsReviewPolicies={overview.needsReviewPolicies}
+        <TestsSeverity
+          totalTests={overview.totalTests}
+          lowSeverityTests={overview.lowSeverityTests}
+          mediumSeverityTests={overview.mediumSeverityTests}
+          highSeverityTests={overview.highSeverityTests}
+          criticalSeverityTests={overview.criticalSeverityTests}
         />
         <TestsByAssignee organizationId={session.user.organizationId} />
       </div>
     </div>
   );
 }
-const getPoliciesOverview = unstable_cache(
+
+const getTestsOverview = unstable_cache(
   async (organizationId: string) => {
     return await db.$transaction(async (tx) => {
       const [
-        totalPolicies,
-        publishedPolicies,
-        draftPolicies,
-        archivedPolicies,
-        needsReviewPolicies,
+        totalTests,
+        lowSeverityTests,
+        mediumSeverityTests,
+        highSeverityTests,
+        criticalSeverityTests,
       ] = await Promise.all([
-        tx.organizationPolicy.count({
+        tx.organizationIntegrationResults.count({
           where: {
             organizationId,
           },
         }),
-        tx.organizationPolicy.count({
+        tx.organizationIntegrationResults.count({
           where: {
             organizationId,
-            status: "published",
+            label: "LOW",
           },
         }),
-        tx.organizationPolicy.count({
+        tx.organizationIntegrationResults.count({
           where: {
             organizationId,
-            status: "draft",
+            label: "MEDIUM",
           },
         }),
-        tx.organizationPolicy.count({
+        tx.organizationIntegrationResults.count({
           where: {
             organizationId,
-            status: "archived",
+            label: "HIGH",
           },
         }),
-        tx.organizationPolicy.count({
+        tx.organizationIntegrationResults.count({
           where: {
             organizationId,
-            status: "needs_review",
+            label: "CRITICAL",
           },
         }),
       ]);
 
       return {
-        totalPolicies,
-        publishedPolicies,
-        draftPolicies,
-        archivedPolicies,
-        needsReviewPolicies,
+        totalTests,
+        lowSeverityTests,
+        mediumSeverityTests,
+        highSeverityTests,
+        criticalSeverityTests,
       };
     });
   },
-  ["policies-overview-cache"],
+  ["tests-overview-cache"],
 );
 
 export async function generateMetadata({
@@ -106,6 +107,6 @@ export async function generateMetadata({
   const t = await getI18n();
 
   return {
-    title: t("sidebar.policies"),
+    title: t("sidebar.tests"),
   };
 }

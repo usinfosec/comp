@@ -6,51 +6,51 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { cn } from "@bubba/ui/cn";
 
 interface Props {
-  totalPolicies: number;
-  publishedPolicies: number;
-  draftPolicies: number;
-  archivedPolicies: number;
-  needsReviewPolicies: number;
+  totalTests: number;
+  lowSeverityTests: number;
+  mediumSeverityTests: number;
+  highSeverityTests: number;
+  criticalSeverityTests: number;
 }
 
-export function PoliciesStatus({
-  totalPolicies,
-  publishedPolicies,
-  draftPolicies,
-  archivedPolicies,
-  needsReviewPolicies,
+export function TestsSeverity({
+  totalTests,
+  lowSeverityTests,
+  mediumSeverityTests,
+  highSeverityTests,
+  criticalSeverityTests,
 }: Props) {
   const t = useI18n();
 
-  const statusCounts = {
-    published: publishedPolicies,
-    draft: draftPolicies,
-    archived: archivedPolicies,
-    needs_review: needsReviewPolicies,
+  const severityCounts = {
+    low: lowSeverityTests,
+    medium: mediumSeverityTests,
+    high: highSeverityTests,
+    critical: criticalSeverityTests,
   };
 
   const data = [
     {
-      name: t("policies.status.published"),
-      value: statusCounts.published,
+      name: t("tests.severity.low"),
+      value: severityCounts.low,
       color: "var(--chart-closed)",
       colorClass: "bg-[var(--chart-closed)]",
     },
     {
-      name: t("policies.status.draft"),
-      value: statusCounts.draft,
+      name: t("tests.severity.medium"),
+      value: severityCounts.medium,
       color: "var(--chart-open)",
       colorClass: "bg-[var(--chart-open)]",
     },
     {
-      name: t("policies.status.archived"),
-      value: statusCounts.archived,
+      name: t("tests.severity.high"),
+      value: severityCounts.high,
       color: "var(--chart-pending)",
       colorClass: "bg-[var(--chart-pending)]",
     },
     {
-      name: t("policies.status.needs_review"),
-      value: statusCounts.needs_review,
+      name: t("tests.severity.critical"),
+      value: severityCounts.critical,
       color: "hsl(var(--destructive))",
       colorClass: "bg-[hsl(var(--destructive))]",
     },
@@ -59,7 +59,7 @@ export function PoliciesStatus({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("policies.dashboard.policy_status")}</CardTitle>
+        <CardTitle>{t("tests.dashboard.severity_distribution")}</CardTitle>
       </CardHeader>
       <CardContent>
         <PieChart data={data} />
