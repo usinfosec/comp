@@ -15,18 +15,23 @@ export const metadata: Metadata = {
   title: "Login | Comp AI",
 };
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ inviteCode?: string }>;
+}) {
   const t = await getI18n();
+  const { inviteCode } = await searchParams;
 
   const defaultSignInOptions = (
     <div className="flex flex-col space-y-2">
-      <GoogleSignIn />
+      <GoogleSignIn inviteCode={inviteCode} />
     </div>
   );
 
   const moreSignInOptions = (
     <div className="flex flex-col space-y-2">
-      <MagicLinkSignIn />
+      <MagicLinkSignIn inviteCode={inviteCode} />
     </div>
   );
 

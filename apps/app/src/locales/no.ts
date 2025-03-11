@@ -620,6 +620,133 @@ export default {
       revoked_success: "API-nøkkel tilbakekalt med suksess",
       revoked_error: "Feil ved tilbakekalling av API-nøkkel",
       done: "Ferdig"
+    },
+    team: {
+      tabs: {
+        members: "Teammedlemmer",
+        invite: "Inviter medlemmer"
+      },
+      members: {
+        title: "Teammedlemmer",
+        empty: {
+          no_organization: {
+            title: "Ingen organisasjon",
+            description: "Du er ikke en del av noen organisasjon"
+          },
+          no_members: {
+            title: "Ingen medlemmer",
+            description: "Det er ingen aktive medlemmer i din organisasjon"
+          }
+        },
+        role: {
+          owner: "Eier",
+          admin: "Admin",
+          member: "Medlem",
+          viewer: "Seer"
+        }
+      },
+      invitations: {
+        title: "Venteinvitasjoner",
+        description: "Brukere som har blitt invitert, men som ikke har akseptert ennå",
+        empty: {
+          no_organization: {
+            title: "Ingen organisasjon",
+            description: "Du er ikke en del av noen organisasjon"
+          },
+          no_invitations: {
+            title: "Ingen venteinvitasjoner",
+            description: "Det er ingen venteinvitasjoner"
+          }
+        },
+        invitation_sent: "Invitasjon sendt",
+        actions: {
+          resend: "Send invitasjon på nytt",
+          sending: "Sender invitasjon",
+          revoke: "Tilbaketrekk",
+          revoke_title: "Tilbaketrekk invitasjon",
+          revoke_description_prefix: "Er du sikker på at du vil tilbaketrekke invitasjonen for",
+          revoke_description_suffix: "Denne handlingen kan ikke angres."
+        },
+        toast: {
+          resend_success_prefix: "En invitasjons-e-post har blitt sendt til",
+          resend_error: "Feil ved sending av invitasjon",
+          resend_unexpected: "En uventet feil oppstod under sending av invitasjonen",
+          revoke_success_prefix: "Invitasjon til",
+          revoke_success_suffix: "har blitt tilbaketrukket",
+          revoke_error: "Feil ved tilbaketrekking av invitasjon",
+          revoke_unexpected: "En uventet feil oppstod under tilbaketrekking av invitasjonen"
+        }
+      },
+      invite: {
+        title: "Inviter teammedlem",
+        description: "Send en invitasjon til et nytt teammedlem for å bli med i din organisasjon",
+        form: {
+          email: {
+            label: "E-post",
+            placeholder: "medlem@eksempel.com",
+            error: "Vennligst skriv inn en gyldig e-postadresse"
+          },
+          role: {
+            label: "Rolle",
+            placeholder: "Velg en rolle",
+            error: "Vennligst velg en rolle"
+          },
+          department: {
+            label: "Avdeling",
+            placeholder: "Velg en avdeling",
+            error: "Vennligst velg en avdeling"
+          },
+          departments: {
+            none: "Ingen",
+            it: "IT",
+            hr: "HR",
+            admin: "Admin",
+            gov: "Regjering",
+            itsm: "ITSM",
+            qms: "Kvalitetssystem"
+          }
+        },
+        button: {
+          send: "Send invitasjon",
+          sending: "Sender invitasjon...",
+          sent: "Invitasjon sendt"
+        },
+        toast: {
+          error: "Feil ved sending av invitasjon",
+          unexpected: "En uventet feil oppstod under sending av invitasjonen"
+        }
+      },
+      member_actions: {
+        actions: "Handlinger",
+        change_role: "Endre rolle",
+        remove_member: "Fjern medlem",
+        remove_confirm: {
+          title: "Fjern teammedlem",
+          description_prefix: "Er du sikker på at du vil fjerne",
+          description_suffix: "Denne handlingen kan ikke angres."
+        },
+        role_dialog: {
+          title: "Endre rolle",
+          description_prefix: "Oppdater rollen for",
+          role_label: "Rolle",
+          role_placeholder: "Velg en rolle",
+          role_descriptions: {
+            admin: "Administratorer kan administrere teammedlemmer og innstillinger.",
+            member: "Medlemmer kan bruke alle funksjoner, men kan ikke administrere teammedlemmer.",
+            viewer: "Seere kan bare se innhold uten å gjøre endringer."
+          },
+          cancel: "Avbryt",
+          update: "Oppdater rolle"
+        },
+        toast: {
+          remove_success: "har blitt fjernet fra organisasjonen",
+          remove_error: "Feil ved fjerning av medlem",
+          remove_unexpected: "En uventet feil oppstod under fjerning av medlemmet",
+          update_role_success: "har fått sin rolle oppdatert til",
+          update_role_error: "Feil ved oppdatering av medlemrolle",
+          update_role_unexpected: "En uventet feil oppstod under oppdatering av medlemmets rolle"
+        }
+      }
     }
   },
   user_menu: {
@@ -763,7 +890,7 @@ export default {
       clear: "Fjern filtre"
     },
     table: {
-      name: "Ansattnavn",
+      name: "Navn",
       email: "E-post",
       department: "Avdeling",
       externalId: "Ekstern ID",
@@ -1006,5 +1133,132 @@ export default {
     risks_by_department: "Risikoer etter avdeling",
     vendor_status: "Leverandørstatus",
     vendors_by_category: "Leverandører etter kategori"
+  },
+  team: {
+    tabs: {
+      members: "Teammedlemmer",
+      invite: "Inviter medlemmer"
+    },
+    members: {
+      title: "Teammedlemmer",
+      empty: {
+        no_organization: {
+          title: "Ingen organisasjon",
+          description: "Du er ikke en del av noen organisasjon"
+        },
+        no_members: {
+          title: "Ingen medlemmer",
+          description: "Det er ingen aktive medlemmer i din organisasjon"
+        }
+      },
+      role: {
+        owner: "Eier",
+        admin: "Admin",
+        member: "Medlem",
+        viewer: "Seer"
+      }
+    },
+    invitations: {
+      title: "Venteinvitasjoner",
+      description: "Brukere som har blitt invitert, men ikke har akseptert ennå",
+      empty: {
+        no_organization: {
+          title: "Ingen organisasjon",
+          description: "Du er ikke en del av noen organisasjon"
+        },
+        no_invitations: {
+          title: "Ingen venteinvitasjoner",
+          description: "Det er ingen venteinvitasjoner"
+        }
+      },
+      invitation_sent: "Invitasjon sendt",
+      actions: {
+        resend: "Send invitasjon på nytt",
+        sending: "Sender invitasjon",
+        revoke: "Tilbaketrekk",
+        revoke_title: "Tilbaketrekk invitasjon",
+        revoke_description_prefix: "Er du sikker på at du vil tilbaketrekke invitasjonen for",
+        revoke_description_suffix: "Denne handlingen kan ikke angres."
+      },
+      toast: {
+        resend_success_prefix: "En invitasjons-e-post har blitt sendt til",
+        resend_error: "Feil ved sending av invitasjon",
+        resend_unexpected: "En uventet feil oppstod under sending av invitasjonen",
+        revoke_success_prefix: "Invitasjon til",
+        revoke_success_suffix: "har blitt tilbaketrukket",
+        revoke_error: "Feil ved tilbaketrekking av invitasjon",
+        revoke_unexpected: "En uventet feil oppstod under tilbaketrekking av invitasjonen"
+      }
+    },
+    invite: {
+      title: "Inviter teammedlem",
+      description: "Send en invitasjon til et nytt teammedlem for å bli med i din organisasjon",
+      form: {
+        email: {
+          label: "E-post",
+          placeholder: "medlem@example.com",
+          error: "Vennligst skriv inn en gyldig e-postadresse"
+        },
+        role: {
+          label: "Rolle",
+          placeholder: "Velg en rolle",
+          error: "Vennligst velg en rolle"
+        },
+        department: {
+          label: "Avdeling",
+          placeholder: "Velg en avdeling",
+          error: "Vennligst velg en avdeling"
+        },
+        departments: {
+          none: "Ingen",
+          it: "IT",
+          hr: "HR",
+          admin: "Admin",
+          gov: "Regjering",
+          itsm: "ITSM",
+          qms: "QMS"
+        }
+      },
+      button: {
+        send: "Send invitasjon",
+        sending: "Sender invitasjon...",
+        sent: "Invitasjon sendt"
+      },
+      toast: {
+        error: "Feil ved sending av invitasjon",
+        unexpected: "En uventet feil oppstod under sending av invitasjonen"
+      }
+    },
+    member_actions: {
+      actions: "Handlinger",
+      change_role: "Endre rolle",
+      remove_member: "Fjern medlem",
+      remove_confirm: {
+        title: "Fjern teammedlem",
+        description_prefix: "Er du sikker på at du vil fjerne",
+        description_suffix: "Denne handlingen kan ikke angres."
+      },
+      role_dialog: {
+        title: "Endre rolle",
+        description_prefix: "Oppdater rollen for",
+        role_label: "Rolle",
+        role_placeholder: "Velg en rolle",
+        role_descriptions: {
+          admin: "Administratorer kan administrere teammedlemmer og innstillinger.",
+          member: "Medlemmer kan bruke alle funksjoner, men kan ikke administrere teammedlemmer.",
+          viewer: "Seere kan bare se innhold uten å gjøre endringer."
+        },
+        cancel: "Avbryt",
+        update: "Oppdater rolle"
+      },
+      toast: {
+        remove_success: "har blitt fjernet fra organisasjonen",
+        remove_error: "Feil ved fjerning av medlem",
+        remove_unexpected: "En uventet feil oppstod under fjerning av medlemmet",
+        update_role_success: "har fått oppdatert sin rolle til",
+        update_role_error: "Feil ved oppdatering av medlemrolle",
+        update_role_unexpected: "En uventet feil oppstod under oppdatering av medlemmets rolle"
+      }
+    }
   }
 } as const;

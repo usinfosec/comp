@@ -7,7 +7,7 @@ import {
   type ActionResponse 
 } from "./types";
 
-import { Test } from "../../types";
+import type { Test } from "../../types";
 
 export async function getTest(input: { testId: string }): Promise<ActionResponse<Test>> {
   const { testId } = input;

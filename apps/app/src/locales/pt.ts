@@ -620,6 +620,133 @@ export default {
       revoked_success: "Chave da API revogada com sucesso",
       revoked_error: "Falha ao revogar chave da API",
       done: "Concluído"
+    },
+    team: {
+      tabs: {
+        members: "Membros da Equipe",
+        invite: "Convidar Membros"
+      },
+      members: {
+        title: "Membros da Equipe",
+        empty: {
+          no_organization: {
+            title: "Sem Organização",
+            description: "Você não faz parte de nenhuma organização"
+          },
+          no_members: {
+            title: "Sem Membros",
+            description: "Não há membros ativos em sua organização"
+          }
+        },
+        role: {
+          owner: "Proprietário",
+          admin: "Admin",
+          member: "Membro",
+          viewer: "Visualizador"
+        }
+      },
+      invitations: {
+        title: "Convites Pendentes",
+        description: "Usuários que foram convidados, mas ainda não aceitaram",
+        empty: {
+          no_organization: {
+            title: "Sem Organização",
+            description: "Você não faz parte de nenhuma organização"
+          },
+          no_invitations: {
+            title: "Sem Convites Pendentes",
+            description: "Não há convites pendentes"
+          }
+        },
+        invitation_sent: "Convite enviado",
+        actions: {
+          resend: "Reenviar Convite",
+          sending: "Enviando Convite",
+          revoke: "Revogar",
+          revoke_title: "Revogar Convite",
+          revoke_description_prefix: "Você tem certeza de que deseja revogar o convite para",
+          revoke_description_suffix: "Esta ação não pode ser desfeita."
+        },
+        toast: {
+          resend_success_prefix: "Um e-mail de convite foi enviado para",
+          resend_error: "Falha ao enviar convite",
+          resend_unexpected: "Ocorreu um erro inesperado ao enviar o convite",
+          revoke_success_prefix: "Convite para",
+          revoke_success_suffix: "foi revogado",
+          revoke_error: "Falha ao revogar convite",
+          revoke_unexpected: "Ocorreu um erro inesperado ao revogar o convite"
+        }
+      },
+      invite: {
+        title: "Convidar Membro da Equipe",
+        description: "Envie um convite para um novo membro da equipe se juntar à sua organização",
+        form: {
+          email: {
+            label: "E-mail",
+            placeholder: "membro@exemplo.com",
+            error: "Por favor, insira um endereço de e-mail válido"
+          },
+          role: {
+            label: "Função",
+            placeholder: "Selecione uma função",
+            error: "Por favor, selecione uma função"
+          },
+          department: {
+            label: "Departamento",
+            placeholder: "Selecione um departamento",
+            error: "Por favor, selecione um departamento"
+          },
+          departments: {
+            none: "Nenhum",
+            it: "TI",
+            hr: "RH",
+            admin: "Admin",
+            gov: "Governo",
+            itsm: "ITSM",
+            qms: "QMS"
+          }
+        },
+        button: {
+          send: "Enviar Convite",
+          sending: "Enviando convite...",
+          sent: "Convite Enviado"
+        },
+        toast: {
+          error: "Falha ao enviar convite",
+          unexpected: "Ocorreu um erro inesperado ao enviar o convite"
+        }
+      },
+      member_actions: {
+        actions: "Ações",
+        change_role: "Alterar Função",
+        remove_member: "Remover Membro",
+        remove_confirm: {
+          title: "Remover Membro da Equipe",
+          description_prefix: "Você tem certeza de que deseja remover",
+          description_suffix: "Esta ação não pode ser desfeita."
+        },
+        role_dialog: {
+          title: "Alterar Função",
+          description_prefix: "Atualizar a função de",
+          role_label: "Função",
+          role_placeholder: "Selecione uma função",
+          role_descriptions: {
+            admin: "Os administradores podem gerenciar membros da equipe e configurações.",
+            member: "Os membros podem usar todos os recursos, mas não podem gerenciar membros da equipe.",
+            viewer: "Os visualizadores podem apenas visualizar o conteúdo sem fazer alterações."
+          },
+          cancel: "Cancelar",
+          update: "Atualizar Função"
+        },
+        toast: {
+          remove_success: "foi removido da organização",
+          remove_error: "Falha ao remover membro",
+          remove_unexpected: "Ocorreu um erro inesperado ao remover o membro",
+          update_role_success: "teve sua função atualizada para",
+          update_role_error: "Falha ao atualizar função do membro",
+          update_role_unexpected: "Ocorreu um erro inesperado ao atualizar a função do membro"
+        }
+      }
     }
   },
   user_menu: {
@@ -763,7 +890,7 @@ export default {
       clear: "Limpar filtros"
     },
     table: {
-      name: "Nome do Funcionário",
+      name: "Nome",
       email: "Email",
       department: "Departamento",
       externalId: "ID Externo",
@@ -977,5 +1104,132 @@ export default {
     risks_by_department: "Riscos por Departamento",
     vendor_status: "Status do Fornecedor",
     vendors_by_category: "Fornecedores por Categoria"
+  },
+  team: {
+    tabs: {
+      members: "Membros da Equipe",
+      invite: "Convidar Membros"
+    },
+    members: {
+      title: "Membros da Equipe",
+      empty: {
+        no_organization: {
+          title: "Sem Organização",
+          description: "Você não faz parte de nenhuma organização"
+        },
+        no_members: {
+          title: "Sem Membros",
+          description: "Não há membros ativos em sua organização"
+        }
+      },
+      role: {
+        owner: "Proprietário",
+        admin: "Admin",
+        member: "Membro",
+        viewer: "Visualizador"
+      }
+    },
+    invitations: {
+      title: "Convites Pendentes",
+      description: "Usuários que foram convidados, mas ainda não aceitaram",
+      empty: {
+        no_organization: {
+          title: "Sem Organização",
+          description: "Você não faz parte de nenhuma organização"
+        },
+        no_invitations: {
+          title: "Sem Convites Pendentes",
+          description: "Não há convites pendentes"
+        }
+      },
+      invitation_sent: "Convite enviado",
+      actions: {
+        resend: "Reenviar Convite",
+        sending: "Enviando Convite",
+        revoke: "Revogar",
+        revoke_title: "Revogar Convite",
+        revoke_description_prefix: "Você tem certeza de que deseja revogar o convite para",
+        revoke_description_suffix: "Esta ação não pode ser desfeita."
+      },
+      toast: {
+        resend_success_prefix: "Um e-mail de convite foi enviado para",
+        resend_error: "Falha ao enviar convite",
+        resend_unexpected: "Ocorreu um erro inesperado ao enviar o convite",
+        revoke_success_prefix: "Convite para",
+        revoke_success_suffix: "foi revogado",
+        revoke_error: "Falha ao revogar convite",
+        revoke_unexpected: "Ocorreu um erro inesperado ao revogar o convite"
+      }
+    },
+    invite: {
+      title: "Convidar Membro da Equipe",
+      description: "Envie um convite para um novo membro da equipe se juntar à sua organização",
+      form: {
+        email: {
+          label: "E-mail",
+          placeholder: "membro@exemplo.com",
+          error: "Por favor, insira um endereço de e-mail válido"
+        },
+        role: {
+          label: "Função",
+          placeholder: "Selecione uma função",
+          error: "Por favor, selecione uma função"
+        },
+        department: {
+          label: "Departamento",
+          placeholder: "Selecione um departamento",
+          error: "Por favor, selecione um departamento"
+        },
+        departments: {
+          none: "Nenhum",
+          it: "TI",
+          hr: "RH",
+          admin: "Admin",
+          gov: "Governo",
+          itsm: "ITSM",
+          qms: "QMS"
+        }
+      },
+      button: {
+        send: "Enviar Convite",
+        sending: "Enviando convite...",
+        sent: "Convite Enviado"
+      },
+      toast: {
+        error: "Falha ao enviar convite",
+        unexpected: "Ocorreu um erro inesperado ao enviar o convite"
+      }
+    },
+    member_actions: {
+      actions: "Ações",
+      change_role: "Alterar Função",
+      remove_member: "Remover Membro",
+      remove_confirm: {
+        title: "Remover Membro da Equipe",
+        description_prefix: "Você tem certeza de que deseja remover",
+        description_suffix: "Esta ação não pode ser desfeita."
+      },
+      role_dialog: {
+        title: "Alterar Função",
+        description_prefix: "Atualizar a função de",
+        role_label: "Função",
+        role_placeholder: "Selecione uma função",
+        role_descriptions: {
+          admin: "Os administradores podem gerenciar membros da equipe e configurações.",
+          member: "Os membros podem usar todos os recursos, mas não podem gerenciar membros da equipe.",
+          viewer: "Os visualizadores podem apenas visualizar o conteúdo sem fazer alterações."
+        },
+        cancel: "Cancelar",
+        update: "Atualizar Função"
+      },
+      toast: {
+        remove_success: "foi removido da organização",
+        remove_error: "Falha ao remover membro",
+        remove_unexpected: "Ocorreu um erro inesperado ao remover o membro",
+        update_role_success: "teve sua função atualizada para",
+        update_role_error: "Falha ao atualizar função do membro",
+        update_role_unexpected: "Ocorreu um erro inesperado ao atualizar a função do membro"
+      }
+    }
   }
 } as const;
