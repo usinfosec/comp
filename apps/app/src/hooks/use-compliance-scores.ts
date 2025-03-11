@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/policies/all/(overview)/hooks/usePolicies";
-import { useTests } from "@/app/[locale]/(app)/(dashboard)/tests/hooks/useTests";
+import { useTests } from "@/app/[locale]/(app)/(dashboard)/tests/all/hooks/useTests";
 import type {
   Framework,
   OrganizationControl,

@@ -33,20 +33,20 @@ export function TestsSeverity({
     {
       name: t("tests.severity.low"),
       value: severityCounts.low,
-      color: "var(--chart-closed)",
-      colorClass: "bg-[var(--chart-closed)]",
+      color: "var(--chart-archived)",
+      colorClass: "bg-[var(--chart-archived)]",
     },
     {
       name: t("tests.severity.medium"),
       value: severityCounts.medium,
-      color: "var(--chart-open)",
-      colorClass: "bg-[var(--chart-open)]",
+      color: "var(--chart-pending)",
+      colorClass: "bg-[var(--chart-pending)]",
     },
     {
       name: t("tests.severity.high"),
       value: severityCounts.high,
-      color: "var(--chart-pending)",
-      colorClass: "bg-[var(--chart-pending)]",
+      color: "var(--chart-open)",
+      colorClass: "bg-[var(--chart-open)]",
     },
     {
       name: t("tests.severity.critical"),
