@@ -11,7 +11,7 @@ import { useDebounce } from "use-debounce";
 import Link from "next/link";
 
 
-import { refreshTestsAction } from "@/app/[locale]/(app)/(dashboard)/tests/actions/refreshTests";
+import { refreshTestsAction } from "@/app/[locale]/(app)/(dashboard)/tests/all/actions/refreshTests";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 

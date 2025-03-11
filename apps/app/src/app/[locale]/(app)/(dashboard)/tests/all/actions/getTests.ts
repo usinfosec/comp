@@ -93,7 +93,7 @@ export const getTests = authActionClient
                 },
                 {
                   resultDetails: {
-                    path: ["description"],
+                    path: ["Title"],
                     string_contains: search,
                   },
                 },

@@ -740,6 +740,10 @@ export default {
 		},
 	},
 	tests: {
+		dashboard: {
+			overview: "Overview",
+			all: "All Tests",
+		},
 		name: "Cloud Tests",
 		title: "Cloud Tests",
 		actions: {

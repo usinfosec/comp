@@ -104,7 +104,7 @@ model Organization {
   PortalUser                     PortalUser[]
   apiKeys                        OrganizationApiKey[]
   OrganizationIntegrationResults OrganizationIntegrationResults[]
-  IntegrationResultsComments   OrganizationIntegrationResultsComments[]
+  IntegrationResultsComments     OrganizationIntegrationResultsComments[]
   IntegrationLastRun             IntegrationLastRun[]
   vendors                        Vendor[]
   VendorContact                  VendorContact[]
