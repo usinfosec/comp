@@ -993,6 +993,10 @@ export default {
       assignedUserEmpty: "No Asignado",
       no_results: "No se encontraron resultados",
       status: "Estado"
+    },
+    dashboard: {
+      overview: "Resumen",
+      all: "Todas las pruebas"
     }
   },
   vendors: {

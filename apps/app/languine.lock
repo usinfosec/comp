@@ -494,6 +494,8 @@ files:
     settings.api_keys.revoked_error: cea5338af704d2fb6ec7cf7fbfbd3b1a
     settings.api_keys.done: f92965e2c8a7afb3c1b9a5c09a263636
     settings.billing.title: 780c462e85ba4399a5d42e88f69a15ca
+    tests.dashboard.overview: 3b878279a04dc47d60932cb294d96259
+    tests.dashboard.all: 4af914ce814e18174e3b7b38f8bdf9e9
     tests.name: 107f3983ed2f362df6195c163001fe7b
     tests.title: 107f3983ed2f362df6195c163001fe7b
     tests.actions.create: 348a2d59fd6abf9c9ba4e1ce664f6fc5
