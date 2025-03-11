@@ -766,7 +766,8 @@ export default {
       name: "Nom de l'employé",
       email: "Email",
       department: "Département",
-      externalId: "ID externe"
+      externalId: "ID externe",
+      status: "Statut"
     },
     empty: {
       no_employees: {
