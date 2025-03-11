@@ -32,10 +32,10 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 
   const refreshTests = useAction(refreshTestsAction, {
     onSuccess: () => {
-      toast.success(t("common.comments.success"));
+      toast.success(t("tests.actions.refresh_success"));
     },
     onError: () => {
-      toast.error(t("common.comments.error"));
+      toast.error(t("tests.actions.refresh_error"));
     },
   });
 

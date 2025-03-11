@@ -896,6 +896,8 @@ export default {
 			create: "Add Cloud Test",
 			clear: "Clear filters",
 			refresh: "Refresh",
+			refresh_success: "Tests refreshed successfully",
+			refresh_error: "Failed to refresh tests",
 		},
 		empty: {
 			no_tests: {

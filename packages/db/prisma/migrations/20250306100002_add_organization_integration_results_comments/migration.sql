@@ -12,7 +12,7 @@ CREATE TABLE "OrganizationIntegrationResultsComments" (
 );
 
 -- CreateIndex
-CREATE INDEX "OrganizationIntegrationResultsComments_OrganizationIntegrationR_idx" ON "OrganizationIntegrationResultsComments"("OrganizationIntegrationResultsId");
+CREATE INDEX "OrganizationIntegrationResultsComments_OrganizationIntegrat_idx" ON "OrganizationIntegrationResultsComments"("OrganizationIntegrationResultsId");
 
 -- CreateIndex
 CREATE INDEX "OrganizationIntegrationResultsComments_organizationId_idx" ON "OrganizationIntegrationResultsComments"("organizationId");
@@ -24,4 +24,4 @@ ALTER TABLE "OrganizationIntegrationResultsComments" ADD CONSTRAINT "Organizatio
 ALTER TABLE "OrganizationIntegrationResultsComments" ADD CONSTRAINT "OrganizationIntegrationResultsComments_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrganizationIntegrationResultsComments" ADD CONSTRAINT "OrganizationIntegrationResultsComments_OrganizationIntegrationR_fkey" FOREIGN KEY ("OrganizationIntegrationResultsId") REFERENCES "Organization_integration_results"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "OrganizationIntegrationResultsComments" ADD CONSTRAINT "OrganizationIntegrationResultsComments_OrganizationIntegra_fkey" FOREIGN KEY ("OrganizationIntegrationResultsId") REFERENCES "Organization_integration_results"("id") ON DELETE CASCADE ON UPDATE CASCADE;
