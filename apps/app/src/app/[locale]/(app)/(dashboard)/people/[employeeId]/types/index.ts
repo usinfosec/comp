@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { Departments } from "@bubba/db";
 
 export const employeeTaskSchema = z.object({
   id: z.string(),
@@ -24,9 +25,17 @@ export const employeeDetailsInputSchema = z.object({
   employeeId: z.string(),
 });
 
+export const updateEmployeeDepartmentSchema = z.object({
+  employeeId: z.string(),
+  department: z.enum(["admin", "gov", "hr", "it", "itsm", "qms", "none"]),
+});
+
 export type EmployeeTask = z.infer<typeof employeeTaskSchema>;
 export type EmployeeDetails = z.infer<typeof employeeDetailsSchema>;
 export type EmployeeDetailsInput = z.infer<typeof employeeDetailsInputSchema>;
+export type UpdateEmployeeDepartmentInput = z.infer<
+  typeof updateEmployeeDepartmentSchema
+>;
 
 export type AppError = {
   code: "NOT_FOUND" | "UNAUTHORIZED" | "UNEXPECTED_ERROR";
