@@ -60,7 +60,6 @@ export async function createOrReactivateEmployee(params: {
       data: {
         name,
         department,
-        isActive: true,
         externalEmployeeId,
         organizationId,
         updatedAt: new Date(),
@@ -75,7 +74,6 @@ export async function createOrReactivateEmployee(params: {
       email,
       department,
       organizationId,
-      isActive: true,
       externalEmployeeId,
     },
   });

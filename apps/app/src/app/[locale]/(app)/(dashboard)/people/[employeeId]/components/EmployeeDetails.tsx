@@ -2,23 +2,14 @@
 
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Progress } from "@bubba/ui/progress";
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
 import { useEmployeeDetails } from "../../hooks/useEmployee";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle, CheckCircle2, Info } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import type { EmployeeTask } from "../types";
 import { Label } from "@bubba/ui/label";
 import { formatDate } from "@/utils/format";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@bubba/ui/accordion";
+import { Button } from "@bubba/ui/button";
 interface EmployeeDetailsProps {
 	employeeId: string;
 }
@@ -74,11 +65,7 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 	const tasks = employee.employeeTasks ?? [];
 
 	return (
-		<div className="space-y-6 p-6">
-			<h1 className="text-2xl font-bold">
-				{employee.name} ({employee.isActive ? "Active" : "Inactive"})
-			</h1>
-
+		<div className="space-y-6">
 			<Card>
 				<CardContent className="p-8">
 					<div className="grid grid-cols-2 gap-4">
@@ -113,8 +100,11 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 						const isCompleted = task.status === "completed";
 
 						return (
-							<div key={task.id}>
-								<h2 className="flex items-center gap-2 border rounded-md p-3">
+							<div
+								key={task.id}
+								className="flex items-center gap-2 border p-3 justify-between max-w-sm"
+							>
+								<h2 className="flex items-center gap-2">
 									{isCompleted ? (
 										<CheckCircle2 className="h-4 w-4 text-green-500" />
 									) : (
@@ -122,6 +112,7 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 									)}
 									{task.requiredTask.name}
 								</h2>
+								<Button size="sm">Remind</Button>
 							</div>
 						);
 					})}

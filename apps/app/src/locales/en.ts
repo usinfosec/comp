@@ -608,6 +608,7 @@ export default {
       name: "Employee Name",
       email: "Email",
       department: "Department",
+      status: "Status",
       externalId: "External ID",
     },
     empty: {
