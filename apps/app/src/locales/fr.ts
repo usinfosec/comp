@@ -620,6 +620,133 @@ export default {
       revoked_success: "Clé API révoquée avec succès",
       revoked_error: "Échec de la révocation de la clé API",
       done: "Terminé"
+    },
+    team: {
+      tabs: {
+        members: "Membres de l'équipe",
+        invite: "Inviter des membres"
+      },
+      members: {
+        title: "Membres de l'équipe",
+        empty: {
+          no_organization: {
+            title: "Aucune organisation",
+            description: "Vous ne faites partie d'aucune organisation"
+          },
+          no_members: {
+            title: "Aucun membre",
+            description: "Il n'y a aucun membre actif dans votre organisation"
+          }
+        },
+        role: {
+          owner: "Propriétaire",
+          admin: "Administrateur",
+          member: "Membre",
+          viewer: "Spectateur"
+        }
+      },
+      invitations: {
+        title: "Invitations en attente",
+        description: "Utilisateurs qui ont été invités mais n'ont pas encore accepté",
+        empty: {
+          no_organization: {
+            title: "Aucune organisation",
+            description: "Vous ne faites partie d'aucune organisation"
+          },
+          no_invitations: {
+            title: "Aucune invitation en attente",
+            description: "Il n'y a aucune invitation en attente"
+          }
+        },
+        invitation_sent: "Invitation envoyée",
+        actions: {
+          resend: "Renvoyer l'invitation",
+          sending: "Envoi de l'invitation",
+          revoke: "Révoquer",
+          revoke_title: "Révoquer l'invitation",
+          revoke_description_prefix: "Êtes-vous sûr de vouloir révoquer l'invitation pour",
+          revoke_description_suffix: "Cette action ne peut pas être annulée."
+        },
+        toast: {
+          resend_success_prefix: "Un e-mail d'invitation a été envoyé à",
+          resend_error: "Échec de l'envoi de l'invitation",
+          resend_unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation",
+          revoke_success_prefix: "Invitation à",
+          revoke_success_suffix: "a été révoquée",
+          revoke_error: "Échec de la révocation de l'invitation",
+          revoke_unexpected: "Une erreur inattendue s'est produite lors de la révocation de l'invitation"
+        }
+      },
+      invite: {
+        title: "Inviter un membre de l'équipe",
+        description: "Envoyer une invitation à un nouveau membre de l'équipe pour rejoindre votre organisation",
+        form: {
+          email: {
+            label: "E-mail",
+            placeholder: "membre@example.com",
+            error: "Veuillez entrer une adresse e-mail valide"
+          },
+          role: {
+            label: "Rôle",
+            placeholder: "Sélectionner un rôle",
+            error: "Veuillez sélectionner un rôle"
+          },
+          department: {
+            label: "Département",
+            placeholder: "Sélectionner un département",
+            error: "Veuillez sélectionner un département"
+          },
+          departments: {
+            none: "Aucun",
+            it: "Informatique",
+            hr: "Ressources humaines",
+            admin: "Administrateur",
+            gov: "Gouvernement",
+            itsm: "ITSM",
+            qms: "QMS"
+          }
+        },
+        button: {
+          send: "Envoyer l'invitation",
+          sending: "Envoi de l'invitation...",
+          sent: "Invitation envoyée"
+        },
+        toast: {
+          error: "Échec de l'envoi de l'invitation",
+          unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation"
+        }
+      },
+      member_actions: {
+        actions: "Actions",
+        change_role: "Changer de rôle",
+        remove_member: "Supprimer un membre",
+        remove_confirm: {
+          title: "Supprimer un membre de l'équipe",
+          description_prefix: "Êtes-vous sûr de vouloir supprimer",
+          description_suffix: "Cette action ne peut pas être annulée."
+        },
+        role_dialog: {
+          title: "Changer de rôle",
+          description_prefix: "Mettre à jour le rôle de",
+          role_label: "Rôle",
+          role_placeholder: "Sélectionner un rôle",
+          role_descriptions: {
+            admin: "Les administrateurs peuvent gérer les membres de l'équipe et les paramètres.",
+            member: "Les membres peuvent utiliser toutes les fonctionnalités mais ne peuvent pas gérer les membres de l'équipe.",
+            viewer: "Les spectateurs ne peuvent que visualiser le contenu sans apporter de modifications."
+          },
+          cancel: "Annuler",
+          update: "Mettre à jour le rôle"
+        },
+        toast: {
+          remove_success: "a été retiré de l'organisation",
+          remove_error: "Échec de la suppression du membre",
+          remove_unexpected: "Une erreur inattendue s'est produite lors de la suppression du membre",
+          update_role_success: "a eu son rôle mis à jour en",
+          update_role_error: "Échec de la mise à jour du rôle du membre",
+          update_role_unexpected: "Une erreur inattendue s'est produite lors de la mise à jour du rôle du membre"
+        }
+      }
     }
   },
   user_menu: {
@@ -766,7 +893,8 @@ export default {
       name: "Nom",
       email: "Email",
       department: "Département",
-      externalId: "ID externe"
+      externalId: "ID externe",
+      status: "Statut"
     },
     empty: {
       no_employees: {
@@ -1023,5 +1151,132 @@ export default {
     risks_by_department: "Risques par département",
     vendor_status: "Statut des fournisseurs",
     vendors_by_category: "Fournisseurs par catégorie"
+  },
+  team: {
+    tabs: {
+      members: "Membres de l'équipe",
+      invite: "Inviter des membres"
+    },
+    members: {
+      title: "Membres de l'équipe",
+      empty: {
+        no_organization: {
+          title: "Aucune organisation",
+          description: "Vous ne faites partie d'aucune organisation"
+        },
+        no_members: {
+          title: "Aucun membre",
+          description: "Il n'y a aucun membre actif dans votre organisation"
+        }
+      },
+      role: {
+        owner: "Propriétaire",
+        admin: "Administrateur",
+        member: "Membre",
+        viewer: "Spectateur"
+      }
+    },
+    invitations: {
+      title: "Invitations en attente",
+      description: "Utilisateurs qui ont été invités mais n'ont pas encore accepté",
+      empty: {
+        no_organization: {
+          title: "Aucune organisation",
+          description: "Vous ne faites partie d'aucune organisation"
+        },
+        no_invitations: {
+          title: "Aucune invitation en attente",
+          description: "Il n'y a aucune invitation en attente"
+        }
+      },
+      invitation_sent: "Invitation envoyée",
+      actions: {
+        resend: "Renvoyer l'invitation",
+        sending: "Envoi de l'invitation",
+        revoke: "Révoquer",
+        revoke_title: "Révoquer l'invitation",
+        revoke_description_prefix: "Êtes-vous sûr de vouloir révoquer l'invitation pour",
+        revoke_description_suffix: "Cette action ne peut pas être annulée."
+      },
+      toast: {
+        resend_success_prefix: "Un e-mail d'invitation a été envoyé à",
+        resend_error: "Échec de l'envoi de l'invitation",
+        resend_unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation",
+        revoke_success_prefix: "Invitation à",
+        revoke_success_suffix: "a été révoquée",
+        revoke_error: "Échec de la révocation de l'invitation",
+        revoke_unexpected: "Une erreur inattendue s'est produite lors de la révocation de l'invitation"
+      }
+    },
+    invite: {
+      title: "Inviter un membre de l'équipe",
+      description: "Envoyer une invitation à un nouveau membre de l'équipe pour rejoindre votre organisation",
+      form: {
+        email: {
+          label: "E-mail",
+          placeholder: "membre@exemple.com",
+          error: "Veuillez entrer une adresse e-mail valide"
+        },
+        role: {
+          label: "Rôle",
+          placeholder: "Sélectionner un rôle",
+          error: "Veuillez sélectionner un rôle"
+        },
+        department: {
+          label: "Département",
+          placeholder: "Sélectionner un département",
+          error: "Veuillez sélectionner un département"
+        },
+        departments: {
+          none: "Aucun",
+          it: "Informatique",
+          hr: "Ressources humaines",
+          admin: "Administrateur",
+          gov: "Gouvernement",
+          itsm: "ITSM",
+          qms: "QMS"
+        }
+      },
+      button: {
+        send: "Envoyer l'invitation",
+        sending: "Envoi de l'invitation...",
+        sent: "Invitation envoyée"
+      },
+      toast: {
+        error: "Échec de l'envoi de l'invitation",
+        unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation"
+      }
+    },
+    member_actions: {
+      actions: "Actions",
+      change_role: "Changer de rôle",
+      remove_member: "Supprimer un membre",
+      remove_confirm: {
+        title: "Supprimer un membre de l'équipe",
+        description_prefix: "Êtes-vous sûr de vouloir supprimer",
+        description_suffix: "Cette action ne peut pas être annulée."
+      },
+      role_dialog: {
+        title: "Changer de rôle",
+        description_prefix: "Mettre à jour le rôle de",
+        role_label: "Rôle",
+        role_placeholder: "Sélectionner un rôle",
+        role_descriptions: {
+          admin: "Les administrateurs peuvent gérer les membres de l'équipe et les paramètres.",
+          member: "Les membres peuvent utiliser toutes les fonctionnalités mais ne peuvent pas gérer les membres de l'équipe.",
+          viewer: "Les spectateurs peuvent uniquement visualiser le contenu sans apporter de modifications."
+        },
+        cancel: "Annuler",
+        update: "Mettre à jour le rôle"
+      },
+      toast: {
+        remove_success: "a été retiré de l'organisation",
+        remove_error: "Échec de la suppression du membre",
+        remove_unexpected: "Une erreur inattendue s'est produite lors de la suppression du membre",
+        update_role_success: "a vu son rôle mis à jour en",
+        update_role_error: "Échec de la mise à jour du rôle du membre",
+        update_role_unexpected: "Une erreur inattendue s'est produite lors de la mise à jour du rôle du membre"
+      }
+    }
   }
 } as const;

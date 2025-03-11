@@ -131,6 +131,7 @@ model OrganizationMember {
   id             String         @id @default(cuid())
   role           MembershipRole @default(member)
   invitedEmail   String?
+  inviteCode     String?
   accepted       Boolean        @default(false)
   department     Departments    @default(none)
   joinedAt       DateTime       @default(now())

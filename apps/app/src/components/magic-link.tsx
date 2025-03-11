@@ -8,6 +8,7 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,9 +20,10 @@ const formSchema = z.object({
 
 type Props = {
   className?: string;
+  inviteCode?: string;
 };
 
-export function MagicLinkSignIn({ className }: Props) {
+export function MagicLinkSignIn({ className, inviteCode }: Props) {
   const t = useI18n();
   const [isLoading, setLoading] = useState(false);
   const [isSent, setSent] = useState(false);
@@ -41,7 +43,7 @@ export function MagicLinkSignIn({ className }: Props) {
 
     await signIn("resend", {
       email: email,
-      redirect: false,
+      redirectTo: inviteCode ? `/api/auth/invitation?code=${inviteCode}` : "/",
     })
       .then((res) => {
         setSent(true);

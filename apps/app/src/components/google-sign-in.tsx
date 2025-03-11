@@ -8,7 +8,11 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-export function GoogleSignIn() {
+export function GoogleSignIn({
+  inviteCode,
+}: {
+  inviteCode?: string;
+}) {
   const t = useI18n();
 
   const [isLoading, setLoading] = useState(false);
@@ -17,7 +21,7 @@ export function GoogleSignIn() {
     setLoading(true);
 
     await signIn("google", {
-      redirectTo: "/",
+      redirectTo: inviteCode ? `/api/auth/invitation?code=${inviteCode}` : "/",
     });
   };
 
