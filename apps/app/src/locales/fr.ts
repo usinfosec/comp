@@ -635,7 +635,7 @@ export default {
           },
           no_members: {
             title: "Aucun membre",
-            description: "Il n'y a pas de membres actifs dans votre organisation"
+            description: "Il n'y a aucun membre actif dans votre organisation"
           }
         },
         role: {
@@ -655,7 +655,7 @@ export default {
           },
           no_invitations: {
             title: "Aucune invitation en attente",
-            description: "Il n'y a pas d'invitations en attente"
+            description: "Il n'y a aucune invitation en attente"
           }
         },
         invitation_sent: "Invitation envoyée",
@@ -668,7 +668,7 @@ export default {
           revoke_description_suffix: "Cette action ne peut pas être annulée."
         },
         toast: {
-          resend_success_prefix: "Un email d'invitation a été envoyé à",
+          resend_success_prefix: "Un e-mail d'invitation a été envoyé à",
           resend_error: "Échec de l'envoi de l'invitation",
           resend_unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation",
           revoke_success_prefix: "Invitation à",
@@ -682,9 +682,9 @@ export default {
         description: "Envoyer une invitation à un nouveau membre de l'équipe pour rejoindre votre organisation",
         form: {
           email: {
-            label: "Email",
-            placeholder: "membre@exemple.com",
-            error: "Veuillez entrer une adresse email valide"
+            label: "E-mail",
+            placeholder: "membre@example.com",
+            error: "Veuillez entrer une adresse e-mail valide"
           },
           role: {
             label: "Rôle",
@@ -742,7 +742,7 @@ export default {
           remove_success: "a été retiré de l'organisation",
           remove_error: "Échec de la suppression du membre",
           remove_unexpected: "Une erreur inattendue s'est produite lors de la suppression du membre",
-          update_role_success: "a vu son rôle mis à jour en",
+          update_role_success: "a eu son rôle mis à jour en",
           update_role_error: "Échec de la mise à jour du rôle du membre",
           update_role_unexpected: "Une erreur inattendue s'est produite lors de la mise à jour du rôle du membre"
         }

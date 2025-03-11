@@ -718,7 +718,7 @@ export default {
       },
       member_actions: {
         actions: "Ações",
-        change_role: "Mudar Função",
+        change_role: "Alterar Função",
         remove_member: "Remover Membro",
         remove_confirm: {
           title: "Remover Membro da Equipe",
@@ -726,7 +726,7 @@ export default {
           description_suffix: "Esta ação não pode ser desfeita."
         },
         role_dialog: {
-          title: "Mudar Função",
+          title: "Alterar Função",
           description_prefix: "Atualizar a função de",
           role_label: "Função",
           role_placeholder: "Selecione uma função",

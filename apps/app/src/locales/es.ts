@@ -722,7 +722,7 @@ export default {
         remove_member: "Eliminar miembro",
         remove_confirm: {
           title: "Eliminar miembro del equipo",
-          description_prefix: "¿Estás seguro de que deseas eliminar",
+          description_prefix: "¿Estás seguro de que deseas eliminar a",
           description_suffix: "Esta acción no se puede deshacer."
         },
         role_dialog: {
@@ -731,7 +731,7 @@ export default {
           role_label: "Rol",
           role_placeholder: "Seleccionar un rol",
           role_descriptions: {
-            admin: "Los administradores pueden gestionar a los miembros del equipo y la configuración.",
+            admin: "Los administradores pueden gestionar miembros del equipo y configuraciones.",
             member: "Los miembros pueden usar todas las funciones pero no pueden gestionar a los miembros del equipo.",
             viewer: "Los espectadores solo pueden ver el contenido sin hacer cambios."
           },

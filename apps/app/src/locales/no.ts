@@ -640,13 +640,13 @@ export default {
         },
         role: {
           owner: "Eier",
-          admin: "Administrator",
+          admin: "Admin",
           member: "Medlem",
           viewer: "Seer"
         }
       },
       invitations: {
-        title: "Venter på invitasjoner",
+        title: "Venteinvitasjoner",
         description: "Brukere som har blitt invitert, men som ikke har akseptert ennå",
         empty: {
           no_organization: {
@@ -654,16 +654,16 @@ export default {
             description: "Du er ikke en del av noen organisasjon"
           },
           no_invitations: {
-            title: "Ingen ventende invitasjoner",
-            description: "Det er ingen ventende invitasjoner"
+            title: "Ingen venteinvitasjoner",
+            description: "Det er ingen venteinvitasjoner"
           }
         },
         invitation_sent: "Invitasjon sendt",
         actions: {
           resend: "Send invitasjon på nytt",
           sending: "Sender invitasjon",
-          revoke: "Tilbaketrekke",
-          revoke_title: "Tilbaketrekke invitasjon",
+          revoke: "Tilbaketrekk",
+          revoke_title: "Tilbaketrekk invitasjon",
           revoke_description_prefix: "Er du sikker på at du vil tilbaketrekke invitasjonen for",
           revoke_description_suffix: "Denne handlingen kan ikke angres."
         },
@@ -700,7 +700,7 @@ export default {
             none: "Ingen",
             it: "IT",
             hr: "HR",
-            admin: "Administrator",
+            admin: "Admin",
             gov: "Regjering",
             itsm: "ITSM",
             qms: "Kvalitetssystem"
