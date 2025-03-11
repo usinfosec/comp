@@ -967,7 +967,10 @@ export default {
     },
     dashboard: {
       overview: "Visão Geral",
-      all: "Todos os Testes"
+      all: "Todos os Testes",
+      tests_by_assignee: "Testes por Atribuidor",
+      passed: "Aprovado",
+      failed: "Reprovado"
     }
   },
   vendors: {

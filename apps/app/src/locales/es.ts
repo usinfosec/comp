@@ -996,7 +996,10 @@ export default {
     },
     dashboard: {
       overview: "Resumen",
-      all: "Todas las pruebas"
+      all: "Todas las pruebas",
+      tests_by_assignee: "Pruebas por Asignado",
+      passed: "Aprobado",
+      failed: "Fallido"
     }
   },
   vendors: {

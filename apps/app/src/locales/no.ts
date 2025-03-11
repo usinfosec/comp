@@ -996,7 +996,10 @@ export default {
     },
     dashboard: {
       overview: "Oversikt",
-      all: "Alle tester"
+      all: "Alle tester",
+      tests_by_assignee: "Tester av tildelt",
+      passed: "Bestått",
+      failed: "Feilet"
     }
   },
   vendors: {

@@ -996,7 +996,10 @@ export default {
     },
     dashboard: {
       overview: "Aperçu",
-      all: "Tous les tests"
+      all: "Tous les tests",
+      tests_by_assignee: "Tests par le responsable",
+      passed: "Réussi",
+      failed: "Échoué"
     }
   },
   vendors: {

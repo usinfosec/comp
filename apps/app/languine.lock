@@ -496,6 +496,9 @@ files:
     settings.billing.title: 780c462e85ba4399a5d42e88f69a15ca
     tests.dashboard.overview: 3b878279a04dc47d60932cb294d96259
     tests.dashboard.all: 4af914ce814e18174e3b7b38f8bdf9e9
+    tests.dashboard.tests_by_assignee: 7548b0d1d9be13db03c63788b36637e8
+    tests.dashboard.passed: a0d0628f6b4e4d78d2ffef4d4d1c4b15
+    tests.dashboard.failed: d7c8c85bf79bbe1b7188497c32c3b0ca
     tests.name: 107f3983ed2f362df6195c163001fe7b
     tests.title: 107f3983ed2f362df6195c163001fe7b
     tests.actions.create: 348a2d59fd6abf9c9ba4e1ce664f6fc5
