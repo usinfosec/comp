@@ -10,13 +10,16 @@ import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Label } from "@bubba/ui/label";
 import { formatDate } from "@/utils/format";
 import { Button } from "@bubba/ui/button";
+import { EditableDepartment } from "./EditableDepartment";
+import type { Departments } from "@bubba/db";
+
 interface EmployeeDetailsProps {
 	employeeId: string;
 }
 
 export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 	const t = useI18n();
-	const { employee, isLoading, error } = useEmployeeDetails(employeeId);
+	const { employee, isLoading, error, mutate } = useEmployeeDetails(employeeId);
 
 	if (error) {
 		if (error.code === "NOT_FOUND") {
@@ -83,10 +86,11 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 								{formatDate(employee.createdAt.toISOString(), "MMM d, yyyy")}
 							</p>
 						</div>
-						<div className="flex flex-col gap-2">
-							<Label>Department</Label>
-							<p>{employee.department}</p>
-						</div>
+						<EditableDepartment
+							employeeId={employee.id}
+							currentDepartment={employee.department as Departments}
+							onSuccess={() => mutate()}
+						/>
 					</div>
 				</CardContent>
 			</Card>

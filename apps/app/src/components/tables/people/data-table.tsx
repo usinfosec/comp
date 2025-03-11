@@ -171,7 +171,7 @@ export function DataTable({
 									} else if (cell.column.id === "email") {
 										cellClassName = "w-[30%] hidden md:table-cell";
 									} else if (cell.column.id === "department") {
-										cellClassName = "w-[20%]";
+										cellClassName = "w-[20%] uppercase";
 									} else if (cell.column.id === "status") {
 										cellClassName = "w-[20%] text-center";
 									}
