@@ -1,7 +1,6 @@
 "use client";
 
 import { createApiKeyAction } from "@/actions/organization/create-api-key-action";
-import { apiKeySchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import {
@@ -99,7 +98,7 @@ export function CreateApiKeyDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={handleClose}>
-			<DialogContent>
+			<DialogContent className="mx-4 w-[calc(100%-2rem)] sm:w-full sm:max-w-md">
 				{createdApiKey ? (
 					<>
 						<DialogHeader>
@@ -128,7 +127,6 @@ export function CreateApiKeyDialog({
 											size="icon"
 											className="absolute right-1 top-1/2 -translate-y-1/2"
 											onClick={copyToClipboard}
-											title="Copy"
 										>
 											{copied ? (
 												<Check className="h-4 w-4" />
@@ -144,7 +142,7 @@ export function CreateApiKeyDialog({
 							</div>
 						</div>
 						<DialogFooter>
-							<Button onClick={handleClose}>
+							<Button onClick={handleClose} className="w-full sm:w-auto">
 								{t("settings.api_keys.done")}
 							</Button>
 						</DialogFooter>
@@ -171,6 +169,7 @@ export function CreateApiKeyDialog({
 									onChange={(e) => setName(e.target.value)}
 									placeholder={t("settings.api_keys.name_placeholder")}
 									required
+									className="w-full"
 								/>
 							</div>
 							<div className="space-y-2">
@@ -188,7 +187,7 @@ export function CreateApiKeyDialog({
 										)
 									}
 								>
-									<SelectTrigger id="expiration">
+									<SelectTrigger id="expiration" className="w-full">
 										<SelectValue
 											placeholder={t(
 												"settings.api_keys.expiration_placeholder",
@@ -211,11 +210,15 @@ export function CreateApiKeyDialog({
 									</SelectContent>
 								</Select>
 							</div>
-							<DialogFooter>
+							<DialogFooter className="flex-col sm:flex-row gap-2 pt-2">
 								<Button type="button" variant="outline" onClick={handleClose}>
 									{t("common.actions.cancel")}
 								</Button>
-								<Button type="submit" disabled={isCreating === "executing"}>
+								<Button
+									type="submit"
+									disabled={isCreating === "executing"}
+									className="w-full sm:w-auto"
+								>
 									{isCreating === "executing" && (
 										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 									)}

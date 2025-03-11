@@ -19,7 +19,7 @@ export const policiesInputSchema = z.object({
   ownerId: z.string().optional(),
   sort: z.string().optional(),
   page: z.number().default(1),
-  per_page: z.number().default(10),
+  pageSize: z.number().default(10),
 });
 
 export type Policy = z.infer<typeof policySchema>;

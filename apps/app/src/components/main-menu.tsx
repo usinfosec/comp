@@ -174,13 +174,18 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 			disabled: false,
 		},
 		{
-			path: "/policies",
-			name: t("sidebar.policies"),
+			path: "/evidence/overview",
+			name: t("sidebar.evidence"),
 			disabled: false,
 		},
 		{
-			path: "/evidence/overview",
-			name: t("sidebar.evidence"),
+			path: "/tests",
+			name: t("sidebar.tests"),
+			disabled: false,
+		},
+		{
+			path: "/policies",
+			name: t("sidebar.policies"),
 			disabled: false,
 		},
 		{
@@ -194,14 +199,9 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 			disabled: false,
 		},
 		{
-			path: "/tests",
-			name: t("sidebar.tests"),
-			disabled: false,
-		},
-		{
 			path: "/vendors",
 			name: t("sidebar.vendors"),
-			disabled: true,
+			disabled: false,
 		},
 		{
 			path: "/integrations",

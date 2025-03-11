@@ -580,8 +580,8 @@ export default {
       description: "Gerencie chaves da API para acesso programático aos dados da sua organização.",
       list_title: "Chaves da API",
       list_description: "As chaves da API permitem acesso seguro aos dados da sua organização através da nossa API.",
-      create: "Criar Chave da API",
-      create_title: "Criar Chave da API",
+      create: "Nova Chave da API",
+      create_title: "Nova Chave da API",
       create_description: "Crie uma nova chave da API para acesso programático aos dados da sua organização.",
       created_title: "Chave da API Criada",
       created_description: "Sua chave da API foi criada. Certifique-se de copiá-la agora, pois você não poderá vê-la novamente.",
@@ -965,5 +965,20 @@ export default {
       no_results: "Nenhum resultado encontrado",
       status: "Status"
     }
+  },
+  vendors: {
+    title: "Fornecedores",
+    register: {
+      title: "Registro de Fornecedor"
+    },
+    dashboard: {
+      title: "Visão Geral do Fornecedor"
+    }
+  },
+  dashboard: {
+    risk_status: "Status de Risco",
+    risks_by_department: "Riscos por Departamento",
+    vendor_status: "Status do Fornecedor",
+    vendors_by_category: "Fornecedores por Categoria"
   }
 } as const;

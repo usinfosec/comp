@@ -580,8 +580,8 @@ export default {
       description: "Administrer API-nøkler for programmatisk tilgang til dataene i organisasjonen din.",
       list_title: "API-nøkler",
       list_description: "API-nøkler gir sikker tilgang til dataene i organisasjonen din via vårt API.",
-      create: "Opprett API-nøkkel",
-      create_title: "Opprett API-nøkkel",
+      create: "Ny API-nøkkel",
+      create_title: "Ny API-nøkkel",
       create_description: "Opprett en ny API-nøkkel for programmatisk tilgang til dataene i organisasjonen din.",
       created_title: "API-nøkkel opprettet",
       created_description: "API-nøkkelen din har blitt opprettet. Sørg for å kopiere den nå, da du ikke vil kunne se den igjen.",
@@ -994,5 +994,20 @@ export default {
       no_results: "Ingen resultater funnet",
       status: "Status"
     }
+  },
+  vendors: {
+    title: "Leverandører",
+    register: {
+      title: "Leverandørregister"
+    },
+    dashboard: {
+      title: "Oversikt over leverandører"
+    }
+  },
+  dashboard: {
+    risk_status: "Risiko Status",
+    risks_by_department: "Risikoer etter avdeling",
+    vendor_status: "Leverandørstatus",
+    vendors_by_category: "Leverandører etter kategori"
   }
 } as const;

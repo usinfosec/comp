@@ -12,7 +12,7 @@ function generatePoliciesCacheKey(
   status?: string,
   page = 1,
   per_page = 10,
-  sort?: string,
+  sort?: string
 ) {
   return `policies-${organizationId}-${search || ""}-${status || ""}-${page}-${per_page}-${sort || ""}`;
 }
@@ -118,7 +118,7 @@ const getCachedPolicies = unstable_cache(
   ["policies"],
   {
     tags: ["policies"],
-  },
+  }
 );
 
 export const getPolicies = authActionClient
@@ -131,7 +131,7 @@ export const getPolicies = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { search, status, page = 1, per_page = 10, sort } = parsedInput;
+    const { search, status, page = 1, pageSize = 10, sort } = parsedInput;
     const { user } = ctx;
 
     if (!user.organizationId) {
@@ -147,7 +147,7 @@ export const getPolicies = authActionClient
         search,
         status,
         page,
-        per_page,
+        per_page: pageSize,
         sort,
       });
 

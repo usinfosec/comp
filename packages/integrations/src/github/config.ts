@@ -5,7 +5,7 @@ export default {
   name: "GitHub",
   id: "github",
   active: true,
-  logo: Logo,
+  logo: image,
   short_description:
     "Connect your GitHub account to Bubba to automate evidence collection for cloud resources",
   description:
