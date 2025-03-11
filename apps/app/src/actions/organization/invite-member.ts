@@ -10,6 +10,15 @@ import { createHash } from "node:crypto";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
 
+const generateInviteCode = (email: string, organizationId: string) => {
+	const randomSalt = crypto.randomUUID();
+
+	return createHash("sha256")
+		.update(`${email}:${organizationId}:${randomSalt}:${Date.now()}`)
+		.digest("hex")
+		.substring(0, 32);
+};
+
 const inviteMemberSchema = z.object({
 	email: z.string().email(),
 	role: z.nativeEnum(MembershipRole).default(MembershipRole.member),
@@ -55,6 +64,8 @@ export const inviteMember = authActionClient
 					},
 				});
 
+				const inviteCode = generateInviteCode(email, ctx.user.organizationId);
+
 				if (existingMember) {
 					if (existingMember.accepted) {
 						return {
@@ -84,7 +95,7 @@ export const inviteMember = authActionClient
 						const newUser = await db.user.create({
 							data: {
 								email,
-								name: email.split("@")[0], // Use part of email as temporary name
+								name: email.split("@")[0],
 							},
 						});
 						userId = newUser.id;
@@ -96,15 +107,15 @@ export const inviteMember = authActionClient
 							role,
 							department,
 							invitedEmail: email,
+							inviteCode,
 							accepted: false,
 							organizationId: ctx.user.organizationId,
 							joinedAt: new Date(),
-							userId, // This is required by the schema
+							userId,
 						},
 					});
 				}
 
-				// Fetch the organization name
 				const organization = await db.organization.findUnique({
 					where: {
 						id: ctx.user.organizationId,
@@ -114,14 +125,6 @@ export const inviteMember = authActionClient
 					},
 				});
 
-				// Create an invite code based on hashed email and organization ID
-				// Since we don't store this in the database, we'll regenerate it when needed
-				const inviteCode = createHash("sha256")
-					.update(`${email}:${ctx.user.organizationId}`)
-					.digest("hex")
-					.substring(0, 32);
-
-				// Send invitation email
 				await sendEmail({
 					to: email,
 					subject: `You've been invited to join ${organization?.name || "an organization"} on Comp AI`,

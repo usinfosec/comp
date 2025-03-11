@@ -3,8 +3,6 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
-
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const inviteCode = searchParams.get("code");
@@ -16,7 +14,7 @@ export async function GET(request: Request) {
 	const session = await auth();
 
 	if (!session?.user?.id) {
-		return redirect("/auth");
+		return redirect(`/auth?inviteCode=${encodeURIComponent(inviteCode)}`);
 	}
 
 	try {

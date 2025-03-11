@@ -5,7 +5,6 @@ import { authActionClient } from "../safe-action";
 import { z } from "zod";
 import type { ActionResponse } from "../types";
 import { createSafeActionClient } from "next-safe-action";
-import { createHash } from "node:crypto";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 const inviteCodeSchema = z.object({
@@ -13,10 +12,11 @@ const inviteCodeSchema = z.object({
 });
 
 async function findMemberByInviteCode(inviteCode: string) {
-	const pendingInvitations = await db.organizationMember.findMany({
+	const pendingInvitation = await db.organizationMember.findFirst({
 		where: {
 			accepted: false,
 			invitedEmail: { not: null },
+			inviteCode: inviteCode,
 		},
 		include: {
 			organization: {
@@ -28,16 +28,7 @@ async function findMemberByInviteCode(inviteCode: string) {
 		},
 	});
 
-	return pendingInvitations.find((invitation) => {
-		if (!invitation.invitedEmail || !invitation.organizationId) return false;
-
-		const computedHash = createHash("sha256")
-			.update(`${invitation.invitedEmail}:${invitation.organizationId}`)
-			.digest("hex")
-			.substring(0, 32);
-
-		return computedHash === inviteCode;
-	});
+	return pendingInvitation;
 }
 
 const publicActionClient = createSafeActionClient();
