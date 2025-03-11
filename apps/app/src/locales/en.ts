@@ -677,6 +677,141 @@ export default {
 		members: {
 			title: "Members",
 		},
+		team: {
+			tabs: {
+				members: "Team Members",
+				invite: "Invite Members",
+			},
+			members: {
+				title: "Team Members",
+				empty: {
+					no_organization: {
+						title: "No Organization",
+						description: "You are not part of any organization",
+					},
+					no_members: {
+						title: "No Members",
+						description: "There are no active members in your organization",
+					},
+				},
+				role: {
+					owner: "Owner",
+					admin: "Admin",
+					member: "Member",
+					viewer: "Viewer",
+				},
+			},
+			invitations: {
+				title: "Pending Invitations",
+				description: "Users who have been invited but haven't accepted yet",
+				empty: {
+					no_organization: {
+						title: "No Organization",
+						description: "You are not part of any organization",
+					},
+					no_invitations: {
+						title: "No Pending Invitations",
+						description: "There are no pending invitations",
+					},
+				},
+				invitation_sent: "Invitation sent",
+				actions: {
+					resend: "Resend Invite",
+					sending: "Sending Invite",
+					revoke: "Revoke",
+					revoke_title: "Revoke Invitation",
+					revoke_description_prefix:
+						"Are you sure you want to revoke the invitation for",
+					revoke_description_suffix: "This action cannot be undone.",
+				},
+				toast: {
+					resend_success_prefix: "An invitation email has been sent to",
+					resend_error: "Failed to send invitation",
+					resend_unexpected:
+						"An unexpected error occurred while sending the invitation",
+					revoke_success_prefix: "Invitation to",
+					revoke_success_suffix: "has been revoked",
+					revoke_error: "Failed to revoke invitation",
+					revoke_unexpected:
+						"An unexpected error occurred while revoking the invitation",
+				},
+			},
+			invite: {
+				title: "Invite Team Member",
+				description:
+					"Send an invitation to a new team member to join your organization",
+				form: {
+					email: {
+						label: "Email",
+						placeholder: "member@example.com",
+						error: "Please enter a valid email address",
+					},
+					role: {
+						label: "Role",
+						placeholder: "Select a role",
+						error: "Please select a role",
+					},
+					department: {
+						label: "Department",
+						placeholder: "Select a department",
+						error: "Please select a department",
+					},
+					departments: {
+						none: "None",
+						it: "IT",
+						hr: "HR",
+						admin: "Admin",
+						gov: "Government",
+						itsm: "ITSM",
+						qms: "QMS",
+					},
+				},
+				button: {
+					send: "Send Invitation",
+					sending: "Sending invitation...",
+					sent: "Invitation Sent",
+				},
+				toast: {
+					error: "Failed to send invitation",
+					unexpected:
+						"An unexpected error occurred while sending the invitation",
+				},
+			},
+			member_actions: {
+				actions: "Actions",
+				change_role: "Change Role",
+				remove_member: "Remove Member",
+				remove_confirm: {
+					title: "Remove Team Member",
+					description_prefix: "Are you sure you want to remove",
+					description_suffix: "This action cannot be undone.",
+				},
+				role_dialog: {
+					title: "Change Role",
+					description_prefix: "Update the role for",
+					role_label: "Role",
+					role_placeholder: "Select a role",
+					role_descriptions: {
+						admin: "Admins can manage team members and settings.",
+						member:
+							"Members can use all features but cannot manage team members.",
+						viewer: "Viewers can only view content without making changes.",
+					},
+					cancel: "Cancel",
+					update: "Update Role",
+				},
+				toast: {
+					remove_success: "has been removed from the organization",
+					remove_error: "Failed to remove member",
+					remove_unexpected:
+						"An unexpected error occurred while removing the member",
+					update_role_success: "has had their role updated to",
+					update_role_error: "Failed to update member role",
+					update_role_unexpected:
+						"An unexpected error occurred while updating the member's role",
+				},
+			},
+		},
 		api_keys: {
 			title: "API Keys",
 			description:
@@ -927,139 +1062,5 @@ export default {
 		risks_by_department: "Risks by Department",
 		vendor_status: "Vendor Status",
 		vendors_by_category: "Vendors by Category",
-	},
-	team: {
-		tabs: {
-			members: "Team Members",
-			invite: "Invite Members",
-		},
-		members: {
-			title: "Team Members",
-			empty: {
-				no_organization: {
-					title: "No Organization",
-					description: "You are not part of any organization",
-				},
-				no_members: {
-					title: "No Members",
-					description: "There are no active members in your organization",
-				},
-			},
-			role: {
-				owner: "Owner",
-				admin: "Admin",
-				member: "Member",
-				viewer: "Viewer",
-			},
-		},
-		invitations: {
-			title: "Pending Invitations",
-			description: "Users who have been invited but haven't accepted yet",
-			empty: {
-				no_organization: {
-					title: "No Organization",
-					description: "You are not part of any organization",
-				},
-				no_invitations: {
-					title: "No Pending Invitations",
-					description: "There are no pending invitations",
-				},
-			},
-			invitation_sent: "Invitation sent",
-			actions: {
-				resend: "Resend Invite",
-				sending: "Sending Invite",
-				revoke: "Revoke",
-				revoke_title: "Revoke Invitation",
-				revoke_description_prefix:
-					"Are you sure you want to revoke the invitation for",
-				revoke_description_suffix: "This action cannot be undone.",
-			},
-			toast: {
-				resend_success_prefix: "An invitation email has been sent to",
-				resend_error: "Failed to send invitation",
-				resend_unexpected:
-					"An unexpected error occurred while sending the invitation",
-				revoke_success_prefix: "Invitation to",
-				revoke_success_suffix: "has been revoked",
-				revoke_error: "Failed to revoke invitation",
-				revoke_unexpected:
-					"An unexpected error occurred while revoking the invitation",
-			},
-		},
-		invite: {
-			title: "Invite Team Member",
-			description:
-				"Send an invitation to a new team member to join your organization",
-			form: {
-				email: {
-					label: "Email",
-					placeholder: "member@example.com",
-					error: "Please enter a valid email address",
-				},
-				role: {
-					label: "Role",
-					placeholder: "Select a role",
-					error: "Please select a role",
-				},
-				department: {
-					label: "Department",
-					placeholder: "Select a department",
-					error: "Please select a department",
-				},
-				departments: {
-					none: "None",
-					it: "IT",
-					hr: "HR",
-					admin: "Admin",
-					gov: "Government",
-					itsm: "ITSM",
-					qms: "QMS",
-				},
-			},
-			button: {
-				send: "Send Invitation",
-				sending: "Sending invitation...",
-				sent: "Invitation Sent",
-			},
-			toast: {
-				error: "Failed to send invitation",
-				unexpected: "An unexpected error occurred while sending the invitation",
-			},
-		},
-		member_actions: {
-			actions: "Actions",
-			change_role: "Change Role",
-			remove_member: "Remove Member",
-			remove_confirm: {
-				title: "Remove Team Member",
-				description_prefix: "Are you sure you want to remove",
-				description_suffix: "This action cannot be undone.",
-			},
-			role_dialog: {
-				title: "Change Role",
-				description_prefix: "Update the role for",
-				role_label: "Role",
-				role_placeholder: "Select a role",
-				role_descriptions: {
-					admin: "Admins can manage team members and settings.",
-					member:
-						"Members can use all features but cannot manage team members.",
-					viewer: "Viewers can only view content without making changes.",
-				},
-				cancel: "Cancel",
-				update: "Update Role",
-			},
-			toast: {
-				remove_success: "has been removed from the organization",
-				remove_error: "Failed to remove member",
-				remove_unexpected:
-					"An unexpected error occurred while removing the member",
-				update_role_success: "has had their role updated to",
-				update_role_error: "Failed to update member role",
-				update_role_unexpected:
-					"An unexpected error occurred while updating the member's role",
-			},
-		},
 	},
 } as const;
