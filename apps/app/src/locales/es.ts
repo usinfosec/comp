@@ -763,10 +763,11 @@ export default {
       clear: "Limpiar filtros"
     },
     table: {
-      name: "Nombre",
+      name: "Nombre del empleado",
       email: "Correo Electrónico",
       department: "Departamento",
-      externalId: "ID Externo"
+      externalId: "ID Externo",
+      status: "Estado"
     },
     empty: {
       no_employees: {

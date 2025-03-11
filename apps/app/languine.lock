@@ -402,9 +402,10 @@ files:
     people.filters.role: 4a49167c423fab80b22db2b551813a81
     people.actions.invite: 3aa4cd2c53d3d24b465398053e12fe65
     people.actions.clear: 0b275442d6556cff30b75f37f1918899
-    people.table.name: 49ee3087348e8d44e1feda1917443987
+    people.table.name: 717231b5b2cf0543d46d6555f25c56b4
     people.table.email: ce8ae9da5b7cd6c3df2929543a9af92d
     people.table.department: 1d17cb9923b99f823da9f5a16dc460e5
+    people.table.status: ec53a8c4f07baed5d8825072c89799be
     people.table.externalId: 01ddb49044c161b11fdb0c41adbeb3b3
     people.empty.no_employees.title: 9047cc33a16248133c3fcc8884523588
     people.empty.no_employees.description: 3fdb36a3d56c06043da562aaa1045825

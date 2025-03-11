@@ -42,12 +42,6 @@ export const getEmployees = authActionClient
                 : {},
             ],
           },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            department: true,
-          },
           skip,
           take: per_page,
         }),
