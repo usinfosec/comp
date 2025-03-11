@@ -1,5 +1,6 @@
 "use client";
 
+import { useComplianceScores } from "@/hooks/use-compliance-scores";
 import { useI18n } from "@/locales/client";
 import type {
 	Framework,
@@ -8,9 +9,8 @@ import type {
 } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { FileStack, FileText, CheckCircle, Cloud } from "lucide-react";
+import { FileStack } from "lucide-react";
 import Link from "next/link";
-import { useComplianceScores } from "@/hooks/use-compliance-scores";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
