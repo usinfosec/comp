@@ -406,6 +406,7 @@ files:
     people.table.email: ce8ae9da5b7cd6c3df2929543a9af92d
     people.table.department: 1d17cb9923b99f823da9f5a16dc460e5
     people.table.externalId: 01ddb49044c161b11fdb0c41adbeb3b3
+    people.table.status: ec53a8c4f07baed5d8825072c89799be
     people.empty.no_employees.title: 9047cc33a16248133c3fcc8884523588
     people.empty.no_employees.description: 3fdb36a3d56c06043da562aaa1045825
     people.empty.no_results.title: e576c23d915755d83e2d1f47bd9f6c22
@@ -447,6 +448,51 @@ files:
     settings.general.delete_confirm_tip: 97e957e2354c8329aa437ed16be68eef
     settings.general.cancel_button: ea4788705e6873b424c65e91c2846b19
     settings.members.title: ef53538ae41a651c7f72ab6cb1135d8c
+    settings.api_keys.title: b4717f6ab3c2357c13c0c2cd32dfc4ca
+    settings.api_keys.description: a73bc7101920a4a2a821a6640ae95fc5
+    settings.api_keys.list_title: b4717f6ab3c2357c13c0c2cd32dfc4ca
+    settings.api_keys.list_description: 43aeedd6a4d60ad7a7c81cd81386e63e
+    settings.api_keys.create: 17dcee9df9da51b6808235edb471700a
+    settings.api_keys.create_title: 17dcee9df9da51b6808235edb471700a
+    settings.api_keys.create_description: b4e48d0aee029d3a32fb5ca5e2e82a3a
+    settings.api_keys.created_title: 46906edf876a3f62534fe9dd55b42e80
+    settings.api_keys.created_description: 445e205d7cc8d54e322b0b1270060b31
+    settings.api_keys.name: 49ee3087348e8d44e1feda1917443987
+    settings.api_keys.name_label: 49ee3087348e8d44e1feda1917443987
+    settings.api_keys.name_placeholder: 08280d19b14f9f2f93f631f14339faec
+    settings.api_keys.expiration: d30fd576bd308f6facc9343ebd031b8e
+    settings.api_keys.expiration_placeholder: a3cd16ee0d64b456fe67ea56201ac0a1
+    settings.api_keys.expires_label: cfc36842a01da69c484ffdcc6782f437
+    settings.api_keys.expires_placeholder: a3cd16ee0d64b456fe67ea56201ac0a1
+    settings.api_keys.expires_30days: 947d8520f04473da621f2718138f3bc6
+    settings.api_keys.expires_90days: ed0c9b5fb2f44a77915d0ce45d0c501c
+    settings.api_keys.expires_1year: ca4c73c1f333c437a47c58afd0623530
+    settings.api_keys.expires_never: 6e7b34fa59e1bd229b207892956dc41c
+    settings.api_keys.thirty_days: 947d8520f04473da621f2718138f3bc6
+    settings.api_keys.ninety_days: ed0c9b5fb2f44a77915d0ce45d0c501c
+    settings.api_keys.one_year: ca4c73c1f333c437a47c58afd0623530
+    settings.api_keys.your_key: df450f0d7d14608dfd9c93b45e05a5db
+    settings.api_keys.api_key: d876ff8da67c3731ae25d8335a4168b4
+    settings.api_keys.save_warning: 5e7347709aff7059dcbeaf7cd614d24a
+    settings.api_keys.copied: 62a2f11192b5dfcff44b7d0b4953dcdf
+    settings.api_keys.close_confirm: c845770ff7a61dcedeedbd05934319d5
+    settings.api_keys.revoke_confirm: c4cc0ad8b9b76fb0e1a81b3c7f9f438e
+    settings.api_keys.revoke_title: d5f76995f7a0856da6776f4947c44ad8
+    settings.api_keys.revoke: 21313f76b111bc0df501bf89fc96ba46
+    settings.api_keys.created: 0eceeb45861f9585dd7a97a3e36f85c6
+    settings.api_keys.expires: cfc36842a01da69c484ffdcc6782f437
+    settings.api_keys.last_used: 3b76a1f6eacb8549628a549d808ef9d9
+    settings.api_keys.actions: 06df33001c1d7187fdd81ea1f5b277aa
+    settings.api_keys.never: 6e7b34fa59e1bd229b207892956dc41c
+    settings.api_keys.never_used: 59c73af4d807a1dab868f1c65b83db57
+    settings.api_keys.no_keys: 939f147b56110a35a041bc72bff5379f
+    settings.api_keys.security_note: aabfa355e4937f843febe97ca0365b19
+    settings.api_keys.fetch_error: 0c51948a1c6264a813f6a45c01d1791d
+    settings.api_keys.create_error: 694f468276bfc08b290150a6c945f936
+    settings.api_keys.revoked_success: 883ce66d572b9f1317370578a0852bc1
+    settings.api_keys.revoked_error: cea5338af704d2fb6ec7cf7fbfbd3b1a
+    settings.api_keys.done: f92965e2c8a7afb3c1b9a5c09a263636
+    settings.billing.title: 780c462e85ba4399a5d42e88f69a15ca
     settings.team.tabs.members: 8196446d7293bfeb288d7c21e36a1886
     settings.team.tabs.invite: d7c13e986bffeec28fdbdc413cd28d5d
     settings.team.members.title: 8196446d7293bfeb288d7c21e36a1886
@@ -522,51 +568,6 @@ files:
     settings.team.member_actions.toast.update_role_success: 1684df20410d7616d2fb777bfddebad4
     settings.team.member_actions.toast.update_role_error: 028ae3137e2cb73735b4365a5e2c5ffc
     settings.team.member_actions.toast.update_role_unexpected: 92b723c3dca6aaafd5de145aab7dd9d2
-    settings.api_keys.title: b4717f6ab3c2357c13c0c2cd32dfc4ca
-    settings.api_keys.description: a73bc7101920a4a2a821a6640ae95fc5
-    settings.api_keys.list_title: b4717f6ab3c2357c13c0c2cd32dfc4ca
-    settings.api_keys.list_description: 43aeedd6a4d60ad7a7c81cd81386e63e
-    settings.api_keys.create: 17dcee9df9da51b6808235edb471700a
-    settings.api_keys.create_title: 17dcee9df9da51b6808235edb471700a
-    settings.api_keys.create_description: b4e48d0aee029d3a32fb5ca5e2e82a3a
-    settings.api_keys.created_title: 46906edf876a3f62534fe9dd55b42e80
-    settings.api_keys.created_description: 445e205d7cc8d54e322b0b1270060b31
-    settings.api_keys.name: 49ee3087348e8d44e1feda1917443987
-    settings.api_keys.name_label: 49ee3087348e8d44e1feda1917443987
-    settings.api_keys.name_placeholder: 08280d19b14f9f2f93f631f14339faec
-    settings.api_keys.expiration: d30fd576bd308f6facc9343ebd031b8e
-    settings.api_keys.expiration_placeholder: a3cd16ee0d64b456fe67ea56201ac0a1
-    settings.api_keys.expires_label: cfc36842a01da69c484ffdcc6782f437
-    settings.api_keys.expires_placeholder: a3cd16ee0d64b456fe67ea56201ac0a1
-    settings.api_keys.expires_30days: 947d8520f04473da621f2718138f3bc6
-    settings.api_keys.expires_90days: ed0c9b5fb2f44a77915d0ce45d0c501c
-    settings.api_keys.expires_1year: ca4c73c1f333c437a47c58afd0623530
-    settings.api_keys.expires_never: 6e7b34fa59e1bd229b207892956dc41c
-    settings.api_keys.thirty_days: 947d8520f04473da621f2718138f3bc6
-    settings.api_keys.ninety_days: ed0c9b5fb2f44a77915d0ce45d0c501c
-    settings.api_keys.one_year: ca4c73c1f333c437a47c58afd0623530
-    settings.api_keys.your_key: df450f0d7d14608dfd9c93b45e05a5db
-    settings.api_keys.api_key: d876ff8da67c3731ae25d8335a4168b4
-    settings.api_keys.save_warning: 5e7347709aff7059dcbeaf7cd614d24a
-    settings.api_keys.copied: 62a2f11192b5dfcff44b7d0b4953dcdf
-    settings.api_keys.close_confirm: c845770ff7a61dcedeedbd05934319d5
-    settings.api_keys.revoke_confirm: c4cc0ad8b9b76fb0e1a81b3c7f9f438e
-    settings.api_keys.revoke_title: d5f76995f7a0856da6776f4947c44ad8
-    settings.api_keys.revoke: 21313f76b111bc0df501bf89fc96ba46
-    settings.api_keys.created: 0eceeb45861f9585dd7a97a3e36f85c6
-    settings.api_keys.expires: cfc36842a01da69c484ffdcc6782f437
-    settings.api_keys.last_used: 3b76a1f6eacb8549628a549d808ef9d9
-    settings.api_keys.actions: 06df33001c1d7187fdd81ea1f5b277aa
-    settings.api_keys.never: 6e7b34fa59e1bd229b207892956dc41c
-    settings.api_keys.never_used: 59c73af4d807a1dab868f1c65b83db57
-    settings.api_keys.no_keys: 939f147b56110a35a041bc72bff5379f
-    settings.api_keys.security_note: aabfa355e4937f843febe97ca0365b19
-    settings.api_keys.fetch_error: 0c51948a1c6264a813f6a45c01d1791d
-    settings.api_keys.create_error: 694f468276bfc08b290150a6c945f936
-    settings.api_keys.revoked_success: 883ce66d572b9f1317370578a0852bc1
-    settings.api_keys.revoked_error: cea5338af704d2fb6ec7cf7fbfbd3b1a
-    settings.api_keys.done: f92965e2c8a7afb3c1b9a5c09a263636
-    settings.billing.title: 780c462e85ba4399a5d42e88f69a15ca
     tests.name: 107f3983ed2f362df6195c163001fe7b
     tests.title: 107f3983ed2f362df6195c163001fe7b
     tests.actions.create: 348a2d59fd6abf9c9ba4e1ce664f6fc5
