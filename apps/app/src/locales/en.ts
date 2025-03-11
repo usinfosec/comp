@@ -609,6 +609,7 @@ export default {
 			email: "Email",
 			department: "Department",
 			externalId: "External ID",
+			status: "Status",
 		},
 		empty: {
 			no_employees: {
@@ -676,6 +677,63 @@ export default {
 		},
 		members: {
 			title: "Members",
+		},
+		api_keys: {
+			title: "API Keys",
+			description:
+				"Manage API keys for programmatic access to your organization's data.",
+			list_title: "API Keys",
+			list_description:
+				"API keys allow secure access to your organization's data via our API.",
+			create: "New API Key",
+			create_title: "New API Key",
+			create_description:
+				"Create a new API key for programmatic access to your organization's data.",
+			created_title: "API Key Created",
+			created_description:
+				"Your API key has been created. Make sure to copy it now as you won't be able to see it again.",
+			name: "Name",
+			name_label: "Name",
+			name_placeholder: "Enter a name for this API key",
+			expiration: "Expiration",
+			expiration_placeholder: "Select expiration",
+			expires_label: "Expires",
+			expires_placeholder: "Select expiration",
+			expires_30days: "30 days",
+			expires_90days: "90 days",
+			expires_1year: "1 year",
+			expires_never: "Never",
+			thirty_days: "30 days",
+			ninety_days: "90 days",
+			one_year: "1 year",
+			your_key: "Your API Key",
+			api_key: "API Key",
+			save_warning:
+				"This key will only be shown once. Make sure to copy it now.",
+			copied: "API key copied to clipboard",
+			close_confirm:
+				"Are you sure you want to close? You won't be able to see this API key again.",
+			revoke_confirm:
+				"Are you sure you want to revoke this API key? This action cannot be undone.",
+			revoke_title: "Revoke API Key",
+			revoke: "Revoke",
+			created: "Created",
+			expires: "Expires",
+			last_used: "Last Used",
+			actions: "Actions",
+			never: "Never",
+			never_used: "Never used",
+			no_keys: "No API keys found. Create one to get started.",
+			security_note:
+				"API keys provide full access to your organization's data. Keep them secure and rotate them regularly.",
+			fetch_error: "Failed to fetch API keys",
+			create_error: "Failed to create API key",
+			revoked_success: "API key revoked successfully",
+			revoked_error: "Failed to revoke API key",
+			done: "Done",
+		},
+		billing: {
+			title: "Billing",
 		},
 		team: {
 			tabs: {
@@ -811,63 +869,6 @@ export default {
 						"An unexpected error occurred while updating the member's role",
 				},
 			},
-		},
-		api_keys: {
-			title: "API Keys",
-			description:
-				"Manage API keys for programmatic access to your organization's data.",
-			list_title: "API Keys",
-			list_description:
-				"API keys allow secure access to your organization's data via our API.",
-			create: "New API Key",
-			create_title: "New API Key",
-			create_description:
-				"Create a new API key for programmatic access to your organization's data.",
-			created_title: "API Key Created",
-			created_description:
-				"Your API key has been created. Make sure to copy it now as you won't be able to see it again.",
-			name: "Name",
-			name_label: "Name",
-			name_placeholder: "Enter a name for this API key",
-			expiration: "Expiration",
-			expiration_placeholder: "Select expiration",
-			expires_label: "Expires",
-			expires_placeholder: "Select expiration",
-			expires_30days: "30 days",
-			expires_90days: "90 days",
-			expires_1year: "1 year",
-			expires_never: "Never",
-			thirty_days: "30 days",
-			ninety_days: "90 days",
-			one_year: "1 year",
-			your_key: "Your API Key",
-			api_key: "API Key",
-			save_warning:
-				"This key will only be shown once. Make sure to copy it now.",
-			copied: "API key copied to clipboard",
-			close_confirm:
-				"Are you sure you want to close? You won't be able to see this API key again.",
-			revoke_confirm:
-				"Are you sure you want to revoke this API key? This action cannot be undone.",
-			revoke_title: "Revoke API Key",
-			revoke: "Revoke",
-			created: "Created",
-			expires: "Expires",
-			last_used: "Last Used",
-			actions: "Actions",
-			never: "Never",
-			never_used: "Never used",
-			no_keys: "No API keys found. Create one to get started.",
-			security_note:
-				"API keys provide full access to your organization's data. Keep them secure and rotate them regularly.",
-			fetch_error: "Failed to fetch API keys",
-			create_error: "Failed to create API key",
-			revoked_success: "API key revoked successfully",
-			revoked_error: "Failed to revoke API key",
-			done: "Done",
-		},
-		billing: {
-			title: "Billing",
 		},
 	},
 	tests: {
