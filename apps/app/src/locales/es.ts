@@ -999,7 +999,14 @@ export default {
       all: "Todas las pruebas",
       tests_by_assignee: "Pruebas por Asignado",
       passed: "Aprobado",
-      failed: "Fallido"
+      failed: "Fallido",
+      severity_distribution: "Distribución de la Severidad de las Pruebas"
+    },
+    severity: {
+      low: "Bajo",
+      medium: "Medio",
+      high: "Alto",
+      critical: "Crítico"
     }
   },
   vendors: {

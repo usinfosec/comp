@@ -970,7 +970,14 @@ export default {
       all: "Todos os Testes",
       tests_by_assignee: "Testes por Atribuidor",
       passed: "Aprovado",
-      failed: "Reprovado"
+      failed: "Reprovado",
+      severity_distribution: "Distribuição da Severidade do Teste"
+    },
+    severity: {
+      low: "Baixo",
+      medium: "Médio",
+      high: "Alto",
+      critical: "Crítico"
     }
   },
   vendors: {

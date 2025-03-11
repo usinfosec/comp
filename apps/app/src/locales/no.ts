@@ -999,7 +999,14 @@ export default {
       all: "Alle tester",
       tests_by_assignee: "Tester av tildelt",
       passed: "Bestått",
-      failed: "Feilet"
+      failed: "Feilet",
+      severity_distribution: "Test alvorlighetsfordeling"
+    },
+    severity: {
+      low: "Lav",
+      medium: "Moderat",
+      high: "Høy",
+      critical: "Kritisk"
     }
   },
   vendors: {

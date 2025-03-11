@@ -999,7 +999,14 @@ export default {
       all: "Tous les tests",
       tests_by_assignee: "Tests par le responsable",
       passed: "Réussi",
-      failed: "Échoué"
+      failed: "Échoué",
+      severity_distribution: "Distribution de la gravité des tests"
+    },
+    severity: {
+      low: "Faible",
+      medium: "Moyen",
+      high: "Élevé",
+      critical: "Critique"
     }
   },
   vendors: {

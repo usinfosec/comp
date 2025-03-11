@@ -499,6 +499,11 @@ files:
     tests.dashboard.tests_by_assignee: 7548b0d1d9be13db03c63788b36637e8
     tests.dashboard.passed: a0d0628f6b4e4d78d2ffef4d4d1c4b15
     tests.dashboard.failed: d7c8c85bf79bbe1b7188497c32c3b0ca
+    tests.dashboard.severity_distribution: ae8a57ea08a489cace7c1d66e826e112
+    tests.severity.low: 28d0edd045e05cf5af64e35ae0c4c6ef
+    tests.severity.medium: 87f8a6ab85c9ced3702b4ea641ad4bb5
+    tests.severity.high: 655d20c1ca69519ca647684edbb2db35
+    tests.severity.critical: 278d01e5af56273bae1bb99a98b370cd
     tests.name: 107f3983ed2f362df6195c163001fe7b
     tests.title: 107f3983ed2f362df6195c163001fe7b
     tests.actions.create: 348a2d59fd6abf9c9ba4e1ce664f6fc5
