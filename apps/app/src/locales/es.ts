@@ -890,7 +890,7 @@ export default {
       clear: "Limpiar filtros"
     },
     table: {
-      name: "Nombre del empleado",
+      name: "Nombre",
       email: "Correo Electrónico",
       department: "Departamento",
       externalId: "ID Externo",
@@ -1133,5 +1133,132 @@ export default {
     risks_by_department: "Riesgos por departamento",
     vendor_status: "Estado del proveedor",
     vendors_by_category: "Proveedores por categoría"
+  },
+  team: {
+    tabs: {
+      members: "Miembros del equipo",
+      invite: "Invitar miembros"
+    },
+    members: {
+      title: "Miembros del equipo",
+      empty: {
+        no_organization: {
+          title: "Sin organización",
+          description: "No eres parte de ninguna organización"
+        },
+        no_members: {
+          title: "Sin miembros",
+          description: "No hay miembros activos en tu organización"
+        }
+      },
+      role: {
+        owner: "Propietario",
+        admin: "Administrador",
+        member: "Miembro",
+        viewer: "Espectador"
+      }
+    },
+    invitations: {
+      title: "Invitaciones pendientes",
+      description: "Usuarios que han sido invitados pero aún no han aceptado",
+      empty: {
+        no_organization: {
+          title: "Sin organización",
+          description: "No eres parte de ninguna organización"
+        },
+        no_invitations: {
+          title: "Sin invitaciones pendientes",
+          description: "No hay invitaciones pendientes"
+        }
+      },
+      invitation_sent: "Invitación enviada",
+      actions: {
+        resend: "Reenviar invitación",
+        sending: "Enviando invitación",
+        revoke: "Revocar",
+        revoke_title: "Revocar invitación",
+        revoke_description_prefix: "¿Estás seguro de que deseas revocar la invitación para",
+        revoke_description_suffix: "Esta acción no se puede deshacer."
+      },
+      toast: {
+        resend_success_prefix: "Se ha enviado un correo electrónico de invitación a",
+        resend_error: "Error al enviar la invitación",
+        resend_unexpected: "Ocurrió un error inesperado al enviar la invitación",
+        revoke_success_prefix: "Invitación a",
+        revoke_success_suffix: "ha sido revocada",
+        revoke_error: "Error al revocar la invitación",
+        revoke_unexpected: "Ocurrió un error inesperado al revocar la invitación"
+      }
+    },
+    invite: {
+      title: "Invitar a un miembro del equipo",
+      description: "Enviar una invitación a un nuevo miembro del equipo para unirse a tu organización",
+      form: {
+        email: {
+          label: "Correo electrónico",
+          placeholder: "miembro@ejemplo.com",
+          error: "Por favor, introduce una dirección de correo electrónico válida"
+        },
+        role: {
+          label: "Rol",
+          placeholder: "Selecciona un rol",
+          error: "Por favor, selecciona un rol"
+        },
+        department: {
+          label: "Departamento",
+          placeholder: "Selecciona un departamento",
+          error: "Por favor, selecciona un departamento"
+        },
+        departments: {
+          none: "Ninguno",
+          it: "TI",
+          hr: "RRHH",
+          admin: "Administrador",
+          gov: "Gobierno",
+          itsm: "ITSM",
+          qms: "QMS"
+        }
+      },
+      button: {
+        send: "Enviar invitación",
+        sending: "Enviando invitación...",
+        sent: "Invitación enviada"
+      },
+      toast: {
+        error: "Error al enviar la invitación",
+        unexpected: "Ocurrió un error inesperado al enviar la invitación"
+      }
+    },
+    member_actions: {
+      actions: "Acciones",
+      change_role: "Cambiar rol",
+      remove_member: "Eliminar miembro",
+      remove_confirm: {
+        title: "Eliminar miembro del equipo",
+        description_prefix: "¿Estás seguro de que deseas eliminar a",
+        description_suffix: "Esta acción no se puede deshacer."
+      },
+      role_dialog: {
+        title: "Cambiar rol",
+        description_prefix: "Actualizar el rol de",
+        role_label: "Rol",
+        role_placeholder: "Selecciona un rol",
+        role_descriptions: {
+          admin: "Los administradores pueden gestionar a los miembros del equipo y la configuración.",
+          member: "Los miembros pueden usar todas las funciones pero no pueden gestionar a los miembros del equipo.",
+          viewer: "Los espectadores solo pueden ver el contenido sin realizar cambios."
+        },
+        cancel: "Cancelar",
+        update: "Actualizar rol"
+      },
+      toast: {
+        remove_success: "ha sido eliminado de la organización",
+        remove_error: "Error al eliminar al miembro",
+        remove_unexpected: "Ocurrió un error inesperado al eliminar al miembro",
+        update_role_success: "ha tenido su rol actualizado a",
+        update_role_error: "Error al actualizar el rol del miembro",
+        update_role_unexpected: "Ocurrió un error inesperado al actualizar el rol del miembro"
+      }
+    }
   }
 } as const;
