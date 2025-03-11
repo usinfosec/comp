@@ -763,7 +763,7 @@ export default {
       clear: "Limpar filtros"
     },
     table: {
-      name: "Nome",
+      name: "Nome do Funcionário",
       email: "Email",
       department: "Departamento",
       externalId: "ID Externo"
