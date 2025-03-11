@@ -33,8 +33,8 @@ export function PendingInvitationItem({ invitation }: PendingInvitationItemProps
     try {
       const result = await inviteMember({
         email: invitation.invitedEmail,
-        role: invitation.role as any,
-        department: invitation.department as any,
+        role: invitation.role as MembershipRole,
+        department: invitation.department as Departments,
       });
 
       if (result?.data?.success) {
