@@ -32,12 +32,10 @@ export function FrameworkProgress({ frameworks }: Props) {
 	const CircleProgress = ({
 		percentage,
 		label,
-		icon,
 		href,
 	}: {
 		percentage: number;
 		label: string;
-		icon: React.ReactNode;
 		href: string;
 	}) => (
 		<Link
@@ -73,7 +71,6 @@ export function FrameworkProgress({ frameworks }: Props) {
 				</div>
 			</div>
 			<div className="mt-2 flex items-center gap-1.5">
-				{icon}
 				<span className="text-sm font-medium">{label}</span>
 			</div>
 		</Link>
@@ -155,19 +152,16 @@ export function FrameworkProgress({ frameworks }: Props) {
 							<CircleProgress
 								percentage={policiesCompliance}
 								label="Policies"
-								icon={<FileText className="h-4 w-4" />}
 								href="/policies/all"
 							/>
 							<CircleProgress
 								percentage={evidenceTasksCompliance}
 								label="Evidence Tasks"
-								icon={<CheckCircle className="h-4 w-4" />}
 								href="/evidence/list"
 							/>
 							<CircleProgress
 								percentage={cloudTestsCompliance}
 								label="Cloud Tests"
-								icon={<Cloud className="h-4 w-4" />}
 								href="/tests"
 							/>
 						</div>
