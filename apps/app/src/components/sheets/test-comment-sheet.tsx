@@ -16,7 +16,7 @@ import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import React from "react";
 
-import type { Test } from "@/app/[locale]/(app)/(dashboard)/tests/types";
+import type { Test } from "@/app/[locale]/(app)/(dashboard)/tests/all/types";
 import { CreateTestCommentForm } from "../forms/create-test-comment-form";
 
 export function TestCommentSheet({
