@@ -1,6 +1,28 @@
+// @ts-ignore - Suppress image import warning
 import image from "./assets/image.png";
+// Import the function directly instead of through integrations
+import { fetch } from "./src";
 
-export default {
+// Type the export directly with inline annotation
+const config: {
+	name: string;
+	id: string;
+	active: boolean;
+	logo: unknown;
+	short_description: string;
+	description: string;
+	images: unknown[];
+	settings: {
+		id: string;
+		label: string;
+		description: string;
+		type: string;
+		required: boolean;
+		value: string;
+	}[];
+	category: string;
+	fetch: any;
+} = {
   name: "AZURE",
   id: "azure",
   active: true,
@@ -45,4 +67,7 @@ export default {
     },
   ],
   category: "Cloud",
+	fetch: fetch
 };
+
+export default config;
