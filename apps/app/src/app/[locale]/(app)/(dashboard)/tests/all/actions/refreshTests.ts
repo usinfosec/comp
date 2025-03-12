@@ -5,170 +5,156 @@ import { revalidatePath } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
 import { decrypt } from "@/lib/encryption";
 import type { EncryptedData } from "@/lib/encryption";
-import {
-	SecurityHubClient,
-	GetFindingsCommand,
-	type SecurityHubClientConfig,
-	type GetFindingsCommandInput,
-	type GetFindingsCommandOutput,
-} from "@aws-sdk/client-securityhub";
+import { integrations } from "@bubba/integrations";
 
-/**
- * Fetches security findings from AWS Security Hub
- * @returns Promise containing an array of findings
- */
-async function fetchSecurityFindings(
-	AWS_REGION: string,
-	AWS_ACCESS_KEY_ID: string,
-	AWS_SECRET_ACCESS_KEY: string,
-	AWS_SESSION_TOKEN: string,
-): Promise<any[]> {
-	try {
-		// 1. Configure the SecurityHub client with AWS credentials
-		// For production, prefer using environment variables or AWS credential profiles rather than hardcoding
-		const config: SecurityHubClientConfig = {
-			region: AWS_REGION,
-			credentials: {
-				accessKeyId: AWS_ACCESS_KEY_ID,
-				secretAccessKey: AWS_SECRET_ACCESS_KEY,
-				sessionToken: AWS_SESSION_TOKEN,
-			},
-		};
-		const securityHubClient = new SecurityHubClient(config);
+// Create a map of integration handlers with proper typing
+type IntegrationHandler = {
+	id: string;
+	fetch: (
+		region: string,
+		accessKeyId: string,
+		secretAccessKey: string,
+		sessionToken: string,
+	) => Promise<any[]>;
+};
 
-		// 2. Define filters for the findings we want to retrieve.
-		// Example: get only NEW (unresolved) findings for failed compliance controls.
-		const params: GetFindingsCommandInput = {
-			Filters: {
-				WorkflowStatus: [{ Value: "NEW", Comparison: "EQUALS" }], // only active findings
-				ComplianceStatus: [{ Value: "FAILED", Comparison: "EQUALS" }], // only failed control checks
-			},
-			MaxResults: 100, // adjust page size as needed (max 100)
-		};
+// Create a map of integration handlers
+const integrationHandlers = new Map<string, IntegrationHandler>();
 
-		const command = new GetFindingsCommand(params);
-		let response: GetFindingsCommandOutput =
-			await securityHubClient.send(command);
+// Find and add integrations to the map if they exist
+const aws = integrations.find((integration) => integration.id === "aws");
+const gcp = integrations.find((integration) => integration.id === "gcp");
+const azure = integrations.find((integration) => integration.id === "azure");
 
-		const allFindings: any[] = response.Findings || [];
-		let nextToken = response.NextToken;
-
-		// 3. Loop to paginate through all results if there are more than 100 findings
-		while (nextToken) {
-			const nextPageParams: GetFindingsCommandInput = {
-				...params,
-				NextToken: nextToken,
-			};
-			response = await securityHubClient.send(
-				new GetFindingsCommand(nextPageParams),
-			);
-
-			if (response.Findings) {
-				allFindings.push(...response.Findings);
-			}
-
-			nextToken = response.NextToken;
-		}
-
-		console.log(`Retrieved ${allFindings.length} findings`);
-		return allFindings;
-	} catch (error) {
-		console.error("Error fetching Security Hub findings:", error);
-		throw error;
-	}
+if (aws && "fetch" in aws) {
+	integrationHandlers.set("aws", aws as unknown as IntegrationHandler);
+}
+if (gcp && "fetch" in gcp) {
+	integrationHandlers.set("gcp", gcp as unknown as IntegrationHandler);
+}
+if (azure && "fetch" in azure) {
+	integrationHandlers.set("azure", azure as unknown as IntegrationHandler);
 }
 
 export const refreshTestsAction = authActionClient
-  .metadata({
-    name: "refresh-tests",
-    track: {
-      event: "refresh-tests",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { user } = ctx;
-
-    if (!user.id || !user.organizationId) {
-      throw new Error("Invalid user input");
-    }
-
-	const integrations = await db.organizationIntegrations.findMany({
-		where: {
-			organizationId: user.organizationId,
+	.metadata({
+		name: "refresh-tests",
+		track: {
+			event: "refresh-tests",
+			channel: "server",
 		},
-	});
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { user } = ctx;
 
-	for (const integration of integrations) {
-		if (integration.integration_id === "aws") {
-      const { region, access_key_id, secret_access_key, session_token } = integration.user_settings as unknown as {
-        region: EncryptedData;
-        access_key_id: EncryptedData;
-        secret_access_key: EncryptedData;
-        session_token: EncryptedData;
-      };
-      const decryptedRegion = await decrypt(region);
-      const decryptedAccessKeyId = await decrypt(access_key_id);
-      const decryptedSecretAccessKey = await decrypt(secret_access_key);
-      const decryptedSessionToken = await decrypt(session_token);
-
-      const results = await fetchSecurityFindings(decryptedRegion, decryptedAccessKeyId, decryptedSecretAccessKey, decryptedSessionToken);
-
-      // Store the integration results using model name that matches the database
-      for (const result of results) {
-        // First verify the integration exists
-        const existingIntegration =
-          await db.organizationIntegrations.findUnique({
-            where: { id: integration.id },
-          });
-
-        if (!existingIntegration) {
-          console.log(`Integration with ID ${integration.id} not found`);
-          continue;
-        }
-
-        // Check if a result with the same AWS Security Hub finding ID already exists
-        const existingResult = await db.organizationIntegrationResults.findFirst({
-          where: {
-            resultDetails: {
-              path: ['Id'],
-              equals: result?.Id
-            },
-            organizationIntegrationId: existingIntegration.id,
-          },
-        });
-
-        if (existingResult) {
-          // Update the existing result instead of creating a new one
-          await db.organizationIntegrationResults.update({
-            where: { id: existingResult.id },
-            data: {
-              status: result?.Compliance?.Status || "unknown",
-              label: result?.Severity?.Label || "INFO",
-              resultDetails: result || { error: "No result returned" },
-            },
-          });
-          continue;
-        }
-
-        await db.organizationIntegrationResults.create({
-          data: {
-            title: result?.Title,
-            status: result?.Compliance?.Status || "unknown",
-            label: result?.Severity?.Label || "INFO",
-            resultDetails: result || { error: "No result returned" },
-            organizationIntegrationId: existingIntegration.id,
-            organizationId: integration.organizationId,
-            // assignedUserId is now optional, so we don't need to provide it
-          },
-        });
-      }
+		if (!user.id || !user.organizationId) {
+			throw new Error("Invalid user input");
 		}
-	}
 
-    console.log("Refreshing tests");
+		const integrationsTable = await db.organizationIntegrations.findMany({
+			where: {
+				organizationId: user.organizationId,
+			},
+		});
 
-    revalidatePath("/tests");
+		for (const integration of integrationsTable) {
+			const integrationHandler = integrationHandlers.get(
+				integration.integration_id,
+			);
 
-    return { success: true };
-  });
+			// Skip if no handler is found for this integration type
+			if (!integrationHandler) {
+				console.log(
+					`No handler found for integration type: ${integration.integration_id}`,
+				);
+				continue;
+			}
+
+			try {
+				// Extract and decrypt credentials (assuming all integrations use the same credential structure)
+				const { region, access_key_id, secret_access_key, session_token } =
+					integration.user_settings as unknown as {
+						region: EncryptedData;
+						access_key_id: EncryptedData;
+						secret_access_key: EncryptedData;
+						session_token: EncryptedData;
+					};
+
+				const decryptedRegion = await decrypt(region);
+				const decryptedAccessKeyId = await decrypt(access_key_id);
+				const decryptedSecretAccessKey = await decrypt(secret_access_key);
+				const decryptedSessionToken = await decrypt(session_token);
+
+				// Fetch results using the appropriate integration handler
+				const results = await integrationHandler.fetch(
+					decryptedRegion,
+					decryptedAccessKeyId,
+					decryptedSecretAccessKey,
+					decryptedSessionToken,
+				);
+
+				// Store the integration results using model name that matches the database
+				for (const result of results) {
+					// First verify the integration exists
+					const existingIntegration =
+						await db.organizationIntegrations.findUnique({
+							where: { id: integration.id },
+						});
+
+					if (!existingIntegration) {
+						console.log(`Integration with ID ${integration.id} not found`);
+						continue;
+					}
+
+					// Check if a result with the same finding ID already exists
+					// Assuming all integrations have an Id field in their results
+					const existingResult =
+						await db.organizationIntegrationResults.findFirst({
+							where: {
+								resultDetails: {
+									path: ["Id"],
+									equals: result?.Id,
+								},
+								organizationIntegrationId: existingIntegration.id,
+							},
+						});
+
+					if (existingResult) {
+						// Update the existing result instead of creating a new one
+						await db.organizationIntegrationResults.update({
+							where: { id: existingResult.id },
+							data: {
+								status: result?.Compliance?.Status || "unknown",
+								label: result?.Severity?.Label || "INFO",
+								resultDetails: result || { error: "No result returned" },
+							},
+						});
+						continue;
+					}
+
+					await db.organizationIntegrationResults.create({
+						data: {
+							title: result?.Title,
+							status: result?.Compliance?.Status || "unknown",
+							label: result?.Severity?.Label || "INFO",
+							resultDetails: result || { error: "No result returned" },
+							organizationIntegrationId: existingIntegration.id,
+							organizationId: integration.organizationId,
+							// assignedUserId is now optional, so we don't need to provide it
+						},
+					});
+				}
+			} catch (error) {
+				console.error(
+					`Error processing ${integration.integration_id} integration:`,
+					error,
+				);
+			}
+		}
+
+		console.log("Refreshing tests");
+
+		revalidatePath("/tests");
+
+		return { success: true };
+	});
