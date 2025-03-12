@@ -20,21 +20,17 @@ import { Skeleton } from "@bubba/ui/skeleton";
 function MobileSkeletonLoader() {
 	return (
 		<div className="flex flex-col gap-2">
-			{[
-				"skeleton-item-1",
-				"skeleton-item-2",
-				"skeleton-item-3",
-				"skeleton-item-4",
-				"skeleton-item-5",
-			].map((id) => (
-				<div
-					key={id}
-					className="p-3 bg-card rounded-md border shadow-sm flex items-center justify-between"
-				>
-					<Skeleton className="h-5 w-3/4" />
-					<Skeleton className="h-5 w-20" />
-				</div>
-			))}
+			{Array(5)
+				.fill(0)
+				.map((_, i) => (
+					<div
+						key={`skeleton-${i + 1}`}
+						className="p-3 bg-card rounded-md border shadow-sm flex items-center justify-between"
+					>
+						<Skeleton className="h-5 w-3/4" />
+						<Skeleton className="h-5 w-20" />
+					</div>
+				))}
 		</div>
 	);
 }
