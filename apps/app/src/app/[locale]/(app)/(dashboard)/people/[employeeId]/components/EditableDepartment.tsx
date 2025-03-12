@@ -15,6 +15,7 @@ import { useAction } from "next-safe-action/hooks";
 import { updateEmployeeDepartment } from "../actions/update-department";
 import { Pencil, Check, X } from "lucide-react";
 import type { Departments } from "@bubba/db";
+import { cn } from "@bubba/ui/cn";
 
 const DEPARTMENTS = [
 	{ value: "admin", label: "Admin" },
@@ -62,7 +63,7 @@ export function EditableDepartment({
 
 	if (!isEditing) {
 		return (
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-2 max-w-full">
 				<div className="flex items-center gap-1.5">
 					<Label className="font-medium">Department</Label>
 					<Button
@@ -74,7 +75,7 @@ export function EditableDepartment({
 						<Pencil className="h-3.5 w-3.5" />
 					</Button>
 				</div>
-				<p>
+				<p className="truncate">
 					{DEPARTMENTS.find((d) => d.value === currentDepartment)?.label ||
 						currentDepartment}
 				</p>
@@ -83,14 +84,16 @@ export function EditableDepartment({
 	}
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 max-w-full">
 			<Label className="font-medium">Department</Label>
-			<div className="flex items-center gap-2">
+			<div className="flex flex-col sm:flex-row w-full gap-2">
 				<Select
 					value={department}
 					onValueChange={(value) => setDepartment(value as Departments)}
 				>
-					<SelectTrigger className="w-full">
+					<SelectTrigger
+						className={cn("w-full max-w-full truncate", !isEditing && "hidden")}
+					>
 						<SelectValue placeholder="Select department" />
 					</SelectTrigger>
 					<SelectContent>
@@ -101,7 +104,7 @@ export function EditableDepartment({
 						))}
 					</SelectContent>
 				</Select>
-				<div className="flex items-center gap-1">
+				<div className="flex items-center gap-1 self-start">
 					<Button
 						size="icon"
 						variant="ghost"
