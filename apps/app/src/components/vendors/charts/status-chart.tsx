@@ -51,6 +51,14 @@ export function StatusChart({ data }: StatusChartProps) {
 		);
 	}
 
+	// If all values are 0, add a fake value to make the chart display properly
+	const allZeros = sortedData.every((d) => d.value === 0);
+	if (allZeros) {
+		for (const d of sortedData) {
+			d.value = 1; // Set a default value for display purposes
+		}
+	}
+
 	const barHeight = 40; // Fixed height for each bar in pixels
 	const barGap = 16; // Gap between bars in pixels
 	const minChartHeight = 300; // Minimum chart height
@@ -72,9 +80,9 @@ export function StatusChart({ data }: StatusChartProps) {
 
 	const xScale = scaleLinear().domain([0, maxValue]).range([0, 100]);
 
-	const marginLeft = 70;
-	const marginRight = 20;
-	const marginBottom = 20;
+	const marginLeft = 120; // Increase left margin for labels
+	const marginRight = 40; // Increase right margin slightly
+	const marginBottom = 30; // Increase bottom margin for tick labels
 
 	const getBarKey = (item: StatusData) => `bar-${item.name}-${item.value}`;
 	const getTickKey = (value: number) => `tick-${value}`;
@@ -108,7 +116,7 @@ export function StatusChart({ data }: StatusChartProps) {
 	return (
 		<ClientTooltip>
 			<div
-				className="relative w-full"
+				className="relative w-full max-w-full overflow-x-hidden"
 				style={
 					{
 						height: `${chartHeight}px`,
@@ -147,8 +155,8 @@ export function StatusChart({ data }: StatusChartProps) {
 									width: `${barWidth}%`,
 									height: `${fixedBarHeightPercentage}%`,
 								}}
-								className={`absolute ${getStatusColor(d.name)} ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90`}
-								data-tip={`${d.name}: ${d.value}`}
+								className={`absolute ${getStatusColor(d.name)} ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-sm`}
+								data-tip={`${d.name}: ${allZeros ? 0 : d.value}`}
 							/>
 						);
 					})}
@@ -199,7 +207,7 @@ export function StatusChart({ data }: StatusChartProps) {
 							style={{
 								left: "0",
 								top: `${yScale(entry.name)! + yScale.bandwidth() / 2}%`,
-								width: `${marginLeft - 2}px`,
+								width: `${marginLeft - 10}px`,
 							}}
 							className="absolute text-xs font-medium text-muted-foreground -translate-y-1/2 text-right pr-1 truncate"
 						>

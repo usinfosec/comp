@@ -7,6 +7,7 @@ import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { cn } from "@bubba/ui/cn";
 
 type Props = {
 	table?: {
@@ -59,19 +60,8 @@ export function DataTableHeader({ table, loading }: Props) {
 	return (
 		<TableHeader>
 			<TableRow className="h-[45px] hover:bg-transparent">
-				{isVisible("email") && (
-					<TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
-						<Button
-							className="p-0 hover:bg-transparent space-x-2"
-							variant="ghost"
-							onClick={() => createSortQuery("email")}
-						>
-							<span>{t("people.table.email")}</span>
-						</Button>
-					</TableHead>
-				)}
 				{isVisible("name") && (
-					<TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+					<TableHead className="min-w-[120px] px-3 md:px-4 py-2">
 						<Button
 							className="p-0 hover:bg-transparent space-x-2"
 							variant="ghost"
@@ -80,6 +70,19 @@ export function DataTableHeader({ table, loading }: Props) {
 							<span>{t("people.table.name")}</span>
 							{"name" === column && value === "asc" && <ArrowDown size={16} />}
 							{"name" === column && value === "desc" && <ArrowUp size={16} />}
+						</Button>
+					</TableHead>
+				)}
+				{isVisible("email") && (
+					<TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+						<Button
+							className="p-0 hover:bg-transparent space-x-2"
+							variant="ghost"
+							onClick={() => createSortQuery("email")}
+						>
+							<span>{t("people.table.email")}</span>
+							{"email" === column && value === "asc" && <ArrowDown size={16} />}
+							{"email" === column && value === "desc" && <ArrowUp size={16} />}
 						</Button>
 					</TableHead>
 				)}
@@ -103,7 +106,7 @@ export function DataTableHeader({ table, loading }: Props) {
 				)}
 
 				{isVisible("status") && (
-					<TableHead className="min-w-[120px] px-3 md:px-4 py-2">
+					<TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
 						<Button
 							className="p-0 hover:bg-transparent space-x-2"
 							variant="ghost"

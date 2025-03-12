@@ -4,47 +4,43 @@ import React, { type CSSProperties } from "react";
 import { scaleBand, scaleLinear, max, format } from "d3";
 import { ClientTooltip } from "@bubba/ui/chart-tooltip";
 
-const VENDOR_CATEGORY_COLORS = {
-	cloud: "bg-[var(--chart-open)]",
-	infrastructure: "bg-[var(--chart-pending)]",
-	software_as_a_service: "bg-[var(--chart-closed)]",
-	finance: "bg-[var(--chart-open)]",
-	marketing: "bg-[var(--chart-pending)]",
-	sales: "bg-[var(--chart-closed)]",
-	hr: "bg-[var(--chart-open)]",
-	other: "bg-[var(--chart-pending)]",
-};
-
-interface VendorCategoryData {
+interface CategoryData {
 	name: string;
 	value: number;
 }
 
 interface VendorCategoryChartProps {
-	data: VendorCategoryData[];
+	data: CategoryData[];
 	showEmptyDepartments?: boolean;
 }
 
 export function VendorCategoryChart({
 	data,
-	showEmptyDepartments = true,
+	showEmptyDepartments = false,
 }: VendorCategoryChartProps) {
+	// Filter out departments with zero values if not showing empty departments
 	const filteredData = showEmptyDepartments
 		? data
-		: data.filter((dept) => dept.value > 0);
+		: data.filter((d) => d.value > 0);
 
 	const sortedData = [...filteredData].sort((a, b) => b.value - a.value);
 
-	// Return early with a message if no departments have risks
 	if (sortedData.length === 0) {
 		return (
 			<div className="flex items-center justify-center h-[300px] text-muted-foreground">
-				No departments with risks found
+				No categories with risks found
 			</div>
 		);
 	}
 
-	// Define fixed settings for consistent bar sizing
+	// If all values are 0, add a fake value to make the chart display properly
+	const allZeros = sortedData.every((d) => d.value === 0);
+	if (allZeros) {
+		for (const d of sortedData) {
+			d.value = 1; // Set a default value for display purposes
+		}
+	}
+
 	const barHeight = 40; // Fixed height for each bar in pixels
 	const barGap = 16; // Gap between bars in pixels
 	const minChartHeight = 300; // Minimum chart height
@@ -66,25 +62,15 @@ export function VendorCategoryChart({
 
 	const xScale = scaleLinear().domain([0, maxValue]).range([0, 100]);
 
-	const marginLeft = 70;
-	const marginRight = 20;
-	const marginBottom = 20;
+	const marginLeft = 120; // Increase left margin for category names
+	const marginRight = 40; // Increase right margin slightly
+	const marginBottom = 30; // Increase bottom margin for tick labels
 
-	const getBarKey = (item: VendorCategoryData) =>
-		`bar-${item.name}-${item.value}`;
+	const getBarKey = (item: CategoryData) => `bar-${item.name}-${item.value}`;
 	const getTickKey = (value: number) => `tick-${value}`;
 	const getGridKey = (value: number, position = 0) =>
 		`grid-${value.toString().replace(".", "-")}-${position}`;
-	const getLabelKey = (item: VendorCategoryData) => `label-${item.name}`;
-
-	const getCategoryColor = (categoryName: string) => {
-		const normalizedName = categoryName.toLowerCase();
-		return (
-			VENDOR_CATEGORY_COLORS[
-				normalizedName as keyof typeof VENDOR_CATEGORY_COLORS
-			] || "bg-gray-400"
-		);
-	};
+	const getLabelKey = (item: CategoryData) => `label-${item.name}`;
 
 	// Generate appropriate tick values based on max value
 	const generateTickValues = () => {
@@ -104,7 +90,7 @@ export function VendorCategoryChart({
 	return (
 		<ClientTooltip>
 			<div
-				className="relative w-full"
+				className="relative w-full max-w-full overflow-x-hidden"
 				style={
 					{
 						height: `${chartHeight}px`,
@@ -143,8 +129,8 @@ export function VendorCategoryChart({
 									width: `${barWidth}%`,
 									height: `${fixedBarHeightPercentage}%`,
 								}}
-								className={`absolute ${getCategoryColor(d.name)} ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90`}
-								data-tip={`${d.name}: ${d.value}`}
+								className={`absolute bg-primary ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-sm`}
+								data-tip={`${d.name}: ${allZeros ? 0 : d.value}`}
 							/>
 						);
 					})}
@@ -195,7 +181,7 @@ export function VendorCategoryChart({
 							style={{
 								left: "0",
 								top: `${yScale(entry.name)! + yScale.bandwidth() / 2}%`,
-								width: `${marginLeft - 2}px`,
+								width: `${marginLeft - 10}px`,
 							}}
 							className="absolute text-xs font-medium text-muted-foreground -translate-y-1/2 text-right pr-1 truncate"
 						>

@@ -24,10 +24,8 @@ export default async function VendorOverviewPage({
 	const overview = await getVendorOverview(session.user.organizationId);
 
 	return (
-		<div className="space-y-4 sm:space-y-8">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<VendorOverview organizationId={session.user.organizationId} />
-			</div>
+		<div className="space-y-4 sm:space-y-8 w-full px-2 sm:px-4">
+			<VendorOverview organizationId={session.user.organizationId} />
 		</div>
 	);
 }

@@ -10,13 +10,7 @@ import {
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
-} from "@bubba/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
 import { useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
@@ -36,6 +30,7 @@ import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "./employee-status";
+import Link from "next/link";
 
 interface DataTableProps {
 	columnHeaders: {
@@ -54,50 +49,63 @@ function getColumns(): ColumnDef<PersonType>[] {
 
 	return [
 		{
-			id: "email",
-			accessorKey: "email",
-			header: ({ column }) => (
-				<TableHead className="w-[30%]">
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					>
-						{t("people.table.email")}
-					</Button>
-				</TableHead>
-			),
-		},
-		{
 			id: "name",
 			accessorKey: "name",
 			header: ({ column }) => (
-				<TableHead className="w-[30%]">
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					>
-						{t("people.table.name")}
-					</Button>
-				</TableHead>
+				<DataTableColumnHeader column={column} title={t("people.table.name")} />
 			),
+			cell: ({ row }) => {
+				const name = row.original.name;
+				const email = row.original.email;
+				const isActive = row.original.isActive;
+				const status = getEmployeeStatusFromBoolean(isActive);
+
+				return (
+					<div className="flex flex-col space-y-0.5">
+						<Button variant="link" className="p-0 h-auto justify-start" asChild>
+							<Link href={`/people/${row.original.id}`}>
+								<span className="truncate">{name}</span>
+							</Link>
+						</Button>
+						<div className="block md:hidden text-muted-foreground text-sm leading-tight">
+							{email}
+						</div>
+						<div className="md:hidden mt-1">
+							<EmployeeStatus status={status} />
+						</div>
+					</div>
+				);
+			},
+		},
+		{
+			id: "email",
+			accessorKey: "email",
+			header: ({ column }) => (
+				<DataTableColumnHeader
+					column={column}
+					title={t("people.table.email")}
+				/>
+			),
+			cell: ({ row }) => {
+				const email = row.original.email;
+				return (
+					<div className="hidden md:block text-muted-foreground">{email}</div>
+				);
+			},
 		},
 		{
 			id: "department",
 			accessorKey: "department",
 			header: ({ column }) => (
-				<TableHead className="w-[20%]">
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					>
-						{t("people.table.department")}
-					</Button>
-				</TableHead>
+				<DataTableColumnHeader
+					column={column}
+					title={t("people.table.department")}
+				/>
 			),
 			cell: ({ row }) => {
 				const department = row.original.department;
 				return (
-					<div className="flex items-center">
+					<div className="flex items-center hidden md:flex">
 						<Badge variant="marketing">{department}</Badge>
 					</div>
 				);
@@ -116,7 +124,11 @@ function getColumns(): ColumnDef<PersonType>[] {
 				const isActive = row.original.isActive;
 				const status = getEmployeeStatusFromBoolean(isActive);
 
-				return <EmployeeStatus status={status} />;
+				return (
+					<div className="hidden md:block">
+						<EmployeeStatus status={status} />
+					</div>
+				);
 			},
 			enableSorting: true,
 			enableHiding: true,
@@ -130,13 +142,8 @@ export function DataTable({
 	pageCount,
 	currentPage,
 }: DataTableProps) {
+	const columns = getColumns();
 	const router = useRouter();
-	const clientColumns = getColumns();
-	const columns = clientColumns.map((col) => ({
-		...col,
-		header: columnHeaders[col.id as keyof typeof columnHeaders],
-		accessorFn: (row: PersonType) => row[col.id as keyof PersonType],
-	}));
 
 	const table = useReactTable({
 		data,
@@ -147,55 +154,49 @@ export function DataTable({
 	});
 
 	return (
-		<div className="w-full overflow-auto">
-			<Table className="table-fixed border-collapse">
-				<DataTableHeader table={table} />
-
-				<TableBody>
-					{table.getRowModel().rows?.length ? (
-						table.getRowModel().rows.map((row) => (
-							<TableRow
-								key={row.id}
-								data-state={row.getIsSelected() && "selected"}
-								className="cursor-pointer hover:bg-muted/50"
-								onClick={() => {
-									const person = row.original;
-									router.push(`/people/${person.id}`);
-								}}
-							>
-								{row.getVisibleCells().map((cell) => {
-									let cellClassName = "";
-
-									if (cell.column.id === "name") {
-										cellClassName = "w-[30%]";
-									} else if (cell.column.id === "email") {
-										cellClassName = "w-[30%] hidden md:table-cell";
-									} else if (cell.column.id === "department") {
-										cellClassName = "w-[20%] uppercase";
-									} else if (cell.column.id === "status") {
-										cellClassName = "w-[20%] text-center";
-									}
-
-									return (
-										<TableCell key={cell.id} className={cellClassName}>
+		<div className="w-full">
+			<div className="rounded-md border">
+				<Table>
+					<DataTableHeader table={table} />
+					<TableBody>
+						{table.getRowModel().rows?.length ? (
+							table.getRowModel().rows.map((row) => (
+								<TableRow
+									key={row.id}
+									data-state={row.getIsSelected() && "selected"}
+									className="hover:bg-muted/50"
+								>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell
+											key={cell.id}
+											className={cn(
+												(cell.column.id === "email" ||
+													cell.column.id === "department" ||
+													cell.column.id === "status") &&
+													"hidden md:table-cell",
+											)}
+										>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext(),
 											)}
 										</TableCell>
-									);
-								})}
+									))}
+								</TableRow>
+							))
+						) : (
+							<TableRow>
+								<TableCell
+									colSpan={columns.length}
+									className="h-24 text-center"
+								>
+									No results.
+								</TableCell>
 							</TableRow>
-						))
-					) : (
-						<TableRow>
-							<TableCell colSpan={columns.length} className="h-24 text-center">
-								No results.
-							</TableCell>
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
+						)}
+					</TableBody>
+				</Table>
+			</div>
 			<DataTablePagination pageCount={pageCount} currentPage={currentPage} />
 		</div>
 	);

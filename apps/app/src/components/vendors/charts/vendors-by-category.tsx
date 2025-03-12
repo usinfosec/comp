@@ -28,14 +28,14 @@ export async function VendorsByCategory({ organizationId }: Props) {
 		};
 	}).sort((a, b) => b.value - a.value);
 
-	// Separate departments with values > 0 and departments with values = 0
-	const categoriesWithValues = data.filter((dept) => dept.value > 0);
-	const categoriesWithoutValues = data.filter((dept) => dept.value === 0);
+	// Separate categories with values > 0 and categories with values = 0
+	const categoriesWithValues = data.filter((cat) => cat.value > 0);
+	const categoriesWithoutValues = data.filter((cat) => cat.value === 0);
 
-	// Determine which departments to show
+	// Determine which categories to show
 	let categoriesToShow = [...categoriesWithValues];
 
-	// If we have fewer than 4 departments with values, show up to 2 departments with no values
+	// If we have fewer than 4 categories with values, show up to 2 categories with no values
 	if (categoriesWithValues.length < 4 && categoriesWithoutValues.length > 0) {
 		categoriesToShow = [
 			...categoriesWithValues,
@@ -44,11 +44,11 @@ export async function VendorsByCategory({ organizationId }: Props) {
 	}
 
 	return (
-		<Card>
+		<Card className="w-full h-full">
 			<CardHeader>
 				<CardTitle>{t("dashboard.vendors_by_category")}</CardTitle>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="w-full">
 				<VendorCategoryChart
 					data={categoriesToShow}
 					showEmptyDepartments={true}
