@@ -18,11 +18,11 @@ export async function VendorsByStatus({ organizationId }: Props) {
 	}));
 
 	return (
-		<Card>
+		<Card className="w-full h-full">
 			<CardHeader>
 				<CardTitle>{t("dashboard.vendor_status")}</CardTitle>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="w-full">
 				<StatusChart data={data} />
 			</CardContent>
 		</Card>

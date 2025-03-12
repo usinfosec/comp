@@ -7,9 +7,13 @@ interface VendorOverviewProps {
 
 export function VendorOverview({ organizationId }: VendorOverviewProps) {
 	return (
-		<>
-			<VendorsByStatus organizationId={organizationId} />
-			<VendorsByCategory organizationId={organizationId} />
-		</>
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full col-span-full">
+			<div className="w-full h-full">
+				<VendorsByStatus organizationId={organizationId} />
+			</div>
+			<div className="w-full h-full">
+				<VendorsByCategory organizationId={organizationId} />
+			</div>
+		</div>
 	);
 }
