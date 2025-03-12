@@ -11,6 +11,8 @@ import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { FileStack } from "lucide-react";
 import Link from "next/link";
+import { useMediaQuery } from "@bubba/ui/hooks";
+import type { ReactNode } from "react";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
@@ -29,13 +31,15 @@ export function FrameworkProgress({ frameworks }: Props) {
 		isLoading,
 	} = useComplianceScores({ frameworks });
 
+	const isMobile = useMediaQuery("(max-width: 640px)");
+
 	const CircleProgress = ({
 		percentage,
 		label,
 		href,
 	}: {
 		percentage: number;
-		label: string;
+		label: ReactNode;
 		href: string;
 	}) => (
 		<Link
@@ -70,8 +74,8 @@ export function FrameworkProgress({ frameworks }: Props) {
 					<div className="text-xl font-semibold">{percentage}%</div>
 				</div>
 			</div>
-			<div className="mt-2 flex items-center gap-1.5">
-				<span className="text-sm font-medium">{label}</span>
+			<div className="mt-2 text-center">
+				<span className="text-sm font-medium leading-tight">{label}</span>
 			</div>
 		</Link>
 	);
@@ -156,12 +160,22 @@ export function FrameworkProgress({ frameworks }: Props) {
 							/>
 							<CircleProgress
 								percentage={evidenceTasksCompliance}
-								label="Evidence Tasks"
+								label={
+									<>
+										<span className="sm:hidden">Evidence</span>
+										<span className="hidden sm:inline">Evidence Tasks</span>
+									</>
+								}
 								href="/evidence/list"
 							/>
 							<CircleProgress
 								percentage={cloudTestsCompliance}
-								label="Cloud Tests"
+								label={
+									<>
+										<span className="sm:hidden">Tests</span>
+										<span className="hidden sm:inline">Cloud Tests</span>
+									</>
+								}
 								href="/tests"
 							/>
 						</div>
