@@ -1,22 +1,14 @@
 "use client";
 
-import type { ColumnDef } from "@tanstack/react-table";
-import { CheckCircle2, XCircle, Building, AlertTriangle } from "lucide-react";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@bubba/ui/tooltip";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import type { EvidenceTaskRow } from "./types";
+import { StatusPolicies } from "@/components/status-policies";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
+import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
-import Link from "next/link";
-import { Button } from "@bubba/ui/button";
+import { AlertTriangle, Building, CheckCircle2 } from "lucide-react";
+import type { EvidenceTaskRow } from "../../types";
 
-export const columns: ColumnDef<EvidenceTaskRow>[] = [
+export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 	{
 		id: "name",
 		accessorKey: "name",
@@ -27,11 +19,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		minSize: 200,
 		cell: ({ row }) => (
 			<div className="flex flex-col gap-1">
-				<Button variant="link" className="p-0 justify-start" asChild>
-					<Link href={`/evidence/${row.original.id}`}>
-						<span className="truncate">{row.original.name}</span>
-					</Link>
-				</Button>
+				<span className="font-medium truncate">{row.original.name}</span>
 				<div className="md:hidden">
 					<StatusPolicies
 						status={row.original.published ? "published" : "draft"}
@@ -45,7 +33,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		accessorKey: "published",
 		header: "Status",
 		enableResizing: true,
-		enableSorting: true,
+		enableSorting: false,
 		size: 150,
 		minSize: 120,
 		cell: ({ row }) => {
@@ -65,7 +53,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		size: 150,
 		enableResizing: true,
 		minSize: 130,
-		enableSorting: true,
+		enableSorting: false,
 		cell: ({ row }) => {
 			const department = row.original.department;
 			if (!department || department === "none")
@@ -92,7 +80,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		size: 150,
 		enableResizing: true,
 		minSize: 130,
-		enableSorting: true,
+		enableSorting: false,
 		cell: ({ row }) => {
 			const frequency = row.original.frequency;
 			if (!frequency) return null;
@@ -107,7 +95,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		size: 150,
 		enableResizing: true,
 		minSize: 180,
-		enableSorting: true,
+		enableSorting: false,
 		cell: ({ row }) => {
 			if (row.original.lastPublishedAt === null) {
 				return (
@@ -139,7 +127,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		accessorKey: "assignee",
 		header: "Assignee",
 		enableResizing: true,
-		enableSorting: true,
+		enableSorting: false,
 		size: 150,
 		minSize: 150,
 		cell: ({ row }) => {
@@ -174,7 +162,7 @@ export const columns: ColumnDef<EvidenceTaskRow>[] = [
 		accessorKey: "isNotRelevant",
 		header: "Relevance",
 		enableResizing: true,
-		enableSorting: true,
+		enableSorting: false,
 		size: 150,
 		minSize: 120,
 		cell: ({ row }) => {

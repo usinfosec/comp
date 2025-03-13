@@ -141,9 +141,6 @@ export function RequirementStatus({ frameworks }: Props) {
 		<Card className="border border-border bg-background">
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>{t("frameworks.title")}</CardTitle>
-				<Link href="/overview/frameworks" className="text-sm hover:underline">
-					<span className="text-emerald-500">View All</span>
-				</Link>
 			</CardHeader>
 			<CardContent>
 				{isLoading ? (
