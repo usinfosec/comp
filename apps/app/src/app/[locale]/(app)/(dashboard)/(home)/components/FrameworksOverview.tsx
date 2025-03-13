@@ -8,6 +8,7 @@ import { FrameworkProgress } from "./FrameworkProgress";
 import { FrameworkGrid } from "./FrameworksGrid";
 
 export const FrameworksOverview = () => {
+	const t = useI18n();
 	const {
 		frameworks,
 		availableFrameworks,
@@ -15,8 +16,6 @@ export const FrameworksOverview = () => {
 		error,
 		selectFrameworks,
 	} = useFrameworks();
-
-	const t = useI18n();
 
 	if (error) {
 		return (

@@ -1,11 +1,9 @@
 "use server";
 
-import type {
-  TransformedCategory,
-} from "@/types/framework";
+import type { TransformedCategory } from "@/types/framework";
 import { db } from "@bubba/db";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "@/actions/safe-action";
 
 const getCategoriesSchema = z.object({
   frameworkId: z.string(),
@@ -61,7 +59,7 @@ export const getFrameworkCategoriesAction = authActionClient
             requiredArtifactTypes:
               control.requirements?.map((req) => req.type) || [],
           })),
-        }),
+        })
       );
 
       return {

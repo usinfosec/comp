@@ -1,19 +1,19 @@
 "use client";
 
-import type { FrameworksResponse } from "@/actions/framework/get-frameworks-action";
-import { getFrameworksAction } from "@/actions/framework/get-frameworks-action";
-import { selectFrameworksAction } from "@/actions/framework/select-frameworks-action";
 import { useCallback, useState } from "react";
 import useSWR from "swr";
+import { getFrameworksAction } from "../actions/getFrameworksAction";
+import { selectFrameworksAction } from "../actions/selectFrameworksAction";
 
-async function fetchFrameworks(): Promise<FrameworksResponse> {
+async function fetchFrameworks() {
   const result = await getFrameworksAction();
 
   if (!result) {
     throw new Error("Failed to fetch frameworks");
   }
 
-  const data = result.data?.data as FrameworksResponse | undefined;
+  const data = result.data?.data;
+
   if (!data) {
     throw new Error("Invalid response from server");
   }
@@ -27,10 +27,7 @@ export function useFrameworks() {
     error,
     isLoading,
     mutate: revalidateFrameworks,
-  } = useSWR<FrameworksResponse>("frameworks", () => fetchFrameworks(), {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  } = useSWR("frameworks", () => fetchFrameworks());
 
   const [isMutating, setIsMutating] = useState(false);
 
@@ -52,7 +49,7 @@ export function useFrameworks() {
         setIsMutating(false);
       }
     },
-    [revalidateFrameworks],
+    [revalidateFrameworks]
   );
 
   return {

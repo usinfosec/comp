@@ -1,9 +1,9 @@
 "use client";
 
-import { DataTable } from "@/components/tables/frameworks/data-table";
+import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import { useOrganizationCategories } from "../hooks/useOrganizationCategories";
 import { useMemo } from "react";
-import type { OrganizationControlType } from "@/components/tables/frameworks/columns";
+import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
 
 interface FrameworkControlsProps {
 	frameworkId: string;
@@ -34,5 +34,5 @@ export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
 		return null;
 	}
 
-	return <DataTable data={allControls} />;
+	return <FrameworkControlsTable data={allControls} />;
 }
