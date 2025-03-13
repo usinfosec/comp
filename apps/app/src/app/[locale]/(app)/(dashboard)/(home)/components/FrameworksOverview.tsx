@@ -1,11 +1,11 @@
 "use client";
 
-import { RequirementStatus } from "@/components/charts/requirement-status";
 import { useI18n } from "@/locales/client";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { useFrameworks } from "../hooks/useFrameworks";
 import { FrameworkProgress } from "./FrameworkProgress";
 import { FrameworkGrid } from "./FrameworksGrid";
+import { RequirementStatus } from "./RequirementStatusChart";
 
 export const FrameworksOverview = () => {
 	const t = useI18n();

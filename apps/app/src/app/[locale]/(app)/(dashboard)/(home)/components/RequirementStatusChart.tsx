@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
 import { useMemo } from "react";
-import type { OrganizationControlType } from "../tables/frameworks/columns";
-import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/(home)/overview/frameworks/[frameworkId]/hooks/useOrganizationCategories";
+import type { OrganizationControlType } from "../overview/frameworks/[frameworkId]/components/table/FrameworkControlsTableColumns";
+import { useOrganizationCategories } from "../overview/frameworks/[frameworkId]/hooks/useOrganizationCategories";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
