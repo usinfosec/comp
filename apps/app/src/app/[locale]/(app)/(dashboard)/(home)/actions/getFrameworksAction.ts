@@ -1,14 +1,14 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { authActionClient } from "../safe-action";
+import { authActionClient } from "@/actions/safe-action";
 import type {
   Framework,
   OrganizationControl,
   OrganizationFramework,
 } from "@bubba/db";
 import { z } from "zod";
-import type { ActionData } from "../types";
+import type { ActionData } from "@/actions/types";
 
 type FrameworkWithControls = OrganizationFramework & {
   organizationControl: OrganizationControl[];

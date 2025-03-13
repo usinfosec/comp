@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
+import { redirect } from "next/navigation";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
@@ -7,6 +9,11 @@ export default async function Layout({
 	children: React.ReactNode;
 }) {
 	const t = await getI18n();
+	const session = await auth();
+
+	if (!session?.user?.organizationId) {
+		redirect("/login");
+	}
 
 	return (
 		<div className="max-w-[1200px] mx-auto">

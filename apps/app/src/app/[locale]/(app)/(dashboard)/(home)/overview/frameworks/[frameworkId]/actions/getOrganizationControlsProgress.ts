@@ -4,6 +4,10 @@ import { authActionClient } from "@/actions/safe-action";
 import { db } from "@bubba/db";
 import { z } from "zod";
 
+const schema = z.object({
+  controlIds: z.array(z.string()),
+});
+
 export interface ControlProgress {
   controlId: string;
   total: number;
@@ -18,7 +22,7 @@ export interface ControlProgress {
 }
 
 export const getOrganizationControlsProgress = authActionClient
-  .schema(z.object({ controlIds: z.array(z.string()) }))
+  .schema(schema)
   .metadata({
     name: "getOrganizationControlsProgress",
     track: {

@@ -9,6 +9,10 @@ import type {
 } from "@bubba/db";
 import { z } from "zod";
 
+const schema = z.object({
+  frameworkId: z.string(),
+});
+
 export type FrameworkWithControls = OrganizationFramework & {
   organizationControl: OrganizationControl[];
   framework: Framework;
@@ -20,7 +24,7 @@ export interface FrameworksResponse {
 }
 
 export const getOrganizationFramework = authActionClient
-  .schema(z.object({ frameworkId: z.string() }))
+  .schema(schema)
   .metadata({
     name: "getOrganizationFramework",
     track: {

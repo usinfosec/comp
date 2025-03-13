@@ -18,7 +18,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
-import { useOrganizationControlRequirements } from "@/app/[locale]/(app)/(dashboard)/(home)/overview/frameworks/controls/[id]/hooks/useOrganizationControlRequirements";
 
 export type OrganizationControlType = {
 	code: string;
@@ -62,7 +61,7 @@ function getControlStatus(
 	return "in_progress";
 }
 
-export function columns(): ColumnDef<OrganizationControlType>[] {
+export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
 
 	return [

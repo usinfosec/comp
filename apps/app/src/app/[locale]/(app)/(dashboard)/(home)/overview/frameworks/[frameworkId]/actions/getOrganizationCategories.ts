@@ -3,9 +3,7 @@
 import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
 import type {
-  Framework,
   OrganizationControl,
-  OrganizationFramework,
   OrganizationCategory,
   Control,
   OrganizationControlRequirement,

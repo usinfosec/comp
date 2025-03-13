@@ -4,26 +4,26 @@ import { setStaticParamsLocale } from "next-international/server";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 
 export default async function DashboardPage({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  return <FrameworksOverview />;
+	return <FrameworksOverview />;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.overview"),
-  };
+	return {
+		title: t("sidebar.overview"),
+	};
 }

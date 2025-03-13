@@ -7,8 +7,8 @@ import {
 } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { columns } from "./columns";
-import { DataTableHeader } from "./data-table-header";
+import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
+import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
 import { useRouter } from "next/navigation";
 import type {
 	OrganizationControlRequirement,
@@ -26,12 +26,12 @@ interface DataTableProps {
 	data: RequirementTableData[];
 }
 
-export function DataTable({ data }: DataTableProps) {
+export function ControlRequirementsTable({ data }: DataTableProps) {
 	const router = useRouter();
 
 	const table = useReactTable({
 		data,
-		columns,
+		columns: ControlRequirementsTableColumns,
 		getCoreRowModel: getCoreRowModel(),
 	});
 
@@ -59,7 +59,7 @@ export function DataTable({ data }: DataTableProps) {
 		<div className="relative w-full">
 			<div className="overflow-auto">
 				<Table>
-					<DataTableHeader table={table} />
+					<ControlRequirementsTableHeader table={table} />
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
@@ -82,7 +82,7 @@ export function DataTable({ data }: DataTableProps) {
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={columns.length}
+									colSpan={ControlRequirementsTableColumns.length}
 									className="h-24 text-center"
 								>
 									No requirements found.
