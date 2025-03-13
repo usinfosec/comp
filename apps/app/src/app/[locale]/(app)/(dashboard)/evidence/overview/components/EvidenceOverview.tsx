@@ -2,26 +2,31 @@
 
 import React from "react";
 import { useEvidenceDashboard } from "../hooks/useEvidenceDashboard";
-import { DepartmentBarChart } from "./DepartmentBarChart";
-import { AssigneeBarChart } from "./AssigneeBarChart";
-import { FrameworkBarChart } from "./FrameworkBarChart";
+import { DepartmentBarChart } from "./DepartmentChart/DepartmentBarChart";
+import { AssigneeBarChart } from "./AssigneeChart/AssigneeBarChart";
+import { FrameworkBarChart } from "./FrameworkChart/FrameworkBarChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
+import {
+	EvidenceOverviewSkeleton,
+	EvidenceErrorState,
+	EvidenceEmptyState,
+} from "./EvidenceUIStates";
 
 export const EvidenceOverview = () => {
 	const { data, isLoading, error } = useEvidenceDashboard();
 	const t = useI18n();
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <EvidenceOverviewSkeleton />;
 	}
 
 	if (error) {
-		return <div>Error: {error.message}</div>;
+		return <EvidenceErrorState message={error.message} />;
 	}
 
 	if (!data) {
-		return <div>No data available</div>;
+		return <EvidenceEmptyState />;
 	}
 
 	return (
