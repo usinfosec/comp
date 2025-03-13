@@ -61,23 +61,6 @@ export const getEvidenceDashboard = authActionClient
         };
       }
 
-      console.log("Server: Found evidence items:", evidence.length);
-
-      // Sample the first few items to check their structure
-      if (evidence.length > 0) {
-        console.log("Server: Sample evidence item:", {
-          id: evidence[0].id,
-          name: evidence[0].name,
-          published: evidence[0].published,
-          fileUrls: evidence[0].fileUrls,
-          additionalUrls: evidence[0].additionalUrls,
-          lastPublishedAt: evidence[0].lastPublishedAt,
-          frequency: evidence[0].frequency,
-          assigneeId: evidence[0].assigneeId,
-          assigneeEmail: evidence[0].assignee?.email,
-        });
-      }
-
       // Calculate status for each evidence item
       const now = new Date();
       let emptyCount = 0;
@@ -150,24 +133,6 @@ export const getEvidenceDashboard = authActionClient
         };
       });
 
-      console.log("Server: Status counts:", {
-        totalCount,
-        emptyCount,
-        draftCount,
-        needsReviewCount,
-        upToDateCount,
-      });
-
-      // Sample the first few items with status to check their structure
-      if (evidenceWithStatus.length > 0) {
-        console.log("Server: Sample evidence item with status:", {
-          id: evidenceWithStatus[0].id,
-          name: evidenceWithStatus[0].name,
-          status: evidenceWithStatus[0].status,
-          assigneeEmail: evidenceWithStatus[0].assigneeEmail,
-        });
-      }
-
       // Initialize with all department values from the enum
       const departmentValues: Departments[] = [
         "none",
@@ -187,7 +152,7 @@ export const getEvidenceDashboard = authActionClient
           acc[dept] = [];
           return acc;
         },
-        {} as Record<Departments, EvidenceWithStatus[]>,
+        {} as Record<Departments, EvidenceWithStatus[]>
       );
 
       // Group evidence by department
@@ -204,7 +169,6 @@ export const getEvidenceDashboard = authActionClient
 
       // Collect unassigned evidence
       const unassigned = evidenceWithStatus.filter((item) => !item.assigneeId);
-      console.log("Server: Unassigned evidence count:", unassigned.length);
 
       // Group evidence by assignee
       const byAssignee = evidenceWithStatus.reduce<
@@ -221,8 +185,6 @@ export const getEvidenceDashboard = authActionClient
         acc[email].push(curr);
         return acc;
       }, {});
-
-      console.log("Server: Assignee count:", Object.keys(byAssignee).length);
 
       // Sample the first assignee's data
       const firstAssigneeEmail = Object.keys(byAssignee)[0];
@@ -256,8 +218,6 @@ export const getEvidenceDashboard = authActionClient
         return acc;
       }, {});
 
-      console.log("Server: Framework count:", Object.keys(byFramework).length);
-
       return {
         success: true,
         data: {
@@ -275,7 +235,6 @@ export const getEvidenceDashboard = authActionClient
         },
       };
     } catch (error) {
-      console.error("Error fetching evidence:", error);
       return {
         success: false,
         error: "Failed to fetch evidence",
