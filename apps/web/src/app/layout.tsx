@@ -10,6 +10,7 @@ import localFont from "next/font/local";
 import { initializeServer } from "@bubba/analytics";
 import { Footer } from "./components/footer";
 import Header from "./components/header";
+import { CTA } from "./components/cta-section";
 
 export const metadata = generatePageMeta({
   url: "/",
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main>{children}</main>
+          <CTA />
           <Footer />
         </Providers>
         <Toaster richColors />

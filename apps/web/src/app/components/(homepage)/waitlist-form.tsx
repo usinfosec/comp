@@ -75,9 +75,8 @@ export function WaitlistForm() {
 
         <Button
           type="submit"
-          variant="action"
           disabled={waitlistAction.isExecuting}
-          className="h-12 border-muted-foreground"
+          className="h-12 bg-white text-black hover:bg-white/90"
         >
           {waitlistAction.isExecuting ? (
             <span className="flex items-center gap-2">
@@ -93,7 +92,7 @@ export function WaitlistForm() {
         </Button>
       </form>
 
-      <p className="text-xs mt-2 text-center">
+      <p className="text-xs mt-2 text-center text-[#E1E1E1]/70">
         Join our waitlist to help make 100,000 companies compliant by 2032.
       </p>
     </Form>

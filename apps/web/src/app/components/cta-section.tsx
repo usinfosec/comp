@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { WaitlistForm } from "./(homepage)/waitlist-form";
 
 export function CTA() {
   return (
@@ -69,13 +70,8 @@ export function CTA() {
             Start your compliance journey today and join thousands of companies
             building trust through transparent, automated compliance.
           </p>
-          <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xs mx-auto">
-            <button type="button" className="h-9 w-full px-4 [background:radial-gradient(166.93%_129.55%_at_50%_-14.77%,rgba(255,255,255,0.20)_10.68%,rgba(255,255,255,0.00)_46.53%),#00DC73] text-[#16171B] rounded-md text-sm font-medium shadow-[0px_0px_0px_1px_#00C265]">
-              Join the waitlist
-            </button>
-            <button type="button" className="h-9 w-full px-4 bg-white text-black rounded-md text-sm font-medium shadow-md">
-              Login
-            </button>
+          <div className="w-full flex flex-col items-center justify-center gap-4 mx-auto">
+            <WaitlistForm />
           </div>
         </div>
       </div>
