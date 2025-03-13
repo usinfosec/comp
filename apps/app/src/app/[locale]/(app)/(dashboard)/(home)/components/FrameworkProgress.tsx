@@ -84,12 +84,6 @@ export function FrameworkProgress({ frameworks }: Props) {
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>{t("frameworks.overview.progress.title")}</CardTitle>
-				<Link
-					href="/overview/frameworks"
-					className="text-sm text-primary hover:underline"
-				>
-					View All
-				</Link>
 			</CardHeader>
 			<CardContent>
 				{isLoading ? (
