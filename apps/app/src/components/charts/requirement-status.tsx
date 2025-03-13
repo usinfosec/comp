@@ -10,151 +10,136 @@ import type {
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
-import { cn } from "@bubba/ui/cn";
 import { useMemo } from "react";
+import type { OrganizationControlType } from "../tables/frameworks/columns";
+import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/(home)/overview/frameworks/[frameworkId]/hooks/useOrganizationCategories";
 
 interface Props {
 	frameworks: (OrganizationFramework & {
 		framework: Framework;
-		organizationControl: (OrganizationControl & {
-			OrganizationControlRequirement?: (OrganizationControlRequirement & {
-				organizationPolicy?: {
-					status: "draft" | "published" | "archived";
-				} | null;
-				organizationEvidence?: {
-					published: boolean;
-				} | null;
-			})[];
-			control?: {
-				code: string;
-				name: string;
-			};
-			status?: string;
-		})[];
 	})[];
 }
 
+// Helper function to check if a control is compliant based on its requirements
+const isControlCompliant = (control: OrganizationControlType) => {
+	// First, check if the control has the direct status of "compliant"
+	if (control.status === "compliant") {
+		return true;
+	}
+
+	// Then check the requirements if they exist
+	const requirements = control.requirements;
+
+	if (!requirements || requirements.length === 0) {
+		return false;
+	}
+
+	const totalRequirements = requirements.length;
+	const completedRequirements = requirements.filter((req) => {
+		let isCompleted = false;
+
+		switch (req.type) {
+			case "policy":
+				isCompleted = req.organizationPolicy?.status === "published";
+				break;
+			case "file":
+				isCompleted = !!req.fileUrl;
+				break;
+			case "evidence":
+				isCompleted = req.organizationEvidence?.published === true;
+				break;
+			default:
+				isCompleted = req.published || false;
+		}
+
+		return isCompleted;
+	}).length;
+
+	return completedRequirements === totalRequirements;
+};
+
+// Individual FrameworkCard component
+function FrameworkCard({
+	framework,
+}: { framework: OrganizationFramework & { framework: Framework } }) {
+	const { data: organizationCategories, isLoading } = useOrganizationCategories(
+		framework.framework.id,
+	);
+
+	// Transform the organizationCategories into controls
+	const controls = useMemo(() => {
+		if (!organizationCategories) return [];
+
+		return organizationCategories.flatMap((category) =>
+			category.organizationControl.map((control) => ({
+				code: control.control.code,
+				description: control.control.description,
+				name: control.control.name,
+				status: control.status,
+				id: control.id,
+				frameworkId: framework.framework.id,
+				category: category.name,
+				requirements: control.OrganizationControlRequirement,
+			})),
+		);
+	}, [
+		organizationCategories,
+		framework.framework.id,
+	]) as OrganizationControlType[];
+
+	// Calculate framework compliance based on controls
+	const compliance = useMemo(() => {
+		if (isLoading || controls.length === 0) return 0;
+
+		const totalControls = controls.length;
+		const compliantControls = controls.filter(isControlCompliant).length;
+
+		return totalControls > 0
+			? Math.round((compliantControls / totalControls) * 100)
+			: 0;
+	}, [controls, isLoading]);
+
+	if (isLoading) {
+		return (
+			<div className="flex items-start gap-4 rounded-lg p-4 animate-pulse bg-zinc-800/20">
+				<div className="flex-shrink-0 h-12 w-12 rounded-full bg-zinc-800/40" />
+				<div className="flex-1 space-y-2">
+					<div className="h-5 w-2/3 bg-zinc-800/40 rounded" />
+					<div className="h-2 bg-zinc-800/40 rounded" />
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<Link
+			href={`/overview/frameworks/${framework.framework.id}`}
+			className="flex items-start gap-4 rounded-lg p-4 hover:bg-zinc-800/40 transition-colors duration-200"
+		>
+			<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center">
+				<div className="text-lg font-bold text-zinc-400">
+					{framework.framework.name.substring(0, 2).toUpperCase()}
+				</div>
+			</div>
+			<div className="flex-1 space-y-2">
+				<div className="flex items-center justify-between">
+					<h3 className="font-medium">{framework.framework.name}</h3>
+					<span className="text-sm font-medium text-muted-foreground">
+						{compliance}% Compliant
+					</span>
+				</div>
+				<Progress
+					value={compliance}
+					className="h-2 bg-zinc-800 [&>div]:bg-emerald-500"
+				/>
+			</div>
+		</Link>
+	);
+}
+
+// Main component
 export function RequirementStatus({ frameworks }: Props) {
 	const t = useI18n();
-
-	// Log the full frameworks structure to see what data we're working with
-	console.log("Frameworks data:", JSON.stringify(frameworks, null, 2));
-
-	// Helper function to check if a control is compliant based on its requirements
-	const isControlCompliant = (
-		control: OrganizationControl & {
-			OrganizationControlRequirement?: (OrganizationControlRequirement & {
-				organizationPolicy?: {
-					status: "draft" | "published" | "archived";
-				} | null;
-				organizationEvidence?: {
-					published: boolean;
-				} | null;
-			})[];
-			control?: {
-				code: string;
-				name: string;
-			};
-			status?: string;
-		},
-	) => {
-		// First, check if the control has the direct status of "compliant"
-		if (control.status === "compliant") {
-			console.log(
-				`Control ${control.control?.name || control.id} is directly marked as compliant`,
-			);
-			return true;
-		}
-
-		// Then check the requirements if they exist
-		const requirements = control.OrganizationControlRequirement;
-
-		if (!requirements || requirements.length === 0) {
-			console.log(
-				`Control ${control.control?.name || control.id} has no requirements`,
-			);
-			return false;
-		}
-
-		console.log(
-			`Control ${control.control?.name || control.id} has ${requirements.length} requirements`,
-		);
-
-		const totalRequirements = requirements.length;
-		const completedRequirements = requirements.filter((req) => {
-			let isCompleted = false;
-
-			switch (req.type) {
-				case "policy":
-					isCompleted = req.organizationPolicy?.status === "published";
-					break;
-				case "file":
-					isCompleted = !!req.fileUrl;
-					break;
-				case "evidence":
-					isCompleted = req.organizationEvidence?.published === true;
-					break;
-				default:
-					isCompleted = req.published || false;
-			}
-
-			if (isCompleted) {
-				console.log(`Requirement ${req.id} of type ${req.type} is completed`);
-			} else {
-				console.log(
-					`Requirement ${req.id} of type ${req.type} is NOT completed`,
-				);
-			}
-
-			return isCompleted;
-		}).length;
-
-		console.log(
-			`Control has ${completedRequirements}/${totalRequirements} completed requirements`,
-		);
-
-		return completedRequirements === totalRequirements;
-	};
-
-	// Calculate framework compliance scores based on the requirements
-	const frameworkCompliance = useMemo(() => {
-		return frameworks.map((framework) => {
-			console.log(`Processing framework: ${framework.framework.name}`);
-
-			// Calculate framework controls compliance based on requirements
-			const totalControls = framework.organizationControl.length;
-			console.log(`Total controls: ${totalControls}`);
-
-			const compliantControls = framework.organizationControl.filter(
-				(control) => {
-					const isCompliant = isControlCompliant(control);
-					console.log(
-						`Control ${control.control?.name || control.id} compliant: ${isCompliant}`,
-					);
-					return isCompliant;
-				},
-			).length;
-
-			console.log(`Compliant controls: ${compliantControls}`);
-
-			// Calculate compliance percentage
-			const compliance =
-				totalControls > 0
-					? Math.round((compliantControls / totalControls) * 100)
-					: 0;
-
-			console.log(
-				`Framework ${framework.framework.name} compliance: ${compliance}%`,
-			);
-
-			return {
-				id: framework.framework.id,
-				name: framework.framework.name,
-				compliance,
-			};
-		});
-	}, [frameworks]);
-
 	const isLoading = !frameworks;
 
 	return (
@@ -183,35 +168,12 @@ export function RequirementStatus({ frameworks }: Props) {
 					<div className="space-y-8">
 						{/* Framework List */}
 						<div className="space-y-6">
-							{frameworkCompliance.map((framework) => {
-								const compliance = Math.max(0, framework.compliance);
-
-								return (
-									<Link
-										key={framework.id}
-										href={`/overview/frameworks/${framework.id}`}
-										className="flex items-start gap-4 rounded-lg p-4 hover:bg-zinc-800/40 transition-colors duration-200"
-									>
-										<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center">
-											<div className="text-lg font-bold text-zinc-400">
-												{framework.name.substring(0, 2).toUpperCase()}
-											</div>
-										</div>
-										<div className="flex-1 space-y-2">
-											<div className="flex items-center justify-between">
-												<h3 className="font-medium">{framework.name}</h3>
-												<span className="text-sm font-medium text-muted-foreground">
-													{compliance}% Compliant
-												</span>
-											</div>
-											<Progress
-												value={compliance}
-												className="h-2 bg-zinc-800 [&>div]:bg-emerald-500"
-											/>
-										</div>
-									</Link>
-								);
-							})}
+							{frameworks.map((framework) => (
+								<FrameworkCard
+									key={framework.framework.id}
+									framework={framework}
+								/>
+							))}
 						</div>
 					</div>
 				)}
