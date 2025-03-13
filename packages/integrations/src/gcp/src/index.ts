@@ -1,3 +1,43 @@
+/**
+import { SecurityCenterClient } from "@google-cloud/security-center";
+
+// GCP Project and Organization Settings
+const ORGANIZATION_ID = "your-organization-id"; // Replace with your GCP Organization ID
+const FILTER = "state=\"ACTIVE\""; // 🔹 Filter for only active security findings
+
+const client = new SecurityCenterClient();
+
+async function fetchSecurityFindings(): Promise<void> {
+  try {
+    const orgResource = `organizations/${ORGANIZATION_ID}`;
+
+    // 🔹 API request to fetch Security Command Center (SCC) findings
+    const [findingsResponse] = await client.listFindings({
+      parent: `${orgResource}/sources/-`, // "-" fetches findings from all sources
+      filter: FILTER, // Optional filtering (e.g., active findings only)
+      pageSize: 100, // Adjust page size as needed (default max is 1000)
+    });
+
+    const findings = findingsResponse.findings || [];
+    console.log(`Retrieved ${findings.length} security findings.`);
+
+    // 🔹 Process and log findings
+    findings.forEach((finding) => {
+      console.log(`🛑 [${finding.severity}] ${finding.category} - ${finding.state}`);
+    });
+
+    return findings;
+  } catch (error) {
+    console.error("Error fetching GCP security findings:", error);
+    throw error;
+  }
+}
+
+// Run the function
+fetchSecurityFindings();
+ */
+
+
 import {
 	SecurityHubClient,
 	GetFindingsCommand,
