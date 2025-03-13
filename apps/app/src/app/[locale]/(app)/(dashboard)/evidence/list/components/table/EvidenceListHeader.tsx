@@ -3,15 +3,15 @@
 import type { Table } from "@tanstack/react-table";
 import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { flexRender } from "@tanstack/react-table";
-import type { EvidenceTaskRow } from "./types";
+import type { EvidenceTaskRow } from "../../types";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { cn } from "@bubba/ui/cn";
 
-interface DataTableHeaderProps {
+interface EvidenceListHeaderProps {
 	table: Table<EvidenceTaskRow>;
 }
 
-export function DataTableHeader({ table }: DataTableHeaderProps) {
+export function EvidenceListHeader({ table }: EvidenceListHeaderProps) {
 	return (
 		<TableHeader>
 			{table.getHeaderGroups().map((headerGroup) => (

@@ -9,13 +9,15 @@ import {
 	type SortingState,
 } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { columns } from "./columns";
-import { DataTableHeader } from "./data-table-header";
-import type { EvidenceTaskRow } from "./types";
+import { EvidenceListColumns } from "./EvidenceListColumns";
+import { EvidenceListHeader } from "./EvidenceListHeader";
+import type { EvidenceTaskRow } from "../../types";
 import { cn } from "@bubba/ui/cn";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
+export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
+	const router = useRouter();
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: "name",
@@ -25,29 +27,45 @@ export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
 
 	const table = useReactTable({
 		data,
-		columns,
+		columns: EvidenceListColumns,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		enableColumnResizing: true,
 		columnResizeMode: "onChange",
+		defaultColumn: {
+			minSize: 40,
+			size: 150,
+		},
 		state: {
 			sorting,
+			columnSizing: {
+				// Make the relevance column smaller
+				relevance: 100,
+			},
 		},
 		onSortingChange: setSorting,
 	});
 
+	const handleRowClick = (evidenceId: string) => {
+		router.push(`/evidence/${evidenceId}`);
+	};
+
 	return (
-		<div className="relative w-full">
-			<div className="overflow-auto">
+		<div className="relative w-full border">
+			<div
+				className="overflow-x-auto"
+				style={{ WebkitOverflowScrolling: "touch" }}
+			>
 				<Table>
-					<DataTableHeader table={table} />
+					<EvidenceListHeader table={table} />
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
-									className="hover:bg-muted/50"
+									className="hover:bg-muted/50 cursor-pointer"
+									onClick={() => handleRowClick(row.original.id)}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
@@ -61,6 +79,7 @@ export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
 													cell.column.id === "assignee" ||
 													cell.column.id === "relevance") &&
 													"hidden md:table-cell",
+												cell.column.id === "relevance" && "max-w-[100px]",
 											)}
 											style={{ width: cell.column.getSize() }}
 										>
@@ -77,6 +96,10 @@ export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
 														? "bg-primary opacity-100"
 														: ""
 												}`}
+												onClick={(e) => {
+													// Stop propagation to prevent row click when resizing
+													e.stopPropagation();
+												}}
 											/>
 										</TableCell>
 									))}
@@ -85,7 +108,7 @@ export function DataTable({ data }: { data: EvidenceTaskRow[] }) {
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={columns.length}
+									colSpan={EvidenceListColumns.length}
 									className="h-24 text-center"
 								>
 									No evidence tasks found.
