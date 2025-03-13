@@ -1,12 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type {
-	Framework,
-	OrganizationControl,
-	OrganizationFramework,
-	OrganizationControlRequirement,
-} from "@bubba/db";
+import type { Framework, OrganizationFramework } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
