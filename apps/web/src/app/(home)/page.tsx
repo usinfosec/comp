@@ -1,41 +1,20 @@
-import { WaitlistForm } from "@/app/components/waitlist-form";
-import Balancer from "react-wrap-balancer";
-import WhyUs from "../components/why-us";
-import OurSolution from "../components/our-solution";
-import HowItWorks from "../components/how-it-works";
-import CTA from "../components/cta";
+import { HeroSection } from "@/app/components/(homepage)/home-hero";
+import { Section2 } from "@/app/components/(homepage)/section-2";
+import { Section3 } from "@/app/components/(homepage)/section-3";
+import { Section4 } from "@/app/components/(homepage)/section-4";
+import { Section5 } from "@/app/components/(homepage)/section-5";
+import { Section6 } from "@/app/components/(homepage)/section-6";
+import { Section7 } from "@/app/components/(homepage)/section-7";
 
 export default function Home() {
   return (
-    <section className="w-full">
-      <div className="container mx-auto px-8 mt-24">
-        <div className="flex flex-col items-center text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-medium leading-tight tracking-tighter lg:leading-[1.1] mx-auto">
-            <Balancer>Open Source Compliance Automation Platform</Balancer>
-          </h1>
-          <p className="text-lg md:text-xl font-light text-muted-foreground mt-6 mx-auto">
-            <Balancer>
-              Get audit ready, fast. Automate compliance with frameworks like
-              SOC 2, ISO 27001, and GDPR - in weeks, not months. Open source
-              competitor to Drata & Vanta.
-            </Balancer>
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-10 container mx-auto px-8 max-w-[550px]">
-        <WaitlistForm />
-      </div>
-
-      <WhyUs />
-
-      <div className="from-accent/20 to-background bg-gradient-to-b">
-        <OurSolution />
-      </div>
-
-      <HowItWorks />
-
-      <CTA />
-    </section>
+    <div>
+      <HeroSection />
+      <Section2 />
+      <Section3 />
+      <Section4 />
+      <Section7 />
+      <Section6 />
+    </div>
   );
 }
