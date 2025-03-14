@@ -15,7 +15,7 @@ export function EvidenceListSkeleton() {
 			<div className="space-y-4 mb-6">
 				{/* Filter controls skeleton */}
 				<div className="flex items-center gap-3">
-					<div className="w-full max-w-sm h-10 bg-muted animate-pulse rounded" />
+					<div className="w-full max-w-md h-10 bg-muted animate-pulse rounded" />
 					<div className="h-10 w-40 bg-muted animate-pulse rounded" />
 				</div>
 			</div>
