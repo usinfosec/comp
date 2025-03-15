@@ -1,25 +1,19 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { redirect } from "next/navigation";
-import { useState } from "react";
 import { PolicyEditor } from "@/components/editor/policy-editor";
 import { usePolicyDetails } from "../../../(overview)/hooks/usePolicy";
 import type { JSONContent } from "@tiptap/react";
+import "@bubba/ui/editor.css";
 
 interface PolicyDetailsProps {
   policyId: string;
 }
 
 export function PolicyDetails({ policyId }: PolicyDetailsProps) {
-  const t = useI18n();
-  const { policy, isLoading, error, updatePolicy } = usePolicyDetails(policyId);
-  const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving" | "Unsaved">(
-    "Saved",
-  );
-  const [wordCount, setWordCount] = useState<number>(0);
+  const { policy, isLoading, updatePolicy } = usePolicyDetails(policyId);
 
   if (isLoading) {
     return (
@@ -56,15 +50,12 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
     if (!policy) return;
 
     try {
-      setSaveStatus("Saving");
       await updatePolicy({
         ...policy,
         content,
       });
-      setSaveStatus("Saved");
     } catch (error) {
       console.error("Error saving policy:", error);
-      setSaveStatus("Unsaved");
       throw error;
     }
   };
@@ -72,7 +63,6 @@ export function PolicyDetails({ policyId }: PolicyDetailsProps) {
   return (
     <div className="flex flex-col h-full mx-auto">
       <PolicyEditor
-        policyId={policyId}
         content={formattedContent}
         onSave={handleSavePolicy}
       />

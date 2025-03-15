@@ -2,17 +2,15 @@
 
 import type { JSONContent } from "@tiptap/react";
 import { useState } from "react";
-import { RichTextEditor } from "./rich-text-editor";
+import AdvancedEditor from "./advanced-editor";
 
 interface PolicyEditorProps {
-  policyId: string;
   content: JSONContent[];
   readOnly?: boolean;
   onSave?: (content: JSONContent[]) => Promise<void>;
 }
 
 export function PolicyEditor({
-  policyId,
   content,
   readOnly = false,
   onSave,
@@ -44,7 +42,7 @@ export function PolicyEditor({
   };
 
   return (
-    <RichTextEditor
+    <AdvancedEditor
       initialContent={documentContent}
       onUpdate={handleUpdate}
       onSave={handleSave}

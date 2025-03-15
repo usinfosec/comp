@@ -70,32 +70,32 @@ pre {
   @apply w-full text-sm leading-normal;
   height: 100%;
   min-height: 350px;
-  overflow-y: auto;
 }
 
 .ProseMirror:focus {
   @apply outline-none;
 }
 
+
 /* Typography */
 .ProseMirror h1 {
-  @apply text-xl font-semibold mb-6 text-foreground;
+  @apply text-xl font-semibold text-foreground;
 }
 
 .ProseMirror h2 {
-  @apply text-lg font-semibold mb-4 text-foreground;
+  @apply text-lg font-semibold text-foreground;
 }
 
 .ProseMirror h3 {
-  @apply text-base font-semibold mb-3 text-foreground;
+  @apply text-base font-semibold text-foreground;
 }
 
 .ProseMirror h4 {
-  @apply text-sm font-semibold mb-2 text-foreground;
+  @apply text-sm font-semibold text-foreground;
 }
 
 .ProseMirror p {
-  @apply text-sm leading-6 mb-4 text-foreground;
+  @apply text-sm;
 }
 
 /* Lists */
@@ -129,19 +129,6 @@ pre {
   counter-increment: item;
   position: absolute;
   left: -1.5em;
-}
-
-/* Tables */
-.ProseMirror table {
-  @apply w-full border-collapse my-4 border border-border;
-}
-
-.ProseMirror th {
-  @apply bg-muted text-sm font-medium p-3 border border-border;
-}
-
-.ProseMirror td {
-  @apply text-sm p-3 border border-border;
 }
 
 /* Spacing between sections */
@@ -185,37 +172,10 @@ pre {
   pointer-events: none;
 }
 
-/* Editor chrome */
-.tiptap {
-  @apply relative bg-background;
-  height: 100%;;
+.ProseMirror table {
+  @apply w-full border-collapse my-4 border border-border;
 }
 
-/* Bubble menu */
-.tiptap .bubble-menu {
-  @apply flex gap-1 p-1 border border-border bg-background shadow-sm;
-}
-
-/* Command menu */
-.tiptap .command-menu {
-  @apply absolute z-50 w-60 bg-background border border-border;
-}
-
-/* Add custom scrollbar styles */
-.ProseMirror::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.ProseMirror::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-.ProseMirror::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30 active:bg-muted-foreground/40;
-}
-
-.ProseMirror {
-  scrollbar-width: thin;
-  scrollbar-color: var(--muted-foreground) transparent;
+.ProseMirror th {
+  @apply text-sm font-medium;
 }
