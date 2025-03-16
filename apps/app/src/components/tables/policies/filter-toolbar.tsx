@@ -18,6 +18,8 @@ import { useQueryState } from "nuqs";
 import { useTransition } from "react";
 import { useCallback, useState, useEffect } from "react";
 import type { User } from "next-auth";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 
 interface FilterToolbarProps {
   isEmpty?: boolean;
@@ -25,7 +27,11 @@ interface FilterToolbarProps {
 }
 
 export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const t = useI18n();
+  const [open, setOpen] = useQueryState("create-policy-sheet");
   const [isPending, startTransition] = useTransition();
   const [searchInput, setSearchInput] = useState<string>("");
 
@@ -53,7 +59,6 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
     parse: (value) => value || null,
   });
 
-  // Initialize searchInput with the current search value
   useEffect(() => {
     setSearchInput(search || "");
   }, [search]);
@@ -121,12 +126,10 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
         </div>
 
         <div className="md:hidden">
-          <Link href="/policies/new">
-            <Button variant="action">
-              <Plus className="h-4 w-4" />
-              {t("policies.create_new")}
-            </Button>
-          </Link>
+          <Button onClick={() => setOpen("true")} variant="action">
+            <Plus className="h-4 w-4" />
+            {t("common.actions.addNew")}
+          </Button>
         </div>
       </div>
 
@@ -178,13 +181,13 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
           </Button>
         )}
 
-        <Link href="/policies/new">
-          <Button variant="action">
-            <Plus className="h-4 w-4" />
-            {t("policies.create_new")}
-          </Button>
-        </Link>
+        <Button variant="action" onClick={() => setOpen("true")}>
+          <Plus className="h-4 w-4" />
+          {t("policies.create_new")}
+        </Button>
       </div>
+
+      <CreatePolicySheet />
     </div>
   );
 }
