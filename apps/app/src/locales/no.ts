@@ -357,6 +357,13 @@ export default {
         signature_requirement: "Signaturkrav",
         signature_requirement_placeholder: "Velg signaturkrav"
       }
+    },
+    "new": {
+      success: "Policy opprettet",
+      error: "Feil ved oppretting av policy",
+      details: "Policy Detaljer",
+      title: "Skriv inn en tittel for policyen",
+      description: "Skriv inn en beskrivelse for policyen"
     }
   },
   evidence_tasks: {

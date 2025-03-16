@@ -239,6 +239,11 @@ files:
     policies.overview.form.signature_not_required: 55abefe222df069df1dd008e45614832
     policies.overview.form.signature_requirement: 1841e3cd80cda4b097bcf4891c76c8da
     policies.overview.form.signature_requirement_placeholder: cc5fbf3cb132bc8fa226997c1834d3a9
+    policies.new.success: d7b87036c6d6a95d84f236c89828f888
+    policies.new.error: 27d950f3be4610eff0e638c7a3c51d30
+    policies.new.details: 8178fb068d06b0f32a7b0103e832b231
+    policies.new.title: 25d72a7ee4bef3aad40c3ce27ea4638f
+    policies.new.description: 001e50b49cb3ad5e87da8955bb97233a
     policies.table.name: 002f7378a5fcfc2f66cfea851a7fd5f4
     policies.table.statuses.draft: f03ab16cd58372c77ba45a3d9a5a1cb9
     policies.table.statuses.published: 9b9d8a976b42e0bd66381797644943d5
