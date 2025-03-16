@@ -357,6 +357,13 @@ export default {
         signature_requirement: "Exigence de signature",
         signature_requirement_placeholder: "Sélectionner l'exigence de signature"
       }
+    },
+    "new": {
+      success: "Politique créée avec succès",
+      error: "Échec de la création de la politique",
+      details: "Détails de la politique",
+      title: "Entrez un titre pour la politique",
+      description: "Entrez une description pour la politique"
     }
   },
   evidence_tasks: {
