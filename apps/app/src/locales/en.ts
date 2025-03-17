@@ -359,6 +359,13 @@ export default {
 				signature_requirement_placeholder: "Select signature requirement",
 			},
 		},
+		new: {
+			success: "Policy successfully created",
+			error: "Failed to create policy",
+			details: "Policy Details",
+			title: "Enter a title for the policy",
+			description: "Enter a description for the policy",
+		},
 		table: {
 			name: "Policy Name",
 			statuses: {
