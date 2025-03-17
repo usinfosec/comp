@@ -15,6 +15,7 @@ import { useOrganizationEvidenceTasks } from "../../hooks/useEvidenceTasks";
 import { ALL_DEPARTMENTS } from "../../constants";
 import { ALL_FREQUENCIES } from "../../constants";
 import type { EvidenceTaskRow } from "../components/table";
+import { useDebounce } from "../../../../../../../hooks/useDebounce";
 
 interface Assignee {
 	id: string;
@@ -22,9 +23,15 @@ interface Assignee {
 	image: string | null;
 }
 
+interface Filter {
+	label: string;
+	value: string;
+	checked: boolean;
+}
+
 interface EvidenceTableContextType {
 	// State
-	search: string | null;
+	search: string;
 	status: string | null;
 	frequency: string | null;
 	department: string | null;
@@ -32,9 +39,10 @@ interface EvidenceTableContextType {
 	relevance: string | null;
 	page: string;
 	pageSize: string;
+	filters: Filter[];
 
 	// Setters
-	setSearch: (value: string | null) => void;
+	setSearch: (value: string) => void;
 	setStatus: (value: string | null) => void;
 	setFrequency: (value: string | null) => void;
 	setDepartment: (value: string | null) => void;
@@ -42,6 +50,7 @@ interface EvidenceTableContextType {
 	setRelevance: (value: string | null) => void;
 	setPage: (value: string) => void;
 	setPageSize: (value: string) => void;
+	setFilters: (filters: Filter[]) => void;
 	mutate: () => void;
 
 	// Data
@@ -73,8 +82,11 @@ const EvidenceTableContext = createContext<
 >(undefined);
 
 export function EvidenceTableProvider({ children }: { children: ReactNode }) {
-	// Query state
-	const [search, setSearch] = useQueryState("search");
+	// Local state for search
+	const [search, setSearch] = useState("");
+	const debouncedSearch = useDebounce(search, 300);
+
+	// Query state for other filters
 	const [status, setStatus] = useQueryState("status");
 	const [frequency, setFrequency] = useQueryState("frequency");
 	const [department, setDepartment] = useQueryState("department");
@@ -84,6 +96,14 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 	const [pageSize, setPageSize] = useQueryState("pageSize", {
 		defaultValue: "10",
 	});
+
+	// Filter state
+	const [filters, setFilters] = useState<Filter[]>([
+		{ label: "Published", value: "published", checked: false },
+		{ label: "Draft", value: "draft", checked: false },
+		{ label: "Relevant", value: "relevant", checked: false },
+		{ label: "Not Relevant", value: "not-relevant", checked: false },
+	]);
 
 	// Track if this is initial load or a search/filter update
 	const initialLoadCompleted = useRef(false);
@@ -100,7 +120,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		error,
 		mutate,
 	} = useOrganizationEvidenceTasks({
-		search,
+		search: debouncedSearch,
 		status: status as "published" | "draft" | null,
 		frequency: frequency as any,
 		department: department as any,
@@ -116,7 +136,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 			setIsSearching(true);
 		}
 	}, [
-		search,
+		debouncedSearch,
 		status,
 		frequency,
 		department,
@@ -205,10 +225,11 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		setAssigneeId(null);
 		setRelevance(null);
 		setPage("1"); // Reset to first page when clearing filters
+		setFilters(filters.map((f) => ({ ...f, checked: false }))); // Reset all filter checkboxes
+		setSearch(""); // Clear search
 	};
 
-	// Create context value including the new isSearching property
-	const contextValue = {
+	const contextValue: EvidenceTableContextType = {
 		// State
 		search,
 		status,
@@ -218,6 +239,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		relevance,
 		page,
 		pageSize,
+		filters,
 
 		// Setters
 		setSearch,
@@ -228,6 +250,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		setRelevance,
 		setPage,
 		setPageSize,
+		setFilters,
 		mutate,
 
 		// Data
