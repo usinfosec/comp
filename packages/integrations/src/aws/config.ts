@@ -1,17 +1,16 @@
-// @ts-ignore - Suppress image import warning
-import image from "./assets/image.png";
-// Import the function directly instead of through integrations
+import imageBase64 from "./assets/image.base64";
 import { fetch } from "./src";
+
 
 // Type the export directly with inline annotation
 const config: {
 	name: string;
 	id: string;
 	active: boolean;
-	logo: unknown;
+	logo: string; // base64 image string
 	short_description: string;
 	description: string;
-	images: unknown[];
+	images: string[]; // array of base64 image strings
 	settings: {
 		id: string;
 		label: string;
@@ -26,10 +25,10 @@ const config: {
 	name: "AWS",
 	id: "aws",
 	active: true,
-	logo: image,
+	logo: imageBase64(),
 	short_description: "Connect your AWS account to Comp AI to automate evidence collection for cloud resources",
 	description: "Integrating with AWS allows you to automate evidence collection. This compliance analysis tool enables organizations to more quickly articulate their compliance posture and also generate supporting evidence artifacts",
-	images: [image],
+	images: [imageBase64()],
 	settings: [
 		{
 			id: "region",
@@ -54,15 +53,7 @@ const config: {
 			type: "text",
 			required: true,
 			value: "",
-		},
-		{
-			id: "session_token",
-			label: "AWS session token",
-			description: "The API session token AWS account",
-			type: "text",
-			required: true,
-			value: "",
-		},
+		}
 	],
 	category: "Cloud",
 	fetch: fetch

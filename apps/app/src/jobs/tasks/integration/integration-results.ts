@@ -13,7 +13,6 @@ type IntegrationHandler = {
 		region: string,
 		accessKeyId: string,
 		secretAccessKey: string,
-		sessionToken: string,
 	) => Promise<any[]>;
 };
 
@@ -67,24 +66,21 @@ export const sendIntegrationResults = schemaTask({
         logger.error(`Integration handler for ${integrationId} not found`);
         return { success: false, error: "Integration handler not found" };
       }
-      const { region, access_key_id, secret_access_key, session_token } =
+      const { region, access_key_id, secret_access_key } =
       integration.user_settings as unknown as {
         region: EncryptedData;
         access_key_id: EncryptedData;
         secret_access_key: EncryptedData;
-        session_token: EncryptedData;
       };
 
       const decryptedRegion = await decrypt(region);
       const decryptedAccessKeyId = await decrypt(access_key_id);
       const decryptedSecretAccessKey = await decrypt(secret_access_key);
-      const decryptedSessionToken = await decrypt(session_token);
       
       const results = await integrationHandler.fetch(
         decryptedRegion,
         decryptedAccessKeyId,
-        decryptedSecretAccessKey,
-        decryptedSessionToken,
+        decryptedSecretAccessKey
       );
 
       // Store the integration results using model name that matches the database

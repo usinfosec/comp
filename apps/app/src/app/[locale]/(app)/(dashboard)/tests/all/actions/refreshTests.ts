@@ -13,8 +13,7 @@ type IntegrationHandler = {
 	fetch: (
 		region: string,
 		accessKeyId: string,
-		secretAccessKey: string,
-		sessionToken: string,
+		secretAccessKey: string
 	) => Promise<any[]>;
 };
 
@@ -72,25 +71,22 @@ export const refreshTestsAction = authActionClient
 
 			try {
 				// Extract and decrypt credentials (assuming all integrations use the same credential structure)
-				const { region, access_key_id, secret_access_key, session_token } =
+				const { region, access_key_id, secret_access_key } =
 					integration.user_settings as unknown as {
 						region: EncryptedData;
 						access_key_id: EncryptedData;
 						secret_access_key: EncryptedData;
-						session_token: EncryptedData;
 					};
 
 				const decryptedRegion = await decrypt(region);
 				const decryptedAccessKeyId = await decrypt(access_key_id);
 				const decryptedSecretAccessKey = await decrypt(secret_access_key);
-				const decryptedSessionToken = await decrypt(session_token);
 
 				// Fetch results using the appropriate integration handler
 				const results = await integrationHandler.fetch(
 					decryptedRegion,
 					decryptedAccessKeyId,
-					decryptedSecretAccessKey,
-					decryptedSessionToken,
+					decryptedSecretAccessKey
 				);
 
 				// Store the integration results using model name that matches the database

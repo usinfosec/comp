@@ -1,5 +1,4 @@
-// @ts-ignore - Suppress image import warning
-import image from "./assets/image.png";
+import imageBase64 from "./assets/image.base64";
 // Import the function directly instead of through integrations
 import { fetch } from "./src";
 
@@ -26,12 +25,12 @@ const config: {
   name: "GCP",
   id: "gcp",
   active: true,
-  logo: image,
+  logo: imageBase64(),
   short_description:
     "Connect your GCP account to Comp AI to automate evidence collection for cloud resources",
   description:
     "Integrating with Google Cloud Platform allows you to automate evidence collection. This compliance analysis tool enables organizations to more quickly articulate their compliance posture and also generate supporting evidence artifacts",
-  images: [image],
+  images: [imageBase64()],
   settings: [
     {
       id: "region",
