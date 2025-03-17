@@ -85,9 +85,9 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
   // Format the test status for display with appropriate badge color
   const getStatusBadge = (status: string) => {
     switch(status.toUpperCase()) {
-      case "ACTIVE":
+      case "PASSED":
         return <Badge className="bg-green-500">{status}</Badge>;
-      case "DRAFT":
+      case "IN_PROGRESS":
         return <Badge className="bg-yellow-500">{status}</Badge>;
       case "FAILED":
         return <Badge className="bg-red-500">{status}</Badge>;
