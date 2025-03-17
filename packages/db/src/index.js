@@ -27,10 +27,17 @@ if (!("WebSocket" in globalThis)) {
 serverless_1.neonConfig.useSecureWebSocket = true;
 const createPrismaClient = () => {
     const connectionString = process.env.DATABASE_URL;
-    const pool = new serverless_2.Pool({ connectionString });
-    const adapter = new adapter_neon_1.PrismaNeon(pool);
+    // Check if we're using Neon (connection string contains 'neon.tech')
+    if (connectionString?.includes('neon.tech')) {
+        const pool = new serverless_2.Pool({ connectionString });
+        const adapter = new adapter_neon_1.PrismaNeon(pool);
+        return new client_1.PrismaClient({
+            adapter,
+            log: ["error", "warn"],
+        });
+    }
+    // Use standard PrismaClient for local PostgreSQL
     return new client_1.PrismaClient({
-        adapter,
         log: ["error", "warn"],
     });
 };
