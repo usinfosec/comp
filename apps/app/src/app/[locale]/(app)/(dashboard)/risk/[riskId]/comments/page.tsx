@@ -16,7 +16,7 @@ export default async function RiskPage({ params }: PageProps) {
   const { riskId } = await params;
 
   if (!session) {
-    redirect("/login");
+    redirect("/auth");
   }
 
   if (!session.user.organizationId || !riskId) {

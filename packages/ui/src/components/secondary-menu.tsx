@@ -50,7 +50,7 @@ export function SecondaryMenu({
   }
 
   return (
-    <nav className={cn(isChild ? "py-0" : "py-4")}>
+    <nav className={cn(isChild ? "py-0 select-none" : "py-4 select-none")}>
       <ul
         className={cn(
           "scrollbar-hide flex overflow-auto text-sm",
@@ -76,7 +76,7 @@ export function SecondaryMenu({
               className={cn(
                 "",
                 isActiveLink(item.path) &&
-                  "font-medium underline underline-offset-8",
+                "font-medium underline underline-offset-8",
                 isDisabled && "opacity-50 cursor-pointer",
               )}
             >

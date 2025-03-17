@@ -57,7 +57,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
   });
 
   if (!session) {
-    redirect("/login");
+    redirect("/auth");
   }
 
   if (!session.user.organizationId || !riskId) {
@@ -159,24 +159,24 @@ const getTasks = unstable_cache(
             AND: [
               search
                 ? {
-                    OR: [
-                      { title: { contains: search, mode: "insensitive" } },
-                      {
-                        description: { contains: search, mode: "insensitive" },
-                      },
-                    ],
-                  }
+                  OR: [
+                    { title: { contains: search, mode: "insensitive" } },
+                    {
+                      description: { contains: search, mode: "insensitive" },
+                    },
+                  ],
+                }
                 : {},
               status ? { status } : {},
             ],
           },
           orderBy: column
             ? {
-                [column]: order === "asc" ? "asc" : "desc",
-              }
+              [column]: order === "asc" ? "asc" : "desc",
+            }
             : {
-                createdAt: "desc",
-              },
+              createdAt: "desc",
+            },
           skip,
           take: per_page,
           include: {
@@ -207,11 +207,11 @@ const getTasks = unstable_cache(
           AND: [
             search
               ? {
-                  OR: [
-                    { title: { contains: search, mode: "insensitive" } },
-                    { description: { contains: search, mode: "insensitive" } },
-                  ],
-                }
+                OR: [
+                  { title: { contains: search, mode: "insensitive" } },
+                  { description: { contains: search, mode: "insensitive" } },
+                ],
+              }
               : {},
             status ? { status } : {},
           ],
