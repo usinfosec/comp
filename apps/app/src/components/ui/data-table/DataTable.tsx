@@ -71,6 +71,11 @@ interface DataTableProps<TData> {
 		onClearFilters: () => void;
 		activeFilterCount?: number;
 	};
+	ctaButton?: {
+		label: string;
+		onClick: () => void;
+		icon?: React.ReactNode;
+	};
 }
 
 export function DataTable<TData>({
@@ -85,6 +90,7 @@ export function DataTable<TData>({
 	onPageSizeChange,
 	search,
 	filters,
+	ctaButton,
 }: DataTableProps<TData>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -208,6 +214,15 @@ export function DataTable<TData>({
 								)}
 							</DropdownMenuContent>
 						</DropdownMenu>
+					)}
+					{ctaButton && (
+						<Button
+							className="ml-auto flex flex-row gap-2"
+							onClick={ctaButton.onClick}
+						>
+							{ctaButton.icon}
+							{ctaButton.label}
+						</Button>
 					)}
 				</div>
 			)}
