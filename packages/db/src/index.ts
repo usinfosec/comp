@@ -13,11 +13,20 @@ neonConfig.useSecureWebSocket = true;
 
 const createPrismaClient = () => {
   const connectionString = process.env.DATABASE_URL;
-  const pool = new Pool({ connectionString });
-  const adapter = new PrismaNeon(pool);
-
+  
+  // Check if we're using Neon (connection string contains 'neon.tech')
+  if (connectionString?.includes('neon.tech')) {
+    const pool = new Pool({ connectionString });
+    const adapter = new PrismaNeon(pool);
+    
+    return new PrismaClient({
+      adapter,
+      log: ["error", "warn"],
+    });
+  }
+  
+  // Use standard PrismaClient for local PostgreSQL
   return new PrismaClient({
-    adapter,
     log: ["error", "warn"],
   });
 };

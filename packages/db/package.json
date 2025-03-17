@@ -7,6 +7,7 @@
     "db:generate": "bunx prisma generate",
     "db:push": "bunx prisma db push",
     "db:studio": "bunx prisma studio",
+    "db:seed": "bunx prisma db seed",
     "dev": "tsc --watch",
     "lint": "eslint src/",
     "clean": "rm -rf .turbo node_modules dist"
@@ -18,16 +19,16 @@
     }
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4",
+    "@auth/prisma-adapter": "^2.8.0",
     "@neondatabase/serverless": "^0.10.4",
-    "@prisma/adapter-neon": "^6.3.1",
-    "@prisma/client": "^6.3.1",
+    "@prisma/adapter-neon": "^6.5.0",
+    "@prisma/client": "^6.5.0",
     "@prisma/extension-accelerate": "^1.2.2",
-    "prisma": "^6.3.1"
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@bubba/tsconfig": "workspace:*",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "prisma": {
     "seed": "bun prisma/seed.ts"

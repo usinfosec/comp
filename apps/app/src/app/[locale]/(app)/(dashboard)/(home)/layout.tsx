@@ -4,22 +4,22 @@ import { redirect } from "next/navigation";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	const t = await getI18n();
-	const session = await auth();
+  const t = await getI18n();
+  const session = await auth();
 
-	if (!session?.user?.organizationId) {
-		redirect("/login");
-	}
+  if (!session?.user?.organizationId) {
+    redirect("/auth");
+  }
 
-	return (
-		<div className="max-w-[1200px] mx-auto">
-			<SecondaryMenu items={[{ path: "/", label: t("overview.title") }]} />
+  return (
+    <div className="max-w-[1200px] mx-auto">
+      <SecondaryMenu items={[{ path: "/", label: t("overview.title") }]} />
 
-			<main className="mt-8">{children}</main>
-		</div>
-	);
+      <main className="mt-8">{children}</main>
+    </div>
+  );
 }
