@@ -15,7 +15,6 @@ import { useOrganizationEvidenceTasks } from "../../hooks/useEvidenceTasks";
 import { ALL_DEPARTMENTS } from "../../constants";
 import { ALL_FREQUENCIES } from "../../constants";
 import type { EvidenceTaskRow } from "../components/table";
-import { useDebounce } from "../../../../../../../hooks/useDebounce";
 
 interface Assignee {
 	id: string;
@@ -84,7 +83,6 @@ const EvidenceTableContext = createContext<
 export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 	// Local state for search
 	const [search, setSearch] = useState("");
-	const debouncedSearch = useDebounce(search, 300);
 
 	// Query state for other filters
 	const [status, setStatus] = useQueryState("status");
@@ -120,7 +118,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		error,
 		mutate,
 	} = useOrganizationEvidenceTasks({
-		search: debouncedSearch,
+		search,
 		status: status as "published" | "draft" | null,
 		frequency: frequency as any,
 		department: department as any,
@@ -136,7 +134,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 			setIsSearching(true);
 		}
 	}, [
-		debouncedSearch,
+		search,
 		status,
 		frequency,
 		department,

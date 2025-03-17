@@ -2,7 +2,8 @@
 
 import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
-import { employeesInputSchema, appErrors } from "../types";
+import { employeesInputSchema } from "../types";
+import { appErrors } from "../types";
 
 export const getEmployees = authActionClient
   .schema(employeesInputSchema)

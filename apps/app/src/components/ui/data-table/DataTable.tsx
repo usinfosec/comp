@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
 import { cn } from "@bubba/ui/cn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DataTableHeader } from "./DataTableHeader";
 import { DataTablePagination } from "./DataTablePagination";
 import { Input } from "@bubba/ui/input";
@@ -93,6 +93,18 @@ export function DataTable<TData>({
 	ctaButton,
 }: DataTableProps<TData>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
+	const [searchValue, setSearchValue] = useState(search?.value || "");
+
+	// Internal debounced search
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			search?.onChange(searchValue);
+		}, 300);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [searchValue, search]);
 
 	const table = useReactTable({
 		data,
@@ -111,6 +123,10 @@ export function DataTable<TData>({
 		onSortingChange: setSorting,
 	});
 
+	// Only show pagination when we have valid data and total count
+	const showPagination =
+		pagination && data.length > 0 && pagination.totalCount > 0;
+
 	return (
 		<div className="space-y-4">
 			{(search || filters) && (
@@ -121,16 +137,16 @@ export function DataTable<TData>({
 								<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
 								<Input
 									placeholder={search.placeholder || "Search..."}
-									value={search.value}
-									onChange={(e) => search.onChange(e.target.value)}
+									value={searchValue}
+									onChange={(e) => setSearchValue(e.target.value)}
 									className="pl-8 pr-8"
 								/>
-								{search.value && (
+								{searchValue && (
 									<Button
 										variant="ghost"
 										size="icon"
 										className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-										onClick={() => search.onChange("")}
+										onClick={() => setSearchValue("")}
 									>
 										<X className="h-4 w-4 text-muted-foreground" />
 									</Button>
@@ -295,7 +311,7 @@ export function DataTable<TData>({
 				</div>
 			</div>
 
-			{pagination && onPageChange && onPageSizeChange && (
+			{showPagination && onPageChange && onPageSizeChange && (
 				<DataTablePagination
 					{...pagination}
 					onPageChange={onPageChange}

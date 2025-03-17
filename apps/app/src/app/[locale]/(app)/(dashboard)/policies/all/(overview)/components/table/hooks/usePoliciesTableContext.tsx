@@ -11,7 +11,6 @@ import {
 } from "react";
 import { useQueryState } from "nuqs";
 import { usePolicies } from "../../../hooks/usePolicies";
-import { useDebounce } from "@/hooks/useDebounce";
 
 interface PoliciesTableContextType {
 	// State
@@ -48,7 +47,6 @@ const PoliciesTableContext = createContext<
 export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 	// Local state for search
 	const [search, setSearch] = useState("");
-	const debouncedSearch = useDebounce(search, 300);
 
 	// Query state for other filters
 	const [status, setStatus] = useQueryState("status");
@@ -67,7 +65,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 
 	// Fetch data
 	const { policies, total, isLoading } = usePolicies({
-		search: debouncedSearch,
+		search,
 		status: status || undefined,
 		ownerId: ownerId || undefined,
 		page: currentPage,
@@ -79,7 +77,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 		if (initialLoadCompleted.current) {
 			setIsSearching(true);
 		}
-	}, [debouncedSearch, status, ownerId, page, pageSize]);
+	}, [search, status, ownerId, page, pageSize]);
 
 	// Track when loading changes
 	useEffect(() => {
