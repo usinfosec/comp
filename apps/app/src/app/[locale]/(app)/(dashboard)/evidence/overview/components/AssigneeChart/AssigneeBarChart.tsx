@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
-import type { EvidenceWithStatus } from "../../actions/getEvidenceDashboard";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
 import { useAssigneeData } from "../../hooks/useAssigneeData";
 import { AssigneeChartRow } from "./AssigneeChartRow";
+import type { EvidenceWithStatus } from "../../data/getEvidenceDashboard";
 
 interface AssigneeBarChartProps {
 	byAssignee?: Record<string, EvidenceWithStatus[]>;

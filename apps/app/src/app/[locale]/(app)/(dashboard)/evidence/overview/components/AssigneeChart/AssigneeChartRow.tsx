@@ -1,16 +1,14 @@
 "use client";
 
-import React from "react";
-import { HorizontalBarChart, type ChartDataItem } from "../HorizontalBarChart";
 import { useI18n } from "@/locales/client";
-import type { AssigneeData } from "../../hooks/useAssigneeData";
 import {
-	STATUS_PRIORITY,
 	STATUS_COLORS,
 	STATUS_HEX_COLORS,
-	type StatusType,
+	STATUS_PRIORITY,
 } from "../../constants/evidence-status";
+import type { AssigneeData } from "../../hooks/useAssigneeData";
 import { useStatusTranslation } from "../../hooks/useStatusTranslation";
+import { HorizontalBarChart, type ChartDataItem } from "../HorizontalBarChart";
 
 interface AssigneeChartRowProps {
 	assignee: AssigneeData;
