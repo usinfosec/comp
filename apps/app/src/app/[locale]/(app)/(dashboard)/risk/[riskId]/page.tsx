@@ -12,7 +12,8 @@ import {
 import { FilterToolbar } from "@/components/tables/risk-tasks/filter-toolbar";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { getI18n } from "@/locales/server";
-import { type RiskTaskStatus, db } from "@bubba/db";
+import { db } from "@bubba/db";
+import type { RiskTaskStatus } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -57,7 +58,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
   });
 
   if (!session) {
-    redirect("/login");
+    redirect("/auth");
   }
 
   if (!session.user.organizationId || !riskId) {
@@ -159,24 +160,24 @@ const getTasks = unstable_cache(
             AND: [
               search
                 ? {
-                    OR: [
-                      { title: { contains: search, mode: "insensitive" } },
-                      {
-                        description: { contains: search, mode: "insensitive" },
-                      },
-                    ],
-                  }
+                  OR: [
+                    { title: { contains: search, mode: "insensitive" } },
+                    {
+                      description: { contains: search, mode: "insensitive" },
+                    },
+                  ],
+                }
                 : {},
               status ? { status } : {},
             ],
           },
           orderBy: column
             ? {
-                [column]: order === "asc" ? "asc" : "desc",
-              }
+              [column]: order === "asc" ? "asc" : "desc",
+            }
             : {
-                createdAt: "desc",
-              },
+              createdAt: "desc",
+            },
           skip,
           take: per_page,
           include: {
@@ -207,11 +208,11 @@ const getTasks = unstable_cache(
           AND: [
             search
               ? {
-                  OR: [
-                    { title: { contains: search, mode: "insensitive" } },
-                    { description: { contains: search, mode: "insensitive" } },
-                  ],
-                }
+                OR: [
+                  { title: { contains: search, mode: "insensitive" } },
+                  { description: { contains: search, mode: "insensitive" } },
+                ],
+              }
               : {},
             status ? { status } : {},
           ],

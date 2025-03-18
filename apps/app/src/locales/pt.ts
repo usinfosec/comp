@@ -253,8 +253,8 @@ export default {
   },
   onboarding: {
     title: "Criar uma organização",
-    setup: "Configuração",
-    description: "Conte-nos um pouco sobre sua organização.",
+    setup: "Bem-vindo ao Comp AI",
+    description: "Conte-nos um pouco sobre sua organização e quais framework(s) você deseja começar a usar.",
     fields: {
       name: {
         label: "Nome da Organização",
@@ -277,7 +277,16 @@ export default {
     error: "Algo deu errado, por favor tente novamente.",
     unavailable: "Indisponível",
     check_availability: "Verificando disponibilidade",
-    available: "Disponível"
+    available: "Disponível",
+    submit: "Finalizar configuração",
+    trigger: {
+      title: "Aguarde, estamos criando sua organização",
+      creating: "Isso pode levar um ou dois minutos...",
+      completed: "Organização criada com sucesso",
+      "continue": "Continuar para o painel",
+      error: "Algo deu errado, por favor, tente novamente."
+    },
+    creating: "Criando sua organização..."
   },
   overview: {
     title: "Visão Geral",
@@ -357,6 +366,13 @@ export default {
         signature_requirement: "Requisito de Assinatura",
         signature_requirement_placeholder: "Selecionar requisito de assinatura"
       }
+    },
+    "new": {
+      success: "Política criada com sucesso",
+      error: "Falha ao criar a política",
+      details: "Detalhes da Política",
+      title: "Insira um título para a política",
+      description: "Insira uma descrição para a política"
     }
   },
   evidence_tasks: {
@@ -1045,7 +1061,7 @@ export default {
     empty: {
       no_tests: {
         title: "Nenhum teste em nuvem ainda",
-        description: "Comece criando seu primeiro teste em nuvem."
+        description: "Comece criando seu primeiro teste na nuvem."
       },
       no_results: {
         title: "Nenhum resultado encontrado",

@@ -1,24 +1,22 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import { useOrganizationControl } from "../hooks/useOrganizationControl";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Label } from "@bubba/ui/label";
-import { Button } from "@bubba/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
-import { DataTable } from "./data-table/data-table";
 import { useMemo } from "react";
+import { useOrganizationControl } from "../hooks/useOrganizationControl";
+import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
+import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
+import { SingleControlSkeleton } from "./SingleControlSkeleton";
 
 interface SingleControlProps {
 	controlId: string;
 }
 
 export const SingleControl = ({ controlId }: SingleControlProps) => {
-	const router = useRouter();
-	const { data: control } = useOrganizationControl(controlId);
-	const { data: controlProgress } = useOrganizationControlProgress(controlId);
+	const { data: control, isLoading: isControlLoading } =
+		useOrganizationControl(controlId);
+	const { data: controlProgress, isLoading: isControlProgressLoading } =
+		useOrganizationControlProgress(controlId);
 
 	const progressStatus = useMemo(() => {
 		if (!controlProgress) return "not_started";
@@ -30,7 +28,12 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 				: "completed";
 	}, [controlProgress]);
 
-	if (!control || !controlProgress) return null;
+	if (
+		(!control && isControlLoading) ||
+		(!controlProgress && isControlProgressLoading)
+	) {
+		return <SingleControlSkeleton />;
+	}
 
 	return (
 		<div className="max-w-[1200px] mx-auto">
@@ -58,8 +61,10 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					{control.OrganizationControlRequirement && (
-						<DataTable data={control.OrganizationControlRequirement} />
+					{control?.OrganizationControlRequirement && (
+						<ControlRequirementsTable
+							data={control.OrganizationControlRequirement}
+						/>
 					)}
 				</div>
 			</div>

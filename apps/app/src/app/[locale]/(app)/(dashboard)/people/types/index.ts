@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Role } from "@bubba/db";
+import type { Role } from "@bubba/db/types";
 
 export const employeeSchema = z.object({
   id: z.string(),

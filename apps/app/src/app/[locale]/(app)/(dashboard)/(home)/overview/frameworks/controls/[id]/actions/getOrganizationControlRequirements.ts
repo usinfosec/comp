@@ -1,11 +1,6 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import type {
-  ControlRequirement,
-  OrganizationControlRequirement,
-  Policy,
-} from "@bubba/db";
 import { db } from "@bubba/db";
 import { z } from "zod";
 

@@ -1,18 +1,12 @@
 "use client";
 
-import { useOrganizationCategories } from "@/app/[locale]/(app)/(dashboard)/(home)/overview/frameworks/[frameworkId]/hooks/useOrganizationCategories";
-import { useOrganizationFramework } from "@/app/[locale]/(app)/(dashboard)/(home)/overview/frameworks/[frameworkId]/hooks/useOrganizationFramework";
-import type {
-	Control,
-	Framework,
-	OrganizationControl,
-	OrganizationFramework,
-} from "@bubba/db";
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useOrganizationCategories } from "../hooks/useOrganizationCategories";
+import { useOrganizationFramework } from "../hooks/useOrganizationFramework";
 
 interface FrameworkOverviewProps {
 	frameworkId: string;
@@ -21,8 +15,6 @@ interface FrameworkOverviewProps {
 export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
 	const { data } = useOrganizationCategories(frameworkId);
 	const { data: framework } = useOrganizationFramework(frameworkId);
-
-	console.log({ data });
 
 	// Calculate compliance metrics
 	const totalControls = data?.reduce(

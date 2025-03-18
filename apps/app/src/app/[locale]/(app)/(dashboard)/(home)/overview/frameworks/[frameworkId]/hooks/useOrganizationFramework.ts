@@ -1,14 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import {
-  type FrameworkWithControls,
-  getOrganizationFramework,
-} from "../actions/getOrganizationFramework";
+import { getOrganizationFramework } from "../actions/getOrganizationFramework";
 
-async function fetchOrganizationFramework(
-  frameworkId: string,
-): Promise<FrameworkWithControls> {
+async function fetchOrganizationFramework(frameworkId: string) {
   const result = await getOrganizationFramework({ frameworkId });
 
   if (!result) {
@@ -24,13 +19,13 @@ async function fetchOrganizationFramework(
 }
 
 export function useOrganizationFramework(frameworkId: string) {
-  const { data, error, isLoading, mutate } = useSWR<FrameworkWithControls>(
+  const { data, error, isLoading, mutate } = useSWR(
     ["organization-framework", frameworkId],
     () => fetchOrganizationFramework(frameworkId),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    },
+    }
   );
 
   return {

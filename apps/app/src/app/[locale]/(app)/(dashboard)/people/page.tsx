@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { getServerColumnHeaders } from "@/components/tables/people/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -7,36 +6,34 @@ import { redirect } from "next/navigation";
 import { EmployeesList } from "./components/EmployeesList";
 
 export default async function PeoplePage({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth();
-  const organizationId = session?.user.organizationId;
+	const session = await auth();
+	const organizationId = session?.user.organizationId;
 
-  if (!organizationId) {
-    return redirect("/");
-  }
+	if (!organizationId) {
+		return redirect("/");
+	}
 
-  const columnHeaders = await getServerColumnHeaders();
-
-  return <EmployeesList columnHeaders={columnHeaders} />;
+	return <EmployeesList />;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+	const { locale } = await params;
 
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.people"),
-  };
+	return {
+		title: t("sidebar.people"),
+	};
 }

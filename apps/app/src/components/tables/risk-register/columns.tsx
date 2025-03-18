@@ -2,7 +2,7 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { Status, type StatusType } from "@/components/status";
 import { useI18n } from "@/locales/client";
-import type { Departments, RiskStatus } from "@bubba/db";
+import type { Departments, RiskStatus } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";

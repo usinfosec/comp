@@ -3,7 +3,7 @@
 import { UpdateTaskForm } from "@/components/forms/risks/task/update-task-form";
 import { TaskOverviewSheet } from "@/components/sheets/task-overview-sheet";
 import { useI18n } from "@/locales/client";
-import type { RiskMitigationTask, User } from "@bubba/db";
+import type { RiskMitigationTask, User } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";

@@ -13,7 +13,7 @@ export default async function Layout({
 			<SecondaryMenu
 				items={[
 					{ path: "/vendors", label: t("vendors.dashboard.title") },
-					{ path: "/vendors/register", label: t("vendors.register.title") },
+					// { path: "/vendors/register", label: t("vendors.register.title") },
 				]}
 			/>
 

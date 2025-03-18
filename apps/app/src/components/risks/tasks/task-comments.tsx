@@ -3,7 +3,11 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { TaskCommentSheet } from "@/components/sheets/task-comment-sheet";
 import { useI18n } from "@/locales/client";
-import type { RiskMitigationTask, TaskComments, User } from "@bubba/db";
+import type {
+  RiskMitigationTask,
+  TaskComments,
+  User,
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { EmptyCard } from "@bubba/ui/empty-card";

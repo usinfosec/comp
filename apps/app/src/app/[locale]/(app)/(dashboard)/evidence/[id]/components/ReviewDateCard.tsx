@@ -1,9 +1,9 @@
 "use client";
 
-import type { Frequency } from "@bubba/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
 import { format } from "date-fns";
+import type { Frequency } from "@bubba/db/types";
 
 export function ReviewDateCard({
   lastPublishedAt,

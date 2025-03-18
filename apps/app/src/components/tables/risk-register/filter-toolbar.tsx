@@ -2,7 +2,12 @@
 
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useI18n } from "@/locales/client";
-import { Departments, RiskCategory, RiskStatus, type User } from "@bubba/db";
+import {
+  Departments,
+  RiskCategory,
+  RiskStatus,
+  type User,
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
 import { Input } from "@bubba/ui/input";

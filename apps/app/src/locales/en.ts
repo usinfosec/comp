@@ -293,8 +293,17 @@ export default {
 	},
 	onboarding: {
 		title: "Create an organization",
-		setup: "Setup",
-		description: "Tell us a bit about your organization.",
+		submit: "Finish setup",
+		setup: "Welcome to Comp AI",
+		description:
+			"Tell us a bit about your organization and what framework(s) you want to get started with.",
+		trigger: {
+			title: "Hold tight, we're creating your organization",
+			creating: "This may take a minute or two...",
+			completed: "Organization created successfully",
+			continue: "Continue to dashboard",
+			error: "Something went wrong, please try again.",
+		},
 		fields: {
 			fullName: {
 				label: "Your Name",
@@ -318,6 +327,7 @@ export default {
 		check_availability: "Checking availability",
 		available: "Available",
 		unavailable: "Unavailable",
+		creating: "Creating your organization...",
 	},
 	overview: {
 		title: "Overview",
@@ -358,6 +368,13 @@ export default {
 				signature_requirement: "Signature Requirement",
 				signature_requirement_placeholder: "Select signature requirement",
 			},
+		},
+		new: {
+			success: "Policy successfully created",
+			error: "Failed to create policy",
+			details: "Policy Details",
+			title: "Enter a title for the policy",
+			description: "Enter a description for the policy",
 		},
 		table: {
 			name: "Policy Name",

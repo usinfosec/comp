@@ -1,4 +1,8 @@
-import { db, Departments } from "@bubba/db";
+import { db } from "@bubba/db";
+import {
+  Departments,
+  type Employee,
+} from "@bubba/db/types";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";

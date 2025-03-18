@@ -58,7 +58,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <Link prefetch href="/account">
                 <DropdownMenuItem>
                   {t("user_menu.account")}
@@ -77,7 +77,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator /> */}
             <div className="flex flex-row justify-between items-center p-2">
               <p className="text-sm">{t("user_menu.theme")}</p>
               <ThemeSwitch />

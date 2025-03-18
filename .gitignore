@@ -55,3 +55,7 @@ tailwind.css
 
 # Trigger
 .trigger
+
+# Playground (for local testing)
+/playground
+.venv

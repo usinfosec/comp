@@ -1,10 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-
 import { getPolicies } from "../actions/get-policies";
-
 import type { AppError, PoliciesInput, PoliciesResponse } from "../types";
 
 async function fetchPolicies(input: PoliciesInput): Promise<PoliciesResponse> {
@@ -53,7 +50,7 @@ export function usePolicies({
 
   return {
     policies: data?.policies ?? [],
-    total: data?.total ?? 0,
+    total: data?.total,
     isLoading,
     error,
     revalidatePolicies,

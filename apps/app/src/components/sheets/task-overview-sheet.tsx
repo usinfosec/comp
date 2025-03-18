@@ -15,7 +15,7 @@ import {
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-import type { RiskMitigationTask, User } from "@bubba/db";
+import type { RiskMitigationTask } from "@bubba/db/types";
 import { UpdateTaskForm } from "../forms/risks/task/update-task-form";
 import { UpdateTaskOverviewForm } from "../forms/risks/task/update-task-overview-form";
 

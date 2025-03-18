@@ -33,12 +33,14 @@
     "@azure/identity": "^4.8.0",
     "@manypkg/cli": "^0.23.0",
     "@nangohq/node": "^0.53.2",
+    "@prisma/adapter-pg": "^6.5.0",
     "@types/d3": "^7.4.3",
     "@types/react": "19.0.10",
     "ai": "3.4.33",
     "d3": "^7.9.0",
     "gitmoji": "^1.1.1",
     "gray-matter": "^4.0.3",
+    "pg": "^8.14.1",
     "sharp": "^0.33.5",
     "use-debounce": "^10.0.4"
   }

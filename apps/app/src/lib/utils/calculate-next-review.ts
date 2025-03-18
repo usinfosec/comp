@@ -1,4 +1,4 @@
-import type { Frequency } from "@bubba/db";
+import type { Frequency } from "@bubba/db/types";
 import { differenceInDays, startOfDay } from "date-fns";
 
 interface ReviewInfo {

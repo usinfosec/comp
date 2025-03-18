@@ -199,8 +199,14 @@ files:
     auth.email.error: ed239af1d84d25fd9bb99251114b488c
     auth.terms: bb73614638d9a468c878278692a71a5e
     onboarding.title: deecac09e6560d6f0f98401d9852d514
-    onboarding.setup: ad2376beebecdcf7846ba973fa1a005b
-    onboarding.description: 7cd2a7692cfacbbea2045f2e6416b805
+    onboarding.submit: 85a18a0474d135c1f4c6da6c383a2d81
+    onboarding.setup: 54efd9605180a9a74e6d1a53529f858e
+    onboarding.description: fcfd2a71d9095421e290f1b1229d1c6e
+    onboarding.trigger.title: c0a683b95c32208c79a08309225647ee
+    onboarding.trigger.creating: 5c1f94a8b72c6f33012732e6b8ba44e5
+    onboarding.trigger.completed: 435e0545f0bbfbbbe640e9e12e54c663
+    onboarding.trigger.continue: 01739cdc86e75ee2fea0aabcdeb2e557
+    onboarding.trigger.error: 9e78ff392dee43a6c78a8c4e29ff4dc2
     onboarding.fields.fullName.label: 614cffa523202658a898e34a5d94d05e
     onboarding.fields.fullName.placeholder: df1fc96e5401396fe01e24363a9ec40d
     onboarding.fields.name.label: c1ca926603dc454ba981aa514db8402b
@@ -214,6 +220,7 @@ files:
     onboarding.check_availability: 118740af1c4521b917e29791d661db82
     onboarding.available: 78945de8de090e90045d299651a68a9b
     onboarding.unavailable: 453e6aa38d87b28ccae545967c53004f
+    onboarding.creating: 3ab00f2a7303dc9e1aed05d535677b7e
     overview.title: 3b878279a04dc47d60932cb294d96259
     overview.framework_chart.title: 9c53d5a3379ee2c9bc7c1c55f54724b9
     overview.requirement_chart.title: 69d9304854b767112e32573d7eeddc24
@@ -239,6 +246,11 @@ files:
     policies.overview.form.signature_not_required: 55abefe222df069df1dd008e45614832
     policies.overview.form.signature_requirement: 1841e3cd80cda4b097bcf4891c76c8da
     policies.overview.form.signature_requirement_placeholder: cc5fbf3cb132bc8fa226997c1834d3a9
+    policies.new.success: d7b87036c6d6a95d84f236c89828f888
+    policies.new.error: 27d950f3be4610eff0e638c7a3c51d30
+    policies.new.details: 8178fb068d06b0f32a7b0103e832b231
+    policies.new.title: 25d72a7ee4bef3aad40c3ce27ea4638f
+    policies.new.description: 001e50b49cb3ad5e87da8955bb97233a
     policies.table.name: 002f7378a5fcfc2f66cfea851a7fd5f4
     policies.table.statuses.draft: f03ab16cd58372c77ba45a3d9a5a1cb9
     policies.table.statuses.published: 9b9d8a976b42e0bd66381797644943d5

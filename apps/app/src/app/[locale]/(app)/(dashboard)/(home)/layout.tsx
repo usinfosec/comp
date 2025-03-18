@@ -1,18 +1,25 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
+import { redirect } from "next/navigation";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	const t = await getI18n();
+  const t = await getI18n();
+  const session = await auth();
 
-	return (
-		<div className="max-w-[1200px] mx-auto">
-			<SecondaryMenu items={[{ path: "/", label: t("overview.title") }]} />
+  if (!session?.user?.organizationId) {
+    redirect("/auth");
+  }
 
-			<main className="mt-8">{children}</main>
-		</div>
-	);
+  return (
+    <div className="max-w-[1200px] mx-auto">
+      <SecondaryMenu items={[{ path: "/", label: t("overview.title") }]} />
+
+      <main className="mt-8">{children}</main>
+    </div>
+  );
 }

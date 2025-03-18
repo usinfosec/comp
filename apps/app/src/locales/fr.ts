@@ -253,8 +253,8 @@ export default {
   },
   onboarding: {
     title: "Créer une organisation",
-    setup: "Configuration",
-    description: "Parlez-nous un peu de votre organisation.",
+    setup: "Bienvenue dans Comp AI",
+    description: "Parlez-nous un peu de votre organisation et des cadres avec lesquels vous souhaitez commencer.",
     fields: {
       name: {
         label: "Nom de l'organisation",
@@ -277,7 +277,16 @@ export default {
     error: "Quelque chose s'est mal passé, veuillez réessayer.",
     unavailable: "Indisponible",
     check_availability: "Vérification de la disponibilité",
-    available: "Disponible"
+    available: "Disponible",
+    submit: "Terminez la configuration",
+    trigger: {
+      title: "Patientez, nous créons votre organisation",
+      creating: "Cela peut prendre une minute ou deux...",
+      completed: "Organisation créée avec succès",
+      "continue": "Continuer vers le tableau de bord",
+      error: "Une erreur s'est produite, veuillez réessayer."
+    },
+    creating: "Création de votre organisation..."
   },
   overview: {
     title: "Aperçu",
@@ -357,6 +366,13 @@ export default {
         signature_requirement: "Exigence de signature",
         signature_requirement_placeholder: "Sélectionner l'exigence de signature"
       }
+    },
+    "new": {
+      success: "Politique créée avec succès",
+      error: "Échec de la création de la politique",
+      details: "Détails de la politique",
+      title: "Entrez un titre pour la politique",
+      description: "Entrez une description pour la politique"
     }
   },
   evidence_tasks: {
@@ -1074,7 +1090,7 @@ export default {
     empty: {
       no_tests: {
         title: "Aucun test cloud pour le moment",
-        description: "Commencez par créer votre premier test cloud."
+        description: "Commencez par créer votre premier test dans le cloud."
       },
       no_results: {
         title: "Aucun résultat trouvé",

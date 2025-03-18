@@ -253,8 +253,8 @@ export default {
   },
   onboarding: {
     title: "Opprett en organisasjon",
-    setup: "Oppsett",
-    description: "Fortell oss litt om organisasjonen din.",
+    setup: "Velkommen til Comp AI",
+    description: "Fortell oss litt om organisasjonen din og hvilke rammeverk du ønsker å begynne med.",
     fields: {
       name: {
         label: "Organisasjonsnavn",
@@ -277,7 +277,16 @@ export default {
     error: "Noe gikk galt, vennligst prøv igjen.",
     unavailable: "Ikke tilgjengelig",
     check_availability: "Sjekker tilgjengelighet",
-    available: "Tilgjengelig"
+    available: "Tilgjengelig",
+    submit: "Fullfør oppsett",
+    trigger: {
+      title: "Hold deg fast, vi oppretter organisasjonen din",
+      creating: "Dette kan ta et minutt eller to...",
+      completed: "Organisasjonen ble opprettet med suksess",
+      "continue": "Fortsett til dashbordet",
+      error: "Noe gikk galt, vennligst prøv igjen."
+    },
+    creating: "Oppretter organisasjonen din..."
   },
   overview: {
     title: "Oversikt",
@@ -357,6 +366,13 @@ export default {
         signature_requirement: "Signaturkrav",
         signature_requirement_placeholder: "Velg signaturkrav"
       }
+    },
+    "new": {
+      success: "Policy opprettet",
+      error: "Feil ved oppretting av policy",
+      details: "Policy Detaljer",
+      title: "Skriv inn en tittel for policyen",
+      description: "Skriv inn en beskrivelse for policyen"
     }
   },
   evidence_tasks: {
@@ -1074,7 +1090,7 @@ export default {
     empty: {
       no_tests: {
         title: "Ingen skytester ennå",
-        description: "Kom i gang med å opprette din første skytest."
+        description: "Kom i gang med å lage din første skytest."
       },
       no_results: {
         title: "Ingen resultater funnet",

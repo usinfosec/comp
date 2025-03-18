@@ -11,7 +11,7 @@ import {
   RiskCategory,
   RiskStatus,
   type User,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,

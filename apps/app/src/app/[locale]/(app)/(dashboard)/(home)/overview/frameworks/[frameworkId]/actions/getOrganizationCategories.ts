@@ -3,14 +3,12 @@
 import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
 import type {
-  Framework,
   OrganizationControl,
-  OrganizationFramework,
   OrganizationCategory,
   Control,
   OrganizationControlRequirement,
   OrganizationPolicy,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { z } from "zod";
 
 export type OrganizationCategoryWithControls = OrganizationCategory & {

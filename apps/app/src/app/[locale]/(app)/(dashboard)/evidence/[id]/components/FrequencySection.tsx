@@ -11,7 +11,7 @@ import {
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { updateEvidenceFrequency } from "../actions/updateEvidenceFrequency";
-import type { Frequency } from "@bubba/db";
+import type { Frequency } from "@bubba/db/types";
 
 interface FrequencySectionProps {
   evidenceId: string;

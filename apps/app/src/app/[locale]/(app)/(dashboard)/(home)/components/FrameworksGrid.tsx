@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Framework } from "@bubba/db";
+import type { Framework } from "@bubba/db/types";
 import {
   Card,
   CardContent,
@@ -12,7 +12,6 @@ import {
 import { Button } from "@bubba/ui/button";
 import { Checkbox } from "@bubba/ui/checkbox";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { cn } from "@bubba/ui/cn";
 
 interface FrameworkGridProps {
@@ -22,10 +21,24 @@ interface FrameworkGridProps {
 
 export function FrameworkGrid({ frameworks, onSubmit }: FrameworkGridProps) {
   const t = useI18n();
-  const router = useRouter();
   const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
+
+  /**
+   * Toggles the selection state of a framework.
+   * If the framework is already selected, it removes it from the selection.
+   * If the framework is not selected, it adds it to the selection.
+   *
+   * @param frameworkId - The ID of the framework to toggle
+   */
+  const handleFrameworkToggle = (frameworkId: string) => {
+    setSelectedFrameworks((prev) =>
+      prev.includes(frameworkId)
+        ? prev.filter((id) => id !== frameworkId)
+        : [...prev, frameworkId],
+    );
+  };
 
   const handleSubmit = async () => {
     if (selectedFrameworks.length === 0) return;
@@ -33,7 +46,6 @@ export function FrameworkGrid({ frameworks, onSubmit }: FrameworkGridProps) {
     setIsLoading(true);
     try {
       await onSubmit(selectedFrameworks);
-      router.refresh();
     } catch (error) {
       console.error("Error selecting frameworks:", error);
     } finally {
@@ -43,11 +55,11 @@ export function FrameworkGrid({ frameworks, onSubmit }: FrameworkGridProps) {
 
   if (!frameworks.length && !isSelecting) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-        <h2 className="text-2xl font-semibold tracking-tight">
+      <div className="flex flex-col items-center justify-center h-full text-center space-y-4 select-none">
+        <h2 className="text-2xl font-semibold tracking-tight select-none">
           {t("frameworks.overview.grid.welcome.title")}
         </h2>
-        <p className="text-muted-foreground max-w-[600px]">
+        <p className="text-muted-foreground max-w-[600px] select-none">
           {t("frameworks.overview.grid.welcome.description")}
         </p>
         <Button onClick={() => setIsSelecting(true)}>
@@ -73,13 +85,7 @@ export function FrameworkGrid({ frameworks, onSubmit }: FrameworkGridProps) {
                   ? "border-primary bg-primary/5"
                   : "hover:border-muted-foreground/25",
               )}
-              onClick={() => {
-                setSelectedFrameworks((prev) =>
-                  prev.includes(framework.id)
-                    ? prev.filter((id) => id !== framework.id)
-                    : [...prev, framework.id],
-                );
-              }}
+              onClick={() => handleFrameworkToggle(framework.id)}
             >
               <div className="flex items-start justify-between">
                 <div>
@@ -94,6 +100,8 @@ export function FrameworkGrid({ frameworks, onSubmit }: FrameworkGridProps) {
                 <Checkbox
                   checked={selectedFrameworks.includes(framework.id)}
                   className="mt-1"
+                  onClick={(e) => e.stopPropagation()}
+                  onCheckedChange={() => handleFrameworkToggle(framework.id)}
                 />
               </div>
             </div>

@@ -2,7 +2,6 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import { db } from "@bubba/db";
-import type { Prisma } from "@bubba/db";
 import { z } from "zod";
 
 // Define the response types for better type safety

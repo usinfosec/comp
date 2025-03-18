@@ -1,5 +1,5 @@
 import { db } from "@bubba/db";
-import { VendorCategory } from "@bubba/db";
+import { VendorCategory } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { VendorCategoryChart } from "./category-chart";
 import { unstable_cache } from "next/cache";
