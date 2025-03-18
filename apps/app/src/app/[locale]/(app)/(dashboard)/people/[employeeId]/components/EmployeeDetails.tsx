@@ -11,7 +11,7 @@ import { Label } from "@bubba/ui/label";
 import { formatDate } from "@/utils/format";
 import { Button } from "@bubba/ui/button";
 import { EditableDepartment } from "./EditableDepartment";
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 
 interface EmployeeDetailsProps {
 	employeeId: string;

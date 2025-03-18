@@ -6,10 +6,9 @@ import {
 } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
 import type {
-	ArtifactType,
 	ComplianceStatus,
 	OrganizationControlRequirement,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import {

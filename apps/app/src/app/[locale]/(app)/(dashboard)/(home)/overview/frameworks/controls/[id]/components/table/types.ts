@@ -3,7 +3,7 @@ import type {
   OrganizationControlRequirement,
   OrganizationEvidence,
   OrganizationPolicy,
-} from "@bubba/db";
+} from "@bubba/db/types";
 
 // Define a type for the data returned by the useOrganizationControlRequirements hook
 export type RequirementWithRelations = OrganizationControl & {

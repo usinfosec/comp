@@ -8,7 +8,7 @@ import type {
   Control,
   OrganizationControlRequirement,
   OrganizationPolicy,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { z } from "zod";
 
 export type OrganizationCategoryWithControls = OrganizationCategory & {
