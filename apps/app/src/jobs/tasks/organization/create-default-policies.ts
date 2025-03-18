@@ -1,4 +1,5 @@
-import { ArtifactType, db } from "@bubba/db";
+import { db } from "@bubba/db";
+import { ArtifactType } from "@bubba/db/types";
 import type { JSONContent } from "@tiptap/react";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { parseStringPromise } from "xml2js";
