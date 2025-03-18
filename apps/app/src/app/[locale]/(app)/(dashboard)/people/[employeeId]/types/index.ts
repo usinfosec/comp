@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 
 export const employeeTaskSchema = z.object({
   id: z.string(),
