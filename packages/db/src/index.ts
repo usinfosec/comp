@@ -1,3 +1,5 @@
+"use server";
+
 import { neonConfig } from "@neondatabase/serverless";
 import { Pool as NeonPool } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
