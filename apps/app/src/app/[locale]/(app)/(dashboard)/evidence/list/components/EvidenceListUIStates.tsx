@@ -1,41 +1,18 @@
 import React from "react";
-import { SkeletonTable } from "./table/SkeletonTable";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { AlertCircle, FileQuestion, SearchX } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
-import { Skeleton } from "@bubba/ui/skeleton";
-
-/**
- * Loading state component for the evidence list
- */
-export function EvidenceListSkeleton() {
-	return (
-		<div className="w-full">
-			<div className="space-y-4 mb-6">
-				{/* Summary cards skeleton - matching the style in EvidenceSummaryCards */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-					{["empty", "draft", "review", "uptodate"].map((type) => (
-						<Skeleton key={`skeleton-${type}`} className="h-[120px] w-full" />
-					))}
-				</div>
-
-				{/* Filter controls skeleton */}
-				<div className="flex flex-wrap items-center gap-2">
-					<div className="w-full max-w-sm h-10 bg-muted animate-pulse rounded" />
-					<div className="h-10 w-40 bg-muted animate-pulse rounded" />
-				</div>
-			</div>
-
-			{/* Table skeleton */}
-			<SkeletonTable />
-		</div>
-	);
-}
 
 interface ErrorStateProps {
 	error: Error;
 	onRetry?: () => void;
+}
+
+interface EmptyStateProps {
+	message?: string;
+	hasFilters?: boolean;
+	onClearFilters?: () => void;
 }
 
 /**
@@ -63,12 +40,6 @@ export function EvidenceListError({ error, onRetry }: ErrorStateProps) {
 			</AlertDescription>
 		</Alert>
 	);
-}
-
-interface EmptyStateProps {
-	message?: string;
-	hasFilters?: boolean;
-	onClearFilters?: () => void;
 }
 
 /**

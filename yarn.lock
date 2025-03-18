@@ -1041,14 +1041,14 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-"@bubba/analytics@packages/analytics", "@bubba/analytics@workspace:*":
+"@bubba/analytics@^workspace:packages/analytics", "@bubba/analytics@workspace:*":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/db@packages/db", "@bubba/db@workspace:*":
+"@bubba/db@^workspace:packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
@@ -1063,7 +1063,7 @@
     "@prisma/extension-accelerate" "^1.2.2"
     prisma "^6.5.0"
 
-"@bubba/email@packages/email":
+"@bubba/email@^workspace:packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1083,7 +1083,7 @@
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
-"@bubba/integrations@packages/integrations":
+"@bubba/integrations@^workspace:packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1097,14 +1097,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@bubba/kv@packages/kv":
+"@bubba/kv@^workspace:packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@^workspace:packages/notifications", "@bubba/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1113,11 +1113,11 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.0"
 
-"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@^workspace:packages/tsconfig", "@bubba/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@^workspace:packages/ui", "@bubba/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -1181,7 +1181,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@^workspace:packages/utils", "@bubba/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -2681,8 +2681,8 @@
   resolved "https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-6.5.0.tgz"
   integrity sha512-ta1EhwAmIWnFjw0bTVdRe3rw5h40YDZ59i2Ko2FGVt4EDvAt4Po5aAN8eCj2Eq46wKJccEDwQ3qBXUQTKUbM8Q==
   dependencies:
-    postgres-array "3.0.3"
     "@prisma/driver-adapter-utils" "6.5.0"
+    postgres-array "3.0.3"
 
 "@prisma/client@>=2.26.0 || >=3 || >=4 || >=5 || >=6", "@prisma/client@>=4.16.1", "@prisma/client@^6.5.0":
   version "6.5.0"
@@ -6436,7 +6436,7 @@ commander@11.1.0:
   resolved "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz"
   integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
 
-"comp.ai@apps/app":
+comp.ai@^workspace:apps/app:
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
@@ -10973,14 +10973,14 @@ pg@>=8.0, pg@^8.11.3, pg@^8.14.1:
   version "8.14.1"
   resolved "https://registry.npmjs.org/pg/-/pg-8.14.1.tgz"
   integrity sha512-0TdbqfjwIun9Fm/r89oB7RFQ0bLgduAhiIqIXOsyKoiC/L54DbuAAzIEN/9Op0f1Po9X7iCPXGoa/Ah+2aI8Xw==
+  optionalDependencies:
+    pg-cloudflare "^1.1.1"
   dependencies:
     pg-connection-string "^2.7.0"
     pg-pool "^3.8.0"
     pg-protocol "^1.8.0"
     pg-types "^2.1.0"
     pgpass "1.x"
-  optionalDependencies:
-    pg-cloudflare "^1.1.1"
 
 pg-cloudflare@^1.1.1:
   version "1.1.1"
@@ -11113,7 +11113,7 @@ plist@^3.1.0:
     base64-js "^1.5.1"
     xmlbuilder "^15.1.1"
 
-"portal@apps/portal":
+portal@^workspace:apps/portal:
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -13798,7 +13798,7 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web@apps/web":
+web@^workspace:apps/web:
   version "workspace:apps/web"
   resolved "workspace:apps/web"
   devDependencies:

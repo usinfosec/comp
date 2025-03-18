@@ -35,14 +35,12 @@ async function fetchEmployees(
   return result.data?.data as EmployeesResponse;
 }
 
-export function useEmployees() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
-  const role = searchParams.get("role") || undefined;
-  const page = Number(searchParams.get("page")) || 1;
-  const per_page = Number(searchParams.get("per_page")) || 10;
-
-  /** SWR for fetching employees */
+export function useEmployees({
+  search = "",
+  role = "",
+  page = 1,
+  per_page = 10,
+}: EmployeesInput) {
   const {
     data,
     error,
@@ -52,8 +50,8 @@ export function useEmployees() {
     ["employees", { search, role, page, per_page }],
     () => fetchEmployees({ search, role, page, per_page }),
     {
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
   );
 
@@ -106,13 +104,11 @@ export function useEmployees() {
 
   return {
     employees: data?.employees ?? [],
-    total: data?.total ?? 0,
+    total: data?.total,
     isLoading,
     isMutating, // <--- expose the mutation loader
     error,
-    /** Expose the revalidation if needed directly */
     revalidateEmployees,
-    /** Expose the create employee action */
     addEmployee,
   };
 }

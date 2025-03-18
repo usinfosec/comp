@@ -1,36 +1,32 @@
 "use client";
 
-import React from "react";
-import { useEvidenceDashboard } from "../hooks/useEvidenceDashboard";
-import { DepartmentBarChart } from "./DepartmentChart/DepartmentBarChart";
-import { AssigneeBarChart } from "./AssigneeChart/AssigneeBarChart";
-import { FrameworkBarChart } from "./FrameworkChart/FrameworkBarChart";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
-import {
-	EvidenceOverviewSkeleton,
-	EvidenceErrorState,
-	EvidenceEmptyState,
-} from "./EvidenceUIStates";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { EvidenceSummaryCards } from "../../list/components/EvidenceSummaryCards";
+import type { EvidenceDashboardData } from "../data/getEvidenceDashboard";
+import { AssigneeBarChart } from "./AssigneeChart/AssigneeBarChart";
+import { DepartmentBarChart } from "./DepartmentChart/DepartmentBarChart";
+import { EvidenceEmptyState } from "./EvidenceUIStates";
+import { FrameworkBarChart } from "./FrameworkChart/FrameworkBarChart";
 
-export const EvidenceOverview = () => {
-	const { data, isLoading, error } = useEvidenceDashboard();
+export const EvidenceOverview = ({
+	evidence,
+}: {
+	evidence: EvidenceDashboardData | null;
+}) => {
 	const t = useI18n();
 
-	if (isLoading) {
-		return <EvidenceOverviewSkeleton />;
-	}
-
-	if (error) {
-		return <EvidenceErrorState message={error.message} />;
-	}
-
-	if (!data) {
+	if (!evidence) {
 		return <EvidenceEmptyState />;
 	}
 
+	const { byDepartment, byAssignee, byFramework, unassigned } = evidence;
+
 	return (
 		<div className="space-y-8">
+			{/* Evidence summary statistics cards */}
+			<EvidenceSummaryCards />
+
 			{/* Charts */}
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 				<Card>
@@ -38,7 +34,7 @@ export const EvidenceOverview = () => {
 						<CardTitle>{t("evidence.dashboard.by_department")}</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<DepartmentBarChart byDepartment={data.byDepartment} />
+						<DepartmentBarChart byDepartment={byDepartment} />
 					</CardContent>
 				</Card>
 
@@ -47,10 +43,7 @@ export const EvidenceOverview = () => {
 						<CardTitle>{t("evidence.dashboard.by_assignee")}</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<AssigneeBarChart
-							byAssignee={data.byAssignee}
-							unassigned={data.unassigned}
-						/>
+						<AssigneeBarChart byAssignee={byAssignee} unassigned={unassigned} />
 					</CardContent>
 				</Card>
 
@@ -59,7 +52,7 @@ export const EvidenceOverview = () => {
 						<CardTitle>{t("evidence.dashboard.by_framework")}</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<FrameworkBarChart byFramework={data.byFramework} />
+						<FrameworkBarChart byFramework={byFramework} />
 					</CardContent>
 				</Card>
 			</div>

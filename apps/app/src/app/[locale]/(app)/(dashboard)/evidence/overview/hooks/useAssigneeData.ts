@@ -1,6 +1,6 @@
 import { useI18n } from "@/locales/client";
-import type { EvidenceWithStatus } from "../actions/getEvidenceDashboard";
 import type { StatusType } from "../constants/evidence-status";
+import type { EvidenceWithStatus } from "../data/getEvidenceDashboard";
 
 /**
  * Interface for the processed assignee data

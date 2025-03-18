@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
 import type { Departments } from "@prisma/client";
-import type { EvidenceWithStatus } from "../../actions/getEvidenceDashboard";
+import type { EvidenceWithStatus } from "../../data/getEvidenceDashboard";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
 import { useEvidenceData } from "../../hooks/useEvidenceData";

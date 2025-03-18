@@ -1,20 +1,21 @@
 import { useI18n } from "@/locales/client";
 import { cn } from "@bubba/ui/cn";
 
-export const STATUS_TYPES = ["open", "pending", "closed"] as const;
+export const STATUS_TYPES = ["open", "pending", "closed", "archived"] as const;
 
-export type StatusType = Exclude<
-	(typeof STATUS_TYPES)[number],
-	"draft" | "published"
->;
+export type StatusType = (typeof STATUS_TYPES)[number];
 
 const STATUS_COLORS: Record<StatusType, string> = {
 	open: "#ffc107",
 	pending: "#0ea5e9",
 	closed: "#00DC73",
+	archived: "#64748b",
 } as const;
 
-export function Status({ status }: { status: StatusType }) {
+export function Status({
+	status,
+	noLabel,
+}: { status: StatusType; noLabel?: boolean }) {
 	const t = useI18n();
 
 	return (
@@ -23,7 +24,7 @@ export function Status({ status }: { status: StatusType }) {
 				className={cn("size-2.5")}
 				style={{ backgroundColor: STATUS_COLORS[status] ?? "  " }}
 			/>
-			{t(`common.status.${status}`)}
+			{!noLabel && t(`common.status.${status}`)}
 		</div>
 	);
 }

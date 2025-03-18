@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
-import type { EvidenceWithStatus } from "../../actions/getEvidenceDashboard";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useScrollPosition } from "../../hooks/useScrollPosition";
+import type { EvidenceWithStatus } from "../../data/getEvidenceDashboard";
 import { useFrameworkData } from "../../hooks/useFrameworkData";
+import { useScrollPosition } from "../../hooks/useScrollPosition";
 import { FrameworkChartRow } from "./FrameworkChartRow";
 
 interface FrameworkBarChartProps {
