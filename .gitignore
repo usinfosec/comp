@@ -58,3 +58,4 @@ tailwind.css
 
 # Playground (for local testing)
 /playground
+.venv
