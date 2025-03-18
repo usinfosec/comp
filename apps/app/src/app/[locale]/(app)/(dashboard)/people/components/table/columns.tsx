@@ -4,7 +4,7 @@ import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "@/components/tables/people/employee-status";
-import type { Employee } from "@bubba/db";
+import type { Employee } from "@bubba/db/types";
 import { Avatar, AvatarFallback } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";

@@ -2,7 +2,7 @@
 
 import { AssignedUser } from "@/components/assigned-user";
 import { useI18n } from "@/locales/client";
-import type { Risk, RiskComment, User } from "@bubba/db";
+import type { Risk, RiskComment, User } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";

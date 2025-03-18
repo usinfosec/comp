@@ -16,7 +16,7 @@ import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import React from "react";
 
-import type { OrganizationPolicy } from "@bubba/db";
+import type { OrganizationPolicy } from "@bubba/db/types";
 import { CreatePolicyCommentForm } from "../forms/policies/create-policy-comment-form";
 
 export function PolicyCommentSheet({

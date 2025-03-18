@@ -1081,7 +1081,7 @@ export default {
     empty: {
       no_tests: {
         title: "Aucun test cloud pour le moment",
-        description: "Commencez par créer votre premier test cloud."
+        description: "Commencez par créer votre premier test dans le cloud."
       },
       no_results: {
         title: "Aucun résultat trouvé",

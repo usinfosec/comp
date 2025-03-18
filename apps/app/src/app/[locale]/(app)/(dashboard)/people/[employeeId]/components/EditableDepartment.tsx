@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateEmployeeDepartment } from "../actions/update-department";
 import { Pencil, Check, X } from "lucide-react";
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 import { cn } from "@bubba/ui/cn";
 
 const DEPARTMENTS = [

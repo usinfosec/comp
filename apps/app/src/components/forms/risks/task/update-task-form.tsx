@@ -5,7 +5,7 @@ import { updateTaskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { STATUS_TYPES, Status, type StatusType } from "@/components/status";
 import { useI18n } from "@/locales/client";
-import { type RiskMitigationTask, RiskTaskStatus, type User } from "@bubba/db";
+import { type RiskMitigationTask, RiskTaskStatus, type User } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Calendar } from "@bubba/ui/calendar";
 import {

@@ -3,7 +3,7 @@
 import { updatePolicyOverviewAction } from "@/actions/policies/update-policy-overview-action";
 import { updatePolicyOverviewSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy } from "@bubba/db";
+import type { OrganizationPolicy, Policy } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,

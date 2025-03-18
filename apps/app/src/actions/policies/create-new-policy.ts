@@ -1,6 +1,10 @@
 "use server";
 
-import { db, Departments, Frequency } from "@bubba/db";
+import { db } from "@bubba/db";
+import {
+  Departments,
+  Frequency,
+} from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createPolicySchema } from "../schema";

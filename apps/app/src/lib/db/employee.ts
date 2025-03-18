@@ -1,5 +1,5 @@
-import { type Employee, db } from "@bubba/db";
-import type { Departments } from "@prisma/client";
+import { db } from "@bubba/db";
+import type { Employee, Departments } from "@bubba/db/types";
 
 const DEFAULT_TASKS = [
   {

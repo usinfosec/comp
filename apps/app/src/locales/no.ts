@@ -1081,7 +1081,7 @@ export default {
     empty: {
       no_tests: {
         title: "Ingen skytester ennå",
-        description: "Kom i gang med å opprette din første skytest."
+        description: "Kom i gang med å lage din første skytest."
       },
       no_results: {
         title: "Ingen resultater funnet",

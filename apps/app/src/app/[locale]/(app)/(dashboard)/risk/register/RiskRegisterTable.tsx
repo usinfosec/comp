@@ -1,17 +1,16 @@
 "use client";
 
-import { DataTable } from "@/components/ui/data-table";
-import { useRisks } from "./hooks/useRisks";
-import { columns } from "./components/table/RiskRegisterColumns";
-import type { User, Risk, Departments } from "@bubba/db";
-import type { RiskStatus } from "@bubba/db";
-import { useState } from "react";
-import { useQueryState } from "nuqs";
-import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
-import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
-import { Plus } from "lucide-react";
+import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
+import type { Departments, Risk, RiskStatus, User } from "@bubba/db/types";
+import { Plus } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useState } from "react";
+import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
+import { columns } from "./components/table/RiskRegisterColumns";
+import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
+import { useRisks } from "./hooks/useRisks";
 
 type RiskRegisterTableRow = Risk & { owner: User | null };
 

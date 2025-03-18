@@ -10,7 +10,7 @@ import {
 } from "@bubba/ui/select";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { Departments } from "@bubba/db";
+import { Departments } from "@bubba/db/types";
 import { updateEvidenceDepartment } from "../actions/updateEvidenceDepartment";
 
 interface DepartmentSectionProps {

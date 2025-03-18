@@ -10,7 +10,7 @@ import {
 	type ReactNode,
 } from "react";
 import { useQueryState } from "nuqs";
-import type { Frequency, Departments } from "@bubba/db";
+import type { Frequency, Departments } from "@bubba/db/types";
 import { useOrganizationEvidenceTasks } from "../../hooks/useEvidenceTasks";
 import { ALL_DEPARTMENTS } from "../../constants";
 import { ALL_FREQUENCIES } from "../../constants";

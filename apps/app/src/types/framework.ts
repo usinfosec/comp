@@ -1,4 +1,8 @@
-import type { ComplianceStatus, Control, FrameworkCategory } from "@bubba/db";
+import type {
+  ComplianceStatus,
+  Control,
+  FrameworkCategory,
+} from "@bubba/db/types";
 
 export interface TransformedControl
   extends Omit<Control, "organizationControls"> {

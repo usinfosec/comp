@@ -12,7 +12,8 @@ import {
 import { FilterToolbar } from "@/components/tables/risk-tasks/filter-toolbar";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { getI18n } from "@/locales/server";
-import { type RiskTaskStatus, db } from "@bubba/db";
+import { db } from "@bubba/db";
+import type { RiskTaskStatus } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";

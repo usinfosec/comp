@@ -23,7 +23,7 @@ export function ChatButton({ className }: ChatButtonProps) {
 			<Button
 				onClick={toggleChat}
 				size="icon"
-				variant={isOpen ? "destructive" : "outline"}
+				variant={isOpen ? "destructive" : "secondary"}
 				className={cn("h-12 w-12 rounded-full shadow-lg", className)}
 				aria-label={isOpen ? "Close chat" : "Open chat"}
 			>

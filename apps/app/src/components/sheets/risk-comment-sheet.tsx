@@ -15,7 +15,7 @@ import {
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-import type { Risk } from "@bubba/db";
+import type { Risk } from "@bubba/db/types";
 import { CreateRiskCommentForm } from "../forms/risks/create-risk-comment-form";
 
 export function RiskCommentSheet({

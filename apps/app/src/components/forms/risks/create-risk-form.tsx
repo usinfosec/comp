@@ -6,30 +6,30 @@ import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/evidence
 import { useRisks } from "@/app/[locale]/(app)/(dashboard)/risk/register/hooks/useRisks";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
-import { Departments, RiskCategory } from "@bubba/db";
-import type { RiskStatus } from "@bubba/db";
+import type { RiskStatus } from "@bubba/db/types";
+import { Departments, RiskCategory } from "@bubba/db/types";
 import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@bubba/ui/accordion";
 import { Button } from "@bubba/ui/button";
 import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@bubba/ui/form";
 import { Input } from "@bubba/ui/input";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@bubba/ui/select";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,6 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { mutate } from "swr";
 
 interface User {
 	id: string;

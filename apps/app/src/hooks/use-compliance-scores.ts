@@ -7,7 +7,7 @@ import type {
   Framework,
   OrganizationControl,
   OrganizationFramework,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { useOrganizationEvidenceTasks } from "@/app/[locale]/(app)/(dashboard)/evidence/hooks/useEvidenceTasks";
 import { usePoliciesByFramework } from "./use-policies-by-framework";
 

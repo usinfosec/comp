@@ -2,7 +2,8 @@
 
 "use server";
 
-import { type RiskTaskStatus, db } from "@bubba/db";
+import { db } from "@bubba/db";
+import type { RiskTaskStatus } from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../../safe-action";
 import { updateTaskSchema } from "../../schema";

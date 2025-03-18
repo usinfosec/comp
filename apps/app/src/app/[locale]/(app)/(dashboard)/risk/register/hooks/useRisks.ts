@@ -1,6 +1,6 @@
+import type { Departments, RiskStatus } from "@bubba/db/types";
 import useSWR from "swr";
 import { getRisks } from "../actions/getRisks";
-import type { Departments, RiskStatus, Risk, User } from "@bubba/db";
 
 const fetchRisks = async (input: {
   search?: string;

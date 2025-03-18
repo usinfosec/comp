@@ -1,6 +1,6 @@
 "use client";
 
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 
 export interface PersonType {
   id: string;

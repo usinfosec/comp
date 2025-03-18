@@ -2,7 +2,7 @@
 
 import { InherentRiskSheet } from "@/components/sheets/inherent-risk";
 import { useI18n } from "@/locales/client";
-import type { Risk } from "@bubba/db";
+import type { Risk } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Card,

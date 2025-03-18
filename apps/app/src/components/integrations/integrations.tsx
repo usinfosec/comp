@@ -1,6 +1,6 @@
 "use client";
 
-import type { OrganizationIntegrations } from "@bubba/db";
+import type { OrganizationIntegrations } from "@bubba/db/types";
 import { integrations } from "@bubba/integrations";
 import {
 	Accordion,

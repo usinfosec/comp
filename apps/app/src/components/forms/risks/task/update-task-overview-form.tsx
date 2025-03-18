@@ -3,7 +3,7 @@
 import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 import { updateTaskSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { Departments, type RiskMitigationTask } from "@bubba/db";
+import type { RiskMitigationTask } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,

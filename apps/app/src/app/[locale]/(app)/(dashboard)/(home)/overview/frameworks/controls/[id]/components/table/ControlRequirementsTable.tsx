@@ -14,7 +14,7 @@ import type {
 	OrganizationControlRequirement,
 	OrganizationEvidence,
 	OrganizationPolicy,
-} from "@bubba/db";
+} from "@bubba/db/types";
 
 // Define the type that matches what we receive from the hook
 export type RequirementTableData = OrganizationControlRequirement & {

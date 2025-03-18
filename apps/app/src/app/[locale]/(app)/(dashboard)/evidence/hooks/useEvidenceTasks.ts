@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import { getOrganizationEvidenceTasks } from "../actions/getOrganizationEvidenceTasks";
 import type { PaginationMetadata } from "../actions/getOrganizationEvidenceTasks";
-import type { Frequency, OrganizationEvidence, Departments } from "@bubba/db";
+import type { Frequency, OrganizationEvidence, Departments } from "@bubba/db/types";
 
 // Define the props interface with clear types
 interface UseOrganizationEvidenceTasksProps {

@@ -3,7 +3,7 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { PolicyCommentSheet } from "@/components/sheets/policy-comment-sheet";
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, User } from "@bubba/db";
+import type { OrganizationPolicy, User } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { EmptyCard } from "@bubba/ui/empty-card";

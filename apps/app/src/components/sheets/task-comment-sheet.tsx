@@ -14,8 +14,7 @@ import {
 } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
-
-import type { RiskMitigationTask } from "@bubba/db";
+import type { RiskMitigationTask } from "@bubba/db/types";
 import { CreateTaskCommentForm } from "../forms/risks/task/create-task-comment-form";
 
 export function TaskCommentSheet({

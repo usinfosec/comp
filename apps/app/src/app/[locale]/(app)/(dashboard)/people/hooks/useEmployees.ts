@@ -8,7 +8,7 @@ import { getEmployees } from "../actions/get-employees";
 
 import type { EmployeesResponse, AppError, EmployeesInput } from "../types";
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(

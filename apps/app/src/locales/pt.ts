@@ -1052,7 +1052,7 @@ export default {
     empty: {
       no_tests: {
         title: "Nenhum teste em nuvem ainda",
-        description: "Comece criando seu primeiro teste em nuvem."
+        description: "Comece criando seu primeiro teste na nuvem."
       },
       no_results: {
         title: "Nenhum resultado encontrado",
