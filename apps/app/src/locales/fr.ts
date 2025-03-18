@@ -253,8 +253,8 @@ export default {
   },
   onboarding: {
     title: "Créer une organisation",
-    setup: "Configuration",
-    description: "Parlez-nous un peu de votre organisation.",
+    setup: "Bienvenue dans Comp AI",
+    description: "Parlez-nous un peu de votre organisation et des cadres avec lesquels vous souhaitez commencer.",
     fields: {
       name: {
         label: "Nom de l'organisation",
@@ -277,7 +277,16 @@ export default {
     error: "Quelque chose s'est mal passé, veuillez réessayer.",
     unavailable: "Indisponible",
     check_availability: "Vérification de la disponibilité",
-    available: "Disponible"
+    available: "Disponible",
+    submit: "Terminez la configuration",
+    trigger: {
+      title: "Patientez, nous créons votre organisation",
+      creating: "Cela peut prendre une minute ou deux...",
+      completed: "Organisation créée avec succès",
+      "continue": "Continuer vers le tableau de bord",
+      error: "Une erreur s'est produite, veuillez réessayer."
+    },
+    creating: "Création de votre organisation..."
   },
   overview: {
     title: "Aperçu",

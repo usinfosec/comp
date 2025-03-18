@@ -7,6 +7,7 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export default async function OrganizationSettings({
   params,
@@ -18,28 +19,17 @@ export default async function OrganizationSettings({
 
   const session = await auth();
 
-  const [organization] = await Promise.all([
-    db.organization.findUnique({
-      where: {
-        id: session?.user.organizationId,
-      },
-      select: {
-        name: true,
-        website: true,
-        id: true,
-      },
-    }),
-  ]);
-
-  if (!organization) {
+  if (!session?.user.organizationId) {
     return redirect("/");
   }
 
+  const organization = await organizationDetails(session.user.organizationId);
+
   return (
     <div className="space-y-12">
-      <UpdateOrganizationName organizationName={organization.name} />
-      <UpdateOrganizationWebsite organizationWebsite={organization.website} />
-      <DeleteOrganization organizationId={organization.id} />
+      <UpdateOrganizationName organizationName={organization?.name ?? ""} />
+      <UpdateOrganizationWebsite organizationWebsite={organization?.website ?? ""} />
+      <DeleteOrganization organizationId={organization?.id ?? ""} />
     </div>
   );
 }
@@ -57,3 +47,16 @@ export async function generateMetadata({
     title: t("sidebar.settings"),
   };
 }
+
+const organizationDetails = cache(async (organizationId: string) => {
+  const organization = await db.organization.findUnique({
+    where: { id: organizationId },
+    select: {
+      name: true,
+      website: true,
+      id: true,
+    },
+  });
+
+  return organization;
+});

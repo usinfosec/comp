@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev --turbopack --turbo -p 3001",
+    "dev": "npx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"next dev --turbopack --turbo -p 3001\" \"npm run trigger:dev\"",
+    "trigger:dev": "npx trigger.dev@latest dev",
     "build": "next build",
     "start": "next start",
     "lint": "biome lint ./src",
