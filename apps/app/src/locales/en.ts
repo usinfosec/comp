@@ -909,7 +909,7 @@ export default {
 		empty: {
 			no_tests: {
 				title: "No cloud tests yet",
-				description: "Get started by creating your first cloud test.",
+				description: "Cloud tests are automatically created when you connect an integration.",
 			},
 			no_results: {
 				title: "No results found",

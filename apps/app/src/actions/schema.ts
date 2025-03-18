@@ -7,7 +7,7 @@ import {
 	RiskTaskStatus,
 	VendorCategory,
 	VendorStatus,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { z } from "zod";
 
 export const organizationSchema = z.object({
