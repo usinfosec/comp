@@ -19,7 +19,7 @@ import {
 	RiskCategory,
 	RiskStatus,
 	type User,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Checkbox } from "@bubba/ui/checkbox";
 import {
