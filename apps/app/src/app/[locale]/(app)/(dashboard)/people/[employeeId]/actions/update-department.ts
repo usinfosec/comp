@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@bubba/db";
-import type { Departments } from "@bubba/db";
+import type { Departments } from "@bubba/db/types";
 import { authActionClient } from "@/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import {

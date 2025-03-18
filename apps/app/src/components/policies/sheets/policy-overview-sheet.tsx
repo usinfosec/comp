@@ -2,7 +2,7 @@
 
 import { UpdatePolicyForm } from "@/components/forms/policies/update-policy-form";
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy } from "@bubba/db";
+import type { OrganizationPolicy, Policy } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
 import { useMediaQuery } from "@bubba/ui/hooks";
