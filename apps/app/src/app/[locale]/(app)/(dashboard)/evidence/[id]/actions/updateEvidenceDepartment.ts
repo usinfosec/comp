@@ -1,7 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { db, Departments } from "@bubba/db";
+import { db } from "@bubba/db";
+import { Departments } from "@bubba/db/types";
 import { authActionClient } from "@/actions/safe-action";
 
 const schema = z.object({

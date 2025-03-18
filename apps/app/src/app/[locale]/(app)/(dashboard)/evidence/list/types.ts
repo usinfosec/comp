@@ -1,4 +1,4 @@
-import type { OrganizationEvidence } from "@bubba/db";
+import type { OrganizationEvidence } from "@bubba/db/types";
 
 export type EvidenceTaskRow = OrganizationEvidence & {
   evidence: {
