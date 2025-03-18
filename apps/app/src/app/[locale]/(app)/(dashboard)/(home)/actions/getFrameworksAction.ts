@@ -6,7 +6,7 @@ import type {
   Framework,
   OrganizationControl,
   OrganizationFramework,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { z } from "zod";
 import type { ActionData } from "@/actions/types";
 
