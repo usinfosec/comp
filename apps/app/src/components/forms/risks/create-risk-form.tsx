@@ -5,7 +5,7 @@ import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
-import { Departments, RiskCategory } from "@bubba/db";
+import { Departments, RiskCategory } from "@bubba/db/types";
 import {
   Accordion,
   AccordionContent,
