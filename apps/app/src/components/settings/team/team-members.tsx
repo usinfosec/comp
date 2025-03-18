@@ -1,14 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
-import { Suspense } from "react";
 import { InviteMemberForm } from "./invite-member-form";
 import { MembersList } from "./members-list";
 import { PendingInvitations } from "./pending-invitations";
 import { db } from "@bubba/db";
 import { auth } from "@/auth";
 import { unstable_cache } from "next/cache";
-import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { getI18n } from "@/locales/server";
+import { cache } from "react";
 
 export async function TeamMembers() {
   const session = await auth();
@@ -53,39 +51,35 @@ export async function TeamMembers() {
   );
 }
 
-
-const getOrganizationMembers = unstable_cache(
-  async (organizationId: string) => {
-    return db.organizationMember.findMany({
-      where: {
-        organizationId,
-        accepted: true,
-      },
-      include: {
-        user: true,
-      },
-      orderBy: {
-        joinedAt: "desc",
-      },
-    });
-  },
-  ["organization-members"],
-  { tags: ["organization-members"], revalidate: 60 }
+const getOrganizationMembers = cache(async (organizationId: string) => {
+  return db.organizationMember.findMany({
+    where: {
+      organizationId,
+      OR: [
+        { accepted: true },
+        { invitedEmail: null }
+      ]
+    },
+    include: {
+      user: true,
+    },
+    orderBy: {
+      joinedAt: "desc",
+    },
+  });
+},
 );
 
-const getPendingInvitations = unstable_cache(
-  async (organizationId: string) => {
-    return db.organizationMember.findMany({
-      where: {
-        organizationId,
-        accepted: false,
-        invitedEmail: { not: null },
-      },
-      orderBy: {
-        joinedAt: "desc",
-      },
-    });
-  },
-  ["pending-invitations"],
-  { tags: ["pending-invitations"], revalidate: 60 }
+const getPendingInvitations = cache(async (organizationId: string) => {
+  return db.organizationMember.findMany({
+    where: {
+      organizationId,
+      accepted: false,
+      invitedEmail: { not: null },
+    },
+    orderBy: {
+      joinedAt: "desc",
+    },
+  });
+},
 );

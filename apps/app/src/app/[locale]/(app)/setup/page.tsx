@@ -1,9 +1,9 @@
 import { auth } from "@/auth";
 import { Onboarding } from "@/components/forms/create-organization-form";
-import { Icons } from "@bubba/ui/icons";
+import { db } from "@bubba/db";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export const metadata: Metadata = {
   title: "Organization Setup | Comp AI",
@@ -16,19 +16,35 @@ export default async function Page() {
     return redirect("/");
   }
 
-  if (session.user.onboarded && session.user.organizationId) {
+  if (!session.user.organizationId) {
     return redirect("/");
   }
 
-  return (
-    <div>
-      <div className="absolute left-5 top-4 md:left-10 md:top-10">
-        <Link href="/">
-          <Icons.Logo />
-        </Link>
-      </div>
+  const isSetup = await isOrganizationSetup(session.user.organizationId);
+  const frameworks = await getFrameworks();
 
-      <Onboarding />
-    </div>
-  );
+  if (isSetup) {
+    return redirect("/");
+  }
+
+  return <Onboarding frameworks={frameworks} />;
 }
+
+const getFrameworks = cache(async () => {
+  return await db.framework.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+});
+
+const isOrganizationSetup = cache(async (organizationId: string) => {
+  const organization = await db.organization.findUnique({
+    where: { id: organizationId },
+    select: {
+      setup: true,
+    },
+  });
+
+  return organization?.setup;
+});

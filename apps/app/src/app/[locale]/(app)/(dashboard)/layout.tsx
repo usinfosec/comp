@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
+import { db } from "@bubba/db";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 const HotKeys = dynamic(
   () => import("@/components/hot-keys").then((mod) => mod.HotKeys),
@@ -18,8 +20,14 @@ export default async function Layout({
 }) {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user || !session.user.organizationId) {
     redirect("/auth");
+  }
+
+  const isSetup = await isOrganizationSetup(session.user.organizationId);
+
+  if (!isSetup) {
+    redirect("/setup");
   }
 
   return (
@@ -35,3 +43,16 @@ export default async function Layout({
     </div>
   );
 }
+
+const isOrganizationSetup = cache(async (organizationId: string) => {
+  const organization = await db.organization.findUnique({
+    where: {
+      id: organizationId,
+    },
+    select: {
+      setup: true,
+    },
+  });
+
+  return organization?.setup;
+});

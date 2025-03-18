@@ -11,11 +11,15 @@ import {
 import { z } from "zod";
 
 export const organizationSchema = z.object({
-	fullName: z.string().min(1, "Full name is required"),
 	name: z.string().min(1, "Name is required"),
-	website: z.string().url("Must be a valid URL"),
-	subdomain: z.string().min(1, "Subdomain is required").optional(),
+	fullName: z.string().min(1, "Full name is required"),
+	website: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+	frameworks: z
+		.array(z.string())
+		.min(1, "Please select at least one framework to get started with"),
 });
+
+export type OrganizationSchema = z.infer<typeof organizationSchema>;
 
 export const organizationNameSchema = z.object({
 	name: z
