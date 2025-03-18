@@ -3,7 +3,7 @@
 import { updateRiskAction } from "@/actions/risk/update-risk-action";
 import { updateRiskSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { Departments, type Risk } from "@bubba/db";
+import { Departments, type Risk } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,

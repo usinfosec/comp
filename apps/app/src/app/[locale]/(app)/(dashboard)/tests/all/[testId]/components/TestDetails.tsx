@@ -14,7 +14,7 @@ import { AssigneeSection } from "./AssigneeSection";
 import { TestComment } from "./TestComments";
 import { unstable_cache } from "next/cache";
 import { db } from "@bubba/db";
-import type { User } from "@bubba/db";
+import type { User } from "@bubba/db/types";
 
 interface CloudTestDetailsProps {
   testId: string;
@@ -96,24 +96,24 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
     }
   };
 
-  // Helper function to get the appropriate icon for test run status
-  const getRunStatusIcon = (status: string, result: string | null) => {
-    if (status === "COMPLETED") {
-      if (result === "PASS") {
-        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      } else if (result === "FAIL") {
-        return <XCircle className="h-4 w-4 text-red-500" />;
-      } else {
-        return <Info className="h-4 w-4 text-blue-500" />;
-      }
-    } else if (status === "IN_PROGRESS") {
-      return <Clock className="h-4 w-4 text-blue-500 animate-pulse" />;
-    } else if (status === "PENDING") {
-      return <Clock className="h-4 w-4 text-yellow-500" />;
-    } else {
-      return <Info className="h-4 w-4" />;
-    }
-  };
+  // // Helper function to get the appropriate icon for test run status
+  // const getRunStatusIcon = (status: string, result: string | null) => {
+  //   if (status === "COMPLETED") {
+  //     if (result === "PASS") {
+  //       return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+  //     } else if (result === "FAIL") {
+  //       return <XCircle className="h-4 w-4 text-red-500" />;
+  //     } else {
+  //       return <Info className="h-4 w-4 text-blue-500" />;
+  //     }
+  //   } else if (status === "IN_PROGRESS") {
+  //     return <Clock className="h-4 w-4 text-blue-500 animate-pulse" />;
+  //   } else if (status === "PENDING") {
+  //     return <Clock className="h-4 w-4 text-yellow-500" />;
+  //   } else {
+  //     return <Info className="h-4 w-4" />;
+  //   }
+  // };
 
   return (
     <div className="space-y-6 p-6">

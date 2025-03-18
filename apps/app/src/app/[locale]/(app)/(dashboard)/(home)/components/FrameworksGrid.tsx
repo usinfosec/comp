@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Framework } from "@bubba/db";
+import type { Framework } from "@bubba/db/types";
 import {
   Card,
   CardContent,

@@ -1,4 +1,4 @@
-import type { Departments, Frequency } from "@bubba/db";
+import type { Departments, Frequency } from "@bubba/db/types";
 
 // Define all available departments from the enum
 export const ALL_DEPARTMENTS: Departments[] = [

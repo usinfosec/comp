@@ -3,7 +3,7 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { TestCommentSheet } from "@/components/sheets/test-comment-sheet";
 import { useI18n } from "@/locales/client";
-import type { User } from "@bubba/db";
+import type { User } from "@bubba/db/types";
 import type { Test } from "../../types"
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
