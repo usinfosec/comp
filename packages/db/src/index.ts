@@ -11,7 +11,7 @@ if (typeof window === "undefined") {
 
 neonConfig.useSecureWebSocket = true;
 
-const createPrismaClient = async () => {
+const createPrismaClient = () => {
   const connectionString = process.env.DATABASE_URL;
 
   if (!connectionString) {
