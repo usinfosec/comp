@@ -253,8 +253,8 @@ export default {
   },
   onboarding: {
     title: "Opprett en organisasjon",
-    setup: "Oppsett",
-    description: "Fortell oss litt om organisasjonen din.",
+    setup: "Velkommen til Comp AI",
+    description: "Fortell oss litt om organisasjonen din og hvilke rammeverk du ønsker å begynne med.",
     fields: {
       name: {
         label: "Organisasjonsnavn",
@@ -277,7 +277,16 @@ export default {
     error: "Noe gikk galt, vennligst prøv igjen.",
     unavailable: "Ikke tilgjengelig",
     check_availability: "Sjekker tilgjengelighet",
-    available: "Tilgjengelig"
+    available: "Tilgjengelig",
+    submit: "Fullfør oppsett",
+    trigger: {
+      title: "Hold deg fast, vi oppretter organisasjonen din",
+      creating: "Dette kan ta et minutt eller to...",
+      completed: "Organisasjonen ble opprettet med suksess",
+      "continue": "Fortsett til dashbordet",
+      error: "Noe gikk galt, vennligst prøv igjen."
+    },
+    creating: "Oppretter organisasjonen din..."
   },
   overview: {
     title: "Oversikt",
