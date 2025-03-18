@@ -1,4 +1,4 @@
-import type { EvidenceWithStatus } from "../actions/getEvidenceDashboard";
+import type { EvidenceWithStatus } from "../data/getEvidenceDashboard";
 import type { StatusType } from "../constants/evidence-status";
 
 /**
