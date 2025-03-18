@@ -6,7 +6,7 @@ import type {
   Framework,
   OrganizationControl,
   OrganizationFramework,
-} from "@bubba/db";
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { FileStack } from "lucide-react";
