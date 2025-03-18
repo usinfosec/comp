@@ -7,32 +7,39 @@ import type {
 	GetFindingsCommandInput,
 	GetFindingsCommandOutput,
 } from "@aws-sdk/client-securityhub";
+import { decrypt } from "@bubba/app/src/lib/encryption";
+import type { EncryptedData } from "@bubba/app/src/lib/encryption";
+
+interface AWSEncryptedCredentials {
+	region: EncryptedData;
+	access_key_id: EncryptedData;
+	secret_access_key: EncryptedData;
+}
 
 /**
  * Fetches security findings from AWS Security Hub
  * @returns Promise containing an array of findings
  */
 async function fetch(
-	AWS_REGION: string,
-	AWS_ACCESS_KEY_ID: string,
-	AWS_SECRET_ACCESS_KEY: string,
-	AWS_SESSION_TOKEN: string,
+	credentials: AWSEncryptedCredentials
 ): Promise<any[]> {
 	try {
+		// Decrypt credentials
+		const decryptedRegion = await decrypt(credentials.region);
+		const decryptedAccessKeyId = await decrypt(credentials.access_key_id);
+		const decryptedSecretAccessKey = await decrypt(credentials.secret_access_key);
+
 		// 1. Configure the SecurityHub client with AWS credentials
-		// For production, prefer using environment variables or AWS credential profiles rather than hardcoding
 		const config: SecurityHubClientConfig = {
-			region: AWS_REGION,
+			region: decryptedRegion,
 			credentials: {
-				accessKeyId: AWS_ACCESS_KEY_ID,
-				secretAccessKey: AWS_SECRET_ACCESS_KEY,
-				sessionToken: AWS_SESSION_TOKEN, // Required for temporary credentials
+				accessKeyId: decryptedAccessKeyId,
+				secretAccessKey: decryptedSecretAccessKey,
 			},
 		};
 		const securityHubClient = new SecurityHubClient(config);
 
 		// 2. Define filters for the findings we want to retrieve.
-		// Example: get only NEW (unresolved) findings for failed compliance controls.
 		const params: GetFindingsCommandInput = {
 			Filters: {
 				WorkflowStatus: [{ Value: "NEW", Comparison: "EQUALS" }], // only active findings

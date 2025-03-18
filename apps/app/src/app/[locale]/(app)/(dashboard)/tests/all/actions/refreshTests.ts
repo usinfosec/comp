@@ -3,18 +3,12 @@
 import { db } from "@bubba/db";
 import { revalidatePath } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
-import { decrypt } from "@/lib/encryption";
-import type { EncryptedData } from "@/lib/encryption";
 import { integrations } from "@bubba/integrations";
 
 // Create a map of integration handlers with proper typing
 type IntegrationHandler = {
 	id: string;
-	fetch: (
-		region: string,
-		accessKeyId: string,
-		secretAccessKey: string
-	) => Promise<any[]>;
+	fetch: (credentials: any) => Promise<any[]>;
 };
 
 // Create a map of integration handlers
@@ -70,24 +64,8 @@ export const refreshTestsAction = authActionClient
 			}
 
 			try {
-				// Extract and decrypt credentials (assuming all integrations use the same credential structure)
-				const { region, access_key_id, secret_access_key } =
-					integration.user_settings as unknown as {
-						region: EncryptedData;
-						access_key_id: EncryptedData;
-						secret_access_key: EncryptedData;
-					};
-
-				const decryptedRegion = await decrypt(region);
-				const decryptedAccessKeyId = await decrypt(access_key_id);
-				const decryptedSecretAccessKey = await decrypt(secret_access_key);
-
-				// Fetch results using the appropriate integration handler
-				const results = await integrationHandler.fetch(
-					decryptedRegion,
-					decryptedAccessKeyId,
-					decryptedSecretAccessKey
-				);
+				// Pass encrypted credentials directly to the integration handler
+				const results = await integrationHandler.fetch(integration.user_settings);
 
 				// Store the integration results using model name that matches the database
 				for (const result of results) {

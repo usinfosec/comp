@@ -1,138 +1,139 @@
-/*
 import { DefaultAzureCredential } from "@azure/identity";
-import fetch from "node-fetch";
+import nodeFetch from "node-fetch";
+import { decrypt } from "@bubba/app/src/lib/encryption";
+import type { EncryptedData } from "@bubba/app/src/lib/encryption";
 
-// Azure Subscription ID (replace with actual ID)
-const subscriptionId = "your-subscription-id";  // 🔹 Replace with your Azure Subscription ID
-const API_VERSION = "2023-01-01";  // 🔹 API version for Defender for Cloud
+const API_VERSION = "2019-01-01";
 
-// Base URL for Microsoft Defender for Cloud
-const SECURITY_ALERTS_URL = `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Security/alerts?api-version=${API_VERSION}`;
-
-// Function to fetch Security Findings from Microsoft Defender for Cloud
-async function fetchSecurityFindings(): Promise<void> {
-  try {
-    // 🔹 Authenticate using DefaultAzureCredential (supports managed identity, environment variables, etc.)
-    const credential = new DefaultAzureCredential();
-    const tokenResponse = await credential.getToken("https://management.azure.com/.default");
-
-    if (!tokenResponse || !tokenResponse.token) {
-      throw new Error("Failed to retrieve Azure authentication token.");
-    }
-
-    // 🔹 Set up the API request headers
-    const headers = {
-      Authorization: `Bearer ${tokenResponse.token}`,
-      "Content-Type": "application/json",
-    };
-
-    let findings: any[] = [];
-    let url = SECURITY_ALERTS_URL;
-
-    // 🔹 Loop through all pages of results (handles pagination)
-    while (url) {
-      const response = await fetch(url, { headers });
-      if (!response.ok) throw new Error(`API request failed: ${response.statusText}`);
-
-      const data = await response.json();
-      findings = findings.concat(data.value || []); // Append new findings
-
-      // 🔹 Handle pagination (if "nextLink" exists, fetch next page)
-      url = data["nextLink"] || null;
-    }
-
-    console.log(`Retrieved ${findings.length} security findings.`);
-
-    // 🔹 Process findings (filter active alerts, format output, etc.)
-    findings.forEach((finding) => {
-      console.log(`🛑 [${finding.properties.severity}] ${finding.properties.alertDisplayName} - ${finding.properties.status}`);
-    });
-
-    return findings;
-  } catch (error) {
-    console.error("Error fetching security findings:", error);
-    throw error;
-  }
+interface AzureEncryptedCredentials {
+	AZURE_CLIENT_ID: EncryptedData;
+	AZURE_TENANT_ID: EncryptedData;
+	AZURE_CLIENT_SECRET: EncryptedData;
+	AZURE_SUBSCRIPTION_ID: EncryptedData;
 }
 
-// Run the function
-fetchSecurityFindings();
-*/
+interface ComplianceControl {
+	name: string;
+	description: string;
+	state: string;
+}
 
-import {
-	SecurityHubClient,
-	GetFindingsCommand,
-} from "@aws-sdk/client-securityhub";
-import type {
-	SecurityHubClientConfig,
-	GetFindingsCommandInput,
-	GetFindingsCommandOutput,
-} from "@aws-sdk/client-securityhub";
+interface ComplianceStandard {
+	name: string;
+	controls: ComplianceControl[];
+}
+
+interface AzureResponse {
+	value: Array<{
+		name: string;
+		properties?: {
+			description: string;
+			state: string;
+		};
+	}>;
+}
 
 /**
- * Fetches security findings from AWS Security Hub
- * @returns Promise containing an array of findings
+ * Fetches compliance data from Azure Security Center
+ * @returns Promise containing an array of compliance standards with their controls
  */
-async function fetch(
-	AWS_REGION: string,
-	AWS_ACCESS_KEY_ID: string,
-	AWS_SECRET_ACCESS_KEY: string,
-	AWS_SESSION_TOKEN: string,
-): Promise<any[]> {
+async function fetchComplianceData(
+	credentials: AzureEncryptedCredentials
+): Promise<ComplianceStandard[]> {
 	try {
-		// 1. Configure the SecurityHub client with AWS credentials
-		// For production, prefer using environment variables or AWS credential profiles rather than hardcoding
-		const config: SecurityHubClientConfig = {
-			region: AWS_REGION,
-			credentials: {
-				accessKeyId: AWS_ACCESS_KEY_ID,
-				secretAccessKey: AWS_SECRET_ACCESS_KEY,
-				sessionToken: AWS_SESSION_TOKEN, // Required for temporary credentials
+		// Decrypt credentials
+		const decryptedClientId = await decrypt(credentials.AZURE_CLIENT_ID);
+		const decryptedTenantId = await decrypt(credentials.AZURE_TENANT_ID);
+		const decryptedClientSecret = await decrypt(credentials.AZURE_CLIENT_SECRET);
+		const decryptedSubscriptionId = await decrypt(credentials.AZURE_SUBSCRIPTION_ID);
+
+		const BASE_URL = `https://management.azure.com/subscriptions/${decryptedSubscriptionId}/providers/Microsoft.Security`;
+
+		// Set environment variables for DefaultAzureCredential
+		process.env.AZURE_CLIENT_ID = decryptedClientId;
+		process.env.AZURE_TENANT_ID = decryptedTenantId;
+		process.env.AZURE_CLIENT_SECRET = decryptedClientSecret;
+
+		// Get access token
+		const credential = new DefaultAzureCredential();
+		const tokenResponse = await credential.getToken("https://management.azure.com/.default");
+		const token = tokenResponse.token;
+
+		// Fetch all compliance standards
+		const standardsUrl = `${BASE_URL}/regulatoryComplianceStandards?api-version=${API_VERSION}`;
+		const standardsResponse = await nodeFetch(standardsUrl, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
 			},
-		};
-		const securityHubClient = new SecurityHubClient(config);
+		});
 
-		// 2. Define filters for the findings we want to retrieve.
-		// Example: get only NEW (unresolved) findings for failed compliance controls.
-		const params: GetFindingsCommandInput = {
-			Filters: {
-				WorkflowStatus: [{ Value: "NEW", Comparison: "EQUALS" }], // only active findings
-				ComplianceStatus: [{ Value: "FAILED", Comparison: "EQUALS" }], // only failed control checks
-			},
-			MaxResults: 100, // adjust page size as needed (max 100)
-		};
-
-		const command = new GetFindingsCommand(params);
-		let response: GetFindingsCommandOutput =
-			await securityHubClient.send(command);
-
-		const allFindings: any[] = response.Findings || [];
-		let nextToken = response.NextToken;
-
-		// 3. Loop to paginate through all results if there are more than 100 findings
-		while (nextToken) {
-			const nextPageParams: GetFindingsCommandInput = {
-				...params,
-				NextToken: nextToken,
-			};
-			response = await securityHubClient.send(
-				new GetFindingsCommand(nextPageParams),
-			);
-
-			if (response.Findings) {
-				allFindings.push(...response.Findings);
-			}
-
-			nextToken = response.NextToken;
+		if (!standardsResponse.ok) {
+			throw new Error(`Failed to fetch standards: ${standardsResponse.statusText}`);
 		}
 
-		console.log(`Retrieved ${allFindings.length} findings`);
-		return allFindings;
+		const standardsData = await standardsResponse.json() as AzureResponse;
+		const standards = standardsData.value.map((standard) => standard.name);
+
+		// Fetch controls for each standard
+		const complianceData: ComplianceStandard[] = [];
+
+		for (const standard of standards) {
+			const controlsUrl = `${BASE_URL}/regulatoryComplianceStandards/${standard}/regulatoryComplianceControls?api-version=${API_VERSION}`;
+			const controlsResponse = await nodeFetch(controlsUrl, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (!controlsResponse.ok) {
+				console.error(`Failed to fetch controls for ${standard}: ${controlsResponse.statusText}`);
+				continue;
+			}
+
+			const controlsData = await controlsResponse.json() as AzureResponse;
+			const controls = controlsData.value.map((control) => control.name);
+
+			// Fetch details for each control
+			const controlDetails: ComplianceControl[] = [];
+
+			for (const control of controls) {
+				const detailsUrl = `${BASE_URL}/regulatoryComplianceStandards/${standard}/regulatoryComplianceControls/${control}?api-version=${API_VERSION}`;
+				const detailsResponse = await nodeFetch(detailsUrl, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						"Content-Type": "application/json",
+					},
+				});
+
+				if (!detailsResponse.ok) {
+					console.error(`Failed to fetch details for ${control} in ${standard}: ${detailsResponse.statusText}`);
+					continue;
+				}
+
+				const detailsData = await detailsResponse.json() as AzureResponse;
+				const controlDetail = detailsData.value[0];
+				if (controlDetail?.properties) {
+					controlDetails.push({
+						name: control,
+						description: controlDetail.properties.description,
+						state: controlDetail.properties.state,
+					});
+				}
+			}
+
+			complianceData.push({
+				name: standard,
+				controls: controlDetails,
+			});
+		}
+
+		return complianceData;
 	} catch (error) {
-		console.error("Error fetching Security Hub findings:", error);
+		console.error("Error fetching Azure compliance data:", error);
 		throw error;
 	}
 }
 
-// Export the function for use in other modules
-export { fetch };
+export { fetchComplianceData as fetch };

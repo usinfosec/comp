@@ -1,5 +1,5 @@
 {
-  "name": "comp.ai",
+  "name": "@bubba/app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -106,5 +106,8 @@
     "overrides": {
       "tiptap-extension-global-drag-handle": "^0.1.18"
     }
+  },
+  "exports": {
+    "./src/lib/encryption": "./src/lib/encryption.ts"
   }
 }

@@ -3,17 +3,10 @@ import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
 import { integrations } from "@bubba/integrations";
 
-import { decrypt } from "@/lib/encryption";
-import type { EncryptedData } from "@/lib/encryption";
-
 // Create a map of integration handlers with proper typing
 type IntegrationHandler = {
 	id: string;
-	fetch: (
-		region: string,
-		accessKeyId: string,
-		secretAccessKey: string,
-	) => Promise<any[]>;
+	fetch: (credentials: any) => Promise<any[]>;
 };
 
 // Create a map of integration handlers
@@ -68,19 +61,13 @@ export const sendIntegrationResults = schemaTask({
       }
       const { region, access_key_id, secret_access_key } =
       integration.user_settings as unknown as {
-        region: EncryptedData;
-        access_key_id: EncryptedData;
-        secret_access_key: EncryptedData;
+        region: any;
+        access_key_id: any;
+        secret_access_key: any;
       };
 
-      const decryptedRegion = await decrypt(region);
-      const decryptedAccessKeyId = await decrypt(access_key_id);
-      const decryptedSecretAccessKey = await decrypt(secret_access_key);
-      
       const results = await integrationHandler.fetch(
-        decryptedRegion,
-        decryptedAccessKeyId,
-        decryptedSecretAccessKey
+        { region, access_key_id, secret_access_key }
       );
 
       // Store the integration results using model name that matches the database
