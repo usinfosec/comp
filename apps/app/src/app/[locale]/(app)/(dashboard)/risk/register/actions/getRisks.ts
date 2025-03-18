@@ -1,7 +1,8 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db, Departments, RiskStatus, Prisma } from "@bubba/db";
+import { db } from "@bubba/db";
+import { Departments, Prisma, RiskStatus } from "@bubba/db/types";
 import { z } from "zod";
 
 export const getRisks = authActionClient

@@ -1,8 +1,7 @@
-import { AssigneeAvatar } from "../../../../evidence/list/components/table/components/AssigneeAvatar";
-import type { Departments, User } from "@bubba/db";
-import { RiskStatus } from "@bubba/db";
 import { Status } from "@/components/status";
+import { type Departments, RiskStatus } from "@bubba/db/types";
 import type { Admin } from "../../../../evidence/[id]/hooks/useOrganizationAdmins";
+import { AssigneeAvatar } from "../../../../evidence/list/components/table/components/AssigneeAvatar";
 
 export const RiskRegisterFilters = ({
 	setPage,

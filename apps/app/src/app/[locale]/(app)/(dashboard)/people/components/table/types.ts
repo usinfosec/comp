@@ -1,4 +1,3 @@
-import type { User } from "@bubba/db";
 
 export interface EmployeesTableProps {
   columnHeaders: {

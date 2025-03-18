@@ -1,4 +1,4 @@
-import type { Departments, OrganizationEvidence } from "@bubba/db";
+import type { Departments, OrganizationEvidence } from "@bubba/db/types";
 import { db } from "@bubba/db";
 import { cache } from "react";
 

@@ -1,4 +1,4 @@
-import type { Risk, User } from "@bubba/db";
+import type { Risk, User } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@bubba/ui/badge";
 import Link from "next/link";
