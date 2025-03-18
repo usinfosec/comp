@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "biome lint ./src",
     "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom",
-    "deploy:trigger-prod": "npx trigger.dev@latest deploy"
+    "deploy:trigger-prod": "npx trigger.dev@latest deploy",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.2.5",
