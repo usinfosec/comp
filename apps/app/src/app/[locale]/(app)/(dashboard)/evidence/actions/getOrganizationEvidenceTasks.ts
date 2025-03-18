@@ -1,8 +1,16 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db, Frequency, Departments } from "@bubba/db";
-import type { Prisma, OrganizationEvidence } from "@bubba/db";
+import {
+  Departments,
+  Frequency,
+} from "@bubba/db/types";
+import type {
+  OrganizationEvidence,
+  Prisma,
+} from "@bubba/db/types";
+import { db } from "@bubba/db";
+
 import { z } from "zod";
 
 // Define the response types for better type safety
