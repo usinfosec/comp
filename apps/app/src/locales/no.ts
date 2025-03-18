@@ -1081,7 +1081,7 @@ export default {
     empty: {
       no_tests: {
         title: "Ingen skytester ennå",
-        description: "Skytester opprettes automatisk når du kobler til en integrasjon."
+        description: "Kom i gang med å lage din første skytest."
       },
       no_results: {
         title: "Ingen resultater funnet",
