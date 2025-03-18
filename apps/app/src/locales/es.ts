@@ -1081,7 +1081,7 @@ export default {
     empty: {
       no_tests: {
         title: "No hay pruebas en la nube aún",
-        description: "Comienza creando tu primera prueba en la nube."
+        description: "Las pruebas en la nube se crean automáticamente cuando conectas una integración."
       },
       no_results: {
         title: "No se encontraron resultados",

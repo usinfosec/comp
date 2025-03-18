@@ -593,7 +593,7 @@ files:
     tests.actions.refresh_success: 11281eaf86ba5078cf03963120b4eab5
     tests.actions.refresh_error: 2b2cfe41efbe7013ec1c7ee808f8a14d
     tests.empty.no_tests.title: 32aca943b703843c5449d5ebb8f82845
-    tests.empty.no_tests.description: b96a1b141b00cb3def88e4b16db515aa
+    tests.empty.no_tests.description: f191e33225f356eb49c54492dbd7a043
     tests.empty.no_results.title: e576c23d915755d83e2d1f47bd9f6c22
     tests.empty.no_results.description: 5da0e642cba804156894b71bf658d9a2
     tests.empty.no_results.description_with_filters: 2b70f835ed5a08e817ec9388ce25b41a
