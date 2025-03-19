@@ -1134,11 +1134,11 @@ export default {
   vendors: {
     title: "Fornecedores",
     register: {
-      title: "Painel de Controle",
+      title: "Registro de Fornecedor",
       create_new: "Criar Fornecedor"
     },
     dashboard: {
-      title: "Visão Geral do Fornecedor"
+      title: "Visão Geral"
     }
   },
   dashboard: {

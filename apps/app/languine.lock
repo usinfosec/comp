@@ -704,9 +704,9 @@ files:
     evidence.details.review_section: 659514b42799e5982d28793d9e003ae3
     evidence.details.content: 393ae95538cd395eb8d1f7521f652b10
     vendors.title: dfcc5efe778e6340336015dc02617922
-    vendors.register.title: 2938c7f7e560ed972f8a4f68e80ff834
+    vendors.dashboard.title: 3b878279a04dc47d60932cb294d96259
+    vendors.register.title: 122b14e8fa33bc9d4f389700439dfc71
     vendors.register.create_new: ef1c7d5e555d7fe288bf0bf16b88723d
-    vendors.dashboard.title: 003dd1a6f6efb2ac33fa8519c89dedcc
     dashboard.risk_status: 6ce5e6fa832289748023cb773a4e89ac
     dashboard.risks_by_department: 0ef508d7e840bc5f85547c3b25e5d87b
     dashboard.vendor_status: 17029fbe5ad4d2af5feaf37bb4604225

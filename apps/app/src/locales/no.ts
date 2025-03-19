@@ -1163,11 +1163,11 @@ export default {
   vendors: {
     title: "Leverandører",
     register: {
-      title: "Dashbord",
+      title: "Leverandørregister",
       create_new: "Opprett leverandør"
     },
     dashboard: {
-      title: "Oversikt over leverandører"
+      title: "Oversikt"
     }
   },
   dashboard: {
