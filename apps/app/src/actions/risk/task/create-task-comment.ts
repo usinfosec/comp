@@ -34,8 +34,8 @@ export const createTaskCommentAction = authActionClient
       },
     });
 
-    revalidatePath(`/risk/${riskId}`);
-    revalidatePath(`/risk/${riskId}/tasks/${taskId}`);
+    revalidatePath(`/${user.organizationId}/risk/${riskId}`);
+    revalidatePath(`/${user.organizationId}/risk/${riskId}/tasks/${taskId}`);
     revalidateTag(`risk_${user.organizationId}`);
 
     return { success: true };

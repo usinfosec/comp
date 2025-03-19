@@ -36,7 +36,7 @@ export const createTaskAction = authActionClient
         },
       });
 
-      revalidatePath(`/risk/${riskId}`);
+      revalidatePath(`/${user.organizationId}/risk/${riskId}`);
       revalidateTag(`risk_${user.organizationId}`);
 
       return {

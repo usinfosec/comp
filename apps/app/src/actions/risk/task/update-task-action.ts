@@ -53,9 +53,11 @@ export const updateTaskAction = authActionClient
         },
       });
 
-      revalidatePath("/risk");
-      revalidatePath(`/risk/${riskId.riskId}`);
-      revalidatePath(`/risk/${riskId.riskId}/tasks/${id}`);
+      revalidatePath(`/${user.organizationId}/risk`);
+      revalidatePath(`/${user.organizationId}/risk/${riskId.riskId}`);
+      revalidatePath(
+        `/${user.organizationId}/risk/${riskId.riskId}/tasks/${id}`
+      );
       revalidateTag("risks");
 
       return { success: true };

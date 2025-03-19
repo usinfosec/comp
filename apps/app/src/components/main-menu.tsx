@@ -20,30 +20,38 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useLongPress } from "use-long-press";
 
-const icons = {
-	"/": () => <Icons.Overview size={22} />,
-	"/overview": () => <Icons.Overview size={22} />,
-	"/overview/frameworks": () => <Icons.Overview size={22} />,
-	"/settings": () => <Icons.Settings size={22} />,
-	"/policies": () => <Icons.Policies size={22} />,
-	"/risk": () => <Icons.Risk size={22} />,
-	"/vendors": () => <Icons.Vendors size={22} />,
-	"/integrations": () => <Icons.Apps size={22} />,
-	"/people": () => <Icons.Peolple size={22} />,
-	"/evidence": () => <Icons.Evidence size={22} />,
-	"/evidence/overview": () => <Icons.Evidence size={22} />,
-	"/tests": () => <Icons.CloudSync size={22} />,
+// Define menu item types with icon component
+type MenuItem = {
+	id: string;
+	path: string;
+	name: string;
+	disabled: boolean;
+	icon: React.FC<{ size?: number }>;
+};
+
+// Map of menu item IDs to their icon components
+const menuIcons = {
+	overview: Icons.Overview,
+	settings: Icons.Settings,
+	policies: Icons.Policies,
+	risk: Icons.Risk,
+	vendors: Icons.Vendors,
+	integrations: Icons.Apps,
+	people: Icons.Peolple,
+	evidence: Icons.Evidence,
+	tests: Icons.CloudSync,
 };
 
 interface ItemProps {
-	item: { path: string; name: string; disabled: boolean };
+	item: MenuItem;
 	isActive: boolean;
 	isCustomizing: boolean;
-	onRemove: (path: string) => void;
+	onRemove: (id: string) => void;
 	disableRemove: boolean;
 	onDragEnd: () => void;
 	onSelect?: () => void;
 	disabled: boolean;
+	organizationId: string;
 }
 
 const Item = ({
@@ -55,10 +63,14 @@ const Item = ({
 	onDragEnd,
 	onSelect,
 	disabled,
+	organizationId,
 }: ItemProps) => {
 	const y = useMotionValue(0);
-	const Icon = icons[item.path as keyof typeof icons];
+	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
+
+	// Replace the organizationId placeholder in the path
+	const itemPath = item.path.replace(":organizationId", organizationId);
 
 	return (
 		<TooltipProvider delayDuration={70}>
@@ -69,7 +81,7 @@ const Item = ({
 			) : (
 				<Link
 					prefetch
-					href={item.path}
+					href={itemPath}
 					onClick={(evt) => {
 						if (isCustomizing) {
 							evt.preventDefault();
@@ -86,9 +98,9 @@ const Item = ({
 						<TooltipTrigger className="w-full">
 							<Reorder.Item
 								onDragEnd={onDragEnd}
-								key={item.path}
+								key={item.id}
 								value={item}
-								id={item.path}
+								id={item.id}
 								style={{ y }}
 								layoutRoot
 								className={cn(
@@ -108,7 +120,7 @@ const Item = ({
 								>
 									{!disableRemove && isCustomizing && (
 										<Button
-											onClick={() => onRemove(item.path)}
+											onClick={() => onRemove(item.id)}
 											variant="ghost"
 											size="icon"
 											className="absolute -left-4 -top-4 w-4 h-4 p-0 rounded-full bg-border hover:bg-border hover:scale-150 z-10 transition-all"
@@ -124,7 +136,7 @@ const Item = ({
 												"animate-[jiggle_0.3s_ease-in-out_infinite] transform-gpu pointer-events-none",
 										)}
 									>
-										<Icon />
+										{Icon && <Icon size={22} />}
 										<span className="flex md:hidden">{item.name}</span>
 									</div>
 								</motion.div>
@@ -160,78 +172,91 @@ const itemVariant = {
 };
 
 type Props = {
-	initialItems?: { path: string; name: string; disabled: boolean }[];
+	initialItems?: MenuItem[];
 	onSelect?: () => void;
+	organizationId: string;
 };
 
-export function MainMenu({ initialItems, onSelect }: Props) {
+export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 	const t = useI18n();
 
-	const defaultItems = [
+	const defaultItems: MenuItem[] = [
 		{
-			path: "/",
+			id: "overview",
+			path: "/:organizationId",
 			name: t("sidebar.overview"),
 			disabled: false,
+			icon: Icons.Overview,
 		},
 		{
-			path: "/evidence/overview",
+			id: "evidence",
+			path: "/:organizationId/evidence/overview",
 			name: t("sidebar.evidence"),
 			disabled: false,
+			icon: Icons.Evidence,
 		},
 		{
-			path: "/tests",
+			id: "tests",
+			path: "/:organizationId/tests",
 			name: t("sidebar.tests"),
 			disabled: false,
+			icon: Icons.CloudSync,
 		},
 		{
-			path: "/policies",
+			id: "policies",
+			path: "/:organizationId/policies",
 			name: t("sidebar.policies"),
 			disabled: false,
+			icon: Icons.Policies,
 		},
 		{
-			path: "/people",
+			id: "people",
+			path: "/:organizationId/people",
 			name: t("sidebar.people"),
 			disabled: false,
+			icon: Icons.Peolple,
 		},
 		{
-			path: "/risk",
+			id: "risk",
+			path: "/:organizationId/risk",
 			name: t("sidebar.risk"),
 			disabled: false,
+			icon: Icons.Risk,
 		},
 		{
-			path: "/vendors",
+			id: "vendors",
+			path: "/:organizationId/vendors",
 			name: t("sidebar.vendors"),
 			disabled: false,
+			icon: Icons.Vendors,
 		},
 		{
-			path: "/integrations",
+			id: "integrations",
+			path: "/:organizationId/integrations",
 			name: t("sidebar.integrations"),
 			disabled: false,
+			icon: Icons.Apps,
 		},
 		{
-			path: "/settings",
+			id: "settings",
+			path: "/:organizationId/settings",
 			name: t("sidebar.settings"),
 			disabled: false,
+			icon: Icons.Settings,
 		},
 	];
 
 	const [items, setItems] = useState(initialItems ?? defaultItems);
 	const { isCustomizing, setCustomizing } = useMenuStore();
 	const pathname = usePathname();
-	const part = pathname?.split("/")[1];
+
 	const updateMenu = useAction(updateMenuAction);
 
 	const hiddenItems = defaultItems.filter(
-		(item) => !items.some((i) => i.path === item.path),
+		(item) => !items.some((i) => i.id === item.id),
 	);
 
-	const onReorder = (
-		items: {
-			path: string;
-			name: string;
-			disabled: boolean;
-		}[],
-	) => {
+	const onReorder = (items: MenuItem[]) => {
 		setItems(items);
 	};
 
@@ -239,12 +264,13 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 		updateMenu.execute(items);
 	};
 
-	const onRemove = (path: string) => {
-		setItems((prevItems) => prevItems.filter((item) => item.path !== path));
-		updateMenu.execute(items.filter((item) => item.path !== path));
+	const onRemove = (id: string) => {
+		const updatedItems = items.filter((item) => item.id !== id);
+		setItems(updatedItems);
+		updateMenu.execute(updatedItems);
 	};
 
-	const onAdd = (item: { path: string; name: string; disabled: boolean }) => {
+	const onAdd = (item: MenuItem) => {
 		const updatedItems = [...items, item];
 		setItems(updatedItems);
 		updateMenu.execute(updatedItems);
@@ -263,6 +289,37 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 		setCustomizing(false);
 	});
 
+	// Helper function to check if a path is active
+	const isPathActive = (itemPath: string) => {
+		const normalizedItemPath = itemPath.replace(
+			":organizationId",
+			organizationId,
+		);
+
+		// Extract the base path from the menu item (first two segments after normalization)
+		const itemPathParts = normalizedItemPath.split("/").filter(Boolean);
+		const itemBaseSegment = itemPathParts.length > 1 ? itemPathParts[1] : "";
+
+		// Extract the current path parts
+		const currentPathParts = pathname.split("/").filter(Boolean);
+		const currentBaseSegment =
+			currentPathParts.length > 1 ? currentPathParts[1] : "";
+
+		// Special case for root organization path
+		if (
+			normalizedItemPath === `/${organizationId}` ||
+			normalizedItemPath === `/${organizationId}/overview`
+		) {
+			return (
+				pathname === `/${organizationId}` ||
+				pathname?.startsWith(`/${organizationId}/overview`)
+			);
+		}
+
+		// Compare the base segments (usually the feature section like "evidence", "settings", etc.)
+		return itemBaseSegment === currentBaseSegment;
+	};
+
 	return (
 		<div
 			className="mt-6"
@@ -279,16 +336,11 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 					{items
 						.filter((item) => !item.disabled)
 						.map((item) => {
-							const isActive =
-								(pathname === "/" && item.path === "/") ||
-								(pathname?.startsWith("/overview") && item.path === "/") ||
-								(pathname !== "/" &&
-									pathname !== "/overview" &&
-									item.path.startsWith(`/${part}`));
+							const isActive = isPathActive(item.path);
 
 							return (
 								<Item
-									key={item.path}
+									key={item.id}
 									item={item}
 									isActive={isActive}
 									isCustomizing={isCustomizing}
@@ -297,6 +349,7 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 									onDragEnd={onDragEnd}
 									onSelect={onSelect}
 									disabled={item.disabled}
+									organizationId={organizationId}
 								/>
 							);
 						})}
@@ -314,12 +367,12 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 						{hiddenItems
 							.filter((item) => !item.disabled)
 							.map((item) => {
-								const Icon = icons[item.path as keyof typeof icons];
+								const Icon = item.icon;
 
 								return (
 									<motion.li
 										variants={itemVariant}
-										key={item.path}
+										key={item.id}
 										className={cn(
 											"border border-transparent w-[45px] h-[45px] flex items-center md:justify-center",
 											"hover:bg-secondary hover:border-[#DCDAD2] hover:dark:border-[#2C2C2C]",
@@ -336,7 +389,7 @@ export function MainMenu({ initialItems, onSelect }: Props) {
 												<Icons.Add className="w-3 h-3" />
 											</Button>
 
-											<Icon />
+											<Icon size={22} />
 										</div>
 									</motion.li>
 								);

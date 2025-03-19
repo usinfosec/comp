@@ -31,7 +31,7 @@ export const createPolicyCommentAction = authActionClient
       },
     });
 
-    revalidatePath(`/policies/all/${policyId}`);
+    revalidatePath(`/${user.organizationId}/policies/all/${policyId}`);
     revalidateTag(`policy_${user.organizationId}`);
 
     return { success: true };

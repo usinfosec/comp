@@ -41,9 +41,9 @@ export const updateRiskAction = authActionClient
         },
       });
 
-      revalidatePath("/risk");
-      revalidatePath("/risk/register");
-      revalidatePath(`/risk/${id}`);
+      revalidatePath(`/${user.organizationId}/risk`);
+      revalidatePath(`/${user.organizationId}/risk/register`);
+      revalidatePath(`/${user.organizationId}/risk/${id}`);
       revalidateTag("risks");
 
       return {
