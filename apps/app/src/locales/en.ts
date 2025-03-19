@@ -700,7 +700,7 @@ export default {
 			title: "Members",
 		},
 		api_keys: {
-			title: "API Keys",
+			title: "API",
 			description:
 				"Manage API keys for programmatic access to your organization's data.",
 			list_title: "API Keys",
@@ -763,6 +763,7 @@ export default {
 			},
 			members: {
 				title: "Team Members",
+				description: "Manage your team members and their roles",
 				empty: {
 					no_organization: {
 						title: "No Organization",
