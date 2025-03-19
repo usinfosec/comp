@@ -28,6 +28,7 @@ import { Checkbox } from "@bubba/ui/checkbox";
 import { cn } from "@bubba/ui/cn";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { useRouter } from "next/navigation";
+import { LogoSpinner } from "../logo-spinner";
 
 function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAccessToken: string }) {
   const t = useI18n();
@@ -53,27 +54,13 @@ function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAcc
     <div className="flex flex-col justify-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
       {run?.status !== "FAILED" && run?.status !== "COMPLETED" && (
         <div className="flex flex-col gap-2 justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto items-center" />
+          <LogoSpinner />
           <h2 className="text-xl font-semibold text-center tracking-tight">
             {t("onboarding.trigger.title")}
           </h2>
           <p className="text-center text-sm text-muted-foreground">
             {t("onboarding.trigger.creating")}
           </p>
-        </div>
-      )}
-
-      {run?.status === "COMPLETED" && (
-        <div className="flex flex-col gap-2 space-y-4 justify-center">
-          <h2 className="text-xl font-semibold text-center tracking-tight">
-            {t("onboarding.trigger.completed")}
-          </h2>
-          <div className="flex justify-center animate-in fade-in slide-in-from-bottom-5 duration-300">
-            <Button asChild variant="action" className="gap-2 items-center">
-              <Link href="/">{t("onboarding.trigger.continue")}</Link>
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
       )}
     </div>
@@ -115,11 +102,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
         <div className="relative w-full max-w-[440px] border bg-card p-8 shadow-lg">
-          <div className="mb-8 flex justify-between">
-            <Link href="/">
-              <Icons.Logo />
-            </Link>
-          </div>
           <RealtimeStatus runId={runId} publicAccessToken={publicAccessToken} />
         </div>
       </div>
@@ -145,8 +127,8 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
         </div>
 
         <Form {...form}>
-          <form 
-            onSubmit={form.handleSubmit(onSubmit)} 
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
             suppressHydrationWarning
           >
