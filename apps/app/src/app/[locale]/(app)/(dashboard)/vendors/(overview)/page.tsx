@@ -30,13 +30,14 @@ export default async function RiskManagement({
 
   return (
     <div className="space-y-4 sm:space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      Coming Soon
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <RiskOverview organizationId={session.user.organizationId} />
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         <RisksAssignee organizationId={session.user.organizationId} />
-      </div>
+      </div> */}
     </div>
   );
 }
