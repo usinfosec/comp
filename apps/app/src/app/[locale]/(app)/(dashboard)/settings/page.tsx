@@ -7,7 +7,7 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { cache } from "react";
+import { cache, Suspense } from "react";
 
 export default async function OrganizationSettings({
   params,
@@ -26,11 +26,13 @@ export default async function OrganizationSettings({
   const organization = await organizationDetails(session.user.organizationId);
 
   return (
-    <div className="space-y-12">
-      <UpdateOrganizationName organizationName={organization?.name ?? ""} />
-      <UpdateOrganizationWebsite organizationWebsite={organization?.website ?? ""} />
-      <DeleteOrganization organizationId={organization?.id ?? ""} />
-    </div>
+    <Suspense>
+      <div className="space-y-12">
+        <UpdateOrganizationName organizationName={organization?.name ?? ""} />
+        <UpdateOrganizationWebsite organizationWebsite={organization?.website ?? ""} />
+        <DeleteOrganization organizationId={organization?.id ?? ""} />
+      </div>
+    </Suspense>
   );
 }
 
