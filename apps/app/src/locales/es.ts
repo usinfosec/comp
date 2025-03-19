@@ -984,6 +984,10 @@ export default {
     tests: {
       overview: "Pruebas en la Nube",
       test_details: "Detalles de la Prueba"
+    },
+    vendors: {
+      overview: "Proveedores",
+      register: "Registro de Proveedores"
     }
   },
   editor: {
@@ -1159,10 +1163,11 @@ export default {
   vendors: {
     title: "Proveedores",
     register: {
-      title: "Registro de proveedores"
+      title: "Registro de proveedores",
+      create_new: "Crear Proveedor"
     },
     dashboard: {
-      title: "Resumen de proveedores"
+      title: "Descripción general"
     }
   },
   dashboard: {

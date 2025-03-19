@@ -984,6 +984,10 @@ export default {
     tests: {
       overview: "Tests en nuage",
       test_details: "Détails du test"
+    },
+    vendors: {
+      overview: "Fournisseurs",
+      register: "Registre des Fournisseurs"
     }
   },
   editor: {
@@ -1159,10 +1163,11 @@ export default {
   vendors: {
     title: "Fournisseurs",
     register: {
-      title: "Enregistrement des fournisseurs"
+      title: "Inscription du fournisseur",
+      create_new: "Créer un Fournisseur"
     },
     dashboard: {
-      title: "Aperçu des fournisseurs"
+      title: "Aperçu"
     }
   },
   dashboard: {
