@@ -14,28 +14,28 @@ interface LayoutProps {
 export default async function Layout({ children, params }: LayoutProps) {
   const t = await getI18n();
   const session = await auth();
+  const user = session?.user;
+  const orgId = user?.organizationId;
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !orgId) {
     redirect("/");
   }
 
   const riskId = await params;
-  const risk = await getRisk(riskId.riskId, session.user.organizationId);
+  const risk = await getRisk(riskId.riskId, orgId);
 
   if (!risk) {
     redirect("/risk");
   }
 
   return (
-    <div className="max-w-[1200px] space-y-4 m-auto">
+    <div className="max-w-[1200px] m-auto">
       <SecondaryMenu
-        showBackButton
-        backButtonHref="/risk/register"
         items={[
-          { path: `/risk/${riskId.riskId}`, label: t("risk.overview") },
+          { path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
           {
-            path: `/risk/${riskId.riskId}/comments`,
-            label: t("common.comments.title"),
+            path: `/${orgId}/vendors/register`,
+            label: t("vendors.register.title"),
           },
         ]}
       />
