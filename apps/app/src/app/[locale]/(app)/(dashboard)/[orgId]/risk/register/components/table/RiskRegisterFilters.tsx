@@ -1,6 +1,6 @@
 import { Status } from "@/components/status";
 import { type Departments, RiskStatus } from "@bubba/db/types";
-import type { Admin } from "../../../../evidence/[id]/hooks/useOrganizationAdmins";
+import type { Admin } from "../../../../hooks/useOrganizationAdmins";
 import { AssigneeAvatar } from "../../../../evidence/list/components/table/components/AssigneeAvatar";
 
 export const RiskRegisterFilters = ({

@@ -8,7 +8,7 @@ import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
-import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
+import { useOrganizationAdmins } from "../../hooks/useOrganizationAdmins";
 import { columns } from "./components/table/RiskRegisterColumns";
 import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
 import { useRisks } from "./hooks/useRisks";

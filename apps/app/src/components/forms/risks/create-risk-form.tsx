@@ -2,7 +2,7 @@
 
 import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
-import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/evidence/[id]/hooks/useOrganizationAdmins";
+import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
 import { useRisks } from "@/app/[locale]/(app)/(dashboard)/[orgId]/risk/register/hooks/useRisks";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
