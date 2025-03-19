@@ -271,6 +271,10 @@ export default {
 			overview: "Cloud Tests",
 			test_details: "Test Details",
 		},
+		vendors: {
+			overview: "Vendors",
+			register: "Vendor Register",
+		},
 	},
 	auth: {
 		title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
@@ -1090,7 +1094,8 @@ export default {
 	vendors: {
 		title: "Vendors",
 		register: {
-			title: "Vendor Register",
+			title: "Dashboard",
+			create_new: "Create Vendor",
 		},
 		dashboard: {
 			title: "Vendor Overview",
