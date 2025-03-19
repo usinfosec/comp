@@ -10,7 +10,7 @@ import {
 } from "@bubba/ui/accordion";
 import { Button } from "@bubba/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IntegrationsCard } from "./integrations-card";
+import { IntegrationsCard, type LogoType } from "./integrations-card";
 
 // Define a type for the integration object to handle both formats
 type IntegrationType = {
@@ -143,7 +143,7 @@ export function OrganizationIntegration({
 							// Handle different integration formats
 							const integrationProps = {
 								id: integration.id,
-								logo: integration.logo,
+								logo: integration.logo as LogoType,
 								name: integration.name,
 								short_description:
 									"short_description" in integration
