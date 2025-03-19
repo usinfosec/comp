@@ -17,10 +17,12 @@ interface UserTestStats {
   totalTests: number;
   passedTests: number;
   failedTests: number;
+  unsupportedTests: number;
 }
 
 interface TestData {
   status: string;
+  assignedUserId: string | null;
 }
 
 interface UserData {
@@ -31,14 +33,15 @@ interface UserData {
 }
 
 const testStatus = {
-  passed: "bg-[var(--chart-success)]",
+  passed: "bg-[var(--chart-closed)]",
   failed: "bg-[hsl(var(--destructive))]",
+  unsupported: "bg-[hsl(var(--muted-foreground))]",
 };
 
 export async function TestsByAssignee({ organizationId }: Props) {
   const t = await getI18n();
   const userStats = await userData(organizationId);
-
+  console.log(userStats);
   const stats: UserTestStats[] = userStats.map((user) => ({
     user: {
       id: user.id,
@@ -47,10 +50,13 @@ export async function TestsByAssignee({ organizationId }: Props) {
     },
     totalTests: user.OrganizationIntegrationResults.length,
     passedTests: user.OrganizationIntegrationResults.filter(
-      (test) => test.status === "PASSED",
+      (test) => test.status.toUpperCase() === "passed".toUpperCase(),
     ).length,
     failedTests: user.OrganizationIntegrationResults.filter(
-      (test) => test.status === "FAILED",
+      (test) => test.status.toUpperCase() === "failed".toUpperCase(),
+    ).length,
+    unsupportedTests: user.OrganizationIntegrationResults.filter(
+      (test) => test.status.toUpperCase() === "unsupported".toUpperCase(),
     ).length,
   }));
 
@@ -87,6 +93,12 @@ export async function TestsByAssignee({ organizationId }: Props) {
                     {t("tests.dashboard.failed")} ({stat.failedTests})
                   </span>
                 </div>
+                <div className="flex items-center gap-1">
+                  <div className="size-2 bg-[hsl(var(--muted-foreground))]" />
+                  <span>
+                    Unsupported ({stat.unsupportedTests})
+                  </span>
+                </div>
               </div>
             </div>
           ))}
@@ -97,7 +109,6 @@ export async function TestsByAssignee({ organizationId }: Props) {
 }
 
 function TestBarChart({ stat }: { stat: UserTestStats }) {
-
   const data = [
     ...(stat.passedTests > 0
       ? [
@@ -116,6 +127,16 @@ function TestBarChart({ stat }: { stat: UserTestStats }) {
             value: stat.failedTests,
             color: testStatus.failed,
             label: "failed",
+          },
+        ]
+      : []),
+    ...(stat.unsupportedTests > 0
+      ? [
+          {
+            key: "unsupported",
+            value: stat.unsupportedTests,
+            color: testStatus.unsupported,
+            label: "unsupported",
           },
         ]
       : []),
@@ -189,7 +210,7 @@ function TestBarChart({ stat }: { stat: UserTestStats }) {
 
 const userData = unstable_cache(
   async (organizationId: string): Promise<UserData[]> => {
-    // Fetch users in the organization
+    // Fetch users in the organization with their assigned test results
     const users = await db.user.findMany({
       where: {
         organizationId,
@@ -202,14 +223,20 @@ const userData = unstable_cache(
           select: {
             status: true,
           },
+          where: {
+            organizationId,
+            NOT: {
+              assignedUserId: null
+            }
+          },
         },
       },
     });
 
     console.log(users);
 
-    return users;
+    return users as UserData[];
   },
-  ["users-tests-data-cache"],
-  { revalidate: 3600 }, // Cache for 1 hour
+  ["users-tests-data-cache-v3"],
+  { revalidate: 3600 },
 );
