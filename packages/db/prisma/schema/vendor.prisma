@@ -2,10 +2,16 @@ model Vendor {
   id              String                 @id @default(cuid())
   name            String
   description     String
+  category        VendorCategory         @default(other)
+  status          VendorStatus           @default(not_assessed)
+  inherentRisk    VendorInherentRisk     @default(unknown)
+  residualRisk    VendorResidualRisk     @default(unknown)
   createdAt       DateTime               @default(now())
   updatedAt       DateTime               @updatedAt
   organizationId  String
-  organization    Organization           @relation(fields: [organizationId], references: [id])
+  ownerId         String?
+  organization    Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner           User?                  @relation(fields: [ownerId], references: [id])
   contacts        VendorContact[]
   comments        VendorComment[]
   attachments     VendorAttachment[]
@@ -13,12 +19,9 @@ model Vendor {
   taskAttachments VendorTaskAttachment[]
   taskComments    VendorTaskComment[]
   taskAssignments VendorTaskAssignment[]
-  category        VendorCategory         @default(other)
-  status          VendorStatus           @default(not_assessed)
-  inherentRisk    VendorInherentRisk     @default(unknown)
-  residualRisk    VendorResidualRisk     @default(unknown)
 
   @@index([organizationId])
+  @@index([ownerId])
   @@index([category])
   @@index([status])
   @@index([inherentRisk])
@@ -32,8 +35,10 @@ model VendorContact {
   name           String
   email          String
   phone          String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  Vendor         Vendor       @relation(fields: [vendorId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
   @@index([vendorId])
@@ -43,96 +48,120 @@ model VendorComment {
   id             String       @id @default(cuid())
   vendorId       String
   organizationId String
+  ownerId        String
   content        String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  Vendor         Vendor       @relation(fields: [vendorId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
+  @@index([ownerId])
   @@index([vendorId])
 }
 
 model VendorAttachment {
-  id             String       @id @default(cuid())
+  id             String             @id @default(cuid())
   vendorId       String
   organizationId String
-  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-  Organization   Organization @relation(fields: [organizationId], references: [id])
+  name           String
+  fileUrl        String
+  fileKey        String?
+  type           VendorAttachmentType @default(file)
+  uploadedAt     DateTime           @default(now())
+  ownerId        String?
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?              @relation(fields: [ownerId], references: [id])
+  vendor         Vendor             @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
+  @@index([ownerId])
   @@index([vendorId])
 }
 
 model VendorTask {
   id             String       @id @default(cuid())
+  title          String
+  description    String
+  status         VendorTaskStatus @default(open)
+  dueDate        DateTime?
+  notifiedAt     DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
   vendorId       String
+  ownerId        String?
   organizationId String
-  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?        @relation(fields: [ownerId], references: [id])
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  assignments    VendorTaskAssignment[]
+  attachments    VendorTaskAttachment[]
+  comments       VendorTaskComment[]
 
-  @@index([organizationId])
   @@index([vendorId])
+  @@index([ownerId])
+  @@index([organizationId])
 }
 
 model VendorTaskAttachment {
   id             String       @id @default(cuid())
+  taskId         String
   vendorId       String
+  name           String
+  fileUrl        String
+  fileKey        String?
+  type           VendorAttachmentType @default(file)
+  uploadedAt     DateTime     @default(now())
+  ownerId        String?
   organizationId String
-  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?        @relation(fields: [ownerId], references: [id])
+  task           VendorTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
-  @@index([organizationId])
+  @@index([taskId])
   @@index([vendorId])
+  @@index([organizationId])
+  @@index([ownerId])
 }
 
 model VendorTaskComment {
   id             String       @id @default(cuid())
+  taskId         String
   vendorId       String
+  ownerId        String
   organizationId String
-  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-  Organization   Organization @relation(fields: [organizationId], references: [id])
+  content        String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  task           VendorTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
-  @@index([organizationId])
+  @@index([taskId])
   @@index([vendorId])
+  @@index([ownerId])
+  @@index([organizationId])
 }
 
 model VendorTaskAssignment {
   id             String       @id @default(cuid())
+  assignedAt     DateTime     @default(now())
+  taskId         String
   vendorId       String
+  employeeId     String
   organizationId String
-  Vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  employee       Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  task           VendorTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
-  @@index([organizationId])
+  @@unique([taskId, employeeId])
+  @@index([taskId])
   @@index([vendorId])
-}
-
-enum VendorCategory {
-  cloud
-  infrastructure
-  software_as_a_service
-  finance
-  marketing
-  sales
-  hr
-  other
-}
-
-enum VendorStatus {
-  not_assessed
-  in_progress
-  assessed
-}
-
-enum VendorInherentRisk {
-  low
-  medium
-  high
-  unknown
-}
-
-enum VendorResidualRisk {
-  low
-  medium
-  high
-  unknown
+  @@index([employeeId])
+  @@index([organizationId])
 }
