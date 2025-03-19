@@ -1123,7 +1123,8 @@ export default {
       low: "Baixo",
       medium: "Médio",
       high: "Alto",
-      critical: "Crítico"
+      critical: "Crítico",
+      info: "Informação"
     }
   },
   vendors: {

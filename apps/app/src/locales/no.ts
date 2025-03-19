@@ -1152,7 +1152,8 @@ export default {
       low: "Lav",
       medium: "Moderat",
       high: "Høy",
-      critical: "Kritisk"
+      critical: "Kritisk",
+      info: "Info"
     }
   },
   vendors: {
