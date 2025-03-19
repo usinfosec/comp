@@ -33,6 +33,7 @@ export default async function TestsOverview({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TestsSeverity
           totalTests={overview.totalTests}
+          infoSeverityTests={overview.infoSeverityTests}
           lowSeverityTests={overview.lowSeverityTests}
           mediumSeverityTests={overview.mediumSeverityTests}
           highSeverityTests={overview.highSeverityTests}
@@ -49,6 +50,7 @@ const getTestsOverview = unstable_cache(
     return await db.$transaction(async (tx) => {
       const [
         totalTests,
+        infoSeverityTests,
         lowSeverityTests,
         mediumSeverityTests,
         highSeverityTests,
@@ -57,6 +59,12 @@ const getTestsOverview = unstable_cache(
         tx.organizationIntegrationResults.count({
           where: {
             organizationId,
+          },
+        }),
+        tx.organizationIntegrationResults.count({
+          where: {
+            organizationId,
+            label: "INFO",
           },
         }),
         tx.organizationIntegrationResults.count({
@@ -87,6 +95,7 @@ const getTestsOverview = unstable_cache(
 
       return {
         totalTests,
+        infoSeverityTests,
         lowSeverityTests,
         mediumSeverityTests,
         highSeverityTests,

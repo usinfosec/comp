@@ -151,7 +151,7 @@ async function fetchComplianceData(
 							Status: controlDetail.properties.state,
 						},
 						Severity: {
-							Label: controlDetail.properties.state,
+							Label: "INFO",
 						},
 						Description: controlDetail.properties.description,
 						Remediation: {

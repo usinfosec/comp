@@ -7,6 +7,7 @@ import { cn } from "@bubba/ui/cn";
 
 interface Props {
   totalTests: number;
+  infoSeverityTests: number;
   lowSeverityTests: number;
   mediumSeverityTests: number;
   highSeverityTests: number;
@@ -15,6 +16,7 @@ interface Props {
 
 export function TestsSeverity({
   totalTests,
+  infoSeverityTests,
   lowSeverityTests,
   mediumSeverityTests,
   highSeverityTests,
@@ -30,6 +32,12 @@ export function TestsSeverity({
   };
 
   const data = [
+    {
+      name: t("tests.severity.info"),
+      value: infoSeverityTests,
+      color: "var(--chart-closed)",
+      colorClass: "bg-[var(--chart-closed)]",
+    },
     {
       name: t("tests.severity.low"),
       value: severityCounts.low,
