@@ -68,6 +68,12 @@ model User {
   OrganizationPolicy             OrganizationPolicy[]
   OrganizationIntegrationResults OrganizationIntegrationResults[]
   IntegrationResultsComments     OrganizationIntegrationResultsComments[]
+  Vendor                         Vendor[]
+  VendorComment                  VendorComment[]
+  VendorAttachment               VendorAttachment[]
+  VendorTask                     VendorTask[]
+  VendorTaskAttachment           VendorTaskAttachment[]
+  VendorTaskComment              VendorTaskComment[]
 
   @@index([email])
   @@index([organizationId])
@@ -309,3 +315,65 @@ enum PolicyStatus {
   archived
   needs_review
 }
+
+enum RiskLikelihood {
+  very_low
+  low
+  medium
+  high
+  very_high
+}
+
+enum RiskImpact {
+  very_low
+  low
+  medium
+  high
+  very_high
+}
+
+enum VendorCategory {
+  cloud
+  infrastructure
+  software_as_a_service
+  finance
+  marketing
+  sales
+  hr
+  other
+}
+
+enum VendorStatus {
+  not_assessed
+  in_progress
+  assessed
+}
+
+enum VendorInherentRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorResidualRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorTaskStatus {
+  open
+  in_progress
+  completed
+  cancelled
+}
+
+enum VendorAttachmentType {
+  file
+  image
+  document
+  other
+}
+
