@@ -13,7 +13,7 @@ interface AzureEncryptedCredentials {
 }
 
 interface ComplianceControl {
-  Id: string;
+	Id: string;
 	name: string;
 	standard: string;
 	Title: string;
@@ -25,13 +25,13 @@ interface ComplianceControl {
 	Severity: {
 		Label: string;
 	};
-  Remediation: {
-    Recommendation: {
-      Text: string;
-      Url: string;
-    };
-  };
-  Description: string;
+	Remediation: {
+		Recommendation: {
+			Text: string;
+			Url: string;
+		};
+	};
+	Description: string;
 }
 
 interface ComplianceStandard {
@@ -153,25 +153,25 @@ async function fetchComplianceData(
 				const controlDetail = detailsData;
 				if (controlDetail?.properties) {
 					controlDetails.push({
-            Id: detailsUrl,
+						Id: detailsUrl,
 						name: control,
 						standard: standard,
-            Title: controlDetail.properties.description,
+						Title: controlDetail.properties.description,
 						description: controlDetail.properties.description,
 						state: controlDetail.properties.state,
-            Compliance: {
-              Status: controlDetail.properties.state,
-            },
-            Severity: {
-              Label: controlDetail.properties.state,
-            },
-            Description: controlDetail.properties.description,
-            Remediation: {
-              Recommendation: {
-                Text: controlDetail.properties.description,
-                Url: '',
-              },
-            },
+						Compliance: {
+							Status: controlDetail.properties.state,
+						},
+						Severity: {
+							Label: controlDetail.properties.state,
+						},
+						Description: controlDetail.properties.description,
+						Remediation: {
+							Recommendation: {
+								Text: controlDetail.properties.description,
+								Url: "",
+							},
+						},
 					});
 				}
 			}
