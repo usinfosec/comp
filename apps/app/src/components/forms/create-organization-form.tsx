@@ -197,7 +197,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="frameworks"
@@ -207,7 +206,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     {t("frameworks.overview.grid.title")}
                   </FormLabel>
                   <FormControl>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 select-none">
                       {frameworks.map((framework) => (
                         <div
                           key={framework.id}
@@ -215,6 +214,12 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                             "relative flex flex-col p-4 border cursor-pointer transition-colors",
                             field.value.includes(framework.id) && "border-primary bg-primary/5"
                           )}
+                          onClick={() => {
+                            const newValue = !field.value.includes(framework.id)
+                              ? [...field.value, framework.id]
+                              : field.value.filter((id) => id !== framework.id);
+                            field.onChange(newValue);
+                          }}
                         >
                           <div className="flex items-start justify-between">
                             <div>
@@ -226,16 +231,18 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                                 {`${t("frameworks.overview.grid.version")}: ${framework.version}`}
                               </p>
                             </div>
-                            <Checkbox
-                              checked={field.value.includes(framework.id)}
-                              onCheckedChange={(checked) => {
-                                const newValue = checked
-                                  ? [...field.value, framework.id]
-                                  : field.value.filter((id) => id !== framework.id);
-                                field.onChange(newValue);
-                              }}
-                              className="mt-1"
-                            />
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <Checkbox
+                                checked={field.value.includes(framework.id)}
+                                className="mt-1"
+                                onCheckedChange={(checked) => {
+                                  const newValue = checked
+                                    ? [...field.value, framework.id]
+                                    : field.value.filter((id) => id !== framework.id);
+                                  field.onChange(newValue);
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       ))}
