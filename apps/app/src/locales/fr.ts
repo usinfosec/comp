@@ -592,7 +592,7 @@ export default {
       title: "Facturation"
     },
     api_keys: {
-      title: "Clés API",
+      title: "API",
       description: "Gérez les clés API pour un accès programmatique aux données de votre organisation.",
       list_title: "Clés API",
       list_description: "Les clés API permettent un accès sécurisé aux données de votre organisation via notre API.",
@@ -659,7 +659,8 @@ export default {
           admin: "Administrateur",
           member: "Membre",
           viewer: "Spectateur"
-        }
+        },
+        description: "Gérez les membres de votre équipe et leurs rôles"
       },
       invitations: {
         title: "Invitations en attente",

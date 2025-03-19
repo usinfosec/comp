@@ -169,7 +169,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
             </div>
           )}
         </CardContent>
-        <CardFooter className="text-sm text-muted-foreground">
+        <CardFooter>
           {t("settings.api_keys.security_note")}
         </CardFooter>
 

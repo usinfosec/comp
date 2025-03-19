@@ -462,7 +462,7 @@ files:
     settings.general.delete_confirm_tip: 97e957e2354c8329aa437ed16be68eef
     settings.general.cancel_button: ea4788705e6873b424c65e91c2846b19
     settings.members.title: ef53538ae41a651c7f72ab6cb1135d8c
-    settings.api_keys.title: b4717f6ab3c2357c13c0c2cd32dfc4ca
+    settings.api_keys.title: db974238714ca8de634a7ce1d083a14f
     settings.api_keys.description: a73bc7101920a4a2a821a6640ae95fc5
     settings.api_keys.list_title: b4717f6ab3c2357c13c0c2cd32dfc4ca
     settings.api_keys.list_description: 43aeedd6a4d60ad7a7c81cd81386e63e
@@ -510,6 +510,7 @@ files:
     settings.team.tabs.members: 8196446d7293bfeb288d7c21e36a1886
     settings.team.tabs.invite: d7c13e986bffeec28fdbdc413cd28d5d
     settings.team.members.title: 8196446d7293bfeb288d7c21e36a1886
+    settings.team.members.description: ed2826e6c2c3ba82bea41ab92e9368e2
     settings.team.members.empty.no_organization.title: ec3c189e406c3c65aad4ee8e0289a60f
     settings.team.members.empty.no_organization.description: f6386c26f8a82a7e5a44427cf30f83c8
     settings.team.members.empty.no_members.title: c30bdfa006974dd845d118ea9cf3da63
