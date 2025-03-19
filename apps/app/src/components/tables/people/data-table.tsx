@@ -11,7 +11,7 @@ import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
@@ -46,6 +46,7 @@ interface DataTableProps {
 
 function getColumns(): ColumnDef<PersonType>[] {
 	const t = useI18n();
+	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
@@ -63,7 +64,7 @@ function getColumns(): ColumnDef<PersonType>[] {
 				return (
 					<div className="flex flex-col space-y-0.5">
 						<Button variant="link" className="p-0 h-auto justify-start" asChild>
-							<Link href={`/people/${row.original.id}`}>
+							<Link href={`/${orgId}/people/${row.original.id}`}>
 								<span className="truncate">{name}</span>
 							</Link>
 						</Button>
@@ -105,7 +106,7 @@ function getColumns(): ColumnDef<PersonType>[] {
 			cell: ({ row }) => {
 				const department = row.original.department;
 				return (
-					<div className="flex items-center hidden md:flex">
+					<div className="flex items-center md:flex">
 						<Badge variant="marketing">{department}</Badge>
 					</div>
 				);

@@ -22,8 +22,8 @@ export const revalidateUpload = authActionClient
       throw new Error("Invalid user input");
     }
 
-    revalidatePath(`/risk/${riskId}`);
-    revalidatePath(`/risk/${riskId}/tasks/${taskId}`);
+    revalidatePath(`/${user.organizationId}/risk/${riskId}`);
+    revalidatePath(`/${user.organizationId}/risk/${riskId}/tasks/${taskId}`);
     revalidateTag("risk-cache");
 
     return {

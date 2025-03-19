@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/policies/all/(overview)/hooks/usePolicies";
-import { useTests } from "@/app/[locale]/(app)/(dashboard)/tests/all/hooks/useTests";
+import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/[orgId]/policies/all/(overview)/hooks/usePolicies";
+import { useTests } from "@/app/[locale]/(app)/(dashboard)/[orgId]/tests/all/hooks/useTests";
 import type {
   Framework,
   OrganizationControl,
   OrganizationFramework,
 } from "@bubba/db/types";
-import { useOrganizationEvidenceTasks } from "@/app/[locale]/(app)/(dashboard)/evidence/hooks/useEvidenceTasks";
+import { useOrganizationEvidenceTasks } from "@/app/[locale]/(app)/(dashboard)/[orgId]/evidence/hooks/useEvidenceTasks";
 import { usePoliciesByFramework } from "./use-policies-by-framework";
 
 interface UseComplianceScoresProps {

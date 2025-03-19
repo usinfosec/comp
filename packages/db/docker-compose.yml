@@ -17,14 +17,16 @@ services:
       retries: 5
 
 volumes:
-  postgres_data: 
-
+  postgres_data:
 ########################################################
 # # How to run the database
 ########################################################
 
 # # Start the database
 # docker-compose up -d
+
+# # If the above command doesn't work, use this instead:
+# docker compose up -d
 
 # # Run migrations
 # bunx prisma migrate dev

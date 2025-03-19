@@ -3,7 +3,7 @@
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Users } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { Plus } from "lucide-react";
 import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
@@ -15,6 +15,7 @@ interface Props {
 export function NoResults({ hasFilters }: Props) {
 	const router = useRouter();
 	const t = useI18n();
+	const { orgId } = useParams<{ orgId: string }>();
 
 	return (
 		<div className="mt-24 flex items-center justify-center">
@@ -32,7 +33,10 @@ export function NoResults({ hasFilters }: Props) {
 				</div>
 
 				{hasFilters && (
-					<Button variant="outline" onClick={() => router.push("/people")}>
+					<Button
+						variant="outline"
+						onClick={() => router.push(`/${orgId}/people`)}
+					>
 						{t("people.actions.clear")}
 					</Button>
 				)}
