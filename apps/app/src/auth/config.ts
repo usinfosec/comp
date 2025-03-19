@@ -45,6 +45,10 @@ export const authConfig: NextAuthConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
+    },
     session: ({ session, user }) => ({
       ...session,
       user: {
@@ -56,7 +60,7 @@ export const authConfig: NextAuthConfig = {
     }),
   },
   events: {
-    signIn: async ({ user, isNewUser }) => {
+    signIn: async ({ user }) => {
       if (user?.id) {
         await db.user.update({
           where: {
@@ -67,16 +71,6 @@ export const authConfig: NextAuthConfig = {
             organizationId: user.organizationId,
           },
         });
-      }
-
-      if (isNewUser && user.email && user.id) {
-        if (!user.organizationId) {
-          await createOrganizationAndConnectUser({
-            userId: user.id,
-            normalizedEmail: user.email,
-            orgName: "My Organization",
-          });
-        }
       }
     },
   },
