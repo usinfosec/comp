@@ -162,6 +162,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.fullName.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -182,6 +183,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.name.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -202,6 +204,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.website.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
