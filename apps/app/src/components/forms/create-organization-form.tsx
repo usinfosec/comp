@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -27,9 +27,12 @@ import Link from "next/link";
 import { Checkbox } from "@bubba/ui/checkbox";
 import { cn } from "@bubba/ui/cn";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
+import { useRouter } from "next/navigation";
+import { LogoSpinner } from "../logo-spinner";
 
 function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAccessToken: string }) {
   const t = useI18n();
+  const router = useRouter()
 
   const { run, error } = useRealtimeRun(runId, {
     accessToken: publicAccessToken,
@@ -41,31 +44,23 @@ function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAcc
     },
   });
 
+  useEffect(() => {
+    if (run?.status === "COMPLETED") {
+      router.push("/");
+    }
+  }, [run, router]);
+
   return (
     <div className="flex flex-col justify-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
       {run?.status !== "FAILED" && run?.status !== "COMPLETED" && (
         <div className="flex flex-col gap-2 justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto items-center" />
+          <LogoSpinner />
           <h2 className="text-xl font-semibold text-center tracking-tight">
             {t("onboarding.trigger.title")}
           </h2>
           <p className="text-center text-sm text-muted-foreground">
             {t("onboarding.trigger.creating")}
           </p>
-        </div>
-      )}
-
-      {run?.status === "COMPLETED" && (
-        <div className="flex flex-col gap-2 space-y-4 justify-center">
-          <h2 className="text-xl font-semibold text-center tracking-tight">
-            {t("onboarding.trigger.completed")}
-          </h2>
-          <div className="flex justify-center animate-in fade-in slide-in-from-bottom-5 duration-300">
-            <Button asChild variant="action" className="gap-2 items-center">
-              <Link href="/">{t("onboarding.trigger.continue")}</Link>
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
       )}
     </div>
@@ -100,18 +95,13 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
   });
 
   const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-    await createOrganization.execute(data);
+    createOrganization.execute(data);
   };
 
   if (runId && publicAccessToken) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
         <div className="relative w-full max-w-[440px] border bg-card p-8 shadow-lg">
-          <div className="mb-8 flex justify-between">
-            <Link href="/">
-              <Icons.Logo />
-            </Link>
-          </div>
           <RealtimeStatus runId={runId} publicAccessToken={publicAccessToken} />
         </div>
       </div>
@@ -137,7 +127,11 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+            suppressHydrationWarning
+          >
             <FormField
               control={form.control}
               name="fullName"
@@ -150,6 +144,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.fullName.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -170,6 +165,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.name.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -190,6 +186,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.website.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -197,7 +194,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="frameworks"
@@ -207,7 +203,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     {t("frameworks.overview.grid.title")}
                   </FormLabel>
                   <FormControl>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 select-none">
                       {frameworks.map((framework) => (
                         <div
                           key={framework.id}
@@ -215,6 +211,12 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                             "relative flex flex-col p-4 border cursor-pointer transition-colors",
                             field.value.includes(framework.id) && "border-primary bg-primary/5"
                           )}
+                          onClick={() => {
+                            const newValue = !field.value.includes(framework.id)
+                              ? [...field.value, framework.id]
+                              : field.value.filter((id) => id !== framework.id);
+                            field.onChange(newValue);
+                          }}
                         >
                           <div className="flex items-start justify-between">
                             <div>
@@ -226,16 +228,18 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                                 {`${t("frameworks.overview.grid.version")}: ${framework.version}`}
                               </p>
                             </div>
-                            <Checkbox
-                              checked={field.value.includes(framework.id)}
-                              onCheckedChange={(checked) => {
-                                const newValue = checked
-                                  ? [...field.value, framework.id]
-                                  : field.value.filter((id) => id !== framework.id);
-                                field.onChange(newValue);
-                              }}
-                              className="mt-1"
-                            />
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <Checkbox
+                                checked={field.value.includes(framework.id)}
+                                className="mt-1"
+                                onCheckedChange={(checked) => {
+                                  const newValue = checked
+                                    ? [...field.value, framework.id]
+                                    : field.value.filter((id) => id !== framework.id);
+                                  field.onChange(newValue);
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       ))}
