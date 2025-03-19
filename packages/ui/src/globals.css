@@ -25,14 +25,11 @@
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
 
-    /* Keeping the success/warning/chart colors as they were */
-    --success: 142 76% 36%;
-    --warning: 45 89% 53%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-positive: 142 76% 45%;    /* Green: use for published, or reviewed = the items are in a good state */
+    --chart-neutral: 45 89% 53%;     /* Yellow: use for draft(s) and actions that need reviewing soon */
+    --chart-warning: 220 14% 53%;    /* Gray: deleted, archived - states that have been closed */
+    --chart-destructive: 0 85% 60%;      /* Red: use for needs review, something that needs action immediately */
+    --chart-other: 196 80% 45%;    /* Blue: use for other states */
 
     --chart-closed: #00DC73;
     --chart-pending: #0BA5E9;
@@ -73,11 +70,11 @@
     --input: 225 2% 36%;
     --ring: 151 100% 43%;
 
-    --chart-1: #2662d9;
-    --chart-2: #00DC73;
-    --chart-3: #FFC007;
-    --chart-4: #af57db;
-    --chart-5: #e23670;
+    --chart-positive: 142 76% 45%;    /* Green: use for published, or reviewed = the items are in a good state */
+    --chart-neutral: 45 89% 53%;     /* Yellow: use for draft(s) and actions that need reviewing soon */
+    --chart-warning: 220 14% 53%;    /* Gray: deleted, archived - states that have been closed */
+    --chart-destructive: 0 85% 60%;      /* Red: use for needs review, something that needs action immediately */
+    --chart-other: 196 80% 45%;    /* Blue: use for other states */
 
     /* Keeping the novel-highlight colors as they were */
     --novel-highlight-default: #000000;
