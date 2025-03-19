@@ -8,39 +8,49 @@ import { Suspense } from "react";
 import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
 import { NotificationCenter } from "./notification-center";
+import { OrganizationSwitcher } from "./organization-switcher";
+import { getOrganizations } from "@/data/getOrganizations";
 
 export async function Header() {
-  const t = await getI18n();
+	const t = await getI18n();
+	const { organizations, currentOrganization } = await getOrganizations();
 
-  return (
-    <header className="-ml-4 -mr-4 md:m-0 z-10 px-4 md:px-0 md:border-b-[1px] flex justify-between pt-4 pb-2 md:pb-4 items-center todesktop:sticky todesktop:top-0 todesktop:bg-background todesktop:border-none sticky md:static top-0 backdrop-filter backdrop-blur-xl md:backdrop-filter md:backdrop-blur-none bg-opacity-70">
-      <MobileMenu />
+	return (
+		<header className="-ml-4 -mr-4 md:m-0 z-10 px-4 md:px-0 md:border-b-[1px] flex justify-between pt-4 pb-2 md:pb-4 items-center todesktop:sticky todesktop:top-0 todesktop:bg-background todesktop:border-none sticky md:static top-0 backdrop-filter backdrop-blur-xl md:backdrop-filter md:backdrop-blur-none bg-opacity-70">
+			<MobileMenu />
 
-      <div className="flex space-x-2 ml-auto">
-        <div className="hidden md:flex gap-2">
-          <FeedbackForm />
-          <Button
-            asChild
-            variant="outline"
-            className="rounded-full font-normal h-[32px] p-0 px-3 text-xs text-muted-foreground gap-2 items-center"
-          >
-            <Link
-              href="https://discord.gg/compai"
-              target="_blank"
-              className="flex gap-2"
-            >
-              <Icons.Discord className="h-4 w-4" />
-              {t("header.discord.button")}
-            </Link>
-          </Button>
-        </div>
+			<Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
+				<OrganizationSwitcher
+					organizations={organizations}
+					currentOrganization={currentOrganization}
+				/>
+			</Suspense>
 
-        <NotificationCenter />
+			<div className="flex space-x-2 ml-auto">
+				<div className="hidden md:flex gap-2">
+					<FeedbackForm />
+					<Button
+						asChild
+						variant="outline"
+						className="rounded-full font-normal h-[32px] p-0 px-3 text-xs text-muted-foreground gap-2 items-center"
+					>
+						<Link
+							href="https://discord.gg/compai"
+							target="_blank"
+							className="flex gap-2"
+						>
+							<Icons.Discord className="h-4 w-4" />
+							{t("header.discord.button")}
+						</Link>
+					</Button>
+				</div>
 
-        <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
-          <UserMenu />
-        </Suspense>
-      </div>
-    </header>
-  );
+				<NotificationCenter />
+
+				<Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
+					<UserMenu />
+				</Suspense>
+			</div>
+		</header>
+	);
 }
