@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -27,9 +27,11 @@ import Link from "next/link";
 import { Checkbox } from "@bubba/ui/checkbox";
 import { cn } from "@bubba/ui/cn";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
+import { useRouter } from "next/navigation";
 
 function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAccessToken: string }) {
   const t = useI18n();
+  const router = useRouter()
 
   const { run, error } = useRealtimeRun(runId, {
     accessToken: publicAccessToken,
@@ -40,6 +42,12 @@ function RealtimeStatus({ runId, publicAccessToken }: { runId: string; publicAcc
       }
     },
   });
+
+  useEffect(() => {
+    if (run?.status === "COMPLETED") {
+      router.push("/");
+    }
+  }, [run, router]);
 
   return (
     <div className="flex flex-col justify-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -100,7 +108,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
   });
 
   const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-    await createOrganization.execute(data);
+    createOrganization.execute(data);
   };
 
   if (runId && publicAccessToken) {
@@ -137,7 +145,11 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form 
+            onSubmit={form.handleSubmit(onSubmit)} 
+            className="space-y-6"
+            suppressHydrationWarning
+          >
             <FormField
               control={form.control}
               name="fullName"
@@ -150,6 +162,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.fullName.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -170,6 +183,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.name.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
@@ -190,6 +204,7 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                     <Input
                       autoCorrect="off"
                       placeholder={t("onboarding.fields.website.placeholder")}
+                      suppressHydrationWarning
                       {...field}
                     />
                   </FormControl>
