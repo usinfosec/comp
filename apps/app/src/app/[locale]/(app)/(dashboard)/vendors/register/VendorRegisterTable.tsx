@@ -8,7 +8,7 @@ import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
-import { CreateRiskSheet } from "../components/create-risk-sheet";
+import { CreateVendorSheet } from "../components/create-vendor-sheet";
 import { columns } from "./components/table/RiskRegisterColumns";
 
 type VendorRegisterTableRow = Vendor & { owner: User | null };
@@ -17,7 +17,7 @@ export const VendorRegisterTable = ({ data }: { data: VendorRegisterTableRow[] }
 	const t = useI18n();
 	// State
 	const [search, setSearch] = useState("");
-	const [open, setOpen] = useQueryState("create-vendor-sheet");
+	const [open, setOpen] = useQueryState("createVendorSheet");
 
 	const [page, setPage] = useQueryState("page", {
 		defaultValue: 1,
@@ -113,7 +113,7 @@ export const VendorRegisterTable = ({ data }: { data: VendorRegisterTableRow[] }
 					icon: <Plus className="h-4 w-4 mr-2" />,
 				}}
 			/>
-			<CreateRiskSheet />
+			<CreateVendorSheet />
 		</>
 	);
 };

@@ -10,10 +10,10 @@ import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { CreateRisk } from "./create-risk-form";
 
-export function CreateRiskSheet() {
+export function CreateVendorSheet() {
   const t = useI18n();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [open, setOpen] = useQueryState("create-risk-sheet");
+  const [open, setOpen] = useQueryState("createVendorSheet");
   const isOpen = Boolean(open);
 
   const handleOpenChange = (open: boolean) => {
