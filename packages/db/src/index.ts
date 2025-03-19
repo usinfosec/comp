@@ -1,15 +1,6 @@
-import { neonConfig } from "@neondatabase/serverless";
-import { Pool as NeonPool } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
-
-// Ensure this only runs in a Node.js environment
-if (typeof window === "undefined") {
-  const ws = require("ws");
-  neonConfig.webSocketConstructor = ws;
-}
-
-neonConfig.useSecureWebSocket = true;
+import { Pool as PgPool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 const createPrismaClient = () => {
   const connectionString = process.env.DATABASE_URL;
@@ -18,22 +9,8 @@ const createPrismaClient = () => {
     throw new Error("DATABASE_URL is not defined");
   }
 
-  // Use Neon for serverless environments
-  if (connectionString.includes("neon.tech")) {
-    const pool = new NeonPool({ connectionString });
-    const adapter = new PrismaNeon(pool);
-
-    return new PrismaClient({
-      adapter,
-      log: ["error", "warn"],
-    });
-  }
-
   // Only import pg in a Node.js environment
   if (typeof window === "undefined") {
-    const { Pool: PgPool } = require("pg");
-    const { PrismaPg } = require("@prisma/adapter-pg");
-
     const pool = new PgPool({ connectionString });
     const adapter = new PrismaPg(pool);
 
