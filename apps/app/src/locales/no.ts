@@ -984,6 +984,10 @@ export default {
     tests: {
       overview: "Skytester",
       test_details: "Testdetaljer"
+    },
+    vendors: {
+      overview: "Leverandører",
+      register: "Leverandørregister"
     }
   },
   editor: {
@@ -1159,7 +1163,8 @@ export default {
   vendors: {
     title: "Leverandører",
     register: {
-      title: "Leverandørregister"
+      title: "Dashbord",
+      create_new: "Opprett leverandør"
     },
     dashboard: {
       title: "Oversikt over leverandører"
