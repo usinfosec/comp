@@ -7,34 +7,25 @@ import type {
 	GetFindingsCommandInput,
 	GetFindingsCommandOutput,
 } from "@aws-sdk/client-securityhub";
-import { decrypt } from "@bubba/app/src/lib/encryption";
-import type { EncryptedData } from "@bubba/app/src/lib/encryption";
 
-interface AWSEncryptedCredentials {
-	region: EncryptedData;
-	access_key_id: EncryptedData;
-	secret_access_key: EncryptedData;
+interface AWSCredentials {
+	region: string;
+	access_key_id: string;
+	secret_access_key: string;
 }
 
 /**
  * Fetches security findings from AWS Security Hub
  * @returns Promise containing an array of findings
  */
-async function fetch(
-	credentials: AWSEncryptedCredentials
-): Promise<any[]> {
+async function fetch(credentials: AWSCredentials): Promise<any[]> {
 	try {
-		// Decrypt credentials
-		const decryptedRegion = await decrypt(credentials.region);
-		const decryptedAccessKeyId = await decrypt(credentials.access_key_id);
-		const decryptedSecretAccessKey = await decrypt(credentials.secret_access_key);
-
 		// 1. Configure the SecurityHub client with AWS credentials
 		const config: SecurityHubClientConfig = {
-			region: decryptedRegion,
+			region: credentials.region,
 			credentials: {
-				accessKeyId: decryptedAccessKeyId,
-				secretAccessKey: decryptedSecretAccessKey,
+				accessKeyId: credentials.access_key_id,
+				secretAccessKey: credentials.secret_access_key,
 			},
 		};
 		const securityHubClient = new SecurityHubClient(config);
@@ -80,5 +71,6 @@ async function fetch(
 	}
 }
 
-// Export the function for use in other modules
+// Export the function and types for use in other modules
 export { fetch };
+export type { AWSCredentials };

@@ -1,31 +1,8 @@
 import { db } from "@bubba/db";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
-import { integrations } from "@bubba/integrations";
-
-// Create a map of integration handlers with proper typing
-type IntegrationHandler = {
-	id: string;
-	fetch: (credentials: any) => Promise<any[]>;
-};
-
-// Create a map of integration handlers
-const integrationHandlers = new Map<string, IntegrationHandler>();
-
-// Find and add integrations to the map if they exist
-const aws = integrations.find((integration) => integration.id === "aws");
-const gcp = integrations.find((integration) => integration.id === "gcp");
-const azure = integrations.find((integration) => integration.id === "azure");
-
-if (aws && "fetch" in aws) {
-	integrationHandlers.set("aws", aws as unknown as IntegrationHandler);
-}
-if (gcp && "fetch" in gcp) {
-	integrationHandlers.set("gcp", gcp as unknown as IntegrationHandler);
-}
-if (azure && "fetch" in azure) {
-	integrationHandlers.set("azure", azure as unknown as IntegrationHandler);
-}
+import { getIntegrationHandler, type DecryptFunction } from "@bubba/integrations";
+import { decrypt } from "@bubba/app/src/lib/encryption";
 
 export const sendIntegrationResults = schemaTask({
   id: "send-integration-results",
@@ -50,25 +27,26 @@ export const sendIntegrationResults = schemaTask({
       // Access the integration_id to determine which integration to run
       const integrationId = integration.integration_id;
 
-      // Extract user settings which may contain necessary credentials
-      const userSettings = integration.user_settings;
-
-      const integrationHandler = integrationHandlers.get(integrationId);
+      // Get the integration handler with proper typing
+      const integrationHandler = getIntegrationHandler(integrationId);
 
       if (!integrationHandler) {
         logger.error(`Integration handler for ${integrationId} not found`);
         return { success: false, error: "Integration handler not found" };
       }
-      const { region, access_key_id, secret_access_key } =
-      integration.user_settings as unknown as {
-        region: any;
-        access_key_id: any;
-        secret_access_key: any;
-      };
 
-      const results = await integrationHandler.fetch(
-        { region, access_key_id, secret_access_key }
+      // Extract user settings which may contain necessary credentials
+      const userSettings = integration.user_settings as unknown as Record<string, unknown>;
+      
+      // Process credentials using the integration handler
+      const typedCredentials = await integrationHandler.processCredentials(
+        userSettings,
+        // Cast decrypt to match the expected DecryptFunction type
+        (decrypt as unknown) as DecryptFunction
       );
+      
+      // Fetch results using properly typed credentials
+      const results = await integrationHandler.fetch(typedCredentials);
 
       // Store the integration results using model name that matches the database
       for (const result of results) {
@@ -83,17 +61,43 @@ export const sendIntegrationResults = schemaTask({
           continue;
         }
 
-        await db.organizationIntegrationResults.create({
-          data: {
-            title: result?.Title,
-            status: result?.Compliance?.Status || "unknown",
-            label: result?.Severity?.Label || "INFO",
-            resultDetails: result || { error: "No result returned" },
-            organizationIntegrationId: existingIntegration.id,
-            organizationId: integration.organization.id,
-            // assignedUserId is now optional, so we don't need to provide it
-          },
-        });
+        // Check if a result with the same finding ID already exists
+        // Assuming all integrations have an Id field in their results
+        const existingResult =
+          await db.organizationIntegrationResults.findFirst({
+            where: {
+              resultDetails: {
+                path: ["Id"],
+                equals: result?.Id,
+              },
+              organizationIntegrationId: existingIntegration.id,
+            },
+          });
+
+					if (existingResult) {
+						// Update the existing result instead of creating a new one
+						await db.organizationIntegrationResults.update({
+							where: { id: existingResult.id },
+							data: {
+								status: result?.Compliance?.Status || "unknown",
+								label: result?.Severity?.Label || "INFO",
+								resultDetails: result || { error: "No result returned" },
+							},
+						});
+						continue;
+					}
+          
+					await db.organizationIntegrationResults.create({
+						data: {
+							title: result?.Title,
+							status: result?.Compliance?.Status || "unknown",
+							label: result?.Severity?.Label || "INFO",
+							resultDetails: result || { error: "No result returned" },
+							organizationIntegrationId: existingIntegration.id,
+							organizationId: integration.organization.id,
+							// assignedUserId is now optional, so we don't need to provide it
+						},
+					});
       }
 
       logger.info(`Integration run completed for ${integration.name}`);

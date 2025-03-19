@@ -1,33 +1,10 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { revalidatePath } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
-import { integrations } from "@bubba/integrations";
-
-// Create a map of integration handlers with proper typing
-type IntegrationHandler = {
-	id: string;
-	fetch: (credentials: any) => Promise<any[]>;
-};
-
-// Create a map of integration handlers
-const integrationHandlers = new Map<string, IntegrationHandler>();
-
-// Find and add integrations to the map if they exist
-const aws = integrations.find((integration) => integration.id === "aws");
-const gcp = integrations.find((integration) => integration.id === "gcp");
-const azure = integrations.find((integration) => integration.id === "azure");
-
-if (aws && "fetch" in aws) {
-	integrationHandlers.set("aws", aws as unknown as IntegrationHandler);
-}
-if (gcp && "fetch" in gcp) {
-	integrationHandlers.set("gcp", gcp as unknown as IntegrationHandler);
-}
-if (azure && "fetch" in azure) {
-	integrationHandlers.set("azure", azure as unknown as IntegrationHandler);
-}
+import { getIntegrationHandler } from "@bubba/integrations";
+import { decrypt } from "@bubba/app/src/lib/encryption";
+import type { DecryptFunction } from "@bubba/integrations";
 
 export const refreshTestsAction = authActionClient
 	.metadata({
@@ -51,7 +28,8 @@ export const refreshTestsAction = authActionClient
 		});
 
 		for (const integration of integrationsTable) {
-			const integrationHandler = integrationHandlers.get(
+			// Get the integration handler with proper typing
+			const integrationHandler = getIntegrationHandler<any>(
 				integration.integration_id,
 			);
 
@@ -64,8 +42,21 @@ export const refreshTestsAction = authActionClient
 			}
 
 			try {
-				// Pass encrypted credentials directly to the integration handler
-				const results = await integrationHandler.fetch(integration.user_settings);
+				// Process credentials using the integration handler
+				const userSettings = integration.user_settings as unknown as Record<
+					string,
+					unknown
+				>;
+
+				// Pass the decrypt function to the processCredentials method
+				const typedCredentials = await integrationHandler.processCredentials(
+					userSettings,
+					// Cast decrypt to match the expected DecryptFunction type
+					decrypt as unknown as DecryptFunction,
+				);
+
+				// Fetch results using properly typed credentials
+				const results = await integrationHandler.fetch(typedCredentials);
 
 				// Store the integration results using model name that matches the database
 				for (const result of results) {

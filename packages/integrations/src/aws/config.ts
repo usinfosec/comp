@@ -1,6 +1,8 @@
 import imageBase64 from "./assets/image.base64";
-import { fetch } from "./src";
+import { getIntegrationHandler } from "../factory";
 
+// Get the handler from the factory
+const awsHandler = getIntegrationHandler("aws");
 
 // Type the export directly with inline annotation
 const config: {
@@ -56,7 +58,8 @@ const config: {
 		}
 	],
 	category: "Cloud",
-	fetch: fetch
+	// Use the fetch method from the handler
+	fetch: awsHandler?.fetch
 };
 
 export default config;

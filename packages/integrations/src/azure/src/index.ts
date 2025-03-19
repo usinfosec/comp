@@ -1,15 +1,13 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import nodeFetch from "node-fetch";
-import { decrypt } from "@bubba/app/src/lib/encryption";
-import type { EncryptedData } from "@bubba/app/src/lib/encryption";
 
 const API_VERSION = "2019-01-01";
 
-interface AzureEncryptedCredentials {
-	AZURE_CLIENT_ID: EncryptedData;
-	AZURE_TENANT_ID: EncryptedData;
-	AZURE_CLIENT_SECRET: EncryptedData;
-	AZURE_SUBSCRIPTION_ID: EncryptedData;
+interface AzureCredentials {
+	AZURE_CLIENT_ID: string;
+	AZURE_TENANT_ID: string;
+	AZURE_CLIENT_SECRET: string;
+	AZURE_SUBSCRIPTION_ID: string;
 }
 
 interface ComplianceControl {
@@ -62,25 +60,15 @@ interface AzureControlResponse {
  * @returns Promise containing an array of compliance standards with their controls
  */
 async function fetchComplianceData(
-	credentials: AzureEncryptedCredentials,
+	credentials: AzureCredentials,
 ): Promise<ComplianceControl[]> {
 	try {
-		// Decrypt credentials
-		const decryptedClientId = await decrypt(credentials.AZURE_CLIENT_ID);
-		const decryptedTenantId = await decrypt(credentials.AZURE_TENANT_ID);
-		const decryptedClientSecret = await decrypt(
-			credentials.AZURE_CLIENT_SECRET,
-		);
-		const decryptedSubscriptionId = await decrypt(
-			credentials.AZURE_SUBSCRIPTION_ID,
-		);
-
-		const BASE_URL = `https://management.azure.com/subscriptions/${decryptedSubscriptionId}/providers/Microsoft.Security`;
+		const BASE_URL = `https://management.azure.com/subscriptions/${credentials.AZURE_SUBSCRIPTION_ID}/providers/Microsoft.Security`;
 
 		// Set environment variables for DefaultAzureCredential
-		process.env.AZURE_CLIENT_ID = decryptedClientId;
-		process.env.AZURE_TENANT_ID = decryptedTenantId;
-		process.env.AZURE_CLIENT_SECRET = decryptedClientSecret;
+		process.env.AZURE_CLIENT_ID = credentials.AZURE_CLIENT_ID;
+		process.env.AZURE_TENANT_ID = credentials.AZURE_TENANT_ID;
+		process.env.AZURE_CLIENT_SECRET = credentials.AZURE_CLIENT_SECRET;
 
 		// Get access token
 		const credential = new DefaultAzureCredential();
@@ -176,7 +164,6 @@ async function fetchComplianceData(
 				}
 			}
 		}
-		console.log(JSON.stringify(controlDetails, null, 2));
 		return controlDetails;
 	} catch (error) {
 		console.error("Error fetching Azure compliance data:", error);
@@ -185,3 +172,4 @@ async function fetchComplianceData(
 }
 
 export { fetchComplianceData as fetch };
+export type { AzureCredentials };

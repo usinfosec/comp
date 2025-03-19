@@ -1,4 +1,8 @@
 import imageBase64 from "./assets/image.base64";
+import { getIntegrationHandler } from "../factory";
+
+// Get the handler from the factory
+const deelHandler = getIntegrationHandler("deel");
 
 export default {
   name: "Deel",
@@ -45,4 +49,6 @@ export default {
     },
   },
   images: [imageBase64()], // Add empty images array for compatibility
+  // Use the fetch method from the handler
+  fetch: deelHandler?.fetch
 };

@@ -1,7 +1,8 @@
 import imageBase64 from "./assets/image.base64";
+import { getIntegrationHandler } from "../factory";
 
-// Import the function directly instead of through integrations
-import { fetch } from "./src";
+// Get the handler from the factory
+const azureHandler = getIntegrationHandler("azure");
 
 // Type the export directly with inline annotation
 const config: {
@@ -67,7 +68,8 @@ const config: {
     }
   ],
   category: "Cloud",
-	fetch: fetch
+  // Use the fetch method from the handler
+  fetch: azureHandler?.fetch
 };
 
 export default config;
