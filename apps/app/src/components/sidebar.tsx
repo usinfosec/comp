@@ -26,7 +26,7 @@ export async function Sidebar() {
 			<div className="flex flex-col items-center justify-center">
 				<div className="mt-2 todesktop:mt-[35px]">
 					<div className="mt-2 items-center justify-center">
-						<Link href="/">
+						<Link href={`/${organizationId}`}>
 							<Icons.Logo />
 						</Link>
 					</div>

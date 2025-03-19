@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { Suspense } from "react";
@@ -8,17 +9,26 @@ export default async function Layout({
 	children: React.ReactNode;
 }) {
 	const t = await getI18n();
+	const session = await auth();
+	const user = session?.user;
+	const orgId = user?.organizationId;
 
 	return (
 		<div className="max-w-[1200px] m-auto">
 			<Suspense fallback={<div>Loading...</div>}>
 				<SecondaryMenu
 					items={[
-						{ path: "/settings", label: t("settings.general.title") },
-						{ path: "/settings/members", label: t("settings.members.title") },
-						{ path: "/settings/api-keys", label: t("settings.api_keys.title") },
+						{ path: `/${orgId}/settings`, label: t("settings.general.title") },
 						{
-							path: "/settings/billing",
+							path: `/${orgId}/settings/members`,
+							label: t("settings.members.title"),
+						},
+						{
+							path: `/${orgId}/settings/api-keys`,
+							label: t("settings.api_keys.title"),
+						},
+						{
+							path: `/${orgId}/settings/billing`,
 							label: t("settings.billing.title"),
 							enabled: false,
 						},

@@ -291,18 +291,33 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 
 	// Helper function to check if a path is active
 	const isPathActive = (itemPath: string) => {
-		const pattern = itemPath.replace(":organizationId", organizationId);
+		const normalizedItemPath = itemPath.replace(
+			":organizationId",
+			organizationId,
+		);
 
-		// Handle root organization path special case
-		if (pattern === `/${organizationId}`) {
+		// Extract the base path from the menu item (first two segments after normalization)
+		const itemPathParts = normalizedItemPath.split("/").filter(Boolean);
+		const itemBaseSegment = itemPathParts.length > 1 ? itemPathParts[1] : "";
+
+		// Extract the current path parts
+		const currentPathParts = pathname.split("/").filter(Boolean);
+		const currentBaseSegment =
+			currentPathParts.length > 1 ? currentPathParts[1] : "";
+
+		// Special case for root organization path
+		if (
+			normalizedItemPath === `/${organizationId}` ||
+			normalizedItemPath === `/${organizationId}/overview`
+		) {
 			return (
 				pathname === `/${organizationId}` ||
 				pathname?.startsWith(`/${organizationId}/overview`)
 			);
 		}
 
-		// For other paths, check if the current path starts with the pattern
-		return pathname !== "/" && pathname?.startsWith(pattern);
+		// Compare the base segments (usually the feature section like "evidence", "settings", etc.)
+		return itemBaseSegment === currentBaseSegment;
 	};
 
 	return (

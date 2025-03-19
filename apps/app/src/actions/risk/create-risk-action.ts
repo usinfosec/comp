@@ -38,8 +38,8 @@ export const createRiskAction = authActionClient
         },
       });
 
-      revalidatePath("/risk");
-      revalidatePath("/risk/register");
+      revalidatePath(`/${user.organizationId}/risk`);
+      revalidatePath(`/${user.organizationId}/risk/register`);
       revalidateTag(`risk_${user.organizationId}`);
 
       return {

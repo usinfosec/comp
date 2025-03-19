@@ -3,7 +3,7 @@
 import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
 import { DataTable } from "@/components/ui/data-table";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { getColumns } from "./columns";
 import { useEmployeesTable } from "./hooks/useEmployeesTableContext";
@@ -11,6 +11,8 @@ import { useEmployeesTable } from "./hooks/useEmployeesTableContext";
 export function EmployeesTable() {
 	const router = useRouter();
 	const [, setInviteSheetOpen] = useQueryState("invite-user-sheet");
+	const { orgId } = useParams<{ orgId: string }>();
+
 	const {
 		page,
 		setPage,
@@ -25,7 +27,7 @@ export function EmployeesTable() {
 	} = useEmployeesTable();
 
 	const handleRowClick = (employeeId: string) => {
-		router.push(`/people/${employeeId}`);
+		router.push(`/${orgId}/people/${employeeId}`);
 	};
 
 	// Calculate pagination values only when total is defined

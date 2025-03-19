@@ -5,13 +5,17 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { Status } from "@/components/status";
 
-export const columns: ColumnDef<Risk & { owner: User | null }>[] = [
+export const columns = (
+	orgId: string,
+): ColumnDef<Risk & { owner: User | null }>[] => [
 	{
 		header: "Risk",
 		accessorKey: "title",
 		cell: ({ row }) => {
 			return (
-				<Link href={`/risk/${row.original.id}`}>{row.original.title}</Link>
+				<Link href={`/${orgId}/risk/${row.original.id}`}>
+					{row.original.title}
+				</Link>
 			);
 		},
 	},

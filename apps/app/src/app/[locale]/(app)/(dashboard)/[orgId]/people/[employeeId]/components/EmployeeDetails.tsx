@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
 import { useEmployeeDetails } from "../../hooks/useEmployee";
@@ -18,12 +18,12 @@ interface EmployeeDetailsProps {
 }
 
 export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
-	const t = useI18n();
 	const { employee, isLoading, error, mutate } = useEmployeeDetails(employeeId);
+	const { orgId } = useParams<{ orgId: string }>();
 
 	if (error) {
 		if (error.code === "NOT_FOUND") {
-			redirect("/people");
+			redirect(`/${orgId}/people`);
 		}
 
 		return (

@@ -5,6 +5,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
 import type { Departments, Risk, RiskStatus, User } from "@bubba/db/types";
 import { Plus } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
@@ -16,6 +17,8 @@ type RiskRegisterTableRow = Risk & { owner: User | null };
 
 export const RiskRegisterTable = () => {
 	const t = useI18n();
+	const { orgId } = useParams<{ orgId: string }>();
+
 	// State
 	const [search, setSearch] = useState("");
 	const [open, setOpen] = useQueryState("create-risk-sheet");
@@ -92,7 +95,7 @@ export const RiskRegisterTable = () => {
 	return (
 		<>
 			<DataTable<RiskRegisterTableRow>
-				columns={columns}
+				columns={columns(orgId)}
 				data={data}
 				isLoading={isLoading}
 				search={{

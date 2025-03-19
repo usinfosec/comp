@@ -3,12 +3,14 @@
 import { DataTable } from "@/components/ui/data-table";
 import { EvidenceListColumns } from "./EvidenceListColumns";
 import type { EvidenceTaskRow } from "../../types";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEvidenceTable } from "../../hooks/useEvidenceTableContext";
 import { getFilterCategories } from "./components/filterCategories";
 
 export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 	const router = useRouter();
+	const { orgId } = useParams<{ orgId: string }>();
+
 	const {
 		page,
 		setPage,
@@ -37,7 +39,7 @@ export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 	} = useEvidenceTable();
 
 	const handleRowClick = (evidenceId: string) => {
-		router.push(`/evidence/${evidenceId}`);
+		router.push(`/${orgId}/evidence/${evidenceId}`);
 	};
 
 	const activeFilterCount = [

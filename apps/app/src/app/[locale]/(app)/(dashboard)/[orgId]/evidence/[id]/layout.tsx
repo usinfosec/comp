@@ -1,39 +1,26 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { headers } from "next/headers";
+import { PathProvider } from "./PathProvider";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || "";
-  const isEvidenceDetails = /\/evidence\/[a-z0-9]+/.test(pathname);
-  const pathParts = pathname.split("/");
-  const evidenceIndex = pathParts.findIndex((part) => part === "evidence");
-  const id =
-    evidenceIndex >= 0 && pathParts.length > evidenceIndex + 1
-      ? pathParts[evidenceIndex + 1]
-      : "";
+	const t = await getI18n();
+	const session = await auth();
+	const user = session?.user;
+	const organizationId = user?.organizationId;
 
-  return (
-    <div className="max-w-[1200px] m-auto">
-      <SecondaryMenu
-        items={[
-          {
-            path: `/evidence/${id}`,
-            label: t("evidence.overview"),
-          },
-          { path: `/evidence/${id}/edit`, label: t("evidence.edit") },
-        ]}
-        showBackButton={isEvidenceDetails}
-        backButtonHref="/evidence/list"
-        backButtonLabel={t("evidence.dashboard.layout_back_button")}
-      />
-
-      <main className="py-4">{children}</main>
-    </div>
-  );
+	return (
+		<div className="max-w-[1200px] m-auto">
+			<PathProvider
+				organizationId={organizationId ?? ""}
+				translationBackButton={t("evidence.dashboard.layout_back_button")}
+				translationOverview={t("evidence.overview")}
+				translationEdit={t("evidence.edit")}
+			/>
+			<main className="py-4">{children}</main>
+		</div>
+	);
 }
