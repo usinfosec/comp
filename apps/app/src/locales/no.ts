@@ -592,7 +592,7 @@ export default {
       title: "Fakturering"
     },
     api_keys: {
-      title: "API-nøkler",
+      title: "API",
       description: "Administrer API-nøkler for programmatisk tilgang til dataene i organisasjonen din.",
       list_title: "API-nøkler",
       list_description: "API-nøkler gir sikker tilgang til dataene i organisasjonen din via vårt API.",
@@ -659,7 +659,8 @@ export default {
           admin: "Admin",
           member: "Medlem",
           viewer: "Seer"
-        }
+        },
+        description: "Administrer teammedlemmene dine og deres roller"
       },
       invitations: {
         title: "Venteinvitasjoner",

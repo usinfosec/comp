@@ -592,7 +592,7 @@ export default {
       title: "Faturamento"
     },
     api_keys: {
-      title: "Chaves da API",
+      title: "API",
       description: "Gerencie chaves da API para acesso programático aos dados da sua organização.",
       list_title: "Chaves da API",
       list_description: "As chaves da API permitem acesso seguro aos dados da sua organização através da nossa API.",
@@ -659,7 +659,8 @@ export default {
           admin: "Admin",
           member: "Membro",
           viewer: "Visualizador"
-        }
+        },
+        description: "Gerencie os membros da sua equipe e suas funções"
       },
       invitations: {
         title: "Convites Pendentes",
