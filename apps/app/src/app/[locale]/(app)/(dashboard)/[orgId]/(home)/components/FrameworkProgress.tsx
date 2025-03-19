@@ -106,7 +106,7 @@ export function FrameworkProgress({ frameworks }: Props) {
 							{t("frameworks.overview.progress.empty.description")}
 						</p>
 						<Button asChild className="mt-4">
-							<Link href="/overview/frameworks">
+							<Link href={`${orgId}/overview/frameworks`}>
 								{t("frameworks.overview.progress.empty.action")}
 							</Link>
 						</Button>

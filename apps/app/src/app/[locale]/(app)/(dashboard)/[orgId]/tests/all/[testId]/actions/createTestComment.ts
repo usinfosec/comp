@@ -31,7 +31,7 @@ export const createTestCommentAction = authActionClient
       },
     });
 
-    revalidatePath(`/tests/${testId}`);
+    revalidatePath(`/${user.organizationId}/tests/${testId}`);
     revalidateTag(`test_${user.organizationId}`);
 
     return { success: true };

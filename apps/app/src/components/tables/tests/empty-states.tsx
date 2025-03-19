@@ -4,7 +4,7 @@ import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { CloudOff } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface Props {
 	hasFilters?: boolean;
@@ -13,6 +13,7 @@ interface Props {
 export function NoResults({ hasFilters }: Props) {
 	const router = useRouter();
 	const t = useI18n();
+	const { orgId } = useParams<{ orgId: string }>();
 
 	return (
 		<div className="mt-24 flex items-center justify-center">
@@ -30,7 +31,10 @@ export function NoResults({ hasFilters }: Props) {
 				</div>
 
 				{hasFilters && (
-					<Button variant="outline" onClick={() => router.push("/tests")}>
+					<Button
+						variant="outline"
+						onClick={() => router.push(`${orgId}/tests`)}
+					>
 						{t("tests.actions.clear")}
 					</Button>
 				)}

@@ -23,7 +23,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 	const risk = await getRisk(riskId.riskId, session.user.organizationId);
 
 	if (!risk) {
-		redirect("/risk");
+		redirect(`/${session.user.organizationId}/risk`);
 	}
 
 	const orgId = session.user.organizationId;
