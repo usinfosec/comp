@@ -128,7 +128,5 @@ export const refreshTestsAction = authActionClient
 
 		console.log("Refreshing tests");
 
-		revalidatePath("/tests");
-
 		return { success: true };
 	});
