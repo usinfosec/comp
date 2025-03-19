@@ -1,26 +1,33 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
+	const t = await getI18n();
+	const session = await auth();
+	const user = session?.user;
+	const organizationId = user?.organizationId;
 
-  return (
-    <div className="max-w-[1200px] m-auto">
-      <SecondaryMenu
-        items={[
-          {
-            path: "/evidence/overview",
-            label: t("evidence.dashboard.layout"),
-          },
-          { path: "/evidence/list", label: t("evidence.list") },
-        ]}
-      />
+	return (
+		<div className="max-w-[1200px] m-auto">
+			<SecondaryMenu
+				items={[
+					{
+						path: `/${organizationId}/evidence/overview`,
+						label: t("evidence.dashboard.layout"),
+					},
+					{
+						path: `/${organizationId}/evidence/list`,
+						label: t("evidence.list"),
+					},
+				]}
+			/>
 
-      <main className="py-8">{children}</main>
-    </div>
-  );
+			<main className="py-8">{children}</main>
+		</div>
+	);
 }

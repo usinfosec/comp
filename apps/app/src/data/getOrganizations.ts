@@ -9,26 +9,20 @@ export async function getOrganizations() {
     throw new Error("Not authenticated");
   }
 
-  const organizations = await db.organization.findMany({
+  const memberOrganizations = await db.organizationMember.findMany({
     where: {
-      users: {
-        some: {
-          id: user.id,
-        },
-      },
+      userId: user.id,
     },
-    select: {
-      id: true,
-      name: true,
+    include: {
+      organization: true,
     },
   });
 
-  const currentOrganization =
-    organizations.find((org) => org.id === user.organizationId) ||
-    organizations[0];
+  const organizations = memberOrganizations.map(
+    (member) => member.organization
+  );
 
   return {
     organizations,
-    currentOrganization,
   };
 }

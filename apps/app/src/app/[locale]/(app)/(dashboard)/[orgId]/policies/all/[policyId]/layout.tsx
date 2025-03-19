@@ -2,67 +2,63 @@ import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 interface LayoutProps {
-  children: React.ReactNode;
-  params: Promise<{ policyId: string }>;
+	children: React.ReactNode;
+	params: Promise<{ policyId: string; orgId: string }>;
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
-  const t = await getI18n();
-  const session = await auth();
+	const t = await getI18n();
+	const { policyId, orgId } = await params;
 
-  if (!session || !session.user.organizationId) {
-    redirect("/");
-  }
+	const session = await auth();
+	const organizationId = session?.user.organizationId;
 
-  const policyId = await params;
-  const policy = await getPolicy(
-    policyId.policyId,
-    session.user.organizationId,
-  );
+	if (!organizationId) {
+		redirect("/");
+	}
 
-  if (!policy) {
-    redirect("/policies");
-  }
+	const policy = await getPolicy(policyId, organizationId);
 
-  return (
-    <div className="max-w-[1200px] space-y-4 m-auto">
-      <SecondaryMenu
-        showBackButton
-        backButtonHref="/policies/all"
-        items={[
-          {
-            path: `/policies/all/${policyId.policyId}`,
-            label: t("policies.dashboard.sub_pages.overview"),
-          },
-          {
-            path: `/policies/all/${policyId.policyId}/editor`,
-            label: t("policies.dashboard.sub_pages.edit_policy"),
-          },
-        ]}
-      />
+	if (!policy) {
+		redirect("/");
+	}
 
-      <main className="mt-8">{children}</main>
-    </div>
-  );
+	return (
+		<div className="max-w-[1200px] space-y-4 m-auto">
+			<SecondaryMenu
+				showBackButton
+				backButtonHref={`/${orgId}/policies/all`}
+				items={[
+					{
+						path: `/${orgId}/policies/all/${policyId}`,
+						label: t("policies.dashboard.sub_pages.overview"),
+					},
+					{
+						path: `/${orgId}/policies/all/${policyId}/editor`,
+						label: t("policies.dashboard.sub_pages.edit_policy"),
+					},
+				]}
+			/>
+
+			<main className="mt-8">{children}</main>
+		</div>
+	);
 }
 
-const getPolicy = unstable_cache(
-  async (policyId: string, organizationId: string) => {
-    const policy = await db.organizationPolicy.findUnique({
-      where: {
-        id: policyId,
-        organizationId: organizationId,
-      },
-      include: {
-        policy: true,
-      },
-    });
+const getPolicy = cache(async (policyId: string, organizationId: string) => {
+	const policy = await db.organizationPolicy.findUnique({
+		where: {
+			id: policyId,
+			organizationId: organizationId,
+		},
+		include: {
+			policy: true,
+		},
+	});
 
-    return policy;
-  },
-  ["policy-cache"],
-);
+	return policy;
+});

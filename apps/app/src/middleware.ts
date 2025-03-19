@@ -9,12 +9,16 @@ const I18nMiddleware = createI18nMiddleware({
 });
 
 export async function middleware(request: NextRequest) {
+  const hasSession = request.cookies.has("authjs.session-token");
+
+  // If the user is not authenticated, redirect to the auth page.
+  if (!hasSession && request.nextUrl.pathname !== "/auth") {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
+
   // Only handle root path redirects
   if (request.nextUrl.pathname === "/") {
-    const hasSession = request.cookies.has("authjs.session-token");
-
     if (!hasSession) {
-      // If not authenticated, redirect to auth
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
@@ -23,7 +27,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const response = await I18nMiddleware(request);
+  const response = I18nMiddleware(request);
   const nextUrl = request.nextUrl;
 
   const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];

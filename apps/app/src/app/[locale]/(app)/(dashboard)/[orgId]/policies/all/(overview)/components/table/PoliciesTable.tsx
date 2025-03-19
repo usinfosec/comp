@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/ui/data-table";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { getFilterCategories } from "./components/filterCategories";
 import { getColumns } from "./columns";
@@ -10,6 +10,7 @@ import { usePoliciesTable } from "./hooks/usePoliciesTableContext";
 
 export function PoliciesTable({ users }: PoliciesTableProps) {
 	const router = useRouter();
+	const { orgId } = useParams<{ orgId: string }>();
 	const {
 		page,
 		setPage,
@@ -30,7 +31,7 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 	} = usePoliciesTable();
 
 	const handleRowClick = (policyId: string) => {
-		router.push(`/policies/all/${policyId}`);
+		router.replace(`/${orgId}/policies/all/${policyId}`);
 	};
 
 	const activeFilterCount = [status, ownerId].filter(Boolean).length;
@@ -78,11 +79,11 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 				onClearFilters: clearFilters,
 				activeFilterCount,
 			}}
-			ctaButton={{
-				label: "Create Policy",
-				onClick: () => router.push("/policies/all/new"),
-				icon: <Plus className="h-4 w-4" />,
-			}}
+			// ctaButton={{
+			// 	label: "Create Policy",
+			// 	onClick: () => router.push(`/${orgId}/policies/all/new`),
+			// 	icon: <Plus className="h-4 w-4" />,
+			// }}
 		/>
 	);
 }

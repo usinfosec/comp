@@ -10,19 +10,29 @@ import { MobileMenu } from "./mobile-menu";
 import { NotificationCenter } from "./notification-center";
 import { OrganizationSwitcher } from "./organization-switcher";
 import { getOrganizations } from "@/data/getOrganizations";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export async function Header() {
 	const t = await getI18n();
-	const { organizations, currentOrganization } = await getOrganizations();
+	const { organizations } = await getOrganizations();
+
+	const session = await auth();
+	const user = session?.user;
+	const organizationId = user?.organizationId;
+
+	if (!organizationId) {
+		redirect("/");
+	}
 
 	return (
 		<header className="-ml-4 -mr-4 md:m-0 z-10 px-4 md:px-0 md:border-b-[1px] flex justify-between pt-4 pb-2 md:pb-4 items-center todesktop:sticky todesktop:top-0 todesktop:bg-background todesktop:border-none sticky md:static top-0 backdrop-filter backdrop-blur-xl md:backdrop-filter md:backdrop-blur-none bg-opacity-70">
-			<MobileMenu />
+			<MobileMenu organizationId={organizationId} />
 
 			<Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
 				<OrganizationSwitcher
 					organizations={organizations}
-					currentOrganization={currentOrganization}
+					organizationId={organizationId}
 				/>
 			</Suspense>
 

@@ -9,7 +9,7 @@ import {
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import type {
 	OrganizationControlRequirement,
 	OrganizationEvidence,
@@ -28,6 +28,7 @@ interface DataTableProps {
 
 export function ControlRequirementsTable({ data }: DataTableProps) {
 	const router = useRouter();
+	const { orgId } = useParams<{ orgId: string }>();
 
 	const table = useReactTable({
 		data,
@@ -42,12 +43,16 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 		switch (requirement.type) {
 			case "policy":
 				if (requirement.organizationPolicyId) {
-					router.push(`/policies/all/${requirement.organizationPolicyId}`);
+					router.push(
+						`/${orgId}/policies/all/${requirement.organizationPolicyId}`,
+					);
 				}
 				break;
 			case "evidence":
 				if (requirement.organizationEvidenceId) {
-					router.push(`/evidence/${requirement.organizationEvidenceId}`);
+					router.push(
+						`/${orgId}/evidence/${requirement.organizationEvidenceId}`,
+					);
 				}
 				break;
 			default:

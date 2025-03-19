@@ -1,6 +1,6 @@
 "use client";
 
-import { useEmployees } from "@/app/[locale]/(app)/(dashboard)/people/hooks/useEmployees";
+import { useEmployees } from "@/app/[locale]/(app)/(dashboard)/[orgId]/people/hooks/useEmployees";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/policies/all/(overview)/hooks/usePolicies";
+import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/[orgId]/policies/all/(overview)/hooks/usePolicies";
 import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import {

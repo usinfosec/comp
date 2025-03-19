@@ -1,5 +1,7 @@
 "use client";
 
+import { changeOrganizationAction } from "@/actions/change-organization";
+import type { Organization } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
 	DropdownMenu,
@@ -8,27 +10,38 @@ import {
 	DropdownMenuTrigger,
 } from "@bubba/ui/dropdown-menu";
 import { Building2, ChevronDown, Plus } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-
-interface Organization {
-	id: string;
-	name: string;
-}
 
 interface OrganizationSwitcherProps {
 	organizations: Organization[];
-	currentOrganization: Organization;
+	organizationId: string | undefined;
 }
 
 export function OrganizationSwitcher({
 	organizations,
-	currentOrganization,
+	organizationId,
 }: OrganizationSwitcherProps) {
 	const router = useRouter();
 
-	const handleOrganizationChange = (organizationId: string) => {
-		router.push(`/organization/${organizationId}`);
+	const { execute } = useAction(changeOrganizationAction, {
+		onSuccess: (result) => {
+			if (result.data?.success) {
+				router.push(`/${result.data.data?.id}`);
+			}
+		},
+		onError: (error) => {
+			console.error(error);
+		},
+	});
+
+	const handleOrganizationChange = async (organizationId: string) => {
+		execute({ organizationId });
 	};
+
+	const currentOrganization = organizations.find(
+		(org) => org.id === organizationId,
+	);
 
 	return (
 		<DropdownMenu>
@@ -36,7 +49,7 @@ export function OrganizationSwitcher({
 				<Button variant="outline" className="flex items-center gap-2">
 					<Building2 className="h-4 w-4" />
 					<span className="hidden md:inline-block">
-						{currentOrganization.name}
+						{currentOrganization?.name}
 					</span>
 					<ChevronDown className="h-4 w-4" />
 				</Button>

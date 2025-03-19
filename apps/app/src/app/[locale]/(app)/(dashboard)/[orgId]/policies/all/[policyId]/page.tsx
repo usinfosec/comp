@@ -1,34 +1,25 @@
-import { auth } from "@/auth";
 import { PolicyComment } from "@/components/policies/policy-comments";
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export default async function PolicyDetails({
 	params,
 }: {
-	params: Promise<{ locale: string; policyId: string }>;
+	params: Promise<{ locale: string; policyId: string; orgId: string }>;
 }) {
-	const { locale, policyId } = await params;
-
+	const { locale, policyId, orgId } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
-
-	if (!organizationId) {
-		redirect("/");
-	}
-
-	const policy = await getPolicy(policyId, organizationId);
-	const users = await getUsers(organizationId);
+	const policy = await getPolicy(policyId, orgId);
+	const users = await getUsers(orgId);
 
 	if (!policy) {
-		redirect("/policies");
+		redirect(`/${orgId}/policies/all`);
 	}
 
 	return (
@@ -54,28 +45,26 @@ export async function generateMetadata({
 	};
 }
 
-const getPolicy = unstable_cache(
-	async (policyId: string, organizationId: string) => {
-		const policy = await db.organizationPolicy.findUnique({
-			where: { id: policyId, organizationId },
-			include: {
-				policy: true,
-				PolicyComments: true,
-			},
-		});
-		return policy;
-	},
-	["policy-details"],
-	{ tags: ["policies", "policy-details"] },
-);
+const getPolicy = cache(async (policyId: string, organizationId: string) => {
+	const policy = await db.organizationPolicy.findUnique({
+		where: { id: policyId, organizationId },
+		include: {
+			policy: true,
+			PolicyComments: true,
+		},
+	});
+	return policy;
+});
 
-const getUsers = unstable_cache(
-	async (organizationId: string) => {
-		const users = await db.user.findMany({
-			where: { organizationId: organizationId },
-		});
+const getUsers = async (organizationId: string) => {
+	const orgMembers = await db.organizationMember.findMany({
+		where: { organizationId: organizationId },
+		include: {
+			user: true,
+		},
+	});
 
-		return users;
-	},
-	["users-cache"],
-);
+	const users = orgMembers.map((member) => member.user);
+
+	return users;
+};
