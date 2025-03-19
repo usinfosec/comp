@@ -17,7 +17,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
-
+import { useParams } from "next/navigation";
 export type OrganizationControlType = {
 	code: string;
 	description: string | null;
@@ -62,6 +62,7 @@ function getControlStatus(
 
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
+	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
@@ -72,7 +73,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 				return (
 					<div className="flex flex-col w-[300px]">
 						<Link
-							href={`/overview/frameworks/controls/${row.original.id}`}
+							href={`${orgId}/overview/frameworks/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
 							<span className="font-medium truncate">{row.original.name}</span>

@@ -9,66 +9,66 @@ import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function RiskManagement({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth();
+	const session = await auth();
 
-  if (!session?.user?.organizationId) {
-    redirect("/onboarding");
-  }
+	if (!session?.user?.organizationId) {
+		redirect("/onboarding");
+	}
 
-  const overview = await getRiskOverview(session.user.organizationId);
+	const overview = await getRiskOverview(session.user.organizationId);
 
-  if (overview?.risks === 0) {
-    redirect("/risk/register");
-  }
+	if (overview?.risks === 0) {
+		redirect(`/${session.user.organizationId}/risk/register`);
+	}
 
-  return (
-    <div className="space-y-4 sm:space-y-8">
-      Coming Soon
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+	return (
+		<div className="space-y-4 sm:space-y-8">
+			Coming Soon
+			{/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <RiskOverview organizationId={session.user.organizationId} />
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         <RisksAssignee organizationId={session.user.organizationId} />
       </div> */}
-    </div>
-  );
+		</div>
+	);
 }
 
 const getRiskOverview = unstable_cache(
-  async (organizationId: string) => {
-    return await db.$transaction(async (tx) => {
-      const [risks] = await Promise.all([
-        tx.risk.count({
-          where: { organizationId },
-        }),
-      ]);
+	async (organizationId: string) => {
+		return await db.$transaction(async (tx) => {
+			const [risks] = await Promise.all([
+				tx.risk.count({
+					where: { organizationId },
+				}),
+			]);
 
-      return {
-        risks,
-      };
-    });
-  },
-  ["risk-overview-cache"],
+			return {
+				risks,
+			};
+		});
+	},
+	["risk-overview-cache"],
 );
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.risk"),
-  };
+	return {
+		title: t("sidebar.risk"),
+	};
 }

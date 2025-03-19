@@ -49,7 +49,7 @@ export const sendRiskTaskNotification = schemaTask({
         },
         payload: {
           description: `${task.title} is due ${timeUntilDue}`,
-          recordId: `/risk/${task.riskId}/tasks/${task.id}`,
+          recordId: `/${owner.organizationId}/risk/${task.riskId}/tasks/${task.id}`,
           type: NotificationTypes.Task,
         },
       });
