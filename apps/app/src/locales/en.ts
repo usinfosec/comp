@@ -271,6 +271,10 @@ export default {
 			overview: "Cloud Tests",
 			test_details: "Test Details",
 		},
+		vendors: {
+			overview: "Vendors",
+			register: "Vendor Register",
+		},
 	},
 	auth: {
 		title: "Automate SOC 2, ISO 27001 and GDPR compliance with AI.",
@@ -700,7 +704,7 @@ export default {
 			title: "Members",
 		},
 		api_keys: {
-			title: "API Keys",
+			title: "API",
 			description:
 				"Manage API keys for programmatic access to your organization's data.",
 			list_title: "API Keys",
@@ -763,6 +767,7 @@ export default {
 			},
 			members: {
 				title: "Team Members",
+				description: "Manage your team members and their roles",
 				empty: {
 					no_organization: {
 						title: "No Organization",
@@ -1089,11 +1094,12 @@ export default {
 	},
 	vendors: {
 		title: "Vendors",
+		dashboard: {
+			title: "Overview",
+		},
 		register: {
 			title: "Vendor Register",
-		},
-		dashboard: {
-			title: "Vendor Overview",
+			create_new: "Create Vendor",
 		},
 	},
 	dashboard: {

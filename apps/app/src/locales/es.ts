@@ -592,7 +592,7 @@ export default {
       title: "Facturación"
     },
     api_keys: {
-      title: "Claves API",
+      title: "API",
       description: "Administra las claves API para el acceso programático a los datos de tu organización.",
       list_title: "Claves API",
       list_description: "Las claves API permiten el acceso seguro a los datos de tu organización a través de nuestra API.",
@@ -659,7 +659,8 @@ export default {
           admin: "Administrador",
           member: "Miembro",
           viewer: "Espectador"
-        }
+        },
+        description: "Gestiona a los miembros de tu equipo y sus roles"
       },
       invitations: {
         title: "Invitaciones pendientes",
@@ -983,6 +984,10 @@ export default {
     tests: {
       overview: "Pruebas en la Nube",
       test_details: "Detalles de la Prueba"
+    },
+    vendors: {
+      overview: "Proveedores",
+      register: "Registro de Proveedores"
     }
   },
   editor: {
@@ -1159,10 +1164,11 @@ export default {
   vendors: {
     title: "Proveedores",
     register: {
-      title: "Registro de proveedores"
+      title: "Registro de proveedores",
+      create_new: "Crear Proveedor"
     },
     dashboard: {
-      title: "Resumen de proveedores"
+      title: "Descripción general"
     }
   },
   dashboard: {

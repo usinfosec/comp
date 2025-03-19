@@ -185,6 +185,8 @@ files:
     sub_pages.frameworks.overview: 04fb5df59766a9852e5dd2d0430ca27e
     sub_pages.tests.overview: 107f3983ed2f362df6195c163001fe7b
     sub_pages.tests.test_details: cb6255fb6a9fb2ec5de81a7eed81fa21
+    sub_pages.vendors.overview: dfcc5efe778e6340336015dc02617922
+    sub_pages.vendors.register: 122b14e8fa33bc9d4f389700439dfc71
     auth.title: 4b33d501b99fef8f85f32b942fcd0b1f
     auth.description: 1fd4b045f6d46683c611e45b8de4bcf6
     auth.options: 4dab36ac83853282fc0d7bae20c19e90
@@ -462,7 +464,7 @@ files:
     settings.general.delete_confirm_tip: 97e957e2354c8329aa437ed16be68eef
     settings.general.cancel_button: ea4788705e6873b424c65e91c2846b19
     settings.members.title: ef53538ae41a651c7f72ab6cb1135d8c
-    settings.api_keys.title: b4717f6ab3c2357c13c0c2cd32dfc4ca
+    settings.api_keys.title: db974238714ca8de634a7ce1d083a14f
     settings.api_keys.description: a73bc7101920a4a2a821a6640ae95fc5
     settings.api_keys.list_title: b4717f6ab3c2357c13c0c2cd32dfc4ca
     settings.api_keys.list_description: 43aeedd6a4d60ad7a7c81cd81386e63e
@@ -510,6 +512,7 @@ files:
     settings.team.tabs.members: 8196446d7293bfeb288d7c21e36a1886
     settings.team.tabs.invite: d7c13e986bffeec28fdbdc413cd28d5d
     settings.team.members.title: 8196446d7293bfeb288d7c21e36a1886
+    settings.team.members.description: ed2826e6c2c3ba82bea41ab92e9368e2
     settings.team.members.empty.no_organization.title: ec3c189e406c3c65aad4ee8e0289a60f
     settings.team.members.empty.no_organization.description: f6386c26f8a82a7e5a44427cf30f83c8
     settings.team.members.empty.no_members.title: c30bdfa006974dd845d118ea9cf3da63
@@ -702,8 +705,9 @@ files:
     evidence.details.review_section: 659514b42799e5982d28793d9e003ae3
     evidence.details.content: 393ae95538cd395eb8d1f7521f652b10
     vendors.title: dfcc5efe778e6340336015dc02617922
+    vendors.dashboard.title: 3b878279a04dc47d60932cb294d96259
     vendors.register.title: 122b14e8fa33bc9d4f389700439dfc71
-    vendors.dashboard.title: 003dd1a6f6efb2ac33fa8519c89dedcc
+    vendors.register.create_new: ef1c7d5e555d7fe288bf0bf16b88723d
     dashboard.risk_status: 6ce5e6fa832289748023cb773a4e89ac
     dashboard.risks_by_department: 0ef508d7e840bc5f85547c3b25e5d87b
     dashboard.vendor_status: 17029fbe5ad4d2af5feaf37bb4604225
