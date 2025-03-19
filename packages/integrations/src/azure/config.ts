@@ -24,7 +24,7 @@ const config: {
 	category: string;
 	fetch: any;
 } = {
-  name: "AZURE",
+  name: "Azure",
   id: "azure",
   active: true,
   logo: imageBase64(),
