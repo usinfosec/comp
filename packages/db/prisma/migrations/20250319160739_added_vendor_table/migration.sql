@@ -237,11 +237,3 @@ ALTER TABLE "VendorTaskAssignment" ADD CONSTRAINT "VendorTaskAssignment_taskId_f
 
 -- AddForeignKey
 ALTER TABLE "VendorTaskAssignment" ADD CONSTRAINT "VendorTaskAssignment_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- Clear existing assignments to prevent unique constraint violations
-DELETE FROM "VendorTaskAssignment";
-
--- CreateTable
-CREATE TABLE "Vendor" (
-  // ... existing code ...
-);
