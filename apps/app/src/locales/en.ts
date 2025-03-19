@@ -1093,12 +1093,12 @@ export default {
 	},
 	vendors: {
 		title: "Vendors",
-		register: {
-			title: "Dashboard",
-			create_new: "Create Vendor",
-		},
 		dashboard: {
-			title: "Vendor Overview",
+			title: "Overview",
+		},
+		register: {
+			title: "Vendor Register",
+			create_new: "Create Vendor",
 		},
 	},
 	dashboard: {

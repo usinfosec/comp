@@ -3,17 +3,17 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
-import type { Departments, Risk, RiskStatus, User, Vendor } from "@bubba/db/types";
+import type { Departments, RiskStatus, User, Vendor } from "@bubba/db/types";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
-import { columns } from "./components/table/RiskRegisterColumns";
 import { CreateRiskSheet } from "../components/create-risk-sheet";
+import { columns } from "./components/table/RiskRegisterColumns";
 
-type RiskRegisterTableRow = Risk & { owner: User | null };
+type VendorRegisterTableRow = Vendor & { owner: User | null };
 
-export const RiskRegisterTable = ({ vendors }: { vendors: Vendor[] }) => {
+export const VendorRegisterTable = ({ data }: { data: VendorRegisterTableRow[] }) => {
 	const t = useI18n();
 	// State
 	const [search, setSearch] = useState("");
@@ -84,7 +84,7 @@ export const RiskRegisterTable = ({ vendors }: { vendors: Vendor[] }) => {
 		<>
 			<DataTable<Vendor>
 				columns={columns}
-				data={vendors}
+				data={data}
 				// isLoading={isLoading}
 				search={{
 					value: search,
@@ -93,9 +93,9 @@ export const RiskRegisterTable = ({ vendors }: { vendors: Vendor[] }) => {
 				pagination={{
 					page: Number(page),
 					pageSize: Number(pageSize),
-					totalCount: vendors.length,
-					totalPages: Math.ceil(vendors.length / Number(pageSize)),
-					hasNextPage: Number(page) < Math.ceil(vendors.length / Number(pageSize)),
+					totalCount: data.length,
+					totalPages: Math.ceil(data.length / Number(pageSize)),
+					hasNextPage: Number(page) < Math.ceil(data.length / Number(pageSize)),
 					hasPreviousPage: Number(page) > 1,
 				}}
 				onPageChange={(newPage) => setPage(newPage)}
