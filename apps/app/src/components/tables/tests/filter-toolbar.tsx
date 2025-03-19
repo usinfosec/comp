@@ -76,15 +76,17 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
   return (
     <div className="flex flex-row items-center justify-between gap-2 mb-4">
       <div className="flex flex-1 items-center gap-2 min-w-0">
+          {!isEmpty && (
         <div className="relative flex-1 md:max-w-sm">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder={t("tests.filters.search")}
-            className="pl-8"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+          placeholder={t("tests.filters.search")}
+          className="pl-8"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           />
         </div>
+        )}
 
         <div className="md:hidden">
           {<Button asChild variant="action" onClick={refreshTestsClick}>
