@@ -17,11 +17,15 @@ import {
 	TableHead,
 	TableRow,
 } from "@bubba/ui/table";
+import { Badge } from "@bubba/ui/badge";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import type { TestType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { AssignedUser } from "@/components/assigned-user";
+
+import { integrations } from "@bubba/integrations";
 
 interface DataTableProps {
 	columnHeaders: {
@@ -36,6 +40,44 @@ interface DataTableProps {
 	pageCount: number;
 	currentPage: number;
 }
+
+const getSeverityBadge = (severity: string | null) => {
+  if (!severity) return <Badge>Unknown</Badge>;
+  
+  switch(severity.toUpperCase()) {
+    case "LOW":
+      return <Badge className="bg-muted-foreground">{severity}</Badge>;
+    case "MEDIUM":
+      return <Badge className="bg-white">{severity}</Badge>;
+    case "HIGH":
+      return <Badge className="bg-blue-500">{severity}</Badge>;
+    case "CRITICAL":
+      return <Badge className="bg-red-500">{severity}</Badge>;
+    default:
+      return <Badge>{severity}</Badge>;
+  }
+}
+
+// Format the test status for display with appropriate badge color
+const getResultsBadge = (status: string) => {
+  switch(status.toUpperCase()) {
+    case "PASSED":
+      return <Badge className="bg-green-500">{status}</Badge>;
+    case "IN_PROGRESS":
+      return <Badge className="bg-yellow-500">{status}</Badge>;
+    case "FAILED":
+      return <Badge className="bg-red-500">{status}</Badge>;
+    default:
+      return <Badge>{status}</Badge>;
+  }
+};
+
+// Get provider logo with proper typing
+const getProviderLogo = (provider: string): string => {
+  const integration = integrations.find((i) => i.id === provider);
+  // Ensure we return a string for the image src
+  return typeof integration?.logo === 'string' ? integration.logo : '';
+};
 
 function getColumns(): ColumnDef<TestType>[] {
 	const t = useI18n();
@@ -54,6 +96,9 @@ function getColumns(): ColumnDef<TestType>[] {
 					</Button>
 				</TableHead>
 			),
+      cell: ({ row }) => {
+        return getSeverityBadge(row.original.severity);
+      },
 		},
 		{
 			id: "result",
@@ -68,6 +113,9 @@ function getColumns(): ColumnDef<TestType>[] {
 					</Button>
 				</TableHead>
 			),
+      cell: ({ row }) => {
+        return getResultsBadge(row.original.result);
+      },
 		},
 		{
 			id: "title",
@@ -96,6 +144,25 @@ function getColumns(): ColumnDef<TestType>[] {
 					</Button>
 				</TableHead>
 			),
+      cell: ({ row }) => {
+        const provider = row.original.provider;
+        const logo = getProviderLogo(provider);
+        
+        return (
+          <div className="flex items-center gap-2">
+            {logo && (
+              <Image 
+                src={logo} 
+                alt={provider} 
+                width={20} 
+                height={20} 
+                className="rounded-sm"
+              />
+            )}
+            <span>{provider}</span>
+          </div>
+        );
+      },
 		},
 		{
 			id: "createdAt",

@@ -3,13 +3,10 @@
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
-import { Plus, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { useDebounce } from "use-debounce";
-import Link from "next/link";
-
 import { refreshTestsAction } from "@/app/[locale]/(app)/(dashboard)/[orgId]/tests/all/actions/refreshTests";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
@@ -31,6 +28,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 	const refreshTests = useAction(refreshTestsAction, {
 		onSuccess: () => {
 			toast.success(t("tests.actions.refresh_success"));
+      window.location.reload();
 		},
 		onError: () => {
 			toast.error(t("tests.actions.refresh_error"));

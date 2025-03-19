@@ -1157,7 +1157,8 @@ export default {
       low: "Faible",
       medium: "Moyen",
       high: "Élevé",
-      critical: "Critique"
+      critical: "Critique",
+      info: "Info"
     }
   },
   vendors: {

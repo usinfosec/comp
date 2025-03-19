@@ -907,6 +907,7 @@ export default {
 			severity_distribution: "Test Severity Distribution",
 		},
 		severity: {
+			info: "Info",
 			low: "Low",
 			medium: "Medium",
 			high: "High",

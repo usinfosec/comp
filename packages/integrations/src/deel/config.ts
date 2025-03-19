@@ -1,6 +1,8 @@
-// Don't try to import the image, use a public path
-// @ts-ignore
-import image from "./assets/image.png";
+import imageBase64 from "./assets/image.base64";
+import { getIntegrationHandler } from "../factory";
+
+// Get the handler from the factory
+const deelHandler = getIntegrationHandler("deel");
 
 export default {
   name: "Deel",
@@ -9,7 +11,7 @@ export default {
   short_description: "Integrate with Deel to sync employee data automatically.",
   id: "deel",
   // Use direct reference to the public image
-  logo: image,
+  logo: imageBase64(),
   category: "HR",
   active: true,
   // Include both fields and settings for backward compatibility
@@ -46,5 +48,7 @@ export default {
       description: "When this integration will run next (every 24 hours)",
     },
   },
-  images: [], // Add empty images array for compatibility
+  images: [imageBase64()], // Add empty images array for compatibility
+  // Use the fetch method from the handler
+  fetch: deelHandler?.fetch
 };

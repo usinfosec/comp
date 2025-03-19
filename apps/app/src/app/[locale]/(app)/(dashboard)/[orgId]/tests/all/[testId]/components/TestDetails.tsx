@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
 import { useTest } from "../../hooks/useTest";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle, CheckCircle2, Clock, Info, XCircle, User as UserIcon } from "lucide-react";
+import { AlertCircle, User as UserIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Label } from "@bubba/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
@@ -12,25 +12,13 @@ import { Badge } from "@bubba/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { AssigneeSection } from "./AssigneeSection";
 import { TestComment } from "./TestComments";
-import { unstable_cache } from "next/cache";
-import { db } from "@bubba/db";
+import type { Test } from "../../types";
 import type { User } from "@bubba/db/types";
 
 interface CloudTestDetailsProps {
   testId: string;
   users: User[];
 }
-
-const getUsers = unstable_cache(
-	async (organizationId: string) => {
-		const users = await db.user.findMany({
-			where: { organizationId: organizationId },
-		});
-
-		return users;
-	},
-	["users-cache"],
-);
 
 export function TestDetails({ testId, users }: CloudTestDetailsProps) {
   const t = useI18n();
@@ -85,9 +73,9 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
   // Format the test status for display with appropriate badge color
   const getStatusBadge = (status: string) => {
     switch(status.toUpperCase()) {
-      case "ACTIVE":
+      case "PASSED":
         return <Badge className="bg-green-500">{status}</Badge>;
-      case "DRAFT":
+      case "IN_PROGRESS":
         return <Badge className="bg-yellow-500">{status}</Badge>;
       case "FAILED":
         return <Badge className="bg-red-500">{status}</Badge>;
@@ -95,6 +83,11 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
         return <Badge>{status}</Badge>;
     }
   };
+
+  // Check if resources exist and have items
+  const hasResources = cloudTest.resultDetails?.Resources && cloudTest.resultDetails.Resources.length > 0;
+  // Set default tab based on resources availability
+  const defaultTab = hasResources ? "resources" : "raw-log";
 
   // // Helper function to get the appropriate icon for test run status
   // const getRunStatusIcon = (status: string, result: string | null) => {
@@ -161,18 +154,19 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="resources">
+      <Tabs defaultValue={defaultTab}>
         <TabsList>
-          <TabsTrigger value="resources">Resources</TabsTrigger>
+          {hasResources && <TabsTrigger value="resources">Resources</TabsTrigger>}
           <TabsTrigger value="raw-log">Raw Log</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="resources" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Resources</CardTitle>
-            </CardHeader>
-            <CardContent>
+        {hasResources && (
+          <TabsContent value="resources" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Resources</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -184,7 +178,7 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
                   </TableHeader>
                   <TableBody>
                     {cloudTest.resultDetails?.Resources.map((resource: any) => (
-                      <TableRow key="{resource.id}">
+                      <TableRow key={resource.Id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             {resource.Id}
@@ -210,9 +204,10 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
                     ))}
                   </TableBody>
                 </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
 
         <TabsContent value="raw-log" className="mt-6">
           <Card>

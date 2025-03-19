@@ -34,7 +34,7 @@ import {
 } from "@bubba/ui/tooltip";
 
 // Add a type for the logo
-type LogoType = StaticImageData | { light: string; dark: string };
+export type LogoType = StaticImageData | { light: string; dark: string };
 
 export function IntegrationsCard({
 	id,
