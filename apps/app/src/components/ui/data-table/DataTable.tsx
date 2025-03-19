@@ -254,7 +254,7 @@ export function DataTable<TData>({
 							{isLoading ? (
 								<TableRow>
 									<TableCell colSpan={columns.length} className="p-0">
-										<DataTableSkeleton columns={columns.length} rows={5} />
+										<DataTableSkeleton columns={columns.length} rows={10} />
 									</TableCell>
 								</TableRow>
 							) : table.getRowModel().rows?.length ? (

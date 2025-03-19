@@ -11,7 +11,7 @@ import { PolicyStatus } from "@bubba/db/types";
 // Helper function to calculate next review date based on frequency
 function calculateNextReviewDate(
   frequency: string,
-  baseDate: Date = new Date(),
+  baseDate: Date = new Date()
 ): Date {
   const nextDate = new Date(baseDate);
 
@@ -43,8 +43,15 @@ export const updatePolicyFormAction = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, status, ownerId, department, review_frequency, review_date, isRequiredToSign } =
-      parsedInput;
+    const {
+      id,
+      status,
+      ownerId,
+      department,
+      review_frequency,
+      review_date,
+      isRequiredToSign,
+    } = parsedInput;
     const { user } = ctx;
 
     if (!user.id || !user.organizationId) {
@@ -95,26 +102,26 @@ export const updatePolicyFormAction = authActionClient
       if (isRequiredToSign !== undefined) {
         const orgPolicy = await db.organizationPolicy.findUnique({
           where: { id },
-          select: { 
+          select: {
             policyId: true,
           },
         });
-        
+
         if (orgPolicy?.policyId) {
           // Update the policy using the Prisma client with type assertion
           await db.policy.update({
             where: { id: orgPolicy.policyId },
-            data: { 
+            data: {
               // Use type assertion to handle the new field
               // that might not be in the generated types yet
-              isRequiredToSign: isRequiredToSign === "required" 
+              isRequiredToSign: isRequiredToSign === "required",
             } as any,
           });
         }
       }
 
-      revalidatePath("/policies");
-      revalidatePath(`/policies/all/${id}`);
+      revalidatePath(`/${user.organizationId}/policies`);
+      revalidatePath(`/${user.organizationId}/policies/all/${id}`);
       revalidateTag("policies");
 
       return {

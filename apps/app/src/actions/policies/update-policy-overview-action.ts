@@ -51,15 +51,17 @@ export const updatePolicyOverviewAction = authActionClient
               description,
               // Use type assertion to handle the new field
               // that might not be in the generated types yet
-              ...(isRequiredToSign !== undefined ? { isRequiredToSign: isRequiredToSign === "required" } as any : {}),
+              ...(isRequiredToSign !== undefined
+                ? ({ isRequiredToSign: isRequiredToSign === "required" } as any)
+                : {}),
             },
           },
         },
       });
 
-      revalidatePath(`/policies/all/${id}`);
-      revalidatePath("/policies/all");
-      revalidatePath("/policies");
+      revalidatePath(`/${user.organizationId}/policies/all/${id}`);
+      revalidatePath(`/${user.organizationId}/policies/all`);
+      revalidatePath(`/${user.organizationId}/policies`);
 
       return {
         success: true,

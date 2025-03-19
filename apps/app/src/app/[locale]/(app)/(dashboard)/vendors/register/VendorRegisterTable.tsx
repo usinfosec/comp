@@ -1,19 +1,20 @@
 "use client";
 
-
 import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
 import type { Departments, RiskStatus, User, Vendor } from "@bubba/db/types";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
-import { useOrganizationAdmins } from "../../evidence/[id]/hooks/useOrganizationAdmins";
+import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
 import { columns } from "./components/table/RiskRegisterColumns";
 
 type VendorRegisterTableRow = Vendor & { owner: User | null };
 
-export const VendorRegisterTable = ({ data }: { data: VendorRegisterTableRow[] }) => {
+export const VendorRegisterTable = ({
+	data,
+}: { data: VendorRegisterTableRow[] }) => {
 	const t = useI18n();
 	// State
 	const [search, setSearch] = useState("");
@@ -45,7 +46,6 @@ export const VendorRegisterTable = ({ data }: { data: VendorRegisterTableRow[] }
 			parse: (value) => value,
 		},
 	);
-
 
 	const hasActiveFilters = Boolean(status || department || assigneeId);
 

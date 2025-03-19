@@ -1,12 +1,11 @@
 "use client";
 
+import { UPLOAD_TYPE } from "@/actions/types";
+import { useTaskAttachments } from "@/app/[locale]/(app)/(dashboard)/[orgId]/risk/[riskId]/tasks/[taskId]/hooks/useTaskAttachments";
+import { FileSection } from "@/components/upload/FileSection";
+import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
-import { useI18n } from "@/locales/client";
-import { useParams } from "next/navigation";
-import { useTaskAttachments } from "@/app/[locale]/(app)/(dashboard)/risk/[riskId]/tasks/[taskId]/hooks/useTaskAttachments";
-import { FileSection } from "@/components/upload/FileSection";
-import { UPLOAD_TYPE } from "@/actions/types";
 
 export function TaskAttachments({ taskId }: { taskId: string }) {
 	const { data, isLoading, error, mutate } = useTaskAttachments({

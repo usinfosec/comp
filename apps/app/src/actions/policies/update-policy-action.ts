@@ -17,7 +17,7 @@ interface ContentNode {
 
 // Simplified content processor that creates a new plain object
 function processContent(
-  content: ContentNode | ContentNode[],
+  content: ContentNode | ContentNode[]
 ): ContentNode | ContentNode[] {
   if (!content) return content;
 
@@ -87,7 +87,7 @@ export const updatePolicyAction = authActionClient
 
       // Create a new plain object from the content
       const processedContent = JSON.parse(
-        JSON.stringify(processContent(content as ContentNode)),
+        JSON.stringify(processContent(content as ContentNode))
       );
 
       await db.organizationPolicy.update({
@@ -95,8 +95,8 @@ export const updatePolicyAction = authActionClient
         data: { content: processedContent.content },
       });
 
-      revalidatePath(`/policies/${id}`);
-      revalidatePath("/policies");
+      revalidatePath(`/${user.organizationId}/policies/${id}`);
+      revalidatePath(`/${user.organizationId}/policies`);
       revalidateTag(`user_${user.id}`);
 
       return {
