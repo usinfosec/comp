@@ -592,7 +592,7 @@ export default {
       title: "Faturamento"
     },
     api_keys: {
-      title: "Chaves da API",
+      title: "API",
       description: "Gerencie chaves da API para acesso programático aos dados da sua organização.",
       list_title: "Chaves da API",
       list_description: "As chaves da API permitem acesso seguro aos dados da sua organização através da nossa API.",
@@ -659,7 +659,8 @@ export default {
           admin: "Admin",
           member: "Membro",
           viewer: "Visualizador"
-        }
+        },
+        description: "Gerencie os membros da sua equipe e suas funções"
       },
       invitations: {
         title: "Convites Pendentes",
@@ -983,6 +984,10 @@ export default {
     tests: {
       overview: "Testes em Nuvem",
       test_details: "Detalhes do Teste"
+    },
+    vendors: {
+      overview: "Fornecedores",
+      register: "Registro de Fornecedor"
     }
   },
   editor: {
@@ -1129,10 +1134,11 @@ export default {
   vendors: {
     title: "Fornecedores",
     register: {
-      title: "Registro de Fornecedor"
+      title: "Registro de Fornecedor",
+      create_new: "Criar Fornecedor"
     },
     dashboard: {
-      title: "Visão Geral do Fornecedor"
+      title: "Visão Geral"
     }
   },
   dashboard: {

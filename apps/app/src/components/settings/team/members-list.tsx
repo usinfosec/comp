@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Crown, UserCheck, UserCog, UserMinus } from "lucide-react";
 import { MemberActions } from "./member-actions";
 import type { MembershipRole } from "@prisma/client";
@@ -113,6 +113,9 @@ export function MembersList({ members, currentUserRole, hasOrganization }: Membe
           })}
         </div>
       </CardContent>
+      <CardFooter>
+        {t("settings.team.members.description")}
+      </CardFooter>
     </Card>
   );
 }

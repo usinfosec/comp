@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
-import { VendorOverview } from "@/components/vendors/charts/vendors-overview";
+import { RiskOverview } from "@/components/risks/charts/risk-overview";
+import { RisksAssignee } from "@/components/risks/charts/risks-assignee";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
@@ -7,56 +8,67 @@ import { setStaticParamsLocale } from "next-international/server";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
-export default async function VendorOverviewPage({
-	params,
+export default async function RiskManagement({
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
 
-	const session = await auth();
+  const session = await auth();
 
-	if (!session?.user?.organizationId) {
-		redirect("/onboarding");
-	}
+  if (!session?.user?.organizationId) {
+    redirect("/onboarding");
+  }
 
-	const overview = await getVendorOverview(session.user.organizationId);
+  const overview = await getRiskOverview(session.user.organizationId);
 
-	return (
-		<div className="space-y-4 sm:space-y-8 w-full px-2 sm:px-4">
-			<VendorOverview organizationId={session.user.organizationId} />
-		</div>
-	);
+  if (overview?.risks === 0) {
+    redirect("/risk/register");
+  }
+
+  return (
+    <div className="space-y-4 sm:space-y-8">
+      Coming Soon
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <RiskOverview organizationId={session.user.organizationId} />
+      </div>
+
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <RisksAssignee organizationId={session.user.organizationId} />
+      </div> */}
+    </div>
+  );
 }
 
-const getVendorOverview = unstable_cache(
-	async (organizationId: string) => {
-		return await db.$transaction(async (tx) => {
-			const [vendors] = await Promise.all([
-				tx.vendor.count({
-					where: { organizationId },
-				}),
-			]);
+const getRiskOverview = unstable_cache(
+  async (organizationId: string) => {
+    return await db.$transaction(async (tx) => {
+      const [risks] = await Promise.all([
+        tx.risk.count({
+          where: { organizationId },
+        }),
+      ]);
 
-			return {
-				vendors,
-			};
-		});
-	},
-	["vendor-overview-cache"],
+      return {
+        risks,
+      };
+    });
+  },
+  ["risk-overview-cache"],
 );
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("sidebar.vendors"),
-	};
+  return {
+    title: t("sidebar.risk"),
+  };
 }
