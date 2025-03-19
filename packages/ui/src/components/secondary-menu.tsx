@@ -53,7 +53,7 @@ export function SecondaryMenu({
     <nav className={cn(isChild ? "py-0 select-none" : "py-4 select-none")}>
       <ul
         className={cn(
-          "scrollbar-hide flex overflow-auto text-sm",
+          "scrollbar-hide flex overflow-auto py-1 text-sm",
           isChild ? "space-x-3" : "space-x-6",
         )}
       >
