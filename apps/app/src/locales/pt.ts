@@ -951,7 +951,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Algo deu errado, por favor tente novamente"
+    unexpected: "Algo deu errado, por favor tente novamente",
+    unauthorized: {
+      title: "Acesso Não Autorizado",
+      description: "Você não tem permissão para acessar este recurso. Por favor, entre em contato com seu administrador se você acreditar que isso é um erro.",
+      back: "Voltar para a Página Inicial"
+    }
   },
   sub_pages: {
     risk: {

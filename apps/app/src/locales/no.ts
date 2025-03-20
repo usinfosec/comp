@@ -951,7 +951,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Noe gikk galt, vennligst prøv igjen"
+    unexpected: "Noe gikk galt, vennligst prøv igjen",
+    unauthorized: {
+      title: "Uautorisert tilgang",
+      description: "Du har ikke tillatelse til å få tilgang til denne ressursen. Vennligst kontakt administratoren din hvis du mener dette er en feil.",
+      back: "Gå tilbake til Hjem"
+    }
   },
   sub_pages: {
     risk: {

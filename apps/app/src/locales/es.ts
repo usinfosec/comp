@@ -951,7 +951,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Algo salió mal, por favor intenta de nuevo"
+    unexpected: "Algo salió mal, por favor intenta de nuevo",
+    unauthorized: {
+      title: "Acceso no autorizado",
+      description: "No tienes permiso para acceder a este recurso. Por favor, contacta a tu administrador si crees que esto es un error.",
+      back: "Regresar a Inicio"
+    }
   },
   sub_pages: {
     risk: {

@@ -951,7 +951,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Quelque chose s'est mal passé, veuillez réessayer"
+    unexpected: "Quelque chose s'est mal passé, veuillez réessayer",
+    unauthorized: {
+      title: "Accès non autorisé",
+      description: "Vous n'avez pas la permission d'accéder à cette ressource. Veuillez contacter votre administrateur si vous pensez qu'il s'agit d'une erreur.",
+      back: "Retour à l'accueil"
+    }
   },
   sub_pages: {
     risk: {

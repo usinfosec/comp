@@ -669,6 +669,9 @@ files:
     frameworks.controls.statuses.in_progress: c9413dd7682a45da9ecc9efa8cea47d7
     frameworks.controls.statuses.not_started: 10db56f8b10dc989c43fbe33202e5339
     errors.unexpected: 325a357f60b95f37fec18b15cb39fbb0
+    errors.unauthorized.title: 2a5277746841d80f9489dd85fabc769d
+    errors.unauthorized.description: 118ce881f1bd6df5785ce15698255334
+    errors.unauthorized.back: 56cf8b33ab527ab81b4f6b3ceac090dd
     editor.ai.thinking: aba464039b337eb2e75c2520039de58f
     editor.ai.thinking_spinner: aba464039b337eb2e75c2520039de58f
     editor.ai.edit_or_generate: 7d46fd8c65c35acb13973849b035cc53
