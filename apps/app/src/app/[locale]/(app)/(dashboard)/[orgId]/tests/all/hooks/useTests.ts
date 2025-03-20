@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import { getTests } from "../actions/getTests";
 import type { TestsResponse, TestsInput, AppError } from "../types";
+import type { TestRow } from "../components/table/types";
 
 /** Fetcher function for tests */
 async function fetchTests(input: TestsInput): Promise<TestsResponse> {
@@ -64,8 +65,15 @@ export function useTests() {
   /** Track local mutation loading state */
   const [isMutating, setIsMutating] = useState(false);
 
+  // Format the tests to match the TestRow type
+  const formattedTests = data?.tests.map(test => ({
+    ...test,
+    // Convert Date to string for use in components if needed
+    createdAt: test.createdAt
+  })) || [];
+
   return {
-    tests: data?.tests ?? [],
+    tests: formattedTests,
     total: data?.total ?? 0,
     isLoading,
     isMutating,

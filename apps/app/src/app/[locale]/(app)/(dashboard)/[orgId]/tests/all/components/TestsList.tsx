@@ -1,16 +1,12 @@
 "use client";
 
-import { DataTable } from "@/components/tables/tests/data-table";
-import {
-  NoResults,
-  NoTests,
-} from "@/components/tables/tests/empty-states";
-import { FilterToolbar } from "@/components/tables/tests/filter-toolbar";
+import { NoTests } from "@/components/tables/tests/empty-states";
 import { Loading } from "@/components/tables/tests/loading";
 import { useTests } from "../hooks/useTests";
-import { useSearchParams } from "next/navigation";
-import type { TestType } from "@/components/tables/tests/columns";
 import { TestsListSkeleton } from "./TestsListSkeleton";
+import { TestsTable } from "./table/TestsTable";
+import { TestsTableProvider } from "./table/hooks/useTestsTableContext";
+import type { User } from "next-auth";
 
 interface TestsListProps {
   columnHeaders: {
@@ -21,17 +17,11 @@ interface TestsListProps {
     createdAt: string;
     assignedUser: string;
   };
+  users: User[];
 }
 
-export function TestsList({ columnHeaders }: TestsListProps) {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-  const provider = searchParams.get("provider");
-  const status = searchParams.get("status");
-  const per_page = Number(searchParams.get("per_page")) || 10;
-  const page = Number(searchParams.get("page")) || 1;
-
-  const { tests, total, isLoading, error } = useTests();
+export function TestsList({ columnHeaders, users }: TestsListProps) {
+  const { tests, isLoading, error } = useTests();
 
   if (isLoading) {
     return <TestsListSkeleton />;
@@ -39,19 +29,18 @@ export function TestsList({ columnHeaders }: TestsListProps) {
 
   if (error) {
     return (
-      <div className="relative">
-        <FilterToolbar isEmpty={true} />
-        <NoResults hasFilters={false} />
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Tests</h2>
+        <div className="border p-4 rounded-md bg-red-50 text-red-800">
+          Error loading tests: {error.message}
+        </div>
       </div>
     );
   }
 
-  const hasFilters = !!(search || provider || status);
-
-  if (tests.length === 0 && !hasFilters) {
+  if (tests.length === 0) {
     return (
       <div className="relative overflow-hidden">
-        <FilterToolbar isEmpty={true} />
         <NoTests />
         <Loading isEmpty />
       </div>
@@ -59,18 +48,10 @@ export function TestsList({ columnHeaders }: TestsListProps) {
   }
 
   return (
-    <div className="relative">
-      <FilterToolbar isEmpty={tests.length === 0} />
-      {tests.length > 0 ? (
-        <DataTable
-          columnHeaders={columnHeaders}
-          data={tests as TestType[]}
-          pageCount={Math.ceil(total / per_page)}
-          currentPage={page}
-        />
-      ) : (
-        <NoResults hasFilters={hasFilters} />
-      )}
-    </div>
+    <TestsTableProvider>
+      <div className="relative">
+        <TestsTable users={users} />
+      </div>
+    </TestsTableProvider>
   );
 } 
