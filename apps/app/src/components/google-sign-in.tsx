@@ -14,16 +14,17 @@ export function GoogleSignIn({
 	inviteCode?: string;
 }) {
 	const t = useI18n();
-
 	const [isLoading, setLoading] = useState(false);
 
 	const handleSignIn = async () => {
 		setLoading(true);
 
+		const redirectTo = inviteCode
+			? `/api/auth/invitation?code=${inviteCode}`
+			: "/";
+
 		await signIn("google", {
-			redirectTo: inviteCode
-				? `/api/auth/invitation?code=${inviteCode}`
-				: "/setup",
+			redirectTo,
 		});
 	};
 

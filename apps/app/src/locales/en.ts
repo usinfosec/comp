@@ -1062,7 +1062,7 @@ export default {
 		title: "Evidence",
 		list: "All Evidence",
 		overview: "Evidence Overview",
-		edit: "Uploaded Evidence",
+		edit: "Edit Evidence",
 		dashboard: {
 			layout: "Dashboard",
 			layout_back_button: "Back",

@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { useI18n } from "@/locales/client";
 import { useParams } from "next/navigation";
-import { useOrganizationEvidence } from "../../hooks/useOrganizationEvidence";
-import { FileSection } from "../../components/FileSection";
-import { UrlSection } from "../../components/UrlSection";
+import { FileSection } from "./FileSection";
+import { UrlSection } from "./UrlSection";
+import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 
 export function EditEvidenceForm() {
 	const { id } = useParams<{ id: string }>();

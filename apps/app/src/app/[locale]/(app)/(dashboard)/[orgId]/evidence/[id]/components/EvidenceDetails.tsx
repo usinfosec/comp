@@ -6,6 +6,7 @@ import { CheckCircle2, FileIcon, XCircle } from "lucide-react";
 import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
 import type { EvidenceDetailsProps } from "../types";
 import { ReviewSection } from "./ReviewSection";
+import { EditEvidenceForm } from "./EditEvidenceForm";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 	const { data, isLoading, mutate } = useOrganizationEvidence({ id });
@@ -62,7 +63,6 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 					)}
 				</AlertDescription>
 			</Alert>
-
 			<ReviewSection
 				evidence={evidence}
 				evidenceId={id}
@@ -73,6 +73,7 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 				onSuccess={handleMutate}
 				id={id}
 			/>
+			<EditEvidenceForm />
 		</div>
 	);
 }
