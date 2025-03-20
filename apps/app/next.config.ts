@@ -1,9 +1,6 @@
 import "./src/env.mjs";
 
 const config = {
-  experimental: {
-    nodeMiddleware: true, // Enable Node.js middleware
-  },
   poweredByHeader: false,
   reactStrictMode: true,
   images: {
