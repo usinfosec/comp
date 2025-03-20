@@ -1223,18 +1223,19 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-"@bubba/analytics@packages/analytics":
+"@bubba/analytics@^workspace:packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/app@apps/app", "@bubba/app@workspace:*":
+"@bubba/app@^workspace:apps/app", "@bubba/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
     "@bubba/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.10"
     "@types/react" "19.0.10"
@@ -1250,7 +1251,9 @@
     "@aws-sdk/client-s3" "^3.758.0"
     "@aws-sdk/s3-request-presigner" "^3.758.0"
     "@browserbasehq/sdk" "^2.4.0"
+  dependencies:
     "@bubba/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.53.2"
@@ -1318,11 +1321,12 @@
     yarn "^1.22.22"
     zustand "^5.0.3"
 
-"@bubba/db@packages/db", "@bubba/db@workspace:*":
+"@bubba/db@^workspace:packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1332,7 +1336,7 @@
     "@prisma/extension-accelerate" "^1.2.2"
     prisma "^6.5.0"
 
-"@bubba/email@packages/email":
+"@bubba/email@^workspace:packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1352,7 +1356,7 @@
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
-"@bubba/integrations@packages/integrations":
+"@bubba/integrations@^workspace:packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1374,14 +1378,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@bubba/kv@packages/kv":
+"@bubba/kv@^workspace:packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@^workspace:packages/notifications", "@bubba/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1390,11 +1394,11 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.0"
 
-"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@^workspace:packages/tsconfig", "@bubba/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@^workspace:packages/ui", "@bubba/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -1458,7 +1462,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@^workspace:packages/utils", "@bubba/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -10593,16 +10597,7 @@ next@*, "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0
   version "15.3.0-canary.13"
   resolved "https://registry.npmjs.org/next/-/next-15.3.0-canary.13.tgz"
   integrity sha512-c8BO/c1FjV/jY4OmlBTKaeI0YYDIsakkmJQFgpjq9RzoBetoi/VLAloZMDpsrfSFIhHDHhraLMxzSvS6mFKeuA==
-  dependencies:
-    "@next/env" "15.3.0-canary.13"
-    "@swc/counter" "0.1.3"
-    "@swc/helpers" "0.5.15"
-    busboy "1.6.0"
-    caniuse-lite "^1.0.30001579"
-    postcss "8.4.31"
-    styled-jsx "5.1.6"
   optionalDependencies:
-    sharp "^0.33.5"
     "@next/swc-darwin-arm64" "15.3.0-canary.13"
     "@next/swc-darwin-x64" "15.3.0-canary.13"
     "@next/swc-linux-arm64-gnu" "15.3.0-canary.13"
@@ -10611,6 +10606,15 @@ next@*, "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0
     "@next/swc-linux-x64-musl" "15.3.0-canary.13"
     "@next/swc-win32-arm64-msvc" "15.3.0-canary.13"
     "@next/swc-win32-x64-msvc" "15.3.0-canary.13"
+    sharp "^0.33.5"
+  dependencies:
+    "@next/env" "15.3.0-canary.13"
+    "@swc/counter" "0.1.3"
+    "@swc/helpers" "0.5.15"
+    busboy "1.6.0"
+    caniuse-lite "^1.0.30001579"
+    postcss "8.4.31"
+    styled-jsx "5.1.6"
 
 "next-auth@^5.0.0-beta.25":
   version "5.0.0-beta.25"
@@ -11317,7 +11321,7 @@ plist@^3.1.0:
     base64-js "^1.5.1"
     xmlbuilder "^15.1.1"
 
-"portal@apps/portal":
+portal@^workspace:apps/portal:
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:

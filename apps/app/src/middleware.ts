@@ -1,15 +1,14 @@
 import { createI18nMiddleware } from "next-international/middleware";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import type { Session } from "next-auth";
+import { auth } from "./auth";
 
 export const config = {
   matcher: [
     // Skip auth-related routes
     "/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest).*)",
   ],
-  runtime: "nodejs", // Specify the runtime environment as Node.js, since we're using AWS with Postgres.
+  runtime: "nodejs",
 };
 
 const I18nMiddleware = createI18nMiddleware({
@@ -22,16 +21,18 @@ const I18nMiddleware = createI18nMiddleware({
 // Add any middleware logic here inside the callback.
 // See: https://authjs.dev/getting-started/session-management/protecting?framework=Next.js
 
-async function mainMiddleware(request: NextRequest & { auth: Session | null }) {
+export async function middleware(request: NextRequest) {
+  const session = await auth();
+
   try {
     // If the user is not authenticated, redirect to the auth page
-    if (!request.auth && request.nextUrl.pathname !== "/auth") {
+    if (!session && request.nextUrl.pathname !== "/auth") {
       return NextResponse.redirect(new URL("/auth", request.nextUrl.origin));
     }
 
     // Only handle root path redirects
     if (request.nextUrl.pathname === "/") {
-      if (!request.auth) {
+      if (!session) {
         return NextResponse.redirect(new URL("/auth", request.nextUrl.origin));
       }
 
@@ -57,5 +58,3 @@ async function mainMiddleware(request: NextRequest & { auth: Session | null }) {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
-
-export default auth(mainMiddleware);
