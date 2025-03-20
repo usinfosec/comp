@@ -4,7 +4,6 @@ import { sendMagicLinkEmail } from "@bubba/email/lib/magic-link";
 import type { DefaultSession, NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
-import { createOrganizationAndConnectUser } from "./org";
 
 declare module "next-auth" {
   interface User {

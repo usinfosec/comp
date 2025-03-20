@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 export const config = {
   matcher: [
     // Skip auth-related routes
-    "/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest|auth/callback|auth/signin|auth/signout).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest).*)",
   ],
   runtime: "nodejs", // Specify the runtime environment as Node.js, since we're using AWS with Postgres.
 };
