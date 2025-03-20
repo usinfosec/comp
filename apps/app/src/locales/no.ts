@@ -662,7 +662,11 @@ export default {
           member: "Medlem",
           viewer: "Seer"
         },
-        description: "Administrer teammedlemmene dine og deres roller"
+        description: "Administrer teammedlemmene dine og deres roller",
+        status: {
+          accepted: "Akseptert",
+          pending: "Venter"
+        }
       },
       invitations: {
         title: "Venteinvitasjoner",
