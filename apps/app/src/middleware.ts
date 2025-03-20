@@ -1,6 +1,8 @@
 import { createI18nMiddleware } from "next-international/middleware";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import type { Session } from "next-auth";
 
 export const config = {
   matcher: [
@@ -20,7 +22,7 @@ const I18nMiddleware = createI18nMiddleware({
 // Add any middleware logic here inside the callback.
 // See: https://authjs.dev/getting-started/session-management/protecting?framework=Next.js
 
-export default auth(async (request) => {
+async function mainMiddleware(request: NextRequest & { auth: Session | null }) {
   try {
     // If the user is not authenticated, redirect to the auth page
     if (!request.auth && request.nextUrl.pathname !== "/auth") {
@@ -54,4 +56,6 @@ export default auth(async (request) => {
     console.error("Middleware error:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-});
+}
+
+export default auth(mainMiddleware);
