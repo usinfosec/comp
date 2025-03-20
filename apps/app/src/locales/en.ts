@@ -786,6 +786,10 @@ export default {
           member: "Member",
           viewer: "Viewer",
         },
+        status: {
+          accepted: "Accepted",
+          pending: "Pending",
+        },
       },
       invitations: {
         title: "Pending Invitations",
