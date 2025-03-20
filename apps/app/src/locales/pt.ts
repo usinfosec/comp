@@ -331,7 +331,9 @@ export default {
       draft: "Rascunho",
       published: "Publicado",
       needs_review: "Necessita Revisão",
-      archived: "Arquivado"
+      archived: "Arquivado",
+      relevant: "Relevante",
+      "not-relevant": "Não Relevante"
     },
     policies: "políticas",
     title: "Políticas",

@@ -331,7 +331,9 @@ export default {
       draft: "Utkast",
       published: "Publisert",
       needs_review: "Trenger Gjennomgang",
-      archived: "Arkivert"
+      archived: "Arkivert",
+      relevant: "Relevant",
+      "not-relevant": "Ikke relevant"
     },
     policies: "policyer",
     title: "Policyer",

@@ -265,6 +265,8 @@ files:
     policies.status.published: 9b9d8a976b42e0bd66381797644943d5
     policies.status.needs_review: 994f197b212a0f4dc844cc3534e889c2
     policies.status.archived: 7d69b3cb4cada18ae61811304f8fbcb5
+    policies.status.relevant: 49120343651af33741d17b0f74e410ea
+    policies.status.not-relevant: c650af49be2cb54814194f7299ceb86d
     policies.policies: 94422fa6b0fe23d0ab463703c0022a63
     policies.title: 9e476387322a5c250893cf9c5c4ce78c
     policies.create_new: 5ff074c18e92b64ab9bad69c28267285

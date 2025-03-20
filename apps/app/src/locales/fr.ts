@@ -331,7 +331,9 @@ export default {
       draft: "Brouillon",
       published: "Publié",
       needs_review: "Besoin de révision",
-      archived: "Archivé"
+      archived: "Archivé",
+      relevant: "Pertinent",
+      "not-relevant": "Non pertinent"
     },
     policies: "politiques",
     title: "Politiques",
