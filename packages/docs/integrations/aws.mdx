@@ -1,0 +1,104 @@
+---
+title: "AWS Integration"
+description: "Connect AWS to Comp AI for cloud security testing"
+---
+
+# AWS Integration
+
+The AWS integration allows you to connect your AWS infrastructure to Comp AI for automated security testing, compliance monitoring, and risk assessment.
+
+## Setup Process
+
+### Prerequisites
+
+Before setting up the integration, ensure you have:
+
+1. AWS account with administrator access
+2. Admin access to your Comp AI workspace
+3. IAM permissions to create cross-account roles
+
+### Configuration Steps
+
+1. Navigate to **Settings > Integrations** in your Comp AI dashboard
+2. Click on **Connect** next to the AWS integration card
+3. Select the integration method:
+   - **Option 1**: CloudFormation Stack (Recommended)
+     - Download the CloudFormation template
+     - Deploy the template in your AWS account
+     - The template will create the necessary IAM roles with least-privilege permissions
+   - **Option 2**: Manual Setup
+     - Create an IAM role with external ID
+     - Add the provided policy document
+     - Enter the role ARN in Comp AI
+4. Configure scan settings:
+   - Scan frequency
+   - Target accounts and regions
+   - Notification preferences
+5. Click **Save and Connect**
+
+## Capabilities
+
+### Security Tests
+
+The AWS integration performs the following security assessments:
+
+| Test Category | Description |
+|---------------|-------------|
+| IAM Analysis | Review IAM policies and roles for excessive permissions |
+| S3 Security | Identify improperly configured bucket permissions and encryption |
+| EC2 Security | Analyze security groups, instance configurations, and patch status |
+| RDS Security | Check database security settings and encryption |
+| CloudTrail | Verify proper logging and monitoring configuration |
+| KMS Usage | Validate encryption key usage and rotation policies |
+| Network | Assess VPC configurations, NACLs, and security groups |
+
+### Compliance Frameworks
+
+The integration checks compliance against:
+
+- CIS AWS Foundations Benchmark
+- SOC 2
+- HIPAA (where applicable)
+- PCI DSS
+- GDPR
+- ISO 27001
+
+## Managing Access
+
+### Access Control
+
+Comp AI requires read-only access to your AWS environment. The integration uses a custom IAM role with specific permissions that follow the principle of least privilege.
+
+### Permissions
+
+The created IAM role has permissions for:
+
+- Describing resources (EC2, S3, IAM, etc.)
+- Reading configurations and settings
+- Listing resources and their attributes
+
+The integration does NOT have permissions to:
+- Modify any resources
+- Create new resources
+- Delete existing resources
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: Failed to connect AWS account  
+**Solution**: Verify IAM role trust relationship and external ID
+
+**Issue**: Missing scan results for specific services  
+**Solution**: Check IAM permissions for those specific services
+
+**Issue**: Incomplete region coverage  
+**Solution**: Update region settings in the integration configuration
+
+### Support
+
+For additional assistance with your AWS integration:
+
+1. Check our [Knowledge Base](https://help.trycomp.ai/aws-integration)
+2. Contact support at [support@trycomp.ai](mailto:support@trycomp.ai)
+3. Join our [Discord community](https://discord.gg/compai) for peer support 
