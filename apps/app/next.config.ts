@@ -17,6 +17,9 @@ const config = {
       fullUrl: process.env.LOG_FETCHES === "true",
     },
   },
+  experimental: {
+    authInterrupts: true,
+  },
   async rewrites() {
     return [
       {
