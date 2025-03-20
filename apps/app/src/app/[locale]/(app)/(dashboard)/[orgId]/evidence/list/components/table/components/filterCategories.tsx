@@ -1,11 +1,8 @@
 "use client";
 
-import {
-	STATUS_FILTERS,
-	RELEVANCE_FILTERS,
-	DEPARTMENT_ICON,
-} from "./filterConfigs";
+import { STATUS_FILTERS, RELEVANCE_FILTERS } from "./filterConfigs";
 import { AssigneeAvatar } from "./AssigneeAvatar";
+import { StatusPolicies } from "@/components/status-policies";
 
 interface FilterCategoriesProps {
 	status: string | null;
@@ -46,6 +43,7 @@ export function getFilterCategories({
 			items: STATUS_FILTERS.map((filter) => ({
 				...filter,
 				checked: status === filter.value,
+				icon: <StatusPolicies status={filter.value} withLabel={false} />,
 				onChange: (checked: boolean) => {
 					setStatus(checked ? filter.value : null);
 					setPage("1");
@@ -57,6 +55,7 @@ export function getFilterCategories({
 			items: RELEVANCE_FILTERS.map((filter) => ({
 				...filter,
 				checked: relevance === filter.value,
+				icon: <StatusPolicies status={filter.value} withLabel={false} />,
 				onChange: (checked: boolean) => {
 					setRelevance(checked ? filter.value : null);
 					setPage("1");
@@ -85,7 +84,6 @@ export function getFilterCategories({
 					setDepartment(checked ? dept : null);
 					setPage("1");
 				},
-				icon: DEPARTMENT_ICON,
 			})),
 			maxHeight: "150px",
 		},
