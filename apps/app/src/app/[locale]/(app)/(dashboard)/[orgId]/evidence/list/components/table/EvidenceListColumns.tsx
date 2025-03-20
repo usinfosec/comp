@@ -7,6 +7,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { AlertTriangle, Building, CheckCircle2 } from "lucide-react";
 import type { EvidenceTaskRow } from "../../types";
+import { Badge } from "@bubba/ui/badge";
 
 export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 	{
@@ -56,19 +57,20 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 		enableSorting: false,
 		cell: ({ row }) => {
 			const department = row.original.department;
-			if (!department || department === "none")
+
+			if (!department || department === "none") {
 				return (
-					<div className="text-muted-foreground text-sm hidden md:block">
+					<Badge variant="marketing" className="text-xs w-min hidden md:flex">
 						None
-					</div>
+					</Badge>
 				);
+			}
 
 			return (
 				<div className="hidden md:flex items-center gap-2">
-					<Building size={16} className="text-muted-foreground shrink-0" />
-					<span className="truncate text-sm">
+					<Badge variant="marketing">
 						{department.replace(/_/g, " ").toUpperCase()}
-					</span>
+					</Badge>
 				</div>
 			);
 		},
@@ -170,7 +172,7 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 
 			if (!isNotRelevant) {
 				return (
-					<div className="hidden md:flex gap-2">
+					<div className="flex gap-2 items-center">
 						<CheckCircle2 size={16} className="text-green-500 shrink-0" />
 						<span className="text-sm text-green-600">Relevant</span>
 					</div>
@@ -178,7 +180,7 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 			}
 
 			return (
-				<div className="hidden md:flex gap-2">
+				<div className="flex gap-2 items-center">
 					<AlertTriangle size={16} className="text-yellow-500 shrink-0" />
 					<span className="text-sm text-yellow-600">Not Relevant</span>
 				</div>

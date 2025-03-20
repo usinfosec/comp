@@ -6,10 +6,27 @@ import type { EvidenceTaskRow } from "../../types";
 import { useParams, useRouter } from "next/navigation";
 import { useEvidenceTable } from "../../hooks/useEvidenceTableContext";
 import { getFilterCategories } from "./components/filterCategories";
+import { useEffect, useMemo, useState } from "react";
 
 export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 	const router = useRouter();
 	const { orgId } = useParams<{ orgId: string }>();
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkIfMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		// Initial check
+		checkIfMobile();
+
+		// Add event listener
+		window.addEventListener("resize", checkIfMobile);
+
+		// Cleanup
+		return () => window.removeEventListener("resize", checkIfMobile);
+	}, []);
 
 	const {
 		page,
@@ -67,10 +84,21 @@ export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 		setPage,
 	});
 
+	// Filter columns for mobile view
+	const visibleColumns = useMemo(() => {
+		if (isMobile) {
+			// On mobile, only show the name and relevance columns
+			return EvidenceListColumns.filter(
+				(column) => column.id === "name" || column.id === "relevance",
+			);
+		}
+		return EvidenceListColumns;
+	}, [isMobile]);
+
 	return (
 		<DataTable
 			data={data || []}
-			columns={EvidenceListColumns}
+			columns={visibleColumns}
 			onRowClick={(row: EvidenceTaskRow) => handleRowClick(row.id)}
 			emptyMessage="No evidence tasks found."
 			isLoading={isLoading || isSearching}

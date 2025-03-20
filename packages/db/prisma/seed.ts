@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Departments, PrismaClient } from "@prisma/client";
 import type { Frequency, Prisma } from "@prisma/client";
 import { RequirementType } from "@prisma/client";
 import { readFileSync, readdirSync } from "node:fs";
@@ -295,6 +295,7 @@ async function seedFrameworkCategoryControls(
               ? requirement.policyId
               : null,
           frequency: requirement?.frequency ?? null,
+          department: requirement?.department ?? Departments.none,
         },
         update: {
           name: requirement.name,
@@ -304,6 +305,7 @@ async function seedFrameworkCategoryControls(
               ? requirement.policyId
               : null,
           frequency: requirement?.frequency ?? null,
+          department: requirement?.department ?? Departments.none,
         },
       });
     }
@@ -397,12 +399,14 @@ async function seedEvidence() {
         name: evidenceReq.name,
         description: evidenceReq.description,
         frequency: evidenceReq.frequency ?? null,
+        department: evidenceReq.department ?? Departments.none,
       },
       create: {
         id: evidenceReq.id,
         name: evidenceReq.name,
         description: evidenceReq.description,
         frequency: evidenceReq.frequency ?? null,
+        department: evidenceReq.department ?? Departments.none,
       },
     });
 

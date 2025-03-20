@@ -220,6 +220,7 @@ async function seedFrameworkCategoryControls(frameworkId, categoryCode) {
                         ? requirement.policyId
                         : null,
                     frequency: requirement?.frequency ?? null,
+                    department: requirement?.department ?? client_1.Departments.none,
                 },
                 update: {
                     name: requirement.name,
@@ -228,6 +229,7 @@ async function seedFrameworkCategoryControls(frameworkId, categoryCode) {
                         ? requirement.policyId
                         : null,
                     frequency: requirement?.frequency ?? null,
+                    department: requirement?.department ?? client_1.Departments.none,
                 },
             });
         }
@@ -305,12 +307,14 @@ async function seedEvidence() {
                 name: evidenceReq.name,
                 description: evidenceReq.description,
                 frequency: evidenceReq.frequency ?? null,
+                department: evidenceReq.department ?? client_1.Departments.none,
             },
             create: {
                 id: evidenceReq.id,
                 name: evidenceReq.name,
                 description: evidenceReq.description,
                 frequency: evidenceReq.frequency ?? null,
+                department: evidenceReq.department ?? client_1.Departments.none,
             },
         });
         // Update the control requirement to link back to the evidence

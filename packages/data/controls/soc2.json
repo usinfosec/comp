@@ -19,7 +19,8 @@
         "type": "evidence",
         "name": "Board Meeting Documentation",
         "description": "Minutes of board meetings and oversight reports demonstrating active review of internal controls. Provide Board Oversight Procedures document that outlines scheduled reviews, risk assessments, and communication channels with management.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "admin"
       }
     ]
   },
@@ -49,7 +50,8 @@
         "type": "evidence",
         "name": "Management Structure Documentation",
         "description": "Organizational charts, management meeting minutes, and training records. Provide Management Oversight Procedures document that outlines decision-making processes and periodic reporting.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "admin"
       }
     ]
   },
@@ -73,7 +75,8 @@
         "type": "evidence",
         "name": "HR Documentation",
         "description": "HR records, training logs, and performance evaluations. Provide Talent Management Procedures document that outlines talent acquisition, performance management, and professional development.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "hr"
       }
     ]
   },
@@ -103,7 +106,8 @@
         "type": "evidence",
         "name": "Personnel Compliance Documentation",
         "description": "Employee acknowledgment forms, training records, and disciplinary documentation. Provide Personnel Accountability Procedures document that outlines monitoring, enforcing, and reviewing personnel accountability.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "hr"
       }
     ]
   },
@@ -133,7 +137,8 @@
         "type": "evidence",
         "name": "Ethics Compliance Documentation",
         "description": "Signed acknowledgment forms, training completion records, and records of investigations or disciplinary actions. Provide Ethics Compliance Procedures document that outlines reporting, investigating, and addressing breaches of the code.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "hr"
       }
     ]
   },
@@ -157,7 +162,8 @@
         "type": "evidence",
         "name": "Data Quality Documentation",
         "description": "Data quality reports, audit logs, and records of corrective actions. Provide Data Quality Procedures document that outlines validating data inputs and correcting errors throughout data processing.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -181,7 +187,8 @@
         "type": "evidence",
         "name": "Communication Records",
         "description": "Communication logs, email distributions, and meeting minutes. Provide Internal Communication Procedures document that outlines internal reporting, announcements, and feedback regarding internal controls.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "admin"
       }
     ]
   },
@@ -205,7 +212,8 @@
         "type": "evidence",
         "name": "External Communication Records",
         "description": "Records of external communications, press releases, and stakeholder correspondence. Provide External Communication Procedures document that outlines drafting, approving, and disseminating external communications related to internal controls.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "admin"
       }
     ]
   },
@@ -229,7 +237,8 @@
         "type": "evidence",
         "name": "Risk Assessment Documentation",
         "description": "Risk assessment reports, risk registers, and management review minutes. Provide Risk Assessment Procedures document that outlines conducting regular risk assessments, documenting risks, and assigning risk owners.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -253,7 +262,8 @@
         "type": "evidence",
         "name": "Risk Identification Records",
         "description": "Risk register entries, workshop records, and risk analysis documentation. Provide Risk Identification Procedures document that outlines risk identification using workshops, surveys, and data analysis.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -277,7 +287,8 @@
         "type": "evidence",
         "name": "Fraud Risk Documentation",
         "description": "Fraud risk assessment reports, internal audit findings, and remediation tracking records. Provide Fraud Risk Assessment Procedures document that outlines conducting fraud risk assessments and reporting findings.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -301,7 +312,8 @@
         "type": "evidence",
         "name": "Change Risk Documentation",
         "description": "Change impact assessments, risk logs, and management approval records. Provide Change Risk Assessment Procedures document that outlines assessing the impact of changes and planning mitigations for associated risks.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -325,7 +337,8 @@
         "type": "evidence",
         "name": "Control Testing Documentation",
         "description": "Internal audit reports, control testing records, and management review documentation. Provide Control Testing Procedures document that outlines ongoing and periodic testing of internal controls.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "gov"
       }
     ]
   },
@@ -349,7 +362,8 @@
         "type": "evidence",
         "name": "Deficiency Management Records",
         "description": "Deficiency logs, remediation plans, and follow-up audit reports. Provide Deficiency Management Procedures document that outlines documenting, tracking, and remediating control deficiencies.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "gov"
       }
     ]
   },
@@ -373,7 +387,8 @@
         "type": "evidence",
         "name": "Control Implementation Records",
         "description": "Control design documents, implementation records, and risk mitigation assessments. Provide Control Implementation Procedures document that outlines developing, documenting, and implementing controls to mitigate risks.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -397,7 +412,8 @@
         "type": "evidence",
         "name": "Technology Control Records",
         "description": "System configuration records, monitoring reports, and technology audit logs. Provide Technology Control Procedures document that outlines implementing and monitoring technology controls such as firewalls, antivirus, and system hardening.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -421,7 +437,8 @@
         "type": "evidence",
         "name": "Policy Implementation Records",
         "description": "Policy distribution records, training logs, and compliance monitoring reports. Provide Policy Implementation Procedures document that outlines operationalizing policies including documentation, training, and compliance monitoring.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -445,7 +462,8 @@
         "type": "evidence",
         "name": "Access Control Records",
         "description": "Access control configurations, firewall logs, and system access review reports. Provide Access Management Procedures document that outlines granting, monitoring, and revoking system access including access logging and periodic reviews.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -469,7 +487,8 @@
         "type": "evidence",
         "name": "Authentication Records",
         "description": "Authentication logs, MFA configuration records, and user account management records. Provide Authentication Management Procedures document that outlines user registration, credential issuance, and ongoing authentication management.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -493,7 +512,8 @@
         "type": "evidence",
         "name": "Access Removal Records",
         "description": "User termination logs, de-provisioning records, and access review reports. Provide Access Removal Procedures document that outlines de-provisioning user access immediately after termination or role change.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -517,7 +537,8 @@
         "type": "evidence",
         "name": "Access Review Records",
         "description": "Access review logs, user access reports, and management sign-off documentation. Provide Access Review Procedures document that outlines conducting regular access reviews and validating that user permissions align with current roles.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -541,7 +562,8 @@
         "type": "evidence",
         "name": "Account Management Records",
         "description": "Account provisioning logs, privileged account review reports, and system audit logs. Provide Account Management Procedures document that outlines provisioning system accounts, managing privileged access, and monitoring account activity.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -565,7 +587,8 @@
         "type": "evidence",
         "name": "Physical Access Records",
         "description": "Facility access logs, visitor sign-in records, and security camera reports. Provide Physical Access Procedures document that outlines issuing physical access credentials, managing visitor access, and monitoring facility entry.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "admin"
       }
     ]
   },
@@ -589,7 +612,8 @@
         "type": "evidence",
         "name": "Change Management Records",
         "description": "Change logs, approval records, and configuration management documentation. Provide Change Management Procedures document that outlines managing, reviewing, and approving changes to information assets, including rollback measures.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -613,7 +637,8 @@
         "type": "evidence",
         "name": "Malware Prevention Records",
         "description": "Antivirus logs, malware detection alerts, and remediation records. Provide Malware Prevention Procedures document that outlines scanning, detecting, and responding to malware incidents on endpoints and networks.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -637,7 +662,8 @@
         "type": "evidence",
         "name": "Infrastructure Monitoring Records",
         "description": "Monitoring tool reports, alert logs, and incident tracking records. Provide Infrastructure Monitoring Procedures document that outlines real-time monitoring of infrastructure performance, security events, and system vulnerabilities.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -661,7 +687,8 @@
         "type": "evidence",
         "name": "Incident Response Records",
         "description": "Incident logs, response drill reports, and post-incident review documentation. Provide Security Incident Response Procedures document that outlines detecting, containing, eradicating, and recovering from security incidents.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -685,7 +712,8 @@
         "type": "evidence",
         "name": "Recovery Records",
         "description": "Recovery test results, restoration logs, and incident recovery reports. Provide Recovery Procedures document that outlines restoring systems and data following a security incident, including backup restoration and validation.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -708,7 +736,8 @@
         "type": "evidence",
         "name": "Incident Analysis Records",
         "description": "Incident analysis reports, lessons learned documentation, and remediation tracking records. Provide procedures document that outlines conducting root cause analysis and developing remediation plans for recurring issues.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -731,7 +760,8 @@
         "type": "evidence",
         "name": "Incident Communication Records",
         "description": "Communication logs, notifications, and records of stakeholder communications during incidents. Provide procedures document that outlines timely communication of security incidents to stakeholders, regulators, and internal teams.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -754,7 +784,8 @@
         "type": "evidence",
         "name": "Change Request Logs",
         "description": "Change request logs, approval records, and post-change review reports. Provide procedure for submitting, reviewing, and approving changes, including emergency change processes.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "itsm"
       }
     ]
   },
@@ -777,7 +808,8 @@
         "type": "evidence",
         "name": "Business Continuity Plans",
         "description": "Business continuity plans, BIA reports, and disaster recovery test results. Provide procedure for conducting business impact analyses, backup operations, and disaster recovery testing.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -800,7 +832,8 @@
         "type": "evidence",
         "name": "Vendor Risk Assessment Records",
         "description": "Vendor risk assessment reports, due diligence records, and contract reviews. Provide procedure for assessing vendor risk through questionnaires, audits, and continuous monitoring.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -823,7 +856,8 @@
         "type": "evidence",
         "name": "Business Continuity and Disaster Recovery Testing Records",
         "description": "Test reports, remediation logs, and updated BC/DR plans. Provide procedure for conducting regular BC/DR tests and documenting test results with follow-up actions.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -846,7 +880,8 @@
         "type": "evidence",
         "name": "Uptime Reports",
         "description": "Uptime reports, incident logs, and SLA monitoring records. Provide procedure for monitoring system availability, reporting outages, and ensuring continuity of operations.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "itsm"
       }
     ]
   },
@@ -869,7 +904,8 @@
         "type": "evidence",
         "name": "Capacity Reports",
         "description": "Capacity reports, trend analysis, and resource utilization logs. Provide procedure for capacity analysis, resource allocation, and performance tuning.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -892,7 +928,8 @@
         "type": "evidence",
         "name": "Incident Recovery Records",
         "description": "Incident recovery test results, post-incident reviews, and restoration logs. Provide procedure for incident response, recovery, and restoration of systems after an outage.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -915,7 +952,8 @@
         "type": "evidence",
         "name": "Data Classification Records",
         "description": "Data classification records, labeling practices, and access control lists for confidential information. Provide procedure for classifying, labeling, and handling confidential information.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -938,7 +976,8 @@
         "type": "evidence",
         "name": "Access Logs",
         "description": "Access logs, periodic access reviews, and certification records. Provide procedure for granting, monitoring, and revoking access to confidential data based on need-to-know.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -961,7 +1000,8 @@
         "type": "evidence",
         "name": "Disposal Records",
         "description": "Disposal records, certificates of destruction, and audit logs. Provide procedure for secure data destruction and disposal (electronic and physical).",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "it"
       }
     ]
   },
@@ -984,7 +1024,8 @@
         "type": "evidence",
         "name": "Data Validation Records",
         "description": "Data validation reports, exception logs, and audit records. Provide procedure for validating data inputs and outputs to ensure completeness and accuracy.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -1007,7 +1048,8 @@
         "type": "evidence",
         "name": "Data Processing Logs",
         "description": "Data processing logs, validation reports, and exception handling records. Provide procedure for ensuring proper validation, error handling, and reconciliation during data processing.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "it"
       }
     ]
   },
@@ -1030,7 +1072,8 @@
         "type": "evidence",
         "name": "Exception Logs",
         "description": "Exception logs, resolution documentation, and process improvement records. Provide procedure for detecting exceptions, escalating issues, and documenting resolutions.",
-        "frequency": "quarterly"
+        "frequency": "quarterly",
+        "department": "itsm"
       }
     ]
   },
@@ -1053,7 +1096,8 @@
         "type": "evidence",
         "name": "Privacy Notice",
         "description": "Copies of the privacy notice, version history, and distribution logs. Provide procedure for distributing and updating the privacy notice.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -1076,7 +1120,8 @@
         "type": "evidence",
         "name": "Consent Records",
         "description": "Consent records, opt-in logs, and audit trails for consent management. Provide procedure for obtaining, recording, and managing individual consent.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   },
@@ -1099,7 +1144,8 @@
         "type": "evidence",
         "name": "Retention Schedules",
         "description": "Retention schedules, disposal logs, and certificates of data destruction. Provide procedure for reviewing, archiving, and securely disposing of personal data.",
-        "frequency": "yearly"
+        "frequency": "yearly",
+        "department": "gov"
       }
     ]
   }

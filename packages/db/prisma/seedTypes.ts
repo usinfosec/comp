@@ -1,4 +1,4 @@
-import type { Frequency } from "@prisma/client";
+import type { Departments, Frequency } from "@prisma/client";
 
 export interface Framework {
   name: string;
@@ -19,6 +19,7 @@ export interface Requirement {
   policyId?: string;
   name?: string;
   frequency?: Frequency;
+  department?: Departments;
 }
 
 export interface Control {
