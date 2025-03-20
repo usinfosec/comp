@@ -1,16 +1,33 @@
 "use client";
 
-import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
+import { Card, CardContent } from "@bubba/ui/card";
 import { CloudOff } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
 
-interface Props {
-	hasFilters?: boolean;
+export function NoTests() {
+	const t = useI18n();
+
+	return (
+		<div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">
+			<div className="text-center max-w-sm mx-auto flex flex-col items-center justify-center">
+				<CloudOff className="mb-4 h-12 w-12 text-muted-foreground" />
+				<h2 className="text-xl font-medium mb-2">
+					{t("tests.empty.no_tests.title")}
+				</h2>
+				<p className="text-sm text-muted-foreground mb-6">
+					{t("tests.empty.no_tests.description")}
+				</p>
+			</div>
+
+			<EmployeeInviteSheet />
+		</div>
+	);
 }
 
-export function NoResults({ hasFilters }: Props) {
+export function NoResults({ hasFilters }: { hasFilters: boolean }) {
 	const router = useRouter();
 	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
@@ -39,26 +56,6 @@ export function NoResults({ hasFilters }: Props) {
 					</Button>
 				)}
 			</div>
-		</div>
-	);
-}
-
-export function NoTests() {
-	const t = useI18n();
-
-	return (
-		<div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">
-			<div className="text-center max-w-sm mx-auto flex flex-col items-center justify-center">
-				<CloudOff className="mb-4 h-12 w-12 text-muted-foreground" />
-				<h2 className="text-xl font-medium mb-2">
-					{t("tests.empty.no_tests.title")}
-				</h2>
-				<p className="text-sm text-muted-foreground mb-6">
-					{t("tests.empty.no_tests.description")}
-				</p>
-			</div>
-
-			<EmployeeInviteSheet />
 		</div>
 	);
 }

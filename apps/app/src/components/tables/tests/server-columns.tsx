@@ -8,7 +8,6 @@ export async function getServerColumnHeaders() {
     result: t("tests.table.result"),
     title: t("tests.table.title"),
     provider: t("tests.table.provider"),
-    status: t("tests.table.status"),
     createdAt: t("tests.table.createdAt"),
     assignedUser: t("tests.table.assignedUser"),
   };

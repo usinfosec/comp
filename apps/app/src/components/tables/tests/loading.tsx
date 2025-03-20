@@ -8,11 +8,7 @@ import { DataTableHeader } from "./data-table-header";
 
 const data = [...Array(10)].map((_, i) => ({ id: i.toString() }));
 
-export function Loading({
-  isEmpty,
-}: {
-  isEmpty: boolean;
-}) {
+export function Loading({ isEmpty }: { isEmpty: boolean }) {
   return (
     <Suspense fallback={<Loading isEmpty={false} />}>
       <div className="w-full overflow-auto">
@@ -24,29 +20,32 @@ export function Loading({
           <TableBody>
             {data?.map((row) => (
               <TableRow key={row.id} className="h-[45px]">
-                <TableCell className="w-[50px]">
+                <TableCell className="w-[100px]">
                   <Skeleton
-                    className={cn("h-3.5 w-[15px]", isEmpty && "animate-none")}
+                    className={cn("h-3.5 w-[50px]", isEmpty && "animate-none")}
                   />
                 </TableCell>
-
+                <TableCell className="w-[100px]">
+                  <Skeleton
+                    className={cn("h-3.5 w-[50px]", isEmpty && "animate-none")}
+                  />
+                </TableCell>
                 <TableCell className="w-[300px]">
                   <Skeleton
                     className={cn("h-3.5 w-[80%]", isEmpty && "animate-none")}
                   />
                 </TableCell>
-                <TableCell className="hidden sm:table-cell w-[200px]">
+                <TableCell className="w-[200px] hidden md:table-cell">
                   <Skeleton
                     className={cn("h-3.5 w-[70%]", isEmpty && "animate-none")}
                   />
                 </TableCell>
-                <TableCell className="hidden sm:table-cell w-[150px]">
+                <TableCell className="w-[150px] hidden md:table-cell">
                   <Skeleton
                     className={cn("h-3.5 w-[60%]", isEmpty && "animate-none")}
                   />
                 </TableCell>
-
-                <TableCell className="w-[100px]">
+                <TableCell className="w-[100px] hidden md:table-cell">
                   <Skeleton
                     className={cn(
                       "h-[20px] w-[20px] rounded-full",
@@ -54,7 +53,6 @@ export function Loading({
                     )}
                   />
                 </TableCell>
-                <TableCell className="w-[50px]" />
               </TableRow>
             ))}
           </TableBody>
