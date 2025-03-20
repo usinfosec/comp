@@ -523,6 +523,8 @@ files:
     settings.team.members.role.admin: e3afed0047b08059d0fada10f400c1e5
     settings.team.members.role.member: 858ba4765e53c712ef672a9570474b1d
     settings.team.members.role.viewer: fb15c53f22336982a182b84aeb2f42eb
+    settings.team.members.status.accepted: 382ab522931673c11e398ead1b7b1678
+    settings.team.members.status.pending: 2d13df6f8b5e4c5af9f87e0dc39df69d
     settings.team.invitations.title: cd5c1583e1cf121078bd6834b94c390b
     settings.team.invitations.description: 778ee2836cf401eb5a56882b5e66a0f4
     settings.team.invitations.empty.no_organization.title: ec3c189e406c3c65aad4ee8e0289a60f

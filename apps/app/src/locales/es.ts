@@ -662,7 +662,11 @@ export default {
           member: "Miembro",
           viewer: "Espectador"
         },
-        description: "Gestiona a los miembros de tu equipo y sus roles"
+        description: "Gestiona a los miembros de tu equipo y sus roles",
+        status: {
+          accepted: "Aceptado",
+          pending: "Pendiente"
+        }
       },
       invitations: {
         title: "Invitaciones pendientes",
