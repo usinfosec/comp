@@ -1,10 +1,8 @@
 import { auth } from "@/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
-import { db } from "@bubba/db";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
