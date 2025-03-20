@@ -16,13 +16,7 @@ export default async function ApiKeysPage({
   setStaticParamsLocale(locale);
   const t = await getI18n();
 
-  const session = await auth();
-
-  if (!session?.user.organizationId) {
-    return redirect("/");
-  }
-
-  const apiKeys = await getApiKeys(session.user.organizationId);
+  const apiKeys = await getApiKeys();
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -45,10 +39,16 @@ export async function generateMetadata({
   };
 }
 
-const getApiKeys = cache(async (organizationId: string) => {
+const getApiKeys = cache(async () => {
+  const session = await auth();
+
+  if (!session?.user.organizationId) {
+    return [];
+  }
+
   const apiKeys = await db.organizationApiKey.findMany({
     where: {
-      organizationId,
+      organizationId: session.user.organizationId,
       isActive: true,
     },
     select: {
