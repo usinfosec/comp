@@ -21,6 +21,20 @@ export const changeOrganizationAction = authActionClient
     const { organizationId } = parsedInput;
     const { user } = ctx;
 
+    const organizationMember = await db.organizationMember.findFirst({
+      where: {
+        userId: user.id,
+        organizationId,
+      },
+    });
+
+    if (!organizationMember) {
+      return {
+        success: false,
+        error: "Unauthorized",
+      };
+    }
+
     try {
       const organization = await db.organization.findUnique({
         where: {
