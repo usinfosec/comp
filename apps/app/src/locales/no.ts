@@ -1013,7 +1013,7 @@ export default {
     title: "Bevis",
     list: "Alle Bevis",
     overview: "Oversikt over Bevis",
-    edit: "Opplastet Bevis",
+    edit: "Rediger bevis",
     dashboard: {
       layout: "Dashbord",
       layout_back_button: "Tilbake",
