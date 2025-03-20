@@ -1013,7 +1013,7 @@ export default {
     title: "Preuve",
     list: "Toutes les preuves",
     overview: "Aperçu des preuves",
-    edit: "Preuve Téléchargée",
+    edit: "Modifier la preuve",
     dashboard: {
       layout: "Tableau de bord",
       layout_back_button: "Retour",

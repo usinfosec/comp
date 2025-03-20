@@ -1012,7 +1012,7 @@ export default {
   evidence: {
     title: "Tarefas de Evidência",
     list: "Todas as Evidências",
-    edit: "Evidência Carregada"
+    edit: "Editar Evidência"
   },
   upload: {
     fileSection: {

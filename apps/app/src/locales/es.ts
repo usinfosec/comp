@@ -1013,7 +1013,7 @@ export default {
     title: "Evidencia",
     list: "Toda la Evidencia",
     overview: "Resumen de Evidencia",
-    edit: "Evidencia Cargada",
+    edit: "Editar Evidencia",
     dashboard: {
       layout: "Tablero",
       layout_back_button: "Atrás",
