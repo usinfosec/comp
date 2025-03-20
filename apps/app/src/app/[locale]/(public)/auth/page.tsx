@@ -10,6 +10,8 @@ import {
 } from "@bubba/ui/accordion";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Login | Comp AI",
@@ -21,6 +23,12 @@ export default async function Page({
   searchParams: Promise<{ inviteCode?: string }>;
 }) {
   const t = await getI18n();
+  const session = await auth();
+
+  if (session?.user) {
+    redirect("/");
+  }
+
   const { inviteCode } = await searchParams;
 
   const defaultSignInOptions = (
