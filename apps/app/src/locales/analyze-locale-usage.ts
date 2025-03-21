@@ -11,6 +11,11 @@ import { createInterface } from 'node:readline/promises'
 
 const DEBUG = false // Set to false to check all translation keys
 
+// Directories to search in
+const SEARCH_DIRECTORIES = ['./src', './../portal/src'] 
+// Always exclude node_modules from search
+const EXCLUDE_DIR = '--exclude-dir=node_modules'
+
 // ANSI color codes for terminal output - using a minimal set
 const COLORS = {
   reset: '\x1b[0m',
@@ -29,6 +34,8 @@ async function main() {
   console.log(`${COLORS.bold}${COLORS.blue}=====================================${COLORS.reset}`)
   console.log(`${COLORS.bold}${COLORS.blue}  Translation Analysis Tool${COLORS.reset}`)
   console.log(`${COLORS.bold}${COLORS.blue}=====================================${COLORS.reset}`)
+  
+  console.log(`\n${COLORS.gray}Search directories: ${SEARCH_DIRECTORIES.join(', ')} (excluding node_modules)${COLORS.reset}`)
   
   const rl = createInterface({
     input: process.stdin,
@@ -323,14 +330,14 @@ async function findKeyUsageLocations(key: string): Promise<string[]> {
     
     // Check for t("key") pattern
     try {
-      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const doubleQuoteResult = execSync(doubleQuoteCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       
       if (doubleQuoteResult) {
         // Extract file paths from grep results
         const matches = doubleQuoteResult.split('\n')
         for (const match of matches) {
-          const fileMatch = match.match(/^\.\/src\/(.+?):/)?.[1]
+          const fileMatch = match.match(/^(?:\.\/src\/|\.\/portal\/)(.+?):/)?.[1]
           if (fileMatch) {
             const directory = path.dirname(fileMatch)
             if (!locations.includes(directory)) {
@@ -345,14 +352,14 @@ async function findKeyUsageLocations(key: string): Promise<string[]> {
     
     // Check for t('key') pattern
     try {
-      const singleQuoteCmd = `grep -r "t('${escapedKey}')" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const singleQuoteCmd = `grep -r "t('${escapedKey}')" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const singleQuoteResult = execSync(singleQuoteCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       
       if (singleQuoteResult) {
         // Extract file paths from grep results
         const matches = singleQuoteResult.split('\n')
         for (const match of matches) {
-          const fileMatch = match.match(/^\.\/src\/(.+?):/)?.[1]
+          const fileMatch = match.match(/^(?:\.\/src\/|\.\/portal\/)(.+?):/)?.[1]
           if (fileMatch) {
             const directory = path.dirname(fileMatch)
             if (!locations.includes(directory)) {
@@ -367,14 +374,14 @@ async function findKeyUsageLocations(key: string): Promise<string[]> {
     
     // Also check for useI18n calls
     try {
-      const i18nCmd = `grep -r "useI18n(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const i18nCmd = `grep -r "useI18n(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const i18nResult = execSync(i18nCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       
       if (i18nResult) {
         // Extract file paths from grep results
         const matches = i18nResult.split('\n')
         for (const match of matches) {
-          const fileMatch = match.match(/^\.\/src\/(.+?):/)?.[1]
+          const fileMatch = match.match(/^(?:\.\/src\/|\.\/portal\/)(.+?):/)?.[1]
           if (fileMatch) {
             const directory = path.dirname(fileMatch)
             if (!locations.includes(directory)) {
@@ -405,7 +412,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
     // 1. Check for t("key") pattern (including multi-line patterns)
     try {
       // Using PCRE regex with -P to handle multi-line patterns
-      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\"" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\"" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const doubleQuoteResult = execSync(doubleQuoteCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       if (doubleQuoteResult) {
         if (DEBUG) console.log(`Found double quote match for ${key}`)
@@ -417,7 +424,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
     
     // 2. Check for t('key') pattern
     try {
-      const singleQuoteCmd = `grep -r "t('${escapedKey}')" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const singleQuoteCmd = `grep -r "t('${escapedKey}')" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const singleQuoteResult = execSync(singleQuoteCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       if (singleQuoteResult) {
         if (DEBUG) console.log(`Found single quote match for ${key}`)
@@ -429,7 +436,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
     
     // 3. Check for useI18n or useTranslations
     try {
-      const i18nCmd = `grep -r "useI18n(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      const i18nCmd = `grep -r "useI18n(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')}`
       const i18nResult = execSync(i18nCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       if (i18nResult) {
         if (DEBUG) console.log(`Found useI18n match for ${key}`)
@@ -442,7 +449,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
     // 4. Check specifically for multi-line formatted translations
     try {
       // Using a simpler pattern to catch cases with formatting and line breaks
-      const multilineCmd = `grep -r -l "${escapedKey}" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src | xargs grep -l "t(" --include="*.tsx" --include="*.ts" --include="*.jsx"`
+      const multilineCmd = `grep -r -l "${escapedKey}" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')} | xargs grep -l "t(" --include="*.tsx" --include="*.ts" --include="*.jsx"`
       const multilineResult = execSync(multilineCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       if (multilineResult) {
         if (DEBUG) console.log(`Found multi-line match for ${key}`)
@@ -460,7 +467,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
       
       try {
         // Searching for patterns like: t("something.lastPart") or t(`${prefix}.lastPart`)
-        const lastPartCmd = `grep -r "\\.${lastPart}" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src | grep -v "analyze-locale-usage.ts" | grep -v "translations.json"`
+        const lastPartCmd = `grep -r "\\.${lastPart}" --include="*.tsx" --include="*.ts" --include="*.jsx" ${EXCLUDE_DIR} ${SEARCH_DIRECTORIES.join(' ')} | grep -v "analyze-locale-usage.ts" | grep -v "translations.json"`
         const lastPartResult = execSync(lastPartCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
         
         // Only count this as a match if it's in a t() function call context
