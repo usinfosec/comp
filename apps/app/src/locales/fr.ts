@@ -738,6 +738,13 @@ export default {
         toast: {
           error: "Échec de l'envoi de l'invitation",
           unexpected: "Une erreur inattendue s'est produite lors de l'envoi de l'invitation"
+        },
+        error: {
+          title: "Erreur d'invitation",
+          description: "Il y a eu un problème avec votre invitation :",
+          "default": "Une erreur inconnue est survenue avec votre invitation.",
+          home: "Aller à l'accueil",
+          signin: "Se connecter"
         }
       },
       member_actions: {
