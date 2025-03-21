@@ -10,7 +10,7 @@ import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
 import { columns } from "./components/table/RiskRegisterColumns";
 
-type VendorRegisterTableRow = Vendor & { owner: User | null };
+export type VendorRegisterTableRow = Vendor & { owner: User | null };
 
 export const VendorRegisterTable = ({
 	data,
@@ -82,7 +82,7 @@ export const VendorRegisterTable = ({
 
 	return (
 		<>
-			<DataTable<Vendor>
+			<DataTable<VendorRegisterTableRow>
 				columns={columns}
 				data={data}
 				// isLoading={isLoading}
