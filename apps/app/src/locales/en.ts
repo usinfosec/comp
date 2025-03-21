@@ -29,9 +29,6 @@ import { vendors } from './features/vendors'
 // Settings translations
 import { settings } from './settings/settings'
 
-// Editor translations
-import { editor } from './editor/editor'
-
 const translations = {
   // Core
   common,
@@ -63,9 +60,6 @@ const translations = {
 
   // Settings
   settings,
-
-  // Editor
-  editor,
 } as const
 
 export type Translations = typeof translations
