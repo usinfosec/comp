@@ -1176,6 +1176,67 @@ export default {
     },
     dashboard: {
       title: "Aperçu"
+    },
+    create: "Créer un fournisseur",
+    form: {
+      vendor_details: "Détails du fournisseur",
+      vendor_name: "Nom",
+      vendor_name_placeholder: "Entrez le nom du fournisseur",
+      vendor_website: "Site Web",
+      vendor_website_placeholder: "Entrez le site Web du fournisseur",
+      vendor_description: "Description",
+      vendor_description_placeholder: "Entrez la description du fournisseur",
+      vendor_category: "Catégorie",
+      vendor_category_placeholder: "Sélectionner une catégorie",
+      vendor_status: "Statut",
+      vendor_status_placeholder: "Sélectionner un statut",
+      create_vendor_success: "Fournisseur créé avec succès",
+      create_vendor_error: "Échec de la création du fournisseur",
+      update_vendor: "Mettre à jour le fournisseur",
+      update_vendor_success: "Fournisseur mis à jour avec succès",
+      update_vendor_error: "Échec de la mise à jour du fournisseur",
+      add_comment: "Ajouter un commentaire"
+    },
+    table: {
+      name: "Nom",
+      category: "Catégorie",
+      status: "Statut",
+      owner: "Propriétaire"
+    },
+    filters: {
+      search_placeholder: "Rechercher des fournisseurs...",
+      status_placeholder: "Filtrer par statut",
+      category_placeholder: "Filtrer par catégorie",
+      owner_placeholder: "Filtrer par propriétaire"
+    },
+    empty_states: {
+      no_vendors: {
+        title: "Aucun fournisseur pour le moment",
+        description: "Commencez par créer votre premier fournisseur"
+      },
+      no_results: {
+        title: "Aucun résultat trouvé",
+        description: "Aucun fournisseur ne correspond à votre recherche",
+        description_with_filters: "Essayez d'ajuster vos filtres"
+      }
+    },
+    actions: {
+      create: "Créer un fournisseur"
+    },
+    status: {
+      not_assessed: "Non évalué",
+      in_progress: "En cours",
+      assessed: "Évalué"
+    },
+    category: {
+      cloud: "Cloud",
+      infrastructure: "Infrastructure",
+      software_as_a_service: "Logiciel en tant que service",
+      finance: "Finance",
+      marketing: "Marketing",
+      sales: "Ventes",
+      hr: "Ressources humaines",
+      other: "Autre"
     }
   },
   dashboard: {
