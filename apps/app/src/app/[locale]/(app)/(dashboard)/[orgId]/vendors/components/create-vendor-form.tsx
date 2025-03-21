@@ -37,6 +37,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createVendorAction } from "../actions/create-vendor-action";
+import { useRouter } from "next/navigation";
 
 interface User {
 	id: string;
@@ -80,11 +81,12 @@ export function CreateVendor() {
 		parse: (value) => value,
 	});
 
+	const router = useRouter();
+
 	const { data: admins, isLoading: isLoadingAdmins } = useOrganizationAdmins();
-	const [_, setCreateVendorSheet] = useQueryState("create-vendor-sheet");
 
 	const createVendor = useAction(createVendorAction, {
-		onSuccess: async () => {
+		onSuccess: async (data) => {
 			const organizationId = session.data?.user?.organizationId;
 
 			if (!organizationId) {
@@ -93,7 +95,8 @@ export function CreateVendor() {
 			}
 
 			toast.success(t("vendors.form.create_vendor_success"));
-			setCreateVendorSheet(null);
+
+			router.push(`/${organizationId}/vendors/${data.data?.data?.id}`);
 		},
 		onError: () => {
 			toast.error(t("vendors.form.create_vendor_error"));

@@ -3,7 +3,7 @@
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import type { ActionResponse } from '@/types/actions';
-import { VendorStatus, VendorCategory } from "@bubba/db/types";
+import { VendorStatus, VendorCategory, type Vendor } from "@bubba/db/types";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@bubba/db";
@@ -19,7 +19,7 @@ const schema = z.object({
 
 export const createVendorAction = createSafeActionClient()
   .schema(schema)
-  .action(async (input): Promise<ActionResponse> => {
+  .action(async (input): Promise<ActionResponse<Vendor>> => {
     try {
       const session = await auth();
       
