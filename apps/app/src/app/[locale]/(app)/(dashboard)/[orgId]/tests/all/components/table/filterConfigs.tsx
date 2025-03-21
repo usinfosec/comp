@@ -39,4 +39,9 @@ export const SEVERITY_FILTERS = [
     value: "LOW",
     icon: <div className="h-2.5 w-2.5 bg-gray-500" />,
   },
+  {
+    label: "Info",
+    value: "INFO",
+    icon: <div className="h-2.5 w-2.5 bg-muted-foreground" />,
+  },
 ] as const; 

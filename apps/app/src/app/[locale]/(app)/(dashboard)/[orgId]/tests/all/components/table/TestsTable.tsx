@@ -27,8 +27,8 @@ export function TestsTable() {
     setSearch,
     status,
     setStatus,
-    provider,
-    setProvider,
+    severity,
+    setSeverity,
     hasActiveFilters,
     clearFilters,
     isLoading,
@@ -49,13 +49,13 @@ export function TestsTable() {
     router.replace(`/${orgId}/tests/all/${testId}`);
   };
 
-  const activeFilterCount = [status, provider].filter(Boolean).length;
+  const activeFilterCount = [status, severity].filter(Boolean).length;
 
   const filterCategories = getFilterCategories({
     status,
     setStatus,
-    severity: provider,
-    setSeverity: setProvider,
+    severity: severity,
+    setSeverity: setSeverity,
     setPage,
   });
 

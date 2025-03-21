@@ -36,13 +36,9 @@ async function fetchTests(input: TestsInput): Promise<TestsResponse> {
   return result.data.data as TestsResponse;
 }
 
-export function useTests() {
+export function useTests(search: string | undefined) {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
-  const providerParam = searchParams.get("provider") || undefined;
-  const provider = providerParam && ["AWS", "AZURE", "GCP"].includes(providerParam) 
-    ? providerParam as "AWS" | "AZURE" | "GCP" 
-    : undefined;
+  const severity = searchParams.get("severity") || undefined;
   const status = searchParams.get("status") || undefined;
   const page = Number(searchParams.get("page")) || 1;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
@@ -54,8 +50,8 @@ export function useTests() {
     isLoading,
     mutate: revalidateTests,
   } = useSWR<TestsResponse, AppError>(
-    ["tests", { search, provider, status, page, pageSize }],
-    () => fetchTests({ search, provider, status, page, pageSize }),
+    ["tests", { search, severity, status, page, pageSize }],
+    () => fetchTests({ search, severity, status, page, pageSize }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,

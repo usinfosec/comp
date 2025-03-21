@@ -19,7 +19,7 @@ export const testSchema = z.object({
 
 export const testsInputSchema = z.object({
   search: z.string().optional(),
-  provider: z.enum(["AWS", "AZURE", "GCP"]).optional(),
+  severity: z.string().optional(),
   status: z.string().optional(),
   page: z.number().optional(),
   pageSize: z.number().optional(),
@@ -59,7 +59,7 @@ export const appErrors = {
 
 
 export type TestResult = "PASSED" | "FAILED" | "IN_PROGRESS";
-export type TestSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | null;
+export type TestSeverity = "INFO" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | null;
 
 export interface TestRow {
   id: string;

@@ -14,8 +14,16 @@ export const getTests = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { search, provider, status, page = 1, pageSize = 10 } = parsedInput;
+    const { search, severity, status, page = 1, pageSize = 10 } = parsedInput;
     const { user } = ctx;
+
+    console.log("--------------------------------");
+    console.log("search", search);
+    console.log("severity", severity);
+    console.log("status", status);
+    console.log("page", page);
+    console.log("pageSize", pageSize);
+    console.log("--------------------------------");
 
     if (!user.organizationId) {
       return {
@@ -50,12 +58,8 @@ export const getTests = authActionClient
                 },
               ],
             } : {}),
-            ...(provider ? {
-              organizationIntegration: {
-                integration_id: provider,
-              },
-            } : {}),
-            ...(status ? { label: status } : {}),
+            ...(status ? { status: { equals: status, mode: "insensitive" } } : {}),
+            ...(severity ? { label: { equals: severity, mode: "insensitive" } } : {}),
           },
           include: {
             organizationIntegration: {
@@ -99,12 +103,8 @@ export const getTests = authActionClient
                 },
               ],
             } : {}),
-            ...(provider ? {
-              organizationIntegration: {
-                integration_id: provider,
-              },
-            } : {}),
-            ...(status ? { label: status } : {}),
+            ...(status ? { status: { equals: status, mode: "insensitive" } } : {}),
+            ...(severity ? { label: { equals: severity, mode: "insensitive" } } : {}),
           },
         }),
       ]);

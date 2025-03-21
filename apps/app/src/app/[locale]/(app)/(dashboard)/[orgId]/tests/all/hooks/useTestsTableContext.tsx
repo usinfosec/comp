@@ -15,14 +15,14 @@ import { useTests } from "./useTests";
 interface TestsTableContextType {
   // State
   search: string;
-  provider: string | null;
+  severity: string | null;
   status: string | null;
   page: string;
   pageSize: string;
 
   // Setters
   setSearch: (value: string) => void;
-  setProvider: (value: string | null) => void;
+  setSeverity: (value: string | null) => void;
   setStatus: (value: string | null) => void;
   setPage: (value: string) => void;
   setPageSize: (value: string) => void;
@@ -49,7 +49,7 @@ export function TestsTableProvider({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState("");
 
   // Query state for other filters
-  const [provider, setProvider] = useQueryState("provider");
+  const [severity, setSeverity] = useQueryState("severity");
   const [status, setStatus] = useQueryState("status");
   const [page, setPage] = useQueryState("page", { defaultValue: "1" });
   const [pageSize, setPageSize] = useQueryState("pageSize", {
@@ -64,14 +64,14 @@ export function TestsTableProvider({ children }: { children: ReactNode }) {
   const currentPageSize = Number.parseInt(pageSize, 10);
 
   // Fetch data
-  const { tests, total, isLoading } = useTests();
+  const { tests, total, isLoading } = useTests(search);
 
   // Track when search params change
   useEffect(() => {
     if (initialLoadCompleted.current) {
       setIsSearching(true);
     }
-  }, [search, provider, status, page, pageSize]);
+  }, [search, severity, status, page, pageSize]);
 
   // Track when loading changes
   useEffect(() => {
@@ -97,12 +97,12 @@ export function TestsTableProvider({ children }: { children: ReactNode }) {
 
   // Check if any filters are active
   const hasActiveFilters = useMemo(() => {
-    return provider !== null || status !== null;
-  }, [provider, status]);
+    return severity !== null || status !== null;
+  }, [severity, status]);
 
   // Clear all filters
   const clearFilters = () => {
-    setProvider(null);
+    setSeverity(null);
     setStatus(null);
     setPage("1"); // Reset to first page when clearing filters
     setSearch(""); // Clear search
@@ -111,14 +111,14 @@ export function TestsTableProvider({ children }: { children: ReactNode }) {
   const contextValue: TestsTableContextType = {
     // State
     search,
-    provider,
+    severity,
     status,
     page,
     pageSize,
 
     // Setters
     setSearch,
-    setProvider,
+    setSeverity,
     setStatus,
     setPage,
     setPageSize,

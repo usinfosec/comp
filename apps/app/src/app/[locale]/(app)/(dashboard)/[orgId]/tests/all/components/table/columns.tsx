@@ -11,6 +11,8 @@ const getSeverityBadge = (severity: TestSeverity) => {
   if (!severity) return <Badge>Unknown</Badge>;
   
   switch(severity) {
+    case "INFO":
+      return <Badge className="bg-muted-foreground">{severity}</Badge>;
     case "LOW":
       return <Badge className="bg-muted-foreground">{severity}</Badge>;
     case "MEDIUM":
