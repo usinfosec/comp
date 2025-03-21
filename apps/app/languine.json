@@ -14,9 +14,6 @@
       "include": [
         "src/locales/[locale].ts"
       ]
-    },
-    "json": {
-      "include": ["src/locales/json/[locale].json"]
     }
   }
 }
