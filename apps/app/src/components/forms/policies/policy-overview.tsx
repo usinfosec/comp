@@ -144,12 +144,12 @@ export function UpdatePolicyOverview({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_status")}</FormLabel>
+								<FormLabel>{t("policies.overview.form.status")}</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_status_placeholder")}
+												placeholder={t("policies.overview.form.status_placeholder")}
 											>
 												{field.value && (
 													<StatusPolicies status={field.value as StatusType} />

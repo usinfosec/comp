@@ -1,8 +1,7 @@
+import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { DepartmentChart } from "./department-chart";
-import { unstable_cache } from "next/cache";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/auth";
 import { cache } from "react";
 

@@ -1,10 +1,9 @@
-import { db } from "@bubba/db";
-import { StatusChart } from "./status-chart";
-import { unstable_cache } from "next/cache";
-import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/auth";
 import { cache } from "react";
+import { db } from "@bubba/db";
+import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
+import { StatusChart } from "./status-chart";
 
 export async function RisksByStatus() {
   const t = await getI18n();
@@ -19,7 +18,7 @@ export async function RisksByStatus() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("dashboard.risk_status")}</CardTitle>
+        <CardTitle>{t("risk.dashboard.status")}</CardTitle>
       </CardHeader>
       <CardContent>
         <StatusChart data={data} />

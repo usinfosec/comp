@@ -104,7 +104,7 @@ export function UpdatePolicyForm({
                   <Textarea
                     {...field}
                     className="mt-3 min-h-[80px]"
-                    placeholder={t("risk.form.risk_description_description")}
+                    placeholder={t("policies.overview.form.description_placeholder")}
                   />
                 </FormControl>
                 <FormMessage />

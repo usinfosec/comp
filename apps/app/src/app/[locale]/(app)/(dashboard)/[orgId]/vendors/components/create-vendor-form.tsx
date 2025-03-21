@@ -1,13 +1,9 @@
 "use client";
 
-import { createRiskAction } from "@/actions/risk/create-risk-action";
-import { createRiskSchema } from "@/actions/schema";
 import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
-import { useRisks } from "@/app/[locale]/(app)/(dashboard)/[orgId]/risk/register/hooks/useRisks";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
-import type { RiskStatus } from "@bubba/db/types";
-import { Departments, RiskCategory } from "@bubba/db/types";
+import { VendorCategory, VendorStatus } from "@bubba/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -34,11 +30,13 @@ import {
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
+import { z } from "zod";
+import { createVendorAction } from "../actions/create-vendor-action";
 
 interface User {
 	id: string;
@@ -46,8 +44,18 @@ interface User {
 	name: string | null;
 }
 
-export function CreateRisk() {
+const createVendorSchema = z.object({
+	name: z.string().min(1, "Name is required"),
+	website: z.string().url("Must be a valid URL").optional(),
+	description: z.string().optional(),
+	category: z.nativeEnum(VendorCategory),
+	status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
+	ownerId: z.string().optional(),
+});
+
+export function CreateVendor() {
 	const t = useI18n();
+	const session = useSession();
 
 	// Get the same query parameters as the table
 	const [search] = useQueryState("search");
@@ -59,55 +67,51 @@ export function CreateRisk() {
 		defaultValue: 10,
 		parse: Number,
 	});
-	const [status] = useQueryState<RiskStatus | null>("status", {
+	const [status] = useQueryState<VendorStatus | null>("status", {
 		defaultValue: null,
-		parse: (value) => value as RiskStatus | null,
+		parse: (value) => value as VendorStatus | null,
 	});
-	const [department] = useQueryState<Departments | null>("department", {
+	const [category] = useQueryState<VendorCategory | null>("category", {
 		defaultValue: null,
-		parse: (value) => value as Departments | null,
+		parse: (value) => value as VendorCategory | null,
 	});
 	const [assigneeId] = useQueryState<string | null>("assigneeId", {
 		defaultValue: null,
 		parse: (value) => value,
 	});
 
-	const { mutate: mutateRisks } = useRisks({
-		search: search || "",
-		page: Number(page),
-		pageSize: Number(pageSize),
-		status,
-		department,
-		assigneeId,
-	});
-
 	const { data: admins, isLoading: isLoadingAdmins } = useOrganizationAdmins();
-	const [_, setCreateRiskSheet] = useQueryState("create-risk-sheet");
+	const [_, setCreateVendorSheet] = useQueryState("create-vendor-sheet");
 
-	const createRisk = useAction(createRiskAction, {
+	const createVendor = useAction(createVendorAction, {
 		onSuccess: async () => {
-			toast.success(t("risk.form.create_risk_success"));
-			setCreateRiskSheet(null);
-			// Force invalidate and revalidate the risks list
-			await mutateRisks();
+			const organizationId = session.data?.user?.organizationId;
+
+			if (!organizationId) {
+				toast.error(t("vendors.form.create_vendor_error"));
+				return;
+			}
+
+			toast.success(t("vendors.form.create_vendor_success"));
+			setCreateVendorSheet(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.create_risk_error"));
+			toast.error(t("vendors.form.create_vendor_error"));
 		},
 	});
 
-	const form = useForm<z.infer<typeof createRiskSchema>>({
-		resolver: zodResolver(createRiskSchema),
+	const form = useForm<z.infer<typeof createVendorSchema>>({
+		resolver: zodResolver(createVendorSchema),
 		defaultValues: {
-			title: "",
+			name: "",
 			description: "",
-			category: RiskCategory.operations,
-			department: Departments.admin,
+			category: VendorCategory.cloud,
+			status: VendorStatus.not_assessed,
 		},
 	});
 
-	const onSubmit = (data: z.infer<typeof createRiskSchema>) => {
-		createRisk.execute(data);
+	const onSubmit = (data: z.infer<typeof createVendorSchema>) => {
+		createVendor.execute(data);
 	};
 
 	return (
@@ -115,28 +119,44 @@ export function CreateRisk() {
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="h-[calc(100vh-250px)] scrollbar-hide overflow-auto">
 					<div>
-						<Accordion type="multiple" defaultValue={["risk"]}>
-							<AccordionItem value="risk">
+						<Accordion type="multiple" defaultValue={["vendor"]}>
+							<AccordionItem value="vendor">
 								<AccordionTrigger>
-									{t("risk.form.risk_details")}
+									{t("vendors.form.vendor_details")}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
 										<FormField
 											control={form.control}
-											name="title"
+											name="name"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("risk.form.risk_title")}</FormLabel>
+													<FormLabel>{t("vendors.form.vendor_name")}</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t(
-																"risk.form.risk_title_description",
-															)}
+															placeholder={t("vendors.form.vendor_name_placeholder")}
 															autoCorrect="off"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="website"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>{t("vendors.form.vendor_website")}</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															className="mt-3"
+															placeholder={t("vendors.form.vendor_website_placeholder")}
+															type="url"
 														/>
 													</FormControl>
 													<FormMessage />
@@ -148,16 +168,12 @@ export function CreateRisk() {
 											name="description"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{t("risk.form.risk_description")}
-													</FormLabel>
+													<FormLabel>{t("vendors.form.vendor_description")}</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"risk.form.risk_description_description",
-															)}
+															placeholder={t("vendors.form.vendor_description_placeholder")}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -169,7 +185,7 @@ export function CreateRisk() {
 											name="category"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("risk.form.risk_category")}</FormLabel>
+													<FormLabel>{t("vendors.form.vendor_category")}</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
@@ -178,13 +194,11 @@ export function CreateRisk() {
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"risk.form.risk_category_placeholder",
-																	)}
+																	placeholder={t("vendors.form.vendor_category_placeholder")}
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(RiskCategory).map((category) => {
+																{Object.values(VendorCategory).map((category) => {
 																	const formattedCategory = category
 																		.toLowerCase()
 																		.split("_")
@@ -209,12 +223,10 @@ export function CreateRisk() {
 										/>
 										<FormField
 											control={form.control}
-											name="department"
+											name="status"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{t("risk.form.risk_department")}
-													</FormLabel>
+													<FormLabel>{t("vendors.form.vendor_status")}</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
@@ -223,27 +235,26 @@ export function CreateRisk() {
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"risk.form.risk_department_placeholder",
-																	)}
+																	placeholder={t("vendors.form.vendor_status_placeholder")}
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(Departments).map(
-																	(department) => {
-																		const formattedDepartment =
-																			department.toUpperCase();
-
-																		return (
-																			<SelectItem
-																				key={department}
-																				value={department}
-																			>
-																				{formattedDepartment}
-																			</SelectItem>
-																		);
-																	},
-																)}
+																{Object.values(VendorStatus).map((status) => {
+																	const formattedStatus = status
+																		.toLowerCase()
+																		.split("_")
+																		.map(
+																			(word) =>
+																				word.charAt(0).toUpperCase() +
+																				word.slice(1),
+																		)
+																		.join(" ");
+																	return (
+																		<SelectItem key={status} value={status}>
+																			{formattedStatus}
+																		</SelectItem>
+																	);
+																})}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -291,10 +302,10 @@ export function CreateRisk() {
 						<Button
 							type="submit"
 							variant="action"
-							disabled={createRisk.status === "executing"}
+							disabled={createVendor.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("common.actions.create")}
+								{t("vendors.actions.create")}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

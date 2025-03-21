@@ -738,6 +738,13 @@ export default {
         toast: {
           error: "Falha ao enviar convite",
           unexpected: "Ocorreu um erro inesperado ao enviar o convite"
+        },
+        error: {
+          title: "Erro de Convite",
+          description: "Houve um problema com seu convite:",
+          "default": "Ocorreu um erro desconhecido com seu convite.",
+          home: "Ir para a Página Inicial",
+          signin: "Entrar"
         }
       },
       member_actions: {
@@ -956,7 +963,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Algo deu errado, por favor tente novamente"
+    unexpected: "Algo deu errado, por favor tente novamente",
+    unauthorized: {
+      title: "Acesso Não Autorizado",
+      description: "Você não tem permissão para acessar este recurso. Por favor, entre em contato com seu administrador se você acreditar que isso é um erro.",
+      back: "Voltar para a Página Inicial"
+    }
   },
   sub_pages: {
     risk: {
@@ -1147,6 +1159,67 @@ export default {
     },
     dashboard: {
       title: "Visão Geral"
+    },
+    create: "Criar Fornecedor",
+    form: {
+      vendor_details: "Detalhes do Fornecedor",
+      vendor_name: "Nome",
+      vendor_name_placeholder: "Digite o nome do fornecedor",
+      vendor_website: "Website",
+      vendor_website_placeholder: "Digite o website do fornecedor",
+      vendor_description: "Descrição",
+      vendor_description_placeholder: "Digite a descrição do fornecedor",
+      vendor_category: "Categoria",
+      vendor_category_placeholder: "Selecione a categoria",
+      vendor_status: "Status",
+      vendor_status_placeholder: "Selecione o status",
+      create_vendor_success: "Fornecedor criado com sucesso",
+      create_vendor_error: "Falha ao criar fornecedor",
+      update_vendor: "Atualizar Fornecedor",
+      update_vendor_success: "Fornecedor atualizado com sucesso",
+      update_vendor_error: "Falha ao atualizar fornecedor",
+      add_comment: "Adicionar Comentário"
+    },
+    table: {
+      name: "Nome",
+      category: "Categoria",
+      status: "Status",
+      owner: "Proprietário"
+    },
+    filters: {
+      search_placeholder: "Pesquisar fornecedores...",
+      status_placeholder: "Filtrar por status",
+      category_placeholder: "Filtrar por categoria",
+      owner_placeholder: "Filtrar por proprietário"
+    },
+    empty_states: {
+      no_vendors: {
+        title: "Nenhum fornecedor ainda",
+        description: "Comece criando seu primeiro fornecedor"
+      },
+      no_results: {
+        title: "Nenhum resultado encontrado",
+        description: "Nenhum fornecedor corresponde à sua pesquisa",
+        description_with_filters: "Tente ajustar seus filtros"
+      }
+    },
+    actions: {
+      create: "Criar Fornecedor"
+    },
+    status: {
+      not_assessed: "Não Avaliado",
+      in_progress: "Em Andamento",
+      assessed: "Avaliado"
+    },
+    category: {
+      cloud: "Nuvem",
+      infrastructure: "Infraestrutura",
+      software_as_a_service: "Software como Serviço",
+      finance: "Finanças",
+      marketing: "Marketing",
+      sales: "Vendas",
+      hr: "RH",
+      other: "Outro"
     }
   },
   dashboard: {

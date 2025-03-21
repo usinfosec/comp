@@ -1,178 +1,138 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { authActionClient } from "../safe-action";
-import { z } from "zod";
-import type { ActionResponse } from "../types";
-import { createSafeActionClient } from "next-safe-action";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { z } from "zod";
+import { authActionClient } from "../safe-action";
+import type { ActionResponse } from "../types";
 
-const inviteCodeSchema = z.object({
-	inviteCode: z.string(),
-});
+async function validateInviteCode(inviteCode: string, invitedEmail: string) {
+  const pendingInvitation = await db.organizationMember.findFirst({
+    where: {
+      accepted: false,
+      invitedEmail,
+      inviteCode,
+    },
+    include: {
+      organization: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
 
-async function findMemberByInviteCode(inviteCode: string) {
-	const pendingInvitation = await db.organizationMember.findFirst({
-		where: {
-			accepted: false,
-			invitedEmail: { not: null },
-			inviteCode: inviteCode,
-		},
-		include: {
-			organization: {
-				select: {
-					id: true,
-					name: true,
-				},
-			},
-		},
-	});
-
-	return pendingInvitation;
+  return pendingInvitation;
 }
 
-const publicActionClient = createSafeActionClient();
-
-export const acceptInvitation = publicActionClient
-	.schema(inviteCodeSchema)
-	.action(
-		async ({
-			parsedInput,
-		}): Promise<
-			ActionResponse<{ accepted: boolean; organizationId: string | null }>
-		> => {
-			const { inviteCode } = parsedInput;
-
-			try {
-				const invitation = await findMemberByInviteCode(inviteCode);
-
-				if (!invitation) {
-					return {
-						success: false,
-						error: "Invitation not found or has already been accepted",
-					};
-				}
-
-				return {
-					success: true,
-					data: {
-						accepted: false,
-						organizationId: invitation.organization.id,
-					},
-				};
-			} catch (error) {
-				console.error("Error validating invitation:", error);
-				return {
-					success: false,
-					error: "Failed to validate invitation",
-				};
-			}
-		},
-	);
-
 const completeInvitationSchema = z.object({
-	inviteCode: z.string(),
-	userId: z.string(),
+  inviteCode: z.string(),
 });
 
 export const completeInvitation = authActionClient
-	.metadata({
-		name: "complete-invitation",
-		track: {
-			event: "complete_invitation",
-			channel: "organization",
-		},
-	})
-	.schema(completeInvitationSchema)
-	.action(
-		async ({
-			parsedInput,
-			ctx,
-		}): Promise<
-			ActionResponse<{ accepted: boolean; organizationId: string }>
-		> => {
-			const { inviteCode, userId } = parsedInput;
+  .metadata({
+    name: "complete-invitation",
+    track: {
+      event: "complete_invitation",
+      channel: "organization",
+    },
+  })
+  .schema(completeInvitationSchema)
+  .action(
+    async ({
+      parsedInput,
+      ctx,
+    }): Promise<
+      ActionResponse<{
+        accepted: boolean;
+        organizationId: string;
+      }>
+    > => {
+      const { inviteCode } = parsedInput;
+      const user = ctx.user;
 
-			try {
-				const invitation = await findMemberByInviteCode(inviteCode);
+      if (!user || !user.email) {
+        throw new Error("Unauthorized");
+      }
 
-				if (!invitation) {
-					return {
-						success: false,
-						error: "Invitation not found or has already been accepted",
-					};
-				}
+      try {
+        const invitation = await validateInviteCode(inviteCode, user.email);
 
-				const existingMembership = await db.organizationMember.findFirst({
-					where: {
-						userId,
-						organizationId: invitation.organizationId,
-					},
-				});
+        if (!invitation) {
+          throw new Error("Invitation either used or expired");
+        }
 
-				if (existingMembership) {
-					const user = await db.user.findUnique({ where: { id: userId } });
-					if (!user?.organizationId) {
-						await db.user.update({
-							where: { id: userId },
-							data: {
-								organizationId: invitation.organizationId,
-							},
-						});
+        const existingMembership = await db.organizationMember.findFirst({
+          where: {
+            userId: user.id,
+            organizationId: invitation.organizationId,
+          },
+        });
 
-						await db.organizationMember.update({
-							where: { id: existingMembership.id },
-							data: {
-								accepted: true,
-							},
-						});
-					}
+        if (existingMembership) {
+          if (user.organizationId !== invitation.organizationId) {
+            await db.user.update({
+              where: { id: user.id },
+              data: {
+                organizationId: invitation.organizationId,
+              },
+            });
 
-					return {
-						success: true,
-						data: {
-							accepted: true,
-							organizationId: invitation.organizationId,
-						},
-					};
-				}
+            await db.organizationMember.update({
+              where: { id: existingMembership.id },
+              data: {
+                accepted: true,
+                invitedEmail: null,
+                inviteCode: null,
+              },
+            });
+          }
 
-				await db.organizationMember.update({
-					where: {
-						id: invitation.id,
-					},
-					data: {
-						accepted: true,
-						userId,
-						invitedEmail: null,
-					},
-				});
+          return {
+            success: true,
+            data: {
+              accepted: true,
+              organizationId: invitation.organizationId,
+            },
+          };
+        }
 
-				await db.user.update({
-					where: {
-						id: userId,
-					},
-					data: {
-						organizationId: invitation.organizationId,
-					},
-				});
+        await db.organizationMember.update({
+          where: {
+            id: invitation.id,
+          },
+          data: {
+            accepted: true,
+            userId: user.id,
+            invitedEmail: null,
+            inviteCode: null,
+          },
+        });
 
-				revalidatePath("/settings/members");
-				revalidateTag(`user_${userId}`);
+        await db.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            organizationId: invitation.organizationId,
+          },
+        });
 
-				return {
-					success: true,
-					data: {
-						accepted: true,
-						organizationId: invitation.organizationId,
-					},
-				};
-			} catch (error) {
-				console.error("Error accepting invitation:", error);
-				return {
-					success: false,
-					error: "Failed to accept invitation",
-				};
-			}
-		},
-	);
+        revalidatePath(`/${invitation.organization.id}`);
+        revalidatePath(`/${invitation.organization.id}/settings/members`);
+        revalidateTag(`user_${user.id}`);
+
+        return {
+          success: true,
+          data: {
+            accepted: true,
+            organizationId: invitation.organizationId,
+          },
+        };
+      } catch (error) {
+        console.error("Error accepting invitation:", error);
+        throw new Error(error as string);
+      }
+    }
+  );
