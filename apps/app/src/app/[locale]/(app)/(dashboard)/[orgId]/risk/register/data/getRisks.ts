@@ -41,7 +41,7 @@ export async function getRisks({
 		...(assigneeId ? { ownerId: assigneeId } : {}),
 	};
 
-	const skip = (page ?? 1 - 1) * (pageSize ?? 10);
+	const skip = ((page ?? 1) - 1) * (pageSize ?? 10);
 
 	const risks = await db.risk.findMany({
 		where,

@@ -24,7 +24,7 @@ export default async function RiskManagement({
   const overview = await getRiskOverview();
 
   if (overview?.risks === 0) {
-    redirect(`/${session.user.organizationId} /risk/register`);
+    redirect(`/${session.user.organizationId}/risk/register`);
   }
 
   return (
