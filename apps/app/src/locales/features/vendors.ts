@@ -10,6 +10,7 @@ export const vendors = {
     create_new: "Create Vendor",
   },
   create: "Create Vendor",
+  vendor_comments: "Vendor Comments",
   form: {
     vendor_details: "Vendor Details",
     vendor_name: "Name",

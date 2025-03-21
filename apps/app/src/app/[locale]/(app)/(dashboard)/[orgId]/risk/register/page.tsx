@@ -17,6 +17,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("risk.register"),
+		title: t("risk.register.title"),
 	};
 }

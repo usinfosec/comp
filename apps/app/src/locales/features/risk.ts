@@ -2,6 +2,64 @@ export const risk = {
   risks: "risks",
   overview: "Overview",
   create: "Create New Risk",
+  comments: "Risk Comments",
+  risk_overview: "Risk Overview",
+  form: {
+    update_inherent_risk_success: "Inherent risk updated successfully",
+    update_inherent_risk_error: "Failed to update inherent risk",
+    update_residual_risk_success: "Residual risk updated successfully",
+    update_residual_risk_error: "Failed to update residual risk",
+    update_risk_success: "Risk updated successfully",
+    update_risk_error: "Failed to update risk",
+    create_risk_success: "Risk created successfully",
+    create_risk_error: "Failed to create risk",
+    risk_title: "Risk Title",
+    risk_title_description: "Enter risk title",
+    risk_details: "Risk Details",
+    risk_category: "Category",
+    risk_category_placeholder: "Select risk category",
+    risk_description: "Description",
+    risk_description_description: "Enter risk description",
+    risk_status: "Status",
+    risk_status_placeholder: "Select status"
+  },
+  register: {
+    title: "Risk Register",
+    table: {
+      risk: "Risk"
+    },
+    empty: {
+      create_risk: "Create Risk"
+    }
+  },
+  dashboard: {
+    title: "Risk Dashboard",
+    by_department: "Risks by Department",
+    status: "Risks by Status",
+    risks_by_assignee: "Risks by Assignee"
+  },
+  metrics: {
+    probability: "Probability",
+    impact: "Impact"
+  },
+  tasks: {
+    title: "Tasks",
+    task_overview: "Task Overview",
+    form: {
+      title: "Task Details",
+      task_title: "Task Title",
+      task_title_description: "Enter task title",
+      description: "Description",
+      description_description: "Enter task description",
+      due_date: "Due Date",
+      success: "Task created successfully",
+      error: "Failed to create task",
+      update_success: "Task updated successfully",
+      update_error: "Failed to update task",
+      status: "Status",
+      status_placeholder: "Select status"
+    }
+  },
   vendor: {
     title: "Vendor Management",
     dashboard: {

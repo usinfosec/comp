@@ -94,7 +94,7 @@ export function UpdateRiskForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>{t("risk.form.risk_description")}</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
