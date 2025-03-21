@@ -29,7 +29,11 @@ export const authConfig: NextAuthConfig = {
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-      allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          prompt: "select_account",
+        },
+      },
     }),
     Resend({
       apiKey: process.env.RESEND_API_KEY!,

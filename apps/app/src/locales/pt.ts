@@ -286,7 +286,8 @@ export default {
       "continue": "Continuar para o painel",
       error: "Algo deu errado, por favor, tente novamente."
     },
-    creating: "Criando sua organização..."
+    creating: "Criando sua organização...",
+    "switch": "Mudando de organização..."
   },
   overview: {
     title: "Visão Geral",
@@ -662,7 +663,11 @@ export default {
           member: "Membro",
           viewer: "Visualizador"
         },
-        description: "Gerencie os membros da sua equipe e suas funções"
+        description: "Gerencie os membros da sua equipe e suas funções",
+        status: {
+          accepted: "Aceito",
+          pending: "Pendente"
+        }
       },
       invitations: {
         title: "Convites Pendentes",

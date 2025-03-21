@@ -286,7 +286,8 @@ export default {
       "continue": "Fortsett til dashbordet",
       error: "Noe gikk galt, vennligst prøv igjen."
     },
-    creating: "Oppretter organisasjonen din..."
+    creating: "Oppretter organisasjonen din...",
+    "switch": "Bytter organisasjon..."
   },
   overview: {
     title: "Oversikt",
@@ -662,7 +663,11 @@ export default {
           member: "Medlem",
           viewer: "Seer"
         },
-        description: "Administrer teammedlemmene dine og deres roller"
+        description: "Administrer teammedlemmene dine og deres roller",
+        status: {
+          accepted: "Akseptert",
+          pending: "Venter"
+        }
       },
       invitations: {
         title: "Venteinvitasjoner",

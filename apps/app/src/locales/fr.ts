@@ -286,7 +286,8 @@ export default {
       "continue": "Continuer vers le tableau de bord",
       error: "Une erreur s'est produite, veuillez réessayer."
     },
-    creating: "Création de votre organisation..."
+    creating: "Création de votre organisation...",
+    "switch": "Changement d'organisation..."
   },
   overview: {
     title: "Aperçu",
@@ -662,7 +663,11 @@ export default {
           member: "Membre",
           viewer: "Spectateur"
         },
-        description: "Gérez les membres de votre équipe et leurs rôles"
+        description: "Gérez les membres de votre équipe et leurs rôles",
+        status: {
+          accepted: "Accepté",
+          pending: "En attente"
+        }
       },
       invitations: {
         title: "Invitations en attente",

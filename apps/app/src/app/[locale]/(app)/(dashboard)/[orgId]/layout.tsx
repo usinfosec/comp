@@ -5,40 +5,40 @@ import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 const HotKeys = dynamic(
-	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
-	{
-		ssr: true,
-	},
+  () => import("@/components/hot-keys").then((mod) => mod.HotKeys),
+  {
+    ssr: true,
+  },
 );
 
 export default async function Layout({
-	children,
-	params,
+  children,
+  params,
 }: {
-	children: React.ReactNode;
-	params: Promise<{ orgId: string }>;
+  children: React.ReactNode;
+  params: Promise<{ orgId: string }>;
 }) {
-	const session = await auth();
-	const orgId = (await params).orgId;
+  const session = await auth();
+  const orgId = (await params).orgId;
 
-	if (!session) {
-		redirect("/auth");
-	}
+  if (!session) {
+    redirect("/auth");
+  }
 
-	if (!orgId) {
-		redirect("/");
-	}
+  if (!orgId) {
+    redirect("/");
+  }
 
-	return (
-		<div className="relative">
-			<Sidebar />
+  return (
+    <div className="relative">
+      <Sidebar />
 
-			<div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
-				<Header />
-				<main>{children}</main>
-			</div>
+      <div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
+        <Header />
+        <main>{children}</main>
+      </div>
 
-			<HotKeys />
-		</div>
-	);
+      <HotKeys />
+    </div>
+  );
 }
