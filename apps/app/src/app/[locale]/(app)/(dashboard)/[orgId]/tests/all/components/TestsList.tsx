@@ -7,7 +7,7 @@ import { TestsTable } from "./table/TestsTable";
 import { TestsTableProvider } from "../hooks/useTestsTableContext";
 
 export function TestsList() {
-  const { tests, isLoading, error } = useTests();
+  const { tests, isLoading, error } = useTests('');
 
   if (isLoading) {
     return <Loading isEmpty={false} />;
