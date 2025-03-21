@@ -42,7 +42,7 @@ export async function RisksByDepartment() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("dashboard.risks_by_department")}</CardTitle>
+        <CardTitle>{t("risk.dashboard.by_department")}</CardTitle>
       </CardHeader>
       <CardContent>
         <DepartmentChart data={departmentsToShow} showEmptyDepartments={true} />
