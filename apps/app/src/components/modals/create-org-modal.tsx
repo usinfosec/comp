@@ -71,14 +71,33 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
     createOrganization.execute(data);
   };
 
+  const isExecuting = createOrganization.status === "executing" || (runId !== null && publicAccessToken !== null);
+
+  // Prevent dialog from closing when executing
+  const handleOpenChange = (open: boolean) => {
+    if (isExecuting && !open) return;
+    onOpenChange(open);
+  };
+
   return (
-    <DialogContent className="max-w-[455px]">
+    <DialogContent className="max-w-[455px]" hideClose={isExecuting} hideOverlayClose={isExecuting}>
       <div className="p-4">
         <DialogHeader>
-          <DialogTitle>{t("onboarding.title")}</DialogTitle>
-          <DialogDescription>
-            {t("onboarding.description")}
-          </DialogDescription>
+          {!isExecuting && (runId || publicAccessToken) ? (
+            <>
+              <DialogTitle>{t("onboarding.title")}</DialogTitle>
+              <DialogDescription>
+                {t("onboarding.description")}
+              </DialogDescription>
+            </>
+          ) : (
+            <>
+              <DialogTitle className="sr-only">{t("onboarding.title")}</DialogTitle>
+              <DialogDescription className="sr-only">
+                {t("onboarding.description")}
+              </DialogDescription>
+            </>
+          )}
         </DialogHeader>
 
         {runId && publicAccessToken && (
@@ -217,7 +236,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
               <div className="mt-6 mb-6">
                 <DialogFooter>
                   <div className="space-x-4">
-                    <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isExecuting}>
                       {t("common.actions.cancel")}
                     </Button>
                     <Button type="submit" disabled={createOrganization.status === "executing"} suppressHydrationWarning>

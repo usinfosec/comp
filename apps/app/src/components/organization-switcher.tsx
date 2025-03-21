@@ -103,16 +103,9 @@ export function OrganizationSwitcher({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <div className="flex flex-col items-center gap-2 bg-background/20 backdrop-blur-xl p-6 rounded-lg shadow-lg">
+              <div className="flex flex-col items-center gap-2 p-6">
                 <LogoSpinner />
-                <motion.p
-                  className="text-sm text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  {t("onboarding.switch")}
-                </motion.p>
+                <p className="text-sm text-muted-foreground"> {t("onboarding.switch")} </p>
               </div>
             </motion.div>
           </div>
