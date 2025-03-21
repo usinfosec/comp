@@ -286,7 +286,8 @@ export default {
       "continue": "Continuer vers le tableau de bord",
       error: "Une erreur s'est produite, veuillez réessayer."
     },
-    creating: "Création de votre organisation..."
+    creating: "Création de votre organisation...",
+    "switch": "Changement d'organisation..."
   },
   overview: {
     title: "Aperçu",

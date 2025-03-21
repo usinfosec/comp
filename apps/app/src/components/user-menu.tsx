@@ -4,14 +4,10 @@ import { Avatar, AvatarFallback, AvatarImageNext } from "@bubba/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@bubba/ui/dropdown-menu";
-import Link from "next/link";
 import { LocaleSwitch } from "./locale-switch";
 import { SignOut } from "./sign-out";
 import { ThemeSwitch } from "./theme-switch";

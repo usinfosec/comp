@@ -204,6 +204,7 @@ files:
     onboarding.submit: 85a18a0474d135c1f4c6da6c383a2d81
     onboarding.setup: 54efd9605180a9a74e6d1a53529f858e
     onboarding.description: fcfd2a71d9095421e290f1b1229d1c6e
+    onboarding.switch: 7dd9e91261dd30c4cbbb77084b9af1bc
     onboarding.trigger.title: c0a683b95c32208c79a08309225647ee
     onboarding.trigger.creating: 5c1f94a8b72c6f33012732e6b8ba44e5
     onboarding.trigger.completed: 435e0545f0bbfbbbe640e9e12e54c663

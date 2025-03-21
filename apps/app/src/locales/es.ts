@@ -286,7 +286,8 @@ export default {
       "continue": "Continuar al panel de control",
       error: "Algo salió mal, por favor intenta de nuevo."
     },
-    creating: "Creando tu organización..."
+    creating: "Creando tu organización...",
+    "switch": "Cambiando de organización..."
   },
   overview: {
     title: "Resumen",
