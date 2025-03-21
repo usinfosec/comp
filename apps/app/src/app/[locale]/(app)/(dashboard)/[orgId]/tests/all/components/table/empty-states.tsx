@@ -2,7 +2,6 @@
 
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
-import { Card, CardContent } from "@bubba/ui/card";
 import { CloudOff } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
