@@ -1,14 +1,15 @@
 import { auth } from "@/auth";
-import { RiskOverview } from "@/components/risks/charts/risk-overview";
-import { RisksAssignee } from "@/components/risks/charts/risks-assignee";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
+import { Button } from "@bubba/ui/button";
+import { Card } from "@bubba/ui/card";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
+import { CreateVendorSheet } from "../components/create-vendor-sheet";
 
-export default async function RiskManagement({
+export default async function VendorManagement({
 	params,
 }: {
 	params: Promise<{ locale: string }>;
@@ -22,10 +23,31 @@ export default async function RiskManagement({
 		redirect("/onboarding");
 	}
 
-	const overview = await getRiskOverview(session.user.organizationId);
+	const overview = await getVendorOverview(session.user.organizationId);
 
-	if (overview?.risks === 0) {
-		redirect(`/${session.user.organizationId}/risk/register`);
+	if (overview?.vendors === 0) {
+		return (
+			<div className="min-h-[400px] flex items-center justify-center">
+				<Card className="w-full max-w-lg p-8 space-y-6">
+					<div className="space-y-2 text-center">
+						<h1 className="text-2xl font-semibold tracking-tight">
+							No vendors found
+						</h1>
+						<p className="text-muted-foreground">
+							Get started by adding your first vendor
+						</p>
+					</div>
+
+					<div className="flex justify-center">
+						<Button asChild>
+							<Link href={`/${session.user.organizationId}/vendors/register`}>
+								Add vendor
+							</Link>
+						</Button>
+					</div>
+				</Card>
+			</div>
+		);
 	}
 
 	return (
@@ -42,22 +64,19 @@ export default async function RiskManagement({
 	);
 }
 
-const getRiskOverview = unstable_cache(
-	async (organizationId: string) => {
-		return await db.$transaction(async (tx) => {
-			const [risks] = await Promise.all([
-				tx.risk.count({
-					where: { organizationId },
-				}),
-			]);
+async function getVendorOverview(organizationId: string) {
+	return await db.$transaction(async (tx) => {
+		const [vendors] = await Promise.all([
+			tx.vendor.count({
+				where: { organizationId },
+			}),
+		]);
 
-			return {
-				risks,
-			};
-		});
-	},
-	["risk-overview-cache"],
-);
+		return {
+			vendors,
+		};
+	});
+}
 
 export async function generateMetadata({
 	params,
