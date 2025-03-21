@@ -1,18 +1,39 @@
 "use client";
 
-import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
-import { useOrganizationCategories } from "../hooks/useOrganizationCategories";
+import type {
+	Control,
+	OrganizationCategory,
+	OrganizationControl,
+	OrganizationControlRequirement,
+	OrganizationPolicy,
+	OrganizationEvidence,
+} from "@bubba/db/types";
 import { useMemo } from "react";
+import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
 
-interface FrameworkControlsProps {
+export type FrameworkCategory = OrganizationCategory & {
+	organizationControl: (OrganizationControl & {
+		control: Control;
+		OrganizationControlRequirement: (OrganizationControlRequirement & {
+			organizationPolicy: OrganizationPolicy;
+			organizationEvidence: OrganizationEvidence;
+		})[];
+	})[];
+};
+
+export type FrameworkControlsProps = {
+	organizationCategories: FrameworkCategory[];
 	frameworkId: string;
-}
+};
 
-export function FrameworkControls({ frameworkId }: FrameworkControlsProps) {
-	const { data: organizationCategories } =
-		useOrganizationCategories(frameworkId);
-
+export function FrameworkControls({
+	organizationCategories,
+	frameworkId,
+}: {
+	organizationCategories: FrameworkCategory[];
+	frameworkId: string;
+}) {
 	const allControls = useMemo(() => {
 		if (!organizationCategories) return [];
 
