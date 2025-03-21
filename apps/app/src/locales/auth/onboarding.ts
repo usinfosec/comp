@@ -31,4 +31,5 @@ export const onboarding = {
   success: "Thanks, you're all set!",
   error: "Something went wrong, please try again.",
   creating: "Creating your organization...",
+  switch: "Switching organization...",
 } as const 
