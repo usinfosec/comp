@@ -39,7 +39,6 @@ export const common = {
     needs_review: "Needs Review",
     draft: "Draft",
     not_assessed: "Not Assessed",
-    assessed: "Assessed",
     title: "Status",
   },
   filters: {
@@ -131,6 +130,7 @@ export const common = {
     toasts: {
       error: "Something went wrong, please try again.",
       error_uploading_files: "Cannot upload more than 1 file at a time",
+      error_uploading_files_multiple: "Cannot upload more files than the maximum allowed",
       error_no_files_selected: "No files selected",
       error_file_rejected: "File {file} was rejected",
       error_failed_to_upload_files: "Failed to upload files",

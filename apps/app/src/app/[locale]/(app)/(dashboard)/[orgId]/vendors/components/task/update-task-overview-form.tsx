@@ -33,11 +33,11 @@ export function UpdateTaskOverviewForm({
 
   const updateTask = useAction(updateTaskAction, {
     onSuccess: () => {
-      toast.success(t("risk.form.update_risk_success"));
+      toast.success(t("risk.tasks.form.update_success"));
       setOpen(null);
     },
     onError: () => {
-      toast.error(t("risk.form.update_risk_error"));
+      toast.error(t("risk.tasks.form.update_error"));
     },
   });
 
