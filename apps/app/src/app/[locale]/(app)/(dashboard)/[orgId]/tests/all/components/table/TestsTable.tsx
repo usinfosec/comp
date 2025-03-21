@@ -4,7 +4,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { useParams, useRouter } from "next/navigation";
 import { getFilterCategories } from "./filterCategories";
 import { getColumns } from "./columns";
-import type { TestsTableProps } from "../../types";
 import { useTestsTable } from "../../hooks/useTestsTableContext";
 import { RefreshCcw } from "lucide-react";
 import { refreshTestsAction } from "../../actions/refreshTests";
@@ -12,7 +11,7 @@ import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { useI18n } from "@/locales/client";
 
-export function TestsTable({ users }: TestsTableProps) {
+export function TestsTable() {
   const router = useRouter();
   const { orgId } = useParams<{ orgId: string }>();
   const t = useI18n();

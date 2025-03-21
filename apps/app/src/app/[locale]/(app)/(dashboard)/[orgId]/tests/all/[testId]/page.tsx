@@ -42,7 +42,6 @@ export async function generateMetadata({
   };
 }
 
-
 const getUsers = unstable_cache(
 	async (organizationId: string) => {
 		const users = await db.user.findMany({
