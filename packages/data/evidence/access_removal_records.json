@@ -1,0 +1,7 @@
+{
+  "id": "access_removal_records",
+  "name": "Access Removal Records",
+  "description": "User termination logs, de-provisioning records, and access review reports. Provide Access Removal Procedures document that outlines de-provisioning user access immediately after termination or role change.",
+  "frequency": "quarterly",
+  "department": "it"
+}

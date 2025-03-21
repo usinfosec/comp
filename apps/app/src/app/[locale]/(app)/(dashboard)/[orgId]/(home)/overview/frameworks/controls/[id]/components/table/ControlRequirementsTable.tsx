@@ -49,6 +49,9 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 				}
 				break;
 			case "evidence":
+				console.log({
+					requirement,
+				});
 				if (requirement.organizationEvidenceId) {
 					router.push(
 						`/${orgId}/evidence/${requirement.organizationEvidenceId}`,

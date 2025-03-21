@@ -73,7 +73,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 				return (
 					<div className="flex flex-col w-[300px]">
 						<Link
-							href={`${orgId}/overview/frameworks/controls/${row.original.id}`}
+							href={`/${orgId}/overview/frameworks/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
 							<span className="font-medium truncate">{row.original.name}</span>

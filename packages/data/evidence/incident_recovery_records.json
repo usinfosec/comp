@@ -1,0 +1,7 @@
+{
+  "id": "incident_recovery_records",
+  "name": "Incident Recovery Records",
+  "description": "Incident recovery test results, post-incident reviews, and restoration logs. Provide procedure for incident response, recovery, and restoration of systems after an outage.",
+  "frequency": "yearly",
+  "department": "it"
+}

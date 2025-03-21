@@ -1,5 +1,6 @@
 "use client";
 
+import type { OrganizationControlRequirement } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2, XCircle } from "lucide-react";
 import type { RequirementTableData } from "./ControlRequirementsTable";

@@ -17,6 +17,7 @@ export interface Requirement {
   type: string;
   description: string;
   policyId?: string;
+  evidenceId?: string;
   name?: string;
   frequency?: Frequency;
   department?: Departments;
@@ -36,6 +37,7 @@ export interface ControlRequirement {
   type: string;
   description: string;
   policyId?: string;
+  evidenceId?: string;
 }
 
 export interface Policy {
@@ -49,6 +51,7 @@ export interface Policy {
       [key: string]: string[];
     };
     frequency?: Frequency;
+    department?: Departments;
   };
   content: Array<{
     type: string;

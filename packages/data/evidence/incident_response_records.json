@@ -1,0 +1,7 @@
+{
+  "id": "incident_response_records",
+  "name": "Incident Response Records",
+  "description": "Incident logs, response drill reports, and post-incident review documentation. Provide Security Incident Response Procedures document that outlines detecting, containing, eradicating, and recovering from security incidents.",
+  "frequency": "yearly",
+  "department": "it"
+}

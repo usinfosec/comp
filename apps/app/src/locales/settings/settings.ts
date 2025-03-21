@@ -49,8 +49,7 @@ export const settings = {
     ninety_days: "90 days",
     one_year: "1 year",
     api_key: "API Key",
-    save_warning:
-      "This key will only be shown once. Make sure to copy it now.",
+    save_warning: "This key will only be shown once. Make sure to copy it now.",
     copied: "API key copied to clipboard",
     revoke_confirm:
       "Are you sure you want to revoke this API key? This action cannot be undone.",
@@ -94,7 +93,7 @@ export const settings = {
       },
       status: {
         accepted: "Accepted",
-        pending: "Pending"
+        pending: "Pending",
       },
       role: {
         owner: "Owner",
@@ -145,7 +144,7 @@ export const settings = {
       error: {
         title: "Invitation Error",
         description: "There was an error processing your invitation.",
-        home: "Go to Home"
+        home: "Go to Home",
       },
       form: {
         email: {
@@ -180,8 +179,7 @@ export const settings = {
       },
       toast: {
         error: "Failed to send invitation",
-        unexpected:
-          "An unexpected error occurred while sending the invitation",
+        unexpected: "An unexpected error occurred while sending the invitation",
       },
     },
     member_actions: {
@@ -219,4 +217,4 @@ export const settings = {
       },
     },
   },
-} as const 
+} as const;

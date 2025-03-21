@@ -1,0 +1,7 @@
+{
+  "id": "exception_logs",
+  "name": "Exception Logs",
+  "description": "Exception logs, resolution documentation, and process improvement records. Provide procedure for detecting exceptions, escalating issues, and documenting resolutions.",
+  "frequency": "quarterly",
+  "department": "itsm"
+}
