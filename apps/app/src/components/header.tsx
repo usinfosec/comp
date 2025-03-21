@@ -15,8 +15,6 @@ import { redirect } from "next/navigation";
 
 export async function Header() {
   const t = await getI18n();
-  const { organizations } = await getOrganizations();
-
   const session = await auth();
   const user = session?.user;
   const currentOrganizationId = user?.organizationId;
