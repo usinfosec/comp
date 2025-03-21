@@ -3,7 +3,6 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -49,7 +48,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 	);
 }
 
-const getPolicy = cache(async (policyId: string, organizationId: string) => {
+const getPolicy = async (policyId: string, organizationId: string) => {
 	const policy = await db.organizationPolicy.findUnique({
 		where: {
 			id: policyId,
@@ -61,4 +60,4 @@ const getPolicy = cache(async (policyId: string, organizationId: string) => {
 	});
 
 	return policy;
-});
+};

@@ -1,9 +1,7 @@
 import { auth } from "@/auth";
-import { Title } from "@/components/title";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface LayoutProps {
@@ -50,16 +48,13 @@ export default async function Layout({ children, params }: LayoutProps) {
 	);
 }
 
-const getRisk = unstable_cache(
-	async (riskId: string, organizationId: string) => {
-		const risk = await db.risk.findUnique({
-			where: {
-				id: riskId,
-				organizationId: organizationId,
-			},
-		});
+const getRisk = async (riskId: string, organizationId: string) => {
+	const risk = await db.risk.findUnique({
+		where: {
+			id: riskId,
+			organizationId: organizationId,
+		},
+	});
 
-		return risk;
-	},
-	["risk-cache"],
-);
+	return risk;
+};

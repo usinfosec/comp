@@ -17,7 +17,6 @@ import type { RiskTaskStatus } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface PageProps {
@@ -115,94 +114,42 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 	);
 }
 
-const getRisk = unstable_cache(
-	async (riskId: string, organizationId: string) => {
-		const risk = await db.risk.findUnique({
-			where: {
-				id: riskId,
-				organizationId: organizationId,
-			},
-			include: {
-				owner: true,
-			},
-		});
+const getRisk = async (riskId: string, organizationId: string) => {
+	const risk = await db.risk.findUnique({
+		where: {
+			id: riskId,
+			organizationId: organizationId,
+		},
+		include: {
+			owner: true,
+		},
+	});
 
-		return risk;
-	},
-	["risk-cache"],
-);
+	return risk;
+};
 
-const getTasks = unstable_cache(
-	async function tasks({
-		riskId,
-		search,
-		status,
-		column,
-		order,
-		page = 1,
-		per_page = 10,
-	}: {
-		riskId: string;
-		search?: string;
-		status?: RiskTaskStatus;
-		column?: string;
-		order?: string;
-		page?: number;
-		per_page?: number;
-	}) {
-		const skip = (page - 1) * per_page;
+const getTasks = async function tasks({
+	riskId,
+	search,
+	status,
+	column,
+	order,
+	page = 1,
+	per_page = 10,
+}: {
+	riskId: string;
+	search?: string;
+	status?: RiskTaskStatus;
+	column?: string;
+	order?: string;
+	page?: number;
+	per_page?: number;
+}) {
+	const skip = (page - 1) * per_page;
 
-		const [tasks, total] = await Promise.all([
-			db.riskMitigationTask
-				.findMany({
-					where: {
-						riskId,
-						AND: [
-							search
-								? {
-										OR: [
-											{ title: { contains: search, mode: "insensitive" } },
-											{
-												description: { contains: search, mode: "insensitive" },
-											},
-										],
-									}
-								: {},
-							status ? { status } : {},
-						],
-					},
-					orderBy: column
-						? {
-								[column]: order === "asc" ? "asc" : "desc",
-							}
-						: {
-								createdAt: "desc",
-							},
-					skip,
-					take: per_page,
-					include: {
-						owner: {
-							select: {
-								name: true,
-								image: true,
-							},
-						},
-					},
-				})
-				.then((tasks) =>
-					tasks.map(
-						(task) =>
-							({
-								...task,
-								dueDate: task.dueDate?.toISOString() ?? "",
-								owner: {
-									name: task.owner?.name ?? "",
-									image: task.owner?.image ?? "",
-								},
-							}) as RiskTaskType,
-					),
-				),
-			db.riskMitigationTask.count({
+	const [tasks, total] = await Promise.all([
+		db.riskMitigationTask
+			.findMany({
 				where: {
 					riskId,
 					AND: [
@@ -210,31 +157,74 @@ const getTasks = unstable_cache(
 							? {
 									OR: [
 										{ title: { contains: search, mode: "insensitive" } },
-										{ description: { contains: search, mode: "insensitive" } },
+										{
+											description: { contains: search, mode: "insensitive" },
+										},
 									],
 								}
 							: {},
 						status ? { status } : {},
 					],
 				},
-			}),
-		]);
+				orderBy: column
+					? {
+							[column]: order === "asc" ? "asc" : "desc",
+						}
+					: {
+							createdAt: "desc",
+						},
+				skip,
+				take: per_page,
+				include: {
+					owner: {
+						select: {
+							name: true,
+							image: true,
+						},
+					},
+				},
+			})
+			.then((tasks) =>
+				tasks.map(
+					(task) =>
+						({
+							...task,
+							dueDate: task.dueDate?.toISOString() ?? "",
+							owner: {
+								name: task.owner?.name ?? "",
+								image: task.owner?.image ?? "",
+							},
+						}) as RiskTaskType,
+				),
+			),
+		db.riskMitigationTask.count({
+			where: {
+				riskId,
+				AND: [
+					search
+						? {
+								OR: [
+									{ title: { contains: search, mode: "insensitive" } },
+									{ description: { contains: search, mode: "insensitive" } },
+								],
+							}
+						: {},
+					status ? { status } : {},
+				],
+			},
+		}),
+	]);
 
-		return { tasks, total };
-	},
-	["tasks-cache"],
-);
+	return { tasks, total };
+};
 
-const getUsers = unstable_cache(
-	async (organizationId: string) => {
-		const users = await db.user.findMany({
-			where: { organizationId: organizationId },
-		});
+const getUsers = async (organizationId: string) => {
+	const users = await db.user.findMany({
+		where: { organizationId: organizationId },
+	});
 
-		return users;
-	},
-	["users-cache"],
-);
+	return users;
+};
 
 export async function generateMetadata({
 	params,

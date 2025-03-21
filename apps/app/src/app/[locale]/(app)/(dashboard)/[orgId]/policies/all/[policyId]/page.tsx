@@ -5,7 +5,6 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 
 export default async function PolicyDetails({
 	params,
@@ -45,7 +44,7 @@ export async function generateMetadata({
 	};
 }
 
-const getPolicy = cache(async (policyId: string, organizationId: string) => {
+const getPolicy = async (policyId: string, organizationId: string) => {
 	const policy = await db.organizationPolicy.findUnique({
 		where: { id: policyId, organizationId },
 		include: {
@@ -54,7 +53,7 @@ const getPolicy = cache(async (policyId: string, organizationId: string) => {
 		},
 	});
 	return policy;
-});
+};
 
 const getUsers = async (organizationId: string) => {
 	const orgMembers = await db.organizationMember.findMany({
