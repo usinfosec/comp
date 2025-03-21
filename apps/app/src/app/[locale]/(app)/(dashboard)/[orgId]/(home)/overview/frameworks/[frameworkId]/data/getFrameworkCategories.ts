@@ -6,13 +6,14 @@ import type {
   OrganizationCategory,
   OrganizationPolicy,
   OrganizationEvidence,
+  ComplianceStatus,
 } from "@bubba/db/types";
 
 export type FrameworkCategories = (OrganizationCategory & {
   name: string;
   organizationControl: (OrganizationControl & {
     id: string;
-    status: any; // ComplianceStatus enum
+    status: ComplianceStatus;
     control: Control;
     OrganizationControlRequirement: (OrganizationControlRequirement & {
       organizationPolicy: OrganizationPolicy | null;
