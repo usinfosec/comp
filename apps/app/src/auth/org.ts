@@ -45,13 +45,6 @@ export async function createOrganizationAndConnectUser(input: {
         name: true,
       },
     }),
-    db.user.update({
-      where: { id: input.userId },
-      data: { role: "admin" },
-      select: {
-        id: true,
-      },
-    }),
   ]);
 
   const stripeCustomerId = await createStripeCustomer({

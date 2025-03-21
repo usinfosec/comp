@@ -6,7 +6,13 @@ import { Sheet, SheetContent } from "@bubba/ui/sheet";
 import { useState } from "react";
 import { MainMenu } from "./main-menu";
 
-export function MobileMenu({ organizationId }: { organizationId: string }) {
+export function MobileMenu({
+	organizationId,
+	isAdmin,
+}: {
+	organizationId: string;
+	isAdmin: boolean;
+}) {
 	const [isOpen, setOpen] = useState(false);
 
 	return (
@@ -29,6 +35,7 @@ export function MobileMenu({ organizationId }: { organizationId: string }) {
 				<MainMenu
 					onSelect={() => setOpen(false)}
 					organizationId={organizationId}
+					userIsAdmin={isAdmin}
 				/>
 			</SheetContent>
 		</Sheet>

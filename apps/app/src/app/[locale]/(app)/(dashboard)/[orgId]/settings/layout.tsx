@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Layout({
@@ -12,6 +13,14 @@ export default async function Layout({
 	const session = await auth();
 	const user = session?.user;
 	const orgId = user?.organizationId;
+
+	if (!session) {
+		return redirect("/");
+	}
+
+	if (!session.user.isAdmin) {
+		return redirect(`/${orgId}`);
+	}
 
 	return (
 		<div className="max-w-[1200px] m-auto">
