@@ -1,51 +1,87 @@
 "use client";
 
+import type { Framework, OrganizationFramework } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useOrganizationCategories } from "../hooks/useOrganizationCategories";
-import { useOrganizationFramework } from "../hooks/useOrganizationFramework";
-
+import type { FrameworkCategories } from "../data/getFrameworkCategories";
 interface FrameworkOverviewProps {
-	frameworkId: string;
+	organizationCategories: FrameworkCategories;
+	organizationFramework: OrganizationFramework & { framework: Framework };
 }
 
-export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
-	const { data } = useOrganizationCategories(frameworkId);
-	const { data: framework } = useOrganizationFramework(frameworkId);
+export function FrameworkOverview({
+	organizationCategories,
+	organizationFramework,
+}: FrameworkOverviewProps) {
+	const requirements = organizationCategories.flatMap((category) =>
+		category.organizationControl.flatMap(
+			(control) => control.OrganizationControlRequirement,
+		),
+	);
+
+	const totalRequirements = requirements.length;
+	const completedRequirements = requirements.filter((req) => {
+		switch (req.type) {
+			case "policy":
+				return req.organizationPolicy?.status === "published";
+			case "file":
+				return !!req.fileUrl;
+			case "evidence":
+				return req.organizationEvidence?.published === true;
+			default:
+				return req.published;
+		}
+	}).length;
 
 	// Calculate compliance metrics
-	const totalControls = data?.reduce(
-		(acc, cat) => acc + cat.organizationControl.length,
-		0,
-	);
+	const compliancePercentage =
+		totalRequirements > 0
+			? Math.round((completedRequirements / totalRequirements) * 100)
+			: 0;
 
-	const compliantControls = data?.reduce(
-		(acc, cat) =>
-			acc +
-			cat.organizationControl.filter((oc) => oc.status === "compliant").length,
-		0,
+	// Count controls
+	const allControls = organizationCategories.flatMap(
+		(category) => category.organizationControl,
 	);
+	const totalControls = allControls.length;
 
-	const compliancePercentage = Math.round(
-		(compliantControls ?? 0 / (totalControls ?? 0)) * 100,
-	);
+	// Calculate compliant controls (all requirements completed)
+	const compliantControls = allControls.filter((control) => {
+		const controlRequirements = control.OrganizationControlRequirement;
+		if (controlRequirements.length === 0) return false;
+
+		const completedControlRequirements = controlRequirements.filter((req) => {
+			switch (req.type) {
+				case "policy":
+					return req.organizationPolicy?.status === "published";
+				case "file":
+					return !!req.fileUrl;
+				case "evidence":
+					return req.organizationEvidence?.published === true;
+				default:
+					return req.published;
+			}
+		}).length;
+
+		return completedControlRequirements === controlRequirements.length;
+	}).length;
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			<Card>
 				<CardHeader>
-					<CardTitle>{framework?.framework.name}</CardTitle>
+					<CardTitle>{organizationFramework?.framework.name}</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<p className="text-sm text-muted-foreground">
-						{framework?.framework.description}
+						{organizationFramework?.framework.description}
 					</p>
 					<div className="mt-4">
 						<Badge variant="outline">
-							Version {framework?.framework.version}
+							Version {organizationFramework?.framework.version}
 						</Badge>
 					</div>
 				</CardContent>
@@ -75,8 +111,8 @@ export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
 							<CalendarIcon className="h-4 w-4 text-muted-foreground" />
 							<span className="text-sm">
 								Last assessed:{" "}
-								{framework?.lastAssessed
-									? format(framework?.lastAssessed, "MMM d, yyyy")
+								{organizationFramework?.lastAssessed
+									? format(organizationFramework?.lastAssessed, "MMM d, yyyy")
 									: "Never"}
 							</span>
 						</div>
@@ -84,8 +120,8 @@ export function FrameworkOverview({ frameworkId }: FrameworkOverviewProps) {
 							<CalendarIcon className="h-4 w-4 text-muted-foreground" />
 							<span className="text-sm">
 								Next assessment:{" "}
-								{framework?.nextAssessment
-									? format(framework?.nextAssessment, "MMM d, yyyy")
+								{organizationFramework?.nextAssessment
+									? format(organizationFramework?.nextAssessment, "MMM d, yyyy")
 									: "Not scheduled"}
 							</span>
 						</div>
