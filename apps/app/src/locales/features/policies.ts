@@ -62,6 +62,8 @@ export const policies = {
     published: "Published",
     needs_review: "Needs Review",
     archived: "Archived",
+    relevant: "Relevant",
+    "not-relevant": "Not Relevant"
   },
   policies: "policies",
   title: "Policies",
