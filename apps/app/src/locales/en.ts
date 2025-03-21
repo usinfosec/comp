@@ -27,7 +27,7 @@ import { vendors } from './features/vendors'
 // Settings translations
 import { settings } from './settings/settings'
 
-const translations = {
+export const translations = {
   // Core
   common,
   errors,
@@ -61,4 +61,4 @@ const translations = {
 } as const
 
 export type Translations = typeof translations
-export default translations as Readonly<Translations>
+export default translations
