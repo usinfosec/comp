@@ -3,67 +3,69 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { DepartmentChart } from "./department-chart";
 import { unstable_cache } from "next/cache";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/auth";
+import { cache } from "react";
 
 const ALL_DEPARTMENTS = ["none", "admin", "gov", "hr", "it", "itsm", "qms"];
 
-interface Props {
-	organizationId: string;
+export async function RisksByDepartment() {
+  const t = await getI18n();
+
+  const risks = await getRisksByDepartment();
+
+  const data = ALL_DEPARTMENTS.map((dept) => {
+    const found = risks.find(
+      (risk) =>
+        (risk.department || "none").toLowerCase() === dept.toLowerCase(),
+    );
+
+    return {
+      name: dept === "none" ? "None" : dept.toUpperCase(),
+      value: found ? found._count : 0,
+    };
+  }).sort((a, b) => b.value - a.value);
+
+  // Separate departments with values > 0 and departments with values = 0
+  const departmentsWithValues = data.filter((dept) => dept.value > 0);
+  const departmentsWithoutValues = data.filter((dept) => dept.value === 0);
+
+  // Determine which departments to show
+  let departmentsToShow = [...departmentsWithValues];
+
+  // If we have fewer than 4 departments with values, show up to 2 departments with no values
+  if (departmentsWithValues.length < 4 && departmentsWithoutValues.length > 0) {
+    departmentsToShow = [
+      ...departmentsWithValues,
+      ...departmentsWithoutValues.slice(0, 2),
+    ];
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("dashboard.risks_by_department")}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <DepartmentChart data={departmentsToShow} showEmptyDepartments={true} />
+      </CardContent>
+    </Card>
+  );
 }
 
-export async function RisksByDepartment({ organizationId }: Props) {
-	const t = await getI18n();
+const getRisksByDepartment = cache(
+  async () => {
+    const session = await auth();
 
-	const risks = await getRisksByDepartment(organizationId);
+    if (!session || !session.user.organizationId) {
+      return [];
+    }
 
-	const data = ALL_DEPARTMENTS.map((dept) => {
-		const found = risks.find(
-			(risk) =>
-				(risk.department || "none").toLowerCase() === dept.toLowerCase(),
-		);
+    const risksByDepartment = await db.risk.groupBy({
+      by: ["department"],
+      where: { organizationId: session.user.organizationId },
+      _count: true,
+    });
 
-		return {
-			name: dept === "none" ? "None" : dept.toUpperCase(),
-			value: found ? found._count : 0,
-		};
-	}).sort((a, b) => b.value - a.value);
-
-	// Separate departments with values > 0 and departments with values = 0
-	const departmentsWithValues = data.filter((dept) => dept.value > 0);
-	const departmentsWithoutValues = data.filter((dept) => dept.value === 0);
-
-	// Determine which departments to show
-	let departmentsToShow = [...departmentsWithValues];
-
-	// If we have fewer than 4 departments with values, show up to 2 departments with no values
-	if (departmentsWithValues.length < 4 && departmentsWithoutValues.length > 0) {
-		departmentsToShow = [
-			...departmentsWithValues,
-			...departmentsWithoutValues.slice(0, 2),
-		];
-	}
-
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>{t("dashboard.risks_by_department")}</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<DepartmentChart data={departmentsToShow} showEmptyDepartments={true} />
-			</CardContent>
-		</Card>
-	);
-}
-
-const getRisksByDepartment = unstable_cache(
-	async (organizationId: string) => {
-		const risksByDepartment = await db.risk.groupBy({
-			by: ["department"],
-			where: { organizationId },
-			_count: true,
-		});
-
-		return risksByDepartment;
-	},
-	["risks-by-department"],
-	{ tags: ["risks", "departments"] },
+    return risksByDepartment;
+  },
 );
