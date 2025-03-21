@@ -144,12 +144,14 @@ export function UpdatePolicyOverview({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_status")}</FormLabel>
+								<FormLabel>{t("policies.form.policy_status")}</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_status_placeholder")}
+												placeholder={t(
+													"policies.form.policy_status_placeholder",
+												)}
 											>
 												{field.value && (
 													<StatusPolicies status={field.value as StatusType} />
@@ -204,7 +206,7 @@ export function UpdatePolicyOverview({
 						name="department"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_department")}</FormLabel>
+								<FormLabel>{t("policies.form.policy_department")}</FormLabel>
 								<FormControl>
 									<Select
 										{...field}
@@ -213,7 +215,9 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_department_placeholder")}
+												placeholder={t(
+													"policies.form.policy_department_placeholder",
+												)}
 											/>
 										</SelectTrigger>
 										<SelectContent>
