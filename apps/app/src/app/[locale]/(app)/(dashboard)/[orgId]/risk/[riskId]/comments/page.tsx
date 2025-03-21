@@ -4,7 +4,6 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface PageProps {
@@ -38,38 +37,32 @@ export default async function RiskPage({ params }: PageProps) {
 	);
 }
 
-const getRisk = unstable_cache(
-	async (riskId: string, organizationId: string) => {
-		const risk = await db.risk.findUnique({
-			where: {
-				id: riskId,
-				organizationId: organizationId,
-			},
-			include: {
-				owner: true,
-				comments: {
-					orderBy: {
-						createdAt: "desc",
-					},
+const getRisk = async (riskId: string, organizationId: string) => {
+	const risk = await db.risk.findUnique({
+		where: {
+			id: riskId,
+			organizationId: organizationId,
+		},
+		include: {
+			owner: true,
+			comments: {
+				orderBy: {
+					createdAt: "desc",
 				},
 			},
-		});
+		},
+	});
 
-		return risk;
-	},
-	["risk-cache"],
-);
+	return risk;
+};
 
-const getUsers = unstable_cache(
-	async (organizationId: string) => {
-		const users = await db.user.findMany({
-			where: { organizationId: organizationId },
-		});
+const getUsers = async (organizationId: string) => {
+	const users = await db.user.findMany({
+		where: { organizationId: organizationId },
+	});
 
-		return users;
-	},
-	["users-cache"],
-);
+	return users;
+};
 
 export async function generateMetadata({
 	params,
