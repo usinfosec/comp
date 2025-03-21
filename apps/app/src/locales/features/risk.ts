@@ -20,6 +20,8 @@ export const risk = {
     risk_category_placeholder: "Select risk category",
     risk_description: "Description",
     risk_description_description: "Enter risk description",
+    risk_department: "Department",
+    risk_department_placeholder: "Select department",
     risk_status: "Status",
     risk_status_placeholder: "Select status"
   },

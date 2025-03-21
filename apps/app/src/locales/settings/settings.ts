@@ -18,6 +18,7 @@ export const settings = {
     org_delete_alert_description:
       "This action cannot be undone. This will permanently delete your organization and remove your data from our servers.",
     delete_confirm_tip: "Type 'delete' to confirm",
+    delete_confirm: "delete",
     org_delete_error: "Error deleting organization",
     org_delete_success: "Organization deleted",
     org_name_updated: "Organization name updated",
@@ -139,7 +140,8 @@ export const settings = {
         "Send an invitation to a new team member to join your organization",
       error: {
         title: "Invitation Error",
-        description: "There was an error processing your invitation."
+        description: "There was an error processing your invitation.",
+        home: "Go to Home"
       },
       form: {
         email: {

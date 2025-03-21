@@ -143,4 +143,9 @@ export const common = {
   edit: "Edit",
   description: "Description",
   last_updated: "Last Updated",
+  frequency: {
+    monthly: "Monthly",
+    quarterly: "Quarterly",
+    yearly: "Yearly"
+  }
 } as const 
