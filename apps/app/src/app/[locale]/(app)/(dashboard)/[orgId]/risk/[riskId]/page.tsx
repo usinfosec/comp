@@ -35,6 +35,7 @@ interface PageProps {
 export default async function RiskPage({ searchParams, params }: PageProps) {
   const { riskId } = await params;
   const risk = await getRisk(riskId);
+
   const users = await useUsers();
   const t = await getI18n();
 

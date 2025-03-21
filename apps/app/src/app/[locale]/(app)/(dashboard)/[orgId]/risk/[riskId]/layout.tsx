@@ -17,7 +17,7 @@ export default async function Layout({ children, params }: LayoutProps) {
     redirect("/");
   }
 
-  const riskId = await params;
+  const { riskId } = await params;
 
   if (!riskId) {
     redirect(`/${session.user.organizationId}/risk`);
@@ -32,11 +32,11 @@ export default async function Layout({ children, params }: LayoutProps) {
         backButtonHref={`/${orgId}/risk/register`}
         items={[
           {
-            path: `/${orgId}/risk/${riskId.riskId}`,
+            path: `/${orgId}/risk/${riskId}`,
             label: t("risk.overview"),
           },
           {
-            path: `/${orgId}/risk/${riskId.riskId}/comments`,
+            path: `/${orgId}/risk/${riskId}/comments`,
             label: t("common.comments.title"),
           },
         ]}
