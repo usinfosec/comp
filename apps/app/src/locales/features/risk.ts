@@ -16,7 +16,10 @@ export const risk = {
     risk_title: "Risk Title",
     risk_title_description: "Enter risk title",
     risk_details: "Risk Details",
+    risk_category: "Category",
     risk_category_placeholder: "Select risk category",
+    risk_description: "Description",
+    risk_description_description: "Enter risk description",
     risk_status: "Status",
     risk_status_placeholder: "Select status"
   },
@@ -46,6 +49,7 @@ export const risk = {
       title: "Task Details",
       task_title: "Task Title",
       task_title_description: "Enter task title",
+      description: "Description",
       description_description: "Enter task description",
       due_date: "Due Date",
       success: "Task created successfully",

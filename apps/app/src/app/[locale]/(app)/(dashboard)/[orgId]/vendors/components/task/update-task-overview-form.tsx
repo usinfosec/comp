@@ -92,7 +92,7 @@ export function UpdateTaskOverviewForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>{t("risk.tasks.form.description")}</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
