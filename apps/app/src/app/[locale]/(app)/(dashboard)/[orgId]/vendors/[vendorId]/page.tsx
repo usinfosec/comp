@@ -143,7 +143,7 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
         <CardHeader>
           <CardTitle>
             <div className="flex items-center justify-between gap-2">
-              {t("vendor.tasks.title")}
+              {t("vendors.tasks.title")}
             </div>
           </CardTitle>
         </CardHeader>
@@ -182,6 +182,6 @@ export async function generateMetadata({
   const t = await getI18n();
 
   return {
-    title: t("vendors.vendor_overview"),
+    title: t("vendors.title"),
   };
 }

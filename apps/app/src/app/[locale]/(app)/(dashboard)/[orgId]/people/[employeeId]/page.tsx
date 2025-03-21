@@ -34,6 +34,6 @@ export async function generateMetadata({
   const t = await getI18n();
 
   return {
-    title: t("people.employee_details"),
+    title: t("people.details.title"),
   };
 }

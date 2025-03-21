@@ -2,6 +2,27 @@ export const risk = {
   risks: "risks",
   overview: "Overview",
   create: "Create New Risk",
+  comments: "Risk Comments",
+  risk_overview: "Risk Overview",
+  register: {
+    title: "Risk Register",
+    table: {
+      risk: "Risk"
+    }
+  },
+  dashboard: {
+    by_department: "Risks by Department",
+    status: "Risks by Status",
+    risks_by_assignee: "Risks by Assignee"
+  },
+  metrics: {
+    probability: "Probability",
+    impact: "Impact"
+  },
+  tasks: {
+    title: "Tasks",
+    task_overview: "Task Overview"
+  },
   vendor: {
     title: "Vendor Management",
     dashboard: {

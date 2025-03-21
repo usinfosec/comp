@@ -7,6 +7,7 @@ export const tests = {
     failed: "Failed",
     severity_distribution: "Test Severity Distribution",
   },
+  test_details: "Test Details",
   severity: {
     info: "Info",
     low: "Low",
