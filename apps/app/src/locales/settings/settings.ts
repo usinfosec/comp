@@ -93,17 +93,13 @@ export const settings = {
       },
       status: {
         accepted: "Accepted",
-        pending: "Pending"
+        pending: "Pending",
       },
       role: {
         owner: "Owner",
         admin: "Admin",
         member: "Member",
         viewer: "Viewer",
-      },
-      status: {
-        accepted: "Accepted",
-        pending: "Pending",
       },
     },
     invitations: {
@@ -148,7 +144,7 @@ export const settings = {
       error: {
         title: "Invitation Error",
         description: "There was an error processing your invitation.",
-        home: "Go to Home"
+        home: "Go to Home",
       },
       form: {
         email: {
