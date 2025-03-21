@@ -1,4 +1,7 @@
 import { auth } from "@/auth";
+import { RiskOverview } from "@/components/risks/risk-overview";
+import { VendorsByStatus } from "@/components/vendors/charts/vendors-by-status";
+import { VendorOverview } from "@/components/vendors/vendor-overview";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
@@ -51,14 +54,9 @@ export default async function VendorManagement({
 
 	return (
 		<div className="space-y-4 sm:space-y-8">
-			Coming Soon
-			{/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <RiskOverview organizationId={session.user.organizationId} />
-      </div>
-
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <RisksAssignee organizationId={session.user.organizationId} />
-      </div> */}
+			<VendorOverview 
+				organizationId={session.user.organizationId} 
+			/>
 		</div>
 	);
 }

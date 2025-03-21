@@ -5,9 +5,9 @@ import { scaleBand, scaleLinear, max, format } from "d3";
 import { ClientTooltip } from "@bubba/ui/chart-tooltip";
 
 const STATUS_COLORS = {
-	not_assessed: "bg-[var(--chart-open)]",
-	in_progress: "bg-[var(--chart-pending)]",
-	assessed: "bg-[var(--chart-closed)]",
+	"not_assessed": "bg-chart-destructive",
+	"in_progress": "bg-chart-neutral",
+	"assessed": "bg-chart-positive",
 };
 
 interface StatusData {
@@ -23,16 +23,21 @@ export function StatusChart({ data }: StatusChartProps) {
 	const ensureAllStatuses = (inputData: StatusData[]): StatusData[] => {
 		const result = inputData.map((item) => ({
 			...item,
-			name:
-				item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase(),
+			name: item.name
+				.split('_')
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+				.join(' '),
 		}));
 
-		const statusNames = Object.keys(STATUS_COLORS);
+		const statusNames = Object.keys(STATUS_COLORS).map(key => 
+			key.split('_')
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+				.join(' ')
+		);
 
 		for (const status of statusNames) {
-			const capitalized = status.charAt(0).toUpperCase() + status.slice(1);
-			if (!result.some((item) => item.name.toLowerCase() === status)) {
-				result.push({ name: capitalized, value: 0 });
+			if (!result.some((item) => item.name === status)) {
+				result.push({ name: status, value: 0 });
 			}
 		}
 
@@ -91,7 +96,7 @@ export function StatusChart({ data }: StatusChartProps) {
 	const getLabelKey = (item: StatusData) => `label-${item.name}`;
 
 	const getStatusColor = (statusName: string) => {
-		const normalizedName = statusName.toLowerCase();
+		const normalizedName = statusName.toLowerCase().replace(/ /g, '_');
 		return (
 			STATUS_COLORS[normalizedName as keyof typeof STATUS_COLORS] ||
 			"bg-gray-400"

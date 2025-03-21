@@ -6,6 +6,14 @@ import { VendorCategoryChart } from "./category-chart";
 
 const VENDOR_CATEGORIES = Object.values(VendorCategory);
 
+const CHART_COLORS = [
+  "bg-chart-positive",
+  "bg-chart-neutral", 
+  "bg-chart-warning",
+  "bg-chart-destructive",
+  "bg-chart-other"
+];
+
 interface Props {
 	organizationId: string;
 }
@@ -15,15 +23,23 @@ export async function VendorsByCategory({ organizationId }: Props) {
 
 	const vendors = await getVendorsByCategory(organizationId);
 
-	const data = VENDOR_CATEGORIES.map((category) => {
+	const data = VENDOR_CATEGORIES.map((category, index) => {
 		const found = vendors.find(
 			(vendor) =>
 				(vendor.category || "other").toLowerCase() === category.toLowerCase(),
 		);
 
+		const formattedName = category === "other" 
+			? "Other" 
+			: category
+				.split("_")
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+				.join(" ");
+
 		return {
-			name: category === "other" ? "Other" : category.toUpperCase(),
+			name: formattedName,
 			value: found ? found._count : 0,
+			color: CHART_COLORS[index % CHART_COLORS.length]
 		};
 	}).sort((a, b) => b.value - a.value);
 
