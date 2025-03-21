@@ -1,11 +1,4 @@
 export const common = {
-  frequency: {
-    daily: "Daily",
-    weekly: "Weekly",
-    monthly: "Monthly",
-    quarterly: "Quarterly",
-    yearly: "Yearly",
-  },
   notifications: {
     inbox: "Inbox",
     archive: "Archive",
@@ -40,17 +33,12 @@ export const common = {
     pending: "Pending",
     closed: "Closed",
     archived: "Archived",
-    compliant: "Compliant",
-    non_compliant: "Non Compliant",
     not_started: "Not Started",
     in_progress: "In Progress",
     published: "Published",
     needs_review: "Needs Review",
     draft: "Draft",
     not_assessed: "Not Assessed",
-    assessed: "Assessed",
-    active: "Active",
-    inactive: "Inactive",
     title: "Status",
   },
   filters: {
@@ -75,26 +63,14 @@ export const common = {
     no_results: {
       title: "No results found",
       title_tasks: "No tasks found",
-      title_risks: "No risks found",
       description: "Try another search, or adjusting the filters",
       description_filters: "Try another search, or adjusting the filters",
       description_no_tasks: "Create a task to get started",
-      description_no_risks: "Create a risk to get started",
     },
     no_items: {
       title: "No items found",
       description: "Try adjusting your search or filters",
     },
-  },
-  pagination: {
-    of: "of",
-    items_per_page: "Items per page",
-    rows_per_page: "Rows per page",
-    page_x_of_y: "Page {{current}} of {{total}}",
-    go_to_first_page: "Go to first page",
-    go_to_previous_page: "Go to previous page",
-    go_to_next_page: "Go to next page",
-    go_to_last_page: "Go to last page",
   },
   comments: {
     title: "Comments",
@@ -124,16 +100,6 @@ export const common = {
       maxFileSize: "Max file size: {size}MB",
     },
     fileUrl: {
-      additionalLinks: "Additional Links",
-      add: "Add",
-      linksAdded: "{count} link{s} added",
-      enterUrl: "Enter URL",
-      addAnotherLink: "Add Another Link",
-      saveLinks: "Save Links",
-      urlBadge: "URL",
-      copyLink: "Copy Link",
-      openLink: "Open Link",
-      deleteLink: "Delete Link",
     },
     fileCard: {
       preview: "Preview",
@@ -153,8 +119,6 @@ export const common = {
     title: "Attachments",
     description: "Add a file by clicking 'Add Attachment'.",
     upload: "Upload attachment",
-    upload_description:
-      "Upload an attachment or add a link to an external resource.",
     drop: "Drop the files here",
     drop_description:
       "Drop files here or click to choose files from your device.",
@@ -166,24 +130,16 @@ export const common = {
     toasts: {
       error: "Something went wrong, please try again.",
       error_uploading_files: "Cannot upload more than 1 file at a time",
-      error_uploading_files_multiple: "Cannot upload more than 10 files",
       error_no_files_selected: "No files selected",
       error_file_rejected: "File {file} was rejected",
       error_failed_to_upload_files: "Failed to upload files",
-      error_failed_to_upload_files_multiple: "Failed to upload files",
-      error_failed_to_upload_files_single: "Failed to upload file",
       success_uploading_files: "Files uploaded successfully",
-      success_uploading_files_multiple: "Files uploaded successfully",
-      success_uploading_files_single: "File uploaded successfully",
       success_uploading_files_target: "Files uploaded",
       uploading_files: "Uploading {target}...",
       remove_file: "Remove file",
     },
   },
   edit: "Edit",
-  errors: {
-    unexpected_error: "An unexpected error occurred",
-  },
   description: "Description",
   last_updated: "Last Updated",
 } as const 

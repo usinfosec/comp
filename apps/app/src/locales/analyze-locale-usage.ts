@@ -1,17 +1,62 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
+import { createInterface } from 'node:readline/promises'
 
-// This script finds unused translation keys in the codebase
-// It works by:
-// 1. Converting the en.ts file to a temporary JSON file using ts-node
-// 2. Reading the JSON and extracting all translation keys
-// 3. Checking if each key is used in the codebase using grep (no ripgrep required)
-// 4. Finding duplicate translation values and where they are used
+// This script analyzes translation usage in the codebase
+// Features:
+// 1. Finds unused translation keys
+// 2. Detects duplicate translation values
+// 3. Shows where translations are used
 
 const DEBUG = false // Set to false to check all translation keys
 
-async function findUnusedTranslations() {
+// ANSI color codes for terminal output - using a minimal set
+const COLORS = {
+  reset: '\x1b[0m',
+  bold: '\x1b[1m',
+  
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  cyan: '\x1b[36m',
+  gray: '\x1b[90m'
+}
+
+// Main function - entry point
+async function main() {
+  console.log(`${COLORS.bold}${COLORS.blue}=====================================${COLORS.reset}`)
+  console.log(`${COLORS.bold}${COLORS.blue}  Translation Analysis Tool${COLORS.reset}`)
+  console.log(`${COLORS.bold}${COLORS.blue}=====================================${COLORS.reset}`)
+  
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+  
+  console.log('\nWhat would you like to check?')
+  console.log(`${COLORS.green}1) Find unused translations${COLORS.reset}`)
+  console.log(`${COLORS.yellow}2) Find duplicate translations${COLORS.reset}`)
+  console.log(`${COLORS.blue}3) Run both checks${COLORS.reset}`)
+  
+  const answer = await rl.question('\nEnter your choice (1-3) [default: 3]: ')
+  const choice = answer.trim() || '3'
+  
+  const runUnused = ['1', '3'].includes(choice)
+  const runDuplicates = ['2', '3'].includes(choice)
+  
+  if (!['1', '2', '3'].includes(choice)) {
+    console.log(`${COLORS.red}Invalid choice. Running both checks.${COLORS.reset}`)
+  }
+  
+  rl.close()
+  
+  await findTranslationIssues(runUnused, runDuplicates)
+}
+
+// Main analysis function
+async function findTranslationIssues(findUnused: boolean, findDuplicates: boolean) {
   try {
     // Generate a temporary JSON file with the translations
     const tempJsonPath = path.join(process.cwd(), 'src/locales/translations.json')
@@ -22,6 +67,7 @@ async function findUnusedTranslations() {
     
     try {
       // Run the converter script with ts-node
+      console.log(`\n${COLORS.gray}Converting translations to JSON...${COLORS.reset}`)
       execSync(`bunx tsx ${converterPath}`)
       
       // Read the JSON file
@@ -31,80 +77,67 @@ async function findUnusedTranslations() {
       // Extract all keys and their values
       const keyValuePairs = flattenObjectWithValues(translations)
       
+      // Filter out language keys
+      const filteredPairs = keyValuePairs.filter(pair => !pair.key.startsWith('languages.'))
+      
       // Extract just the keys for unused key detection
-      const allKeys = keyValuePairs.map(pair => pair.key)
+      const allKeys = filteredPairs.map(pair => pair.key)
       
-      console.log(`Found ${allKeys.length} translation keys to check.`)
+      console.log(`${COLORS.blue}Found ${allKeys.length} translation keys to analyze.${COLORS.reset}`)
       
-      // Try a test search for a key that should exist
-      if (DEBUG) {
-        // Using common.notifications.inbox since we know it's in the notification-center.tsx file
-        const testKey = "common.notifications.inbox" 
-        const testResult = await testKeySearch(testKey)
-        console.log(`Test search for "${testKey}": ${testResult ? "FOUND" : "NOT FOUND"}`)
-      }
-      
-      // Check which keys are unused
+      // Variables to store results
       const unusedKeys: string[] = []
       const errors: string[] = []
+      let duplicatesWithLocations: Array<{value: string, keys: string[], locations: Record<string, string[]>}> = []
       
-      // Limit the number of keys to check in debug mode
-      const keysToCheck = DEBUG ? allKeys.slice(0, 10) : allKeys
-      
-      for (const key of keysToCheck) {
-        try {
-          const isUsed = await isKeyUsedInCode(key)
-          if (!isUsed) {
-            unusedKeys.push(key)
-          } else if (DEBUG) {
-            console.log(`Key used: ${key}`)
+      // Find unused keys if requested
+      if (findUnused) {
+        console.log(`\n${COLORS.bold}${COLORS.green}Checking for unused translations...${COLORS.reset}`)
+        
+        // Limit the number of keys to check in debug mode
+        const keysToCheck = DEBUG ? allKeys.slice(0, 10) : allKeys
+        
+        let count = 0
+        const total = keysToCheck.length
+        const updateInterval = Math.max(1, Math.floor(total / 20)) // Update progress ~20 times
+        
+        for (const key of keysToCheck) {
+          try {
+            count++
+            
+            // Show progress periodically
+            if (count % updateInterval === 0 || count === total) {
+              const percent = Math.floor((count / total) * 100)
+              process.stdout.write(`\r${COLORS.gray}Progress: ${percent}% (${count}/${total})${COLORS.reset}`)
+            }
+            
+            const isUsed = await isKeyUsedInCode(key)
+            if (!isUsed) {
+              unusedKeys.push(key)
+            }
+          } catch (error) {
+            errors.push(`Error checking key ${key}: ${error}`)
           }
-        } catch (error) {
-          errors.push(`Error checking key ${key}: ${error}`)
         }
+        
+        console.log('\n') // New line after progress
       }
       
-      // Find duplicate values
-      const duplicates = findDuplicateValues(keyValuePairs)
-      
-      // Find locations where duplicates are used
-      const duplicatesWithLocations = await findDuplicateLocations(duplicates)
+      // Find duplicate values if requested
+      if (findDuplicates) {
+        console.log(`\n${COLORS.bold}${COLORS.yellow}Checking for duplicate translations...${COLORS.reset}`)
+        
+        // Find duplicate values
+        const duplicates = findDuplicateValues(filteredPairs)
+        console.log(`${COLORS.gray}Found ${duplicates.length} potential duplicates. Analyzing usage...${COLORS.reset}`)
+        
+        // Find locations where duplicates are used
+        duplicatesWithLocations = await findDuplicateLocations(duplicates)
+      }
       
       // Report results
-      console.log('\nResults:')
-      console.log('=========')
+      displayResults(unusedKeys, duplicatesWithLocations, errors, findUnused, findDuplicates)
       
-      if (DEBUG) {
-        console.log(`\nChecked ${keysToCheck.length} of ${allKeys.length} keys in debug mode.`)
-      }
-      
-      if (unusedKeys.length > 0) {
-        console.log(`\nFound ${unusedKeys.length} unused translation keys:`)
-        for (const key of unusedKeys) {
-          console.log(`- ${key}`)
-        }
-      } else {
-        console.log('\nNo unused translation keys found!')
-      }
-      
-      if (duplicatesWithLocations.length > 0) {
-        console.log(`\nFound ${duplicatesWithLocations.length} duplicate translation values:`)
-        for (const dup of duplicatesWithLocations) {
-          console.log(`\nValue: "${dup.value}" is used in ${dup.keys.length} places:`)
-          for (const key of dup.keys) {
-            console.log(`- ${key}${dup.locations[key] ? ` (used in: ${dup.locations[key].join(', ')})` : ''}`)
-          }
-        }
-      } else {
-        console.log('\nNo duplicate translation values found!')
-      }
-      
-      if (errors.length > 0) {
-        console.log(`\nEncountered ${errors.length} errors:`)
-        for (const error of errors) {
-          console.log(`- ${error}`)
-        }
-      }
     } finally {
       // Clean up temporary files
       if (fs.existsSync(tempJsonPath)) {
@@ -115,8 +148,75 @@ async function findUnusedTranslations() {
       }
     }
   } catch (error) {
-    console.error('Error:', error)
+    console.error(`${COLORS.red}Error:${COLORS.reset}`, error)
   }
+}
+
+// Display the results in a nice format
+function displayResults(
+  unusedKeys: string[], 
+  duplicatesWithLocations: Array<{value: string, keys: string[], locations: Record<string, string[]>}>,
+  errors: string[],
+  showUnused: boolean,
+  showDuplicates: boolean
+) {
+  console.log(`\n${COLORS.bold}${COLORS.blue}================== RESULTS ==================${COLORS.reset}`)
+  
+  // Only show unused translations section if that check was requested
+  if (showUnused) {
+    if (unusedKeys.length > 0) {
+      console.log(`\n${COLORS.bold}${COLORS.green}UNUSED TRANSLATIONS (${unusedKeys.length})${COLORS.reset}`)
+      console.log(`${COLORS.gray}These keys are defined but not used in the codebase:${COLORS.reset}\n`)
+      
+      // Sort keys alphabetically for easier reading
+      unusedKeys.sort();
+      
+      // Display full keys as a simple list
+      for (const key of unusedKeys) {
+        console.log(`${COLORS.yellow}- ${key}${COLORS.reset}`);
+      }
+    } else {
+      console.log(`\n${COLORS.bold}${COLORS.green}No unused translations found.${COLORS.reset}`)
+    }
+  }
+  
+  // Only show duplicate translations section if that check was requested
+  if (showDuplicates) {
+    if (duplicatesWithLocations.length > 0) {
+      console.log(`\n${COLORS.bold}${COLORS.yellow}DUPLICATE TRANSLATIONS (${duplicatesWithLocations.length})${COLORS.reset}`)
+      console.log(`${COLORS.gray}These values are used in multiple translation keys:${COLORS.reset}\n`)
+      
+      for (const dup of duplicatesWithLocations) {
+        const ellipsis = dup.value.length > 60 ? '...' : '';
+        const displayValue = dup.value.substring(0, 60) + ellipsis;
+        
+        console.log(`${COLORS.bold}"${displayValue}"${COLORS.reset} ${COLORS.yellow}(${dup.keys.length} places)${COLORS.reset}`)
+        
+        for (const key of dup.keys) {
+          if (dup.locations[key] && dup.locations[key].length > 0) {
+            console.log(`  ${key}`)
+            console.log(`    ${COLORS.gray}Used in: ${dup.locations[key].join(', ')}${COLORS.reset}`)
+          } else {
+            // Mark unused duplicates
+            console.log(`  ${key} ${COLORS.gray}(unused)${COLORS.reset}`)
+          }
+        }
+        console.log('') // Add a line break between duplicates
+      }
+    } else {
+      console.log(`\n${COLORS.bold}${COLORS.yellow}No duplicate translations found.${COLORS.reset}`)
+    }
+  }
+  
+  if (errors.length > 0) {
+    console.log(`\n${COLORS.bold}${COLORS.red}ERRORS (${errors.length})${COLORS.reset}`)
+    console.log(`${COLORS.gray}Encountered these errors during analysis:${COLORS.reset}\n`)
+    for (const error of errors) {
+      console.log(`${COLORS.red}- ${error}${COLORS.reset}`)
+    }
+  }
+  
+  console.log(`\n${COLORS.bold}${COLORS.blue}============================================${COLORS.reset}`)
 }
 
 // Create a converter script that extracts translations to JSON
@@ -294,19 +394,6 @@ async function findKeyUsageLocations(key: string): Promise<string[]> {
   }
 }
 
-// Test function to verify grep is working
-async function testKeySearch(key: string): Promise<boolean> {
-  try {
-    // Use grep instead of ripgrep
-    const result = execSync(`grep -r "t(\\"${key}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src || echo "Not found"`, { encoding: 'utf8' })
-    console.log(`Test command output: "${result.trim()}"`)
-    return !result.includes("Not found")
-  } catch (error) {
-    console.error("Error in test search:", error)
-    return false
-  }
-}
-
 // Check if a key is used in the codebase using grep
 async function isKeyUsedInCode(key: string): Promise<boolean> {
   try {
@@ -315,9 +402,10 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
     
     // Check for different usage patterns using separate grep commands
     
-    // 1. Check for t("key") pattern
+    // 1. Check for t("key") pattern (including multi-line patterns)
     try {
-      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\")" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
+      // Using PCRE regex with -P to handle multi-line patterns
+      const doubleQuoteCmd = `grep -r "t(\\"${escapedKey}\\"" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src`
       const doubleQuoteResult = execSync(doubleQuoteCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
       if (doubleQuoteResult) {
         if (DEBUG) console.log(`Found double quote match for ${key}`)
@@ -351,7 +439,20 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
       // Grep returns exit code 1 if no matches
     }
     
-    // 4. As a last resort, try a more general search for the last part of the key
+    // 4. Check specifically for multi-line formatted translations
+    try {
+      // Using a simpler pattern to catch cases with formatting and line breaks
+      const multilineCmd = `grep -r -l "${escapedKey}" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src | xargs grep -l "t(" --include="*.tsx" --include="*.ts" --include="*.jsx"`
+      const multilineResult = execSync(multilineCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
+      if (multilineResult) {
+        if (DEBUG) console.log(`Found multi-line match for ${key}`)
+        return true
+      }
+    } catch (e) {
+      // This might fail if no files contain the key or if xargs receives an empty input
+    }
+    
+    // 5. As a last resort, try a more general search for the last part of the key
     // This might have more false positives but ensures we don't miss dynamic usages
     if (key.includes('.')) {
       const keyParts = key.split('.')
@@ -359,7 +460,7 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
       
       try {
         // Searching for patterns like: t("something.lastPart") or t(`${prefix}.lastPart`)
-        const lastPartCmd = `grep -r "\\.${lastPart}" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src | grep -v "find-unused-translations.ts" | grep -v "translations.json"`
+        const lastPartCmd = `grep -r "\\.${lastPart}" --include="*.tsx" --include="*.ts" --include="*.jsx" ./src | grep -v "analyze-locale-usage.ts" | grep -v "translations.json"`
         const lastPartResult = execSync(lastPartCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim()
         
         // Only count this as a match if it's in a t() function call context
@@ -380,4 +481,5 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
   }
 }
 
-findUnusedTranslations().catch(console.error) 
+// Run the main function
+main().catch(console.error) 

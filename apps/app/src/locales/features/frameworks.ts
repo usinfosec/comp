@@ -2,7 +2,6 @@ export const frameworks = {
   title: "Frameworks",
   overview: {
     error: "Failed to load frameworks",
-    loading: "Loading frameworks...",
     empty: {
       title: "No frameworks selected",
       description:

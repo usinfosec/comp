@@ -1,9 +1,7 @@
 export const people = {
   title: "People",
   details: {
-    taskProgress: "Task Progress",
     tasks: "Tasks",
-    noTasks: "No tasks assigned yet",
   },
   description: "Manage your team members and their roles.",
   filters: {
@@ -18,7 +16,6 @@ export const people = {
     name: "Name",
     email: "Email",
     department: "Department",
-    externalId: "External ID",
     status: "Status",
   },
   empty: {

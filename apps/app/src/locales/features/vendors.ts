@@ -24,10 +24,6 @@ export const vendors = {
     vendor_status_placeholder: "Select status",
     create_vendor_success: "Vendor created successfully",
     create_vendor_error: "Failed to create vendor",
-    update_vendor: "Update Vendor",
-    update_vendor_success: "Vendor updated successfully",
-    update_vendor_error: "Failed to update vendor",
-    add_comment: "Add Comment",
   },
   table: {
     name: "Name",
@@ -38,8 +34,6 @@ export const vendors = {
   filters: {
     search_placeholder: "Search vendors...",
     status_placeholder: "Filter by status",
-    category_placeholder: "Filter by category",
-    owner_placeholder: "Filter by owner",
   },
   empty_states: {
     no_vendors: {
@@ -86,16 +80,5 @@ export const vendors = {
   status: {
     not_assessed: "Not Assessed",
     in_progress: "In Progress",
-    assessed: "Assessed",
-  },
-  category: {
-    cloud: "Cloud",
-    infrastructure: "Infrastructure",
-    software_as_a_service: "Software as a Service",
-    finance: "Finance",
-    marketing: "Marketing",
-    sales: "Sales",
-    hr: "HR",
-    other: "Other",
   },
 } as const 

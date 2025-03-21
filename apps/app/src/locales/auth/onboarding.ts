@@ -8,7 +8,6 @@ export const onboarding = {
     title: "Hold tight, we're creating your organization",
     creating: "This may take a minute or two...",
     completed: "Organization created successfully",
-    continue: "Continue to dashboard",
     error: "Something went wrong, please try again.",
   },
   fields: {
@@ -31,8 +30,5 @@ export const onboarding = {
   },
   success: "Thanks, you're all set!",
   error: "Something went wrong, please try again.",
-  check_availability: "Checking availability",
-  available: "Available",
-  unavailable: "Unavailable",
   creating: "Creating your organization...",
 } as const 

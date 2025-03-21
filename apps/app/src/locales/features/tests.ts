@@ -43,7 +43,6 @@ export const tests = {
     description: "Configure a new cloud compliance test.",
     submit: "Create Test",
     success: "Test created successfully",
-    invalid_json: "Invalid JSON configuration provided",
 
     title_field: {
       label: "Test Title",

@@ -1,7 +1,3 @@
 export const theme = {
-  options: {
-    light: "Light",
-    dark: "Dark",
-    system: "System",
-  },
+  // Removed options object as it was marked as unused in the analysis
 } as const 

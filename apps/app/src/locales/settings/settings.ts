@@ -21,11 +21,6 @@ export const settings = {
     org_delete_success: "Organization deleted",
     org_name_updated: "Organization name updated",
     org_name_error: "Error updating organization name",
-    save_button: "Save",
-    delete_button: "Delete",
-    delete_confirm: "DELETE",
-    delete_confirm_tip: "Type DELETE to confirm.",
-    cancel_button: "Cancel",
   },
   members: {
     title: "Members",
@@ -45,26 +40,16 @@ export const settings = {
     created_description:
       "Your API key has been created. Make sure to copy it now as you won't be able to see it again.",
     name: "Name",
-    name_label: "Name",
     name_placeholder: "Enter a name for this API key",
     expiration: "Expiration",
     expiration_placeholder: "Select expiration",
-    expires_label: "Expires",
-    expires_placeholder: "Select expiration",
-    expires_30days: "30 days",
-    expires_90days: "90 days",
-    expires_1year: "1 year",
-    expires_never: "Never",
     thirty_days: "30 days",
     ninety_days: "90 days",
     one_year: "1 year",
-    your_key: "Your API Key",
     api_key: "API Key",
     save_warning:
       "This key will only be shown once. Make sure to copy it now.",
     copied: "API key copied to clipboard",
-    close_confirm:
-      "Are you sure you want to close? You won't be able to see this API key again.",
     revoke_confirm:
       "Are you sure you want to revoke this API key? This action cannot be undone.",
     revoke_title: "Revoke API Key",
