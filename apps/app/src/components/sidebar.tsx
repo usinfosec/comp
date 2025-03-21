@@ -5,6 +5,8 @@ import Link from "next/link";
 import { MainMenu } from "./main-menu";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { OrgMenu } from "./org-menu";
 
 export async function Sidebar() {
 	const session = await auth();
@@ -37,6 +39,10 @@ export async function Sidebar() {
 					organizationId={organizationId}
 				/>
 			</div>
+
+			<Suspense>
+				<OrgMenu />
+			</Suspense>
 		</aside>
 	);
 }

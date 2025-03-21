@@ -301,6 +301,7 @@ export default {
     setup: "Welcome to Comp AI",
     description:
       "Tell us a bit about your organization and what framework(s) you want to get started with.",
+    switch: "Switching organization...",
     trigger: {
       title: "Hold tight, we're creating your organization",
       creating: "This may take a minute or two...",
