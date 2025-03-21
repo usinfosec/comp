@@ -40,7 +40,7 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sub_pages.policies.policy_details"),
+		title: t("policies.policy_details"),
 	};
 }
 
