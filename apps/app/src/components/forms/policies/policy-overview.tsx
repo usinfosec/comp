@@ -143,15 +143,13 @@ export function UpdatePolicyOverview({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>
-									{t("policies.overview.form.policy_status")}
-								</FormLabel>
+								<FormLabel>{t("policies.overview.form.status")}</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
 										<SelectTrigger>
 											<SelectValue
 												placeholder={t(
-													"policies.overview.form.policy_status_placeholder",
+													"policies.overview.form.status_placeholder",
 												)}
 											>
 												{field.value && (

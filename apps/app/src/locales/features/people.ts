@@ -1,6 +1,7 @@
 export const people = {
   title: "People",
   details: {
+    title: "Employee Details",
     tasks: "Tasks",
   },
   status: {

@@ -1,14 +1,14 @@
 "use client";
 
 import useSWR from "swr";
-import { getTaskAttachments } from "../actions/getTaskAttachments";
+import { getTaskAttachments } from "./getTaskAttachments";
 
 interface UseTaskAttachmentProps {
 	id: string;
 }
 
 async function fetchTaskAttachments({ id }: UseTaskAttachmentProps) {
-	const result = await getTaskAttachments({ id });
+	const result = await getTaskAttachments(id);
 
 	if (!result || "error" in result) {
 		throw new Error(

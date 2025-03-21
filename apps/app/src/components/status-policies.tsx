@@ -21,6 +21,26 @@ const STATUS_COLORS: Record<StatusType, string> = {
 	"not-relevant": "#ff0000",
 } as const;
 
+// Map status types to translation keys
+const getStatusTranslation = (status: StatusType, t: ReturnType<typeof useI18n>) => {
+	switch (status) {
+		case "draft":
+			return t("policies.status.draft");
+		case "published":
+			return t("policies.status.published");
+		case "archived":
+			return t("policies.status.archived");
+		case "needs_review":
+			return t("policies.status.needs_review");
+		case "relevant":
+			return t("policies.status.relevant");
+		case "not-relevant":
+			return t("policies.status.not-relevant");
+		default:
+			return status;
+	}
+};
+
 export function StatusPolicies({
 	status,
 	className,
@@ -38,7 +58,7 @@ export function StatusPolicies({
 				className={cn("size-2.5")}
 				style={{ backgroundColor: STATUS_COLORS[status] ?? "  " }}
 			/>
-			{withLabel ? t(`policies.status.${status}`) : null}
+			{withLabel ? getStatusTranslation(status, t) : null}
 		</div>
 	);
 }

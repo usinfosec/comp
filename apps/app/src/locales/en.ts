@@ -1,5 +1,3 @@
-import type { DeepReadonly } from 'next/dist/shared/lib/deep-readonly'
-
 // Core translations used across the application
 import { common } from './core/common'
 import { errors } from './core/errors'
@@ -29,7 +27,7 @@ import { vendors } from './features/vendors'
 // Settings translations
 import { settings } from './settings/settings'
 
-const translations = {
+export const translations = {
   // Core
   common,
   errors,
@@ -63,4 +61,4 @@ const translations = {
 } as const
 
 export type Translations = typeof translations
-export default translations as DeepReadonly<Translations>
+export default translations
