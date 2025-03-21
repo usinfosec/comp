@@ -1,0 +1,7 @@
+{
+  "id": "personnel_compliance_documentation",
+  "name": "Personnel Compliance Documentation",
+  "description": "Employee acknowledgment forms, training records, and disciplinary documentation. Provide Personnel Accountability Procedures document that outlines monitoring, enforcing, and reviewing personnel accountability.",
+  "frequency": "yearly",
+  "department": "hr"
+}

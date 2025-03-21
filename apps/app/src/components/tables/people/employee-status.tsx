@@ -24,7 +24,7 @@ export function EmployeeStatus({ status }: { status: EmployeeStatusType }) {
 				className={cn("size-2.5")}
 				style={{ backgroundColor: EMPLOYEE_STATUS_COLORS[status] }}
 			/>
-			{t(`common.status.${status}`)}
+			{t(`people.status.${status}`)}
 		</div>
 	);
 }

@@ -3,6 +3,10 @@ export const people = {
   details: {
     tasks: "Tasks",
   },
+  status: {
+    active: "Active",
+    inactive: "Inactive",
+  },
   description: "Manage your team members and their roles.",
   filters: {
     search: "Search people...",
@@ -52,4 +56,4 @@ export const people = {
     success: "Employee added successfully",
     error: "Failed to add employee",
   },
-} as const 
+} as const;

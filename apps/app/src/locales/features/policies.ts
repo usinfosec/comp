@@ -26,6 +26,10 @@ export const policies = {
       signature_not_required: "Do not ask employees to sign",
       signature_requirement: "Signature Requirement",
       signature_requirement_placeholder: "Select signature requirement",
+      policy_department: "Department",
+      policy_department_placeholder: "Select a department",
+      policy_status: "Policy Status",
+      policy_status_placeholder: "Select a policy status",
     },
   },
   new: {
@@ -70,4 +74,5 @@ export const policies = {
   create_first: "Create first policy",
   last_updated: "Last updated: {{date}}",
   save: "Save",
-} as const 
+  policy_details: "Policy Details",
+} as const;

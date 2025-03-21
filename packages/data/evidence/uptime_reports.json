@@ -1,0 +1,7 @@
+{
+  "id": "uptime_reports",
+  "name": "Uptime Reports",
+  "description": "Uptime reports, incident logs, and SLA monitoring records. Provide procedure for monitoring system availability, reporting outages, and ensuring continuity of operations.",
+  "frequency": "quarterly",
+  "department": "itsm"
+}

@@ -57,13 +57,21 @@ export const authConfig: NextAuthConfig = {
       return !!auth;
     },
     session: async ({ session, user }) => {
-      const organizationMemberCount = await db.organizationMember.count({
-        where: {
-          userId: user.id,
-          organizationId: user.organizationId,
-          OR: [{ role: "admin" }, { role: "owner" }],
-        },
-      });
+      // Default to false for isAdmin
+      let isAdmin = false;
+
+      // Only check for admin status if user has an organizationId
+      if (user.id && user.organizationId) {
+        const organizationMemberCount = await db.organizationMember.count({
+          where: {
+            userId: user.id,
+            organizationId: user.organizationId,
+            OR: [{ role: "admin" }, { role: "owner" }],
+          },
+        });
+
+        isAdmin = organizationMemberCount > 0;
+      }
 
       return {
         ...session,
@@ -72,7 +80,7 @@ export const authConfig: NextAuthConfig = {
           id: user.id,
           organizationId: user.organizationId,
           role: user.role,
-          isAdmin: organizationMemberCount > 0,
+          isAdmin,
         },
       };
     },

@@ -4,8 +4,9 @@
     "id": "risk_management",
     "slug": "risk-management-policy",
     "name": "Risk Management Policy",
-    "description": "This policy defines the process for identifying, assessing, and mitigating risks to the organization’s objectives and information assets.",
+    "description": "This policy defines the process for identifying, assessing, and mitigating risks to the organization's objectives and information assets.",
     "frequency": "yearly",
+    "department": "gov",
     "usedBy": {
       "soc2": ["CC3.1", "CC3.2", "CC3.3", "CC4.2"]
     }
@@ -86,7 +87,7 @@
       "content": [
         {
           "type": "text",
-          "text": "This policy establishes the framework and process for identifying, assessing, and mitigating risks that could impact the organization’s objectives. It applies to all business units and processes."
+          "text": "This policy establishes the framework and process for identifying, assessing, and mitigating risks that could impact the organization's objectives. It applies to all business units and processes."
         }
       ]
     },

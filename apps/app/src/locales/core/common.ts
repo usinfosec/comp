@@ -20,6 +20,19 @@ export const common = {
     next: "Next",
     complete: "Complete",
   },
+  employee: {
+    status: {
+      active: "Active",
+      inactive: "Inactive",
+    },
+  },
+  frequency: {
+    daily: "Daily",
+    weekly: "Weekly",
+    monthly: "Monthly",
+    quarterly: "Quarterly",
+    yearly: "Yearly",
+  },
   assignee: {
     label: "Assignee",
     placeholder: "Select assignee",
@@ -99,8 +112,7 @@ export const common = {
       dragDropOrClickToSelect: "Drag and drop or click to select file",
       maxFileSize: "Max file size: {size}MB",
     },
-    fileUrl: {
-    },
+    fileUrl: {},
     fileCard: {
       preview: "Preview",
       filePreview: "File Preview: {fileName}",
@@ -130,6 +142,8 @@ export const common = {
     toasts: {
       error: "Something went wrong, please try again.",
       error_uploading_files: "Cannot upload more than 1 file at a time",
+      error_uploading_files_multiple:
+        "You've exceeded the maximum number of files allowed",
       error_no_files_selected: "No files selected",
       error_file_rejected: "File {file} was rejected",
       error_failed_to_upload_files: "Failed to upload files",
@@ -142,4 +156,4 @@ export const common = {
   edit: "Edit",
   description: "Description",
   last_updated: "Last Updated",
-} as const 
+} as const;
