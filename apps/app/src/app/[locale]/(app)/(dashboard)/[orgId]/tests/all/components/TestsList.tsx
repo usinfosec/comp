@@ -3,7 +3,6 @@
 import { NoTests } from "./table/empty-states";
 import { Loading } from "./table/loading";
 import { useTests } from "../hooks/useTests";
-import { TestsListSkeleton } from "./TestsListSkeleton";
 import { TestsTable } from "./table/TestsTable";
 import { TestsTableProvider } from "../hooks/useTestsTableContext";
 
@@ -11,7 +10,7 @@ export function TestsList() {
   const { tests, isLoading, error } = useTests();
 
   if (isLoading) {
-    return <TestsListSkeleton />;
+    return <Loading isEmpty={false} />;
   }
 
   if (error) {
