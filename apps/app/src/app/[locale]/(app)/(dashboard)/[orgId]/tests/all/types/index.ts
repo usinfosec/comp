@@ -22,7 +22,7 @@ export const testsInputSchema = z.object({
   provider: z.enum(["AWS", "AZURE", "GCP"]).optional(),
   status: z.string().optional(),
   page: z.number().optional(),
-  per_page: z.number().optional(),
+  pageSize: z.number().optional(),
 });
 
 export type Test = z.infer<typeof testSchema>;

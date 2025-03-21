@@ -1,11 +1,9 @@
 "use client";
-import { useState } from "react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 
 import { getTests } from "../actions/getTests";
 import type { TestsResponse, TestsInput, AppError } from "../types";
-import type { TestRow } from "../types";
 
 /** Fetcher function for tests */
 async function fetchTests(input: TestsInput): Promise<TestsResponse> {
@@ -47,23 +45,22 @@ export function useTests() {
     : undefined;
   const status = searchParams.get("status") || undefined;
   const page = Number(searchParams.get("page")) || 1;
-  const per_page = Number(searchParams.get("per_page")) || 10;
+  const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   /** SWR for fetching tests */
   const {
     data,
     error,
-    isLoading
+    isLoading,
+    mutate: revalidateTests,
   } = useSWR<TestsResponse, AppError>(
-    ["tests", { search, provider, status, page, per_page }],
-    () => fetchTests({ search, provider, status, page, per_page }),
+    ["tests", { search, provider, status, page, pageSize }],
+    () => fetchTests({ search, provider, status, page, pageSize }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     }
   );
-  /** Track local mutation loading state */
-  const [isMutating, setIsMutating] = useState(false);
 
   // Format the tests to match the TestRow type
   const formattedTests = data?.tests.map(test => ({
@@ -76,7 +73,7 @@ export function useTests() {
     tests: formattedTests,
     total: data?.total ?? 0,
     isLoading,
-    isMutating,
-    error
+    error,
+    revalidateTests
   };
-} 
+}

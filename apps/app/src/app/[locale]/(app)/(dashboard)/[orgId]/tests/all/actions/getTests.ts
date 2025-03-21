@@ -14,7 +14,7 @@ export const getTests = authActionClient
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { search, provider, status, page = 1, per_page = 10 } = parsedInput;
+    const { search, provider, status, page = 1, pageSize = 10 } = parsedInput;
     const { user } = ctx;
 
     if (!user.organizationId) {
@@ -25,7 +25,7 @@ export const getTests = authActionClient
     }
 
     try {
-      const skip = (page - 1) * per_page;
+      const skip = (page - 1) * pageSize;
 
       // Use the prisma client with correct model
       const [integrationResults, total] = await Promise.all([
@@ -75,7 +75,7 @@ export const getTests = authActionClient
             },
           },
           skip,
-          take: per_page,
+          take: pageSize,
           orderBy: { completedAt: "desc" },
         }),
         db.organizationIntegrationResults.count({
