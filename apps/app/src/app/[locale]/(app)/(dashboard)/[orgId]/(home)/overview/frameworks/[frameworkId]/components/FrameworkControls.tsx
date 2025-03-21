@@ -1,52 +1,32 @@
 "use client";
 
-import type {
-	Control,
-	OrganizationCategory,
-	OrganizationControl,
-	OrganizationControlRequirement,
-	OrganizationPolicy,
-	OrganizationEvidence,
-} from "@bubba/db/types";
 import { useMemo } from "react";
+import type { FrameworkCategories } from "../data/getFrameworkCategories";
 import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
 
-export type FrameworkCategory = OrganizationCategory & {
-	organizationControl: (OrganizationControl & {
-		control: Control;
-		OrganizationControlRequirement: (OrganizationControlRequirement & {
-			organizationPolicy: OrganizationPolicy;
-			organizationEvidence: OrganizationEvidence;
-		})[];
-	})[];
-};
-
 export type FrameworkControlsProps = {
-	organizationCategories: FrameworkCategory[];
+	organizationCategories: FrameworkCategories;
 	frameworkId: string;
 };
 
 export function FrameworkControls({
 	organizationCategories,
 	frameworkId,
-}: {
-	organizationCategories: FrameworkCategory[];
-	frameworkId: string;
-}) {
+}: FrameworkControlsProps) {
 	const allControls = useMemo(() => {
 		if (!organizationCategories) return [];
 
 		return organizationCategories.flatMap((category) =>
-			category.organizationControl.map((control) => ({
-				code: control.control.code,
-				description: control.control.description,
-				name: control.control.name,
-				status: control.status,
-				id: control.id,
+			category.organizationControl.map((orgControl) => ({
+				code: orgControl.control.code,
+				description: orgControl.control.description,
+				name: orgControl.control.name,
+				status: orgControl.status,
+				id: orgControl.id,
 				frameworkId,
 				category: category.name,
-				requirements: control.OrganizationControlRequirement,
+				requirements: orgControl.OrganizationControlRequirement,
 			})),
 		);
 	}, [organizationCategories, frameworkId]) as OrganizationControlType[];
