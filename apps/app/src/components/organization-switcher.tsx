@@ -105,7 +105,7 @@ export function OrganizationSwitcher({
             >
               <div className="flex flex-col items-center gap-2 p-6">
                 <LogoSpinner />
-                <p className="text-sm text-muted-foreground"> {t("onboarding.switch")} </p>
+                <p className="text-sm text-muted-foreground">{t("onboarding.switch")}</p>
               </div>
             </motion.div>
           </div>
