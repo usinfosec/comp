@@ -11,6 +11,7 @@
     "apply-migrations": "cd ../../packages/db && bunx prisma migrate dev && cd ../../apps/app",
     "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom",
     "deploy:trigger-prod": "npx trigger.dev@latest deploy",
+    "find-unused-translations": "bunx tsx src/locales/find-unused-translations.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

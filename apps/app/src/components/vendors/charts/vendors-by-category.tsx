@@ -46,7 +46,7 @@ export async function VendorsByCategory({ organizationId }: Props) {
 	return (
 		<Card className="w-full h-full">
 			<CardHeader>
-				<CardTitle>{t("dashboard.vendors_by_category")}</CardTitle>
+				<CardTitle>{t("vendors.dashboard.by_category")}</CardTitle>
 			</CardHeader>
 			<CardContent className="w-full">
 				<VendorCategoryChart

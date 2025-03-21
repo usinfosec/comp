@@ -246,6 +246,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sub_pages.risk.risk_overview"),
+		title: t("risk.risk_overview"),
 	};
 }

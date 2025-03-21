@@ -72,6 +72,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sub_pages.vendors.register"),
+		title: t("vendors.register.title"),
 	};
 }

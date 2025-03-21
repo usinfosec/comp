@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { Title } from "@/components/title";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";

@@ -21,7 +21,7 @@ export async function RisksByStatus({ organizationId }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("dashboard.risk_status")}</CardTitle>
+        <CardTitle>{t("risk.dashboard.status")}</CardTitle>
       </CardHeader>
       <CardContent>
         <StatusChart data={data} />
