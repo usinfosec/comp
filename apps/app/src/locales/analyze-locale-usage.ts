@@ -19,7 +19,8 @@ const EXCLUDE_DIR = '--exclude-dir=node_modules'
 // Keys to exclude from unused check
 // Supports wildcards with * at the end, e.g. 'common.frequency.*'
 const EXCLUDE_KEYS = [
-  // 'common.frequency.*',
+  'common.frequency.*',
+  'common.status.*',
 ]
 
 // ANSI color codes for terminal output - using a minimal set
