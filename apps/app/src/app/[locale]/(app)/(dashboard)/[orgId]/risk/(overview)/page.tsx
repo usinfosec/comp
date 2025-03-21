@@ -5,7 +5,6 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function RiskManagement({
@@ -42,22 +41,19 @@ export default async function RiskManagement({
 	);
 }
 
-const getRiskOverview = unstable_cache(
-	async (organizationId: string) => {
-		return await db.$transaction(async (tx) => {
-			const [risks] = await Promise.all([
-				tx.risk.count({
-					where: { organizationId },
-				}),
-			]);
+const getRiskOverview = async (organizationId: string) => {
+	return await db.$transaction(async (tx) => {
+		const [risks] = await Promise.all([
+			tx.risk.count({
+				where: { organizationId },
+			}),
+		]);
 
-			return {
-				risks,
-			};
-		});
-	},
-	["risk-overview-cache"],
-);
+		return {
+			risks,
+		};
+	});
+};
 
 export async function generateMetadata({
 	params,

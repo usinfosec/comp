@@ -1,8 +1,7 @@
-import { db } from "@bubba/db";
-import { StatusChart } from "./status-chart";
-import { unstable_cache } from "next/cache";
-import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { getI18n } from "@/locales/server";
+import { db } from "@bubba/db";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { StatusChart } from "./status-chart";
 interface Props {
 	organizationId: string;
 }
@@ -29,14 +28,10 @@ export async function VendorsByStatus({ organizationId }: Props) {
 	);
 }
 
-const getVendorsByStatus = unstable_cache(
-	async (organizationId: string) => {
-		return await db.vendor.groupBy({
-			by: ["status"],
-			where: { organizationId },
-			_count: true,
-		});
-	},
-	["vendors-by-status"],
-	{ tags: ["vendors", "status"] },
-);
+const getVendorsByStatus = async (organizationId: string) => {
+	return await db.vendor.groupBy({
+		by: ["status"],
+		where: { organizationId },
+		_count: true,
+	});
+};

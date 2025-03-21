@@ -1,8 +1,7 @@
+import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { DepartmentChart } from "./department-chart";
-import { unstable_cache } from "next/cache";
-import { getI18n } from "@/locales/server";
 
 const ALL_DEPARTMENTS = ["none", "admin", "gov", "hr", "it", "itsm", "qms"];
 
@@ -54,16 +53,12 @@ export async function RisksByDepartment({ organizationId }: Props) {
 	);
 }
 
-const getRisksByDepartment = unstable_cache(
-	async (organizationId: string) => {
-		const risksByDepartment = await db.risk.groupBy({
-			by: ["department"],
-			where: { organizationId },
-			_count: true,
-		});
+const getRisksByDepartment = async (organizationId: string) => {
+	const risksByDepartment = await db.risk.groupBy({
+		by: ["department"],
+		where: { organizationId },
+		_count: true,
+	});
 
-		return risksByDepartment;
-	},
-	["risks-by-department"],
-	{ tags: ["risks", "departments"] },
-);
+	return risksByDepartment;
+};

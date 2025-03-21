@@ -1,22 +1,21 @@
-import { db } from "@bubba/db";
-import { StatusChart } from "./status-chart";
-import { unstable_cache } from "next/cache";
-import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { getI18n } from "@/locales/server";
+import { db } from "@bubba/db";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { StatusChart } from "./status-chart";
 
 interface Props {
-  organizationId: string;
+	organizationId: string;
 }
 
 export async function RisksByStatus({ organizationId }: Props) {
-  const t = await getI18n();
+	const t = await getI18n();
 
-  const risks = await getRisksByStatus(organizationId);
+	const risks = await getRisksByStatus(organizationId);
 
-  const data = risks.map((risk) => ({
-    name: risk.status,
-    value: risk._count,
-  }));
+	const data = risks.map((risk) => ({
+		name: risk.status,
+		value: risk._count,
+	}));
 
   return (
     <Card>
@@ -30,14 +29,10 @@ export async function RisksByStatus({ organizationId }: Props) {
   );
 }
 
-const getRisksByStatus = unstable_cache(
-  async (organizationId: string) => {
-    return await db.risk.groupBy({
-      by: ["status"],
-      where: { organizationId },
-      _count: true,
-    });
-  },
-  ["risks-by-status"],
-  { tags: ["risks", "status"] },
-);
+const getRisksByStatus = async (organizationId: string) => {
+	return await db.risk.groupBy({
+		by: ["status"],
+		where: { organizationId },
+		_count: true,
+	});
+};

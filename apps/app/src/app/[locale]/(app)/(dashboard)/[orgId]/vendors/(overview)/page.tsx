@@ -3,11 +3,10 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Button } from "@bubba/ui/button";
 import { Card } from "@bubba/ui/card";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CreateVendorSheet } from "../components/create-vendor-sheet";
 
 export default async function VendorManagement({
 	params,

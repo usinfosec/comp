@@ -738,6 +738,13 @@ export default {
         toast: {
           error: "Error al enviar la invitación",
           unexpected: "Ocurrió un error inesperado al enviar la invitación"
+        },
+        error: {
+          title: "Error de invitación",
+          description: "Hubo un problema con tu invitación:",
+          "default": "Ocurrió un error desconocido con tu invitación.",
+          home: "Ir a Inicio",
+          signin: "Iniciar sesión"
         }
       },
       member_actions: {

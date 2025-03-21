@@ -569,6 +569,11 @@ files:
     settings.team.invite.button.sent: f98552d4b87007da82818937e16becb1
     settings.team.invite.toast.error: 4e7e65d5a93d3037b3dda6f2f485f809
     settings.team.invite.toast.unexpected: 48640555cac27f997e813e57b2567719
+    settings.team.invite.error.title: b3ae1177e33927d873811dab64b96b5f
+    settings.team.invite.error.description: 3fe295d3d0645eb12d2540f51ee87322
+    settings.team.invite.error.default: 05fc634188165901fca91a73958314be
+    settings.team.invite.error.home: d78de1a1ae35d774b5f97ccc434d0697
+    settings.team.invite.error.signin: f2fdea440d768b85591e936a803c3631
     settings.team.member_actions.actions: 06df33001c1d7187fdd81ea1f5b277aa
     settings.team.member_actions.change_role: 092c25021695408aaa0a250ca5c6489c
     settings.team.member_actions.remove_member: 5f76745afd9e5ee8676f8949544bfb1a

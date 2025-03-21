@@ -738,6 +738,13 @@ export default {
         toast: {
           error: "Falha ao enviar convite",
           unexpected: "Ocorreu um erro inesperado ao enviar o convite"
+        },
+        error: {
+          title: "Erro de Convite",
+          description: "Houve um problema com seu convite:",
+          "default": "Ocorreu um erro desconhecido com seu convite.",
+          home: "Ir para a Página Inicial",
+          signin: "Entrar"
         }
       },
       member_actions: {

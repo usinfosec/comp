@@ -1,9 +1,8 @@
+import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { VendorCategory } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { VendorCategoryChart } from "./category-chart";
-import { unstable_cache } from "next/cache";
-import { getI18n } from "@/locales/server";
 
 const VENDOR_CATEGORIES = Object.values(VendorCategory);
 
@@ -58,16 +57,12 @@ export async function VendorsByCategory({ organizationId }: Props) {
 	);
 }
 
-const getVendorsByCategory = unstable_cache(
-	async (organizationId: string) => {
-		const vendorsByCategory = await db.vendor.groupBy({
-			by: ["category"],
-			where: { organizationId },
-			_count: true,
-		});
+const getVendorsByCategory = async (organizationId: string) => {
+	const vendorsByCategory = await db.vendor.groupBy({
+		by: ["category"],
+		where: { organizationId },
+		_count: true,
+	});
 
-		return vendorsByCategory;
-	},
-	["vendors-by-category"],
-	{ tags: ["vendors", "categories"] },
-);
+	return vendorsByCategory;
+};

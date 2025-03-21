@@ -27,6 +27,7 @@ type MenuItem = {
 	name: string;
 	disabled: boolean;
 	icon: React.FC<{ size?: number }>;
+	protected: boolean;
 };
 
 // Map of menu item IDs to their icon components
@@ -175,9 +176,15 @@ type Props = {
 	initialItems?: MenuItem[];
 	onSelect?: () => void;
 	organizationId: string;
+	userIsAdmin: boolean;
 };
 
-export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
+export function MainMenu({
+	initialItems,
+	onSelect,
+	organizationId,
+	userIsAdmin,
+}: Props) {
 	const t = useI18n();
 
 	const defaultItems: MenuItem[] = [
@@ -187,6 +194,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.overview"),
 			disabled: false,
 			icon: Icons.Overview,
+			protected: false,
 		},
 		{
 			id: "evidence",
@@ -194,6 +202,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.evidence"),
 			disabled: false,
 			icon: Icons.Evidence,
+			protected: false,
 		},
 		{
 			id: "tests",
@@ -201,6 +210,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.tests"),
 			disabled: false,
 			icon: Icons.CloudSync,
+			protected: false,
 		},
 		{
 			id: "policies",
@@ -208,6 +218,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.policies"),
 			disabled: false,
 			icon: Icons.Policies,
+			protected: false,
 		},
 		{
 			id: "people",
@@ -215,6 +226,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.people"),
 			disabled: false,
 			icon: Icons.Peolple,
+			protected: false,
 		},
 		{
 			id: "risk",
@@ -222,6 +234,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.risk"),
 			disabled: false,
 			icon: Icons.Risk,
+			protected: false,
 		},
 		{
 			id: "vendors",
@@ -229,6 +242,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.vendors"),
 			disabled: false,
 			icon: Icons.Vendors,
+			protected: false,
 		},
 		{
 			id: "integrations",
@@ -236,6 +250,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.integrations"),
 			disabled: false,
 			icon: Icons.Apps,
+			protected: true,
 		},
 		{
 			id: "settings",
@@ -243,6 +258,7 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 			name: t("sidebar.settings"),
 			disabled: false,
 			icon: Icons.Settings,
+			protected: true,
 		},
 	];
 
@@ -337,6 +353,10 @@ export function MainMenu({ initialItems, onSelect, organizationId }: Props) {
 						.filter((item) => !item.disabled)
 						.map((item) => {
 							const isActive = isPathActive(item.path);
+
+							if (item.protected && !userIsAdmin) {
+								return null;
+							}
 
 							return (
 								<Item
