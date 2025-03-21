@@ -8,9 +8,9 @@ import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
-import { columns } from "./components/table/RiskRegisterColumns";
+import { columns } from "./components/table/VendorRegisterColumns";
 
-type VendorRegisterTableRow = Vendor & { owner: User | null };
+export type VendorRegisterTableRow = Vendor & { owner: User | null };
 
 export const VendorRegisterTable = ({
 	data,
@@ -68,7 +68,7 @@ export const VendorRegisterTable = ({
 
 	const { data: admins } = useOrganizationAdmins();
 
-	// const filterCategories = RiskRegisterFilters({
+	// const filterCategories = VendorRegisterFilters({
 	// 	setPage: (newPage: number) => setPage(newPage),
 	// 	departments: departments,
 	// 	assignees: admins || [],
@@ -82,7 +82,7 @@ export const VendorRegisterTable = ({
 
 	return (
 		<>
-			<DataTable<Vendor>
+			<DataTable<VendorRegisterTableRow>
 				columns={columns}
 				data={data}
 				// isLoading={isLoading}

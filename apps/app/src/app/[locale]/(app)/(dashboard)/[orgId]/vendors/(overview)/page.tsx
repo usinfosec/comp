@@ -1,11 +1,14 @@
 import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
+import { Button } from "@bubba/ui/button";
+import { Card } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function RiskManagement({
+export default async function VendorManagement({
 	params,
 }: {
 	params: Promise<{ locale: string }>;
@@ -19,10 +22,31 @@ export default async function RiskManagement({
 		redirect("/onboarding");
 	}
 
-	const overview = await getRiskOverview(session.user.organizationId);
+	const overview = await getVendorOverview(session.user.organizationId);
 
-	if (overview?.risks === 0) {
-		redirect(`/${session.user.organizationId}/risk/register`);
+	if (overview?.vendors === 0) {
+		return (
+			<div className="min-h-[400px] flex items-center justify-center">
+				<Card className="w-full max-w-lg p-8 space-y-6">
+					<div className="space-y-2 text-center">
+						<h1 className="text-2xl font-semibold tracking-tight">
+							No vendors found
+						</h1>
+						<p className="text-muted-foreground">
+							Get started by adding your first vendor
+						</p>
+					</div>
+
+					<div className="flex justify-center">
+						<Button asChild>
+							<Link href={`/${session.user.organizationId}/vendors/register`}>
+								Add vendor
+							</Link>
+						</Button>
+					</div>
+				</Card>
+			</div>
+		);
 	}
 
 	return (
@@ -39,19 +63,19 @@ export default async function RiskManagement({
 	);
 }
 
-const getRiskOverview = async (organizationId: string) => {
+async function getVendorOverview(organizationId: string) {
 	return await db.$transaction(async (tx) => {
-		const [risks] = await Promise.all([
-			tx.risk.count({
+		const [vendors] = await Promise.all([
+			tx.vendor.count({
 				where: { organizationId },
 			}),
 		]);
 
 		return {
-			risks,
+			vendors,
 		};
 	});
-};
+}
 
 export async function generateMetadata({
 	params,

@@ -963,7 +963,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Algo salió mal, por favor intenta de nuevo"
+    unexpected: "Algo salió mal, por favor intenta de nuevo",
+    unauthorized: {
+      title: "Acceso no autorizado",
+      description: "No tienes permiso para acceder a este recurso. Por favor, contacta a tu administrador si crees que esto es un error.",
+      back: "Regresar a Inicio"
+    }
   },
   sub_pages: {
     risk: {
@@ -1183,6 +1188,67 @@ export default {
     },
     dashboard: {
       title: "Descripción general"
+    },
+    create: "Crear Proveedor",
+    form: {
+      vendor_details: "Detalles del Proveedor",
+      vendor_name: "Nombre",
+      vendor_name_placeholder: "Ingrese el nombre del proveedor",
+      vendor_website: "Sitio web",
+      vendor_website_placeholder: "Ingrese el sitio web del proveedor",
+      vendor_description: "Descripción",
+      vendor_description_placeholder: "Ingrese la descripción del proveedor",
+      vendor_category: "Categoría",
+      vendor_category_placeholder: "Seleccione la categoría",
+      vendor_status: "Estado",
+      vendor_status_placeholder: "Seleccione el estado",
+      create_vendor_success: "Proveedor creado con éxito",
+      create_vendor_error: "Error al crear el proveedor",
+      update_vendor: "Actualizar Proveedor",
+      update_vendor_success: "Proveedor actualizado con éxito",
+      update_vendor_error: "Error al actualizar el proveedor",
+      add_comment: "Agregar Comentario"
+    },
+    table: {
+      name: "Nombre",
+      category: "Categoría",
+      status: "Estado",
+      owner: "Propietario"
+    },
+    filters: {
+      search_placeholder: "Buscar proveedores...",
+      status_placeholder: "Filtrar por estado",
+      category_placeholder: "Filtrar por categoría",
+      owner_placeholder: "Filtrar por propietario"
+    },
+    empty_states: {
+      no_vendors: {
+        title: "No hay proveedores aún",
+        description: "Comience creando su primer proveedor"
+      },
+      no_results: {
+        title: "No se encontraron resultados",
+        description: "No hay proveedores que coincidan con su búsqueda",
+        description_with_filters: "Intente ajustar sus filtros"
+      }
+    },
+    actions: {
+      create: "Crear Proveedor"
+    },
+    status: {
+      not_assessed: "No Evaluado",
+      in_progress: "En Progreso",
+      assessed: "Evaluado"
+    },
+    category: {
+      cloud: "Nube",
+      infrastructure: "Infraestructura",
+      software_as_a_service: "Software como Servicio",
+      finance: "Finanzas",
+      marketing: "Marketing",
+      sales: "Ventas",
+      hr: "RRHH",
+      other: "Otro"
     }
   },
   dashboard: {

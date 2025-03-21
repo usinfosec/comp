@@ -36,9 +36,9 @@ export async function generateMetadata({
 	setStaticParamsLocale(locale);
 	const t = await getI18n();
 
-	return {
-		title: t("sub_pages.tests.test_details"),
-	};
+  return {
+    title: t("tests.test_details"),
+  };
 }
 
 const getUsers = async (organizationId: string) => {

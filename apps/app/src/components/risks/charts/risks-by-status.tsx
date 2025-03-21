@@ -17,16 +17,16 @@ export async function RisksByStatus({ organizationId }: Props) {
 		value: risk._count,
 	}));
 
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>{t("dashboard.risk_status")}</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<StatusChart data={data} />
-			</CardContent>
-		</Card>
-	);
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("risk.dashboard.status")}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <StatusChart data={data} />
+      </CardContent>
+    </Card>
+  );
 }
 
 const getRisksByStatus = async (organizationId: string) => {
