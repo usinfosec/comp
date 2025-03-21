@@ -738,6 +738,13 @@ export default {
         toast: {
           error: "Feil ved sending av invitasjon",
           unexpected: "En uventet feil oppstod under sending av invitasjonen"
+        },
+        error: {
+          title: "Invitasjonsfeil",
+          description: "Det oppstod et problem med invitasjonen din:",
+          "default": "En ukjent feil oppstod med invitasjonen din.",
+          home: "Gå til Hjem",
+          signin: "Logg inn"
         }
       },
       member_actions: {
