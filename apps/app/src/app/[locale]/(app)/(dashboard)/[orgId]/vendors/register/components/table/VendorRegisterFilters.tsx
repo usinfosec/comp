@@ -3,7 +3,7 @@ import { type Departments, RiskStatus } from "@bubba/db/types";
 import type { Admin } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
 import { AssigneeAvatar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/evidence/list/components/table/components/AssigneeAvatar";
 
-export const RiskRegisterFilters = ({
+export const VendorRegisterFilters = ({
 	setPage,
 	departments,
 	assignees,

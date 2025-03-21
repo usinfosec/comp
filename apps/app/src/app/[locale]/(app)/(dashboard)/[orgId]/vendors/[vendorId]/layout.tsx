@@ -3,12 +3,11 @@ import { Title } from "@/components/title";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: Promise<{ riskId: string }>;
+  params: Promise<{ vendorId: string }>;
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
@@ -21,11 +20,16 @@ export default async function Layout({ children, params }: LayoutProps) {
     redirect("/");
   }
 
-  const riskId = await params;
-  const risk = await getRisk(riskId.riskId, orgId);
+  const vendorId = await params;
+  const vendor = await db.vendor.findUnique({
+    where: {
+      id: vendorId.vendorId,
+      organizationId: orgId,
+    },
+  });
 
-  if (!risk) {
-    redirect("/risk");
+  if (!vendor) {
+    redirect("/vendors/register");
   }
 
   return (
@@ -44,17 +48,3 @@ export default async function Layout({ children, params }: LayoutProps) {
     </div>
   );
 }
-
-const getRisk = unstable_cache(
-  async (riskId: string, organizationId: string) => {
-    const risk = await db.risk.findUnique({
-      where: {
-        id: riskId,
-        organizationId: organizationId,
-      },
-    });
-
-    return risk;
-  },
-  ["risk-cache"],
-);
