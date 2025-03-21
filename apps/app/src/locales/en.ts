@@ -866,6 +866,13 @@ export default {
           unexpected:
             "An unexpected error occurred while sending the invitation",
         },
+        error: {
+          title: "Invitation Error",
+          description: "There was an issue with your invitation:",
+          default: "An unknown error occurred with your invitation.",
+          home: "Go to Home",
+          signin: "Sign In",
+        },
       },
       member_actions: {
         actions: "Actions",

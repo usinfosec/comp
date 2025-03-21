@@ -12,6 +12,14 @@ export async function getOrganizations() {
   const memberOrganizations = await db.organizationMember.findMany({
     where: {
       userId: user.id,
+      OR: [
+        {
+          accepted: true,
+        },
+        {
+          role: "owner",
+        },
+      ],
     },
     include: {
       organization: true,

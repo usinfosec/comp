@@ -1,38 +1,60 @@
 import { completeInvitation } from "@/actions/organization/accept-invitation";
 import { auth } from "@/auth";
+import { db } from "@bubba/db";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-	const { searchParams } = new URL(request.url);
-	const inviteCode = searchParams.get("code");
+  const { searchParams } = new URL(request.url);
+  const inviteCode = searchParams.get("code");
 
-	if (!inviteCode) {
-		return redirect("/");
-	}
+  if (!inviteCode) {
+    return redirect("/");
+  }
 
-	const session = await auth();
+  const session = await auth();
 
-	if (!session?.user?.id) {
-		return redirect(`/auth?inviteCode=${encodeURIComponent(inviteCode)}`);
-	}
+  if (!session?.user?.id) {
+    return redirect(`/auth?inviteCode=${encodeURIComponent(inviteCode)}`);
+  }
 
-	try {
-		const result = await completeInvitation({
-			inviteCode,
-			userId: session.user.id,
-		});
+  const signedInUserEmail = session.user.email;
+  const orgMember = await db.organizationMember.findFirst({
+    where: {
+      userId: session.user.id,
+      inviteCode,
+    },
+  });
 
-		if (!result || !result.data?.success) {
-			throw new Error("Failed to accept invitation");
-		}
+  if (!orgMember) {
+    return redirect(
+      `/auth/invite/error?message=${encodeURIComponent("You are not a member of this organization")}`
+    );
+  }
 
-		return NextResponse.redirect(new URL("/", request.url));
-	} catch (error) {
-		console.error("Error accepting invitation:", error);
+  if (orgMember.invitedEmail !== signedInUserEmail) {
+    return redirect(
+      `/auth/invite/error?message=${encodeURIComponent(`Incorrect email. Please sign out and sign in with the email you were invited with, you used the email: ${signedInUserEmail}`)}`
+    );
+  }
 
-		return redirect(
-			"/auth/invite-error?message=Failed%20to%20accept%20invitation",
-		);
-	}
+  try {
+    const result = await completeInvitation({
+      inviteCode,
+    });
+
+    if (result?.serverError) {
+      throw new Error(result?.serverError);
+    }
+
+    return NextResponse.redirect(new URL("/", request.url));
+  } catch (error) {
+    console.error("Error accepting invitation:", error);
+
+    return redirect(
+      `/auth/invite/error?message=${encodeURIComponent(
+        (error as Error).message
+      )}`
+    );
+  }
 }

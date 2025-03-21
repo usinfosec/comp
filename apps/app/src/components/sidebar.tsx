@@ -31,7 +31,11 @@ export async function Sidebar() {
 						</Link>
 					</div>
 				</div>
-				<MainMenu initialItems={initialItems} organizationId={organizationId} />
+				<MainMenu
+					userIsAdmin={user?.isAdmin ?? false}
+					initialItems={initialItems}
+					organizationId={organizationId}
+				/>
 			</div>
 		</aside>
 	);
