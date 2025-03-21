@@ -7,10 +7,16 @@ export const risk = {
   form: {
     update_inherent_risk_success: "Inherent risk updated successfully",
     update_inherent_risk_error: "Failed to update inherent risk",
+    update_inherent_risk: "Update Inherent Risk",
+    update_inherent_risk_description: "Adjust the inherent risk before any controls are applied",
     update_residual_risk_success: "Residual risk updated successfully",
     update_residual_risk_error: "Failed to update residual risk",
+    update_residual_risk: "Update Residual Risk",
+    update_residual_risk_description: "Adjust the residual risk after controls have been applied",
     update_risk_success: "Risk updated successfully",
     update_risk_error: "Failed to update risk",
+    update_risk: "Update Risk",
+    update_risk_description: "Update risk details and metadata",
     create_risk_success: "Risk created successfully",
     create_risk_error: "Failed to create risk",
     risk_title: "Risk Title",
@@ -31,22 +37,38 @@ export const risk = {
       risk: "Risk"
     },
     empty: {
-      create_risk: "Create Risk"
+      create_risk: "Create Risk",
+      no_risks: {
+        title: "No risks yet",
+        description: "Get started by creating your first risk"
+      }
     }
   },
   dashboard: {
     title: "Risk Dashboard",
     by_department: "Risks by Department",
     status: "Risks by Status",
-    risks_by_assignee: "Risks by Assignee"
+    risks_by_assignee: "Risks by Assignee",
+    overview: "Overview",
+    inherent_risk_description: "Initial risk level before any controls are applied",
+    residual_risk_description: "Remaining risk level after controls are applied"
   },
   metrics: {
     probability: "Probability",
-    impact: "Impact"
+    impact: "Impact",
+    inherentRisk: "Inherent Risk",
+    residualRisk: "Residual Risk"
   },
   tasks: {
     title: "Tasks",
     task_overview: "Task Overview",
+    attachments: "Attachments",
+    overview: "Overview",
+    sheet: {
+      title: "Create Task",
+      update: "Update Task",
+      update_description: "Update task details and metadata"
+    },
     form: {
       title: "Task Details",
       task_title: "Task Title",

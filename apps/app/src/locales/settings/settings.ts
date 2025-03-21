@@ -92,6 +92,10 @@ export const settings = {
           description: "There are no active members in your organization",
         },
       },
+      status: {
+        accepted: "Accepted",
+        pending: "Pending"
+      },
       role: {
         owner: "Owner",
         admin: "Admin",

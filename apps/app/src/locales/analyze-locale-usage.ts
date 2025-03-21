@@ -16,6 +16,13 @@ const SEARCH_DIRECTORIES = ['./src', './../portal/src']
 // Always exclude node_modules from search
 const EXCLUDE_DIR = '--exclude-dir=node_modules'
 
+// Keys to exclude from unused check
+const EXCLUDE_KEYS = [
+  'common.frequency.monthly',
+  'common.frequency.quarterly', 
+  'common.frequency.yearly'
+]
+
 // ANSI color codes for terminal output - using a minimal set
 const COLORS = {
   reset: '\x1b[0m',
@@ -116,6 +123,11 @@ async function findTranslationIssues(findUnused: boolean, findDuplicates: boolea
             if (count % updateInterval === 0 || count === total) {
               const percent = Math.floor((count / total) * 100)
               process.stdout.write(`\r${COLORS.gray}Progress: ${percent}% (${count}/${total})${COLORS.reset}`)
+            }
+            
+            // Skip excluded keys
+            if (EXCLUDE_KEYS.includes(key)) {
+              continue
             }
             
             const isUsed = await isKeyUsedInCode(key)

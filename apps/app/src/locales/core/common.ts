@@ -39,6 +39,9 @@ export const common = {
     needs_review: "Needs Review",
     draft: "Draft",
     not_assessed: "Not Assessed",
+    assessed: "Assessed",
+    active: "Active",
+    inactive: "Inactive",
     title: "Status",
   },
   filters: {
