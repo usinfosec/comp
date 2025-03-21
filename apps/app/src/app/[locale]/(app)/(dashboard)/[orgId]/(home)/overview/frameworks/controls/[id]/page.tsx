@@ -1,7 +1,9 @@
-import { db } from "@bubba/db";
-import { SingleControl } from "./components/SingleControl";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { SingleControl } from "./components/SingleControl";
+import { getControl } from "./data/getControl";
+import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
+import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -16,31 +18,30 @@ export default async function SingleControlPage({ params }: PageProps) {
 		redirect("/");
 	}
 
-	const organizationControl = await getControl(id, session.user.organizationId);
+	const organizationControlResult = await getControl(id);
 
-	if (!organizationControl) {
+	// If we get an error or no result, redirect
+	if (!organizationControlResult || "error" in organizationControlResult) {
 		redirect("/");
 	}
 
-	return <SingleControl organizationControl={organizationControl} />;
+	const organizationControlProgressResult =
+		await getOrganizationControlProgress(id);
+
+	// Extract the progress data from the result or create default data if there's an error
+	const progressData: ControlProgressResponse = ("data" in
+		(organizationControlProgressResult || {}) &&
+		organizationControlProgressResult?.data?.progress) || {
+		total: 0,
+		completed: 0,
+		progress: 0,
+		byType: {},
+	};
+
+	return (
+		<SingleControl
+			organizationControl={organizationControlResult}
+			organizationControlProgress={progressData}
+		/>
+	);
 }
-
-const getControl = async (id: string, organizationId: string) => {
-	const organizationControl = await db.organizationControl.findUnique({
-		where: {
-			organizationId,
-			id,
-		},
-		include: {
-			control: true,
-			OrganizationControlRequirement: {
-				include: {
-					organizationPolicy: true,
-					organizationEvidence: true,
-				},
-			},
-		},
-	});
-
-	return organizationControl;
-};

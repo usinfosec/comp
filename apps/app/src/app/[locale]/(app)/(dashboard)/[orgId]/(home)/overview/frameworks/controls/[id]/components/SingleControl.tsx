@@ -10,7 +10,7 @@ import type {
 } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useMemo } from "react";
-import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
+import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
 import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
 
@@ -22,23 +22,25 @@ interface SingleControlProps {
 			organizationEvidence: OrganizationEvidence | null;
 		})[];
 	};
+	organizationControlProgress: ControlProgressResponse;
 }
 
-export const SingleControl = ({ organizationControl }: SingleControlProps) => {
-	const { data: controlProgress, isLoading: isControlProgressLoading } =
-		useOrganizationControlProgress(organizationControl.id);
-
+export const SingleControl = ({
+	organizationControl,
+	organizationControlProgress,
+}: SingleControlProps) => {
 	const progressStatus = useMemo(() => {
-		if (!controlProgress) return "not_started";
+		if (!organizationControlProgress) return "not_started";
 
-		return controlProgress.progress?.completed > 0
-			? "in_progress"
-			: controlProgress.progress?.completed === 0
-				? "not_started"
-				: "completed";
-	}, [controlProgress]);
+		return organizationControlProgress.total ===
+			organizationControlProgress.completed
+			? "completed"
+			: organizationControlProgress.completed > 0
+				? "in_progress"
+				: "not_started";
+	}, [organizationControlProgress]);
 
-	if (!organizationControl || (!controlProgress && isControlProgressLoading)) {
+	if (!organizationControl || !organizationControlProgress) {
 		return <SingleControlSkeleton />;
 	}
 

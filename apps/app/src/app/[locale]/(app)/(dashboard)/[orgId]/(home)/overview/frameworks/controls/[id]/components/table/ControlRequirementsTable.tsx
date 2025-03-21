@@ -37,9 +37,6 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 	});
 
 	const onRowClick = (requirement: RequirementTableData) => {
-		console.log({
-			requirement,
-		});
 		switch (requirement.type) {
 			case "policy":
 				if (requirement.organizationPolicyId) {
@@ -49,9 +46,6 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 				}
 				break;
 			case "evidence":
-				console.log({
-					requirement,
-				});
 				if (requirement.organizationEvidenceId) {
 					router.push(
 						`/${orgId}/evidence/${requirement.organizationEvidenceId}`,
