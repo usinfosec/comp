@@ -1,4 +1,4 @@
-import { FilterToolbar } from "@/components/tables/tests/filter-toolbar";
+import { FilterToolbar } from "./table/filter-toolbar";
 import { Skeleton } from "@bubba/ui/skeleton";
 
 export const TestsListSkeleton = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { TestRow, TestResult, TestSeverity } from "./types";
+import type { TestRow, TestResult, TestSeverity } from "../../types";
 import { Badge } from "@bubba/ui/badge";
 import Image from "next/image";
 import { integrations } from "@bubba/integrations";

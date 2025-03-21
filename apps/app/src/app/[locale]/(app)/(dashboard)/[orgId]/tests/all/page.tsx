@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getServerColumnHeaders } from "@/components/tables/tests/server-columns";
+import { getServerColumnHeaders } from "./components/table/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { TestsList } from "./components/TestsList";
 import { db } from "@bubba/db";
 import { unstable_cache } from "next/cache";
+import type { User } from "next-auth";
 
 export default async function TestsPage({
   params,
@@ -45,22 +46,21 @@ export async function generateMetadata({
 }
 
 const getUsers = unstable_cache(
-  async (organizationId: string) => {
-    const users = await db.user.findMany({
-      where: {
-        organizationId,
-      },
-      select: {
-        id: true,
-        name: true,
-        image: true,
-      },
+  async (organizationId: string): Promise<User[]> => {
+    const dbUsers = await db.user.findMany({
+      where: { organizationId: organizationId },
     });
 
-    return users;
+    // Map database users to next-auth User type
+    return dbUsers.map(user => ({
+      id: user.id,
+      name: user.name || undefined,
+      email: user.email || undefined,
+      image: user.image || undefined,
+      organizationId: user.organizationId || undefined,
+      onboarded: user.onboarded,
+      full_name: user.full_name || undefined,
+    }));
   },
-  ["organization-users"],
-  {
-    tags: ["organization-users"],
-  },
+  ["users-cache"],
 );

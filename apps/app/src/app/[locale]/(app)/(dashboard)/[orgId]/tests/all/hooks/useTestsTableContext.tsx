@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useQueryState } from "nuqs";
-import { useTests } from "../../../hooks/useTests";
+import { useTests } from "./useTests";
 
 interface TestsTableContextType {
   // State

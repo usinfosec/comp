@@ -1,11 +1,11 @@
 "use client";
 
-import { NoTests } from "@/components/tables/tests/empty-states";
-import { Loading } from "@/components/tables/tests/loading";
+import { NoTests } from "./table/empty-states";
+import { Loading } from "./table/loading";
 import { useTests } from "../hooks/useTests";
 import { TestsListSkeleton } from "./TestsListSkeleton";
 import { TestsTable } from "./table/TestsTable";
-import { TestsTableProvider } from "./table/hooks/useTestsTableContext";
+import { TestsTableProvider } from "../hooks/useTestsTableContext";
 import type { User } from "next-auth";
 
 interface TestsListProps {

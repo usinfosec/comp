@@ -2,10 +2,10 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { useParams, useRouter } from "next/navigation";
-import { getFilterCategories } from "./components/filterCategories";
+import { getFilterCategories } from "./filterCategories";
 import { getColumns } from "./columns";
-import type { TestsTableProps } from "./types";
-import { useTestsTable } from "./hooks/useTestsTableContext";
+import type { TestsTableProps } from "../../types";
+import { useTestsTable } from "../../hooks/useTestsTableContext";
 import { RefreshCcw } from "lucide-react";
 import { refreshTestsAction } from "../../actions/refreshTests";
 import { useAction } from "next-safe-action/hooks";
@@ -101,4 +101,4 @@ export function TestsTable({ users }: TestsTableProps) {
       }}
     />
   );
-} 
+}

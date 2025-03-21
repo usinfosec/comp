@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import { getTests } from "../actions/getTests";
 import type { TestsResponse, TestsInput, AppError } from "../types";
-import type { TestRow } from "../components/table/types";
+import type { TestRow } from "../types";
 
 /** Fetcher function for tests */
 async function fetchTests(input: TestsInput): Promise<TestsResponse> {
