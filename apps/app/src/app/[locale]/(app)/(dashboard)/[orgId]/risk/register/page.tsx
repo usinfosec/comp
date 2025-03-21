@@ -42,7 +42,7 @@ export async function generateMetadata({
   };
 }
 
-export const getRisks = cache(
+const getRisks = cache(
   async ({
     search,
     page,
