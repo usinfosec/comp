@@ -6,6 +6,7 @@
     "name": "Privacy Policy",
     "description": "This policy describes how the organization collects, uses, discloses, and protects personal information in compliance with applicable privacy regulations.",
     "frequency": "yearly",
+    "department": "gov",
     "usedBy": {
       "soc2": ["P1.1", "P1.2", "P1.3"]
     }
@@ -86,7 +87,7 @@
       "content": [
         {
           "type": "text",
-          "text": "This policy outlines the organization’s practices for handling personal data, including collection, processing, retention, and disposal, to ensure compliance with privacy regulations."
+          "text": "This policy outlines the organization's practices for handling personal data, including collection, processing, retention, and disposal, to ensure compliance with privacy regulations."
         }
       ]
     },

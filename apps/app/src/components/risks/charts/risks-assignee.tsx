@@ -1,13 +1,9 @@
-import React, { type CSSProperties } from "react";
+import React, { cache, type CSSProperties } from "react";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { unstable_cache } from "next/cache";
-
-interface Props {
-  organizationId: string;
-}
-
+import { auth } from "@/auth";
 interface UserRiskStats {
   user: {
     id: string;
@@ -28,9 +24,9 @@ const riskStatusColors = {
   archived: "bg-[var(--chart-archived)]",
 };
 
-export async function RisksAssignee({ organizationId }: Props) {
+export async function RisksAssignee() {
   const t = await getI18n();
-  const userStats = await userData(organizationId);
+  const userStats = await userData();
 
   const stats: UserRiskStats[] = userStats.map((user) => ({
     user: {
@@ -105,43 +101,43 @@ function RiskBarChart({ stat, t }: { stat: UserRiskStats; t: any }) {
   const data = [
     ...(stat.openRisks > 0
       ? [
-          {
-            key: "open",
-            value: stat.openRisks,
-            color: riskStatusColors.open,
-            label: t("common.status.open"),
-          },
-        ]
+        {
+          key: "open",
+          value: stat.openRisks,
+          color: riskStatusColors.open,
+          label: t("common.status.open"),
+        },
+      ]
       : []),
     ...(stat.pendingRisks > 0
       ? [
-          {
-            key: "pending",
-            value: stat.pendingRisks,
-            color: riskStatusColors.pending,
-            label: t("common.status.pending"),
-          },
-        ]
+        {
+          key: "pending",
+          value: stat.pendingRisks,
+          color: riskStatusColors.pending,
+          label: t("common.status.pending"),
+        },
+      ]
       : []),
     ...(stat.closedRisks > 0
       ? [
-          {
-            key: "closed",
-            value: stat.closedRisks,
-            color: riskStatusColors.closed,
-            label: t("common.status.closed"),
-          },
-        ]
+        {
+          key: "closed",
+          value: stat.closedRisks,
+          color: riskStatusColors.closed,
+          label: t("common.status.closed"),
+        },
+      ]
       : []),
     ...(stat.archivedRisks > 0
       ? [
-          {
-            key: "archived",
-            value: stat.archivedRisks,
-            color: riskStatusColors.archived,
-            label: t("common.status.archived"),
-          },
-        ]
+        {
+          key: "archived",
+          value: stat.archivedRisks,
+          color: riskStatusColors.archived,
+          label: t("common.status.archived"),
+        },
+      ]
       : []),
   ];
 
@@ -211,11 +207,17 @@ function RiskBarChart({ stat, t }: { stat: UserRiskStats; t: any }) {
   );
 }
 
-const userData = unstable_cache(
-  async (organizationId: string) => {
+const userData = cache(
+  async () => {
+    const session = await auth();
+
+    if (!session || !session.user.organizationId) {
+      return [];
+    }
+
     return await db.user.findMany({
       where: {
-        organizationId,
+        organizationId: session.user.organizationId,
         Risk: {
           some: {},
         },
@@ -232,6 +234,4 @@ const userData = unstable_cache(
       },
     });
   },
-  ["users-with-risks"],
-  { tags: ["risks", "users"] },
 );

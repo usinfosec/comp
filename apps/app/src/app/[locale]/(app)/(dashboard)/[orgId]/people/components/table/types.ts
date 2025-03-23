@@ -1,4 +1,3 @@
-
 export interface EmployeesTableProps {
   columnHeaders: {
     name: string;
@@ -12,7 +11,6 @@ export interface EmployeesTableProps {
     full_name: string | null;
     email: string | null;
     role: string;
-    onboarded: boolean;
     emailVerified: Date | null;
     image: string | null;
     lastLogin: Date | null;

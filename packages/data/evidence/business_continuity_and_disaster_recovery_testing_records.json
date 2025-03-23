@@ -1,0 +1,7 @@
+{
+  "id": "business_continuity_and_disaster_recovery_testing_records",
+  "name": "Business Continuity and Disaster Recovery Testing Records",
+  "description": "Test reports, remediation logs, and updated BC/DR plans. Provide procedure for conducting regular BC/DR tests and documenting test results with follow-up actions.",
+  "frequency": "yearly",
+  "department": "it"
+}

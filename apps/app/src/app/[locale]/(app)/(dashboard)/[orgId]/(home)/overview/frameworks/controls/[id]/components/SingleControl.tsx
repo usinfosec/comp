@@ -1,37 +1,46 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
+import type {
+	Control,
+	OrganizationControl,
+	OrganizationControlRequirement,
+	OrganizationEvidence,
+	OrganizationPolicy,
+} from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useMemo } from "react";
-import { useOrganizationControl } from "../hooks/useOrganizationControl";
-import { useOrganizationControlProgress } from "../hooks/useOrganizationControlProgress";
-import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
+import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
+import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
 
 interface SingleControlProps {
-	controlId: string;
+	organizationControl: OrganizationControl & {
+		control: Control;
+		OrganizationControlRequirement: (OrganizationControlRequirement & {
+			organizationPolicy: OrganizationPolicy | null;
+			organizationEvidence: OrganizationEvidence | null;
+		})[];
+	};
+	organizationControlProgress: ControlProgressResponse;
 }
 
-export const SingleControl = ({ controlId }: SingleControlProps) => {
-	const { data: control, isLoading: isControlLoading } =
-		useOrganizationControl(controlId);
-	const { data: controlProgress, isLoading: isControlProgressLoading } =
-		useOrganizationControlProgress(controlId);
-
+export const SingleControl = ({
+	organizationControl,
+	organizationControlProgress,
+}: SingleControlProps) => {
 	const progressStatus = useMemo(() => {
-		if (!controlProgress) return "not_started";
+		if (!organizationControlProgress) return "not_started";
 
-		return controlProgress.progress?.completed > 0
-			? "in_progress"
-			: controlProgress.progress?.completed === 0
-				? "not_started"
-				: "completed";
-	}, [controlProgress]);
+		return organizationControlProgress.total ===
+			organizationControlProgress.completed
+			? "completed"
+			: organizationControlProgress.completed > 0
+				? "in_progress"
+				: "not_started";
+	}, [organizationControlProgress]);
 
-	if (
-		(!control && isControlLoading) ||
-		(!controlProgress && isControlProgressLoading)
-	) {
+	if (!organizationControl || !organizationControlProgress) {
 		return <SingleControlSkeleton />;
 	}
 
@@ -42,12 +51,14 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 					<Card>
 						<CardHeader>
 							<CardTitle className="flex md:flex-row justify-between">
-								{control?.control.name}
+								{organizationControl.control.name}
 								<DisplayFrameworkStatus status={progressStatus} />
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<p className="text-sm">{control?.control.description}</p>
+							<p className="text-sm">
+								{organizationControl.control.description}
+							</p>
 						</CardContent>
 					</Card>
 					<Card>
@@ -55,15 +66,15 @@ export const SingleControl = ({ controlId }: SingleControlProps) => {
 							<CardTitle>Domain</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<p className="text-sm">{control?.control.domain}</p>
+							<p className="text-sm">{organizationControl.control.domain}</p>
 						</CardContent>
 					</Card>
 				</div>
 
 				<div className="flex flex-col gap-2">
-					{control?.OrganizationControlRequirement && (
+					{organizationControl.OrganizationControlRequirement && (
 						<ControlRequirementsTable
-							data={control.OrganizationControlRequirement}
+							data={organizationControl.OrganizationControlRequirement}
 						/>
 					)}
 				</div>

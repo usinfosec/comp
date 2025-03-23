@@ -5,7 +5,6 @@ import { createStore } from "zustand";
 type User = {
   id: string;
   organizationId?: string;
-  onboarded?: boolean;
   full_name?: string;
   avatar_url?: string;
 } & NextAuthUser;

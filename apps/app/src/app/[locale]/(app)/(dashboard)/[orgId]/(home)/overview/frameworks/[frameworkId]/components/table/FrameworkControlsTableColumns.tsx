@@ -18,6 +18,7 @@ import {
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
+import { getControlStatus } from "../../lib/utils";
 export type OrganizationControlType = {
 	code: string;
 	description: string | null;
@@ -36,30 +37,6 @@ export type OrganizationControlType = {
 	})[];
 };
 
-function getControlStatus(
-	requirements: OrganizationControlType["requirements"],
-): StatusType {
-	if (!requirements || requirements.length === 0) return "not_started";
-
-	const totalRequirements = requirements.length;
-	const completedRequirements = requirements.filter((req) => {
-		switch (req.type) {
-			case "policy":
-				return req.organizationPolicy?.status === "published";
-			case "file":
-				return !!req.fileUrl;
-			case "evidence":
-				return req.organizationEvidence?.published === true;
-			default:
-				return req.published;
-		}
-	}).length;
-
-	if (completedRequirements === 0) return "not_started";
-	if (completedRequirements === totalRequirements) return "completed";
-	return "in_progress";
-}
-
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
@@ -73,7 +50,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 				return (
 					<div className="flex flex-col w-[300px]">
 						<Link
-							href={`${orgId}/overview/frameworks/controls/${row.original.id}`}
+							href={`/${orgId}/overview/frameworks/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
 							<span className="font-medium truncate">{row.original.name}</span>

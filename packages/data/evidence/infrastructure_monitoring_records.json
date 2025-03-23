@@ -1,0 +1,7 @@
+{
+  "id": "infrastructure_monitoring_records",
+  "name": "Infrastructure Monitoring Records",
+  "description": "Monitoring tool reports, alert logs, and incident tracking records. Provide Infrastructure Monitoring Procedures document that outlines real-time monitoring of infrastructure performance, security events, and system vulnerabilities.",
+  "frequency": "quarterly",
+  "department": "it"
+}

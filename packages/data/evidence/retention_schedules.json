@@ -1,0 +1,7 @@
+{
+  "id": "retention_schedules",
+  "name": "Retention Schedules",
+  "description": "Retention schedules, disposal logs, and certificates of data destruction. Provide procedure for reviewing, archiving, and securely disposing of personal data.",
+  "frequency": "yearly",
+  "department": "gov"
+}

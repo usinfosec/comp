@@ -4,8 +4,9 @@
     "id": "thirdparty",
     "slug": "thirdparty",
     "name": "Third-Party Management Policy",
-    "description": "This policy defines the rules for relationships with the organization’s Information Technology (IT) third-parties and partners.",
+    "description": "This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners.",
     "frequency": "yearly",
+    "department": "gov",
     "usedBy": {
       "soc2": ["CC2.3", "CC7.3", "CC8.1"]
     }
@@ -95,7 +96,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "This policy defines the rules for relationships with the organization’s Information Technology (IT) third-parties and partners."
+                  "text": "This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners."
                 }
               ]
             }
@@ -109,7 +110,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "This policy applies to all IT third-parties and partners who can impact the confidentiality, integrity, and availability of the organization’s technology and sensitive information, or who are within the scope of the organization’s information security program."
+                  "text": "This policy applies to all IT third-parties and partners who can impact the confidentiality, integrity, and availability of the organization's technology and sensitive information, or who are within the scope of the organization's information security program."
                 }
               ]
             }
@@ -195,7 +196,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "IT third-parties are prohibited from accessing the organization’s information security assets until a contract containing security controls is agreed to and signed by the appropriate parties."
+                  "text": "IT third-parties are prohibited from accessing the organization's information security assets until a contract containing security controls is agreed to and signed by the appropriate parties."
                 }
               ]
             }
@@ -251,7 +252,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "Before entering into a contract and gaining access to the organization’s information systems, IT third-parties must undergo a risk assessment."
+                  "text": "Before entering into a contract and gaining access to the organization's information systems, IT third-parties must undergo a risk assessment."
                 }
               ]
             }

@@ -1,0 +1,7 @@
+{
+  "id": "access_logs",
+  "name": "Access Logs",
+  "description": "Access logs, periodic access reviews, and certification records. Provide procedure for granting, monitoring, and revoking access to confidential data based on need-to-know.",
+  "frequency": "quarterly",
+  "department": "it"
+}

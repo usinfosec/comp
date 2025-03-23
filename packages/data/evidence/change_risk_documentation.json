@@ -1,0 +1,7 @@
+{
+  "id": "change_risk_documentation",
+  "name": "Change Risk Documentation",
+  "description": "Change impact assessments, risk logs, and management approval records. Provide Change Risk Assessment Procedures document that outlines assessing the impact of changes and planning mitigations for associated risks.",
+  "frequency": "yearly",
+  "department": "it"
+}
