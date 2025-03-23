@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { getServerColumnHeaders } from "@/components/tables/tests/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -21,9 +20,7 @@ export default async function TestsPage({
     return redirect("/");
   }
 
-  const columnHeaders = await getServerColumnHeaders();
-
-  return <TestsList columnHeaders={columnHeaders} />;
+  return <TestsList />;
 }
 
 export async function generateMetadata({
@@ -40,3 +37,5 @@ export async function generateMetadata({
     title: t("sidebar.tests"),
   };
 }
+
+

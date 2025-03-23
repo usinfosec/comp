@@ -1,0 +1,104 @@
+---
+title: "GCP Integration"
+description: "Connect Google Cloud Platform to Comp AI for cloud security testing"
+---
+
+# Google Cloud Platform Integration
+
+The Google Cloud Platform (GCP) integration allows you to connect your GCP projects to Comp AI for automated security testing, compliance monitoring, and risk assessment.
+
+## Setup Process
+
+### Prerequisites
+
+Before setting up the integration, ensure you have:
+
+1. GCP project with Owner or Editor access
+2. Admin access to your Comp AI workspace
+3. Permissions to create service accounts
+
+### Configuration Steps
+
+1. Navigate to **Settings > Integrations** in your Comp AI dashboard
+2. Click on **Connect** next to the GCP integration card
+3. Select the integration method:
+   - **Option 1**: Service Account (Recommended)
+     - Create a service account in your GCP project
+     - Download the service account key (JSON)
+     - Upload the key to Comp AI
+   - **Option 2**: Terraform
+     - Use the provided Terraform module
+     - Apply the configuration to your GCP environment
+     - Enter the created service account details in Comp AI
+4. Configure scan settings:
+   - Scan frequency
+   - Target projects and services
+   - Notification preferences
+5. Click **Save and Connect**
+
+## Capabilities
+
+### Security Tests
+
+The GCP integration performs the following security assessments:
+
+| Test Category | Description |
+|---------------|-------------|
+| IAM Analysis | Review IAM roles and service account permissions |
+| GCS Security | Identify improperly configured bucket permissions and encryption |
+| Compute Security | Analyze firewall rules, instance configurations, and patch status |
+| Database Security | Check Cloud SQL, Firestore, and other database security settings |
+| Cloud Logging | Verify proper logging and monitoring configuration |
+| KMS | Validate encryption key usage and rotation policies |
+| Network | Assess VPC configurations, firewall rules, and load balancer settings |
+
+### Compliance Frameworks
+
+The integration checks compliance against:
+
+- CIS GCP Foundation Benchmark
+- SOC 2
+- HIPAA (where applicable)
+- PCI DSS
+- GDPR
+- ISO 27001
+
+## Managing Access
+
+### Access Control
+
+Comp AI requires read-only access to your GCP environment. The integration uses a service account with specific IAM roles that follow the principle of least privilege.
+
+### Permissions
+
+The service account has the following roles:
+
+- Viewer (roles/viewer) at project level
+- Security Reviewer (roles/iam.securityReviewer)
+- Storage Object Viewer (roles/storage.objectViewer)
+
+The integration does NOT have permissions to:
+- Modify any resources
+- Create new resources
+- Delete existing resources
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: Failed to connect GCP project  
+**Solution**: Verify service account key and IAM permissions
+
+**Issue**: Missing scan results for specific services  
+**Solution**: Check IAM permissions for those specific services
+
+**Issue**: Authentication errors  
+**Solution**: Ensure the service account key is valid and not expired
+
+### Support
+
+For additional assistance with your GCP integration:
+
+1. Check our [Knowledge Base](https://help.trycomp.ai/gcp-integration)
+2. Contact support at [support@trycomp.ai](mailto:support@trycomp.ai)
+3. Join our [Discord community](https://discord.gg/compai) for peer support 

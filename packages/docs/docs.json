@@ -35,6 +35,21 @@
         ]
       },
       {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": "Integrations Guides",
+            "pages": [
+              "integrations/index",
+              "integrations/deel",
+              "integrations/aws",
+              "integrations/azure",
+              "integrations/gcp"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API",
         "groups": [
           {
