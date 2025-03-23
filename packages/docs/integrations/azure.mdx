@@ -5,7 +5,7 @@ description: "Connect Azure to Comp AI for cloud security testing"
 
 # Azure Integration
 
-The Azure integration enables you to connect your Microsoft Azure cloud environment to Comp AI for comprehensive security testing, compliance monitoring, and risk assessment.
+The Azure integration enables you to connect your Microsoft Azure cloud environment to Comp AI for comprehensive security testing, compliance monitoring, and risk assessment using Microsoft Defender for Cloud
 
 ## Setup Process
 
@@ -19,21 +19,57 @@ Before setting up the integration, ensure you have:
 
 ### Configuration Steps
 
-1. Navigate to **Settings > Integrations** in your Comp AI dashboard
-2. Click on **Connect** next to the Azure integration card
-3. Select the integration method:
-   - **Option 1**: Azure App Registration (Recommended)
-     - Register a new application in Azure AD using the provided template
-     - Grant the application reader access to your target subscriptions
-     - Enter the application details in Comp AI
-   - **Option 2**: Service Principal
-     - Create a service principal with reader role
-     - Enter the client ID, client secret, and tenant ID in Comp AI
-4. Configure scan settings:
-   - Scan frequency
-   - Target subscriptions and resource groups
-   - Notification preferences
-5. Click **Save and Connect**
+### Configuration Steps
+
+1. **Log into your Azure Portal**  
+   - Visit [https://portal.azure.com](https://portal.azure.com)
+
+2. **Enable Microsoft Defender for Cloud**  
+   - In the left-hand menu, search for and select **Microsoft Defender for Cloud**  
+   - Click **Getting started**  
+   - Select the subscription(s) you want to onboard  
+   - Enable **Microsoft Defender plans** (especially for relevant services like Compute, Storage, SQL, etc.)  
+   - Wait for the provisioning to complete (this may take a few minutes)
+
+3. **Register an Application in Azure AD**  
+   - Navigate to **Azure Active Directory > App registrations**  
+   - Click **+ New registration**  
+   - Name the app (e.g., `CompAIIntegrationApp`)  
+   - Choose **Accounts in this organizational directory only**  
+   - Click **Register**  
+
+4. **Get the Client ID and Tenant ID**  
+   - After registration, go to the app's **Overview** page  
+   - Copy the **Application (client) ID**  
+   - Copy the **Directory (tenant) ID**
+
+5. **Create a Client Secret**  
+   - In the app menu, go to **Certificates & secrets**  
+   - Under **Client secrets**, click **+ New client secret**  
+   - Add a description and set an expiration  
+   - Click **Add**  
+   - Copy the **Client secret value** — you won’t be able to see it again!
+
+6. **Assign the Application Access to a Subscription**  
+   - Go to **Subscriptions** in the Azure portal  
+   - Select the subscription you want to integrate  
+   - Copy the **Subscription ID**  
+   - Click **Access control (IAM)**  
+   - Click **+ Add > Add role assignment**  
+   - Select role: **Reader** (or **Security Reader** for enhanced visibility)  
+   - Assign access to: **User, group, or service principal**  
+   - Select your registered application  
+
+7. **Connect Azure to Comp AI**  
+   - Go to **Settings > Integrations** in your Comp AI dashboard  
+   - Click **Connect** next to the Azure integration card  
+   - Paste the following values:  
+     - **Client ID**  
+     - **Client Secret**  
+     - **Tenant ID**  
+     - **Subscription ID**  
+   - Click **Save and Connect**
+
 
 ## Capabilities
 
