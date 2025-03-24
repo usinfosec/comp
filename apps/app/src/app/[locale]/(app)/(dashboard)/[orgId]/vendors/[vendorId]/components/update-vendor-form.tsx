@@ -3,7 +3,6 @@
 import { updateVendorSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@bubba/db/types";
-import { VendorCategory, VendorStatus } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,
@@ -14,13 +13,6 @@ import {
   FormMessage,
 } from "@bubba/ui/form";
 import { Input } from "@bubba/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@bubba/ui/select";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
