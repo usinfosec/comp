@@ -15,8 +15,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { TitleAndDescription } from "./components/overview/title-and-description";
-import { SecondaryFields } from "./components/overview/secondary-fields";
+import { TitleAndDescription } from "./components/title-and-description";
+import { SecondaryFields } from "./components/secondary-fields";
 
 interface PageProps {
   searchParams: Promise<{

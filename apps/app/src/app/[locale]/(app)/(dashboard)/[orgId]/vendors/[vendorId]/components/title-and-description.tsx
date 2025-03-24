@@ -7,7 +7,7 @@ import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { VendorOverviewSheet } from "./vendor-overview-sheet";
+import { UpdateTitleAndDescriptionSheet } from "./update-title-and-description-sheet";
 
 export function TitleAndDescription({
   vendor,
@@ -36,7 +36,7 @@ export function TitleAndDescription({
         </AlertTitle>
         <AlertDescription className="mt-4">{vendor.description}</AlertDescription>
       </Alert>
-      <VendorOverviewSheet vendor={vendor} />
+      <UpdateTitleAndDescriptionSheet vendor={vendor} />
     </div>
   );
 }

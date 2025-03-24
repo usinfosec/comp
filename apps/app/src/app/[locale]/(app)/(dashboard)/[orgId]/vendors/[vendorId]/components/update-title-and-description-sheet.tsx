@@ -16,9 +16,9 @@ import {
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-import { UpdateVendorForm } from "../update-vendor-form";
+import { UpdateTitleAndDescriptionForm } from "./update-title-and-description-form";
 
-export function VendorOverviewSheet({
+export function UpdateTitleAndDescriptionSheet({
   vendor,
 }: {
   vendor: Vendor;
@@ -55,7 +55,7 @@ export function VendorOverviewSheet({
           </SheetHeader>
 
           <ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-            <UpdateVendorForm vendor={vendor} />
+            <UpdateTitleAndDescriptionForm vendor={vendor} />
           </ScrollArea>
         </SheetContent>
       </Sheet>
@@ -66,7 +66,7 @@ export function VendorOverviewSheet({
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
       <DrawerTitle hidden>{t("vendors.form.update_vendor")}</DrawerTitle>
       <DrawerContent className="p-6">
-        <UpdateVendorForm vendor={vendor} />
+        <UpdateTitleAndDescriptionForm vendor={vendor} />
       </DrawerContent>
     </Drawer>
   );

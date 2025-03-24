@@ -1,15 +1,9 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Risk, User, Vendor } from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
+import type { User, Vendor } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Icons } from "@bubba/ui/icons";
-import { PencilIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { VendorOverviewSheet } from "./vendor-overview-sheet";
-import { UpdateVendorOverview } from "../update-vendor-overview";
+import { UpdateSecondaryFieldsForm } from "./update-secondary-fields-form";
 
 export function SecondaryFields({
   vendor,
@@ -31,10 +25,9 @@ export function SecondaryFields({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <UpdateVendorOverview vendor={vendor} users={users} />
+          <UpdateSecondaryFieldsForm vendor={vendor} users={users} />
         </CardContent>
       </Card>
-      <VendorOverviewSheet vendor={vendor} />
     </div>
   );
 }

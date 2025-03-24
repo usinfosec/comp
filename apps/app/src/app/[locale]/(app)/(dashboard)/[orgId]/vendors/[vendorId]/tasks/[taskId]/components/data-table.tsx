@@ -15,7 +15,7 @@ import {
   type ColumnDef,
 } from "@tanstack/react-table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { VendorTaskType } from "./data-table/columns";
+import type { VendorTaskType } from "../../../components/tasks/data-table/columns";
 
 interface DataTableProps {
   data: VendorTaskType[];

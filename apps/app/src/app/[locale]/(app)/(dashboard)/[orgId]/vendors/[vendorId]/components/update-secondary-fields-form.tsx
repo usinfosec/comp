@@ -33,7 +33,7 @@ import type { z } from "zod";
 import { updateVendorAction } from "../actions/update-vendor-action";
 import { updateVendorSchema } from "../actions/schema";
 
-export function UpdateVendorOverview({
+export function UpdateSecondaryFieldsForm({
   vendor,
   users,
 }: {
