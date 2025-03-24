@@ -1,7 +1,6 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-
 import { Button } from "@bubba/ui/button";
 import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
 import { ArrowDown, ArrowUp } from "lucide-react";
@@ -46,7 +45,7 @@ export function DataTableHeader({ table, loading }: Props) {
 
       router.replace(`${pathname}?${params.toString()}`);
     },
-    [searchParams, router, pathname]
+    [searchParams, router, pathname],
   );
 
   const isVisible = (id: string) =>
@@ -60,11 +59,11 @@ export function DataTableHeader({ table, loading }: Props) {
     <TableHeader>
       <TableRow className="h-[45px] hover:bg-transparent">
         {isVisible("severity") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
-              onClick={() => createSortQuery("status")}
+              onClick={() => createSortQuery("severity")}
             >
               <span>{t("tests.table.severity")}</span>
               {"severity" === column && value === "asc" && <ArrowDown size={16} />}
@@ -72,8 +71,9 @@ export function DataTableHeader({ table, loading }: Props) {
             </Button>
           </TableHead>
         )}
+
         {isVisible("result") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
@@ -87,70 +87,57 @@ export function DataTableHeader({ table, loading }: Props) {
         )}
 
         {isVisible("title") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
               onClick={() => createSortQuery("title")}
             >
               <span>{t("tests.table.title")}</span>
-              {"title" === column && value === "asc" && (
-                <ArrowDown size={16} />
-              )}
-              {"title" === column && value === "desc" && (
-                <ArrowUp size={16} />
-              )}
+              {"title" === column && value === "asc" && <ArrowDown size={16} />}
+              {"title" === column && value === "desc" && <ArrowUp size={16} />}
             </Button>
           </TableHead>
         )}
+
         {isVisible("provider") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
               onClick={() => createSortQuery("provider")}
             >
               <span>{t("tests.table.provider")}</span>
-              {"provider" === column && value === "asc" && (
-                <ArrowDown size={16} />
-              )}
-              {"provider" === column && value === "desc" && (
-                <ArrowUp size={16} />
-              )}
+              {"provider" === column && value === "asc" && <ArrowDown size={16} />}
+              {"provider" === column && value === "desc" && <ArrowUp size={16} />}
             </Button>
           </TableHead>
         )}
+
         {isVisible("createdAt") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
               onClick={() => createSortQuery("createdAt")}
             >
               <span>{t("tests.table.createdAt")}</span>
-              {"createdAt" === column && value === "asc" && (
-                <ArrowDown size={16} />
-              )}
-              {"createdAt" === column && value === "desc" && (
-                <ArrowUp size={16} />
-              )}
+              {"createdAt" === column && value === "asc" && <ArrowDown size={16} />}
+              {"createdAt" === column && value === "desc" && <ArrowUp size={16} />}
             </Button>
           </TableHead>
         )}
+
         {isVisible("assignedUser") && (
-          <TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden md:table-cell">
+          <TableHead className="min-w-[120px] px-3 md:px-4 py-2">
             <Button
               className="p-0 hover:bg-transparent space-x-2"
               variant="ghost"
               onClick={() => createSortQuery("assignedUser")}
             >
               <span>{t("tests.table.assignedUser")}</span>
-              {"assignedUser" === column && value === "asc" && (
-                <ArrowDown size={16} />
-              )}
-              {"assignedUser" === column && value === "desc" && (
-                <ArrowUp size={16} />
-              )}
+              {"assignedUser" === column && value === "asc" && <ArrowDown size={16} />}
+              {"assignedUser" === column && value === "desc" && <ArrowUp size={16} />}
             </Button>
           </TableHead>
         )}

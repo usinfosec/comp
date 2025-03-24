@@ -52,7 +52,7 @@ export function useComplianceScores({
   }, [evidenceTasks]);
 
   // Getting ALL tests.
-  const { tests = [], isLoading: testsLoading } = useTests();
+  const { tests = [], isLoading: testsLoading } = useTests('');
 
   // Combined loading state
   const isLoading = policiesLoading || evidenceTasksLoading || testsLoading;

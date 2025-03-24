@@ -148,7 +148,7 @@ async function fetchComplianceData(
 						description: controlDetail.properties.description,
 						state: controlDetail.properties.state,
 						Compliance: {
-							Status: controlDetail.properties.state,
+							Status: controlDetail.properties.state.toUpperCase(),
 						},
 						Severity: {
 							Label: "INFO",
