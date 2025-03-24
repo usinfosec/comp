@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { RiskOverview } from "@/components/risks/risk-overview";
-import { VendorsByStatus } from "@/components/vendors/charts/vendors-by-status";
-import { VendorOverview } from "@/components/vendors/vendor-overview";
+import { VendorsByStatus } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/components/charts/vendors-by-status";
+import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/components/charts/vendor-overview";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Button } from "@bubba/ui/button";

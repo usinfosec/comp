@@ -6,7 +6,7 @@ import { DataTable } from "@/components/tables/vendor-tasks/data-table";
 import { NoResults, NoTasks } from "@/components/tables/vendor-tasks/empty-states";
 import { FilterToolbar } from "@/components/tables/vendor-tasks/filter-toolbar";
 import { getServerColumnHeaders } from "@/components/tables/vendor-tasks/server-columns";
-import { VendorOverview } from "@/components/vendors/vendor-overview";
+import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/components/charts/vendor-overview";
 // import { DataTable } from "@/components/tables/vendor-tasks/data-table";
 // import {
 //   NoResults,

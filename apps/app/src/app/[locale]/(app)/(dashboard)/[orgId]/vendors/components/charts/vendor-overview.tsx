@@ -2,8 +2,8 @@
 
 import { getI18n } from "@/locales/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { VendorsByCategory } from "./charts/vendors-by-category";
-import { VendorsByStatus } from "./charts/vendors-by-status";
+import { VendorsByCategory } from "./vendors-by-category";
+import { VendorsByStatus } from "./vendors-by-status";
 
 interface VendorOverviewProps {
   organizationId: string;
