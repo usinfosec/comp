@@ -16,7 +16,7 @@ import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import type { Vendor } from "@bubba/db/types";
-import { CreateVendorCommentForm } from "../../components/create-vendor-comment-form";
+import { CreateVendorCommentForm } from "./create-vendor-comment-form";
 
 export function VendorCommentSheet({  
   vendor,

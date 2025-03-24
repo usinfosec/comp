@@ -23,8 +23,8 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { createVendorCommentAction } from "../actions/create-vendor-comment";
-import { createVendorCommentSchema } from "../actions/schema";
+import { createVendorCommentAction } from "../../actions/create-vendor-comment";
+import { createVendorCommentSchema } from "../../actions/schema";
 
 export function CreateVendorCommentForm() {
   const t = useI18n();

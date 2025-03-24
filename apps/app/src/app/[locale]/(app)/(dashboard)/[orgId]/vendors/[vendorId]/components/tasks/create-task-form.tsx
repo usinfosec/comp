@@ -1,8 +1,8 @@
 "use client";
 
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
-import { createTaskAction } from "@/actions/risk/task/create-task-action";
-import { createTaskSchema } from "@/actions/schema";
+import { createVendorTaskAction } from "../../actions/task/create-task-action";
+import { createVendorTaskSchema } from "../../actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
 import {
@@ -41,7 +41,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { createVendorTaskAction } from "../../actions/task/create-task-action";
 
 interface User {
   id: string;
@@ -55,7 +54,7 @@ export function CreateTaskForm() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
   const [_, setCreateTaskSheet] = useQueryState("create-task-sheet");
-  const params = useParams<{ riskId: string }>();
+  const params = useParams<{ vendorId: string }>();
 
   useEffect(() => {
     async function loadUsers() {
@@ -79,18 +78,18 @@ export function CreateTaskForm() {
     },
   });
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(createTaskSchema),
+  const form = useForm<z.infer<typeof createVendorTaskSchema>>({
+    resolver: zodResolver(createVendorTaskSchema),
     defaultValues: {
       title: "",
       description: "",
       dueDate: new Date(),
       ownerId: "",
-      riskId: params.riskId,
+      vendorId: params.vendorId,
     },
   });
 
-  const onSubmit = (data: z.infer<typeof createTaskSchema>) => {
+  const onSubmit = (data: z.infer<typeof createVendorTaskSchema>) => {
     createTask.execute(data);
   };
 

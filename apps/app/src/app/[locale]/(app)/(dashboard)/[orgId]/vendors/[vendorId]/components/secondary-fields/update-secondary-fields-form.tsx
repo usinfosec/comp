@@ -30,8 +30,8 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { updateVendorAction } from "../actions/update-vendor-action";
-import { updateVendorSchema } from "../actions/schema";
+import { updateVendorAction } from "../../actions/update-vendor-action";
+import { updateVendorSchema } from "../../actions/schema";
 
 export function UpdateSecondaryFieldsForm({
   vendor,

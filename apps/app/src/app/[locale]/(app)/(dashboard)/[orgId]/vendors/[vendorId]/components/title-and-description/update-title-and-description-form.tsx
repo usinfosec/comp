@@ -20,8 +20,8 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { updateVendorAction } from "../actions/update-vendor-action";
-import { updateVendorSchema } from "../actions/schema";
+import { updateVendorAction } from "../../actions/update-vendor-action";
+import { updateVendorSchema } from "../../actions/schema";
 
 export function UpdateTitleAndDescriptionForm({
   vendor,
