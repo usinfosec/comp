@@ -3,6 +3,7 @@
 import { updateVendorSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@bubba/db/types";
+import { VendorCategory, VendorStatus } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import {
   Form,
@@ -13,6 +14,13 @@ import {
   FormMessage,
 } from "@bubba/ui/form";
 import { Input } from "@bubba/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@bubba/ui/select";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -22,14 +30,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { updateVendorAction } from "../actions/update-vendor-action";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@bubba/ui/select";
-import { VendorCategory, VendorStatus } from "@bubba/db/types";
 
 export function UpdateVendorForm({
   vendor,
@@ -109,60 +109,6 @@ export function UpdateVendorForm({
                   placeholder={t("vendors.form.vendor_description_description")}
                 />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("vendors.form.vendor_category")}</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t("vendors.form.vendor_category_placeholder")} />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.values(VendorCategory).map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("vendors.form.vendor_status")}</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t("vendors.form.vendor_status_placeholder")} />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.values(VendorStatus).map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
               <FormMessage />
             </FormItem>
           )}

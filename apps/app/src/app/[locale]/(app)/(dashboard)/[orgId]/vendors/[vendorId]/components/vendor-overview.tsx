@@ -9,6 +9,7 @@ import { Icons } from "@bubba/ui/icons";
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { VendorOverviewSheet } from "./vendor-overview-sheet";
+import { UpdateVendorOverview } from "./update-vendor-overview";
 
 export function VendorOverview({
   vendor,
@@ -48,9 +49,9 @@ export function VendorOverview({
             </div>
           </CardTitle>
         </CardHeader>
-        {/* <CardContent>
-          <UpdateRiskOverview vendor={vendor} users={users} />
-        </CardContent> */}
+        <CardContent>
+          <UpdateVendorOverview vendor={vendor} users={users} />
+        </CardContent>
       </Card>
 
       <VendorOverviewSheet vendor={vendor} />
