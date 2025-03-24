@@ -5,7 +5,7 @@
 import { db } from "@bubba/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
-import { createVendorCommentSchema } from "@/actions/schema";
+import { createVendorCommentSchema } from "./schema";
 
 export const createVendorCommentAction = authActionClient
   .schema(createVendorCommentSchema)

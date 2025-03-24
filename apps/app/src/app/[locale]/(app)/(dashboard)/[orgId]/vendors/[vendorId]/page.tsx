@@ -1,13 +1,13 @@
 import { auth } from "@/auth";
 import { Loading } from "@/components/frameworks/loading";
-import type { VendorTaskType } from "@/components/tables/vendor-tasks/columns";
-import { DataTable } from "@/components/tables/vendor-tasks/data-table";
+import type { VendorTaskType } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/columns";
+import { DataTable } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/data-table";
 import {
   NoResults,
   NoTasks,
-} from "@/components/tables/vendor-tasks/empty-states";
-import { FilterToolbar } from "@/components/tables/vendor-tasks/filter-toolbar";
-import { getServerColumnHeaders } from "@/components/tables/vendor-tasks/server-columns";
+} from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
+import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
+import { getServerColumnHeaders } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/server-columns";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { VendorTaskStatus } from "@bubba/db/types";
@@ -73,14 +73,16 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
         </CardHeader>
         <CardContent>
           <div className="relative">
-            <FilterToolbar isEmpty={loadedTasks.length === 0} users={users} />
             {loadedTasks.length > 0 ? (
-              <DataTable
-                columnHeaders={columnHeaders}
-                data={loadedTasks}
-                pageCount={Math.ceil(total / Number.parseInt(per_page))}
-                currentPage={Number.parseInt(page)}
-              />
+              <>
+                <FilterToolbar isEmpty={loadedTasks.length === 0} users={users} />
+                <DataTable
+                  columnHeaders={columnHeaders}
+                  data={loadedTasks}
+                  pageCount={Math.ceil(total / Number.parseInt(per_page))}
+                  currentPage={Number.parseInt(page)}
+                />
+              </>
             ) : hasFilters ? (
               <NoResults hasFilters={hasFilters} />
             ) : (

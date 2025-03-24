@@ -1,5 +1,7 @@
 "use client";
 
+import { createTaskCommentAction } from "@/actions/risk/task/create-task-comment";
+import { createTaskCommentSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import {
   Accordion,
@@ -17,40 +19,40 @@ import {
 } from "@bubba/ui/form";
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRightIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { createVendorCommentAction } from "../actions/create-vendor-comment";
-import { createVendorCommentSchema } from "../actions/schema";
 
-export function CreateVendorCommentForm() {
+export function CreateTaskCommentForm() {
   const t = useI18n();
-  const [_, setCreateVendorCommentSheet] = useQueryState("vendor-comment-sheet");
-  const params = useParams<{ vendorId: string }>();
+  const [_, setCreateTaskCommentSheet] = useQueryState("task-comment-sheet");
+  const params = useParams<{ riskId: string; taskId: string }>();
 
-  const createVendorComment = useAction(createVendorCommentAction, {
+  const createTaskComment = useAction(createTaskCommentAction, {
     onSuccess: () => {
       toast.success(t("common.comments.success"));
-      setCreateVendorCommentSheet(null);
+      setCreateTaskCommentSheet(null);
     },
     onError: () => {
       toast.error(t("common.comments.error"));
     },
   });
 
-  const form = useForm<z.infer<typeof createVendorCommentSchema>>({
-    resolver: zodResolver(createVendorCommentSchema),
+  const form = useForm<z.infer<typeof createTaskCommentSchema>>({
+    resolver: zodResolver(createTaskCommentSchema),
     defaultValues: {
       content: "",
-      vendorId: params.vendorId,
+      riskId: params.riskId,
+      taskId: params.taskId,
     },
   });
 
-  const onSubmit = (data: z.infer<typeof createVendorCommentSchema>) => {
-    createVendorComment.execute(data);
+  const onSubmit = (data: z.infer<typeof createTaskCommentSchema>) => {
+    createTaskComment.execute(data);
   };
 
   return (
@@ -91,10 +93,11 @@ export function CreateVendorCommentForm() {
             <Button
               type="submit"
               variant="action"
-              disabled={createVendorComment.status === "executing"}
+              disabled={createTaskComment.status === "executing"}
             >
               <div className="flex items-center justify-center">
-                {t("common.actions.save")}
+                {t("common.comments.save")}
+                <ArrowRightIcon className="ml-2 h-4 w-4" />
               </div>
             </Button>
           </div>

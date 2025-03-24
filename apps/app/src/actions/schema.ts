@@ -156,6 +156,7 @@ export const createTaskSchema = z.object({
 		}),
 });
 
+
 export const updateTaskSchema = z.object({
 	id: z.string().min(1, {
 		message: "Task ID is required",
@@ -187,6 +188,8 @@ export const createTaskCommentSchema = z.object({
 			message: "Comment content should be at most 1000 characters",
 		}),
 });
+
+
 
 export const uploadTaskFileSchema = z.object({
 	riskId: z.string().min(1, {
@@ -231,42 +234,6 @@ export const updateResidualRiskSchema = z.object({
 	impact: z.number().min(1).max(10),
 });
 
-export const vendorContactSchema = z.object({
-	name: z.string().min(1, "Name is required"),
-	email: z.string().email("Invalid email address"),
-	role: z.string().min(1, "Role is required"),
-});
-
-export const createVendorSchema = z.object({
-	name: z.string().min(1, "Name is required"),
-	website: z.string().url("Must be a valid URL"),
-	description: z.string().min(1, "Description is required"),
-	category: z.nativeEnum(VendorCategory),
-	ownerId: z.string().optional(),
-	contacts: z
-		.array(vendorContactSchema)
-		.min(1, "At least one contact is required"),
-});
-
-export const updateVendorSchema = z.object({
-	id: z.string(),
-	name: z.string().min(1, "Name is required"),
-	description: z.string().min(1, "Description is required"),
-	category: z.nativeEnum(VendorCategory),
-	status: z.nativeEnum(VendorStatus),
-	ownerId: z.string().optional(),
-});
-
-export const createVendorCommentSchema = z.object({
-	vendorId: z.string(),
-	content: z.string().min(1),
-});
-
-export const updateVendorRiskSchema = z.object({
-	id: z.string(),
-	inherent_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
-	residual_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
-});
 
 // Policies
 export const createPolicySchema = z.object({

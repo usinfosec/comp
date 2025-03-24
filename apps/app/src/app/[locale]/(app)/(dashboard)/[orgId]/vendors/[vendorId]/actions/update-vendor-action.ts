@@ -5,7 +5,7 @@
 import { db } from "@bubba/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
-import { updateVendorSchema } from "@/actions/schema";
+import { updateVendorSchema } from "./schema";
 
 export const updateVendorAction = authActionClient
   .schema(updateVendorSchema)

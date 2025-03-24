@@ -1,6 +1,5 @@
 "use client";
 
-import { updateVendorSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { VENDOR_STATUS_TYPES, VendorStatus } from "@/components/vendor-status";
 import { useI18n } from "@/locales/client";
@@ -32,6 +31,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { updateVendorAction } from "../actions/update-vendor-action";
+import { updateVendorSchema } from "../actions/schema";
 
 export function UpdateVendorOverview({
   vendor,

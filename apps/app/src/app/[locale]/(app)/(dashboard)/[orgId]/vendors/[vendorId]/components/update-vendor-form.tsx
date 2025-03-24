@@ -1,6 +1,5 @@
 "use client";
 
-import { updateVendorSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
@@ -22,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { updateVendorAction } from "../actions/update-vendor-action";
+import { updateVendorSchema } from "../actions/schema";
 
 export function UpdateVendorForm({
   vendor,
