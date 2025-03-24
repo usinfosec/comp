@@ -1,4 +1,4 @@
-import { getI18n } from "@/locales/server";
+import { useI18n } from "@/locales/client";
 import type { VendorTaskStatus } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
@@ -17,8 +17,8 @@ export interface VendorTaskType {
   };
 }
 
-export async function getServerColumnHeaders(): Promise<ColumnDef<VendorTaskType>[]> {
-  const t = await getI18n();
+export function useGetColumnHeaders(): ColumnDef<VendorTaskType>[] {
+  const t = useI18n();
 
   return [
     {

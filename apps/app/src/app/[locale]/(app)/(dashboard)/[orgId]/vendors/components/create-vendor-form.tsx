@@ -37,7 +37,7 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createVendorAction } from "../../actions/create-vendor-action";
+import { createVendorAction } from "../actions/create-vendor-action";
 
 
 const createVendorSchema = z.object({
@@ -49,7 +49,7 @@ const createVendorSchema = z.object({
 	ownerId: z.string().optional(),
 });
 
-export function CreateVendor() {
+export function CreateVendorForm() {
 	const t = useI18n();
 	const session = useSession();
 

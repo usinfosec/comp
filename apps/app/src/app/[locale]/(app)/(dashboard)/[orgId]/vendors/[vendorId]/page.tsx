@@ -1,3 +1,5 @@
+"use server";
+
 import { auth } from "@/auth";
 import { Loading } from "@/components/frameworks/loading";
 import type { VendorTaskType } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/columns";
@@ -7,7 +9,7 @@ import {
   NoTasks,
 } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
 import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
-import { getServerColumnHeaders } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/server-columns";
+import { getServerColumnHeaders } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/client-columns";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { VendorTaskStatus } from "@bubba/db/types";
@@ -43,9 +45,9 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
     per_page = "5",
   } = await searchParams;
 
-  const columnHeaders = await getServerColumnHeaders();
   const [column, order] = sort?.split(":") ?? [];
   const hasFilters = !!(search || status);
+
   const { tasks: loadedTasks, total } = await getTasks({
     vendorId,
     search,
@@ -78,7 +80,6 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
               <>
                 <FilterToolbar isEmpty={loadedTasks.length === 0} users={users} />
                 <DataTable
-                  columnHeaders={columnHeaders}
                   data={loadedTasks}
                   pageCount={Math.ceil(total / Number.parseInt(per_page))}
                   currentPage={Number.parseInt(page)}

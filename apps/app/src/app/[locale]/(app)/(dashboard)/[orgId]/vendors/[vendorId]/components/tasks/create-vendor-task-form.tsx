@@ -48,12 +48,12 @@ interface User {
   name: string | null;
 }
 
-export function CreateTaskForm() {
+export function CreateVendorTaskForm() {
   const t = useI18n();
 
   const [users, setUsers] = useState<User[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
-  const [_, setCreateTaskSheet] = useQueryState("create-task-sheet");
+  const [_, setCreateVendorTaskSheet] = useQueryState("create-vendor-task-sheet");
   const params = useParams<{ vendorId: string }>();
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function CreateTaskForm() {
   const createTask = useAction(createVendorTaskAction, {
     onSuccess: () => {
       toast.success(t("risk.tasks.form.success"));
-      setCreateTaskSheet(null);
+      setCreateVendorTaskSheet(null);
     },
     onError: () => {
       toast.error(t("risk.tasks.form.error"));

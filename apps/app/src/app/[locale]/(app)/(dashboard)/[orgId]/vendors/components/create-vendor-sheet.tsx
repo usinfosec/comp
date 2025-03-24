@@ -8,7 +8,7 @@ import { ScrollArea } from "@bubba/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { CreateVendor } from "../forms/create-vendor-form";
+import { CreateVendorForm } from "./create-vendor-form";
 
 export function CreateVendorSheet() {
 	const t = useI18n();
@@ -37,7 +37,7 @@ export function CreateVendorSheet() {
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-						<CreateVendor />
+						<CreateVendorForm />
 					</ScrollArea>
 				</SheetContent>
 			</Sheet>
@@ -48,7 +48,7 @@ export function CreateVendorSheet() {
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>{t("vendors.create")}</DrawerTitle>
 			<DrawerContent className="p-6">
-				<CreateVendor />
+				<CreateVendorForm />
 			</DrawerContent>
 		</Drawer>
 	);

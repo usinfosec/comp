@@ -16,23 +16,24 @@ import {
 } from "@tanstack/react-table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { VendorTaskType } from "./columns";
+import { useGetColumnHeaders } from "./client-columns";
 
 interface DataTableProps {
   data: VendorTaskType[];
-  columnHeaders: ColumnDef<VendorTaskType>[];
   pageCount: number;
   currentPage: number;
 }
 
 export function DataTable({
   data,
-  columnHeaders,
   pageCount,
   currentPage,
 }: DataTableProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const columnHeaders = useGetColumnHeaders();
 
   const table = useReactTable({
     data,

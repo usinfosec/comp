@@ -1,13 +1,12 @@
 "use client";
 
-import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
 import { Plus } from "lucide-react";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
+import { CreateVendorTaskSheet } from "../create-vendor-task-sheet";
 
 type Props = {
   hasFilters?: boolean;
@@ -48,7 +47,7 @@ export function NoResults({ hasFilters }: Props) {
 
 export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
   const t = useI18n();
-  const [open, setOpen] = useQueryState("create-task-sheet");
+  const [_, setOpen] = useQueryState("create-vendor-task-sheet");
 
   return (
     <div className="absolute w-full top-0 left-0 flex items-center justify-center z-20">
@@ -65,7 +64,7 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
         </Button>
       </div>
 
-      <CreateTaskSheet />
+      <CreateVendorTaskSheet />
     </div>
   );
 }

@@ -10,9 +10,9 @@ import { createVendorTaskSchema } from "../schema";
 export const createVendorTaskAction = authActionClient
   .schema(createVendorTaskSchema)
   .metadata({
-    name: "create-task",
+    name: "create-vendor-task",
     track: {
-      event: "create-task",
+      event: "create-vendor-task",
       channel: "server",
     },
   })
