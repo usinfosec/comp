@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import type { VendorRegisterTableRow } from "../../VendorRegisterTable";
+import type { VendorRegisterTableRow } from "./VendorRegisterTable";
 
 export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 	{

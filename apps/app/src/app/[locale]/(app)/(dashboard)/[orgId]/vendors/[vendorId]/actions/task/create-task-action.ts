@@ -7,7 +7,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
 import { createVendorTaskSchema } from "../schema";
 
-export const createTaskAction = authActionClient
+export const createVendorTaskAction = authActionClient
   .schema(createVendorTaskSchema)
   .metadata({
     name: "create-task",

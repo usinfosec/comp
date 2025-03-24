@@ -32,18 +32,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
+import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createVendorAction } from "../actions/create-vendor-action";
-import { useRouter } from "next/navigation";
+import { createVendorAction } from "../../actions/create-vendor-action";
 
-interface User {
-	id: string;
-	image?: string | null;
-	name: string | null;
-}
 
 const createVendorSchema = z.object({
 	name: z.string().min(1, "Name is required"),

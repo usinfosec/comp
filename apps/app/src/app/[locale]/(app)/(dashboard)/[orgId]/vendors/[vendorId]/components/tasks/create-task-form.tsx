@@ -41,6 +41,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { createVendorTaskAction } from "../../actions/task/create-task-action";
 
 interface User {
   id: string;
@@ -68,7 +69,7 @@ export function CreateTaskForm() {
     loadUsers();
   }, []);
 
-  const createTask = useAction(createTaskAction, {
+  const createTask = useAction(createVendorTaskAction, {
     onSuccess: () => {
       toast.success(t("risk.tasks.form.success"));
       setCreateTaskSheet(null);

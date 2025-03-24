@@ -7,8 +7,8 @@ import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
-import { CreateVendorSheet } from "../components/create-vendor-sheet";
-import { columns } from "./components/table/VendorRegisterColumns";
+import { CreateVendorSheet } from "../../components/sheets/create-vendor-sheet";
+import { columns } from "./VendorRegisterColumns";
 
 export type VendorRegisterTableRow = Vendor & { owner: User | null };
 

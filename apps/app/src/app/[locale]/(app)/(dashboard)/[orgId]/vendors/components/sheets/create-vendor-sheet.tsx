@@ -8,7 +8,7 @@ import { ScrollArea } from "@bubba/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { CreateVendor } from "./create-vendor-form";
+import { CreateVendor } from "../forms/create-vendor-form";
 
 export function CreateVendorSheet() {
 	const t = useI18n();
