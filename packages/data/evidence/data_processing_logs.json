@@ -1,0 +1,7 @@
+{
+  "id": "data_processing_logs",
+  "name": "Data Processing Logs",
+  "description": "Data processing logs, validation reports, and exception handling records. Provide procedure for ensuring proper validation, error handling, and reconciliation during data processing.",
+  "frequency": "quarterly",
+  "department": "it"
+}

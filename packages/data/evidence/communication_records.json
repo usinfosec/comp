@@ -1,0 +1,7 @@
+{
+  "id": "communication_records",
+  "name": "Communication Records",
+  "description": "Communication logs, email distributions, and meeting minutes. Provide Internal Communication Procedures document that outlines internal reporting, announcements, and feedback regarding internal controls.",
+  "frequency": "quarterly",
+  "department": "admin"
+}

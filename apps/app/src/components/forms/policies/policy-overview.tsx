@@ -3,11 +3,7 @@
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
-import {
-	STATUS_TYPES,
-	StatusPolicies,
-	type StatusType,
-} from "@/components/status-policies";
+import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
@@ -15,13 +11,11 @@ import {
 	type OrganizationPolicy,
 	type Policy,
 	type PolicyStatus,
-	type Risk,
-	RiskCategory,
-	RiskStatus,
 	type User,
 } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
-import { Checkbox } from "@bubba/ui/checkbox";
+import { Calendar } from "@bubba/ui/calendar";
+import { cn } from "@bubba/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -30,7 +24,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@bubba/ui/form";
-import { Popover, PopoverTrigger, PopoverContent } from "@bubba/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -39,15 +33,20 @@ import {
 	SelectValue,
 } from "@bubba/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, Loader2 } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
 import { format } from "date-fns";
-import { Calendar } from "@bubba/ui/calendar";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { cn } from "@bubba/ui/cn";
-import { useSession } from "next-auth/react";
+
+const policyStatuses: PolicyStatus[] = [
+	"draft",
+	"published",
+	"archived",
+	"needs_review",
+] as const;
 
 export function UpdatePolicyOverview({
 	organizationPolicy,
@@ -149,7 +148,9 @@ export function UpdatePolicyOverview({
 									<Select value={field.value} onValueChange={field.onChange}>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("policies.overview.form.status_placeholder")}
+												placeholder={t(
+													"policies.overview.form.status_placeholder",
+												)}
 											>
 												{field.value && (
 													<StatusPolicies status={field.value as StatusType} />
@@ -157,7 +158,7 @@ export function UpdatePolicyOverview({
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{STATUS_TYPES.map((status) => (
+											{policyStatuses.map((status) => (
 												<SelectItem key={status} value={status}>
 													<StatusPolicies status={status} />
 												</SelectItem>
@@ -204,7 +205,9 @@ export function UpdatePolicyOverview({
 						name="department"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_department")}</FormLabel>
+								<FormLabel>
+									{t("policies.overview.form.policy_department")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										{...field}
@@ -213,7 +216,9 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_department_placeholder")}
+												placeholder={t(
+													"policies.overview.form.policy_department_placeholder",
+												)}
 											/>
 										</SelectTrigger>
 										<SelectContent>

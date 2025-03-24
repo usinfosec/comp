@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 
@@ -37,38 +36,40 @@ async function fetchTests(input: TestsInput): Promise<TestsResponse> {
   return result.data.data as TestsResponse;
 }
 
-export function useTests() {
+export function useTests(search: string | undefined) {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
-  const providerParam = searchParams.get("provider") || undefined;
-  const provider = providerParam && ["AWS", "AZURE", "GCP"].includes(providerParam) 
-    ? providerParam as "AWS" | "AZURE" | "GCP" 
-    : undefined;
+  const severity = searchParams.get("severity") || undefined;
   const status = searchParams.get("status") || undefined;
   const page = Number(searchParams.get("page")) || 1;
-  const per_page = Number(searchParams.get("per_page")) || 10;
+  const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   /** SWR for fetching tests */
   const {
     data,
     error,
-    isLoading
+    isLoading,
+    mutate: revalidateTests,
   } = useSWR<TestsResponse, AppError>(
-    ["tests", { search, provider, status, page, per_page }],
-    () => fetchTests({ search, provider, status, page, per_page }),
+    ["tests", { search, severity, status, page, pageSize }],
+    () => fetchTests({ search, severity, status, page, pageSize }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     }
   );
-  /** Track local mutation loading state */
-  const [isMutating, setIsMutating] = useState(false);
+
+  // Format the tests to match the TestRow type
+  const formattedTests = data?.tests.map(test => ({
+    ...test,
+    // Convert Date to string for use in components if needed
+    createdAt: test.createdAt
+  })) || [];
 
   return {
-    tests: data?.tests ?? [],
+    tests: formattedTests,
     total: data?.total ?? 0,
     isLoading,
-    isMutating,
-    error
+    error,
+    revalidateTests
   };
-} 
+}

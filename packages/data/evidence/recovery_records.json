@@ -1,0 +1,7 @@
+{
+  "id": "recovery_records",
+  "name": "Recovery Records",
+  "description": "Recovery test results, restoration logs, and incident recovery reports. Provide Recovery Procedures document that outlines restoring systems and data following a security incident, including backup restoration and validation.",
+  "frequency": "yearly",
+  "department": "it"
+}

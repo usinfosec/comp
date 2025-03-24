@@ -1,0 +1,7 @@
+{
+  "id": "data_validation_records",
+  "name": "Data Validation Records",
+  "description": "Data validation reports, exception logs, and audit records. Provide procedure for validating data inputs and outputs to ensure completeness and accuracy.",
+  "frequency": "quarterly",
+  "department": "it"
+}

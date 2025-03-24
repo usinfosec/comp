@@ -1,0 +1,7 @@
+{
+  "id": "technology_control_records",
+  "name": "Technology Control Records",
+  "description": "System configuration records, monitoring reports, and technology audit logs. Provide Technology Control Procedures document that outlines implementing and monitoring technology controls such as firewalls, antivirus, and system hardening.",
+  "frequency": "quarterly",
+  "department": "it"
+}

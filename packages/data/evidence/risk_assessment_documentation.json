@@ -1,0 +1,7 @@
+{
+  "id": "risk_assessment_documentation",
+  "name": "Risk Assessment Documentation",
+  "description": "Risk assessment reports, risk registers, and management review minutes. Provide Risk Assessment Procedures document that outlines conducting regular risk assessments, documenting risks, and assigning risk owners.",
+  "frequency": "yearly",
+  "department": "gov"
+}

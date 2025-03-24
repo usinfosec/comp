@@ -66,7 +66,7 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
   // Format the test provider for display
   const providerLabel = cloudTest.provider === "aws" 
     ? "Amazon Web Services" 
-    : cloudTest.provider === "AZURE" 
+    : cloudTest.provider === "azure" 
       ? "Microsoft Azure" 
       : "Google Cloud Platform";
 

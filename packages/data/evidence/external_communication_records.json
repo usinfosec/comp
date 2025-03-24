@@ -1,0 +1,7 @@
+{
+  "id": "external_communication_records",
+  "name": "External Communication Records",
+  "description": "Records of external communications, press releases, and stakeholder correspondence. Provide External Communication Procedures document that outlines drafting, approving, and disseminating external communications related to internal controls.",
+  "frequency": "yearly",
+  "department": "admin"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "consent_records",
+  "name": "Consent Records",
+  "description": "Consent records, opt-in logs, and audit trails for consent management. Provide procedure for obtaining, recording, and managing individual consent.",
+  "frequency": "yearly",
+  "department": "gov"
+}

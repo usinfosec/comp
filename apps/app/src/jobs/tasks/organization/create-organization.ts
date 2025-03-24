@@ -124,8 +124,18 @@ const createOrganizationFramework = async (
     throw new Error(`Framework with ID ${frameworkId} not found`);
   }
 
-  const organizationFramework = await db.organizationFramework.create({
-    data: {
+  // Use upsert to handle the case where a record may already exist
+  const organizationFramework = await db.organizationFramework.upsert({
+    where: {
+      organizationId_frameworkId: {
+        organizationId,
+        frameworkId,
+      },
+    },
+    update: {
+      status: "not_started", // Only update status if it already exists
+    },
+    create: {
       organizationId,
       frameworkId,
       status: "not_started",
@@ -135,7 +145,7 @@ const createOrganizationFramework = async (
     },
   });
 
-  logger.info("Created organization framework", {
+  logger.info("Created/updated organization framework", {
     organizationId,
     frameworkId,
     organizationFrameworkId: organizationFramework.id,
@@ -256,6 +266,11 @@ const createOrganizationControlRequirements = async (
     throw new Error("Not authorized - no organization found");
   }
 
+  logger.info("Creating organization control requirements", {
+    organizationId,
+    organizationFrameworkIds,
+  });
+
   const controls = await db.organizationControl.findMany({
     where: {
       organizationId,
@@ -276,6 +291,15 @@ const createOrganizationControlRequirements = async (
     include: {
       policy: true, // Include the policy to get its ID
       evidence: true, // Include the evidence to get its ID
+      control: {
+        include: {
+          frameworkCategory: {
+            include: {
+              framework: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -293,46 +317,143 @@ const createOrganizationControlRequirements = async (
     },
   });
 
+  logger.info("Found control requirements and related items", {
+    controls: controls.length,
+    controlRequirements: controlRequirements.length,
+    organizationPolicies: organizationPolicies.length,
+    organizationEvidences: organizationEvidences.length,
+  });
+
+  // Create any missing organization evidence records
+  const missingEvidenceRecords = [];
+
+  // First check for existing records to avoid duplicates
+  const existingEvidenceIds = new Set(
+    organizationEvidences.map((e) => e.evidenceId)
+  );
+
+  for (const requirement of controlRequirements) {
+    if (
+      requirement.type === "evidence" &&
+      requirement.evidenceId &&
+      requirement.evidence &&
+      !existingEvidenceIds.has(requirement.evidenceId)
+    ) {
+      missingEvidenceRecords.push({
+        organizationId,
+        evidenceId: requirement.evidenceId,
+        name: requirement.name,
+        description: requirement.description,
+        frequency: requirement.frequency,
+        frameworkId: requirement.control.frameworkCategory?.framework.id || "",
+        assigneeId: null, // No user provided in this function
+        department: requirement.department,
+      });
+      // Add the new ID to our set so subsequent iterations don't duplicate it
+      existingEvidenceIds.add(requirement.evidenceId);
+    }
+  }
+
+  // Create any missing evidence records
+  if (missingEvidenceRecords.length > 0) {
+    logger.info(
+      `Creating ${missingEvidenceRecords.length} missing organization evidence records`
+    );
+
+    await db.organizationEvidence.createMany({
+      data: missingEvidenceRecords,
+      skipDuplicates: true, // Add this to ensure we don't create duplicates
+    });
+
+    // Refresh the organization evidences collection
+    const refreshedEvidences = await db.organizationEvidence.findMany({
+      where: {
+        organizationId,
+      },
+    });
+
+    organizationEvidences.length = 0;
+    organizationEvidences.push(...refreshedEvidences);
+
+    logger.info(
+      `After creating missing records, now have ${organizationEvidences.length} organization evidence records`
+    );
+  }
+
+  let evidenceNotFoundCount = 0;
+  let evidenceFoundCount = 0;
+
   for (const control of controls) {
     const requirements = controlRequirements.filter(
       (req) => req.controlId === control.controlId
     );
 
-    await db.organizationControlRequirement.createMany({
-      data: requirements.map((requirement) => {
-        // Find the corresponding organization policy if this is a policy requirement
-        const policyId =
-          requirement.type === "policy" ? requirement.policy?.id : null;
-        const organizationPolicy = policyId
-          ? organizationPolicies.find((op) => op.policyId === policyId)
-          : null;
+    const requirementsToCreate = requirements.map((requirement) => {
+      // For policy requirements
+      let organizationPolicyId = null;
+      if (requirement.type === "policy" && requirement.policyId) {
+        const organizationPolicy = organizationPolicies.find(
+          (op) => op.policyId === requirement.policyId
+        );
 
-        const evidenceId =
-          requirement.type === "evidence" ? requirement.evidenceId : null;
+        if (!organizationPolicy) {
+          logger.warn("Policy not found in organization policies", {
+            requirementId: requirement.id,
+            policyId: requirement.policyId,
+          });
+        } else {
+          organizationPolicyId = organizationPolicy.id;
+        }
+      }
 
-        console.log({
-          evidenceId,
-        });
+      // For evidence requirements
+      let organizationEvidenceId = null;
+      if (requirement.type === "evidence" && requirement.evidenceId) {
+        const organizationEvidence = organizationEvidences.find(
+          (oe) => oe.evidenceId === requirement.evidenceId
+        );
 
-        const organizationEvidence = evidenceId
-          ? organizationEvidences.find((e) => e.evidenceId === evidenceId)
-          : null;
+        if (!organizationEvidence) {
+          logger.warn("Evidence not found in organization evidences", {
+            requirementId: requirement.id,
+            evidenceId: requirement.evidenceId,
+            organizationEvidenceIds: organizationEvidences.map(
+              (e) => e.evidenceId
+            ),
+          });
+          evidenceNotFoundCount++;
+        } else {
+          organizationEvidenceId = organizationEvidence.id;
+          evidenceFoundCount++;
 
-        console.log({
-          organizationEvidence,
-        });
+          logger.info("Successfully linked evidence", {
+            requirementId: requirement.id,
+            evidenceId: requirement.evidenceId,
+            organizationEvidenceId: organizationEvidence.id,
+          });
+        }
+      }
 
-        return {
-          organizationControlId: control.id,
-          controlRequirementId: requirement.id,
-          type: requirement.type,
-          description: requirement.description,
-          organizationPolicyId: organizationPolicy?.id || null,
-          organizationEvidenceId: organizationEvidence?.id || null,
-        };
-      }),
+      return {
+        organizationControlId: control.id,
+        controlRequirementId: requirement.id,
+        type: requirement.type,
+        description: requirement.description || "",
+        organizationPolicyId: organizationPolicyId,
+        organizationEvidenceId: organizationEvidenceId,
+      };
     });
+
+    if (requirementsToCreate.length > 0) {
+      await db.organizationControlRequirement.createMany({
+        data: requirementsToCreate,
+      });
+    }
   }
+
+  logger.info(
+    `Evidence requirements found: ${evidenceFoundCount}, not found: ${evidenceNotFoundCount}`
+  );
 
   return controlRequirements;
 };
@@ -346,9 +467,19 @@ const createOrganizationEvidence = async (
     throw new Error("Not authorized - no organization found");
   }
 
-  const evidence = await db.controlRequirement.findMany({
+  logger.info("Starting organization evidence creation", {
+    organizationId,
+    frameworkIds,
+  });
+
+  const controlRequirements = await db.controlRequirement.findMany({
     where: {
       type: RequirementType.evidence,
+      control: {
+        frameworkCategory: {
+          frameworkId: { in: frameworkIds },
+        },
+      },
     },
     include: {
       control: {
@@ -360,21 +491,107 @@ const createOrganizationEvidence = async (
           },
         },
       },
+      evidence: true, // Include evidence to get the actual evidence ID
     },
   });
 
-  const organizationEvidence = await db.organizationEvidence.createMany({
-    data: evidence.map((evidence) => ({
-      organizationId,
-      evidenceId: evidence.id,
-      name: evidence.name,
-      description: evidence.description,
-      frequency: evidence.frequency,
-      frameworkId: evidence.control.frameworkCategory?.framework.id || "",
-      assigneeId: userId,
-      department: evidence.department,
-    })),
+  logger.info(
+    `Found ${controlRequirements.length} control requirements for evidence`
+  );
+
+  // Filter out requirements that don't have a properly linked evidence record
+  const validRequirements = controlRequirements.filter((req) => req.evidence);
+
+  logger.info(
+    `Found ${validRequirements.length} valid requirements with evidence`
+  );
+  logger.info("Evidence IDs to be created", {
+    evidenceIds: validRequirements.map((req) => req.evidenceId),
   });
 
-  return organizationEvidence;
+  if (validRequirements.length === 0) {
+    logger.warn(
+      "No valid evidence requirements found with linked evidence records",
+      {
+        organizationId,
+        frameworkIds,
+        totalRequirements: controlRequirements.length,
+      }
+    );
+    return { count: 0 };
+  }
+
+  logger.info("Creating organization evidence", {
+    organizationId,
+    frameworkIds,
+    validRequirements: validRequirements.length,
+    totalRequirements: controlRequirements.length,
+  });
+
+  // First check for existing records to avoid duplicates
+  const existingEvidences = await db.organizationEvidence.findMany({
+    where: {
+      organizationId,
+      evidenceId: {
+        in: validRequirements
+          .map((req) => req.evidenceId)
+          .filter((id): id is string => id !== null),
+      },
+    },
+    select: {
+      evidenceId: true,
+    },
+  });
+
+  const existingEvidenceIds = new Set(
+    existingEvidences.map((e) => e.evidenceId)
+  );
+  const newRequirements = validRequirements.filter(
+    (req) => req.evidenceId && !existingEvidenceIds.has(req.evidenceId)
+  );
+
+  logger.info(
+    `Found ${existingEvidences.length} existing evidence records, creating ${newRequirements.length} new records`
+  );
+
+  if (newRequirements.length > 0) {
+    // Only create evidence records that don't already exist
+    const organizationEvidence = await db.organizationEvidence.createMany({
+      data: newRequirements.map((req) => ({
+        organizationId,
+        evidenceId: req.evidence!.id, // Use the actual evidence ID from the linked evidence
+        name: req.name,
+        description: req.description,
+        frequency: req.frequency,
+        frameworkId: req.control.frameworkCategory?.framework.id || "",
+        assigneeId: userId,
+        department: req.department,
+      })),
+    });
+
+    logger.info(
+      `Created ${organizationEvidence.count} new organization evidence records`
+    );
+  }
+
+  // Verify the evidence was created by querying
+  const createdEvidences = await db.organizationEvidence.findMany({
+    where: {
+      organizationId,
+      evidenceId: {
+        in: validRequirements
+          .map((req) => req.evidenceId)
+          .filter((id): id is string => id !== null),
+      },
+    },
+  });
+
+  logger.info(
+    `Total evidence records: ${createdEvidences.length} organization evidence records`
+  );
+  logger.info("Evidence IDs", {
+    createdEvidenceIds: createdEvidences.map((e) => e.evidenceId),
+  });
+
+  return { count: createdEvidences.length };
 };
