@@ -82,7 +82,7 @@ export const authActionClient = actionClientWithMeta
 	.use(async ({ next, metadata, ctx }) => {
 		const session = await auth();
 
-		if (!session || !session.user.organizationId) {
+		if (!session) {
 			throw new Error("Unauthorized");
 		}
 
