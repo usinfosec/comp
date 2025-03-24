@@ -44,7 +44,7 @@ export default async function Layout({ children, params }: LayoutProps) {
         items={[
           {
             path: `/${orgId}/vendors/${vendorId}`,
-            label: t("vendors.overview"),
+            label: vendor.name,
           },
           {
             path: `/${orgId}/vendors/${vendorId}/comments`,

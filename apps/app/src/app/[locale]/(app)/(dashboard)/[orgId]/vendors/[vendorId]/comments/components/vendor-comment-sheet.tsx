@@ -1,7 +1,6 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Vendor } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
 import { useMediaQuery } from "@bubba/ui/hooks";
@@ -16,9 +15,10 @@ import {
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-import { UpdateVendorForm } from "./update-vendor-form";
+import type { Vendor } from "@bubba/db/types";
+import { CreateVendorCommentForm } from "../../components/create-vendor-comment-form";
 
-export function VendorOverviewSheet({
+export function VendorCommentSheet({  
   vendor,
 }: {
   vendor: Vendor;
@@ -26,7 +26,7 @@ export function VendorOverviewSheet({
   const t = useI18n();
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [open, setOpen] = useQueryState("vendor-overview-sheet");
+  const [open, setOpen] = useQueryState("vendor-comment-sheet");
   const isOpen = Boolean(open);
 
   const handleOpenChange = (open: boolean) => {
@@ -39,7 +39,7 @@ export function VendorOverviewSheet({
         <SheetContent stack>
           <SheetHeader className="mb-8">
             <div className="flex justify-between items-center flex-row">
-              <SheetTitle>{t("vendors.form.update_vendor")}</SheetTitle>
+              <SheetTitle>{t("common.comments.title")}</SheetTitle>
               <Button
                 size="icon"
                 variant="ghost"
@@ -50,23 +50,23 @@ export function VendorOverviewSheet({
               </Button>
             </div>{" "}
             <SheetDescription>
-              {t("vendors.form.update_vendor_description")}
+              {t("common.comments.description")}
             </SheetDescription>
           </SheetHeader>
 
           <ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-            <UpdateVendorForm vendor={vendor} />
+            <CreateVendorCommentForm />
           </ScrollArea>
         </SheetContent>
       </Sheet>
-    );  
+    );
   }
 
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-      <DrawerTitle hidden>{t("vendors.form.update_vendor")}</DrawerTitle>
+      <DrawerTitle hidden>{t("common.comments.title")}</DrawerTitle>
       <DrawerContent className="p-6">
-        <UpdateVendorForm vendor={vendor} />
+        <CreateVendorCommentForm />
       </DrawerContent>
     </Drawer>
   );

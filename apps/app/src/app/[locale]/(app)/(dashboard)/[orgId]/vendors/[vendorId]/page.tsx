@@ -15,7 +15,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { VendorOverview } from "./components/vendor-overview";
+import { TitleAndDescription } from "./components/overview/title-and-description";
+import { SecondaryFields } from "./components/overview/secondary-fields";
 
 interface PageProps {
   searchParams: Promise<{
@@ -61,8 +62,8 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <VendorOverview vendor={vendor} users={users} />
-
+      <TitleAndDescription vendor={vendor} />
+      <SecondaryFields vendor={vendor} users={users} />
       <Card>
         <CardHeader>
           <CardTitle>
