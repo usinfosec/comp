@@ -121,6 +121,7 @@ export const updateRiskSchema = z.object({
 	}),
 });
 
+
 export const createRiskCommentSchema = z.object({
 	riskId: z.string().min(1, {
 		message: "Risk ID is required",
@@ -250,14 +251,10 @@ export const createVendorSchema = z.object({
 export const updateVendorSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, "Name is required"),
-	website: z.string().url("Must be a valid URL"),
 	description: z.string().min(1, "Description is required"),
 	category: z.nativeEnum(VendorCategory),
 	status: z.nativeEnum(VendorStatus),
 	ownerId: z.string().optional(),
-	contacts: z
-		.array(vendorContactSchema)
-		.min(1, "At least one contact is required"),
 });
 
 export const createVendorCommentSchema = z.object({

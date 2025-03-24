@@ -10,40 +10,49 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
-	const t = await getI18n();
-	const session = await auth();
-	const user = session?.user;
-	const orgId = user?.organizationId;
+  const t = await getI18n();
+  const session = await auth();
 
-	if (!session || !orgId) {
-		redirect("/");
-	}
+  if (!session || !session.user.organizationId) {
+    redirect("/");
+  }
 
-  const vendorId = await params;
+  const { vendorId } = await params;
+
+  if (!vendorId) {
+    redirect(`/${session.user.organizationId}/vendors`);
+  }
+
+  const orgId = session.user.organizationId;
+
   const vendor = await db.vendor.findUnique({
     where: {
-      id: vendorId.vendorId,
+      id: vendorId,
       organizationId: orgId,
     },
   });
 
   if (!vendor) {
-    redirect("/vendors/register");
+    redirect(`/${orgId}/vendors/register`);
   }
 
-	return (
-		<div className="max-w-[1200px] m-auto">
-			<SecondaryMenu
-				items={[
-					{ path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
-					{
-						path: `/${orgId}/vendors/register`,
-						label: t("vendors.register.title"),
-					},
-				]}
-			/>
-
-			<main className="mt-8">{children}</main>
-		</div>
-	);
+  return (
+    <div className="max-w-[1200px] space-y-4 m-auto">
+      <SecondaryMenu
+        showBackButton
+        backButtonHref={`/${orgId}/vendors/register`}
+        items={[
+          {
+            path: `/${orgId}/vendors/${vendorId}`,
+            label: t("vendors.overview"),
+          },
+          {
+            path: `/${orgId}/vendors/${vendorId}/comments`,
+            label: t("common.comments.title"),
+          },
+        ]}
+      />
+      <main className="mt-8">{children}</main>
+    </div>
+  );
 }
