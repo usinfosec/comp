@@ -3,7 +3,6 @@
 import { cn } from "@bubba/ui/cn";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
-import { Suspense } from "react";
 import { DataTableHeader } from "../tables/risk-tasks/data-table-header";
 
 export function Loading({

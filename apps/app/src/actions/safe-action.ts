@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { logger } from "@/utils/logger";
-import { db } from "@bubba/db";
 import { client } from "@bubba/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import {
@@ -9,7 +8,6 @@ import {
 } from "next-safe-action";
 import { headers } from "next/headers";
 import { z } from "zod";
-import { track } from "@bubba/analytics";
 
 const ratelimit = new Ratelimit({
 	limiter: Ratelimit.fixedWindow(10, "10s"),

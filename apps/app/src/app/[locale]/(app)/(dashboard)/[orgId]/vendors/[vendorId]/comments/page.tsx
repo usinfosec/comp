@@ -5,6 +5,7 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { VendorComments } from "./components/vendor-comments";
 
 interface PageProps {
   params: Promise<{ vendorId: string }>;
@@ -47,7 +48,7 @@ export default async function VendorPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* <VendorComments vendor={vendor} users={users} /> */}
+      <VendorComments vendor={vendor} users={users} />
     </div>
   );
 }

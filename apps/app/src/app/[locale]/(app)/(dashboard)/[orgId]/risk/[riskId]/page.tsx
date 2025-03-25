@@ -19,7 +19,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 
 interface PageProps {
   searchParams: Promise<{
@@ -106,106 +105,54 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
   );
 }
 
-const getRisk = cache(
-  async (riskId: string) => {
-    const session = await auth();
+async function getRisk(riskId: string) {
+  const session = await auth();
 
-    if (!session || !session.user.organizationId) {
-      return null;
-    }
+  if (!session || !session.user.organizationId) {
+    return null;
+  }
 
-    const risk = await db.risk.findUnique({
-      where: {
-        id: riskId,
-        organizationId: session.user.organizationId,
-      },
-      include: {
-        owner: true,
-      },
-    });
+  const risk = await db.risk.findUnique({
+    where: {
+      id: riskId,
+      organizationId: session.user.organizationId,
+    },
+    include: {
+      owner: true,
+    },
+  });
 
-    return risk;
-  },
-);
+  return risk;
+}
 
-const getTasks = cache(
-  async function tasks({
-    riskId,
-    search,
-    status,
-    column,
-    order,
-    page = 1,
-    per_page = 10,
-  }: {
-    riskId: string;
-    search?: string;
-    status?: RiskTaskStatus;
-    column?: string;
-    order?: string;
-    page?: number;
-    per_page?: number;
-  }) {
-    const session = await auth();
+async function getTasks({
+  riskId,
+  search,
+  status,
+  column,
+  order,
+  page = 1,
+  per_page = 10,
+}: {
+  riskId: string;
+  search?: string;
+  status?: RiskTaskStatus;
+  column?: string;
+  order?: string;
+  page?: number;
+  per_page?: number;
+}) {
+  const session = await auth();
 
-    if (!session || !session.user.organizationId) {
-      return { tasks: [], total: 0 };
-    }
+  if (!session || !session.user.organizationId) {
+    return { tasks: [], total: 0 };
+  }
 
-    const skip = (page - 1) * per_page;
+  const skip = (page - 1) * per_page;
 
-    const [tasks, total] = await Promise.all([
-      db.riskMitigationTask
-        .findMany({
-          where: {
-            riskId,
-            organizationId: session.user.organizationId,
-            AND: [
-              search
-                ? {
-                  OR: [
-                    { title: { contains: search, mode: "insensitive" } },
-                    {
-                      description: { contains: search, mode: "insensitive" },
-                    },
-                  ],
-                }
-                : {},
-              status ? { status } : {},
-            ],
-          },
-          orderBy: column
-            ? {
-              [column]: order === "asc" ? "asc" : "desc",
-            }
-            : {
-              createdAt: "desc",
-            },
-          skip,
-          take: per_page,
-          include: {
-            owner: {
-              select: {
-                name: true,
-                image: true,
-              },
-            },
-          },
-        })
-        .then((tasks) =>
-          tasks.map(
-            (task) =>
-              ({
-                ...task,
-                dueDate: task.dueDate?.toISOString() ?? "",
-                owner: {
-                  name: task.owner?.name ?? "",
-                  image: task.owner?.image ?? "",
-                },
-              }) as RiskTaskType,
-          ),
-        ),
-      db.riskMitigationTask.count({
+  const [tasks, total] = await Promise.all([
+    db.riskMitigationTask
+      .findMany({
         where: {
           riskId,
           organizationId: session.user.organizationId,
@@ -214,19 +161,67 @@ const getTasks = cache(
               ? {
                 OR: [
                   { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
+                  {
+                    description: { contains: search, mode: "insensitive" },
+                  },
                 ],
               }
               : {},
             status ? { status } : {},
           ],
         },
-      }),
-    ]);
+        orderBy: column
+          ? {
+            [column]: order === "asc" ? "asc" : "desc",
+          }
+          : {
+            createdAt: "desc",
+          },
+        skip,
+        take: per_page,
+        include: {
+          owner: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      })
+      .then((tasks) =>
+        tasks.map(
+          (task) =>
+            ({
+              ...task,
+              dueDate: task.dueDate?.toISOString() ?? "",
+              owner: {
+                name: task.owner?.name ?? "",
+                image: task.owner?.image ?? "",
+              },
+            }) as RiskTaskType,
+        ),
+      ),
+    db.riskMitigationTask.count({
+      where: {
+        riskId,
+        organizationId: session.user.organizationId,
+        AND: [
+          search
+            ? {
+              OR: [
+                { title: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+              ],
+            }
+            : {},
+          status ? { status } : {},
+        ],
+      },
+    }),
+  ]);
 
-    return { tasks, total };
-  },
-);
+  return { tasks, total };
+}
 
 export async function generateMetadata({
   params,
