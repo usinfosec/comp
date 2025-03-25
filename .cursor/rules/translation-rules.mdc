@@ -1,0 +1,18 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+When editing translations, only modify the [en.ts](mdc:apps/app/src/locales/en.ts) file.
+
+Other files are automatically generated based on the values in en.ts
+
+
+Whenever you are instructed to fix translations, you should look up [en.ts](mdc:apps/app/src/locales/en.ts) to see if a relevant translation already exists, and only create one if not. You should try to be DRY and not duplicate strings.
+
+
+Example of using Translations:
+`t("vendors.tasks.title")`
+
+This corresponds to the key of the object inside [en.ts](mdc:apps/app/src/locales/en.ts) 
+If there is a linting error, likely this key doesn't exist in [en.ts](mdc:apps/app/src/locales/en.ts) yet.

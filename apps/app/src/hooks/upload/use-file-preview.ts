@@ -73,6 +73,25 @@ export function useFilePreview({
 
 					return signedUrl;
 				}
+				
+				if (uploadType === UPLOAD_TYPE.vendorTask && taskId) {
+					const response = await getFileUrl({
+						uploadType,
+						fileUrl,
+						taskId,
+					});
+
+					if (!response?.data) {
+						throw new Error("Failed to get signed URL");
+					}
+
+					const { signedUrl } = response.data as FileUrlResponse;
+					if (!signedUrl) {
+						throw new Error("Invalid signed URL response");
+					}
+
+					return signedUrl;
+				}
 
 				throw new Error(
 					`Missing required parameters for upload type: ${uploadType}`,
