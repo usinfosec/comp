@@ -10,6 +10,7 @@ import type {
   Control,
   Policy,
 } from "./seedTypes";
+import { trainingVideos } from "@bubba/data";
 
 const prisma = new PrismaClient();
 
@@ -62,6 +63,10 @@ async function main() {
   await updateEvidenceLinks();
   console.log("✅ Evidence links updated");
 
+  console.log("\n🎥 Seeding training videos...");
+  await seedTrainingVideos();
+  console.log("✅ Training videos seeded");
+
   console.log("\n🎉 All data seeded successfully!");
 }
 
@@ -73,7 +78,6 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
 async function seedPolicies() {
   const policiesDir = join(__dirname, "../../data/policies");
   const policyFiles = readdirSync(policiesDir).filter((file) =>
@@ -634,4 +638,32 @@ async function updatePolicyLinks() {
       `  ✅ Requirement ${requirement.id} linked to policy ${policyId}`
     );
   }
+}
+
+async function seedTrainingVideos() {
+  console.log(`🔄 Seeding ${trainingVideos.length} training videos...`);
+
+  for (const video of trainingVideos) {
+    console.log(`  ⏳ Processing video: ${video.title}...`);
+
+    await prisma.portalTrainingVideos.upsert({
+      where: { id: video.id },
+      update: {
+        title: video.title,
+        description: video.description,
+        videoUrl: video.url,
+        youtubeId: video.youtubeId,
+      },
+      create: {
+        id: video.id,
+        title: video.title,
+        description: video.description,
+        videoUrl: video.url,
+        youtubeId: video.youtubeId,
+      },
+    });
+    console.log(`  ✅ Video ${video.title} processed`);
+  }
+
+  console.log("✅ Training videos seeded");
 }

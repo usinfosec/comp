@@ -1,6 +1,6 @@
 import { db } from "@bubba/db";
-import { OTPVerificationEmail } from "@bubba/email/emails/otp"
-import { sendEmail } from "@bubba/email/lib/resend"
+import { OTPVerificationEmail } from "@bubba/email/emails/otp";
+import { sendEmail } from "@bubba/email/lib/resend";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
@@ -16,7 +16,7 @@ export const auth = betterAuth({
       organizationId: {
         type: "string",
         required: false,
-      }
+      },
     },
   },
   session: {
@@ -29,7 +29,6 @@ export const auth = betterAuth({
     modelName: "PortalVerification",
   },
   plugins: [
-    nextCookies(),
     emailOTP({
       otpLength: 6,
       expiresIn: 10 * 60,
@@ -39,7 +38,10 @@ export const auth = betterAuth({
           subject: "One-Time Password for Comp AI",
           react: OTPVerificationEmail({ email, otp }),
         });
-      }
-    })
-  ]
+      },
+    }),
+    nextCookies(),
+  ],
 });
+
+export type Session = typeof auth.$Infer.Session;

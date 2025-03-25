@@ -118,6 +118,7 @@ model Organization {
   VendorTaskAttachment           VendorTaskAttachment[]
   VendorTaskComment              VendorTaskComment[]
   VendorTaskAssignment           VendorTaskAssignment[]
+  OrganizationTrainingVideos     OrganizationTrainingVideos[]
 
   @@index([stripeCustomerId])
   @@index([id])
