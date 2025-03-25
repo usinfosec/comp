@@ -59,6 +59,7 @@ export const vendors = {
     sheet: {
       title: "Create Vendor Task"
     },
+    attachments: "Attachments",
     columns: {
       title: "Title",
       description: "Description",

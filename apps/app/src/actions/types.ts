@@ -76,4 +76,5 @@ export interface DomainVerificationResponse {
 export const UPLOAD_TYPE = {
   evidence: "evidence",
   riskTask: "risk-task",
+  vendorTask: "vendor-task",
 } as const;

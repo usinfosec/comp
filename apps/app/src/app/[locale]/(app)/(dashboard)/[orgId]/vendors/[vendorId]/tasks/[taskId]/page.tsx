@@ -36,6 +36,19 @@ export default async function TaskPage({ params }: PageProps) {
           name: true,
           image: true
         }
+      },
+      comments: {
+        orderBy: {
+          createdAt: "desc"
+        },
+        include: {
+          owner: {
+            select: {
+              name: true,
+              image: true
+            }
+          }
+        }
       }
     }
   });
@@ -70,8 +83,8 @@ export default async function TaskPage({ params }: PageProps) {
     <div className="space-y-8">
       <Title task={task} />
       <SecondaryFields task={task} users={formattedUsers} />
-      <Comments />
-      <Attachments />
+      <Comments task={task} users={formattedUsers} />
+      <Attachments taskId={params.taskId} />
     </div>
   );
 }
