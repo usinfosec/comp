@@ -33,7 +33,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { cn } from "../../../../../../../packages/ui/src/utils";
+import { cn } from "../../../../../../../../../../../../../packages/ui/src/utils";
 
 export function UpdateTaskForm({
   task,
