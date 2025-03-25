@@ -11,11 +11,12 @@ import { getI18n } from "@/locales/server";
 import { setStaticParamsLocale } from "next-international/server";
 
 interface PageProps {
-  params: { locale: string; orgId: string; vendorId: string; taskId: string };
+  params: Promise<{ locale: string; orgId: string; vendorId: string; taskId: string }>;
 }
 
 export default async function TaskPage({ params }: PageProps) {
-  setStaticParamsLocale(params.locale);
+  const { locale, orgId, vendorId, taskId } = await params;
+  setStaticParamsLocale(locale);
   const t = await getI18n();
   
   const session = await auth();
@@ -26,9 +27,9 @@ export default async function TaskPage({ params }: PageProps) {
   // Fetch the task
   const task = await db.vendorTask.findUnique({
     where: {
-      id: params.taskId,
-      organizationId: params.orgId,
-      vendorId: params.vendorId
+      id: taskId,
+      organizationId: orgId,
+      vendorId: vendorId
     },
     include: {
       owner: {
@@ -60,7 +61,7 @@ export default async function TaskPage({ params }: PageProps) {
   // Fetch organization users
   const users = await db.organizationMember.findMany({
     where: {
-      organizationId: params.orgId,
+      organizationId: orgId,
     },
     select: {
       user: {
@@ -84,7 +85,7 @@ export default async function TaskPage({ params }: PageProps) {
       <Title task={task} />
       <SecondaryFields task={task} users={formattedUsers} />
       <Comments task={task} users={formattedUsers} />
-      <Attachments taskId={params.taskId} />
+      <Attachments taskId={taskId} />
     </div>
   );
 }
