@@ -1,5 +1,6 @@
 export const vendors = {
   title: "Vendors",
+  overview: "Overview",
   dashboard: {
     title: "Overview",
     by_category: "Vendors by Category",
@@ -15,16 +16,22 @@ export const vendors = {
     vendor_details: "Vendor Details",
     vendor_name: "Name",
     vendor_name_placeholder: "Enter vendor name",
+    vendor_name_description: "Enter the name of the vendor",
     vendor_website: "Website",
     vendor_website_placeholder: "Enter vendor website",
     vendor_description: "Description",
     vendor_description_placeholder: "Enter vendor description",
+    vendor_description_description: "Enter a description of the vendor",
     vendor_category: "Category",
     vendor_category_placeholder: "Select category",
     vendor_status: "Status",
     vendor_status_placeholder: "Select status",
     create_vendor_success: "Vendor created successfully",
     create_vendor_error: "Failed to create vendor",
+    update_vendor: "Update Vendor",
+    update_vendor_description: "Update the details of your vendor",
+    update_vendor_success: "Vendor updated successfully",
+    update_vendor_error: "Failed to update vendor",
   },
   table: {
     name: "Name",
@@ -49,6 +56,9 @@ export const vendors = {
   },
   tasks: {
     title: "Tasks",
+    sheet: {
+      title: "Create Vendor Task"
+    },
     columns: {
       title: "Title",
       description: "Description",

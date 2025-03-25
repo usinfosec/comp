@@ -1,8 +1,8 @@
 "use client";
 
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
-import { createTaskAction } from "@/actions/risk/task/create-task-action";
-import { createTaskSchema } from "@/actions/schema";
+import { createVendorTaskAction } from "../../actions/task/create-task-action";
+import { createVendorTaskSchema } from "../../actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
 import {
@@ -48,13 +48,13 @@ interface User {
   name: string | null;
 }
 
-export function CreateTaskForm() {
+export function CreateVendorTaskForm() {
   const t = useI18n();
 
   const [users, setUsers] = useState<User[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
-  const [_, setCreateTaskSheet] = useQueryState("create-task-sheet");
-  const params = useParams<{ riskId: string }>();
+  const [_, setCreateVendorTaskSheet] = useQueryState("create-vendor-task-sheet");
+  const params = useParams<{ vendorId: string }>();
 
   useEffect(() => {
     async function loadUsers() {
@@ -68,28 +68,28 @@ export function CreateTaskForm() {
     loadUsers();
   }, []);
 
-  const createTask = useAction(createTaskAction, {
+  const createTask = useAction(createVendorTaskAction, {
     onSuccess: () => {
       toast.success(t("risk.tasks.form.success"));
-      setCreateTaskSheet(null);
+      setCreateVendorTaskSheet(null);
     },
     onError: () => {
       toast.error(t("risk.tasks.form.error"));
     },
   });
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(createTaskSchema),
+  const form = useForm<z.infer<typeof createVendorTaskSchema>>({
+    resolver: zodResolver(createVendorTaskSchema),
     defaultValues: {
       title: "",
       description: "",
       dueDate: new Date(),
       ownerId: "",
-      riskId: params.riskId,
+      vendorId: params.vendorId,
     },
   });
 
-  const onSubmit = (data: z.infer<typeof createTaskSchema>) => {
+  const onSubmit = (data: z.infer<typeof createVendorTaskSchema>) => {
     createTask.execute(data);
   };
 

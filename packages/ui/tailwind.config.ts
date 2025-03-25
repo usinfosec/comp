@@ -50,6 +50,12 @@ export default {
 					pending: "hsl(var(--chart-pending))",
 					open: "hsl(var(--chart-open))",
 					archived: "hsl(var(--chart-archived))",
+					needs_review: "hsl(var(--chart-needs_review))",
+					positive: "hsl(var(--chart-positive))",
+					neutral: "hsl(var(--chart-neutral))",
+					warning: "hsl(var(--chart-warning))",
+					destructive: "hsl(var(--chart-destructive))",
+					other: "hsl(var(--chart-other))"
 				},
 			},
 			borderRadius: {
