@@ -29,7 +29,9 @@ export function useGetColumnHeaders(): ColumnDef<VendorTaskType>[] {
       header: t("vendors.tasks.columns.title"),
       cell: ({ row }) => {
         const title = row.getValue("title") as string;
-        return <Link href={`/${orgId}/vendors/${vendorId}/tasks/${row.original.id}`}>{title}</Link>;
+        return <Link href={`/${orgId}/vendors/${vendorId}/tasks/${row.original.id}`}
+        className="hover:underline cursor-pointer"
+        >{title}</Link>;
       },
     },
     {

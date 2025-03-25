@@ -3,22 +3,22 @@
 "use server";
 
 import { db } from "@bubba/db";
-import type { RiskTaskStatus } from "@bubba/db/types";
+import type { VendorTaskStatus } from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
-import { updateTaskSchema } from "@/actions/schema";
+import { updateVendorTaskSchema } from "../schema";
 
-export const updateTaskAction = authActionClient
-  .schema(updateTaskSchema)
+export const updateVendorTaskAction = authActionClient
+  .schema(updateVendorTaskSchema)
   .metadata({
-    name: "update-task",
+    name: "update-vendor-task",
     track: {
-      event: "update-task",
+      event: "update-vendor-task",
       channel: "server",
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, dueDate, status, ownerId, title, description } = parsedInput;
+    const { id, title, description, dueDate, status, ownerId } = parsedInput;
     const { user } = ctx;
 
     if (!user.id || !user.organizationId) {
@@ -26,39 +26,36 @@ export const updateTaskAction = authActionClient
     }
 
     try {
-      const riskId = await db.riskMitigationTask.findUnique({
+      const task = await db.vendorTask.findUnique({
         where: {
           id: id,
         },
         select: {
-          riskId: true,
+          vendorId: true,
         },
       });
 
-      if (!riskId) {
-        throw new Error("Risk not found");
+      if (!task) {
+        throw new Error("Task not found");
       }
 
-      await db.riskMitigationTask.update({
+      await db.vendorTask.update({
         where: {
           id: id,
           organizationId: user.organizationId,
         },
         data: {
-          dueDate: dueDate,
-          status: status as RiskTaskStatus,
-          ownerId: ownerId,
-          title: title,
-          description: description,
+          title,
+          description,
+          dueDate,
+          status: status as VendorTaskStatus,
+          ownerId,
         },
       });
 
-      revalidatePath(`/${user.organizationId}/risk`);
-      revalidatePath(`/${user.organizationId}/risk/${riskId.riskId}`);
-      revalidatePath(
-        `/${user.organizationId}/risk/${riskId.riskId}/tasks/${id}`
-      );
-      revalidateTag("risks");
+      revalidatePath(`/${user.organizationId}/vendors/${task.vendorId}`);
+      revalidatePath(`/${user.organizationId}/vendors/${task.vendorId}/tasks/${id}`);
+      revalidateTag(`vendor_${user.organizationId}`);
 
       return { success: true };
     } catch (error) {
