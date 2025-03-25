@@ -1,7 +1,5 @@
 "use server";
 
-import { auth } from "@/auth";
-import { Loading } from "@/components/frameworks/loading";
 import type { VendorTaskType } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/columns";
 import { DataTable } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/data-table";
 import {
@@ -9,7 +7,8 @@ import {
   NoTasks,
 } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
 import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
-import { getServerColumnHeaders } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/client-columns";
+import { auth } from "@/auth";
+import { Loading } from "@/components/frameworks/loading";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { VendorTaskStatus } from "@bubba/db/types";
@@ -17,8 +16,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { TitleAndDescription } from "./components/title-and-description/title-and-description";
 import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
+import { TitleAndDescription } from "./components/title-and-description/title-and-description";
 
 interface PageProps {
   searchParams: Promise<{
