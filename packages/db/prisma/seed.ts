@@ -641,7 +641,11 @@ async function updatePolicyLinks() {
 }
 
 async function seedTrainingVideos() {
+  console.log(`🔄 Seeding ${trainingVideos.length} training videos...`);
+
   for (const video of trainingVideos) {
+    console.log(`  ⏳ Processing video: ${video.title}...`);
+
     await prisma.portalTrainingVideos.upsert({
       where: { id: video.id },
       update: {
@@ -658,5 +662,8 @@ async function seedTrainingVideos() {
         youtubeId: video.youtubeId,
       },
     });
+    console.log(`  ✅ Video ${video.title} processed`);
   }
+
+  console.log("✅ Training videos seeded");
 }
