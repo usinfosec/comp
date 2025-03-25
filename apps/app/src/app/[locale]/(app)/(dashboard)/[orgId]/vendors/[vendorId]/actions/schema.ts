@@ -1,5 +1,4 @@
-import { VendorStatus } from "@bubba/db/types";
-import { VendorCategory } from "@bubba/db/types";
+import { VendorStatus, VendorCategory, VendorTaskStatus } from "@bubba/db/types";
 import { z } from "zod";
 
 export const createVendorTaskCommentSchema = z.object({
@@ -65,4 +64,21 @@ export const updateVendorRiskSchema = z.object({
 	id: z.string(),
 	inherent_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
 	residual_risk: z.enum(["low", "medium", "high", "unknown"]).optional(),
+});
+
+export const updateVendorTaskSchema = z.object({
+	id: z.string().min(1, {
+		message: "Task ID is required",
+	}),
+	title: z.string().min(1, {
+		message: "Title is required",
+	}),
+	description: z.string().min(1, {
+		message: "Description is required",
+	}),
+	dueDate: z.date().optional(),
+	status: z.nativeEnum(VendorTaskStatus, {
+		required_error: "Task status is required",
+	}),
+	ownerId: z.string().optional(),
 });

@@ -53,6 +53,11 @@ export const getFileUrl = authActionClient
 				taskId: z.string(),
 				fileUrl: z.string(),
 			}),
+			z.object({
+				uploadType: z.literal(UPLOAD_TYPE.vendorTask),
+				taskId: z.string(),
+				fileUrl: z.string(),
+			}),
 		]),
 	)
 	.metadata({
@@ -114,6 +119,36 @@ export const getFileUrl = authActionClient
 
 				if (!task) {
 					throw new Error("Task or file not found");
+				}
+
+				const key = extractS3KeyFromUrl(fileUrl);
+
+				const command = new GetObjectCommand({
+					Bucket: process.env.AWS_BUCKET_NAME,
+					Key: key,
+				});
+
+				const signedUrl = await getSignedUrl(s3Client, command, {
+					expiresIn: 3600,
+				});
+
+				if (!signedUrl) {
+					throw new Error("Failed to generate signed URL");
+				}
+
+				return { signedUrl };
+			}
+
+			if (uploadType === UPLOAD_TYPE.vendorTask) {
+				const task = await db.vendorTask.findFirst({
+					where: {
+						id: parsedInput.taskId,
+						organizationId: user.organizationId,
+					},
+				});
+
+				if (!task) {
+					throw new Error("Vendor task or file not found");
 				}
 
 				const key = extractS3KeyFromUrl(fileUrl);

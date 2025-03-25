@@ -3,8 +3,34 @@
 import { authActionClient } from "@/actions/safe-action";
 import { db } from "@bubba/db";
 import { z } from "zod";
+import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 import { UPLOAD_TYPE } from "@/actions/types";
+
+if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+	throw new Error("AWS credentials are not set");
+}
+
+const s3Client = new S3Client({
+	region: process.env.AWS_REGION!,
+	credentials: {
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+	},
+});
+
+// Extract S3 key from fileUrl
+function extractKeyFromUrl(url: string): string | null {
+	try {
+		const urlObj = new URL(url);
+		const pathname = urlObj.pathname;
+		// Remove the leading slash
+		return pathname.startsWith("/") ? pathname.substring(1) : pathname;
+	} catch (error) {
+		console.error("Error extracting key from URL:", error);
+		return null;
+	}
+}
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -16,6 +42,11 @@ const schema = z.discriminatedUnion("uploadType", [
 	}),
 	z.object({
 		uploadType: z.literal(UPLOAD_TYPE.riskTask),
+		taskId: z.string(),
+		fileUrl: z.string(),
+	}),
+	z.object({
+		uploadType: z.literal(UPLOAD_TYPE.vendorTask),
 		taskId: z.string(),
 		fileUrl: z.string(),
 	}),
@@ -114,6 +145,68 @@ export const deleteFile = authActionClient
 								fileUrl,
 							},
 						},
+					},
+				});
+
+				return {
+					success: true,
+				};
+			}
+
+			if (uploadType === UPLOAD_TYPE.vendorTask) {
+				const taskId = parsedInput.taskId;
+				const fileUrl = parsedInput.fileUrl;
+
+				const fileUrlWithoutQuery = fileUrl.split("?")[0];
+
+				const task = await db.vendorTask.findFirst({
+					where: {
+						id: taskId,
+						organizationId: user.organizationId,
+					},
+				});
+
+				if (!task) {
+					return {
+						success: false,
+						error: "Vendor task not found",
+					};
+				}
+
+				const attachment = await db.vendorTaskAttachment.findFirst({
+					where: {
+						taskId: taskId,
+						fileUrl: fileUrlWithoutQuery,
+						organizationId: user.organizationId,
+					},
+				});
+
+				if (!attachment) {
+					return {
+						success: false,
+						error: "Attachment not found",
+					};
+				}
+
+				// Extract key from URL
+				const key = attachment.fileKey || extractKeyFromUrl(fileUrlWithoutQuery);
+
+				if (key) {
+					try {
+						await s3Client.send(
+							new DeleteObjectCommand({
+								Bucket: process.env.AWS_BUCKET_NAME!,
+								Key: key,
+							}),
+						);
+					} catch (error) {
+						console.error("Error deleting from S3:", error);
+					}
+				}
+
+				await db.vendorTaskAttachment.delete({
+					where: {
+						id: attachment.id,
 					},
 				});
 
