@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/app/lib/auth";
 import { logger } from "@/utils/logger";
 import { client } from "@bubba/kv";
 import { Ratelimit } from "@upstash/ratelimit";
@@ -39,7 +39,9 @@ export const actionClientWithMeta = createSafeActionClient({
 
 export const authActionClient = actionClientWithMeta
   .use(async ({ next, clientInput }) => {
-    const session = await auth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
     if (!session) {
       throw new Error("Unauthorized");
@@ -78,42 +80,13 @@ export const authActionClient = actionClientWithMeta
     });
   })
   .use(async ({ next, metadata, ctx }) => {
-    const session = await auth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
     if (!session) {
       throw new Error("Unauthorized");
     }
-
-    // try {
-    // 	const auditData = {
-    // 		userId: session.user.id,
-    // 		email: session.user.email,
-    // 		name: session.user.name,
-    // 		organizationId: session.user.organizationId,
-    // 		action: metadata.name,
-    // 		ip: ctx.ip,
-    // 		userAgent: ctx.userAgent,
-    // 	};
-
-    // 	await db.auditLog.create({
-    // 		data: {
-    // 			data: auditData,
-    // 			userId: session.user.id,
-    // 			organizationId: session.user.organizationId,
-    // 		},
-    // 	});
-
-    // 	if (metadata.track) {
-    // 		track(session.user.id, metadata.track.event, {
-    // 			channel: metadata.track.channel,
-    // 			email: session.user.email,
-    // 			name: session.user.name,
-    // 			organizationId: session.user.organizationId,
-    // 		});
-    // 	}
-    // } catch (error) {
-    // 	logger("Audit log error:", error);
-    // }
 
     return next({
       ctx: {

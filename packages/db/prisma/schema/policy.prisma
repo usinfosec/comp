@@ -8,6 +8,8 @@ model OrganizationPolicy {
   content                        Json[]
   frequency                      Frequency?
   lastPublishedAt                DateTime?
+  isRequiredToSign               Boolean                          @default(false)
+  signedBy                       String[]                         @default([])
   OrganizationControlRequirement OrganizationControlRequirement[]
   PolicyComments                 PolicyComments[]
   organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
