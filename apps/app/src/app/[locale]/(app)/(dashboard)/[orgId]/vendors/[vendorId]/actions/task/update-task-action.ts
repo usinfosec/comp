@@ -5,8 +5,8 @@
 import { db } from "@bubba/db";
 import type { RiskTaskStatus } from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authActionClient } from "../../safe-action";
-import { updateTaskSchema } from "../../schema";
+import { authActionClient } from "@/actions/safe-action";
+import { updateTaskSchema } from "@/actions/schema";
 
 export const updateTaskAction = authActionClient
   .schema(updateTaskSchema)
