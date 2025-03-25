@@ -1,31 +1,31 @@
 // Core translations used across the application
-import { common } from './core/common'
-import { errors } from './core/errors'
-import { language, languages } from './core/language'
+import { common } from "./core/common";
+import { errors } from "./core/errors";
+import { language, languages } from "./core/language";
 
 // Auth & onboarding related translations
-import { auth } from './auth/auth'
-import { onboarding } from './auth/onboarding'
+import { auth } from "./auth/auth";
+import { onboarding } from "./auth/onboarding";
 
 // Layout & navigation translations
-import { header } from './layout/header'
-import { not_found } from './layout/not-found'
-import { sidebar } from './layout/sidebar'
-import { theme } from './layout/theme'
-import { user_menu } from './layout/user-menu'
+import { header } from "./layout/header";
+import { not_found } from "./layout/not-found";
+import { sidebar } from "./layout/sidebar";
+import { theme } from "./layout/theme";
+import { user_menu } from "./layout/user-menu";
 
 // Feature translations
-import { evidence, evidence_tasks } from './features/evidence'
-import { frameworks } from './features/frameworks'
-import { overview } from './features/overview'
-import { people } from './features/people'
-import { policies } from './features/policies'
-import { risk } from './features/risk'
-import { tests } from './features/tests'
-import { vendors } from './features/vendors'
+import { evidence, evidence_tasks } from "./features/evidence";
+import { frameworks } from "./features/frameworks";
+import { overview } from "./features/overview";
+import { people } from "./features/people";
+import { policies } from "./features/policies";
+import { risk } from "./features/risk";
+import { tests } from "./features/tests";
+import { vendors } from "./features/vendors";
 
 // Settings translations
-import { settings } from './settings/settings'
+import { settings } from "./settings/settings";
 
 export const translations = {
   // Core
@@ -34,7 +34,7 @@ export const translations = {
   language,
   languages,
 
-  // Auth & Onboarding  
+  // Auth & Onboarding
   auth,
   onboarding,
 
@@ -58,7 +58,7 @@ export const translations = {
 
   // Settings
   settings,
-} as const
+} as const;
 
-export type Translations = typeof translations
-export default translations
+export type Translations = typeof translations;
+export default translations;

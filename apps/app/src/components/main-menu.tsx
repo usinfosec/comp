@@ -222,7 +222,7 @@ export function MainMenu({
 		},
 		{
 			id: "people",
-			path: "/:organizationId/people",
+			path: "/:organizationId/people/dashboard",
 			name: t("sidebar.people"),
 			disabled: false,
 			icon: Icons.Peolple,

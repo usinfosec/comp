@@ -1,5 +1,7 @@
 export const people = {
   title: "People",
+  all: "All Employees",
+
   details: {
     title: "Employee Details",
     tasks: "Tasks",
@@ -56,5 +58,16 @@ export const people = {
     submit: "Add Employee",
     success: "Employee added successfully",
     error: "Failed to add employee",
+  },
+  dashboard: {
+    title: "Dashboard",
+    employee_task_completion: "Employee Task Completion",
+    policies_completed: "Policies Completed",
+    policies_pending: "Policies Pending",
+    trainings_completed: "Trainings Completed",
+    trainings_pending: "Trainings Pending",
+    no_data: "No employee data available",
+    no_tasks_completed: "No tasks have been completed yet",
+    no_tasks_available: "No tasks available to complete",
   },
 } as const;

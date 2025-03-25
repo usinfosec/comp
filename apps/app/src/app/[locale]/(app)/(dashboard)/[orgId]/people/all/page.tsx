@@ -1,24 +1,15 @@
-import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
 import { EmployeesList } from "./components/EmployeesList";
 
-export default async function PeoplePage({
+export default async function AllPeoplePage({
 	params,
 }: {
 	params: Promise<{ locale: string }>;
 }) {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
-
-	if (!organizationId) {
-		return redirect("/");
-	}
 
 	return <EmployeesList />;
 }

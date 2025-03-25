@@ -2,8 +2,6 @@
 
 import { redirect, useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { useI18n } from "@/locales/client";
-import { useEmployeeDetails } from "../../hooks/useEmployee";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
@@ -12,6 +10,7 @@ import { formatDate } from "@/utils/format";
 import { Button } from "@bubba/ui/button";
 import { EditableDepartment } from "./EditableDepartment";
 import type { Departments } from "@bubba/db/types";
+import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 
 interface EmployeeDetailsProps {
 	employeeId: string;
@@ -22,7 +21,7 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 	const { orgId } = useParams<{ orgId: string }>();
 
 	if (error) {
-		if (error.code === "NOT_FOUND") {
+		if (error.code === "UNEXPECTED_ERROR") {
 			redirect(`/${orgId}/people`);
 		}
 
