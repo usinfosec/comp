@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export interface VendorTaskType {
   id: string;
@@ -26,6 +27,10 @@ export function useColumns() {
     {
       accessorKey: "title",
       header: t("vendors.tasks.columns.title"),
+      cell: ({ row }) => {
+        const title = row.getValue("title") as string;
+        return <Link href={`/vendors/${row.original.id}/tasks/${row.original.id}`}>{title}</Link>;
+      },
     },
     {
       accessorKey: "description",

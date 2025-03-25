@@ -4,6 +4,8 @@ import { Badge } from "@bubba/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import Link from "next/link";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 export interface VendorTaskType {
   id: string;
@@ -19,11 +21,16 @@ export interface VendorTaskType {
 
 export function useGetColumnHeaders(): ColumnDef<VendorTaskType>[] {
   const t = useI18n();
+  const { vendorId, orgId } = useParams<{ vendorId: string, orgId: string }>();
 
   return [
     {
       accessorKey: "title",
       header: t("vendors.tasks.columns.title"),
+      cell: ({ row }) => {
+        const title = row.getValue("title") as string;
+        return <Link href={`/${orgId}/vendors/${vendorId}/tasks/${row.original.id}`}>{title}</Link>;
+      },
     },
     {
       accessorKey: "description",

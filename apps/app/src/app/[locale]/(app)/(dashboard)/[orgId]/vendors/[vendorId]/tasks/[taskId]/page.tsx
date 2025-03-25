@@ -1,7 +1,7 @@
 export default function TaskPage() {
-    return (
-        <div>
-            Enter
-        </div>
-    );
+  return (
+    <div>
+      Example Page
+    </div>
+  );
 }
