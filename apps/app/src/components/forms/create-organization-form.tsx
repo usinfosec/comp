@@ -60,7 +60,7 @@ function RealtimeStatus({
 
   return (
     <div className="flex flex-col justify-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-      {run?.status !== "FAILED" && run?.status !== "COMPLETED" && (
+      {run?.status !== "FAILED" && (
         <div className="flex flex-col gap-2 justify-center">
           <LogoSpinner />
           <h2 className="text-xl font-semibold text-center tracking-tight">
