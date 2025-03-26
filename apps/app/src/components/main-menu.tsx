@@ -190,7 +190,7 @@ export function MainMenu({
 	const defaultItems: MenuItem[] = [
 		{
 			id: "overview",
-			path: "/:organizationId",
+			path: "/:organizationId/overview",
 			name: t("sidebar.overview"),
 			disabled: false,
 			icon: Icons.Overview,
