@@ -1,15 +1,17 @@
+import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { FrameworksOverview } from "./components/FrameworksOverview";
-import { db } from "@bubba/db";
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { FrameworksOverview } from "./components/FrameworksOverview";
+import { getFrameworks } from "./data/getFrameworks";
+import { getComplianceScores } from "./data/getComplianceScores";
+import { getFrameworkCategories } from "./data/getFrameworkCategories";
 
 export default async function DashboardPage({
 	params,
 }: {
-	params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string; orgId: string }>;
 }) {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
@@ -22,8 +24,22 @@ export default async function DashboardPage({
 	}
 
 	const frameworks = await getFrameworks(organizationId);
+	const complianceScores = await getComplianceScores(
+		organizationId,
+		frameworks,
+	);
+	const frameworksWithCompliance = await getFrameworkCategories(
+		organizationId,
+		frameworks,
+	);
 
-	return <FrameworksOverview frameworks={frameworks} />;
+	return (
+		<FrameworksOverview
+			frameworks={frameworks}
+			complianceScores={complianceScores}
+			frameworksWithCompliance={frameworksWithCompliance}
+		/>
+	);
 }
 
 export async function generateMetadata({
@@ -39,15 +55,3 @@ export async function generateMetadata({
 		title: t("sidebar.overview"),
 	};
 }
-
-const getFrameworks = async (organizationId: string) => {
-	const frameworks = await db.organizationFramework.findMany({
-		where: { organizationId: organizationId },
-		include: {
-			organizationControl: true,
-			framework: true,
-		},
-	});
-
-	return frameworks;
-};
