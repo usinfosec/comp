@@ -4,6 +4,9 @@ import type { AWSCredentials } from "./aws/src";
 import { fetch as azureFetch } from "./azure/src";
 import type { AzureCredentials } from "./azure/src";
 
+import { fetch as gcpFetch } from "./gcp/src";
+import type { GCPCredentials } from "./gcp/src";
+
 // Add Deel credentials type
 interface DeelCredentials {
 	api_key: string;
@@ -93,6 +96,19 @@ handlers.set("azure", {
 	},
 });
 
+// Initialize GCP handler
+handlers.set("gcp", {
+	id: "gcp",
+	fetch: gcpFetch,
+	processCredentials: async (encryptedSettings, decrypt) => {
+		const decrypted = await decryptSettings(encryptedSettings, decrypt);
+		return {
+			organization_id: decrypted.organization_id,
+			service_account_key: decrypted.service_account_key,
+		} as GCPCredentials;
+	},
+});
+
 // Initialize Deel handler (mock implementation since we don't have the actual fetch function)
 handlers.set("deel", {
 	id: "deel",
@@ -122,6 +138,7 @@ export const getIntegrationHandler = <T>(
 export type {
 	AWSCredentials,
 	AzureCredentials,
+	GCPCredentials,
 	DecryptFunction,
 	EncryptedData,
 };

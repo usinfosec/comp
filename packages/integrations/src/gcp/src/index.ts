@@ -1,118 +1,156 @@
-/**
-import { SecurityCenterClient } from "@google-cloud/security-center";
+import jwt from 'jsonwebtoken';
+import nodeFetch from 'node-fetch';
 
-// GCP Project and Organization Settings
-const ORGANIZATION_ID = "your-organization-id"; // Replace with your GCP Organization ID
-const FILTER = "state=\"ACTIVE\""; // 🔹 Filter for only active security findings
+const TOKEN_URI = 'https://oauth2.googleapis.com/token';
+const filter = encodeURIComponent('state="ACTIVE" OR state="INACTIVE"');
 
-const client = new SecurityCenterClient();
-
-async function fetchSecurityFindings(): Promise<void> {
-  try {
-    const orgResource = `organizations/${ORGANIZATION_ID}`;
-
-    // 🔹 API request to fetch Security Command Center (SCC) findings
-    const [findingsResponse] = await client.listFindings({
-      parent: `${orgResource}/sources/-`, // "-" fetches findings from all sources
-      filter: FILTER, // Optional filtering (e.g., active findings only)
-      pageSize: 100, // Adjust page size as needed (default max is 1000)
-    });
-
-    const findings = findingsResponse.findings || [];
-    console.log(`Retrieved ${findings.length} security findings.`);
-
-    // 🔹 Process and log findings
-    findings.forEach((finding) => {
-      console.log(`🛑 [${finding.severity}] ${finding.category} - ${finding.state}`);
-    });
-
-    return findings;
-  } catch (error) {
-    console.error("Error fetching GCP security findings:", error);
-    throw error;
-  }
+interface GCPCredentials {
+	organization_id: string;
+	service_account_key: string; // This will be the serialized JSON string
 }
 
-// Run the function
-fetchSecurityFindings();
- */
-
-import { SecurityCenterClient } from "@google-cloud/security-center";
-import type { google } from "@google-cloud/security-center/build/protos/protos";
-import { decrypt } from "@bubba/app/src/lib/encryption";
-import type { EncryptedData } from "@bubba/app/src/lib/encryption";
-
-interface GCPEncryptedCredentials {
-	project_id: EncryptedData;
-	client_email: EncryptedData;
-	private_key: EncryptedData;
-	organization_id: EncryptedData;
+interface ServiceAccountKey {
+	type: string;
+	project_id: string;
+	private_key_id: string;
+	private_key: string;
+	client_email: string;
+	client_id: string;
+	auth_uri: string;
+	token_uri: string;
+	auth_provider_x509_cert_url: string;
+	client_x509_cert_url: string;
 }
 
-type GCPFinding = google.cloud.securitycenter.v1.IFinding;
-
-interface TransformedFinding {
+interface GCPFinding {
 	Id: string;
-	Title: string;
+	name: string;
+	category: string;
+	description: string;
+	state: string;
+	severity: string;
+	sourceProperties?: {
+		Recommendation?: string;
+		Explanation?: string;
+		ExceptionInstructions?: string;
+	};
 	Compliance: {
 		Status: string;
 	};
 	Severity: {
 		Label: string;
 	};
-	[key: string]: any;
+	Description: string;
+	Remediation: {
+		Recommendation: {
+			Text: string;
+			Url: string;
+		};
+	};
+}
+
+function parseServiceAccountKey(serviceAccountKey: string): ServiceAccountKey {
+	try {
+		return JSON.parse(serviceAccountKey);
+	} catch (error) {
+		throw new Error('Invalid service account key format');
+	}
+}
+
+function generateJWT(credentials: GCPCredentials): string {
+	const serviceAccount = parseServiceAccountKey(credentials.service_account_key);
+	const now = Math.floor(Date.now() / 1000);
+	const payload = {
+		iss: serviceAccount.client_email,
+		sub: serviceAccount.client_email,
+		aud: TOKEN_URI,
+		iat: now,
+		exp: now + 3600,
+		scope: 'https://www.googleapis.com/auth/cloud-platform',
+	};
+	return jwt.sign(payload, serviceAccount.private_key, { algorithm: 'RS256' });
+}
+
+async function getAccessToken(credentials: GCPCredentials): Promise<string> {
+	const jwtToken = generateJWT(credentials);
+	const res = await nodeFetch(TOKEN_URI, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: new URLSearchParams({
+			grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+			assertion: jwtToken,
+		}),
+	});
+
+	if (!res.ok) throw new Error(`Token exchange failed: ${await res.text()}`);
+	const data = await res.json();
+	return data.access_token;
 }
 
 /**
  * Fetches security findings from GCP Security Command Center
  * @returns Promise containing an array of findings
  */
-async function fetch(
-	credentials: GCPEncryptedCredentials
-): Promise<TransformedFinding[]> {
+async function fetch(credentials: GCPCredentials): Promise<GCPFinding[]> {
 	try {
-		// Decrypt credentials
-		const decryptedProjectId = await decrypt(credentials.project_id);
-		const decryptedClientEmail = await decrypt(credentials.client_email);
-		const decryptedPrivateKey = await decrypt(credentials.private_key);
-		const decryptedOrganizationId = await decrypt(credentials.organization_id);
+		const serviceAccount = parseServiceAccountKey(credentials.service_account_key);
+		const token = await getAccessToken(credentials);
+		const BASE_FINDINGS_URL = `https://securitycenter.googleapis.com/v2/organizations/${credentials.organization_id}/sources/-/findings?pageSize=1000&filter=${filter}`;
+		
+		let nextPageToken: string | undefined;
+		const allFindings: GCPFinding[] = [];
 
-		// Create a client
-		const client = new SecurityCenterClient({
-			credentials: {
-				client_email: decryptedClientEmail,
-				private_key: decryptedPrivateKey,
-			},
-			projectId: decryptedProjectId,
-		});
+		do {
+			const url = nextPageToken
+				? `${BASE_FINDINGS_URL}&pageToken=${nextPageToken}`
+				: BASE_FINDINGS_URL;
 
-		const orgResource = `organizations/${decryptedOrganizationId}`;
-		const filter = 'state="ACTIVE"'; // Filter for only active security findings
+			const res = await nodeFetch(url, {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'X-Goog-User-Project': serviceAccount.project_id,
+				},
+			});
 
-		// API request to fetch Security Command Center (SCC) findings
-		const [findingsResponse] = await client.listFindings({
-			parent: `${orgResource}/sources/-`, // "-" fetches findings from all sources
-			filter: filter,
-			pageSize: 100, // Adjust page size as needed (default max is 1000)
-		});
+			if (!res.ok) {
+				const errorText = await res.text();
+				throw new Error(`Failed to fetch findings: ${errorText}`);
+			}
 
-		const findings = (findingsResponse.findings || []) as GCPFinding[];
-		console.log(`Retrieved ${findings.length} security findings.`);
+			const data = await res.json();
+			const findings = data.listFindingsResults?.map((r: any) => r.finding) || [];
 
-		// Transform findings to match the expected format
-		const transformedFindings = findings.map((finding: GCPFinding): TransformedFinding => ({
-			Id: finding.name || "",
-			Title: finding.category || "",
-			Compliance: {
-				Status: finding.state || "UNKNOWN",
-			},
-			Severity: {
-				Label: finding.severity || "UNKNOWN",
-			},
-			...finding,
-		}));
+			for (const finding of findings) {
+				const transformedFinding: GCPFinding = {
+					Id: finding.name,
+					name: finding.category,
+					category: finding.category,
+					description: finding.description || '',
+					state: finding.state,
+					severity: finding.severity,
+					sourceProperties: finding.sourceProperties,
+					Compliance: {
+						Status: finding.state === "ACTIVE" ? "FAILED" : "PASSED",
+					},
+					Severity: {
+						Label: finding.severity,
+					},
+					Description: finding.sourceProperties?.Explanation || '',
+					Remediation: {
+						Recommendation: {
+							Text: (finding.sourceProperties?.Recommendation || '') + (finding.sourceProperties?.ExceptionInstructions || ''),
+							Url: "",
+						},
+					},
+				};
+				allFindings.push(transformedFinding);
+			}
 
-		return transformedFindings;
+			nextPageToken = data.nextPageToken;
+		} while (nextPageToken);
+
+		return allFindings;
 	} catch (error) {
 		console.error("Error fetching GCP security findings:", error);
 		throw error;
@@ -120,3 +158,4 @@ async function fetch(
 }
 
 export { fetch };
+export type { GCPCredentials };
