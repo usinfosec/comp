@@ -49,9 +49,9 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
         ? (integrationResult.resultDetails as any).description || "" 
         : "",
       provider: integrationResult.organizationIntegration.name,
-      status: integrationResult.status,
+      status: integrationResult.status || "",
       resultDetails: integrationResult.resultDetails,
-      label: integrationResult.label,
+      severity: integrationResult.severity || "",
       assignedUserId: integrationResult.assignedUserId || "",
       organizationId: organizationId,
       completedAt: integrationResult.completedAt || new Date(),

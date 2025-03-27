@@ -9,7 +9,7 @@ export const testSchema = z.object({
   provider: z.string(),
   status: z.string(),
   resultDetails: z.any(),
-  label: z.string().nullable(),
+  severity: z.string().nullable(),
   completedAt: z.date(),
   organizationId: z.string(),
   assignedUserId: z.string(),

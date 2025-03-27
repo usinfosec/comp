@@ -59,7 +59,7 @@ export const getTests = authActionClient
               ],
             } : {}),
             ...(status ? { status: { equals: status, mode: "insensitive" } } : {}),
-            ...(severity ? { label: { equals: severity, mode: "insensitive" } } : {}),
+            ...(severity ? { severity: { equals: severity, mode: "insensitive" } } : {}),
           },
           include: {
             organizationIntegration: {
@@ -104,7 +104,7 @@ export const getTests = authActionClient
               ],
             } : {}),
             ...(status ? { status: { equals: status, mode: "insensitive" } } : {}),
-            ...(severity ? { label: { equals: severity, mode: "insensitive" } } : {}),
+            ...(severity ? { severity: { equals: severity, mode: "insensitive" } } : {}),
           },
         }),
       ]);
@@ -113,7 +113,7 @@ export const getTests = authActionClient
       const transformedTests = integrationResults.map((result: any) => {
         return {
           id: result.id,
-          severity: result.label,
+          severity: result.severity,
           result: result.status,
           title: result.title || result.organizationIntegration.name,
           provider: result.organizationIntegration.integration_id,
