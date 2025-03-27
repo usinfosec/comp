@@ -20,13 +20,23 @@ interface EncryptedData {
 	salt: string;
 }
 
+// Common interface for all integration findings
+export interface IntegrationFinding {
+	title: string;
+	description: string;
+	remediation: string;
+	status: string;
+	severity: string;
+	resultDetails: any;
+}
+
 // Type for decrypt function
 type DecryptFunction = (data: EncryptedData) => Promise<string>;
 
 // Generic interface for integration handlers
 export interface IntegrationHandler<T> {
 	id: string;
-	fetch: (credentials: T) => Promise<any[]>;
+	fetch: (credentials: T) => Promise<IntegrationFinding[]>;
 	processCredentials: (
 		encryptedSettings: Record<string, unknown>,
 		decrypt: DecryptFunction,
@@ -113,7 +123,7 @@ handlers.set("gcp", {
 handlers.set("deel", {
 	id: "deel",
 	// This is a placeholder implementation; replace with actual fetch once available
-	fetch: async (credentials: DeelCredentials) => {
+	fetch: async (credentials: DeelCredentials): Promise<IntegrationFinding[]> => {
 		console.log("Deel integration fetch called with credentials");
 		return []; // Return empty array as placeholder
 	},

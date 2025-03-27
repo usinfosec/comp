@@ -64,31 +64,31 @@ const getTestsOverview = unstable_cache(
 				tx.organizationIntegrationResults.count({
 					where: {
 						organizationId,
-						label: "INFO",
+						severity: "INFO",
 					},
 				}),
 				tx.organizationIntegrationResults.count({
 					where: {
 						organizationId,
-						label: "LOW",
+						severity: "LOW",
 					},
 				}),
 				tx.organizationIntegrationResults.count({
 					where: {
 						organizationId,
-						label: "MEDIUM",
+						severity: "MEDIUM",
 					},
 				}),
 				tx.organizationIntegrationResults.count({
 					where: {
 						organizationId,
-						label: "HIGH",
+						severity: "HIGH",
 					},
 				}),
 				tx.organizationIntegrationResults.count({
 					where: {
 						organizationId,
-						label: "CRITICAL",
+						severity: "CRITICAL",
 					},
 				}),
 			]);

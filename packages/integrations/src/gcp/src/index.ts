@@ -23,31 +23,12 @@ interface ServiceAccountKey {
 }
 
 interface GCPFinding {
-	Id: string;
-	name: string;
-	Title: string;
-	category: string;
+	title: string;
 	description: string;
-	state: string;
+	remediation: string;
+	status: string;
 	severity: string;
-	sourceProperties?: {
-		Recommendation?: string;
-		Explanation?: string;
-		ExceptionInstructions?: string;
-	};
-	Compliance: {
-		Status: string;
-	};
-	Severity: {
-		Label: string;
-	};
-	Description: string;
-	Remediation: {
-		Recommendation: {
-			Text: string;
-			Url: string;
-		};
-	};
+	resultDetails: any;
 }
 
 function parseServiceAccountKey(serviceAccountKey: string): ServiceAccountKey {
@@ -124,27 +105,12 @@ async function fetch(credentials: GCPCredentials): Promise<GCPFinding[]> {
 
 			for (const finding of findings) {
 				const transformedFinding: GCPFinding = {
-					Id: finding.name,
-					name: finding.category,
-					Title: finding.description,
-					category: finding.category,
-					description: finding.description || '',
-					state: finding.state,
-					severity: finding.severity,
-					sourceProperties: finding.sourceProperties,
-					Compliance: {
-						Status: finding.state === "ACTIVE" ? "FAILED" : "PASSED",
-					},
-					Severity: {
-						Label: finding.severity,
-					},
-					Description: finding.sourceProperties?.Explanation || '',
-					Remediation: {
-						Recommendation: {
-							Text: (finding.sourceProperties?.Recommendation || '') + (finding.sourceProperties?.ExceptionInstructions || ''),
-							Url: "",
-						},
-					},
+					title: finding.description || "Untitled Finding",
+					description: finding.sourceProperties?.Explanation || "No description available",
+					remediation: (finding.sourceProperties?.Recommendation || '') + (finding.sourceProperties?.ExceptionInstructions || ''),
+					status: finding.state === "ACTIVE" ? "FAILED" : "PASSED",
+					severity: finding.severity || "INFO",
+					resultDetails: finding
 				};
 				allFindings.push(transformedFinding);
 			}
@@ -160,4 +126,4 @@ async function fetch(credentials: GCPCredentials): Promise<GCPFinding[]> {
 }
 
 export { fetch };
-export type { GCPCredentials };
+export type { GCPCredentials, GCPFinding };

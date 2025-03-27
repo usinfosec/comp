@@ -1,8 +1,10 @@
 model OrganizationIntegrationResults {
   id                        String    @id @default(cuid())
   title                     String?
-  status                    String
-  label                     String?
+  description               String?
+  remediation               String?
+  status                    String?
+  severity                  String?
   resultDetails             Json?
   completedAt               DateTime? @default(now())
   organizationIntegrationId String
@@ -18,7 +20,6 @@ model OrganizationIntegrationResults {
   @@index([assignedUserId])
   @@index([organizationIntegrationId])
   @@index([organizationId])
-  @@map("Organization_integration_results")
 }
 
 model OrganizationIntegrationResultsComments {
