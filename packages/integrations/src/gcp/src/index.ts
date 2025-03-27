@@ -25,6 +25,7 @@ interface ServiceAccountKey {
 interface GCPFinding {
 	Id: string;
 	name: string;
+	Title: string;
 	category: string;
 	description: string;
 	state: string;
@@ -125,6 +126,7 @@ async function fetch(credentials: GCPCredentials): Promise<GCPFinding[]> {
 				const transformedFinding: GCPFinding = {
 					Id: finding.name,
 					name: finding.category,
+					Title: finding.description,
 					category: finding.category,
 					description: finding.description || '',
 					state: finding.state,
