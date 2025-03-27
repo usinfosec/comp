@@ -6,6 +6,7 @@ export const testSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string().nullable(),
+  remediation: z.string().nullable(),
   provider: z.string(),
   status: z.string(),
   resultDetails: z.any(),

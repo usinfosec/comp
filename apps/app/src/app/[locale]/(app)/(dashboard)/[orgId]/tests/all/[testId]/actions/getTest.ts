@@ -45,9 +45,8 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
     const result: Test = {
       id: integrationResult.id,
       title: integrationResult.title || "",
-      description: typeof integrationResult.resultDetails === 'object' && integrationResult.resultDetails 
-        ? (integrationResult.resultDetails as any).description || "" 
-        : "",
+      description: integrationResult.description || "",
+      remediation: integrationResult.remediation || "",
       provider: integrationResult.organizationIntegration.name,
       status: integrationResult.status || "",
       resultDetails: integrationResult.resultDetails,
