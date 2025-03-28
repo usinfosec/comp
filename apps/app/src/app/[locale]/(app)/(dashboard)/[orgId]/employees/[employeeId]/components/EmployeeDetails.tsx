@@ -2,7 +2,13 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import type { Departments } from "@bubba/db/types";
+import type {
+	Departments,
+	OrganizationPolicy,
+	OrganizationTrainingVideos,
+	Policy,
+	PortalTrainingVideos,
+} from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import {
@@ -27,6 +33,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -45,9 +52,21 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 
 interface EmployeeDetailsProps {
 	employeeId: string;
+	portalEmployeeId: string;
+	policies: (OrganizationPolicy & {
+		policy: Policy;
+	})[];
+	trainingVideos: (OrganizationTrainingVideos & {
+		trainingVideo: PortalTrainingVideos;
+	})[];
 }
 
-export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
+export function EmployeeDetails({
+	employeeId,
+	portalEmployeeId,
+	policies,
+	trainingVideos,
+}: EmployeeDetailsProps) {
 	const { employee, isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
 	const [isSaving, setIsSaving] = useState(false);
@@ -119,8 +138,6 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 	}
 
 	if (!employee) return null;
-
-	const tasks = employee.employeeTasks ?? [];
 
 	const handleDepartmentChange = (value: Departments) => {
 		setDepartment(value);
@@ -277,27 +294,63 @@ export function EmployeeDetails({ employeeId }: EmployeeDetailsProps) {
 						</div>
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="flex flex-col gap-2">
-					{tasks.map((task) => {
-						const isCompleted = task.status === "completed";
+				<CardContent>
+					<Tabs defaultValue="policies">
+						<TabsList className="mb-4">
+							<TabsTrigger value="policies">Policies</TabsTrigger>
+							<TabsTrigger value="training">Training Videos</TabsTrigger>
+						</TabsList>
 
-						return (
-							<div
-								key={task.id}
-								className="flex items-center gap-2 border p-3 justify-between max-w-sm"
-							>
-								<h2 className="flex items-center gap-2">
-									{isCompleted ? (
-										<CheckCircle2 className="h-4 w-4 text-green-500" />
-									) : (
-										<AlertCircle className="h-4 w-4 text-red-500" />
-									)}
-									{task.requiredTask.name}
-								</h2>
-								<Button size="sm">Remind</Button>
+						<TabsContent value="policies">
+							<div className="flex flex-col gap-2">
+								{policies.map((policy) => {
+									const isCompleted =
+										policy.signedBy.includes(portalEmployeeId);
+
+									return (
+										<div
+											key={policy.id}
+											className="flex items-center gap-2 border p-3 justify-between"
+										>
+											<h2 className="flex items-center gap-2">
+												{isCompleted ? (
+													<CheckCircle2 className="h-4 w-4 text-green-500" />
+												) : (
+													<AlertCircle className="h-4 w-4 text-red-500" />
+												)}
+												{policy.policy.name}
+											</h2>
+										</div>
+									);
+								})}
 							</div>
-						);
-					})}
+						</TabsContent>
+
+						<TabsContent value="training">
+							<div className="flex flex-col gap-2">
+								{trainingVideos.map((video) => {
+									const isCompleted =
+										video.completedBy.includes(portalEmployeeId);
+
+									return (
+										<div
+											key={video.id}
+											className="flex items-center gap-2 border p-3 justify-between"
+										>
+											<h2 className="flex items-center gap-2">
+												{isCompleted ? (
+													<CheckCircle2 className="h-4 w-4 text-green-500" />
+												) : (
+													<AlertCircle className="h-4 w-4 text-red-500" />
+												)}
+												{video.trainingVideo.title}
+											</h2>
+										</div>
+									);
+								})}
+							</div>
+						</TabsContent>
+					</Tabs>
 				</CardContent>
 			</Card>
 		</div>
