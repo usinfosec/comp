@@ -68,7 +68,7 @@ const getPoliciesOverview = async () => {
 			tx.organizationPolicy.count({
 				where: {
 					organizationId,
-					status: "archived",
+					isArchived: true,
 				},
 			}),
 			tx.organizationPolicy.count({

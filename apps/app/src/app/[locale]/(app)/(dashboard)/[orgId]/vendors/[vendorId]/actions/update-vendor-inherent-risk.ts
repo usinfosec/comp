@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db";
+import { db } from "@bubba/db";
 import { appErrors } from "@/lib/errors";
 import type { ActionResponse } from "@/types/actions";
 import { createSafeActionClient } from "next-safe-action";
@@ -21,13 +21,13 @@ export const updateVendorInherentRisk = createSafeActionClient()
       });
 
       revalidatePath(`/vendors/${parsedInput.vendorId}`);
-      
+
       return { success: true };
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : appErrors.UNEXPECTED_ERROR,
+        error:
+          error instanceof Error ? error.message : appErrors.UNEXPECTED_ERROR,
       };
     }
-
-  }); 
+  });
