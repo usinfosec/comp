@@ -14,5 +14,3 @@ export default async function RootPage() {
 
 	redirect("/setup");
 }
-
-// Force build
