@@ -1,18 +1,11 @@
 import { db } from "@bubba/db";
 import type { Employee, Departments } from "@bubba/db/types";
+import { InvitePortalEmail } from "@bubba/email/emails/invite-portal";
+import { sendEmail } from "@bubba/email/lib/resend";
 
-const DEFAULT_TASKS = [
-  {
-    code: "POLICY-ACCEPT",
-    name: "Policy Acceptance",
-    description: "Review and accept company policies",
-  },
-  {
-    code: "DEVICE-SECURITY",
-    name: "Device Security",
-    description: "Complete device security checklist and configuration",
-  },
-] as const;
+if (!process.env.NEXT_PUBLIC_PORTAL_URL) {
+  throw new Error("NEXT_PUBLIC_PORTAL_URL is not set");
+}
 
 /**
  * Find an existing employee by email and organization ID
@@ -120,46 +113,33 @@ export async function createOrUpdatePortalUser(params: {
   });
 }
 
-/**
- * Create default tasks for an employee
- */
-export async function createDefaultTasksForEmployee(
-  employeeId: string
-): Promise<void> {
-  // Create or get the required task definitions first and store their IDs
-  const requiredTasks = await Promise.all(
-    DEFAULT_TASKS.map(async (task) => {
-      return db.employeeRequiredTask.upsert({
-        where: { code: task.code },
-        create: {
-          code: task.code,
-          name: task.name,
-          description: task.description,
-        },
-        update: {},
-      });
-    })
-  );
+const inviteEmployeeToPortal = async (params: {
+  email: string;
+  organizationName: string;
+  inviteLink: string;
+}) => {
+  const { email, organizationName, inviteLink } = params;
 
-  // Now create the employee tasks using the actual task IDs
-  await Promise.all(
-    requiredTasks.map(async (task) => {
-      return db.employeeTask.create({
-        data: {
-          employeeId: employeeId,
-          requiredTaskId: task.id,
-          status: "assigned",
-        },
-      });
-    })
-  );
-}
+  await sendEmail({
+    to: email,
+    subject: `You've been invited to join ${organizationName || "an organization"} on Comp AI`,
+    react: InvitePortalEmail({
+      email,
+      organizationName,
+      inviteLink,
+    }),
+  });
+
+  return {
+    success: true,
+    message: "Employee invited to portal",
+  };
+};
 
 /**
  * Complete employee creation by handling all steps:
  * 1. Create/reactivate the employee
  * 2. Create/update portal user
- * 3. Create default tasks
  */
 export async function completeEmployeeCreation(params: {
   name: string;
@@ -177,7 +157,17 @@ export async function completeEmployeeCreation(params: {
     organizationId: params.organizationId,
   });
 
-  await createDefaultTasksForEmployee(employee.id);
+  const organization = await db.organization.findUnique({
+    where: {
+      id: params.organizationId,
+    },
+  });
+
+  await inviteEmployeeToPortal({
+    email: params.email,
+    organizationName: organization?.name || "an organization",
+    inviteLink: `${process.env.NEXT_PUBLIC_PORTAL_URL}`,
+  });
 
   return employee;
 }

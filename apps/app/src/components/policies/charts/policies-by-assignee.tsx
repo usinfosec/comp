@@ -45,7 +45,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 			(policy) => policy.status === "draft",
 		).length,
 		archivedPolicies: user.organization?.OrganizationPolicy.filter(
-			(policy) => policy.status === "archived",
+			(policy) => policy.isArchived,
 		).length,
 		needsReviewPolicies: user.organization?.OrganizationPolicy.filter(
 			(policy) => policy.status === "needs_review",
@@ -221,6 +221,7 @@ const userData = async (organizationId: string) => {
 					OrganizationPolicy: {
 						select: {
 							status: true,
+							isArchived: true,
 						},
 					},
 				},

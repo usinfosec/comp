@@ -67,7 +67,7 @@ export const policies = {
     needs_review: "Needs Review",
     archived: "Archived",
     relevant: "Relevant",
-    "not-relevant": "Not Relevant"
+    "not-relevant": "Not Relevant",
   },
   policies: "policies",
   title: "Policies",
@@ -81,4 +81,23 @@ export const policies = {
   last_updated: "Last updated: {{date}}",
   save: "Save",
   policy_details: "Policy Details",
+  archive: {
+    tooltip: "Archive policy",
+    restore_tooltip: "Restore policy",
+    title: "Archive Policy",
+    restore_title: "Restore Policy",
+    description: "Are you sure you want to archive this policy?",
+    restore_description: "Are you sure you want to restore this policy?",
+    confirm: "Archive",
+    restore_confirm: "Restore",
+    cancel: "Cancel",
+    success: "Policy archived successfully",
+    restore_success: "Policy restored successfully",
+    error: "Failed to update policy archive status",
+    status: "This policy is archived",
+    archived_on: "Archived on",
+  },
+  edit: {
+    tooltip: "Edit policy",
+  },
 } as const;

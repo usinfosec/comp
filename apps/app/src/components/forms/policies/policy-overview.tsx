@@ -23,6 +23,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
+	FormDescription,
 } from "@bubba/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
 import {
@@ -40,11 +41,11 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { Switch } from "@bubba/ui/switch";
 
 const policyStatuses: PolicyStatus[] = [
 	"draft",
 	"published",
-	"archived",
 	"needs_review",
 ] as const;
 
@@ -85,7 +86,7 @@ export function UpdatePolicyOverview({
 			department: organizationPolicy.department ?? Departments.admin,
 			review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
-			isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign
+			isRequiredToSign: organizationPolicy.isRequiredToSign
 				? "required"
 				: "not_required",
 		},
@@ -289,29 +290,19 @@ export function UpdatePolicyOverview({
 						control={form.control}
 						name="isRequiredToSign"
 						render={({ field }) => (
-							<FormItem>
+							<FormItem className="flex flex-col gap-3">
 								<FormLabel>
 									{t("policies.overview.form.signature_requirement")}
 								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t(
-													"policies.overview.form.signature_requirement_placeholder",
-												)}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="required">
-												{t("policies.overview.form.signature_required")}
-											</SelectItem>
-											<SelectItem value="not_required">
-												{t("policies.overview.form.signature_not_required")}
-											</SelectItem>
-										</SelectContent>
-									</Select>
+									<Switch
+										checked={field.value === "required"}
+										onCheckedChange={(checked) => {
+											field.onChange(checked ? "required" : "not_required");
+										}}
+									/>
 								</FormControl>
+								<FormMessage />
 							</FormItem>
 						)}
 					/>

@@ -10,7 +10,7 @@ import {
 	type ReactNode,
 } from "react";
 import { useQueryState } from "nuqs";
-import { usePolicies } from "../../../hooks/usePolicies";
+import { usePolicies } from "./usePolicies";
 
 interface PoliciesTableContextType {
 	// State

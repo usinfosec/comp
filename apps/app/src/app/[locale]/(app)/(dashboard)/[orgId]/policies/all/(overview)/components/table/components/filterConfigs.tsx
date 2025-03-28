@@ -16,9 +16,10 @@ export const STATUS_FILTERS = [
 		value: "needs_review",
 		icon: <div className="h-2.5 w-2.5 bg-[#ff0000]" />,
 	},
-	{
-		label: "Archived",
-		value: "archived",
-		icon: <div className="h-2.5 w-2.5 bg-[#0ea5e9]" />,
-	},
 ] as const;
+
+export const ARCHIVED_FILTER = {
+	label: "Archived",
+	value: "true",
+	icon: <Archive className="h-3.5 w-3.5 text-muted-foreground" />,
+} as const;

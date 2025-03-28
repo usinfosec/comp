@@ -10,6 +10,8 @@ model OrganizationPolicy {
   lastPublishedAt                DateTime?
   isRequiredToSign               Boolean                          @default(false)
   signedBy                       String[]                         @default([])
+  isArchived                     Boolean                          @default(false)
+  archivedAt                     DateTime?
   OrganizationControlRequirement OrganizationControlRequirement[]
   PolicyComments                 PolicyComments[]
   organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
