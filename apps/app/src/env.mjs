@@ -26,6 +26,7 @@ export const env = createEnv({
 		AWS_SECRET_ACCESS_KEY: z.string(),
 		AWS_REGION: z.string(),
 		AWS_BUCKET_NAME: z.string(),
+		GROQ_API_KEY: z.string(),
 	},
 
 	client: {
@@ -63,6 +64,7 @@ export const env = createEnv({
 		AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
 		AWS_REGION: process.env.AWS_REGION,
 		AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+		GROQ_API_KEY: process.env.GROQ_API_KEY,
 	},
 
 	skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

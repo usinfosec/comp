@@ -1,13 +1,17 @@
 "use client";
 
-import { useAssistantStore } from "@/store/assistant";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useQueryState } from "nuqs";
 
 export function HotKeys() {
   const router = useRouter();
-  const { setOpen } = useAssistantStore();
+  const [, setAssistantOpen] = useQueryState("assistant", {
+    history: "push",
+    parse: (value) => value === "true",
+    serialize: (value) => value.toString(),
+  });
 
   const handleSignOut = async () => {
     await signOut();
@@ -56,7 +60,7 @@ export function HotKeys() {
 
   useHotkeys("meta+k", (evt) => {
     evt.preventDefault();
-    setOpen(true);
+    setAssistantOpen(true);
   });
 
   return null;

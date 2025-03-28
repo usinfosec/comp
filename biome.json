@@ -15,6 +15,7 @@
         "noExplicitAny": "off"
       },
       "a11y": {
+        "useValidAriaRole": "off",
         "noSvgWithoutTitle": "off",
         "useKeyWithClickEvents": "off"
       },
