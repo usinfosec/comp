@@ -18,6 +18,8 @@ import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
 import { TitleAndDescription } from "./components/title-and-description/title-and-description";
+import { InherentRiskVendorChart } from "./components/inherent-risk-vendor-chart";
+import { ResidualRiskVendorChart } from "./components/residual-risk-vendor-chart";
 
 interface PageProps {
   searchParams: Promise<{
@@ -95,6 +97,10 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
           </div>
         </CardContent>
       </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <InherentRiskVendorChart vendor={vendor} />
+        <ResidualRiskVendorChart vendor={vendor} />
+      </div>
     </div>
   );
 }
