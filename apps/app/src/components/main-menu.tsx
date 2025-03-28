@@ -1,9 +1,6 @@
 "use client";
 
-import { updateMenuAction } from "@/actions/update-menu-action";
 import { useI18n } from "@/locales/client";
-import { useMenuStore } from "@/store/menu";
-import { Button } from "@bubba/ui/button";
 import { cn } from "@bubba/ui/cn";
 import { Icons } from "@bubba/ui/icons";
 import {
@@ -12,13 +9,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
-import { useClickAway } from "@uidotdev/usehooks";
-import { Reorder, motion, useMotionValue } from "framer-motion";
-import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { useLongPress } from "use-long-press";
 
 // Define menu item types with icon component
 type MenuItem = {
@@ -30,43 +22,21 @@ type MenuItem = {
 	protected: boolean;
 };
 
-// Map of menu item IDs to their icon components
-const menuIcons = {
-	overview: Icons.Overview,
-	settings: Icons.Settings,
-	policies: Icons.Policies,
-	risk: Icons.Risk,
-	vendors: Icons.Vendors,
-	integrations: Icons.Apps,
-	people: Icons.Peolple,
-	evidence: Icons.Evidence,
-	tests: Icons.CloudSync,
-};
-
 interface ItemProps {
 	item: MenuItem;
 	isActive: boolean;
-	isCustomizing: boolean;
-	onRemove: (id: string) => void;
-	disableRemove: boolean;
-	onDragEnd: () => void;
-	onSelect?: () => void;
 	disabled: boolean;
 	organizationId: string;
+	isCollapsed?: boolean;
 }
 
 const Item = ({
 	item,
 	isActive,
-	isCustomizing,
-	onRemove,
-	disableRemove,
-	onDragEnd,
-	onSelect,
 	disabled,
 	organizationId,
+	isCollapsed = false,
 }: ItemProps) => {
-	const y = useMotionValue(0);
 	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
 
@@ -80,68 +50,24 @@ const Item = ({
 					Coming
 				</div>
 			) : (
-				<Link
-					prefetch
-					href={itemPath}
-					onClick={(evt) => {
-						if (isCustomizing) {
-							evt.preventDefault();
-						}
-						onSelect?.();
-					}}
-					onMouseDown={(evt) => {
-						if (isCustomizing) {
-							evt.preventDefault();
-						}
-					}}
-				>
+				<Link prefetch href={itemPath}>
 					<Tooltip>
 						<TooltipTrigger className="w-full">
-							<Reorder.Item
-								onDragEnd={onDragEnd}
-								key={item.id}
-								value={item}
-								id={item.id}
-								style={{ y }}
-								layoutRoot
+							<div
 								className={cn(
 									"relative border border-transparent md:w-[45px] h-[45px] flex items-center md:justify-center",
 									"hover:bg-accent hover:border-[#DCDAD2] hover:dark:border-[#2C2C2C]",
 									isActive &&
 										"bg-[#F2F1EF] dark:bg-secondary border-[#DCDAD2] dark:border-[#2C2C2C]",
-									isCustomizing &&
-										"bg-background border-[#DCDAD2] dark:border-[#2C2C2C]",
 								)}
 							>
-								<motion.div
-									className="relative"
-									initial={{ opacity: 1 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-								>
-									{!disableRemove && isCustomizing && (
-										<Button
-											onClick={() => onRemove(item.id)}
-											variant="ghost"
-											size="icon"
-											className="absolute -left-4 -top-4 w-4 h-4 p-0 rounded-full bg-border hover:bg-border hover:scale-150 z-10 transition-all"
-										>
-											<Icons.Remove className="w-3 h-3" />
-										</Button>
-									)}
-
-									<div
-										className={cn(
-											"flex space-x-3 p-0 items-center pl-2 md:pl-0",
-											isCustomizing &&
-												"animate-[jiggle_0.3s_ease-in-out_infinite] transform-gpu pointer-events-none",
-										)}
-									>
-										{Icon && <Icon size={22} />}
+								<div className="flex space-x-3 p-0 items-center pl-2 md:pl-0">
+									{Icon && <Icon size={22} />}
+									{!isCollapsed && (
 										<span className="flex md:hidden">{item.name}</span>
-									</div>
-								</motion.div>
-							</Reorder.Item>
+									)}
+								</div>
+							</div>
 						</TooltipTrigger>
 						<TooltipContent
 							side="left"
@@ -157,37 +83,21 @@ const Item = ({
 	);
 };
 
-const listVariant = {
-	hidden: { opacity: 0 },
-	show: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.04,
-		},
-	},
-};
-
-const itemVariant = {
-	hidden: { opacity: 0 },
-	show: { opacity: 1 },
-};
-
 type Props = {
-	initialItems?: MenuItem[];
-	onSelect?: () => void;
 	organizationId: string;
 	userIsAdmin: boolean;
+	isCollapsed?: boolean;
 };
 
 export function MainMenu({
-	initialItems,
-	onSelect,
 	organizationId,
 	userIsAdmin,
+	isCollapsed = false,
 }: Props) {
 	const t = useI18n();
+	const pathname = usePathname();
 
-	const defaultItems: MenuItem[] = [
+	const items: MenuItem[] = [
 		{
 			id: "overview",
 			path: "/:organizationId",
@@ -262,49 +172,6 @@ export function MainMenu({
 		},
 	];
 
-	const [items, setItems] = useState(initialItems ?? defaultItems);
-	const { isCustomizing, setCustomizing } = useMenuStore();
-	const pathname = usePathname();
-
-	const updateMenu = useAction(updateMenuAction);
-
-	const hiddenItems = defaultItems.filter(
-		(item) => !items.some((i) => i.id === item.id),
-	);
-
-	const onReorder = (items: MenuItem[]) => {
-		setItems(items);
-	};
-
-	const onDragEnd = () => {
-		updateMenu.execute(items);
-	};
-
-	const onRemove = (id: string) => {
-		const updatedItems = items.filter((item) => item.id !== id);
-		setItems(updatedItems);
-		updateMenu.execute(updatedItems);
-	};
-
-	const onAdd = (item: MenuItem) => {
-		const updatedItems = [...items, item];
-		setItems(updatedItems);
-		updateMenu.execute(updatedItems);
-	};
-
-	const bind = useLongPress(
-		() => {
-			setCustomizing(true);
-		},
-		{
-			cancelOnMovement: 0,
-		},
-	);
-
-	const ref = useClickAway(() => {
-		setCustomizing(false);
-	});
-
 	// Helper function to check if a path is active
 	const isPathActive = (itemPath: string) => {
 		const normalizedItemPath = itemPath.replace(
@@ -337,18 +204,9 @@ export function MainMenu({
 	};
 
 	return (
-		<div
-			className="mt-6"
-			{...bind()}
-			ref={ref as React.RefObject<HTMLDivElement>}
-		>
+		<div className="mt-6">
 			<nav>
-				<Reorder.Group
-					axis="y"
-					onReorder={onReorder}
-					values={items}
-					className="flex flex-col gap-1.5"
-				>
+				<div className="flex flex-col gap-1.5">
 					{items
 						.filter((item) => !item.disabled)
 						.map((item) => {
@@ -363,60 +221,14 @@ export function MainMenu({
 									key={item.id}
 									item={item}
 									isActive={isActive}
-									isCustomizing={isCustomizing}
-									onRemove={onRemove}
-									disableRemove={items.length === 1}
-									onDragEnd={onDragEnd}
-									onSelect={onSelect}
 									disabled={item.disabled}
 									organizationId={organizationId}
+									isCollapsed={isCollapsed}
 								/>
 							);
 						})}
-				</Reorder.Group>
+				</div>
 			</nav>
-
-			{hiddenItems.length > 0 && isCustomizing && (
-				<nav className="border-t-[1px] mt-6 pt-6">
-					<motion.ul
-						variants={listVariant}
-						initial="hidden"
-						animate="show"
-						className="flex flex-col gap-1.5"
-					>
-						{hiddenItems
-							.filter((item) => !item.disabled)
-							.map((item) => {
-								const Icon = item.icon;
-
-								return (
-									<motion.li
-										variants={itemVariant}
-										key={item.id}
-										className={cn(
-											"border border-transparent w-[45px] h-[45px] flex items-center md:justify-center",
-											"hover:bg-secondary hover:border-[#DCDAD2] hover:dark:border-[#2C2C2C]",
-											"bg-background border-[#DCDAD2] dark:border-[#2C2C2C]",
-										)}
-									>
-										<div className="relative">
-											<Button
-												onClick={() => onAdd(item)}
-												variant="ghost"
-												size="icon"
-												className="absolute -left-4 -top-4 w-4 h-4 p-0 rounded-full bg-border hover:bg-border hover:scale-150 z-10 transition-all"
-											>
-												<Icons.Add className="w-3 h-3" />
-											</Button>
-
-											<Icon size={22} />
-										</div>
-									</motion.li>
-								);
-							})}
-					</motion.ul>
-				</nav>
-			)}
 		</div>
 	);
 }

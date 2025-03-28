@@ -6,7 +6,11 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { OrganizationSwitcher } from "./organization-switcher";
 
-export async function OrgMenu() {
+interface OrgMenuProps {
+	isCollapsed?: boolean;
+}
+
+export async function OrgMenu({ isCollapsed = false }: OrgMenuProps) {
 	const session = await auth();
 	const { organizations } = await getOrganizations();
 	const frameworks = await getFrameworks();
@@ -24,6 +28,7 @@ export async function OrgMenu() {
 				organizations={organizations}
 				organizationId={currentOrganizationId}
 				frameworks={frameworks}
+				isCollapsed={isCollapsed}
 			/>
 		</Suspense>
 	);

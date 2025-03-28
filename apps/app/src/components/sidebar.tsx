@@ -1,48 +1,59 @@
-import { Cookies } from "@/utils/constants";
 import { Icons } from "@bubba/ui/icons";
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { MainMenu } from "./main-menu";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { OrgMenu } from "./org-menu";
+import { MainMenu } from "./main-menu";
+import { cookies } from "next/headers";
+import { SidebarCollapseButton } from "./sidebar-collapse-button";
+import { SidebarLogo } from "./sidebar-logo";
+import { cn } from "@bubba/ui/cn";
 
 export async function Sidebar() {
 	const session = await auth();
 	const user = session?.user;
 	const organizationId = user?.organizationId;
+	const cookieStore = await cookies();
+	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const cookieStore = await cookies();
-
-	const initialItems = cookieStore.has(Cookies.MenuConfig)
-		? JSON.parse(cookieStore.get(Cookies.MenuConfig)?.value ?? "")
-		: null;
-
 	return (
-		<aside className="h-screen flex-shrink-0 flex-col justify-between fixed top-0 ml-4 pb-4 items-center hidden md:flex">
-			<div className="flex flex-col items-center justify-center">
-				<div className="mt-2 todesktop:mt-[35px]">
-					<div className="mt-2 items-center justify-center">
-						<Link href={`/${organizationId}`}>
-							<Icons.Logo />
-						</Link>
+		<>
+			<aside
+				className={cn(
+					"h-screen flex-shrink-0 flex-col justify-between fixed top-0 px-4 pb-16 items-center hidden md:flex border-r transition-all duration-300",
+					isCollapsed ? "w-[80px]" : "w-[240px]",
+				)}
+			>
+				<div className="flex flex-col items-center justify-center w-full">
+					<div
+						className={cn(
+							"mt-2 todesktop:mt-[35px] w-full relative",
+							isCollapsed
+								? "flex justify-center"
+								: "flex justify-between items-center",
+						)}
+					>
+						<SidebarLogo
+							isCollapsed={isCollapsed}
+							organizationId={organizationId}
+						/>
+						<SidebarCollapseButton isCollapsed={isCollapsed} />
 					</div>
+					<MainMenu
+						userIsAdmin={user?.isAdmin ?? false}
+						organizationId={organizationId}
+						isCollapsed={isCollapsed}
+					/>
 				</div>
-				<MainMenu
-					userIsAdmin={user?.isAdmin ?? false}
-					initialItems={initialItems}
-					organizationId={organizationId}
-				/>
-			</div>
 
-			<Suspense>
-				<OrgMenu />
-			</Suspense>
-		</aside>
+				<Suspense>
+					<OrgMenu isCollapsed={isCollapsed} />
+				</Suspense>
+			</aside>
+		</>
 	);
 }
