@@ -64,7 +64,7 @@ function getColumns(): ColumnDef<PersonType>[] {
 				return (
 					<div className="flex flex-col space-y-0.5">
 						<Button variant="link" className="p-0 h-auto justify-start" asChild>
-							<Link href={`/${orgId}/people/${row.original.id}`}>
+							<Link href={`/${orgId}/employees/${row.original.id}`}>
 								<span className="truncate">{name}</span>
 							</Link>
 						</Button>

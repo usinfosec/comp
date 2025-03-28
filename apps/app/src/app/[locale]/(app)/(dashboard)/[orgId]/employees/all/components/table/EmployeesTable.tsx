@@ -27,7 +27,7 @@ export function EmployeesTable() {
 	} = useEmployeesTable();
 
 	const handleRowClick = (employeeId: string) => {
-		router.push(`/${orgId}/people/${employeeId}`);
+		router.push(`/${orgId}/employees/${employeeId}`);
 	};
 
 	// Calculate pagination values only when total is defined

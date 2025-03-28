@@ -35,7 +35,7 @@ export function NoResults({ hasFilters }: Props) {
 				{hasFilters && (
 					<Button
 						variant="outline"
-						onClick={() => router.push(`/${orgId}/people`)}
+						onClick={() => router.push(`/${orgId}/employees`)}
 					>
 						{t("people.actions.clear")}
 					</Button>

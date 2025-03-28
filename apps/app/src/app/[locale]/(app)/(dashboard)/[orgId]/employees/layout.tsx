@@ -17,10 +17,10 @@ export default async function Layout({
 			<SecondaryMenu
 				items={[
 					{
-						path: `/${orgId}/people/dashboard`,
+						path: `/${orgId}/employees/dashboard`,
 						label: t("people.dashboard.title"),
 					},
-					{ path: `/${orgId}/people/all`, label: t("people.all") },
+					{ path: `/${orgId}/employees/all`, label: t("people.all") },
 				]}
 			/>
 
