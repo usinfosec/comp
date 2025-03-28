@@ -16,6 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Backup non-English translation files to prevent processing
+      - name: Backup non-English translation files
+        run: |
+          mkdir -p /tmp/locales-backup
+          find apps/app/src/locales -maxdepth 1 -type f -name "*.ts" ! -name "en.ts" ! -name "analyze-locale-usage.ts" ! -name "client.ts" ! -name "server.ts" -exec cp {} /tmp/locales-backup/ \;
+          # Temporarily remove them to prevent Languine from processing them
+          find apps/app/src/locales -maxdepth 1 -type f -name "*.ts" ! -name "en.ts" ! -name "analyze-locale-usage.ts" ! -name "client.ts" ! -name "server.ts" -exec rm -f {} \;
+
       - name: Languine Action
         uses: languine-ai/languine@v1
         env:
@@ -23,4 +31,9 @@ jobs:
         with:
           api-key: ${{ secrets.LANGUINE_API_KEY }}
           project-id: ${{ secrets.LANGUINE_PROJECT_ID }}
-          working-directory: apps/app/**
+          working-directory: apps/app
+
+      # Restore non-English translation files
+      - name: Restore non-English translation files
+        run: |
+          cp /tmp/locales-backup/*.ts apps/app/src/locales/ || true
