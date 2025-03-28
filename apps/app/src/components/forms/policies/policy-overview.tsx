@@ -46,7 +46,6 @@ import { Switch } from "@bubba/ui/switch";
 const policyStatuses: PolicyStatus[] = [
 	"draft",
 	"published",
-	"archived",
 	"needs_review",
 ] as const;
 

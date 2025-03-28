@@ -11,12 +11,14 @@ export const policySchema = z.object({
     description: z.string().nullable(),
     slug: z.string(),
   }),
+  isArchived: z.boolean().optional(),
 });
 
 export const policiesInputSchema = z.object({
   search: z.string().optional(),
   status: z.string().optional(),
   ownerId: z.string().optional(),
+  isArchived: z.string().optional(),
   sort: z.string().optional(),
   page: z.number().default(1),
   pageSize: z.number().default(10),

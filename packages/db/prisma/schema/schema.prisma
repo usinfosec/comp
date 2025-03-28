@@ -311,7 +311,6 @@ enum EmployeeTaskStatus {
 enum PolicyStatus {
   draft
   published
-  archived
   needs_review
 }
 

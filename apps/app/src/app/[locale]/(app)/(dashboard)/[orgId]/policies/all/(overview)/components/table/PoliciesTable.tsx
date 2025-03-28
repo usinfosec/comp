@@ -26,6 +26,8 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 		setStatus,
 		ownerId,
 		setOwnerId,
+		isArchived,
+		setIsArchived,
 		hasActiveFilters,
 		clearFilters,
 		isLoading,
@@ -36,13 +38,17 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 		router.replace(`/${orgId}/policies/all/${policyId}`);
 	};
 
-	const activeFilterCount = [status, ownerId].filter(Boolean).length;
+	const activeFilterCount = [status, ownerId, isArchived].filter(
+		Boolean,
+	).length;
 
 	const filterCategories = getFilterCategories({
 		status,
 		setStatus,
 		ownerId,
 		setOwnerId,
+		isArchived,
+		setIsArchived,
 		users,
 		setPage,
 	});

@@ -30,6 +30,7 @@ export function usePolicies({
   search = "",
   status = "",
   ownerId = "",
+  isArchived = "",
   sort = "",
   page = 1,
   pageSize = 10,
@@ -40,8 +41,17 @@ export function usePolicies({
     isLoading,
     mutate: revalidatePolicies,
   } = useSWR<PoliciesResponse, AppError>(
-    ["policies", { search, status, page, pageSize, ownerId, sort }],
-    () => fetchPolicies({ search, status, page, pageSize, ownerId, sort }),
+    ["policies", { search, status, page, pageSize, ownerId, isArchived, sort }],
+    () =>
+      fetchPolicies({
+        search,
+        status,
+        page,
+        pageSize,
+        ownerId,
+        isArchived,
+        sort,
+      }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
