@@ -67,7 +67,8 @@ export const createOrganizationTask = schemaTask({
 
       await createOrganizationControlRequirements(
         organizationId,
-        organizationFrameworks.map((framework) => framework.id)
+        organizationFrameworks.map((framework) => framework.id),
+        userId
       );
 
       await createOrganizationEvidence(organizationId, frameworkIds, userId);
@@ -296,7 +297,8 @@ const createOrganizationCategories = async (
 
 const createOrganizationControlRequirements = async (
   organizationId: string,
-  organizationFrameworkIds: string[]
+  organizationFrameworkIds: string[],
+  userId: string
 ) => {
   if (!organizationId) {
     throw new Error("Not authorized - no organization found");
@@ -382,7 +384,7 @@ const createOrganizationControlRequirements = async (
         description: requirement.description,
         frequency: requirement.frequency,
         frameworkId: requirement.control.frameworkCategory?.framework.id || "",
-        assigneeId: null, // No user provided in this function
+        assigneeId: userId,
         department: requirement.department,
       });
       // Add the new ID to our set so subsequent iterations don't duplicate it
@@ -600,7 +602,7 @@ const createOrganizationEvidence = async (
         description: req.description,
         frequency: req.frequency,
         frameworkId: req.control.frameworkCategory?.framework.id || "",
-        assigneeId: userId,
+        assigneeId: userId, // Always use the provided userId
         department: req.department,
       })),
     });
