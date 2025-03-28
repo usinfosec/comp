@@ -34,9 +34,9 @@ export function SidebarCollapseButton({
 	if (isCollapsed) {
 		return (
 			<Button
-				variant="outline"
+				variant="ghost"
 				size="sm"
-				className="fixed left-[78px] top-4 h-8 w-8 rounded-full shadow-md z-50"
+				className="h-8 w-8 rounded-none shadow-md bg-background"
 				onClick={handleToggle}
 			>
 				<Icons.ChevronRight className="h-4 w-4 flex-shrink-0" />

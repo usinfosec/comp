@@ -1,13 +1,12 @@
-import { Icons } from "@bubba/ui/icons";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { OrgMenu } from "./org-menu";
-import { MainMenu } from "./main-menu";
+import { getOrganizations } from "@/data/getOrganizations";
+import { db } from "@bubba/db";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { MainMenu } from "./main-menu";
+import { OrganizationSwitcher } from "./organization-switcher";
 import { SidebarCollapseButton } from "./sidebar-collapse-button";
 import { SidebarLogo } from "./sidebar-logo";
-import { cn } from "@bubba/ui/cn";
 
 export async function Sidebar() {
 	const session = await auth();
@@ -20,40 +19,48 @@ export async function Sidebar() {
 		redirect("/");
 	}
 
-	return (
-		<>
-			<aside
-				className={cn(
-					"h-screen flex-shrink-0 flex-col justify-between fixed top-0 px-4 pb-16 items-center hidden md:flex border-r transition-all duration-300",
-					isCollapsed ? "w-[80px]" : "w-[240px]",
-				)}
-			>
-				<div className="flex flex-col items-center justify-center w-full">
-					<div
-						className={cn(
-							"mt-2 todesktop:mt-[35px] w-full relative",
-							isCollapsed
-								? "flex justify-center"
-								: "flex justify-between items-center",
-						)}
-					>
-						<SidebarLogo
-							isCollapsed={isCollapsed}
-							organizationId={organizationId}
-						/>
-						<SidebarCollapseButton isCollapsed={isCollapsed} />
-					</div>
-					<MainMenu
-						userIsAdmin={user?.isAdmin ?? false}
-						organizationId={organizationId}
-						isCollapsed={isCollapsed}
-					/>
-				</div>
+	const frameworks = await getFrameworks();
+	const { organizations } = await getOrganizations();
 
-				<Suspense>
-					<OrgMenu isCollapsed={isCollapsed} />
-				</Suspense>
-			</aside>
-		</>
+	return (
+		<div className="h-full flex flex-col gap-0">
+			<div className="p-4 flex flex-col gap-0">
+				<div className="flex items-center justify-between">
+					<SidebarLogo
+						isCollapsed={isCollapsed}
+						organizationId={organizationId}
+					/>
+					{!isCollapsed && <SidebarCollapseButton isCollapsed={isCollapsed} />}
+				</div>
+				<MainMenu
+					userIsAdmin={user?.isAdmin ?? false}
+					organizationId={organizationId}
+					isCollapsed={isCollapsed}
+				/>
+			</div>
+			<div className="flex-1" />
+			{isCollapsed && (
+				<div className="flex justify-center border-b border-border py-2">
+					<SidebarCollapseButton isCollapsed={isCollapsed} />
+				</div>
+			)}
+
+			<div className="flex h-[60px] items-center mx-auto w-full pb-1">
+				<OrganizationSwitcher
+					organizations={organizations}
+					organizationId={organizationId}
+					frameworks={frameworks}
+					isCollapsed={isCollapsed}
+				/>
+			</div>
+		</div>
 	);
 }
+
+const getFrameworks = async () => {
+	return await db.framework.findMany({
+		orderBy: {
+			name: "asc",
+		},
+	});
+};

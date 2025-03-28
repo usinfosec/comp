@@ -46,7 +46,7 @@ const Item = ({
 	return (
 		<TooltipProvider delayDuration={70}>
 			{linkDisabled ? (
-				<div className="w-[45px] h-[45px] flex items-center md:justify-center">
+				<div className="w-full md:w-[45px] h-[45px] flex items-center justify-start md:justify-center px-3 md:px-0">
 					Coming
 				</div>
 			) : (
@@ -55,23 +55,36 @@ const Item = ({
 						<TooltipTrigger className="w-full">
 							<div
 								className={cn(
-									"relative border border-transparent md:w-[45px] h-[45px] flex items-center md:justify-center",
-									"hover:bg-accent hover:border-[#DCDAD2] hover:dark:border-[#2C2C2C]",
+									"relative border border-transparent flex items-center",
+									isCollapsed ? "md:w-[45px] md:justify-center" : "md:px-3",
+									"w-full px-3 md:w-auto h-[45px]",
+									"hover:bg-accent hover:border-border",
+									"transition-all duration-300",
 									isActive &&
-										"bg-[#F2F1EF] dark:bg-secondary border-[#DCDAD2] dark:border-[#2C2C2C]",
+										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary",
 								)}
 							>
-								<div className="flex space-x-3 p-0 items-center pl-2 md:pl-0">
+								<div
+									className={cn(
+										"flex items-center gap-3",
+										"transition-all duration-300",
+									)}
+								>
 									{Icon && <Icon size={22} />}
 									{!isCollapsed && (
-										<span className="flex md:hidden">{item.name}</span>
+										<span className="text-sm truncate max-w-full">
+											{item.name}
+										</span>
 									)}
 								</div>
 							</div>
 						</TooltipTrigger>
 						<TooltipContent
 							side="left"
-							className="px-3 py-1.5 text-xs hidden md:flex"
+							className={cn(
+								"px-3 py-1.5 text-xs",
+								isCollapsed ? "flex" : "hidden",
+							)}
 							sideOffset={10}
 						>
 							{item.name}
@@ -206,7 +219,7 @@ export function MainMenu({
 	return (
 		<div className="mt-6">
 			<nav>
-				<div className="flex flex-col gap-1.5">
+				<div className={cn("flex flex-col gap-1.5", !isCollapsed && "md:w-56")}>
 					{items
 						.filter((item) => !item.disabled)
 						.map((item) => {

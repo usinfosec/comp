@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
-import { MainContent } from "@/components/main-content";
+import { AnimatedLayout } from "@/components/animated-layout";
 import { SidebarProvider } from "@/context/sidebar-context";
 import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
@@ -35,15 +35,14 @@ export default async function Layout({
 	}
 
 	return (
-		<div className="relative">
-			<SidebarProvider initialIsCollapsed={isCollapsed}>
-				<Sidebar />
-				<MainContent>
+		<SidebarProvider initialIsCollapsed={isCollapsed}>
+			<AnimatedLayout sidebar={<Sidebar />} isCollapsed={isCollapsed}>
+				<div className="p-4">
 					<Header />
 					<main>{children}</main>
-				</MainContent>
-				<HotKeys />
-			</SidebarProvider>
-		</div>
+				</div>
+			</AnimatedLayout>
+			<HotKeys />
+		</SidebarProvider>
 	);
 }
