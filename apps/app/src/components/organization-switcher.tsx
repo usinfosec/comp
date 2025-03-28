@@ -55,7 +55,8 @@ export function OrganizationSwitcher({
 	);
 
 	const handleOrgChange = async (org: Organization) => {
-		await execute({ organizationId: org.id });
+		execute({ organizationId: org.id });
+		router.push(`/${org.id}`);
 		setIsOpen(false);
 	};
 
