@@ -48,7 +48,7 @@ const getEmployees = async () => {
 
 	// Filter portal employees to only include those that have a matching employee record
 	// and where that employee is active
-	// TODO: REMOVE ONCE WE GET RID OF PORTAL EMPLOYEES TABLE
+	// TODO: REMOVE ONCE WE GET RID OF PORTAL EMPLOYEES TABLE, THEN LOGIC CAN BE SIMPLIFIED TO ONLY USE EMPLOYEE TABLE.
 	const activePortalEmployees = portalEmployees.filter(
 		(portalUser) =>
 			employeeStatusMap.has(portalUser.email) &&
