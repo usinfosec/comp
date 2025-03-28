@@ -7,7 +7,6 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
 } from "@bubba/ui/accordion";
 import { Button } from "@bubba/ui/button";
 import {
@@ -61,7 +60,7 @@ export function CreateRiskCommentForm() {
           <div>
             <Accordion type="multiple" defaultValue={["task"]}>
               <AccordionItem value="task">
-                <AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
+                {t("common.comments.new")}
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
