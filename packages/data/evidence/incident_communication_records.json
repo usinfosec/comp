@@ -1,0 +1,7 @@
+{
+  "id": "incident_communication_records",
+  "name": "Incident Communication Records",
+  "description": "Communication logs, notifications, and records of stakeholder communications during incidents. Provide procedures document that outlines timely communication of security incidents to stakeholders, regulators, and internal teams.",
+  "frequency": "yearly",
+  "department": "it"
+}

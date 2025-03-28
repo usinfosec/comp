@@ -1,0 +1,7 @@
+{
+  "id": "control_testing_documentation",
+  "name": "Control Testing Documentation",
+  "description": "Internal audit reports, control testing records, and management review documentation. Provide Control Testing Procedures document that outlines ongoing and periodic testing of internal controls.",
+  "frequency": "quarterly",
+  "department": "gov"
+}

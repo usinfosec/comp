@@ -1,0 +1,7 @@
+{
+  "id": "physical_access_records",
+  "name": "Physical Access Records",
+  "description": "Facility access logs, visitor sign-in records, and security camera reports. Provide Physical Access Procedures document that outlines issuing physical access credentials, managing visitor access, and monitoring facility entry.",
+  "frequency": "quarterly",
+  "department": "admin"
+}

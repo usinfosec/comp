@@ -123,14 +123,16 @@ export function MembersList({
 													{getMemberRoleIcon(member.role)}
 													{t(`settings.team.members.role.${member.role}`)}
 												</Badge>
-												<Badge
-													variant={member.accepted ? "default" : "outline"}
-													className={`w-fit ${member.accepted ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" : "text-muted-foreground"}`}
-												>
-													{member.accepted
-														? t("settings.team.members.status.accepted")
-														: t("settings.team.members.status.pending")}
-												</Badge>
+												{member.role !== "owner" && (
+													<Badge
+														variant={member.accepted ? "default" : "outline"}
+														className={`w-fit ${member.accepted ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" : "text-muted-foreground"}`}
+													>
+														{member.accepted
+															? t("settings.team.members.status.accepted")
+															: t("settings.team.members.status.pending")}
+													</Badge>
+												)}
 											</div>
 										</div>
 									</div>

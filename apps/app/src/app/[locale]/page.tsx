@@ -9,7 +9,7 @@ export default async function RootPage() {
 	}
 
 	if (session.user?.organizationId) {
-		redirect(`/${session.user.organizationId}`);
+		redirect(`/${session.user.organizationId}/overview`);
 	}
 
 	redirect("/setup");

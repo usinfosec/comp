@@ -4,7 +4,7 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { VendorRegisterTable } from "./VendorRegisterTable";
+import { VendorRegisterTable } from "./components/VendorRegisterTable";
 import { Departments, VendorStatus } from "@bubba/db/types";
 import { z } from "zod";
 
@@ -72,6 +72,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sub_pages.vendors.register"),
+		title: t("vendors.register.title"),
 	};
 }

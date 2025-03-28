@@ -286,7 +286,8 @@ export default {
       "continue": "Fortsett til dashbordet",
       error: "Noe gikk galt, vennligst prøv igjen."
     },
-    creating: "Oppretter organisasjonen din..."
+    creating: "Oppretter organisasjonen din...",
+    "switch": "Bytter organisasjon..."
   },
   overview: {
     title: "Oversikt",
@@ -737,6 +738,13 @@ export default {
         toast: {
           error: "Feil ved sending av invitasjon",
           unexpected: "En uventet feil oppstod under sending av invitasjonen"
+        },
+        error: {
+          title: "Invitasjonsfeil",
+          description: "Det oppstod et problem med invitasjonen din:",
+          "default": "En ukjent feil oppstod med invitasjonen din.",
+          home: "Gå til Hjem",
+          signin: "Logg inn"
         }
       },
       member_actions: {
@@ -955,7 +963,12 @@ export default {
     }
   },
   errors: {
-    unexpected: "Noe gikk galt, vennligst prøv igjen"
+    unexpected: "Noe gikk galt, vennligst prøv igjen",
+    unauthorized: {
+      title: "Uautorisert tilgang",
+      description: "Du har ikke tillatelse til å få tilgang til denne ressursen. Vennligst kontakt administratoren din hvis du mener dette er en feil.",
+      back: "Gå tilbake til Hjem"
+    }
   },
   sub_pages: {
     risk: {
@@ -1175,6 +1188,67 @@ export default {
     },
     dashboard: {
       title: "Oversikt"
+    },
+    create: "Opprett leverandør",
+    form: {
+      vendor_details: "Leverandørdetaljer",
+      vendor_name: "Navn",
+      vendor_name_placeholder: "Skriv inn leverandørnavn",
+      vendor_website: "Nettside",
+      vendor_website_placeholder: "Skriv inn leverandørens nettside",
+      vendor_description: "Beskrivelse",
+      vendor_description_placeholder: "Skriv inn leverandørbeskrivelse",
+      vendor_category: "Kategori",
+      vendor_category_placeholder: "Velg kategori",
+      vendor_status: "Status",
+      vendor_status_placeholder: "Velg status",
+      create_vendor_success: "Leverandør opprettet",
+      create_vendor_error: "Feil ved oppretting av leverandør",
+      update_vendor: "Oppdater leverandør",
+      update_vendor_success: "Leverandør oppdatert",
+      update_vendor_error: "Feil ved oppdatering av leverandør",
+      add_comment: "Legg til kommentar"
+    },
+    table: {
+      name: "Navn",
+      category: "Kategori",
+      status: "Status",
+      owner: "Eier"
+    },
+    filters: {
+      search_placeholder: "Søk etter leverandører...",
+      status_placeholder: "Filtrer etter status",
+      category_placeholder: "Filtrer etter kategori",
+      owner_placeholder: "Filtrer etter eier"
+    },
+    empty_states: {
+      no_vendors: {
+        title: "Ingen leverandører ennå",
+        description: "Kom i gang med å opprette din første leverandør"
+      },
+      no_results: {
+        title: "Ingen resultater funnet",
+        description: "Ingen leverandører samsvarer med søket ditt",
+        description_with_filters: "Prøv å justere filtrene dine"
+      }
+    },
+    actions: {
+      create: "Opprett leverandør"
+    },
+    status: {
+      not_assessed: "Ikke vurdert",
+      in_progress: "Under behandling",
+      assessed: "Vurdert"
+    },
+    category: {
+      cloud: "Sky",
+      infrastructure: "Infrastruktur",
+      software_as_a_service: "Programvare som en tjeneste",
+      finance: "Finans",
+      marketing: "Markedsføring",
+      sales: "Salg",
+      hr: "HR",
+      other: "Annet"
     }
   },
   dashboard: {

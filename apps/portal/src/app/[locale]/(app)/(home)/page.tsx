@@ -1,32 +1,29 @@
 import { getI18n } from "@/app/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { Overview } from "./components/Overview";
 
 export default async function Portal({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  return (
-    <div>
-      <h1>Employee Portal</h1>
-    </div>
-  );
+	return <Overview />;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.dashboard"),
-  };
+	return {
+		title: t("sidebar.dashboard"),
+	};
 }

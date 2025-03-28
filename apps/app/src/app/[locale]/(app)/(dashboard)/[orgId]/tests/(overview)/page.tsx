@@ -5,7 +5,6 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function TestsOverview({
@@ -45,66 +44,63 @@ export default async function TestsOverview({
 	);
 }
 
-const getTestsOverview = unstable_cache(
-	async (organizationId: string) => {
-		return await db.$transaction(async (tx) => {
-			const [
-				totalTests,
-				infoSeverityTests,
-				lowSeverityTests,
-				mediumSeverityTests,
-				highSeverityTests,
-				criticalSeverityTests,
-			] = await Promise.all([
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-					},
-				}),
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-						severity: "INFO",
-					},
-				}),
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-						severity: "LOW",
-					},
-				}),
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-						severity: "MEDIUM",
-					},
-				}),
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-						severity: "HIGH",
-					},
-				}),
-				tx.organizationIntegrationResults.count({
-					where: {
-						organizationId,
-						severity: "CRITICAL",
-					},
-				}),
-			]);
+const getTestsOverview = async (organizationId: string) => {
+	return await db.$transaction(async (tx) => {
+		const [
+			totalTests,
+			infoSeverityTests,
+			lowSeverityTests,
+			mediumSeverityTests,
+			highSeverityTests,
+			criticalSeverityTests,
+		] = await Promise.all([
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+				},
+			}),
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+					severity: "INFO",
+				},
+			}),
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+					severity: "LOW",
+				},
+			}),
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+					severity: "MEDIUM",
+				},
+			}),
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+					severity: "HIGH",
+				},
+			}),
+			tx.organizationIntegrationResults.count({
+				where: {
+					organizationId,
+					severity: "CRITICAL",
+				},
+			}),
+		]);
 
-			return {
-				totalTests,
-				infoSeverityTests,
-				lowSeverityTests,
-				mediumSeverityTests,
-				highSeverityTests,
-				criticalSeverityTests,
-			};
-		});
-	},
-	["tests-overview-cache"],
-);
+		return {
+			totalTests,
+			infoSeverityTests,
+			lowSeverityTests,
+			mediumSeverityTests,
+			highSeverityTests,
+			criticalSeverityTests,
+		};
+	});
+};
 
 export async function generateMetadata({
 	params,

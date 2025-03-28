@@ -50,3 +50,24 @@ model PortalVerification {
   createdAt  DateTime?
   updatedAt  DateTime?
 }
+
+model PortalTrainingVideos {
+  id          String   @id
+  title       String
+  description String
+  videoUrl    String
+  youtubeId   String
+  createdAt   DateTime @default(now())
+
+  OrganizationTrainingVideos OrganizationTrainingVideos[]
+}
+
+model OrganizationTrainingVideos {
+  id              String   @id @default(uuid())
+  organizationId  String
+  trainingVideoId String
+  completedBy     String[] @default([])
+
+  trainingVideo PortalTrainingVideos @relation(fields: [trainingVideoId], references: [id], onDelete: Cascade)
+  organization  Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}

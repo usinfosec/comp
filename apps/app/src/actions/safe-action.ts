@@ -25,6 +25,8 @@ export const actionClientWithMeta = createSafeActionClient({
   defineMetadataSchema() {
     return z.object({
       name: z.string(),
+      ip: z.string().optional(),
+      userAgent: z.string().optional(),
       track: z
         .object({
           event: z.string(),
@@ -56,10 +58,9 @@ export const authActionClient = actionClientWithMeta
   })
   .use(async ({ next, metadata }) => {
     const headersList = await headers();
-    const ip = headersList.get("x-forwarded-for");
 
     const { success, remaining } = await ratelimit.limit(
-      `${ip}-${metadata.name}`,
+      `${headersList.get("x-forwarded-for")}-${metadata.name}`
     );
 
     if (!success) {
@@ -68,63 +69,51 @@ export const authActionClient = actionClientWithMeta
 
     return next({
       ctx: {
+        ip: headersList.get("x-forwarded-for"),
+        userAgent: headersList.get("user-agent"),
         ratelimit: {
           remaining,
         },
       },
     });
   })
-  .use(async ({ next, metadata }) => {
-    const headersList = await headers();
+  .use(async ({ next, metadata, ctx }) => {
     const session = await auth();
 
     if (!session) {
       throw new Error("Unauthorized");
     }
 
-    /*     if (
-          metadata.name !== "check-subdomain-availability" &&
-          metadata.name !== "create-organization"
-        ) {
-          if (!session.user.organizationId) {
-            throw new Error("Organization not found");
-          }
+    // try {
+    // 	const auditData = {
+    // 		userId: session.user.id,
+    // 		email: session.user.email,
+    // 		name: session.user.name,
+    // 		organizationId: session.user.organizationId,
+    // 		action: metadata.name,
+    // 		ip: ctx.ip,
+    // 		userAgent: ctx.userAgent,
+    // 	};
 
-          const auditData = {
-            userId: session.user.id,
-            email: session.user.email,
-            name: session.user.name,
-            organizationId: session.user.organizationId,
-            action: metadata.name,
-            ipAddress: headersList.get("x-forwarded-for") || null,
-            userAgent: headersList.get("user-agent") || null,
-          };
+    // 	await db.auditLog.create({
+    // 		data: {
+    // 			data: auditData,
+    // 			userId: session.user.id,
+    // 			organizationId: session.user.organizationId,
+    // 		},
+    // 	});
 
-          try {
-            await db.auditLog.create({
-              data: {
-                data: auditData,
-                userId: session.user.id,
-                organizationId: session.user.organizationId,
-              },
-            });
-
-            if (metadata.track) {
-              await ServerAnalytics.track(
-                session.user.id,
-                metadata.track.event,
-                {
-                  channel: metadata.track.channel,
-                  email: session.user.email,
-                  name: session.user.name,
-                  organizationId: session.user.organizationId,
-                }
-              );
-            }
-          } catch (error) {
-            logger("Audit log error:", error);
-          }
-        } */
+    // 	if (metadata.track) {
+    // 		track(session.user.id, metadata.track.event, {
+    // 			channel: metadata.track.channel,
+    // 			email: session.user.email,
+    // 			name: session.user.name,
+    // 			organizationId: session.user.organizationId,
+    // 		});
+    // 	}
+    // } catch (error) {
+    // 	logger("Audit log error:", error);
+    // }
 
     return next({
       ctx: {

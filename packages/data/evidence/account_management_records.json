@@ -1,0 +1,7 @@
+{
+  "id": "account_management_records",
+  "name": "Account Management Records",
+  "description": "Account provisioning logs, privileged account review reports, and system audit logs. Provide Account Management Procedures document that outlines provisioning system accounts, managing privileged access, and monitoring account activity.",
+  "frequency": "quarterly",
+  "department": "it"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "hr_documentation",
+  "name": "HR Documentation",
+  "description": "HR records, training logs, and performance evaluations. Provide Talent Management Procedures document that outlines talent acquisition, performance management, and professional development.",
+  "frequency": "yearly",
+  "department": "hr"
+}

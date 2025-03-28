@@ -1,0 +1,7 @@
+{
+  "id": "data_quality_documentation",
+  "name": "Data Quality Documentation",
+  "description": "Data quality reports, audit logs, and records of corrective actions. Provide Data Quality Procedures document that outlines validating data inputs and correcting errors throughout data processing.",
+  "frequency": "quarterly",
+  "department": "it"
+}

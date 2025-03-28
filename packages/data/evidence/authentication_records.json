@@ -1,0 +1,7 @@
+{
+  "id": "authentication_records",
+  "name": "Authentication Records",
+  "description": "Authentication logs, MFA configuration records, and user account management records. Provide Authentication Management Procedures document that outlines user registration, credential issuance, and ongoing authentication management.",
+  "frequency": "quarterly",
+  "department": "it"
+}

@@ -40,12 +40,10 @@ model Session {
 }
 
 model User {
-  id                             String                           @id @default(cuid())
+  id                             String                                   @id @default(cuid())
   name                           String?
   full_name                      String?
-  email                          String?                          @unique
-  role                           Role                             @default(member)
-  onboarded                      Boolean                          @default(false)
+  email                          String?                                  @unique
   emailVerified                  DateTime?
   image                          String?
   lastLogin                      DateTime?
@@ -64,7 +62,7 @@ model User {
   TaskAttachment                 TaskAttachment[]
   TaskComments                   TaskComments[]
   PolicyComments                 PolicyComments[]
-  organization                   Organization?                    @relation("CurrentOrganization", fields: [organizationId], references: [id])
+  organization                   Organization?                            @relation("CurrentOrganization", fields: [organizationId], references: [id])
   OrganizationPolicy             OrganizationPolicy[]
   OrganizationIntegrationResults OrganizationIntegrationResults[]
   IntegrationResultsComments     OrganizationIntegrationResultsComments[]
@@ -80,18 +78,18 @@ model User {
 }
 
 model Organization {
-  id                             String                           @id @default(cuid())
+  id                             String                                   @id @default(cuid())
   stripeCustomerId               String?
   name                           String
-  setup                          Boolean                          @default(false)
+  setup                          Boolean                                  @default(false)
   website                        String
-  tier                           Tier                             @default(free)
-  policiesCreated                Boolean                          @default(false)
+  tier                           Tier                                     @default(free)
+  policiesCreated                Boolean                                  @default(false)
   frameworkId                    String?
   Artifact                       Artifact[]
   AuditLog                       AuditLog[]
   employees                      Employee[]
-  Framework                      Framework?                       @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+  Framework                      Framework?                               @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
   OrganizationCategory           OrganizationCategory[]
   OrganizationControl            OrganizationControl[]
   OrganizationEvidence           OrganizationEvidence[]
@@ -106,7 +104,7 @@ model Organization {
   TaskAttachment                 TaskAttachment[]
   TaskComments                   TaskComments[]
   PolicyComments                 PolicyComments[]
-  users                          User[]                           @relation("CurrentOrganization")
+  users                          User[]                                   @relation("CurrentOrganization")
   PortalUser                     PortalUser[]
   apiKeys                        OrganizationApiKey[]
   OrganizationIntegrationResults OrganizationIntegrationResults[]
@@ -120,6 +118,7 @@ model Organization {
   VendorTaskAttachment           VendorTaskAttachment[]
   VendorTaskComment              VendorTaskComment[]
   VendorTaskAssignment           VendorTaskAssignment[]
+  OrganizationTrainingVideos     OrganizationTrainingVideos[]
 
   @@index([stripeCustomerId])
   @@index([id])
@@ -376,4 +375,3 @@ enum VendorAttachmentType {
   document
   other
 }
-

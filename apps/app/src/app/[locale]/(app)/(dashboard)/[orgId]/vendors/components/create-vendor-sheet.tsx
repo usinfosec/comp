@@ -8,7 +8,7 @@ import { ScrollArea } from "@bubba/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { CreateRisk } from "./create-risk-form";
+import { CreateVendorForm } from "./create-vendor-form";
 
 export function CreateVendorSheet() {
 	const t = useI18n();
@@ -25,7 +25,7 @@ export function CreateVendorSheet() {
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
-						<SheetTitle>{t("risk.create")}</SheetTitle>
+						<SheetTitle>{t("vendors.create")}</SheetTitle>
 						<Button
 							size="icon"
 							variant="ghost"
@@ -37,7 +37,7 @@ export function CreateVendorSheet() {
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-						<CreateRisk />
+						<CreateVendorForm />
 					</ScrollArea>
 				</SheetContent>
 			</Sheet>
@@ -46,9 +46,9 @@ export function CreateVendorSheet() {
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.create")}</DrawerTitle>
+			<DrawerTitle hidden>{t("vendors.create")}</DrawerTitle>
 			<DrawerContent className="p-6">
-				<CreateRisk />
+				<CreateVendorForm />
 			</DrawerContent>
 		</Drawer>
 	);

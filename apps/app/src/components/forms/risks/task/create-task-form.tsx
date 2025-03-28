@@ -33,8 +33,7 @@ import {
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, CalendarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";

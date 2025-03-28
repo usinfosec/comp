@@ -7,58 +7,60 @@ import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { cache, Suspense } from "react";
+import { Suspense } from "react";
 
 export default async function OrganizationSettings({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth();
+	const session = await auth();
 
-  if (!session?.user.organizationId) {
-    return redirect("/");
-  }
+	if (!session?.user.organizationId) {
+		return redirect("/");
+	}
 
-  const organization = await organizationDetails(session.user.organizationId);
+	const organization = await organizationDetails(session.user.organizationId);
 
-  return (
-    <Suspense>
-      <div className="space-y-12">
-        <UpdateOrganizationName organizationName={organization?.name ?? ""} />
-        <UpdateOrganizationWebsite organizationWebsite={organization?.website ?? ""} />
-        <DeleteOrganization organizationId={organization?.id ?? ""} />
-      </div>
-    </Suspense>
-  );
+	return (
+		<Suspense>
+			<div className="space-y-12">
+				<UpdateOrganizationName organizationName={organization?.name ?? ""} />
+				<UpdateOrganizationWebsite
+					organizationWebsite={organization?.website ?? ""}
+				/>
+				<DeleteOrganization organizationId={organization?.id ?? ""} />
+			</div>
+		</Suspense>
+	);
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.settings"),
-  };
+	return {
+		title: t("sidebar.settings"),
+	};
 }
 
-const organizationDetails = cache(async (organizationId: string) => {
-  const organization = await db.organization.findUnique({
-    where: { id: organizationId },
-    select: {
-      name: true,
-      website: true,
-      id: true,
-    },
-  });
+const organizationDetails = async (organizationId: string) => {
+	const organization = await db.organization.findUnique({
+		where: { id: organizationId },
+		select: {
+			name: true,
+			website: true,
+			id: true,
+		},
+	});
 
-  return organization;
-});
+	return organization;
+};

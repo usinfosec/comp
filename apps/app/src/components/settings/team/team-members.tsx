@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
-import { cache } from "react";
 import { InviteMemberForm } from "./invite-member-form";
 import { MembersList } from "./members-list";
 import { PendingInvitations } from "./pending-invitations";
@@ -56,7 +55,7 @@ export async function TeamMembers() {
 	);
 }
 
-const getOrganizationMembers = cache(async (organizationId: string) => {
+const getOrganizationMembers = async (organizationId: string) => {
 	return db.organizationMember.findMany({
 		where: {
 			organizationId,
@@ -68,9 +67,9 @@ const getOrganizationMembers = cache(async (organizationId: string) => {
 			joinedAt: "desc",
 		},
 	});
-});
+};
 
-const getPendingInvitations = cache(async (organizationId: string) => {
+const getPendingInvitations = async (organizationId: string) => {
 	return db.organizationMember.findMany({
 		where: {
 			organizationId,
@@ -81,4 +80,4 @@ const getPendingInvitations = cache(async (organizationId: string) => {
 			joinedAt: "desc",
 		},
 	});
-});
+};

@@ -1,17 +1,14 @@
-import { db } from "@bubba/db";
-import { StatusChart } from "./status-chart";
-import { unstable_cache } from "next/cache";
-import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/auth";
+import { cache } from "react";
+import { db } from "@bubba/db";
+import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
+import { StatusChart } from "./status-chart";
 
-interface Props {
-  organizationId: string;
-}
-
-export async function RisksByStatus({ organizationId }: Props) {
+export async function RisksByStatus() {
   const t = await getI18n();
 
-  const risks = await getRisksByStatus(organizationId);
+  const risks = await getRisksByStatus();
 
   const data = risks.map((risk) => ({
     name: risk.status,
@@ -21,7 +18,7 @@ export async function RisksByStatus({ organizationId }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("dashboard.risk_status")}</CardTitle>
+        <CardTitle>{t("risk.dashboard.status")}</CardTitle>
       </CardHeader>
       <CardContent>
         <StatusChart data={data} />
@@ -30,14 +27,20 @@ export async function RisksByStatus({ organizationId }: Props) {
   );
 }
 
-const getRisksByStatus = unstable_cache(
-  async (organizationId: string) => {
-    return await db.risk.groupBy({
+const getRisksByStatus = cache(
+  async () => {
+    const session = await auth();
+
+    if (!session || !session.user.organizationId) {
+      return [];
+    }
+
+    const risks = await db.risk.groupBy({
       by: ["status"],
-      where: { organizationId },
+      where: { organizationId: session.user.organizationId },
       _count: true,
     });
+
+    return risks;
   },
-  ["risks-by-status"],
-  { tags: ["risks", "status"] },
 );
