@@ -39,6 +39,7 @@ const AdvancedEditor = ({ initialContent }: AdvancedEditorProps) => {
 		<div className="relative w-full max-w-screen-lg">
 			<EditorRoot>
 				<EditorContent
+					editable={false}
 					immediatelyRender={false}
 					initialContent={initialContent}
 					extensions={defaultExtensions}
