@@ -60,7 +60,7 @@ export function CreateVendorCommentForm() {
           <div>
             <Accordion type="multiple" defaultValue={["task"]}>
               <AccordionItem value="task">
-                <AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
+                {t("common.comments.new")}
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField

@@ -1,48 +1,66 @@
-import { Cookies } from "@/utils/constants";
-import { Icons } from "@bubba/ui/icons";
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { MainMenu } from "./main-menu";
 import { auth } from "@/auth";
+import { getOrganizations } from "@/data/getOrganizations";
+import { db } from "@bubba/db";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { OrgMenu } from "./org-menu";
+import { MainMenu } from "./main-menu";
+import { OrganizationSwitcher } from "./organization-switcher";
+import { SidebarCollapseButton } from "./sidebar-collapse-button";
+import { SidebarLogo } from "./sidebar-logo";
 
 export async function Sidebar() {
 	const session = await auth();
 	const user = session?.user;
 	const organizationId = user?.organizationId;
+	const cookieStore = await cookies();
+	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const cookieStore = await cookies();
-
-	const initialItems = cookieStore.has(Cookies.MenuConfig)
-		? JSON.parse(cookieStore.get(Cookies.MenuConfig)?.value ?? "")
-		: null;
+	const frameworks = await getFrameworks();
+	const { organizations } = await getOrganizations();
 
 	return (
-		<aside className="h-screen flex-shrink-0 flex-col justify-between fixed top-0 ml-4 pb-4 items-center hidden md:flex">
-			<div className="flex flex-col items-center justify-center">
-				<div className="mt-2 todesktop:mt-[35px]">
-					<div className="mt-2 items-center justify-center">
-						<Link href={`/${organizationId}`}>
-							<Icons.Logo />
-						</Link>
-					</div>
+		<div className="h-full flex flex-col gap-0">
+			<div className="p-4 flex flex-col gap-0">
+				<div className="flex items-center justify-between">
+					<SidebarLogo
+						isCollapsed={isCollapsed}
+						organizationId={organizationId}
+					/>
+					{!isCollapsed && <SidebarCollapseButton isCollapsed={isCollapsed} />}
 				</div>
 				<MainMenu
 					userIsAdmin={user?.isAdmin ?? false}
-					initialItems={initialItems}
 					organizationId={organizationId}
+					isCollapsed={isCollapsed}
 				/>
 			</div>
+			<div className="flex-1" />
+			{isCollapsed && (
+				<div className="flex justify-center border-b border-border py-2">
+					<SidebarCollapseButton isCollapsed={isCollapsed} />
+				</div>
+			)}
 
-			<Suspense>
-				<OrgMenu />
-			</Suspense>
-		</aside>
+			<div className="flex h-[60px] items-center mx-auto w-full pb-1">
+				<OrganizationSwitcher
+					organizations={organizations}
+					organizationId={organizationId}
+					frameworks={frameworks}
+					isCollapsed={isCollapsed}
+				/>
+			</div>
+		</div>
 	);
 }
+
+const getFrameworks = async () => {
+	return await db.framework.findMany({
+		orderBy: {
+			name: "asc",
+		},
+	});
+};

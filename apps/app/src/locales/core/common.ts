@@ -159,4 +159,8 @@ export const common = {
   edit: "Edit",
   description: "Description",
   last_updated: "Last Updated",
+  save: "Save",
+  success: "Success",
+  error: "Error",
+  unexpected_error: "An unexpected error occurred",
 } as const;

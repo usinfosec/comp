@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
+import { AnimatedLayout } from "@/components/animated-layout";
+import { SidebarProvider } from "@/context/sidebar-context";
+import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
@@ -20,25 +23,26 @@ export default async function Layout({
 }) {
 	const session = await auth();
 	const orgId = (await params).orgId;
+	const cookieStore = await cookies();
+	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
 	if (!session) {
 		redirect("/auth");
 	}
 
 	if (!orgId) {
-		redirect("/overview");
+		redirect("/");
 	}
 
 	return (
-		<div className="relative">
-			<Sidebar />
-
-			<div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
-				<Header />
-				<main>{children}</main>
-			</div>
-
+		<SidebarProvider initialIsCollapsed={isCollapsed}>
+			<AnimatedLayout sidebar={<Sidebar />} isCollapsed={isCollapsed}>
+				<div className="p-4">
+					<Header />
+					<main>{children}</main>
+				</div>
+			</AnimatedLayout>
 			<HotKeys />
-		</div>
+		</SidebarProvider>
 	);
 }
