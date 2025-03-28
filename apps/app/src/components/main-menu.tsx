@@ -113,7 +113,7 @@ export function MainMenu({
 	const items: MenuItem[] = [
 		{
 			id: "overview",
-			path: "/:organizationId",
+			path: "/:organizationId/overview",
 			name: t("sidebar.overview"),
 			disabled: false,
 			icon: Icons.Overview,
@@ -144,9 +144,9 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "people",
-			path: "/:organizationId/people",
-			name: t("sidebar.people"),
+			id: "employees",
+			path: "/:organizationId/employees/dashboard",
+			name: t("sidebar.employees"),
 			disabled: false,
 			icon: Icons.Peolple,
 			protected: false,

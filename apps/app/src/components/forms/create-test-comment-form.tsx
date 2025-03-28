@@ -62,7 +62,7 @@ export function CreateTestCommentForm() {
 					<div>
 						<Accordion type="multiple" defaultValue={["policy"]}>
 							<AccordionItem value="policy">
-								<AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
+								{t("common.comments.new")}
 								<AccordionContent>
 									<div className="space-y-4">
 										<FormField

@@ -14,11 +14,21 @@ interface AWSCredentials {
 	secret_access_key: string;
 }
 
+interface AWSFinding {
+	title: string;
+	description: string;
+	remediation: string;
+	status: string;
+	severity: string;
+	resultDetails: any;
+}
+
 /**
  * Fetches security findings from AWS Security Hub
  * @returns Promise containing an array of findings
  */
-async function fetch(credentials: AWSCredentials): Promise<any[]> {
+async function fetch(credentials: AWSCredentials): Promise<AWSFinding[]> {
+	console.log("Fetching AWS Security Hub findings");
 	try {
 		// 1. Configure the SecurityHub client with AWS credentials
 		const config: SecurityHubClientConfig = {
@@ -40,13 +50,26 @@ async function fetch(credentials: AWSCredentials): Promise<any[]> {
 		};
 
 		const command = new GetFindingsCommand(params);
-		let response: GetFindingsCommandOutput =
-			await securityHubClient.send(command);
+		let response: GetFindingsCommandOutput = await securityHubClient.send(command);
+		
+		const allFindings: AWSFinding[] = [];
+		
+		// Process initial response
+		if (response.Findings) {
+			const transformedFindings = response.Findings.map(finding => ({
+				title: finding.Title || "Untitled Finding",
+				description: finding.Description || "No description available",
+				remediation: finding.Remediation?.Recommendation?.Text || "No remediation available",
+				status: finding.Compliance?.Status || "unknown",
+				severity: finding.Severity?.Label || "INFO",
+				resultDetails: finding
+			}));
+			allFindings.push(...transformedFindings);
+		}
 
-		const allFindings: any[] = response.Findings || [];
 		let nextToken = response.NextToken;
-
-		// 3. Loop to paginate through all results if there are more than 100 findings
+		
+		// Continue pagination if there are more results
 		while (nextToken) {
 			const nextPageParams: GetFindingsCommandInput = {
 				...params,
@@ -57,13 +80,21 @@ async function fetch(credentials: AWSCredentials): Promise<any[]> {
 			);
 
 			if (response.Findings) {
-				allFindings.push(...response.Findings);
+				const transformedFindings = response.Findings.map(finding => ({
+					title: finding.Title || "Untitled Finding",
+					description: finding.Description || "No description available",
+					remediation: finding.Remediation?.Recommendation?.Text || "No remediation available",
+					status: finding.Compliance?.Status || "unknown",
+					severity: finding.Severity?.Label || "INFO",
+					resultDetails: finding
+				}));
+				allFindings.push(...transformedFindings);
 			}
 
 			nextToken = response.NextToken;
 		}
 
-		console.log(`Retrieved ${allFindings.length} findings`);
+		console.log("Retrieved", allFindings.length, "findings");
 		return allFindings;
 	} catch (error) {
 		console.error("Error fetching Security Hub findings:", error);
@@ -73,4 +104,4 @@ async function fetch(credentials: AWSCredentials): Promise<any[]> {
 
 // Export the function and types for use in other modules
 export { fetch };
-export type { AWSCredentials };
+export type { AWSCredentials, AWSFinding };

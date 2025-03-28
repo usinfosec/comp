@@ -10,6 +10,15 @@ interface AzureCredentials {
 	AZURE_SUBSCRIPTION_ID: string;
 }
 
+interface AzureFinding {
+	title: string;
+	description: string;
+	remediation: string;
+	status: string;
+	severity: string;
+	resultDetails: any;
+}
+
 interface ComplianceControl {
 	Id: string;
 	name: string;
@@ -61,7 +70,7 @@ interface AzureControlResponse {
  */
 async function fetchComplianceData(
 	credentials: AzureCredentials,
-): Promise<ComplianceControl[]> {
+): Promise<AzureFinding[]> {
 	try {
 		const BASE_URL = `https://management.azure.com/subscriptions/${credentials.AZURE_SUBSCRIPTION_ID}/providers/Microsoft.Security`;
 
@@ -99,7 +108,7 @@ async function fetchComplianceData(
 		const complianceData: ComplianceStandard[] = [];
 
 		// Fetch details for each control
-		const controlDetails: ComplianceControl[] = [];
+		const findings: AzureFinding[] = [];
 
 		for (const standard of standards) {
 			const controlsUrl = `${BASE_URL}/regulatoryComplianceStandards/${standard}/regulatoryComplianceControls?api-version=${API_VERSION}`;
@@ -140,31 +149,18 @@ async function fetchComplianceData(
 					(await detailsResponse.json()) as AzureControlResponse;
 				const controlDetail = detailsData;
 				if (controlDetail?.properties) {
-					controlDetails.push({
-						Id: detailsUrl,
-						name: control,
-						standard: standard,
-						Title: controlDetail.properties.description,
-						description: controlDetail.properties.description,
-						state: controlDetail.properties.state,
-						Compliance: {
-							Status: controlDetail.properties.state.toUpperCase(),
-						},
-						Severity: {
-							Label: "INFO",
-						},
-						Description: controlDetail.properties.description,
-						Remediation: {
-							Recommendation: {
-								Text: controlDetail.properties.description,
-								Url: "",
-							},
-						},
+					findings.push({
+						title: controlDetail.properties.description || "Untitled Control",
+						description: controlDetail.properties.description || "No description available",
+						remediation: "No remediation available", // Azure API doesn't provide remediation in this endpoint
+						status: controlDetail.properties.state.toUpperCase(),
+						severity: "INFO",
+						resultDetails: controlDetail
 					});
 				}
 			}
 		}
-		return controlDetails;
+		return findings;
 	} catch (error) {
 		console.error("Error fetching Azure compliance data:", error);
 		throw error;
@@ -172,4 +168,4 @@ async function fetchComplianceData(
 }
 
 export { fetchComplianceData as fetch };
-export type { AzureCredentials };
+export type { AzureCredentials, AzureFinding };

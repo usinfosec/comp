@@ -6,6 +6,6 @@ export const sidebar = {
   integrations: "Integrations",
   settings: "Settings",
   evidence: "Evidence Tasks",
-  people: "People",
+  employees: "Employees",
   tests: "Cloud Tests",
-} as const 
+} as const;
