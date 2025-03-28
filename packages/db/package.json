@@ -6,6 +6,7 @@
   "scripts": {
     "db:generate": "bunx prisma generate",
     "db:push": "bunx prisma db push",
+    "db:migrate": "bunx prisma migrate dev",
     "db:studio": "bunx prisma studio",
     "db:seed": "bunx prisma db seed",
     "dev": "tsc --watch",

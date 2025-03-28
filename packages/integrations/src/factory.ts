@@ -4,6 +4,9 @@ import type { AWSCredentials } from "./aws/src";
 import { fetch as azureFetch } from "./azure/src";
 import type { AzureCredentials } from "./azure/src";
 
+import { fetch as gcpFetch } from "./gcp/src";
+import type { GCPCredentials } from "./gcp/src";
+
 // Add Deel credentials type
 interface DeelCredentials {
 	api_key: string;
@@ -17,13 +20,23 @@ interface EncryptedData {
 	salt: string;
 }
 
+// Common interface for all integration findings
+export interface IntegrationFinding {
+	title: string;
+	description: string;
+	remediation: string;
+	status: string;
+	severity: string;
+	resultDetails: any;
+}
+
 // Type for decrypt function
 type DecryptFunction = (data: EncryptedData) => Promise<string>;
 
 // Generic interface for integration handlers
 export interface IntegrationHandler<T> {
 	id: string;
-	fetch: (credentials: T) => Promise<any[]>;
+	fetch: (credentials: T) => Promise<IntegrationFinding[]>;
 	processCredentials: (
 		encryptedSettings: Record<string, unknown>,
 		decrypt: DecryptFunction,
@@ -93,11 +106,24 @@ handlers.set("azure", {
 	},
 });
 
+// Initialize GCP handler
+handlers.set("gcp", {
+	id: "gcp",
+	fetch: gcpFetch,
+	processCredentials: async (encryptedSettings, decrypt) => {
+		const decrypted = await decryptSettings(encryptedSettings, decrypt);
+		return {
+			organization_id: decrypted.organization_id,
+			service_account_key: decrypted.service_account_key,
+		} as GCPCredentials;
+	},
+});
+
 // Initialize Deel handler (mock implementation since we don't have the actual fetch function)
 handlers.set("deel", {
 	id: "deel",
 	// This is a placeholder implementation; replace with actual fetch once available
-	fetch: async (credentials: DeelCredentials) => {
+	fetch: async (credentials: DeelCredentials): Promise<IntegrationFinding[]> => {
 		console.log("Deel integration fetch called with credentials");
 		return []; // Return empty array as placeholder
 	},
@@ -122,6 +148,7 @@ export const getIntegrationHandler = <T>(
 export type {
 	AWSCredentials,
 	AzureCredentials,
+	GCPCredentials,
 	DecryptFunction,
 	EncryptedData,
 };

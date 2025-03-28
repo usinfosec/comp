@@ -62,42 +62,43 @@ export const sendIntegrationResults = schemaTask({
         }
 
         // Check if a result with the same finding ID already exists
-        // Assuming all integrations have an Id field in their results
+        // Using title as a unique identifier since it's now part of the standard fields
         const existingResult =
           await db.organizationIntegrationResults.findFirst({
             where: {
-              resultDetails: {
-                path: ["Id"],
-                equals: result?.Id,
-              },
+              title: result.title,
               organizationIntegrationId: existingIntegration.id,
             },
           });
 
-					if (existingResult) {
-						// Update the existing result instead of creating a new one
-						await db.organizationIntegrationResults.update({
-							where: { id: existingResult.id },
-							data: {
-								status: result?.Compliance?.Status || "unknown",
-								label: result?.Severity?.Label || "INFO",
-								resultDetails: result || { error: "No result returned" },
-							},
-						});
-						continue;
-					}
-          
-					await db.organizationIntegrationResults.create({
-						data: {
-							title: result?.Title,
-							status: result?.Compliance?.Status || "unknown",
-							label: result?.Severity?.Label || "INFO",
-							resultDetails: result || { error: "No result returned" },
-							organizationIntegrationId: existingIntegration.id,
-							organizationId: integration.organization.id,
-							// assignedUserId is now optional, so we don't need to provide it
-						},
-					});
+        if (existingResult) {
+          // Update the existing result instead of creating a new one
+          await db.organizationIntegrationResults.update({
+            where: { id: existingResult.id },
+            data: {
+              title: result.title,
+              description: result.description,
+              remediation: result.remediation,
+              status: result.status,
+              severity: result.severity,
+              resultDetails: result.resultDetails,
+            },
+          });
+          continue;
+        }
+        
+        await db.organizationIntegrationResults.create({
+          data: {
+            title: result.title,
+            description: result.description,
+            remediation: result.remediation,
+            status: result.status,
+            severity: result.severity,
+            resultDetails: result.resultDetails,
+            organizationIntegrationId: existingIntegration.id,
+            organizationId: integration.organization.id,
+          },
+        });
       }
 
       logger.info(`Integration run completed for ${integration.name}`);
@@ -111,14 +112,15 @@ export const sendIntegrationResults = schemaTask({
         await db.organizationIntegrationResults.create({
           data: {
             title: `${integration.name} Security Check`,
+            description: "Integration failed to run",
+            remediation: "Please check the integration configuration and try again",
             status: "error",
-            label: "ERROR",
+            severity: "ERROR",
             resultDetails: {
               error: error instanceof Error ? error.message : String(error),
             },
             organizationIntegrationId: integration.integration_id,
             organizationId: integration.organization.id,
-            // assignedUserId is now optional, so we don't need to provide it
           },
         });
       } catch (createError) {

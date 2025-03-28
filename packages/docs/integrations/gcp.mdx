@@ -5,7 +5,7 @@ description: "Connect Google Cloud Platform to Comp AI for cloud security testin
 
 # Google Cloud Platform Integration
 
-The Google Cloud Platform (GCP) integration allows you to connect your GCP projects to Comp AI for automated security testing, compliance monitoring, and risk assessment.
+The Google Cloud Platform (GCP) integration allows you to connect your GCP projects to Comp AI for automated compliance monitoring, and risk assessment.
 
 ## Setup Process
 
@@ -19,22 +19,25 @@ Before setting up the integration, ensure you have:
 
 ### Configuration Steps
 
-1. Navigate to **Settings > Integrations** in your Comp AI dashboard
-2. Click on **Connect** next to the GCP integration card
-3. Select the integration method:
-   - **Option 1**: Service Account (Recommended)
-     - Create a service account in your GCP project
-     - Download the service account key (JSON)
-     - Upload the key to Comp AI
-   - **Option 2**: Terraform
-     - Use the provided Terraform module
-     - Apply the configuration to your GCP environment
-     - Enter the created service account details in Comp AI
-4. Configure scan settings:
-   - Scan frequency
-   - Target projects and services
-   - Notification preferences
-5. Click **Save and Connect**
+1. Navigate to **Settings > Integrations** in your Comp AI dashboard  
+2. Click on **Connect** next to the GCP integration card  
+3. Link Service Account  
+    - Go to the [GCP Console → IAM & Admin → Service Accounts](https://console.cloud.google.com/iam-admin/serviceaccounts)  
+    - Click **“Create Service Account”** and give it a name like `comp-ai-integration`
+    - Click **Continue**, then grant the following roles:
+        - `Security Center Findings Viewer` (`roles/securitycenter.findingsViewer`)
+        - *(Optional)* `Viewer` (`roles/viewer`)
+    - Complete the service account creation
+    - After creating the service account:
+        - Go to the **“Keys”** tab
+        - Click **“Add Key” → “Create new key”**, select **JSON**, then click **Create**
+        - Download the key — you’ll use this in the next step
+    - Go to the [API Library](https://console.cloud.google.com/apis/library) and enable:
+        - **Security Command Center API**
+        - **Cloud Resource Manager API**
+    - Open the downloaded JSON file, and copy its entire contents  
+    - Paste it into the **Service Account Key** field in the Comp AI connection form  
+4. Click **Save and Connect**
 
 ## Capabilities
 
@@ -87,7 +90,7 @@ The integration does NOT have permissions to:
 ### Common Issues
 
 **Issue**: Failed to connect GCP project  
-**Solution**: Verify service account key and IAM permissions
+**Solution**: Verify organization id and service account key and IAM permissions
 
 **Issue**: Missing scan results for specific services  
 **Solution**: Check IAM permissions for those specific services
