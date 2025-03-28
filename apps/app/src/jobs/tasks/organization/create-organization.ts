@@ -219,19 +219,52 @@ const createOrganizationPolicy = async (
     }
   }
 
+  const organization = await db.organization.findUnique({
+    where: {
+      id: organizationId,
+    },
+  });
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split("T")[0]; // YYYY-MM-DD format
+
   const organizationPolicies = await db.organizationPolicy.createMany({
     data: policiesForFrameworks.map((policy) => ({
       organizationId,
       policyId: policy.id,
       ownerId: userId,
       status: "draft",
-      content: policy.content as InputJsonValue[],
+      content: processContentPlaceholders(
+        policy.content as InputJsonValue[],
+        organization?.name || "",
+        formattedDate
+      ),
       frequency: policy.frequency,
     })),
   });
 
   return organizationPolicies;
 };
+
+/**
+ * Processes content placeholders by converting to string, replacing values, and converting back
+ */
+function processContentPlaceholders(
+  content: InputJsonValue[],
+  organizationName: string,
+  formattedDate: string
+): InputJsonValue[] {
+  // Convert the content to a string
+  const contentString = JSON.stringify(content);
+
+  // Replace all occurrences of the placeholders
+  const processedString = contentString
+    .replace(/{{organization}}/g, organizationName)
+    .replace(/{{date}}/g, formattedDate);
+
+  // Convert back to an object
+  return JSON.parse(processedString);
+}
 
 const createOrganizationCategories = async (
   organizationId: string,
