@@ -1,6 +1,6 @@
 "use client";
 
-import { STATUS_FILTERS } from "./filterConfigs";
+import { ARCHIVED_FILTER, STATUS_FILTERS } from "./filterConfigs";
 import type { User } from "next-auth";
 
 interface FilterCategoriesProps {
@@ -8,6 +8,8 @@ interface FilterCategoriesProps {
 	setStatus: (status: string | null) => void;
 	ownerId: string | null;
 	setOwnerId: (ownerId: string | null) => void;
+	isArchived: string | null;
+	setIsArchived: (isArchived: string | null) => void;
 	users: User[];
 	setPage: (page: string) => void;
 }
@@ -17,6 +19,8 @@ export function getFilterCategories({
 	setStatus,
 	ownerId,
 	setOwnerId,
+	isArchived,
+	setIsArchived,
 	users,
 	setPage,
 }: FilterCategoriesProps) {
@@ -31,6 +35,19 @@ export function getFilterCategories({
 					setPage("1");
 				},
 			})),
+		},
+		{
+			label: "Filter by Archived",
+			items: [
+				{
+					...ARCHIVED_FILTER,
+					checked: isArchived === ARCHIVED_FILTER.value,
+					onChange: (checked: boolean) => {
+						setIsArchived(checked ? ARCHIVED_FILTER.value : null);
+						setPage("1");
+					},
+				},
+			],
 		},
 		{
 			label: "Filter by Owner",

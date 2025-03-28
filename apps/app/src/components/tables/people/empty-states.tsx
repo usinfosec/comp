@@ -6,7 +6,7 @@ import { Users } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { Plus } from "lucide-react";
-import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 
 interface Props {
 	hasFilters?: boolean;
