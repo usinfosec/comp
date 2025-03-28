@@ -114,7 +114,7 @@ export async function getComplianceScores(
   // Transform the data to match the expected format
   const tests = integrationResults.map((result) => ({
     id: result.id,
-    severity: result.label,
+    severity: result.severity,
     result: result.status,
     title: result.title || result.organizationIntegration.name,
     provider: result.organizationIntegration.integration_id,
