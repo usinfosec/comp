@@ -7,8 +7,6 @@ export async function EmployeesOverview() {
 	const policies = await getEmployeePolicies();
 	const trainingVideos = await getEmployeeTrainingVideos();
 
-	console.log({ employees, policies, trainingVideos });
-
 	return (
 		<div className="grid gap-6">
 			<EmployeeCompletionChart
@@ -16,7 +14,6 @@ export async function EmployeesOverview() {
 				policies={policies}
 				trainingVideos={trainingVideos}
 			/>
-			{/* Add more dashboard components here as needed */}
 		</div>
 	);
 }
@@ -29,13 +26,36 @@ const getEmployees = async () => {
 		return [];
 	}
 
-	const employees = await db.portalUser.findMany({
+	const portalEmployees = await db.portalUser.findMany({
 		where: {
 			organizationId: orgId,
 		},
 	});
 
-	return employees;
+	const employees = await db.employee.findMany({
+		where: {
+			organizationId: orgId,
+			email: {
+				in: portalEmployees.map((employee) => employee.email),
+			},
+		},
+	});
+
+	// Create a map of employees with their active status
+	const employeeStatusMap = new Map(
+		employees.map((employee) => [employee.email, employee.isActive]),
+	);
+
+	// Filter portal employees to only include those that have a matching employee record
+	// and where that employee is active
+	// TODO: REMOVE ONCE WE GET RID OF PORTAL EMPLOYEES TABLE
+	const activePortalEmployees = portalEmployees.filter(
+		(portalUser) =>
+			employeeStatusMap.has(portalUser.email) &&
+			employeeStatusMap.get(portalUser.email) === true,
+	);
+
+	return activePortalEmployees;
 };
 
 const getEmployeePolicies = async () => {
