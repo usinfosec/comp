@@ -36,12 +36,6 @@ export function FrameworkOverview({
 		}
 	}).length;
 
-	// Calculate compliance metrics
-	const compliancePercentage =
-		totalRequirements > 0
-			? Math.round((completedRequirements / totalRequirements) * 100)
-			: 0;
-
 	// Count controls
 	const allControls = organizationCategories.flatMap(
 		(category) => category.organizationControl,
@@ -68,6 +62,12 @@ export function FrameworkOverview({
 
 		return completedControlRequirements === controlRequirements.length;
 	}).length;
+
+	// Calculate compliance percentage based on compliant controls
+	const compliancePercentage =
+		totalControls > 0
+			? Math.round((compliantControls / totalControls) * 100)
+			: 0;
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
