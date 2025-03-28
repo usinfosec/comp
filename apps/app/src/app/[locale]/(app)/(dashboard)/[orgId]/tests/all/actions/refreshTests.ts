@@ -71,15 +71,11 @@ export const refreshTestsAction = authActionClient
 						continue;
 					}
 
-					// Check if a result with the same finding ID already exists
-					// Assuming all integrations have an Id field in their results
+					// Check if a result with the same title already exists
 					const existingResult =
 						await db.organizationIntegrationResults.findFirst({
 							where: {
-								resultDetails: {
-									path: ["Id"],
-									equals: result?.Id,
-								},
+								title: result.title,
 								organizationIntegrationId: existingIntegration.id,
 							},
 						});
@@ -89,9 +85,12 @@ export const refreshTestsAction = authActionClient
 						await db.organizationIntegrationResults.update({
 							where: { id: existingResult.id },
 							data: {
-								status: result?.Compliance?.Status || "unknown",
-								label: result?.Severity?.Label || "INFO",
-								resultDetails: result || { error: "No result returned" },
+								title: result.title,
+								description: result.description,
+								remediation: result.remediation,
+								status: result.status,
+								severity: result.severity,
+								resultDetails: result.resultDetails,
 							},
 						});
 						continue;
@@ -99,13 +98,14 @@ export const refreshTestsAction = authActionClient
 
 					await db.organizationIntegrationResults.create({
 						data: {
-							title: result?.Title,
-							status: result?.Compliance?.Status || "unknown",
-							label: result?.Severity?.Label || "INFO",
-							resultDetails: result || { error: "No result returned" },
+							title: result.title,
+							description: result.description,
+							remediation: result.remediation,
+							status: result.status,
+							severity: result.severity,
+							resultDetails: result.resultDetails,
 							organizationIntegrationId: existingIntegration.id,
 							organizationId: integration.organizationId,
-							// assignedUserId is now optional, so we don't need to provide it
 						},
 					});
 				}
