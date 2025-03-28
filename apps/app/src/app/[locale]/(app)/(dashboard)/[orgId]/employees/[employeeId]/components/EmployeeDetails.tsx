@@ -303,51 +303,63 @@ export function EmployeeDetails({
 
 						<TabsContent value="policies">
 							<div className="flex flex-col gap-2">
-								{policies.map((policy) => {
-									const isCompleted =
-										policy.signedBy.includes(portalEmployeeId);
+								{policies.length === 0 ? (
+									<div className="text-center py-6 text-muted-foreground">
+										<p>No policies required to sign.</p>
+									</div>
+								) : (
+									policies.map((policy) => {
+										const isCompleted =
+											policy.signedBy.includes(portalEmployeeId);
 
-									return (
-										<div
-											key={policy.id}
-											className="flex items-center gap-2 border p-3 justify-between"
-										>
-											<h2 className="flex items-center gap-2">
-												{isCompleted ? (
-													<CheckCircle2 className="h-4 w-4 text-green-500" />
-												) : (
-													<AlertCircle className="h-4 w-4 text-red-500" />
-												)}
-												{policy.policy.name}
-											</h2>
-										</div>
-									);
-								})}
+										return (
+											<div
+												key={policy.id}
+												className="flex items-center gap-2 border p-3 justify-between"
+											>
+												<h2 className="flex items-center gap-2">
+													{isCompleted ? (
+														<CheckCircle2 className="h-4 w-4 text-green-500" />
+													) : (
+														<AlertCircle className="h-4 w-4 text-red-500" />
+													)}
+													{policy.policy.name}
+												</h2>
+											</div>
+										);
+									})
+								)}
 							</div>
 						</TabsContent>
 
 						<TabsContent value="training">
 							<div className="flex flex-col gap-2">
-								{trainingVideos.map((video) => {
-									const isCompleted =
-										video.completedBy.includes(portalEmployeeId);
+								{trainingVideos.length === 0 ? (
+									<div className="text-center py-6 text-muted-foreground">
+										<p>No training videos required to watch.</p>
+									</div>
+								) : (
+									trainingVideos.map((video) => {
+										const isCompleted =
+											video.completedBy.includes(portalEmployeeId);
 
-									return (
-										<div
-											key={video.id}
-											className="flex items-center gap-2 border p-3 justify-between"
-										>
-											<h2 className="flex items-center gap-2">
-												{isCompleted ? (
-													<CheckCircle2 className="h-4 w-4 text-green-500" />
-												) : (
-													<AlertCircle className="h-4 w-4 text-red-500" />
-												)}
-												{video.trainingVideo.title}
-											</h2>
-										</div>
-									);
-								})}
+										return (
+											<div
+												key={video.id}
+												className="flex items-center gap-2 border p-3 justify-between"
+											>
+												<h2 className="flex items-center gap-2">
+													{isCompleted ? (
+														<CheckCircle2 className="h-4 w-4 text-green-500" />
+													) : (
+														<AlertCircle className="h-4 w-4 text-red-500" />
+													)}
+													{video.trainingVideo.title}
+												</h2>
+											</div>
+										);
+									})
+								)}
 							</div>
 						</TabsContent>
 					</Tabs>
