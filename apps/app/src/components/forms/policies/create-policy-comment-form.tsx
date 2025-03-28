@@ -7,7 +7,6 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
 } from "@bubba/ui/accordion";
 import { Button } from "@bubba/ui/button";
 import {
@@ -62,7 +61,7 @@ export function CreatePolicyCommentForm() {
           <div>
             <Accordion type="multiple" defaultValue={["policy"]}>
               <AccordionItem value="policy">
-                <AccordionTrigger>{t("common.comments.new")}</AccordionTrigger>
+                {t("common.comments.new")}
                 <AccordionContent>
                   <div className="space-y-4">
                     <FormField
