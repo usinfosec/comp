@@ -221,9 +221,9 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "people",
-			path: "/:organizationId/people/dashboard",
-			name: t("sidebar.people"),
+			id: "employees",
+			path: "/:organizationId/employees/dashboard",
+			name: t("sidebar.employees"),
 			disabled: false,
 			icon: Icons.Peolple,
 			protected: false,

@@ -25,6 +25,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sidebar.people"),
+		title: t("sidebar.employees"),
 	};
 }
