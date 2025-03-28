@@ -15,9 +15,7 @@ interface ModelPickerProps {
 }
 
 const MODELS: Record<modelID, string> = {
-  "llama-3.1-8b-instant": "A fast cheap model",
   "deepseek-r1-distill-llama-70b": "A reasoning model",
-  "llama-3.3-70b-versatile": "A large model",
 };
 
 export const ModelPicker = ({
