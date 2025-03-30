@@ -2,8 +2,6 @@ import type { modelID } from "@/hooks/ai/providers";
 import { Icons } from "@bubba/ui/icons";
 import { Popover, PopoverTrigger, PopoverContent } from "@bubba/ui/popover";
 import { Textarea as ShadcnTextarea } from "@bubba/ui/textarea";
-import { ArrowUp } from "lucide-react";
-import app from "next/app";
 import { useRouter } from "next/navigation";
 
 interface InputProps {
@@ -20,10 +18,6 @@ export const ChatTextarea = ({
   input,
   handleInputChange,
   isLoading,
-  status,
-  stop,
-  selectedModel,
-  setSelectedModel,
 }: InputProps) => {
   const router = useRouter();
 

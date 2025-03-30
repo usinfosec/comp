@@ -9,16 +9,27 @@ export const useStreamableText = (
   );
 
   useEffect(() => {
+    if (typeof content === "string") {
+      setRawContent(content);
+      return;
+    }
+
+    let isMounted = true;
+
     (async () => {
-      if (typeof content === "object") {
-        const value = "";
-        for await (const delta of readStreamableValue(content)) {
-          if (typeof delta === "string") {
-            setRawContent((value) => value + delta);
-          }
+      let accumulated = "";
+      for await (const delta of readStreamableValue(content)) {
+        if (!isMounted) break;
+        if (typeof delta === "string") {
+          accumulated += delta;
+          setRawContent(accumulated);
         }
       }
     })();
+
+    return () => {
+      isMounted = false;
+    };
   }, [content]);
 
   return rawContent;

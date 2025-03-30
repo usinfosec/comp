@@ -3,20 +3,29 @@
 import type { Message as TMessage } from "ai";
 import { AnimatePresence, motion } from "motion/react";
 import { memo, useCallback, useEffect, useState } from "react";
-import equal from "fast-deep-equal";
-
-import { Markdown } from "./markdown";
+import { useStreamableText } from "@/hooks/use-streamable-text";
+import { MemoizedReactMarkdown } from "../markdown";
 import { cn } from "@bubba/ui/cn";
+import { LogoSpinner } from "../logo-spinner";
 import {
-  CheckCircle,
   ChevronDownIcon,
   ChevronUpIcon,
-  Loader2,
-  PocketKnife,
-  SparklesIcon,
-  StopCircle,
 } from "lucide-react";
-import { SpinnerIcon } from "./icons";
+import { ChatAvatar } from "./chat-avatar";
+import equal from "fast-deep-equal";
+import type { StreamableValue } from "ai/rsc";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import { ErrorFallback } from "../error-fallback";
+
+interface ToolInvocation {
+  toolName: string;
+  state: "call" | "result";
+  result?: any;
+}
+
+interface ExtendedToolInvocation extends ToolInvocation {
+  result?: any;
+}
 
 interface ReasoningPart {
   type: "reasoning";
@@ -61,33 +70,45 @@ export function ReasoningMessagePart({
   return (
     <div className="flex flex-col">
       {isReasoning ? (
-        <div className="flex flex-row gap-2 items-center">
-          <div className="font-medium text-sm">Reasoning</div>
-          <div className="animate-spin">
-            <SpinnerIcon />
+        <div className="group relative flex items-start py-2">
+          <div className="flex size-[25px] shrink-0 select-none items-center justify-center">
+            <ChatAvatar role="assistant" />
+          </div>
+          <div className="ml-4 flex-1 overflow-hidden pl-2 text-xs">
+            <div className="font-medium">Reasoning</div>
+            <div className="animate-spin mt-2">
+              <LogoSpinner raceColor="#00DC73" size={16} />
+            </div>
           </div>
         </div>
       ) : (
-        <div className="flex flex-row gap-2 items-center">
-          <div className="font-medium text-sm">Reasoned for a few seconds</div>
-          <button
-            type="button"
-            className={cn(
-              "cursor-pointer rounded-full dark:hover:bg-zinc-800 hover:bg-zinc-200",
-              {
-                "dark:bg-zinc-800 bg-zinc-200": isExpanded,
-              },
-            )}
-            onClick={() => {
-              setIsExpanded(!isExpanded);
-            }}
-          >
-            {isExpanded ? (
-              <ChevronDownIcon className="h-4 w-4" />
-            ) : (
-              <ChevronUpIcon className="h-4 w-4" />
-            )}
-          </button>
+        <div className="group relative flex items-start py-2">
+          <div className="flex size-[25px] shrink-0 select-none items-center justify-center">
+            <ChatAvatar role="assistant" />
+          </div>
+          <div className="ml-4 flex-1 overflow-hidden pl-2 text-xs">
+            <div className="flex items-center gap-2">
+              <div className="font-medium">Reasoned for a few seconds</div>
+              <button
+                type="button"
+                className={cn(
+                  "cursor-pointer rounded-full dark:hover:bg-accent hover:bg-zinc-200 p-1",
+                  {
+                    "dark:bg-accent bg-zinc-200": isExpanded,
+                  },
+                )}
+                onClick={() => {
+                  setIsExpanded(!isExpanded);
+                }}
+              >
+                {isExpanded ? (
+                  <ChevronDownIcon className="h-4 w-4" />
+                ) : (
+                  <ChevronUpIcon className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -95,16 +116,19 @@ export function ReasoningMessagePart({
         {isExpanded && (
           <motion.div
             key="reasoning"
-            className="text-sm dark:text-zinc-400 text-zinc-600 flex flex-col gap-4 border-l pl-3 dark:border-zinc-800"
+            className="text-sm dark:text-zinc-400 text-zinc-600 flex flex-col gap-4 ml-[41px]"
             initial="collapsed"
             animate="expanded"
             exit="collapsed"
             variants={variants}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            {part.details.map((detail, detailIndex) =>
+            {part.details.map((detail) =>
               detail.type === "text" ? (
-                <Markdown key={detail.text}>{detail.text}</Markdown>
+                <StreamableMarkdown
+                  key={detail.text}
+                  text={detail.text}
+                />
               ) : (
                 "<redacted>"
               ),
@@ -115,6 +139,29 @@ export function ReasoningMessagePart({
     </div>
   );
 }
+
+const StreamableMarkdown = memo(({ text }: { text: string | StreamableValue<string> }) => {
+  const streamedText = useStreamableText(text);
+
+  return (
+    <MemoizedReactMarkdown
+      className="prose break-words dark:prose-invert leading-tight text-xs"
+      components={{
+        p({ children }) {
+          return <div className="gap-0.5">{children}</div>;
+        },
+        ol({ children }) {
+          return <ol>{children}</ol>;
+        },
+        ul({ children }) {
+          return <ul>{children}</ul>;
+        },
+      }}
+    >
+      {streamedText}
+    </MemoizedReactMarkdown>
+  );
+});
 
 const PurePreviewMessage = ({
   message,
@@ -141,72 +188,39 @@ const PurePreviewMessage = ({
             "group-data-[role=user]/message:w-fit",
           )}
         >
-          {message.role === "assistant" && (
-            <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
-              <div className="">
-                <SparklesIcon size={14} />
-              </div>
-            </div>
-          )}
-
           <div className="flex flex-col w-full space-y-4">
             {message.parts?.map((part, i) => {
               switch (part.type) {
                 case "text":
-                  return (
+                  return message.role === "user" ? (
                     <motion.div
                       initial={{ y: 5, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       key={`message-${message.id}-part-${i}`}
-                      className="flex flex-row gap-2 items-start w-full pb-4"
+                      className="flex flex-row gap-2 items-start w-full pb-2"
                     >
                       <div
-                        className={cn("flex flex-col gap-4", {
-                          "bg-secondary text-secondary-foreground px-3 py-2 rounded-tl-xl rounded-tr-xl rounded-bl-xl":
+                        className={cn("flex flex-col gap-2", {
+                          "bg-secondary text-secondary-foreground px-3 py-2":
                             message.role === "user",
                         })}
                       >
-                        <Markdown>{part.text}</Markdown>
+                        <StreamableMarkdown text={part.text} />
                       </div>
                     </motion.div>
-                  );
-                case "tool-invocation": {
-                  const { toolName, state } = part.toolInvocation;
-
-                  return (
+                  ) : (
                     <motion.div
                       initial={{ y: 5, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       key={`message-${message.id}-part-${i}`}
-                      className="flex flex-col gap-2 p-2 mb-3 text-sm bg-zinc-50 dark:bg-zinc-900 rounded-md border border-zinc-200 dark:border-zinc-800"
+                      className="flex flex-row gap-2 items-start w-full pb-2"
                     >
-                      <div className="flex-1 flex items-center justify-center">
-                        <div className="flex items-center justify-center w-8 h-8 bg-zinc-50 dark:bg-zinc-800 rounded-full">
-                          <PocketKnife className="h-4 w-4" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="font-medium flex items-baseline gap-2">
-                            {state === "call" ? "Calling" : "Called"}{" "}
-                            <span className="font-mono bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">
-                              {toolName}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="w-5 h-5 flex items-center justify-center">
-                          {state === "call" ? (
-                            isLatestMessage && status !== "ready" ? (
-                              <Loader2 className="animate-spin h-4 w-4 text-zinc-500" />
-                            ) : (
-                              <StopCircle className="h-4 w-4 text-red-500" />
-                            )
-                          ) : state === "result" ? (
-                            <CheckCircle size={14} className="text-green-600" />
-                          ) : null}
-                        </div>
-                      </div>
+                      <BotCard key={`message-${message.id}-part-${i}`}>
+                        <StreamableMarkdown text={part.text} />
+                      </BotCard>
                     </motion.div>
                   );
-                }
+
                 case "reasoning": {
                   return (
                     <ReasoningMessagePart
@@ -232,6 +246,73 @@ const PurePreviewMessage = ({
     </AnimatePresence>
   );
 };
+
+export function ReasoningCard({
+  children,
+  showAvatar = true,
+  className,
+}: {
+  children?: React.ReactNode;
+  showAvatar?: boolean;
+  className?: string;
+}) {
+  return (
+    <ErrorBoundary errorComponent={ErrorFallback}>
+      <div className={cn(className)}>
+        <div className="flex flex-row gap-2 items-center">
+          {showAvatar && <ChatAvatar role="assistant" />}
+        </div>
+
+        <div className="flex flex-col gap-2">{children}</div>
+      </div>
+    </ErrorBoundary>
+  );
+}
+
+export function BotCard({
+  children,
+  showAvatar = true,
+  className,
+}: {
+  children?: React.ReactNode;
+  showAvatar?: boolean;
+  className?: string;
+}) {
+  return (
+    <ErrorBoundary errorComponent={ErrorFallback}>
+      <div className="group relative flex items-start py-2">
+        <div className="flex size-[25px] shrink-0 select-none items-center justify-center">
+          {showAvatar && <ChatAvatar role="assistant" />}
+        </div>
+
+        <div
+          className={cn(
+            "ml-4 flex-1 overflow-hidden pl-2 text-xs leading-relaxed",
+            className,
+          )}
+        >
+          {children}
+        </div>
+      </div>
+    </ErrorBoundary>
+  );
+}
+
+export function UserMessage({ content }: { content: string }) {
+  return (
+    <ErrorBoundary errorComponent={ErrorFallback}>
+      <div className="group relative flex items-start py-2">
+        <div className="flex size-[25px] shrink-0 select-none items-center justify-center">
+          <ChatAvatar role="user" />
+        </div>
+
+        <div className="ml-4 flex-1 overflow-hidden pl-2 text-xs leading-relaxed">
+          <StreamableMarkdown text={content} />
+        </div>
+      </div>
+    </ErrorBoundary>
+  );
+}
 
 export const Message = memo(PurePreviewMessage, (prevProps, nextProps) => {
   if (prevProps.status !== nextProps.status) return false;
