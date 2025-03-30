@@ -12,12 +12,13 @@ export const Messages = ({
   status: "error" | "submitted" | "streaming" | "ready";
 }) => {
   const [containerRef, endRef] = useScrollToBottom();
+
   return (
     <div
-      className="flex-1 h-full space-y-4 py-8"
+      className="flex-1 h-full py-4"
       ref={containerRef}
     >
-      <div className="max-w-xl mx-auto pt-8">
+      <div className="max-w-xl mx-auto">
         {messages.map((m, i) => (
           <Message
             key={m.id}
@@ -27,7 +28,7 @@ export const Messages = ({
             status={status}
           />
         ))}
-        <div className="h-1" ref={endRef} />
+        <div ref={endRef} />
       </div>
     </div>
   );
