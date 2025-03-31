@@ -37,7 +37,16 @@ export const getPolicies = tool({
 			},
 		});
 
-		return policies;
+		if (policies.length === 0) {
+			return {
+				policies: [],
+				message: "No policies found",
+			};
+		}
+
+		return {
+			policies,
+		};
 	},
 });
 
@@ -61,6 +70,15 @@ export const getPolicyContent = tool({
 			},
 		});
 
-		return policy?.content;
+		if (!policy) {
+			return {
+				content: null,
+				message: "Policy not found",
+			};
+		}
+
+		return {
+			content: policy?.content,
+		};
 	},
 });
