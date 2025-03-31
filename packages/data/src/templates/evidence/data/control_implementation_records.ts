@@ -5,5 +5,5 @@ export const controlImplementationRecords: Evidence = {
 	name: "Control Implementation Records",
 	description: "Documentation of control implementation and effectiveness.",
 	frequency: "quarterly",
-	department: "compliance",
+	department: "it",
 };

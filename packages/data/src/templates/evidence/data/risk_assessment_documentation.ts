@@ -5,5 +5,5 @@ export const riskAssessmentDocumentation: Evidence = {
 	name: "Risk Assessment Documentation",
 	description: "Documentation of risk assessment activities and findings.",
 	frequency: "quarterly",
-	department: "security",
+	department: "it",
 };

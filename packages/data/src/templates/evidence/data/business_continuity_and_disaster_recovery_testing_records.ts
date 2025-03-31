@@ -1,9 +1,9 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const businessContinuityAndDisasterRecoveryTestingRecords: Evidence = {
 	id: "business_continuity_and_disaster_recovery_testing_records",
 	name: "Business Continuity and Disaster Recovery Testing Records",
 	description: "Documentation of BCDR testing activities and results.",
-	frequency: "annually",
-	department: "operations",
+	frequency: "yearly",
+	department: "it",
 };

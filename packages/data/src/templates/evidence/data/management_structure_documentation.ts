@@ -5,6 +5,6 @@ export const managementStructureDocumentation: Evidence = {
 	name: "Management Structure Documentation",
 	description:
 		"Documentation of organizational structure and reporting relationships.",
-	frequency: "annually",
+	frequency: "yearly",
 	department: "hr",
 };

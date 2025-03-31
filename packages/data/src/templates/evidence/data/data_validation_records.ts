@@ -1,4 +1,4 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const dataValidationRecords: Evidence = {
 	id: "data_validation_records",

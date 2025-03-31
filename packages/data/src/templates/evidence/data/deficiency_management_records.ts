@@ -6,5 +6,5 @@ export const deficiencyManagementRecords: Evidence = {
 	description:
 		"Documentation of control deficiencies and remediation activities.",
 	frequency: "quarterly",
-	department: "compliance",
+	department: "it",
 };

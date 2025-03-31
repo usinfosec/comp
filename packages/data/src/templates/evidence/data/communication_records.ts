@@ -1,4 +1,4 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const communicationRecords: Evidence = {
 	id: "communication_records",
@@ -6,5 +6,5 @@ export const communicationRecords: Evidence = {
 	description:
 		"Documentation of internal and external security communications.",
 	frequency: "monthly",
-	department: "security",
+	department: "it",
 };

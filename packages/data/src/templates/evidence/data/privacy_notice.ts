@@ -4,6 +4,6 @@ export const privacyNotice: Evidence = {
 	id: "privacy_notice",
 	name: "Privacy Notice",
 	description: "Current privacy notice and related documentation.",
-	frequency: "annually",
-	department: "privacy",
+	frequency: "yearly",
+	department: "it",
 };

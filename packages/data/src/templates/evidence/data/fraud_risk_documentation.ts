@@ -6,5 +6,5 @@ export const fraudRiskDocumentation: Evidence = {
 	description:
 		"Documentation of fraud risk assessment and mitigation activities.",
 	frequency: "quarterly",
-	department: "security",
+	department: "it",
 };

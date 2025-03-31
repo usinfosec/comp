@@ -5,5 +5,5 @@ export const policyImplementationRecords: Evidence = {
 	name: "Policy Implementation Records",
 	description: "Documentation of security policy implementation activities.",
 	frequency: "quarterly",
-	department: "security",
+	department: "it",
 };

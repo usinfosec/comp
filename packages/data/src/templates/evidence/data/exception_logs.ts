@@ -5,5 +5,5 @@ export const exceptionLogs: Evidence = {
 	name: "Exception Logs",
 	description: "Logs of security control exceptions and approvals.",
 	frequency: "monthly",
-	department: "security",
+	department: "it",
 };

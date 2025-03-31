@@ -5,5 +5,5 @@ export const controlTestingDocumentation: Evidence = {
 	name: "Control Testing Documentation",
 	description: "Documentation of control testing activities and results.",
 	frequency: "quarterly",
-	department: "compliance",
+	department: "it",
 };

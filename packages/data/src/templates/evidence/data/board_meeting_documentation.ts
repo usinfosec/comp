@@ -1,4 +1,4 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const boardMeetingDocumentation: Evidence = {
 	id: "board_meeting_documentation",
@@ -6,5 +6,5 @@ export const boardMeetingDocumentation: Evidence = {
 	description:
 		"Minutes and documentation from board meetings discussing security and compliance matters.",
 	frequency: "quarterly",
-	department: "governance",
+	department: "gov",
 };

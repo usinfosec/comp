@@ -5,5 +5,5 @@ export const physicalAccessRecords: Evidence = {
 	name: "Physical Access Records",
 	description: "Documentation of physical access control activities.",
 	frequency: "monthly",
-	department: "security",
+	department: "it",
 };

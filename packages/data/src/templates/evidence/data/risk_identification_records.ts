@@ -5,5 +5,5 @@ export const riskIdentificationRecords: Evidence = {
 	name: "Risk Identification Records",
 	description: "Documentation of risk identification activities.",
 	frequency: "quarterly",
-	department: "security",
+	department: "it",
 };

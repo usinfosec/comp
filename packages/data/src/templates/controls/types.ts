@@ -16,25 +16,29 @@ export type Artifact =
 	  };
 
 /**
+ * Represents a requirement that a control addresses.
+ */
+export type Requirement<T extends FrameworkId = FrameworkId> = {
+	frameworkId: T;
+	requirementId: allRequirementIdsByFramework[T];
+};
+
+/**
  * Represents a security or compliance control that organizations
  * implement to address specific requirements.
  */
-export interface Control<T extends FrameworkId> {
+export interface Control {
 	/** Display name of the control */
 	name: string;
 	/** Detailed explanation of what this control entails */
 	description: string;
-	/** The domain or category this control belongs to */
-	domain: string;
-	/** The framework this control belongs to */
-	frameworkId: T;
-	/** Reference to the requirement this control addresses */
-	requirementId: allRequirementIdsByFramework[T];
 	/** List of artifacts used to demonstrate implementation of this control */
-	artifacts: Artifact[];
+	mappedArtifacts: Artifact[];
+	/** List of requirements this control addresses */
+	mappedRequirements: Requirement[];
 }
 
 /**
  * An array of Control objects for a specific framework.
  */
-export type Controls<T extends FrameworkId> = Control<T>[];
+export type Controls = Control[];

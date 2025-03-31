@@ -5,6 +5,6 @@ export const externalCommunicationRecords: Evidence = {
 	name: "External Communication Records",
 	description:
 		"Documentation of external security communications and notifications.",
-	frequency: "as needed",
-	department: "security",
+	frequency: "monthly",
+	department: "it",
 };

@@ -11,7 +11,7 @@ export interface Evidence {
 	name: string;
 	/** Detailed explanation of what this evidence entails */
 	description: string;
-	/** How often this evidence needs to be collected or updated (e.g., "monthly", "quarterly", "annually") */
+	/** How often this evidence needs to be collected or updated (e.g., "monthly", "quarterly", "yearly") */
 	frequency: Frequency;
 	/** The organizational department responsible for maintaining this evidence */
 	department: Departments;

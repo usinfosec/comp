@@ -5,6 +5,6 @@ export const incidentRecoveryRecords: Evidence = {
 	name: "Incident Recovery Records",
 	description:
 		"Documentation of incident recovery activities and lessons learned.",
-	frequency: "as needed",
-	department: "security",
+	frequency: "monthly",
+	department: "it",
 };
