@@ -29,7 +29,7 @@ The process for each file is:
 - [x] `incident_response.json`
 - [x] `information_security.json`
 - [x] `password_policy.json`
-- [ ] `privacy.json`
+- [x] `privacy.json`
 - [ ] `risk_assessment.json`
 - [ ] `risk_management.json`
 - [ ] `software_development.json`
