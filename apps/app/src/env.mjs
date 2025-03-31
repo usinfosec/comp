@@ -27,6 +27,8 @@ export const env = createEnv({
 		AWS_REGION: z.string(),
 		AWS_BUCKET_NAME: z.string(),
 		GROQ_API_KEY: z.string(),
+		NEXT_PUBLIC_PORTAL_URL: z.string(),
+		DIRECT_URL: z.string().optional(),
 	},
 
 	client: {
@@ -65,6 +67,8 @@ export const env = createEnv({
 		AWS_REGION: process.env.AWS_REGION,
 		AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
 		GROQ_API_KEY: process.env.GROQ_API_KEY,
+		NEXT_PUBLIC_PORTAL_URL: process.env.NEXT_PUBLIC_PORTAL_URL,
+		DIRECT_URL: process.env.DIRECT_URL,
 	},
 
 	skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
