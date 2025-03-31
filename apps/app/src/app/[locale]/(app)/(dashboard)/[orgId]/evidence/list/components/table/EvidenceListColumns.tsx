@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { AlertTriangle, Building, CheckCircle2 } from "lucide-react";
-import type { EvidenceTaskRow } from "../../types";
+import type { EvidenceTaskRow } from "../types";
 import { Badge } from "@bubba/ui/badge";
 
 export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [

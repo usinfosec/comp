@@ -1,7 +1,0 @@
-{
-  "id": "risk_identification_records",
-  "name": "Risk Identification Records",
-  "description": "Risk register entries, workshop records, and risk analysis documentation. Provide Risk Identification Procedures document that outlines risk identification using workshops, surveys, and data analysis.",
-  "frequency": "yearly",
-  "department": "gov"
-}

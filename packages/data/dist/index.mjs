@@ -1,4 +1,4 @@
-// src/videos/trainingVideos.ts
+// src/videos/data/trainingVideos.ts
 var trainingVideos = [
   {
     id: "sat-1",
@@ -37,7 +37,7 @@ var trainingVideos = [
   }
 ];
 
-// src/frameworks/frameworks.ts
+// src/frameworks/data/frameworks.ts
 var frameworks = {
   soc2: {
     name: "SOC 2",

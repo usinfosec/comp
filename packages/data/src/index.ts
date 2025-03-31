@@ -1,7 +1,7 @@
-export * from "./videos";
+export * from "./static/videos";
+export * from "./static/frameworks";
+export * from "./static/requirements";
 
-export * from "./frameworks";
-
-export * from "./policies";
-
-export * from "./controls";
+export * from "./templates/policies";
+export * from "./templates/evidence";
+export * from "./templates/controls";

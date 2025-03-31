@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { EvidenceListColumns } from "./EvidenceListColumns";
-import type { EvidenceTaskRow } from "../../types";
+import type { EvidenceTaskRow } from "../types";
 import { useParams, useRouter } from "next/navigation";
 import { useEvidenceTable } from "../../hooks/useEvidenceTableContext";
 import { getFilterCategories } from "./components/filterCategories";

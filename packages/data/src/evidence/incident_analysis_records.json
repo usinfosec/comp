@@ -1,7 +1,0 @@
-{
-  "id": "incident_analysis_records",
-  "name": "Incident Analysis Records",
-  "description": "Incident analysis reports, lessons learned documentation, and remediation tracking records. Provide procedures document that outlines conducting root cause analysis and developing remediation plans for recurring issues.",
-  "frequency": "yearly",
-  "department": "it"
-}
