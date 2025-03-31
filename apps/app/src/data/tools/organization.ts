@@ -28,9 +28,14 @@ export const findOrganization = tool({
 		});
 
 		if (!org) {
-			return { error: "Organization not found" };
+			return {
+				organization: null,
+				message: "Organization not found",
+			};
 		}
 
-		return org;
+		return {
+			organization: org,
+		};
 	},
 });

@@ -45,7 +45,16 @@ export const getRisks = tool({
 			},
 		});
 
-		return risks;
+		if (risks.length === 0) {
+			return {
+				risks: [],
+				message: "No risks found",
+			};
+		}
+
+		return {
+			risks,
+		};
 	},
 });
 
@@ -119,6 +128,15 @@ export const getRiskById = tool({
 			},
 		});
 
-		return risk;
+		if (!risk) {
+			return {
+				risk: null,
+				message: "Risk not found",
+			};
+		}
+
+		return {
+			risk,
+		};
 	},
 });
