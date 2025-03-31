@@ -8,11 +8,11 @@ export const controlMonitoring: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "internal_control",
+			policyId: "internal_control_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "control_monitoring_records",
+			evidenceId: "control_testing_documentation",
 		},
 	],
 	mappedRequirements: [

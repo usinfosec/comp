@@ -8,7 +8,7 @@ export const accessRemoval: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "access_control",
+			policyId: "access_control_policy",
 		},
 		{
 			type: "evidence",

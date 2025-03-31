@@ -1,5 +1,7 @@
 import { FrameworkId } from "../../static/frameworks/types";
 import { allRequirementIdsByFramework } from "../../static/requirements/types";
+import { EvidenceId } from "../evidence";
+import { PolicyId } from "../policies";
 
 /**
  * Represents an artifact associated with a control
@@ -8,11 +10,11 @@ import { allRequirementIdsByFramework } from "../../static/requirements/types";
 export type Artifact =
 	| {
 			type: "policy";
-			policyId: string;
+			policyId: PolicyId;
 	  }
 	| {
 			type: "evidence";
-			evidenceId: string;
+			evidenceId: EvidenceId;
 	  };
 
 /**

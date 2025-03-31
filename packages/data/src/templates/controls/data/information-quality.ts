@@ -12,7 +12,7 @@ export const informationQuality: Control = {
 		},
 		{
 			type: "evidence",
-			evidenceId: "data_quality_documentation",
+			evidenceId: "dataQualityDocumentation",
 		},
 	],
 	mappedRequirements: [

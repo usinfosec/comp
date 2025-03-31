@@ -8,11 +8,11 @@ export const technologyControls: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "information_security",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "technology_control_documentation",
+			evidenceId: "technology_control_records",
 		},
 	],
 	mappedRequirements: [

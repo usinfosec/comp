@@ -8,7 +8,7 @@ export const codeOfConduct: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "corporate_governance",
+			policyId: "code_of_conduct_policy",
 		},
 		{
 			type: "evidence",

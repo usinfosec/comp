@@ -8,7 +8,7 @@ export const accessAuthentication: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "access_control",
+			policyId: "access_control_policy",
 		},
 		{
 			type: "evidence",

@@ -8,7 +8,7 @@ export const managementPhilosophy: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "corporate_governance",
+			policyId: "corporate_governance_policy",
 		},
 		{
 			type: "evidence",

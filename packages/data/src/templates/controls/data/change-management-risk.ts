@@ -8,7 +8,7 @@ export const changeManagementRisk: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "change_management",
+			policyId: "change_management_policy",
 		},
 		{
 			type: "evidence",

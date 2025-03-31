@@ -48,4 +48,4 @@ export interface Policy {
 }
 
 // Optional: If you plan to have a map of all policies similar to frameworks.ts
-// export type Policies = Record<string, Policy>;
+export type Policies = Record<string, Policy>;

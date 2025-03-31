@@ -12,7 +12,7 @@ export const fraudRiskAssessment: Control = {
 		},
 		{
 			type: "evidence",
-			evidenceId: "fraud_risk_documentation",
+			evidenceId: "fraudRiskDocumentation",
 		},
 	],
 	mappedRequirements: [

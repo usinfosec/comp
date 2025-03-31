@@ -12,7 +12,7 @@ export const deficiencyManagement: Control = {
 		},
 		{
 			type: "evidence",
-			evidenceId: "deficiency_management_records",
+			evidenceId: "deficiencyManagementRecords",
 		},
 	],
 	mappedRequirements: [

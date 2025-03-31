@@ -12,7 +12,7 @@ export const internalCommunication: Control = {
 		},
 		{
 			type: "evidence",
-			evidenceId: "communication_records",
+			evidenceId: "communicationRecords",
 		},
 	],
 	mappedRequirements: [
