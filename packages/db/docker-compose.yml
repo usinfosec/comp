@@ -30,4 +30,3 @@ volumes:
 
 # # Run migrations
 # bunx prisma migrate dev
-
