@@ -32,10 +32,10 @@ The process for each file is:
 - [x] `privacy.json`
 - [x] `risk_assessment.json`
 - [x] `risk_management.json`
-- [ ] `software_development.json`
-- [ ] `system_change.json`
-- [ ] `thirdparty.json`
-- [ ] `vendor_risk_management.json`
-- [ ] `workstation.json` 
+- [x] `software_development.json`
+- [x] `system_change.json`
+- [x] `thirdparty.json`
+- [x] `vendor_risk_management.json`
+- [x] `workstation.json` 
 
 Do not add more entried to this file, only check these existing entries. If in doubt scan the directory /policies/data to see what JSONS actually exist.
