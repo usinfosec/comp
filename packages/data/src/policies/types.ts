@@ -1,4 +1,4 @@
-import type { Frameworks } from "../frameworks/frameworks.types";
+import type { Frameworks } from "../frameworks/types";
 import type { Frequency, Departments } from "@bubba/db/types";
 
 /**

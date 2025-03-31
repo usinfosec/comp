@@ -1,10 +1,4 @@
-interface TrainingVideo {
-	id: string;
-	title: string;
-	description: string;
-	youtubeId: string;
-	url: string;
-}
+import { TrainingVideo } from "../types";
 
 export const trainingVideos: readonly TrainingVideo[] = [
 	{

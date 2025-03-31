@@ -1,5 +1,7 @@
-export * from "./videos/trainingVideos";
+export * from "./videos";
 
-export * from "./frameworks/frameworks";
+export * from "./frameworks";
 
 export * from "./policies";
+
+export * from "./controls";

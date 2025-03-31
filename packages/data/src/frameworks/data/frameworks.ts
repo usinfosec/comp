@@ -1,4 +1,4 @@
-import type { Frameworks } from "./frameworks.types";
+import type { Frameworks } from "../types";
 
 export const frameworks: Frameworks = {
 	soc2: {
