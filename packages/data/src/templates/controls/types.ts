@@ -28,6 +28,8 @@ export type Requirement<T extends FrameworkId = FrameworkId> = {
  * implement to address specific requirements.
  */
 export interface Control {
+	/** Unique identifier for the control */
+	id: string;
 	/** Display name of the control */
 	name: string;
 	/** Detailed explanation of what this control entails */

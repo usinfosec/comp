@@ -1,406 +1,8 @@
 import type { Controls } from "../types";
 
-export const soc2Controls: Controls = [
+export const controls: Controls = [
 	{
-		name: "Board Oversight",
-		description:
-			"The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "board_meeting_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "A1",
-			},
-		],
-	},
-	{
-		name: "Management Philosophy",
-		description:
-			"Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "management_structure_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC1",
-			},
-		],
-	},
-	{
-		name: "Organizational Structure",
-		description:
-			"The organization demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "human_resources",
-			},
-			{
-				type: "evidence",
-				evidenceId: "hr_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC1",
-			},
-		],
-	},
-	{
-		name: "Personnel Policies",
-		description:
-			"The organization holds individuals accountable for their internal control responsibilities in the pursuit of objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "human_resources",
-			},
-			{
-				type: "evidence",
-				evidenceId: "personnel_compliance_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC1",
-			},
-		],
-	},
-	{
-		name: "Code of Conduct",
-		description:
-			"The organization demonstrates a commitment to integrity and ethical values.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "ethics_compliance_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC1",
-			},
-		],
-	},
-	{
-		name: "Information Quality",
-		description:
-			"The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "information_security",
-			},
-			{
-				type: "evidence",
-				evidenceId: "data_quality_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC2",
-			},
-		],
-	},
-	{
-		name: "Internal Communication",
-		description:
-			"The organization internally communicates information, including objectives and responsibilities for internal control.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "communication_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC2",
-			},
-		],
-	},
-	{
-		name: "External Communication",
-		description:
-			"The organization communicates with external parties regarding matters affecting the functioning of internal control.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "external_communication_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC2",
-			},
-		],
-	},
-	{
-		name: "Risk Assessment Process",
-		description:
-			"The organization specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "risk_management",
-			},
-			{
-				type: "evidence",
-				evidenceId: "risk_assessment_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC3",
-			},
-		],
-	},
-	{
-		name: "Risk Identification",
-		description:
-			"The organization identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "risk_management",
-			},
-			{
-				type: "evidence",
-				evidenceId: "risk_identification_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC3",
-			},
-		],
-	},
-	{
-		name: "Fraud Risk Assessment",
-		description:
-			"The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "risk_management",
-			},
-			{
-				type: "evidence",
-				evidenceId: "fraud_risk_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC3",
-			},
-		],
-	},
-	{
-		name: "Change Management Risk",
-		description:
-			"The organization identifies and assesses changes that could significantly impact the system of internal control.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "change_management",
-			},
-			{
-				type: "evidence",
-				evidenceId: "change_risk_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC3",
-			},
-		],
-	},
-	{
-		name: "Control Monitoring",
-		description:
-			"The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "information_security",
-			},
-			{
-				type: "evidence",
-				evidenceId: "control_testing_documentation",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC4",
-			},
-		],
-	},
-	{
-		name: "Deficiency Management",
-		description:
-			"The organization evaluates and communicates internal control deficiencies in a timely manner to those parties responsible for taking corrective action.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "risk_management",
-			},
-			{
-				type: "evidence",
-				evidenceId: "deficiency_management_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC4",
-			},
-		],
-	},
-	{
-		name: "Control Selection",
-		description:
-			"The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "information_security",
-			},
-			{
-				type: "evidence",
-				evidenceId: "control_implementation_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC5",
-			},
-		],
-	},
-	{
-		name: "Technology Controls",
-		description:
-			"The organization selects and develops general control activities over technology to support the achievement of objectives.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "information_security",
-			},
-			{
-				type: "evidence",
-				evidenceId: "technology_control_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC5",
-			},
-		],
-	},
-	{
-		name: "Policy Implementation",
-		description:
-			"The organization deploys control activities through policies that establish what is expected and procedures that put policies into action.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "corporate_governance",
-			},
-			{
-				type: "evidence",
-				evidenceId: "policy_implementation_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC5",
-			},
-		],
-	},
-	{
-		name: "Access Security",
-		description:
-			"The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "access_control",
-			},
-			{
-				type: "evidence",
-				evidenceId: "access_control_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC6",
-			},
-		],
-	},
-	{
-		name: "Access Authentication",
-		description:
-			"Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
-		mappedArtifacts: [
-			{
-				type: "policy",
-				policyId: "access_control",
-			},
-			{
-				type: "evidence",
-				evidenceId: "authentication_records",
-			},
-		],
-		mappedRequirements: [
-			{
-				frameworkId: "soc2",
-				requirementId: "CC6",
-			},
-		],
-	},
-	{
+		id: "access_removal",
 		name: "Access Removal",
 		description:
 			"The organization removes access to protected information assets when appropriate.",
@@ -422,6 +24,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "access_review",
 		name: "Access Review",
 		description:
 			"The organization evaluates and manages access to protected information assets on a periodic basis.",
@@ -443,6 +46,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "system_account_management",
 		name: "System Account Management",
 		description:
 			"The organization identifies and authenticates system users, devices, and other systems before allowing access.",
@@ -464,6 +68,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "access_restrictions",
 		name: "Access Restrictions",
 		description:
 			"The organization restricts physical access to facilities and protected information assets.",
@@ -485,6 +90,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "information_asset_changes",
 		name: "Information Asset Changes",
 		description:
 			"The organization manages changes to system components to minimize the risk of unauthorized changes.",
@@ -506,6 +112,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "malicious_software_prevention",
 		name: "Malicious Software Prevention",
 		description:
 			"The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
@@ -527,6 +134,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "infrastructure_monitoring",
 		name: "Infrastructure Monitoring",
 		description:
 			"To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, and vulnerabilities.",
@@ -548,6 +156,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "security_event_response",
 		name: "Security Event Response",
 		description:
 			"The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
@@ -569,6 +178,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "security_event_recovery",
 		name: "Security Event Recovery",
 		description:
 			"The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
@@ -590,6 +200,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "security_event_analysis",
 		name: "Security Event Analysis",
 		description:
 			"The organization implements incident response activities to identify root causes of security incidents and develop remediation plans.",
@@ -611,6 +222,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "security_event_communication",
 		name: "Security Event Communication",
 		description:
 			"The organization identifies, develops, and implements activities to communicate security incidents to affected parties.",
@@ -632,6 +244,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "change_authorization",
 		name: "Change Authorization",
 		description:
 			"The organization authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures.",
@@ -653,6 +266,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "business_continuity_planning",
 		name: "Business Continuity Planning",
 		description:
 			"The organization identifies, develops, and implements activities to recover critical information technology resources.",
@@ -674,6 +288,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "vendor_risk_management",
 		name: "Vendor Risk Management",
 		description:
 			"The organization assesses and manages risks associated with vendors and business partners.",
@@ -695,6 +310,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "business_continuity_and_disaster_recovery_testing",
 		name: "Business Continuity and Disaster Recovery Testing",
 		description:
 			"The organization tests business continuity and disaster recovery plans, evaluates the test results, and updates the plans accordingly.",
@@ -716,6 +332,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "availability_commitments",
 		name: "Availability Commitments",
 		description:
 			"The entity maintains commitments to ensure systems are available for operation.",
@@ -737,6 +354,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "capacity_planning",
 		name: "Capacity Planning",
 		description:
 			"The entity monitors and manages system capacity to meet demands.",
@@ -758,6 +376,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "incident_recovery",
 		name: "Incident Recovery",
 		description:
 			"The entity has controls to restore system availability after incidents.",
@@ -779,6 +398,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "confidential_information_classification",
 		name: "Confidential Information Classification",
 		description:
 			"The entity classifies information to identify and protect confidential information.",
@@ -800,6 +420,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "access_restrictions_for_confidential_data",
 		name: "Access Restrictions for Confidential Data",
 		description:
 			"The entity restricts access to confidential information on a need-to-know basis.",
@@ -821,6 +442,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "confidential_data_disposal",
 		name: "Confidential Data Disposal",
 		description:
 			"The entity securely disposes of confidential information when no longer needed.",
@@ -842,6 +464,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "accuracy_and_completeness",
 		name: "Accuracy and Completeness",
 		description:
 			"The entity ensures data is processed accurately and completely.",
@@ -863,6 +486,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "input_processing_and_output_controls",
 		name: "Input, Processing, and Output Controls",
 		description:
 			"The entity validates the completeness and accuracy of data throughout processing.",
@@ -884,6 +508,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "exception_handling",
 		name: "Exception Handling",
 		description:
 			"The entity identifies and resolves processing exceptions in a timely manner.",
@@ -905,6 +530,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "privacy_notice",
 		name: "Privacy Notice",
 		description:
 			"The entity provides notice about the collection, use, and disclosure of personal information.",
@@ -926,6 +552,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "choice_and_consent",
 		name: "Choice and Consent",
 		description:
 			"The entity obtains consent for personal information where required by policy or law.",
@@ -947,6 +574,7 @@ export const soc2Controls: Controls = [
 		],
 	},
 	{
+		id: "data_retention_and_disposal",
 		name: "Data Retention and Disposal",
 		description:
 			"The entity retains personal information for only as long as needed and disposes of it securely.",
