@@ -30,8 +30,8 @@ The process for each file is:
 - [x] `information_security.json`
 - [x] `password_policy.json`
 - [x] `privacy.json`
-- [ ] `risk_assessment.json`
-- [ ] `risk_management.json`
+- [x] `risk_assessment.json`
+- [x] `risk_management.json`
 - [ ] `software_development.json`
 - [ ] `system_change.json`
 - [ ] `thirdparty.json`
