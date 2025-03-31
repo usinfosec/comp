@@ -18,14 +18,14 @@ The process for each file is:
 - [x] `business_continuity.json`
 - [x] `change_management.json`
 - [x] `classification.json`
-- [ ] `code_of_conduct.json`
-- [ ] `confidentiality.json`
-- [ ] `corporate_governance.json`
-- [ ] `cyber_risk.json`
-- [ ] `data_center.json`
-- [ ] `data_classification.json`
-- [ ] `disaster_recovery.json`
-- [ ] `human_resources.json`
+- [x] `code_of_conduct.json`
+- [x] `confidentiality.json`
+- [x] `corporate_governance.json`
+- [x] `cyber_risk.json`
+- [x] `data_center.json`
+- [x] `data_classification.json`
+- [x] `disaster_recovery.json`
+- [x] `human_resources.json`
 - [ ] `incident_response.json`
 - [ ] `information_security.json`
 - [ ] `password_policy.json`
@@ -37,3 +37,5 @@ The process for each file is:
 - [ ] `thirdparty.json`
 - [ ] `vendor_risk_management.json`
 - [ ] `workstation.json` 
+
+Do not add more entried to this file, only check these existing entries. If in doubt scan the directory /policies/data to see what JSONS actually exist.

@@ -1,19 +1,22 @@
 import type { Frameworks } from "../frameworks/frameworks.types";
+import type { Frequency, Departments } from "@bubba/db/types";
 
-// Basic representation of a text node in the content
-interface TextNode {
-	type: "text";
-	text: string;
-	marks?: any[]; // Optional marks like bold, italic, etc.
-}
-
-// Recursive type for content nodes (paragraphs, headings, lists, tables, etc.)
-// This is a simplified representation; a full schema might be more complex.
-interface ContentNode {
-	type: string;
+/**
+ * Represents the structure of JSON content used in policy documents.
+ * This type is compatible with ProseMirror/TipTap document structure.
+ */
+type JSONContent = {
+	[key: string]: any;
+	type?: string;
 	attrs?: Record<string, any>;
-	content?: (ContentNode | TextNode)[];
-}
+	content?: JSONContent[];
+	marks?: {
+		type: string;
+		attrs?: Record<string, any>;
+		[key: string]: any;
+	}[];
+	text?: string;
+};
 
 /**
  * Represents the metadata associated with a policy document.
@@ -23,8 +26,8 @@ export interface PolicyMetadata {
 	slug: string;
 	name: string;
 	description: string;
-	frequency: string; // Consider using a union type like 'yearly' | 'quarterly' if applicable
-	department: string; // Consider a union type for known departments
+	frequency: Frequency;
+	department: Departments;
 	/**
 	 * Specifies which controls within compliance frameworks this policy relates to.
 	 * The keys correspond to the framework IDs (e.g., 'soc2').
@@ -48,7 +51,7 @@ export interface Policy {
 	/**
 	 * The structured content of the policy document.
 	 */
-	content: ContentNode[];
+	content: JSONContent[];
 }
 
 // Optional: If you plan to have a map of all policies similar to frameworks.ts

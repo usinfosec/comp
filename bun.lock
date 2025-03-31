@@ -153,6 +153,7 @@
       "name": "@bubba/data",
       "version": "1.0.0",
       "devDependencies": {
+        "@bubba/db": "workspace:*",
         "tsup": "^8.0.1",
         "typescript": "^5.7.3",
       },
