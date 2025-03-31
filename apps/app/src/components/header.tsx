@@ -29,6 +29,7 @@ export async function Header() {
         organizationId={currentOrganizationId}
         isAdmin={hasAccess ?? false}
       />
+
       <AssistantButton />
 
       <div className="flex space-x-2 ml-auto">
