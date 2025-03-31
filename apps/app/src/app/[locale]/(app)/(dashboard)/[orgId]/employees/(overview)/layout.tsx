@@ -43,10 +43,6 @@ export default async function Layout({
                   questionKey: t("app_onboarding.employees.faqs.question_3"),
                   answerKey: t("app_onboarding.employees.faqs.answer_3"),
                 },
-                {
-                  questionKey: t("app_onboarding.employees.faqs.question_4"),
-                  answerKey: t("app_onboarding.employees.faqs.answer_4"),
-                },
               ]}
             />
             <EmployeeInviteSheet />

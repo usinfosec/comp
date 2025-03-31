@@ -1,6 +1,3 @@
-DO $$
-BEGIN
-  IF current_setting('DATABASE_URL', true) LIKE '%supabase%' THEN
     CREATE SCHEMA IF NOT EXISTS graphql;
     CREATE SCHEMA IF NOT EXISTS extensions;
     CREATE SCHEMA IF NOT EXISTS vault;
@@ -13,5 +10,3 @@ BEGIN
     CREATE EXTENSION IF NOT EXISTS pgsodium WITH SCHEMA pgsodium;
     CREATE EXTENSION IF NOT EXISTS supabase_vault WITH SCHEMA vault;
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
-  END IF;
-END $$;
