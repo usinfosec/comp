@@ -23,8 +23,9 @@ export const getRisks = tool({
 		category: z
 			.enum(Object.values(RiskCategory) as [RiskCategory, ...RiskCategory[]])
 			.optional(),
+		owner: z.string().optional(),
 	}),
-	execute: async ({ status, department, category }) => {
+	execute: async ({ status, department, category, owner }) => {
 		const session = await auth();
 
 		if (!session?.user.organizationId) {
@@ -37,6 +38,7 @@ export const getRisks = tool({
 				status,
 				department,
 				category,
+				ownerId: owner,
 			},
 			select: {
 				id: true,
