@@ -1,14 +1,4 @@
-export interface Framework {
-	name: string;
-	version: string;
-	description: string;
-}
-
-export interface Frameworks {
-	soc2: Framework;
-	iso27001: Framework;
-	gdpr: Framework;
-}
+import type { Frameworks } from "./frameworks.types";
 
 export const frameworks: Frameworks = {
 	soc2: {
@@ -30,5 +20,3 @@ export const frameworks: Frameworks = {
 			"GDPR is a framework for assessing the security and reliability of information systems.",
 	},
 };
-
-export default frameworks;

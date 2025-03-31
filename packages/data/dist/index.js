@@ -20,7 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  frameworks: () => frameworks_default,
+  frameworks: () => frameworks,
   trainingVideos: () => trainingVideos
 });
 module.exports = __toCommonJS(index_exports);
@@ -82,7 +82,6 @@ var frameworks = {
     description: "GDPR is a framework for assessing the security and reliability of information systems."
   }
 };
-var frameworks_default = frameworks;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   frameworks,

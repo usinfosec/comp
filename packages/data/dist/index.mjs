@@ -55,8 +55,7 @@ var frameworks = {
     description: "GDPR is a framework for assessing the security and reliability of information systems."
   }
 };
-var frameworks_default = frameworks;
 export {
-  frameworks_default as frameworks,
+  frameworks,
   trainingVideos
 };
