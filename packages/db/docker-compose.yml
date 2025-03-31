@@ -10,7 +10,6 @@ services:
       POSTGRES_DB: comp
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-extensions.sql:/docker-entrypoint-initdb.d/init-extensions.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -31,4 +30,3 @@ volumes:
 
 # # Run migrations
 # bunx prisma migrate dev
-
