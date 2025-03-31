@@ -26,7 +26,7 @@ The process for each file is:
 - [x] `data_classification.json`
 - [x] `disaster_recovery.json`
 - [x] `human_resources.json`
-- [ ] `incident_response.json`
+- [x] `incident_response.json`
 - [ ] `information_security.json`
 - [ ] `password_policy.json`
 - [ ] `privacy.json`
