@@ -8,11 +8,11 @@ export const informationAssetChanges: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "change_management",
+			policyId: "change_management_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "changeManagementRecords",
+			evidenceId: "change_management_records",
 		},
 	],
 	mappedRequirements: [

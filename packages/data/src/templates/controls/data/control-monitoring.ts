@@ -8,7 +8,7 @@ export const controlMonitoring: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "internal_control_policy",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",

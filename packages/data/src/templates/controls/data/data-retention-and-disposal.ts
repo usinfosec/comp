@@ -8,11 +8,11 @@ export const dataRetentionAndDisposal: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "privacy",
+			policyId: "privacy_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "retentionSchedules",
+			evidenceId: "retention_schedules",
 		},
 	],
 	mappedRequirements: [

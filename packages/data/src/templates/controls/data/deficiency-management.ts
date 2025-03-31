@@ -8,11 +8,11 @@ export const deficiencyManagement: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "internal_control",
+			policyId: "risk_management_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "deficiencyManagementRecords",
+			evidenceId: "deficiency_management_records",
 		},
 	],
 	mappedRequirements: [

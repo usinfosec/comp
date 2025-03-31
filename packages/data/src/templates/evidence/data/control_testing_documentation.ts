@@ -1,4 +1,4 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const controlTestingDocumentation: Evidence = {
 	id: "control_testing_documentation",

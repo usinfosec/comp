@@ -8,7 +8,7 @@ export const securityEventCommunication: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "incident_response",
+			policyId: "incident_response_policy",
 		},
 		{
 			type: "evidence",

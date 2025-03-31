@@ -1,4 +1,4 @@
-import type { Evidence } from "../types
+import type { Evidence } from "../types";
 
 export const capacityReports: Evidence = {
 	id: "capacity_reports",

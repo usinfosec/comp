@@ -8,11 +8,11 @@ export const privacyNotice: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "privacy",
+			policyId: "privacy_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "privacyNotice",
+			evidenceId: "privacy_notice",
 		},
 	],
 	mappedRequirements: [

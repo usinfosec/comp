@@ -8,11 +8,11 @@ export const informationQuality: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "information_security",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "dataQualityDocumentation",
+			evidenceId: "data_quality_documentation",
 		},
 	],
 	mappedRequirements: [

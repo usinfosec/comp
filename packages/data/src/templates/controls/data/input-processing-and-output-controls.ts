@@ -8,11 +8,11 @@ export const inputProcessingAndOutputControls: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "information_security",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "dataProcessingLogs",
+			evidenceId: "data_processing_logs",
 		},
 	],
 	mappedRequirements: [

@@ -20,37 +20,17 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  accessControlPolicy: () => accessControlPolicy,
-  applicationSecurityPolicy: () => applicationSecurityPolicy,
-  availabilityPolicy: () => availabilityPolicy,
-  businessContinuityPolicy: () => businessContinuityPolicy,
-  changeManagementPolicy: () => changeManagementPolicy,
-  classificationPolicy: () => classificationPolicy,
-  codeOfConductPolicy: () => codeOfConductPolicy,
-  confidentialityPolicy: () => confidentialityPolicy,
-  corporateGovernancePolicy: () => corporateGovernancePolicy,
-  cyberRiskPolicy: () => cyberRiskPolicy,
-  dataCenterPolicy: () => dataCenterPolicy,
-  dataClassificationPolicy: () => dataClassificationPolicy,
-  disasterRecoveryPolicy: () => disasterRecoveryPolicy,
+  controls: () => controls,
+  evidence: () => evidence,
   frameworks: () => frameworks,
-  humanResourcesPolicy: () => humanResourcesPolicy,
-  incidentResponsePolicy: () => incidentResponsePolicy,
-  informationSecurityPolicy: () => informationSecurityPolicy,
-  passwordPolicy: () => passwordPolicy,
-  privacyPolicy: () => privacyPolicy,
-  riskAssessmentPolicy: () => riskAssessmentPolicy,
-  riskManagementPolicy: () => riskManagementPolicy,
-  softwareDevelopmentPolicy: () => softwareDevelopmentPolicy,
-  systemChangePolicy: () => systemChangePolicy,
-  thirdPartyPolicy: () => thirdPartyPolicy,
-  trainingVideos: () => trainingVideos,
-  vendorRiskManagementPolicy: () => vendorRiskManagementPolicy,
-  workstationPolicy: () => workstationPolicy
+  policies: () => policies,
+  requirements: () => requirements,
+  soc2Requirements: () => soc2Requirements,
+  trainingVideos: () => trainingVideos
 });
 module.exports = __toCommonJS(index_exports);
 
-// src/videos/data/trainingVideos.ts
+// src/static/videos/data/trainingVideos.ts
 var trainingVideos = [
   {
     id: "sat-1",
@@ -89,26 +69,91 @@ var trainingVideos = [
   }
 ];
 
-// src/frameworks/data/frameworks.ts
+// src/static/frameworks/data/frameworks.ts
 var frameworks = {
   soc2: {
     name: "SOC 2",
     version: "2025",
     description: "SOC 2 is a framework for assessing the security and reliability of information systems."
+  }
+  // iso27001: {
+  // 	name: "ISO 27001",
+  // 	version: "2025",
+  // 	description:
+  // 		"ISO 27001 is a framework for assessing the security and reliability of information systems.",
+  // },
+  // gdpr: {
+  // 	name: "GDPR",
+  // 	version: "2025",
+  // 	description:
+  // 		"GDPR is a framework for assessing the security and reliability of information systems.",
+  // },
+};
+
+// src/static/requirements/data/soc2.ts
+var soc2Requirements = {
+  CC1: {
+    name: "CC1: Control Environment",
+    description: "This criterion ensures that the organization demonstrates commitment to integrity and ethical values, establishes board oversight, creates appropriate organizational structures, and shows commitment to competence."
   },
-  iso27001: {
-    name: "ISO 27001",
-    version: "2025",
-    description: "ISO 27001 is a framework for assessing the security and reliability of information systems."
+  CC2: {
+    name: "CC2: Communication and Information",
+    description: "This criterion focuses on how the organization obtains and uses relevant quality information to support the functioning of internal control, and communicates internal control information internally and externally."
   },
-  gdpr: {
-    name: "GDPR",
-    version: "2025",
-    description: "GDPR is a framework for assessing the security and reliability of information systems."
+  CC3: {
+    name: "CC3: Risk Assessment",
+    description: "This criterion evaluates how the organization specifies suitable objectives, identifies and analyzes risk, and assesses fraud risk and significant change that could impact the system of internal control."
+  },
+  CC4: {
+    name: "CC4: Monitoring Activities",
+    description: "This criterion assesses how the organization selects, develops and performs ongoing evaluations to determine whether controls are present and functioning, and communicates internal control deficiencies."
+  },
+  CC5: {
+    name: "CC5: Control Activities",
+    description: "This criterion evaluates how the organization selects and develops control activities that contribute to the mitigation of risks, and deploys them through policies and procedures."
+  },
+  CC6: {
+    name: "CC6: Logical and Physical Access Controls",
+    description: "This criterion focuses on how the organization implements controls over system boundaries, user identification and authentication, data security, and physical access to facilities and assets."
+  },
+  CC7: {
+    name: "CC7: System Operations",
+    description: "This criterion assesses how the organization manages system operations, detects and mitigates processing deviations, and implements recovery plans and business continuity procedures."
+  },
+  CC8: {
+    name: "CC8: Change Management",
+    description: "This criterion evaluates how the organization manages changes to infrastructure, data, software and procedures including change authorization and documentation."
+  },
+  CC9: {
+    name: "CC9: Risk Mitigation",
+    description: "This criterion assesses how the organization identifies, selects and develops risk mitigation activities for risks arising from potential business disruptions and the use of vendors and business partners."
+  },
+  A1: {
+    name: "A1: Availability",
+    description: "This criterion ensures that systems and data are available for operation and use as committed or agreed, including availability of information processing facilities and backup capabilities."
+  },
+  C1: {
+    name: "C1: Confidentiality",
+    description: "This criterion ensures that information designated as confidential is protected according to policy and procedures as committed or agreed, including encryption, access controls and secure disposal."
+  },
+  PI1: {
+    name: "PI1: Processing Integrity",
+    description: "This criterion ensures that system processing is complete, valid, accurate, timely and authorized to meet the entity's objectives."
+  },
+  P1: {
+    name: "P1: Privacy",
+    description: "This criterion ensures that personal information is collected, used, retained, disclosed and disposed of in conformity with commitments in the entity's privacy notice and criteria set forth in Generally Accepted Privacy Principles."
   }
 };
 
-// src/policies/data/access-control.policy.ts
+// src/static/requirements/index.ts
+var requirements = {
+  soc2: soc2Requirements
+  // iso27001: {},
+  // gdpr: {},
+};
+
+// src/templates/policies/data/access-control.policy.ts
 var accessControlPolicy = {
   type: "doc",
   metadata: {
@@ -117,10 +162,7 @@ var accessControlPolicy = {
     name: "Access Control Policy",
     description: "This policy defines the requirements for granting, monitoring, and revoking access to the organization's information systems and data based on the principle of least privilege.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC6.1", "CC6.2", "CC6.3", "CC6.4", "CC6.5", "CC6.6"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -263,7 +305,7 @@ var accessControlPolicy = {
   ]
 };
 
-// src/policies/data/application-security.policy.ts
+// src/templates/policies/data/application-security.policy.ts
 var applicationSecurityPolicy = {
   type: "doc",
   metadata: {
@@ -272,10 +314,7 @@ var applicationSecurityPolicy = {
     name: "Application Security Policy",
     description: "This policy outlines the security framework and requirements for applications, notably web applications, within the organization's production environment.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC7.1", "CC7.2", "CC7.4"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -910,7 +949,7 @@ var applicationSecurityPolicy = {
   ]
 };
 
-// src/policies/data/availability.policy.ts
+// src/templates/policies/data/availability.policy.ts
 var availabilityPolicy = {
   type: "doc",
   metadata: {
@@ -919,10 +958,7 @@ var availabilityPolicy = {
     name: "Availability Policy",
     description: "This policy outlines the requirements for proper controls to protect the availability of the organization's information systems.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC9.1", "CC7.3", "CC7.5", "A1.1", "A1.2"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -1615,7 +1651,7 @@ var availabilityPolicy = {
   ]
 };
 
-// src/policies/data/business-continuity.policy.ts
+// src/templates/policies/data/business-continuity.policy.ts
 var businessContinuityPolicy = {
   type: "doc",
   metadata: {
@@ -1624,10 +1660,7 @@ var businessContinuityPolicy = {
     name: "Business Continuity & Disaster Recovery Policy",
     description: "This policy outlines the strategies and procedures for ensuring the availability of critical systems and data during and after a disruptive event.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC7.3", "A1.3", "CC9.1", "CC9.9"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -1777,7 +1810,7 @@ var businessContinuityPolicy = {
   ]
 };
 
-// src/policies/data/change-management.policy.ts
+// src/templates/policies/data/change-management.policy.ts
 var changeManagementPolicy = {
   type: "doc",
   metadata: {
@@ -1786,10 +1819,7 @@ var changeManagementPolicy = {
     name: "Change Management Policy",
     description: "This policy defines the process for requesting, reviewing, approving, and documenting changes to the organization's information systems and infrastructure.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC3.4", "CC8.1", "CC6.7"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -1932,7 +1962,7 @@ var changeManagementPolicy = {
   ]
 };
 
-// src/policies/data/classification.policy.ts
+// src/templates/policies/data/classification.policy.ts
 var classificationPolicy = {
   type: "doc",
   metadata: {
@@ -1941,10 +1971,7 @@ var classificationPolicy = {
     name: "Data Classification Policy",
     description: "This policy outlines the requirements for data classification.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC6.1", "CC8.1", "CC6.6"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -2475,7 +2502,7 @@ var classificationPolicy = {
   ]
 };
 
-// src/policies/data/code-of-conduct.policy.ts
+// src/templates/policies/data/code-of-conduct.policy.ts
 var codeOfConductPolicy = {
   type: "doc",
   metadata: {
@@ -2484,10 +2511,7 @@ var codeOfConductPolicy = {
     name: "Code of Conduct Policy",
     description: "This policy outlines the expected behavior from employees towards their colleagues, supervisors, and the organization as a whole.",
     frequency: "yearly",
-    department: "hr",
-    usedBy: {
-      soc2: ["CC1.1", "CC6.1"]
-    }
+    department: "hr"
   },
   content: [
     {
@@ -2838,7 +2862,7 @@ var codeOfConductPolicy = {
   ]
 };
 
-// src/policies/data/confidentiality.policy.ts
+// src/templates/policies/data/confidentiality.policy.ts
 var confidentialityPolicy = {
   type: "doc",
   metadata: {
@@ -2847,10 +2871,7 @@ var confidentialityPolicy = {
     name: "Confidentiality Policy",
     description: "This policy outlines the requirements for maintaining the confidentiality of sensitive and proprietary information within the organization.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC9.9", "CC6.1"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -3188,7 +3209,7 @@ var confidentialityPolicy = {
   ]
 };
 
-// src/policies/data/corporate-governance.policy.ts
+// src/templates/policies/data/corporate-governance.policy.ts
 var corporateGovernancePolicy = {
   type: "doc",
   metadata: {
@@ -3197,10 +3218,7 @@ var corporateGovernancePolicy = {
     name: "Corporate Governance Policy",
     description: "This policy defines the overall governance framework including board oversight, management responsibilities, and organizational structure to ensure effective oversight and accountability.",
     frequency: "yearly",
-    department: "admin",
-    usedBy: {
-      soc2: ["CC1.1", "CC1.2", "CC1.5", "CC2.2", "CC2.3"]
-    }
+    department: "admin"
   },
   content: [
     {
@@ -3426,7 +3444,7 @@ var corporateGovernancePolicy = {
   ]
 };
 
-// src/policies/data/cyber-risk.policy.ts
+// src/templates/policies/data/cyber-risk.policy.ts
 var cyberRiskPolicy = {
   type: "doc",
   metadata: {
@@ -3435,10 +3453,7 @@ var cyberRiskPolicy = {
     name: "Cyber Risk Assessment Policy",
     description: "This policy outlines the requirements for conducting cyber risk assessments to identify, evaluate, and mitigate cybersecurity threats to the organization.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC1.1", "CC1.2", "CC1.3", "CC1.4", "CC1.5"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -3751,7 +3766,7 @@ var cyberRiskPolicy = {
   ]
 };
 
-// src/policies/data/data-center.policy.ts
+// src/templates/policies/data/data-center.policy.ts
 var dataCenterPolicy = {
   type: "doc",
   metadata: {
@@ -3760,10 +3775,7 @@ var dataCenterPolicy = {
     name: "Data Center Policy",
     description: "This policy outlines the requirements for the organization's data center facilities to ensure protection, availability, and reliability of critical systems and data.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC6.1", "CC6.2", "CC8.1", "CC7.1"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -4117,7 +4129,7 @@ var dataCenterPolicy = {
   ]
 };
 
-// src/policies/data/data-classification.policy.ts
+// src/templates/policies/data/data-classification.policy.ts
 var dataClassificationPolicy = {
   type: "doc",
   metadata: {
@@ -4126,10 +4138,7 @@ var dataClassificationPolicy = {
     name: "Data Classification Policy",
     description: "This policy establishes a framework for classifying data based on sensitivity and defines handling requirements for each classification level.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["C1.1", "C1.2", "C1.3"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -4272,7 +4281,7 @@ var dataClassificationPolicy = {
   ]
 };
 
-// src/policies/data/disaster_recovery.policy.ts
+// src/templates/policies/data/disaster_recovery.policy.ts
 var disasterRecoveryPolicy = {
   type: "doc",
   metadata: {
@@ -4281,10 +4290,7 @@ var disasterRecoveryPolicy = {
     name: "Disaster Recovery Policy",
     description: "This policy outlines the requirements for disaster recovery planning to ensure the organization can recover from disruptive events.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC1.1", "CC1.2", "CC1.3", "CC1.4", "CC1.5"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -4458,7 +4464,7 @@ var disasterRecoveryPolicy = {
   ]
 };
 
-// src/policies/data/human_resources.policy.ts
+// src/templates/policies/data/human_resources.policy.ts
 var humanResourcesPolicy = {
   type: "doc",
   metadata: {
@@ -4467,10 +4473,7 @@ var humanResourcesPolicy = {
     name: "Human Resources Policy",
     description: "This policy outlines the principles and practices for recruitment, employee management, performance evaluations, and the enforcement of internal control responsibilities.",
     frequency: "yearly",
-    department: "hr",
-    usedBy: {
-      soc2: ["CC1.3", "CC1.4"]
-    }
+    department: "hr"
   },
   content: [
     {
@@ -4613,7 +4616,7 @@ var humanResourcesPolicy = {
   ]
 };
 
-// src/policies/data/incident_response.policy.ts
+// src/templates/policies/data/incident_response.policy.ts
 var incidentResponsePolicy = {
   type: "doc",
   metadata: {
@@ -4622,10 +4625,7 @@ var incidentResponsePolicy = {
     name: "Incident Response Policy",
     description: "This policy establishes the framework and procedures for detecting, responding to, and recovering from security incidents.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC7.2", "CC7.4", "CC7.5"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -4768,7 +4768,7 @@ var incidentResponsePolicy = {
   ]
 };
 
-// src/policies/data/information-security.policy.ts
+// src/templates/policies/data/information-security.policy.ts
 var informationSecurityPolicy = {
   type: "doc",
   metadata: {
@@ -4777,10 +4777,7 @@ var informationSecurityPolicy = {
     name: "Information Security Policy",
     description: "This policy establishes the framework for protecting the organization's information assets by defining security objectives, roles, responsibilities, and controls.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC2.1", "PI1.1", "PI1.2", "PI1.3", "CC5.2"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -4938,7 +4935,7 @@ var informationSecurityPolicy = {
   ]
 };
 
-// src/policies/data/password-policy.policy.ts
+// src/templates/policies/data/password-policy.policy.ts
 var passwordPolicy = {
   type: "doc",
   metadata: {
@@ -4947,15 +4944,12 @@ var passwordPolicy = {
     name: "Password Policy",
     description: "This policy outlines the requirements for passwords used by employees.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC1.1", "CC1.2", "CC1.3"]
-    }
+    department: "it"
   },
   content: []
 };
 
-// src/policies/data/privacy.policy.ts
+// src/templates/policies/data/privacy.policy.ts
 var privacyPolicy = {
   type: "doc",
   metadata: {
@@ -4964,10 +4958,7 @@ var privacyPolicy = {
     name: "Privacy Policy",
     description: "This policy describes how the organization collects, uses, discloses, and protects personal information in compliance with applicable privacy regulations.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["P1.1", "P1.2", "P1.3"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -5110,7 +5101,7 @@ var privacyPolicy = {
   ]
 };
 
-// src/policies/data/risk-assessment.policy.ts
+// src/templates/policies/data/risk-assessment.policy.ts
 var riskAssessmentPolicy = {
   type: "doc",
   metadata: {
@@ -5119,10 +5110,7 @@ var riskAssessmentPolicy = {
     name: "Risk Assessment Policy",
     description: "This policy outlines the requirements for conducting risk assessments to identify, evaluate, and mitigate risks associated with the organization's information systems, operations, and assets.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC3.2", "CC3.4", "CC8.1"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -5368,7 +5356,7 @@ var riskAssessmentPolicy = {
   ]
 };
 
-// src/policies/data/risk-management.policy.ts
+// src/templates/policies/data/risk-management.policy.ts
 var riskManagementPolicy = {
   type: "doc",
   metadata: {
@@ -5377,10 +5365,7 @@ var riskManagementPolicy = {
     name: "Risk Management Policy",
     description: "This policy defines the process for identifying, assessing, and mitigating risks to the organization's objectives and information assets.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC3.1", "CC3.2", "CC3.3", "CC4.2"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -5538,7 +5523,7 @@ var riskManagementPolicy = {
   ]
 };
 
-// src/policies/data/software-development.policy.ts
+// src/templates/policies/data/software-development.policy.ts
 var softwareDevelopmentPolicy = {
   type: "doc",
   metadata: {
@@ -5547,10 +5532,7 @@ var softwareDevelopmentPolicy = {
     name: "Software Development Lifecycle Policy",
     description: "This policy outlines the requirements for the software development lifecycle to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC6.2", "CC7.1", "CC7.2", "CC8.1"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -5790,7 +5772,7 @@ var softwareDevelopmentPolicy = {
   ]
 };
 
-// src/policies/data/system-change.policy.ts
+// src/templates/policies/data/system-change.policy.ts
 var systemChangePolicy = {
   type: "doc",
   metadata: {
@@ -5799,10 +5781,7 @@ var systemChangePolicy = {
     name: "System Change Policy",
     description: "This policy outlines the requirements for system changes.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC3.4", "CC6.8", "CC7.1", "A1.1"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -5967,7 +5946,7 @@ var systemChangePolicy = {
   ]
 };
 
-// src/policies/data/thirdparty.policy.ts
+// src/templates/policies/data/thirdparty.policy.ts
 var thirdPartyPolicy = {
   type: "doc",
   metadata: {
@@ -5976,10 +5955,7 @@ var thirdPartyPolicy = {
     name: "Third-Party Management Policy",
     description: "This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC2.3", "CC7.3", "CC8.1"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -6217,7 +6193,7 @@ var thirdPartyPolicy = {
   ]
 };
 
-// src/policies/data/vendor-risk-management.policy.ts
+// src/templates/policies/data/vendor-risk-management.policy.ts
 var vendorRiskManagementPolicy = {
   type: "doc",
   metadata: {
@@ -6226,10 +6202,7 @@ var vendorRiskManagementPolicy = {
     name: "Vendor Risk Management Policy",
     description: "This policy outlines the criteria and procedures for evaluating, selecting, and monitoring third-party vendors to manage risks associated with external service providers.",
     frequency: "yearly",
-    department: "gov",
-    usedBy: {
-      soc2: ["CC9.2"]
-    }
+    department: "gov"
   },
   content: [
     {
@@ -6372,7 +6345,7 @@ var vendorRiskManagementPolicy = {
   ]
 };
 
-// src/policies/data/workstation.policy.ts
+// src/templates/policies/data/workstation.policy.ts
 var workstationPolicy = {
   type: "doc",
   metadata: {
@@ -6381,10 +6354,7 @@ var workstationPolicy = {
     name: "Workstation Policy",
     description: "This policy outlines the requirements for workstations to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",
-    department: "it",
-    usedBy: {
-      soc2: ["CC6.2", "CC6.7", "CC7.2"]
-    }
+    department: "it"
   },
   content: [
     {
@@ -6878,33 +6848,1446 @@ var workstationPolicy = {
     }
   ]
 };
+
+// src/templates/policies/index.ts
+var policies = {
+  access_control_policy: accessControlPolicy,
+  application_security_policy: applicationSecurityPolicy,
+  availability_policy: availabilityPolicy,
+  business_continuity_policy: businessContinuityPolicy,
+  change_management_policy: changeManagementPolicy,
+  classification_policy: classificationPolicy,
+  code_of_conduct_policy: codeOfConductPolicy,
+  confidentiality_policy: confidentialityPolicy,
+  corporate_governance_policy: corporateGovernancePolicy,
+  cyber_risk_policy: cyberRiskPolicy,
+  data_center_policy: dataCenterPolicy,
+  data_classification_policy: dataClassificationPolicy,
+  disaster_recovery_policy: disasterRecoveryPolicy,
+  human_resources_policy: humanResourcesPolicy,
+  incident_response_policy: incidentResponsePolicy,
+  information_security_policy: informationSecurityPolicy,
+  password_policy: passwordPolicy,
+  privacy_policy: privacyPolicy,
+  risk_assessment_policy: riskAssessmentPolicy,
+  risk_management_policy: riskManagementPolicy,
+  software_development_policy: softwareDevelopmentPolicy,
+  system_change_policy: systemChangePolicy,
+  third_party_policy: thirdPartyPolicy,
+  vendor_risk_management_policy: vendorRiskManagementPolicy,
+  workstation_policy: workstationPolicy
+};
+
+// src/templates/evidence/data/access_control_records.ts
+var accessControlRecords = {
+  id: "access_control_records",
+  name: "Access Control Records",
+  description: "Access control configurations, firewall logs, and system access review reports. Provide Access Management Procedures document that outlines granting, monitoring, and revoking system access including access logging and periodic reviews.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/access_logs.ts
+var accessLogs = {
+  id: "access_logs",
+  name: "Access Logs",
+  description: "System and application access logs showing user authentication and authorization activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/access_removal_records.ts
+var accessRemovalRecords = {
+  id: "access_removal_records",
+  name: "Access Removal Records",
+  description: "Documentation of access removal for terminated employees or role changes.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/access_review_records.ts
+var accessReviewRecords = {
+  id: "access_review_records",
+  name: "Access Review Records",
+  description: "Documentation of periodic access reviews and approvals.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/account_management_records.ts
+var accountManagementRecords = {
+  id: "account_management_records",
+  name: "Account Management Records",
+  description: "Records of account creation, modification, and deletion activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/authentication_records.ts
+var authenticationRecords = {
+  id: "authentication_records",
+  name: "Authentication Records",
+  description: "Authentication system logs and configuration documentation.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/board_meeting_documentation.ts
+var boardMeetingDocumentation = {
+  id: "board_meeting_documentation",
+  name: "Board Meeting Documentation",
+  description: "Minutes and documentation from board meetings discussing security and compliance matters.",
+  frequency: "quarterly",
+  department: "gov"
+};
+
+// src/templates/evidence/data/business_continuity_and_disaster_recovery_testing_records.ts
+var businessContinuityAndDisasterRecoveryTestingRecords = {
+  id: "business_continuity_and_disaster_recovery_testing_records",
+  name: "Business Continuity and Disaster Recovery Testing Records",
+  description: "Documentation of BCDR testing activities and results.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/business_continuity_plans.ts
+var businessContinuityPlans = {
+  id: "business_continuity_plans",
+  name: "Business Continuity Plans",
+  description: "Documentation of business continuity and disaster recovery plans.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/capacity_reports.ts
+var capacityReports = {
+  id: "capacity_reports",
+  name: "Capacity Reports",
+  description: "System capacity planning and monitoring reports.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/change_management_records.ts
+var changeManagementRecords = {
+  id: "change_management_records",
+  name: "Change Management Records",
+  description: "Documentation of system changes and approvals.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/change_request_logs.ts
+var changeRequestLogs = {
+  id: "change_request_logs",
+  name: "Change Request Logs",
+  description: "Logs of system change requests and their status.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/change_risk_documentation.ts
+var changeRiskDocumentation = {
+  id: "change_risk_documentation",
+  name: "Change Risk Documentation",
+  description: "Risk assessment documentation for system changes.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/communication_records.ts
+var communicationRecords = {
+  id: "communication_records",
+  name: "Communication Records",
+  description: "Documentation of internal and external security communications.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/consent_records.ts
+var consentRecords = {
+  id: "consent_records",
+  name: "Consent Records",
+  description: "Records of user consent for data processing activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/control_implementation_records.ts
+var controlImplementationRecords = {
+  id: "control_implementation_records",
+  name: "Control Implementation Records",
+  description: "Documentation of control implementation and effectiveness.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/control_testing_documentation.ts
+var controlTestingDocumentation = {
+  id: "control_testing_documentation",
+  name: "Control Testing Documentation",
+  description: "Documentation of control testing activities and results.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/data_classification_records.ts
+var dataClassificationRecords = {
+  id: "data_classification_records",
+  name: "Data Classification Records",
+  description: "Documentation of data classification and handling procedures.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/data_processing_logs.ts
+var dataProcessingLogs = {
+  id: "data_processing_logs",
+  name: "Data Processing Logs",
+  description: "Logs of data processing activities and transactions.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/data_quality_documentation.ts
+var dataQualityDocumentation = {
+  id: "data_quality_documentation",
+  name: "Data Quality Documentation",
+  description: "Documentation of data quality controls and monitoring.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/data_validation_records.ts
+var dataValidationRecords = {
+  id: "data_validation_records",
+  name: "Data Validation Records",
+  description: "Records of data validation and verification activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/deficiency_management_records.ts
+var deficiencyManagementRecords = {
+  id: "deficiency_management_records",
+  name: "Deficiency Management Records",
+  description: "Documentation of control deficiencies and remediation activities.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/disposal_records.ts
+var disposalRecords = {
+  id: "disposal_records",
+  name: "Disposal Records",
+  description: "Documentation of secure data and asset disposal activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/ethics_compliance_documentation.ts
+var ethicsComplianceDocumentation = {
+  id: "ethics_compliance_documentation",
+  name: "Ethics Compliance Documentation",
+  description: "Documentation of ethics training and compliance activities.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/exception_logs.ts
+var exceptionLogs = {
+  id: "exception_logs",
+  name: "Exception Logs",
+  description: "Logs of security control exceptions and approvals.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/external_communication_records.ts
+var externalCommunicationRecords = {
+  id: "external_communication_records",
+  name: "External Communication Records",
+  description: "Documentation of external security communications and notifications.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/fraud_risk_documentation.ts
+var fraudRiskDocumentation = {
+  id: "fraud_risk_documentation",
+  name: "Fraud Risk Documentation",
+  description: "Documentation of fraud risk assessment and mitigation activities.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/hr_documentation.ts
+var hrDocumentation = {
+  id: "hr_documentation",
+  name: "HR Documentation",
+  description: "Documentation of HR security policies and procedures.",
+  frequency: "yearly",
+  department: "hr"
+};
+
+// src/templates/evidence/data/incident_analysis_records.ts
+var incidentAnalysisRecords = {
+  id: "incident_analysis_records",
+  name: "Incident Analysis Records",
+  description: "Documentation of security incident analysis and findings.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/incident_communication_records.ts
+var incidentCommunicationRecords = {
+  id: "incident_communication_records",
+  name: "Incident Communication Records",
+  description: "Documentation of incident-related communications.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/incident_recovery_records.ts
+var incidentRecoveryRecords = {
+  id: "incident_recovery_records",
+  name: "Incident Recovery Records",
+  description: "Documentation of incident recovery activities and lessons learned.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/incident_response_records.ts
+var incidentResponseRecords = {
+  id: "incident_response_records",
+  name: "Incident Response Records",
+  description: "Documentation of security incident response activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/infrastructure_monitoring_records.ts
+var infrastructureMonitoringRecords = {
+  id: "infrastructure_monitoring_records",
+  name: "Infrastructure Monitoring Records",
+  description: "Documentation of infrastructure monitoring and alerting activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/malware_prevention_records.ts
+var malwarePreventionRecords = {
+  id: "malware_prevention_records",
+  name: "Malware Prevention Records",
+  description: "Documentation of malware prevention and detection activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/management_structure_documentation.ts
+var managementStructureDocumentation = {
+  id: "management_structure_documentation",
+  name: "Management Structure Documentation",
+  description: "Documentation of organizational structure and reporting relationships.",
+  frequency: "yearly",
+  department: "hr"
+};
+
+// src/templates/evidence/data/personnel_compliance_documentation.ts
+var personnelComplianceDocumentation = {
+  id: "personnel_compliance_documentation",
+  name: "Personnel Compliance Documentation",
+  description: "Documentation of personnel compliance with security policies.",
+  frequency: "quarterly",
+  department: "hr"
+};
+
+// src/templates/evidence/data/physical_access_records.ts
+var physicalAccessRecords = {
+  id: "physical_access_records",
+  name: "Physical Access Records",
+  description: "Documentation of physical access control activities.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/policy_implementation_records.ts
+var policyImplementationRecords = {
+  id: "policy_implementation_records",
+  name: "Policy Implementation Records",
+  description: "Documentation of security policy implementation activities.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/privacy_notice.ts
+var privacyNotice = {
+  id: "privacy_notice",
+  name: "Privacy Notice",
+  description: "Current privacy notice and related documentation.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/recovery_records.ts
+var recoveryRecords = {
+  id: "recovery_records",
+  name: "Recovery Records",
+  description: "Documentation of system recovery activities and testing.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/retention_schedules.ts
+var retentionSchedules = {
+  id: "retention_schedules",
+  name: "Retention Schedules",
+  description: "Documentation of data retention policies and schedules.",
+  frequency: "yearly",
+  department: "it"
+};
+
+// src/templates/evidence/data/risk_assessment_documentation.ts
+var riskAssessmentDocumentation = {
+  id: "risk_assessment_documentation",
+  name: "Risk Assessment Documentation",
+  description: "Documentation of risk assessment activities and findings.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/risk_identification_records.ts
+var riskIdentificationRecords = {
+  id: "risk_identification_records",
+  name: "Risk Identification Records",
+  description: "Documentation of risk identification activities.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/data/technology_control_records.ts
+var technologyControlRecords = {
+  id: "technology_control_records",
+  name: "Technology Control Records",
+  description: "Documentation of technology control implementation and monitoring.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/uptime_reports.ts
+var uptimeReports = {
+  id: "uptime_reports",
+  name: "Uptime Reports",
+  description: "System uptime and availability reports.",
+  frequency: "monthly",
+  department: "it"
+};
+
+// src/templates/evidence/data/vendor_risk_assessment_records.ts
+var vendorRiskAssessmentRecords = {
+  id: "vendor_risk_assessment_records",
+  name: "Vendor Risk Assessment Records",
+  description: "Documentation of vendor risk assessment activities.",
+  frequency: "quarterly",
+  department: "it"
+};
+
+// src/templates/evidence/index.ts
+var evidence = {
+  access_control_records: accessControlRecords,
+  access_logs: accessLogs,
+  access_removal_records: accessRemovalRecords,
+  access_review_records: accessReviewRecords,
+  account_management_records: accountManagementRecords,
+  authentication_records: authenticationRecords,
+  board_meeting_documentation: boardMeetingDocumentation,
+  business_continuity_and_disaster_recovery_testing_records: businessContinuityAndDisasterRecoveryTestingRecords,
+  business_continuity_plans: businessContinuityPlans,
+  capacity_reports: capacityReports,
+  change_management_records: changeManagementRecords,
+  change_request_logs: changeRequestLogs,
+  change_risk_documentation: changeRiskDocumentation,
+  communication_records: communicationRecords,
+  consent_records: consentRecords,
+  control_implementation_records: controlImplementationRecords,
+  control_testing_documentation: controlTestingDocumentation,
+  data_classification_records: dataClassificationRecords,
+  data_processing_logs: dataProcessingLogs,
+  data_quality_documentation: dataQualityDocumentation,
+  data_validation_records: dataValidationRecords,
+  deficiency_management_records: deficiencyManagementRecords,
+  disposal_records: disposalRecords,
+  ethics_compliance_documentation: ethicsComplianceDocumentation,
+  exception_logs: exceptionLogs,
+  external_communication_records: externalCommunicationRecords,
+  fraud_risk_documentation: fraudRiskDocumentation,
+  hr_documentation: hrDocumentation,
+  incident_analysis_records: incidentAnalysisRecords,
+  incident_communication_records: incidentCommunicationRecords,
+  incident_recovery_records: incidentRecoveryRecords,
+  incident_response_records: incidentResponseRecords,
+  infrastructure_monitoring_records: infrastructureMonitoringRecords,
+  malware_prevention_records: malwarePreventionRecords,
+  management_structure_documentation: managementStructureDocumentation,
+  personnel_compliance_documentation: personnelComplianceDocumentation,
+  physical_access_records: physicalAccessRecords,
+  policy_implementation_records: policyImplementationRecords,
+  privacy_notice: privacyNotice,
+  recovery_records: recoveryRecords,
+  retention_schedules: retentionSchedules,
+  risk_assessment_documentation: riskAssessmentDocumentation,
+  risk_identification_records: riskIdentificationRecords,
+  technology_control_records: technologyControlRecords,
+  uptime_reports: uptimeReports,
+  vendor_risk_assessment_records: vendorRiskAssessmentRecords
+};
+
+// src/templates/controls/data/board-oversight.ts
+var boardOversight = {
+  id: "board_oversight",
+  name: "Board Oversight",
+  description: "The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "board_meeting_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "A1"
+    }
+  ]
+};
+
+// src/templates/controls/data/management-philosophy.ts
+var managementPhilosophy = {
+  id: "management_philosophy",
+  name: "Management Philosophy",
+  description: "Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "management_structure_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC1"
+    }
+  ]
+};
+
+// src/templates/controls/data/organizational-structure.ts
+var organizationalStructure = {
+  id: "organizational_structure",
+  name: "Organizational Structure",
+  description: "The organization demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "human_resources_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "hr_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC1"
+    }
+  ]
+};
+
+// src/templates/controls/data/personnel-policies.ts
+var personnelPolicies = {
+  id: "personnel_policies",
+  name: "Personnel Policies",
+  description: "The organization holds individuals accountable for their internal control responsibilities in the pursuit of objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "human_resources_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "personnel_compliance_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC1"
+    }
+  ]
+};
+
+// src/templates/controls/data/code-of-conduct.ts
+var codeOfConduct = {
+  id: "code_of_conduct",
+  name: "Code of Conduct",
+  description: "The organization demonstrates a commitment to integrity and ethical values.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "code_of_conduct_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "ethics_compliance_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC1"
+    }
+  ]
+};
+
+// src/templates/controls/data/information-quality.ts
+var informationQuality = {
+  id: "information_quality",
+  name: "Information Quality",
+  description: "The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_quality_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/internal-communication.ts
+var internalCommunication = {
+  id: "internal_communication",
+  name: "Internal Communication",
+  description: "The organization internally communicates information, including objectives and responsibilities for internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "communication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/external-communication.ts
+var externalCommunication = {
+  id: "external_communication",
+  name: "External Communication",
+  description: "The organization communicates with external parties regarding matters affecting the functioning of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "external_communication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/risk-assessment-process.ts
+var riskAssessmentProcess = {
+  id: "risk_assessment_process",
+  name: "Risk Assessment Process",
+  description: "The organization specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "risk_assessment_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/risk-identification.ts
+var riskIdentification = {
+  id: "risk_identification",
+  name: "Risk Identification",
+  description: "The organization identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "risk_identification_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/fraud-risk-assessment.ts
+var fraudRiskAssessment = {
+  id: "fraud_risk_assessment",
+  name: "Fraud Risk Assessment",
+  description: "The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "fraud_risk_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/change-management-risk.ts
+var changeManagementRisk = {
+  id: "change_management_risk",
+  name: "Change Management Risk",
+  description: "The organization identifies and assesses changes that could significantly impact the system of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "change_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "change_risk_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/control-monitoring.ts
+var controlMonitoring = {
+  id: "control_monitoring",
+  name: "Control Monitoring",
+  description: "The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "control_testing_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC4"
+    }
+  ]
+};
+
+// src/templates/controls/data/deficiency-management.ts
+var deficiencyManagement = {
+  id: "deficiency_management",
+  name: "Deficiency Management",
+  description: "The organization evaluates and communicates internal control deficiencies in a timely manner to those responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "deficiency_management_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC4"
+    }
+  ]
+};
+
+// src/templates/controls/data/control-selection.ts
+var controlSelection = {
+  id: "control_selection",
+  name: "Control Selection",
+  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "control_implementation_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC5"
+    }
+  ]
+};
+
+// src/templates/controls/data/technology-controls.ts
+var technologyControls = {
+  id: "technology_controls",
+  name: "Technology Controls",
+  description: "The organization selects and develops general control activities over technology to support the achievement of objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "technology_control_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC5"
+    }
+  ]
+};
+
+// src/templates/controls/data/policy-implementation.ts
+var policyImplementation = {
+  id: "policy_implementation",
+  name: "Policy Implementation",
+  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "policy_implementation_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC5"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-security.ts
+var accessSecurity = {
+  id: "access_security",
+  name: "Access Security",
+  description: "The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_control_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-authentication.ts
+var accessAuthentication = {
+  id: "access_authentication",
+  name: "Access Authentication",
+  description: "Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "authentication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-removal.ts
+var accessRemoval = {
+  id: "access_removal",
+  name: "Access Removal",
+  description: "The organization removes access to protected information assets when appropriate.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_removal_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-review.ts
+var accessReview = {
+  id: "access_review",
+  name: "Access Review",
+  description: "The organization evaluates and manages access to protected information assets on a periodic basis.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_review_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/system-account-management.ts
+var systemAccountManagement = {
+  id: "system_account_management",
+  name: "System Account Management",
+  description: "The organization identifies and authenticates system users, devices, and other systems before allowing access.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "account_management_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-restrictions.ts
+var accessRestrictions = {
+  id: "access_restrictions",
+  name: "Access Restrictions",
+  description: "The organization restricts physical access to facilities and protected information assets.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "physical_access_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/information-asset-changes.ts
+var informationAssetChanges = {
+  id: "information_asset_changes",
+  name: "Information Asset Changes",
+  description: "The organization manages changes to system components to minimize the risk of unauthorized changes.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "change_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "change_management_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/malicious-software-prevention.ts
+var maliciousSoftwarePrevention = {
+  id: "malicious_software_prevention",
+  name: "Malicious Software Prevention",
+  description: "The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "malware_prevention_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/infrastructure-monitoring.ts
+var infrastructureMonitoring = {
+  id: "infrastructure_monitoring",
+  name: "Infrastructure Monitoring",
+  description: "To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, and vulnerabilities.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "infrastructure_monitoring_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/security-event-response.ts
+var securityEventResponse = {
+  id: "security_event_response",
+  name: "Security Event Response",
+  description: "The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "incident_response_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "incident_response_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/security-event-recovery.ts
+var securityEventRecovery = {
+  id: "security_event_recovery",
+  name: "Security Event Recovery",
+  description: "The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "business_continuity_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "recovery_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/security-event-analysis.ts
+var securityEventAnalysis = {
+  id: "security_event_analysis",
+  name: "Security Event Analysis",
+  description: "The organization implements incident response activities to identify root causes of security incidents and develop remediation plans.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "incident_response_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "incident_analysis_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/security-event-communication.ts
+var securityEventCommunication = {
+  id: "security_event_communication",
+  name: "Security Event Communication",
+  description: "The organization identifies, develops, and implements activities to communicate security incidents to affected parties.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "incident_response_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "incident_communication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/confidential-information-classification.ts
+var confidentialInformationClassification = {
+  id: "confidential_information_classification",
+  name: "Confidential Information Classification",
+  description: "The entity classifies information to identify and protect confidential information.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_classification_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-restrictions-for-confidential-data.ts
+var accessRestrictionsForConfidentialData = {
+  id: "access_restrictions_for_confidential_data",
+  name: "Access Restrictions for Confidential Data",
+  description: "The entity restricts access to confidential information on a need-to-know basis.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/confidential-data-disposal.ts
+var confidentialDataDisposal = {
+  id: "confidential_data_disposal",
+  name: "Confidential Data Disposal",
+  description: "The entity securely disposes of confidential information when no longer needed.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "disposal_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/accuracy-and-completeness.ts
+var accuracyAndCompleteness = {
+  id: "accuracy_and_completeness",
+  name: "Accuracy and Completeness",
+  description: "The entity ensures data is processed accurately and completely.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_validation_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
+// src/templates/controls/data/input-processing-and-output-controls.ts
+var inputProcessingAndOutputControls = {
+  id: "input_processing_and_output_controls",
+  name: "Input, Processing, and Output Controls",
+  description: "The entity validates the completeness and accuracy of data throughout processing.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_processing_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
+// src/templates/controls/data/exception-handling.ts
+var exceptionHandling = {
+  id: "exception_handling",
+  name: "Exception Handling",
+  description: "The entity identifies and resolves processing exceptions in a timely manner.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "exception_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
+// src/templates/controls/data/privacy-notice.ts
+var privacyNotice2 = {
+  id: "privacy_notice",
+  name: "Privacy Notice",
+  description: "The entity provides notice about the collection, use, and disclosure of personal information.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "privacy_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "privacy_notice"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "P1"
+    }
+  ]
+};
+
+// src/templates/controls/data/choice-and-consent.ts
+var choiceAndConsent = {
+  id: "choice_and_consent",
+  name: "Choice and Consent",
+  description: "The entity obtains consent for personal information where required by policy or law.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "privacy_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "consent_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "P1"
+    }
+  ]
+};
+
+// src/templates/controls/data/data-retention-and-disposal.ts
+var dataRetentionAndDisposal = {
+  id: "data_retention_and_disposal",
+  name: "Data Retention and Disposal",
+  description: "The entity retains personal information for only as long as needed and disposes of it securely.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "privacy_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "retention_schedules"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "P1"
+    }
+  ]
+};
+
+// src/templates/controls/index.ts
+var controls = [
+  boardOversight,
+  managementPhilosophy,
+  organizationalStructure,
+  personnelPolicies,
+  codeOfConduct,
+  informationQuality,
+  internalCommunication,
+  externalCommunication,
+  riskAssessmentProcess,
+  riskIdentification,
+  fraudRiskAssessment,
+  changeManagementRisk,
+  controlMonitoring,
+  deficiencyManagement,
+  controlSelection,
+  technologyControls,
+  policyImplementation,
+  accessSecurity,
+  accessAuthentication,
+  accessRemoval,
+  accessReview,
+  systemAccountManagement,
+  accessRestrictions,
+  informationAssetChanges,
+  maliciousSoftwarePrevention,
+  infrastructureMonitoring,
+  securityEventResponse,
+  securityEventRecovery,
+  securityEventAnalysis,
+  securityEventCommunication,
+  confidentialInformationClassification,
+  accessRestrictionsForConfidentialData,
+  confidentialDataDisposal,
+  accuracyAndCompleteness,
+  inputProcessingAndOutputControls,
+  exceptionHandling,
+  privacyNotice2,
+  choiceAndConsent,
+  dataRetentionAndDisposal
+];
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  accessControlPolicy,
-  applicationSecurityPolicy,
-  availabilityPolicy,
-  businessContinuityPolicy,
-  changeManagementPolicy,
-  classificationPolicy,
-  codeOfConductPolicy,
-  confidentialityPolicy,
-  corporateGovernancePolicy,
-  cyberRiskPolicy,
-  dataCenterPolicy,
-  dataClassificationPolicy,
-  disasterRecoveryPolicy,
+  controls,
+  evidence,
   frameworks,
-  humanResourcesPolicy,
-  incidentResponsePolicy,
-  informationSecurityPolicy,
-  passwordPolicy,
-  privacyPolicy,
-  riskAssessmentPolicy,
-  riskManagementPolicy,
-  softwareDevelopmentPolicy,
-  systemChangePolicy,
-  thirdPartyPolicy,
-  trainingVideos,
-  vendorRiskManagementPolicy,
-  workstationPolicy
+  policies,
+  requirements,
+  soc2Requirements,
+  trainingVideos
 });

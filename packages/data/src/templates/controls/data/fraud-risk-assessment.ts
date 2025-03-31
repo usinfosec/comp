@@ -8,11 +8,11 @@ export const fraudRiskAssessment: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "risk_management",
+			policyId: "risk_management_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "fraudRiskDocumentation",
+			evidenceId: "fraud_risk_documentation",
 		},
 	],
 	mappedRequirements: [

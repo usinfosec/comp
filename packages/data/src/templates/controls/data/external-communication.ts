@@ -8,11 +8,11 @@ export const externalCommunication: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "corporate_governance",
+			policyId: "corporate_governance_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "externalCommunicationRecords",
+			evidenceId: "external_communication_records",
 		},
 	],
 	mappedRequirements: [

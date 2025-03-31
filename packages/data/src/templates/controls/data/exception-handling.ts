@@ -8,11 +8,11 @@ export const exceptionHandling: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "information_security",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "exceptionLogs",
+			evidenceId: "exception_logs",
 		},
 	],
 	mappedRequirements: [

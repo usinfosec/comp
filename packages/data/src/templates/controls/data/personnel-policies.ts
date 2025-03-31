@@ -8,7 +8,7 @@ export const personnelPolicies: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "human_resources",
+			policyId: "human_resources_policy",
 		},
 		{
 			type: "evidence",

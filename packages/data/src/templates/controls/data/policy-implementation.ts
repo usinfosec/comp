@@ -8,7 +8,7 @@ export const policyImplementation: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "internal_control",
+			policyId: "corporate_governance_policy",
 		},
 		{
 			type: "evidence",

@@ -118,55 +118,34 @@ interface Policy {
     content: JSONContent[];
 }
 
-declare const accessControlPolicy: Policy;
-
-declare const applicationSecurityPolicy: Policy;
-
-declare const availabilityPolicy: Policy;
-
-declare const businessContinuityPolicy: Policy;
-
-declare const changeManagementPolicy: Policy;
-
-declare const classificationPolicy: Policy;
-
-declare const codeOfConductPolicy: Policy;
-
-declare const confidentialityPolicy: Policy;
-
-declare const corporateGovernancePolicy: Policy;
-
-declare const cyberRiskPolicy: Policy;
-
-declare const dataCenterPolicy: Policy;
-
-declare const dataClassificationPolicy: Policy;
-
-declare const disasterRecoveryPolicy: Policy;
-
-declare const humanResourcesPolicy: Policy;
-
-declare const incidentResponsePolicy: Policy;
-
-declare const informationSecurityPolicy: Policy;
-
-declare const passwordPolicy: Policy;
-
-declare const privacyPolicy: Policy;
-
-declare const riskAssessmentPolicy: Policy;
-
-declare const riskManagementPolicy: Policy;
-
-declare const softwareDevelopmentPolicy: Policy;
-
-declare const systemChangePolicy: Policy;
-
-declare const thirdPartyPolicy: Policy;
-
-declare const vendorRiskManagementPolicy: Policy;
-
-declare const workstationPolicy: Policy;
+declare const policies: {
+    readonly access_control_policy: Policy;
+    readonly application_security_policy: Policy;
+    readonly availability_policy: Policy;
+    readonly business_continuity_policy: Policy;
+    readonly change_management_policy: Policy;
+    readonly classification_policy: Policy;
+    readonly code_of_conduct_policy: Policy;
+    readonly confidentiality_policy: Policy;
+    readonly corporate_governance_policy: Policy;
+    readonly cyber_risk_policy: Policy;
+    readonly data_center_policy: Policy;
+    readonly data_classification_policy: Policy;
+    readonly disaster_recovery_policy: Policy;
+    readonly human_resources_policy: Policy;
+    readonly incident_response_policy: Policy;
+    readonly information_security_policy: Policy;
+    readonly password_policy: Policy;
+    readonly privacy_policy: Policy;
+    readonly risk_assessment_policy: Policy;
+    readonly risk_management_policy: Policy;
+    readonly software_development_policy: Policy;
+    readonly system_change_policy: Policy;
+    readonly third_party_policy: Policy;
+    readonly vendor_risk_management_policy: Policy;
+    readonly workstation_policy: Policy;
+};
+type PolicyId = keyof typeof policies;
 
 /**
  * Represents a piece of compliance or regulatory evidence
@@ -186,54 +165,55 @@ interface Evidence {
 }
 
 declare const evidence: {
-    accessControlRecords: Evidence;
-    accessLogs: Evidence;
-    accessRemovalRecords: Evidence;
-    accessReviewRecords: Evidence;
-    accountManagementRecords: Evidence;
-    authenticationRecords: Evidence;
-    boardMeetingDocumentation: Evidence;
-    businessContinuityAndDisasterRecoveryTestingRecords: Evidence;
-    businessContinuityPlans: Evidence;
-    capacityReports: Evidence;
-    changeManagementRecords: Evidence;
-    changeRequestLogs: Evidence;
-    changeRiskDocumentation: Evidence;
-    communicationRecords: Evidence;
-    consentRecords: Evidence;
-    controlImplementationRecords: Evidence;
-    controlTestingDocumentation: Evidence;
-    dataClassificationRecords: Evidence;
-    dataProcessingLogs: Evidence;
-    dataQualityDocumentation: Evidence;
-    dataValidationRecords: Evidence;
-    deficiencyManagementRecords: Evidence;
-    disposalRecords: Evidence;
-    ethicsComplianceDocumentation: Evidence;
-    exceptionLogs: Evidence;
-    externalCommunicationRecords: Evidence;
-    fraudRiskDocumentation: Evidence;
-    hrDocumentation: Evidence;
-    incidentAnalysisRecords: Evidence;
-    incidentCommunicationRecords: Evidence;
-    incidentRecoveryRecords: Evidence;
-    incidentResponseRecords: Evidence;
-    infrastructureMonitoringRecords: Evidence;
-    malwarePreventionRecords: Evidence;
-    managementStructureDocumentation: Evidence;
-    personnelComplianceDocumentation: Evidence;
-    physicalAccessRecords: Evidence;
-    policyImplementationRecords: Evidence;
-    privacyNotice: Evidence;
-    recoveryRecords: Evidence;
-    retentionSchedules: Evidence;
-    riskAssessmentDocumentation: Evidence;
-    riskIdentificationRecords: Evidence;
-    technologyControlRecords: Evidence;
-    uptimeReports: Evidence;
-    vendorRiskAssessmentRecords: Evidence;
+    readonly access_control_records: Evidence;
+    readonly access_logs: Evidence;
+    readonly access_removal_records: Evidence;
+    readonly access_review_records: Evidence;
+    readonly account_management_records: Evidence;
+    readonly authentication_records: Evidence;
+    readonly board_meeting_documentation: Evidence;
+    readonly business_continuity_and_disaster_recovery_testing_records: Evidence;
+    readonly business_continuity_plans: Evidence;
+    readonly capacity_reports: Evidence;
+    readonly change_management_records: Evidence;
+    readonly change_request_logs: Evidence;
+    readonly change_risk_documentation: Evidence;
+    readonly communication_records: Evidence;
+    readonly consent_records: Evidence;
+    readonly control_implementation_records: Evidence;
+    readonly control_testing_documentation: Evidence;
+    readonly data_classification_records: Evidence;
+    readonly data_processing_logs: Evidence;
+    readonly data_quality_documentation: Evidence;
+    readonly data_validation_records: Evidence;
+    readonly deficiency_management_records: Evidence;
+    readonly disposal_records: Evidence;
+    readonly ethics_compliance_documentation: Evidence;
+    readonly exception_logs: Evidence;
+    readonly external_communication_records: Evidence;
+    readonly fraud_risk_documentation: Evidence;
+    readonly hr_documentation: Evidence;
+    readonly incident_analysis_records: Evidence;
+    readonly incident_communication_records: Evidence;
+    readonly incident_recovery_records: Evidence;
+    readonly incident_response_records: Evidence;
+    readonly infrastructure_monitoring_records: Evidence;
+    readonly malware_prevention_records: Evidence;
+    readonly management_structure_documentation: Evidence;
+    readonly personnel_compliance_documentation: Evidence;
+    readonly physical_access_records: Evidence;
+    readonly policy_implementation_records: Evidence;
+    readonly privacy_notice: Evidence;
+    readonly recovery_records: Evidence;
+    readonly retention_schedules: Evidence;
+    readonly risk_assessment_documentation: Evidence;
+    readonly risk_identification_records: Evidence;
+    readonly technology_control_records: Evidence;
+    readonly uptime_reports: Evidence;
+    readonly vendor_risk_assessment_records: Evidence;
 };
-type EvidenceId = keyof typeof evidence;
+type EvidenceKey = keyof typeof evidence;
+type EvidenceId = EvidenceKey;
 
 /**
  * Represents an artifact associated with a control
@@ -241,10 +221,10 @@ type EvidenceId = keyof typeof evidence;
  */
 type Artifact = {
     type: "policy";
-    policyId: string;
+    policyId: PolicyId;
 } | {
     type: "evidence";
-    evidenceId: string;
+    evidenceId: EvidenceId;
 };
 /**
  * Represents a requirement that a control addresses.
@@ -276,4 +256,4 @@ type Controls = Control[];
 
 declare const controls: Controls;
 
-export { type EvidenceId, accessControlPolicy, applicationSecurityPolicy, availabilityPolicy, businessContinuityPolicy, changeManagementPolicy, classificationPolicy, codeOfConductPolicy, confidentialityPolicy, controls, corporateGovernancePolicy, cyberRiskPolicy, dataCenterPolicy, dataClassificationPolicy, disasterRecoveryPolicy, evidence, frameworks, humanResourcesPolicy, incidentResponsePolicy, informationSecurityPolicy, passwordPolicy, privacyPolicy, requirements, riskAssessmentPolicy, riskManagementPolicy, soc2Requirements, softwareDevelopmentPolicy, systemChangePolicy, thirdPartyPolicy, trainingVideos, vendorRiskManagementPolicy, workstationPolicy };
+export { type EvidenceId, type EvidenceKey, type PolicyId, controls, evidence, frameworks, policies, requirements, soc2Requirements, trainingVideos };

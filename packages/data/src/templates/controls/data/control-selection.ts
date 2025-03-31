@@ -8,11 +8,11 @@ export const controlSelection: Control = {
 	mappedArtifacts: [
 		{
 			type: "policy",
-			policyId: "internal_control",
+			policyId: "information_security_policy",
 		},
 		{
 			type: "evidence",
-			evidenceId: "control_selection_documentation",
+			evidenceId: "control_implementation_records",
 		},
 	],
 	mappedRequirements: [
