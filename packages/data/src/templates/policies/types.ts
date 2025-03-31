@@ -1,5 +1,4 @@
-import type { Frameworks } from "../../static/frameworks/types";
-import type { Frequency, Departments } from "@bubba/db/types";
+import type { Departments, Frequency } from "@bubba/db/types";
 
 /**
  * Represents the structure of JSON content used in policy documents.
@@ -28,12 +27,6 @@ export interface PolicyMetadata {
 	description: string;
 	frequency: Frequency;
 	department: Departments;
-	/**
-	 * Specifies which controls within compliance frameworks this policy relates to.
-	 * The keys correspond to the framework IDs (e.g., 'soc2').
-	 * The values are arrays of control identifiers (e.g., ['CC6.1', 'CC6.2']).
-	 */
-	usedBy: Partial<Record<keyof Frameworks, string[]>>;
 }
 
 /**

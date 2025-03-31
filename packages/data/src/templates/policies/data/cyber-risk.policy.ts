@@ -10,9 +10,6 @@ export const cyberRiskPolicy: Policy = {
 			"This policy outlines the requirements for conducting cyber risk assessments to identify, evaluate, and mitigate cybersecurity threats to the organization.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC1.1", "CC1.2", "CC1.3", "CC1.4", "CC1.5"],
-		},
 	},
 	content: [
 		{

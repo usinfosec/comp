@@ -10,9 +10,6 @@ export const thirdPartyPolicy: Policy = {
 			"This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC2.3", "CC7.3", "CC8.1"],
-		},
 	},
 	content: [
 		{

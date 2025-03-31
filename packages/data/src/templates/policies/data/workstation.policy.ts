@@ -10,9 +10,6 @@ export const workstationPolicy: Policy = {
 			"This policy outlines the requirements for workstations to ensure secure, reliable, and high-quality software development practices.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC6.2", "CC6.7", "CC7.2"],
-		},
 	},
 	content: [
 		{

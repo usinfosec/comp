@@ -10,9 +10,6 @@ export const incidentResponsePolicy: Policy = {
 			"This policy establishes the framework and procedures for detecting, responding to, and recovering from security incidents.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC7.2", "CC7.4", "CC7.5"],
-		},
 	},
 	content: [
 		{

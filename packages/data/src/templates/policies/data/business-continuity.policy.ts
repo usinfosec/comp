@@ -10,9 +10,6 @@ export const businessContinuityPolicy: Policy = {
 			"This policy outlines the strategies and procedures for ensuring the availability of critical systems and data during and after a disruptive event.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC7.3", "A1.3", "CC9.1", "CC9.9"],
-		},
 	},
 	content: [
 		{

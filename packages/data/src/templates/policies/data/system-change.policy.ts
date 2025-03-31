@@ -9,9 +9,6 @@ export const systemChangePolicy: Policy = {
 		description: "This policy outlines the requirements for system changes.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC3.4", "CC6.8", "CC7.1", "A1.1"],
-		},
 	},
 	content: [
 		{

@@ -10,9 +10,6 @@ export const passwordPolicy: Policy = {
 			"This policy outlines the requirements for passwords used by employees.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC1.1", "CC1.2", "CC1.3"],
-		},
 	},
 	content: [],
 } as const;

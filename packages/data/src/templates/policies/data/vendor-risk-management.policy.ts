@@ -10,9 +10,6 @@ export const vendorRiskManagementPolicy: Policy = {
 			"This policy outlines the criteria and procedures for evaluating, selecting, and monitoring third-party vendors to manage risks associated with external service providers.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC9.2"],
-		},
 	},
 	content: [
 		{

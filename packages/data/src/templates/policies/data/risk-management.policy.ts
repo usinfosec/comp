@@ -10,9 +10,6 @@ export const riskManagementPolicy: Policy = {
 			"This policy defines the process for identifying, assessing, and mitigating risks to the organization's objectives and information assets.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC3.1", "CC3.2", "CC3.3", "CC4.2"],
-		},
 	},
 	content: [
 		{

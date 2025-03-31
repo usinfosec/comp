@@ -10,9 +10,6 @@ export const corporateGovernancePolicy: Policy = {
 			"This policy defines the overall governance framework including board oversight, management responsibilities, and organizational structure to ensure effective oversight and accountability.",
 		frequency: "yearly",
 		department: "admin",
-		usedBy: {
-			soc2: ["CC1.1", "CC1.2", "CC1.5", "CC2.2", "CC2.3"],
-		},
 	},
 	content: [
 		{

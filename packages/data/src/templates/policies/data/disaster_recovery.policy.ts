@@ -10,9 +10,6 @@ export const disasterRecoveryPolicy: Policy = {
 			"This policy outlines the requirements for disaster recovery planning to ensure the organization can recover from disruptive events.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC1.1", "CC1.2", "CC1.3", "CC1.4", "CC1.5"],
-		},
 	},
 	content: [
 		{

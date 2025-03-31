@@ -10,9 +10,6 @@ export const humanResourcesPolicy: Policy = {
 			"This policy outlines the principles and practices for recruitment, employee management, performance evaluations, and the enforcement of internal control responsibilities.",
 		frequency: "yearly",
 		department: "hr",
-		usedBy: {
-			soc2: ["CC1.3", "CC1.4"],
-		},
 	},
 	content: [
 		{

@@ -10,9 +10,6 @@ export const applicationSecurityPolicy: Policy = {
 			"This policy outlines the security framework and requirements for applications, notably web applications, within the organization's production environment.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC7.1", "CC7.2", "CC7.4"],
-		},
 	},
 	content: [
 		{

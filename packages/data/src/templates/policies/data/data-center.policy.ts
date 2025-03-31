@@ -10,9 +10,6 @@ export const dataCenterPolicy: Policy = {
 			"This policy outlines the requirements for the organization's data center facilities to ensure protection, availability, and reliability of critical systems and data.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC6.1", "CC6.2", "CC8.1", "CC7.1"],
-		},
 	},
 	content: [
 		{

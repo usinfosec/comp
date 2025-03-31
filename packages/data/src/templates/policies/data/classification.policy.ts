@@ -10,9 +10,6 @@ export const classificationPolicy: Policy = {
 			"This policy outlines the requirements for data classification.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC6.1", "CC8.1", "CC6.6"],
-		},
 	},
 	content: [
 		{

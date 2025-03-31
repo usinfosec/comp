@@ -5,28 +5,21 @@ import { allRequirementIdsByFramework } from "../../static/requirements/types";
  * Represents an artifact associated with a control
  * that can be used to demonstrate compliance.
  */
-export interface Artifact {
-	/** Unique identifier for the artifact */
-	id: string;
-	/** The type of artifact - can be a policy, evidence, or training */
-	type: "policy" | "evidence" | "training";
-	/** Optional reference to a specific policy ID if the artifact is a policy */
-	policyId?: string;
-	/** Optional reference to a specific evidence ID if the artifact is evidence */
-	evidenceId?: string;
-	/** Optional name of the artifact */
-	name?: string;
-	/** Optional description of the artifact */
-	description?: string;
-}
+export type Artifact =
+	| {
+			type: "policy";
+			policyId: string;
+	  }
+	| {
+			type: "evidence";
+			evidenceId: string;
+	  };
 
 /**
  * Represents a security or compliance control that organizations
  * implement to address specific requirements.
  */
 export interface Control<T extends FrameworkId> {
-	/** Unique code identifier for the control */
-	code: string;
 	/** Display name of the control */
 	name: string;
 	/** Detailed explanation of what this control entails */

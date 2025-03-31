@@ -10,9 +10,6 @@ export const accessControlPolicy: Policy = {
 			"This policy defines the requirements for granting, monitoring, and revoking access to the organization's information systems and data based on the principle of least privilege.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC6.1", "CC6.2", "CC6.3", "CC6.4", "CC6.5", "CC6.6"],
-		},
 	},
 	content: [
 		{

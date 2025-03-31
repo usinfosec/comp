@@ -10,9 +10,6 @@ export const privacyPolicy: Policy = {
 			"This policy describes how the organization collects, uses, discloses, and protects personal information in compliance with applicable privacy regulations.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["P1.1", "P1.2", "P1.3"],
-		},
 	},
 	content: [
 		{

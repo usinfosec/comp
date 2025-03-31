@@ -10,9 +10,6 @@ export const dataClassificationPolicy: Policy = {
 			"This policy establishes a framework for classifying data based on sensitivity and defines handling requirements for each classification level.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["C1.1", "C1.2", "C1.3"],
-		},
 	},
 	content: [
 		{

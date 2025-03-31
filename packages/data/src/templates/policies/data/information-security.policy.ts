@@ -10,9 +10,6 @@ export const informationSecurityPolicy: Policy = {
 			"This policy establishes the framework for protecting the organization's information assets by defining security objectives, roles, responsibilities, and controls.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC2.1", "PI1.1", "PI1.2", "PI1.3", "CC5.2"],
-		},
 	},
 	content: [
 		{

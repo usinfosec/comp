@@ -10,9 +10,6 @@ export const codeOfConductPolicy: Policy = {
 			"This policy outlines the expected behavior from employees towards their colleagues, supervisors, and the organization as a whole.",
 		frequency: "yearly",
 		department: "hr",
-		usedBy: {
-			soc2: ["CC1.1", "CC6.1"],
-		},
 	},
 	content: [
 		{

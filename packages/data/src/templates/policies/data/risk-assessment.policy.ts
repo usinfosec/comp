@@ -10,9 +10,6 @@ export const riskAssessmentPolicy: Policy = {
 			"This policy outlines the requirements for conducting risk assessments to identify, evaluate, and mitigate risks associated with the organization's information systems, operations, and assets.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC3.2", "CC3.4", "CC8.1"],
-		},
 	},
 	content: [
 		{

@@ -10,9 +10,6 @@ export const confidentialityPolicy: Policy = {
 			"This policy outlines the requirements for maintaining the confidentiality of sensitive and proprietary information within the organization.",
 		frequency: "yearly",
 		department: "gov",
-		usedBy: {
-			soc2: ["CC9.9", "CC6.1"],
-		},
 	},
 	content: [
 		{

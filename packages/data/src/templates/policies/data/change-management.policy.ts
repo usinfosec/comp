@@ -10,9 +10,6 @@ export const changeManagementPolicy: Policy = {
 			"This policy defines the process for requesting, reviewing, approving, and documenting changes to the organization's information systems and infrastructure.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC3.4", "CC8.1", "CC6.7"],
-		},
 	},
 	content: [
 		{

@@ -10,9 +10,6 @@ export const softwareDevelopmentPolicy: Policy = {
 			"This policy outlines the requirements for the software development lifecycle to ensure secure, reliable, and high-quality software development practices.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC6.2", "CC7.1", "CC7.2", "CC8.1"],
-		},
 	},
 	content: [
 		{

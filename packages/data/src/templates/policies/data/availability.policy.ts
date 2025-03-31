@@ -10,9 +10,6 @@ export const availabilityPolicy: Policy = {
 			"This policy outlines the requirements for proper controls to protect the availability of the organization's information systems.",
 		frequency: "yearly",
 		department: "it",
-		usedBy: {
-			soc2: ["CC9.1", "CC7.3", "CC7.5", "A1.1", "A1.2"],
-		},
 	},
 	content: [
 		{
