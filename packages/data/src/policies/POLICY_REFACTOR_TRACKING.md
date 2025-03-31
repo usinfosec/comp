@@ -17,7 +17,7 @@ The process for each file is:
 - [x] `availability.json`
 - [x] `business_continuity.json`
 - [x] `change_management.json`
-- [ ] `classification.json`
+- [x] `classification.json`
 - [ ] `code_of_conduct.json`
 - [ ] `confidentiality.json`
 - [ ] `corporate_governance.json`
