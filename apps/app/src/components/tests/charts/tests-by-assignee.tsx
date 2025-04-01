@@ -206,30 +206,62 @@ function TestBarChart({ stat }: { stat: UserTestStats }) {
 }
 
 const userData = async (organizationId: string): Promise<UserData[]> => {
-	// Fetch users in the organization with their assigned test results
-	const users = await db.user.findMany({
+	// Fetch members in the organization
+	const members = await db.member.findMany({
 		where: {
 			organizationId,
+			isActive: true,
 		},
 		select: {
-			id: true,
-			name: true,
-			image: true,
-			integrationResults: {
+			user: {
 				select: {
-					status: true,
-				},
-				where: {
-					organizationId,
-					NOT: {
-						assignedUserId: null,
-					},
+					id: true,
+					name: true,
+					image: true,
 				},
 			},
 		},
 	});
 
-	console.log(users);
+	// Get the list of user IDs in this organization
+	const userIds = members.map((member) => member.user.id);
 
-	return users as UserData[];
+	// Fetch integration results assigned to these users
+	const integrationResults = await db.integrationResult.findMany({
+		where: {
+			organizationId,
+			assignedUserId: {
+				in: userIds,
+			},
+		},
+		select: {
+			status: true,
+			assignedUserId: true,
+		},
+	});
+
+	// Group integration results by user ID
+	const resultsByUser = new Map<string, TestData[]>();
+
+	for (const result of integrationResults) {
+		if (result.assignedUserId) {
+			if (!resultsByUser.has(result.assignedUserId)) {
+				resultsByUser.set(result.assignedUserId, []);
+			}
+			resultsByUser.get(result.assignedUserId)?.push({
+				status: result.status || "",
+				assignedUserId: result.assignedUserId,
+			});
+		}
+	}
+
+	// Map the data to the expected format
+	const userData: UserData[] = members.map((member) => ({
+		id: member.user.id,
+		name: member.user.name,
+		image: member.user.image,
+		integrationResults: resultsByUser.get(member.user.id) || [],
+	}));
+
+	return userData;
 };
