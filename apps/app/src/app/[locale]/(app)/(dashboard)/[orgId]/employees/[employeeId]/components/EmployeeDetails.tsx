@@ -2,7 +2,12 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import type { Departments, Policy } from "@bubba/db/types";
+import type {
+	Departments,
+	Employee,
+	EmployeeTrainingVideos,
+	Policy,
+} from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import {
@@ -47,18 +52,20 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 
 interface EmployeeDetailsProps {
 	employeeId: string;
-	portalEmployeeId: string;
+	employee: Employee;
 	policies: Policy[];
-	trainingVideos: TrainingVideo[];
+	trainingVideos: (EmployeeTrainingVideos & {
+		metadata: TrainingVideo | undefined;
+	})[];
 }
 
 export function EmployeeDetails({
 	employeeId,
-	portalEmployeeId,
+	employee,
 	policies,
 	trainingVideos,
 }: EmployeeDetailsProps) {
-	const { employee, isLoading, error, mutate } = useEmployeeDetails(employeeId);
+	const { isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
 	const [isSaving, setIsSaving] = useState(false);
 	const [department, setDepartment] = useState<Departments | null>(null);
@@ -300,8 +307,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									policies.map((policy) => {
-										const isCompleted =
-											policy.signedBy.includes(portalEmployeeId);
+										const isCompleted = policy.signedBy.includes(employee.id);
 
 										return (
 											<div
@@ -331,8 +337,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										const isCompleted =
-											video.completedBy.includes(portalEmployeeId);
+										const isCompleted = video.completedBy.includes(employee.id);
 
 										return (
 											<div
@@ -345,7 +350,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)}
-													{video.title}
+													{video.metadata?.title}
 												</h2>
 											</div>
 										);
