@@ -22,10 +22,14 @@ export default async function IntegrationsPage({
     headers: await headers(),
   });
 
+  if (!session?.session.activeOrganizationId) {
+    return redirect("/");
+  }
+
   const [organization] = await Promise.all([
     db.organization.findUnique({
       where: {
-        id: session?.session.activeOrganizationId,
+        id: session?.session.activeOrganizationId ?? "",
       },
     }),
   ]);

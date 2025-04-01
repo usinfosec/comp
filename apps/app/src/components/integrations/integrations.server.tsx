@@ -9,6 +9,10 @@ export async function IntegrationsServer() {
     headers: await headers(),
   });
 
+  if (!session?.session.activeOrganizationId) {
+    return redirect("/");
+  }
+
   const organization = await db.organization.findUnique({
     where: {
       id: session?.session.activeOrganizationId,
@@ -24,23 +28,11 @@ export async function IntegrationsServer() {
     where: {
       organizationId: organization.id,
     },
-    include: {
-      // Include the last run information for each integration
-      lastRuns: {
-        where: {
-          organizationId: organization.id,
-        },
-        orderBy: {
-          lastRunAt: "desc",
-        },
-        take: 1,
-      },
-    },
   });
 
   // Map integrations with last run data
   const integrationsWithRunInfo = integrations.map((integration) => {
-    const lastRun = integration.lastRuns[0];
+    const lastRun = integration.lastRunAt;
 
     // Calculate next run time (at midnight UTC)
     let nextRunAt = null;
@@ -67,7 +59,7 @@ export async function IntegrationsServer() {
 
     return {
       ...integration,
-      lastRunAt: lastRun?.lastRunAt || null,
+      lastRunAt: lastRun || null,
       nextRunAt,
     };
   });
