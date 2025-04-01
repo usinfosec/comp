@@ -51,7 +51,6 @@ export async function getTest(input: { testId: string }): Promise<
 			assignedUserId: integrationResult.assignedUserId || "",
 			organizationId: organizationId,
 			completedAt: integrationResult.completedAt || new Date(),
-			integrationId: integrationResult.integration.id,
 		};
 
 		return {
