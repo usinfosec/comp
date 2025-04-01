@@ -133,7 +133,7 @@ export const createOrganizationTask = schemaTask({
       );
 
       // Link controls to their policies and evidence through artifacts
-      await createOrganizationControlArtifacts(
+      await createControlArtifacts(
         organizationId,
         organizationFrameworks.map((framework) => framework.id),
         relevantControls,
@@ -356,7 +356,7 @@ const createOrganizationPolicies = async (
       });
 
       logger.info(`Created policy: ${policy.name}`, {
-        policyId: policy.id,
+        policyName: policy.name,
         templateId: policyId,
       });
     } catch (error) {
@@ -403,7 +403,7 @@ const createOrganizationEvidence = async (
     }
   }
 
-  logger.info("Creating organization evidence", {
+  logger.info("Creating evidence record instances", {
     organizationId,
     evidenceCount: evidenceIds.size,
     evidenceIds: Array.from(evidenceIds),
@@ -427,8 +427,7 @@ const createOrganizationEvidence = async (
         data: {
           organizationId,
           name: evidenceTemplate.name,
-          description: evidenceTemplate.description || "",
-          evidenceId: evidenceTemplate.id,
+          description: evidenceTemplate.description,
           frequency: evidenceTemplate.frequency,
           assigneeId: userId,
           department: evidenceTemplate.department,
@@ -473,7 +472,7 @@ const createOrganizationEvidence = async (
  * @param createdEvidence - Map of template evidence IDs to created evidence records
  * @returns Object with success status and artifact count
  */
-const createOrganizationControlArtifacts = async (
+const createControlArtifacts = async (
   organizationId: string,
   frameworkInstanceIds: string[],
   relevantControls: TemplateControl[],
