@@ -42,8 +42,6 @@ function isArtifactCompleted(
 			return artifact.policy?.status === "published";
 		case "evidence":
 			return artifact.evidence?.published === true;
-		case "file":
-		case "link":
 		case "procedure":
 		case "training":
 			// For other types, they're completed if they exist
