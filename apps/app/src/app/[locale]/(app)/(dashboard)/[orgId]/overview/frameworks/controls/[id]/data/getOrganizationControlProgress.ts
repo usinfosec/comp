@@ -24,13 +24,13 @@ export const getOrganizationControlProgress = async (controlId: string) => {
     };
   }
 
-  const requirements = await db.organizationControlRequirement.findMany({
+  const requirements = await db.controlRequirement.findMany({
     where: {
-      organizationControlId: controlId,
+      controlId: controlId,
     },
     include: {
-      organizationPolicy: true,
-      organizationEvidence: true,
+      policy: true,
+      evidence: true,
     },
   });
 
@@ -56,13 +56,13 @@ export const getOrganizationControlProgress = async (controlId: string) => {
     let isCompleted = false;
     switch (requirement.type) {
       case "policy":
-        isCompleted = requirement.organizationPolicy?.status === "published";
+        isCompleted = requirement.policy?.status === "published";
         break;
       case "file":
         isCompleted = !!requirement.fileUrl;
         break;
       case "evidence":
-        isCompleted = requirement.organizationEvidence?.published ?? false;
+        isCompleted = requirement.evidence?.published ?? false;
         break;
       default:
         isCompleted = requirement.published;

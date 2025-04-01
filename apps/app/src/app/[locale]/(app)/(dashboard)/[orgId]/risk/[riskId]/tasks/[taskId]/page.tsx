@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { TaskComment } from "@/components/risks/tasks/task-comments";
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 import { TaskAttachments } from "@/components/risks/tasks/task-attachments";
 import { getI18n } from "@/locales/server";
@@ -26,7 +25,6 @@ export default async function RiskPage({ params }: PageProps) {
   return (
     <div className="flex flex-col gap-4">
       <TaskOverview task={task} users={users} />
-      <TaskComment task={task} users={users} />
       <TaskAttachments taskId={taskId} />
     </div>
   );
@@ -48,8 +46,7 @@ const getTask = cache(
       },
       include: {
         owner: true,
-        TaskAttachment: true,
-        TaskComments: true,
+        taskAttachment: true,
       },
     });
 

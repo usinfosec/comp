@@ -28,7 +28,7 @@ export const getPolicyDetails = authActionClient
 		}
 
 		try {
-			const policy = await db.organizationPolicy.findUnique({
+			const policy = await db.policy.findUnique({
 				where: {
 					id: policyId,
 					organizationId,

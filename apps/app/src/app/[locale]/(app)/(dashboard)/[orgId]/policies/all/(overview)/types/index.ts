@@ -5,18 +5,16 @@ export const policySchema = z.object({
   status: z.enum(["draft", "published", "archived"]),
   createdAt: z.date(),
   updatedAt: z.date(),
-  policy: z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-  }),
+  name: z.string(),
+  description: z.string().nullable(),
+  isArchived: z.boolean().optional(),
 });
 
 export const policiesInputSchema = z.object({
   search: z.string().optional(),
   status: z.string().optional(),
   ownerId: z.string().optional(),
+  isArchived: z.string().optional(),
   sort: z.string().optional(),
   page: z.number().default(1),
   pageSize: z.number().default(10),

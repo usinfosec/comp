@@ -41,7 +41,7 @@ export const deleteEvidenceFile = authActionClient
 		}
 
 		try {
-			const evidence = await db.organizationEvidence.findFirst({
+			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
 					organizationId: user.organizationId,
@@ -58,7 +58,7 @@ export const deleteEvidenceFile = authActionClient
 				};
 			}
 
-			await db.organizationEvidence.update({
+			await db.evidence.update({
 				where: { id: evidenceId },
 				data: {
 					fileUrls: {

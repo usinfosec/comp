@@ -30,23 +30,23 @@ function FrameworkCard({
 	return (
 		<Link
 			href={`/${orgId}/overview/frameworks/${framework.id}`}
-			className="flex items-start gap-4 rounded-lg p-4 hover:bg-zinc-800/40 transition-colors duration-200"
+			className="flex items-start gap-4 rounded-lg p-4 hover:bg-muted/40 transition-colors duration-200"
 		>
-			<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center">
-				<div className="text-lg font-bold text-zinc-400">
-					{framework.name.substring(0, 2).toUpperCase()}
+			<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+				<div className="text-lg font-bold text-muted-foreground">
+					{framework.id.substring(0, 2).toUpperCase()}
 				</div>
 			</div>
 			<div className="flex-1 space-y-2">
 				<div className="flex items-center justify-between">
-					<h3 className="font-medium">{framework.name}</h3>
+					<h3 className="font-medium">{framework.id}</h3>
 					<span className="text-sm font-medium text-muted-foreground">
 						{compliance}% Compliant
 					</span>
 				</div>
 				<Progress
 					value={compliance}
-					className="h-2 bg-zinc-800 [&>div]:bg-emerald-500"
+					className="h-2 bg-secondary [&>div]:bg-primary"
 				/>
 			</div>
 		</Link>
@@ -63,7 +63,7 @@ export function RequirementStatus({
 	if (!frameworks.length || !frameworksWithCompliance.length) return null;
 
 	return (
-		<Card className="border border-border bg-background select-none">
+		<Card className="select-none">
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>{t("frameworks.title")}</CardTitle>
 			</CardHeader>

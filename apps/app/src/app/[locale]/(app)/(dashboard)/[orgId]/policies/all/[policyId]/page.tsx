@@ -1,4 +1,4 @@
-import { PolicyComment } from "@/components/policies/policy-comments";
+
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
@@ -24,7 +24,6 @@ export default async function PolicyDetails({
 	return (
 		<div className="flex flex-col gap-4">
 			<PolicyOverview policy={policy} users={users} />
-			<PolicyComment policy={policy} users={users} />
 		</div>
 	);
 }
@@ -45,12 +44,8 @@ export async function generateMetadata({
 }
 
 const getPolicy = async (policyId: string, organizationId: string) => {
-	const policy = await db.organizationPolicy.findUnique({
+	const policy = await db.policy.findUnique({
 		where: { id: policyId, organizationId },
-		include: {
-			policy: true,
-			PolicyComments: true,
-		},
 	});
 	return policy;
 };

@@ -41,7 +41,7 @@ export const publishEvidence = authActionClient
 
     try {
       // Check if evidence exists and belongs to organization
-      const evidence = await db.organizationEvidence.findFirst({
+      const evidence = await db.evidence.findFirst({
         where: {
           id,
           organizationId: user.organizationId,
@@ -56,7 +56,7 @@ export const publishEvidence = authActionClient
       }
 
       // Update the evidence to mark it as published
-      await db.organizationEvidence.update({
+      await db.evidence.update({
         where: { id },
         data: {
           published: true,

@@ -1,33 +1,40 @@
-import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
-import { env } from "@/env.mjs";
+import { auth } from "@/auth";
+import { model, type modelID } from "@/hooks/ai/providers";
+import { streamText, type UIMessage } from "ai";
+import { tools } from "@/data/tools";
+
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
-	const { messages } = await req.json();
+	const {
+		messages,
+		selectedModel,
+	}: { messages: UIMessage[]; selectedModel: modelID } = await req.json();
 
-	if (!env.OPENAI_API_KEY) {
-		return new Response(
-			JSON.stringify({ error: "OpenAI API key is not configured" }),
-			{ status: 500 },
-		);
+	const session = await auth();
+
+	if (!session?.user.organizationId) {
+		return new Response("Unauthorized", { status: 401 });
 	}
 
-	try {
-		const result = await streamText({
-			model: openai("gpt-4o-mini"),
-			system:
-				"You are a helpful assistant. Provide concise, accurate, and helpful responses to user queries.",
-			messages,
-		});
+	const systemPrompt = `
+    You're an expert in GRC, and a helpful assistant in Comp AI,
+    a platform that helps companies get compliant with frameworks
+    like SOC 2, ISO 27001 and GDPR.
 
-		return result.toDataStreamResponse();
-	} catch (error) {
-		console.error("Error in chat API:", error);
-		return new Response(
-			JSON.stringify({
-				error: "An error occurred while processing your request",
-			}),
-			{ status: 500 },
-		);
-	}
+    You must respond in basic markdown format (only use paragraphs, lists and bullet points).
+
+    Keep responses concise and to the point.
+
+    If you are unsure about the answer, say "I don't know" or "I don't know the answer to that question".
+`;
+
+	const result = streamText({
+		model: model.languageModel(selectedModel),
+		system: systemPrompt,
+		messages,
+		tools,
+	});
+
+	return result.toDataStreamResponse({ sendReasoning: true });
 }
