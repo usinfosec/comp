@@ -15,7 +15,7 @@ export default async function Layout({
     headers: await headers(),
   });
   const user = session?.user;
-  const organizationId = user?.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
   const { id } = await params;
 
   return (
