@@ -7,44 +7,39 @@ import type { ControlProgressResponse } from "./data/getOrganizationControlProgr
 import { headers } from "next/headers";
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+	params: Promise<{ id: string }>;
 }
 
 export default async function SingleControlPage({ params }: PageProps) {
-  const { id } = await params;
+	const { id } = await params;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!session?.session.activeOrganizationId) {
-    redirect("/");
-  }
+	if (!session?.session.activeOrganizationId) {
+		redirect("/");
+	}
 
-  const organizationControlResult = await getControl(id);
+	const control = await getControl(id);
 
-  // If we get an error or no result, redirect
-  if (!organizationControlResult || "error" in organizationControlResult) {
-    redirect("/");
-  }
+	// If we get an error or no result, redirect
+	if (!control || "error" in control) {
+		redirect("/");
+	}
 
-  const organizationControlProgressResult =
-    await getOrganizationControlProgress(id);
+	const organizationControlProgressResult =
+		await getOrganizationControlProgress(id);
 
-  // Extract the progress data from the result or create default data if there's an error
-  const progressData: ControlProgressResponse = ("data" in
-    (organizationControlProgressResult || {}) &&
-    organizationControlProgressResult?.data?.progress) || {
-    total: 0,
-    completed: 0,
-    progress: 0,
-    byType: {},
-  };
+	// Extract the progress data from the result or create default data if there's an error
+	const controlProgress: ControlProgressResponse = ("data" in
+		(organizationControlProgressResult || {}) &&
+		organizationControlProgressResult?.data?.progress) || {
+		total: 0,
+		completed: 0,
+		progress: 0,
+		byType: {},
+	};
 
-  return (
-    <SingleControl
-      organizationControl={organizationControlResult}
-      organizationControlProgress={progressData}
-    />
-  );
+	return <SingleControl control={control} controlProgress={controlProgress} />;
 }
