@@ -31,7 +31,7 @@ export const archivePolicyAction = authActionClient
     }
 
     try {
-      const policy = await db.organizationPolicy.findUnique({
+      const policy = await db.policy.findUnique({
         where: {
           id,
           organizationId: user.organizationId,
@@ -47,13 +47,12 @@ export const archivePolicyAction = authActionClient
 
       // Determine if we should archive or restore based on action or current state
       const shouldArchive =
-        action === "archive" || (action === undefined && !policy.isArchived);
+        action === "archive" || (action === undefined && policy.status !== "archived");
 
-      await db.organizationPolicy.update({
+      await db.policy.update({
         where: { id },
         data: {
-          isArchived: shouldArchive,
-          archivedAt: shouldArchive ? new Date() : null,
+          status: shouldArchive ? "archived" : "published",
         },
       });
 
@@ -64,7 +63,7 @@ export const archivePolicyAction = authActionClient
 
       return {
         success: true,
-        isArchived: shouldArchive,
+        status: shouldArchive ? "archived" : "published",
       };
     } catch (error) {
       console.error(error);

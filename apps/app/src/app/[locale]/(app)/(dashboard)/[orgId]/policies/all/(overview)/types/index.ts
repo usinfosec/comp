@@ -5,12 +5,8 @@ export const policySchema = z.object({
   status: z.enum(["draft", "published", "archived"]),
   createdAt: z.date(),
   updatedAt: z.date(),
-  policy: z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-  }),
+  name: z.string(),
+  description: z.string().nullable(),
   isArchived: z.boolean().optional(),
 });
 

@@ -6,12 +6,8 @@ export const policyDetailsSchema = z.object({
   content: z.array(z.any()),
   createdAt: z.date(),
   updatedAt: z.date(),
-  policy: z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-  }),
+  name: z.string(),
+  description: z.string().nullable(),
 });
 
 export const policyDetailsInputSchema = z.object({
