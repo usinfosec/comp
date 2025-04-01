@@ -2,13 +2,17 @@
 
 import { useCallback, useState } from "react";
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
 
 import { getEmployees } from "../actions/get-employees";
 
-import type { EmployeesResponse, AppError, EmployeesInput } from "../types";
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
 import type { Departments } from "@bubba/db/types";
+import type {
+  AppError,
+  Employee,
+  EmployeesInput,
+  EmployeesResponse,
+} from "../types";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(
@@ -32,7 +36,25 @@ async function fetchEmployees(
     throw error;
   }
 
-  return result.data?.data as EmployeesResponse;
+  // Transform the data to match the expected EmployeesResponse format
+  const rawData = result.data?.data;
+
+  if (!rawData) {
+    return { employees: [], total: 0 };
+  }
+
+  // Map member records to the Employee type expected by the UI
+  const employees: Employee[] = rawData.employees.map((member: any) => ({
+    id: member.id,
+    name: member.user?.name || "Unknown",
+    email: member.user?.email || "",
+    department: member.department || null,
+  }));
+
+  return {
+    employees,
+    total: rawData.total,
+  };
 }
 
 export function useEmployees({
