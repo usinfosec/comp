@@ -1,5 +1,5 @@
 model User {
-    id            String    @id
+    id            String    @id @default(cuid())
     name          String
     email         String
     emailVerified Boolean
@@ -34,7 +34,7 @@ model EmployeeTrainingVideoCompletion {
 }
 
 model Session {
-    id                   String   @id
+    id                   String   @id @default(cuid())
     expiresAt            DateTime
     token                String
     createdAt            DateTime
@@ -49,7 +49,7 @@ model Session {
 }
 
 model Account {
-    id                    String    @id
+    id                    String    @id @default(cuid())
     accountId             String
     providerId            String
     userId                String
@@ -66,7 +66,7 @@ model Account {
 }
 
 model Verification {
-    id         String    @id
+    id         String    @id @default(cuid())
     identifier String
     value      String
     expiresAt  DateTime
@@ -75,7 +75,7 @@ model Verification {
 }
 
 model Member {
-    id             String       @id
+    id             String       @id @default(cuid())
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     userId         String
@@ -88,7 +88,7 @@ model Member {
 }
 
 model Invitation {
-    id             String       @id
+    id             String       @id @default(cuid())
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     email          String
