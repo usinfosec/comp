@@ -61,7 +61,8 @@ export function ResidualRiskSheet({
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
 						<ResidualRiskForm
 							vendorId={vendorId}
-							initialRisk={initialRisk}
+							initialProbability={initialRisk?.residualProbability}
+							initialImpact={initialRisk?.residualImpact}
 							onSuccess={handleFormSuccess}
 						/>
 					</ScrollArea>
@@ -78,7 +79,8 @@ export function ResidualRiskSheet({
 			<DrawerContent className="p-6">
 				<ResidualRiskForm
 					vendorId={vendorId}
-					initialRisk={initialRisk}
+					initialProbability={initialRisk?.residualProbability}
+					initialImpact={initialRisk?.residualImpact}
 					onSuccess={handleFormSuccess}
 				/>
 			</DrawerContent>
