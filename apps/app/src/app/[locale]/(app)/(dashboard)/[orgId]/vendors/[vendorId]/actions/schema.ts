@@ -80,5 +80,5 @@ export const updateVendorTaskSchema = z.object({
 	status: z.nativeEnum(TaskStatus, {
 		required_error: "Task status is required",
 	}),
-	ownerId: z.string().optional(),
+	userId: z.string().optional(),
 });

@@ -14,7 +14,7 @@ import {
 } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/residual-risk-form";
-import type { VendorResidualRisk } from "@prisma/client";
+import type { Vendor } from "@bubba/db/types";
 import { useState } from "react";
 
 export function ResidualRiskSheet({
@@ -23,7 +23,7 @@ export function ResidualRiskSheet({
 	onSuccess,
 }: {
 	vendorId: string;
-	initialRisk?: VendorResidualRisk;
+	initialRisk?: Vendor;
 	onSuccess?: () => void;
 }) {
 	const t = useI18n();
@@ -61,7 +61,8 @@ export function ResidualRiskSheet({
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
 						<ResidualRiskForm
 							vendorId={vendorId}
-							initialRisk={initialRisk}
+							initialProbability={initialRisk?.residualProbability}
+							initialImpact={initialRisk?.residualImpact}
 							onSuccess={handleFormSuccess}
 						/>
 					</ScrollArea>
@@ -78,7 +79,8 @@ export function ResidualRiskSheet({
 			<DrawerContent className="p-6">
 				<ResidualRiskForm
 					vendorId={vendorId}
-					initialRisk={initialRisk}
+					initialProbability={initialRisk?.residualProbability}
+					initialImpact={initialRisk?.residualImpact}
 					onSuccess={handleFormSuccess}
 				/>
 			</DrawerContent>
