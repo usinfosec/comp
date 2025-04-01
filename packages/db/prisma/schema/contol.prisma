@@ -1,16 +1,19 @@
 model Control {
-  id                  String             @id @default(cuid())
-  name                String
-  description         String
-  organizationId      String
-  status              ComplianceStatus   @default(not_started)
-  lastReviewDate      DateTime?
-  nextReviewDate      DateTime?
-  frameworkInstanceId String?
-  frameworkInstance   FrameworkInstance? @relation(fields: [frameworkInstanceId], references: [id])
-  organization        Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  artifacts           Artifact[]
+  // Metadata
+  id          String           @id @default(cuid())
+  name        String
+  description String
+  status      ComplianceStatus @default(not_started)
+
+  // Review dates
+  lastReviewDate DateTime?
+  nextReviewDate DateTime?
+
+  // Relationships
+  frameworkInstances FrameworkInstance[]
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId     String
+  artifacts          Artifact[]
 
   @@index([organizationId])
-  @@index([frameworkInstanceId])
 }
