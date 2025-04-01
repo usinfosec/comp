@@ -1,24 +1,16 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import type { Control, FrameworkInstance } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { useMediaQuery } from "@bubba/ui/hooks";
-import { FileStack } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import type { ReactNode } from "react";
 import type { ComplianceScoresProps } from "./types";
-import type {
-	Framework,
-	OrganizationControl,
-	OrganizationFramework,
-} from "@bubba/db/types";
 
 interface FrameworkProgressProps {
-	frameworks: (OrganizationFramework & {
-		organizationControl: OrganizationControl[];
-		framework: Framework;
+	frameworks: (FrameworkInstance & {
+		organizationControl: Control[];
 	})[];
 	complianceScores: ComplianceScoresProps;
 }
@@ -36,8 +28,6 @@ export function FrameworkProgress({
 	} = complianceScores;
 
 	const { orgId } = useParams<{ orgId: string }>();
-
-	const isMobile = useMediaQuery("(max-width: 640px)");
 
 	const CircleProgress = ({
 		percentage,

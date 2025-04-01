@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
+import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { TestDetails } from "./components/TestDetails";
-import { db } from "@bubba/db";
 
 export default async function TestDetailsPage({
 	params,
@@ -36,9 +36,9 @@ export async function generateMetadata({
 	setStaticParamsLocale(locale);
 	const t = await getI18n();
 
-  return {
-    title: t("tests.test_details"),
-  };
+	return {
+		title: t("tests.test_details"),
+	};
 }
 
 const getUsers = async (organizationId: string) => {

@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
-import { getFrameworks } from "./data/getFrameworks";
 import { getComplianceScores } from "./data/getComplianceScores";
 import { getFrameworkCategories } from "./data/getFrameworkCategories";
+import { frameworks } from "@bubba/data";
 
 export default async function DashboardPage({
 	params,
@@ -23,7 +23,6 @@ export default async function DashboardPage({
 		redirect("/");
 	}
 
-	const frameworks = await getFrameworks(organizationId);
 	const complianceScores = await getComplianceScores(
 		organizationId,
 		frameworks,

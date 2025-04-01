@@ -1,21 +1,22 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Framework, OrganizationFramework } from "@bubba/db/types";
+import { Framework } from "@bubba/data";
+import type { FrameworkInstance } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 interface FrameworkWithCompliance {
-	framework: OrganizationFramework & {
+	framework: FrameworkInstance & {
 		framework: Framework;
 	};
 	compliance: number;
 }
 
 interface Props {
-	frameworks: (OrganizationFramework & {
+	frameworks: (FrameworkInstance & {
 		framework: Framework;
 	})[];
 	frameworksWithCompliance: FrameworkWithCompliance[];
@@ -26,14 +27,14 @@ function FrameworkCard({
 	framework,
 	compliance,
 }: {
-	framework: OrganizationFramework & { framework: Framework };
+	framework: FrameworkInstance & { framework: Framework };
 	compliance: number;
 }) {
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return (
 		<Link
-			href={`/${orgId}/overview/frameworks/${framework.framework.id}`}
+			href={`/${orgId}/overview/frameworks/${framework.id}`}
 			className="flex items-start gap-4 rounded-lg p-4 hover:bg-zinc-800/40 transition-colors duration-200"
 		>
 			<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center">
@@ -77,7 +78,7 @@ export function RequirementStatus({
 					<div className="space-y-6">
 						{frameworksWithCompliance.map(({ framework, compliance }) => (
 							<FrameworkCard
-								key={framework.framework.id}
+								key={framework.id}
 								framework={framework}
 								compliance={compliance}
 							/>
