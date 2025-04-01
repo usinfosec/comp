@@ -1,4 +1,4 @@
-import { VendorStatus, VendorCategory } from "@bubba/db/types";
+import { VendorStatus, VendorCategory, TaskStatus } from "@bubba/db/types";
 import { z } from "zod";
 
 export const createVendorTaskCommentSchema = z.object({
@@ -77,5 +77,8 @@ export const updateVendorTaskSchema = z.object({
 		message: "Description is required",
 	}),
 	dueDate: z.date().optional(),
+	status: z.nativeEnum(TaskStatus, {
+		required_error: "Task status is required",
+	}),
 	ownerId: z.string().optional(),
 });
