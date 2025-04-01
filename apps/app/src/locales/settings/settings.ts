@@ -92,14 +92,13 @@ export const settings = {
         },
       },
       status: {
-        accepted: "Accepted",
-        pending: "Pending",
+        active: "Active",
+        inactive: "Inactive",
       },
       role: {
-        owner: "Owner",
         admin: "Admin",
-        member: "Member",
-        viewer: "Viewer",
+        auditor: "Auditor",
+        employee: "Employee",
       },
     },
     invitations: {
@@ -198,9 +197,9 @@ export const settings = {
         role_placeholder: "Select a role",
         role_descriptions: {
           admin: "Admins can manage team members and settings.",
-          member:
-            "Members can use all features but cannot manage team members.",
-          viewer: "Viewers can only view content without making changes.",
+          auditor:
+            "Auditors can use all features but cannot manage team members.",
+          employee: "Employees can only view content without making changes.",
         },
         cancel: "Cancel",
         update: "Update Role",

@@ -46,13 +46,9 @@ import { useI18n } from "@/locales/client";
 
 interface MemberActionsProps {
 	permission: Member & { user: User };
-	currentUserRole?: Role;
 }
 
-export function MemberActions({
-	permission,
-	currentUserRole,
-}: MemberActionsProps) {
+export function MemberActions({ permission }: MemberActionsProps) {
 	const t = useI18n();
 	const [isRemoving, setIsRemoving] = useState(false);
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
@@ -108,9 +104,7 @@ export function MemberActions({
 		}
 	};
 
-	const canChangeRole =
-		currentUserRole === ("owner" as Role) ||
-		permission.role !== ("admin" as Role);
+	const canChangeRole = permission.role !== ("admin" as Role);
 
 	return (
 		<>
@@ -197,16 +191,14 @@ export function MemberActions({
 									/>
 								</SelectTrigger>
 								<SelectContent>
-									{currentUserRole === ("owner" as Role) && (
-										<SelectItem value={"admin" as Role}>
-											{t("settings.team.members.role.admin")}
-										</SelectItem>
-									)}
-									<SelectItem value={"member" as Role}>
-										{t("settings.team.members.role.member")}
+									<SelectItem value={"admin" as Role}>
+										{t("settings.team.members.role.admin")}
 									</SelectItem>
-									<SelectItem value={"viewer" as Role}>
-										{t("settings.team.members.role.viewer")}
+									<SelectItem value={"auditor" as Role}>
+										{t("settings.team.members.role.auditor")}
+									</SelectItem>
+									<SelectItem value={"employee" as Role}>
+										{t("settings.team.members.role.employee")}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -215,13 +207,13 @@ export function MemberActions({
 									t(
 										"settings.team.member_actions.role_dialog.role_descriptions.admin",
 									)}
-								{newRole === ("member" as Role) &&
+								{newRole === ("auditor" as Role) &&
 									t(
-										"settings.team.member_actions.role_dialog.role_descriptions.member",
+										"settings.team.member_actions.role_dialog.role_descriptions.auditor",
 									)}
-								{newRole === ("viewer" as Role) &&
+								{newRole === ("employee" as Role) &&
 									t(
-										"settings.team.member_actions.role_dialog.role_descriptions.viewer",
+										"settings.team.member_actions.role_dialog.role_descriptions.employee",
 									)}
 							</p>
 						</div>

@@ -11,19 +11,17 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@bubba/ui/card";
-import type { OrganizationPermission, User } from "@prisma/client";
+import type { Member, Role, User } from "@prisma/client";
 import { Crown, UserCheck, UserCog, UserMinus } from "lucide-react";
 import { MemberActions } from "./member-actions";
 
 interface MembersListProps {
-	permissions: (OrganizationPermission & { user: User })[];
-	currentUserRole?: string;
+	permissions: (Member & { user: User })[];
 	hasOrganization: boolean;
 }
 
 export function MembersList({
 	permissions,
-	currentUserRole,
 	hasOrganization,
 }: MembersListProps) {
 	const t = useI18n();
@@ -58,8 +56,7 @@ export function MembersList({
 		);
 	}
 
-	const isOwnerOrAdmin =
-		currentUserRole === "owner" || currentUserRole === "admin";
+	const isOwnerOrAdmin = permissions.find((p) => p.role === "admin");
 
 	return (
 		<Card>
@@ -74,7 +71,7 @@ export function MembersList({
 					{permissions.map((permission) => {
 						const isCurrentUser =
 							permission.userId ===
-							permissions.find((p) => p.role === currentUserRole)?.userId;
+							permissions.find((p) => p.role === "admin")?.userId;
 
 						return (
 							<div
@@ -105,18 +102,20 @@ export function MembersList({
 											<div className="flex flex-wrap gap-2 items-center">
 												<Badge variant="marketing" className="w-fit">
 													{getMemberRoleIcon(permission.role)}
-													{t(`settings.team.members.role.${permission.role}`)}
+													{t(
+														`settings.team.members.role.${permission.role as Role}`,
+													)}
 												</Badge>
 												{permission.role !== "owner" && (
 													<Badge
 														variant={
-															permission.accepted ? "default" : "outline"
+															permission.isActive ? "default" : "outline"
 														}
-														className={`w-fit ${permission.accepted ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" : "text-muted-foreground"}`}
+														className={`w-fit ${permission.isActive ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" : "text-muted-foreground"}`}
 													>
-														{permission.accepted
-															? t("settings.team.members.status.accepted")
-															: t("settings.team.members.status.pending")}
+														{permission.isActive
+															? t("settings.team.members.status.active")
+															: t("settings.team.members.status.inactive")}
 													</Badge>
 												)}
 											</div>
@@ -125,10 +124,7 @@ export function MembersList({
 								</div>
 								<div className="flex items-center gap-4">
 									{isOwnerOrAdmin && !isCurrentUser && (
-										<MemberActions
-											permission={permission}
-											currentUserRole={currentUserRole}
-										/>
+										<MemberActions permission={permission} />
 									)}
 								</div>
 							</div>

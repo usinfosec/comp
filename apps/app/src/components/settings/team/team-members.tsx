@@ -18,10 +18,6 @@ export async function TeamMembers() {
 	const permissions = await getOrganizationPermissions();
 	const pendingInvitations = await getPendingInvitations();
 
-	const userRole = permissions.find(
-		(permission) => permission.userId === session?.user?.id,
-	)?.role;
-
 	return (
 		<Tabs defaultValue="members">
 			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-none mb-1 p-0 h-auto pb-4">
@@ -37,7 +33,6 @@ export async function TeamMembers() {
 			<TabsContent value="members">
 				<MembersList
 					permissions={permissions}
-					currentUserRole={userRole}
 					hasOrganization={!!session?.session.activeOrganizationId}
 				/>
 			</TabsContent>
