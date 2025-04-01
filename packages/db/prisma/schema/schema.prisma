@@ -228,6 +228,7 @@ enum PolicyStatus {
   draft
   published
   needs_review
+  archived
 }
 
 enum RiskLikelihood {
