@@ -3,15 +3,18 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  const organizationId = session?.session.activeOrganizationId;
+	const organizationId = session?.session.activeOrganizationId;
 
-  if (!organizationId) {
-    redirect("/");
-  }
+	console.log("session", session);
+	console.log("organizationId", organizationId);
 
-  redirect(`/${organizationId}/overview`);
+	if (!organizationId) {
+		redirect("/");
+	}
+
+	redirect(`/${organizationId}/overview`);
 }
