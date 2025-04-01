@@ -16,9 +16,9 @@ export const getEmployees = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { search, role, page = 1, per_page = 10 } = parsedInput;
-    const { user } = ctx;
+    const { session } = ctx;
 
-    if (!user.organizationId) {
+    if (!session.activeOrganizationId) {
       return {
         success: false,
         error: appErrors.UNAUTHORIZED.message,
@@ -29,15 +29,23 @@ export const getEmployees = authActionClient
       const skip = (page - 1) * per_page;
 
       const [employees, total] = await Promise.all([
-        db.employee.findMany({
+        db.member.findMany({
           where: {
-            organizationId: user.organizationId,
+            organizationId: session.activeOrganizationId,
             AND: [
               search
                 ? {
                     OR: [
-                      { name: { contains: search, mode: "insensitive" } },
-                      { email: { contains: search, mode: "insensitive" } },
+                      {
+                        user: {
+                          name: { contains: search, mode: "insensitive" },
+                        },
+                      },
+                      {
+                        user: {
+                          email: { contains: search, mode: "insensitive" },
+                        },
+                      },
                     ],
                   }
                 : {},
@@ -46,15 +54,23 @@ export const getEmployees = authActionClient
           skip,
           take: per_page,
         }),
-        db.employee.count({
+        db.member.count({
           where: {
-            organizationId: user.organizationId,
+            organizationId: session.activeOrganizationId,
             AND: [
               search
                 ? {
                     OR: [
-                      { name: { contains: search, mode: "insensitive" } },
-                      { email: { contains: search, mode: "insensitive" } },
+                      {
+                        user: {
+                          name: { contains: search, mode: "insensitive" },
+                        },
+                      },
+                      {
+                        user: {
+                          email: { contains: search, mode: "insensitive" },
+                        },
+                      },
                     ],
                   }
                 : {},
