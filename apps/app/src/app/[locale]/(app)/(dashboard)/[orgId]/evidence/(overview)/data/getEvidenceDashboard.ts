@@ -1,11 +1,10 @@
-import type { Departments, OrganizationEvidence } from "@bubba/db/types";
+import type { Departments, Evidence } from "@bubba/db/types";
 import { db } from "@bubba/db";
 import { cache } from "react";
 
 export type EvidenceStatus = "empty" | "draft" | "needsReview" | "upToDate";
 
-export interface EvidenceWithStatus
-	extends Omit<OrganizationEvidence, "assignee"> {
+export interface EvidenceWithStatus extends Omit<Evidence, "assignee"> {
 	status: EvidenceStatus;
 	assigneeEmail?: string;
 }
@@ -31,7 +30,7 @@ export interface EvidenceDashboardData {
  */
 export const getEvidenceDashboard = cache(
 	async (organizationId: string): Promise<EvidenceDashboardData | null> => {
-		const evidence = await db.organizationEvidence.findMany({
+		const evidence = await db.evidence.findMany({
 			where: {
 				organizationId,
 			},
