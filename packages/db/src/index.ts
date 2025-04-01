@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { generateIdExtension } from "./extensions/generate-id-extension";
+// import { generateIdExtension } from "./extensions/generate-id-extension";
 
 const createPrismaClient = () => {
 	return new PrismaClient({
@@ -9,7 +9,7 @@ const createPrismaClient = () => {
 			},
 		},
 		log: ["error", "warn"],
-	}).$extends(generateIdExtension);
+	});
 };
 
 const globalForPrisma = globalThis as unknown as {
