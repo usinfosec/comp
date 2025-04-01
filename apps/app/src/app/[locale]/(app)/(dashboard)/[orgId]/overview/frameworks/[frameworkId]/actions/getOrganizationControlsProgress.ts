@@ -56,7 +56,7 @@ export const getOrganizationControlsProgress = authActionClient
 
 			// Calculate progress for each control
 			for (const requirement of Object.values(requirements)) {
-				const controlId = requirement.organizationControlId;
+				const controlId = requirement.controlId;
 				const progress = progressByControl.get(controlId)!;
 
 				// Initialize type counters if not exists
