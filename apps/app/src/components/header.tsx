@@ -21,7 +21,7 @@ export async function Header() {
   });
 
   const user = session?.user;
-  const currentOrganizationId = user?.organizationId;
+  const currentOrganizationId = session?.session.activeOrganizationId;
   //const hasAccess = user?.isAdmin;
 
   if (!currentOrganizationId) {

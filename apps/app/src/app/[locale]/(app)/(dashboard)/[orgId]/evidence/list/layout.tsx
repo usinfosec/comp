@@ -13,7 +13,7 @@ export default async function Layout({
     headers: await headers(),
   });
   const user = session?.user;
-  const organizationId = user?.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   return (
     <div className="max-w-[1200px] m-auto">

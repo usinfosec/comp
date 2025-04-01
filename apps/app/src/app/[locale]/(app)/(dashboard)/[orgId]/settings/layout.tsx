@@ -17,7 +17,7 @@ export default async function Layout({
   });
 
   const user = session?.user;
-  const orgId = user?.organizationId;
+  const orgId = session?.session.activeOrganizationId;
 
   if (!session) {
     return redirect("/");
