@@ -1,12 +1,11 @@
 import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
+import { trainingVideos as trainingVideosData } from "@bubba/data";
+import { db } from "@bubba/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { notFound, redirect } from "next/navigation";
 import { EmployeeDetails } from "./components/EmployeeDetails";
-import { db } from "@bubba/db";
-import { trainingVideos as trainingVideosData } from "@bubba/data";
-import type { TrainingVideo } from "@bubba/data";
 
 export default async function EmployeeDetailsPage({
 	params,

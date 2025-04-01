@@ -15,14 +15,6 @@ export const getControl = async (id: string) => {
 			organizationId: session.user.organizationId,
 			id,
 		},
-		include: {
-			controlRequirement: {
-				include: {
-					organizationPolicy: true,
-					organizationEvidence: true,
-				},
-			},
-		},
 	});
 
 	return control;
