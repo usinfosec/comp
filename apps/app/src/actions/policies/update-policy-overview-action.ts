@@ -8,61 +8,68 @@ import { authActionClient } from "../safe-action";
 import { updatePolicyOverviewSchema } from "../schema";
 
 export const updatePolicyOverviewAction = authActionClient
-	.schema(updatePolicyOverviewSchema)
-	.metadata({
-		name: "update-policy-overview",
-		track: {
-			event: "update-policy-overview",
-			channel: "server",
-		},
-	})
-	.action(async ({ parsedInput, ctx }) => {
-		const { id, title, description, isRequiredToSign } = parsedInput;
-		const { user } = ctx;
+  .schema(updatePolicyOverviewSchema)
+  .metadata({
+    name: "update-policy-overview",
+    track: {
+      event: "update-policy-overview",
+      channel: "server",
+    },
+  })
+  .action(async ({ parsedInput, ctx }) => {
+    const { id, title, description, isRequiredToSign } = parsedInput;
+    const { user, session } = ctx;
 
-		if (!user) {
-			return {
-				success: false,
-				error: "Not authorized",
-			};
-		}
+    if (!user) {
+      return {
+        success: false,
+        error: "Not authorized",
+      };
+    }
 
-		try {
-			const policy = await db.policy.findUnique({
-				where: { id, organizationId: user.organizationId },
-			});
+    if (!session.activeOrganizationId) {
+      return {
+        success: false,
+        error: "Not authorized",
+      };
+    }
 
-			if (!policy) {
-				return {
-					success: false,
-					error: "Policy not found",
-				};
-			}
+    try {
+      const policy = await db.policy.findUnique({
+        where: { id, organizationId: session.activeOrganizationId },
+      });
 
-			await db.policy.update({
-				where: { id },
-				data: {
-					name: title,
-					description,
-					// Use type assertion to handle the new field
-					// that might not be in the generated types yet
-					...(isRequiredToSign !== undefined
-						? ({ isRequiredToSign: isRequiredToSign === "required" } as any)
-						: {}),
-				},
-			});
+      if (!policy) {
+        return {
+          success: false,
+          error: "Policy not found",
+        };
+      }
 
-			revalidatePath(`/${user.organizationId}/policies/all/${id}`);
-			revalidatePath(`/${user.organizationId}/policies/all`);
-			revalidatePath(`/${user.organizationId}/policies`);
+      await db.policy.update({
+        where: { id },
+        data: {
+          name: title,
+          description,
+          // Use type assertion to handle the new field
+          // that might not be in the generated types yet
+          ...(isRequiredToSign !== undefined
+            ? ({ isRequiredToSign: isRequiredToSign === "required" } as any)
+            : {}),
+        },
+      });
 
-			return {
-				success: true,
-			};
-		} catch (error) {
-			return {
-				success: false,
-				error: "Failed to update policy overview",
-			};
-		}
-	});
+      revalidatePath(`/${session.activeOrganizationId}/policies/all/${id}`);
+      revalidatePath(`/${session.activeOrganizationId}/policies/all`);
+      revalidatePath(`/${session.activeOrganizationId}/policies`);
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: "Failed to update policy overview",
+      };
+    }
+  });
