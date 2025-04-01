@@ -14,7 +14,6 @@ import {
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
-import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
@@ -158,7 +157,6 @@ const AdvancedEditor = ({
 						<Separator orientation="vertical" />
 						<TextButtons />
 						<Separator orientation="vertical" />
-						<ColorSelector open={openColor} onOpenChange={setOpenColor} />
 					</GenerativeMenuSwitch>
 				</EditorContent>
 			</EditorRoot>
