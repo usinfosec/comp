@@ -55,37 +55,39 @@ model Verification {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  lastLogin              DateTime?
-  organizationId         String?
-  auditLog               AuditLog[]
-  employee               Employee[]
-  assignedEvidence       Evidence[]
+  id             String    @id
+  name           String
+  email          String
+  emailVerified  Boolean
+  image          String?
+  createdAt      DateTime
+  updatedAt      DateTime
+  sessions       Session[]
+  accounts       Account[]
+  lastLogin      DateTime?
+  organizationId String?
+
+  auditLog                AuditLog[]
+  employee                Employee[]
+  assignedEvidence        Evidence[]
   organizationMemberships OrganizationMember[]
-  risk                   Risk[]
-  riskAttachment         RiskAttachment[]
-  riskComment            RiskComment[]
-  riskMitigationTask     RiskMitigationTask[]
-  taskAttachment         TaskAttachment[]
-  organization           Organization?          @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  policy                 Policy[]
-  integrationResults     IntegrationResult[]
-  vendor                 Vendor[]
-  vendorAttachment       VendorAttachment[]
-  vendorTask             VendorTask[]
-  vendorTaskAttachment   VendorTaskAttachment[]
+  risk                    Risk[]
+  riskAttachment          RiskAttachment[]
+  riskComment             RiskComment[]
+  riskMitigationTask      RiskMitigationTask[]
+  taskAttachment          TaskAttachment[]
+  organization            Organization?          @relation("CurrentOrganization", fields: [organizationId], references: [id])
+  policy                  Policy[]
+  integrationResults      IntegrationResult[]
+  vendor                  Vendor[]
+  vendorAttachment        VendorAttachment[]
+  vendorTask              VendorTask[]
+  vendorTaskAttachment    VendorTaskAttachment[]
 
   @@unique([email])
   @@map("user")
 }
+
 model ApiKey {
   id             String       @id @default(cuid())
   name           String
