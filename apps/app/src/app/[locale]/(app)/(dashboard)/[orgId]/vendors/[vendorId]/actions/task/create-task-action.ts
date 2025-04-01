@@ -28,14 +28,14 @@ export const createVendorTaskAction = authActionClient
 		}
 
 		try {
-			await db.vendorTask.create({
+			await db.task.create({
 				data: {
-					vendorId,
 					title,
 					description,
 					dueDate,
-					ownerId,
+					userId: user.id,
 					organizationId: activeOrganizationId,
+					vendorId,
 				},
 			});
 

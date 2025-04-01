@@ -1,3 +1,13 @@
+enum TaskStatus {
+    open
+    closed
+}
+
+enum RelatedType {
+    vendor
+    risk
+}
+
 model Task {
     id          String     @id @default(cuid())
     title       String
@@ -7,17 +17,12 @@ model Task {
     createdAt   DateTime   @default(now())
     updatedAt   DateTime   @updatedAt
 
-    vendorId       String?
-    vendor         Vendor?      @relation(fields: [vendorId], references: [id])
-    riskId         String?
-    risk           Risk?        @relation(fields: [riskId], references: [id])
+    // This can be a vendor or a risk id
+    relatedId   String
+    relatedType RelatedType
+
     userId         String
     user           User         @relation(fields: [userId], references: [id])
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id])
-}
-
-enum TaskStatus {
-    open
-    closed
 }

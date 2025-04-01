@@ -15,7 +15,6 @@ model Vendor {
   organization        Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   owner               User?           @relation(fields: [ownerId], references: [id])
   contacts            VendorContact[]
-  tasks               Task[]
 
   @@index([organizationId])
   @@index([ownerId])
@@ -30,7 +29,7 @@ model VendorContact {
   phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  Vendor    Vendor   @relation(fields: [vendorId], references: [id])
 
   @@index([vendorId])
 }
