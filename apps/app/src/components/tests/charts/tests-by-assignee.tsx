@@ -28,7 +28,7 @@ interface UserData {
 	id: string;
 	name: string | null;
 	image: string | null;
-	OrganizationIntegrationResults: TestData[];
+	integrationResults: TestData[];
 }
 
 const testStatus = {
@@ -47,14 +47,14 @@ export async function TestsByAssignee({ organizationId }: Props) {
 			name: user.name,
 			image: user.image,
 		},
-		totalTests: user.OrganizationIntegrationResults.length,
-		passedTests: user.OrganizationIntegrationResults.filter(
+		totalTests: user.integrationResults.length,
+		passedTests: user.integrationResults.filter(
 			(test) => test.status.toUpperCase() === "passed".toUpperCase(),
 		).length,
-		failedTests: user.OrganizationIntegrationResults.filter(
+		failedTests: user.integrationResults.filter(
 			(test) => test.status.toUpperCase() === "failed".toUpperCase(),
 		).length,
-		unsupportedTests: user.OrganizationIntegrationResults.filter(
+		unsupportedTests: user.integrationResults.filter(
 			(test) => test.status.toUpperCase() === "unsupported".toUpperCase(),
 		).length,
 	}));
@@ -215,7 +215,7 @@ const userData = async (organizationId: string): Promise<UserData[]> => {
 			id: true,
 			name: true,
 			image: true,
-			OrganizationIntegrationResults: {
+			integrationResults: {
 				select: {
 					status: true,
 				},

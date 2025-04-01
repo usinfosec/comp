@@ -19,13 +19,13 @@ export async function getTest(input: { testId: string }): Promise<
 	}
 
 	try {
-		const results = await db.organizationIntegrationResults.findUnique({
+		const results = await db.integrationResult.findUnique({
 			where: {
 				id: testId,
 				organizationId: organizationId,
 			},
 			include: {
-				organizationIntegration: true,
+				integration: true,
 			},
 		});
 
@@ -44,14 +44,14 @@ export async function getTest(input: { testId: string }): Promise<
 			title: integrationResult.title || "",
 			description: integrationResult.description || "",
 			remediation: integrationResult.remediation || "",
-			provider: integrationResult.organizationIntegration.name,
+			provider: integrationResult.integration.name,
 			status: integrationResult.status || "",
 			resultDetails: integrationResult.resultDetails,
 			severity: integrationResult.severity || "",
 			assignedUserId: integrationResult.assignedUserId || "",
 			organizationId: organizationId,
 			completedAt: integrationResult.completedAt || new Date(),
-			organizationIntegrationId: integrationResult.organizationIntegrationId,
+			integrationId: integrationResult.integration.id,
 		};
 
 		return {

@@ -54,36 +54,36 @@ const getTestsOverview = async (organizationId: string) => {
 			highSeverityTests,
 			criticalSeverityTests,
 		] = await Promise.all([
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "INFO",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "LOW",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "MEDIUM",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "HIGH",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "CRITICAL",

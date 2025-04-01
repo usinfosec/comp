@@ -30,7 +30,7 @@ export const updateEvidenceUrls = authActionClient
 		}
 
 		try {
-			const evidence = await db.organizationEvidence.findFirst({
+			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
 					organizationId: user.organizationId,
@@ -44,7 +44,7 @@ export const updateEvidenceUrls = authActionClient
 				} as const;
 			}
 
-			const updatedEvidence = await db.organizationEvidence.update({
+			const updatedEvidence = await db.evidence.update({
 				where: { id: evidenceId },
 				data: {
 					additionalUrls: urls,

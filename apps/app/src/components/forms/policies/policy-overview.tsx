@@ -8,7 +8,7 @@ import { useI18n } from "@/locales/client";
 import {
 	Departments,
 	Frequency,
-	type OrganizationPolicy,
+	type Policy,
 	type PolicyStatus,
 	type User,
 } from "@bubba/db/types";
@@ -48,10 +48,10 @@ const policyStatuses: PolicyStatus[] = [
 ] as const;
 
 export function UpdatePolicyOverview({
-	organizationPolicy,
+	policy,
 	users,
 }: {
-	organizationPolicy: OrganizationPolicy;
+	policy: Policy;
 	users: User[];
 }) {
 	const t = useI18n();
@@ -67,10 +67,10 @@ export function UpdatePolicyOverview({
 	});
 
 	const calculateReviewDate = (): Date => {
-		if (!organizationPolicy.reviewDate) {
+		if (!policy.reviewDate) {
 			return new Date();
 		}
-		return new Date(organizationPolicy.reviewDate);
+		return new Date(policy.reviewDate);
 	};
 
 	const reviewDate = calculateReviewDate();
@@ -78,15 +78,13 @@ export function UpdatePolicyOverview({
 	const form = useForm<z.infer<typeof updatePolicyFormSchema>>({
 		resolver: zodResolver(updatePolicyFormSchema),
 		defaultValues: {
-			id: organizationPolicy.id,
-			status: organizationPolicy.status,
-			ownerId: organizationPolicy.ownerId ?? session.data?.user?.id,
-			department: organizationPolicy.department ?? Departments.admin,
-			review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
+			id: policy.id,
+			status: policy.status,
+			ownerId: policy.ownerId ?? session.data?.user?.id,
+			department: policy.department ?? Departments.admin,
+			review_frequency: policy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
-			isRequiredToSign: organizationPolicy.isRequiredToSign
-				? "required"
-				: "not_required",
+			isRequiredToSign: policy.isRequiredToSign ? "required" : "not_required",
 		},
 	});
 

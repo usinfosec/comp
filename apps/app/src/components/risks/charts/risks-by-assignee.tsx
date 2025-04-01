@@ -34,11 +34,11 @@ export async function RisksByAssignee({ organizationId }: Props) {
 			name: user.name,
 			image: user.image,
 		},
-		totalRisks: user.Risk.length,
-		openRisks: user.Risk.filter((risk) => risk.status === "open").length,
-		pendingRisks: user.Risk.filter((risk) => risk.status === "pending").length,
-		closedRisks: user.Risk.filter((risk) => risk.status === "closed").length,
-		archivedRisks: user.Risk.filter((risk) => risk.status === "archived")
+		totalRisks: user.risk.length,
+		openRisks: user.risk.filter((risk) => risk.status === "open").length,
+		pendingRisks: user.risk.filter((risk) => risk.status === "pending").length,
+		closedRisks: user.risk.filter((risk) => risk.status === "closed").length,
+		archivedRisks: user.risk.filter((risk) => risk.status === "archived")
 			.length,
 	}));
 
@@ -169,7 +169,7 @@ const userData = async (organizationId: string) => {
 	return await db.user.findMany({
 		where: {
 			organizationId,
-			Risk: {
+			risk: {
 				some: {},
 			},
 		},
@@ -177,7 +177,7 @@ const userData = async (organizationId: string) => {
 			id: true,
 			name: true,
 			image: true,
-			Risk: {
+			risk: {
 				select: {
 					status: true,
 				},

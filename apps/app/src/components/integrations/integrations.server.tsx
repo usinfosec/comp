@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { db } from "@bubba/db";
 import { redirect } from "next/navigation";
-import type { IntegrationSettingsItem } from "./integration-settings";
 import { OrganizationIntegration } from "./integrations";
 
 export async function IntegrationsServer() {
@@ -18,7 +17,7 @@ export async function IntegrationsServer() {
 	}
 
 	// Fetch organization integrations
-	const organizationIntegrations = await db.organizationIntegrations.findMany({
+	const integrations = await db.integration.findMany({
 		where: {
 			organizationId: organization.id,
 		},
@@ -37,40 +36,38 @@ export async function IntegrationsServer() {
 	});
 
 	// Map integrations with last run data
-	const integrationsWithRunInfo = organizationIntegrations.map(
-		(integration) => {
-			const lastRun = integration.lastRuns[0];
+	const integrationsWithRunInfo = integrations.map((integration) => {
+		const lastRun = integration.lastRuns[0];
 
-			// Calculate next run time (at midnight UTC)
-			let nextRunAt = null;
-			if (lastRun) {
-				// Get the current UTC date
-				const now = new Date();
+		// Calculate next run time (at midnight UTC)
+		let nextRunAt = null;
+		if (lastRun) {
+			// Get the current UTC date
+			const now = new Date();
 
-				// Calculate the next midnight in UTC
-				const nextMidnightUTC = new Date(
-					Date.UTC(
-						now.getUTCFullYear(),
-						now.getUTCMonth(),
-						// If we're already past midnight UTC today, use tomorrow
-						now.getUTCHours() >= 0 ? now.getUTCDate() + 1 : now.getUTCDate(),
-						0,
-						0,
-						0,
-						0, // Set to midnight UTC (00:00:00.000)
-					),
-				);
+			// Calculate the next midnight in UTC
+			const nextMidnightUTC = new Date(
+				Date.UTC(
+					now.getUTCFullYear(),
+					now.getUTCMonth(),
+					// If we're already past midnight UTC today, use tomorrow
+					now.getUTCHours() >= 0 ? now.getUTCDate() + 1 : now.getUTCDate(),
+					0,
+					0,
+					0,
+					0, // Set to midnight UTC (00:00:00.000)
+				),
+			);
 
-				nextRunAt = nextMidnightUTC;
-			}
+			nextRunAt = nextMidnightUTC;
+		}
 
-			return {
-				...integration,
-				lastRunAt: lastRun?.lastRunAt || null,
-				nextRunAt,
-			};
-		},
-	);
+		return {
+			...integration,
+			lastRunAt: lastRun?.lastRunAt || null,
+			nextRunAt,
+		};
+	});
 
 	return <OrganizationIntegration installed={integrationsWithRunInfo} />;
 }
