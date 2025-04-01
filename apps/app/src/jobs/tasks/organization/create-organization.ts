@@ -531,9 +531,7 @@ const createControlArtifacts = async (
           // Create the policy artifact
           await db.artifact.create({
             data: {
-              controlId: dbControl.id,
-              type: "policy" as RequirementType,
-              description: `Policy artifact for control ${control.name}`,
+              type: "policy",
               policyId: policy.id,
             },
           });
@@ -553,9 +551,7 @@ const createControlArtifacts = async (
           // Create the evidence artifact
           await db.artifact.create({
             data: {
-              controlId: dbControl.id,
-              type: "evidence" as RequirementType,
-              description: `Evidence artifact for control ${control.name}`,
+              type: "evidence",
               evidenceId: evidenceRecord.id,
             },
           });
