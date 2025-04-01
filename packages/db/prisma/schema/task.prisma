@@ -3,7 +3,7 @@ enum TaskStatus {
     closed
 }
 
-enum RelatedType {
+enum TaskType {
     vendor
     risk
 }
@@ -18,7 +18,7 @@ model Task {
     updatedAt   DateTime   @updatedAt
 
     relatedId   String
-    relatedType RelatedType
+    relatedType TaskType
 
     userId         String
     user           User         @relation(fields: [userId], references: [id])
