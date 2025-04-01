@@ -1,39 +1,32 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import type {
-	OrganizationControl,
-	OrganizationControlRequirement,
-	OrganizationEvidence,
-	OrganizationPolicy,
-} from "@bubba/db/types";
+import type { Control } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
-import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
 
 interface SingleControlProps {
-	organizationControl: OrganizationControl;
-	organizationControlProgress: ControlProgressResponse;
+	control: Control;
+	controlProgress: ControlProgressResponse;
 }
 
 export const SingleControl = ({
-	organizationControl,
-	organizationControlProgress,
+	control,
+	controlProgress,
 }: SingleControlProps) => {
 	const progressStatus = useMemo(() => {
-		if (!organizationControlProgress) return "not_started";
+		if (!controlProgress) return "not_started";
 
-		return organizationControlProgress.total ===
-			organizationControlProgress.completed
+		return controlProgress.total === controlProgress.completed
 			? "completed"
-			: organizationControlProgress.completed > 0
+			: controlProgress.completed > 0
 				? "in_progress"
 				: "not_started";
-	}, [organizationControlProgress]);
+	}, [controlProgress]);
 
-	if (!organizationControl || !organizationControlProgress) {
+	if (!control || !controlProgress) {
 		return <SingleControlSkeleton />;
 	}
 
@@ -44,33 +37,21 @@ export const SingleControl = ({
 					<Card>
 						<CardHeader>
 							<CardTitle className="flex md:flex-row justify-between">
-								{organizationControl.control.name}
+								{control.name}
 								<DisplayFrameworkStatus status={progressStatus} />
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<p className="text-sm">
-								{organizationControl.control.description}
-							</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader>
-							<CardTitle>Domain</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-sm">{organizationControl.control.domain}</p>
+							<p className="text-sm">{control.description}</p>
 						</CardContent>
 					</Card>
 				</div>
 
-				<div className="flex flex-col gap-2">
-					{organizationControl.OrganizationControlRequirement && (
-						<ControlRequirementsTable
-							data={organizationControl.OrganizationControlRequirement}
-						/>
+				{/* <div className="flex flex-col gap-2">
+					{control.controlRequirement && (
+						<ControlRequirementsTable data={control.controlRequirement} />
 					)}
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

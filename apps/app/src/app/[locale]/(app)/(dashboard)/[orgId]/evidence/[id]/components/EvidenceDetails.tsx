@@ -3,7 +3,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { CheckCircle2, FileIcon, XCircle } from "lucide-react";
-import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
+import { useOrganizationEvidence } from "../hooks/useEvidence";
 import type { EvidenceDetailsProps } from "../types";
 import { ReviewSection } from "./ReviewSection";
 import { EditEvidenceForm } from "./EditEvidenceForm";

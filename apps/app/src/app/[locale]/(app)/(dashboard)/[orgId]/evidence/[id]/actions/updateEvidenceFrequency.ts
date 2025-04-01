@@ -7,65 +7,65 @@ import type { ActionResponse } from "@/actions/types";
 import { Frequency } from "@bubba/db/types";
 
 const schema = z.object({
-  id: z.string(),
-  frequency: z.nativeEnum(Frequency).nullable(),
+	id: z.string(),
+	frequency: z.nativeEnum(Frequency).nullable(),
 });
 
 export const updateEvidenceFrequency = authActionClient
-  .schema(schema)
-  .metadata({
-    name: "updateEvidenceFrequency",
-    track: {
-      event: "update-evidence-frequency",
-      channel: "server",
-    },
-  })
-  .action(async ({ ctx, parsedInput }): Promise<ActionResponse> => {
-    const { user } = ctx;
-    const { id, frequency } = parsedInput;
+	.schema(schema)
+	.metadata({
+		name: "updateEvidenceFrequency",
+		track: {
+			event: "update-evidence-frequency",
+			channel: "server",
+		},
+	})
+	.action(async ({ ctx, parsedInput }): Promise<ActionResponse> => {
+		const { user } = ctx;
+		const { id, frequency } = parsedInput;
 
-    if (!user.organizationId) {
-      return {
-        success: false,
-        error: "Not authorized - no organization found",
-      };
-    }
+		if (!user.organizationId) {
+			return {
+				success: false,
+				error: "Not authorized - no organization found",
+			};
+		}
 
-    try {
-      // Check if the evidence exists and belongs to the user's organization
-      const evidence = await db.organizationEvidence.findFirst({
-        where: {
-          id,
-          organizationId: user.organizationId,
-        },
-      });
+		try {
+			// Check if the evidence exists and belongs to the user's organization
+			const evidence = await db.evidence.findFirst({
+				where: {
+					id,
+					organizationId: user.organizationId,
+				},
+			});
 
-      if (!evidence) {
-        return {
-          success: false,
-          error: "Evidence not found",
-        };
-      }
+			if (!evidence) {
+				return {
+					success: false,
+					error: "Evidence not found",
+				};
+			}
 
-      // Update the evidence frequency
-      const updatedEvidence = await db.organizationEvidence.update({
-        where: {
-          id,
-        },
-        data: {
-          frequency,
-        },
-      });
+			// Update the evidence frequency
+			const updatedEvidence = await db.evidence.update({
+				where: {
+					id,
+				},
+				data: {
+					frequency,
+				},
+			});
 
-      return {
-        success: true,
-        data: updatedEvidence,
-      };
-    } catch (error) {
-      console.error("Error updating evidence frequency:", error);
-      return {
-        success: false,
-        error: "Failed to update evidence frequency",
-      };
-    }
-  });
+			return {
+				success: true,
+				data: updatedEvidence,
+			};
+		} catch (error) {
+			console.error("Error updating evidence frequency:", error);
+			return {
+				success: false,
+				error: "Failed to update evidence frequency",
+			};
+		}
+	});

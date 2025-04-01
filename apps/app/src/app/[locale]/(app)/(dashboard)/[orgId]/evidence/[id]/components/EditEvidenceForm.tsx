@@ -6,7 +6,7 @@ import { useI18n } from "@/locales/client";
 import { useParams } from "next/navigation";
 import { FileSection } from "./FileSection";
 import { UrlSection } from "./UrlSection";
-import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
+import { useOrganizationEvidence } from "../hooks/useEvidence";
 
 export function EditEvidenceForm() {
 	const { id } = useParams<{ id: string }>();
