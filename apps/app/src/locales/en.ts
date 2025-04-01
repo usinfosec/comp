@@ -31,39 +31,39 @@ import { app_onboarding } from "./onboarding/app-onboarding";
 import { settings } from "./settings/settings";
 
 export const translations = {
-	// Core
-	common,
-	errors,
-	language,
-	languages,
+  // Core
+  common,
+  errors,
+  language,
+  languages,
 
-	// Auth & Onboarding
-	auth,
-	onboarding,
+  // Auth & Onboarding
+  auth,
+  onboarding,
 
-	// Layout & Navigation
-	header,
-	not_found,
-	sidebar,
-	theme,
-	user_menu,
+  // Layout & Navigation
+  header,
+  not_found,
+  sidebar,
+  theme,
+  user_menu,
 
-	// Features
-	evidence,
-	evidence_tasks,
-	frameworks,
-	overview,
-	people,
-	policies,
-	risk,
-	tests,
-	vendors,
+  // Features
+  evidence,
+  evidence_tasks,
+  frameworks,
+  overview,
+  people,
+  policies,
+  risk,
+  tests,
+  vendors,
 
-	// Settings
-	settings,
+  // Settings
+  settings,
 
-	// Onboarding
-	app_onboarding,
+  // Onboarding
+  app_onboarding,
 } as const;
 
 export type Translations = typeof translations;
