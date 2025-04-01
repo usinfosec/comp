@@ -44,7 +44,7 @@ const getApiKeys = async () => {
 		return [];
 	}
 
-	const apiKeys = await db.organizationApiKey.findMany({
+	const apiKeys = await db.apiKey.findMany({
 		where: {
 			organizationId: session.user.organizationId,
 			isActive: true,
