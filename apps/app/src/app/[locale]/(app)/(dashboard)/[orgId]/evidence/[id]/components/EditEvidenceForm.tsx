@@ -6,11 +6,11 @@ import { useI18n } from "@/locales/client";
 import { useParams } from "next/navigation";
 import { FileSection } from "./FileSection";
 import { UrlSection } from "./UrlSection";
-import { useOrganizationEvidence } from "../hooks/useEvidence";
+import { useEvidence } from "../hooks/useEvidence";
 
 export function EditEvidenceForm() {
 	const { id } = useParams<{ id: string }>();
-	const { data, isLoading, error, mutate } = useOrganizationEvidence({ id });
+	const { data, isLoading, error, mutate } = useEvidence({ id });
 	const t = useI18n();
 
 	if (isLoading) {
