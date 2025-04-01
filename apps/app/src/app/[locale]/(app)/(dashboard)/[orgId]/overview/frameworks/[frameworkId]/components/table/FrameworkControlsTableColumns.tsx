@@ -5,10 +5,7 @@ import {
 	type StatusType,
 } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
-import type {
-	ComplianceStatus,
-	OrganizationControlRequirement,
-} from "@bubba/db/types";
+import type { ComplianceStatus } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import {
@@ -19,6 +16,8 @@ import {
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
 import { getControlStatus } from "../../lib/utils";
+import { ControlRequirement } from "@bubba/data";
+
 export type OrganizationControlType = {
 	code: string;
 	description: string | null;
@@ -27,7 +26,7 @@ export type OrganizationControlType = {
 	id: string;
 	frameworkId: string;
 	category: string;
-	requirements: (OrganizationControlRequirement & {
+	requirements: (ControlRequirement & {
 		organizationPolicy: {
 			status: "draft" | "published" | "archived";
 		} | null;
