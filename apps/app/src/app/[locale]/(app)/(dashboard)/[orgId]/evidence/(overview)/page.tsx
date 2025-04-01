@@ -43,37 +43,37 @@ const getEvidenceOverview = cache(async () => {
   return await db.$transaction(async (tx) => {
     const [totalEvidence, publishedEvidence, draftEvidence, isNotRelevant, evidenceByAssignee, evidenceByAssigneeStatus] = await Promise.all(
       [
-        tx.organizationEvidence.count({
+        tx.evidence.count({
           where: {
             organizationId,
           },
         }),
-        tx.organizationEvidence.count({
+        tx.evidence.count({
           where: {
             organizationId,
             published: true,
           },
         }),
-        tx.organizationEvidence.count({
+        tx.evidence.count({
           where: {
             organizationId,
             published: false,
           },
         }),
-        tx.organizationEvidence.count({
+        tx.evidence.count({
           where: {
             organizationId,
             isNotRelevant: true,
           },
         }),
-        tx.organizationEvidence.groupBy({
+        tx.evidence.groupBy({
           by: ["assigneeId"],
           _count: true,
           where: {
             organizationId,
           },
         }),
-        tx.organizationEvidence.findMany({
+        tx.evidence.findMany({
           where: {
             organizationId,
             assigneeId: { not: null },
