@@ -1,13 +1,11 @@
-import { auth } from "@bubba/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
+import { getServersideSession } from "@/lib/get-session";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { cache, Suspense } from "react";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { organization } from "better-auth/plugins";
 
 export default async function Layout({
 	children,
@@ -16,15 +14,13 @@ export default async function Layout({
 }) {
 	const t = await getI18n();
 
-	const response = await auth.api.getSession({
+	const {
+		session: { activeOrganizationId },
+	} = await getServersideSession({
 		headers: await headers(),
 	});
 
-	const organizationId = response?.session.activeOrganizationId;
-
-	if (!organizationId) {
-		redirect("/");
-	}
+	const orgId = activeOrganizationId;
 
 	const overview = await getVendorOverview();
 
@@ -86,18 +82,22 @@ export default async function Layout({
 }
 
 const getVendorOverview = cache(async () => {
-	const session = await auth.api.getSession({
+	const {
+		session: { activeOrganizationId },
+	} = await getServersideSession({
 		headers: await headers(),
 	});
 
-	if (!session || !session.user.organizationId) {
+	const orgId = activeOrganizationId;
+
+	if (!orgId) {
 		return { vendors: 0 };
 	}
 
 	return await db.$transaction(async (tx) => {
 		const [vendors] = await Promise.all([
 			tx.vendor.count({
-				where: { organizationId: session.user.organizationId },
+				where: { organizationId: orgId },
 			}),
 		]);
 
