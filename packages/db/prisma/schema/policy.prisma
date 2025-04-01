@@ -1,5 +1,7 @@
 model OrganizationPolicy {
   id                             String                           @id @default(cuid())
+  name                           String
+  description                    String?
   organizationId                 String
   status                         PolicyStatus                     @default(draft)
   createdAt                      DateTime                         @default(now())
