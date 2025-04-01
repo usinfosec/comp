@@ -1,9 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { cache } from "react";
-
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ riskId: string }>;
@@ -11,7 +10,10 @@ interface LayoutProps {
 
 export default async function Layout({ children, params }: LayoutProps) {
   const t = await getI18n();
-  const session = await auth();
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     redirect("/");

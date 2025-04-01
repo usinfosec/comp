@@ -1,9 +1,12 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
 import { cache } from "react";
+import { headers } from "next/headers";
 
 export const useUsers = cache(async () => {
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
 	if (!session || !session.user.organizationId) {
 		return [];
