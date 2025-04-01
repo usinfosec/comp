@@ -34,10 +34,10 @@ export const getUploadUrl = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { evidenceId, fileName, fileType } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -49,7 +49,7 @@ export const getUploadUrl = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 
@@ -63,7 +63,7 @@ export const getUploadUrl = authActionClient
 			// Generate a unique file key
 			const timestamp = Date.now();
 			const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
-			const key = `${user.organizationId}/${evidenceId}/${timestamp}-${sanitizedFileName}`;
+			const key = `${session.activeOrganizationId}/${evidenceId}/${timestamp}-${sanitizedFileName}`;
 
 			const command = new PutObjectCommand({
 				Bucket: process.env.AWS_BUCKET_NAME!,

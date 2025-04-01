@@ -21,10 +21,10 @@ export const updateEvidenceFrequency = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }): Promise<ActionResponse> => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { id, frequency } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -36,7 +36,7 @@ export const updateEvidenceFrequency = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 

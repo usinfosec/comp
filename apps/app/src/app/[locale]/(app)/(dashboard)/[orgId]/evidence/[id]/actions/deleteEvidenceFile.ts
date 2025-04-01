@@ -30,10 +30,10 @@ export const deleteEvidenceFile = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }): Promise<ActionResponse> => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { evidenceId, fileUrl } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -44,7 +44,7 @@ export const deleteEvidenceFile = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 					fileUrls: {
 						has: fileUrl,
 					},
