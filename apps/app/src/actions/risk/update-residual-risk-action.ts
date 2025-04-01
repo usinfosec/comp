@@ -46,7 +46,7 @@ export const updateResidualRiskAction = authActionClient
 					organizationId: session.activeOrganizationId,
 				},
 				data: {
-					residualProbability: mapNumericToLikelihood(probability),
+					residualLikelihood: mapNumericToLikelihood(probability),
 					residualImpact: mapNumericToImpact(impact),
 				},
 			});
