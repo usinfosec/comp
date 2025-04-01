@@ -1,5 +1,5 @@
 import { Onboarding } from "@/components/forms/create-organization-form";
-import { db } from "@bubba/db";
+import { frameworks } from "@bubba/data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,15 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-	const frameworks = await getFrameworks();
-
 	return <Onboarding frameworks={frameworks} />;
 }
-
-const getFrameworks = async () => {
-	return await db.framework.findMany({
-		orderBy: {
-			name: "asc",
-		},
-	});
-};
