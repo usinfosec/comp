@@ -1,105 +1,10 @@
 import { db } from "@bubba/db";
-import type { Employee, Departments } from "@bubba/db/types";
+import type { Departments, Member } from "@bubba/db/types";
 import { InvitePortalEmail } from "@bubba/email/emails/invite-portal";
 import { sendEmail } from "@bubba/email/lib/resend";
 
 if (!process.env.NEXT_PUBLIC_PORTAL_URL) {
   throw new Error("NEXT_PUBLIC_PORTAL_URL is not set");
-}
-
-/**
- * Find an existing employee by email and organization ID
- */
-export async function findEmployeeByEmail(
-	email: string,
-	organizationId: string,
-): Promise<Employee | null> {
-	return db.employee.findUnique({
-		where: {
-			email_organizationId: {
-				email,
-				organizationId,
-			},
-		},
-	});
-}
-
-/**
- * Create a new employee or reactivate an existing one
- */
-export async function createOrReactivateEmployee(params: {
-	name: string;
-	email: string;
-	department: Departments;
-	organizationId: string;
-	externalEmployeeId?: string;
-}): Promise<Employee> {
-	const { name, email, department, organizationId, externalEmployeeId } =
-		params;
-
-	// First check if an employee exists
-	const existingEmployee = await findEmployeeByEmail(email, organizationId);
-
-	if (existingEmployee) {
-		if (existingEmployee.isActive) {
-			throw new Error(
-				"An employee with this email already exists in your organization",
-			);
-		}
-
-		// Reactivate the existing employee
-		return db.employee.update({
-			where: { id: existingEmployee.id },
-			data: {
-				name,
-				department,
-				externalEmployeeId,
-				organizationId,
-				updatedAt: new Date(),
-			},
-		});
-	}
-
-  // Create a new employee
-  return db.employee.create({
-    data: {
-      name,
-      email,
-      department,
-      organizationId,
-      externalEmployeeId,
-    },
-  });
-}
-
-/**
- * Create or update a portal user for an employee
- */
-export async function createOrUpdatePortalUser(params: {
-  employeeId: string;
-  name: string;
-  email: string;
-  organizationId: string;
-}): Promise<void> {
-  const { employeeId, name, email, organizationId } = params;
-
-  await db.employee.upsert({
-    where: { email_organizationId: { email, organizationId } },
-    create: {
-      id: employeeId,
-      name,
-      email,
-      organizationId,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    update: {
-      updatedAt: new Date(),
-      name,
-      email,
-      organizationId,
-    },
-  });
 }
 
 const inviteEmployeeToPortal = async (params: {
@@ -131,20 +36,83 @@ const inviteEmployeeToPortal = async (params: {
  * 2. Create/update portal user
  */
 export async function completeEmployeeCreation(params: {
-	name: string;
-	email: string;
-	department: Departments;
-	organizationId: string;
-	externalEmployeeId?: string;
-}): Promise<Employee> {
-	const employee = await createOrReactivateEmployee(params);
+  name: string;
+  email: string;
+  department: Departments;
+  organizationId: string;
+  externalEmployeeId?: string;
+}): Promise<Member | undefined> {
+  // check if the user already exists.
+  const existingUser = await db.user.findUnique({
+    where: {
+      email: params.email,
+    },
+  });
 
-	// await createOrUpdatePortalUser({
-	//   employeeId: employee.id,
-	//   name: params.name,
-	//   email: params.email,
-	//   organizationId: params.organizationId,
-	// });
+  let employee: Member | undefined;
+
+  if (existingUser) {
+    // add them as members to the organization with the employee role.
+    const existingMember = await db.member.findFirst({
+      where: {
+        userId: existingUser.id,
+        organizationId: params.organizationId,
+      },
+    });
+
+    if (!existingMember) {
+      // Create a new member record
+      employee = await db.member.create({
+        data: {
+          userId: existingUser.id,
+          organizationId: params.organizationId,
+          role: "employee",
+        },
+      });
+    } else {
+      const existingMemberRoles = existingMember.role.split(",") as (
+        | "admin"
+        | "auditor"
+        | "employee"
+      )[];
+
+      // Update existing member with employee role if they don't already have it
+      if (!existingMemberRoles.includes("employee")) {
+        employee = await db.member.update({
+          where: {
+            id: existingMember.id,
+          },
+          data: {
+            role: [...existingMemberRoles, "employee"].join(","),
+          },
+        });
+      } else {
+        employee = existingMember;
+      }
+    }
+  } else {
+    // create a skeleton user.
+    const user = await db.user.create({
+      data: {
+        name: params.name,
+        email: params.email,
+        emailVerified: false,
+      },
+    });
+
+    // add them as members to the organization with the employee role.
+    employee = await db.member.create({
+      data: {
+        userId: user.id,
+        organizationId: params.organizationId,
+        role: "employee",
+      },
+    });
+
+    if (!employee) {
+      throw new Error("Failed to add employee to organization");
+    }
+  }
 
   const organization = await db.organization.findUnique({
     where: {
@@ -158,5 +126,5 @@ export async function completeEmployeeCreation(params: {
     inviteLink: `${process.env.NEXT_PUBLIC_PORTAL_URL}`,
   });
 
-	return employee;
+  return employee;
 }
