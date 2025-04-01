@@ -43,7 +43,7 @@ export const getOrganizationEvidenceTasks = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const {
 			search,
 			status,
@@ -55,7 +55,7 @@ export const getOrganizationEvidenceTasks = authActionClient
 			pageSize,
 		} = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			console.error("Not authorized - no organization found");
 			return {
 				success: false,
@@ -66,7 +66,7 @@ export const getOrganizationEvidenceTasks = authActionClient
 		try {
 			// Create the where clause for both count and data queries
 			const whereClause: Prisma.EvidenceWhereInput = {
-				organizationId: user.organizationId,
+				organizationId: session.activeOrganizationId,
 				// Status filter
 				...(status === "published" ? { published: true } : {}),
 				...(status === "draft" ? { published: false } : {}),

@@ -23,9 +23,9 @@ export const getEvidenceTasksStats = authActionClient
 		},
 	})
 	.action(async ({ ctx }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -36,7 +36,7 @@ export const getEvidenceTasksStats = authActionClient
 			// Get all evidence tasks for the organization
 			const evidenceTasks = await db.evidence.findMany({
 				where: {
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 				select: {
 					fileUrls: true,

@@ -18,9 +18,9 @@ export const getAllOrganizationControlRequirements = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				error: "Not authorized - no organization found",
 			};
@@ -29,7 +29,7 @@ export const getAllOrganizationControlRequirements = authActionClient
 		try {
 			const organizationControlRequirements = await db.control.findMany({
 				where: {
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 				include: {
 					organization: {

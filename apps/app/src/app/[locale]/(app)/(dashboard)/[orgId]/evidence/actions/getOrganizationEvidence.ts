@@ -18,10 +18,10 @@ export const getOrganizationEvidenceById = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { id } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -32,7 +32,7 @@ export const getOrganizationEvidenceById = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 				include: {
 					assignee: true,

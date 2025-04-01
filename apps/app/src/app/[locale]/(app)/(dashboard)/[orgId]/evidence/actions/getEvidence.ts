@@ -18,10 +18,10 @@ export const getEvidence = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { evidenceId } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -32,6 +32,7 @@ export const getEvidence = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 
