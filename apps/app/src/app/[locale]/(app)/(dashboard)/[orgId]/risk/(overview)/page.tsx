@@ -1,9 +1,10 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { RiskOverview } from "@/components/risks/charts/risk-overview";
 import { RisksAssignee } from "@/components/risks/charts/risks-assignee";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function RiskManagement({
@@ -12,7 +13,9 @@ export default async function RiskManagement({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     redirect("/");

@@ -7,7 +7,7 @@ import {
   NoTasks,
 } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
 import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { Loading } from "@/components/frameworks/loading";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
@@ -20,6 +20,7 @@ import { SecondaryFields } from "./components/secondary-fields/secondary-fields"
 import { TitleAndDescription } from "./components/title-and-description/title-and-description";
 import { InherentRiskVendorChart } from "./components/inherent-risk-vendor-chart";
 import { ResidualRiskVendorChart } from "./components/residual-risk-vendor-chart";
+import { headers } from "next/headers";
 
 interface PageProps {
   searchParams: Promise<{
@@ -106,7 +107,9 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
 }
 
 async function getVendor(vendorId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     return null;
@@ -126,7 +129,9 @@ async function getVendor(vendorId: string) {
 }
 
 async function getUsers() {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     return [];
@@ -154,7 +159,9 @@ async function getTasks({
   page?: number;
   per_page?: number;
 }) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     return { tasks: [], total: 0 };
@@ -170,24 +177,24 @@ async function getTasks({
           AND: [
             search
               ? {
-                  OR: [
-                    { title: { contains: search, mode: "insensitive" } },
-                    {
-                      description: { contains: search, mode: "insensitive" },
-                    },
-                  ],
-                }
+                OR: [
+                  { title: { contains: search, mode: "insensitive" } },
+                  {
+                    description: { contains: search, mode: "insensitive" },
+                  },
+                ],
+              }
               : {},
             status ? { status } : {},
           ],
         },
         orderBy: column
           ? {
-              [column]: order === "asc" ? "asc" : "desc",
-            }
+            [column]: order === "asc" ? "asc" : "desc",
+          }
           : {
-              createdAt: "desc",
-            },
+            createdAt: "desc",
+          },
         skip,
         take: per_page,
         include: {
@@ -218,11 +225,11 @@ async function getTasks({
         AND: [
           search
             ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  { description: { contains: search, mode: "insensitive" } },
-                ],
-              }
+              OR: [
+                { title: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+              ],
+            }
             : {},
           status ? { status } : {},
         ],

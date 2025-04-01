@@ -1,10 +1,11 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { cache, Suspense } from "react";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
+import { headers } from "next/headers";
 
 export default async function Layout({
   children,
@@ -12,7 +13,9 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const t = await getI18n();
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
   const orgId = user?.organizationId;
 
@@ -77,7 +80,9 @@ export default async function Layout({
 
 const getVendorOverview = cache(
   async () => {
-    const session = await auth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
     if (!session || !session.user.organizationId) {
       return { vendors: 0 };

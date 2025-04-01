@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 import { TaskAttachments } from "@/components/risks/tasks/task-attachments";
 import { getI18n } from "@/locales/server";
@@ -8,7 +8,7 @@ import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { useUsers } from "@/hooks/use-users";
-
+import { headers } from "next/headers";
 interface PageProps {
   params: Promise<{ riskId: string; taskId: string }>;
 }
@@ -32,7 +32,9 @@ export default async function RiskPage({ params }: PageProps) {
 
 const getTask = cache(
   async (riskId: string, taskId: string) => {
-    const session = await auth();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
     if (!session || !session.user.organizationId) {
       redirect("/");

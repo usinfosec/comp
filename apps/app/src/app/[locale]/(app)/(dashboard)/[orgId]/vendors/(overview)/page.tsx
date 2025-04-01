@@ -1,9 +1,10 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/(overview)/components/charts/vendor-overview";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export default async function VendorManagement({
   params,
@@ -13,7 +14,9 @@ export default async function VendorManagement({
   const { locale } = await params;
   setStaticParamsLocale(locale);
 
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user.organizationId) {
     redirect("/onboarding");
