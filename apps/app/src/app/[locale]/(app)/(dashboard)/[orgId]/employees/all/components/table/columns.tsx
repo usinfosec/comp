@@ -4,14 +4,16 @@ import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "@/components/tables/people/employee-status";
-import type { Employee } from "@bubba/db/types";
+import type { Member, User } from "@bubba/db/types";
 import { Avatar, AvatarFallback } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 
-export function getColumns(
-	onRowClick: (id: string) => void,
-): ColumnDef<Employee>[] {
+export function getColumns(onRowClick: (id: string) => void): ColumnDef<
+	Member & {
+		user: User;
+	}
+>[] {
 	return [
 		{
 			accessorKey: "name",
@@ -21,12 +23,12 @@ export function getColumns(
 				return (
 					<div className="flex items-center gap-2">
 						<Avatar>
-							<AvatarFallback>{employee.name[0] || "?"}</AvatarFallback>
+							<AvatarFallback>{employee.user.name[0] || "?"}</AvatarFallback>
 						</Avatar>
 						<div>
-							<div className="font-medium">{employee.name}</div>
+							<div className="font-medium">{employee.user.name}</div>
 							<div className="text-sm text-muted-foreground">
-								{employee.email}
+								{employee.user.email}
 							</div>
 						</div>
 					</div>
