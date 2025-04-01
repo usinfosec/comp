@@ -14,7 +14,6 @@
         "@types/d3": "^7.4.3",
         "@types/react": "19.0.10",
         "ai": "3.4.33",
-        "better-auth": "^1.2.5",
         "d3": "^7.9.0",
         "gitmoji": "^1.1.1",
         "gray-matter": "^4.0.3",
@@ -40,6 +39,7 @@
         "@aws-sdk/client-s3": "^3.758.0",
         "@aws-sdk/s3-request-presigner": "^3.758.0",
         "@browserbasehq/sdk": "^2.4.0",
+        "@bubba/auth": "workspace:*",
         "@bubba/data": "workspace:*",
         "@bubba/notifications": "workspace:*",
         "@date-fns/tz": "^1.2.0",
@@ -112,6 +112,7 @@
         "zustand": "^5.0.3",
       },
       "devDependencies": {
+        "@bubba/auth": "workspace:*",
         "@bubba/db": "workspace:*",
         "@trigger.dev/build": "3.3.17",
         "@types/node": "^22.13.10",
@@ -151,6 +152,14 @@
       "dependencies": {
         "posthog-js": "^1.215.3",
         "posthog-node": "^4.4.1",
+      },
+    },
+    "packages/auth": {
+      "name": "@bubba/auth",
+      "version": "1.0.0",
+      "dependencies": {
+        "better-auth": "^1.2.5",
+        "server-only": "0.0.1",
       },
     },
     "packages/data": {
@@ -513,6 +522,8 @@
     "@bubba/analytics": ["@bubba/analytics@workspace:packages/analytics"],
 
     "@bubba/app": ["@bubba/app@workspace:apps/app"],
+
+    "@bubba/auth": ["@bubba/auth@workspace:packages/auth"],
 
     "@bubba/data": ["@bubba/data@workspace:packages/data"],
 

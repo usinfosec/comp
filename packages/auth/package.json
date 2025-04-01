@@ -1,0 +1,16 @@
+{
+  "name": "@bubba/auth",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "better-auth": "^1.2.5",
+    "server-only": "0.0.1"
+  }
+}

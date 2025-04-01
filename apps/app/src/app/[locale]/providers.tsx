@@ -3,7 +3,7 @@
 import { env } from "@/env.mjs";
 import { I18nProviderClient } from "@/locales/client";
 import { AnalyticsProvider } from "@bubba/analytics";
-import { authClient } from "@/auth/auth-client";
+import { authClient } from "@bubba/auth";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
