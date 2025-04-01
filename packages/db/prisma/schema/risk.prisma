@@ -13,11 +13,11 @@ model Risk {
   updatedAt                    DateTime          @updatedAt
   treatmentStrategyDescription String?
   treatmentStrategy            RiskTreatmentType @default(accept)
-
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  ownerId        String?
-  owner          User?        @relation(fields: [ownerId], references: [id])
+  tasks                        Task[]
+  organizationId               String
+  organization                 Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerId                      String?
+  owner                        User?             @relation(fields: [ownerId], references: [id])
 
   @@index([organizationId])
   @@index([ownerId])

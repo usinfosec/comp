@@ -19,6 +19,7 @@ model User {
     sessions                         Session[]
     vendor                           Vendor[]
     employeeTrainingVideoCompletions EmployeeTrainingVideoCompletion[]
+    tasks                            Task[]
 
     @@unique([email])
 }

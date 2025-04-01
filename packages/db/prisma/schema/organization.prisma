@@ -19,6 +19,7 @@ model Organization {
   policy             Policy[]
   risk               Risk[]
   vendors            Vendor[]
+  tasks              Task[]
 
   @@index([slug])
 }
