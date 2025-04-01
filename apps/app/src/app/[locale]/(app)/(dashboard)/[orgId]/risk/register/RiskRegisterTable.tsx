@@ -23,7 +23,7 @@ export const RiskRegisterTable = ({
 }) => {
 	const t = useI18n();
 	const session = useSession();
-	const orgId = session?.data?.session?.session.activeOrganizationId;
+	const orgId = session?.data?.session?.activeOrganizationId;
 
 	// State
 	const [search, setSearch] = useState("");

@@ -1,6 +1,5 @@
 "use client";
 
-import type { OrganizationControlRequirement } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2, XCircle } from "lucide-react";
 import type { RequirementTableData } from "./ControlRequirementsTable";
@@ -11,7 +10,14 @@ export const ControlRequirementsTableColumns: ColumnDef<RequirementTableData>[] 
 			id: "type",
 			accessorKey: "type",
 			header: "Type",
-			cell: ({ row }) => row.original.type,
+			cell: ({ row }) => {
+				const requirement = row.original;
+				return requirement.policy
+					? "policy"
+					: requirement.evidence
+						? "evidence"
+						: "";
+			},
 			size: 100,
 		},
 		{
@@ -36,17 +42,16 @@ export const ControlRequirementsTableColumns: ColumnDef<RequirementTableData>[] 
 		},
 		{
 			id: "status",
-			accessorKey: "organizationPolicy.status",
+			accessorKey: "status",
 			header: "Status",
 			size: 80,
 			cell: ({ row }) => {
 				const requirement = row.original;
-				const isCompleted =
-					requirement.type === "policy"
-						? requirement.organizationPolicy?.status === "published"
-						: requirement.type === "evidence"
-							? requirement.organizationEvidence?.published
-							: false;
+				const isCompleted = requirement.policy
+					? requirement.policy?.status === "published"
+					: requirement.evidence
+						? requirement.evidence?.published
+						: false;
 
 				return (
 					<div className="flex items-center justify-center">

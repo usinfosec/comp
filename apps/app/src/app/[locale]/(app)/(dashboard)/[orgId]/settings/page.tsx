@@ -23,9 +23,6 @@ export default async function OrganizationSettings({
     <Suspense>
       <div className="space-y-12">
         <UpdateOrganizationName organizationName={organization?.name ?? ""} />
-        <UpdateOrganizationWebsite
-          organizationWebsite={organization?.website ?? ""}
-        />
         <DeleteOrganization organizationId={organization?.id ?? ""} />
       </div>
     </Suspense>
@@ -51,11 +48,14 @@ const organizationDetails = async () => {
     headers: await headers(),
   });
 
+  if (!session?.session.activeOrganizationId) {
+    return null
+  }
+
   const organization = await db.organization.findUnique({
     where: { id: session?.session.activeOrganizationId },
     select: {
       name: true,
-      website: true,
       id: true,
     },
   });
