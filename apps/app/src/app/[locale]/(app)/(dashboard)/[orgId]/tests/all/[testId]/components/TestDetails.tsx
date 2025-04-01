@@ -1,14 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useI18n } from "@/locales/client";
-import { useTest } from "../../hooks/useTest";
-import { Skeleton } from "@bubba/ui/skeleton";
-import { AlertCircle, User as UserIcon } from "lucide-react";
+import type { User } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Label } from "@bubba/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { Badge } from "@bubba/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Label } from "@bubba/ui/label";
+import { Skeleton } from "@bubba/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -17,9 +15,10 @@ import {
 	TableHeader,
 	TableRow,
 } from "@bubba/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+import { AlertCircle, User as UserIcon } from "lucide-react";
+import { useTest } from "../../hooks/useTest";
 import { AssigneeSection } from "./AssigneeSection";
-import type { Test } from "../../types";
-import type { User } from "@bubba/db/types";
 
 interface CloudTestDetailsProps {
 	testId: string;
@@ -237,7 +236,6 @@ export function TestDetails({ testId, users }: CloudTestDetailsProps) {
 					</Card>
 				</TabsContent>
 			</Tabs>
-			<TestComment test={cloudTest} users={users} />
 		</div>
 	);
 }
