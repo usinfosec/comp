@@ -56,7 +56,8 @@ export function MemberActions({
 	const t = useI18n();
 	const [isRemoving, setIsRemoving] = useState(false);
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
-	const [newRole, setNewRole] = useState<Role>(permission.role);
+	const initialRole: Role = permission.role;
+	const [newRole, setNewRole] = useState<Role>(initialRole);
 	const [isUpdatingRole, setIsUpdatingRole] = useState(false);
 
 	const memberName = permission.user.name || permission.user.email || "";
@@ -197,14 +198,14 @@ export function MemberActions({
 								</SelectTrigger>
 								<SelectContent>
 									{currentUserRole === ("owner" as Role) && (
-										<SelectItem value="admin">
+										<SelectItem value={"admin" as Role}>
 											{t("settings.team.members.role.admin")}
 										</SelectItem>
 									)}
-									<SelectItem value="member">
+									<SelectItem value={"member" as Role}>
 										{t("settings.team.members.role.member")}
 									</SelectItem>
-									<SelectItem value="viewer">
+									<SelectItem value={"viewer" as Role}>
 										{t("settings.team.members.role.viewer")}
 									</SelectItem>
 								</SelectContent>
