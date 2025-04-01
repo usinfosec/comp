@@ -49,18 +49,18 @@ export function UpdateTaskOverviewForm({
 			description: task.description,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
-			userId: task.userId ?? undefined,
+			ownerId: task.userId,
 		},
 	});
 
-	const onSubmit = (data: z.infer<typeof updateTaskSchema>) => {
+	const onSubmit = (values: z.infer<typeof updateTaskSchema>) => {
 		updateTask.execute({
-			id: data.id,
-			title: data.title,
-			description: data.description,
-			dueDate: data.dueDate || null,
-			status: data.status,
-			userId: data.userId,
+			id: values.id,
+			title: values.title,
+			description: values.description,
+			dueDate: values.dueDate,
+			status: values.status,
+			ownerId: values.ownerId,
 		});
 	};
 
