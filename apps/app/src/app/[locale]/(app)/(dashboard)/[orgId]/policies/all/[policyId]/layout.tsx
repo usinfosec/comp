@@ -49,13 +49,10 @@ export default async function Layout({ children, params }: LayoutProps) {
 }
 
 const getPolicy = async (policyId: string, organizationId: string) => {
-	const policy = await db.organizationPolicy.findUnique({
+	const policy = await db.policy.findUnique({
 		where: {
 			id: policyId,
 			organizationId: organizationId,
-		},
-		include: {
-			policy: true,
 		},
 	});
 
