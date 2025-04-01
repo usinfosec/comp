@@ -1,4 +1,4 @@
-import type { Control } from "../types";
+import type { TemplateControl as Control } from "../types";
 
 export const accessRestrictionsForConfidentialData: Control = {
 	id: "access_restrictions_for_confidential_data",

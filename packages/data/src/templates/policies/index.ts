@@ -23,7 +23,7 @@ import { systemChangePolicy } from "./data/system-change.policy";
 import { thirdPartyPolicy } from "./data/thirdparty.policy";
 import { vendorRiskManagementPolicy } from "./data/vendor-risk-management.policy";
 import { workstationPolicy } from "./data/workstation.policy";
-import type { Policies, Policy } from "./types";
+import type { TemplatePolicy } from "./types";
 
 export const policies = {
 	access_control_policy: accessControlPolicy,
@@ -51,6 +51,6 @@ export const policies = {
 	third_party_policy: thirdPartyPolicy,
 	vendor_risk_management_policy: vendorRiskManagementPolicy,
 	workstation_policy: workstationPolicy,
-} as const satisfies Record<string, Policy>;
+} as const satisfies Record<string, TemplatePolicy>;
 
-export type PolicyId = keyof typeof policies;
+export type TemplatePolicyId = keyof typeof policies;

@@ -1,4 +1,4 @@
-import type { Control } from "../types";
+import type { TemplateControl as Control } from "../types";
 
 export const choiceAndConsent: Control = {
 	id: "choice_and_consent",

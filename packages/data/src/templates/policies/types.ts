@@ -20,7 +20,7 @@ type JSONContent = {
 /**
  * Represents the metadata associated with a policy document.
  */
-export interface PolicyMetadata {
+export interface TemplatePolicyMetadata {
 	id: string;
 	slug: string;
 	name: string;
@@ -32,7 +32,7 @@ export interface PolicyMetadata {
 /**
  * Represents the structure of a policy document, including metadata and content.
  */
-export interface Policy {
+export interface TemplatePolicy {
 	/**
 	 * The main type of the document, typically "doc".
 	 */
@@ -40,7 +40,7 @@ export interface Policy {
 	/**
 	 * Metadata providing details about the policy.
 	 */
-	metadata: PolicyMetadata;
+	metadata: TemplatePolicyMetadata;
 	/**
 	 * The structured content of the policy document.
 	 */
@@ -48,4 +48,4 @@ export interface Policy {
 }
 
 // Optional: If you plan to have a map of all policies similar to frameworks.ts
-export type Policies = Record<string, Policy>;
+export type TemplatePolicies = Record<string, TemplatePolicy>;

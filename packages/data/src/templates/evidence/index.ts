@@ -44,7 +44,7 @@ import { riskIdentificationRecords } from "./data/risk_identification_records";
 import { technologyControlRecords } from "./data/technology_control_records";
 import { uptimeReports } from "./data/uptime_reports";
 import { vendorRiskAssessmentRecords } from "./data/vendor_risk_assessment_records";
-import { Evidence } from "./types";
+import type { TemplateEvidence } from "./types";
 
 export const evidence = {
 	access_control_records: accessControlRecords,
@@ -94,7 +94,7 @@ export const evidence = {
 	technology_control_records: technologyControlRecords,
 	uptime_reports: uptimeReports,
 	vendor_risk_assessment_records: vendorRiskAssessmentRecords,
-} as const satisfies Record<string, Evidence>;
+} as const satisfies Record<string, TemplateEvidence>;
 
-export type EvidenceKey = keyof typeof evidence;
-export type EvidenceId = EvidenceKey;
+export type TemplateEvidenceKey = keyof typeof evidence;
+export type TemplateEvidenceId = TemplateEvidenceKey;

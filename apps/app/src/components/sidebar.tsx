@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { getOrganizations } from "@/data/getOrganizations";
-import { frameworks } from "@bubba/data";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { MainMenu } from "./main-menu";
@@ -48,7 +47,6 @@ export async function Sidebar() {
 				<OrganizationSwitcher
 					organizations={organizations}
 					organizationId={organizationId}
-					frameworks={frameworks}
 					isCollapsed={isCollapsed}
 				/>
 			</div>

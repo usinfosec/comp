@@ -1,4 +1,4 @@
-import type { Control } from "../types";
+import type { TemplateControl as Control } from "../types";
 
 export const informationAssetChanges: Control = {
 	id: "information_asset_changes",

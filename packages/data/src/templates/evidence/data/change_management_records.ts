@@ -1,4 +1,4 @@
-import type { Evidence } from "../types";
+import type { TemplateEvidence as Evidence } from "../types";
 
 export const changeManagementRecords: Evidence = {
 	id: "change_management_records",

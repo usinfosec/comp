@@ -24,14 +24,12 @@ import type { Organization } from "@bubba/db/types";
 interface OrganizationSwitcherProps {
 	organizations: Organization[];
 	organizationId: string | undefined;
-	frameworks: Framework[];
 	isCollapsed?: boolean;
 }
 
 export function OrganizationSwitcher({
 	organizations,
 	organizationId,
-	frameworks,
 	isCollapsed = false,
 }: OrganizationSwitcherProps) {
 	const t = useI18n();
@@ -116,10 +114,7 @@ export function OrganizationSwitcher({
 				open={showCreateOrg}
 				onOpenChange={(open) => setShowCreateOrg(open)}
 			>
-				<CreateOrgModal
-					onOpenChange={(open) => setShowCreateOrg(open)}
-					frameworks={frameworks}
-				/>
+				<CreateOrgModal onOpenChange={(open) => setShowCreateOrg(open)} />
 			</Dialog>
 		</div>
 	);

@@ -31,12 +31,7 @@ export function MobileMenu({
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>
-
-				<MainMenu
-					onSelect={() => setOpen(false)}
-					organizationId={organizationId}
-					userIsAdmin={isAdmin}
-				/>
+				<MainMenu organizationId={organizationId} userIsAdmin={isAdmin} />
 			</SheetContent>
 		</Sheet>
 	);

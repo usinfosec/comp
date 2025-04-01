@@ -51,7 +51,7 @@ type soc2RequirementIds = "CC1" | "CC2" | "CC3" | "CC4" | "CC5" | "CC6" | "CC7" 
  * Represents a specific requirement from a compliance framework
  * that an organization needs to fulfill.
  */
-interface Requirement$1 {
+interface Requirement {
     /** Name of the requirement */
     name: string;
     /** Detailed explanation of what this requirement entails */
@@ -61,62 +61,17 @@ interface Requirement$1 {
  * A mapping of requirement codes to their corresponding Requirement objects.
  * Used for efficient lookup of requirements.
  */
-type SingleFrameworkRequirements<A extends string = string> = Record<A, Requirement$1>;
+type SingleFrameworkRequirements<A extends string = string> = Record<A, Requirement>;
 type AllRequirements = {
-    [K in FrameworkId]: SingleFrameworkRequirements<allRequirementIdsByFramework[K]>;
+    [K in FrameworkId]: SingleFrameworkRequirements<AllRequirementIdsByFramework[K]>;
 };
-type allRequirementIdsByFramework = {
+type AllRequirementIdsByFramework = {
     soc2: soc2RequirementIds;
 };
 
 declare const soc2Requirements: SingleFrameworkRequirements<soc2RequirementIds>;
 
 declare const requirements: AllRequirements;
-
-/**
- * Represents the structure of JSON content used in policy documents.
- * This type is compatible with ProseMirror/TipTap document structure.
- */
-type JSONContent = {
-    [key: string]: any;
-    type?: string;
-    attrs?: Record<string, any>;
-    content?: JSONContent[];
-    marks?: {
-        type: string;
-        attrs?: Record<string, any>;
-        [key: string]: any;
-    }[];
-    text?: string;
-};
-/**
- * Represents the metadata associated with a policy document.
- */
-interface PolicyMetadata {
-    id: string;
-    slug: string;
-    name: string;
-    description: string;
-    frequency: Frequency;
-    department: Departments;
-}
-/**
- * Represents the structure of a policy document, including metadata and content.
- */
-interface Policy {
-    /**
-     * The main type of the document, typically "doc".
-     */
-    type: "doc";
-    /**
-     * Metadata providing details about the policy.
-     */
-    metadata: PolicyMetadata;
-    /**
-     * The structured content of the policy document.
-     */
-    content: JSONContent[];
-}
 
 declare const policies: {
     readonly access_control_policy: Policy;
@@ -145,13 +100,13 @@ declare const policies: {
     readonly vendor_risk_management_policy: Policy;
     readonly workstation_policy: Policy;
 };
-type PolicyId = keyof typeof policies;
+type TemplatePolicyId = keyof typeof policies;
 
 /**
  * Represents a piece of compliance or regulatory evidence
  * that organizations need to maintain and present during audits.
  */
-interface Evidence {
+interface TemplateEvidence {
     /** Unique identifier for the evidence */
     id: string;
     /** Display name of the evidence */
@@ -163,81 +118,88 @@ interface Evidence {
     /** The organizational department responsible for maintaining this evidence */
     department: Departments;
 }
+/**
+ * A mapping of evidence IDs to their corresponding Evidence objects.
+ * Used for efficient lookup of evidence by ID.
+ */
+interface TemplateEvidenceMap {
+    [key: string]: TemplateEvidence;
+}
 
 declare const evidence: {
-    readonly access_control_records: Evidence;
-    readonly access_logs: Evidence;
-    readonly access_removal_records: Evidence;
-    readonly access_review_records: Evidence;
-    readonly account_management_records: Evidence;
-    readonly authentication_records: Evidence;
-    readonly board_meeting_documentation: Evidence;
-    readonly business_continuity_and_disaster_recovery_testing_records: Evidence;
-    readonly business_continuity_plans: Evidence;
-    readonly capacity_reports: Evidence;
-    readonly change_management_records: Evidence;
-    readonly change_request_logs: Evidence;
-    readonly change_risk_documentation: Evidence;
-    readonly communication_records: Evidence;
-    readonly consent_records: Evidence;
-    readonly control_implementation_records: Evidence;
-    readonly control_testing_documentation: Evidence;
-    readonly data_classification_records: Evidence;
-    readonly data_processing_logs: Evidence;
-    readonly data_quality_documentation: Evidence;
-    readonly data_validation_records: Evidence;
-    readonly deficiency_management_records: Evidence;
-    readonly disposal_records: Evidence;
-    readonly ethics_compliance_documentation: Evidence;
-    readonly exception_logs: Evidence;
-    readonly external_communication_records: Evidence;
-    readonly fraud_risk_documentation: Evidence;
-    readonly hr_documentation: Evidence;
-    readonly incident_analysis_records: Evidence;
-    readonly incident_communication_records: Evidence;
-    readonly incident_recovery_records: Evidence;
-    readonly incident_response_records: Evidence;
-    readonly infrastructure_monitoring_records: Evidence;
-    readonly malware_prevention_records: Evidence;
-    readonly management_structure_documentation: Evidence;
-    readonly personnel_compliance_documentation: Evidence;
-    readonly physical_access_records: Evidence;
-    readonly policy_implementation_records: Evidence;
-    readonly privacy_notice: Evidence;
-    readonly recovery_records: Evidence;
-    readonly retention_schedules: Evidence;
-    readonly risk_assessment_documentation: Evidence;
-    readonly risk_identification_records: Evidence;
-    readonly technology_control_records: Evidence;
-    readonly uptime_reports: Evidence;
-    readonly vendor_risk_assessment_records: Evidence;
+    readonly access_control_records: TemplateEvidence;
+    readonly access_logs: TemplateEvidence;
+    readonly access_removal_records: TemplateEvidence;
+    readonly access_review_records: TemplateEvidence;
+    readonly account_management_records: TemplateEvidence;
+    readonly authentication_records: TemplateEvidence;
+    readonly board_meeting_documentation: TemplateEvidence;
+    readonly business_continuity_and_disaster_recovery_testing_records: TemplateEvidence;
+    readonly business_continuity_plans: TemplateEvidence;
+    readonly capacity_reports: TemplateEvidence;
+    readonly change_management_records: TemplateEvidence;
+    readonly change_request_logs: TemplateEvidence;
+    readonly change_risk_documentation: TemplateEvidence;
+    readonly communication_records: TemplateEvidence;
+    readonly consent_records: TemplateEvidence;
+    readonly control_implementation_records: TemplateEvidence;
+    readonly control_testing_documentation: TemplateEvidence;
+    readonly data_classification_records: TemplateEvidence;
+    readonly data_processing_logs: TemplateEvidence;
+    readonly data_quality_documentation: TemplateEvidence;
+    readonly data_validation_records: TemplateEvidence;
+    readonly deficiency_management_records: TemplateEvidence;
+    readonly disposal_records: TemplateEvidence;
+    readonly ethics_compliance_documentation: TemplateEvidence;
+    readonly exception_logs: TemplateEvidence;
+    readonly external_communication_records: TemplateEvidence;
+    readonly fraud_risk_documentation: TemplateEvidence;
+    readonly hr_documentation: TemplateEvidence;
+    readonly incident_analysis_records: TemplateEvidence;
+    readonly incident_communication_records: TemplateEvidence;
+    readonly incident_recovery_records: TemplateEvidence;
+    readonly incident_response_records: TemplateEvidence;
+    readonly infrastructure_monitoring_records: TemplateEvidence;
+    readonly malware_prevention_records: TemplateEvidence;
+    readonly management_structure_documentation: TemplateEvidence;
+    readonly personnel_compliance_documentation: TemplateEvidence;
+    readonly physical_access_records: TemplateEvidence;
+    readonly policy_implementation_records: TemplateEvidence;
+    readonly privacy_notice: TemplateEvidence;
+    readonly recovery_records: TemplateEvidence;
+    readonly retention_schedules: TemplateEvidence;
+    readonly risk_assessment_documentation: TemplateEvidence;
+    readonly risk_identification_records: TemplateEvidence;
+    readonly technology_control_records: TemplateEvidence;
+    readonly uptime_reports: TemplateEvidence;
+    readonly vendor_risk_assessment_records: TemplateEvidence;
 };
-type EvidenceKey = keyof typeof evidence;
-type EvidenceId = EvidenceKey;
+type TemplateEvidenceKey = keyof typeof evidence;
+type TemplateEvidenceId = TemplateEvidenceKey;
 
 /**
  * Represents an artifact associated with a control
  * that can be used to demonstrate compliance.
  */
-type Artifact = {
+type TemplateArtifact = {
     type: "policy";
-    policyId: PolicyId;
+    policyId: TemplatePolicyId;
 } | {
     type: "evidence";
-    evidenceId: EvidenceId;
+    evidenceId: TemplateEvidenceId;
 };
 /**
  * Represents a requirement that a control addresses.
  */
-type Requirement<T extends FrameworkId = FrameworkId> = {
+type TemplateRequirement<T extends FrameworkId = FrameworkId> = {
     frameworkId: T;
-    requirementId: allRequirementIdsByFramework[T];
+    requirementId: AllRequirementIdsByFramework[T];
 };
 /**
  * Represents a security or compliance control that organizations
  * implement to address specific requirements.
  */
-interface Control {
+interface TemplateControl {
     /** Unique identifier for the control */
     id: string;
     /** Display name of the control */
@@ -245,15 +207,57 @@ interface Control {
     /** Detailed explanation of what this control entails */
     description: string;
     /** List of artifacts used to demonstrate implementation of this control */
-    mappedArtifacts: Artifact[];
+    mappedArtifacts: TemplateArtifact[];
     /** List of requirements this control addresses */
-    mappedRequirements: Requirement[];
+    mappedRequirements: TemplateRequirement[];
+}
+
+declare const controls: [TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl];
+
+/**
+ * Represents the structure of JSON content used in policy documents.
+ * This type is compatible with ProseMirror/TipTap document structure.
+ */
+type JSONContent = {
+    [key: string]: any;
+    type?: string;
+    attrs?: Record<string, any>;
+    content?: JSONContent[];
+    marks?: {
+        type: string;
+        attrs?: Record<string, any>;
+        [key: string]: any;
+    }[];
+    text?: string;
+};
+/**
+ * Represents the metadata associated with a policy document.
+ */
+interface TemplatePolicyMetadata {
+    id: string;
+    slug: string;
+    name: string;
+    description: string;
+    frequency: Frequency;
+    department: Departments;
 }
 /**
- * An array of Control objects for a specific framework.
+ * Represents the structure of a policy document, including metadata and content.
  */
-type Controls = Control[];
+interface TemplatePolicy {
+    /**
+     * The main type of the document, typically "doc".
+     */
+    type: "doc";
+    /**
+     * Metadata providing details about the policy.
+     */
+    metadata: TemplatePolicyMetadata;
+    /**
+     * The structured content of the policy document.
+     */
+    content: JSONContent[];
+}
+type TemplatePolicies = Record<string, TemplatePolicy>;
 
-declare const controls: Controls;
-
-export { type EvidenceId, type EvidenceKey, type PolicyId, controls, evidence, frameworks, policies, requirements, soc2Requirements, trainingVideos };
+export { type AllRequirementIdsByFramework, type AllRequirements, type Framework, type FrameworkId, type Frameworks, type Requirement, type SingleFrameworkRequirements, type TemplateArtifact, type TemplateControl, type TemplateEvidence, type TemplateEvidenceId, type TemplateEvidenceKey, type TemplateEvidenceMap, type TemplatePolicies, type TemplatePolicy, type TemplatePolicyId, type TemplatePolicyMetadata, type TemplateRequirement, type TrainingVideo, controls, evidence, frameworks, policies, requirements, soc2Requirements, trainingVideos };

@@ -7342,6 +7342,167 @@ var evidence = {
   vendor_risk_assessment_records: vendorRiskAssessmentRecords
 };
 
+// src/templates/controls/data/access-authentication.ts
+var accessAuthentication = {
+  id: "access_authentication",
+  name: "Access Authentication",
+  description: "Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "authentication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-removal.ts
+var accessRemoval = {
+  id: "access_removal",
+  name: "Access Removal",
+  description: "The organization removes access to protected information assets when appropriate.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_removal_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-restrictions.ts
+var accessRestrictions = {
+  id: "access_restrictions",
+  name: "Access Restrictions",
+  description: "The organization restricts physical access to facilities and protected information assets.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "physical_access_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-restrictions-for-confidential-data.ts
+var accessRestrictionsForConfidentialData = {
+  id: "access_restrictions_for_confidential_data",
+  name: "Access Restrictions for Confidential Data",
+  description: "The entity restricts access to confidential information on a need-to-know basis.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-review.ts
+var accessReview = {
+  id: "access_review",
+  name: "Access Review",
+  description: "The organization evaluates and manages access to protected information assets on a periodic basis.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_review_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/access-security.ts
+var accessSecurity = {
+  id: "access_security",
+  name: "Access Security",
+  description: "The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "access_control_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "access_control_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/accuracy-and-completeness.ts
+var accuracyAndCompleteness = {
+  id: "accuracy_and_completeness",
+  name: "Accuracy and Completeness",
+  description: "The entity ensures data is processed accurately and completely.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_validation_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
 // src/templates/controls/data/board-oversight.ts
 var boardOversight = {
   id: "board_oversight",
@@ -7361,6 +7522,420 @@ var boardOversight = {
     {
       frameworkId: "soc2",
       requirementId: "A1"
+    }
+  ]
+};
+
+// src/templates/controls/data/change-management-risk.ts
+var changeManagementRisk = {
+  id: "change_management_risk",
+  name: "Change Management Risk",
+  description: "The organization identifies and assesses changes that could significantly impact the system of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "change_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "change_risk_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/choice-and-consent.ts
+var choiceAndConsent = {
+  id: "choice_and_consent",
+  name: "Choice and Consent",
+  description: "The entity obtains consent for personal information where required by policy or law.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "privacy_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "consent_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "P1"
+    }
+  ]
+};
+
+// src/templates/controls/data/code-of-conduct.ts
+var codeOfConduct = {
+  id: "code_of_conduct",
+  name: "Code of Conduct",
+  description: "The organization demonstrates a commitment to integrity and ethical values.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "code_of_conduct_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "ethics_compliance_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC1"
+    }
+  ]
+};
+
+// src/templates/controls/data/confidential-data-disposal.ts
+var confidentialDataDisposal = {
+  id: "confidential_data_disposal",
+  name: "Confidential Data Disposal",
+  description: "The entity securely disposes of confidential information when no longer needed.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "disposal_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/confidential-information-classification.ts
+var confidentialInformationClassification = {
+  id: "confidential_information_classification",
+  name: "Confidential Information Classification",
+  description: "The entity classifies information to identify and protect confidential information.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "classification_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_classification_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "C1"
+    }
+  ]
+};
+
+// src/templates/controls/data/control-monitoring.ts
+var controlMonitoring = {
+  id: "control_monitoring",
+  name: "Control Monitoring",
+  description: "The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "control_testing_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC4"
+    }
+  ]
+};
+
+// src/templates/controls/data/control-selection.ts
+var controlSelection = {
+  id: "control_selection",
+  name: "Control Selection",
+  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "control_implementation_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC5"
+    }
+  ]
+};
+
+// src/templates/controls/data/data-retention-and-disposal.ts
+var dataRetentionAndDisposal = {
+  id: "data_retention_and_disposal",
+  name: "Data Retention and Disposal",
+  description: "The entity retains personal information for only as long as needed and disposes of it securely.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "privacy_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "retention_schedules"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "P1"
+    }
+  ]
+};
+
+// src/templates/controls/data/deficiency-management.ts
+var deficiencyManagement = {
+  id: "deficiency_management",
+  name: "Deficiency Management",
+  description: "The organization evaluates and communicates internal control deficiencies in a timely manner to those responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "deficiency_management_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC4"
+    }
+  ]
+};
+
+// src/templates/controls/data/exception-handling.ts
+var exceptionHandling = {
+  id: "exception_handling",
+  name: "Exception Handling",
+  description: "The entity identifies and resolves processing exceptions in a timely manner.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "exception_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
+// src/templates/controls/data/external-communication.ts
+var externalCommunication = {
+  id: "external_communication",
+  name: "External Communication",
+  description: "The organization communicates with external parties regarding matters affecting the functioning of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "external_communication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/fraud-risk-assessment.ts
+var fraudRiskAssessment = {
+  id: "fraud_risk_assessment",
+  name: "Fraud Risk Assessment",
+  description: "The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "risk_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "fraud_risk_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC3"
+    }
+  ]
+};
+
+// src/templates/controls/data/information-asset-changes.ts
+var informationAssetChanges = {
+  id: "information_asset_changes",
+  name: "Information Asset Changes",
+  description: "The organization manages changes to system components to minimize the risk of unauthorized changes.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "change_management_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "change_management_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
+    }
+  ]
+};
+
+// src/templates/controls/data/information-quality.ts
+var informationQuality = {
+  id: "information_quality",
+  name: "Information Quality",
+  description: "The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_quality_documentation"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/infrastructure-monitoring.ts
+var infrastructureMonitoring = {
+  id: "infrastructure_monitoring",
+  name: "Infrastructure Monitoring",
+  description: "To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, and vulnerabilities.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "infrastructure_monitoring_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC7"
+    }
+  ]
+};
+
+// src/templates/controls/data/input-processing-and-output-controls.ts
+var inputProcessingAndOutputControls = {
+  id: "input_processing_and_output_controls",
+  name: "Input, Processing, and Output Controls",
+  description: "The entity validates the completeness and accuracy of data throughout processing.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "data_processing_logs"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "PI1"
+    }
+  ]
+};
+
+// src/templates/controls/data/internal-communication.ts
+var internalCommunication = {
+  id: "internal_communication",
+  name: "Internal Communication",
+  description: "The organization internally communicates information, including objectives and responsibilities for internal control.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "corporate_governance_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "communication_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC2"
+    }
+  ]
+};
+
+// src/templates/controls/data/malicious-software-prevention.ts
+var maliciousSoftwarePrevention = {
+  id: "malicious_software_prevention",
+  name: "Malicious Software Prevention",
+  description: "The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
+  mappedArtifacts: [
+    {
+      type: "policy",
+      policyId: "information_security_policy"
+    },
+    {
+      type: "evidence",
+      evidenceId: "malware_prevention_records"
+    }
+  ],
+  mappedRequirements: [
+    {
+      frameworkId: "soc2",
+      requirementId: "CC6"
     }
   ]
 };
@@ -7434,57 +8009,11 @@ var personnelPolicies = {
   ]
 };
 
-// src/templates/controls/data/code-of-conduct.ts
-var codeOfConduct = {
-  id: "code_of_conduct",
-  name: "Code of Conduct",
-  description: "The organization demonstrates a commitment to integrity and ethical values.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "code_of_conduct_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "ethics_compliance_documentation"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC1"
-    }
-  ]
-};
-
-// src/templates/controls/data/information-quality.ts
-var informationQuality = {
-  id: "information_quality",
-  name: "Information Quality",
-  description: "The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "data_quality_documentation"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC2"
-    }
-  ]
-};
-
-// src/templates/controls/data/internal-communication.ts
-var internalCommunication = {
-  id: "internal_communication",
-  name: "Internal Communication",
-  description: "The organization internally communicates information, including objectives and responsibilities for internal control.",
+// src/templates/controls/data/policy-implementation.ts
+var policyImplementation = {
+  id: "policy_implementation",
+  name: "Policy Implementation",
+  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
   mappedArtifacts: [
     {
       type: "policy",
@@ -7492,36 +8021,36 @@ var internalCommunication = {
     },
     {
       type: "evidence",
-      evidenceId: "communication_records"
+      evidenceId: "policy_implementation_records"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "CC2"
+      requirementId: "CC5"
     }
   ]
 };
 
-// src/templates/controls/data/external-communication.ts
-var externalCommunication = {
-  id: "external_communication",
-  name: "External Communication",
-  description: "The organization communicates with external parties regarding matters affecting the functioning of internal control.",
+// src/templates/controls/data/privacy-notice.ts
+var privacyNotice2 = {
+  id: "privacy_notice",
+  name: "Privacy Notice",
+  description: "The entity provides notice about the collection, use, and disclosure of personal information.",
   mappedArtifacts: [
     {
       type: "policy",
-      policyId: "corporate_governance_policy"
+      policyId: "privacy_policy"
     },
     {
       type: "evidence",
-      evidenceId: "external_communication_records"
+      evidenceId: "privacy_notice"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "CC2"
+      requirementId: "P1"
     }
   ]
 };
@@ -7572,420 +8101,6 @@ var riskIdentification = {
   ]
 };
 
-// src/templates/controls/data/fraud-risk-assessment.ts
-var fraudRiskAssessment = {
-  id: "fraud_risk_assessment",
-  name: "Fraud Risk Assessment",
-  description: "The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "risk_management_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "fraud_risk_documentation"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC3"
-    }
-  ]
-};
-
-// src/templates/controls/data/change-management-risk.ts
-var changeManagementRisk = {
-  id: "change_management_risk",
-  name: "Change Management Risk",
-  description: "The organization identifies and assesses changes that could significantly impact the system of internal control.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "change_management_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "change_risk_documentation"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC3"
-    }
-  ]
-};
-
-// src/templates/controls/data/control-monitoring.ts
-var controlMonitoring = {
-  id: "control_monitoring",
-  name: "Control Monitoring",
-  description: "The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "control_testing_documentation"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC4"
-    }
-  ]
-};
-
-// src/templates/controls/data/deficiency-management.ts
-var deficiencyManagement = {
-  id: "deficiency_management",
-  name: "Deficiency Management",
-  description: "The organization evaluates and communicates internal control deficiencies in a timely manner to those responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "risk_management_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "deficiency_management_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC4"
-    }
-  ]
-};
-
-// src/templates/controls/data/control-selection.ts
-var controlSelection = {
-  id: "control_selection",
-  name: "Control Selection",
-  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "control_implementation_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC5"
-    }
-  ]
-};
-
-// src/templates/controls/data/technology-controls.ts
-var technologyControls = {
-  id: "technology_controls",
-  name: "Technology Controls",
-  description: "The organization selects and develops general control activities over technology to support the achievement of objectives.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "technology_control_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC5"
-    }
-  ]
-};
-
-// src/templates/controls/data/policy-implementation.ts
-var policyImplementation = {
-  id: "policy_implementation",
-  name: "Policy Implementation",
-  description: "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "corporate_governance_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "policy_implementation_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC5"
-    }
-  ]
-};
-
-// src/templates/controls/data/access-security.ts
-var accessSecurity = {
-  id: "access_security",
-  name: "Access Security",
-  description: "The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "access_control_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/access-authentication.ts
-var accessAuthentication = {
-  id: "access_authentication",
-  name: "Access Authentication",
-  description: "Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "authentication_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/access-removal.ts
-var accessRemoval = {
-  id: "access_removal",
-  name: "Access Removal",
-  description: "The organization removes access to protected information assets when appropriate.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "access_removal_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/access-review.ts
-var accessReview = {
-  id: "access_review",
-  name: "Access Review",
-  description: "The organization evaluates and manages access to protected information assets on a periodic basis.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "access_review_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/system-account-management.ts
-var systemAccountManagement = {
-  id: "system_account_management",
-  name: "System Account Management",
-  description: "The organization identifies and authenticates system users, devices, and other systems before allowing access.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "account_management_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/access-restrictions.ts
-var accessRestrictions = {
-  id: "access_restrictions",
-  name: "Access Restrictions",
-  description: "The organization restricts physical access to facilities and protected information assets.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "access_control_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "physical_access_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/information-asset-changes.ts
-var informationAssetChanges = {
-  id: "information_asset_changes",
-  name: "Information Asset Changes",
-  description: "The organization manages changes to system components to minimize the risk of unauthorized changes.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "change_management_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "change_management_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/malicious-software-prevention.ts
-var maliciousSoftwarePrevention = {
-  id: "malicious_software_prevention",
-  name: "Malicious Software Prevention",
-  description: "The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "malware_prevention_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC6"
-    }
-  ]
-};
-
-// src/templates/controls/data/infrastructure-monitoring.ts
-var infrastructureMonitoring = {
-  id: "infrastructure_monitoring",
-  name: "Infrastructure Monitoring",
-  description: "To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, and vulnerabilities.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "infrastructure_monitoring_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC7"
-    }
-  ]
-};
-
-// src/templates/controls/data/security-event-response.ts
-var securityEventResponse = {
-  id: "security_event_response",
-  name: "Security Event Response",
-  description: "The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "incident_response_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "incident_response_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC7"
-    }
-  ]
-};
-
-// src/templates/controls/data/security-event-recovery.ts
-var securityEventRecovery = {
-  id: "security_event_recovery",
-  name: "Security Event Recovery",
-  description: "The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "business_continuity_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "recovery_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "CC7"
-    }
-  ]
-};
-
 // src/templates/controls/data/security-event-analysis.ts
 var securityEventAnalysis = {
   id: "security_event_analysis",
@@ -8032,80 +8147,80 @@ var securityEventCommunication = {
   ]
 };
 
-// src/templates/controls/data/confidential-information-classification.ts
-var confidentialInformationClassification = {
-  id: "confidential_information_classification",
-  name: "Confidential Information Classification",
-  description: "The entity classifies information to identify and protect confidential information.",
+// src/templates/controls/data/security-event-recovery.ts
+var securityEventRecovery = {
+  id: "security_event_recovery",
+  name: "Security Event Recovery",
+  description: "The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
   mappedArtifacts: [
     {
       type: "policy",
-      policyId: "classification_policy"
+      policyId: "business_continuity_policy"
     },
     {
       type: "evidence",
-      evidenceId: "data_classification_records"
+      evidenceId: "recovery_records"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "C1"
+      requirementId: "CC7"
     }
   ]
 };
 
-// src/templates/controls/data/access-restrictions-for-confidential-data.ts
-var accessRestrictionsForConfidentialData = {
-  id: "access_restrictions_for_confidential_data",
-  name: "Access Restrictions for Confidential Data",
-  description: "The entity restricts access to confidential information on a need-to-know basis.",
+// src/templates/controls/data/security-event-response.ts
+var securityEventResponse = {
+  id: "security_event_response",
+  name: "Security Event Response",
+  description: "The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
   mappedArtifacts: [
     {
       type: "policy",
-      policyId: "classification_policy"
+      policyId: "incident_response_policy"
     },
     {
       type: "evidence",
-      evidenceId: "access_logs"
+      evidenceId: "incident_response_records"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "C1"
+      requirementId: "CC7"
     }
   ]
 };
 
-// src/templates/controls/data/confidential-data-disposal.ts
-var confidentialDataDisposal = {
-  id: "confidential_data_disposal",
-  name: "Confidential Data Disposal",
-  description: "The entity securely disposes of confidential information when no longer needed.",
+// src/templates/controls/data/system-account-management.ts
+var systemAccountManagement = {
+  id: "system_account_management",
+  name: "System Account Management",
+  description: "The organization identifies and authenticates system users, devices, and other systems before allowing access.",
   mappedArtifacts: [
     {
       type: "policy",
-      policyId: "classification_policy"
+      policyId: "access_control_policy"
     },
     {
       type: "evidence",
-      evidenceId: "disposal_records"
+      evidenceId: "account_management_records"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "C1"
+      requirementId: "CC6"
     }
   ]
 };
 
-// src/templates/controls/data/accuracy-and-completeness.ts
-var accuracyAndCompleteness = {
-  id: "accuracy_and_completeness",
-  name: "Accuracy and Completeness",
-  description: "The entity ensures data is processed accurately and completely.",
+// src/templates/controls/data/technology-controls.ts
+var technologyControls = {
+  id: "technology_controls",
+  name: "Technology Controls",
+  description: "The organization selects and develops general control activities over technology to support the achievement of objectives.",
   mappedArtifacts: [
     {
       type: "policy",
@@ -8113,128 +8228,13 @@ var accuracyAndCompleteness = {
     },
     {
       type: "evidence",
-      evidenceId: "data_validation_records"
+      evidenceId: "technology_control_records"
     }
   ],
   mappedRequirements: [
     {
       frameworkId: "soc2",
-      requirementId: "PI1"
-    }
-  ]
-};
-
-// src/templates/controls/data/input-processing-and-output-controls.ts
-var inputProcessingAndOutputControls = {
-  id: "input_processing_and_output_controls",
-  name: "Input, Processing, and Output Controls",
-  description: "The entity validates the completeness and accuracy of data throughout processing.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "data_processing_logs"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "PI1"
-    }
-  ]
-};
-
-// src/templates/controls/data/exception-handling.ts
-var exceptionHandling = {
-  id: "exception_handling",
-  name: "Exception Handling",
-  description: "The entity identifies and resolves processing exceptions in a timely manner.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "information_security_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "exception_logs"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "PI1"
-    }
-  ]
-};
-
-// src/templates/controls/data/privacy-notice.ts
-var privacyNotice2 = {
-  id: "privacy_notice",
-  name: "Privacy Notice",
-  description: "The entity provides notice about the collection, use, and disclosure of personal information.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "privacy_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "privacy_notice"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "P1"
-    }
-  ]
-};
-
-// src/templates/controls/data/choice-and-consent.ts
-var choiceAndConsent = {
-  id: "choice_and_consent",
-  name: "Choice and Consent",
-  description: "The entity obtains consent for personal information where required by policy or law.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "privacy_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "consent_records"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "P1"
-    }
-  ]
-};
-
-// src/templates/controls/data/data-retention-and-disposal.ts
-var dataRetentionAndDisposal = {
-  id: "data_retention_and_disposal",
-  name: "Data Retention and Disposal",
-  description: "The entity retains personal information for only as long as needed and disposes of it securely.",
-  mappedArtifacts: [
-    {
-      type: "policy",
-      policyId: "privacy_policy"
-    },
-    {
-      type: "evidence",
-      evidenceId: "retention_schedules"
-    }
-  ],
-  mappedRequirements: [
-    {
-      frameworkId: "soc2",
-      requirementId: "P1"
+      requirementId: "CC5"
     }
   ]
 };

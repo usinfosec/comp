@@ -49,9 +49,6 @@ export const updateEvidenceUrls = authActionClient
 				data: {
 					additionalUrls: urls,
 				},
-				include: {
-					evidence: true,
-				},
 			});
 
 			return {

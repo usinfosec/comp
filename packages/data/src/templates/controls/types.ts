@@ -1,35 +1,35 @@
 import { FrameworkId } from "../../static/frameworks/types";
-import { allRequirementIdsByFramework } from "../../static/requirements/types";
-import { EvidenceId } from "../evidence";
-import { PolicyId } from "../policies";
+import { AllRequirementIdsByFramework } from "../../static/requirements/types";
+import { TemplateEvidenceId } from "../evidence";
+import { TemplatePolicyId } from "../policies";
 
 /**
  * Represents an artifact associated with a control
  * that can be used to demonstrate compliance.
  */
-export type Artifact =
+export type TemplateArtifact =
 	| {
 			type: "policy";
-			policyId: PolicyId;
+			policyId: TemplatePolicyId;
 	  }
 	| {
 			type: "evidence";
-			evidenceId: EvidenceId;
+			evidenceId: TemplateEvidenceId;
 	  };
 
 /**
  * Represents a requirement that a control addresses.
  */
-export type Requirement<T extends FrameworkId = FrameworkId> = {
+export type TemplateRequirement<T extends FrameworkId = FrameworkId> = {
 	frameworkId: T;
-	requirementId: allRequirementIdsByFramework[T];
+	requirementId: AllRequirementIdsByFramework[T];
 };
 
 /**
  * Represents a security or compliance control that organizations
  * implement to address specific requirements.
  */
-export interface Control {
+export interface TemplateControl {
 	/** Unique identifier for the control */
 	id: string;
 	/** Display name of the control */
@@ -37,12 +37,7 @@ export interface Control {
 	/** Detailed explanation of what this control entails */
 	description: string;
 	/** List of artifacts used to demonstrate implementation of this control */
-	mappedArtifacts: Artifact[];
+	mappedArtifacts: TemplateArtifact[];
 	/** List of requirements this control addresses */
-	mappedRequirements: Requirement[];
+	mappedRequirements: TemplateRequirement[];
 }
-
-/**
- * An array of Control objects for a specific framework.
- */
-export type Controls = Control[];

@@ -23,10 +23,10 @@ export type SingleFrameworkRequirements<A extends string = string> = Record<
 
 export type AllRequirements = {
 	[K in FrameworkId]: SingleFrameworkRequirements<
-		allRequirementIdsByFramework[K]
+		AllRequirementIdsByFramework[K]
 	>;
 };
 
-export type allRequirementIdsByFramework = {
+export type AllRequirementIdsByFramework = {
 	soc2: soc2RequirementIds;
 };
