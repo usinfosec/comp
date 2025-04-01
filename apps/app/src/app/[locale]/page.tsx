@@ -11,8 +11,8 @@ export default async function RootPage() {
     redirect("/auth");
   }
 
-  if (session.user?.organizationId) {
-    redirect(`/${session.user.organizationId}/overview`);
+  if (session?.session?.activeOrganizationId) {
+    redirect(`/${session.session.activeOrganizationId}/overview`);
   }
 
   redirect("/setup");

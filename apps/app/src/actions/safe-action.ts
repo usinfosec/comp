@@ -39,15 +39,22 @@ export const actionClientWithMeta = createSafeActionClient({
 
 export const authActionClient = actionClientWithMeta
 	.use(async ({ next, clientInput }) => {
-		const session = await auth.api.getSession({
+		const response = await auth.api.getSession({
 			headers: await headers(),
 		});
+
+		const { session, user } = response ?? {};
 
 		if (!session) {
 			throw new Error("Unauthorized");
 		}
 
-		const result = await next({ ctx: {} });
+		const result = await next({
+			ctx: {
+				user: user,
+				session: session,
+			},
+		});
 
 		if (process.env.NODE_ENV === "development") {
 			logger("Input ->", clientInput as string);
