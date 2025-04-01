@@ -19,7 +19,6 @@ export const getAllOrganizationControlRequirements = authActionClient
   })
   .action(async ({ ctx, parsedInput }) => {
     const { user } = ctx;
-    const { search } = parsedInput;
 
     if (!user.organizationId) {
       return {
@@ -29,14 +28,12 @@ export const getAllOrganizationControlRequirements = authActionClient
 
     try {
       const organizationControlRequirements =
-        await db.organizationControlRequirement.findMany({
+        await db.control.findMany({
           where: {
-            organizationControl: {
-              organizationId: user.organizationId,
-            },
+            organizationId: user.organizationId,
           },
           include: {
-            organizationPolicy: {
+            organization: {
               include: {
                 policy: true,
               },
