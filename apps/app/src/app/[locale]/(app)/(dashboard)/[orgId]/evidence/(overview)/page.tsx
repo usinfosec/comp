@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
 import { cache, Suspense } from "react";
 import { db } from "@bubba/db";
@@ -8,6 +8,7 @@ import { setStaticParamsLocale } from "next-international/server";
 import { EvidenceStatusChart } from "./components/evidence-status-chart";
 import { EvidenceAssigneeChart } from "./components/evidence-assignee-chart";
 import Loading from "./loading";
+import { headers } from "next/headers";
 
 export default async function EvidenceOverview({
   params,
@@ -32,7 +33,9 @@ export default async function EvidenceOverview({
 }
 
 const getEvidenceOverview = cache(async () => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.organizationId) {
     return redirect("/");

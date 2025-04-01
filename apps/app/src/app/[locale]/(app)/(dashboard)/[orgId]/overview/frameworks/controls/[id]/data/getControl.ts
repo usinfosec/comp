@@ -1,8 +1,11 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
+import { headers } from "next/headers";
 
 export const getControl = async (id: string) => {
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
 	if (!session) {
 		return {

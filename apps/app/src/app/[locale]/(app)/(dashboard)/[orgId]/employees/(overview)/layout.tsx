@@ -1,10 +1,11 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { cache, Suspense } from "react";
 import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
+import { headers } from "next/headers";
 
 export default async function Layout({
   children,
@@ -12,7 +13,9 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const t = await getI18n();
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
   const orgId = user?.organizationId;
 
@@ -71,7 +74,10 @@ export default async function Layout({
 }
 
 const getEmployeesOverview = cache(async () => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const orgId = session?.user.organizationId;
 
   const employees = await db.employee.findMany({

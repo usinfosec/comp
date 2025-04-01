@@ -1,17 +1,21 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
 import { appErrors, type ActionResponse } from "./types";
 
 import type { Test } from "../../types";
+import { headers } from "next/headers";
 
 export async function getTest(input: { testId: string }): Promise<
 	ActionResponse<Test>
 > {
 	const { testId } = input;
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	const organizationId = session?.user.organizationId;
 
 	if (!organizationId) {

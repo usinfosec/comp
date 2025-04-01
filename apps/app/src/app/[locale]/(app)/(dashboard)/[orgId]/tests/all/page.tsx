@@ -1,9 +1,10 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { TestsList } from "./components/TestsList";
+import { headers } from "next/headers";
 
 export default async function TestsPage({
   params,
@@ -13,7 +14,10 @@ export default async function TestsPage({
   const { locale } = await params;
   setStaticParamsLocale(locale);
 
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const organizationId = session?.user.organizationId;
 
   if (!organizationId) {

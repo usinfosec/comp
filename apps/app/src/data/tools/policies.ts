@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
 import { tool } from "ai";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 export function getPolicyTools() {
@@ -16,13 +17,15 @@ export const getPolicies = tool({
 		status: z.enum(["draft", "published"]).optional(),
 	}),
 	execute: async ({ status }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
 		if (!session?.user.organizationId) {
 			return { error: "Unauthorized" };
 		}
 
-		const policies = await db.organizationPolicy.findMany({
+		const policies = await db.policy.findMany({
 			where: { organizationId: session.user.organizationId, status },
 			select: {
 				id: true,
@@ -57,13 +60,15 @@ export const getPolicyContent = tool({
 		id: z.string(),
 	}),
 	execute: async ({ id }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
 		if (!session?.user.organizationId) {
 			return { error: "Unauthorized" };
 		}
 
-		const policy = await db.organizationPolicy.findUnique({
+		const policy = await db.policy.findUnique({
 			where: { id, organizationId: session.user.organizationId },
 			select: {
 				content: true,

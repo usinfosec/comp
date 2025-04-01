@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
 import { Departments, RiskStatus, RiskCategory } from "@bubba/db/types";
 import { tool } from "ai";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 export function getRiskTools() {
@@ -26,7 +27,9 @@ export const getRisks = tool({
 		owner: z.string().optional(),
 	}),
 	execute: async ({ status, department, category, owner }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
 		if (!session?.user.organizationId) {
 			return { error: "Unauthorized" };
@@ -66,7 +69,9 @@ export const getRiskById = tool({
 		id: z.string(),
 	}),
 	execute: async ({ id }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
 		if (!session?.user.organizationId) {
 			return { error: "Unauthorized" };
