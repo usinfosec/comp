@@ -48,36 +48,36 @@ const getPoliciesOverview = async () => {
 			policiesByAssignee,
 			policiesByAssigneeStatus,
 		] = await Promise.all([
-			tx.organizationPolicy.count({
+			tx.policy.count({
 				where: {
 					organizationId,
 				},
 			}),
-			tx.organizationPolicy.count({
+			tx.policy.count({
 				where: {
 					organizationId,
 					status: "published",
 				},
 			}),
-			tx.organizationPolicy.count({
+			tx.policy.count({
 				where: {
 					organizationId,
 					status: "draft",
 				},
 			}),
-			tx.organizationPolicy.count({
+			tx.policy.count({
 				where: {
 					organizationId,
 					status: "archived",
 				},
 			}),
-			tx.organizationPolicy.count({
+			tx.policy.count({
 				where: {
 					organizationId,
 					status: "needs_review",
 				},
 			}),
-			tx.organizationPolicy.groupBy({
+			tx.policy.groupBy({
 				by: ["ownerId"],
 				_count: true,
 				where: {
@@ -85,7 +85,7 @@ const getPoliciesOverview = async () => {
 					ownerId: { not: null },
 				},
 			}),
-			tx.organizationPolicy.findMany({
+			tx.policy.findMany({
 				where: {
 					organizationId,
 					ownerId: { not: null },
