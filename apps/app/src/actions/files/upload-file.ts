@@ -10,7 +10,6 @@ import { UPLOAD_TYPE } from "@/actions/types";
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
   throw new Error("AWS credentials are not set");
 }
-type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -102,111 +101,6 @@ export const uploadFile = authActionClient
             fileUrls: {
               push: fileUrl,
             },
-          },
-        });
-
-        return {
-          success: true,
-          data: {
-            uploadUrl,
-            fileUrl,
-          },
-        } as const;
-      }
-
-      if (uploadType === UPLOAD_TYPE.riskTask) {
-        const taskId = parsedInput.taskId;
-        const task = await db.riskMitigationTask.findFirst({
-          where: {
-            id: taskId,
-            organizationId: session.activeOrganizationId,
-          },
-        });
-
-        if (!task) {
-          return {
-            success: false,
-            error: "Task not found",
-          } as const;
-        }
-
-        const timestamp = Date.now();
-        const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
-        key = `${session.activeOrganizationId}/tasks/${taskId}/${timestamp}-${sanitizedFileName}`;
-
-        const command = new PutObjectCommand({
-          Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: key,
-          ContentType: fileType,
-        });
-
-        const uploadUrl = await getSignedUrl(s3Client, command, {
-          expiresIn: 3600, // URL expires in 1 hour
-        });
-
-        const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
-
-        await db.taskAttachment.create({
-          data: {
-            riskMitigationTaskId: taskId,
-            name: sanitizedFileName,
-            fileUrl,
-            fileKey: key,
-            organizationId: session.activeOrganizationId,
-            ownerId: user.id,
-          },
-        });
-
-        return {
-          success: true,
-          data: {
-            uploadUrl,
-            fileUrl,
-          },
-        } as const;
-      }
-
-      if (uploadType === UPLOAD_TYPE.vendorTask) {
-        const taskId = parsedInput.taskId;
-        const task = await db.vendorTask.findFirst({
-          where: {
-            id: taskId,
-            organizationId: session.activeOrganizationId,
-          },
-        });
-
-        if (!task) {
-          return {
-            success: false,
-            error: "Vendor task not found",
-          } as const;
-        }
-
-        const timestamp = Date.now();
-        const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
-        key = `${session.activeOrganizationId}/vendor-tasks/${taskId}/${timestamp}-${sanitizedFileName}`;
-
-        const command = new PutObjectCommand({
-          Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: key,
-          ContentType: fileType,
-        });
-
-        const uploadUrl = await getSignedUrl(s3Client, command, {
-          expiresIn: 3600, // URL expires in 1 hour
-        });
-
-        const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
-
-        await db.vendorTaskAttachment.create({
-          data: {
-            taskId: taskId,
-            vendorId: task.vendorId,
-            name: sanitizedFileName,
-            fileUrl,
-            fileKey: key,
-            organizationId: session.activeOrganizationId,
-            ownerId: user.id,
           },
         });
 
