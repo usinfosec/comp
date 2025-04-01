@@ -17,24 +17,22 @@ interface FrameworkWithCompliance {
 
 /**
  * Checks if a control is compliant based on its artifacts
- * @param control - The control to check
- * @returns boolean indicating if the control is compliant
+ * @param artifacts - The artifacts to check
+ * @returns boolean indicating if all artifacts are compliant
  */
 const isControlCompliant = (
-  control: Control & {
-    artifacts: (Artifact & {
-      policy: Policy | null;
-      evidence: Evidence | null;
-    })[];
-  }
+  artifacts: (Artifact & {
+    policy: Policy | null;
+    evidence: Evidence | null;
+  })[]
 ) => {
   // If there are no artifacts, the control is not compliant
-  if (!control.artifacts || control.artifacts.length === 0) {
+  if (!artifacts || artifacts.length === 0) {
     return false;
   }
 
-  const totalArtifacts = control.artifacts.length;
-  const completedArtifacts = control.artifacts.filter((artifact) => {
+  const totalArtifacts = artifacts.length;
+  const completedArtifacts = artifacts.filter((artifact) => {
     if (!artifact) return false;
 
     switch (artifact.type) {
@@ -93,7 +91,7 @@ export async function getFrameworkCategories(
       // Calculate compliance percentage
       const totalControls = controls.length;
       const compliantControls = controls.filter((control) =>
-        isControlCompliant(control)
+        isControlCompliant(control.artifacts)
       ).length;
 
       const compliance =
