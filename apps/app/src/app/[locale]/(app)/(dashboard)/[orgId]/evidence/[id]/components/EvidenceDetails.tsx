@@ -3,13 +3,13 @@
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Skeleton } from "@bubba/ui/skeleton";
 import { CheckCircle2, FileIcon, XCircle } from "lucide-react";
-import { useOrganizationEvidence } from "../hooks/useEvidence";
+import { useEvidence } from "../hooks/useEvidence";
 import type { EvidenceDetailsProps } from "../types";
 import { ReviewSection } from "./ReviewSection";
 import { EditEvidenceForm } from "./EditEvidenceForm";
 
 export function EvidenceDetails({ id }: EvidenceDetailsProps) {
-	const { data, isLoading, mutate } = useOrganizationEvidence({ id });
+	const { data, isLoading, mutate } = useEvidence({ id });
 
 	if (isLoading) {
 		return (
@@ -36,7 +36,7 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 				<FileIcon className="h-4 w-4" />
 				<AlertTitle>
 					<div className="flex items-center justify-between gap-2">
-						{evidence.evidence.name} Evidence
+						{evidence.name} Evidence
 						<div className="flex items-center gap-2">
 							{evidence.published ? (
 								<div className="flex items-center gap-2">
