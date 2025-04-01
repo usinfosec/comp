@@ -2,12 +2,7 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import type {
-	Departments,
-	Employee,
-	EmployeeTrainingVideos,
-	Policy,
-} from "@bubba/db/types";
+import type { Departments, Employee, Policy } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import {
@@ -54,9 +49,7 @@ interface EmployeeDetailsProps {
 	employeeId: string;
 	employee: Employee;
 	policies: Policy[];
-	trainingVideos: (EmployeeTrainingVideos & {
-		metadata: TrainingVideo | undefined;
-	})[];
+	trainingVideos: TrainingVideo[];
 }
 
 export function EmployeeDetails({
@@ -337,7 +330,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										const isCompleted = video.completedBy.includes(employee.id);
+										// const isCompleted = video.completedBy.includes(employee.id);
 
 										return (
 											<div
@@ -345,12 +338,12 @@ export function EmployeeDetails({
 												className="flex items-center gap-2 border p-3 justify-between"
 											>
 												<h2 className="flex items-center gap-2">
-													{isCompleted ? (
+													{/* {isCompleted ? (
 														<CheckCircle2 className="h-4 w-4 text-green-500" />
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
-													)}
-													{video.metadata?.title}
+													)} */}
+													{video.title}
 												</h2>
 											</div>
 										);
