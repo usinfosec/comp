@@ -16,14 +16,16 @@ export const revalidateUpload = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { riskId, taskId } = parsedInput;
-    const { user } = ctx;
+    const { session } = ctx;
 
-    if (!user.id || !user.organizationId) {
-      throw new Error("Invalid user input");
+    if (!session.activeOrganizationId) {
+      throw new Error("Unauthorized");
     }
 
-    revalidatePath(`/${user.organizationId}/risk/${riskId}`);
-    revalidatePath(`/${user.organizationId}/risk/${riskId}/tasks/${taskId}`);
+    revalidatePath(`/${session.activeOrganizationId}/risk/${riskId}`);
+    revalidatePath(
+      `/${session.activeOrganizationId}/risk/${riskId}/tasks/${taskId}`
+    );
     revalidateTag("risk-cache");
 
     return {

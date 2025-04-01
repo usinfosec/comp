@@ -19,10 +19,12 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 // Use correct types from the database
 import { trainingVideos } from "@bubba/data";
-import { Employee, Policy } from "@bubba/db/types";
+import { Member, Policy, User } from "@bubba/db/types";
 
 interface EmployeeCompletionChartProps {
-	employees: Employee[];
+	employees: (Member & {
+		user: User;
+	})[];
 	policies: Policy[];
 }
 
@@ -97,8 +99,8 @@ export function EmployeeCompletionChart({
 
 			return {
 				id: employee.id,
-				name: employee.name || employee.email.split("@")[0],
-				email: employee.email,
+				name: employee.user.name || employee.user.email.split("@")[0],
+				email: employee.user.email,
 				policiesCompleted: policiesCompletedCount,
 				policiesPending: policiesPendingCount,
 				trainingsCompleted: trainingsCompletedCount,
