@@ -8,47 +8,46 @@ import { TestDetails } from "./components/TestDetails";
 import { headers } from "next/headers";
 
 export default async function TestDetailsPage({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string; testId: string }>;
+	params: Promise<{ locale: string; testId: string }>;
 }) {
-  const { locale, testId } = await params;
-  setStaticParamsLocale(locale);
+	const { locale, testId } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-    ;
-  const organizationId = session?.session.activeOrganizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+	const organizationId = session?.session.activeOrganizationId;
 
-  if (!organizationId) {
-    redirect("/");
-  }
+	if (!organizationId) {
+		redirect("/");
+	}
 
-  const users = await getUsers(organizationId);
+	const users = await getUsers(organizationId);
 
-  return <TestDetails testId={testId} users={users} />;
+	return <TestDetails testId={testId} users={users} />;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string; testId: string }>;
+	params: Promise<{ locale: string; testId: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+	const { locale } = await params;
 
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("tests.test_details"),
-  };
+	return {
+		title: t("tests.test_details"),
+	};
 }
 
 const getUsers = async (organizationId: string) => {
-  const users = await db.user.findMany({
-    where: { organizationId: organizationId },
-  });
+	const users = await db.user.findMany({
+		where: { members: { some: { organizationId } } },
+	});
 
-  return users;
+	return users;
 };
