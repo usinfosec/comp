@@ -28,6 +28,7 @@ import TableRow from "@tiptap/extension-table-row";
 import { Markdown } from "tiptap-markdown";
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
+import { Extensions } from "@tiptap/react";
 
 const aiHighlight = AIHighlight;
 const placeholder = Placeholder;
@@ -185,7 +186,7 @@ const tableHeader = TableHeader.configure({
 	},
 });
 
-export const defaultExtensions = [
+export const defaultExtensions: Extensions = [
 	starterKit,
 	placeholder,
 	tiptapLink,
