@@ -3,89 +3,105 @@
 import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { headers } from "next/headers";
+import { ArtifactType } from "@prisma/client";
 
 export interface ControlProgressResponse {
-	total: number;
-	completed: number;
-	progress: number;
-	byType: {
-		[key: string]: {
-			total: number;
-			completed: number;
-		};
-	};
+  total: number;
+  completed: number;
+  progress: number;
+  byType: {
+    [key: string]: {
+      total: number;
+      completed: number;
+    };
+  };
 }
 
 export const getOrganizationControlProgress = async (controlId: string) => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!session) {
-		return {
-			error: "Unauthorized",
-		};
-	}
+  if (!session) {
+    return {
+      error: "Unauthorized",
+    };
+  }
 
-	const requirements = await db.controlRequirement.findMany({
-		where: {
-			controlId: controlId,
-		},
-		include: {
-			policy: true,
-			evidence: true,
-		},
-	});
+  // Get the control with its artifacts
+  const control = await db.control.findUnique({
+    where: {
+      id: controlId,
+    },
+    include: {
+      artifacts: {
+        include: {
+          policy: true,
+          evidence: true,
+        },
+      },
+    },
+  });
 
-	const progress: ControlProgressResponse = {
-		total: requirements.length,
-		completed: 0,
-		progress: 0,
-		byType: {},
-	};
+  if (!control) {
+    return {
+      error: "Control not found",
+    };
+  }
 
-	for (const requirement of requirements) {
-		// Initialize type counters if not exists
-		if (!progress.byType[requirement.type]) {
-			progress.byType[requirement.type] = {
-				total: 0,
-				completed: 0,
-			};
-		}
+  const artifacts = control.artifacts;
 
-		progress.byType[requirement.type].total++;
+  const progress: ControlProgressResponse = {
+    total: artifacts.length,
+    completed: 0,
+    progress: 0,
+    byType: {},
+  };
 
-		// Check completion based on requirement type
-		let isCompleted = false;
-		switch (requirement.type) {
-			case "policy":
-				isCompleted = requirement.policy?.status === "published";
-				break;
-			case "file":
-				isCompleted = !!requirement.fileUrl;
-				break;
-			case "evidence":
-				isCompleted = requirement.evidence?.published ?? false;
-				break;
-			default:
-				isCompleted = requirement.published;
-		}
+  for (const artifact of artifacts) {
+    // Initialize type counters if not exists
+    if (!progress.byType[artifact.type]) {
+      progress.byType[artifact.type] = {
+        total: 0,
+        completed: 0,
+      };
+    }
 
-		if (isCompleted) {
-			progress.completed++;
-			progress.byType[requirement.type].completed++;
-		}
-	}
+    progress.byType[artifact.type].total++;
 
-	// Calculate overall progress percentage
-	progress.progress =
-		progress.total > 0
-			? Math.round((progress.completed / progress.total) * 100)
-			: 0;
+    // Check completion based on artifact type
+    let isCompleted = false;
+    switch (artifact.type) {
+      case ArtifactType.policy:
+        isCompleted = artifact.policy?.status === "published";
+        break;
+      case ArtifactType.evidence:
+        isCompleted = artifact.evidence?.published ?? false;
+        break;
+      case ArtifactType.procedure:
+      case ArtifactType.training:
+        // These types might need special handling based on your business logic
+        isCompleted = false;
+        break;
+      default:
+        isCompleted = false;
+    }
 
-	return {
-		data: {
-			progress,
-		},
-	};
+    if (isCompleted) {
+      progress.completed++;
+      progress.byType[artifact.type].completed++;
+    }
+  }
+
+  // Calculate overall progress percentage
+  progress.progress =
+    progress.total > 0
+      ? Math.round((progress.completed / progress.total) * 100)
+      : 0;
+
+  return {
+    data: {
+      progress,
+    },
+  };
 };
