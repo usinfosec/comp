@@ -7,10 +7,10 @@ model Task {
     createdAt   DateTime   @default(now())
     updatedAt   DateTime   @updatedAt
 
-    vendorId       String
-    vendor         Vendor       @relation(fields: [vendorId], references: [id])
-    riskId         String
-    risk           Risk         @relation(fields: [riskId], references: [id])
+    vendorId       String?
+    vendor         Vendor?      @relation(fields: [vendorId], references: [id])
+    riskId         String?
+    risk           Risk?        @relation(fields: [riskId], references: [id])
     userId         String
     user           User         @relation(fields: [userId], references: [id])
     organizationId String
