@@ -34,15 +34,15 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 	});
 
 	const onRowClick = (requirement: RequirementTableData) => {
-		switch (requirement.type) {
+		switch (requirement.policy ? "policy" : "evidence") {
 			case "policy":
-				if (requirement.policyId) {
-					router.push(`/${orgId}/policies/all/${requirement.policyId}`);
+				if (requirement.policy?.id) {
+					router.push(`/${orgId}/policies/all/${requirement.policy.id}`);
 				}
 				break;
 			case "evidence":
-				if (requirement.evidenceId) {
-					router.push(`/${orgId}/evidence/${requirement.evidenceId}`);
+				if (requirement.evidence?.id) {
+					router.push(`/${orgId}/evidence/${requirement.evidence.id}`);
 				}
 				break;
 			default:
