@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import type { FrameworkCategories } from "../data/getFrameworkCategories";
+import type { FrameworkCategories } from "../data/getFrameworkRequirements";
 interface FrameworkOverviewProps {
 	organizationCategories: FrameworkCategories;
 	organizationFramework: OrganizationFramework & { framework: Framework };
