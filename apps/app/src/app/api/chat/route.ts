@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { model, type modelID } from "@/hooks/ai/providers";
 import { streamText, type UIMessage } from "ai";
 import { tools } from "@/data/tools";

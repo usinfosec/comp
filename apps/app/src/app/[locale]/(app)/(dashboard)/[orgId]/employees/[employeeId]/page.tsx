@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
 import { trainingVideos as trainingVideosData } from "@bubba/data";
 import { db } from "@bubba/db";

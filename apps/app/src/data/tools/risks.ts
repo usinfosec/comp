@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { Departments, RiskStatus, RiskCategory } from "@bubba/db/types";
 import { tool } from "ai";

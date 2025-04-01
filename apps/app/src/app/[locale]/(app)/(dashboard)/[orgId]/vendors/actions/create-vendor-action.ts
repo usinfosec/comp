@@ -5,7 +5,7 @@ import { z } from "zod";
 import type { ActionResponse } from "@/types/actions";
 import { VendorStatus, VendorCategory, type Vendor } from "@bubba/db/types";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { headers } from "next/headers";
 

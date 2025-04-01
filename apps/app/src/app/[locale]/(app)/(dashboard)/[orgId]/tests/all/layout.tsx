@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { headers } from "next/headers";

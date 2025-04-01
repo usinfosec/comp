@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { headers } from "next/headers";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";

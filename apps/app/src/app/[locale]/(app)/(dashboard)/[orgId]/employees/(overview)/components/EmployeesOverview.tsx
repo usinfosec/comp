@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
 import { headers } from "next/headers";

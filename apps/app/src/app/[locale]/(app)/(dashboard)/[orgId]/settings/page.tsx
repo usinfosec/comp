@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
 import { UpdateOrganizationWebsite } from "@/components/forms/organization/update-organization-website";

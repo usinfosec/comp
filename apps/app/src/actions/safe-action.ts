@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { logger } from "@/utils/logger";
 import { client } from "@bubba/kv";
 import { Ratelimit } from "@upstash/ratelimit";

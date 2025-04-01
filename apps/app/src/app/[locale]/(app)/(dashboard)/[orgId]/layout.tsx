@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { AnimatedLayout } from "@/components/animated-layout";

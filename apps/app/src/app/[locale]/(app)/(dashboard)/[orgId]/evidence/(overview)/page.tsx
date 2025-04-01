@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { redirect } from "next/navigation";
 import { cache, Suspense } from "react";
 import { db } from "@bubba/db";

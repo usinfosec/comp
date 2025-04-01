@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { redirect } from "next/navigation";
 import { SingleControl } from "./components/SingleControl";
 import { getControl } from "./data/getControl";

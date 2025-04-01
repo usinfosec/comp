@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { type Departments, Prisma, type RiskStatus } from "@bubba/db/types";
 import { headers } from "next/headers";

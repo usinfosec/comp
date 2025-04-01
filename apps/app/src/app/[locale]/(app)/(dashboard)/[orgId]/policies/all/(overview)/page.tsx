@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getServerColumnHeaders } from "@/components/tables/policies/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";

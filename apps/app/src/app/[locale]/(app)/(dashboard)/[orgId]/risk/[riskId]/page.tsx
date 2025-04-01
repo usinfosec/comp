@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { Loading } from "@/components/frameworks/loading";
 import { InherentRiskChart } from "@/components/risks/charts/inherent-risk-chart";
 import { ResidualRiskChart } from "@/components/risks/charts/residual-risk-chart";

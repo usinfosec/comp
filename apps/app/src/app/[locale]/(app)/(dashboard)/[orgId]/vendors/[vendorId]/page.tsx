@@ -7,7 +7,7 @@ import {
   NoTasks,
 } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
 import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { Loading } from "@/components/frameworks/loading";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
