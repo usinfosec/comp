@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/react";
+import type { Extension } from "@tiptap/core";
 import {
 	CheckSquare,
 	Code,
@@ -26,15 +26,6 @@ export const suggestionItems = createSuggestionItems([
 				.deleteRange(range)
 				.toggleNode("paragraph", "paragraph")
 				.run();
-		},
-	},
-	{
-		title: "To-do List",
-		description: "Track tasks with a to-do list.",
-		searchTerms: ["todo", "task", "list", "check", "checkbox"],
-		icon: <CheckSquare size={18} />,
-		command: ({ editor, range }) => {
-			editor.chain().focus().deleteRange(range).toggleTaskList().run();
 		},
 	},
 	{
@@ -119,39 +110,11 @@ export const suggestionItems = createSuggestionItems([
 		command: ({ editor, range }) =>
 			editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
 	},
-	{
-		title: "Youtube",
-		description: "Embed a Youtube video.",
-		searchTerms: ["video", "youtube", "embed"],
-		icon: <Youtube size={18} />,
-		command: ({ editor, range }) => {
-			const videoLink = prompt("Please enter Youtube Video Link");
-			//From https://regexr.com/3dj5t
-			const ytregex = new RegExp(
-				/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
-			);
-
-			if (videoLink && ytregex.test(videoLink)) {
-				editor
-					.chain()
-					.focus()
-					.deleteRange(range)
-					.setYoutubeVideo({
-						src: videoLink,
-					})
-					.run();
-			} else {
-				if (videoLink !== null) {
-					alert("Please enter a correct Youtube Video Link");
-				}
-			}
-		},
-	},
 ]);
 
-export const slashCommand: Extension = Command.configure({
+export const slashCommand = Command.configure({
 	suggestion: {
 		items: () => suggestionItems,
 		render: renderItems,
 	},
-});
+}) as Extension;
