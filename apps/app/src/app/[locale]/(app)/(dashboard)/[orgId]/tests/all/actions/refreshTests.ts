@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
-import { getIntegrationHandler } from "@bubba/integrations";
 import { decrypt } from "@bubba/app/src/lib/encryption";
+import { db } from "@bubba/db";
 import type { DecryptFunction } from "@bubba/integrations";
+import { getIntegrationHandler } from "@bubba/integrations";
 
 export const refreshTestsAction = authActionClient
 	.metadata({
@@ -15,15 +15,15 @@ export const refreshTestsAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 
-		if (!user.id || !user.organizationId) {
+		if (!session?.activeOrganizationId || !session.activeOrganizationId) {
 			throw new Error("Invalid user input");
 		}
 
 		const integrationsTable = await db.integration.findMany({
 			where: {
-				organizationId: user.organizationId,
+				organizationId: session.activeOrganizationId,
 			},
 		});
 

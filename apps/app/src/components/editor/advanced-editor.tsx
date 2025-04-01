@@ -1,5 +1,6 @@
 "use client";
 
+import { Separator } from "@bubba/ui/separator";
 import {
 	EditorCommand,
 	EditorCommandEmpty,
@@ -10,21 +11,20 @@ import {
 	type JSONContent,
 	handleCommandNavigation,
 } from "novel";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
 import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
-import { Separator } from "@bubba/ui/separator";
 
+import { AnyExtension } from "@tiptap/react";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-import { Extensions } from "@tiptap/react";
 
-const extensions: Extensions = [...defaultExtensions, slashCommand];
+const extensions: AnyExtension[] = [...defaultExtensions, slashCommand];
 
 interface AdvancedEditorProps {
 	initialContent?: JSONContent | JSONContent[];
