@@ -4,20 +4,20 @@ import { headers } from "next/headers";
 import { getServersideSession } from "@/lib/get-session";
 
 export const useUsers = cache(async () => {
-  const session = await getServersideSession({
-    headers: await headers(),
-  });
+	const session = await getServersideSession({
+		headers: await headers(),
+	});
 
-  if (!session || !session.session.activeOrganizationId) {
-    return [];
-  }
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
 
-  const users = await db.member.findMany({
-    where: { organizationId: session.session.activeOrganizationId },
-    include: {
-      user: true,
-    },
-  });
+	const users = await db.member.findMany({
+		where: { organizationId: session.session.activeOrganizationId },
+		include: {
+			user: true,
+		},
+	});
 
-  return users;
+	return users.map((user) => user.user);
 });
