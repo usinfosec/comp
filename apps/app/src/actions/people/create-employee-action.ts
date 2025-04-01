@@ -4,6 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { authActionClient } from "../safe-action";
 import { createEmployeeSchema } from "../schema";
 import type { ActionResponse } from "../types";
+import { completeEmployeeCreation } from "@/lib/db/employee";
 
 export const createEmployeeAction = authActionClient
 	.schema(createEmployeeSchema)
