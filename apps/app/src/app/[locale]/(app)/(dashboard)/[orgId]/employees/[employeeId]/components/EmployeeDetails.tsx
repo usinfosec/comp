@@ -2,7 +2,14 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import type { Departments, Employee, Policy } from "@bubba/db/types";
+import { TrainingVideo } from "@bubba/data";
+import type {
+	Departments,
+	EmployeeTrainingVideoCompletion,
+	Member,
+	Policy,
+	User,
+} from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import {
@@ -20,6 +27,7 @@ import {
 	SelectValue,
 } from "@bubba/ui/select";
 import { Skeleton } from "@bubba/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
@@ -27,8 +35,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
-import { TrainingVideo } from "@bubba/data";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -47,15 +53,11 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 
 interface EmployeeDetailsProps {
 	employeeId: string;
-	employee: Employee;
+	employee: Member & {
+		user: User;
+	};
 	policies: Policy[];
-	trainingVideos: {
-		metadata: TrainingVideo | undefined;
-		id: string;
-		organizationId: string;
-		videoId: string;
-		completedBy: string[];
-	}[];
+	trainingVideos: EmployeeTrainingVideoCompletion[];
 }
 
 export function EmployeeDetails({
@@ -196,11 +198,11 @@ export function EmployeeDetails({
 						<div className="grid grid-cols-2 gap-10">
 							<div>
 								<p className="text-sm font-medium mb-1">Name</p>
-								<p className="text-sm">{employee.name}</p>
+								<p className="text-sm">{employee.user.name}</p>
 							</div>
 							<div>
 								<p className="text-sm font-medium mb-1">Email</p>
-								<p className="text-sm">{employee.email}</p>
+								<p className="text-sm">{employee.user.email}</p>
 							</div>
 						</div>
 					</div>
@@ -349,7 +351,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)} */}
-													{video.metadata?.title}
+													{video.id}
 												</h2>
 											</div>
 										);

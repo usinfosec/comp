@@ -72,9 +72,12 @@ const getEmployee = cache(async (employeeId: string) => {
 		redirect("/");
 	}
 
-	const employee = await db.user.findFirst({
+	const employee = await db.member.findFirst({
 		where: {
 			id: employeeId,
+		},
+		include: {
+			user: true,
 		},
 	});
 
