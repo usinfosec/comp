@@ -1,6 +1,5 @@
 "use client";
 
-import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Icons } from "@bubba/ui/icons";
@@ -65,8 +64,6 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
 					{t("common.actions.create")}
 				</Button>
 			</div>
-
-			<CreateTaskSheet />
 		</div>
 	);
 }
