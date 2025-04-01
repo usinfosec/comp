@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
 import { HeadlessService, type IMessage } from "@novu/headless";
-import { useSession } from "@/auth/auth-client";
+import { useSession } from "@bubba/auth";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface Notification {

@@ -3,8 +3,9 @@
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
 import { tasks } from "@trigger.dev/sdk/v3";
+import { auth } from "@bubba/auth";
 import type { createOrganizationTask } from "@/jobs/tasks/organization/create-organization";
-import { db } from "@bubba/db";
+import { headers } from "next/headers";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -16,50 +17,30 @@ export const createOrganizationAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { name, website, frameworks } = parsedInput;
+		const { name, frameworks } = parsedInput;
 		const { id: userId } = ctx.user;
 
-		if (!name || !website) {
-			console.log("Invalid input detected:", { name, website });
+		if (!name) {
+			console.log("Invalid input detected:", { name });
 			throw new Error("Invalid user input");
 		}
 
 		try {
-			const newOrganization = await db.$transaction(async (tx) => {
-				const organization = await tx.organization.create({
-					data: {
-						name,
-						tier: "free",
-						website,
-						members: {
-							create: {
-								userId,
-								role: "owner",
-							},
-						},
-					},
-					select: {
-						id: true,
-						name: true,
-					},
-				});
-
-				await tx.user.update({
-					where: { id: userId },
-					data: { organizationId: organization.id },
-				});
-
-				return organization;
+			const session = await auth.api.getSession({
+				headers: await headers(),
 			});
+
+			if (!session?.session.activeOrganizationId) {
+				throw new Error("User is not part of an organization");
+			}
 
 			const handle = await tasks.trigger<typeof createOrganizationTask>(
 				"create-organization",
 				{
 					userId,
-					fullName: name,
-					website,
+					name,
 					frameworkIds: frameworks,
-					organizationId: newOrganization.id,
+					organizationId: session.session.activeOrganizationId,
 				},
 			);
 
@@ -67,7 +48,7 @@ export const createOrganizationAction = authActionClient
 				success: true,
 				runId: handle.id,
 				publicAccessToken: handle.publicAccessToken,
-				newOrganization,
+				organizationId: session.session.activeOrganizationId,
 			};
 		} catch (error) {
 			console.error("Error during organization update:", error);

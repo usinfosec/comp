@@ -35,7 +35,7 @@ import { Switch } from "@bubba/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useSession } from "@/auth/auth-client";
+import { useSession } from "@bubba/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

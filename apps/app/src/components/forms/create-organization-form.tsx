@@ -3,8 +3,7 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { Framework } from "@bubba/data";
-import type { Organization } from "@bubba/db/types";
+import { frameworks, type FrameworkId } from "@bubba/data";
 import { Button } from "@bubba/ui/button";
 import { Checkbox } from "@bubba/ui/checkbox";
 import { cn } from "@bubba/ui/cn";
@@ -21,11 +20,11 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { Loader2 } from "lucide-react";
-import { useSession } from "@/auth/auth-client";
+import { authClient } from "@bubba/auth";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -34,11 +33,9 @@ import { LogoSpinner } from "../logo-spinner";
 function RealtimeStatus({
   runId,
   publicAccessToken,
-  newOrganization,
 }: {
   runId: string;
   publicAccessToken: string;
-  newOrganization: Pick<Organization, "id" | "name"> | null;
 }) {
   const t = useI18n();
   const router = useRouter();
@@ -54,10 +51,10 @@ function RealtimeStatus({
   });
 
   useEffect(() => {
-    if (run?.status === "COMPLETED" && newOrganization) {
+    if (run?.status === "COMPLETED") {
       router.push("/");
     }
-  }, [run, router, newOrganization]);
+  }, [run, router]);
 
   return (
     <div className="flex flex-col justify-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -76,14 +73,10 @@ function RealtimeStatus({
   );
 }
 
-function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
+function OnboardingClient() {
   const t = useI18n();
-  const { data: session } = useSession();
   const [runId, setRunId] = useState<string | null>(null);
   const [publicAccessToken, setPublicAccessToken] = useState<string | null>(
-    null,
-  );
-  const newOrganizationRef = useRef<Pick<Organization, "id" | "name"> | null>(
     null,
   );
 
@@ -91,7 +84,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
     onSuccess: async (data) => {
       setRunId(data.data?.runId ?? null);
       setPublicAccessToken(data.data?.publicAccessToken ?? null);
-      newOrganizationRef.current = data.data?.newOrganization ?? null;
     },
     onError: () => {
       toast.error(t("common.actions.error"), { duration: 5000 });
@@ -101,16 +93,24 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
   const form = useForm<z.infer<typeof organizationSchema>>({
     resolver: zodResolver(organizationSchema),
     defaultValues: {
-      fullName: session?.user?.name ?? "",
       name: "",
-      website: "",
       frameworks: [],
     },
     mode: "onChange",
   });
 
   const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-    createOrganization.execute(data);
+    const organization = await authClient.organization.create({
+      name: data.name,
+      slug: data.name,
+    })
+
+    console.log(organization)
+
+    createOrganization.execute({
+      ...data,
+    });
+
   };
 
   if (runId && publicAccessToken) {
@@ -120,7 +120,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
           <RealtimeStatus
             runId={runId}
             publicAccessToken={publicAccessToken}
-            newOrganization={newOrganizationRef.current}
           />
         </div>
       </div>
@@ -195,26 +194,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
 
             <FormField
               control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel className="text-sm font-medium">
-                    {t("onboarding.fields.website.label")}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoCorrect="off"
-                      placeholder={t("onboarding.fields.website.placeholder")}
-                      suppressHydrationWarning
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="frameworks"
               render={({ field }) => (
                 <FormItem className="space-y-2">
@@ -226,46 +205,49 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
                       <legend className="sr-only">
                         {t("frameworks.overview.grid.title")}
                       </legend>
-                      {frameworks.map((framework) => (
-                        <label
-                          key={framework.name}
-                          htmlFor={`framework-${framework.name}`}
-                          className={cn(
-                            "relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
-                            field.value.includes(framework.name) &&
-                            "border-primary bg-primary/5",
-                          )}
-                        >
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="font-semibold">
-                                {framework.name}
-                              </h3>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {framework.description}
-                              </p>
-                              <p className="text-xs text-muted-foreground/75 mt-2">
-                                {`${t("frameworks.overview.grid.version")}: ${framework.version}`}
-                              </p>
+                      {Object.entries(frameworks).map(([id, framework]) => {
+                        const frameworkId = id as FrameworkId;
+                        return (
+                          <label
+                            key={frameworkId}
+                            htmlFor={`framework-${frameworkId}`}
+                            className={cn(
+                              "relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+                              field.value.includes(frameworkId) &&
+                              "border-primary bg-primary/5",
+                            )}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h3 className="font-semibold">
+                                  {framework.name}
+                                </h3>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {framework.description}
+                                </p>
+                                <p className="text-xs text-muted-foreground/75 mt-2">
+                                  {`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+                                </p>
+                              </div>
+                              <div>
+                                <Checkbox
+                                  id={`framework-${frameworkId}`}
+                                  checked={field.value.includes(frameworkId)}
+                                  className="mt-1"
+                                  onCheckedChange={(checked) => {
+                                    const newValue = checked
+                                      ? [...field.value, frameworkId]
+                                      : field.value.filter(
+                                        (name) => name !== frameworkId,
+                                      );
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <Checkbox
-                                id={`framework-${framework.name}`}
-                                checked={field.value.includes(framework.name)}
-                                className="mt-1"
-                                onCheckedChange={(checked) => {
-                                  const newValue = checked
-                                    ? [...field.value, framework.name]
-                                    : field.value.filter(
-                                      (name) => name !== framework.name,
-                                    );
-                                  field.onChange(newValue);
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </label>
-                      ))}
+                          </label>
+                        );
+                      })}
                     </fieldset>
                   </FormControl>
                   <FormMessage className="text-xs" />
@@ -291,6 +273,6 @@ function OnboardingClient({ frameworks }: { frameworks: Framework[] }) {
   );
 }
 
-export function Onboarding({ frameworks }: { frameworks: Framework[] }) {
-  return <OnboardingClient frameworks={frameworks} />;
+export function Onboarding() {
+  return <OnboardingClient />;
 }

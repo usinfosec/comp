@@ -27,7 +27,7 @@ import { Input } from "@bubba/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { Loader2 } from "lucide-react";
-import { useSession } from "@/auth/auth-client";
+import { useSession } from "@bubba/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

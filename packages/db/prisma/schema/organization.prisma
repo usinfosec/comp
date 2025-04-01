@@ -5,7 +5,6 @@ model Organization {
   logo      String?
   createdAt DateTime
   metadata  String?
-  website   String
 
   apiKeys            ApiKey[]
   artifacts          Artifact[]

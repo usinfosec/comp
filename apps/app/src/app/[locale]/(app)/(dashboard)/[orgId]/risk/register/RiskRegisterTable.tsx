@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useOrganizationAdmins } from "../../hooks/useOrganizationAdmins";
 import { columns } from "./components/table/RiskRegisterColumns";
 import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
-import { useSession } from "@/auth/auth-client";
+import { useSession } from "@bubba/auth";
 
 type RiskRegisterTableRow = Risk & { owner: User | null };
 
