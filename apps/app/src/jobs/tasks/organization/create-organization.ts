@@ -21,9 +21,27 @@ import type { TemplateControl } from "@bubba/data";
 import type { TemplatePolicy } from "@bubba/data";
 import type { TemplateEvidence } from "@bubba/data";
 
-// Type for policy and evidence maps with index signatures
-type PolicyMap = Record<string, TemplatePolicy>;
-type EvidenceMap = Record<string, TemplateEvidence>;
+/**
+ * A type-safe wrapper for accessing policy templates by ID
+ *
+ * @param id - The ID of the policy to retrieve
+ * @returns The policy template or undefined if not found
+ */
+function getPolicyById(id: string): TemplatePolicy | undefined {
+  // Use a type-safe approach to check if the key exists in the policies object
+  return Object.entries(policies).find(([key]) => key === id)?.[1];
+}
+
+/**
+ * A type-safe wrapper for accessing evidence templates by ID
+ *
+ * @param id - The ID of the evidence to retrieve
+ * @returns The evidence template or undefined if not found
+ */
+function getEvidenceById(id: string): TemplateEvidence | undefined {
+  // Use a type-safe approach to check if the key exists in the evidence object
+  return Object.entries(evidence).find(([key]) => key === id)?.[1];
+}
 
 /**
  * Task to create and setup a new organization's compliance framework.
@@ -245,14 +263,15 @@ const createFrameworkInstance = async (
     await db.control.create({
       data: {
         organizationId,
-        controlId: control.id,
+        name: control.name,
+        description: control.description,
         status: "not_started" as ComplianceStatus,
         frameworkInstanceId: frameworkInstance.id,
       },
     });
 
     logger.info("Created control", {
-      controlId: control.id,
+      controlName: control.name,
       frameworkId,
     });
   }
@@ -306,12 +325,9 @@ const createOrganizationPolicies = async (
   // Create policies for the organization
   const createdPolicies = new Map<string, any>();
 
-  // Cast policies to a type with an index signature
-  const policyTemplates = policies as unknown as PolicyMap;
-
-  // Create each policy from its template
+  // Process each policy using the type-safe accessor function
   for (const policyId of policyIds) {
-    const policyTemplate = policyTemplates[policyId];
+    const policyTemplate = getPolicyById(policyId);
 
     if (!policyTemplate) {
       logger.warn(`Policy template not found: ${policyId}`);
@@ -319,7 +335,7 @@ const createOrganizationPolicies = async (
     }
 
     try {
-      // Create the policy record using template data
+      // Create the policy record using template data - include only fields in the schema
       const policy = await db.policy.create({
         data: {
           organizationId,
@@ -327,15 +343,17 @@ const createOrganizationPolicies = async (
           description: policyTemplate.metadata.description,
           status: "draft" as PolicyStatus,
           content: policyTemplate.content as InputJsonValue[],
-          policyId: policyTemplate.metadata.id,
           ownerId: userId,
           frequency: policyTemplate.metadata.frequency,
           department: policyTemplate.metadata.department,
         },
       });
 
-      // Store for later artifact creation
-      createdPolicies.set(policyId, policy);
+      // Store both the policy record and template ID for later reference
+      createdPolicies.set(policyId, {
+        ...policy,
+        templateId: policyId, // Store the template ID for reference
+      });
 
       logger.info(`Created policy: ${policy.name}`, {
         policyId: policy.id,
@@ -394,12 +412,9 @@ const createOrganizationEvidence = async (
   // Create evidence records for the organization
   const createdEvidence = new Map<string, any>();
 
-  // Cast evidence to a type with an index signature
-  const evidenceTemplates = evidence as unknown as EvidenceMap;
-
-  // Create each evidence from its template
+  // Process each evidence using the type-safe accessor function
   for (const evidenceId of evidenceIds) {
-    const evidenceTemplate = evidenceTemplates[evidenceId];
+    const evidenceTemplate = getEvidenceById(evidenceId);
 
     if (!evidenceTemplate) {
       logger.warn(`Evidence template not found: ${evidenceId}`);
@@ -407,7 +422,7 @@ const createOrganizationEvidence = async (
     }
 
     try {
-      // Create the evidence record using template data
+      // Create the evidence record using template data - include only fields in the schema
       const evidenceRecord = await db.evidence.create({
         data: {
           organizationId,
@@ -422,8 +437,11 @@ const createOrganizationEvidence = async (
         },
       });
 
-      // Store for later artifact creation
-      createdEvidence.set(evidenceId, evidenceRecord);
+      // Store both the evidence record and template ID for later reference
+      createdEvidence.set(evidenceId, {
+        ...evidenceRecord,
+        templateId: evidenceId, // Store the template ID for reference
+      });
 
       logger.info(`Created evidence: ${evidenceRecord.name}`, {
         evidenceId: evidenceRecord.id,
@@ -482,20 +500,20 @@ const createOrganizationControlArtifacts = async (
     },
   });
 
-  // Create a mapping from control ID to database control record for efficient lookup
+  // Create a mapping from control name to database control record for efficient lookup
   const controlMap = new Map<string, any>();
   for (const control of dbControls) {
-    controlMap.set(control.controlId, control);
+    controlMap.set(control.name, control);
   }
 
   // Create artifacts for each control
   let artifactsCreated = 0;
 
   for (const control of relevantControls) {
-    const dbControl = controlMap.get(control.id);
+    const dbControl = controlMap.get(control.name);
 
     if (!dbControl) {
-      logger.warn(`Control not found in database: ${control.id}`);
+      logger.warn(`Control not found in database: ${control.name}`);
       continue;
     }
 
@@ -546,7 +564,7 @@ const createOrganizationControlArtifacts = async (
           artifactsCreated++;
         }
       } catch (error) {
-        logger.error(`Error creating artifact for control ${control.id}`, {
+        logger.error(`Error creating artifact for control ${control.name}`, {
           error,
         });
       }
