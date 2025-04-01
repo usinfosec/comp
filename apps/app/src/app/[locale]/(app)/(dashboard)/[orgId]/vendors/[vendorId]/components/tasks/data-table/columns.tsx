@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { VendorTaskStatus } from "@bubba/db/types";
+import { VendorStatus } from "@bubba/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
 import { Badge } from "@bubba/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -12,7 +12,7 @@ export interface VendorTaskType {
 	id: string;
 	title: string;
 	description: string;
-	status: VendorTaskStatus;
+	status: VendorStatus;
 	dueDate: string;
 	owner: {
 		name: string;
@@ -44,13 +44,13 @@ export function useColumns() {
 			accessorKey: "status",
 			header: t("vendors.tasks.columns.status"),
 			cell: ({ row }) => {
-				const status = row.getValue("status") as VendorTaskStatus;
+				const status = row.getValue("status") as VendorStatus;
 				return (
 					<Badge
 						variant={
-							status === "completed"
+							status === VendorStatus.assessed
 								? "secondary"
-								: status === "in_progress"
+								: status === VendorStatus.in_progress
 									? "outline"
 									: "default"
 						}
