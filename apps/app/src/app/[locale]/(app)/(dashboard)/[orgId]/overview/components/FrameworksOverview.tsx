@@ -1,25 +1,17 @@
 "use client";
 
-import type {
-	Framework,
-	OrganizationControl,
-	OrganizationFramework,
-} from "@bubba/db/types";
-import type { ComplianceScoresProps, FrameworkWithCompliance } from "./types";
+import type { FrameworkInstance } from "@bubba/db/types";
 import { FrameworkProgress } from "./FrameworkProgress";
 import { RequirementStatus } from "./RequirementStatusChart";
+import type { ComplianceScoresProps, FrameworkWithCompliance } from "./types";
 
 export interface FrameworksOverviewProps {
-	frameworks: (OrganizationFramework & {
-		organizationControl: OrganizationControl[];
-		framework: Framework;
-	})[];
+	frameworks: FrameworkInstance[];
 	complianceScores: ComplianceScoresProps;
 	frameworksWithCompliance: FrameworkWithCompliance[];
 }
 
 export const FrameworksOverview = ({
-	frameworks,
 	complianceScores,
 	frameworksWithCompliance,
 }: FrameworksOverviewProps) => {
