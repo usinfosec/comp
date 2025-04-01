@@ -1,5 +1,4 @@
 import type {
-	Framework,
 	Evidence,
 	FrameworkInstance,
 	IntegrationResult,
@@ -22,8 +21,6 @@ export interface ComplianceScoresProps {
 }
 
 export interface FrameworkWithCompliance {
-	framework: FrameworkInstance & {
-		framework: Framework;
-	};
+	framework: FrameworkInstance;
 	compliance: number;
 }

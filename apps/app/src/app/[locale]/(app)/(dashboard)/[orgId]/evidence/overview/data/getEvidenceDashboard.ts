@@ -11,7 +11,6 @@ export interface EvidenceWithStatus extends Omit<Evidence, "assignee"> {
 export interface EvidenceDashboardData {
 	byDepartment: Record<Departments, EvidenceWithStatus[]>;
 	byAssignee: Record<string, EvidenceWithStatus[]>;
-	byFramework: Record<string, EvidenceWithStatus[]>;
 	unassigned: EvidenceWithStatus[];
 	statusCounts: {
 		totalCount: number;
@@ -185,25 +184,9 @@ export const getEvidenceDashboard = async (
 		}
 	}
 
-	const byFramework = evidenceWithStatus.reduce<
-		Record<string, EvidenceWithStatus[]>
-	>((acc, curr) => {
-		const frameworkId = curr.frameworkId;
-		if (!frameworkId) {
-			return acc;
-		}
-
-		if (!acc[frameworkId]) {
-			acc[frameworkId] = [];
-		}
-		acc[frameworkId].push(curr);
-		return acc;
-	}, {});
-
 	return {
 		byDepartment,
 		byAssignee,
-		byFramework,
 		unassigned,
 		statusCounts: {
 			totalCount,
