@@ -45,67 +45,17 @@ export const getPolicies = authActionClient
 			}
 
 			const [policies, total] = await Promise.all([
-				db.organizationPolicy.findMany({
+				db.policy.findMany({
 					where: {
 						organizationId: user.organizationId,
-						AND: [
-							search
-								? {
-										policy: {
-											OR: [
-												{ name: { contains: search, mode: "insensitive" } },
-												{
-													description: {
-														contains: search,
-														mode: "insensitive",
-													},
-												},
-											],
-										},
-									}
-								: {},
-							status ? { status: status as any } : {},
-						],
-					},
-					select: {
-						id: true,
-						status: true,
-						createdAt: true,
-						updatedAt: true,
-						policy: {
-							select: {
-								id: true,
-								name: true,
-								description: true,
-								slug: true,
-							},
-						},
 					},
 					skip,
 					take: pageSize,
 					orderBy: orderByClause,
 				}),
-				db.organizationPolicy.count({
+				db.policy.count({
 					where: {
 						organizationId: user.organizationId,
-						AND: [
-							search
-								? {
-										policy: {
-											OR: [
-												{ name: { contains: search, mode: "insensitive" } },
-												{
-													description: {
-														contains: search,
-														mode: "insensitive",
-													},
-												},
-											],
-										},
-									}
-								: {},
-							status ? { status: status as any } : {},
-						],
 					},
 				}),
 			]);
