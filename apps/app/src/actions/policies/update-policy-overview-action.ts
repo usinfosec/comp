@@ -30,9 +30,6 @@ export const updatePolicyOverviewAction = authActionClient
 		try {
 			const policy = await db.policy.findUnique({
 				where: { id, organizationId: user.organizationId },
-				include: {
-					policy: true,
-				},
 			});
 
 			if (!policy) {

@@ -39,7 +39,6 @@ export async function getComplianceScores(
 			name: true,
 			description: true,
 			status: true,
-			policyId: true,
 			organizationId: true,
 			createdAt: true,
 			updatedAt: true,
@@ -56,7 +55,6 @@ export async function getComplianceScores(
 
 	// Map policy framework data to a simpler structure
 	const mappedPoliciesByFramework = policies.map((p) => ({
-		frameworkId: p.policyId,
 		policyId: p.id,
 		status: p.status,
 	}));
