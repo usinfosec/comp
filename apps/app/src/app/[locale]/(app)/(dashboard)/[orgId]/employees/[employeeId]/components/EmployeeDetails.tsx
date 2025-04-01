@@ -49,7 +49,13 @@ interface EmployeeDetailsProps {
 	employeeId: string;
 	employee: Employee;
 	policies: Policy[];
-	trainingVideos: TrainingVideo[];
+	trainingVideos: {
+		metadata: TrainingVideo | undefined;
+		id: string;
+		organizationId: string;
+		videoId: string;
+		completedBy: string[];
+	}[];
 }
 
 export function EmployeeDetails({
@@ -343,7 +349,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)} */}
-													{video.title}
+													{video.metadata?.title}
 												</h2>
 											</div>
 										);
