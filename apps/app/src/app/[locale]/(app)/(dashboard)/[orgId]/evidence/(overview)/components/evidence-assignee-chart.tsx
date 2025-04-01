@@ -20,7 +20,7 @@ interface AssigneeData {
   published: number;
   draft: number;
   archived: number;
-  needs_review: number;
+  needsReview: number;
 }
 
 interface EvidenceAssigneeChartProps {
@@ -31,7 +31,7 @@ const CHART_COLORS = {
   published: "hsl(var(--chart-positive))", // green
   draft: "hsl(var(--chart-neutral))", // yellow
   archived: "hsl(var(--chart-warning))", // gray
-  needs_review: "hsl(var(--chart-destructive))", // red
+  needsReview: "hsl(var(--chart-destructive))", // red
 };
 
 export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
@@ -68,7 +68,7 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
     published: item.published,
     draft: item.draft,
     archived: item.archived,
-    needs_review: item.needs_review,
+    needsReview: item.needsReview,
   }));
 
   const chartConfig = {
@@ -86,7 +86,7 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
     },
     needs_review: {
       label: t("evidence.status.needs_review"),
-      color: CHART_COLORS.needs_review,
+      color: CHART_COLORS.needsReview,
     },
   } satisfies ChartConfig;
 
@@ -130,7 +130,7 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
               <Bar dataKey="published" stackId="a" fill={CHART_COLORS.published} />
               <Bar dataKey="draft" stackId="a" fill={CHART_COLORS.draft} />
               <Bar dataKey="archived" stackId="a" fill={CHART_COLORS.archived} />
-              <Bar dataKey="needs_review" stackId="a" fill={CHART_COLORS.needs_review} />
+              <Bar dataKey="needsReview" stackId="a" fill={CHART_COLORS.needsReview} />
             </BarChart>
           </ResponsiveContainer>
         </ChartContainer>
