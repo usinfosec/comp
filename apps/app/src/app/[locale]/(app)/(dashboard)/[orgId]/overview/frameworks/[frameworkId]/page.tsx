@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
+import { headers } from "next/headers";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { FrameworkControls } from "./components/FrameworkControls";
@@ -16,7 +17,9 @@ export default async function FrameworkPage({ params }: PageProps) {
 	const { frameworkId, locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
 	if (!session) {
 		redirect("/");
