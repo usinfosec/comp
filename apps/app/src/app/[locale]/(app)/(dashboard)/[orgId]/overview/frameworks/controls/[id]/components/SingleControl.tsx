@@ -2,7 +2,6 @@
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
 import type {
-	Control,
 	OrganizationControl,
 	OrganizationControlRequirement,
 	OrganizationEvidence,
@@ -15,13 +14,7 @@ import { SingleControlSkeleton } from "./SingleControlSkeleton";
 import { ControlRequirementsTable } from "./table/ControlRequirementsTable";
 
 interface SingleControlProps {
-	organizationControl: OrganizationControl & {
-		control: Control;
-		OrganizationControlRequirement: (OrganizationControlRequirement & {
-			organizationPolicy: OrganizationPolicy | null;
-			organizationEvidence: OrganizationEvidence | null;
-		})[];
-	};
+	organizationControl: OrganizationControl;
 	organizationControlProgress: ControlProgressResponse;
 }
 

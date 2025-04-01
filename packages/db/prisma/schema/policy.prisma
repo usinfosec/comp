@@ -1,4 +1,4 @@
-model OrganizationPolicy {
+model Policy {
   id                             String                           @id @default(cuid())
   name                           String
   description                    String?
@@ -12,7 +12,6 @@ model OrganizationPolicy {
   lastPublishedAt                DateTime?
   isRequiredToSign               Boolean                          @default(false)
   signedBy                       String[]                         @default([])
-  OrganizationControlRequirement OrganizationControlRequirement[]
   organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   ownerId                        String?
   owner                          User?                            @relation(fields: [ownerId], references: [id])

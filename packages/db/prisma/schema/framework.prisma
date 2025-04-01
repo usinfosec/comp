@@ -1,6 +1,5 @@
 
-
-model OrganizationFramework {
+model FrameworkInstance {
   id                  String                @id @default(cuid())
   organizationId      String
   frameworkId         String
@@ -8,24 +7,14 @@ model OrganizationFramework {
   adoptedAt           DateTime              @default(now())
   lastAssessed        DateTime?
   nextAssessment      DateTime?
-  organizationControl OrganizationControl[]
+  controls            Control[]
   organization        Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([organizationId, frameworkId])
 }
 
-model FrameworkCategory {
-  id          String    @id @default(cuid())
-  name        String
-  code        String    @unique
-  description String?
-  frameworkId String
 
-  @@index([frameworkId])
-}
-
-
-model OrganizationControl {
+model Control {
   id                             String                           @id @default(cuid())
   organizationId                 String
   controlId                      String
@@ -46,10 +35,8 @@ model OrganizationControl {
 
 
 
-model OrganizationControlRequirement {
+model Artifact {
   id                    String          @id @default(cuid())
-  organizationControlId String
-  controlRequirementId  String
   content               Json?
   createdAt             DateTime        @default(now())
   description           String?
@@ -58,30 +45,18 @@ model OrganizationControlRequirement {
   type                  RequirementType
   updatedAt             DateTime        @updatedAt
 
-  organizationPolicyId   String?
-  organizationEvidenceId String?
-  organizationControl    OrganizationControl   @relation(fields: [organizationControlId], references: [id], onDelete: Cascade)
-  organizationEvidence   OrganizationEvidence? @relation(fields: [organizationEvidenceId], references: [id], onDelete: Cascade)
-  organizationPolicy     OrganizationPolicy?   @relation(fields: [organizationPolicyId], references: [id], onDelete: Cascade)
+  controlId String
+  policyId   String?
+  evidenceId String?
+  control    Control   @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  evidence   Evidence? @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  policy     Policy?   @relation(fields: [policyId], references: [id], onDelete: Cascade)
 
-  @@unique([organizationControlId, controlRequirementId])
+  @@unique([controlId])
 }
 
-model OrganizationCategory {
-  id                  String                @id @unique @default(cuid())
-  name                String
-  description         String?
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  organizationId      String
-  frameworkId         String
-  organization        Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationControl OrganizationControl[]
 
-  @@index([organizationId])
-}
-
-model OrganizationEvidence {
+model Evidence {
   id              String       @id @unique @default(cuid())
   name            String
   description     String?
@@ -100,7 +75,6 @@ model OrganizationEvidence {
 
   frameworkId String
 
-  OrganizationControlRequirement OrganizationControlRequirement[]
   assignee                       User?                            @relation(fields: [assigneeId], references: [id])
   organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 

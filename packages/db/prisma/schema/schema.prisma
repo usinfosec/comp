@@ -51,7 +51,7 @@ model User {
   accounts                       Account[]
   AuditLog                       AuditLog[]
   Employee                       Employee[]
-  AssignedEvidence               OrganizationEvidence[]
+  AssignedEvidence               Evidence[]
   organizationMemberships        OrganizationMember[]
   Risk                           Risk[]
   RiskAttachment                 RiskAttachment[]
@@ -60,8 +60,8 @@ model User {
   sessions                       Session[]
   TaskAttachment                 TaskAttachment[]
   organization                   Organization?                            @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  OrganizationPolicy             OrganizationPolicy[]
-  OrganizationIntegrationResults OrganizationIntegrationResults[]
+  Policy                         Policy[]
+  IntegrationResults             IntegrationResult[]
   Vendor                         Vendor[]
   VendorAttachment               VendorAttachment[]
   VendorTask                     VendorTask[]
@@ -82,13 +82,12 @@ model Organization {
   frameworkId                    String?
   AuditLog                       AuditLog[]
   employees                      Employee[]
-  OrganizationCategory           OrganizationCategory[]
-  OrganizationControl            OrganizationControl[]
-  OrganizationEvidence           OrganizationEvidence[]
-  OrganizationFramework          OrganizationFramework[]
-  OrganizationIntegrations       OrganizationIntegrations[]
+  Controls                       Control[]
+  Evidence                       Evidence[]
+  FrameworkInstances             FrameworkInstance[]
+  Integrations                   Integration[]
   members                        OrganizationMember[]
-  OrganizationPolicy             OrganizationPolicy[]
+  Policy                         Policy[]
   Risk                           Risk[]
   RiskAttachment                 RiskAttachment[]
   RiskComment                    RiskComment[]
@@ -96,7 +95,7 @@ model Organization {
   TaskAttachment                 TaskAttachment[]
   users                          User[]                                   @relation("CurrentOrganization")
   apiKeys                        OrganizationApiKey[]
-  OrganizationIntegrationResults OrganizationIntegrationResults[]
+  IntegrationResults             IntegrationResult[]
   IntegrationLastRun             IntegrationLastRun[]
   vendors                        Vendor[]
   VendorContact                  VendorContact[]
@@ -153,7 +152,7 @@ model OrganizationApiKey {
   @@index([key])
 }
 
-model OrganizationIntegrations {
+model Integration {
   id             String                           @id @default(cuid())
   name           String                           @unique
   integration_id String
@@ -161,7 +160,7 @@ model OrganizationIntegrations {
   user_settings  Json
   organizationId String
   organization   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  results        OrganizationIntegrationResults[]
+  results        IntegrationResult[]
   lastRuns       IntegrationLastRun[]
 
   @@index([organizationId])
