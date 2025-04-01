@@ -7,11 +7,11 @@ import { authActionClient } from "../safe-action";
 import type { ActionResponse } from "../types";
 
 async function validateInviteCode(inviteCode: string, invitedEmail: string) {
-  const pendingInvitation = await db.organizationMember.findFirst({
+  const pendingInvitation = await db.invitation.findFirst({
     where: {
-      accepted: false,
-      invitedEmail,
-      inviteCode,
+      status: "pending",
+      email: invitedEmail,
+      id: inviteCode,
     },
     include: {
       organization: {
@@ -63,7 +63,7 @@ export const completeInvitation = authActionClient
           throw new Error("Invitation either used or expired");
         }
 
-        const existingMembership = await db.organizationMember.findFirst({
+        const existingMembership = await db.member.findFirst({
           where: {
             userId: user.id,
             organizationId: invitation.organizationId,
@@ -71,23 +71,21 @@ export const completeInvitation = authActionClient
         });
 
         if (existingMembership) {
-          if (user.organizationId !== invitation.organizationId) {
-            await db.user.update({
-              where: { id: user.id },
+          if (ctx.session.activeOrganizationId !== invitation.organizationId) {
+            await db.session.update({
+              where: { id: ctx.session.id },
               data: {
-                organizationId: invitation.organizationId,
-              },
-            });
-
-            await db.organizationMember.update({
-              where: { id: existingMembership.id },
-              data: {
-                accepted: true,
-                invitedEmail: null,
-                inviteCode: null,
+                activeOrganizationId: invitation.organizationId,
               },
             });
           }
+
+          await db.invitation.update({
+            where: { id: invitation.id },
+            data: {
+              status: "accepted",
+            },
+          });
 
           return {
             success: true,
@@ -98,24 +96,30 @@ export const completeInvitation = authActionClient
           };
         }
 
-        await db.organizationMember.update({
+        await db.member.create({
+          data: {
+            userId: user.id,
+            organizationId: invitation.organizationId,
+            role: invitation.role || "member",
+            department: "none",
+          },
+        });
+
+        await db.invitation.update({
           where: {
             id: invitation.id,
           },
           data: {
-            accepted: true,
-            userId: user.id,
-            invitedEmail: null,
-            inviteCode: null,
+            status: "accepted",
           },
         });
 
-        await db.user.update({
+        await db.session.update({
           where: {
-            id: user.id,
+            id: ctx.session.id,
           },
           data: {
-            organizationId: invitation.organizationId,
+            activeOrganizationId: invitation.organizationId,
           },
         });
 
