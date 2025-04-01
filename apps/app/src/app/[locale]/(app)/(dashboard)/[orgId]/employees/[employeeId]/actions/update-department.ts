@@ -9,7 +9,7 @@ import {
 	updateEmployeeDepartmentSchema,
 	appErrors,
 } from "../types";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { headers } from "next/headers";
 
 export type ActionResponse<T = any> = Promise<

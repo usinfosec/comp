@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { db } from "@bubba/db";
 import { tool } from "ai";
 import { z } from "zod";

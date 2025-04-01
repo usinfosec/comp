@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 import { TaskAttachments } from "@/components/risks/tasks/task-attachments";
 import { getI18n } from "@/locales/server";

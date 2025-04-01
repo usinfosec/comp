@@ -1,7 +1,7 @@
 "use server";
 
 import type { ActionResponse } from "@/actions/types";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { db } from "@bubba/db";
 import { headers } from "next/headers";
 

@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/(overview)/components/charts/vendor-overview";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";

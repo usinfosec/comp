@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { TestsSeverity } from "@/components/tests/charts/tests-severity";
 import { TestsByAssignee } from "@/components/tests/charts/tests-by-assignee";
 import { getI18n } from "@/locales/server";

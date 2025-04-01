@@ -3,7 +3,7 @@
 import Title from "./components/title/title";
 import SecondaryFields from "./components/secondary-fields/secondary-fields";
 import Attachments from "./components/attachments/attachments";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { db } from "@bubba/db";
 import { notFound, redirect } from "next/navigation";
 import { getI18n } from "@/locales/server";

@@ -1,5 +1,5 @@
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { headers } from "next/headers";
 
 export async function MembersTable() {

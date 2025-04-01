@@ -4,7 +4,7 @@ import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { appErrors } from "../types";
 import type { Departments } from "@bubba/db/types";
 import { headers } from "next/headers";

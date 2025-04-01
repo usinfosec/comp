@@ -1,6 +1,6 @@
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { headers } from "next/headers";
 
 export default async function Layout({

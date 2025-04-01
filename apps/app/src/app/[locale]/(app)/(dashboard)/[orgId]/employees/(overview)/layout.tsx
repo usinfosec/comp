@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
