@@ -1,6 +1,7 @@
 import type { OrganizationControlType } from "../components/table/FrameworkControlsTableColumns";
 import type { StatusType } from "@/components/frameworks/framework-status";
 
+// Function to determine control status based on artifacts
 export function getControlStatus(
   artifacts: OrganizationControlType["artifacts"]
 ): StatusType {

@@ -16,9 +16,6 @@ export const app_onboarding = {
 			question_3: "Do I need to manage risks for SOC 2?",
 			answer_3:
 				"Yes, you need to manage risks for SOC 2 and other frameworks. Risk management is a key component of SOC 2 compliance.",
-			question_4: "What information should I include in a risk?",
-			answer_4:
-				"Include details like risk description, impact, likelihood, and assigned owner to effectively track and manage the risk.",
 		},
 	},
 	vendors: {

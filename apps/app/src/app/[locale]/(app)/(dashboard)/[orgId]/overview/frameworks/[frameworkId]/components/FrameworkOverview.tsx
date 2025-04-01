@@ -4,8 +4,6 @@ import type { FrameworkInstance } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import type { FrameworkRequirements } from "../data/getFrameworkRequirements";
 import { getControlStatus } from "../lib/utils";
 
@@ -15,11 +13,11 @@ interface FrameworkOverviewProps {
 }
 
 export function FrameworkOverview({
-	requirements: frameworkRequirements,
+	requirements,
 	frameworkInstance,
 }: FrameworkOverviewProps) {
 	// Get all controls from all requirements
-	const allControls = frameworkRequirements.flatMap(
+	const allControls = requirements.flatMap(
 		(requirement) => requirement.controls,
 	);
 
