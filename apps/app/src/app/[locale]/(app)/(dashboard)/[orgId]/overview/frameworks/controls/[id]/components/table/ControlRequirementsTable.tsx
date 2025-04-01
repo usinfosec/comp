@@ -10,13 +10,11 @@ import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
 import { useParams, useRouter } from "next/navigation";
-import type {
-	Evidence,
-	Policy,
-} from "@bubba/db/types";
+import type { Evidence, Policy } from "@bubba/db/types";
+import { Requirement } from "@bubba/data";
 
 // Define the type that matches what we receive from the hook
-export type RequirementTableData = ControlRequirement & {
+export type RequirementTableData = Requirement & {
 	policy: Policy | null;
 	evidence: Evidence | null;
 };
@@ -38,17 +36,13 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 	const onRowClick = (requirement: RequirementTableData) => {
 		switch (requirement.type) {
 			case "policy":
-				if (requirement.organizationPolicyId) {
-					router.push(
-						`/${orgId}/policies/all/${requirement.organizationPolicyId}`,
-					);
+				if (requirement.policyId) {
+					router.push(`/${orgId}/policies/all/${requirement.policyId}`);
 				}
 				break;
 			case "evidence":
-				if (requirement.organizationEvidenceId) {
-					router.push(
-						`/${orgId}/evidence/${requirement.organizationEvidenceId}`,
-					);
+				if (requirement.evidenceId) {
+					router.push(`/${orgId}/evidence/${requirement.evidenceId}`);
 				}
 				break;
 			default:

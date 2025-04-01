@@ -67,7 +67,6 @@ export async function getComplianceScores(
 			name: true,
 			description: true,
 			published: true,
-			frameworkId: true,
 			organizationId: true,
 			createdAt: true,
 			updatedAt: true,
