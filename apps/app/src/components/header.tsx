@@ -9,9 +9,9 @@ import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
 
 import { auth } from "@bubba/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AssistantButton } from "./ai/chat-button";
-import { headers } from "next/headers";
 
 export async function Header() {
   const t = await getI18n();
@@ -20,7 +20,6 @@ export async function Header() {
     headers: await headers(),
   });
 
-  const user = session?.user;
   const currentOrganizationId = session?.session.activeOrganizationId;
   //const hasAccess = user?.isAdmin;
 
