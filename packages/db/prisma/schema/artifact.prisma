@@ -8,9 +8,11 @@ model Artifact {
   updatedAt DateTime @updatedAt
 
   // Relations
-  controls   Control[]
-  evidenceId String?
-  evidence   Evidence? @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
-  policyId   String?
-  policy     Policy?   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  controls       Control[]
+  evidenceId     String?
+  evidence       Evidence?    @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  policyId       String?
+  policy         Policy?      @relation(fields: [policyId], references: [id], onDelete: Cascade)
 }

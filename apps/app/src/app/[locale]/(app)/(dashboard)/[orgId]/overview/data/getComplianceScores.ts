@@ -2,268 +2,299 @@
 
 import { db } from "@bubba/db";
 import type {
-	FrameworkInstance,
-	Control,
-	Evidence,
-	IntegrationResult,
-	Organization,
-	Policy,
+  FrameworkInstance,
+  Control,
+  Evidence,
+  IntegrationResult,
+  Policy,
+  Artifact,
 } from "@bubba/db/types";
 
 interface ComplianceScoresResult {
-	policiesCompliance: number;
-	evidenceTasksCompliance: number;
-	cloudTestsCompliance: number;
-	overallCompliance: number;
-	frameworkCompliance: {
-		id: string;
-		name: string;
-		compliance: number;
-	}[];
-	policies: Policy[];
-	evidenceTasks: Evidence[];
-	tests: IntegrationResult[];
+  policiesCompliance: number;
+  evidenceTasksCompliance: number;
+  cloudTestsCompliance: number;
+  overallCompliance: number;
+  frameworkCompliance: {
+    id: string;
+    name: string;
+    compliance: number;
+  }[];
+  policies: Policy[];
+  evidenceTasks: Evidence[];
+  tests: IntegrationResult[];
 }
 
 export async function getComplianceScores(
-	organizationId: string,
-	frameworks: (FrameworkInstance & {
-		organizationControl: Control[];
-	})[],
+  organizationId: string,
+  frameworksWithControls: (FrameworkInstance & {
+    controls: (Control & {
+      artifacts: (Artifact & {
+        policy: Policy | null;
+        evidence: Evidence | null;
+      })[];
+    })[];
+  })[]
 ): Promise<ComplianceScoresResult> {
-	// Get all policies for the organization
-	const policies = await db.policy.findMany({
-		where: { organizationId },
-		select: {
-			id: true,
-			name: true,
-			description: true,
-			status: true,
-			organizationId: true,
-			createdAt: true,
-			updatedAt: true,
-			content: true,
-			frequency: true,
-			lastPublishedAt: true,
-			isRequiredToSign: true,
-			signedBy: true,
-			ownerId: true,
-			department: true,
-			reviewDate: true,
-		},
-	});
+  // Extract all artifacts related to policies and evidence
+  const allArtifacts = frameworksWithControls.flatMap((framework) =>
+    framework.controls.flatMap((control) => control.artifacts)
+  );
 
-	// Map policy framework data to a simpler structure
-	const mappedPoliciesByFramework = policies.map((p) => ({
-		policyId: p.id,
-		status: p.status,
-	}));
+  // Extract policy artifacts (filter out null policies)
+  const policyArtifacts = allArtifacts.filter(
+    (artifact) => artifact.type === "policy" && artifact.policy !== null
+  );
 
-	// Get all evidence tasks for the organization
-	const evidenceTasks = await db.evidence.findMany({
-		where: { organizationId },
-		select: {
-			id: true,
-			name: true,
-			description: true,
-			published: true,
-			organizationId: true,
-			createdAt: true,
-			updatedAt: true,
-			frequency: true,
-			lastPublishedAt: true,
-			assigneeId: true,
-			department: true,
-			isNotRelevant: true,
-			additionalUrls: true,
-			evidenceId: true,
-			fileUrls: true,
-		},
-	});
+  // Extract evidence artifacts (filter out null evidence)
+  const evidenceArtifacts = allArtifacts.filter(
+    (artifact) => artifact.type === "evidence" && artifact.evidence !== null
+  );
 
-	// Map evidence tasks to framework
-	const evidenceByFramework = evidenceTasks
-		.filter((task) => task.frameworkId) // Only include tasks with a frameworkId
-		.map((task) => ({
-			id: task.id,
-			frameworkId: task.frameworkId,
-			evidenceId: task.id,
-			published: task.published,
-		}));
+  // Get unique policies and evidence to avoid duplicates
+  const policyMap = new Map<string, Policy>();
+  for (const artifact of policyArtifacts) {
+    if (artifact.policy) {
+      policyMap.set(artifact.policy.id, artifact.policy);
+    }
+  }
+  const uniquePolicies = Array.from(policyMap.values());
 
-	// Get all tests for the organization
-	const integrationResults = await db.integrationResult.findMany({
-		where: { organizationId },
-		include: {
-			integration: {
-				select: {
-					id: true,
-					name: true,
-					integrationId: true,
-				},
-			},
-		},
-	});
+  const evidenceMap = new Map<string, Evidence>();
+  for (const artifact of evidenceArtifacts) {
+    if (artifact.evidence) {
+      evidenceMap.set(artifact.evidence.id, artifact.evidence);
+    }
+  }
+  const uniqueEvidence = Array.from(evidenceMap.values());
 
-	// Transform the data to match the expected format
-	const tests = integrationResults.map((result) => ({
-		id: result.id,
-		severity: result.severity,
-		result: result.status,
-		title: result.title || result.integration.name,
-		provider: result.integration.integrationId,
-		createdAt: result.completedAt || new Date(),
-		description: result.description,
-		organizationId: result.organizationId,
-		remediation: result.remediation,
-		status: result.status,
-		resultDetails: result.resultDetails,
-		completedAt: result.completedAt,
-		integrationId: result.integrationId,
-		assignedUserId: result.assignedUserId,
-	}));
+  // Map policy framework data to a simpler structure
+  const mappedPoliciesByFramework = policyArtifacts
+    .map((pa) => {
+      // Find the framework this policy belongs to by looking at the associated control
+      const frameworkId = findFrameworkIdForArtifact(
+        pa.id,
+        frameworksWithControls
+      );
+      return {
+        policyId: pa.policy?.id || "",
+        status: pa.policy?.status || "draft",
+        frameworkId,
+      };
+    })
+    .filter((item) => item.policyId !== ""); // Filter out any items with empty policyIds
 
-	// Calculate policies compliance
-	const policiesCompliance =
-		policies.length > 0
-			? Math.round(
-					(policies.filter((p) => p.status === "published").length /
-						policies.length) *
-						100,
-				)
-			: 0;
+  // Map evidence tasks to framework
+  const evidenceByFramework = evidenceArtifacts
+    .map((ea) => {
+      // Find the framework this evidence belongs to by looking at the associated control
+      const frameworkId = findFrameworkIdForArtifact(
+        ea.id,
+        frameworksWithControls
+      );
+      return {
+        id: ea.evidence?.id || "",
+        frameworkId,
+        evidenceId: ea.evidence?.id || "",
+        published: ea.evidence?.published || false,
+      };
+    })
+    .filter((item) => item.id !== ""); // Filter out any items with empty ids
 
-	// Calculate evidence tasks compliance
-	const evidenceTasksCompliance =
-		evidenceTasks.length > 0
-			? Math.round(
-					(evidenceTasks.filter((task) => task.published === true).length /
-						evidenceTasks.length) *
-						100,
-				)
-			: 0;
+  // Get all tests for the organization
+  const integrationResults = await db.integrationResult.findMany({
+    where: { organizationId },
+    include: {
+      integration: {
+        select: {
+          id: true,
+          name: true,
+          integrationId: true,
+        },
+      },
+    },
+  });
 
-	// Calculate cloud tests compliance (checking for "PASSED" status as per the type definition)
-	const cloudTestsCompliance =
-		tests.length > 0
-			? Math.round(
-					(tests.filter((test) => test.result?.toUpperCase() === "PASSED")
-						.length /
-						tests.length) *
-						100,
-				)
-			: 0;
+  // Transform the data to match the expected format
+  const tests = integrationResults.map((result) => ({
+    id: result.id,
+    severity: result.severity,
+    result: result.status,
+    title: result.title || result.integration.name,
+    provider: result.integration.integrationId,
+    createdAt: result.completedAt || new Date(),
+    description: result.description,
+    organizationId: result.organizationId,
+    remediation: result.remediation,
+    status: result.status,
+    resultDetails: result.resultDetails,
+    completedAt: result.completedAt,
+    integrationId: result.integrationId,
+    assignedUserId: result.assignedUserId,
+  }));
 
-	// Calculate framework-specific compliance
-	const frameworkCompliance = frameworks.map((framework) => {
-		// Calculate framework controls compliance
-		const totalControls = framework.organizationControl.length;
+  // Calculate policies compliance
+  const policiesCompliance =
+    uniquePolicies.length > 0
+      ? Math.round(
+          (uniquePolicies.filter((p) => p.status === "published").length /
+            uniquePolicies.length) *
+            100
+        )
+      : 0;
 
-		// Count controls with any progress (in_progress or compliant)
-		const inProgressControls = framework.organizationControl.filter(
-			(control) => control.status === "in_progress",
-		).length;
+  // Calculate evidence tasks compliance
+  const evidenceTasksCompliance =
+    uniqueEvidence.length > 0
+      ? Math.round(
+          (uniqueEvidence.filter((e) => e.published === true).length /
+            uniqueEvidence.length) *
+            100
+        )
+      : 0;
 
-		const compliantControls = framework.organizationControl.filter(
-			(control) => control.status === "compliant",
-		).length;
+  // Calculate cloud tests compliance (checking for "PASSED" status as per the type definition)
+  const cloudTestsCompliance =
+    tests.length > 0
+      ? Math.round(
+          (tests.filter((test) => test.result?.toUpperCase() === "PASSED")
+            .length /
+            tests.length) *
+            100
+        )
+      : 0;
 
-		// For compliance percentage, count both in_progress (partial) and compliant (full)
-		// Give in_progress controls half weight compared to compliant ones
-		const progressWeight = 0.5; // Weight for in_progress controls
-		const weightedProgress =
-			compliantControls + inProgressControls * progressWeight;
+  // Calculate framework-specific compliance
+  const frameworkCompliance = frameworksWithControls.map((framework) => {
+    // Calculate framework controls compliance
+    const totalControls = framework.controls.length;
 
-		// Calculate compliance percentage based on controls
-		const controlsCompliance =
-			totalControls > 0
-				? Math.round((weightedProgress / totalControls) * 100)
-				: 0;
+    // Count controls with any progress (in_progress or compliant)
+    const inProgressControls = framework.controls.filter(
+      (control) => control.status === "in_progress"
+    ).length;
 
-		// Find policies for this specific framework
-		const frameworkPolicies = mappedPoliciesByFramework.filter(
-			(policy) => policy.frameworkId === framework.frameworkId,
-		);
+    const compliantControls = framework.controls.filter(
+      (control) => control.status === "compliant"
+    ).length;
 
-		// Calculate framework-specific policies compliance
-		const frameworkPoliciesCompliance =
-			frameworkPolicies.length > 0
-				? Math.round(
-						(frameworkPolicies.filter(
-							(frameworkPolicy) => frameworkPolicy.status === "published",
-						).length /
-							frameworkPolicies.length) *
-							100,
-					)
-				: null;
+    // For compliance percentage, count both in_progress (partial) and compliant (full)
+    // Give in_progress controls half weight compared to compliant ones
+    const progressWeight = 0.5; // Weight for in_progress controls
+    const weightedProgress =
+      compliantControls + inProgressControls * progressWeight;
 
-		// Find evidence tasks related to this framework
-		const frameworkEvidenceTasks = evidenceByFramework.filter(
-			(evidence) => evidence.frameworkId === framework.frameworkId,
-		);
+    // Calculate compliance percentage based on controls
+    const controlsCompliance =
+      totalControls > 0
+        ? Math.round((weightedProgress / totalControls) * 100)
+        : 0;
 
-		// Calculate framework-specific evidence tasks compliance
-		const frameworkEvidenceTasksCompliance =
-			frameworkEvidenceTasks.length > 0
-				? Math.round(
-						(frameworkEvidenceTasks.filter(
-							(evidence) => evidence.published === true,
-						).length /
-							frameworkEvidenceTasks.length) *
-							100,
-					)
-				: null;
+    // Find policies for this specific framework
+    const frameworkPolicies = mappedPoliciesByFramework.filter(
+      (policy) => policy.frameworkId === framework.frameworkId
+    );
 
-		// Calculate overall framework compliance as average of all components with data
-		const complianceScores = [controlsCompliance];
-		if (frameworkPoliciesCompliance !== null)
-			complianceScores.push(frameworkPoliciesCompliance);
-		if (frameworkEvidenceTasksCompliance !== null)
-			complianceScores.push(frameworkEvidenceTasksCompliance);
+    // Calculate framework-specific policies compliance
+    const frameworkPoliciesCompliance =
+      frameworkPolicies.length > 0
+        ? Math.round(
+            (frameworkPolicies.filter((policy) => policy.status === "published")
+              .length /
+              frameworkPolicies.length) *
+              100
+          )
+        : null;
 
-		const totalCompliance =
-			complianceScores.length > 0
-				? Math.round(
-						complianceScores.reduce((sum, score) => sum + score, 0) /
-							complianceScores.length,
-					)
-				: controlsCompliance;
+    // Find evidence tasks related to this framework
+    const frameworkEvidenceTasks = evidenceByFramework.filter(
+      (evidence) => evidence.frameworkId === framework.frameworkId
+    );
 
-		return {
-			id: framework.frameworkId,
-			name: framework.frameworkId, // We'll need to get the framework name from somewhere else
-			compliance: totalCompliance,
-		};
-	});
+    // Calculate framework-specific evidence tasks compliance
+    const frameworkEvidenceTasksCompliance =
+      frameworkEvidenceTasks.length > 0
+        ? Math.round(
+            (frameworkEvidenceTasks.filter(
+              (evidence) => evidence.published === true
+            ).length /
+              frameworkEvidenceTasks.length) *
+              100
+          )
+        : null;
 
-	// Calculate overall compliance as the average of all available scores
-	const calculateOverallCompliance = () => {
-		// Count how many categories have data
-		const categoriesWithData = [
-			policies.length > 0,
-			evidenceTasks.length > 0,
-			tests.length > 0,
-		].filter(Boolean).length;
+    // Calculate overall framework compliance as average of all components with data
+    const complianceScores = [controlsCompliance];
+    if (frameworkPoliciesCompliance !== null)
+      complianceScores.push(frameworkPoliciesCompliance);
+    if (frameworkEvidenceTasksCompliance !== null)
+      complianceScores.push(frameworkEvidenceTasksCompliance);
 
-		// If no categories have data, return 0
-		if (categoriesWithData === 0) return 0;
+    const totalCompliance =
+      complianceScores.length > 0
+        ? Math.round(
+            complianceScores.reduce((sum, score) => sum + score, 0) /
+              complianceScores.length
+          )
+        : controlsCompliance;
 
-		// Calculate the sum of all compliance scores
-		const totalScore =
-			policiesCompliance + evidenceTasksCompliance + cloudTestsCompliance;
+    return {
+      id: framework.frameworkId,
+      name: framework.frameworkId, // We'll need to get the framework name from somewhere else
+      compliance: totalCompliance,
+    };
+  });
 
-		// Return the average, rounded to the nearest integer
-		return Math.round(totalScore / categoriesWithData);
-	};
+  // Calculate overall compliance as the average of all available scores
+  const calculateOverallCompliance = () => {
+    // Count how many categories have data
+    const categoriesWithData = [
+      uniquePolicies.length > 0,
+      uniqueEvidence.length > 0,
+      tests.length > 0,
+    ].filter(Boolean).length;
 
-	return {
-		policiesCompliance,
-		evidenceTasksCompliance,
-		cloudTestsCompliance,
-		overallCompliance: calculateOverallCompliance(),
-		frameworkCompliance,
-		policies,
-		evidenceTasks,
-		tests,
-	};
+    // If no categories have data, return 0
+    if (categoriesWithData === 0) return 0;
+
+    // Calculate the sum of all compliance scores
+    const totalScore =
+      policiesCompliance + evidenceTasksCompliance + cloudTestsCompliance;
+
+    // Return the average, rounded to the nearest integer
+    return Math.round(totalScore / categoriesWithData);
+  };
+
+  return {
+    policiesCompliance,
+    evidenceTasksCompliance,
+    cloudTestsCompliance,
+    overallCompliance: calculateOverallCompliance(),
+    frameworkCompliance,
+    policies: uniquePolicies,
+    evidenceTasks: uniqueEvidence,
+    tests,
+  };
+}
+
+/**
+ * Helper function to find which framework an artifact belongs to
+ */
+function findFrameworkIdForArtifact(
+  artifactId: string,
+  frameworksWithControls: (FrameworkInstance & {
+    controls: (Control & {
+      artifacts: Artifact[];
+    })[];
+  })[]
+): string | undefined {
+  for (const framework of frameworksWithControls) {
+    for (const control of framework.controls) {
+      const artifactExists = control.artifacts.some((a) => a.id === artifactId);
+      if (artifactExists) {
+        return framework.frameworkId;
+      }
+    }
+  }
+  return undefined;
 }

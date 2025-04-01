@@ -14,6 +14,7 @@ export interface FrameworksOverviewProps {
 export const FrameworksOverview = ({
 	complianceScores,
 	frameworksWithCompliance,
+	frameworks,
 }: FrameworksOverviewProps) => {
 	return (
 		<div className="space-y-12">

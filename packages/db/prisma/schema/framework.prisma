@@ -1,12 +1,21 @@
+enum FrameworkId {
+  soc2
+}
+
 model FrameworkInstance {
-  id             String       @id @default(cuid())
+  // Metadata
+  id             String      @id @default(cuid())
   organizationId String
-  frameworkId    String
-  adoptedAt      DateTime     @default(now())
+  frameworkId    FrameworkId
+
+  // Dates
+  adoptedAt      DateTime  @default(now())
   lastAssessed   DateTime?
   nextAssessment DateTime?
-  controls       Control[]
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  // Relationships
+  controls     Control[]
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([organizationId, frameworkId])
 }
