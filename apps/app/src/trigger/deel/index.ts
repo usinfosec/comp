@@ -5,10 +5,6 @@ import { z } from "zod";
 import { Departments } from "@bubba/db/types";
 import { decrypt } from "@/lib/encryption";
 import { completeEmployeeCreation } from "@/lib/db/employee";
-<<<<<<< HEAD
-import { isActive } from "@tiptap/react";
-=======
->>>>>>> bf341517b8c0b143d0f5a255650e046c588bcad8
 
 const deelTaskSchema = z.object({
 	integration: z.object({
