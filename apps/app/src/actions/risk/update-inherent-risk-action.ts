@@ -16,9 +16,9 @@ export const updateInherentRiskAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { id, probability, impact } = parsedInput;
-    const { user } = ctx;
+    const { session } = ctx;
 
-    if (!user.organizationId) {
+    if (!session.activeOrganizationId) {
       throw new Error("Invalid organization");
     }
 
@@ -26,17 +26,17 @@ export const updateInherentRiskAction = authActionClient
       await db.risk.update({
         where: {
           id,
-          organizationId: user.organizationId,
+          organizationId: session.activeOrganizationId,
         },
         data: {
-          probability,
+          likelihood: probability,
           impact,
         },
       });
 
-      revalidatePath(`/${user.organizationId}/risk`);
-      revalidatePath(`/${user.organizationId}/risk/register`);
-      revalidatePath(`/${user.organizationId}/risk/${id}`);
+      revalidatePath(`/${session.activeOrganizationId}/risk`);
+      revalidatePath(`/${session.activeOrganizationId}/risk/register`);
+      revalidatePath(`/${session.activeOrganizationId}/risk/${id}`);
       revalidateTag("risks");
 
       return {
