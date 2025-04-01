@@ -195,7 +195,7 @@ export const getEvidenceDashboard = cache(
       include: {
         controls: {
           include: {
-            frameworkInstance: true,
+            frameworkInstances: true,
           },
         },
       },
@@ -210,20 +210,26 @@ export const getEvidenceDashboard = cache(
 
       // For each control linked to this artifact
       for (const control of artifact.controls) {
-        if (!control.frameworkInstanceId) continue;
+        // Handle the many-to-many relationship between controls and framework instances
+        if (
+          !control.frameworkInstances ||
+          control.frameworkInstances.length === 0
+        )
+          continue;
 
-        // Get the framework ID from the framework instance
-        const frameworkInstanceId = control.frameworkInstanceId;
-        const frameworkId = control.frameworkInstance?.frameworkId;
+        // Iterate through all framework instances associated with this control
+        for (const frameworkInstance of control.frameworkInstances) {
+          const frameworkId = frameworkInstance.frameworkId;
 
-        if (!frameworkId) continue;
+          if (!frameworkId) continue;
 
-        // Add the framework ID to the set for this evidence
-        if (!evidenceToFrameworkMap.has(artifact.evidenceId)) {
-          evidenceToFrameworkMap.set(artifact.evidenceId, new Set<string>());
+          // Add the framework ID to the set for this evidence
+          if (!evidenceToFrameworkMap.has(artifact.evidenceId)) {
+            evidenceToFrameworkMap.set(artifact.evidenceId, new Set<string>());
+          }
+
+          evidenceToFrameworkMap.get(artifact.evidenceId)?.add(frameworkId);
         }
-
-        evidenceToFrameworkMap.get(artifact.evidenceId)?.add(frameworkId);
       }
     }
 
