@@ -56,7 +56,7 @@ export function MemberActions({
 	const t = useI18n();
 	const [isRemoving, setIsRemoving] = useState(false);
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
-	const initialRole: Role = permission.role;
+	const initialRole: Role = permission.role as Role;
 	const [newRole, setNewRole] = useState<Role>(initialRole);
 	const [isUpdatingRole, setIsUpdatingRole] = useState(false);
 
