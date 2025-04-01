@@ -5,76 +5,56 @@ import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
 import { headers } from "next/headers";
 
 export async function EmployeesOverview() {
-  const employees = await getEmployees();
-  const policies = await getEmployeePolicies();
+	const employees = await getEmployees();
+	const policies = await getEmployeePolicies();
 
-  return (
-    <div className="grid gap-6">
-      <EmployeeCompletionChart employees={employees} policies={policies} />
-    </div>
-  );
+	return (
+		<div className="grid gap-6">
+			<EmployeeCompletionChart employees={employees} policies={policies} />
+		</div>
+	);
 }
 
 const getEmployees = cache(async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  const orgId = session?.session.activeOrganizationId;
+	const orgId = session?.session.activeOrganizationId;
 
-  if (!orgId) {
-    return [];
-  }
+	if (!orgId) {
+		return [];
+	}
 
-  const portalEmployees = await db.employee.findMany({
-    where: {
-      organizationId: orgId,
-    },
-  });
+	const employees = await db.member.findMany({
+		where: {
+			organizationId: orgId,
+		},
+		include: {
+			user: true,
+		},
+	});
 
-  const employees = await db.employee.findMany({
-    where: {
-      organizationId: orgId,
-      email: {
-        in: portalEmployees.map((employee) => employee.email),
-      },
-    },
-  });
-
-  // Create a map of employees with their active status
-  const employeeStatusMap = new Map(
-    employees.map((employee) => [employee.email, employee.isActive]),
-  );
-
-  // Filter portal employees to only include those that have a matching employee record
-  // and where that employee is active
-  // TODO: REMOVE ONCE WE GET RID OF PORTAL EMPLOYEES TABLE, THEN LOGIC CAN BE SIMPLIFIED TO ONLY USE EMPLOYEE TABLE.
-  const activePortalEmployees = portalEmployees.filter(
-    (portalUser) =>
-      employeeStatusMap.has(portalUser.email) &&
-      employeeStatusMap.get(portalUser.email) === true,
-  );
-
-  return activePortalEmployees;
+	return employees;
 });
 
 const getEmployeePolicies = cache(async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  const orgId = session?.session.activeOrganizationId;
+	const orgId = session?.session.activeOrganizationId;
 
-  if (!orgId) {
-    return [];
-  }
+	if (!orgId) {
+		return [];
+	}
 
-  const policies = await db.policy.findMany({
-    where: {
-      organizationId: orgId,
-      isRequiredToSign: true,
-    },
-  });
+	const policies = await db.policy.findMany({
+		where: {
+			organizationId: orgId,
+			isRequiredToSign: true,
+		},
+	});
 
-  return policies;
+	return policies;
 });
