@@ -1,8 +1,0 @@
-model EmployeeTrainingVideos {
-    id          String   @id @default(cuid())
-    videoId     String
-    completedBy String[]
-
-    organizationId String
-    organization   Organization @relation(fields: [organizationId], references: [id])
-}

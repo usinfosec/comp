@@ -8,26 +8,29 @@ model User {
     updatedAt     DateTime
     lastLogin     DateTime?
 
-    accounts             Account[]
-    assignedEvidence     Evidence[]
-    auditLog             AuditLog[]
-    employee             Employee[]
-    integrationResults   IntegrationResult[]
-    invitations          Invitation[]
-    members              Member[]
-    policy               Policy[]
-    risk                 Risk[]
-    riskAttachment       RiskAttachment[]
-    riskComment          RiskComment[]
-    riskMitigationTask   RiskMitigationTask[]
-    sessions             Session[]
-    taskAttachment       TaskAttachment[]
-    vendor               Vendor[]
-    vendorAttachment     VendorAttachment[]
-    vendorTask           VendorTask[]
-    vendorTaskAttachment VendorTaskAttachment[]
+    accounts                         Account[]
+    assignedEvidence                 Evidence[]
+    auditLog                         AuditLog[]
+    integrationResults               IntegrationResult[]
+    invitations                      Invitation[]
+    members                          Member[]
+    policy                           Policy[]
+    risk                             Risk[]
+    sessions                         Session[]
+    vendor                           Vendor[]
+    employeeTrainingVideoCompletions EmployeeTrainingVideoCompletion[]
 
     @@unique([email])
+}
+
+model EmployeeTrainingVideoCompletion {
+    id          String   @id @default(cuid())
+    videoId     String
+    completedAt DateTime
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model Session {
@@ -79,6 +82,9 @@ model Member {
     user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     role           String
     createdAt      DateTime
+
+    department Departments @default(none)
+    isActive   Boolean     @default(true)
 }
 
 model Invitation {

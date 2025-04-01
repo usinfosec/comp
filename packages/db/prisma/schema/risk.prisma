@@ -1,137 +1,28 @@
 model Risk {
-  id                   String                 @id @default(cuid())
-  title                String
-  description          String
-  category             RiskCategory
-  department           Departments?
-  status               RiskStatus             @default(open)
-  probability          Int                    @default(0)
-  impact               Int                    @default(0)
-  residual_probability Int                    @default(0)
-  residual_impact      Int                    @default(0)
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  organizationId       String
-  ownerId              String?
-  organization         Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner                User?                  @relation(fields: [ownerId], references: [id])
-  attachments          RiskAttachment[]
-  comments             RiskComment[]
-  mitigationTasks      RiskMitigationTask[]
-  treatmentStrategy    RiskTreatmentStrategy?
+  id                           String            @id @default(cuid())
+  title                        String
+  description                  String
+  category                     RiskCategory
+  department                   Departments?
+  status                       RiskStatus        @default(open)
+  likelihood                   Likelihood        @default(very_unlikely)
+  impact                       Impact            @default(insignificant)
+  residualLikelihood           Likelihood        @default(very_unlikely)
+  residualImpact               Impact            @default(insignificant)
+  createdAt                    DateTime          @default(now())
+  updatedAt                    DateTime          @updatedAt
+  treatmentStrategyDescription String?
+  treatmentStrategy            RiskTreatmentType @default(accept)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerId        String?
+  owner          User?        @relation(fields: [ownerId], references: [id])
 
   @@index([organizationId])
   @@index([ownerId])
   @@index([category])
   @@index([status])
-}
-
-model RiskComment {
-  id             String       @id @default(cuid())
-  riskId         String
-  ownerId        String
-  organizationId String
-  content        String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  risk           Risk         @relation(fields: [riskId], references: [id], onDelete: Cascade)
-
-  @@index([riskId])
-  @@index([ownerId])
-  @@index([organizationId])
-}
-
-model RiskMitigationTask {
-  id             String               @id @default(cuid())
-  title          String
-  description    String
-  status         RiskTaskStatus       @default(open)
-  dueDate        DateTime?
-  notifiedAt     DateTime?
-  completedAt    DateTime?
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @updatedAt
-  riskId         String
-  ownerId        String?
-  organizationId String
-  organization   Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User?                @relation(fields: [ownerId], references: [id])
-  risk           Risk                 @relation(fields: [riskId], references: [id], onDelete: Cascade)
-  assignments    RiskTaskAssignment[]
-  taskAttachment TaskAttachment[]
-
-  @@index([riskId])
-  @@index([ownerId])
-  @@index([organizationId])
-}
-
-model TaskAttachment {
-  id                   String             @id @default(cuid())
-  riskMitigationTaskId String
-  name                 String
-  fileUrl              String
-  fileKey              String?
-  type                 RiskAttachmentType @default(file)
-  uploadedAt           DateTime           @default(now())
-  ownerId              String?
-  organizationId       String
-  organization         Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner                User?              @relation(fields: [ownerId], references: [id])
-  riskMitigationTask   RiskMitigationTask @relation(fields: [riskMitigationTaskId], references: [id], onDelete: Cascade)
-
-  @@index([riskMitigationTaskId])
-  @@index([organizationId])
-}
-
-model RiskTreatmentStrategy {
-  id          String            @id @default(cuid())
-  type        RiskTreatmentType
-  description String
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  riskId      String            @unique
-  risk        Risk              @relation(fields: [riskId], references: [id], onDelete: Cascade)
-
-  @@index([riskId])
-}
-
-model RiskAttachment {
-  id             String             @id @default(cuid())
-  riskId         String
-  name           String
-  fileUrl        String
-  fileKey        String?
-  type           RiskAttachmentType @default(file)
-  uploadedAt     DateTime           @default(now())
-  ownerId        String?
-  organizationId String
-  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User?              @relation(fields: [ownerId], references: [id])
-  risk           Risk               @relation(fields: [riskId], references: [id], onDelete: Cascade)
-
-  @@index([riskId])
-  @@index([organizationId])
-}
-
-model RiskTaskAssignment {
-  id         String             @id @default(cuid())
-  assignedAt DateTime           @default(now())
-  taskId     String
-  employeeId String
-  employee   Employee           @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  task       RiskMitigationTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
-
-  @@unique([taskId, employeeId])
-  @@index([taskId])
-  @@index([employeeId])
-}
-
-enum RiskLevel {
-  low
-  medium
-  high
 }
 
 enum RiskTreatmentType {
@@ -159,31 +50,4 @@ enum RiskStatus {
   pending
   closed
   archived
-}
-
-enum RiskTaskStatus {
-  open
-  pending
-  closed
-}
-
-enum RiskAttachmentType {
-  file
-  url
-}
-
-enum RiskLikelihood {
-  very_low
-  low
-  medium
-  high
-  very_high
-}
-
-enum RiskImpact {
-  very_low
-  low
-  medium
-  high
-  very_high
 }

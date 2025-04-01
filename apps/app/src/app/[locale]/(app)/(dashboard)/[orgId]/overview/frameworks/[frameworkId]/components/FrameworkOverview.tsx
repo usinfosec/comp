@@ -67,34 +67,6 @@ export function FrameworkOverview({
 					</div>
 				</CardContent>
 			</Card>
-
-			<Card>
-				<CardHeader>
-					<CardTitle>Assessment Status</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="flex flex-col gap-2">
-						<div className="flex items-center gap-2">
-							<CalendarIcon className="h-4 w-4 text-muted-foreground" />
-							<span className="text-sm">
-								Last assessed:{" "}
-								{frameworkInstance.lastAssessed
-									? format(frameworkInstance.lastAssessed, "MMM d, yyyy")
-									: "Never"}
-							</span>
-						</div>
-						<div className="flex items-center gap-2">
-							<CalendarIcon className="h-4 w-4 text-muted-foreground" />
-							<span className="text-sm">
-								Next assessment:{" "}
-								{frameworkInstance.nextAssessment
-									? format(frameworkInstance.nextAssessment, "MMM d, yyyy")
-									: "Not scheduled"}
-							</span>
-						</div>
-					</div>
-				</CardContent>
-			</Card>
 		</div>
 	);
 }
