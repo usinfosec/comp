@@ -79,60 +79,6 @@ export const getRiskById = tool({
 
 		const risk = await db.risk.findUnique({
 			where: { id, organizationId: session.session.activeOrganizationId },
-			select: {
-				id: true,
-				title: true,
-				status: true,
-				department: true,
-				impact: true,
-				probability: true,
-				residual_impact: true,
-				residual_probability: true,
-				owner: {
-					select: {
-						name: true,
-					},
-				},
-				mitigationTasks: {
-					select: {
-						title: true,
-						status: true,
-						dueDate: true,
-						completedAt: true,
-						TaskComments: {
-							select: {
-								id: true,
-								content: true,
-								createdAt: true,
-								updatedAt: true,
-								owner: {
-									select: {
-										name: true,
-									},
-								},
-							},
-						},
-						owner: {
-							select: {
-								name: true,
-							},
-						},
-					},
-				},
-				comments: {
-					select: {
-						id: true,
-						content: true,
-						createdAt: true,
-						updatedAt: true,
-						owner: {
-							select: {
-								name: true,
-							},
-						},
-					},
-				},
-			},
 		});
 
 		if (!risk) {
