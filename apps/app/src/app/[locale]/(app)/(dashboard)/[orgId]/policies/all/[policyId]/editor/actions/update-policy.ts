@@ -29,7 +29,7 @@ export const updatePolicy = authActionClient
 		}
 
 		try {
-			const existingPolicy = await db.organizationPolicy.findUnique({
+			const existingPolicy = await db.policy.findUnique({
 				where: {
 					id: policyId,
 					organizationId,
@@ -79,7 +79,7 @@ export const updatePolicy = authActionClient
 				};
 			}
 
-			const updatedPolicy = await db.organizationPolicy.update({
+			const updatedPolicy = await db.policy.update({
 				where: {
 					id: policyId,
 				},

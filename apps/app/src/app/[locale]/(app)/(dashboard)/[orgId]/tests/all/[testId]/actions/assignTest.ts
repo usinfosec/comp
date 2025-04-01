@@ -6,85 +6,85 @@ import { MembershipRole } from "@prisma/client";
 import { z } from "zod";
 
 export const assignTest = authActionClient
-  .schema(
-    z.object({
-      id: z.string(),
-      assigneeId: z.string().nullable(),
-    }),
-  )
-  .metadata({
-    name: "assignTest",
-    track: {
-      event: "assign-test",
-      channel: "server",
-    },
-  })
-  .action(async ({ ctx, parsedInput }) => {
-    const { user } = ctx;
-    const { id, assigneeId } = parsedInput;
+	.schema(
+		z.object({
+			id: z.string(),
+			assigneeId: z.string().nullable(),
+		}),
+	)
+	.metadata({
+		name: "assignTest",
+		track: {
+			event: "assign-test",
+			channel: "server",
+		},
+	})
+	.action(async ({ ctx, parsedInput }) => {
+		const { user } = ctx;
+		const { id, assigneeId } = parsedInput;
 
-    if (!user.organizationId) {
-      return {
-        success: false,
-        error: "Not authorized - no organization found",
-      };
-    }
+		if (!user.organizationId) {
+			return {
+				success: false,
+				error: "Not authorized - no organization found",
+			};
+		}
 
-    try {
-      // Verify the evidence exists and belongs to the organization
-      const test = await db.organizationIntegrationResults.findFirst({
-        where: {
-          id,
-          organizationId: user.organizationId,
-        },
-      });
+		try {
+			// Verify the evidence exists and belongs to the organization
+			const test = await db.integrationResult.findFirst({
+				where: {
+					id,
+					organizationId: user.organizationId,
+				},
+			});
 
-      if (!test) {
-        return {
-          success: false,
-          error: "test not found",
-        };
-      }
+			if (!test) {
+				return {
+					success: false,
+					error: "test not found",
+				};
+			}
 
-      // If assigneeId is provided, verify the user exists and has admin privileges
-      if (assigneeId) {
-        const adminMember = await db.organizationMember.findFirst({
-          where: {
-            userId: assigneeId,
-            organizationId: user.organizationId,
-            role: {
-              in: [MembershipRole.admin, MembershipRole.owner],
-            },
-          },
-        });
+			// If assigneeId is provided, verify the user exists and has admin privileges
+			if (assigneeId) {
+				const adminMember = await db.organizationMember.findFirst({
+					where: {
+						userId: assigneeId,
+						organizationId: user.organizationId,
+						role: {
+							in: [MembershipRole.admin, MembershipRole.owner],
+						},
+					},
+				});
 
-        if (!adminMember) {
-          return {
-            success: false,
-            error: "User not found or does not have admin privileges",
-          };
-        }
-      }
+				if (!adminMember) {
+					return {
+						success: false,
+						error: "User not found or does not have admin privileges",
+					};
+				}
+			}
 
-      // Update the evidence with the new assignee
-      const updatedTest = await db.organizationIntegrationResults.update({
-        where: {
-          id,
-        },
-        data: {
-          assignedUserId: assigneeId,
-        },
-      });
+			// Update the evidence with the new assignee
+			const updatedTest = await db.integrationResult.update({
+				where: {
+					id,
+				},
+				data: {
+					assignedUserId: assigneeId,
+				},
+			});
 
-      return {
-        success: true,
-        data: updatedTest,
-      };
-    } catch (error) {
-      console.error("Error assigning test:", error);
-      return {
-        success: false,
-        error: "Failed to assign Cloud Test",
-      };
-    }
-  });
+			return {
+				success: true,
+				data: updatedTest,
+			};
+		} catch (error) {
+			console.error("Error assigning test:", error);
+			return {
+				success: false,
+				error: "Failed to assign Cloud Test",
+			};
+		}
+	});
