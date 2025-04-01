@@ -49,17 +49,15 @@ export const app_onboarding = {
 		cta: "Add your first employee",
 		learn_more: "Learn more",
 		faqs: {
-			question_1: "What is an employee?",
-			answer_1: "An employee is a person who works for your organization.",
-			question_2: "Why should I manage employees?",
+			question_1: "What is employee management?",
+			answer_1:
+				"Employee management is the process of tracking, documenting, and managing your organization's workforce, including their roles, access levels, and compliance-related information.",
+			question_2: "Why is employee management important?",
 			answer_2:
-				"Employees can impact your organization's operations, reputation, and financial stability. By managing employees, you can reduce the likelihood of negative events and protect your organization.",
-			question_3: "Do I need to manage employees for SOC 2?",
+				"Employee management is crucial for compliance because it helps you track who has access to sensitive systems, document employee training and awareness programs, and maintain evidence of your security controls. This is essential for frameworks like SOC 2, ISO 27001, and HIPAA.",
+			question_3: "Is employee management required for SOC 2?",
 			answer_3:
-				"Yes, you need to manage employees for SOC 2 and other frameworks. Employee management is a key component of SOC 2 compliance.",
-			question_4: "What information should I include in an employee?",
-			answer_4:
-				"Include details like employee name, email, and role to effectively track and manage the employee.",
+				"For SOC 2, you need to document employee onboarding/offboarding processes, track access to systems and data, maintain records of security training, and demonstrate that employees understand their security responsibilities. This helps auditors verify your security controls and personnel management practices.",
 		},
 	},
 } as const;

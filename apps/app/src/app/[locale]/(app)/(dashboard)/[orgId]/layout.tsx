@@ -40,7 +40,7 @@ export default async function Layout({
     <UserProvider data={session.user}>
       <SidebarProvider initialIsCollapsed={isCollapsed}>
         <AnimatedLayout sidebar={<Sidebar />} isCollapsed={isCollapsed}>
-          <div className="p-4">
+          <div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
             <Header />
             <main>{children}</main>
           </div>
