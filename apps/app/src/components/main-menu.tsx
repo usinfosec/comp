@@ -121,7 +121,7 @@ export function MainMenu({
     },
     {
       id: "evidence",
-      path: "/:organizationId/evidence/overview",
+      path: "/:organizationId/evidence",
       name: t("sidebar.evidence"),
       disabled: false,
       icon: Icons.Evidence,
