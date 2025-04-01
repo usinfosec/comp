@@ -49,7 +49,7 @@ export const createApiKeyAction = authActionClient
       }
 
       // Create the API key in the database
-      const apiKeyRecord = await db.organizationApiKey.create({
+      const apiKeyRecord = await db.apiKey.create({
         data: {
           name,
           key: hashedKey,

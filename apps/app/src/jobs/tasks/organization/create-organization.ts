@@ -1,25 +1,20 @@
+import type {
+  TemplateControl,
+  TemplateEvidence,
+  TemplatePolicy,
+} from "@bubba/data";
 import {
+  controls,
+  evidence,
   FrameworkId,
   frameworks,
-  controls,
   policies,
-  evidence,
 } from "@bubba/data";
 import { db } from "@bubba/db";
-import type {
-  ComplianceStatus,
-  Departments,
-  FrameworkStatus,
-  Policy as PolicyType,
-  PolicyStatus,
-  RequirementType,
-} from "@prisma/client";
+import type { ComplianceStatus, PolicyStatus } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
-import type { TemplateControl } from "@bubba/data";
-import type { TemplatePolicy } from "@bubba/data";
-import type { TemplateEvidence } from "@bubba/data";
 
 /**
  * A type-safe wrapper for accessing policy templates by ID
