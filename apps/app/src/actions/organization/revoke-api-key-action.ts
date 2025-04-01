@@ -22,7 +22,7 @@ export const revokeApiKeyAction = authActionClient
     try {
       const { id } = parsedInput;
 
-      const result = await db.organizationApiKey.updateMany({
+      const result = await db.apiKey.updateMany({
         where: {
           id,
           organizationId: ctx.user.organizationId!,
