@@ -1,7 +1,6 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Framework } from "@bubba/data";
 import type { FrameworkInstance } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
@@ -9,16 +8,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 interface FrameworkWithCompliance {
-	framework: FrameworkInstance & {
-		framework: Framework;
-	};
+	framework: FrameworkInstance;
 	compliance: number;
 }
 
 interface Props {
-	frameworks: (FrameworkInstance & {
-		framework: Framework;
-	})[];
+	frameworks: FrameworkInstance[];
 	frameworksWithCompliance: FrameworkWithCompliance[];
 }
 
@@ -27,7 +22,7 @@ function FrameworkCard({
 	framework,
 	compliance,
 }: {
-	framework: FrameworkInstance & { framework: Framework };
+	framework: FrameworkInstance;
 	compliance: number;
 }) {
 	const { orgId } = useParams<{ orgId: string }>();
@@ -39,12 +34,12 @@ function FrameworkCard({
 		>
 			<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-zinc-800 flex items-center justify-center">
 				<div className="text-lg font-bold text-zinc-400">
-					{framework.framework.name.substring(0, 2).toUpperCase()}
+					{framework.name.substring(0, 2).toUpperCase()}
 				</div>
 			</div>
 			<div className="flex-1 space-y-2">
 				<div className="flex items-center justify-between">
-					<h3 className="font-medium">{framework.framework.name}</h3>
+					<h3 className="font-medium">{framework.name}</h3>
 					<span className="text-sm font-medium text-muted-foreground">
 						{compliance}% Compliant
 					</span>

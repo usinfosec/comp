@@ -9,9 +9,7 @@ import type { ReactNode } from "react";
 import type { ComplianceScoresProps } from "./types";
 
 interface FrameworkProgressProps {
-	frameworks: (FrameworkInstance & {
-		organizationControl: Control[];
-	})[];
+	frameworks: FrameworkInstance[];
 	complianceScores: ComplianceScoresProps;
 }
 
