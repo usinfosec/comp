@@ -9,6 +9,40 @@ const schema = z.object({
   controlIds: z.array(z.string()),
 });
 
+/**
+ * Checks if a specific artifact is completed based on its type and data
+ */
+function isArtifactCompleted(artifact: any): boolean {
+  if (!artifact) return false;
+
+  switch (artifact.type) {
+    case "policy":
+      return artifact.policy?.status === "published";
+    case "evidence":
+      return artifact.evidence?.published === true;
+    case "file":
+    case "link":
+    case "procedure":
+    case "training":
+      // For other types, consider them complete if they exist
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Determines if a control is fully compliant based on its artifacts
+ */
+function isControlCompliant(artifacts: any[]): boolean {
+  // If there are no artifacts, the control is not compliant
+  if (!artifacts || artifacts.length === 0) {
+    return false;
+  }
+
+  return artifacts.every(isArtifactCompleted);
+}
+
 export interface ControlProgress {
   controlId: string;
   total: number;
@@ -79,8 +113,9 @@ export const getOrganizationControlsProgress = authActionClient
 
         if (!progress) continue; // Skip if this control wasn't requested
 
-        if (control.status === "compliant") {
-          // If the control is marked as compliant directly, count it as fully complete
+        // Check if the control is fully compliant
+        if (isControlCompliant(control.artifacts)) {
+          // If the control is fully compliant, count it as fully complete
           progress.total = 1;
           progress.completed = 1;
           progress.progress = 100;
@@ -102,27 +137,8 @@ export const getOrganizationControlsProgress = authActionClient
           progress.total++;
           progress.byType[artifactType].total++;
 
-          // Check completion based on artifact type
-          let isCompleted = false;
-          switch (artifactType) {
-            case "policy":
-              isCompleted = artifact.policy?.status === "published";
-              break;
-            case "evidence":
-              isCompleted = artifact.evidence?.published === true;
-              break;
-            case "file":
-            case "link":
-            case "procedure":
-            case "training":
-              // These artifact types are considered complete if they exist
-              isCompleted = true;
-              break;
-            default:
-              isCompleted = false;
-          }
-
-          if (isCompleted) {
+          // Check if the artifact is completed
+          if (isArtifactCompleted(artifact)) {
             progress.completed++;
             progress.byType[artifactType].completed++;
           }

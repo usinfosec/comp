@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import type { FrameworkRequirements } from "../data/getFrameworkRequirements";
 import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
-import { getControlStatus } from "../lib/utils";
 import type { ComplianceStatus } from "@bubba/db/types";
 
 export type FrameworkControlsProps = {
@@ -43,15 +42,6 @@ export function FrameworkControls({
 							: null,
 					};
 				});
-
-				// Calculate the control status based on the mapped artifacts
-				const statusMapping: Record<string, ComplianceStatus> = {
-					not_started: "not_started",
-					completed: "compliant",
-					in_progress: "in_progress",
-				};
-				const calculatedStatus =
-					statusMapping[getControlStatus(mappedArtifacts)];
 
 				controls.push({
 					id: control.id,

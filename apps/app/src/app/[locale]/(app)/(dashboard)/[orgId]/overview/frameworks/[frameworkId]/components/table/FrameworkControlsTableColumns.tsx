@@ -15,7 +15,6 @@ import {
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
-import { getControlStatus } from "../../lib/utils";
 
 export type OrganizationControlType = {
 	id: string;
@@ -31,6 +30,42 @@ export type OrganizationControlType = {
 		} | null;
 	})[];
 };
+
+// Local helper function to check artifact completion
+function isArtifactCompleted(
+	artifact: OrganizationControlType["artifacts"][0],
+): boolean {
+	if (!artifact) return false;
+
+	switch (artifact.type) {
+		case "policy":
+			return artifact.policy?.status === "published";
+		case "evidence":
+			return artifact.evidence?.published === true;
+		case "file":
+		case "link":
+		case "procedure":
+		case "training":
+			// For other types, they're completed if they exist
+			return true;
+		default:
+			return false;
+	}
+}
+
+// Local helper function to calculate control status
+function getControlStatus(
+	artifacts: OrganizationControlType["artifacts"],
+): StatusType {
+	if (!artifacts || artifacts.length === 0) return "not_started";
+
+	const totalArtifacts = artifacts.length;
+	const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
+
+	if (completedArtifacts === 0) return "not_started";
+	if (completedArtifacts === totalArtifacts) return "completed";
+	return "in_progress";
+}
 
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
@@ -73,16 +108,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 				const status = getControlStatus(artifacts);
 
 				const totalArtifacts = artifacts.length;
-				const completedArtifacts = artifacts.filter((artifact) => {
-					switch (artifact.type) {
-						case "policy":
-							return artifact.policy?.status === "published";
-						case "evidence":
-							return artifact.evidence?.published === true;
-						default:
-							return false;
-					}
-				}).length;
+				const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
 
 				return (
 					<TooltipProvider>
