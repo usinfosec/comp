@@ -1,568 +1,559 @@
-import { frameworks } from "@bubba/data";
+import {
+  FrameworkId,
+  frameworks,
+  controls,
+  policies,
+  evidence,
+} from "@bubba/data";
 import { db } from "@bubba/db";
-import { RequirementType } from "@bubba/db/types";
+import type {
+  ComplianceStatus,
+  Departments,
+  FrameworkStatus,
+  Policy as PolicyType,
+  PolicyStatus,
+  RequirementType,
+} from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
+import type { TemplateControl } from "@bubba/data";
+import type { TemplatePolicy } from "@bubba/data";
+import type { TemplateEvidence } from "@bubba/data";
 
+// Type for policy and evidence maps with index signatures
+type PolicyMap = Record<string, TemplatePolicy>;
+type EvidenceMap = Record<string, TemplateEvidence>;
+
+/**
+ * Task to create and setup a new organization's compliance framework.
+ *
+ * This task performs the complete setup of an organization's compliance environment by:
+ * 1. Creating framework instances for each selected framework
+ * 2. Creating required controls for the frameworks
+ * 3. Creating policies based on control requirements
+ * 4. Creating evidence collection requirements
+ * 5. Linking everything together with artifacts
+ *
+ * The task handles the entire compliance bootstrapping process in a single operation.
+ */
 export const createOrganizationTask = schemaTask({
-	id: "create-organization",
-	maxDuration: 1000 * 60 * 3, // 3 minutes
-	schema: z.object({
-		organizationId: z.string(),
-		userId: z.string(),
-		fullName: z.string(),
-		website: z.string(),
-		frameworkIds: z.array(z.string()),
-	}),
-	run: async ({ organizationId, userId, fullName, website, frameworkIds }) => {
-		logger.info("Creating organization", {
-			organizationId,
-			userId,
-			fullName,
-			website,
-			frameworkIds,
-		});
+  id: "create-organization",
+  maxDuration: 1000 * 60 * 3, // 3 minutes
+  schema: z.object({
+    organizationId: z.string(),
+    userId: z.string(),
+    fullName: z.string(),
+    website: z.string(),
+    frameworkIds: z.array(z.string()),
+  }),
+  run: async ({ organizationId, userId, fullName, website, frameworkIds }) => {
+    logger.info("Creating organization", {
+      organizationId,
+      userId,
+      fullName,
+      website,
+      frameworkIds,
+    });
 
-		const organization = await db.organization.findFirst({
-			where: {
-				id: organizationId,
-				users: {
-					some: {
-						id: userId,
-					},
-				},
-			},
-		});
+    // Verify the organization exists and the user has access to it
+    const organization = await db.organization.findFirst({
+      where: {
+        id: organizationId,
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    });
 
-		if (!organization) {
-			throw new Error("Organization not found");
-		}
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
 
-		try {
-			await db.$transaction(async () => {
-				await db.organization.upsert({
-					where: {
-						id: organization.id,
-					},
-					update: {
-						name: fullName,
-						website,
-					},
-					create: {
-						name: fullName,
-						website,
-					},
-				});
-			});
+    try {
+      // Update or create the organization with the provided details
+      await db.$transaction(async () => {
+        await db.organization.upsert({
+          where: {
+            id: organization.id,
+          },
+          update: {
+            name: fullName,
+            website,
+          },
+          create: {
+            name: fullName,
+            website,
+          },
+        });
+      });
 
-			await createOrganizationCategories(organizationId, frameworkIds);
+      // Create framework instances for each selected framework
+      const organizationFrameworks = await Promise.all(
+        frameworkIds.map((frameworkId) =>
+          createOrganizationFramework(organizationId, frameworkId)
+        )
+      );
 
-			const organizationFrameworks = await Promise.all(
-				frameworkIds.map((frameworkId) =>
-					createOrganizationFramework(organizationId, frameworkId),
-				),
-			);
+      // Get controls relevant to the selected frameworks
+      const relevantControls = getRelevantControls(frameworkIds);
 
-			await createOrganizationPolicy(organizationId, frameworkIds, userId);
+      // Create policies required by the controls
+      const policiesForFrameworks = await createOrganizationPolicies(
+        organizationId,
+        relevantControls,
+        userId
+      );
 
-			await createOrganizationControlRequirements(
-				organizationId,
-				organizationFrameworks.map((framework) => framework.id),
-			);
+      // Create evidence requirements for the controls
+      const evidenceForFrameworks = await createOrganizationEvidence(
+        organizationId,
+        relevantControls,
+        userId
+      );
 
-			await createOrganizationEvidence(organizationId, frameworkIds, userId);
+      // Link controls to their policies and evidence through artifacts
+      await createOrganizationControlArtifacts(
+        organizationId,
+        organizationFrameworks.map((framework) => framework.id),
+        relevantControls,
+        policiesForFrameworks,
+        evidenceForFrameworks
+      );
 
-			await db.organization.update({
-				where: {
-					id: organizationId,
-				},
-				data: {
-					setup: true,
-				},
-			});
+      // Mark the organization setup as complete
+      await db.organization.update({
+        where: {
+          id: organizationId,
+        },
+        data: {
+          setup: true,
+        },
+      });
 
-			return {
-				success: true,
-			};
-		} catch (error) {
-			logger.error("Error creating organization", {
-				error,
-			});
+      return {
+        success: true,
+      };
+    } catch (error) {
+      logger.error("Error creating organization", {
+        error,
+      });
 
-			throw error;
-		}
-	},
+      throw error;
+    }
+  },
 });
 
+/**
+ * Identifies which controls are relevant to the selected frameworks.
+ *
+ * This function filters the control templates from the data package to find
+ * only those that map to requirements from the selected frameworks. This ensures
+ * we only create controls that are actually needed for the organization's
+ * compliance program.
+ *
+ * @param frameworkIds - Array of framework IDs selected by the organization
+ * @returns Array of control templates relevant to the selected frameworks
+ */
+const getRelevantControls = (frameworkIds: string[]): TemplateControl[] => {
+  return controls.filter((control) =>
+    control.mappedRequirements.some((req) =>
+      frameworkIds.includes(req.frameworkId)
+    )
+  );
+};
+
+/**
+ * Creates framework instances for the organization.
+ *
+ * This function:
+ * 1. Validates the organization and framework exist
+ * 2. Creates a framework instance record linking the organization to the framework
+ * 3. Creates control records for all controls required by the framework
+ *
+ * Framework instances represent which compliance frameworks an organization is
+ * implementing, and what their status is with those frameworks.
+ *
+ * @param organizationId - ID of the organization
+ * @param frameworkId - ID of the framework to create an instance for
+ * @returns The created framework instance record
+ */
 const createOrganizationFramework = async (
-	organizationId: string,
-	frameworkId: string,
+  organizationId: string,
+  frameworkId: string
 ) => {
-	// First verify the organization exists
-	const organization = await db.organization.findUnique({
-		where: { id: organizationId },
-	});
+  // First verify the organization exists
+  const organization = await db.organization.findUnique({
+    where: { id: organizationId },
+  });
 
-	if (!organization) {
-		logger.error("Organization not found when creating framework", {
-			organizationId,
-			frameworkId,
-		});
-		throw new Error(`Organization with ID ${organizationId} not found`);
-	}
+  if (!organization) {
+    logger.error("Organization not found when creating framework", {
+      organizationId,
+      frameworkId,
+    });
+    throw new Error(`Organization with ID ${organizationId} not found`);
+  }
 
-	// Verify the framework exists
-	const framework = frameworks[frameworkId as keyof typeof frameworks];
+  // Verify the framework exists
+  const framework = frameworks[frameworkId as FrameworkId];
 
-	if (!framework) {
-		logger.error("Framework not found when creating organization framework", {
-			organizationId,
-			frameworkId,
-		});
-		throw new Error(`Framework with ID ${frameworkId} not found`);
-	}
+  if (!framework) {
+    logger.error("Framework not found when creating organization framework", {
+      organizationId,
+      frameworkId,
+    });
+    throw new Error(`Framework with ID ${frameworkId} not found`);
+  }
 
-	// Use upsert to handle the case where a record may already exist
-	const organizationFramework = await db.organizationFramework.upsert({
-		where: {
-			organizationId_frameworkId: {
-				organizationId,
-				frameworkId,
-			},
-		},
-		update: {
-			status: "not_started", // Only update status if it already exists
-		},
-		create: {
-			organizationId,
-			frameworkId,
-			status: "not_started",
-		},
-		select: {
-			id: true,
-		},
-	});
+  // Use upsert to handle the case where a record may already exist
+  const organizationFramework = await db.frameworkInstance.upsert({
+    where: {
+      organizationId_frameworkId: {
+        organizationId,
+        frameworkId,
+      },
+    },
+    update: {
+      status: "not_started" as FrameworkStatus,
+    },
+    create: {
+      organizationId,
+      frameworkId,
+      status: "not_started" as FrameworkStatus,
+    },
+    select: {
+      id: true,
+    },
+  });
 
-	logger.info("Created/updated organization framework", {
-		organizationId,
-		frameworkId,
-		organizationFrameworkId: organizationFramework.id,
-	});
+  logger.info("Created/updated organization framework", {
+    organizationId,
+    frameworkId,
+    organizationFrameworkId: organizationFramework.id,
+  });
 
-	const frameworkCategories = await db.frameworkCategory.findMany({
-		where: { frameworkId },
-		include: {
-			controls: true,
-		},
-	});
+  // Find all controls that apply to this specific framework
+  const frameworkControls = controls.filter((control) =>
+    control.mappedRequirements.some((req) => req.frameworkId === frameworkId)
+  );
 
-	const organizationCategories = await db.organizationCategory.findMany({
-		where: {
-			organizationId,
-			frameworkId,
-		},
-	});
+  // Create database records for each control
+  for (const control of frameworkControls) {
+    await db.control.create({
+      data: {
+        organizationId,
+        controlId: control.id,
+        status: "not_started" as ComplianceStatus,
+        frameworkInstanceId: organizationFramework.id,
+      },
+    });
 
-	for (const frameworkCategory of frameworkCategories) {
-		const organizationCategory = organizationCategories.find(
-			(oc) => oc.name === frameworkCategory.name,
-		);
+    logger.info("Created control", {
+      controlId: control.id,
+      frameworkId,
+    });
+  }
 
-		if (!organizationCategory) continue;
-
-		await db.organizationControl.createMany({
-			data: frameworkCategory.controls.map((control) => ({
-				organizationFrameworkId: organizationFramework.id,
-				controlId: control.id,
-				organizationId,
-				status: "not_started",
-				organizationCategoryId: organizationCategory.id,
-			})),
-		});
-	}
-
-	return organizationFramework;
+  return organizationFramework;
 };
 
-const createOrganizationPolicy = async (
-	organizationId: string,
-	frameworkIds: string[],
-	userId: string,
+/**
+ * Creates policy records for the organization based on control requirements.
+ *
+ * This function:
+ * 1. Identifies all policies required by the relevant controls
+ * 2. Creates policy records using templates from the data package
+ * 3. Records which policies were created for later artifact linking
+ *
+ * Policies are core documents that define how an organization implements
+ * their compliance requirements. They're referenced by controls to demonstrate
+ * compliance with specific requirements.
+ *
+ * @param organizationId - ID of the organization
+ * @param relevantControls - Array of controls relevant to the organization
+ * @param userId - ID of the user creating the organization (becomes policy owner)
+ * @returns Map of template policy IDs to created policy records
+ */
+const createOrganizationPolicies = async (
+  organizationId: string,
+  relevantControls: TemplateControl[],
+  userId: string
 ) => {
-	if (!organizationId) {
-		throw new Error("Not authorized - no organization found");
-	}
+  if (!organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
 
-	const policies = await db.policy.findMany();
-	const policiesForFrameworks: Policy[] = [];
+  // Extract all policy IDs required by the controls
+  const policyIds = new Set<string>();
 
-	for (const policy of policies) {
-		const usedBy = policy.usedBy;
+  for (const control of relevantControls) {
+    for (const artifact of control.mappedArtifacts) {
+      if (artifact.type === "policy") {
+        policyIds.add(artifact.policyId);
+      }
+    }
+  }
 
-		if (!usedBy) {
-			continue;
-		}
+  logger.info("Creating organization policies", {
+    organizationId,
+    policyCount: policyIds.size,
+    policyIds: Array.from(policyIds),
+  });
 
-		const usedByFrameworkIds = Object.keys(usedBy);
+  // Create policies for the organization
+  const createdPolicies = new Map<string, any>();
 
-		if (
-			usedByFrameworkIds.some((frameworkId) =>
-				frameworkIds.includes(frameworkId),
-			)
-		) {
-			policiesForFrameworks.push(policy);
-		}
-	}
+  // Cast policies to a type with an index signature
+  const policyTemplates = policies as unknown as PolicyMap;
 
-	const organizationPolicies = await db.organizationPolicy.createMany({
-		data: policiesForFrameworks.map((policy) => ({
-			organizationId,
-			policyId: policy.id,
-			ownerId: userId,
-			status: "draft",
-			content: policy.content as InputJsonValue[],
-			frequency: policy.frequency,
-		})),
-	});
+  // Create each policy from its template
+  for (const policyId of policyIds) {
+    const policyTemplate = policyTemplates[policyId];
 
-	return organizationPolicies;
+    if (!policyTemplate) {
+      logger.warn(`Policy template not found: ${policyId}`);
+      continue;
+    }
+
+    try {
+      // Create the policy record using template data
+      const policy = await db.policy.create({
+        data: {
+          organizationId,
+          name: policyTemplate.metadata.name,
+          description: policyTemplate.metadata.description,
+          status: "draft" as PolicyStatus,
+          content: policyTemplate.content as InputJsonValue[],
+          policyId: policyTemplate.metadata.id,
+          ownerId: userId,
+          frequency: policyTemplate.metadata.frequency,
+          department: policyTemplate.metadata.department,
+        },
+      });
+
+      // Store for later artifact creation
+      createdPolicies.set(policyId, policy);
+
+      logger.info(`Created policy: ${policy.name}`, {
+        policyId: policy.id,
+        templateId: policyId,
+      });
+    } catch (error) {
+      logger.error(`Error creating policy ${policyId}`, { error });
+    }
+  }
+
+  return createdPolicies;
 };
 
-const createOrganizationControlRequirements = async (
-	organizationId: string,
-	organizationFrameworkIds: string[],
-) => {
-	if (!organizationId) {
-		throw new Error("Not authorized - no organization found");
-	}
-
-	logger.info("Creating organization control requirements", {
-		organizationId,
-		organizationFrameworkIds,
-	});
-
-	const controls = await db.organizationControl.findMany({
-		where: {
-			organizationId,
-			organizationFrameworkId: {
-				in: organizationFrameworkIds,
-			},
-		},
-		include: {
-			control: true,
-		},
-	});
-
-	// Create control requirements for each control
-	const controlRequirements = await db.controlRequirement.findMany({
-		where: {
-			controlId: { in: controls.map((control) => control.controlId) },
-		},
-		include: {
-			policy: true, // Include the policy to get its ID
-			evidence: true, // Include the evidence to get its ID
-			control: {
-				include: {
-					frameworkCategory: {
-						include: {
-							framework: true,
-						},
-					},
-				},
-			},
-		},
-	});
-
-	// Get all organization policies for this organization
-	const organizationPolicies = await db.organizationPolicy.findMany({
-		where: {
-			organizationId,
-		},
-	});
-
-	// Get all organization evidences for this organization
-	const organizationEvidences = await db.organizationEvidence.findMany({
-		where: {
-			organizationId,
-		},
-	});
-
-	logger.info("Found control requirements and related items", {
-		controls: controls.length,
-		controlRequirements: controlRequirements.length,
-		organizationPolicies: organizationPolicies.length,
-		organizationEvidences: organizationEvidences.length,
-	});
-
-	// Create any missing organization evidence records
-	const missingEvidenceRecords = [];
-
-	// First check for existing records to avoid duplicates
-	const existingEvidenceIds = new Set(
-		organizationEvidences.map((e) => e.evidenceId),
-	);
-
-	for (const requirement of controlRequirements) {
-		if (
-			requirement.type === "evidence" &&
-			requirement.evidenceId &&
-			requirement.evidence &&
-			!existingEvidenceIds.has(requirement.evidenceId)
-		) {
-			missingEvidenceRecords.push({
-				organizationId,
-				evidenceId: requirement.evidenceId,
-				name: requirement.name,
-				description: requirement.description,
-				frequency: requirement.frequency,
-				frameworkId: requirement.control.frameworkCategory?.framework.id || "",
-				assigneeId: null, // No user provided in this function
-				department: requirement.department,
-			});
-			// Add the new ID to our set so subsequent iterations don't duplicate it
-			existingEvidenceIds.add(requirement.evidenceId);
-		}
-	}
-
-	// Create any missing evidence records
-	if (missingEvidenceRecords.length > 0) {
-		logger.info(
-			`Creating ${missingEvidenceRecords.length} missing organization evidence records`,
-		);
-
-		await db.organizationEvidence.createMany({
-			data: missingEvidenceRecords,
-			skipDuplicates: true, // Add this to ensure we don't create duplicates
-		});
-
-		// Refresh the organization evidences collection
-		const refreshedEvidences = await db.organizationEvidence.findMany({
-			where: {
-				organizationId,
-			},
-		});
-
-		organizationEvidences.length = 0;
-		organizationEvidences.push(...refreshedEvidences);
-
-		logger.info(
-			`After creating missing records, now have ${organizationEvidences.length} organization evidence records`,
-		);
-	}
-
-	let evidenceNotFoundCount = 0;
-	let evidenceFoundCount = 0;
-
-	for (const control of controls) {
-		const requirements = controlRequirements.filter(
-			(req) => req.controlId === control.controlId,
-		);
-
-		const requirementsToCreate = requirements.map((requirement) => {
-			// For policy requirements
-			let organizationPolicyId = null;
-			if (requirement.type === "policy" && requirement.policyId) {
-				const organizationPolicy = organizationPolicies.find(
-					(op) => op.policyId === requirement.policyId,
-				);
-
-				if (!organizationPolicy) {
-					logger.warn("Policy not found in organization policies", {
-						requirementId: requirement.id,
-						policyId: requirement.policyId,
-					});
-				} else {
-					organizationPolicyId = organizationPolicy.id;
-				}
-			}
-
-			// For evidence requirements
-			let organizationEvidenceId = null;
-			if (requirement.type === "evidence" && requirement.evidenceId) {
-				const organizationEvidence = organizationEvidences.find(
-					(oe) => oe.evidenceId === requirement.evidenceId,
-				);
-
-				if (!organizationEvidence) {
-					logger.warn("Evidence not found in organization evidences", {
-						requirementId: requirement.id,
-						evidenceId: requirement.evidenceId,
-						organizationEvidenceIds: organizationEvidences.map(
-							(e) => e.evidenceId,
-						),
-					});
-					evidenceNotFoundCount++;
-				} else {
-					organizationEvidenceId = organizationEvidence.id;
-					evidenceFoundCount++;
-
-					logger.info("Successfully linked evidence", {
-						requirementId: requirement.id,
-						evidenceId: requirement.evidenceId,
-						organizationEvidenceId: organizationEvidence.id,
-					});
-				}
-			}
-
-			return {
-				organizationControlId: control.id,
-				controlRequirementId: requirement.id,
-				type: requirement.type,
-				description: requirement.description || "",
-				organizationPolicyId: organizationPolicyId,
-				organizationEvidenceId: organizationEvidenceId,
-			};
-		});
-
-		if (requirementsToCreate.length > 0) {
-			await db.organizationControlRequirement.createMany({
-				data: requirementsToCreate,
-			});
-		}
-	}
-
-	logger.info(
-		`Evidence requirements found: ${evidenceFoundCount}, not found: ${evidenceNotFoundCount}`,
-	);
-
-	return controlRequirements;
-};
-
+/**
+ * Creates evidence records for the organization based on control requirements.
+ *
+ * This function:
+ * 1. Identifies all evidence requirements from the relevant controls
+ * 2. Creates evidence records using templates from the data package
+ * 3. Records which evidence was created for later artifact linking
+ *
+ * Evidence represents the actual documentation, reports, logs, etc. that
+ * organizations must collect to demonstrate compliance with their controls.
+ *
+ * @param organizationId - ID of the organization
+ * @param relevantControls - Array of controls relevant to the organization
+ * @param userId - ID of the user creating the organization (becomes evidence assignee)
+ * @returns Map of template evidence IDs to created evidence records
+ */
 const createOrganizationEvidence = async (
-	organizationId: string,
-	frameworkIds: string[],
-	userId: string,
+  organizationId: string,
+  relevantControls: TemplateControl[],
+  userId: string
 ) => {
-	if (!organizationId) {
-		throw new Error("Not authorized - no organization found");
-	}
+  if (!organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
 
-	logger.info("Starting organization evidence creation", {
-		organizationId,
-		frameworkIds,
-	});
+  // Extract all evidence IDs required by the controls
+  const evidenceIds = new Set<string>();
 
-	const controlRequirements = await db.controlRequirement.findMany({
-		where: {
-			type: RequirementType.evidence,
-			control: {
-				frameworkCategory: {
-					frameworkId: { in: frameworkIds },
-				},
-			},
-		},
-		include: {
-			control: {
-				include: {
-					frameworkCategory: {
-						include: {
-							framework: true,
-						},
-					},
-				},
-			},
-			evidence: true, // Include evidence to get the actual evidence ID
-		},
-	});
+  for (const control of relevantControls) {
+    for (const artifact of control.mappedArtifacts) {
+      if (artifact.type === "evidence") {
+        evidenceIds.add(artifact.evidenceId);
+      }
+    }
+  }
 
-	logger.info(
-		`Found ${controlRequirements.length} control requirements for evidence`,
-	);
+  logger.info("Creating organization evidence", {
+    organizationId,
+    evidenceCount: evidenceIds.size,
+    evidenceIds: Array.from(evidenceIds),
+  });
 
-	// Filter out requirements that don't have a properly linked evidence record
-	const validRequirements = controlRequirements.filter((req) => req.evidence);
+  // Create evidence records for the organization
+  const createdEvidence = new Map<string, any>();
 
-	logger.info(
-		`Found ${validRequirements.length} valid requirements with evidence`,
-	);
-	logger.info("Evidence IDs to be created", {
-		evidenceIds: validRequirements.map((req) => req.evidenceId),
-	});
+  // Cast evidence to a type with an index signature
+  const evidenceTemplates = evidence as unknown as EvidenceMap;
 
-	if (validRequirements.length === 0) {
-		logger.warn(
-			"No valid evidence requirements found with linked evidence records",
-			{
-				organizationId,
-				frameworkIds,
-				totalRequirements: controlRequirements.length,
-			},
-		);
-		return { count: 0 };
-	}
+  // Create each evidence from its template
+  for (const evidenceId of evidenceIds) {
+    const evidenceTemplate = evidenceTemplates[evidenceId];
 
-	logger.info("Creating organization evidence", {
-		organizationId,
-		frameworkIds,
-		validRequirements: validRequirements.length,
-		totalRequirements: controlRequirements.length,
-	});
+    if (!evidenceTemplate) {
+      logger.warn(`Evidence template not found: ${evidenceId}`);
+      continue;
+    }
 
-	// First check for existing records to avoid duplicates
-	const existingEvidences = await db.organizationEvidence.findMany({
-		where: {
-			organizationId,
-			evidenceId: {
-				in: validRequirements
-					.map((req) => req.evidenceId)
-					.filter((id): id is string => id !== null),
-			},
-		},
-		select: {
-			evidenceId: true,
-		},
-	});
+    try {
+      // Create the evidence record using template data
+      const evidenceRecord = await db.evidence.create({
+        data: {
+          organizationId,
+          name: evidenceTemplate.name,
+          description: evidenceTemplate.description || "",
+          evidenceId: evidenceTemplate.id,
+          frequency: evidenceTemplate.frequency,
+          assigneeId: userId,
+          department: evidenceTemplate.department,
+          additionalUrls: [],
+          fileUrls: [],
+        },
+      });
 
-	const existingEvidenceIds = new Set(
-		existingEvidences.map((e) => e.evidenceId),
-	);
-	const newRequirements = validRequirements.filter(
-		(req) => req.evidenceId && !existingEvidenceIds.has(req.evidenceId),
-	);
+      // Store for later artifact creation
+      createdEvidence.set(evidenceId, evidenceRecord);
 
-	logger.info(
-		`Found ${existingEvidences.length} existing evidence records, creating ${newRequirements.length} new records`,
-	);
+      logger.info(`Created evidence: ${evidenceRecord.name}`, {
+        evidenceId: evidenceRecord.id,
+        templateId: evidenceId,
+      });
+    } catch (error) {
+      logger.error(`Error creating evidence ${evidenceId}`, { error });
+    }
+  }
 
-	if (newRequirements.length > 0) {
-		// Only create evidence records that don't already exist
-		const organizationEvidence = await db.organizationEvidence.createMany({
-			data: newRequirements.map((req) => ({
-				organizationId,
-				evidenceId: req.evidence!.id, // Use the actual evidence ID from the linked evidence
-				name: req.name,
-				description: req.description,
-				frequency: req.frequency,
-				frameworkId: req.control.frameworkCategory?.framework.id || "",
-				assigneeId: userId,
-				department: req.department,
-			})),
-		});
+  return createdEvidence;
+};
 
-		logger.info(
-			`Created ${organizationEvidence.count} new organization evidence records`,
-		);
-	}
+/**
+ * Creates artifacts that link controls to their policies and evidence.
+ *
+ * This function:
+ * 1. Retrieves all created control records
+ * 2. For each control, creates artifacts linking it to its required policies and evidence
+ *
+ * Artifacts are the connections between controls and the policies/evidence that
+ * demonstrate compliance with those controls. They represent the actual implementation
+ * of compliance requirements.
+ *
+ * @param organizationId - ID of the organization
+ * @param frameworkInstanceIds - IDs of the created framework instances
+ * @param relevantControls - Array of controls relevant to the organization
+ * @param createdPolicies - Map of template policy IDs to created policy records
+ * @param createdEvidence - Map of template evidence IDs to created evidence records
+ * @returns Object with success status and artifact count
+ */
+const createOrganizationControlArtifacts = async (
+  organizationId: string,
+  frameworkInstanceIds: string[],
+  relevantControls: TemplateControl[],
+  createdPolicies: Map<string, any>,
+  createdEvidence: Map<string, any>
+) => {
+  if (!organizationId) {
+    throw new Error("Not authorized - no organization found");
+  }
 
-	// Verify the evidence was created by querying
-	const createdEvidences = await db.organizationEvidence.findMany({
-		where: {
-			organizationId,
-			evidenceId: {
-				in: validRequirements
-					.map((req) => req.evidenceId)
-					.filter((id): id is string => id !== null),
-			},
-		},
-	});
+  logger.info("Creating organization control artifacts", {
+    organizationId,
+    frameworkInstanceIds,
+    relevantControlsCount: relevantControls.length,
+  });
 
-	logger.info(
-		`Total evidence records: ${createdEvidences.length} organization evidence records`,
-	);
-	logger.info("Evidence IDs", {
-		createdEvidenceIds: createdEvidences.map((e) => e.evidenceId),
-	});
+  // Get all controls for this organization and framework instances
+  const dbControls = await db.control.findMany({
+    where: {
+      organizationId,
+      frameworkInstanceId: {
+        in: frameworkInstanceIds,
+      },
+    },
+  });
 
-	return { count: createdEvidences.length };
+  // Create a mapping from control ID to database control record for efficient lookup
+  const controlMap = new Map<string, any>();
+  for (const control of dbControls) {
+    controlMap.set(control.controlId, control);
+  }
+
+  // Create artifacts for each control
+  let artifactsCreated = 0;
+
+  for (const control of relevantControls) {
+    const dbControl = controlMap.get(control.id);
+
+    if (!dbControl) {
+      logger.warn(`Control not found in database: ${control.id}`);
+      continue;
+    }
+
+    // Create artifacts for each policy and evidence mapped to this control
+    for (const artifact of control.mappedArtifacts) {
+      try {
+        if (artifact.type === "policy") {
+          // Link control to a policy
+          const policy = createdPolicies.get(artifact.policyId);
+
+          if (!policy) {
+            logger.warn(`Policy not found for artifact: ${artifact.policyId}`);
+            continue;
+          }
+
+          // Create the policy artifact
+          await db.artifact.create({
+            data: {
+              controlId: dbControl.id,
+              type: "policy" as RequirementType,
+              description: `Policy artifact for control ${control.name}`,
+              policyId: policy.id,
+            },
+          });
+
+          artifactsCreated++;
+        } else if (artifact.type === "evidence") {
+          // Link control to evidence
+          const evidenceRecord = createdEvidence.get(artifact.evidenceId);
+
+          if (!evidenceRecord) {
+            logger.warn(
+              `Evidence not found for artifact: ${artifact.evidenceId}`
+            );
+            continue;
+          }
+
+          // Create the evidence artifact
+          await db.artifact.create({
+            data: {
+              controlId: dbControl.id,
+              type: "evidence" as RequirementType,
+              description: `Evidence artifact for control ${control.name}`,
+              evidenceId: evidenceRecord.id,
+            },
+          });
+
+          artifactsCreated++;
+        }
+      } catch (error) {
+        logger.error(`Error creating artifact for control ${control.id}`, {
+          error,
+        });
+      }
+    }
+  }
+
+  logger.info(`Created ${artifactsCreated} artifacts for controls`);
+
+  return { success: true, artifactsCreated };
 };
