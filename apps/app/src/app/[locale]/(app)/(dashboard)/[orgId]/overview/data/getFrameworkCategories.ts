@@ -28,11 +28,6 @@ const isControlCompliant = (
     })[];
   }
 ) => {
-  // First, check if the control has the direct status of "compliant"
-  if (control.status === "compliant") {
-    return true;
-  }
-
   // If there are no artifacts, the control is not compliant
   if (!control.artifacts || control.artifacts.length === 0) {
     return false;
