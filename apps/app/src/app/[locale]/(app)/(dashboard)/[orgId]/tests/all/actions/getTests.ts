@@ -15,7 +15,7 @@ export const getTests = authActionClient
 	})
 	.action(async ({ parsedInput, ctx }) => {
 		const { search, severity, status, page = 1, pageSize = 10 } = parsedInput;
-		const { user } = ctx;
+		const { session } = ctx;
 
 		console.log("--------------------------------");
 		console.log("search", search);
@@ -25,7 +25,7 @@ export const getTests = authActionClient
 		console.log("pageSize", pageSize);
 		console.log("--------------------------------");
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "You are not authorized to view tests",
@@ -39,7 +39,7 @@ export const getTests = authActionClient
 			const [integrationResults, total] = await Promise.all([
 				db.integrationResult.findMany({
 					where: {
-						organizationId: user.organizationId,
+						organizationId: session.activeOrganizationId,
 						...(search
 							? {
 									OR: [
@@ -90,7 +90,7 @@ export const getTests = authActionClient
 				}),
 				db.integrationResult.count({
 					where: {
-						organizationId: user.organizationId,
+						organizationId: session.activeOrganizationId,
 						...(search
 							? {
 									OR: [
