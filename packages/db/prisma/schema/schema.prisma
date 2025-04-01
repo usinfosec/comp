@@ -9,6 +9,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  lastLogin     DateTime?
+
+  accounts             Account[]
+  assignedEvidence     Evidence[]
+  auditLog             AuditLog[]
+  employee             Employee[]
+  integrationResults   IntegrationResult[]
+  invitations          Invitation[]
+  members              Member[]
+  policy               Policy[]
+  risk                 Risk[]
+  riskAttachment       RiskAttachment[]
+  riskComment          RiskComment[]
+  riskMitigationTask   RiskMitigationTask[]
+  sessions             Session[]
+  taskAttachment       TaskAttachment[]
+  vendor               Vendor[]
+  vendorAttachment     VendorAttachment[]
+  vendorTask           VendorTask[]
+  vendorTaskAttachment VendorTaskAttachment[]
+
+  @@unique([email])
+  @@map("user")
+}
+
 model Session {
   id                   String   @id
   expiresAt            DateTime
@@ -53,41 +86,6 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
-}
-
-model User {
-  id             String    @id
-  name           String
-  email          String
-  emailVerified  Boolean
-  image          String?
-  createdAt      DateTime
-  updatedAt      DateTime
-  lastLogin      DateTime?
-  organizationId String?
-
-  accounts             Account[]
-  assignedEvidence     Evidence[]
-  auditLog             AuditLog[]
-  employee             Employee[]
-  integrationResults   IntegrationResult[]
-  invitations          Invitation[]
-  members              Member[]
-  organization         Organization?          @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  policy               Policy[]
-  risk                 Risk[]
-  riskAttachment       RiskAttachment[]
-  riskComment          RiskComment[]
-  riskMitigationTask   RiskMitigationTask[]
-  sessions             Session[]
-  taskAttachment       TaskAttachment[]
-  vendor               Vendor[]
-  vendorAttachment     VendorAttachment[]
-  vendorTask           VendorTask[]
-  vendorTaskAttachment VendorTaskAttachment[]
-
-  @@unique([email])
-  @@map("user")
 }
 
 model ApiKey {

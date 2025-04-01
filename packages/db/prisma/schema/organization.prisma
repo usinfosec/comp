@@ -26,7 +26,6 @@ model Organization {
   riskComment            RiskComment[]
   riskMitigationTask     RiskMitigationTask[]
   taskAttachment         TaskAttachment[]
-  users                  User[]                   @relation("CurrentOrganization")
   vendorAttachment       VendorAttachment[]
   vendorContact          VendorContact[]
   vendors                Vendor[]
