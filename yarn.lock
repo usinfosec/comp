@@ -1424,14 +1424,14 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-"@bubba/analytics@packages/analytics":
+"@bubba/analytics@^workspace:packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@bubba/app@apps/app", "@bubba/app@workspace:*":
+"@bubba/app@^workspace:apps/app", "@bubba/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
@@ -1528,14 +1528,14 @@
     yarn "^1.22.22"
     zustand "^5.0.3"
 
-"@bubba/auth@packages/auth", "@bubba/auth@workspace:*":
+"@bubba/auth@^workspace:packages/auth", "@bubba/auth@workspace:*":
   version "workspace:packages/auth"
   resolved "workspace:packages/auth"
   dependencies:
     better-auth "^1.2.5"
     server-only "0.0.1"
 
-"@bubba/data@packages/data", "@bubba/data@workspace:*":
+"@bubba/data@^workspace:packages/data", "@bubba/data@workspace:*":
   version "workspace:packages/data"
   resolved "workspace:packages/data"
   devDependencies:
@@ -1544,11 +1544,12 @@
     tsup "^8.0.1"
     typescript "^5.7.3"
 
-"@bubba/db@packages/db", "@bubba/db@workspace:*":
+"@bubba/db@^workspace:packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1556,9 +1557,10 @@
     "@prisma/adapter-neon" "^6.5.0"
     "@prisma/client" "^6.5.0"
     "@prisma/extension-accelerate" "^1.2.2"
+    cuid "^3.0.0"
     prisma "^6.5.0"
 
-"@bubba/email@packages/email":
+"@bubba/email@^workspace:packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1578,7 +1580,7 @@
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
-"@bubba/integrations@packages/integrations":
+"@bubba/integrations@^workspace:packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1601,14 +1603,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@bubba/kv@packages/kv":
+"@bubba/kv@^workspace:packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@bubba/notifications@packages/notifications", "@bubba/notifications@workspace:*":
+"@bubba/notifications@^workspace:packages/notifications", "@bubba/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1617,11 +1619,11 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.0"
 
-"@bubba/tsconfig@packages/tsconfig", "@bubba/tsconfig@workspace:*":
+"@bubba/tsconfig@^workspace:packages/tsconfig", "@bubba/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@bubba/ui@packages/ui", "@bubba/ui@workspace:*":
+"@bubba/ui@^workspace:packages/ui", "@bubba/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -1685,7 +1687,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@bubba/utils@packages/utils", "@bubba/utils@workspace:*":
+"@bubba/utils@^workspace:packages/utils", "@bubba/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -2874,13 +2876,6 @@
   dependencies:
     "@opentelemetry/api" "^1.0.0"
 
-"@opentelemetry/api-logs@0.57.2":
-  version "0.57.2"
-  resolved "https://registry.npmjs.org/@opentelemetry/api-logs/-/api-logs-0.57.2.tgz"
-  integrity sha512-uIX52NnTM0iBh84MShlpouI7UKqkZ7MrUszTmaypHBu4r7NofznSnQRfJ+uUeDtQDj6w8eFGg5KBLDAwAPz1+A==
-  dependencies:
-    "@opentelemetry/api" "^1.3.0"
-
 "@opentelemetry/context-async-hooks@1.25.1":
   version "1.25.1"
   resolved "https://registry.npmjs.org/@opentelemetry/context-async-hooks/-/context-async-hooks-1.25.1.tgz"
@@ -2948,25 +2943,13 @@
     "@opentelemetry/sdk-trace-base" "1.25.1"
     "@opentelemetry/semantic-conventions" "1.25.1"
 
-"@opentelemetry/instrumentation@0.52.1":
+"@opentelemetry/instrumentation@0.52.1", "@opentelemetry/instrumentation@^0.52.0 || ^0.53.0 || ^0.54.0 || ^0.55.0 || ^0.56.0 || ^0.57.0":
   version "0.52.1"
   resolved "https://registry.npmjs.org/@opentelemetry/instrumentation/-/instrumentation-0.52.1.tgz"
   integrity sha512-uXJbYU/5/MBHjMp1FqrILLRuiJCs3Ofk0MeRDk8g1S1gD47U8X3JnSwcMO1rtRo1x1a7zKaQHaoYu49p/4eSKw==
   dependencies:
     "@opentelemetry/api-logs" "0.52.1"
     "@types/shimmer" "^1.0.2"
-    import-in-the-middle "^1.8.1"
-    require-in-the-middle "^7.1.1"
-    semver "^7.5.2"
-    shimmer "^1.2.1"
-
-"@opentelemetry/instrumentation@^0.52.0 || ^0.53.0 || ^0.54.0 || ^0.55.0 || ^0.56.0 || ^0.57.0":
-  version "0.57.2"
-  resolved "https://registry.npmjs.org/@opentelemetry/instrumentation/-/instrumentation-0.57.2.tgz"
-  integrity sha512-BdBGhQBh8IjZ2oIIX6F2/Q3LKm/FDDKi6ccYKcBTeilh6SNdNKveDOLk73BkSJjQLJk6qe4Yh+hHw1UPhCDdrg==
-  dependencies:
-    "@opentelemetry/api-logs" "0.57.2"
-    "@types/shimmer" "^1.2.0"
     import-in-the-middle "^1.8.1"
     require-in-the-middle "^7.1.1"
     semver "^7.5.2"
@@ -5994,7 +5977,7 @@
     "@types/node" "*"
     "@types/send" "*"
 
-"@types/shimmer@^1.0.2", "@types/shimmer@^1.2.0":
+"@types/shimmer@^1.0.2":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@types/shimmer/-/shimmer-1.2.0.tgz"
   integrity sha512-UE7oxhQLLd9gub6JKIAhDq06T0F6FnztwMNRvYgjeQSBeMc1ZG/tA47EwfduvkuQS8apbkM/lpLpWsaCeYsXVg==
@@ -7225,7 +7208,7 @@ cronstrue@^2.21.0:
   resolved "https://registry.npmjs.org/cronstrue/-/cronstrue-2.57.0.tgz"
   integrity sha512-gQOfxJa1RA9uDT4hx37NshhX4dW9t9zTCtIYu15LUziH+mkpuLXYcSEyM8ZewMJ2p8UVuHGjI3n4hGpu3HtCbg==
 
-cross-spawn@7.0.5:
+cross-spawn@7.0.5, cross-spawn@^7.0.3:
   version "7.0.5"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.5.tgz"
   integrity sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==
@@ -7234,7 +7217,7 @@ cross-spawn@7.0.5:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-cross-spawn@^7.0.3, cross-spawn@^7.0.6:
+cross-spawn@^7.0.6:
   version "7.0.6"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz"
   integrity sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==
@@ -7300,6 +7283,11 @@ csv-stringify@^6.5.2:
   version "6.5.2"
   resolved "https://registry.npmjs.org/csv-stringify/-/csv-stringify-6.5.2.tgz"
   integrity sha512-RFPahj0sXcmUyjrObAK+DOWtMvMIFV328n4qZJhgX3x2RqkQgOTU2mCUmiFR0CzM6AzChlRSUErjiJeEt8BaQA==
+
+cuid@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/cuid/-/cuid-3.0.0.tgz"
+  integrity sha512-WZYYkHdIDnaxdeP8Misq3Lah5vFjJwGuItJuV+tvMafosMzw0nF297T7mrm8IOWiPJkV6gc7sa8pzx27+w25Zg==
 
 d3@^7.9.0:
   version "7.9.0"
@@ -11977,7 +11965,7 @@ plist@^3.1.0:
     base64-js "^1.5.1"
     xmlbuilder "^15.1.1"
 
-"portal@apps/portal":
+portal@^workspace:apps/portal:
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -12151,15 +12139,10 @@ preact@10.11.3:
   resolved "https://registry.npmjs.org/preact/-/preact-10.11.3.tgz"
   integrity sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==
 
-preact@10.24.3, preact@>=10:
+preact@10.24.3, preact@>=10, preact@^10.19.3:
   version "10.24.3"
   resolved "https://registry.npmjs.org/preact/-/preact-10.24.3.tgz"
   integrity sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==
-
-preact@>=10, preact@^10.19.3:
-  version "10.26.4"
-  resolved "https://registry.npmjs.org/preact/-/preact-10.26.4.tgz"
-  integrity sha512-KJhO7LBFTjP71d83trW+Ilnjbo+ySsaAgCfXOXUlmGzJ4ygYPWmysm77yg4emwfmoz3b22yvH5IsVFHbhUaH5w==
 
 preact-render-to-string@5.2.3:
   version "5.2.3"
