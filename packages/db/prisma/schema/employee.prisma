@@ -1,22 +1,29 @@
 model Employee {
-  id                       String                     @id @default(cuid())
-  name                     String
-  email                    String
-  department               Departments                @default(none)
-  isActive                 Boolean                    @default(true)
-  externalEmployeeId       String?
-  createdAt                DateTime                   @default(now())
-  updatedAt                DateTime                   @updatedAt
-  organizationId           String
-  userId                   String?
-  linkId                   String?
-  organization             Organization               @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user                     User?                      @relation(fields: [userId], references: [id])
-  riskTaskAssignment       RiskTaskAssignment[]
-  vendorTaskAssignment     VendorTaskAssignment[]
+  id                   String                 @id @default(cuid())
+  name                 String
+  email                String
+  department           Departments            @default(none)
+  isActive             Boolean                @default(true)
+  externalEmployeeId   String?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  organizationId       String
+  userId               String?
+  linkId               String?
+  organization         Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user                 User?                  @relation(fields: [userId], references: [id])
+  riskTaskAssignment   RiskTaskAssignment[]
+  vendorTaskAssignment VendorTaskAssignment[]
 
   @@unique([email, organizationId])
   @@index([organizationId])
   @@index([userId])
   @@index([department])
+}
+
+enum EmployeeTaskStatus {
+  assigned
+  in_progress
+  completed
+  overdue
 }

@@ -42,20 +42,19 @@ model VendorContact {
   @@index([vendorId])
 }
 
-
 model VendorAttachment {
-  id             String             @id @default(cuid())
+  id             String               @id @default(cuid())
   vendorId       String
   organizationId String
   name           String
   fileUrl        String
   fileKey        String?
   type           VendorAttachmentType @default(file)
-  uploadedAt     DateTime           @default(now())
+  uploadedAt     DateTime             @default(now())
   ownerId        String?
-  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User?              @relation(fields: [ownerId], references: [id])
-  vendor         Vendor             @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  organization   Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?                @relation(fields: [ownerId], references: [id])
+  vendor         Vendor               @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
   @@index([ownerId])
@@ -63,21 +62,21 @@ model VendorAttachment {
 }
 
 model VendorTask {
-  id             String       @id @default(cuid())
+  id             String                 @id @default(cuid())
   title          String
   description    String
-  status         VendorTaskStatus @default(open)
+  status         VendorTaskStatus       @default(open)
   dueDate        DateTime?
   notifiedAt     DateTime?
   completedAt    DateTime?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
   vendorId       String
   ownerId        String?
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User?        @relation(fields: [ownerId], references: [id])
-  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  organization   Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?                  @relation(fields: [ownerId], references: [id])
+  vendor         Vendor                 @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   assignments    VendorTaskAssignment[]
   attachments    VendorTaskAttachment[]
 
@@ -87,20 +86,20 @@ model VendorTask {
 }
 
 model VendorTaskAttachment {
-  id             String       @id @default(cuid())
+  id             String               @id @default(cuid())
   taskId         String
   vendorId       String
   name           String
   fileUrl        String
   fileKey        String?
   type           VendorAttachmentType @default(file)
-  uploadedAt     DateTime     @default(now())
+  uploadedAt     DateTime             @default(now())
   ownerId        String?
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner          User?        @relation(fields: [ownerId], references: [id])
-  task           VendorTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  vendor         Vendor       @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  organization   Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner          User?                @relation(fields: [ownerId], references: [id])
+  task           VendorTask           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  vendor         Vendor               @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([taskId])
   @@index([vendorId])
@@ -125,4 +124,49 @@ model VendorTaskAssignment {
   @@index([vendorId])
   @@index([employeeId])
   @@index([organizationId])
+}
+
+enum VendorCategory {
+  cloud
+  infrastructure
+  software_as_a_service
+  finance
+  marketing
+  sales
+  hr
+  other
+}
+
+enum VendorStatus {
+  not_assessed
+  in_progress
+  assessed
+}
+
+enum VendorInherentRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorResidualRisk {
+  low
+  medium
+  high
+  unknown
+}
+
+enum VendorTaskStatus {
+  open
+  in_progress
+  completed
+  cancelled
+}
+
+enum VendorAttachmentType {
+  file
+  image
+  document
+  other
 }

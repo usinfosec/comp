@@ -1,0 +1,94 @@
+model User {
+    id            String    @id
+    name          String
+    email         String
+    emailVerified Boolean
+    image         String?
+    createdAt     DateTime
+    updatedAt     DateTime
+    lastLogin     DateTime?
+
+    accounts             Account[]
+    assignedEvidence     Evidence[]
+    auditLog             AuditLog[]
+    employee             Employee[]
+    integrationResults   IntegrationResult[]
+    invitations          Invitation[]
+    members              Member[]
+    policy               Policy[]
+    risk                 Risk[]
+    riskAttachment       RiskAttachment[]
+    riskComment          RiskComment[]
+    riskMitigationTask   RiskMitigationTask[]
+    sessions             Session[]
+    taskAttachment       TaskAttachment[]
+    vendor               Vendor[]
+    vendorAttachment     VendorAttachment[]
+    vendorTask           VendorTask[]
+    vendorTaskAttachment VendorTaskAttachment[]
+
+    @@unique([email])
+}
+
+model Session {
+    id                   String   @id
+    expiresAt            DateTime
+    token                String
+    createdAt            DateTime
+    updatedAt            DateTime
+    ipAddress            String?
+    userAgent            String?
+    userId               String
+    activeOrganizationId String?
+    user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([token])
+}
+
+model Account {
+    id                    String    @id
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime
+    updatedAt             DateTime
+}
+
+model Verification {
+    id         String    @id
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime?
+    updatedAt  DateTime?
+}
+
+model Member {
+    id             String       @id
+    organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    userId         String
+    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    role           String
+    createdAt      DateTime
+}
+
+model Invitation {
+    id             String       @id
+    organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    email          String
+    role           String?
+    status         String
+    expiresAt      DateTime
+    inviterId      String
+    user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+}

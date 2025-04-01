@@ -11,7 +11,7 @@ import {
 	policies,
 } from "@bubba/data";
 import { db } from "@bubba/db";
-import type { ComplianceStatus, PolicyStatus } from "@prisma/client";
+import type { PolicyStatus } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
@@ -250,7 +250,6 @@ const createFrameworkInstance = async (
 				organizationId,
 				name: control.name,
 				description: control.description,
-				status: "not_started" as ComplianceStatus,
 				frameworkInstanceId: frameworkInstance.id,
 			},
 		});

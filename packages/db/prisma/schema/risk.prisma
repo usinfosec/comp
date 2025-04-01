@@ -67,7 +67,6 @@ model RiskMitigationTask {
   @@index([organizationId])
 }
 
-
 model TaskAttachment {
   id                   String             @id @default(cuid())
   riskMitigationTaskId String
@@ -87,13 +86,13 @@ model TaskAttachment {
 }
 
 model RiskTreatmentStrategy {
-  id          String        @id @default(cuid())
-  type        TreatmentType
+  id          String            @id @default(cuid())
+  type        RiskTreatmentType
   description String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  riskId      String        @unique
-  risk        Risk          @relation(fields: [riskId], references: [id], onDelete: Cascade)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  riskId      String            @unique
+  risk        Risk              @relation(fields: [riskId], references: [id], onDelete: Cascade)
 
   @@index([riskId])
 }
@@ -127,4 +126,64 @@ model RiskTaskAssignment {
   @@unique([taskId, employeeId])
   @@index([taskId])
   @@index([employeeId])
+}
+
+enum RiskLevel {
+  low
+  medium
+  high
+}
+
+enum RiskTreatmentType {
+  accept
+  avoid
+  mitigate
+  transfer
+}
+
+enum RiskCategory {
+  customer
+  governance
+  operations
+  other
+  people
+  regulatory
+  reporting
+  resilience
+  technology
+  vendor_management
+}
+
+enum RiskStatus {
+  open
+  pending
+  closed
+  archived
+}
+
+enum RiskTaskStatus {
+  open
+  pending
+  closed
+}
+
+enum RiskAttachmentType {
+  file
+  url
+}
+
+enum RiskLikelihood {
+  very_low
+  low
+  medium
+  high
+  very_high
+}
+
+enum RiskImpact {
+  very_low
+  low
+  medium
+  high
+  very_high
 }

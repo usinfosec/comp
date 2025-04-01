@@ -1,7 +1,7 @@
 model Artifact {
   // Metadata
-  id   String          @id @default(cuid())
-  type RequirementType
+  id   String       @id @default(cuid())
+  type ArtifactType
 
   // Timestamps
   createdAt DateTime @default(now())
@@ -15,4 +15,11 @@ model Artifact {
   evidence       Evidence?    @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
   policyId       String?
   policy         Policy?      @relation(fields: [policyId], references: [id], onDelete: Cascade)
+}
+
+enum ArtifactType {
+  policy
+  evidence
+  procedure
+  training
 }
