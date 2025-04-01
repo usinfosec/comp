@@ -22,10 +22,10 @@ export const updateEvidenceDepartment = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { id, department } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -46,7 +46,7 @@ export const updateEvidenceDepartment = authActionClient
 			}
 
 			// Verify the user has access to this organization's evidence
-			if (evidence.organizationId !== user.organizationId) {
+			if (evidence.organizationId !== session.activeOrganizationId) {
 				return {
 					success: false,
 					error: "Not authorized to update this evidence",
