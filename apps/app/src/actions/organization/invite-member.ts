@@ -94,8 +94,12 @@ export const inviteMember = authActionClient
             // Create a temporary user record
             const newUser = await db.user.create({
               data: {
+                id: crypto.randomUUID(),
                 email,
                 name: email.split("@")[0],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                emailVerified: true,
               },
             });
             userId = newUser.id;
