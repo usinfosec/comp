@@ -1,9 +1,10 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
 import { appErrors, policyDetailsInputSchema } from "../types";
+import { headers } from "next/headers";
 
 export const getPolicyDetails = authActionClient
 	.schema(policyDetailsInputSchema)
@@ -17,7 +18,10 @@ export const getPolicyDetails = authActionClient
 	.action(async ({ parsedInput }) => {
 		const { policyId } = parsedInput;
 
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
+
 		const organizationId = session?.user.organizationId;
 
 		if (!organizationId) {
