@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { Departments } from "@bubba/db/types";
 
 export const employeeTaskSchema = z.object({
   id: z.string(),
@@ -13,12 +12,15 @@ export const employeeTaskSchema = z.object({
 
 export const employeeDetailsSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  email: z.string(),
-  department: z.string(),
+  department: z.string().nullable(),
   createdAt: z.date(),
   isActive: z.boolean(),
-  employeeTasks: z.array(employeeTaskSchema),
+  user: z.object({
+    id: z.string(),
+    name: z.string().nullable(),
+    email: z.string(),
+  }),
+  employeeTasks: z.array(employeeTaskSchema).optional(),
 });
 
 export const employeeDetailsInputSchema = z.object({
