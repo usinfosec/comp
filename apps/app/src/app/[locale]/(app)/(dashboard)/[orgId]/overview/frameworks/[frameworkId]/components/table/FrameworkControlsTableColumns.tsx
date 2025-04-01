@@ -5,7 +5,7 @@ import {
 	type StatusType,
 } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
-import type { Artifact, ComplianceStatus, PolicyStatus } from "@bubba/db/types";
+import type { Artifact, PolicyStatus } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import {
@@ -66,7 +66,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 		},
 		{
 			id: "status",
-			accessorKey: "status",
+			accessorKey: "artifacts",
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
 				const artifacts = row.original.artifacts;

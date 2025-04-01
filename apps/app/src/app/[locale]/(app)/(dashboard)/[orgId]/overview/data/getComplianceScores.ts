@@ -171,11 +171,11 @@ export async function getComplianceScores(
 
     // Count controls with any progress (in_progress or compliant)
     const inProgressControls = framework.controls.filter(
-      (control) => control.status === "in_progress"
+      (control) => calculateControlStatus(control) === "in_progress"
     ).length;
 
     const compliantControls = framework.controls.filter(
-      (control) => control.status === "compliant"
+      (control) => calculateControlStatus(control) === "compliant"
     ).length;
 
     // For compliance percentage, count both in_progress (partial) and compliant (full)
@@ -297,4 +297,32 @@ function findFrameworkIdForArtifact(
     }
   }
   return undefined;
+}
+
+// Helper function to determine control status from artifacts
+function calculateControlStatus(
+  control: Control & {
+    artifacts: (Artifact & {
+      policy: Policy | null;
+      evidence: Evidence | null;
+    })[];
+  }
+): "not_started" | "in_progress" | "compliant" {
+  const artifacts = control.artifacts || [];
+  if (artifacts.length === 0) return "not_started";
+
+  const completedArtifacts = artifacts.filter((artifact) => {
+    switch (artifact.type) {
+      case "policy":
+        return artifact.policy?.status === "published";
+      case "evidence":
+        return artifact.evidence?.published === true;
+      default:
+        return false;
+    }
+  }).length;
+
+  if (completedArtifacts === 0) return "not_started";
+  if (completedArtifacts === artifacts.length) return "compliant";
+  return "in_progress";
 }
