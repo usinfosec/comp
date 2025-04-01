@@ -2,25 +2,23 @@ import type { OrganizationControlType } from "../components/table/FrameworkContr
 import type { StatusType } from "@/components/frameworks/framework-status";
 
 export function getControlStatus(
-  requirements: OrganizationControlType["requirements"]
+  artifacts: OrganizationControlType["artifacts"]
 ): StatusType {
-  if (!requirements || requirements.length === 0) return "not_started";
+  if (!artifacts || artifacts.length === 0) return "not_started";
 
-  const totalRequirements = requirements.length;
-  const completedRequirements = requirements.filter((req) => {
-    switch (req.type) {
+  const totalArtifacts = artifacts.length;
+  const completedArtifacts = artifacts.filter((artifact) => {
+    switch (artifact.type) {
       case "policy":
-        return req.organizationPolicy?.status === "published";
-      case "file":
-        return !!req.fileUrl;
+        return artifact.policy?.status === "published";
       case "evidence":
-        return req.organizationEvidence?.published === true;
+        return artifact.evidence?.published === true;
       default:
-        return req.published;
+        return false;
     }
   }).length;
 
-  if (completedRequirements === 0) return "not_started";
-  if (completedRequirements === totalRequirements) return "completed";
+  if (completedArtifacts === 0) return "not_started";
+  if (completedArtifacts === totalArtifacts) return "completed";
   return "in_progress";
 }

@@ -1,9 +1,8 @@
 model Control {
   // Metadata
-  id          String           @id @default(cuid())
+  id          String @id @default(cuid())
   name        String
   description String
-  status      ComplianceStatus @default(not_started)
 
   // Review dates
   lastReviewDate DateTime?

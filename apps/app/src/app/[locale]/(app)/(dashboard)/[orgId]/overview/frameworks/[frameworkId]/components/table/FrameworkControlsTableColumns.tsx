@@ -5,7 +5,7 @@ import {
 	type StatusType,
 } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
-import type { ComplianceStatus } from "@bubba/db/types";
+import type { Artifact, ComplianceStatus, PolicyStatus } from "@bubba/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import {
@@ -16,21 +16,17 @@ import {
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
 import { getControlStatus } from "../../lib/utils";
-import { ControlRequirement } from "@bubba/data";
 
 export type OrganizationControlType = {
-	code: string;
-	description: string | null;
-	name: string;
-	status: ComplianceStatus;
 	id: string;
+	name: string;
+	description: string | null;
 	frameworkId: string;
-	category: string;
-	requirements: (ControlRequirement & {
-		organizationPolicy: {
-			status: "draft" | "published" | "archived";
+	artifacts: (Artifact & {
+		policy: {
+			status: PolicyStatus;
 		} | null;
-		organizationEvidence: {
+		evidence: {
 			published: boolean;
 		} | null;
 	})[];
@@ -53,9 +49,6 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 							className="flex flex-col"
 						>
 							<span className="font-medium truncate">{row.original.name}</span>
-							<span className="text-sm text-muted-foreground truncate">
-								{row.original.code}
-							</span>
 						</Link>
 					</div>
 				);
@@ -63,11 +56,11 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 		},
 		{
 			id: "category",
-			accessorKey: "category",
+			accessorKey: "name",
 			header: t("risk.vendor.table.category"),
 			cell: ({ row }) => (
 				<div className="w-[200px]">
-					<span className="text-sm">{row.original.category}</span>
+					<span className="text-sm">{row.original.name}</span>
 				</div>
 			),
 		},
@@ -76,20 +69,18 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 			accessorKey: "status",
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
-				const requirements = row.original.requirements;
-				const status = getControlStatus(requirements);
+				const artifacts = row.original.artifacts;
+				const status = getControlStatus(artifacts);
 
-				const totalRequirements = requirements.length;
-				const completedRequirements = requirements.filter((req) => {
-					switch (req.type) {
+				const totalArtifacts = artifacts.length;
+				const completedArtifacts = artifacts.filter((artifact) => {
+					switch (artifact.type) {
 						case "policy":
-							return req.organizationPolicy?.status === "published";
-						case "file":
-							return !!req.fileUrl;
+							return artifact.policy?.status === "published";
 						case "evidence":
-							return req.organizationEvidence?.published === true;
+							return artifact.evidence?.published === true;
 						default:
-							return req.published;
+							return false;
 					}
 				}).length;
 
@@ -105,14 +96,12 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 								<div className="text-sm">
 									<p>
 										Progress:{" "}
-										{Math.round(
-											(completedRequirements / totalRequirements) * 100,
-										) || 0}
+										{Math.round((completedArtifacts / totalArtifacts) * 100) ||
+											0}
 										%
 									</p>
 									<p>
-										Completed: {completedRequirements}/{totalRequirements}{" "}
-										requirements
+										Completed: {completedArtifacts}/{totalArtifacts} artifacts
 									</p>
 								</div>
 							</TooltipContent>
