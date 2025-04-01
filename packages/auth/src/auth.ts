@@ -2,12 +2,23 @@ import { betterAuth } from "better-auth";
 import { db } from "@bubba/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { organization } from "better-auth/plugins";
+import { ac } from "./permissions";
+import { admin, auditor, employee } from "./permissions";
 
 export const auth = betterAuth({
 	database: prismaAdapter(db, {
 		provider: "postgresql",
 	}),
-	plugins: [organization()],
+	plugins: [
+		organization({
+			ac,
+			roles: {
+				admin,
+				auditor,
+				employee,
+			},
+		}),
+	],
 	socialProviders: {
 		google: {
 			clientId: process.env.AUTH_GOOGLE_ID!,
