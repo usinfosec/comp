@@ -1,29 +1,29 @@
 import type {
-  Framework,
-  OrganizationEvidence,
-  OrganizationFramework,
-  OrganizationIntegrationResults,
-  OrganizationPolicy,
+	Framework,
+	Evidence,
+	FrameworkInstance,
+	IntegrationResult,
+	Policy,
 } from "@bubba/db/types";
 
 export interface ComplianceScoresProps {
-  policiesCompliance: number;
-  evidenceTasksCompliance: number;
-  cloudTestsCompliance: number;
-  overallCompliance: number;
-  frameworkCompliance: {
-    id: string;
-    name: string;
-    compliance: number;
-  }[];
-  policies: OrganizationPolicy[];
-  evidenceTasks: OrganizationEvidence[];
-  tests: OrganizationIntegrationResults[];
+	policiesCompliance: number;
+	evidenceTasksCompliance: number;
+	cloudTestsCompliance: number;
+	overallCompliance: number;
+	frameworkCompliance: {
+		id: string;
+		name: string;
+		compliance: number;
+	}[];
+	policies: Policy[];
+	evidenceTasks: Evidence[];
+	tests: IntegrationResult[];
 }
 
 export interface FrameworkWithCompliance {
-  framework: OrganizationFramework & {
-    framework: Framework;
-  };
-  compliance: number;
+	framework: FrameworkInstance & {
+		framework: Framework;
+	};
+	compliance: number;
 }
