@@ -11,17 +11,17 @@ export type FrameworkControlsProps = {
 };
 
 export function FrameworkControls({
-	requirements: frameworkRequirements,
+	requirements,
 	frameworkId,
 }: FrameworkControlsProps) {
 	const allControls = useMemo(() => {
-		if (!frameworkRequirements?.length) return [];
+		if (!requirements?.length) return [];
 
 		// Get all controls
 		const controls: OrganizationControlType[] = [];
 
-		for (const frameworkInstance of frameworkRequirements) {
-			for (const control of frameworkInstance.controls) {
+		for (const requirement of requirements) {
+			for (const control of requirement.controls) {
 				// Map artifacts first to have them in the correct format
 				const mappedArtifacts = control.artifacts.map((artifact) => {
 					return {
@@ -53,9 +53,9 @@ export function FrameworkControls({
 		}
 
 		return controls;
-	}, [frameworkRequirements, frameworkId]);
+	}, [requirements, frameworkId]);
 
-	if (!frameworkRequirements?.length) {
+	if (!requirements?.length) {
 		return null;
 	}
 
