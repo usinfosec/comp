@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import type { FrameworkRequirements } from "../data/getFrameworkRequirements";
 import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
-import type { ComplianceStatus } from "@bubba/db/types";
 
 export type FrameworkControlsProps = {
 	requirements: FrameworkRequirements;
