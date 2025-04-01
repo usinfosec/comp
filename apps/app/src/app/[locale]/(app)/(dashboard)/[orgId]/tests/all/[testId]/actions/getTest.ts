@@ -52,7 +52,6 @@ export async function getTest(input: { testId: string }): Promise<
 			organizationId: organizationId,
 			completedAt: integrationResult.completedAt || new Date(),
 			organizationIntegrationId: integrationResult.organizationIntegrationId,
-			TestComments: [],
 		};
 
 		return {
