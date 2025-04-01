@@ -25,7 +25,7 @@ export default async function FrameworkPage({ params }: PageProps) {
     redirect("/");
   }
 
-  const organizationId = session.user.organizationId;
+  const organizationId = session.session.activeOrganizationId;
 
   if (!frameworkId) {
     redirect("/");

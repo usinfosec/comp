@@ -23,7 +23,7 @@ export default async function Layout({
       <SecondaryMenu
         items={[
           {
-            path: `/${session.user.organizationId}/overview`,
+            path: `/${session.session.activeOrganizationId}/overview`,
             label: t("overview.title"),
           },
         ]}

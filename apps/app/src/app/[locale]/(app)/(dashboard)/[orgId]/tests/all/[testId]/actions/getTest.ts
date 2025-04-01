@@ -16,7 +16,7 @@ export async function getTest(input: { testId: string }): Promise<
 		headers: await headers(),
 	});
 
-	const organizationId = session?.user.organizationId;
+	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
 		throw new Error("Organization ID not found");

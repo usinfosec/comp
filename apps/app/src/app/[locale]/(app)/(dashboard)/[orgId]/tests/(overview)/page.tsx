@@ -25,10 +25,10 @@ export default async function TestsOverview({
     redirect("/onboarding");
   }
 
-  const overview = await getTestsOverview(session.user.organizationId);
+  const overview = await getTestsOverview(session.session.activeOrganizationId);
 
   if (overview?.totalTests === 0) {
-    redirect(`/${session.user.organizationId}/tests/all`);
+    redirect(`/${session.session.activeOrganizationId}/tests/all`);
   }
 
   return (
@@ -42,7 +42,7 @@ export default async function TestsOverview({
           highSeverityTests={overview.highSeverityTests}
           criticalSeverityTests={overview.criticalSeverityTests}
         />
-        <TestsByAssignee organizationId={session.user.organizationId} />
+        <TestsByAssignee organizationId={session.session.activeOrganizationId} />
       </div>
     </div>
   );

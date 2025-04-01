@@ -15,17 +15,17 @@ export default async function Layout({ children, params }: LayoutProps) {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     redirect("/");
   }
 
   const { riskId } = await params;
 
   if (!riskId) {
-    redirect(`/${session.user.organizationId}/risk`);
+    redirect(`/${session.session.activeOrganizationId}/risk`);
   }
 
-  const orgId = session.user.organizationId;
+  const orgId = session.session.activeOrganizationId;
 
   return (
     <div className="max-w-[1200px] space-y-4 m-auto">

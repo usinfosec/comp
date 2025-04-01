@@ -41,7 +41,7 @@ const getEvidenceOverview = cache(async () => {
     return redirect("/");
   }
 
-  const organizationId = session.user.organizationId;
+  const organizationId = session.session.activeOrganizationId;
 
   return await db.$transaction(async (tx) => {
     const [totalEvidence, publishedEvidence, draftEvidence, isNotRelevant, evidenceByAssignee, evidenceByAssigneeStatus] = await Promise.all(

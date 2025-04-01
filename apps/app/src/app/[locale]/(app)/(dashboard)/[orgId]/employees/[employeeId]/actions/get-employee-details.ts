@@ -27,7 +27,7 @@ export const getEmployeeDetails = authActionClient
 			headers: await headers(),
 		});
 
-		const organizationId = session?.user.organizationId;
+		const organizationId = session?.session.activeOrganizationId;
 
 		if (!organizationId) {
 			throw new Error("Organization ID not found");

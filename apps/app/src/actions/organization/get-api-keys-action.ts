@@ -22,7 +22,7 @@ export const getApiKeysAction = async (): Promise<
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return {
 				success: false,
 				error: {
@@ -34,7 +34,7 @@ export const getApiKeysAction = async (): Promise<
 
 		const apiKeys = await db.apiKey.findMany({
 			where: {
-				organizationId: session.user.organizationId,
+				organizationId: session.session.activeOrganizationId,
 				isActive: true,
 			},
 			select: {

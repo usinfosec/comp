@@ -78,7 +78,7 @@ const getEmployeesOverview = cache(async () => {
     headers: await headers(),
   });
 
-  const orgId = session?.user.organizationId;
+  const orgId = session?.session.activeOrganizationId;
 
   const employees = await db.employee.findMany({
     where: {

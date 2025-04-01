@@ -44,13 +44,13 @@ export default async function Page({
     headers: await headers(),
   });
 
-  if (!session?.user?.organizationId) {
+  if (!session?.session.activeOrganizationId) {
     redirect("/onboarding");
   }
 
   const vendors = await db.vendor.findMany({
     where: {
-      organizationId: session.user.organizationId,
+      organizationId: session.session.activeOrganizationId,
       ...(status && { status: status }),
       ...(department && { department: department }),
       ...(assigneeId && { ownerId: assigneeId }),

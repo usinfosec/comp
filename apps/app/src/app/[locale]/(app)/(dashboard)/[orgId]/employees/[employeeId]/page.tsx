@@ -21,7 +21,7 @@ export default async function EmployeeDetailsPage({
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     redirect("/");
@@ -66,7 +66,7 @@ const getEmployee = cache(async (employeeId: string) => {
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     redirect("/");
@@ -86,7 +86,7 @@ const getPoliciesTasks = cache(async (employeeId: string) => {
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     redirect("/");
@@ -110,7 +110,7 @@ const getTrainingVideos = cache(async (employeeId: string) => {
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     redirect("/");

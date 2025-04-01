@@ -37,11 +37,11 @@ export const createVendorAction = createSafeActionClient()
 					category: input.parsedInput.category,
 					status: input.parsedInput.status,
 					ownerId: input.parsedInput.ownerId,
-					organizationId: session.user.organizationId,
+					organizationId: session.session.activeOrganizationId,
 				},
 			});
 
-			revalidatePath(`/${session.user.organizationId}/vendors`);
+			revalidatePath(`/${session.session.activeOrganizationId}/vendors`);
 
 			return { success: true, data: vendor };
 		} catch (error) {

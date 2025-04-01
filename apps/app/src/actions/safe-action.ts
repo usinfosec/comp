@@ -100,7 +100,7 @@ export const authActionClient = actionClientWithMeta
 		// 		userId: session.user.id,
 		// 		email: session.user.email,
 		// 		name: session.user.name,
-		// 		organizationId: session.user.organizationId,
+		// 		organizationId: session.session.activeOrganizationId,
 		// 		action: metadata.name,
 		// 		ip: ctx.ip,
 		// 		userAgent: ctx.userAgent,
@@ -110,7 +110,7 @@ export const authActionClient = actionClientWithMeta
 		// 		data: {
 		// 			data: auditData,
 		// 			userId: session.user.id,
-		// 			organizationId: session.user.organizationId,
+		// 			organizationId: session.session.activeOrganizationId,
 		// 		},
 		// 	});
 
@@ -119,7 +119,7 @@ export const authActionClient = actionClientWithMeta
 		// 			channel: metadata.track.channel,
 		// 			email: session.user.email,
 		// 			name: session.user.name,
-		// 			organizationId: session.user.organizationId,
+		// 			organizationId: session.session.activeOrganizationId,
 		// 		});
 		// 	}
 		// } catch (error) {

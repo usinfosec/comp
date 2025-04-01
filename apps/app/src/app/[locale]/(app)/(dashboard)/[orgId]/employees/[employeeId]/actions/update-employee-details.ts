@@ -35,7 +35,7 @@ export const updateEmployeeDetails = authActionClient
 				headers: await headers(),
 			});
 
-			const organizationId = session?.user.organizationId;
+			const organizationId = session?.session.activeOrganizationId;
 
 			if (!organizationId) {
 				return {

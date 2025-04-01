@@ -18,7 +18,7 @@ export default async function TestsPage({
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     return redirect("/");

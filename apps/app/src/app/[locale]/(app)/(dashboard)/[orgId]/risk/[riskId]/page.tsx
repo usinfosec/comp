@@ -111,14 +111,14 @@ async function getRisk(riskId: string) {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return null;
   }
 
   const risk = await db.risk.findUnique({
     where: {
       id: riskId,
-      organizationId: session.user.organizationId,
+      organizationId: session.session.activeOrganizationId,
     },
     include: {
       owner: true,
@@ -149,7 +149,7 @@ async function getTasks({
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return { tasks: [], total: 0 };
   }
 
@@ -160,7 +160,7 @@ async function getTasks({
       .findMany({
         where: {
           riskId,
-          organizationId: session.user.organizationId,
+          organizationId: session.session.activeOrganizationId,
           AND: [
             search
               ? {
@@ -209,7 +209,7 @@ async function getTasks({
     db.riskMitigationTask.count({
       where: {
         riskId,
-        organizationId: session.user.organizationId,
+        organizationId: session.session.activeOrganizationId,
         AND: [
           search
             ? {

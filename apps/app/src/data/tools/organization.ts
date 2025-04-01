@@ -18,12 +18,12 @@ export const findOrganization = tool({
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const org = await db.organization.findUnique({
-			where: { id: session.user.organizationId },
+			where: { id: session.session.activeOrganizationId },
 			select: {
 				name: true,
 				website: true,

@@ -52,7 +52,7 @@ const organizationDetails = async () => {
   });
 
   const organization = await db.organization.findUnique({
-    where: { id: session?.user.organizationId },
+    where: { id: session?.session.activeOrganizationId },
     select: {
       name: true,
       website: true,

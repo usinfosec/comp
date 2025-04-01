@@ -17,7 +17,7 @@ export default async function SingleControlPage({ params }: PageProps) {
     headers: await headers(),
   });
 
-  if (!session?.user.organizationId) {
+  if (!session?.session.activeOrganizationId) {
     redirect("/");
   }
 

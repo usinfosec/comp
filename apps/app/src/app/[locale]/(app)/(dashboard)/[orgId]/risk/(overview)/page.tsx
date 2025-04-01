@@ -17,7 +17,7 @@ export default async function RiskManagement({
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     redirect("/");
   }
 

@@ -83,14 +83,14 @@ const getRiskOverview = cache(
       headers: await headers(),
     });
 
-    if (!session || !session.user.organizationId) {
+    if (!session || !session.session.activeOrganizationId) {
       return { risks: 0 };
     }
 
     return await db.$transaction(async (tx) => {
       const [risks] = await Promise.all([
         tx.risk.count({
-          where: { organizationId: session.user.organizationId },
+          where: { organizationId: session.session.activeOrganizationId },
         }),
       ]);
 

@@ -32,7 +32,7 @@ export const updateEmployeeDepartment = authActionClient
 			headers: await headers(),
 		});
 
-		const organizationId = session?.user.organizationId;
+		const organizationId = session?.session.activeOrganizationId;
 
 		if (!organizationId) {
 			return {

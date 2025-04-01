@@ -9,7 +9,7 @@ export const getVendorTaskAttachments = async (taskId: string) => {
 		headers: await headers(),
 	});
 
-	if (!session || !session.user.organizationId) {
+	if (!session || !session.session.activeOrganizationId) {
 		return {
 			error: "Unauthorized",
 		};
@@ -18,7 +18,7 @@ export const getVendorTaskAttachments = async (taskId: string) => {
 	const attachments = await db.vendorTaskAttachment.findMany({
 		where: {
 			taskId: taskId,
-			organizationId: session.user.organizationId,
+			organizationId: session.session.activeOrganizationId,
 		},
 		select: {
 			fileUrl: true,

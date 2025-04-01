@@ -11,7 +11,7 @@ export async function IntegrationsServer() {
 
   const organization = await db.organization.findUnique({
     where: {
-      id: session?.user.organizationId,
+      id: session?.session.activeOrganizationId,
     },
   });
 

@@ -15,7 +15,7 @@ export const getControl = async (id: string) => {
 
 	const control = await db.control.findUnique({
 		where: {
-			organizationId: session.user.organizationId,
+			organizationId: session.session.activeOrganizationId,
 			id,
 		},
 	});

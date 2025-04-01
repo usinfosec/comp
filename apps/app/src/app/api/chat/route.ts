@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 		headers: await headers(),
 	});
 
-	if (!session?.user.organizationId) {
+	if (!session?.session.activeOrganizationId) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 

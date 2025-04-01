@@ -111,14 +111,14 @@ async function getVendor(vendorId: string) {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return null;
   }
 
   const vendor = await db.vendor.findUnique({
     where: {
       id: vendorId,
-      organizationId: session.user.organizationId,
+      organizationId: session.session.activeOrganizationId,
     },
     include: {
       owner: true,
@@ -133,12 +133,12 @@ async function getUsers() {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return [];
   }
 
   return db.user.findMany({
-    where: { organizationId: session.user.organizationId },
+    where: { organizationId: session.session.activeOrganizationId },
   });
 }
 
@@ -163,7 +163,7 @@ async function getTasks({
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return { tasks: [], total: 0 };
   }
 

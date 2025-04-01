@@ -25,7 +25,7 @@ export const revokeInvitation = authActionClient
 			parsedInput,
 			ctx,
 		}): Promise<ActionResponse<{ revoked: boolean }>> => {
-			if (!ctx.user.organizationId) {
+			if (!ctx.session.activeOrganizationId) {
 				return {
 					success: false,
 					error: "User does not have an organization",
@@ -38,7 +38,7 @@ export const revokeInvitation = authActionClient
 				// Check if user has admin permissions
 				const currentUserMember = await db.organizationMember.findFirst({
 					where: {
-						organizationId: ctx.user.organizationId,
+						organizationId: ctx.session.activeOrganizationId,
 						userId: ctx.user.id,
 					},
 				});
@@ -58,7 +58,7 @@ export const revokeInvitation = authActionClient
 				const invitation = await db.organizationMember.findFirst({
 					where: {
 						id: invitationId,
-						organizationId: ctx.user.organizationId,
+						organizationId: ctx.session.activeOrganizationId,
 						accepted: false,
 					},
 				});

@@ -24,7 +24,7 @@ export async function getRisks({
 		headers: await headers(),
 	});
 
-	if (!session || !session.user.organizationId) {
+	if (!session || !session.session.activeOrganizationId) {
 		return {
 			success: false,
 			error: "Unauthorized",
@@ -32,7 +32,7 @@ export async function getRisks({
 	}
 
 	const where = {
-		organizationId: session.user.organizationId,
+		organizationId: session.session.activeOrganizationId,
 		...(search && {
 			title: {
 				contains: search,

@@ -25,7 +25,7 @@ export default async function IntegrationsPage({
   const [organization] = await Promise.all([
     db.organization.findUnique({
       where: {
-        id: session?.user.organizationId,
+        id: session?.session.activeOrganizationId,
       },
     }),
   ]);

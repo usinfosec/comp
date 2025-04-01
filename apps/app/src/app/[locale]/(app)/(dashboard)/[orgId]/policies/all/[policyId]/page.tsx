@@ -20,7 +20,7 @@ export default async function PolicyDetails({
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     redirect(`/${orgId}/policies/all`);

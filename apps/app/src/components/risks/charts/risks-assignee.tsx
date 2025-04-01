@@ -212,13 +212,13 @@ const userData = cache(async () => {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return [];
   }
 
   return await db.user.findMany({
     where: {
-      organizationId: session.user.organizationId,
+      organizationId: session.session.activeOrganizationId,
       risk: {
         some: {},
       },

@@ -27,7 +27,7 @@ export const updateMemberRole = authActionClient
 			parsedInput,
 			ctx,
 		}): Promise<ActionResponse<{ updated: boolean }>> => {
-			if (!ctx.user.organizationId) {
+			if (!ctx.session.activeOrganizationId) {
 				return {
 					success: false,
 					error: "User does not have an organization",
@@ -40,7 +40,7 @@ export const updateMemberRole = authActionClient
 				// Check if user has admin permissions
 				const currentUserMember = await db.organizationMember.findFirst({
 					where: {
-						organizationId: ctx.user.organizationId,
+						organizationId: ctx.session.activeOrganizationId,
 						userId: ctx.user.id,
 					},
 				});
@@ -60,7 +60,7 @@ export const updateMemberRole = authActionClient
 				const targetMember = await db.organizationMember.findFirst({
 					where: {
 						id: memberId,
-						organizationId: ctx.user.organizationId,
+						organizationId: ctx.session.activeOrganizationId,
 					},
 				});
 

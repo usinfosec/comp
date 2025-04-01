@@ -20,7 +20,7 @@ const getEmployees = cache(async () => {
     headers: await headers(),
   });
 
-  const orgId = session?.user.organizationId;
+  const orgId = session?.session.activeOrganizationId;
 
   if (!orgId) {
     return [];
@@ -63,7 +63,7 @@ const getEmployeePolicies = cache(async () => {
     headers: await headers(),
   });
 
-  const orgId = session?.user.organizationId;
+  const orgId = session?.session.activeOrganizationId;
 
   if (!orgId) {
     return [];

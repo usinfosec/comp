@@ -21,12 +21,12 @@ export const getPolicies = tool({
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const policies = await db.policy.findMany({
-			where: { organizationId: session.user.organizationId, status },
+			where: { organizationId: session.session.activeOrganizationId, status },
 			select: {
 				id: true,
 				policy: {
@@ -64,12 +64,12 @@ export const getPolicyContent = tool({
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const policy = await db.policy.findUnique({
-			where: { id, organizationId: session.user.organizationId },
+			where: { id, organizationId: session.session.activeOrganizationId },
 			select: {
 				content: true,
 			},

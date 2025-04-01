@@ -33,13 +33,13 @@ const getRisksByStatus = cache(async () => {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     return [];
   }
 
   const risks = await db.risk.groupBy({
     by: ["status"],
-    where: { organizationId: session.user.organizationId },
+    where: { organizationId: session.session.activeOrganizationId },
     _count: true,
   });
 

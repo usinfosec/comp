@@ -22,7 +22,7 @@ export default async function DashboardPage({
     headers: await headers(),
   });
 
-  const organizationId = session?.user.organizationId;
+  const organizationId = session?.session.activeOrganizationId
 
   if (!organizationId) {
     redirect("/");

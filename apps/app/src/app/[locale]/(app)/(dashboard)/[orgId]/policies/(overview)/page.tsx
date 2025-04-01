@@ -40,7 +40,7 @@ const getPoliciesOverview = async () => {
     return null;
   }
 
-  const organizationId = session.user.organizationId;
+  const organizationId = session.session.activeOrganizationId;
 
   return await db.$transaction(async (tx) => {
     const [

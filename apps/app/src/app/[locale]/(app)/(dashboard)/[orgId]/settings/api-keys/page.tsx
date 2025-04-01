@@ -45,13 +45,13 @@ const getApiKeys = cache(async () => {
     headers: await headers(),
   });
 
-  if (!session?.user.organizationId) {
+  if (!session?.session.activeOrganizationId) {
     return [];
   }
 
   const apiKeys = await db.apiKey.findMany({
     where: {
-      organizationId: session.user.organizationId,
+      organizationId: session.session.activeOrganizationId,
       isActive: true,
     },
     select: {

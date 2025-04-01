@@ -31,13 +31,13 @@ export const getRisks = tool({
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const risks = await db.risk.findMany({
 			where: {
-				organizationId: session.user.organizationId,
+				organizationId: session.session.activeOrganizationId,
 				status,
 				department,
 				category,
@@ -73,12 +73,12 @@ export const getRiskById = tool({
 			headers: await headers(),
 		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const risk = await db.risk.findUnique({
-			where: { id, organizationId: session.user.organizationId },
+			where: { id, organizationId: session.session.activeOrganizationId },
 			select: {
 				id: true,
 				title: true,

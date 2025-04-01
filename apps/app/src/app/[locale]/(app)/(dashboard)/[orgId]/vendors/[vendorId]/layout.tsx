@@ -17,17 +17,17 @@ export default async function Layout({ children, params }: LayoutProps) {
     headers: await headers(),
   });
 
-  if (!session || !session.user.organizationId) {
+  if (!session || !session.session.activeOrganizationId) {
     redirect("/");
   }
 
   const { vendorId } = await params;
 
   if (!vendorId) {
-    redirect(`/${session.user.organizationId}/vendors`);
+    redirect(`/${session.session.activeOrganizationId}/vendors`);
   }
 
-  const orgId = session.user.organizationId;
+  const orgId = session.session.activeOrganizationId;
 
   const vendor = await db.vendor.findUnique({
     where: {

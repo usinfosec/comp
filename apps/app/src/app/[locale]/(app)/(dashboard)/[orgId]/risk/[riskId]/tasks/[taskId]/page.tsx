@@ -36,7 +36,7 @@ const getTask = cache(
       headers: await headers(),
     });
 
-    if (!session || !session.user.organizationId) {
+    if (!session || !session.session.activeOrganizationId) {
       redirect("/");
     }
 
@@ -44,7 +44,7 @@ const getTask = cache(
       where: {
         riskId: riskId,
         id: taskId,
-        organizationId: session.user.organizationId,
+        organizationId: session.session.activeOrganizationId,
       },
       include: {
         owner: true,
