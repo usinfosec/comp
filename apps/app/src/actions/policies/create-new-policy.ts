@@ -52,6 +52,7 @@ export const createPolicyAction = authActionClient
               data: {
                 type: RequirementType.policy,
                 policyId: policy.id,
+                organizationId: user.organizationId!, // Bang because we checked for null above.
               },
             });
 
