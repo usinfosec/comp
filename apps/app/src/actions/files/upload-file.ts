@@ -66,7 +66,7 @@ export const uploadFile = authActionClient
 
 			if (uploadType === UPLOAD_TYPE.evidence) {
 				const evidenceId = parsedInput.evidenceId;
-				const evidence = await db.organizationEvidence.findFirst({
+				const evidence = await db.evidence.findFirst({
 					where: {
 						id: evidenceId,
 						organizationId: user.organizationId,
@@ -96,7 +96,7 @@ export const uploadFile = authActionClient
 
 				const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
-				await db.organizationEvidence.update({
+				await db.evidence.update({
 					where: { id: evidenceId },
 					data: {
 						fileUrls: {

@@ -87,7 +87,7 @@ export const deleteFile = authActionClient
 			if (uploadType === UPLOAD_TYPE.evidence) {
 				const evidenceId = parsedInput.evidenceId;
 
-				const evidence = await db.organizationEvidence.findFirst({
+				const evidence = await db.evidence.findFirst({
 					where: {
 						id: evidenceId,
 						organizationId: user.organizationId,
@@ -101,7 +101,7 @@ export const deleteFile = authActionClient
 					};
 				}
 
-				await db.organizationEvidence.update({
+				await db.evidence.update({
 					where: { id: evidenceId },
 					data: {
 						fileUrls: {
@@ -122,7 +122,7 @@ export const deleteFile = authActionClient
 					where: {
 						id: taskId,
 						organizationId: user.organizationId,
-						TaskAttachment: {
+						taskAttachment: {
 							some: {
 								fileUrl,
 							},
@@ -140,7 +140,7 @@ export const deleteFile = authActionClient
 				await db.riskMitigationTask.update({
 					where: { id: taskId },
 					data: {
-						TaskAttachment: {
+						taskAttachment: {
 							deleteMany: {
 								fileUrl,
 							},
@@ -189,7 +189,8 @@ export const deleteFile = authActionClient
 				}
 
 				// Extract key from URL
-				const key = attachment.fileKey || extractKeyFromUrl(fileUrlWithoutQuery);
+				const key =
+					attachment.fileKey || extractKeyFromUrl(fileUrlWithoutQuery);
 
 				if (key) {
 					try {

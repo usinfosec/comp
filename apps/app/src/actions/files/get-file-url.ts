@@ -80,7 +80,7 @@ export const getFileUrl = authActionClient
 
 		try {
 			if (uploadType === UPLOAD_TYPE.evidence) {
-				const evidence = await db.organizationEvidence.findFirst({
+				const evidence = await db.evidence.findFirst({
 					where: {
 						id: parsedInput.evidenceId,
 						organizationId: user.organizationId,
