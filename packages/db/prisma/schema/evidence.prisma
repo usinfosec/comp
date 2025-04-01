@@ -1,0 +1,26 @@
+model Evidence {
+  id              String       @id @unique @default(cuid())
+  name            String
+  description     String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  published       Boolean      @default(false)
+  organizationId  String
+  additionalUrls  String[]
+  evidenceId      String
+  fileUrls        String[]
+  frequency       Frequency?
+  lastPublishedAt DateTime?
+  assigneeId      String?
+  department      Departments? @default(none)
+  isNotRelevant   Boolean      @default(false)
+
+  frameworkId String
+
+  assignee                       User?                            @relation(fields: [assigneeId], references: [id])
+  organization                   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  artifacts                      Artifact[]
+
+  @@index([organizationId])
+  @@index([assigneeId])
+}

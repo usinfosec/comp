@@ -1,0 +1,20 @@
+
+model Artifact {
+  id                    String          @id @default(cuid())
+  content               Json?
+  createdAt             DateTime        @default(now())
+  description           String?
+  fileUrl               String?
+  published             Boolean         @default(false)
+  type                  RequirementType
+  updatedAt             DateTime        @updatedAt
+
+  controlId String
+  policyId   String?
+  evidenceId String?
+  control    Control   @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  evidence   Evidence? @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  policy     Policy?   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  @@unique([controlId])
+}

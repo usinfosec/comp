@@ -1,0 +1,56 @@
+model Organization {
+  id                             String                                   @id @default(cuid())
+  stripeCustomerId               String?
+  name                           String
+  setup                          Boolean                                  @default(false)
+  website                        String
+  tier                           Tier                                     @default(free)
+  policiesCreated                Boolean                                  @default(false)
+  frameworkId                    String?
+  auditLog                       AuditLog[]
+  employees                      Employee[]
+  controls                       Control[]
+  evidence                       Evidence[]
+  frameworkInstances             FrameworkInstance[]
+  integrations                   Integration[]
+  members                        OrganizationMember[]
+  policy                         Policy[]
+  risk                           Risk[]
+  riskAttachment                 RiskAttachment[]
+  riskComment                    RiskComment[]
+  riskMitigationTask             RiskMitigationTask[]
+  taskAttachment                 TaskAttachment[]
+  users                          User[]                                   @relation("CurrentOrganization")
+  apiKeys                        ApiKey[]
+  integrationResults             IntegrationResult[]
+  integrationLastRun             IntegrationLastRun[]
+  vendors                        Vendor[]
+  vendorContact                  VendorContact[]
+  vendorAttachment               VendorAttachment[]
+  vendorTask                     VendorTask[]
+  vendorTaskAttachment           VendorTaskAttachment[]
+  vendorTaskAssignment           VendorTaskAssignment[]
+
+  @@index([stripeCustomerId])
+  @@index([id])
+}
+
+
+model OrganizationMember {
+  id             String         @id @default(cuid())
+  role           MembershipRole @default(member)
+  invitedEmail   String?
+  inviteCode     String?
+  accepted       Boolean        @default(false)
+  department     Departments    @default(none)
+  joinedAt       DateTime       @default(now())
+  lastActive     DateTime?
+  userId         String
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+}

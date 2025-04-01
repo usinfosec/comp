@@ -17,6 +17,7 @@ model Policy {
   owner                          User?                            @relation(fields: [ownerId], references: [id])
   department                     Departments?
   reviewDate                     DateTime?
+  artifacts                      Artifact[]
 
   @@unique([organizationId, policyId])
   @@index([organizationId])

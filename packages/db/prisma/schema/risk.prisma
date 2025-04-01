@@ -60,7 +60,7 @@ model RiskMitigationTask {
   owner          User?                @relation(fields: [ownerId], references: [id])
   risk           Risk                 @relation(fields: [riskId], references: [id], onDelete: Cascade)
   assignments    RiskTaskAssignment[]
-  TaskAttachment TaskAttachment[]
+  taskAttachment TaskAttachment[]
 
   @@index([riskId])
   @@index([ownerId])

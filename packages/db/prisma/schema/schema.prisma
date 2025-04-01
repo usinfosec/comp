@@ -10,20 +10,20 @@ datasource db {
 }
 
 model Account {
-  id                       String  @id @default(cuid())
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?
-  access_token             String?
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?
-  session_state            String?
-  refresh_token_expires_in Int?
-  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                      String  @id @default(cuid())
+  userId                  String
+  type                    String
+  provider                String
+  providerAccountId       String
+  refreshToken            String?
+  accessToken             String?
+  expiresAt               Int?
+  tokenType               String?
+  scope                   String?
+  idToken                 String?
+  sessionState            String?
+  refreshTokenExpiresIn   Int?
+  user                    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -38,76 +38,39 @@ model Session {
 
   @@index([userId])
 }
-
 model User {
-  id                             String                                   @id @default(cuid())
-  name                           String?
-  full_name                      String?
-  email                          String?                                  @unique
-  emailVerified                  DateTime?
-  image                          String?
-  lastLogin                      DateTime?
-  organizationId                 String?
-  accounts                       Account[]
-  AuditLog                       AuditLog[]
-  Employee                       Employee[]
-  AssignedEvidence               Evidence[]
-  organizationMemberships        OrganizationMember[]
-  Risk                           Risk[]
-  RiskAttachment                 RiskAttachment[]
-  RiskComment                    RiskComment[]
-  RiskMitigationTask             RiskMitigationTask[]
-  sessions                       Session[]
-  TaskAttachment                 TaskAttachment[]
-  organization                   Organization?                            @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  Policy                         Policy[]
-  IntegrationResults             IntegrationResult[]
-  Vendor                         Vendor[]
-  VendorAttachment               VendorAttachment[]
-  VendorTask                     VendorTask[]
-  VendorTaskAttachment           VendorTaskAttachment[]
+  id                      String                @id @default(cuid())
+  name                    String?
+  fullName                String?
+  email                   String?               @unique
+  emailVerified          DateTime?
+  image                   String?
+  lastLogin              DateTime?
+  organizationId         String?
+  accounts               Account[]
+  auditLog               AuditLog[]
+  employee               Employee[]
+  assignedEvidence       Evidence[]
+  organizationMemberships OrganizationMember[]
+  risk                   Risk[]
+  riskAttachment         RiskAttachment[]
+  riskComment            RiskComment[]
+  riskMitigationTask     RiskMitigationTask[]
+  sessions               Session[]
+  taskAttachment         TaskAttachment[]
+  organization           Organization?          @relation("CurrentOrganization", fields: [organizationId], references: [id])
+  policy                 Policy[]
+  integrationResults     IntegrationResult[]
+  vendor                 Vendor[]
+  vendorAttachment       VendorAttachment[]
+  vendorTask             VendorTask[]
+  vendorTaskAttachment   VendorTaskAttachment[]
 
   @@index([email])
   @@index([organizationId])
 }
 
-model Organization {
-  id                             String                                   @id @default(cuid())
-  stripeCustomerId               String?
-  name                           String
-  setup                          Boolean                                  @default(false)
-  website                        String
-  tier                           Tier                                     @default(free)
-  policiesCreated                Boolean                                  @default(false)
-  frameworkId                    String?
-  AuditLog                       AuditLog[]
-  employees                      Employee[]
-  Controls                       Control[]
-  Evidence                       Evidence[]
-  FrameworkInstances             FrameworkInstance[]
-  Integrations                   Integration[]
-  members                        OrganizationMember[]
-  Policy                         Policy[]
-  Risk                           Risk[]
-  RiskAttachment                 RiskAttachment[]
-  RiskComment                    RiskComment[]
-  RiskMitigationTask             RiskMitigationTask[]
-  TaskAttachment                 TaskAttachment[]
-  users                          User[]                                   @relation("CurrentOrganization")
-  apiKeys                        OrganizationApiKey[]
-  IntegrationResults             IntegrationResult[]
-  IntegrationLastRun             IntegrationLastRun[]
-  vendors                        Vendor[]
-  VendorContact                  VendorContact[]
-  VendorAttachment               VendorAttachment[]
-  VendorTask                     VendorTask[]
-  VendorTaskAttachment           VendorTaskAttachment[]
-  VendorTaskAssignment           VendorTaskAssignment[]
-  OrganizationTrainingVideos     OrganizationTrainingVideos[]
 
-  @@index([stripeCustomerId])
-  @@index([id])
-}
 
 model VerificationToken {
   identifier String
@@ -117,26 +80,8 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model OrganizationMember {
-  id             String         @id @default(cuid())
-  role           MembershipRole @default(member)
-  invitedEmail   String?
-  inviteCode     String?
-  accepted       Boolean        @default(false)
-  department     Departments    @default(none)
-  joinedAt       DateTime       @default(now())
-  lastActive     DateTime?
-  userId         String
-  organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, organizationId])
-  @@index([organizationId])
-  @@index([userId])
-}
-
-model OrganizationApiKey {
+model ApiKey {
   id             String       @id @default(cuid())
   name           String
   key            String       @unique
@@ -150,20 +95,6 @@ model OrganizationApiKey {
 
   @@index([organizationId])
   @@index([key])
-}
-
-model Integration {
-  id             String                           @id @default(cuid())
-  name           String                           @unique
-  integration_id String
-  settings       Json
-  user_settings  Json
-  organizationId String
-  organization   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  results        IntegrationResult[]
-  lastRuns       IntegrationLastRun[]
-
-  @@index([organizationId])
 }
 
 model AuditLog {
