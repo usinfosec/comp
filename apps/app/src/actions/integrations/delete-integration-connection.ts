@@ -8,41 +8,41 @@ import { authActionClient } from "../safe-action";
 import { deleteIntegrationConnectionSchema } from "../schema";
 
 export const deleteIntegrationConnectionAction = authActionClient
-  .schema(deleteIntegrationConnectionSchema)
-  .metadata({
-    name: "delete-integration-connection",
-    track: {
-      event: "delete-integration-connection",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { integrationId } = parsedInput;
-    const { user } = ctx;
+	.schema(deleteIntegrationConnectionSchema)
+	.metadata({
+		name: "delete-integration-connection",
+		track: {
+			event: "delete-integration-connection",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { integrationId } = parsedInput;
+		const { user } = ctx;
 
-    const integration = await db.organizationIntegrations.findUnique({
-      where: {
-        name: integrationId.toLowerCase(),
-        organizationId: user.organizationId,
-      },
-    });
+		const integration = await db.integration.findUnique({
+			where: {
+				name: integrationId.toLowerCase(),
+				organizationId: user.organizationId,
+			},
+		});
 
-    if (!integration) {
-      return {
-        success: false,
-        error: "Integration not found",
-      };
-    }
+		if (!integration) {
+			return {
+				success: false,
+				error: "Integration not found",
+			};
+		}
 
-    await db.organizationIntegrations.delete({
-      where: {
-        id: integration.id,
-      },
-    });
+		await db.integration.delete({
+			where: {
+				id: integration.id,
+			},
+		});
 
-    revalidatePath("/integrations");
+		revalidatePath("/integrations");
 
-    return {
-      success: true,
-    };
-  });
+		return {
+			success: true,
+		};
+	});
