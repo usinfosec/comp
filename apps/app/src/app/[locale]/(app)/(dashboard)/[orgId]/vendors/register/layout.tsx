@@ -4,32 +4,31 @@ import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { headers } from "next/headers";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
+	const t = await getI18n();
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  const user = session?.user;
-  const orgId = user?.organizationId;
+	const orgId = session?.session.activeOrganizationId;
 
-  return (
-    <div className="max-w-[1200px] m-auto">
-      <SecondaryMenu
-        items={[
-          { path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
-          {
-            path: `/${orgId}/vendors/register`,
-            label: t("vendors.register.title"),
-          },
-        ]}
-      />
+	return (
+		<div className="max-w-[1200px] m-auto">
+			<SecondaryMenu
+				items={[
+					{ path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
+					{
+						path: `/${orgId}/vendors/register`,
+						label: t("vendors.register.title"),
+					},
+				]}
+			/>
 
-      <main className="mt-8">{children}</main>
-    </div>
-  );
+			<main className="mt-8">{children}</main>
+		</div>
+	);
 }
