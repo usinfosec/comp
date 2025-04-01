@@ -166,8 +166,8 @@
       "version": "1.0.0",
       "devDependencies": {
         "@bubba/db": "workspace:*",
-        "tsup": "^8.0.1",
-        "typescript": "^5.7.3",
+        "tsup": "^8.4.0",
+        "typescript": "^5.8.2",
       },
     },
     "packages/db": {

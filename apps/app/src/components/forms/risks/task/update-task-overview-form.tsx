@@ -58,7 +58,7 @@ export function UpdateTaskOverviewForm({
 			id: data.id,
 			title: data.title,
 			description: data.description,
-			dueDate: data.dueDate ? new Date(data.dueDate) : null,
+			dueDate: data.dueDate || null,
 			status: data.status,
 			userId: data.userId,
 		});
