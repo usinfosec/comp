@@ -145,7 +145,7 @@ export function InviteMemberForm() {
 										</FormControl>
 										<SelectContent>
 											<SelectItem value={Role.employee}>
-												{t("settings.team.members.role.member")}
+												{t("settings.team.members.role.employee")}
 											</SelectItem>
 											<SelectItem value={Role.admin}>
 												{t("settings.team.members.role.admin")}
