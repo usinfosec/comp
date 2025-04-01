@@ -138,7 +138,7 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 				</ChartContainer>
 				<ResidualRiskSheet
 					vendorId={vendor.id}
-					initialRisk={vendor.residualProbability}
+					initialRisk={vendor}
 					onSuccess={handleSuccess}
 				/>
 			</CardContent>
