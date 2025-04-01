@@ -29,16 +29,11 @@ export const createPolicyAction = authActionClient
 		try {
 			const policy = await db.organizationPolicy.create({
 				data: {
-					slug: title,
 					name: title,
 					description,
 					content: [
 						{ type: "paragraph", content: [{ type: "text", text: "" }] },
 					],
-					usedBy: JSON.stringify([]),
-					policyFrameworks: {
-						create: frameworkIds.map((id) => ({ frameworkId: id })),
-					},
 					PolicyControl: {
 						create: controlIds.map((id) => ({ controlId: id })),
 					},
