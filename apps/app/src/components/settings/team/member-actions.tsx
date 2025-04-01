@@ -41,16 +41,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@bubba/ui/select";
-import type {
-	MembershipRole,
-	User,
-	OrganizationPermission,
-} from "@prisma/client";
+import type { User, Role, Member } from "@prisma/client";
 import { useI18n } from "@/locales/client";
 
 interface MemberActionsProps {
-	permission: OrganizationPermission & { user: User };
-	currentUserRole?: string | MembershipRole;
+	permission: Member & { user: User };
+	currentUserRole?: Role;
 }
 
 export function MemberActions({
@@ -60,9 +56,8 @@ export function MemberActions({
 	const t = useI18n();
 	const [isRemoving, setIsRemoving] = useState(false);
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
-	const [newRole, setNewRole] = useState<MembershipRole>(
-		permission.role as MembershipRole,
-	);
+	const initialRole: Role = permission.role as Role;
+	const [newRole, setNewRole] = useState<Role>(initialRole);
 	const [isUpdatingRole, setIsUpdatingRole] = useState(false);
 
 	const memberName = permission.user.name || permission.user.email || "";
@@ -114,7 +109,8 @@ export function MemberActions({
 	};
 
 	const canChangeRole =
-		currentUserRole === "owner" || permission.role !== "admin";
+		currentUserRole === ("owner" as Role) ||
+		permission.role !== ("admin" as Role);
 
 	return (
 		<>
@@ -191,7 +187,7 @@ export function MemberActions({
 							</Label>
 							<Select
 								value={newRole}
-								onValueChange={(value) => setNewRole(value as MembershipRole)}
+								onValueChange={(value) => setNewRole(value as Role)}
 							>
 								<SelectTrigger id="role">
 									<SelectValue
@@ -201,29 +197,29 @@ export function MemberActions({
 									/>
 								</SelectTrigger>
 								<SelectContent>
-									{currentUserRole === "owner" && (
-										<SelectItem value="admin">
+									{currentUserRole === ("owner" as Role) && (
+										<SelectItem value={"admin" as Role}>
 											{t("settings.team.members.role.admin")}
 										</SelectItem>
 									)}
-									<SelectItem value="member">
+									<SelectItem value={"member" as Role}>
 										{t("settings.team.members.role.member")}
 									</SelectItem>
-									<SelectItem value="viewer">
+									<SelectItem value={"viewer" as Role}>
 										{t("settings.team.members.role.viewer")}
 									</SelectItem>
 								</SelectContent>
 							</Select>
 							<p className="text-sm text-muted-foreground mt-2">
-								{newRole === "admin" &&
+								{newRole === ("admin" as Role) &&
 									t(
 										"settings.team.member_actions.role_dialog.role_descriptions.admin",
 									)}
-								{newRole === "member" &&
+								{newRole === ("member" as Role) &&
 									t(
 										"settings.team.member_actions.role_dialog.role_descriptions.member",
 									)}
-								{newRole === "viewer" &&
+								{newRole === ("viewer" as Role) &&
 									t(
 										"settings.team.member_actions.role_dialog.role_descriptions.viewer",
 									)}

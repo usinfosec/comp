@@ -13,6 +13,12 @@ export const getControl = async (id: string) => {
 		};
 	}
 
+	if (!session.session.activeOrganizationId) {
+		return {
+			error: "Unauthorized",
+		};
+	}
+
 	const control = await db.control.findUnique({
 		where: {
 			organizationId: session.session.activeOrganizationId,
