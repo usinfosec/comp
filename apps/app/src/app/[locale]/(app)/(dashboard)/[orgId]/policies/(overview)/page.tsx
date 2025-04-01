@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { PolicyStatusChart } from "./components/policy-status-chart";
 import { PolicyAssigneeChart } from "./components/policy-assignee-chart";
 import Loading from "./loading";
+import { headers } from "next/headers";
 
 export default async function PoliciesOverview({
   params,
@@ -31,7 +32,9 @@ export default async function PoliciesOverview({
 }
 
 const getPoliciesOverview = async () => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.organizationId) {
     return null;
@@ -39,69 +42,69 @@ const getPoliciesOverview = async () => {
 
   const organizationId = session.user.organizationId;
 
-	return await db.$transaction(async (tx) => {
-		const [
-			totalPolicies,
-			publishedPolicies,
-			draftPolicies,
-			archivedPolicies,
-			needsReviewPolicies,
-			policiesByAssignee,
-			policiesByAssigneeStatus,
-		] = await Promise.all([
-			tx.policy.count({
-				where: {
-					organizationId,
-				},
-			}),
-			tx.policy.count({
-				where: {
-					organizationId,
-					status: "published",
-				},
-			}),
-			tx.policy.count({
-				where: {
-					organizationId,
-					status: "draft",
-				},
-			}),
-			tx.policy.count({
-				where: {
-					organizationId,
-					status: "archived",
-				},
-			}),
-			tx.policy.count({
-				where: {
-					organizationId,
-					status: "needs_review",
-				},
-			}),
-			tx.policy.groupBy({
-				by: ["ownerId"],
-				_count: true,
-				where: {
-					organizationId,
-					ownerId: { not: null },
-				},
-			}),
-			tx.policy.findMany({
-				where: {
-					organizationId,
-					ownerId: { not: null },
-				},
-				select: {
-					status: true,
-					owner: {
-						select: {
-							id: true,
-							name: true,
-						},
-					},
-				},
-			}),
-		]);
+  return await db.$transaction(async (tx) => {
+    const [
+      totalPolicies,
+      publishedPolicies,
+      draftPolicies,
+      archivedPolicies,
+      needsReviewPolicies,
+      policiesByAssignee,
+      policiesByAssigneeStatus,
+    ] = await Promise.all([
+      tx.policy.count({
+        where: {
+          organizationId,
+        },
+      }),
+      tx.policy.count({
+        where: {
+          organizationId,
+          status: "published",
+        },
+      }),
+      tx.policy.count({
+        where: {
+          organizationId,
+          status: "draft",
+        },
+      }),
+      tx.policy.count({
+        where: {
+          organizationId,
+          status: "archived",
+        },
+      }),
+      tx.policy.count({
+        where: {
+          organizationId,
+          status: "needs_review",
+        },
+      }),
+      tx.policy.groupBy({
+        by: ["ownerId"],
+        _count: true,
+        where: {
+          organizationId,
+          ownerId: { not: null },
+        },
+      }),
+      tx.policy.findMany({
+        where: {
+          organizationId,
+          ownerId: { not: null },
+        },
+        select: {
+          status: true,
+          owner: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      }),
+    ]);
 
     // Transform the data for easier consumption by the chart component
     // First group by owner
