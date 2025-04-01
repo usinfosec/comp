@@ -2,13 +2,7 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import type {
-	Departments,
-	OrganizationPolicy,
-	OrganizationTrainingVideos,
-	Policy,
-	PortalTrainingVideos,
-} from "@bubba/db/types";
+import type { Departments, Policy } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import {
@@ -34,6 +28,7 @@ import { toast } from "sonner";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+import { TrainingVideo } from "@bubba/data";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -53,12 +48,8 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 interface EmployeeDetailsProps {
 	employeeId: string;
 	portalEmployeeId: string;
-	policies: (OrganizationPolicy & {
-		policy: Policy;
-	})[];
-	trainingVideos: (OrganizationTrainingVideos & {
-		trainingVideo: PortalTrainingVideos;
-	})[];
+	policies: Policy[];
+	trainingVideos: TrainingVideo[];
 }
 
 export function EmployeeDetails({
@@ -323,7 +314,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)}
-													{policy.policy.name}
+													{policy.name}
 												</h2>
 											</div>
 										);
@@ -354,7 +345,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)}
-													{video.trainingVideo.title}
+													{video.title}
 												</h2>
 											</div>
 										);
