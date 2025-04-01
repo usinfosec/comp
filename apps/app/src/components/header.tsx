@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { FeedbackForm } from "./feedback-form";
 import { MobileMenu } from "./mobile-menu";
 
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { AssistantButton } from "./ai/chat-button";
 import { headers } from "next/headers";

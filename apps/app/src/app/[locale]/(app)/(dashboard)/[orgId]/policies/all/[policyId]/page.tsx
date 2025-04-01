@@ -2,7 +2,7 @@ import { cache } from "react";
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { db } from "@bubba/db";
 import { appErrors, policyDetailsInputSchema } from "../types";
 import { headers } from "next/headers";

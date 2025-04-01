@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { IntegrationsHeader } from "@/components/integrations/integrations-header";
 import { IntegrationsServer } from "@/components/integrations/integrations.server";
 import { SkeletonLoader } from "@/components/skeleton-loader";

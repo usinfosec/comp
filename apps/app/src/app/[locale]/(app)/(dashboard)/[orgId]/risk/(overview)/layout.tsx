@@ -1,6 +1,6 @@
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { auth } from "@/auth/auth";
+import { auth } from "@/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { db } from "@bubba/db";
 import { cache, Suspense } from "react";
