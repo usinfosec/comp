@@ -19,12 +19,12 @@ import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
 
-import { AnyExtension } from "@tiptap/react";
+import { Extensions } from "@tiptap/core";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { TextButtons } from "./selectors/text-buttons";
-import { slashCommand, suggestionItems } from "./slash-command";
+import { suggestionItems } from "./slash-command";
 
-const extensions: AnyExtension[] = [...defaultExtensions, slashCommand];
+const extensions: Extensions = [...defaultExtensions];
 
 interface AdvancedEditorProps {
 	initialContent?: JSONContent | JSONContent[];
@@ -96,7 +96,7 @@ const AdvancedEditor = ({
 				<EditorContent
 					immediatelyRender={false}
 					initialContent={initialContent}
-					extensions={extensions}
+					// extensions={extensions}
 					className="relative min-h-[500px] w-full max-w-screen-lg bg-background sm:mb-[calc(20vh)] p-2"
 					editorProps={{
 						handleDOMEvents: {

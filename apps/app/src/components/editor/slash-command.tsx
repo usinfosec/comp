@@ -117,4 +117,4 @@ export const slashCommand = Command.configure({
 		items: () => suggestionItems,
 		render: renderItems,
 	},
-}) as Extension;
+});

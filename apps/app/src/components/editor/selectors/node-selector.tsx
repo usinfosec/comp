@@ -57,13 +57,6 @@ const items: SelectorItem[] = [
 		isActive: (editor) => editor?.isActive("heading", { level: 3 }) ?? false,
 	},
 	{
-		name: "To-do List",
-		icon: CheckSquare,
-		command: (editor) =>
-			editor?.chain().focus().clearNodes().toggleTaskList().run(),
-		isActive: (editor) => editor?.isActive("taskList") ?? false,
-	},
-	{
 		name: "Bullet List",
 		icon: ListOrdered,
 		command: (editor) =>
