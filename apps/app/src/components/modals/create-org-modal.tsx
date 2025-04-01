@@ -51,12 +51,25 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	const newOrganizationRef = useRef<Pick<Organization, "id" | "name"> | null>(
 		null,
 	);
+	// Store form data for later use
+	const [formData, setFormData] = useState<z.infer<
+		typeof organizationSchema
+	> | null>(null);
 
 	const createOrganization = useAction(createOrganizationAction, {
 		onSuccess: async (data) => {
 			setRunId(data.data?.runId ?? null);
 			setPublicAccessToken(data.data?.publicAccessToken ?? null);
-			newOrganizationRef.current = data.data?.organizationId ?? null;
+
+			// If organizationId exists, create a proper object with id and name properties
+			if (data.data?.organizationId) {
+				newOrganizationRef.current = {
+					id: data.data.organizationId,
+					name: formData?.name || "", // Use the name from the submitted form data
+				};
+			} else {
+				newOrganizationRef.current = null;
+			}
 		},
 		onError: () => {
 			toast.error(t("common.actions.error"), { duration: 5000 });
@@ -75,6 +88,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
+		setFormData(data); // Store the form data for later reference
 		createOrganization.execute(data);
 	};
 
