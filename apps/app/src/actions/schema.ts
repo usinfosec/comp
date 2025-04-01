@@ -4,10 +4,10 @@ import {
 	PolicyStatus,
 	RiskCategory,
 	RiskStatus,
-	RiskTaskStatus,
 	VendorCategory,
 	VendorStatus,
 	FrameworkId,
+	TaskStatus,
 } from "@bubba/db/types";
 import { z } from "zod";
 
@@ -163,7 +163,7 @@ export const updateTaskSchema = z.object({
 	title: z.string().optional(),
 	description: z.string().optional(),
 	dueDate: z.date().optional(),
-	status: z.nativeEnum(RiskTaskStatus, {
+	status: z.nativeEnum(TaskStatus, {
 		required_error: "Task status is required",
 	}),
 	ownerId: z.string({
