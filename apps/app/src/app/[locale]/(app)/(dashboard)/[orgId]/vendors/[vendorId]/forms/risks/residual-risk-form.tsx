@@ -23,37 +23,38 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { updateVendorResidualRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
-import type { VendorResidualRisk } from "@prisma/client";
 import type { ActionResponse } from "@/types/actions";
+import { Impact, Likelihood } from "@prisma/client";
 
 const formSchema = z.object({
-	residualRisk: z.enum(["low", "medium", "high"]),
+	residualProbability: z.nativeEnum(Likelihood),
+	residualImpact: z.nativeEnum(Impact),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface ResidualRiskFormProps {
 	vendorId: string;
-	initialRisk?: VendorResidualRisk;
+	initialProbability?: Likelihood;
+	initialImpact?: Impact;
 	onSuccess?: () => void;
 }
 
 export function ResidualRiskForm({
 	vendorId,
-	initialRisk,
+	initialProbability = Likelihood.very_unlikely,
+	initialImpact = Impact.insignificant,
 	onSuccess,
 }: ResidualRiskFormProps) {
 	const t = useI18n();
 	const { toast } = useToast();
 	const router = useRouter();
 
-	// If initialRisk is "unknown", default to "low"
-	const safeInitialRisk = initialRisk === "unknown" ? "low" : initialRisk;
-
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			residualRisk: safeInitialRisk ?? "low",
+			residualProbability: initialProbability,
+			residualImpact: initialImpact,
 		},
 	});
 
@@ -61,7 +62,8 @@ export function ResidualRiskForm({
 		try {
 			const response = await updateVendorResidualRisk({
 				vendorId,
-				residualRisk: values.residualRisk,
+				residualProbability: values.residualProbability,
+				residualImpact: values.residualImpact,
 			});
 
 			const result = response as unknown as ActionResponse;
@@ -97,23 +99,70 @@ export function ResidualRiskForm({
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 				<FormField
 					control={form.control}
-					name="residualRisk"
+					name="residualProbability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.residual_risk")}</FormLabel>
+							<FormLabel>{t("vendors.risks.residual_probability")}</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder={t("vendors.risks.select_risk")} />
+										<SelectValue
+											placeholder={t("vendors.risks.select_probability")}
+										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="low">{t("vendors.risks.low")}</SelectItem>
-									<SelectItem value="medium">
-										{t("vendors.risks.medium")}
+									<SelectItem value={Likelihood.very_unlikely}>
+										{t("vendors.risks.very_unlikely")}
 									</SelectItem>
-									<SelectItem value="high">
-										{t("vendors.risks.high")}
+									<SelectItem value={Likelihood.unlikely}>
+										{t("vendors.risks.unlikely")}
+									</SelectItem>
+									<SelectItem value={Likelihood.possible}>
+										{t("vendors.risks.possible")}
+									</SelectItem>
+									<SelectItem value={Likelihood.likely}>
+										{t("vendors.risks.likely")}
+									</SelectItem>
+									<SelectItem value={Likelihood.very_likely}>
+										{t("vendors.risks.very_likely")}
+									</SelectItem>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="residualImpact"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t("vendors.risks.residual_impact")}</FormLabel>
+							<Select onValueChange={field.onChange} defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue
+											placeholder={t("vendors.risks.select_impact")}
+										/>
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectItem value={Impact.insignificant}>
+										{t("vendors.risks.insignificant")}
+									</SelectItem>
+									<SelectItem value={Impact.minor}>
+										{t("vendors.risks.minor")}
+									</SelectItem>
+									<SelectItem value={Impact.moderate}>
+										{t("vendors.risks.moderate")}
+									</SelectItem>
+									<SelectItem value={Impact.major}>
+										{t("vendors.risks.major")}
+									</SelectItem>
+									<SelectItem value={Impact.severe}>
+										{t("vendors.risks.severe")}
 									</SelectItem>
 								</SelectContent>
 							</Select>

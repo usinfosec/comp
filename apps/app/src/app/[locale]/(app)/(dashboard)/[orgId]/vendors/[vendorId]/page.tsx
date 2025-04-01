@@ -139,12 +139,14 @@ async function getUsers() {
 		return [];
 	}
 
-	return db.member.findMany({
+	const members = await db.member.findMany({
 		where: { organizationId: session.session.activeOrganizationId },
 		include: {
 			user: true,
 		},
 	});
+
+	return members.map((member) => member.user);
 }
 
 async function getTasks({
@@ -214,7 +216,7 @@ async function getTasks({
 			.then((tasks) =>
 				tasks.map((task) => ({
 					...task,
-					dueDate: task.dueDate?.toISOString() ?? "",
+					dueDate: task.dueDate ?? new Date(),
 					user: {
 						name: task.user?.name ?? "",
 						image: task.user?.image ?? "",
@@ -252,6 +254,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("vendors.title"),
+		title: t("sidebar.vendors"),
 	};
 }

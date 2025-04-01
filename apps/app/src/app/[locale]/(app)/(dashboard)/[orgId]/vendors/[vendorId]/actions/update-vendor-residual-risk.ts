@@ -5,10 +5,12 @@ import type { ActionResponse } from "@/types/actions";
 import { db } from "@bubba/db";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
+import { Impact, Likelihood } from "@prisma/client";
 
 const schema = z.object({
 	vendorId: z.string(),
-	residualRisk: z.enum(["low", "medium", "high"] as const),
+	residualProbability: z.nativeEnum(Likelihood),
+	residualImpact: z.nativeEnum(Impact),
 });
 
 export const updateVendorResidualRisk = createSafeActionClient()
@@ -17,7 +19,10 @@ export const updateVendorResidualRisk = createSafeActionClient()
 		try {
 			await db.vendor.update({
 				where: { id: parsedInput.vendorId },
-				data: { residualRisk: parsedInput.residualRisk },
+				data: {
+					residualProbability: parsedInput.residualProbability,
+					residualImpact: parsedInput.residualImpact,
+				},
 			});
 
 			return { success: true };
