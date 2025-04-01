@@ -14,16 +14,18 @@ import {
 } from "@bubba/ui/sheet";
 import { X } from "lucide-react";
 import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/inherent-risk-form";
-import type { VendorInherentRisk } from "@prisma/client";
+import { Impact, Likelihood } from "@prisma/client";
 import { useState } from "react";
 
 export function InherentRiskSheet({
 	vendorId,
-	initialRisk,
+	initialProbability,
+	initialImpact,
 	onSuccess,
 }: {
 	vendorId: string;
-	initialRisk?: VendorInherentRisk;
+	initialProbability?: Likelihood;
+	initialImpact?: Impact;
 	onSuccess?: () => void;
 }) {
 	const t = useI18n();
@@ -61,7 +63,8 @@ export function InherentRiskSheet({
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
 						<InherentRiskForm
 							vendorId={vendorId}
-							initialRisk={initialRisk}
+							initialProbability={initialProbability}
+							initialImpact={initialImpact}
 							onSuccess={handleFormSuccess}
 						/>
 					</ScrollArea>
@@ -78,7 +81,8 @@ export function InherentRiskSheet({
 			<DrawerContent className="p-6">
 				<InherentRiskForm
 					vendorId={vendorId}
-					initialRisk={initialRisk}
+					initialProbability={initialProbability}
+					initialImpact={initialImpact}
 					onSuccess={handleFormSuccess}
 				/>
 			</DrawerContent>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { User, VendorTaskStatus } from "@bubba/db/types";
+import type { User, TaskStatus } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
 import {
@@ -26,7 +26,7 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 	const searchParams = useSearchParams();
 
 	const search = searchParams.get("search") ?? "";
-	const status = searchParams.get("status") as VendorTaskStatus | null;
+	const status = searchParams.get("status") as TaskStatus | null;
 	const assigneeId = searchParams.get("assigneeId");
 
 	const hasFilters = !!(search || status || assigneeId);
