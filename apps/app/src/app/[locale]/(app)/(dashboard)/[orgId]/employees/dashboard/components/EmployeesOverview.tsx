@@ -5,15 +5,10 @@ import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
 export async function EmployeesOverview() {
 	const employees = await getEmployees();
 	const policies = await getEmployeePolicies();
-	const trainingVideos = await getEmployeeTrainingVideos();
 
 	return (
 		<div className="grid gap-6">
-			<EmployeeCompletionChart
-				employees={employees}
-				policies={policies}
-				trainingVideos={trainingVideos}
-			/>
+			<EmployeeCompletionChart employees={employees} policies={policies} />
 		</div>
 	);
 }
@@ -26,7 +21,7 @@ const getEmployees = async () => {
 		return [];
 	}
 
-	const portalEmployees = await db.portalUser.findMany({
+	const portalEmployees = await db.employee.findMany({
 		where: {
 			organizationId: orgId,
 		},
@@ -66,35 +61,12 @@ const getEmployeePolicies = async () => {
 		return [];
 	}
 
-	const policies = await db.organizationPolicy.findMany({
+	const policies = await db.policy.findMany({
 		where: {
 			organizationId: orgId,
 			isRequiredToSign: true,
 		},
-		include: {
-			policy: true,
-		},
 	});
 
 	return policies;
-};
-
-const getEmployeeTrainingVideos = async () => {
-	const session = await auth();
-	const orgId = session?.user.organizationId;
-
-	if (!orgId) {
-		return [];
-	}
-
-	const trainingVideos = await db.organizationTrainingVideos.findMany({
-		where: {
-			organizationId: orgId,
-		},
-		include: {
-			trainingVideo: true,
-		},
-	});
-
-	return trainingVideos;
 };

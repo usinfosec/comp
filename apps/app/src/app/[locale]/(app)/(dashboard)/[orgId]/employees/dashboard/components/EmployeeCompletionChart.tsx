@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
+import { useI18n } from "@/locales/client";
 import {
 	Card,
 	CardContent,
-	CardHeader,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@bubba/ui/card";
 import {
@@ -13,32 +13,17 @@ import {
 	ChartTooltip,
 	type ChartConfig,
 } from "@bubba/ui/chart";
-import { useI18n } from "@/locales/client";
-import { Bar, BarChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import * as React from "react";
 import type { TooltipProps } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 // Use correct types from the database
-import type { PortalUser } from "@prisma/client";
-import type {
-	OrganizationPolicy,
-	OrganizationTrainingVideos,
-} from "@prisma/client";
-import { employeeDetailsInputSchema } from "../../[employeeId]/types";
-
-interface EmployeeCompletionData {
-	id: string;
-	name: string;
-	total: number;
-	policiesCompleted: number;
-	policiesPending: number;
-	trainingsCompleted: number;
-	trainingsPending: number;
-}
+import { trainingVideos } from "@bubba/data";
+import { Employee, Policy } from "@bubba/db/types";
 
 interface EmployeeCompletionChartProps {
-	employees: PortalUser[];
-	policies: OrganizationPolicy[];
-	trainingVideos: OrganizationTrainingVideos[];
+	employees: Employee[];
+	policies: Policy[];
 }
 
 const CHART_COLORS = {
@@ -87,7 +72,6 @@ const CustomTooltip = ({
 export function EmployeeCompletionChart({
 	employees,
 	policies,
-	trainingVideos,
 }: EmployeeCompletionChartProps) {
 	const t = useI18n();
 
@@ -102,12 +86,8 @@ export function EmployeeCompletionChart({
 			const policiesPendingCount = policies.length - policiesCompletedCount;
 
 			// Count training videos completed by this employee
-			const trainingsCompletedCount = trainingVideos.filter(
-				(video) =>
-					video.completedBy &&
-					Array.isArray(video.completedBy) &&
-					video.completedBy.includes(employee.id),
-			).length;
+			const trainingsCompletedCount = 0;
+			// TODO: Add training videos completed by this employee
 
 			// Count training videos pending for this employee
 			const trainingsPendingCount =
