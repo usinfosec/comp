@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { FrameworkControls } from "./components/FrameworkControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { getFramework } from "./data/getFramework";
-import { getFrameworkCategories } from "./data/getFrameworkCategories";
+import { getFrameworkCategories } from "./data/getFrameworkRequirements";
 interface PageProps {
 	params: Promise<{
 		frameworkId: string;
