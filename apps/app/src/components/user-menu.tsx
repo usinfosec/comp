@@ -74,7 +74,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
-            <div className="flex flex-row justify-between items-center p-2">
+            {/* <div className="flex flex-row justify-between items-center p-2">
               <p className="text-sm">{t("user_menu.theme")}</p>
               <ThemeSwitch />
             </div>{" "}
@@ -82,8 +82,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
             <div className="flex flex-row justify-between items-center p-2">
               <p className="text-sm">{t("user_menu.language")}</p>
               <LocaleSwitch />
-            </div>{" "}
-            <DropdownMenuSeparator />
+            </div>{" "} */}
           </>
         )}
 
