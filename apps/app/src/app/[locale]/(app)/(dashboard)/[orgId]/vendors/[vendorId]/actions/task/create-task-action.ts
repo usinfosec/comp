@@ -35,7 +35,8 @@ export const createVendorTaskAction = authActionClient
 					dueDate,
 					userId: user.id,
 					organizationId: activeOrganizationId,
-					vendorId,
+					relatedId: vendorId,
+					relatedType: "vendor",
 				},
 			});
 
