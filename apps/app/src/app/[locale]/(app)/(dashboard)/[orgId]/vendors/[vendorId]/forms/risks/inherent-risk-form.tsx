@@ -23,24 +23,27 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { updateVendorInherentRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-inherent-risk";
-import type { VendorInherentRisk } from "@prisma/client";
 import type { ActionResponse } from "@/types/actions";
+import { Impact, Likelihood } from "@prisma/client";
 
 const formSchema = z.object({
-	inherentRisk: z.enum(["unknown", "low", "medium", "high"]),
+	inherentProbability: z.nativeEnum(Likelihood),
+	inherentImpact: z.nativeEnum(Impact),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface InherentRiskFormProps {
 	vendorId: string;
-	initialRisk?: VendorInherentRisk;
+	initialProbability?: Likelihood;
+	initialImpact?: Impact;
 	onSuccess?: () => void;
 }
 
 export function InherentRiskForm({
 	vendorId,
-	initialRisk,
+	initialProbability = Likelihood.very_unlikely,
+	initialImpact = Impact.insignificant,
 	onSuccess,
 }: InherentRiskFormProps) {
 	const t = useI18n();
@@ -50,7 +53,8 @@ export function InherentRiskForm({
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			inherentRisk: initialRisk ?? "unknown",
+			inherentProbability: initialProbability,
+			inherentImpact: initialImpact,
 		},
 	});
 
@@ -58,7 +62,8 @@ export function InherentRiskForm({
 		try {
 			const response = await updateVendorInherentRisk({
 				vendorId,
-				inherentRisk: values.inherentRisk,
+				inherentProbability: values.inherentProbability,
+				inherentImpact: values.inherentImpact,
 			});
 
 			const result = response as unknown as ActionResponse;
@@ -94,26 +99,70 @@ export function InherentRiskForm({
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 				<FormField
 					control={form.control}
-					name="inherentRisk"
+					name="inherentProbability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.inherent_risk")}</FormLabel>
+							<FormLabel>{t("vendors.risks.inherent_probability")}</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder={t("vendors.risks.select_risk")} />
+										<SelectValue
+											placeholder={t("vendors.risks.select_probability")}
+										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value="unknown">
-										{t("vendors.risks.unknown")}
+									<SelectItem value={Likelihood.very_unlikely}>
+										{t("vendors.risks.very_unlikely")}
 									</SelectItem>
-									<SelectItem value="low">{t("vendors.risks.low")}</SelectItem>
-									<SelectItem value="medium">
-										{t("vendors.risks.medium")}
+									<SelectItem value={Likelihood.unlikely}>
+										{t("vendors.risks.unlikely")}
 									</SelectItem>
-									<SelectItem value="high">
-										{t("vendors.risks.high")}
+									<SelectItem value={Likelihood.possible}>
+										{t("vendors.risks.possible")}
+									</SelectItem>
+									<SelectItem value={Likelihood.likely}>
+										{t("vendors.risks.likely")}
+									</SelectItem>
+									<SelectItem value={Likelihood.very_likely}>
+										{t("vendors.risks.very_likely")}
+									</SelectItem>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="inherentImpact"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t("vendors.risks.inherent_impact")}</FormLabel>
+							<Select onValueChange={field.onChange} defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue
+											placeholder={t("vendors.risks.select_impact")}
+										/>
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectItem value={Impact.insignificant}>
+										{t("vendors.risks.insignificant")}
+									</SelectItem>
+									<SelectItem value={Impact.minor}>
+										{t("vendors.risks.minor")}
+									</SelectItem>
+									<SelectItem value={Impact.moderate}>
+										{t("vendors.risks.moderate")}
+									</SelectItem>
+									<SelectItem value={Impact.major}>
+										{t("vendors.risks.major")}
+									</SelectItem>
+									<SelectItem value={Impact.severe}>
+										{t("vendors.risks.severe")}
 									</SelectItem>
 								</SelectContent>
 							</Select>

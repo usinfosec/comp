@@ -6,9 +6,12 @@ import type { ActionResponse } from "@/types/actions";
 import { createSafeActionClient } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { Impact, Likelihood } from "@prisma/client";
+
 const schema = z.object({
 	vendorId: z.string(),
-	inherentRisk: z.enum(["unknown", "low", "medium", "high"] as const),
+	inherentProbability: z.nativeEnum(Likelihood),
+	inherentImpact: z.nativeEnum(Impact),
 });
 
 export const updateVendorInherentRisk = createSafeActionClient()
@@ -17,7 +20,10 @@ export const updateVendorInherentRisk = createSafeActionClient()
 		try {
 			await db.vendor.update({
 				where: { id: parsedInput.vendorId },
-				data: { inherentRisk: parsedInput.inherentRisk },
+				data: {
+					inherentProbability: parsedInput.inherentProbability,
+					inherentImpact: parsedInput.inherentImpact,
+				},
 			});
 
 			revalidatePath(`/vendors/${parsedInput.vendorId}`);
