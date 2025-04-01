@@ -52,10 +52,10 @@ export const updatePolicyFormAction = authActionClient
       review_date,
       isRequiredToSign,
     } = parsedInput;
-    const { user } = ctx;
+    const { user, session } = ctx;
 
-    if (!user.id || !user.organizationId) {
-      throw new Error("Invalid user input");
+    if (!user.id || !session.activeOrganizationId) {
+      throw new Error("Unauthorized");
     }
 
     try {
@@ -63,7 +63,7 @@ export const updatePolicyFormAction = authActionClient
       const currentPolicy = await db.policy.findUnique({
         where: {
           id,
-          organizationId: user.organizationId,
+          organizationId: session.activeOrganizationId,
         },
         select: {
           status: true,
@@ -86,7 +86,7 @@ export const updatePolicyFormAction = authActionClient
       await db.policy.update({
         where: {
           id,
-          organizationId: user.organizationId,
+          organizationId: session.activeOrganizationId,
         },
         data: {
           status,
@@ -99,8 +99,8 @@ export const updatePolicyFormAction = authActionClient
         },
       });
 
-      revalidatePath(`/${user.organizationId}/policies`);
-      revalidatePath(`/${user.organizationId}/policies/all/${id}`);
+      revalidatePath(`/${session.activeOrganizationId}/policies`);
+      revalidatePath(`/${session.activeOrganizationId}/policies/all/${id}`);
       revalidateTag("policies");
 
       return {
