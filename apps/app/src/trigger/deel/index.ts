@@ -5,7 +5,10 @@ import { z } from "zod";
 import { Departments } from "@bubba/db/types";
 import { decrypt } from "@/lib/encryption";
 import { completeEmployeeCreation } from "@/lib/db/employee";
+<<<<<<< HEAD
 import { isActive } from "@tiptap/react";
+=======
+>>>>>>> bf341517b8c0b143d0f5a255650e046c588bcad8
 
 const deelTaskSchema = z.object({
 	integration: z.object({
@@ -311,8 +314,19 @@ export const syncDeelEmployees = schemaTask({
 
 				logger.info(`Looking for existing employee with email: ${email}`);
 
-				// Check if employee already exists using the reusable function
-				const existingEmployee = "123";
+        // Check if employee already exists using the reusable function
+        const existingUser = await db.user.findFirst({
+          where: {
+            email,
+          },
+        });
+
+        const existingEmployee = await db.member.findFirst({
+          where: {
+            userId: existingUser?.id,
+            organizationId: integration.organization.id,
+          },
+        });
 
 				if (existingEmployee) {
 					logger.info(
@@ -350,6 +364,7 @@ export const syncDeelEmployees = schemaTask({
 							externalEmployeeId: deelEmployee.id,
 						});
 
+<<<<<<< HEAD
 						// If employee is inactive, update the isActive status after creation
 						if (!isActive) {
 							await db.member.update({
@@ -362,9 +377,28 @@ export const syncDeelEmployees = schemaTask({
 							});
 							logger.info("Updated new employee to inactive status");
 						}
+=======
+            if (!newEmployee) {
+              logger.error("Failed to create new employee");
+              continue;
+            }
+
+            // If employee is inactive, update the isActive status after creation
+            if (!isActive) {
+              await db.member.update({
+                where: {
+                  id: newEmployee.id,
+                },
+                data: {
+                  isActive: false,
+                },
+              });
+              logger.info("Updated new employee to inactive status");
+            }
+>>>>>>> bf341517b8c0b143d0f5a255650e046c588bcad8
 
 						logger.info(
-							`Successfully created new employee: ${name} with ID: ${newEmployee.id}, isActive: ${isActive}`,
+							`Successfully created new employee: $namewith ID: $newEmployee.id, isActive: $isActive`,
 						);
 						processedEmployees.push({
 							id: newEmployee.id,
@@ -373,7 +407,7 @@ export const syncDeelEmployees = schemaTask({
 						});
 					} catch (error) {
 						logger.error(
-							`Error creating employee: ${error instanceof Error ? error.message : String(error)}`,
+							`Error creating employee: $error instanceof Error ? error.message : String(error)`,
 						);
 						// Skip to the next employee if there's an error
 					}
@@ -381,9 +415,9 @@ export const syncDeelEmployees = schemaTask({
 			}
 
 			logger.info(
-				`Employee processing complete. Created/updated ${processedEmployees.length} employees.`,
+				`Employee processing complete. Created/updated $processedEmployees.lengthemployees.`,
 			);
-			logger.info(`Summary: ${JSON.stringify(processedEmployees, null, 2)}`);
+			logger.info(`Summary: $JSON.stringify(processedEmployees, null, 2)`);
 
 			logger.info(`Deel employee sync completed for ${integration.name}`);
 			return {
@@ -392,9 +426,9 @@ export const syncDeelEmployees = schemaTask({
 				totalFetched: deelEmployees.length,
 			};
 		} catch (error) {
-			logger.error(`Error running Deel employee sync: ${error}`);
+			logger.error(`Error running Deel employee sync: $error`);
 			logger.error(
-				`Error stack: ${error instanceof Error ? error.stack : "No stack trace available"}`,
+				`Error stack: $error instanceof Error ? error.stack : "No stack trace available"`,
 			);
 			return {
 				success: false,
