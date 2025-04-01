@@ -5,15 +5,16 @@ import { updateInherentRiskSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
 } from "@bubba/ui/form";
-import { Slider } from "@bubba/ui/slider";
+import { RadioGroup, RadioGroupItem } from "@bubba/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Impact, Likelihood } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryState } from "nuqs";
@@ -22,105 +23,135 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 interface InherentRiskFormProps {
-  riskId: string;
-  initialProbability?: number;
-  initialImpact?: number;
+	riskId: string;
+	initialProbability?: Likelihood;
+	initialImpact?: Impact;
 }
 
+// Map for displaying readable labels
+const LIKELIHOOD_LABELS: Record<Likelihood, string> = {
+	[Likelihood.very_unlikely]: "Very Unlikely (1-2)",
+	[Likelihood.unlikely]: "Unlikely (3-4)",
+	[Likelihood.possible]: "Possible (5-6)",
+	[Likelihood.likely]: "Likely (7-8)",
+	[Likelihood.very_likely]: "Very Likely (9-10)",
+};
+
+// Map for displaying readable labels
+const IMPACT_LABELS: Record<Impact, string> = {
+	[Impact.insignificant]: "Insignificant (1-2)",
+	[Impact.minor]: "Minor (3-4)",
+	[Impact.moderate]: "Moderate (5-6)",
+	[Impact.major]: "Major (7-8)",
+	[Impact.severe]: "Severe (9-10)",
+};
+
 export function InherentRiskForm({
-  riskId,
-  initialProbability,
-  initialImpact,
+	riskId,
+	initialProbability = Likelihood.possible,
+	initialImpact = Impact.moderate,
 }: InherentRiskFormProps) {
-  const [_, setOpen] = useQueryState("inherent-risk-sheet");
-  const t = useI18n();
+	const [_, setOpen] = useQueryState("inherent-risk-sheet");
+	const t = useI18n();
 
-  const updateInherentRisk = useAction(updateInherentRiskAction, {
-    onSuccess: () => {
-      toast.success(t("risk.form.update_inherent_risk_success"));
-      setOpen(null);
-    },
-    onError: () => {
-      toast.error(t("risk.form.update_inherent_risk_error"));
-    },
-  });
+	const updateInherentRisk = useAction(updateInherentRiskAction, {
+		onSuccess: () => {
+			toast.success(t("risk.form.update_inherent_risk_success"));
+			setOpen(null);
+		},
+		onError: () => {
+			toast.error(t("risk.form.update_inherent_risk_error"));
+		},
+	});
 
-  const form = useForm<z.infer<typeof updateInherentRiskSchema>>({
-    resolver: zodResolver(updateInherentRiskSchema),
-    defaultValues: {
-      id: riskId,
-      probability: initialProbability,
-      impact: initialImpact,
-    },
-  });
+	const form = useForm<z.infer<typeof updateInherentRiskSchema>>({
+		resolver: zodResolver(updateInherentRiskSchema),
+		defaultValues: {
+			id: riskId,
+			probability: initialProbability,
+			impact: initialImpact,
+		},
+	});
 
-  const onSubmit = (data: z.infer<typeof updateInherentRiskSchema>) => {
-    updateInherentRisk.execute(data);
-  };
+	const onSubmit = (data: z.infer<typeof updateInherentRiskSchema>) => {
+		updateInherentRisk.execute(data);
+	};
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="probability"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("risk.metrics.probability")}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={1}
-                  max={10}
-                  step={1}
-                  value={[field.value]}
-                  onValueChange={(value) => field.onChange(value[0])}
-                  className="py-4"
-                />
-              </FormControl>
-              <FormDescription className="text-right">
-                {field.value} / 10
-              </FormDescription>
-            </FormItem>
-          )}
-        />
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<FormField
+					control={form.control}
+					name="probability"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t("risk.metrics.probability")}</FormLabel>
+							<FormControl>
+								<RadioGroup
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									className="grid gap-3"
+								>
+									{Object.entries(LIKELIHOOD_LABELS).map(([value, label]) => (
+										<FormItem
+											key={value}
+											className="flex items-center space-x-3 space-y-0"
+										>
+											<FormControl>
+												<RadioGroupItem value={value} />
+											</FormControl>
+											<FormLabel className="font-normal">{label}</FormLabel>
+										</FormItem>
+									))}
+								</RadioGroup>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
 
-        <FormField
-          control={form.control}
-          name="impact"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("risk.metrics.impact")}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={1}
-                  max={10}
-                  step={1}
-                  value={[field.value]}
-                  onValueChange={(value) => field.onChange(value[0])}
-                  className="py-4"
-                />
-              </FormControl>
-              <FormDescription className="text-right">
-                {field.value} / 10
-              </FormDescription>
-            </FormItem>
-          )}
-        />
+				<FormField
+					control={form.control}
+					name="impact"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t("risk.metrics.impact")}</FormLabel>
+							<FormControl>
+								<RadioGroup
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									className="grid gap-3"
+								>
+									{Object.entries(IMPACT_LABELS).map(([value, label]) => (
+										<FormItem
+											key={value}
+											className="flex items-center space-x-3 space-y-0"
+										>
+											<FormControl>
+												<RadioGroupItem value={value} />
+											</FormControl>
+											<FormLabel className="font-normal">{label}</FormLabel>
+										</FormItem>
+									))}
+								</RadioGroup>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
 
-        <div className="flex justify-end">
-          <Button
-            type="submit"
-            variant="action"
-            disabled={updateInherentRisk.status === "executing"}
-          >
-            {updateInherentRisk.status === "executing" ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              t("common.actions.save")
-            )}
-          </Button>
-        </div>
-      </form>
-    </Form>
-  );
+				<div className="flex justify-end">
+					<Button
+						type="submit"
+						variant="action"
+						disabled={updateInherentRisk.status === "executing"}
+					>
+						{updateInherentRisk.status === "executing" ? (
+							<Loader2 className="h-4 w-4 animate-spin" />
+						) : (
+							t("common.actions.save")
+						)}
+					</Button>
+				</div>
+			</form>
+		</Form>
+	);
 }
