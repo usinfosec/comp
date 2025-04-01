@@ -8,12 +8,32 @@ export const auth = betterAuth({
 		provider: "postgresql",
 	}),
 	plugins: [organization()],
-
 	socialProviders: {
 		google: {
 			clientId: process.env.AUTH_GOOGLE_ID!,
 			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
 		},
+	},
+	user: {
+		modelName: "User",
+	},
+	organization: {
+		modelName: "Organization",
+	},
+	member: {
+		modelName: "Member",
+	},
+	invitation: {
+		modelName: "Invitation",
+	},
+	session: {
+		modelName: "Session",
+	},
+	account: {
+		modelName: "Account",
+	},
+	verification: {
+		modelName: "Verification",
 	},
 });
 
