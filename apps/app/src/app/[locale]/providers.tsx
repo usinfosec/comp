@@ -3,7 +3,7 @@
 import { env } from "@/env.mjs";
 import { I18nProviderClient } from "@/locales/client";
 import { AnalyticsProvider } from "@bubba/analytics";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/auth/auth-client";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
@@ -13,7 +13,7 @@ type ProviderProps = {
 };
 
 export function Providers({ children, locale }: ProviderProps) {
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   const hasAnalyticsKeys =
     env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST;
 

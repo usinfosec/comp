@@ -1,10 +1,14 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
+import { headers } from "next/headers";
 
 export async function getOrganizations() {
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	const user = session?.user;
 
 	if (!user) {
