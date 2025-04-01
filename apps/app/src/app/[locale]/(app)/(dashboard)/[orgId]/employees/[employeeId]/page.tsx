@@ -2,9 +2,11 @@ import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { EmployeeDetails } from "./components/EmployeeDetails";
 import { db } from "@bubba/db";
+import { trainingVideos as trainingVideosData } from "@bubba/data";
+import type { TrainingVideo } from "@bubba/data";
 
 export default async function EmployeeDetailsPage({
 	params,
@@ -22,15 +24,20 @@ export default async function EmployeeDetailsPage({
 	}
 
 	const policies = await getPoliciesTasks(employeeId);
-	const trainingVideos = await getTrainingVideos(employeeId);
-	const portalEmployeeId = await getPortalEmployeeId(employeeId);
+	const employeeTrainingVideos = await getTrainingVideos(employeeId);
+	const employee = await getEmployee(employeeId);
+
+	// If employee doesn't exist, show 404 page
+	if (!employee) {
+		notFound();
+	}
 
 	return (
 		<EmployeeDetails
 			employeeId={employeeId}
-			portalEmployeeId={portalEmployeeId?.id ?? ""}
+			employee={employee}
 			policies={policies}
-			trainingVideos={trainingVideos}
+			trainingVideos={employeeTrainingVideos}
 		/>
 	);
 }
@@ -50,7 +57,7 @@ export async function generateMetadata({
 	};
 }
 
-const getPortalEmployeeId = async (employeeId: string) => {
+const getEmployee = async (employeeId: string) => {
 	const session = await auth();
 	const organizationId = session?.user.organizationId;
 
@@ -64,13 +71,7 @@ const getPortalEmployeeId = async (employeeId: string) => {
 		},
 	});
 
-	const portalEmployeeId = await db.portalUser.findFirst({
-		where: {
-			email: employee?.email,
-		},
-	});
-
-	return portalEmployeeId;
+	return employee;
 };
 
 const getPoliciesTasks = async (employeeId: string) => {
@@ -81,18 +82,13 @@ const getPoliciesTasks = async (employeeId: string) => {
 		redirect("/");
 	}
 
-	const policies = await db.organizationPolicy.findMany({
+	const policies = await db.policy.findMany({
 		where: {
 			organizationId: organizationId,
 			isRequiredToSign: true,
 		},
 		orderBy: {
-			policy: {
-				name: "asc",
-			},
-		},
-		include: {
-			policy: true,
+			name: "asc",
 		},
 	});
 
@@ -107,19 +103,26 @@ const getTrainingVideos = async (employeeId: string) => {
 		redirect("/");
 	}
 
-	const trainingVideos = await db.organizationTrainingVideos.findMany({
+	const employeeTrainingVideos = await db.employeeTrainingVideos.findMany({
 		where: {
 			organizationId: organizationId,
 		},
 		orderBy: {
-			trainingVideo: {
-				title: "asc",
-			},
-		},
-		include: {
-			trainingVideo: true,
+			videoId: "asc",
 		},
 	});
 
-	return trainingVideos;
+	// Map the db records to include the matching metadata from the training videos data
+	return employeeTrainingVideos.map((dbVideo) => {
+		// Find the training video metadata with the matching ID
+		const videoMetadata = trainingVideosData.find(
+			(metadataVideo) => metadataVideo.id === dbVideo.videoId,
+		);
+
+		// Return the combined object with the correct structure
+		return {
+			...dbVideo,
+			metadata: videoMetadata,
+		};
+	});
 };
