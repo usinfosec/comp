@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useOrganizationAdmins } from "../../hooks/useOrganizationAdmins";
 import { columns } from "./components/table/RiskRegisterColumns";
 import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/auth/auth-client";
 
 type RiskRegisterTableRow = Risk & { owner: User | null };
 

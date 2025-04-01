@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import type { Metadata } from "next";
@@ -7,85 +7,90 @@ import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 import { getComplianceScores } from "./data/getComplianceScores";
 import { getFrameworkCategories } from "./data/getFrameworkCategories";
+import { frameworks } from "@bubba/data";
+import { headers } from "next/headers";
 
 export default async function DashboardPage({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string; orgId: string }>;
+  params: Promise<{ locale: string; orgId: string }>;
 }) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
 
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!organizationId) {
-		redirect("/");
-	}
+  const organizationId = session?.user.organizationId;
 
-	const frameworksWithControls =
-		await getFrameworksWithControls(organizationId);
+  if (!organizationId) {
+    redirect("/");
+  }
 
-	const complianceScores = await getComplianceScores(
-		organizationId,
-		frameworksWithControls,
-	);
+  const frameworksWithControls =
+    await getFrameworksWithControls(organizationId);
 
-	const frameworksWithCompliance = await getFrameworkCategories(organizationId);
+  const complianceScores = await getComplianceScores(
+    organizationId,
+    frameworksWithControls,
+  );
 
-	const frameworks = await getFrameworks(organizationId);
+  const frameworksWithCompliance = await getFrameworkCategories(organizationId);
 
-	return (
-		<FrameworksOverview
-			frameworks={frameworks}
-			complianceScores={complianceScores}
-			frameworksWithCompliance={frameworksWithCompliance}
-		/>
-	);
+  const frameworks = await getFrameworks(organizationId);
+
+  return (
+    <FrameworksOverview
+      frameworks={frameworks}
+      complianceScores={complianceScores}
+      frameworksWithCompliance={frameworksWithCompliance}
+    />
+  );
 }
 
 const getFrameworks = async (organizationId: string) => {
-	const frameworks = await db.frameworkInstance.findMany({
-		where: {
-			organizationId,
-		},
-	});
+  const frameworks = await db.frameworkInstance.findMany({
+    where: {
+      organizationId,
+    },
+  });
 
-	return frameworks;
+  return frameworks;
 };
 
 const getFrameworksWithControls = async (organizationId: string) => {
-	const controls = await db.frameworkInstance.findMany({
-		where: {
-			organizationId,
-		},
-		include: {
-			controls: {
-				include: {
-					artifacts: {
-						include: {
-							policy: true,
-							evidence: true,
-						},
-					},
-				},
-			},
-		},
-	});
+  const controls = await db.frameworkInstance.findMany({
+    where: {
+      organizationId,
+    },
+    include: {
+      controls: {
+        include: {
+          artifacts: {
+            include: {
+              policy: true,
+              evidence: true,
+            },
+          },
+        },
+      },
+    },
+  });
 
-	return controls;
+  return controls;
 };
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("sidebar.overview"),
-	};
+  return {
+    title: t("sidebar.overview"),
+  };
 }

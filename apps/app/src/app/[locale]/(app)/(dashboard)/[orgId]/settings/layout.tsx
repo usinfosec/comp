@@ -1,51 +1,52 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Layout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	const t = await getI18n();
-	const session = await auth();
-	const user = session?.user;
-	const orgId = user?.organizationId;
+  const t = await getI18n();
 
-	if (!session) {
-		return redirect("/");
-	}
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!session.user.isAdmin) {
-		return redirect(`/${orgId}`);
-	}
+  const user = session?.user;
+  const orgId = user?.organizationId;
 
-	return (
-		<div className="max-w-[1200px] m-auto">
-			<Suspense fallback={<div>Loading...</div>}>
-				<SecondaryMenu
-					items={[
-						{ path: `/${orgId}/settings`, label: t("settings.general.title") },
-						{
-							path: `/${orgId}/settings/members`,
-							label: t("settings.members.title"),
-						},
-						{
-							path: `/${orgId}/settings/api-keys`,
-							label: t("settings.api_keys.title"),
-						},
-						{
-							path: `/${orgId}/settings/billing`,
-							label: t("settings.billing.title"),
-							enabled: false,
-						},
-					]}
-				/>
-			</Suspense>
+  if (!session) {
+    return redirect("/");
+  }
 
-			<main className="mt-8">{children}</main>
-		</div>
-	);
+  return (
+    <div className="max-w-[1200px] m-auto">
+      <Suspense fallback={<div>Loading...</div>}>
+        <SecondaryMenu
+          items={[
+            { path: `/${orgId}/settings`, label: t("settings.general.title") },
+            {
+              path: `/${orgId}/settings/members`,
+              label: t("settings.members.title"),
+            },
+            {
+              path: `/${orgId}/settings/api-keys`,
+              label: t("settings.api_keys.title"),
+            },
+            {
+              path: `/${orgId}/settings/billing`,
+              label: t("settings.billing.title"),
+              enabled: false,
+            },
+          ]}
+        />
+      </Suspense>
+
+      <main className="mt-8">{children}</main>
+    </div>
+  );
 }

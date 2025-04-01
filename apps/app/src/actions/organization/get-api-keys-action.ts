@@ -1,8 +1,9 @@
 "use server";
 
 import type { ActionResponse } from "@/actions/types";
-import { auth } from "@/auth";
+import { auth } from "@/auth/auth";
 import { db } from "@bubba/db";
+import { headers } from "next/headers";
 
 export const getApiKeysAction = async (): Promise<
 	ActionResponse<
@@ -17,7 +18,9 @@ export const getApiKeysAction = async (): Promise<
 	>
 > => {
 	try {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
 		if (!session?.user.organizationId) {
 			return {

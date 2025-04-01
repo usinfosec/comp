@@ -5,7 +5,6 @@ import { env } from "@/env.mjs";
 import { initializeServer } from "@bubba/analytics/src/server";
 import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
@@ -97,11 +96,9 @@ export default async function Layout(props: {
         )}
       >
         <NuqsAdapter>
-          <SessionProvider>
-            <Providers locale={locale}>
-              <main>{children}</main>
-            </Providers>
-          </SessionProvider>
+          <Providers locale={locale}>
+            <main>{children}</main>
+          </Providers>
         </NuqsAdapter>
         <Toaster richColors />
       </body>

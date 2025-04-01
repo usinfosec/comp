@@ -98,13 +98,13 @@ const Item = ({
 
 type Props = {
   organizationId: string;
-  userIsAdmin: boolean;
+  //userIsAdmin: boolean;
   isCollapsed?: boolean;
 };
 
 export function MainMenu({
   organizationId,
-  userIsAdmin,
+  //userIsAdmin,
   isCollapsed = false,
 }: Props) {
   const t = useI18n();
@@ -225,9 +225,9 @@ export function MainMenu({
             .map((item) => {
               const isActive = isPathActive(item.path);
 
-              if (item.protected && !userIsAdmin) {
-                return null;
-              }
+              //if (item.protected && !userIsAdmin) {
+              //  return null;
+              //}
 
               return (
                 <Item
