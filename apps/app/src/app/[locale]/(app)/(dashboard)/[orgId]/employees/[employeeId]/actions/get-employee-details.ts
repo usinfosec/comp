@@ -1,14 +1,9 @@
 "use server";
 
-import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
-import {
-  type AppError,
-  employeeDetailsInputSchema,
-  appErrors,
-  EmployeeDetails,
-} from "../types";
 import { auth } from "@/auth";
+import { db } from "@bubba/db";
+import { type AppError, appErrors, employeeDetailsInputSchema } from "../types";
 
 // Type-safe action response
 export type ActionResponse<T> = Promise<
@@ -47,19 +42,6 @@ export const getEmployeeDetails = authActionClient
           department: true,
           createdAt: true,
           isActive: true,
-          employeeTasks: {
-            select: {
-              id: true,
-              status: true,
-              requiredTask: {
-                select: {
-                  id: true,
-                  name: true,
-                  description: true,
-                },
-              },
-            },
-          },
         },
       });
 
