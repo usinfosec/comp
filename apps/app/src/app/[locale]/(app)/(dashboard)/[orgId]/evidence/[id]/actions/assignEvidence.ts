@@ -2,7 +2,7 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import { db } from "@bubba/db";
-import { MembershipRole } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { z } from "zod";
 
 export const assignEvidence = authActionClient
@@ -20,10 +20,10 @@ export const assignEvidence = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { id, assigneeId } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -35,7 +35,7 @@ export const assignEvidence = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 
@@ -48,12 +48,12 @@ export const assignEvidence = authActionClient
 
 			// If assigneeId is provided, verify the user exists and has admin privileges
 			if (assigneeId) {
-				const adminMember = await db.organizationMember.findFirst({
+				const adminMember = await db.member.findFirst({
 					where: {
 						userId: assigneeId,
-						organizationId: user.organizationId,
+						organizationId: session.activeOrganizationId,
 						role: {
-							in: [MembershipRole.admin, MembershipRole.owner],
+							in: [Role.admin],
 						},
 					},
 				});

@@ -19,10 +19,10 @@ export const toggleRelevance = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { id, isNotRelevant } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -34,7 +34,7 @@ export const toggleRelevance = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 
@@ -50,7 +50,7 @@ export const toggleRelevance = authActionClient
 			const updatedEvidence = await db.evidence.update({
 				where: {
 					id,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 				data: {
 					isNotRelevant,

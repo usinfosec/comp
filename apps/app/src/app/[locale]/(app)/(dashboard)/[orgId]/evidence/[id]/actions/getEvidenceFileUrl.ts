@@ -56,10 +56,10 @@ export const getEvidenceFileUrl = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { evidenceId, fileUrl } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			throw new Error("Not authorized - no organization found");
 		}
 
@@ -68,7 +68,7 @@ export const getEvidenceFileUrl = authActionClient
 			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 					fileUrls: {
 						has: fileUrl,
 					},
