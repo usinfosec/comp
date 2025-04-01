@@ -229,34 +229,6 @@ const createOrganizationPolicy = async (
 	return organizationPolicies;
 };
 
-const createOrganizationCategories = async (
-	organizationId: string,
-	frameworkIds: string[],
-) => {
-	if (!organizationId) {
-		throw new Error("Not authorized - no organization found");
-	}
-
-	// For each frameworkCategory we need to get the controls.
-	const frameworkCategories = await db.frameworkCategory.findMany({
-		where: {
-			frameworkId: { in: frameworkIds },
-		},
-	});
-
-	// Create the organization categories.
-	const organizationCategories = await db.organizationCategory.createMany({
-		data: frameworkCategories.map((category) => ({
-			name: category.name,
-			description: category.description,
-			organizationId,
-			frameworkId: category.frameworkId,
-		})),
-	});
-
-	return organizationCategories;
-};
-
 const createOrganizationControlRequirements = async (
 	organizationId: string,
 	organizationFrameworkIds: string[],

@@ -23,7 +23,7 @@ export const getPoliciesByFrameworkAction = authActionClient
 		}
 
 		try {
-			const policies = await db.po.findMany();
+			const policies = await db.policyFramework.findMany();
 
 			if (!policies) {
 				return {
