@@ -1,13 +1,3 @@
-enum TaskStatus {
-    open
-    closed
-}
-
-enum TaskType {
-    vendor
-    risk
-}
-
 model Task {
     id          String     @id @default(cuid())
     title       String
@@ -27,4 +17,14 @@ model Task {
 
     @@index([relatedId])
     @@index([relatedId, organizationId])
+}
+
+enum TaskStatus {
+    open
+    closed
+}
+
+enum TaskType {
+    vendor
+    risk
 }
