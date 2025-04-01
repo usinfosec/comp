@@ -1,12 +1,7 @@
 model Organization {
-  id               String  @id @default(cuid())
-  stripeCustomerId String?
-  name             String
-  setup            Boolean @default(false)
-  website          String
-  tier             Tier    @default(free)
-  policiesCreated  Boolean @default(false)
-  frameworkId      String?
+  id      String @id @default(cuid())
+  name    String
+  website String
 
   auditLog               AuditLog[]
   employees              Employee[]
@@ -34,7 +29,6 @@ model Organization {
   employeeTrainingVideos EmployeeTrainingVideos[]
   artifacts              Artifact[]
 
-  @@index([stripeCustomerId])
   @@index([id])
 }
 
