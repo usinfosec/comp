@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy, User } from "@bubba/db/types";
+import type { OrganizationPolicy, User } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
@@ -15,9 +15,7 @@ export function PolicyOverview({
 	policy,
 	users,
 }: {
-	policy: OrganizationPolicy & {
-		policy: Policy;
-	};
+	policy: OrganizationPolicy;
 	users: User[];
 }) {
 	const t = useI18n();

@@ -9,7 +9,6 @@ import {
 	Departments,
 	Frequency,
 	type OrganizationPolicy,
-	type Policy,
 	type PolicyStatus,
 	type User,
 } from "@bubba/db/types";
@@ -52,7 +51,7 @@ export function UpdatePolicyOverview({
 	organizationPolicy,
 	users,
 }: {
-	organizationPolicy: OrganizationPolicy & { policy: Policy };
+	organizationPolicy: OrganizationPolicy;
 	users: User[];
 }) {
 	const t = useI18n();
@@ -85,7 +84,7 @@ export function UpdatePolicyOverview({
 			department: organizationPolicy.department ?? Departments.admin,
 			review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
-			isRequiredToSign: (organizationPolicy.policy as any).isRequiredToSign
+			isRequiredToSign: organizationPolicy.isRequiredToSign
 				? "required"
 				: "not_required",
 		},

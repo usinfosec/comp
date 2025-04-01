@@ -6,41 +6,39 @@ import { Card, CardHeader, CardTitle, CardContent } from "@bubba/ui/card";
 import { StatusChart } from "./status-chart";
 
 export async function RisksByStatus() {
-  const t = await getI18n();
+	const t = await getI18n();
 
-  const risks = await getRisksByStatus();
+	const risks = await getRisksByStatus();
 
-  const data = risks.map((risk) => ({
-    name: risk.status,
-    value: risk._count,
-  }));
+	const data = risks.map((risk) => ({
+		name: risk.status,
+		value: risk._count,
+	}));
 
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t("risk.dashboard.status")}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <StatusChart data={data} />
-      </CardContent>
-    </Card>
-  );
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>{t("risk.dashboard.status")}</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<StatusChart data={data} />
+			</CardContent>
+		</Card>
+	);
 }
 
-const getRisksByStatus = cache(
-  async () => {
-    const session = await auth();
+const getRisksByStatus = cache(async () => {
+	const session = await auth();
 
-    if (!session || !session.user.organizationId) {
-      return [];
-    }
+	if (!session || !session.user.organizationId) {
+		return [];
+	}
 
-    const risks = await db.risk.groupBy({
-      by: ["status"],
-      where: { organizationId: session.user.organizationId },
-      _count: true,
-    });
+	const risks = await db.risk.groupBy({
+		by: ["status"],
+		where: { organizationId: session.user.organizationId },
+		_count: true,
+	});
 
-    return risks;
-  },
-);
+	return risks;
+});
