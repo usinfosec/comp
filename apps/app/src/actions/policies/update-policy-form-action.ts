@@ -60,7 +60,7 @@ export const updatePolicyFormAction = authActionClient
 
     try {
       // Get the current policy to check if status is changing to published
-      const currentPolicy = await db.organizationPolicy.findUnique({
+      const currentPolicy = await db.policy.findUnique({
         where: {
           id,
           organizationId: user.organizationId,
@@ -83,7 +83,7 @@ export const updatePolicyFormAction = authActionClient
         lastPublishedAt = new Date(); // Set lastPublishedAt to now when publishing
       }
 
-      await db.organizationPolicy.update({
+      await db.policy.update({
         where: {
           id,
           organizationId: user.organizationId,

@@ -74,7 +74,7 @@ export const updatePolicyAction = authActionClient
     }
 
     try {
-      const policy = await db.organizationPolicy.findUnique({
+      const policy = await db.policy.findUnique({
         where: { id, organizationId: user.organizationId },
       });
 
@@ -90,7 +90,7 @@ export const updatePolicyAction = authActionClient
         JSON.stringify(processContent(content as ContentNode))
       );
 
-      await db.organizationPolicy.update({
+      await db.policy.update({
         where: { id },
         data: { content: processedContent.content },
       });
