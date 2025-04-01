@@ -73,9 +73,6 @@ export const createOrganizationTask = schemaTask({
 
 			await createOrganizationEvidence(organizationId, frameworkIds, userId);
 
-			// Training videos to be viewed by employees of the organization.
-			await createOrganizationTrainingVideos(organizationId);
-
 			await db.organization.update({
 				where: {
 					id: organizationId,
@@ -596,17 +593,4 @@ const createOrganizationEvidence = async (
 	});
 
 	return { count: createdEvidences.length };
-};
-
-const createOrganizationTrainingVideos = async (organizationId: string) => {
-	const trainingVideos = await db.portalTrainingVideos.findMany();
-
-	await db.organizationTrainingVideos.createMany({
-		data: trainingVideos.map((video) => ({
-			organizationId,
-			trainingVideoId: video.id,
-		})),
-	});
-
-	return { count: trainingVideos.length };
 };
