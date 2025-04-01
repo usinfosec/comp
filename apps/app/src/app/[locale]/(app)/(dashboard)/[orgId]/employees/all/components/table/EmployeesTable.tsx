@@ -1,6 +1,6 @@
 "use client";
 
-import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 import { DataTable } from "@/components/ui/data-table";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";

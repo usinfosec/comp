@@ -56,7 +56,8 @@ export const people = {
       placeholder: "Select a department",
     },
     submit: "Add Employee",
-    success: "Employee added successfully",
+    success:
+      "Employee added successfully, they will receive an email to join the portal.",
     error: "Failed to add employee",
   },
   dashboard: {

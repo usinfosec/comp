@@ -101,7 +101,7 @@ pre {
 /* Lists */
 .ProseMirror ul,
 .ProseMirror ol {
-  @apply my-2 ml-6 space-y-2;
+  @apply my-1 ml-2 space-y-2;
 }
 
 .ProseMirror li {
@@ -137,7 +137,7 @@ pre {
 .ProseMirror h2 + p,
 .ProseMirror h3 + p,
 .ProseMirror h4 + p {
-  @apply mt-2;
+  @apply mt-1;
 }
 
 /* Code blocks */

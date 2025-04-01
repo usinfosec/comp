@@ -16,6 +16,7 @@ import type { User } from "next-auth";
 import { PoliciesListSkeleton } from "./PoliciesListSkeleton";
 import { PoliciesTable } from "./table/PoliciesTable";
 import { PoliciesTableProvider } from "./table/hooks/usePoliciesTableContext";
+import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 
 interface PoliciesListProps {
 	columnHeaders: {
@@ -33,6 +34,7 @@ export function PoliciesList({ columnHeaders, users }: PoliciesListProps) {
 		<PoliciesTableProvider>
 			<div className="relative">
 				<PoliciesTable users={users} />
+				<CreatePolicySheet />
 			</div>
 		</PoliciesTableProvider>
 	);

@@ -17,6 +17,7 @@ interface PoliciesTableContextType {
 	search: string;
 	status: string | null;
 	ownerId: string | null;
+	isArchived: string | null;
 	page: string;
 	pageSize: string;
 
@@ -24,6 +25,7 @@ interface PoliciesTableContextType {
 	setSearch: (value: string) => void;
 	setStatus: (value: string | null) => void;
 	setOwnerId: (value: string | null) => void;
+	setIsArchived: (value: string | null) => void;
 	setPage: (value: string) => void;
 	setPageSize: (value: string) => void;
 
@@ -51,6 +53,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 	// Query state for other filters
 	const [status, setStatus] = useQueryState("status");
 	const [ownerId, setOwnerId] = useQueryState("ownerId");
+	const [isArchived, setIsArchived] = useQueryState("isArchived");
 	const [page, setPage] = useQueryState("page", { defaultValue: "1" });
 	const [pageSize, setPageSize] = useQueryState("pageSize", {
 		defaultValue: "10",
@@ -68,6 +71,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 		search,
 		status: status || undefined,
 		ownerId: ownerId || undefined,
+		isArchived: isArchived || undefined,
 		page: currentPage,
 		pageSize: currentPageSize,
 	});
@@ -77,7 +81,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 		if (initialLoadCompleted.current) {
 			setIsSearching(true);
 		}
-	}, [search, status, ownerId, page, pageSize]);
+	}, [search, status, ownerId, isArchived, page, pageSize]);
 
 	// Track when loading changes
 	useEffect(() => {
@@ -103,13 +107,14 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 
 	// Check if any filters are active
 	const hasActiveFilters = useMemo(() => {
-		return status !== null || ownerId !== null;
-	}, [status, ownerId]);
+		return status !== null || ownerId !== null || isArchived !== null;
+	}, [status, ownerId, isArchived]);
 
 	// Clear all filters
 	const clearFilters = () => {
 		setStatus(null);
 		setOwnerId(null);
+		setIsArchived(null);
 		setPage("1"); // Reset to first page when clearing filters
 		setSearch(""); // Clear search
 	};
@@ -119,6 +124,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 		search,
 		status,
 		ownerId,
+		isArchived,
 		page,
 		pageSize,
 
@@ -126,6 +132,7 @@ export function PoliciesTableProvider({ children }: { children: ReactNode }) {
 		setSearch,
 		setStatus,
 		setOwnerId,
+		setIsArchived,
 		setPage,
 		setPageSize,
 

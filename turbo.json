@@ -37,7 +37,8 @@
         "AWS_ACCESS_KEY_ID",
         "AWS_SECRET_ACCESS_KEY",
         "ANTHROPIC_API_KEY",
-        "REVALIDATION_SECRET"
+        "REVALIDATION_SECRET",
+        "GROQ_API_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "dependsOn": ["^build", "^db:generate", "clean-react"],

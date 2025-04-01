@@ -31,6 +31,7 @@ export function MobileMenu({
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>
+
 				<MainMenu organizationId={organizationId} userIsAdmin={isAdmin} />
 			</SheetContent>
 		</Sheet>

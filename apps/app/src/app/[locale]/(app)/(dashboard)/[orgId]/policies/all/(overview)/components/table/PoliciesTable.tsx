@@ -7,10 +7,12 @@ import { getFilterCategories } from "./components/filterCategories";
 import { getColumns } from "./columns";
 import type { PoliciesTableProps } from "./types";
 import { usePoliciesTable } from "./hooks/usePoliciesTableContext";
+import { useQueryState } from "nuqs";
 
 export function PoliciesTable({ users }: PoliciesTableProps) {
 	const router = useRouter();
 	const { orgId } = useParams<{ orgId: string }>();
+	const [_, setCreatePolicySheet] = useQueryState("create-policy-sheet");
 	const {
 		page,
 		setPage,
@@ -24,6 +26,8 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 		setStatus,
 		ownerId,
 		setOwnerId,
+		isArchived,
+		setIsArchived,
 		hasActiveFilters,
 		clearFilters,
 		isLoading,
@@ -34,13 +38,17 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 		router.replace(`/${orgId}/policies/all/${policyId}`);
 	};
 
-	const activeFilterCount = [status, ownerId].filter(Boolean).length;
+	const activeFilterCount = [status, ownerId, isArchived].filter(
+		Boolean,
+	).length;
 
 	const filterCategories = getFilterCategories({
 		status,
 		setStatus,
 		ownerId,
 		setOwnerId,
+		isArchived,
+		setIsArchived,
 		users,
 		setPage,
 	});
@@ -79,11 +87,11 @@ export function PoliciesTable({ users }: PoliciesTableProps) {
 				onClearFilters: clearFilters,
 				activeFilterCount,
 			}}
-			// ctaButton={{
-			// 	label: "Create Policy",
-			// 	onClick: () => router.push(`/${orgId}/policies/all/new`),
-			// 	icon: <Plus className="h-4 w-4" />,
-			// }}
+			ctaButton={{
+				label: "Create Policy",
+				onClick: () => setCreatePolicySheet("true", { history: "push" }),
+				icon: <Plus className="h-4 w-4" />,
+			}}
 		/>
 	);
 }

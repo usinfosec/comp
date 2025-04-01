@@ -1,18 +1,11 @@
 import { db } from "@bubba/db";
 import type { Employee, Departments } from "@bubba/db/types";
+import { InvitePortalEmail } from "@bubba/email/emails/invite-portal";
+import { sendEmail } from "@bubba/email/lib/resend";
 
-const DEFAULT_TASKS = [
-	{
-		code: "POLICY-ACCEPT",
-		name: "Policy Acceptance",
-		description: "Review and accept company policies",
-	},
-	{
-		code: "DEVICE-SECURITY",
-		name: "Device Security",
-		description: "Complete device security checklist and configuration",
-	},
-] as const;
+if (!process.env.NEXT_PUBLIC_PORTAL_URL) {
+  throw new Error("NEXT_PUBLIC_PORTAL_URL is not set");
+}
 
 /**
  * Find an existing employee by email and organization ID
@@ -67,23 +60,75 @@ export async function createOrReactivateEmployee(params: {
 		});
 	}
 
-	// Create a new employee
-	return db.employee.create({
-		data: {
-			name,
-			email,
-			department,
-			organizationId,
-			externalEmployeeId,
-		},
-	});
+  // Create a new employee
+  return db.employee.create({
+    data: {
+      name,
+      email,
+      department,
+      organizationId,
+      externalEmployeeId,
+    },
+  });
 }
+
+/**
+ * Create or update a portal user for an employee
+ */
+export async function createOrUpdatePortalUser(params: {
+  employeeId: string;
+  name: string;
+  email: string;
+  organizationId: string;
+}): Promise<void> {
+  const { employeeId, name, email, organizationId } = params;
+
+  await db.employee.upsert({
+    where: { email_organizationId: { email, organizationId } },
+    create: {
+      id: employeeId,
+      name,
+      email,
+      organizationId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    update: {
+      updatedAt: new Date(),
+      name,
+      email,
+      organizationId,
+    },
+  });
+}
+
+const inviteEmployeeToPortal = async (params: {
+  email: string;
+  organizationName: string;
+  inviteLink: string;
+}) => {
+  const { email, organizationName, inviteLink } = params;
+
+  await sendEmail({
+    to: email,
+    subject: `You've been invited to join ${organizationName || "an organization"} on Comp AI`,
+    react: InvitePortalEmail({
+      email,
+      organizationName,
+      inviteLink,
+    }),
+  });
+
+  return {
+    success: true,
+    message: "Employee invited to portal",
+  };
+};
 
 /**
  * Complete employee creation by handling all steps:
  * 1. Create/reactivate the employee
  * 2. Create/update portal user
- * 3. Create default tasks
  */
 export async function completeEmployeeCreation(params: {
 	name: string;
@@ -101,7 +146,17 @@ export async function completeEmployeeCreation(params: {
 	//   organizationId: params.organizationId,
 	// });
 
-	// await createDefaultTasksForEmployee(employee.id);
+  const organization = await db.organization.findUnique({
+    where: {
+      id: params.organizationId,
+    },
+  });
+
+  await inviteEmployeeToPortal({
+    email: params.email,
+    organizationName: organization?.name || "an organization",
+    inviteLink: `${process.env.NEXT_PUBLIC_PORTAL_URL}`,
+  });
 
 	return employee;
 }

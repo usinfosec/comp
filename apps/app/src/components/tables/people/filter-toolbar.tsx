@@ -1,6 +1,6 @@
 "use client";
 
-import { EmployeeInviteSheet } from "@/components/sheets/invite-user-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
