@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@bubba/db";
-import { Departments, Frequency, RequirementType } from "@bubba/db/types";
+import { Departments, Frequency } from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createPolicySchema } from "../schema";
@@ -17,9 +17,17 @@ export const createPolicyAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { title, description, frameworkIds, controlIds } = parsedInput;
+    const { activeOrganizationId } = ctx.session;
     const { user } = ctx;
 
-    if (!user || !user.organizationId) {
+    if (!activeOrganizationId) {
+      return {
+        success: false,
+        error: "Not authorized",
+      };
+    }
+
+    if (!user) {
       return {
         success: false,
         error: "Not authorized",
@@ -32,7 +40,7 @@ export const createPolicyAction = authActionClient
         data: {
           name: title,
           description,
-          organizationId: user.organizationId,
+          organizationId: activeOrganizationId,
           ownerId: user.id,
           department: Departments.none,
           frequency: Frequency.monthly,
@@ -50,9 +58,9 @@ export const createPolicyAction = authActionClient
             // Create the artifact
             const artifact = await db.artifact.create({
               data: {
-                type: RequirementType.policy,
+                type: "policy",
                 policyId: policy.id,
-                organizationId: user.organizationId!, // Bang because we checked for null above.
+                organizationId: activeOrganizationId,
               },
             });
 
@@ -71,7 +79,7 @@ export const createPolicyAction = authActionClient
         );
       }
 
-      revalidatePath(`/${user.organizationId}/policies`);
+      revalidatePath(`/${activeOrganizationId}/policies`);
       revalidateTag("policies");
 
       return {
