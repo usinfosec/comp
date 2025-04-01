@@ -190,28 +190,6 @@ export const syncDeelEmployees = schemaTask({
         return { success: false, error: "Not a Deel integration" };
       }
 
-      // Check if we've run this integration within the last 24 hours
-      const lastRun = await db.integrationLastRun.findUnique({
-        where: {
-          integrationId_organizationId: {
-            integrationId: integration.id,
-            organizationId: integration.organization.id,
-          },
-        },
-      });
-
-      const now = new Date();
-      if (
-        lastRun &&
-        lastRun.lastRunAt > new Date(now.getTime() - 24 * 60 * 60 * 1000)
-      ) {
-        logger.info("Skipping Deel sync as it was run less than 24 hours ago");
-        return {
-          success: true,
-          message: "Skipped - run less than 24 hours ago",
-        };
-      }
-
       // Extract access token from user settings
       let accessToken: string | undefined;
       try {
@@ -346,14 +324,12 @@ export const syncDeelEmployees = schemaTask({
             `Found existing employee with ID: ${existingEmployee.id}, updating...`
           );
           // Update existing employee
-          await db.employee.update({
+          await db.member.update({
             where: {
               id: existingEmployee.id,
             },
             data: {
-              name,
               department,
-              externalEmployeeId: deelEmployee.id,
               isActive, // Set isActive based on Deel status
             },
           });
@@ -381,7 +357,7 @@ export const syncDeelEmployees = schemaTask({
 
             // If employee is inactive, update the isActive status after creation
             if (!isActive) {
-              await db.employee.update({
+              await db.member.update({
                 where: {
                   id: newEmployee.id,
                 },
@@ -413,26 +389,6 @@ export const syncDeelEmployees = schemaTask({
         `Employee processing complete. Created/updated ${processedEmployees.length} employees.`
       );
       logger.info(`Summary: ${JSON.stringify(processedEmployees, null, 2)}`);
-
-      // Update or create the last run record
-      logger.info("Updating last run record...");
-      await db.integrationLastRun.upsert({
-        where: {
-          integrationId_organizationId: {
-            integrationId: integration.id,
-            organizationId: integration.organization.id,
-          },
-        },
-        create: {
-          integrationId: integration.id,
-          organizationId: integration.organization.id,
-          lastRunAt: now,
-        },
-        update: {
-          lastRunAt: now,
-        },
-      });
-      logger.info("Last run record updated successfully");
 
       logger.info(`Deel employee sync completed for ${integration.name}`);
       return {
