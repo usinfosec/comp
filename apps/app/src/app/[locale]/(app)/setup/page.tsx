@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-	return <Onboarding frameworks={frameworks} />;
+	return <Onboarding frameworks={Object.values(frameworks)} />;
 }

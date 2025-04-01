@@ -27,7 +27,7 @@ export function PolicyOverview({
 				<Icons.Policies className="h-4 w-4" />
 				<AlertTitle>
 					<div className="flex items-center justify-between gap-2">
-						{policy.policy.name}
+						{policy.name}
 						<Button
 							size="icon"
 							variant="ghost"
@@ -39,7 +39,7 @@ export function PolicyOverview({
 					</div>
 				</AlertTitle>
 				<AlertDescription className="mt-4">
-					{policy.policy.description}
+					{policy.description}
 				</AlertDescription>
 			</Alert>
 
