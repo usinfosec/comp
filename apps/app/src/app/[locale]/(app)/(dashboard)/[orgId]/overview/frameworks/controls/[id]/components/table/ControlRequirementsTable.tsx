@@ -11,15 +11,14 @@ import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColum
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
 import { useParams, useRouter } from "next/navigation";
 import type {
-	OrganizationControlRequirement,
-	OrganizationEvidence,
-	OrganizationPolicy,
+	Evidence,
+	Policy,
 } from "@bubba/db/types";
 
 // Define the type that matches what we receive from the hook
-export type RequirementTableData = OrganizationControlRequirement & {
-	organizationPolicy: OrganizationPolicy | null;
-	organizationEvidence: OrganizationEvidence | null;
+export type RequirementTableData = ControlRequirement & {
+	policy: Policy | null;
+	evidence: Evidence | null;
 };
 
 interface DataTableProps {
