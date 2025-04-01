@@ -179,7 +179,6 @@
         "@prisma/adapter-neon": "^6.5.0",
         "@prisma/client": "^6.5.0",
         "@prisma/extension-accelerate": "^1.2.2",
-        "pg": "^8.14.1",
         "prisma": "^6.5.0",
       },
       "devDependencies": {

@@ -4,10 +4,7 @@ import axios from "axios";
 import { z } from "zod";
 import { Departments } from "@bubba/db/types";
 import { decrypt } from "@/lib/encryption";
-import {
-  findEmployeeByEmail,
-  completeEmployeeCreation,
-} from "@/lib/db/employee";
+import { completeEmployeeCreation } from "@/lib/db/employee";
 
 const deelTaskSchema = z.object({
   integration: z.object({
@@ -314,10 +311,18 @@ export const syncDeelEmployees = schemaTask({
         logger.info(`Looking for existing employee with email: ${email}`);
 
         // Check if employee already exists using the reusable function
-        const existingEmployee = await findEmployeeByEmail(
-          email,
-          integration.organization.id
-        );
+        const existingUser = await db.user.findFirst({
+          where: {
+            email,
+          },
+        });
+
+        const existingEmployee = await db.member.findFirst({
+          where: {
+            userId: existingUser?.id,
+            organizationId: integration.organization.id,
+          },
+        });
 
         if (existingEmployee) {
           logger.info(
@@ -354,6 +359,11 @@ export const syncDeelEmployees = schemaTask({
               organizationId: integration.organization.id,
               externalEmployeeId: deelEmployee.id,
             });
+
+            if (!newEmployee) {
+              logger.error("Failed to create new employee");
+              continue;
+            }
 
             // If employee is inactive, update the isActive status after creation
             if (!isActive) {
