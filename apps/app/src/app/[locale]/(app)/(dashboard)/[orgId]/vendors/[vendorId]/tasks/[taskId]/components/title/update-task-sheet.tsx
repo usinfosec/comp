@@ -92,7 +92,7 @@ export function UpdateTaskSheet({ task }: UpdateTaskSheetProps) {
 			description: task.description,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
-			ownerId: task.userId || undefined,
+			userId: task.userId || undefined,
 		},
 	});
 
@@ -264,7 +264,7 @@ export function UpdateTaskSheet({ task }: UpdateTaskSheetProps) {
 
 										<FormField
 											control={form.control}
-											name="ownerId"
+											name="userId"
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Assignee</FormLabel>
