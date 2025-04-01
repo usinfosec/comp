@@ -93,7 +93,7 @@ export const createOrganizationTask = schemaTask({
       // Create framework instances for each selected framework
       const organizationFrameworks = await Promise.all(
         frameworkIds.map((frameworkId) =>
-          createOrganizationFramework(organizationId, frameworkId)
+          createFrameworkInstance(organizationId, frameworkId)
         )
       );
 
@@ -180,7 +180,7 @@ const getRelevantControls = (frameworkIds: string[]): TemplateControl[] => {
  * @param frameworkId - ID of the framework to create an instance for
  * @returns The created framework instance record
  */
-const createOrganizationFramework = async (
+const createFrameworkInstance = async (
   organizationId: string,
   frameworkId: string
 ) => {
@@ -209,7 +209,7 @@ const createOrganizationFramework = async (
   }
 
   // Use upsert to handle the case where a record may already exist
-  const organizationFramework = await db.frameworkInstance.upsert({
+  const frameworkInstance = await db.frameworkInstance.upsert({
     where: {
       organizationId_frameworkId: {
         organizationId,
@@ -217,12 +217,12 @@ const createOrganizationFramework = async (
       },
     },
     update: {
-      status: "not_started" as FrameworkStatus,
+      organizationId,
+      frameworkId,
     },
     create: {
       organizationId,
       frameworkId,
-      status: "not_started" as FrameworkStatus,
     },
     select: {
       id: true,
@@ -232,7 +232,7 @@ const createOrganizationFramework = async (
   logger.info("Created/updated organization framework", {
     organizationId,
     frameworkId,
-    organizationFrameworkId: organizationFramework.id,
+    frameworkInstanceId: frameworkInstance.id,
   });
 
   // Find all controls that apply to this specific framework
@@ -247,7 +247,7 @@ const createOrganizationFramework = async (
         organizationId,
         controlId: control.id,
         status: "not_started" as ComplianceStatus,
-        frameworkInstanceId: organizationFramework.id,
+        frameworkInstanceId: frameworkInstance.id,
       },
     });
 
@@ -257,7 +257,7 @@ const createOrganizationFramework = async (
     });
   }
 
-  return organizationFramework;
+  return frameworkInstance;
 };
 
 /**

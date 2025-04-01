@@ -1,14 +1,12 @@
-
 model FrameworkInstance {
-  id                  String                @id @default(cuid())
-  organizationId      String
-  frameworkId         String
-  status              FrameworkStatus       @default(not_started)
-  adoptedAt           DateTime              @default(now())
-  lastAssessed        DateTime?
-  nextAssessment      DateTime?
-  controls            Control[]
-  organization        Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  id             String       @id @default(cuid())
+  organizationId String
+  frameworkId    String
+  adoptedAt      DateTime     @default(now())
+  lastAssessed   DateTime?
+  nextAssessment DateTime?
+  controls       Control[]
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([organizationId, frameworkId])
 }
