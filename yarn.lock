@@ -1271,7 +1271,9 @@
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
+    "@bubba/auth" "workspace:*"
     "@bubba/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.10"
     "@types/react" "19.0.10"
@@ -1288,8 +1290,11 @@
     "@aws-sdk/client-s3" "^3.758.0"
     "@aws-sdk/s3-request-presigner" "^3.758.0"
     "@browserbasehq/sdk" "^2.4.0"
+  dependencies:
+    "@bubba/auth" "workspace:*"
     "@bubba/data" "workspace:*"
     "@bubba/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@hookform/resolvers" "^3.10.0"
     "@nangohq/frontend" "^0.53.2"
@@ -1359,11 +1364,19 @@
     yarn "^1.22.22"
     zustand "^5.0.3"
 
+"@bubba/auth@packages/auth", "@bubba/auth@workspace:*":
+  version "workspace:packages/auth"
+  resolved "workspace:packages/auth"
+  dependencies:
+    better-auth "^1.2.5"
+    server-only "0.0.1"
+
 "@bubba/data@packages/data", "@bubba/data@workspace:*":
   version "workspace:packages/data"
   resolved "workspace:packages/data"
   devDependencies:
     "@bubba/db" "workspace:*"
+  devDependencies:
     tsup "^8.0.1"
     typescript "^5.7.3"
 
@@ -1372,6 +1385,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"

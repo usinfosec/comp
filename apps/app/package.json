@@ -24,6 +24,7 @@
 		"@browserbasehq/sdk": "^2.4.0",
 		"@bubba/data": "workspace:*",
 		"@bubba/notifications": "workspace:*",
+		"@bubba/auth": "workspace:*",
 		"@date-fns/tz": "^1.2.0",
 		"@hookform/resolvers": "^3.10.0",
 		"@nangohq/frontend": "^0.53.2",
@@ -95,6 +96,7 @@
 	},
 	"devDependencies": {
 		"@bubba/db": "workspace:*",
+    "@bubba/auth": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.13.10",
 		"@types/react": "19.0.10",
