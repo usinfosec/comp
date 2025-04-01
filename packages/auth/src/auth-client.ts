@@ -10,7 +10,14 @@ export const authClient = createAuthClient({
   plugins: [organizationClient(), inferAdditionalFields<typeof auth>()],
 });
 
-export const { signIn, signOut, useSession, useActiveOrganization } =
-  authClient;
+export const {
+  signIn,
+  signOut,
+  useSession,
+  useActiveOrganization,
+  organization,
+  useListOrganizations,
+  useActiveMember,
+} = authClient;
 
 export type Session = typeof authClient.$Infer.Session;

@@ -97,6 +97,16 @@ export const createOrganizationTask = schemaTask({
         evidenceForFrameworks
       );
 
+      // Add the user as an admin to the organization
+      await auth.api.addMember({
+        headers: await headers(),
+        body: {
+          userId,
+          role: "admin",
+          organizationId,
+        },
+      });
+
       // Set as active organization
       await auth.api.setActiveOrganization({
         headers: await headers(),
