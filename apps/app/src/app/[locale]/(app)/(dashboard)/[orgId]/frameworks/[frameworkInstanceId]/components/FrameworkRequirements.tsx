@@ -63,7 +63,7 @@ export function FrameworkRequirements({
 							Description
 						</TableHead>
 						<TableHead className="min-w-[100px]">
-							{t("frameworks.controls.table.requirements")}
+							{t("frameworks.controls.title")}
 						</TableHead>
 					</TableRow>
 				</TableHeader>
