@@ -26,9 +26,8 @@ interface EmployeeCompletionChartProps {
 
 // Define colors for the chart
 const taskColors = {
-	policies: "bg-primary",
-	trainings: "bg-[var(--chart-open)]",
-	incomplete: "bg-muted",
+	completed: "bg-primary", // Green/Blue
+	incomplete: "bg-[var(--chart-open)]", // Yellow
 };
 
 interface EmployeeTaskStats {
@@ -170,17 +169,11 @@ export function EmployeeCompletionChart({
 							<div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-primary" />
-									<span>
-										{t("people.dashboard.policies")} ({stat.policiesCompleted}/
-										{stat.policiesTotal})
-									</span>
+									<span>{t("people.dashboard.completed")}</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-open)]" />
-									<span>
-										{t("people.dashboard.trainings")} ({stat.trainingsCompleted}
-										/{stat.trainingsTotal})
-									</span>
+									<span>{t("people.dashboard.not_completed")}</span>
 								</div>
 							</div>
 						</div>
@@ -192,40 +185,14 @@ export function EmployeeCompletionChart({
 }
 
 function TaskBarChart({ stat }: { stat: EmployeeTaskStats }) {
-	// Only include segments that have values > 0
-	const data = [
-		...(stat.policiesCompleted > 0
-			? [
-					{
-						key: "policies",
-						value: stat.policiesCompleted,
-						color: taskColors.policies,
-						label: "Policies",
-					},
-				]
-			: []),
-		...(stat.trainingsCompleted > 0
-			? [
-					{
-						key: "trainings",
-						value: stat.trainingsCompleted,
-						color: taskColors.trainings,
-						label: "Trainings",
-					},
-				]
-			: []),
-	];
-
+	const totalCompleted = stat.policiesCompleted + stat.trainingsCompleted;
+	const totalIncomplete = stat.totalTasks - totalCompleted;
 	const barHeight = 12;
 
-	// Either show all task types, or show empty bar if nothing is completed
-	if (stat.policiesCompleted + stat.trainingsCompleted === 0) {
+	// Empty chart for no tasks
+	if (stat.totalTasks === 0) {
 		return <div className="h-3 bg-muted" />;
 	}
-
-	// Calculate total width including gaps
-	const totalWidth = stat.totalTasks;
-	let cumulativeWidth = 0;
 
 	return (
 		<div
@@ -233,42 +200,35 @@ function TaskBarChart({ stat }: { stat: EmployeeTaskStats }) {
 			style={{ "--height": `${barHeight}px` } as CSSProperties}
 		>
 			<div className="absolute inset-0 h-full w-full overflow-visible">
-				{/* Completed tasks segments */}
-				{data.map((d) => {
-					const percentWidth = (d.value / totalWidth) * 100;
-					const xPosition = (cumulativeWidth / totalWidth) * 100;
-					cumulativeWidth += d.value;
-
-					return (
-						<div
-							key={d.key}
-							className="absolute"
-							style={{
-								width: `${percentWidth}%`,
-								height: `${barHeight}px`,
-								left: `${xPosition}%`,
-							}}
-						>
-							<div
-								className={d.color}
-								style={{
-									width: "100%",
-									height: "100%",
-								}}
-								title={`${d.label}: ${d.value}`}
-							/>
-						</div>
-					);
-				})}
-
-				{/* Incomplete tasks segment */}
-				{stat.totalTasks - cumulativeWidth > 0 && (
+				{/* Completed segment */}
+				{totalCompleted > 0 && (
 					<div
 						className="absolute"
 						style={{
-							width: `${((stat.totalTasks - cumulativeWidth) / totalWidth) * 100}%`,
+							width: `${(totalCompleted / stat.totalTasks) * 100}%`,
 							height: `${barHeight}px`,
-							left: `${(cumulativeWidth / totalWidth) * 100}%`,
+							left: "0%",
+						}}
+					>
+						<div
+							className={taskColors.completed}
+							style={{
+								width: "100%",
+								height: "100%",
+							}}
+							title={`Completed: ${totalCompleted}`}
+						/>
+					</div>
+				)}
+
+				{/* Incomplete segment */}
+				{totalIncomplete > 0 && (
+					<div
+						className="absolute"
+						style={{
+							width: `${(totalIncomplete / stat.totalTasks) * 100}%`,
+							height: `${barHeight}px`,
+							left: `${(totalCompleted / stat.totalTasks) * 100}%`,
 						}}
 					>
 						<div
@@ -277,7 +237,7 @@ function TaskBarChart({ stat }: { stat: EmployeeTaskStats }) {
 								width: "100%",
 								height: "100%",
 							}}
-							title={`Incomplete: ${stat.totalTasks - cumulativeWidth}`}
+							title={`Incomplete: ${totalIncomplete}`}
 						/>
 					</div>
 				)}

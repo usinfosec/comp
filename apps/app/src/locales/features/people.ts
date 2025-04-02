@@ -68,6 +68,8 @@ export const people = {
     trainings_pending: "Trainings Pending",
     policies: "Policies",
     trainings: "Trainings",
+    completed: "Completed",
+    not_completed: "Not Completed",
     no_data: "No employee data available",
     no_tasks_completed: "No tasks have been completed yet",
     no_tasks_available: "No tasks available to complete",
