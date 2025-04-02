@@ -31,6 +31,7 @@ import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { useI18n } from "@/locales/client";
 import { authClient } from "@bubba/auth";
+import { toast } from "sonner";
 
 const inviteMemberSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -51,10 +52,17 @@ export function InviteMemberForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    await authClient.organization.inviteMember({
+    const response = await authClient.organization.inviteMember({
       email: data.email,
-      role: data.role as "owner" | "admin" | "member",
+      role: data.role as "owner" | "admin" | "member"
     });
+
+    if (response.error) {
+      toast.error(response.error.message);
+    } else {
+      toast.success(t("settings.team.invitations.invitation_sent"));
+      form.reset();
+    }
   };
 
   return (

@@ -12,10 +12,6 @@ import type { OrganizationWithMembers } from "./members-list";
 export async function TeamMembers() {
   const t = await getI18n();
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   const pendingInvitations = await getPendingInvitations();
   const organization = await getOrganizationMembers();
 

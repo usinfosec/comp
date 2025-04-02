@@ -117,6 +117,7 @@ export const settings = {
 				},
 			},
 			invitation_sent: "Invitation sent",
+			expires_in: "Expires in",
 			actions: {
 				resend: "Resend Invite",
 				sending: "Sending Invite",
