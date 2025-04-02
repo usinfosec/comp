@@ -1,4 +1,3 @@
-import { auth, authClient } from "@bubba/auth";
 import type {
 	TemplateControl,
 	TemplateEvidence,
@@ -8,8 +7,6 @@ import { controls, evidence, frameworks, policies } from "@bubba/data";
 import { db } from "@bubba/db";
 import { FrameworkId, type PolicyStatus } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
-import { logger, schemaTask } from "@trigger.dev/sdk/v3";
-import { z } from "zod";
 
 /**
  * A type-safe wrapper for accessing policy templates by ID
@@ -17,7 +14,7 @@ import { z } from "zod";
  * @param id - The ID of the policy to retrieve
  * @returns The policy template or undefined if not found
  */
-function getPolicyById(id: string): TemplatePolicy | undefined {
+export function getPolicyById(id: string): TemplatePolicy | undefined {
 	// Use a type-safe approach to check if the key exists in the policies object
 	return Object.entries(policies).find(([key]) => key === id)?.[1];
 }
@@ -28,86 +25,10 @@ function getPolicyById(id: string): TemplatePolicy | undefined {
  * @param id - The ID of the evidence to retrieve
  * @returns The evidence template or undefined if not found
  */
-function getEvidenceById(id: string): TemplateEvidence | undefined {
+export function getEvidenceById(id: string): TemplateEvidence | undefined {
 	// Use a type-safe approach to check if the key exists in the evidence object
 	return Object.entries(evidence).find(([key]) => key === id)?.[1];
 }
-
-/**
- * Task to create and setup a new organization's compliance framework.
- *
- * This task performs the complete setup of an organization's compliance environment by:
- * 1. Creating framework instances for each selected framework
- * 2. Creating required controls for the frameworks
- * 3. Creating policies based on control requirements
- * 4. Creating evidence collection requirements
- * 5. Linking everything together with artifacts
- *
- * The task handles the entire compliance bootstrapping process in a single operation.
- */
-export const createOrganizationTask = schemaTask({
-	id: "create-organization",
-	maxDuration: 1000 * 60 * 3, // 3 minutes
-	schema: z.object({
-		organizationId: z.string(),
-		userId: z.string(),
-		name: z.string(),
-		frameworkIds: z.array(z.nativeEnum(FrameworkId)),
-	}),
-	run: async ({ organizationId, userId, name, frameworkIds }) => {
-		logger.info("Creating organization", {
-			organizationId,
-			userId,
-			name,
-			frameworkIds,
-		});
-
-		try {
-			// Create framework instances for each selected framework
-			const organizationFrameworks = await Promise.all(
-				frameworkIds.map((frameworkId) =>
-					createFrameworkInstance(organizationId, frameworkId),
-				),
-			);
-
-			// Get controls relevant to the selected frameworks
-			const relevantControls = getRelevantControls(frameworkIds);
-
-			// Create policies required by the controls
-			const policiesForFrameworks = await createOrganizationPolicies(
-				organizationId,
-				relevantControls,
-				userId,
-			);
-
-			// Create evidence requirements for the controls
-			const evidenceForFrameworks = await createOrganizationEvidence(
-				organizationId,
-				relevantControls,
-				userId,
-			);
-
-			// Link controls to their policies and evidence through artifacts
-			await createControlArtifacts(
-				organizationId,
-				organizationFrameworks.map((framework) => framework.id),
-				relevantControls,
-				policiesForFrameworks,
-				evidenceForFrameworks,
-			);
-
-			return {
-				success: true,
-			};
-		} catch (error) {
-			logger.error("Error creating organization", {
-				error,
-			});
-
-			throw error;
-		}
-	},
-});
 
 /**
  * Identifies which controls are relevant to the selected frameworks.
@@ -120,15 +41,15 @@ export const createOrganizationTask = schemaTask({
  * @param frameworkIds - Array of framework IDs selected by the organization
  * @returns Array of control templates relevant to the selected frameworks
  */
-const getRelevantControls = (
+export function getRelevantControls(
 	frameworkIds: FrameworkId[],
-): TemplateControl[] => {
+): TemplateControl[] {
 	return controls.filter((control) =>
 		control.mappedRequirements.some((req) =>
 			frameworkIds.includes(req.frameworkId),
 		),
 	);
-};
+}
 
 /**
  * Creates framework instances for the organization.
@@ -145,17 +66,17 @@ const getRelevantControls = (
  * @param frameworkId - ID of the framework to create an instance for
  * @returns The created framework instance record
  */
-const createFrameworkInstance = async (
+export async function createFrameworkInstance(
 	organizationId: string,
 	frameworkId: FrameworkId,
-) => {
+) {
 	// First verify the organization exists
 	const organization = await db.organization.findUnique({
 		where: { id: organizationId },
 	});
 
 	if (!organization) {
-		logger.error("Organization not found when creating framework", {
+		console.error("Organization not found when creating framework", {
 			organizationId,
 			frameworkId,
 		});
@@ -166,7 +87,7 @@ const createFrameworkInstance = async (
 	const framework = frameworks[frameworkId as FrameworkId];
 
 	if (!framework) {
-		logger.error("Framework not found when creating organization framework", {
+		console.error("Framework not found when creating organization framework", {
 			organizationId,
 			frameworkId,
 		});
@@ -194,7 +115,7 @@ const createFrameworkInstance = async (
 		},
 	});
 
-	logger.info("Created/updated organization framework", {
+	console.info("Created/updated organization framework", {
 		organizationId,
 		frameworkId,
 		frameworkInstanceId: frameworkInstance.id,
@@ -220,14 +141,14 @@ const createFrameworkInstance = async (
 			},
 		});
 
-		logger.info("Created control", {
+		console.info("Created control", {
 			controlName: control.name,
 			frameworkId,
 		});
 	}
 
 	return frameworkInstance;
-};
+}
 
 /**
  * Creates policy records for the organization based on control requirements.
@@ -246,11 +167,11 @@ const createFrameworkInstance = async (
  * @param userId - ID of the user creating the organization (becomes policy owner)
  * @returns Map of template policy IDs to created policy records
  */
-const createOrganizationPolicies = async (
+export async function createOrganizationPolicies(
 	organizationId: string,
 	relevantControls: TemplateControl[],
 	userId: string,
-) => {
+) {
 	if (!organizationId) {
 		throw new Error("Not authorized - no organization found");
 	}
@@ -266,7 +187,7 @@ const createOrganizationPolicies = async (
 		}
 	}
 
-	logger.info("Creating organization policies", {
+	console.info("Creating organization policies", {
 		organizationId,
 		policyCount: policyIds.size,
 		policyIds: Array.from(policyIds),
@@ -280,7 +201,7 @@ const createOrganizationPolicies = async (
 		const policyTemplate = getPolicyById(policyId);
 
 		if (!policyTemplate) {
-			logger.warn(`Policy template not found: ${policyId}`);
+			console.warn(`Policy template not found: ${policyId}`);
 			continue;
 		}
 
@@ -305,17 +226,17 @@ const createOrganizationPolicies = async (
 				templateId: policyId, // Store the template ID for reference
 			});
 
-			logger.info(`Created policy: ${policy.name}`, {
+			console.info(`Created policy: ${policy.name}`, {
 				policyName: policy.name,
 				templateId: policyId,
 			});
 		} catch (error) {
-			logger.error(`Error creating policy ${policyId}`, { error });
+			console.error(`Error creating policy ${policyId}`, { error });
 		}
 	}
 
 	return createdPolicies;
-};
+}
 
 /**
  * Creates evidence records for the organization based on control requirements.
@@ -333,11 +254,11 @@ const createOrganizationPolicies = async (
  * @param userId - ID of the user creating the organization (becomes evidence assignee)
  * @returns Map of template evidence IDs to created evidence records
  */
-const createOrganizationEvidence = async (
+export async function createOrganizationEvidence(
 	organizationId: string,
 	relevantControls: TemplateControl[],
 	userId: string,
-) => {
+) {
 	if (!organizationId) {
 		throw new Error("Not authorized - no organization found");
 	}
@@ -353,7 +274,7 @@ const createOrganizationEvidence = async (
 		}
 	}
 
-	logger.info("Creating evidence record instances", {
+	console.info("Creating evidence record instances", {
 		organizationId,
 		evidenceCount: evidenceIds.size,
 		evidenceIds: Array.from(evidenceIds),
@@ -367,7 +288,7 @@ const createOrganizationEvidence = async (
 		const evidenceTemplate = getEvidenceById(evidenceId);
 
 		if (!evidenceTemplate) {
-			logger.warn(`Evidence template not found: ${evidenceId}`);
+			console.warn(`Evidence template not found: ${evidenceId}`);
 			continue;
 		}
 
@@ -392,17 +313,17 @@ const createOrganizationEvidence = async (
 				templateId: evidenceId, // Store the template ID for reference
 			});
 
-			logger.info(`Created evidence: ${evidenceRecord.name}`, {
+			console.info(`Created evidence: ${evidenceRecord.name}`, {
 				evidenceId: evidenceRecord.id,
 				templateId: evidenceId,
 			});
 		} catch (error) {
-			logger.error(`Error creating evidence ${evidenceId}`, { error });
+			console.error(`Error creating evidence ${evidenceId}`, { error });
 		}
 	}
 
 	return createdEvidence;
-};
+}
 
 /**
  * Creates artifacts that link controls to their policies and evidence.
@@ -422,18 +343,18 @@ const createOrganizationEvidence = async (
  * @param createdEvidence - Map of template evidence IDs to created evidence records
  * @returns Object with success status and artifact count
  */
-const createControlArtifacts = async (
+export async function createControlArtifacts(
 	organizationId: string,
 	frameworkInstanceIds: string[],
 	relevantControls: TemplateControl[],
 	createdPolicies: Map<string, any>,
 	createdEvidence: Map<string, any>,
-) => {
+) {
 	if (!organizationId) {
 		throw new Error("Not authorized - no organization found");
 	}
 
-	logger.info("Creating organization control artifacts", {
+	console.info("Creating organization control artifacts", {
 		organizationId,
 		frameworkInstanceIds,
 		relevantControlsCount: relevantControls.length,
@@ -466,7 +387,7 @@ const createControlArtifacts = async (
 		const dbControl = controlMap.get(control.name);
 
 		if (!dbControl) {
-			logger.warn(`Control not found in database: ${control.name}`);
+			console.warn(`Control not found in database: ${control.name}`);
 			continue;
 		}
 
@@ -478,7 +399,7 @@ const createControlArtifacts = async (
 					const policy = createdPolicies.get(artifact.policyId);
 
 					if (!policy) {
-						logger.warn(`Policy not found for artifact: ${artifact.policyId}`);
+						console.warn(`Policy not found for artifact: ${artifact.policyId}`);
 						continue;
 					}
 
@@ -502,7 +423,7 @@ const createControlArtifacts = async (
 					const evidenceRecord = createdEvidence.get(artifact.evidenceId);
 
 					if (!evidenceRecord) {
-						logger.warn(
+						console.warn(
 							`Evidence not found for artifact: ${artifact.evidenceId}`,
 						);
 						continue;
@@ -525,14 +446,14 @@ const createControlArtifacts = async (
 					artifactsCreated++;
 				}
 			} catch (error) {
-				logger.error(`Error creating artifact for control ${control.name}`, {
+				console.error(`Error creating artifact for control ${control.name}`, {
 					error,
 				});
 			}
 		}
 	}
 
-	logger.info(`Created ${artifactsCreated} artifacts for controls`);
+	console.info(`Created ${artifactsCreated} artifacts for controls`);
 
 	return { success: true, artifactsCreated };
-};
+}
