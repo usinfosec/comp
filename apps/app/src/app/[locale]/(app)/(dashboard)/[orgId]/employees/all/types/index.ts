@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Role } from "@bubba/db/types";
+import type { Member, Role, User } from "@bubba/db/types";
 
 export const employeeSchema = z.object({
   id: z.string(),
@@ -19,7 +19,9 @@ export type Employee = z.infer<typeof employeeSchema>;
 export type EmployeesInput = z.infer<typeof employeesInputSchema>;
 
 export interface EmployeesResponse {
-  employees: Employee[];
+  employees: (Member & {
+    user: User;
+  })[];
   total: number;
 }
 
