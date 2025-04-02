@@ -25,7 +25,7 @@ export default async function Layout({
 				items={[
 					{
 						path: `/${session.session.activeOrganizationId}/overview`,
-						label: t("overview.title"),
+						label: t("frameworks.title"),
 					},
 				]}
 			/>

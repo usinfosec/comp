@@ -7,11 +7,11 @@ import type { ControlProgressResponse } from "./data/getOrganizationControlProgr
 import { headers } from "next/headers";
 
 interface PageProps {
-	params: Promise<{ id: string }>;
+	params: Promise<{ controlId: string }>;
 }
 
 export default async function SingleControlPage({ params }: PageProps) {
-	const { id } = await params;
+	const { controlId } = await params;
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -21,7 +21,7 @@ export default async function SingleControlPage({ params }: PageProps) {
 		redirect("/");
 	}
 
-	const control = await getControl(id);
+	const control = await getControl(controlId);
 
 	// If we get an error or no result, redirect
 	if (!control || "error" in control) {
@@ -29,7 +29,7 @@ export default async function SingleControlPage({ params }: PageProps) {
 	}
 
 	const organizationControlProgressResult =
-		await getOrganizationControlProgress(id);
+		await getOrganizationControlProgress(controlId);
 
 	// Extract the progress data from the result or create default data if there's an error
 	const controlProgress: ControlProgressResponse = ("data" in

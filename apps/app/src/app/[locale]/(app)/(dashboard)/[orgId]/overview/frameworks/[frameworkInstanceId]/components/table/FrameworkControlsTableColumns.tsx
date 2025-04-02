@@ -15,6 +15,7 @@ import {
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
+import { getControlStatus } from "../../../../lib/utils";
 
 export type OrganizationControlType = {
 	id: string;
@@ -51,20 +52,6 @@ function isArtifactCompleted(
 	}
 }
 
-// Local helper function to calculate control status
-function getControlStatus(
-	artifacts: OrganizationControlType["artifacts"],
-): StatusType {
-	if (!artifacts || artifacts.length === 0) return "not_started";
-
-	const totalArtifacts = artifacts.length;
-	const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
-
-	if (completedArtifacts === 0) return "not_started";
-	if (completedArtifacts === totalArtifacts) return "completed";
-	return "in_progress";
-}
-
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
@@ -78,7 +65,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 				return (
 					<div className="flex flex-col w-[300px]">
 						<Link
-							href={`/${orgId}/overview/frameworks/controls/${row.original.id}`}
+							href={`/${orgId}/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
 							<span className="font-medium truncate">{row.original.name}</span>
