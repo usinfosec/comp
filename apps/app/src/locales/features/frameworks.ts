@@ -39,12 +39,22 @@ export const frameworks = {
 			control: "Control",
 			artifacts: "Artifacts",
 			actions: "Actions",
-			requirements: "Requirements",
+			requirements: "Mapped Requirements",
 		},
 		statuses: {
 			completed: "Completed",
 			in_progress: "In Progress",
 			not_started: "Not Started",
+		},
+	},
+	requirements: {
+		requirement: "Requirement",
+		title: "Requirements",
+		description: "Review and manage compliance requirements",
+		table: {
+			id: "ID",
+			name: "Name",
+			description: "Description",
 		},
 	},
 } as const;

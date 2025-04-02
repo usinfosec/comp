@@ -36,7 +36,7 @@ export function FrameworkCard({
 		<Card className="select-none hover:bg-muted/40 transition-colors duration-200">
 			<CardContent className="pt-6">
 				<Link
-					href={`/${orgId}/overview/frameworks/${frameworkInstance.id}`}
+					href={`/${orgId}/frameworks/${frameworkInstance.id}`}
 					className="flex flex-col gap-4 rounded-lg p-4 "
 				>
 					<div className="flex items-start gap-4">

@@ -3,9 +3,9 @@
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
-import { FrameworkInstanceWithControls } from "../../../types";
-import { getControlStatus } from "../../../lib/utils";
-import { getFrameworkName } from "../../../lib/getFrameworkName";
+import { FrameworkInstanceWithControls } from "../../types";
+import { getControlStatus } from "../../lib/utils";
+import { getFrameworkName } from "../../lib/getFrameworkName";
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }
@@ -30,7 +30,7 @@ export function FrameworkOverview({
 			: 0;
 
 	return (
-		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
 			<Card>
 				<CardHeader>
 					<CardTitle>

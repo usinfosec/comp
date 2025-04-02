@@ -9,7 +9,7 @@ export async function generateMetadata() {
 	const t = await getI18n();
 
 	return {
-		title: t("sidebar.overview"),
+		title: t("sidebar.frameworks"),
 	};
 }
 

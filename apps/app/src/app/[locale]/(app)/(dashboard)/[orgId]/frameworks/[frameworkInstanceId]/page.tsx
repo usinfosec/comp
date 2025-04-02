@@ -1,7 +1,7 @@
 import { auth } from "@bubba/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSingleFrameworkInstanceWithControls } from "../../data/getSingleFrameworkInstanceWithControls";
+import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkControls } from "./components/FrameworkControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
@@ -44,11 +44,12 @@ export default async function FrameworkPage({ params }: PageProps) {
 			<FrameworkOverview
 				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
-			<FrameworkControls
+			{/* <FrameworkControls
 				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
+			/> */}
 			<FrameworkRequirements
 				frameworkId={frameworkInstanceWithControls.frameworkId}
+				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
 		</div>
 	);

@@ -1,5 +1,5 @@
 export const sidebar = {
-	overview: "Overview",
+	frameworks: "Frameworks",
 	controls: "Controls",
 	policies: "Policies",
 	risk: "Risks",
