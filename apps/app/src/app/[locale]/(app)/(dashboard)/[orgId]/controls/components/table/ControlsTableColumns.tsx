@@ -27,19 +27,25 @@ export function ControlsTableColumns(): ColumnDef<ControlTableType>[] {
 			cell: ({ row }) => {
 				const control = row.original;
 				return (
-					<Link
-						href={`/${params.locale}/${params.orgId}/controls/${control.id}`}
-						className="hover:underline"
-					>
-						{control.name}
-					</Link>
+					<div className="min-w-[200px]">
+						<Link
+							href={`/${params.locale}/${params.orgId}/controls/${control.id}`}
+							className="hover:underline"
+						>
+							{control.name}
+						</Link>
+					</div>
 				);
 			},
 		},
 		{
 			accessorKey: "description",
 			header: t("controls.table.description"),
-			cell: ({ row }) => row.original.description,
+			cell: ({ row }) => (
+				<div className="min-w-[300px] max-w-[500px] truncate">
+					{row.original.description}
+				</div>
+			),
 		},
 		{
 			accessorKey: "status",
@@ -47,7 +53,23 @@ export function ControlsTableColumns(): ColumnDef<ControlTableType>[] {
 			cell: ({ row }) => {
 				const control = row.original;
 				const status = getControlStatus(control);
-				return <DisplayFrameworkStatus status={status} />;
+				return (
+					<div className="min-w-[120px]">
+						<DisplayFrameworkStatus status={status} />
+					</div>
+				);
+			},
+		},
+		{
+			accessorKey: "requirementsMapped",
+			header: t("frameworks.controls.table.requirements"),
+			cell: ({ row }) => {
+				const control = row.original;
+				return (
+					<div className="min-w-[100px] text-sm text-muted-foreground">
+						{control.requirementsMapped.length}
+					</div>
+				);
 			},
 		},
 	];
