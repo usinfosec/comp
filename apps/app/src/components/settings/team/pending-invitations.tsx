@@ -1,78 +1,61 @@
 "use client";
 
 import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@bubba/ui/card";
 import { PendingInvitationItem } from "./pending-invitation-item";
 import type { Invitation } from "@bubba/db/types";
 import { useI18n } from "@/locales/client";
 
 interface PendingInvitationsProps {
-	pendingInvitations: Invitation[];
-	hasOrganization: boolean;
+  pendingInvitations: Invitation[];
 }
 
 export function PendingInvitations({
-	pendingInvitations,
-	hasOrganization,
+  pendingInvitations,
 }: PendingInvitationsProps) {
-	const t = useI18n();
+  const t = useI18n();
 
-	if (!hasOrganization) {
-		return (
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						{t("settings.team.invitations.empty.no_organization.title")}
-					</CardTitle>
-					<CardDescription>
-						{t("settings.team.invitations.empty.no_organization.description")}
-					</CardDescription>
-				</CardHeader>
-			</Card>
-		);
-	}
+  if (pendingInvitations.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            {t("settings.team.invitations.empty.no_invitations.title")}
+          </CardTitle>
+          <CardDescription>
+            {t("settings.team.invitations.empty.no_invitations.description")}
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
 
-	if (pendingInvitations.length === 0) {
-		return (
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						{t("settings.team.invitations.empty.no_invitations.title")}
-					</CardTitle>
-					<CardDescription>
-						{t("settings.team.invitations.empty.no_invitations.description")}
-					</CardDescription>
-				</CardHeader>
-			</Card>
-		);
-	}
-
-	return (
-		<div className="space-y-4">
-			<Card>
-				<CardHeader>
-					<CardTitle>{t("settings.team.invitations.title")}</CardTitle>
-					<CardDescription>
-						{t("settings.team.invitations.description")} (
-						{pendingInvitations.length})
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<div className="space-y-4">
-						{pendingInvitations.map((invitation) => (
-							<PendingInvitationItem
-								key={invitation.id}
-								invitation={invitation}
-							/>
-						))}
-					</div>
-				</CardContent>
-			</Card>
-		</div>
-	);
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("settings.team.invitations.title")}</CardTitle>
+          <CardDescription>
+            {t("settings.team.invitations.description")} (
+            {pendingInvitations.length})
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {pendingInvitations.map((invitation) => (
+              <PendingInvitationItem
+                key={invitation.id}
+                invitation={invitation}
+              />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

@@ -26,13 +26,7 @@ export function GoogleSignIn({
 
     await authClient.signIn.social({
       provider: "google",
-    }).then((res) => {
-      if (res.error) {
-        console.error(res.error);
-      } else {
-        router.push(redirectTo);
-      }
-    });
+    })
   };
 
   return (

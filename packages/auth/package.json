@@ -11,6 +11,12 @@
   },
   "dependencies": {
     "better-auth": "^1.2.5",
-    "server-only": "0.0.1"
+    "server-only": "0.0.1",
+    "@bubba/email": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.2",
+    "@types/node-fetch": "^2.6.2",
+    "typescript": "^5.7.3"
   }
 }
