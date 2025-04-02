@@ -54,4 +54,18 @@ export const app_onboarding = {
 				"For SOC 2, you need to document employee onboarding/offboarding processes, track access to systems and data, maintain records of security training, and demonstrate that employees understand their security responsibilities. This helps auditors verify your security controls and personnel management practices.",
 		},
 	},
+	cloud_tests: {
+		title: "Cloud Security Testing",
+		description: "Test and validate your cloud infrastructure security.",
+		cta: "Create your first cloud test",
+		learn_more: "Learn more",
+		faqs: {
+			question_1: "What are cloud security tests?",
+			answer_1: "Cloud security tests are automated assessments that evaluate your cloud infrastructure for security vulnerabilities, misconfigurations, and compliance with security best practices.",
+			question_2: "Why are cloud security tests important?",
+			answer_2: "Cloud security tests help identify potential security risks in your cloud environment, ensure compliance with security standards, and provide evidence of your security controls for auditors. They're essential for maintaining a strong security posture in cloud environments.",
+			question_3: "What types of cloud tests are available?",
+			answer_3: "Cloud security tests can include infrastructure scanning, configuration analysis, vulnerability assessments, and compliance checks. These tests help ensure your cloud resources are properly secured and configured according to best practices.",
+		},
+	},
 } as const;
