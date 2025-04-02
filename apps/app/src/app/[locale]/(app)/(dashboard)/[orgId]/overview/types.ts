@@ -4,6 +4,7 @@ import {
 	Evidence,
 	FrameworkInstance,
 	Policy,
+	RequirementMap,
 } from "@bubba/db/types";
 
 export type FrameworkInstanceWithControls = FrameworkInstance & {
@@ -12,5 +13,6 @@ export type FrameworkInstanceWithControls = FrameworkInstance & {
 			policy: Policy | null;
 			evidence: Evidence | null;
 		})[];
+		requirementsMapped: RequirementMap[];
 	})[];
 };
