@@ -9,7 +9,6 @@ import { db } from "@bubba/db";
 import { FrameworkId, type PolicyStatus } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 /**
