@@ -15,6 +15,7 @@ import {
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
+import { getControlStatus } from "../../../../lib/utils";
 
 export type OrganizationControlType = {
 	id: string;
@@ -49,20 +50,6 @@ function isArtifactCompleted(
 		default:
 			return false;
 	}
-}
-
-// Local helper function to calculate control status
-function getControlStatus(
-	artifacts: OrganizationControlType["artifacts"],
-): StatusType {
-	if (!artifacts || artifacts.length === 0) return "not_started";
-
-	const totalArtifacts = artifacts.length;
-	const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
-
-	if (completedArtifacts === 0) return "not_started";
-	if (completedArtifacts === totalArtifacts) return "completed";
-	return "in_progress";
 }
 
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {

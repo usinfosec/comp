@@ -1,8 +1,7 @@
-import { FrameworkProgress } from "./FrameworkProgress";
-import { RequirementStatus } from "./RequirementStatusChart";
-import type { FrameworkInstanceWithControls } from "../types";
 import { getComplianceScores } from "../data/getComplianceScores";
 import { getFrameworkWithComplianceScores } from "../data/getFrameworkWithComplianceScores";
+import type { FrameworkInstanceWithControls } from "../types";
+import { FrameworkList } from "./FrameworkList";
 
 export interface FrameworksOverviewProps {
 	organizationId: string;
@@ -27,8 +26,8 @@ export async function FrameworksOverview({
 	return (
 		<div className="space-y-12">
 			<div className="grid gap-4 md:grid-cols-2 select-none">
-				<FrameworkProgress complianceScores={complianceScores} />
-				<RequirementStatus
+				{/* <FrameworkProgress complianceScores={complianceScores} /> */}
+				<FrameworkList
 					frameworksWithComplianceScores={frameworksWithComplianceScores}
 				/>
 			</div>
