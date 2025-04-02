@@ -18,6 +18,7 @@ import {
 	Gauge,
 	ListCheck,
 	NotebookText,
+	ShieldEllipsis,
 	ShieldPlus,
 	Store,
 	Users,
@@ -130,6 +131,14 @@ export function MainMenu({
 			protected: false,
 		},
 		{
+			id: "controls",
+			path: "/:organizationId/controls",
+			name: t("sidebar.controls"),
+			disabled: false,
+			icon: ShieldEllipsis,
+			protected: false,
+		},
+		{
 			id: "evidence",
 			path: "/:organizationId/evidence",
 			name: t("sidebar.evidence"),
@@ -137,7 +146,6 @@ export function MainMenu({
 			icon: ListCheck,
 			protected: false,
 		},
-
 		{
 			id: "policies",
 			path: "/:organizationId/policies",
