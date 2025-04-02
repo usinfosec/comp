@@ -1,62 +1,72 @@
-import { auth } from "@bubba/auth";
-import { getServerColumnHeaders } from "@/components/tables/policies/server-columns";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
-import { PoliciesList } from "./components/PoliciesList";
-import { db } from "@bubba/db";
-import { headers } from "next/headers";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+import React from "react";
+import type { SearchParams } from "@/types";
+import { searchParamsCache } from "@/lib/validations";
+import { getValidFilters } from "@/lib/data-table";
+import { PoliciesTable } from "./components/policies-table";
+import { getPolicies } from "./data/queries";
+
+interface PolicyTableProps {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<SearchParams>;
+}
 
 export default async function PoliciesPage({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+  params,
+  ...props
+}: PolicyTableProps) {
+  const { locale } = await params;
+  const searchParams = await props.searchParams;
+  const search = searchParamsCache.parse(searchParams);
+  const validFilters = getValidFilters(search.filters);
 
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+  setStaticParamsLocale(locale);
 
-	const organizationId = session?.session.activeOrganizationId;
+  const promises = Promise.all([
+    getPolicies({
+      ...search,
+      filters: validFilters,
+    }),
+  ]);
 
-	if (!organizationId) {
-		return redirect("/");
-	}
-
-	const users = await getUsers(organizationId);
-
-	const columnHeaders = await getServerColumnHeaders();
-
-	return <PoliciesList columnHeaders={columnHeaders} users={users} />;
+  return (
+    <React.Suspense
+      fallback={
+        <DataTableSkeleton
+          columnCount={7}
+          filterCount={2}
+          cellWidths={[
+            "10rem",
+            "30rem",
+            "10rem",
+            "10rem",
+            "6rem",
+            "6rem",
+            "6rem",
+          ]}
+          shrinkZero
+        />
+      }
+    >
+      <PoliciesTable promises={promises} />
+    </React.Suspense>
+  );
 }
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
+  const { locale } = await params;
 
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("sidebar.policies"),
-	};
+  return {
+    title: t("sidebar.policies"),
+  };
 }
-
-const getUsers = async (organizationId: string) => {
-	const users = await db.member.findMany({
-		where: {
-			organizationId,
-		},
-		include: {
-			user: true,
-		},
-	});
-
-	return users;
-};

@@ -68,11 +68,13 @@ export function AppOnboarding({ title, description, cta, imageSrc, imageAlt, faq
           </div>
         </div>
         <CardFooter className="flex justify-end flex-none">
-          <Button variant="action" className="flex items-center" onClick={() => setOpen("true")}
-          >
-            <PlusIcon className="w-4 h-4" />
-            {cta}
-          </Button>
+          {cta && (
+            <Button variant="action" className="flex items-center" onClick={() => setOpen("true")}
+            >
+              <PlusIcon className="w-4 h-4" />
+              {cta}
+            </Button>
+          )}
         </CardFooter>
       </div>
     </Card>
