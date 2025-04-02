@@ -1537,6 +1537,7 @@
     typescript "^5.7.3"
   dependencies:
     "@bubba/email" "workspace:*"
+  dependencies:
     better-auth "^1.2.5"
     server-only "0.0.1"
 
@@ -1545,21 +1546,14 @@
   resolved "workspace:packages/data"
   devDependencies:
     "@bubba/db" "workspace:*"
-  devDependencies:
-<<<<<<< Updated upstream
-    tsup "^8.0.1"
-    typescript "^5.7.3"
-=======
     tsup "^8.4.0"
     typescript "^5.8.2"
->>>>>>> Stashed changes
 
 "@bubba/db@packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
-  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1567,6 +1561,7 @@
     "@prisma/adapter-neon" "^6.5.0"
     "@prisma/client" "^6.5.0"
     "@prisma/extension-accelerate" "^1.2.2"
+    cuid "^3.0.0"
     prisma "^6.5.0"
 
 "@bubba/email@packages/email", "@bubba/email@workspace:*":
@@ -1579,6 +1574,7 @@
   dependencies:
     "@bubba/ui" "workspace:*"
     "@bubba/utils" "workspace:*"
+  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"
@@ -14368,7 +14364,7 @@ tsscmp@^1.0.6:
   resolved "https://registry.npmjs.org/tsscmp/-/tsscmp-1.0.6.tgz"
   integrity sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==
 
-tsup@^8.0.1:
+tsup@^8.4.0:
   version "8.4.0"
   resolved "https://registry.npmjs.org/tsup/-/tsup-8.4.0.tgz"
   integrity sha512-b+eZbPCjz10fRryaAA7C8xlIHnf8VnsaRqydheLIqwG/Mcpfk8Z5zp3HayX7GaTygkigHl5cBUs+IhcySiIexQ==
