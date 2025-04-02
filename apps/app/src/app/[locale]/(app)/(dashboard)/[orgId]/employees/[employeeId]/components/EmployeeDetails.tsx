@@ -345,23 +345,28 @@ export function EmployeeDetails({
 										return (
 											<div
 												key={video.id}
-												className="flex items-center gap-2 border p-3 justify-between"
+												className="flex items-center gap-2 border p-3 justify-between "
 											>
-												<h2 className="flex items-center gap-2">
-													{isCompleted ? (
-														<div className="flex items-center gap-1">
-															<CheckCircle2 className="h-4 w-4 text-green-500" />
-															<span className="text-xs text-muted-foreground">
-																{video.completedAt &&
-																	new Date(
-																		video.completedAt,
-																	).toLocaleDateString()}
-															</span>
-														</div>
-													) : (
-														<AlertCircle className="h-4 w-4 text-red-500" />
+												<h2 className="flex flex-col items-center">
+													<div className="flex items-center gap-2">
+														{isCompleted ? (
+															<div className="flex items-center gap-1">
+																<CheckCircle2 className="h-4 w-4 text-green-500" />
+															</div>
+														) : (
+															<AlertCircle className="h-4 w-4 text-red-500" />
+														)}
+														{video.metadata.title}
+													</div>
+													{isCompleted && (
+														<span className="text-xs text-muted-foreground self-start">
+															Completed -{" "}
+															{video.completedAt &&
+																new Date(
+																	video.completedAt,
+																).toLocaleDateString()}
+														</span>
 													)}
-													{video.metadata.title}
 												</h2>
 											</div>
 										);

@@ -29,6 +29,7 @@ const getEmployees = cache(async () => {
 	const employees = await db.member.findMany({
 		where: {
 			organizationId: orgId,
+			role: "employee",
 		},
 		include: {
 			user: true,
