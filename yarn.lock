@@ -1531,7 +1531,12 @@
 "@bubba/auth@packages/auth", "@bubba/auth@workspace:*":
   version "workspace:packages/auth"
   resolved "workspace:packages/auth"
+  devDependencies:
+    "@types/node" "^22.13.2"
+    "@types/node-fetch" "^2.6.2"
+    typescript "^5.7.3"
   dependencies:
+    "@bubba/email" "workspace:*"
     better-auth "^1.2.5"
     server-only "0.0.1"
 
@@ -1541,14 +1546,20 @@
   devDependencies:
     "@bubba/db" "workspace:*"
   devDependencies:
+<<<<<<< Updated upstream
     tsup "^8.0.1"
     typescript "^5.7.3"
+=======
+    tsup "^8.4.0"
+    typescript "^5.8.2"
+>>>>>>> Stashed changes
 
 "@bubba/db@packages/db", "@bubba/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@bubba/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1558,7 +1569,7 @@
     "@prisma/extension-accelerate" "^1.2.2"
     prisma "^6.5.0"
 
-"@bubba/email@packages/email":
+"@bubba/email@packages/email", "@bubba/email@workspace:*":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1568,7 +1579,6 @@
   dependencies:
     "@bubba/ui" "workspace:*"
     "@bubba/utils" "workspace:*"
-  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"

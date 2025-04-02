@@ -101,6 +101,7 @@ model Invitation {
 }
 
 enum Role {
+    owner
     admin
     auditor
     employee
