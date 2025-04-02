@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkControls } from "./components/FrameworkControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
+import { FrameworkRequirements } from "./components/FrameworkRequirements";
 
 interface PageProps {
 	params: Promise<{
@@ -45,6 +46,9 @@ export default async function FrameworkPage({ params }: PageProps) {
 			/>
 			<FrameworkControls
 				frameworkInstanceWithControls={frameworkInstanceWithControls}
+			/>
+			<FrameworkRequirements
+				frameworkId={frameworkInstanceWithControls.frameworkId}
 			/>
 		</div>
 	);
