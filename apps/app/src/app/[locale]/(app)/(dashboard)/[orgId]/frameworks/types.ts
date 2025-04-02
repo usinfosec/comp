@@ -13,5 +13,6 @@ export type FrameworkInstanceWithControls = FrameworkInstance & {
 			policy: Policy | null;
 			evidence: Evidence | null;
 		})[];
+		requirementsMapped: RequirementMap[];
 	})[];
 };

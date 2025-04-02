@@ -47,4 +47,14 @@ export const frameworks = {
 			not_started: "Not Started",
 		},
 	},
+	requirements: {
+		requirement: "Requirement",
+		title: "Requirements",
+		description: "Review and manage compliance requirements",
+		table: {
+			id: "ID",
+			name: "Name",
+			description: "Description",
+		},
+	},
 } as const;

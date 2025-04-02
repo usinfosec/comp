@@ -44,9 +44,9 @@ export default async function FrameworkPage({ params }: PageProps) {
 			<FrameworkOverview
 				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
-			<FrameworkControls
+			{/* <FrameworkControls
 				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
+			/> */}
 			<FrameworkRequirements
 				frameworkId={frameworkInstanceWithControls.frameworkId}
 			/>

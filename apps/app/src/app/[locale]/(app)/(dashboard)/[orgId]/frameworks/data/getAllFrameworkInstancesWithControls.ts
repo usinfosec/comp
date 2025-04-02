@@ -21,6 +21,7 @@ export async function getAllFrameworkInstancesWithControls({
 							evidence: true,
 						},
 					},
+					requirementsMapped: true,
 				},
 			},
 		},

@@ -12,12 +12,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@bubba/ui/table";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useI18n } from "@/locales/client";
 
 export function FrameworkRequirements({
 	frameworkId,
 }: {
 	frameworkId: FrameworkId;
 }) {
+	const t = useI18n();
+	const { orgId, frameworkInstanceId } = useParams<{
+		orgId: string;
+		frameworkInstanceId: string;
+	}>();
+
 	const requirements = useMemo(() => {
 		const reqs = getFrameworkRequirements(frameworkId);
 		return Object.entries(reqs).map(([id, requirement]) => ({
@@ -42,10 +51,34 @@ export function FrameworkRequirements({
 				</TableHeader>
 				<TableBody>
 					{requirements.map((requirement) => (
-						<TableRow key={requirement.id}>
-							<TableCell>{requirement.id}</TableCell>
-							<TableCell>{requirement.name}</TableCell>
-							<TableCell>{requirement.description}</TableCell>
+						<TableRow
+							key={requirement.id}
+							className="cursor-pointer hover:bg-muted/50"
+						>
+							<TableCell>
+								<Link
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									className="block w-full"
+								>
+									{requirement.id}
+								</Link>
+							</TableCell>
+							<TableCell>
+								<Link
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									className="block w-full"
+								>
+									{requirement.name}
+								</Link>
+							</TableCell>
+							<TableCell>
+								<Link
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									className="block w-full"
+								>
+									{requirement.description}
+								</Link>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
