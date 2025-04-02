@@ -3,9 +3,9 @@
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
-import { FrameworkInstanceWithControls } from "../../../types";
-import { getControlStatus } from "../../../lib/utils";
-import { getFrameworkName } from "../../../lib/getFrameworkName";
+import { FrameworkInstanceWithControls } from "../../types";
+import { getControlStatus } from "../../lib/utils";
+import { getFrameworkName } from "../../lib/getFrameworkName";
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }

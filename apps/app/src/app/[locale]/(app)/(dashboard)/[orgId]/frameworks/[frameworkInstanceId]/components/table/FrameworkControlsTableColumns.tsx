@@ -15,7 +15,7 @@ import {
 	TooltipTrigger,
 } from "@bubba/ui/tooltip";
 import { useParams } from "next/navigation";
-import { getControlStatus } from "../../../../lib/utils";
+import { getControlStatus } from "../../../lib/utils";
 
 export type OrganizationControlType = {
 	id: string;

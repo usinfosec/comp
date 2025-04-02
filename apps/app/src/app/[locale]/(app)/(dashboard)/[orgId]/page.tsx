@@ -16,5 +16,5 @@ export default async function DashboardPage() {
 		redirect("/");
 	}
 
-	redirect(`/${organizationId}/overview`);
+	redirect(`/${organizationId}/frameworks`);
 }

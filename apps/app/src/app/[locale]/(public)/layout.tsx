@@ -3,16 +3,16 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (session?.session.activeOrganizationId) {
-    redirect(`/${session.session.activeOrganizationId}/overview`)
-  }
-  return <>{children}</>;
+	if (session?.session.activeOrganizationId) {
+		redirect(`/${session.session.activeOrganizationId}/frameworks`);
+	}
+	return <>{children}</>;
 }

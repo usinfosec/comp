@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { FrameworkInstanceWithControls } from "../../../types";
+import { FrameworkInstanceWithControls } from "../../types";
 import { FrameworkControlsTable } from "./table/FrameworkControlsTable";
 import type { OrganizationControlType } from "./table/FrameworkControlsTableColumns";
 

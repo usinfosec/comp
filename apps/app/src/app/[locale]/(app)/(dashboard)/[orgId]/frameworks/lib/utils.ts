@@ -1,4 +1,4 @@
-import type { OrganizationControlType } from "../frameworks/[frameworkInstanceId]/components/table/FrameworkControlsTableColumns";
+import type { OrganizationControlType } from "../[frameworkInstanceId]/components/table/FrameworkControlsTableColumns";
 import type { StatusType } from "@/components/frameworks/framework-status";
 
 // Function to determine control status based on artifacts

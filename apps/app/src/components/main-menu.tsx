@@ -123,9 +123,9 @@ export function MainMenu({
 
 	const items: MenuItem[] = [
 		{
-			id: "overview",
-			path: "/:organizationId/overview",
-			name: t("sidebar.overview"),
+			id: "frameworks",
+			path: "/:organizationId/frameworks",
+			name: t("sidebar.frameworks"),
 			disabled: false,
 			icon: Gauge,
 			protected: false,
@@ -223,11 +223,11 @@ export function MainMenu({
 		// Special case for root organization path
 		if (
 			normalizedItemPath === `/${organizationId}` ||
-			normalizedItemPath === `/${organizationId}/overview`
+			normalizedItemPath === `/${organizationId}/frameworks`
 		) {
 			return (
 				pathname === `/${organizationId}` ||
-				pathname?.startsWith(`/${organizationId}/overview`)
+				pathname?.startsWith(`/${organizationId}/frameworks`)
 			);
 		}
 

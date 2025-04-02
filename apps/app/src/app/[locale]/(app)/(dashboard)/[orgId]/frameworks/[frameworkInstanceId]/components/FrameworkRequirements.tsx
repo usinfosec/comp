@@ -3,7 +3,7 @@
 import type { Requirement } from "@bubba/data";
 import { FrameworkId } from "@bubba/db/types";
 import { useMemo } from "react";
-import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
+import { getFrameworkRequirements } from "../../lib/getFrameworkRequirements";
 import {
 	Table,
 	TableBody,
