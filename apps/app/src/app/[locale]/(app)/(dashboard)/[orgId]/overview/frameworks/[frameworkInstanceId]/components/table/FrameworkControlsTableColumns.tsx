@@ -20,7 +20,7 @@ export type OrganizationControlType = {
 	id: string;
 	name: string;
 	description: string | null;
-	frameworkId: string;
+	frameworkInstanceId: string;
 	artifacts: (Artifact & {
 		policy: {
 			status: PolicyStatus;

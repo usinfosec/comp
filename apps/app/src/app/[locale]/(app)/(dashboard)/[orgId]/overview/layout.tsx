@@ -5,32 +5,32 @@ import { SecondaryMenu } from "@bubba/ui/secondary-menu";
 import { headers } from "next/headers";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const t = await getI18n();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!session?.session?.activeOrganizationId) {
-    console.log("Redirect on layout.tsx")
-    redirect("/auth");
-  }
+	if (!session?.session?.activeOrganizationId) {
+		console.log("Redirect on layout.tsx");
+		redirect("/auth");
+	}
 
-  return (
-    <div className="max-w-[1200px] mx-auto">
-      <SecondaryMenu
-        items={[
-          {
-            path: `/${session.session.activeOrganizationId}/overview`,
-            label: t("overview.title"),
-          },
-        ]}
-      />
+	return (
+		<div className="max-w-[1200px] mx-auto">
+			<SecondaryMenu
+				items={[
+					{
+						path: `/${session.session.activeOrganizationId}/overview`,
+						label: t("overview.title"),
+					},
+				]}
+			/>
 
-      <main className="mt-8">{children}</main>
-    </div>
-  );
+			<main className="mt-8">{children}</main>
+		</div>
+	);
 }

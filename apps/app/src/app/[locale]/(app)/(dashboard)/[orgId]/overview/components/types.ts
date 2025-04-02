@@ -24,3 +24,8 @@ export interface FrameworkWithCompliance {
 	framework: FrameworkInstance;
 	compliance: number;
 }
+
+export interface FrameworkInstanceWithComplianceScore {
+	frameworkInstance: FrameworkInstance;
+	complianceScore: number;
+}

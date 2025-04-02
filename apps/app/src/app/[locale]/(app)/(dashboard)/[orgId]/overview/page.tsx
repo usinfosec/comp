@@ -1,97 +1,38 @@
-import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
+import { auth } from "@bubba/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
-import { getComplianceScores } from "./data/getComplianceScores";
-import { getFrameworkCategories } from "./data/getFrameworkCategories";
-import { frameworks } from "@bubba/data";
-import { headers } from "next/headers";
+import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInstancesWithControls";
 
-export default async function DashboardPage({
-  params,
-}: {
-  params: Promise<{ locale: string; orgId: string }>;
-}) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+export async function generateMetadata() {
+	const t = await getI18n();
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const organizationId = session?.session.activeOrganizationId
-
-  if (!organizationId) {
-    console.log("Redirect on page.tsx")
-    redirect("/");
-  }
-
-  const frameworksWithControls =
-    await getFrameworksWithControls(organizationId);
-
-  const complianceScores = await getComplianceScores(
-    organizationId,
-    frameworksWithControls,
-  );
-
-  const frameworksWithCompliance = await getFrameworkCategories(organizationId);
-
-  const frameworks = await getFrameworks(organizationId);
-
-  return (
-    <FrameworksOverview
-      frameworks={frameworks}
-      complianceScores={complianceScores}
-      frameworksWithCompliance={frameworksWithCompliance}
-    />
-  );
+	return {
+		title: t("sidebar.overview"),
+	};
 }
 
-const getFrameworks = async (organizationId: string) => {
-  const frameworks = await db.frameworkInstance.findMany({
-    where: {
-      organizationId,
-    },
-  });
+export default async function DashboardPage() {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  return frameworks;
-};
+	const organizationId = session?.session.activeOrganizationId;
 
-const getFrameworksWithControls = async (organizationId: string) => {
-  const controls = await db.frameworkInstance.findMany({
-    where: {
-      organizationId,
-    },
-    include: {
-      controls: {
-        include: {
-          artifacts: {
-            include: {
-              policy: true,
-              evidence: true,
-            },
-          },
-        },
-      },
-    },
-  });
+	if (!organizationId) {
+		console.log("Redirect on page.tsx");
+		redirect("/");
+	}
 
-  return controls;
-};
+	const frameworksWithControls = await getAllFrameworkInstancesWithControls({
+		organizationId,
+	});
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
-
-  return {
-    title: t("sidebar.overview"),
-  };
+	return (
+		<FrameworksOverview
+			frameworksWithControls={frameworksWithControls}
+			organizationId={organizationId}
+		/>
+	);
 }

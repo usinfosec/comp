@@ -9,12 +9,10 @@ import type { ReactNode } from "react";
 import type { ComplianceScoresProps } from "./types";
 
 interface FrameworkProgressProps {
-	frameworks: FrameworkInstance[];
 	complianceScores: ComplianceScoresProps;
 }
 
 export function FrameworkProgress({
-	frameworks,
 	complianceScores,
 }: FrameworkProgressProps) {
 	const t = useI18n();
@@ -73,8 +71,6 @@ export function FrameworkProgress({
 			</div>
 		</Link>
 	);
-
-	if (!frameworks.length) return null;
 
 	return (
 		<Card>

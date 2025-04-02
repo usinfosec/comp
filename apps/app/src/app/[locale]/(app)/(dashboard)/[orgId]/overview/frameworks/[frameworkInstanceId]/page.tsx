@@ -1,22 +1,18 @@
 import { auth } from "@bubba/auth";
 import { headers } from "next/headers";
-import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { getSingleFrameworkInstanceWithControls } from "../../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkControls } from "./components/FrameworkControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
-import { getFramework } from "./data/getFramework";
-import { getFrameworkRequirements } from "./data/getFrameworkRequirements";
-import { FrameworkId } from "@bubba/data";
+
 interface PageProps {
 	params: Promise<{
-		frameworkId: FrameworkId;
-		locale: string;
+		frameworkInstanceId: string;
 	}>;
 }
 
 export default async function FrameworkPage({ params }: PageProps) {
-	const { frameworkId, locale } = await params;
-	setStaticParamsLocale(locale);
+	const { frameworkInstanceId } = await params;
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -28,34 +24,27 @@ export default async function FrameworkPage({ params }: PageProps) {
 
 	const organizationId = session.session.activeOrganizationId;
 
-	if (!frameworkId) {
-		redirect("/");
-	}
-
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const requirements = await getFrameworkRequirements(
-		frameworkId,
-		organizationId,
-	);
+	const frameworkInstanceWithControls =
+		await getSingleFrameworkInstanceWithControls({
+			organizationId,
+			frameworkInstanceId,
+		});
 
-	const frameworkInstance = await getFramework(frameworkId, organizationId);
-
-	if (!frameworkInstance) {
+	if (!frameworkInstanceWithControls) {
 		redirect("/");
 	}
 
 	return (
 		<div className="flex flex-col gap-6">
 			<FrameworkOverview
-				requirements={requirements}
-				frameworkInstance={frameworkInstance}
+				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
 			<FrameworkControls
-				requirements={requirements}
-				frameworkId={frameworkId}
+				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
 		</div>
 	);

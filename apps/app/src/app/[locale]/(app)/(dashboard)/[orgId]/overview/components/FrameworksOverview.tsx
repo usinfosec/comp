@@ -1,33 +1,37 @@
-"use client";
-
-import type { FrameworkInstance } from "@bubba/db/types";
 import { FrameworkProgress } from "./FrameworkProgress";
 import { RequirementStatus } from "./RequirementStatusChart";
-import type { ComplianceScoresProps, FrameworkWithCompliance } from "./types";
+import type { FrameworkInstanceWithControls } from "../types";
+import { getComplianceScores } from "../data/getComplianceScores";
+import { getFrameworkWithComplianceScores } from "../data/getFrameworkWithComplianceScores";
 
 export interface FrameworksOverviewProps {
-	frameworks: FrameworkInstance[];
-	complianceScores: ComplianceScoresProps;
-	frameworksWithCompliance: FrameworkWithCompliance[];
+	organizationId: string;
+	frameworksWithControls: FrameworkInstanceWithControls[];
 }
 
-export const FrameworksOverview = ({
-	complianceScores,
-	frameworksWithCompliance,
-	frameworks,
-}: FrameworksOverviewProps) => {
+export async function FrameworksOverview({
+	organizationId,
+	frameworksWithControls,
+}: FrameworksOverviewProps) {
+	const complianceScores = await getComplianceScores({
+		organizationId,
+		frameworksWithControls,
+	});
+
+	const frameworksWithComplianceScores = await getFrameworkWithComplianceScores(
+		{
+			frameworksWithControls,
+		},
+	);
+
 	return (
 		<div className="space-y-12">
 			<div className="grid gap-4 md:grid-cols-2 select-none">
-				<FrameworkProgress
-					frameworks={frameworks}
-					complianceScores={complianceScores}
-				/>
+				<FrameworkProgress complianceScores={complianceScores} />
 				<RequirementStatus
-					frameworks={frameworks}
-					frameworksWithCompliance={frameworksWithCompliance}
+					frameworksWithComplianceScores={frameworksWithComplianceScores}
 				/>
 			</div>
 		</div>
 	);
-};
+}

@@ -1,25 +1,20 @@
 "use client";
 
-import type { FrameworkInstance } from "@bubba/db/types";
 import { Badge } from "@bubba/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
-import type { FrameworkRequirements } from "../data/getFrameworkRequirements";
+import { FrameworkInstanceWithControls } from "../../../types";
 import { getControlStatus } from "../lib/utils";
 
 interface FrameworkOverviewProps {
-	requirements: FrameworkRequirements;
-	frameworkInstance: FrameworkInstance;
+	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }
 
 export function FrameworkOverview({
-	requirements,
-	frameworkInstance,
+	frameworkInstanceWithControls,
 }: FrameworkOverviewProps) {
 	// Get all controls from all requirements
-	const allControls = requirements.flatMap(
-		(requirement) => requirement.controls,
-	);
+	const allControls = frameworkInstanceWithControls.controls;
 
 	const totalControls = allControls.length;
 
@@ -38,7 +33,7 @@ export function FrameworkOverview({
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			<Card>
 				<CardHeader>
-					<CardTitle>{frameworkInstance.frameworkId}</CardTitle>
+					<CardTitle>{frameworkInstanceWithControls.frameworkId}</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<p className="text-sm text-muted-foreground">
@@ -46,7 +41,7 @@ export function FrameworkOverview({
 					</p>
 					<div className="mt-4">
 						<Badge variant="outline">
-							Framework ID: {frameworkInstance.frameworkId}
+							Framework ID: {frameworkInstanceWithControls.frameworkId}
 						</Badge>
 					</div>
 				</CardContent>

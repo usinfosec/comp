@@ -1,19 +1,8 @@
 "use server";
 
-import { db } from "@bubba/db";
-import type {
-	FrameworkInstance,
-	Control,
-	Artifact,
-	Policy,
-	Evidence,
-} from "@bubba/db/types";
-
-// Define a type for the framework with compliance info
-interface FrameworkWithCompliance {
-	framework: FrameworkInstance;
-	compliance: number;
-}
+import type { Artifact, Evidence, Policy } from "@bubba/db/types";
+import { FrameworkInstanceWithControls } from "../types";
+import { FrameworkInstanceWithComplianceScore } from "../components/types";
 
 /**
  * Checks if a control is compliant based on its artifacts
@@ -57,31 +46,15 @@ const isControlCompliant = (
  * @param organizationId - The ID of the organization
  * @returns Array of frameworks with compliance percentages
  */
-export async function getFrameworkCategories(
-	organizationId: string,
-): Promise<FrameworkWithCompliance[]> {
+export async function getFrameworkWithComplianceScores({
+	frameworksWithControls,
+}: {
+	frameworksWithControls: FrameworkInstanceWithControls[];
+}): Promise<FrameworkInstanceWithComplianceScore[]> {
 	// Get all framework instances for the organization
-	const frameworkInstances = await db.frameworkInstance.findMany({
-		where: {
-			organizationId,
-		},
-		include: {
-			// Include the controls to calculate compliance
-			controls: {
-				include: {
-					artifacts: {
-						include: {
-							policy: true,
-							evidence: true,
-						},
-					},
-				},
-			},
-		},
-	});
 
 	// Calculate compliance for each framework
-	const frameworksWithCompliance = frameworkInstances.map(
+	const frameworksWithComplianceScores = frameworksWithControls.map(
 		(frameworkInstance) => {
 			// Get all controls for this framework
 			const controls = frameworkInstance.controls;
@@ -98,11 +71,11 @@ export async function getFrameworkCategories(
 					: 0;
 
 			return {
-				framework: frameworkInstance,
-				compliance,
+				frameworkInstance,
+				complianceScore: compliance,
 			};
 		},
 	);
 
-	return frameworksWithCompliance;
+	return frameworksWithComplianceScores;
 }
