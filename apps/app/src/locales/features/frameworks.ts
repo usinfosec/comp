@@ -39,7 +39,7 @@ export const frameworks = {
 			control: "Control",
 			artifacts: "Artifacts",
 			actions: "Actions",
-			requirements: "Requirements",
+			requirements: "Mapped Requirements",
 		},
 		statuses: {
 			completed: "Completed",

@@ -30,7 +30,7 @@ export function FrameworkOverview({
 			: 0;
 
 	return (
-		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
 			<Card>
 				<CardHeader>
 					<CardTitle>

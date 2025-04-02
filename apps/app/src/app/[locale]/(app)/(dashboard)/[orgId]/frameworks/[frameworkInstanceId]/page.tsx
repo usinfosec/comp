@@ -49,6 +49,7 @@ export default async function FrameworkPage({ params }: PageProps) {
 			/> */}
 			<FrameworkRequirements
 				frameworkId={frameworkInstanceWithControls.frameworkId}
+				frameworkInstanceWithControls={frameworkInstanceWithControls}
 			/>
 		</div>
 	);
