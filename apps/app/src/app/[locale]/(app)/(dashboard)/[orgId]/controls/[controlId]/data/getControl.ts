@@ -24,6 +24,9 @@ export const getControl = async (id: string) => {
 			organizationId: session.session.activeOrganizationId,
 			id,
 		},
+		include: {
+			requirementsMapped: true,
+		},
 	});
 
 	return control;

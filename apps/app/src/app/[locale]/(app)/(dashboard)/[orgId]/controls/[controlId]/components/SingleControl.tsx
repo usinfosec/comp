@@ -1,14 +1,17 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import type { Control } from "@bubba/db/types";
+import type { Control, RequirementMap } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
+import { useI18n } from "@/locales/client";
 
 interface SingleControlProps {
-	control: Control;
+	control: Control & {
+		requirementsMapped: RequirementMap[];
+	};
 	controlProgress: ControlProgressResponse;
 }
 
@@ -16,6 +19,7 @@ export const SingleControl = ({
 	control,
 	controlProgress,
 }: SingleControlProps) => {
+	const t = useI18n();
 	const progressStatus = useMemo(() => {
 		if (!controlProgress) return "not_started";
 
@@ -47,11 +51,16 @@ export const SingleControl = ({
 					</Card>
 				</div>
 
-				{/* <div className="flex flex-col gap-2">
-					{control.controlRequirement && (
-						<ControlRequirementsTable data={control.controlRequirement} />
+				<div className="flex flex-col gap-2">
+					{control.requirementsMapped.map((requirement) => (
+						<div key={requirement.id}>{requirement.requirementId}</div>
+					))}
+					{control.requirementsMapped.length === 0 && (
+						<div className="text-sm text-muted-foreground">
+							{t("controls.requirements.no_requirements_mapped")}
+						</div>
 					)}
-				</div> */}
+				</div>
 			</div>
 		</div>
 	);

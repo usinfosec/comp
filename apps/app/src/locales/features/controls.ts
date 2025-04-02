@@ -10,4 +10,7 @@ export const controls = {
 		status: "Status",
 		no_controls_found: "No controls found.",
 	},
+	requirements: {
+		no_requirements_mapped: "No requirements mapped to this control.",
+	},
 } as const;
