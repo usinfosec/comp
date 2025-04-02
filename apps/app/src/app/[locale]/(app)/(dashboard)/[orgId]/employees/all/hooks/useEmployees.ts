@@ -13,6 +13,7 @@ import type {
   EmployeesInput,
   EmployeesResponse,
 } from "../types";
+import type { EmployeeWithUser } from "../components/table/columns";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(
@@ -43,13 +44,7 @@ async function fetchEmployees(
     return { employees: [], total: 0 };
   }
 
-  // Map member records to the Employee type expected by the UI
-  const employees: Employee[] = rawData.employees.map((member: any) => ({
-    id: member.id,
-    name: member.user?.name || "Unknown",
-    email: member.user?.email || "",
-    department: member.department || null,
-  }));
+  const employees = rawData.employees;
 
   return {
     employees,
@@ -125,10 +120,10 @@ export function useEmployees({
   );
 
   return {
-    employees: data?.employees ?? [],
+    employees: (data?.employees as EmployeeWithUser[]) ?? [],
     total: data?.total,
     isLoading,
-    isMutating, // <--- expose the mutation loader
+    isMutating,
     error,
     revalidateEmployees,
     addEmployee,

@@ -1,62 +1,81 @@
 import { betterAuth } from "better-auth";
 import { db } from "@bubba/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { organization } from "better-auth/plugins";
+import { emailOTP, organization } from "better-auth/plugins";
 import { ac, owner, admin, auditor, member, employee } from "./permissions";
 import { sendInviteMemberEmail } from "@bubba/email/lib/invite-member";
+import { OTPVerificationEmail } from "@bubba/email/emails/otp";
+import { sendEmail } from "@bubba/email/lib/resend";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
-	database: prismaAdapter(db, {
-		provider: "postgresql",
-	}),
-	plugins: [
-		organization({
-			async sendInvitationEmail(data) {
-				const inviteLink = `https://app.trycomp.ai/auth?inviteCode=${data.invitation.id}`;
+  database: prismaAdapter(db, {
+    provider: "postgresql",
+  }),
+  plugins: [
+    organization({
+      async sendInvitationEmail(data) {
+        const inviteLink = `https://app.trycomp.ai/auth?inviteCode=${data.invitation.id}`;
 
-				await sendInviteMemberEmail({
-					email: data.email,
-					inviteLink,
-					organizationName: data.organization.name,
-				});
-			},
-			ac,
-			roles: {
-				owner,
-				admin,
-				member,
-				auditor,
-				employee,
-			},
-		}),
-	],
-	socialProviders: {
-		google: {
-			clientId: process.env.AUTH_GOOGLE_ID!,
-			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-		},
-	},
-	user: {
-		modelName: "User",
-	},
-	organization: {
-		modelName: "Organization",
-	},
-	member: {
-		modelName: "Member",
-	},
-	invitation: {
-		modelName: "Invitation",
-	},
-	session: {
-		modelName: "Session",
-	},
-	account: {
-		modelName: "Account",
-	},
-	verification: {
-		modelName: "Verification",
-	},
+        await sendInviteMemberEmail({
+          email: data.email,
+          inviteLink,
+          organizationName: data.organization.name,
+        });
+      },
+      ac,
+      roles: {
+        owner,
+        admin,
+        member,
+        auditor,
+        employee,
+      },
+    }),
+    emailOTP({
+      otpLength: 6,
+      expiresIn: 10 * 60,
+      async sendVerificationOTP({ email, otp }) {
+        await sendEmail({
+          to: email,
+          subject: "One-Time Password for Comp AI",
+          react: OTPVerificationEmail({ email, otp }),
+        });
+      },
+    }),
+    nextCookies(),
+  ],
+  socialProviders: {
+    google: {
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    },
+  },
+  user: {
+    modelName: "User",
+  },
+  organization: {
+    modelName: "Organization",
+  },
+  member: {
+    modelName: "Member",
+  },
+  invitation: {
+    modelName: "Invitation",
+  },
+  session: {
+    modelName: "Session",
+  },
+  account: {
+    modelName: "Account",
+  },
+  verification: {
+    modelName: "Verification",
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;
+export type ActiveOrganization = typeof auth.$Infer.ActiveOrganization;
+export type Member = typeof auth.$Infer.Member;
+export type Organization = typeof auth.$Infer.Organization;
+export type Invitation = typeof auth.$Infer.Invitation;

@@ -57,7 +57,9 @@ interface EmployeeDetailsProps {
 		user: User;
 	};
 	policies: Policy[];
-	trainingVideos: EmployeeTrainingVideoCompletion[];
+	trainingVideos: (EmployeeTrainingVideoCompletion & {
+		metadata: TrainingVideo;
+	})[];
 }
 
 export function EmployeeDetails({
@@ -338,7 +340,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										// const isCompleted = video.completedBy.includes(employee.id);
+										const isCompleted = video.completedAt !== null;
 
 										return (
 											<div
@@ -346,12 +348,20 @@ export function EmployeeDetails({
 												className="flex items-center gap-2 border p-3 justify-between"
 											>
 												<h2 className="flex items-center gap-2">
-													{/* {isCompleted ? (
-														<CheckCircle2 className="h-4 w-4 text-green-500" />
+													{isCompleted ? (
+														<div className="flex items-center gap-1">
+															<CheckCircle2 className="h-4 w-4 text-green-500" />
+															<span className="text-xs text-muted-foreground">
+																{video.completedAt &&
+																	new Date(
+																		video.completedAt,
+																	).toLocaleDateString()}
+															</span>
+														</div>
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
-													)} */}
-													{video.id}
+													)}
+													{video.metadata.title}
 												</h2>
 											</div>
 										);

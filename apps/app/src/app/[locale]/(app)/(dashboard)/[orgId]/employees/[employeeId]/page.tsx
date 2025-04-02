@@ -108,7 +108,7 @@ const getPoliciesTasks = cache(async (employeeId: string) => {
 	return policies;
 });
 
-const getTrainingVideos = cache(async (employeeId: string) => {
+const getTrainingVideos = async (employeeId: string) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -122,12 +122,16 @@ const getTrainingVideos = cache(async (employeeId: string) => {
 	const employeeTrainingVideos =
 		await db.employeeTrainingVideoCompletion.findMany({
 			where: {
-				userId: employeeId,
+				memberId: employeeId,
 			},
 			orderBy: {
 				videoId: "asc",
 			},
 		});
+
+	console.log({
+		employeeTrainingVideos,
+	});
 
 	// Map the db records to include the matching metadata from the training videos data
 	return employeeTrainingVideos.map((dbVideo) => {
@@ -142,4 +146,4 @@ const getTrainingVideos = cache(async (employeeId: string) => {
 			metadata: videoMetadata,
 		};
 	});
-});
+};

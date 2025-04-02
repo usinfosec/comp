@@ -32,6 +32,7 @@ export const getEmployees = authActionClient
         db.member.findMany({
           where: {
             organizationId: session.activeOrganizationId,
+            role: "employee",
             AND: [
               search
                 ? {
@@ -51,12 +52,16 @@ export const getEmployees = authActionClient
                 : {},
             ],
           },
+          include: {
+            user: true,
+          },
           skip,
           take: per_page,
         }),
         db.member.count({
           where: {
             organizationId: session.activeOrganizationId,
+            role: "employee",
             AND: [
               search
                 ? {
