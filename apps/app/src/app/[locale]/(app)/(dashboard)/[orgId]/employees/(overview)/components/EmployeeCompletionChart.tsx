@@ -1,111 +1,108 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@bubba/ui/card";
-import {
-	ChartContainer,
-	ChartTooltip,
-	type ChartConfig,
-} from "@bubba/ui/chart";
+import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import * as React from "react";
-import type { TooltipProps } from "recharts";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import type { CSSProperties } from "react";
 
 // Use correct types from the database
-import { trainingVideos } from "@bubba/data";
-import { Member, Policy, User } from "@bubba/db/types";
+import { TrainingVideo } from "@bubba/data";
+import {
+	EmployeeTrainingVideoCompletion,
+	Member,
+	Policy,
+	User,
+} from "@bubba/db/types";
 
 interface EmployeeCompletionChartProps {
 	employees: (Member & {
 		user: User;
 	})[];
 	policies: Policy[];
+	trainingVideos: (EmployeeTrainingVideoCompletion & {
+		metadata: TrainingVideo;
+	})[];
 }
 
-const CHART_COLORS = {
-	policiesCompleted: "hsl(var(--chart-positive))", // green
-	policiesPending: "hsl(var(--chart-neutral))", // yellow
-	trainingsCompleted: "hsl(var(--chart-other))", // blue
-	trainingsPending: "hsl(var(--chart-warning))", // gray
+// Define colors for the chart
+const taskColors = {
+	policies: "bg-primary",
+	trainings: "bg-[var(--chart-open)]",
+	incomplete: "bg-muted",
 };
 
-// Custom tooltip component with better spacing
-const CustomTooltip = ({
-	active,
-	payload,
-	label,
-}: TooltipProps<number, string>) => {
-	if (!active || !payload || !payload.length) {
-		return null;
-	}
-
-	return (
-		<div className="grid min-w-[8rem] items-start gap-2 rounded-lg border border-border/50 bg-background px-3 py-2 text-xs shadow-xl z-30">
-			<div className="font-medium">{label}</div>
-			<div className="grid gap-2">
-				{payload.map((entry) => (
-					<div
-						key={`tooltip-${entry.dataKey}`}
-						className="flex items-center gap-2"
-					>
-						<div
-							className="h-3 w-3 rounded-[2px]"
-							style={{ backgroundColor: entry.color }}
-						/>
-						<div className="flex w-full justify-between">
-							<span className="text-muted-foreground pr-6">{entry.name}</span>
-							<span className="font-mono font-medium tabular-nums">
-								{entry.value}
-							</span>
-						</div>
-					</div>
-				))}
-			</div>
-		</div>
-	);
-};
+interface EmployeeTaskStats {
+	id: string;
+	name: string;
+	email: string;
+	totalTasks: number;
+	policiesCompleted: number;
+	trainingsCompleted: number;
+	policiesTotal: number;
+	trainingsTotal: number;
+	policyPercentage: number;
+	trainingPercentage: number;
+	overallPercentage: number;
+}
 
 export function EmployeeCompletionChart({
 	employees,
 	policies,
+	trainingVideos,
 }: EmployeeCompletionChartProps) {
 	const t = useI18n();
 
-	const completionData = React.useMemo(() => {
+	// Calculate completion data for each employee
+	const employeeStats: EmployeeTaskStats[] = React.useMemo(() => {
 		return employees.map((employee) => {
 			// Count policies completed by this employee
 			const policiesCompletedCount = policies.filter((policy) =>
 				policy.signedBy.includes(employee.id),
 			).length;
 
-			// Count policies pending for this employee
-			const policiesPendingCount = policies.length - policiesCompletedCount;
+			// Calculate policy completion percentage
+			const policyCompletionPercentage = policies.length
+				? Math.round((policiesCompletedCount / policies.length) * 100)
+				: 0;
 
 			// Count training videos completed by this employee
-			const trainingsCompletedCount = 0;
-			// TODO: Add training videos completed by this employee
+			const employeeTrainingVideos = trainingVideos.filter(
+				(video) => video.memberId === employee.id && video.completedAt !== null,
+			);
+			const trainingsCompletedCount = employeeTrainingVideos.length;
 
-			// Count training videos pending for this employee
-			const trainingsPendingCount =
-				trainingVideos.length - trainingsCompletedCount;
+			// Get the total unique training videos available
+			const uniqueTrainingVideosIds = [
+				...new Set(trainingVideos.map((video) => video.metadata.id)),
+			];
+			const trainingVideosTotal = uniqueTrainingVideosIds.length;
 
-			const totalCompleted = policiesCompletedCount + trainingsCompletedCount;
+			// Calculate training completion percentage
+			const trainingCompletionPercentage = trainingVideosTotal
+				? Math.round((trainingsCompletedCount / trainingVideosTotal) * 100)
+				: 0;
+
+			// Calculate total completion percentage
+			const totalItems = policies.length + trainingVideosTotal;
+			const totalCompletedItems =
+				policiesCompletedCount + trainingsCompletedCount;
+
+			const overallPercentage = totalItems
+				? Math.round((totalCompletedItems / totalItems) * 100)
+				: 0;
 
 			return {
 				id: employee.id,
 				name: employee.user.name || employee.user.email.split("@")[0],
 				email: employee.user.email,
+				totalTasks: totalItems,
 				policiesCompleted: policiesCompletedCount,
-				policiesPending: policiesPendingCount,
 				trainingsCompleted: trainingsCompletedCount,
-				trainingsPending: trainingsPendingCount,
-				total: totalCompleted,
+				policiesTotal: policies.length,
+				trainingsTotal: trainingVideosTotal,
+				policyPercentage: policyCompletionPercentage,
+				trainingPercentage: trainingCompletionPercentage,
+				overallPercentage,
 			};
 		});
 	}, [employees, policies, trainingVideos]);
@@ -113,13 +110,13 @@ export function EmployeeCompletionChart({
 	// Check for empty data scenarios
 	if (!employees.length) {
 		return (
-			<Card className="flex flex-col">
+			<Card>
 				<CardHeader>
 					<CardTitle>
 						{t("people.dashboard.employee_task_completion")}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="flex-1 flex items-center justify-center">
+				<CardContent className="flex items-center justify-center h-[300px]">
 					<p className="text-center text-sm text-muted-foreground">
 						{t("people.dashboard.no_data")}
 					</p>
@@ -129,15 +126,15 @@ export function EmployeeCompletionChart({
 	}
 
 	// Check if there are any tasks to complete
-	if (policies.length === 0 && trainingVideos.length === 0) {
+	if (policies.length === 0 && !trainingVideos.length) {
 		return (
-			<Card className="flex flex-col">
+			<Card>
 				<CardHeader>
 					<CardTitle>
 						{t("people.dashboard.employee_task_completion")}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="flex-1 flex items-center justify-center">
+				<CardContent className="flex items-center justify-center h-[300px]">
 					<p className="text-center text-sm text-muted-foreground">
 						{t("people.dashboard.no_tasks_available")}
 					</p>
@@ -146,111 +143,145 @@ export function EmployeeCompletionChart({
 		);
 	}
 
-	// Sort and limit to top 5 employees by total completion
-	const sortedData = React.useMemo(() => {
-		return [...completionData]
-			.sort((a, b) => b.total - a.total)
-			.slice(0, 5)
-			.reverse();
-	}, [completionData]);
-
-	const chartData = sortedData.map((item) => ({
-		name: item.name,
-		email: item.email,
-		policiesCompleted: item.policiesCompleted,
-		policiesPending: item.policiesPending,
-		trainingsCompleted: item.trainingsCompleted,
-		trainingsPending: item.trainingsPending,
-	}));
-
-	const chartConfig = {
-		policiesCompleted: {
-			label: t("people.dashboard.policies_completed"),
-			color: CHART_COLORS.policiesCompleted,
-		},
-		policiesPending: {
-			label: t("people.dashboard.policies_pending"),
-			color: CHART_COLORS.policiesPending,
-		},
-		trainingsCompleted: {
-			label: t("people.dashboard.trainings_completed"),
-			color: CHART_COLORS.trainingsCompleted,
-		},
-		trainingsPending: {
-			label: t("people.dashboard.trainings_pending"),
-			color: CHART_COLORS.trainingsPending,
-		},
-	} satisfies ChartConfig;
+	// Sort by completion percentage and limit to top 5
+	const sortedStats = [...employeeStats]
+		.sort((a, b) => b.overallPercentage - a.overallPercentage)
+		.slice(0, 5);
 
 	return (
-		<Card className="flex flex-col">
+		<Card>
 			<CardHeader>
 				<CardTitle>{t("people.dashboard.employee_task_completion")}</CardTitle>
 			</CardHeader>
-			<CardContent className="flex-1">
-				<ChartContainer config={chartConfig}>
-					<ResponsiveContainer width="100%" height={300}>
-						<BarChart
-							accessibilityLayer
-							data={chartData}
-							layout="vertical"
-							barSize={15}
-							barGap={5}
-							margin={{
-								top: 20,
-								right: 30,
-								bottom: 10,
-								left: 0,
-							}}
-						>
-							<XAxis type="number" hide />
-							<YAxis
-								dataKey="email"
-								type="category"
-								tickLine={false}
-								tickMargin={10}
-								axisLine={false}
-								width={175}
-								tickFormatter={(value) => value}
-							/>
-							<ChartTooltip content={<CustomTooltip />} />
-							<Bar
-								dataKey="policiesCompleted"
-								fill={CHART_COLORS.policiesCompleted}
-								name={t("people.dashboard.policies_completed")}
-							/>
-							<Bar
-								dataKey="policiesPending"
-								fill={CHART_COLORS.policiesPending}
-								name={t("people.dashboard.policies_pending")}
-							/>
-							<Bar
-								dataKey="trainingsCompleted"
-								fill={CHART_COLORS.trainingsCompleted}
-								name={t("people.dashboard.trainings_completed")}
-							/>
-							<Bar
-								dataKey="trainingsPending"
-								fill={CHART_COLORS.trainingsPending}
-								name={t("people.dashboard.trainings_pending")}
-							/>
-						</BarChart>
-					</ResponsiveContainer>
-				</ChartContainer>
-			</CardContent>
-			<CardFooter>
-				<div className="flex flex-wrap gap-4 py-2">
-					{Object.entries(chartConfig).map(([key, config]) => (
-						<div key={key} className="flex items-center gap-2">
-							<div
-								className="h-3 w-3"
-								style={{ backgroundColor: config.color }}
-							/>
-							<span className="text-xs">{config.label}</span>
+			<CardContent>
+				<div className="space-y-8">
+					{sortedStats.map((stat) => (
+						<div key={stat.id} className="space-y-2">
+							<div className="flex justify-between items-center text-sm">
+								<p>{stat.name}</p>
+								<span className="text-muted-foreground">
+									{stat.policiesCompleted + stat.trainingsCompleted} /{" "}
+									{stat.totalTasks} {t("common.tasks")}
+								</span>
+							</div>
+
+							<TaskBarChart stat={stat} />
+
+							<div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+								<div className="flex items-center gap-1">
+									<div className="size-2 bg-primary" />
+									<span>
+										{t("people.dashboard.policies")} ({stat.policiesCompleted}/
+										{stat.policiesTotal})
+									</span>
+								</div>
+								<div className="flex items-center gap-1">
+									<div className="size-2 bg-[var(--chart-open)]" />
+									<span>
+										{t("people.dashboard.trainings")} ({stat.trainingsCompleted}
+										/{stat.trainingsTotal})
+									</span>
+								</div>
+							</div>
 						</div>
 					))}
 				</div>
-			</CardFooter>
+			</CardContent>
 		</Card>
+	);
+}
+
+function TaskBarChart({ stat }: { stat: EmployeeTaskStats }) {
+	// Only include segments that have values > 0
+	const data = [
+		...(stat.policiesCompleted > 0
+			? [
+					{
+						key: "policies",
+						value: stat.policiesCompleted,
+						color: taskColors.policies,
+						label: "Policies",
+					},
+				]
+			: []),
+		...(stat.trainingsCompleted > 0
+			? [
+					{
+						key: "trainings",
+						value: stat.trainingsCompleted,
+						color: taskColors.trainings,
+						label: "Trainings",
+					},
+				]
+			: []),
+	];
+
+	const barHeight = 12;
+
+	// Either show all task types, or show empty bar if nothing is completed
+	if (stat.policiesCompleted + stat.trainingsCompleted === 0) {
+		return <div className="h-3 bg-muted" />;
+	}
+
+	// Calculate total width including gaps
+	const totalWidth = stat.totalTasks;
+	let cumulativeWidth = 0;
+
+	return (
+		<div
+			className="relative h-[var(--height)]"
+			style={{ "--height": `${barHeight}px` } as CSSProperties}
+		>
+			<div className="absolute inset-0 h-full w-full overflow-visible">
+				{/* Completed tasks segments */}
+				{data.map((d) => {
+					const percentWidth = (d.value / totalWidth) * 100;
+					const xPosition = (cumulativeWidth / totalWidth) * 100;
+					cumulativeWidth += d.value;
+
+					return (
+						<div
+							key={d.key}
+							className="absolute"
+							style={{
+								width: `${percentWidth}%`,
+								height: `${barHeight}px`,
+								left: `${xPosition}%`,
+							}}
+						>
+							<div
+								className={d.color}
+								style={{
+									width: "100%",
+									height: "100%",
+								}}
+								title={`${d.label}: ${d.value}`}
+							/>
+						</div>
+					);
+				})}
+
+				{/* Incomplete tasks segment */}
+				{stat.totalTasks - cumulativeWidth > 0 && (
+					<div
+						className="absolute"
+						style={{
+							width: `${((stat.totalTasks - cumulativeWidth) / totalWidth) * 100}%`,
+							height: `${barHeight}px`,
+							left: `${(cumulativeWidth / totalWidth) * 100}%`,
+						}}
+					>
+						<div
+							className={taskColors.incomplete}
+							style={{
+								width: "100%",
+								height: "100%",
+							}}
+							title={`Incomplete: ${stat.totalTasks - cumulativeWidth}`}
+						/>
+					</div>
+				)}
+			</div>
+		</div>
 	);
 }
