@@ -2,13 +2,13 @@
 
 import { useI18n } from "@/locales/client";
 import type { FrameworkInstance } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent } from "@bubba/ui/card";
+import { cn } from "@bubba/ui/cn";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { getFrameworkName } from "../lib/getFrameworkName";
 import type { FrameworkInstanceWithComplianceScore } from "./types";
-import { cn } from "@bubba/ui/cn";
-import { frameworks } from "@bubba/data";
 
 // Individual FrameworkCard component
 function FrameworkCard({
@@ -43,8 +43,7 @@ function FrameworkCard({
 						<div className="flex-1">
 							<div className="flex items-center justify-between">
 								<h2 className="font-medium text-2xl">
-									{frameworks[frameworkInstance.frameworkId]?.name ||
-										frameworkInstance.frameworkId}
+									{getFrameworkName(frameworkInstance.frameworkId)}
 								</h2>
 								<span
 									className={cn(
