@@ -29,15 +29,7 @@ export function ControlsOverview({
 					{t("controls.overview.title")}
 				</h2>
 			</div>
-
-			<Card>
-				<CardHeader>
-					<CardTitle>{t("controls.overview.all_controls")}</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<ControlsTable data={controls} />
-				</CardContent>
-			</Card>
+			<ControlsTable data={controls} />
 		</div>
 	);
 }
