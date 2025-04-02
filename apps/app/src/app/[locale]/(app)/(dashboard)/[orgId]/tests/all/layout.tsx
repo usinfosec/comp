@@ -26,6 +26,8 @@ export default async function Layout({
 							description={t("app_onboarding.cloud_tests.description")}
 							imageSrc="/onboarding/cloud-tests.png"
 							imageAlt="Cloud Security Testing"
+							cta=""
+							sheetName=""
 							faqs={[
 								{
 									questionKey: t("app_onboarding.cloud_tests.faqs.question_1"),
