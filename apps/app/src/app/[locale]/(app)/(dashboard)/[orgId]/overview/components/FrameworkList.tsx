@@ -38,19 +38,12 @@ function FrameworkCard({
 			className="flex flex-col gap-4 rounded-lg p-4 hover:bg-muted/40 transition-colors duration-200"
 		>
 			<div className="flex items-start gap-4">
-				<div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-					<div className="text-lg font-bold text-muted-foreground">
-						{frameworks[frameworkInstance.frameworkId].name
-							.substring(0, 2)
-							.toUpperCase()}
-					</div>
-				</div>
 				<div className="flex-1">
 					<div className="flex items-center justify-between">
-						<h3 className="font-medium">
+						<h2 className="font-medium text-2xl">
 							{frameworks[frameworkInstance.frameworkId]?.name ||
 								frameworkInstance.frameworkId}
-						</h3>
+						</h2>
 						<span
 							className={cn(
 								"text-sm font-medium",
