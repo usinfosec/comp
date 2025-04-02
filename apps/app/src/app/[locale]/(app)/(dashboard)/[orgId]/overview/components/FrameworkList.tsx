@@ -33,52 +33,56 @@ function FrameworkCard({
 	);
 
 	return (
-		<Link
-			href={`/${orgId}/overview/frameworks/${frameworkInstance.id}`}
-			className="flex flex-col gap-4 rounded-lg p-4 hover:bg-muted/40 transition-colors duration-200"
-		>
-			<div className="flex items-start gap-4">
-				<div className="flex-1">
-					<div className="flex items-center justify-between">
-						<h2 className="font-medium text-2xl">
-							{frameworks[frameworkInstance.frameworkId]?.name ||
-								frameworkInstance.frameworkId}
-						</h2>
-						<span
-							className={cn(
-								"text-sm font-medium",
-								getComplianceColor(complianceScore),
-							)}
-						>
-							{complianceScore}% {t("common.status.compliant")}
-						</span>
+		<Card className="select-none hover:bg-muted/40 transition-colors duration-200">
+			<CardContent className="pt-6">
+				<Link
+					href={`/${orgId}/overview/frameworks/${frameworkInstance.id}`}
+					className="flex flex-col gap-4 rounded-lg p-4 "
+				>
+					<div className="flex items-start gap-4">
+						<div className="flex-1">
+							<div className="flex items-center justify-between">
+								<h2 className="font-medium text-2xl">
+									{frameworks[frameworkInstance.frameworkId]?.name ||
+										frameworkInstance.frameworkId}
+								</h2>
+								<span
+									className={cn(
+										"text-sm font-medium",
+										getComplianceColor(complianceScore),
+									)}
+								>
+									{complianceScore}% {t("common.status.compliant")}
+								</span>
+							</div>
+							<Progress
+								value={complianceScore}
+								className="h-2 mt-2 bg-secondary [&>div]:bg-primary"
+							/>
+						</div>
 					</div>
-					<Progress
-						value={complianceScore}
-						className="h-2 mt-2 bg-secondary [&>div]:bg-primary"
-					/>
-				</div>
-			</div>
 
-			<div className="grid grid-cols-2 gap-4 text-sm">
-				<div className="space-y-1">
-					<p className="text-muted-foreground">
-						{t("frameworks.controls.title")}
-					</p>
-					<p className="font-medium">
-						{controlsCount} {t("evidence.items")}
-					</p>
-				</div>
-				<div className="space-y-1">
-					<p className="text-muted-foreground">
-						{t("frameworks.controls.statuses.completed")}
-					</p>
-					<p className="font-medium">
-						{compliantControlsCount} {t("common.status.compliant")}
-					</p>
-				</div>
-			</div>
-		</Link>
+					<div className="grid grid-cols-2 gap-4 text-sm">
+						<div className="space-y-1">
+							<p className="text-muted-foreground">
+								{t("frameworks.controls.title")}
+							</p>
+							<p className="font-medium">
+								{controlsCount} {t("evidence.items")}
+							</p>
+						</div>
+						<div className="space-y-1">
+							<p className="text-muted-foreground">
+								{t("frameworks.controls.statuses.completed")}
+							</p>
+							<p className="font-medium">
+								{compliantControlsCount} {t("common.status.compliant")}
+							</p>
+						</div>
+					</div>
+				</Link>
+			</CardContent>
+		</Card>
 	);
 }
 
@@ -93,26 +97,16 @@ export function FrameworkList({
 	if (!frameworksWithComplianceScores.length) return null;
 
 	return (
-		<Card className="select-none">
-			<CardHeader className="flex flex-row items-center justify-between">
-				<CardTitle>{t("frameworks.title")}</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<div className="space-y-8">
-					{/* Framework List */}
-					<div className="space-y-6">
-						{frameworksWithComplianceScores.map(
-							({ frameworkInstance, complianceScore }) => (
-								<FrameworkCard
-									key={frameworkInstance.id}
-									frameworkInstance={frameworkInstance}
-									complianceScore={complianceScore}
-								/>
-							),
-						)}
-					</div>
-				</div>
-			</CardContent>
-		</Card>
+		<div className="space-y-6">
+			{frameworksWithComplianceScores.map(
+				({ frameworkInstance, complianceScore }) => (
+					<FrameworkCard
+						key={frameworkInstance.id}
+						frameworkInstance={frameworkInstance}
+						complianceScore={complianceScore}
+					/>
+				),
+			)}
+		</div>
 	);
 }
