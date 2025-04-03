@@ -21,15 +21,6 @@ export default async function Layout({
 
 	return (
 		<div className="max-w-[1200px] mx-auto">
-			<SecondaryMenu
-				items={[
-					{
-						path: `/${session.session.activeOrganizationId}/controls`,
-						label: t("controls.title"),
-					},
-				]}
-			/>
-
 			<main className="mt-8">{children}</main>
 		</div>
 	);

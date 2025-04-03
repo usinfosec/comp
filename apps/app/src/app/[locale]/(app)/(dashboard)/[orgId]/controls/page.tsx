@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { ControlsOverview } from "./components/ControlsOverview";
 import { getAllOrganizationControls } from "./data/getAllOrganizationControls";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 export async function generateMetadata() {
 	const t = await getI18n();
@@ -29,6 +30,8 @@ export default async function ControlsPage() {
 	});
 
 	return (
-		<ControlsOverview controls={controls} organizationId={organizationId} />
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
+			<ControlsOverview controls={controls} organizationId={organizationId} />
+		</PageWithBreadcrumb>
 	);
 }
