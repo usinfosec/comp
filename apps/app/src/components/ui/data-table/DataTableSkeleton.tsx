@@ -1,4 +1,4 @@
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -6,8 +6,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/ui/table";
 
 interface DataTableSkeletonProps {
 	columns?: number;

@@ -2,20 +2,17 @@
 
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
-import { SelectUser } from "@/components/select-user";
 import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
 	Frequency,
-	type OrganizationPolicy,
 	type Policy,
 	type PolicyStatus,
-	type User,
-} from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Calendar } from "@bubba/ui/calendar";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -23,25 +20,24 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	FormDescription,
-} from "@bubba/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
+} from "@comp/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
+import { Switch } from "@comp/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { Switch } from "@bubba/ui/switch";
 
 const policyStatuses: PolicyStatus[] = [
 	"draft",
@@ -50,11 +46,9 @@ const policyStatuses: PolicyStatus[] = [
 ] as const;
 
 export function UpdatePolicyOverview({
-	organizationPolicy,
-	users,
+	policy,
 }: {
-	organizationPolicy: OrganizationPolicy & { policy: Policy };
-	users: User[];
+	policy: Policy;
 }) {
 	const t = useI18n();
 	const session = useSession();
@@ -69,10 +63,10 @@ export function UpdatePolicyOverview({
 	});
 
 	const calculateReviewDate = (): Date => {
-		if (!organizationPolicy.reviewDate) {
+		if (!policy.reviewDate) {
 			return new Date();
 		}
-		return new Date(organizationPolicy.reviewDate);
+		return new Date(policy.reviewDate);
 	};
 
 	const reviewDate = calculateReviewDate();
@@ -80,15 +74,13 @@ export function UpdatePolicyOverview({
 	const form = useForm<z.infer<typeof updatePolicyFormSchema>>({
 		resolver: zodResolver(updatePolicyFormSchema),
 		defaultValues: {
-			id: organizationPolicy.id,
-			status: organizationPolicy.status,
-			ownerId: organizationPolicy.ownerId ?? session.data?.user?.id,
-			department: organizationPolicy.department ?? Departments.admin,
-			review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
+			id: policy.id,
+			status: policy.status,
+			assigneeId: policy.assigneeId ?? session.data?.user?.id,
+			department: policy.department ?? Departments.admin,
+			review_frequency: policy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
-			isRequiredToSign: organizationPolicy.isRequiredToSign
-				? "required"
-				: "not_required",
+			isRequiredToSign: policy.isRequiredToSign ? "required" : "not_required",
 		},
 	});
 
@@ -96,7 +88,7 @@ export function UpdatePolicyOverview({
 		updatePolicyForm.execute({
 			id: data.id,
 			status: data.status as PolicyStatus,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			department: data.department,
 			review_frequency: data.review_frequency,
 			review_date: data.review_date,
@@ -108,37 +100,6 @@ export function UpdatePolicyOverview({
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<FormField
-						control={form.control}
-						name="ownerId"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>{t("common.assignee.label")}</FormLabel>
-								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-										onOpenChange={() => form.handleSubmit(onSubmit)}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t("common.assignee.placeholder")}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectUser
-												isLoading={false}
-												onSelect={field.onChange}
-												selectedId={field.value}
-												users={users}
-											/>
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
 					<FormField
 						control={form.control}
 						name="status"

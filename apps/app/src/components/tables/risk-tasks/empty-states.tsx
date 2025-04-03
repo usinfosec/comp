@@ -1,9 +1,8 @@
 "use client";
 
-import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -65,8 +64,6 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
 					{t("common.actions.create")}
 				</Button>
 			</div>
-
-			<CreateTaskSheet />
 		</div>
 	);
 }

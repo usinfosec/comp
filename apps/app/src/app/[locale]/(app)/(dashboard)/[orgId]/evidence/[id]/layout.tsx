@@ -1,7 +1,7 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { PathProvider } from "./PathProvider";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { headers } from "next/headers";
 
 export default async function Layout({
 	children,
@@ -11,9 +11,11 @@ export default async function Layout({
 	params: Promise<{ id: string }>;
 }) {
 	const t = await getI18n();
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 	const user = session?.user;
-	const organizationId = user?.organizationId;
+	const organizationId = session?.session.activeOrganizationId;
 	const { id } = await params;
 
 	return (

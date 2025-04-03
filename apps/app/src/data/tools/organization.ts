@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { tool } from "ai";
 import { z } from "zod";
+import { headers } from "next/headers";
 
 export function getOrganizationTools() {
 	return {
@@ -13,17 +14,18 @@ export const findOrganization = tool({
 	description: "Find the users organization and it's details",
 	parameters: z.object({}),
 	execute: async () => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const org = await db.organization.findUnique({
-			where: { id: session.user.organizationId },
+			where: { id: session.session.activeOrganizationId },
 			select: {
 				name: true,
-				website: true,
 			},
 		});
 

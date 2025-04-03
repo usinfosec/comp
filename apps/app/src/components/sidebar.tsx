@@ -1,7 +1,6 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { getOrganizations } from "@/data/getOrganizations";
-import { db } from "@bubba/db";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { MainMenu } from "./main-menu";
 import { OrganizationSwitcher } from "./organization-switcher";
@@ -9,9 +8,10 @@ import { SidebarCollapseButton } from "./sidebar-collapse-button";
 import { SidebarLogo } from "./sidebar-logo";
 
 export async function Sidebar() {
-	const session = await auth();
-	const user = session?.user;
-	const organizationId = user?.organizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+	const organizationId = session?.session.activeOrganizationId;
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
@@ -19,7 +19,6 @@ export async function Sidebar() {
 		redirect("/");
 	}
 
-	const frameworks = await getFrameworks();
 	const { organizations } = await getOrganizations();
 
 	return (
@@ -33,7 +32,7 @@ export async function Sidebar() {
 					{!isCollapsed && <SidebarCollapseButton isCollapsed={isCollapsed} />}
 				</div>
 				<MainMenu
-					userIsAdmin={user?.isAdmin ?? false}
+					//userIsAdmin={user?.isAdmin ?? false}
 					organizationId={organizationId}
 					isCollapsed={isCollapsed}
 				/>
@@ -49,18 +48,9 @@ export async function Sidebar() {
 				<OrganizationSwitcher
 					organizations={organizations}
 					organizationId={organizationId}
-					frameworks={frameworks}
 					isCollapsed={isCollapsed}
 				/>
 			</div>
 		</div>
 	);
 }
-
-const getFrameworks = async () => {
-	return await db.framework.findMany({
-		orderBy: {
-			name: "asc",
-		},
-	});
-};

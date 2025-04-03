@@ -9,20 +9,12 @@ export const STATUS_FILTERS = [
 	{
 		label: "Draft",
 		value: "draft",
-		icon: <XCircle size={16} className="text-red-500" />,
-	},
-] as const;
-
-export const RELEVANCE_FILTERS = [
-	{
-		label: "Relevant",
-		value: "relevant",
-		icon: <CheckCircle2 size={16} className="text-green-500" />,
+		icon: <XCircle size={16} className="text-yellow-500" />,
 	},
 	{
 		label: "Not Relevant",
-		value: "not-relevant",
-		icon: <AlertTriangle size={16} className="text-yellow-500" />,
+		value: "not_relevant",
+		icon: <AlertTriangle size={16} className="text-red-500" />,
 	},
 ] as const;
 

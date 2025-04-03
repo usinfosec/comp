@@ -1,13 +1,13 @@
 "use client";
 
-import { StatusPolicies } from "@/components/status-policies";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
+import { cn } from "@comp/ui/cn";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { AlertTriangle, Building, CheckCircle2 } from "lucide-react";
+import { EVIDENCE_STATUS_HEX_COLORS } from "../../../(overview)/constants/evidence-status";
 import type { EvidenceTaskRow } from "../../types";
-import { Badge } from "@bubba/ui/badge";
 
 export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 	{
@@ -22,9 +22,19 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 			<div className="flex flex-col gap-1">
 				<span className="font-medium truncate">{row.original.name}</span>
 				<div className="md:hidden">
-					<StatusPolicies
-						status={row.original.published ? "published" : "draft"}
-					/>
+					<div className="hidden md:flex gap-2">
+						<div className={cn("flex items-center gap-2")}>
+							<div
+								className={cn("size-2.5")}
+								style={{
+									backgroundColor:
+										EVIDENCE_STATUS_HEX_COLORS[
+											row.original.status ?? "draft"
+										] ?? "  ",
+								}}
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		),
@@ -38,11 +48,23 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 		size: 150,
 		minSize: 120,
 		cell: ({ row }) => {
-			const isPublished = row.original.published;
+			const status = row.original.status;
 
 			return (
 				<div className="hidden md:flex gap-2">
-					<StatusPolicies status={isPublished ? "published" : "draft"} />
+					<div className={cn("flex items-center gap-2")}>
+						<div
+							className={cn("size-2.5")}
+							style={{
+								backgroundColor:
+									EVIDENCE_STATUS_HEX_COLORS[status ?? "draft"] ?? "  ",
+							}}
+						/>
+						{status
+							?.split("_")
+							.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+							.join(" ")}
+					</div>
 				</div>
 			);
 		},
@@ -147,42 +169,14 @@ export const EvidenceListColumns: ColumnDef<EvidenceTaskRow>[] = [
 				<div className="hidden md:flex items-center gap-2">
 					<Avatar className="h-6 w-6">
 						<AvatarImage
-							src={assignee.image || undefined}
-							alt={assignee.name || ""}
+							src={assignee.user.image || undefined}
+							alt={assignee.user.name || ""}
 						/>
 						<AvatarFallback>
-							{assignee.name ? assignee.name.charAt(0) : "?"}
+							{assignee.user.name ? assignee.user.name.charAt(0) : "?"}
 						</AvatarFallback>
 					</Avatar>
-					<span className="truncate text-sm">{assignee.name}</span>
-				</div>
-			);
-		},
-	},
-	{
-		id: "relevance",
-		accessorKey: "isNotRelevant",
-		header: "Relevance",
-		enableResizing: true,
-		enableSorting: false,
-		size: 150,
-		minSize: 120,
-		cell: ({ row }) => {
-			const isNotRelevant = row.original.isNotRelevant;
-
-			if (!isNotRelevant) {
-				return (
-					<div className="flex gap-2 items-center">
-						<CheckCircle2 size={16} className="text-green-500 shrink-0" />
-						<span className="text-sm text-green-600">Relevant</span>
-					</div>
-				);
-			}
-
-			return (
-				<div className="flex gap-2 items-center">
-					<AlertTriangle size={16} className="text-yellow-500 shrink-0" />
-					<span className="text-sm text-yellow-600">Not Relevant</span>
+					<span className="truncate text-sm">{assignee.user.name}</span>
 				</div>
 			);
 		},

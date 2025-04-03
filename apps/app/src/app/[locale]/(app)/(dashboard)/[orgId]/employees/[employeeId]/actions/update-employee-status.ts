@@ -1,84 +1,87 @@
 "use server";
 
-import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { appErrors } from "../types";
-import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 
 const schema = z.object({
-  employeeId: z.string(),
-  isActive: z.boolean(),
+	employeeId: z.string(),
+	isActive: z.boolean(),
 });
 
 export const updateEmployeeStatus = authActionClient
-  .schema(schema)
-  .metadata({
-    name: "update-employee-status",
-    track: {
-      event: "update-employee-status",
-      channel: "server",
-    },
-  })
-  .action(
-    async ({
-      parsedInput,
-    }): Promise<
-      { success: true; data: any } | { success: false; error: any }
-    > => {
-      const { employeeId, isActive } = parsedInput;
+	.schema(schema)
+	.metadata({
+		name: "update-employee-status",
+		track: {
+			event: "update-employee-status",
+			channel: "server",
+		},
+	})
+	.action(
+		async ({
+			parsedInput,
+		}): Promise<
+			{ success: true; data: any } | { success: false; error: any }
+		> => {
+			const { employeeId, isActive } = parsedInput;
 
-      const session = await auth();
-      const organizationId = session?.user.organizationId;
+			const session = await auth.api.getSession({
+				headers: await headers(),
+			});
 
-      if (!organizationId) {
-        return {
-          success: false,
-          error: appErrors.UNAUTHORIZED,
-        };
-      }
+			const organizationId = session?.session.activeOrganizationId;
 
-      try {
-        const employee = await db.employee.findUnique({
-          where: {
-            id: employeeId,
-            organizationId,
-          },
-        });
+			if (!organizationId) {
+				return {
+					success: false,
+					error: appErrors.UNAUTHORIZED,
+				};
+			}
 
-        if (!employee) {
-          return {
-            success: false,
-            error: appErrors.NOT_FOUND,
-          };
-        }
+			try {
+				const employee = await db.member.findUnique({
+					where: {
+						id: employeeId,
+						organizationId,
+					},
+				});
 
-        const updatedEmployee = await db.employee.update({
-          where: {
-            id: employeeId,
-            organizationId,
-          },
-          data: {
-            isActive,
-          },
-        });
+				if (!employee) {
+					return {
+						success: false,
+						error: appErrors.NOT_FOUND,
+					};
+				}
 
-        // Revalidate related paths
-        revalidatePath(`/${organizationId}/employees/${employeeId}`);
-        revalidatePath(`/${organizationId}/employees`);
+				const updatedEmployee = await db.member.update({
+					where: {
+						id: employeeId,
+						organizationId,
+					},
+					data: {
+						isActive,
+					},
+				});
 
-        return {
-          success: true,
-          data: updatedEmployee,
-        };
-      } catch (error) {
-        console.error("Error updating employee status:", error);
-        return {
-          success: false,
-          error: appErrors.UNEXPECTED_ERROR,
-        };
-      }
-    }
-  );
+				// Revalidate related paths
+				revalidatePath(`/${organizationId}/employees/${employeeId}`);
+				revalidatePath(`/${organizationId}/employees`);
+
+				return {
+					success: true,
+					data: updatedEmployee,
+				};
+			} catch (error) {
+				console.error("Error updating employee status:", error);
+				return {
+					success: false,
+					error: appErrors.UNEXPECTED_ERROR,
+				};
+			}
+		},
+	);

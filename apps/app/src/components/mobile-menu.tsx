@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
-import { Sheet, SheetContent } from "@bubba/ui/sheet";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
+import { Sheet, SheetContent } from "@comp/ui/sheet";
 import { useState } from "react";
 import { MainMenu } from "./main-menu";
 
@@ -11,7 +11,7 @@ export function MobileMenu({
 	isAdmin,
 }: {
 	organizationId: string;
-	isAdmin: boolean;
+	isAdmin?: boolean;
 }) {
 	const [isOpen, setOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export function MobileMenu({
 					<Icons.Logo />
 				</div>
 
-				<MainMenu organizationId={organizationId} userIsAdmin={isAdmin} />
+				<MainMenu organizationId={organizationId} />
 			</SheetContent>
 		</Sheet>
 	);

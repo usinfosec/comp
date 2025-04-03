@@ -1,17 +1,18 @@
 "use client";
 
+import { Member } from "@comp/db/types";
+import { useQueryState } from "nuqs";
 import {
 	createContext,
 	useContext,
-	useMemo,
-	useState,
-	useRef,
 	useEffect,
+	useMemo,
+	useRef,
+	useState,
 	type ReactNode,
 } from "react";
-import { useQueryState } from "nuqs";
 import { useEmployees } from "../../../hooks/useEmployees";
-import type { AppError } from "../../../types";
+import { type EmployeeWithUser } from "../columns";
 
 interface EmployeesTableContextType {
 	// State
@@ -23,7 +24,7 @@ interface EmployeesTableContextType {
 	setPage: (value: number) => void;
 	per_page: number;
 	setPerPage: (value: number) => void;
-	employees: any[];
+	employees: EmployeeWithUser[];
 	total: number;
 	isLoading: boolean;
 	isSearching: boolean;

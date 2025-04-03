@@ -1,21 +1,42 @@
 import { Onboarding } from "@/components/forms/create-organization-form";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { AcceptInvite } from "./components/accept-invite";
 
 export const metadata: Metadata = {
-	title: "Organization Setup | Comp AI",
+  title: "Organization Setup | Comp AI",
 };
 
 export default async function Page() {
-	const frameworks = await getFrameworks();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	return <Onboarding frameworks={frameworks} />;
+  const hasInvite = await db.invitation.findFirst({
+    where: {
+      email: session?.user.email,
+      status: "pending",
+    },
+  });
+
+  if (!session?.session) {
+    redirect("/auth");
+  }
+
+  if (session.session.activeOrganizationId) {
+    redirect("/");
+  }
+
+  if (hasInvite) {
+    return (
+      <AcceptInvite
+        inviteCode={hasInvite.id}
+      />
+    );
+  }
+
+  return <Onboarding />;
 }
-
-const getFrameworks = async () => {
-	return await db.framework.findMany({
-		orderBy: {
-			name: "asc",
-		},
-	});
-};

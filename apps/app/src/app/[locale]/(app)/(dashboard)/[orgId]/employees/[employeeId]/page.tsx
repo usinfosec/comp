@@ -1,10 +1,13 @@
-import { auth } from "@/auth";
+import { cache } from "react";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
+import { trainingVideos as trainingVideosData } from "@comp/data";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { EmployeeDetails } from "./components/EmployeeDetails";
-import { db } from "@bubba/db";
+import { headers } from "next/headers";
 
 export default async function EmployeeDetailsPage({
 	params,
@@ -14,23 +17,31 @@ export default async function EmployeeDetailsPage({
 	const { locale, employeeId } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
 	const policies = await getPoliciesTasks(employeeId);
-	const trainingVideos = await getTrainingVideos(employeeId);
-	const portalEmployeeId = await getPortalEmployeeId(employeeId);
+	const employeeTrainingVideos = await getTrainingVideos(employeeId);
+	const employee = await getEmployee(employeeId);
+
+	// If employee doesn't exist, show 404 page
+	if (!employee) {
+		notFound();
+	}
 
 	return (
 		<EmployeeDetails
 			employeeId={employeeId}
-			portalEmployeeId={portalEmployeeId?.id ?? ""}
+			employee={employee}
 			policies={policies}
-			trainingVideos={trainingVideos}
+			trainingVideos={employeeTrainingVideos}
 		/>
 	);
 }
@@ -50,76 +61,89 @@ export async function generateMetadata({
 	};
 }
 
-const getPortalEmployeeId = async (employeeId: string) => {
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+const getEmployee = cache(async (employeeId: string) => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const employee = await db.employee.findFirst({
+	const employee = await db.member.findFirst({
 		where: {
 			id: employeeId,
 		},
-	});
-
-	const portalEmployeeId = await db.portalUser.findFirst({
-		where: {
-			email: employee?.email,
+		include: {
+			user: true,
 		},
 	});
 
-	return portalEmployeeId;
-};
+	return employee;
+});
 
-const getPoliciesTasks = async (employeeId: string) => {
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+const getPoliciesTasks = cache(async (employeeId: string) => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const policies = await db.organizationPolicy.findMany({
+	const policies = await db.policy.findMany({
 		where: {
 			organizationId: organizationId,
 			isRequiredToSign: true,
 		},
 		orderBy: {
-			policy: {
-				name: "asc",
-			},
-		},
-		include: {
-			policy: true,
+			name: "asc",
 		},
 	});
 
 	return policies;
-};
+});
 
 const getTrainingVideos = async (employeeId: string) => {
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
 		redirect("/");
 	}
 
-	const trainingVideos = await db.organizationTrainingVideos.findMany({
-		where: {
-			organizationId: organizationId,
-		},
-		orderBy: {
-			trainingVideo: {
-				title: "asc",
+	const employeeTrainingVideos =
+		await db.employeeTrainingVideoCompletion.findMany({
+			where: {
+				memberId: employeeId,
 			},
-		},
-		include: {
-			trainingVideo: true,
-		},
+			orderBy: {
+				videoId: "asc",
+			},
+		});
+
+	console.log({
+		employeeTrainingVideos,
 	});
 
-	return trainingVideos;
+	// Map the db records to include the matching metadata from the training videos data
+	return employeeTrainingVideos.map((dbVideo) => {
+		// Find the training video metadata with the matching ID
+		const videoMetadata = trainingVideosData.find(
+			(metadataVideo) => metadataVideo.id === dbVideo.videoId,
+		);
+
+		// Return the combined object with the correct structure
+		return {
+			...dbVideo,
+			metadata: videoMetadata,
+		};
+	});
 };

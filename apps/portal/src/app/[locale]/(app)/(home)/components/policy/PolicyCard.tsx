@@ -1,7 +1,7 @@
 "use client";
 
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { OrganizationPolicy, Policy } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
@@ -9,7 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 	CardFooter,
-} from "@bubba/ui/card";
+} from "@comp/ui/card";
 import type { JSONContent } from "@tiptap/react";
 import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";

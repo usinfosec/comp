@@ -1,6 +1,6 @@
 import { getI18n } from "@/locales/server";
-import { Button } from "@bubba/ui/button";
-import { Card } from "@bubba/ui/card";
+import { Button } from "@comp/ui/button";
+import { Card } from "@comp/ui/card";
 import Link from "next/link";
 
 export default async function UnauthorizedPage() {

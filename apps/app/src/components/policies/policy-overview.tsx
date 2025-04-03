@@ -1,49 +1,42 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy, User } from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Icons } from "@bubba/ui/icons";
-import { ArchiveIcon, PencilIcon, ArchiveRestoreIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { PolicyOverviewSheet } from "./sheets/policy-overview-sheet";
-import { UpdatePolicyOverview } from "../forms/policies/policy-overview";
-import { PolicyArchiveSheet } from "./sheets/policy-archive-sheet";
+import type { Member, Policy, User } from "@comp/db/types";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Icons } from "@comp/ui/icons";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
+import { ArchiveIcon, ArchiveRestoreIcon, PencilIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { UpdatePolicyOverview } from "../forms/policies/UpdatePolicyOverview";
+import { PolicyArchiveSheet } from "./sheets/policy-archive-sheet";
+import { PolicyOverviewSheet } from "./sheets/policy-overview-sheet";
 
 export function PolicyOverview({
 	policy,
-	users,
+	assignees,
 }: {
-	policy: OrganizationPolicy & {
-		policy: Policy;
-	};
-	users: User[];
+	policy: Policy | null;
+	assignees: (Member & { user: User })[];
 }) {
 	const t = useI18n();
-	const router = useRouter();
-	const [open, setOpen] = useQueryState("policy-overview-sheet");
-	const [archiveOpen, setArchiveOpen] = useQueryState("archive-policy-sheet");
+	const [, setOpen] = useQueryState("policy-overview-sheet");
+	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
 
 	return (
 		<div className="space-y-4">
-			{policy.isArchived && (
-				<Alert
-					variant="destructive"
-					className="bg-muted border-muted-foreground/10 text-foreground"
-				>
+			{policy?.isArchived && (
+				<Alert>
 					<div className="flex items-center gap-2">
 						<ArchiveIcon className="h-4 w-4" />
 						<div className="font-medium">{t("policies.archive.status")}</div>
 					</div>
 					<AlertDescription className="mt-1 mb-3 text-sm text-muted-foreground">
-						{policy.archivedAt && (
+						{policy?.isArchived && (
 							<>
 								{t("policies.archive.archived_on")}{" "}
-								{format(new Date(policy.archivedAt), "PPP")}
+								{format(new Date(policy?.updatedAt ?? new Date()), "PPP")}
 							</>
 						)}
 					</AlertDescription>
@@ -63,7 +56,7 @@ export function PolicyOverview({
 				<Icons.Policies className="h-4 w-4" />
 				<AlertTitle>
 					<div className="flex items-center justify-between gap-2">
-						{policy.policy.name}
+						{policy?.name}
 						<div className="flex gap-2">
 							<Button
 								size="icon"
@@ -71,12 +64,12 @@ export function PolicyOverview({
 								className="p-0 m-0 size-auto"
 								onClick={() => setArchiveOpen("true")}
 								title={
-									policy.isArchived
+									policy?.isArchived
 										? t("policies.archive.restore_tooltip")
 										: t("policies.archive.tooltip")
 								}
 							>
-								{policy.isArchived ? (
+								{policy?.isArchived ? (
 									<ArchiveRestoreIcon className="h-3 w-3" />
 								) : (
 									<ArchiveIcon className="h-3 w-3" />
@@ -95,7 +88,7 @@ export function PolicyOverview({
 					</div>
 				</AlertTitle>
 				<AlertDescription className="mt-4">
-					{policy.policy.description}
+					{policy?.description}
 				</AlertDescription>
 			</Alert>
 
@@ -108,12 +101,18 @@ export function PolicyOverview({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<UpdatePolicyOverview organizationPolicy={policy} users={users} />
+					{policy && (
+						<UpdatePolicyOverview policy={policy} assignees={assignees} />
+					)}
 				</CardContent>
 			</Card>
 
-			<PolicyOverviewSheet policy={policy} />
-			<PolicyArchiveSheet policy={policy} />
+			{policy && (
+				<>
+					<PolicyOverviewSheet policy={policy} />
+					<PolicyArchiveSheet policy={policy} />
+				</>
+			)}
 		</div>
 	);
 }

@@ -5,203 +5,40 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
-model Account {
-  id                       String  @id @default(cuid())
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?
-  access_token             String?
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?
-  session_state            String?
-  refresh_token_expires_in Int?
-  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+model ApiKey {
+  id         String    @id @default(dbgenerated("generate_prefixed_cuid('apk'::text)"))
+  name       String
+  key        String    @unique
+  salt       String?
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  lastUsedAt DateTime?
+  isActive   Boolean   @default(true)
 
-  @@unique([provider, providerAccountId])
-  @@index([userId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
-model User {
-  id                             String                                   @id @default(cuid())
-  name                           String?
-  full_name                      String?
-  email                          String?                                  @unique
-  emailVerified                  DateTime?
-  image                          String?
-  lastLogin                      DateTime?
-  organizationId                 String?
-  accounts                       Account[]
-  Artifact                       Artifact[]
-  AuditLog                       AuditLog[]
-  Employee                       Employee[]
-  AssignedEvidence               OrganizationEvidence[]
-  organizationMemberships        OrganizationMember[]
-  Risk                           Risk[]
-  RiskAttachment                 RiskAttachment[]
-  RiskComment                    RiskComment[]
-  RiskMitigationTask             RiskMitigationTask[]
-  sessions                       Session[]
-  TaskAttachment                 TaskAttachment[]
-  TaskComments                   TaskComments[]
-  PolicyComments                 PolicyComments[]
-  organization                   Organization?                            @relation("CurrentOrganization", fields: [organizationId], references: [id])
-  OrganizationPolicy             OrganizationPolicy[]
-  OrganizationIntegrationResults OrganizationIntegrationResults[]
-  IntegrationResultsComments     OrganizationIntegrationResultsComments[]
-  Vendor                         Vendor[]
-  VendorComment                  VendorComment[]
-  VendorAttachment               VendorAttachment[]
-  VendorTask                     VendorTask[]
-  VendorTaskAttachment           VendorTaskAttachment[]
-  VendorTaskComment              VendorTaskComment[]
-
-  @@index([email])
-  @@index([organizationId])
-}
-
-model Organization {
-  id                             String                                   @id @default(cuid())
-  stripeCustomerId               String?
-  name                           String
-  setup                          Boolean                                  @default(false)
-  website                        String
-  tier                           Tier                                     @default(free)
-  policiesCreated                Boolean                                  @default(false)
-  frameworkId                    String?
-  Artifact                       Artifact[]
-  AuditLog                       AuditLog[]
-  employees                      Employee[]
-  Framework                      Framework?                               @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
-  OrganizationCategory           OrganizationCategory[]
-  OrganizationControl            OrganizationControl[]
-  OrganizationEvidence           OrganizationEvidence[]
-  OrganizationFramework          OrganizationFramework[]
-  OrganizationIntegrations       OrganizationIntegrations[]
-  members                        OrganizationMember[]
-  OrganizationPolicy             OrganizationPolicy[]
-  Risk                           Risk[]
-  RiskAttachment                 RiskAttachment[]
-  RiskComment                    RiskComment[]
-  RiskMitigationTask             RiskMitigationTask[]
-  TaskAttachment                 TaskAttachment[]
-  TaskComments                   TaskComments[]
-  PolicyComments                 PolicyComments[]
-  users                          User[]                                   @relation("CurrentOrganization")
-  PortalUser                     PortalUser[]
-  apiKeys                        OrganizationApiKey[]
-  OrganizationIntegrationResults OrganizationIntegrationResults[]
-  IntegrationResultsComments     OrganizationIntegrationResultsComments[]
-  IntegrationLastRun             IntegrationLastRun[]
-  vendors                        Vendor[]
-  VendorContact                  VendorContact[]
-  VendorComment                  VendorComment[]
-  VendorAttachment               VendorAttachment[]
-  VendorTask                     VendorTask[]
-  VendorTaskAttachment           VendorTaskAttachment[]
-  VendorTaskComment              VendorTaskComment[]
-  VendorTaskAssignment           VendorTaskAssignment[]
-  OrganizationTrainingVideos     OrganizationTrainingVideos[]
-
-  @@index([stripeCustomerId])
-  @@index([id])
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-model OrganizationMember {
-  id             String         @id @default(cuid())
-  role           MembershipRole @default(member)
-  invitedEmail   String?
-  inviteCode     String?
-  accepted       Boolean        @default(false)
-  department     Departments    @default(none)
-  joinedAt       DateTime       @default(now())
-  lastActive     DateTime?
-  userId         String
-  organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, organizationId])
-  @@index([organizationId])
-  @@index([userId])
-}
-
-model OrganizationApiKey {
-  id             String       @id @default(cuid())
-  name           String
-  key            String       @unique
-  salt           String?
-  createdAt      DateTime     @default(now())
-  expiresAt      DateTime?
-  lastUsedAt     DateTime?
-  organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  isActive       Boolean      @default(true)
+  organizationId String
 
   @@index([organizationId])
   @@index([key])
 }
 
-model OrganizationIntegrations {
-  id             String                           @id @default(cuid())
-  name           String                           @unique
-  integration_id String
-  settings       Json
-  user_settings  Json
-  organizationId String
-  organization   Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  results        OrganizationIntegrationResults[]
-  lastRuns       IntegrationLastRun[]
-
-  @@index([organizationId])
-}
-
 model AuditLog {
-  id             String       @id @default(cuid())
-  timestamp      DateTime     @default(now())
+  id             String   @id @default(dbgenerated("generate_prefixed_cuid('aud'::text)"))
+  timestamp      DateTime @default(now())
   userId         String
   organizationId String
   data           Json
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([organizationId])
-}
-
-enum Tier {
-  free
-  pro
-}
-
-enum Role {
-  member
-  admin
 }
 
 enum Departments {
@@ -214,163 +51,24 @@ enum Departments {
   qms
 }
 
-enum RequirementType {
-  policy
-  file
-  link
-  procedure
-  evidence
-  training
-}
-
 enum Frequency {
   monthly
   quarterly
   yearly
 }
 
-enum FrameworkStatus {
-  not_started
-  in_progress
-  compliant
-  non_compliant
+enum Likelihood {
+  very_unlikely
+  unlikely
+  possible
+  likely
+  very_likely
 }
 
-enum ComplianceStatus {
-  not_started
-  in_progress
-  compliant
-  non_compliant
-}
-
-enum ArtifactType {
-  policy
-  evidence
-  procedure
-  training
-}
-
-enum RiskLevel {
-  low
-  medium
-  high
-}
-
-enum RiskCategory {
-  customer
-  governance
-  operations
-  other
-  people
-  regulatory
-  reporting
-  resilience
-  technology
-  vendor_management
-}
-
-enum TreatmentType {
-  accept
-  avoid
-  mitigate
-  transfer
-}
-
-enum RiskStatus {
-  open
-  pending
-  closed
-  archived
-}
-
-enum RiskTaskStatus {
-  open
-  pending
-  closed
-}
-
-enum RiskAttachmentType {
-  file
-  url
-}
-
-enum MembershipRole {
-  owner
-  admin
-  member
-  viewer
-}
-
-enum EmployeeTaskStatus {
-  assigned
-  in_progress
-  completed
-  overdue
-}
-
-enum PolicyStatus {
-  draft
-  published
-  needs_review
-}
-
-enum RiskLikelihood {
-  very_low
-  low
-  medium
-  high
-  very_high
-}
-
-enum RiskImpact {
-  very_low
-  low
-  medium
-  high
-  very_high
-}
-
-enum VendorCategory {
-  cloud
-  infrastructure
-  software_as_a_service
-  finance
-  marketing
-  sales
-  hr
-  other
-}
-
-enum VendorStatus {
-  not_assessed
-  in_progress
-  assessed
-}
-
-enum VendorInherentRisk {
-  low
-  medium
-  high
-  unknown
-}
-
-enum VendorResidualRisk {
-  low
-  medium
-  high
-  unknown
-}
-
-enum VendorTaskStatus {
-  open
-  in_progress
-  completed
-  cancelled
-}
-
-enum VendorAttachmentType {
-  file
-  image
-  document
-  other
+enum Impact {
+  insignificant
+  minor
+  moderate
+  major
+  severe
 }

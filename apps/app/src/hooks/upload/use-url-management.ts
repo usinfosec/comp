@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useToast } from "@bubba/ui/use-toast";
+import { useToast } from "@comp/ui/use-toast";
 import { updateEvidenceUrls } from "@/actions/files/update-urls";
 import type { ActionResponse } from "@/actions/types";
 

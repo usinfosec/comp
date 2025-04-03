@@ -1,38 +1,14 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { z } from "zod";
-import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 import { UPLOAD_TYPE } from "@/actions/types";
 
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
 	throw new Error("AWS credentials are not set");
 }
-
-const s3Client = new S3Client({
-	region: process.env.AWS_REGION!,
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-	},
-});
-
-// Extract S3 key from fileUrl
-function extractKeyFromUrl(url: string): string | null {
-	try {
-		const urlObj = new URL(url);
-		const pathname = urlObj.pathname;
-		// Remove the leading slash
-		return pathname.startsWith("/") ? pathname.substring(1) : pathname;
-	} catch (error) {
-		console.error("Error extracting key from URL:", error);
-		return null;
-	}
-}
-
-type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
 const schema = z.discriminatedUnion("uploadType", [
 	z.object({
@@ -73,10 +49,10 @@ export const deleteFile = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }): Promise<ActionResponse> => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { uploadType, fileUrl } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -87,10 +63,10 @@ export const deleteFile = authActionClient
 			if (uploadType === UPLOAD_TYPE.evidence) {
 				const evidenceId = parsedInput.evidenceId;
 
-				const evidence = await db.organizationEvidence.findFirst({
+				const evidence = await db.evidence.findFirst({
 					where: {
 						id: evidenceId,
-						organizationId: user.organizationId,
+						organizationId: session.activeOrganizationId,
 					},
 				});
 
@@ -101,112 +77,12 @@ export const deleteFile = authActionClient
 					};
 				}
 
-				await db.organizationEvidence.update({
+				await db.evidence.update({
 					where: { id: evidenceId },
 					data: {
 						fileUrls: {
 							set: evidence.fileUrls.filter((url) => url !== fileUrl),
 						},
-					},
-				});
-
-				return {
-					success: true,
-				};
-			}
-
-			if (uploadType === UPLOAD_TYPE.riskTask) {
-				const taskId = parsedInput.taskId;
-
-				const task = await db.riskMitigationTask.findFirst({
-					where: {
-						id: taskId,
-						organizationId: user.organizationId,
-						TaskAttachment: {
-							some: {
-								fileUrl,
-							},
-						},
-					},
-				});
-
-				if (!task) {
-					return {
-						success: false,
-						error: "Task not found",
-					};
-				}
-
-				await db.riskMitigationTask.update({
-					where: { id: taskId },
-					data: {
-						TaskAttachment: {
-							deleteMany: {
-								fileUrl,
-							},
-						},
-					},
-				});
-
-				return {
-					success: true,
-				};
-			}
-
-			if (uploadType === UPLOAD_TYPE.vendorTask) {
-				const taskId = parsedInput.taskId;
-				const fileUrl = parsedInput.fileUrl;
-
-				const fileUrlWithoutQuery = fileUrl.split("?")[0];
-
-				const task = await db.vendorTask.findFirst({
-					where: {
-						id: taskId,
-						organizationId: user.organizationId,
-					},
-				});
-
-				if (!task) {
-					return {
-						success: false,
-						error: "Vendor task not found",
-					};
-				}
-
-				const attachment = await db.vendorTaskAttachment.findFirst({
-					where: {
-						taskId: taskId,
-						fileUrl: fileUrlWithoutQuery,
-						organizationId: user.organizationId,
-					},
-				});
-
-				if (!attachment) {
-					return {
-						success: false,
-						error: "Attachment not found",
-					};
-				}
-
-				// Extract key from URL
-				const key = attachment.fileKey || extractKeyFromUrl(fileUrlWithoutQuery);
-
-				if (key) {
-					try {
-						await s3Client.send(
-							new DeleteObjectCommand({
-								Bucket: process.env.AWS_BUCKET_NAME!,
-								Key: key,
-							}),
-						);
-					} catch (error) {
-						console.error("Error deleting from S3:", error);
-					}
-				}
-
-				await db.vendorTaskAttachment.delete({
-					where: {
-						id: attachment.id,
 					},
 				});
 

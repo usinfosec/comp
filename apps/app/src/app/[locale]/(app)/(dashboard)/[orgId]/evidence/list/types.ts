@@ -1,13 +1,12 @@
-import type { OrganizationEvidence } from "@bubba/db/types";
+import type { Evidence } from "@comp/db/types";
 
-export type EvidenceTaskRow = OrganizationEvidence & {
-  evidence: {
-    name: string;
-  };
-  assignee?: {
-    id: string;
-    name: string | null;
-    email: string | null;
-    image: string | null;
-  } | null;
+export type EvidenceTaskRow = Evidence & {
+	assignee?: {
+		id: string;
+		user: {
+			name: string | null;
+			email: string | null;
+			image: string | null;
+		};
+	} | null;
 };

@@ -1,7 +1,0 @@
-{
-  "id": "deficiency_management_records",
-  "name": "Deficiency Management Records",
-  "description": "Deficiency logs, remediation plans, and follow-up audit reports. Provide Deficiency Management Procedures document that outlines documenting, tracking, and remediating control deficiencies.",
-  "frequency": "quarterly",
-  "department": "gov"
-}

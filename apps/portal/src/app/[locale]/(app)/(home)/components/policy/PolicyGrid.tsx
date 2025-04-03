@@ -1,8 +1,8 @@
 "use client";
 
 import type { Session } from "@/app/lib/auth";
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import type { OrganizationPolicy, Policy } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Check } from "lucide-react";
 
 interface PolicyGridProps {

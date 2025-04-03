@@ -3,8 +3,8 @@ import { AssignedUser } from "@/components/assigned-user";
 import { Status, type StatusType } from "@/components/status";
 import { StatusDate } from "@/components/status-date";
 import { useI18n } from "@/locales/client";
-import type { RiskTaskStatus } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { RiskStatus } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -13,7 +13,7 @@ export type RiskTaskType = {
 	id: string;
 	riskId: string;
 	title: string;
-	status: RiskTaskStatus;
+	status: RiskStatus;
 	dueDate: string;
 	ownerId: string;
 	owner: {

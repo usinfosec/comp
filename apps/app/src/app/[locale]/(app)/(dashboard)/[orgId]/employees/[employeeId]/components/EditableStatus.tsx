@@ -7,8 +7,8 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Button } from "@bubba/ui/button";
+} from "@comp/ui/select";
+import { Button } from "@comp/ui/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateEmployeeStatus } from "../actions/update-employee-status";

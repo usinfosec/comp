@@ -1,15 +1,16 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
-import { MembershipRole, Departments } from "@prisma/client";
+import { Departments, Role } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { authClient } from "@comp/auth";
 
 const updateMemberRoleSchema = z.object({
 	memberId: z.string(),
-	role: z.nativeEnum(MembershipRole),
+	role: z.nativeEnum(Role),
 	department: z.nativeEnum(Departments).optional(),
 });
 
@@ -27,7 +28,7 @@ export const updateMemberRole = authActionClient
 			parsedInput,
 			ctx,
 		}): Promise<ActionResponse<{ updated: boolean }>> => {
-			if (!ctx.user.organizationId) {
+			if (!ctx.session.activeOrganizationId) {
 				return {
 					success: false,
 					error: "User does not have an organization",
@@ -38,18 +39,14 @@ export const updateMemberRole = authActionClient
 
 			try {
 				// Check if user has admin permissions
-				const currentUserMember = await db.organizationMember.findFirst({
+				const currentUserMember = await db.member.findFirst({
 					where: {
-						organizationId: ctx.user.organizationId,
+						organizationId: ctx.session.activeOrganizationId,
 						userId: ctx.user.id,
 					},
 				});
 
-				if (
-					!currentUserMember ||
-					(currentUserMember.role !== MembershipRole.admin &&
-						currentUserMember.role !== MembershipRole.owner)
-				) {
+				if (!currentUserMember || currentUserMember.role !== Role.admin) {
 					return {
 						success: false,
 						error: "You don't have permission to update member roles",
@@ -57,10 +54,10 @@ export const updateMemberRole = authActionClient
 				}
 
 				// Check if the target member exists in the organization
-				const targetMember = await db.organizationMember.findFirst({
+				const targetMember = await db.member.findFirst({
 					where: {
-						id: memberId,
-						organizationId: ctx.user.organizationId,
+						id: memberId ?? "",
+						organizationId: ctx.session.activeOrganizationId,
 					},
 				});
 
@@ -71,23 +68,10 @@ export const updateMemberRole = authActionClient
 					};
 				}
 
-				// Prevent changing the role of the owner
-				if (targetMember.role === MembershipRole.owner) {
-					return {
-						success: false,
-						error: "Cannot change the role of the organization owner",
-					};
-				}
-
-				// Update the member's role
-				await db.organizationMember.update({
-					where: {
-						id: memberId,
-					},
-					data: {
-						role,
-						...(department ? { department } : {}),
-					},
+				await authClient.organization.updateMemberRole({
+					memberId: targetMember.userId,
+					role: role,
+					organizationId: ctx.session.activeOrganizationId ?? "",
 				});
 
 				revalidatePath("/settings/members");

@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { Check, ArrowRight } from "lucide-react";
 import type {
 	OrganizationTrainingVideos,
 	PortalTrainingVideos,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 import { useState } from "react";
 
 interface YoutubeEmbedProps {

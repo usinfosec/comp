@@ -1,7 +1,0 @@
-{
-  "id": "capacity_reports",
-  "name": "Capacity Reports",
-  "description": "Capacity reports, trend analysis, and resource utilization logs. Provide procedure for capacity analysis, resource allocation, and performance tuning.",
-  "frequency": "quarterly",
-  "department": "it"
-}

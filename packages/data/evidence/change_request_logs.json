@@ -1,7 +1,0 @@
-{
-  "id": "change_request_logs",
-  "name": "Change Request Logs",
-  "description": "Change request logs, approval records, and post-change review reports. Provide procedure for submitting, reviewing, and approving changes, including emergency change processes.",
-  "frequency": "yearly",
-  "department": "itsm"
-}

@@ -1,25 +1,26 @@
 "use server";
 
-import { db } from "@bubba/db";
-import { auth } from "@/auth";
+import { db } from "@comp/db";
+import { auth } from "@comp/auth";
+import { headers } from "next/headers";
 
 export async function getOrganizations() {
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	const user = session?.user;
 
 	if (!user) {
 		throw new Error("Not authenticated");
 	}
 
-	const memberOrganizations = await db.organizationMember.findMany({
+	const memberOrganizations = await db.member.findMany({
 		where: {
 			userId: user.id,
 			OR: [
 				{
-					accepted: true,
-				},
-				{
-					role: "owner",
+					isActive: true,
 				},
 			],
 		},

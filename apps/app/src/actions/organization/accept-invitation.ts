@@ -1,138 +1,142 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "../safe-action";
 import type { ActionResponse } from "../types";
 
 async function validateInviteCode(inviteCode: string, invitedEmail: string) {
-  const pendingInvitation = await db.organizationMember.findFirst({
-    where: {
-      accepted: false,
-      invitedEmail,
-      inviteCode,
-    },
-    include: {
-      organization: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+	const pendingInvitation = await db.invitation.findFirst({
+		where: {
+			status: "pending",
+			email: invitedEmail,
+			id: inviteCode,
+		},
+		include: {
+			organization: {
+				select: {
+					id: true,
+					name: true,
+				},
+			},
+		},
+	});
 
-  return pendingInvitation;
+	return pendingInvitation;
 }
 
 const completeInvitationSchema = z.object({
-  inviteCode: z.string(),
+	inviteCode: z.string(),
 });
 
 export const completeInvitation = authActionClient
-  .metadata({
-    name: "complete-invitation",
-    track: {
-      event: "complete_invitation",
-      channel: "organization",
-    },
-  })
-  .schema(completeInvitationSchema)
-  .action(
-    async ({
-      parsedInput,
-      ctx,
-    }): Promise<
-      ActionResponse<{
-        accepted: boolean;
-        organizationId: string;
-      }>
-    > => {
-      const { inviteCode } = parsedInput;
-      const user = ctx.user;
+	.metadata({
+		name: "complete-invitation",
+		track: {
+			event: "complete_invitation",
+			channel: "organization",
+		},
+	})
+	.schema(completeInvitationSchema)
+	.action(
+		async ({
+			parsedInput,
+			ctx,
+		}): Promise<
+			ActionResponse<{
+				accepted: boolean;
+				organizationId: string;
+			}>
+		> => {
+			const { inviteCode } = parsedInput;
+			const user = ctx.user;
 
-      if (!user || !user.email) {
-        throw new Error("Unauthorized");
-      }
+			if (!user || !user.email) {
+				throw new Error("Unauthorized");
+			}
 
-      try {
-        const invitation = await validateInviteCode(inviteCode, user.email);
+			try {
+				const invitation = await validateInviteCode(inviteCode, user.email);
 
-        if (!invitation) {
-          throw new Error("Invitation either used or expired");
-        }
+				if (!invitation) {
+					throw new Error("Invitation either used or expired");
+				}
 
-        const existingMembership = await db.organizationMember.findFirst({
-          where: {
-            userId: user.id,
-            organizationId: invitation.organizationId,
-          },
-        });
+				const existingMembership = await db.member.findFirst({
+					where: {
+						userId: user.id,
+						organizationId: invitation.organizationId,
+					},
+				});
 
-        if (existingMembership) {
-          if (user.organizationId !== invitation.organizationId) {
-            await db.user.update({
-              where: { id: user.id },
-              data: {
-                organizationId: invitation.organizationId,
-              },
-            });
+				if (existingMembership) {
+					if (ctx.session.activeOrganizationId !== invitation.organizationId) {
+						await db.session.update({
+							where: { id: ctx.session.id },
+							data: {
+								activeOrganizationId: invitation.organizationId,
+							},
+						});
+					}
 
-            await db.organizationMember.update({
-              where: { id: existingMembership.id },
-              data: {
-                accepted: true,
-                invitedEmail: null,
-                inviteCode: null,
-              },
-            });
-          }
+					await db.invitation.update({
+						where: { id: invitation.id },
+						data: {
+							status: "accepted",
+						},
+					});
 
-          return {
-            success: true,
-            data: {
-              accepted: true,
-              organizationId: invitation.organizationId,
-            },
-          };
-        }
+					return {
+						success: true,
+						data: {
+							accepted: true,
+							organizationId: invitation.organizationId,
+						},
+					};
+				}
 
-        await db.organizationMember.update({
-          where: {
-            id: invitation.id,
-          },
-          data: {
-            accepted: true,
-            userId: user.id,
-            invitedEmail: null,
-            inviteCode: null,
-          },
-        });
+				await db.member.create({
+					data: {
+						userId: user.id,
+						organizationId: invitation.organizationId,
+						role: invitation.role || "member",
+						department: "none",
+					},
+				});
 
-        await db.user.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            organizationId: invitation.organizationId,
-          },
-        });
+				await db.invitation.update({
+					where: {
+						id: invitation.id,
+					},
+					data: {
+						status: "accepted",
+					},
+				});
 
-        revalidatePath(`/${invitation.organization.id}`);
-        revalidatePath(`/${invitation.organization.id}/settings/members`);
-        revalidateTag(`user_${user.id}`);
+				await db.session.update({
+					where: {
+						id: ctx.session.id,
+					},
+					data: {
+						activeOrganizationId: invitation.organizationId,
+					},
+				});
 
-        return {
-          success: true,
-          data: {
-            accepted: true,
-            organizationId: invitation.organizationId,
-          },
-        };
-      } catch (error) {
-        console.error("Error accepting invitation:", error);
-        throw new Error(error as string);
-      }
-    }
-  );
+				revalidatePath(`/${invitation.organization.id}`);
+				revalidatePath(`/${invitation.organization.id}/settings/members`);
+				revalidateTag(`user_${user.id}`);
+
+				return {
+					success: true,
+					data: {
+						accepted: true,
+						organizationId: invitation.organizationId,
+					},
+				};
+			} catch (error) {
+				console.error("Error accepting invitation:", error);
+				throw new Error(error as string);
+			}
+		},
+	);

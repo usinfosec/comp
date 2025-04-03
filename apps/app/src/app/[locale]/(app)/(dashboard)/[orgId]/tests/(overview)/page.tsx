@@ -1,11 +1,13 @@
-import { auth } from "@/auth";
+import { cache } from "react";
+import { auth } from "@comp/auth";
 import { TestsSeverity } from "@/components/tests/charts/tests-severity";
 import { TestsByAssignee } from "@/components/tests/charts/tests-by-assignee";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export default async function TestsOverview({
 	params,
@@ -15,16 +17,18 @@ export default async function TestsOverview({
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session?.activeOrganizationId) {
 		redirect("/onboarding");
 	}
 
-	const overview = await getTestsOverview(session.user.organizationId);
+	const overview = await getTestsOverview(session.session.activeOrganizationId);
 
 	if (overview?.totalTests === 0) {
-		redirect(`/${session.user.organizationId}/tests/all`);
+		redirect(`/${session.session.activeOrganizationId}/tests/all`);
 	}
 
 	return (
@@ -38,13 +42,15 @@ export default async function TestsOverview({
 					highSeverityTests={overview.highSeverityTests}
 					criticalSeverityTests={overview.criticalSeverityTests}
 				/>
-				<TestsByAssignee organizationId={session.user.organizationId} />
+				<TestsByAssignee
+					organizationId={session.session.activeOrganizationId}
+				/>
 			</div>
 		</div>
 	);
 }
 
-const getTestsOverview = async (organizationId: string) => {
+const getTestsOverview = cache(async (organizationId: string) => {
 	return await db.$transaction(async (tx) => {
 		const [
 			totalTests,
@@ -54,36 +60,36 @@ const getTestsOverview = async (organizationId: string) => {
 			highSeverityTests,
 			criticalSeverityTests,
 		] = await Promise.all([
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "INFO",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "LOW",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "MEDIUM",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "HIGH",
 				},
 			}),
-			tx.organizationIntegrationResults.count({
+			tx.integrationResult.count({
 				where: {
 					organizationId,
 					severity: "CRITICAL",
@@ -100,7 +106,7 @@ const getTestsOverview = async (organizationId: string) => {
 			criticalSeverityTests,
 		};
 	});
-};
+});
 
 export async function generateMetadata({
 	params,

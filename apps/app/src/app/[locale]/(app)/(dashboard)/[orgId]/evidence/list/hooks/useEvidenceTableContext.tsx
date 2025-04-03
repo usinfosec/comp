@@ -10,11 +10,11 @@ import {
 	type ReactNode,
 } from "react";
 import { useQueryState } from "nuqs";
-import type { Frequency, Departments } from "@bubba/db/types";
+import type { Frequency, Departments, EvidenceStatus } from "@comp/db/types";
 import { useOrganizationEvidenceTasks } from "../../hooks/useEvidenceTasks";
 import { ALL_DEPARTMENTS } from "../../constants";
 import { ALL_FREQUENCIES } from "../../constants";
-import type { EvidenceTaskRow } from "../components/table";
+import type { EvidenceTaskRow } from "../types";
 
 interface Assignee {
 	id: string;
@@ -31,22 +31,20 @@ interface Filter {
 interface EvidenceTableContextType {
 	// State
 	search: string;
-	status: string | null;
-	frequency: string | null;
-	department: string | null;
+	status: EvidenceStatus | null;
+	frequency: Frequency | null;
+	department: Departments | null;
 	assigneeId: string | null;
-	relevance: string | null;
 	page: string;
 	pageSize: string;
 	filters: Filter[];
 
 	// Setters
 	setSearch: (value: string) => void;
-	setStatus: (value: string | null) => void;
-	setFrequency: (value: string | null) => void;
-	setDepartment: (value: string | null) => void;
+	setStatus: (value: EvidenceStatus | null) => void;
+	setFrequency: (value: Frequency | null) => void;
+	setDepartment: (value: Departments | null) => void;
 	setAssigneeId: (value: string | null) => void;
-	setRelevance: (value: string | null) => void;
 	setPage: (value: string) => void;
 	setPageSize: (value: string) => void;
 	setFilters: (filters: Filter[]) => void;
@@ -85,22 +83,31 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 	const [search, setSearch] = useState("");
 
 	// Query state for other filters
-	const [status, setStatus] = useQueryState("status");
-	const [frequency, setFrequency] = useQueryState("frequency");
-	const [department, setDepartment] = useQueryState("department");
+	const [statusQuery, setStatusQuery] = useQueryState("status");
+	const [frequencyQuery, setFrequencyQuery] = useQueryState("frequency");
+	const [departmentQuery, setDepartmentQuery] = useQueryState("department");
 	const [assigneeId, setAssigneeId] = useQueryState("assigneeId");
-	const [relevance, setRelevance] = useQueryState("relevance");
 	const [page, setPage] = useQueryState("page", { defaultValue: "1" });
 	const [pageSize, setPageSize] = useQueryState("pageSize", {
 		defaultValue: "10",
 	});
 
+	// Type-safe status, frequency, and department
+	const status = statusQuery as EvidenceStatus | null;
+	const frequency = frequencyQuery as Frequency | null;
+	const department = departmentQuery as Departments | null;
+
+	// Type-safe setters
+	const setStatus = (value: EvidenceStatus | null) => setStatusQuery(value);
+	const setFrequency = (value: Frequency | null) => setFrequencyQuery(value);
+	const setDepartment = (value: Departments | null) =>
+		setDepartmentQuery(value);
+
 	// Filter state
 	const [filters, setFilters] = useState<Filter[]>([
 		{ label: "Published", value: "published", checked: false },
 		{ label: "Draft", value: "draft", checked: false },
-		{ label: "Relevant", value: "relevant", checked: false },
-		{ label: "Not Relevant", value: "not-relevant", checked: false },
+		{ label: "Not Relevant", value: "not_relevant", checked: false },
 	]);
 
 	// Track if this is initial load or a search/filter update
@@ -119,11 +126,10 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		mutate,
 	} = useOrganizationEvidenceTasks({
 		search,
-		status: status as "published" | "draft" | null,
-		frequency: frequency as any,
-		department: department as any,
+		status,
+		frequency,
+		department,
 		assigneeId,
-		relevance: relevance as "relevant" | "not-relevant" | null,
 		page: currentPage,
 		pageSize: currentPageSize,
 	});
@@ -133,16 +139,7 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		if (initialLoadCompleted.current) {
 			setIsSearching(true);
 		}
-	}, [
-		search,
-		status,
-		frequency,
-		department,
-		assigneeId,
-		relevance,
-		page,
-		pageSize,
-	]);
+	}, [search, status, frequency, department, assigneeId, page, pageSize]);
 
 	// Track when loading changes
 	useEffect(() => {
@@ -193,8 +190,8 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 			if (task.assignee) {
 				uniqueAssignees.set(task.assignee.id, {
 					id: task.assignee.id,
-					name: task.assignee.name,
-					image: task.assignee.image,
+					name: task.assignee.user.name,
+					image: task.assignee.user.image,
 				});
 			}
 		}
@@ -210,10 +207,9 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 			status !== null ||
 			frequency !== null ||
 			department !== null ||
-			assigneeId !== null ||
-			relevance !== null
+			assigneeId !== null
 		);
-	}, [status, frequency, department, assigneeId, relevance]);
+	}, [status, frequency, department, assigneeId]);
 
 	// Clear all filters
 	const clearFilters = () => {
@@ -221,7 +217,6 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		setFrequency(null);
 		setDepartment(null);
 		setAssigneeId(null);
-		setRelevance(null);
 		setPage("1"); // Reset to first page when clearing filters
 		setFilters(filters.map((f) => ({ ...f, checked: false }))); // Reset all filter checkboxes
 		setSearch(""); // Clear search
@@ -234,7 +229,6 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		frequency,
 		department,
 		assigneeId,
-		relevance,
 		page,
 		pageSize,
 		filters,
@@ -245,7 +239,6 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 		setFrequency,
 		setDepartment,
 		setAssigneeId,
-		setRelevance,
 		setPage,
 		setPageSize,
 		setFilters,

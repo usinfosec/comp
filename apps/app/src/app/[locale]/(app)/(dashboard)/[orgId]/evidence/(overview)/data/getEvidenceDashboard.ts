@@ -1,11 +1,10 @@
-import type { Departments, OrganizationEvidence } from "@bubba/db/types";
-import { db } from "@bubba/db";
+import type { Departments, Evidence } from "@comp/db/types";
+import { db } from "@comp/db";
 import { cache } from "react";
 
 export type EvidenceStatus = "empty" | "draft" | "needsReview" | "upToDate";
 
-export interface EvidenceWithStatus
-	extends Omit<OrganizationEvidence, "assignee"> {
+export interface EvidenceWithStatus extends Omit<Evidence, "assignee"> {
 	status: EvidenceStatus;
 	assigneeEmail?: string;
 }
@@ -31,7 +30,7 @@ export interface EvidenceDashboardData {
  */
 export const getEvidenceDashboard = cache(
 	async (organizationId: string): Promise<EvidenceDashboardData | null> => {
-		const evidence = await db.organizationEvidence.findMany({
+		const evidence = await db.evidence.findMany({
 			where: {
 				organizationId,
 			},
@@ -186,18 +185,78 @@ export const getEvidenceDashboard = cache(
 			}
 		}
 
+		// Get all artifacts linking evidence to controls
+		const artifacts = await db.artifact.findMany({
+			where: {
+				evidenceId: {
+					in: evidence.map((item) => item.id),
+				},
+			},
+			include: {
+				controls: {
+					include: {
+						frameworkInstances: true,
+					},
+				},
+			},
+		});
+
+		// Create a mapping of evidence ID to frameworks
+		const evidenceToFrameworkMap = new Map<string, Set<string>>();
+
+		// Populate the map based on the artifact relationships
+		for (const artifact of artifacts) {
+			if (!artifact.evidenceId) continue;
+
+			// For each control linked to this artifact
+			for (const control of artifact.controls) {
+				// Handle the many-to-many relationship between controls and framework instances
+				if (
+					!control.frameworkInstances ||
+					control.frameworkInstances.length === 0
+				)
+					continue;
+
+				// Iterate through all framework instances associated with this control
+				for (const frameworkInstance of control.frameworkInstances) {
+					const frameworkId = frameworkInstance.frameworkId;
+
+					if (!frameworkId) continue;
+
+					// Add the framework ID to the set for this evidence
+					if (!evidenceToFrameworkMap.has(artifact.evidenceId)) {
+						evidenceToFrameworkMap.set(artifact.evidenceId, new Set<string>());
+					}
+
+					evidenceToFrameworkMap.get(artifact.evidenceId)?.add(frameworkId);
+				}
+			}
+		}
+
+		// Group evidence by framework using the mapping we created
 		const byFramework = evidenceWithStatus.reduce<
 			Record<string, EvidenceWithStatus[]>
 		>((acc, curr) => {
-			const frameworkId = curr.frameworkId;
-			if (!frameworkId) {
+			// Get the frameworks for this evidence
+			const frameworkIds = evidenceToFrameworkMap.get(curr.id);
+
+			if (!frameworkIds || frameworkIds.size === 0) {
+				// If no frameworks, add to an "unassigned" framework
+				if (!acc.unassigned) {
+					acc.unassigned = [];
+				}
+				acc.unassigned.push(curr);
 				return acc;
 			}
 
-			if (!acc[frameworkId]) {
-				acc[frameworkId] = [];
+			// Add the evidence to each framework it belongs to
+			for (const frameworkId of frameworkIds) {
+				if (!acc[frameworkId]) {
+					acc[frameworkId] = [];
+				}
+				acc[frameworkId].push(curr);
 			}
-			acc[frameworkId].push(curr);
+
 			return acc;
 		}, {});
 

@@ -1,26 +1,19 @@
-import { auth } from "@/auth";
+import { cache } from "react";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+import { db } from "@comp/db";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { InviteMemberForm } from "./invite-member-form";
 import { MembersList } from "./members-list";
 import { PendingInvitations } from "./pending-invitations";
+import { headers } from "next/headers";
+import type { OrganizationWithMembers } from "./members-list";
 
 export async function TeamMembers() {
-	const session = await auth();
-	const organizationId = session?.user?.organizationId;
 	const t = await getI18n();
 
-	const members = organizationId
-		? await getOrganizationMembers(organizationId)
-		: [];
-	const pendingInvitations = organizationId
-		? await getPendingInvitations(organizationId)
-		: [];
-
-	const userRole = members.find(
-		(member) => member.userId === session?.user?.id,
-	)?.role;
+	const pendingInvitations = await getPendingInvitations();
+	const organization = await getOrganizationMembers();
 
 	return (
 		<Tabs defaultValue="members">
@@ -35,19 +28,14 @@ export async function TeamMembers() {
 			</TabsList>
 
 			<TabsContent value="members">
-				<MembersList
-					members={members}
-					currentUserRole={userRole}
-					hasOrganization={!!organizationId}
-				/>
+				{organization ? (
+					<MembersList organization={organization as OrganizationWithMembers} />
+				) : null}
 			</TabsContent>
 
 			<TabsContent value="invite">
 				<div className="flex flex-col gap-4">
-					<PendingInvitations
-						pendingInvitations={pendingInvitations}
-						hasOrganization={!!organizationId}
-					/>
+					<PendingInvitations pendingInvitations={pendingInvitations} />
 					<InviteMemberForm />
 				</div>
 			</TabsContent>
@@ -55,29 +43,40 @@ export async function TeamMembers() {
 	);
 }
 
-const getOrganizationMembers = async (organizationId: string) => {
-	return db.organizationMember.findMany({
-		where: {
-			organizationId,
-		},
-		include: {
-			user: true,
-		},
-		orderBy: {
-			joinedAt: "desc",
-		},
+const getOrganizationMembers = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
 	});
-};
 
-const getPendingInvitations = async (organizationId: string) => {
-	return db.organizationMember.findMany({
+	if (!session?.session.activeOrganizationId) {
+		return null;
+	}
+
+	return auth.api.getFullOrganization({
+		organizationId: session?.session.activeOrganizationId,
+		headers: await headers(),
+	});
+});
+
+const getOrganizationId = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	return session?.session.activeOrganizationId;
+});
+
+const getPendingInvitations = cache(async () => {
+	const organizationId = await getOrganizationId();
+
+	if (!organizationId) {
+		return [];
+	}
+
+	return db.invitation.findMany({
 		where: {
 			organizationId,
-			accepted: false,
-			invitedEmail: { not: null },
-		},
-		orderBy: {
-			joinedAt: "desc",
+			status: "pending",
 		},
 	});
-};
+});

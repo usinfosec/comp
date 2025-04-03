@@ -1,5 +1,5 @@
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 
 export const STATUS_TYPES = [
   "completed",
@@ -24,7 +24,7 @@ export function DisplayFrameworkStatus({ status }: { status: StatusType }) {
   return (
     <div className="flex items-center gap-2">
       <div
-        className={cn("size-2.5 rounded-full ")}
+        className={cn("size-2.5 rounded-none")}
         style={{ backgroundColor: STATUS_COLORS[status] ?? "  " }}
       />
       {t(`frameworks.controls.statuses.${status}`)}

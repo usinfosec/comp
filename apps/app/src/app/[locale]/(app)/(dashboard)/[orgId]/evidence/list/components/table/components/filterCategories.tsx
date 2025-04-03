@@ -1,22 +1,24 @@
 "use client";
 
-import { STATUS_FILTERS, RELEVANCE_FILTERS } from "./filterConfigs";
+import { STATUS_FILTERS } from "./filterConfigs";
 import { AssigneeAvatar } from "./AssigneeAvatar";
-import { StatusPolicies } from "@/components/status-policies";
+import { EVIDENCE_STATUS_HEX_COLORS } from "../../../../(overview)/constants/evidence-status";
+import { cn } from "@comp/ui/cn";
+import { Departments } from "@comp/db/types";
+import { EvidenceStatus } from "@comp/db/types";
+import { Frequency } from "@comp/db/types";
 
 interface FilterCategoriesProps {
-	status: string | null;
-	setStatus: (status: string | null) => void;
-	relevance: string | null;
-	setRelevance: (relevance: string | null) => void;
-	frequency: string | null;
-	setFrequency: (frequency: string | null) => void;
-	department: string | null;
-	setDepartment: (department: string | null) => void;
+	status: EvidenceStatus | null;
+	setStatus: (status: EvidenceStatus | null) => void;
+	frequency: Frequency | null;
+	setFrequency: (frequency: Frequency | null) => void;
+	department: Departments | null;
+	setDepartment: (department: Departments | null) => void;
 	assigneeId: string | null;
 	setAssigneeId: (assigneeId: string | null) => void;
-	frequencies: string[];
-	departments: string[];
+	frequencies: Frequency[];
+	departments: Departments[];
 	assignees: Array<{ id: string; name: string | null; image: string | null }>;
 	setPage: (page: string) => void;
 }
@@ -24,8 +26,6 @@ interface FilterCategoriesProps {
 export function getFilterCategories({
 	status,
 	setStatus,
-	relevance,
-	setRelevance,
 	frequency,
 	setFrequency,
 	department,
@@ -43,21 +43,17 @@ export function getFilterCategories({
 			items: STATUS_FILTERS.map((filter) => ({
 				...filter,
 				checked: status === filter.value,
-				icon: <StatusPolicies status={filter.value} withLabel={false} />,
+				icon: (
+					<div
+						className={cn("size-2.5")}
+						style={{
+							backgroundColor:
+								EVIDENCE_STATUS_HEX_COLORS[filter.value ?? "draft"] ?? "  ",
+						}}
+					/>
+				),
 				onChange: (checked: boolean) => {
 					setStatus(checked ? filter.value : null);
-					setPage("1");
-				},
-			})),
-		},
-		{
-			label: "Filter by Relevance",
-			items: RELEVANCE_FILTERS.map((filter) => ({
-				...filter,
-				checked: relevance === filter.value,
-				icon: <StatusPolicies status={filter.value} withLabel={false} />,
-				onChange: (checked: boolean) => {
-					setRelevance(checked ? filter.value : null);
 					setPage("1");
 				},
 			})),

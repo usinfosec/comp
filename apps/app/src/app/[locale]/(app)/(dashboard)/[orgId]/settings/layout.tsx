@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -10,16 +11,16 @@ export default async function Layout({
 	children: React.ReactNode;
 }) {
 	const t = await getI18n();
-	const session = await auth();
+
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	const user = session?.user;
-	const orgId = user?.organizationId;
+	const orgId = session?.session.activeOrganizationId;
 
 	if (!session) {
 		return redirect("/");
-	}
-
-	if (!session.user.isAdmin) {
-		return redirect(`/${orgId}`);
 	}
 
 	return (

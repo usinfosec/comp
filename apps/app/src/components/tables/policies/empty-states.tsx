@@ -1,8 +1,8 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent } from "@bubba/ui/card";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent } from "@comp/ui/card";
 import { FileText } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";

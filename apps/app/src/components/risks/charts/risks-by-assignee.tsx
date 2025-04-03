@@ -1,10 +1,11 @@
 import { getInitials } from "@/lib/utils";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { ScrollArea } from "@bubba/ui/scroll-area";
+import { db } from "@comp/db";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import Link from "next/link";
+import type { RiskStatus } from "@comp/db/types";
 
 interface Props {
 	organizationId: string;
@@ -23,6 +24,13 @@ interface UserRiskStats {
 	archivedRisks: number;
 }
 
+const riskStatusColors = {
+	open: "bg-yellow-500",
+	pending: "bg-blue-500",
+	closed: "bg-green-500",
+	archived: "bg-gray-500",
+};
+
 export async function RisksByAssignee({ organizationId }: Props) {
 	const t = await getI18n();
 
@@ -34,11 +42,11 @@ export async function RisksByAssignee({ organizationId }: Props) {
 			name: user.name,
 			image: user.image,
 		},
-		totalRisks: user.Risk.length,
-		openRisks: user.Risk.filter((risk) => risk.status === "open").length,
-		pendingRisks: user.Risk.filter((risk) => risk.status === "pending").length,
-		closedRisks: user.Risk.filter((risk) => risk.status === "closed").length,
-		archivedRisks: user.Risk.filter((risk) => risk.status === "archived")
+		totalRisks: user.risk.length,
+		openRisks: user.risk.filter((risk) => risk.status === "open").length,
+		pendingRisks: user.risk.filter((risk) => risk.status === "pending").length,
+		closedRisks: user.risk.filter((risk) => risk.status === "closed").length,
+		archivedRisks: user.risk.filter((risk) => risk.status === "archived")
 			.length,
 	}));
 
@@ -80,7 +88,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
 												<div className="h-full flex">
 													{stat.openRisks > 0 && (
 														<div
-															className="bg-yellow-500 h-full"
+															className={`${riskStatusColors.open} h-full`}
 															style={{
 																width: `${(stat.openRisks / stat.totalRisks) * 100}%`,
 															}}
@@ -89,7 +97,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
 													)}
 													{stat.pendingRisks > 0 && (
 														<div
-															className="bg-blue-500 h-full"
+															className={`${riskStatusColors.pending} h-full`}
 															style={{
 																width: `${
 																	(stat.pendingRisks / stat.totalRisks) * 100
@@ -100,7 +108,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
 													)}
 													{stat.closedRisks > 0 && (
 														<div
-															className="bg-green-500 h-full"
+															className={`${riskStatusColors.closed} h-full`}
 															style={{
 																width: `${(stat.closedRisks / stat.totalRisks) * 100}%`,
 															}}
@@ -109,7 +117,7 @@ export async function RisksByAssignee({ organizationId }: Props) {
 													)}
 													{stat.archivedRisks > 0 && (
 														<div
-															className="bg-gray-500 h-full"
+															className={`${riskStatusColors.archived} h-full`}
 															style={{
 																width: `${(stat.archivedRisks / stat.totalRisks) * 100}%`,
 															}}
@@ -123,7 +131,9 @@ export async function RisksByAssignee({ organizationId }: Props) {
 										<div className="mt-1.5 hidden lg:flex items-center gap-3 text-xs text-muted-foreground">
 											{stat.openRisks > 0 && (
 												<div className="flex items-center gap-1">
-													<div className="size-2 rounded-full bg-yellow-500" />
+													<div
+														className={`size-2 rounded-full ${riskStatusColors.open}`}
+													/>
 													<span>
 														{t("common.status.open")} ({stat.openRisks})
 													</span>
@@ -131,7 +141,9 @@ export async function RisksByAssignee({ organizationId }: Props) {
 											)}
 											{stat.pendingRisks > 0 && (
 												<div className="flex items-center gap-1">
-													<div className="size-2 rounded-full bg-blue-500" />
+													<div
+														className={`size-2 rounded-full ${riskStatusColors.pending}`}
+													/>
 													<span>
 														{t("common.status.pending")} ({stat.pendingRisks})
 													</span>
@@ -139,7 +151,9 @@ export async function RisksByAssignee({ organizationId }: Props) {
 											)}
 											{stat.closedRisks > 0 && (
 												<div className="flex items-center gap-1">
-													<div className="size-2 rounded-full bg-green-500" />
+													<div
+														className={`size-2 rounded-full ${riskStatusColors.closed}`}
+													/>
 													<span>
 														{t("common.status.closed")} ({stat.closedRisks})
 													</span>
@@ -147,7 +161,9 @@ export async function RisksByAssignee({ organizationId }: Props) {
 											)}
 											{stat.archivedRisks > 0 && (
 												<div className="flex items-center gap-1">
-													<div className="size-2 rounded-full bg-gray-500" />
+													<div
+														className={`size-2 rounded-full ${riskStatusColors.archived}`}
+													/>
 													<span>
 														{t("common.status.archived")} ({stat.archivedRisks})
 													</span>
@@ -168,16 +184,25 @@ export async function RisksByAssignee({ organizationId }: Props) {
 const userData = async (organizationId: string) => {
 	return await db.user.findMany({
 		where: {
-			organizationId,
-			Risk: {
-				some: {},
+			members: {
+				some: {
+					organizationId,
+				},
+			},
+			risk: {
+				some: {
+					organizationId,
+				},
 			},
 		},
 		select: {
 			id: true,
 			name: true,
 			image: true,
-			Risk: {
+			risk: {
+				where: {
+					organizationId,
+				},
 				select: {
 					status: true,
 				},

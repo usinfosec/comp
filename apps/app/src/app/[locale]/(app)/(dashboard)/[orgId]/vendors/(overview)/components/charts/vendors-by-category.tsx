@@ -1,17 +1,17 @@
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { VendorCategory } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { db } from "@comp/db";
+import { VendorCategory } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { VendorCategoryChart } from "./category-chart";
 
 const VENDOR_CATEGORIES = Object.values(VendorCategory);
 
 const CHART_COLORS = [
-  "bg-chart-positive",
-  "bg-chart-neutral", 
-  "bg-chart-warning",
-  "bg-chart-destructive",
-  "bg-chart-other"
+	"bg-chart-positive",
+	"bg-chart-neutral",
+	"bg-chart-warning",
+	"bg-chart-destructive",
+	"bg-chart-other",
 ];
 
 interface Props {
@@ -29,17 +29,21 @@ export async function VendorsByCategory({ organizationId }: Props) {
 				(vendor.category || "other").toLowerCase() === category.toLowerCase(),
 		);
 
-		const formattedName = category === "other" 
-			? "Other" 
-			: category
-				.split("_")
-				.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-				.join(" ");
+		const formattedName =
+			category === "other"
+				? "Other"
+				: category
+						.split("_")
+						.map(
+							(word) =>
+								word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+						)
+						.join(" ");
 
 		return {
 			name: formattedName,
 			value: found ? found._count : 0,
-			color: CHART_COLORS[index % CHART_COLORS.length]
+			color: CHART_COLORS[index % CHART_COLORS.length],
 		};
 	}).sort((a, b) => b.value - a.value);
 

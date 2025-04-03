@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useToast } from "@bubba/ui/use-toast";
+import { useToast } from "@comp/ui/use-toast";
 import { deleteEvidenceFile } from "../actions/deleteEvidenceFile";
 
 interface UseFileDeleteProps {

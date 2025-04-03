@@ -2,8 +2,10 @@
 
 import { authActionClient } from "./safe-action";
 import { z } from "zod";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
+import { auth } from "@comp/auth";
+import { headers } from "next/headers";
 
 export const changeOrganizationAction = authActionClient
 	.schema(
@@ -22,7 +24,7 @@ export const changeOrganizationAction = authActionClient
 		const { organizationId } = parsedInput;
 		const { user } = ctx;
 
-		const organizationMember = await db.organizationMember.findFirst({
+		const organizationMember = await db.member.findFirst({
 			where: {
 				userId: user.id,
 				organizationId,
@@ -50,12 +52,10 @@ export const changeOrganizationAction = authActionClient
 				};
 			}
 
-			await db.user.update({
-				where: {
-					id: user.id,
-				},
-				data: {
-					organizationId: organization.id,
+			auth.api.setActiveOrganization({
+				headers: await headers(),
+				body: {
+					organizationId: organizationId,
 				},
 			});
 

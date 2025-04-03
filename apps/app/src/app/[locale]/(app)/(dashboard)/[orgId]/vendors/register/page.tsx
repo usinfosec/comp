@@ -1,12 +1,13 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { VendorRegisterTable } from "./components/VendorRegisterTable";
-import { Departments, VendorStatus } from "@bubba/db/types";
+import { Departments, VendorStatus } from "@comp/db/types";
 import { z } from "zod";
+import { headers } from "next/headers";
 
 export default async function Page({
 	searchParams,
@@ -39,15 +40,17 @@ export default async function Page({
 	const { createVendorSheet, page, pageSize, status, department, assigneeId } =
 		result.data;
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session.activeOrganizationId) {
 		redirect("/onboarding");
 	}
 
 	const vendors = await db.vendor.findMany({
 		where: {
-			organizationId: session.user.organizationId,
+			organizationId: session.session.activeOrganizationId,
 			...(status && { status: status }),
 			...(department && { department: department }),
 			...(assigneeId && { ownerId: assigneeId }),

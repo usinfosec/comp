@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { useEffect, useState } from "react";
 
 interface PathProviderProps {

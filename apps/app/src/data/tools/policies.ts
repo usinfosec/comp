@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { tool } from "ai";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 export function getPolicyTools() {
@@ -16,24 +17,21 @@ export const getPolicies = tool({
 		status: z.enum(["draft", "published"]).optional(),
 	}),
 	execute: async ({ status }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
-		const policies = await db.organizationPolicy.findMany({
-			where: { organizationId: session.user.organizationId, status },
+		const policies = await db.policy.findMany({
+			where: { organizationId: session.session.activeOrganizationId, status },
 			select: {
 				id: true,
-				policy: {
-					select: {
-						name: true,
-						description: true,
-						department: true,
-						usedBy: true,
-					},
-				},
+				name: true,
+				description: true,
+				department: true,
 			},
 		});
 
@@ -57,14 +55,16 @@ export const getPolicyContent = tool({
 		id: z.string(),
 	}),
 	execute: async ({ id }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
-		const policy = await db.organizationPolicy.findUnique({
-			where: { id, organizationId: session.user.organizationId },
+		const policy = await db.policy.findUnique({
+			where: { id, organizationId: session.session.activeOrganizationId },
 			select: {
 				content: true,
 			},

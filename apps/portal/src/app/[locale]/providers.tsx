@@ -2,7 +2,7 @@
 
 import { I18nProviderClient } from "@/app/locales/client";
 import { env } from "@/env.mjs";
-import { AnalyticsProvider } from "@bubba/analytics";
+import { AnalyticsProvider } from "@comp/analytics";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 

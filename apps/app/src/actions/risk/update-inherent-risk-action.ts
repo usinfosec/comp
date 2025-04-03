@@ -1,51 +1,51 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { updateInherentRiskSchema } from "../schema";
 
 export const updateInherentRiskAction = authActionClient
-  .schema(updateInherentRiskSchema)
-  .metadata({
-    name: "update-inherent-risk",
-    track: {
-      event: "update-inherent-risk",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { id, probability, impact } = parsedInput;
-    const { user } = ctx;
+	.schema(updateInherentRiskSchema)
+	.metadata({
+		name: "update-inherent-risk",
+		track: {
+			event: "update-inherent-risk",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { id, probability, impact } = parsedInput;
+		const { session } = ctx;
 
-    if (!user.organizationId) {
-      throw new Error("Invalid organization");
-    }
+		if (!session.activeOrganizationId) {
+			throw new Error("Invalid organization");
+		}
 
-    try {
-      await db.risk.update({
-        where: {
-          id,
-          organizationId: user.organizationId,
-        },
-        data: {
-          probability,
-          impact,
-        },
-      });
+		try {
+			await db.risk.update({
+				where: {
+					id,
+					organizationId: session.activeOrganizationId,
+				},
+				data: {
+					likelihood: probability,
+					impact,
+				},
+			});
 
-      revalidatePath(`/${user.organizationId}/risk`);
-      revalidatePath(`/${user.organizationId}/risk/register`);
-      revalidatePath(`/${user.organizationId}/risk/${id}`);
-      revalidateTag("risks");
+			revalidatePath(`/${session.activeOrganizationId}/risk`);
+			revalidatePath(`/${session.activeOrganizationId}/risk/register`);
+			revalidatePath(`/${session.activeOrganizationId}/risk/${id}`);
+			revalidateTag("risks");
 
-      return {
-        success: true,
-      };
-    } catch (error) {
-      console.error("Error updating inherent risk:", error);
-      return {
-        success: false,
-      };
-    }
-  });
+			return {
+				success: true,
+			};
+		} catch (error) {
+			console.error("Error updating inherent risk:", error);
+			return {
+				success: false,
+			};
+		}
+	});

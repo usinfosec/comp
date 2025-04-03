@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { Users } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";

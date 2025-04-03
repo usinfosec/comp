@@ -1,5 +1,5 @@
 import { auth } from "@/app/lib/auth";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { EmployeeTasksList } from "./EmployeeTasksList";
 
@@ -38,11 +38,11 @@ const getPolicies = async () => {
 		headers: await headers(),
 	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session?.activeOrganizationId) {
 		throw new Error("Unauthorized");
 	}
 
-	const organizationId = session.user.organizationId;
+	const organizationId = session.session.activeOrganizationId;
 
 	const policies = await db.organizationPolicy.findMany({
 		where: {
@@ -67,11 +67,11 @@ const getTrainingVideos = async () => {
 		headers: await headers(),
 	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session?.activeOrganizationId) {
 		throw new Error("Unauthorized");
 	}
 
-	const organizationId = session.user.organizationId;
+	const organizationId = session.session.activeOrganizationId;
 
 	const trainingVideos = await db.organizationTrainingVideos.findMany({
 		where: { organizationId },

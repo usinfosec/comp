@@ -4,7 +4,7 @@ import type { Session } from "@/app/lib/auth";
 import type {
 	OrganizationTrainingVideos,
 	PortalTrainingVideos,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 import { useAction } from "next-safe-action/hooks";
 import { useEffect, useState } from "react";
 import { markVideoAsCompleted } from "../../actions/markVideoAsCompleted";

@@ -1,6 +1,6 @@
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { db } from "@comp/db";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { StatusChart } from "./status-chart";
 interface Props {
 	organizationId: string;

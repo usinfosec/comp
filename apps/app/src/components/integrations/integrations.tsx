@@ -1,34 +1,13 @@
 "use client";
 
-import type { OrganizationIntegrations } from "@bubba/db/types";
-import { integrations } from "@bubba/integrations";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@bubba/ui/accordion";
-import { Button } from "@bubba/ui/button";
+import { Integration } from "@comp/db/types";
+import { integrations } from "@comp/integrations";
+import { Button } from "@comp/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IntegrationsCard, type LogoType } from "./integrations-card";
 
-// Define a type for the integration object to handle both formats
-type IntegrationType = {
-	id: string;
-	name: string;
-	description: string;
-	short_description?: string;
-	category: string;
-	logo: any;
-	active?: boolean;
-	settings?: any[];
-	fields?: any[];
-	images?: any[];
-	metadata?: Record<string, any>;
-};
-
 // Update the type to include lastRunAt and nextRunAt
-type ExtendedOrganizationIntegrations = OrganizationIntegrations & {
+type ExtendedOrganizationIntegrations = Integration & {
 	lastRunAt?: Date | null;
 	nextRunAt?: Date | null;
 };
@@ -45,7 +24,7 @@ export function OrganizationIntegration({
 
 	// Map installed integrations by their integration_id rather than name
 	const installedIntegrations = installed.map((i) =>
-		i.integration_id.toLowerCase(),
+		i.integrationId.toLowerCase(),
 	);
 
 	// Debug: Log all available integrations and installed integrations
@@ -54,7 +33,7 @@ export function OrganizationIntegration({
 
 	const installedSettings: Record<string, unknown> = installed.reduce(
 		(acc, integration) => {
-			acc[integration.integration_id.toLowerCase()] = integration.user_settings;
+			acc[integration.integrationId.toLowerCase()] = integration.userSettings;
 			return acc;
 		},
 		{} as Record<string, unknown>,
@@ -137,7 +116,7 @@ export function OrganizationIntegration({
 						{items.map((integration) => {
 							// Find the installed integration data
 							const installedIntegration = installed.find(
-								(i) => i.integration_id.toLowerCase() === integration.id,
+								(i) => i.integrationId.toLowerCase() === integration.id,
 							);
 
 							// Handle different integration formats

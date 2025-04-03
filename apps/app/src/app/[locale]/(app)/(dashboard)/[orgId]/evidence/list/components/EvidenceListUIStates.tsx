@@ -1,8 +1,8 @@
 import React from "react";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { AlertCircle, FileQuestion, SearchX } from "lucide-react";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 
 interface ErrorStateProps {
 	error: Error;

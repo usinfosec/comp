@@ -5,8 +5,8 @@ import type {
 	Policy,
 	OrganizationTrainingVideos,
 	PortalTrainingVideos,
-} from "@bubba/db/types";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+} from "@comp/db/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { PolicyList } from "./policy";
 import { VideoCarousel } from "./video";
 import { trainingVideos } from "../data";

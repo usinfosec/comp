@@ -1,41 +1,43 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
 import { TestsList } from "./components/TestsList";
+import { headers } from "next/headers";
 
 export default async function TestsPage({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth();
-  const organizationId = session?.user.organizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!organizationId) {
-    return redirect("/");
-  }
+	const organizationId = session?.session.activeOrganizationId;
 
-  return <TestsList />;
+	if (!organizationId) {
+		return redirect("/");
+	}
+
+	return <TestsList />;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+	const { locale } = await params;
 
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.tests"),
-  };
+	return {
+		title: t("sidebar.tests"),
+	};
 }
-
-

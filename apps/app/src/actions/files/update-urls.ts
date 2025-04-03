@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { z } from "zod";
 
 export const updateEvidenceUrls = authActionClient
@@ -19,10 +19,10 @@ export const updateEvidenceUrls = authActionClient
 		},
 	})
 	.action(async ({ ctx, parsedInput }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { evidenceId, urls } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -30,10 +30,10 @@ export const updateEvidenceUrls = authActionClient
 		}
 
 		try {
-			const evidence = await db.organizationEvidence.findFirst({
+			const evidence = await db.evidence.findFirst({
 				where: {
 					id: evidenceId,
-					organizationId: user.organizationId,
+					organizationId: session.activeOrganizationId,
 				},
 			});
 
@@ -44,13 +44,10 @@ export const updateEvidenceUrls = authActionClient
 				} as const;
 			}
 
-			const updatedEvidence = await db.organizationEvidence.update({
+			const updatedEvidence = await db.evidence.update({
 				where: { id: evidenceId },
 				data: {
 					additionalUrls: urls,
-				},
-				include: {
-					evidence: true,
 				},
 			});
 

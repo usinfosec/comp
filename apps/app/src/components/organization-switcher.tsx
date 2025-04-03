@@ -2,35 +2,34 @@
 
 import { changeOrganizationAction } from "@/actions/change-organization";
 import { useI18n } from "@/locales/client";
-import type { Framework, Organization } from "@bubba/db/types";
-import { Avatar, AvatarFallback } from "@bubba/ui/avatar";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Dialog } from "@bubba/ui/dialog";
+import { Avatar, AvatarFallback } from "@comp/ui/avatar";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Dialog } from "@comp/ui/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import { Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CreateOrgModal } from "./modals/create-org-modal";
+import type { Framework } from "@comp/data";
+import type { Organization } from "@comp/db/types";
 
 interface OrganizationSwitcherProps {
 	organizations: Organization[];
 	organizationId: string | undefined;
-	frameworks: Framework[];
 	isCollapsed?: boolean;
 }
 
 export function OrganizationSwitcher({
 	organizations,
 	organizationId,
-	frameworks,
 	isCollapsed = false,
 }: OrganizationSwitcherProps) {
 	const t = useI18n();
@@ -115,10 +114,7 @@ export function OrganizationSwitcher({
 				open={showCreateOrg}
 				onOpenChange={(open) => setShowCreateOrg(open)}
 			>
-				<CreateOrgModal
-					onOpenChange={(open) => setShowCreateOrg(open)}
-					frameworks={frameworks}
-				/>
+				<CreateOrgModal onOpenChange={(open) => setShowCreateOrg(open)} />
 			</Dialog>
 		</div>
 	);

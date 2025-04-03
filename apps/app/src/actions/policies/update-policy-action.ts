@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { logger } from "@trigger.dev/sdk/v3";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
@@ -64,7 +64,15 @@ export const updatePolicyAction = authActionClient
 	})
 	.action(async ({ parsedInput, ctx }) => {
 		const { id, content } = parsedInput;
+		const { activeOrganizationId } = ctx.session;
 		const { user } = ctx;
+
+		if (!activeOrganizationId) {
+			return {
+				success: false,
+				error: "Not authorized",
+			};
+		}
 
 		if (!user) {
 			return {
@@ -74,8 +82,8 @@ export const updatePolicyAction = authActionClient
 		}
 
 		try {
-			const policy = await db.organizationPolicy.findUnique({
-				where: { id, organizationId: user.organizationId },
+			const policy = await db.policy.findUnique({
+				where: { id, organizationId: activeOrganizationId },
 			});
 
 			if (!policy) {
@@ -90,13 +98,13 @@ export const updatePolicyAction = authActionClient
 				JSON.stringify(processContent(content as ContentNode)),
 			);
 
-			await db.organizationPolicy.update({
+			await db.policy.update({
 				where: { id },
 				data: { content: processedContent.content },
 			});
 
-			revalidatePath(`/${user.organizationId}/policies/${id}`);
-			revalidatePath(`/${user.organizationId}/policies`);
+			revalidatePath(`/${activeOrganizationId}/policies/${id}`);
+			revalidatePath(`/${activeOrganizationId}/policies`);
 			revalidateTag(`user_${user.id}`);
 
 			return {

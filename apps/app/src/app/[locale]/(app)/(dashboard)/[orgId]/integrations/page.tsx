@@ -1,11 +1,12 @@
-import { auth } from "@/auth";
+import { auth } from "@comp/auth";
 import { IntegrationsHeader } from "@/components/integrations/integrations-header";
 import { IntegrationsServer } from "@/components/integrations/integrations.server";
 import { SkeletonLoader } from "@/components/skeleton-loader";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -17,11 +18,18 @@ export default async function IntegrationsPage({
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session?.session.activeOrganizationId) {
+		return redirect("/");
+	}
+
 	const [organization] = await Promise.all([
 		db.organization.findUnique({
 			where: {
-				id: session?.user.organizationId,
+				id: session?.session.activeOrganizationId ?? "",
 			},
 		}),
 	]);

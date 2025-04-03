@@ -1,7 +1,0 @@
-{
-  "id": "access_review_records",
-  "name": "Access Review Records",
-  "description": "Access review logs, user access reports, and management sign-off documentation. Provide Access Review Procedures document that outlines conducting regular access reviews and validating that user permissions align with current roles.",
-  "frequency": "quarterly",
-  "department": "it"
-}

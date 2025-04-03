@@ -1,72 +1,72 @@
 "use server";
 
-import { db } from "@bubba/db";
-import { auth } from "@/auth";
-import { 
-  appErrors, 
-  type ActionResponse 
-} from "./types";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
+import { appErrors, type ActionResponse } from "./types";
 
 import type { Test } from "../../types";
+import { headers } from "next/headers";
 
-export async function getTest(input: { testId: string }): Promise<ActionResponse<Test>> {
-  const { testId } = input;
+export async function getTest(input: {
+	testId: string;
+}): Promise<ActionResponse<Test>> {
+	const { testId } = input;
 
-  const session = await auth();
-  const organizationId = session?.user.organizationId;
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!organizationId) {
-    throw new Error("Organization ID not found");
-  }
+	const organizationId = session?.session.activeOrganizationId;
 
-  try {
+	if (!organizationId) {
+		throw new Error("Organization ID not found");
+	}
 
-    const results = await db.organizationIntegrationResults.findUnique({
-      where: {
-        id: testId,
-        organizationId: organizationId,
-      },
-      include: {
-        organizationIntegration: true,
-        IntegrationResultsComments: true,
-      },
-    });
+	try {
+		const results = await db.integrationResult.findUnique({
+			where: {
+				id: testId,
+				organizationId: organizationId,
+			},
+			include: {
+				integration: true,
+			},
+		});
 
-    if (!results) {
-      return {
-        success: false,
-        error: appErrors.NOT_FOUND,
-      };
-    }
+		if (!results) {
+			return {
+				success: false,
+				error: appErrors.NOT_FOUND,
+			};
+		}
 
-    const integrationResult = results;
+		const integrationResult = results;
 
-    // Format the result to match the expected CloudTestResult structure
-    const result: Test = {
-      id: integrationResult.id,
-      title: integrationResult.title || "",
-      description: integrationResult.description || "",
-      remediation: integrationResult.remediation || "",
-      provider: integrationResult.organizationIntegration.name,
-      status: integrationResult.status || "",
-      resultDetails: integrationResult.resultDetails,
-      severity: integrationResult.severity || "",
-      assignedUserId: integrationResult.assignedUserId || "",
-      organizationId: organizationId,
-      completedAt: integrationResult.completedAt || new Date(),
-      organizationIntegrationId: integrationResult.organizationIntegrationId,
-      TestComments: integrationResult.IntegrationResultsComments,
-    };
+		// Format the result to match the expected Test structure
+		const result: Test = {
+			id: integrationResult.id,
+			title: integrationResult.title || "",
+			description: integrationResult.description || "",
+			remediation: integrationResult.remediation || "",
+			provider: integrationResult.integration.name,
+			status: integrationResult.status || "",
+			resultDetails: integrationResult.resultDetails,
+			severity: integrationResult.severity || "",
+			assignedUserId: integrationResult.assignedUserId || "",
+			organizationId: organizationId,
+			completedAt: integrationResult.completedAt || new Date(),
+			organizationIntegrationId: integrationResult.integrationId || "",
+		};
 
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (error) {
-    console.error("Error fetching integration result details:", error);
-    return {
-      success: false,
-      error: appErrors.UNEXPECTED_ERROR,
-    };
-  }
-} 
+		return {
+			success: true,
+			data: result,
+		};
+	} catch (error) {
+		console.error("Error fetching integration result details:", error);
+		return {
+			success: false,
+			error: appErrors.UNEXPECTED_ERROR,
+		};
+	}
+}

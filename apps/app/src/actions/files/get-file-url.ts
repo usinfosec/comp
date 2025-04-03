@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { z } from "zod";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -68,10 +68,10 @@ export const getFileUrl = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 		const { uploadType, fileUrl } = parsedInput;
 
-		if (!user.organizationId) {
+		if (!session.activeOrganizationId) {
 			return {
 				success: false,
 				error: "Not authorized - no organization found",
@@ -80,75 +80,15 @@ export const getFileUrl = authActionClient
 
 		try {
 			if (uploadType === UPLOAD_TYPE.evidence) {
-				const evidence = await db.organizationEvidence.findFirst({
+				const evidence = await db.evidence.findFirst({
 					where: {
 						id: parsedInput.evidenceId,
-						organizationId: user.organizationId,
+						organizationId: session.activeOrganizationId,
 					},
 				});
 
 				if (!evidence) {
 					throw new Error("Evidence or file not found");
-				}
-
-				const key = extractS3KeyFromUrl(fileUrl);
-
-				const command = new GetObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME,
-					Key: key,
-				});
-
-				const signedUrl = await getSignedUrl(s3Client, command, {
-					expiresIn: 3600,
-				});
-
-				if (!signedUrl) {
-					throw new Error("Failed to generate signed URL");
-				}
-
-				return { signedUrl };
-			}
-
-			if (uploadType === UPLOAD_TYPE.riskTask) {
-				const task = await db.riskMitigationTask.findFirst({
-					where: {
-						id: parsedInput.taskId,
-						organizationId: user.organizationId,
-					},
-				});
-
-				if (!task) {
-					throw new Error("Task or file not found");
-				}
-
-				const key = extractS3KeyFromUrl(fileUrl);
-
-				const command = new GetObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME,
-					Key: key,
-				});
-
-				const signedUrl = await getSignedUrl(s3Client, command, {
-					expiresIn: 3600,
-				});
-
-				if (!signedUrl) {
-					throw new Error("Failed to generate signed URL");
-				}
-
-				return { signedUrl };
-			}
-
-			if (uploadType === UPLOAD_TYPE.vendorTask) {
-				const task = await db.vendorTask.findFirst({
-					where: {
-						id: parsedInput.taskId,
-						organizationId: user.organizationId,
-					},
-				});
-
-				if (!task) {
-					throw new Error("Vendor task or file not found");
 				}
 
 				const key = extractS3KeyFromUrl(fileUrl);

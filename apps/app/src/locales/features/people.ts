@@ -1,7 +1,6 @@
 export const people = {
   title: "People",
   all: "All Employees",
-
   details: {
     title: "Employee Details",
     tasks: "Tasks",
@@ -67,6 +66,10 @@ export const people = {
     policies_pending: "Policies Pending",
     trainings_completed: "Trainings Completed",
     trainings_pending: "Trainings Pending",
+    policies: "Policies",
+    trainings: "Trainings",
+    completed: "Completed",
+    not_completed: "Not Completed",
     no_data: "No employee data available",
     no_tasks_completed: "No tasks have been completed yet",
     no_tasks_available: "No tasks available to complete",
