@@ -44,8 +44,6 @@ export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 		setDepartment,
 		assigneeId,
 		setAssigneeId,
-		relevance,
-		setRelevance,
 		frequencies,
 		departments,
 		assignees,
@@ -59,19 +57,13 @@ export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 		router.push(`/${orgId}/evidence/${evidenceId}`);
 	};
 
-	const activeFilterCount = [
-		status,
-		frequency,
-		department,
-		assigneeId,
-		relevance,
-	].filter(Boolean).length;
+	const activeFilterCount = [status, frequency, department, assigneeId].filter(
+		Boolean,
+	).length;
 
 	const filterCategories = getFilterCategories({
 		status,
 		setStatus,
-		relevance,
-		setRelevance,
 		frequency,
 		setFrequency,
 		department,
@@ -88,9 +80,7 @@ export function EvidenceListTable({ data }: { data: EvidenceTaskRow[] }) {
 	const visibleColumns = useMemo(() => {
 		if (isMobile) {
 			// On mobile, only show the name and relevance columns
-			return EvidenceListColumns.filter(
-				(column) => column.id === "name" || column.id === "relevance",
-			);
+			return EvidenceListColumns.filter((column) => column.id === "name");
 		}
 		return EvidenceListColumns;
 	}, [isMobile]);

@@ -30,7 +30,6 @@ export const getOrganizationEvidenceTasks = authActionClient
       frequency: z.nativeEnum(Frequency).optional().nullable(),
       department: z.nativeEnum(Departments).optional().nullable(),
       assigneeId: z.string().optional().nullable(),
-      relevance: z.enum(["relevant", "not-relevant"]).optional().nullable(),
       page: z.number().int().positive().optional().default(1),
       pageSize: z.number().int().positive().optional().default(10),
     })
@@ -50,7 +49,6 @@ export const getOrganizationEvidenceTasks = authActionClient
       frequency,
       department,
       assigneeId,
-      relevance,
       page,
       pageSize,
     } = parsedInput;
@@ -67,19 +65,20 @@ export const getOrganizationEvidenceTasks = authActionClient
       // Create the where clause for both count and data queries
       const whereClause: Prisma.EvidenceWhereInput = {
         organizationId: session.activeOrganizationId,
-        // Status filter
-        ...(status === "published" ? { status: "published" } : {}),
-        ...(status === "draft" ? { status: "draft" } : {}),
-        ...(status === "not_relevant" ? { status: "not_relevant" } : {}),
+        // Status filter - if no status is selected, filter out not_relevant items
+        ...(status === "published"
+          ? { status: "published" }
+          : status === "draft"
+            ? { status: "draft" }
+            : status === "not_relevant"
+              ? { status: "not_relevant" }
+              : { status: { not: "not_relevant" } }),
         // Frequency filter
         ...(frequency ? { frequency } : {}),
         // Department filter
         ...(department ? { department } : {}),
         // Assignee filter
         ...(assigneeId ? { assigneeId } : {}),
-        // Relevance filter
-        ...(relevance === "relevant" ? { status: "published" } : {}),
-        ...(relevance === "not-relevant" ? { status: "not_relevant" } : {}),
         // Search filter
         ...(search
           ? {
