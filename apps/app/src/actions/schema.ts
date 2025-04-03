@@ -270,7 +270,7 @@ export const updatePolicyOverviewSchema = z.object({
 export const updatePolicyFormSchema = z.object({
   id: z.string(),
   status: z.nativeEnum(PolicyStatus),
-  ownerId: z.string(),
+  assigneeId: z.string().nullable(),
   department: z.nativeEnum(Departments),
   review_frequency: z.nativeEnum(Frequency),
   review_date: z.date(),

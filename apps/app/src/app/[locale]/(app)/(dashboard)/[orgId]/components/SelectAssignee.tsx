@@ -1,35 +1,45 @@
-"use client";
-
-import { Member, User } from "@bubba/db/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@bubba/ui/avatar";
 import {
 	Select,
+	SelectTrigger,
 	SelectContent,
 	SelectItem,
-	SelectTrigger,
 	SelectValue,
 } from "@bubba/ui/select";
-import { User as UserIcon } from "lucide-react";
-import { useState } from "react";
+import { UserIcon } from "lucide-react";
+import { Member, User } from "@bubba/db/types";
+import { useState, useEffect } from "react";
 
-interface AssigneeSectionProps {
-	onAssigneeChange: (value: string | null) => void;
+interface SelectAssigneeProps {
 	assigneeId: string | null;
-	assignees: (Member & {
-		user: User;
-	})[];
 	disabled?: boolean;
+	assignees: (Member & { user: User })[];
+	onAssigneeChange: (value: string | null) => void;
+	withTitle?: boolean;
 }
 
-export function EvidenceAssigneeSection({
+export const SelectAssignee = ({
+	assigneeId,
+	disabled,
 	assignees,
 	onAssigneeChange,
-	assigneeId,
-	disabled = false,
-}: AssigneeSectionProps) {
+	withTitle = true,
+}: SelectAssigneeProps) => {
 	const [selectedAssignee, setSelectedAssignee] = useState<
 		(Member & { user: User }) | null
 	>(null);
+
+	// Initialize selectedAssignee based on assigneeId prop
+	useEffect(() => {
+		if (assigneeId && assignees) {
+			const assignee = assignees.find((a) => a.id === assigneeId);
+			if (assignee) {
+				setSelectedAssignee(assignee);
+			}
+		} else {
+			setSelectedAssignee(null);
+		}
+	}, [assigneeId, assignees]);
 
 	const handleAssigneeChange = (value: string) => {
 		const newAssigneeId = value === "none" ? null : value;
@@ -38,10 +48,7 @@ export function EvidenceAssigneeSection({
 		if (newAssigneeId && assignees) {
 			const assignee = assignees.find((a) => a.id === newAssigneeId);
 			if (assignee) {
-				setSelectedAssignee({
-					...assignee,
-					user: assignee.user,
-				});
+				setSelectedAssignee(assignee);
 			} else {
 				setSelectedAssignee(null);
 			}
@@ -56,7 +63,6 @@ export function EvidenceAssigneeSection({
 
 		// If image is a relative URL, ensure it's properly formed
 		if (image.startsWith("/")) {
-			// This handles the case where the URL might need to be prefixed with the base URL
 			return image;
 		}
 
@@ -65,10 +71,14 @@ export function EvidenceAssigneeSection({
 
 	return (
 		<div className="flex flex-col gap-2">
-			<div className="flex items-center gap-2 mb-1.5">
-				<UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
-				<h3 className="text-xs font-medium text-muted-foreground">ASSIGNEE</h3>
-			</div>
+			{withTitle && (
+				<div className="flex items-center gap-2 mb-1.5">
+					<UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
+					<h3 className="text-xs font-medium text-muted-foreground">
+						ASSIGNEE
+					</h3>
+				</div>
+			)}
 			<Select
 				value={assigneeId || "none"}
 				onValueChange={handleAssigneeChange}
@@ -91,7 +101,14 @@ export function EvidenceAssigneeSection({
 							</span>
 						</div>
 					) : (
-						<SelectValue placeholder="Assign to..." />
+						<div className="flex items-center gap-2">
+							<Avatar className="h-5 w-5 shrink-0">
+								<AvatarFallback>
+									<UserIcon className="h-3 w-3" />
+								</AvatarFallback>
+							</Avatar>
+							<span>None</span>
+						</div>
 					)}
 				</SelectTrigger>
 				<SelectContent
@@ -101,8 +118,13 @@ export function EvidenceAssigneeSection({
 					align="start"
 				>
 					<SelectItem value="none" className="w-full p-0 overflow-hidden">
-						<div className="py-1.5 px-3 w-full">
-							<span className="pl-7">None</span>
+						<div className="flex items-center gap-2 py-1.5 px-3 w-full">
+							<Avatar className="h-5 w-5 shrink-0">
+								<AvatarFallback>
+									<UserIcon className="h-3 w-3" />
+								</AvatarFallback>
+							</Avatar>
+							<span>None</span>
 						</div>
 					</SelectItem>
 					{assignees.map((assignee) => (
@@ -131,4 +153,4 @@ export function EvidenceAssigneeSection({
 			</Select>
 		</div>
 	);
-}
+};

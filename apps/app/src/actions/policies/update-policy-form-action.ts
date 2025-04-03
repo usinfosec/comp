@@ -46,7 +46,7 @@ export const updatePolicyFormAction = authActionClient
     const {
       id,
       status,
-      ownerId,
+      assigneeId,
       department,
       review_frequency,
       review_date,
@@ -90,7 +90,7 @@ export const updatePolicyFormAction = authActionClient
         },
         data: {
           status,
-          ownerId,
+          assigneeId,
           department,
           frequency: review_frequency,
           reviewDate,

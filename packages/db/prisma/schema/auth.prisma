@@ -13,7 +13,6 @@ model User {
     integrationResults IntegrationResult[]
     invitations        Invitation[]
     members            Member[]
-    policy             Policy[]
     risk               Risk[]
     sessions           Session[]
     vendor             Vendor[]
@@ -88,6 +87,7 @@ model Member {
     isActive                        Boolean                           @default(true)
     EmployeeTrainingVideoCompletion EmployeeTrainingVideoCompletion[]
     Evidence                        Evidence[]
+    Policy                          Policy[]
 }
 
 model Invitation {

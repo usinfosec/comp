@@ -292,6 +292,19 @@ export async function createOrganizationPolicies(
       continue;
     }
 
+    // Find the member record for the user in this organization
+    const memberRecord = await db.member.findFirst({
+      where: {
+        organizationId,
+        userId,
+      },
+    });
+
+    if (!memberRecord) {
+      console.warn(`Member record not found for user: ${userId}`);
+      continue;
+    }
+
     try {
       // Create the policy record using template data - include only fields in the schema
       const policy = await db.policy.create({
@@ -301,7 +314,7 @@ export async function createOrganizationPolicies(
           description: policyTemplate.metadata.description,
           status: "draft" as PolicyStatus,
           content: policyTemplate.content as InputJsonValue[],
-          ownerId: userId,
+          assigneeId: memberRecord?.id || null,
           frequency: policyTemplate.metadata.frequency,
           department: policyTemplate.metadata.department,
         },

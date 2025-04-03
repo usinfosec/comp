@@ -82,24 +82,28 @@ const getPoliciesOverview = async () => {
 				},
 			}),
 			tx.policy.groupBy({
-				by: ["ownerId"],
+				by: ["assigneeId"],
 				_count: true,
 				where: {
 					organizationId,
-					ownerId: { not: null },
+					assigneeId: { not: null },
 				},
 			}),
 			tx.policy.findMany({
 				where: {
 					organizationId,
-					ownerId: { not: null },
+					assigneeId: { not: null },
 				},
 				select: {
 					status: true,
-					owner: {
+					assignee: {
 						select: {
 							id: true,
-							name: true,
+							user: {
+								select: {
+									name: true,
+								},
+							},
 						},
 					},
 				},
@@ -111,13 +115,13 @@ const getPoliciesOverview = async () => {
 		const policyDataByOwner = new Map();
 
 		for (const policy of policiesByAssigneeStatus) {
-			if (!policy.owner) continue;
+			if (!policy.assignee) continue;
 
-			const ownerId = policy.owner.id;
-			if (!policyDataByOwner.has(ownerId)) {
-				policyDataByOwner.set(ownerId, {
-					id: ownerId,
-					name: policy.owner.name || "Unknown",
+			const assigneeId = policy.assignee.id;
+			if (!policyDataByOwner.has(assigneeId)) {
+				policyDataByOwner.set(assigneeId, {
+					id: assigneeId,
+					name: policy.assignee.user.name || "Unknown",
 					total: 0,
 					published: 0,
 					draft: 0,
@@ -126,8 +130,8 @@ const getPoliciesOverview = async () => {
 				});
 			}
 
-			const ownerData = policyDataByOwner.get(ownerId);
-			ownerData.total += 1;
+			const assigneeData = policyDataByOwner.get(assigneeId);
+			assigneeData.total += 1;
 
 			// Handle each status type explicitly
 			const status = policy.status as
@@ -135,10 +139,10 @@ const getPoliciesOverview = async () => {
 				| "draft"
 				| "archived"
 				| "needs_review";
-			if (status === "published") ownerData.published += 1;
-			else if (status === "draft") ownerData.draft += 1;
-			else if (status === "archived") ownerData.archived += 1;
-			else if (status === "needs_review") ownerData.needs_review += 1;
+			if (status === "published") assigneeData.published += 1;
+			else if (status === "draft") assigneeData.draft += 1;
+			else if (status === "archived") assigneeData.archived += 1;
+			else if (status === "needs_review") assigneeData.needs_review += 1;
 		}
 
 		const assigneeData = Array.from(policyDataByOwner.values());
