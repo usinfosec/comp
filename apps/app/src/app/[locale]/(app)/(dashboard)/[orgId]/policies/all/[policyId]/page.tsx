@@ -6,7 +6,6 @@ import { auth } from "@comp/auth";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 export default async function PolicyDetails({
 	params,
@@ -16,10 +15,11 @@ export default async function PolicyDetails({
 	const { locale, policyId } = await params;
 	setStaticParamsLocale(locale);
 	const policy = await getPolicy(policyId);
+	const assignees = await getAssignees();
 
 	return (
 		<div className="flex flex-col gap-4">
-			<PolicyOverview policy={policy ?? null} />
+			<PolicyOverview policy={policy ?? null} assignees={assignees} />
 		</div>
 	);
 }
@@ -59,4 +59,30 @@ const getPolicy = cache(async (policyId: string) => {
 	}
 
 	return policy;
+});
+
+const getAssignees = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
+
+	if (!organizationId) {
+		return [];
+	}
+
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	return assignees;
 });
