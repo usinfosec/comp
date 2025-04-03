@@ -1,7 +1,7 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { db } from "@comp/db";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 

@@ -1,15 +1,15 @@
 "use client";
 
 import { useI18n } from "@/app/locales/client";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Icons } from "@bubba/ui/icons";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Icons } from "@comp/ui/icons";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import { useClickAway } from "@uidotdev/usehooks";
 import { Reorder, motion, useMotionValue } from "framer-motion";
 import { useAction } from "next-safe-action/hooks";

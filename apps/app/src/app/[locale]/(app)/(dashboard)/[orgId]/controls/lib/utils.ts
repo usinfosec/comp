@@ -1,4 +1,4 @@
-import type { Control } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
 import type { StatusType } from "@/components/frameworks/framework-status";
 
 export function getControlStatus(

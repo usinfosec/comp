@@ -1,7 +1,7 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
 import { redirect } from "next/navigation";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
 
 export default async function Layout({

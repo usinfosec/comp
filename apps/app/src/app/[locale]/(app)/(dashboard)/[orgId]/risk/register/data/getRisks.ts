@@ -1,8 +1,8 @@
 "use server";
 
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
-import { type Departments, Prisma, type RiskStatus } from "@bubba/db/types";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
+import { type Departments, Prisma, type RiskStatus } from "@comp/db/types";
 import { headers } from "next/headers";
 
 export async function getRisks({

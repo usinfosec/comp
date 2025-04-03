@@ -1,5 +1,5 @@
 import { getI18n } from "@/locales/server";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

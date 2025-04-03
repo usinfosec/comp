@@ -1,4 +1,4 @@
-import type { Artifact, Evidence, Policy } from "@bubba/db/types";
+import type { Artifact, Evidence, Policy } from "@comp/db/types";
 
 /**
  * Checks if a specific artifact is completed based on its type and associated data

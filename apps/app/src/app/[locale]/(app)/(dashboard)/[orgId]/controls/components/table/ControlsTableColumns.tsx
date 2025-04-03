@@ -2,7 +2,7 @@
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
-import type { Control } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";

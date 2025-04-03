@@ -3,8 +3,8 @@
 import { updatePolicyOverviewAction } from "@/actions/policies/update-policy-overview-action";
 import { updatePolicyOverviewSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import type { TemplatePolicy } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { TemplatePolicy } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -12,16 +12,16 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Input } from "@bubba/ui/input";
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Textarea } from "@bubba/ui/textarea";
+} from "@comp/ui/select";
+import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";

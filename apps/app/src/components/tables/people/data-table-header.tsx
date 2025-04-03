@@ -2,12 +2,12 @@
 
 import { useI18n } from "@/locales/client";
 
-import { Button } from "@bubba/ui/button";
-import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
+import { Button } from "@comp/ui/button";
+import { TableHead, TableHeader, TableRow } from "@comp/ui/table";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 
 type Props = {
 	table?: {

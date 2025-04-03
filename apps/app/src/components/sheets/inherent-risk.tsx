@@ -1,17 +1,17 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
-import { useMediaQuery } from "@bubba/ui/hooks";
-import { ScrollArea } from "@bubba/ui/scroll-area";
+import { Button } from "@comp/ui/button";
+import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
+import { useMediaQuery } from "@comp/ui/hooks";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@bubba/ui/sheet";
+} from "@comp/ui/sheet";
 import { Impact, Likelihood } from "@prisma/client";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";

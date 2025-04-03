@@ -1,11 +1,11 @@
 import { getInitials } from "@/lib/utils";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { ScrollArea } from "@bubba/ui/scroll-area";
+import { db } from "@comp/db";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import Link from "next/link";
-import type { RiskStatus } from "@bubba/db/types";
+import type { RiskStatus } from "@comp/db/types";
 
 interface Props {
 	organizationId: string;

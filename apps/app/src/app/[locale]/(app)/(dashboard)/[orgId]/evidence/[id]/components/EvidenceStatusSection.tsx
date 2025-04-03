@@ -1,13 +1,13 @@
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { FileCheck } from "lucide-react";
-import { EvidenceStatus } from "@bubba/db/types";
+import { EvidenceStatus } from "@comp/db/types";
 import { EVIDENCE_STATUS_HEX_COLORS } from "../../(overview)/constants/evidence-status";
 
 const statusOptions: { value: EvidenceStatus; label: string }[] = [

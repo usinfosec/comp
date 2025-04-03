@@ -1,13 +1,13 @@
 import { getInitials } from "@/lib/utils";
 import { getI18n } from "@/locales/server";
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { ScrollArea } from "@bubba/ui/scroll-area";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import { headers } from "next/headers";
 import { cache } from "react";
-import type { RiskStatus } from "@bubba/db/types";
+import type { RiskStatus } from "@comp/db/types";
 import Link from "next/link";
 
 interface UserRiskStats {

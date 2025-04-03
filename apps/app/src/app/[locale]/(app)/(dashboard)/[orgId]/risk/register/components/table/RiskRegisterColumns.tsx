@@ -1,8 +1,8 @@
-import type { Risk, User } from "@bubba/db/types";
+import type { Risk, User } from "@comp/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@bubba/ui/badge";
+import { Badge } from "@comp/ui/badge";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Status } from "@/components/status";
 
 export const columns = (

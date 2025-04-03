@@ -1,5 +1,5 @@
 import { getI18n } from "@/app/locales/server";
-import { Avatar, AvatarFallback, AvatarImageNext } from "@bubba/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -7,9 +7,9 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import { headers } from "next/headers";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { LocaleSwitch } from "./locale-switch";
 import { Logout } from "./logout";
 import { ThemeSwitch } from "./theme-switch";

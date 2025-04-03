@@ -6,13 +6,13 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 	BreadcrumbEllipsis,
-} from "@bubba/ui/breadcrumb";
+} from "@comp/ui/breadcrumb";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React from "react";

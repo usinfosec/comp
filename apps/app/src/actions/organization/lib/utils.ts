@@ -2,9 +2,9 @@ import type {
 	TemplateControl,
 	TemplateEvidence,
 	TemplatePolicy,
-} from "@bubba/data";
-import { controls, evidence, frameworks, policies } from "@bubba/data";
-import { db } from "@bubba/db";
+} from "@comp/data";
+import { controls, evidence, frameworks, policies } from "@comp/data";
+import { db } from "@comp/db";
 import { FrameworkId, type PolicyStatus, RequirementId } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 

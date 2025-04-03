@@ -2,7 +2,7 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import { z } from "zod";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
 
 const revokeApiKeySchema = z.object({

@@ -1,11 +1,11 @@
 "use client";
 
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
+import type { OrganizationPolicy, Policy } from "@comp/db/types";
 import { useState } from "react";
 import { PolicyGrid } from "./PolicyGrid";
 import { PolicyCarousel } from "./PolicyCarousel";
 import type { Session } from "@/app/lib/auth";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 interface PolicyContainerProps {

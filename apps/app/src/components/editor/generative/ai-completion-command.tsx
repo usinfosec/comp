@@ -1,4 +1,4 @@
-import { CommandGroup, CommandItem, CommandSeparator } from "@bubba/ui/command";
+import { CommandGroup, CommandItem, CommandSeparator } from "@comp/ui/command";
 import { TrashIcon } from "lucide-react";
 
 const AICompletionCommands = ({

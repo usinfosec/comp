@@ -1,9 +1,9 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Requirement } from "@bubba/data";
-import { FrameworkId } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import type { Requirement } from "@comp/data";
+import { FrameworkId } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
 

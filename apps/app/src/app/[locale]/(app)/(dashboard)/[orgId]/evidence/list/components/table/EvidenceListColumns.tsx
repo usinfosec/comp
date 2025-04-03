@@ -1,9 +1,9 @@
 "use client";
 
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Badge } from "@bubba/ui/badge";
-import { cn } from "@bubba/ui/cn";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
+import { cn } from "@comp/ui/cn";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { EVIDENCE_STATUS_HEX_COLORS } from "../../../(overview)/constants/evidence-status";

@@ -1,8 +1,8 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

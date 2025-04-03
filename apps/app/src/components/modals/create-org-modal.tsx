@@ -3,18 +3,18 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { frameworks } from "@bubba/data";
-import type { Organization } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Checkbox } from "@bubba/ui/checkbox";
-import { cn } from "@bubba/ui/cn";
+import { frameworks } from "@comp/data";
+import type { Organization } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Checkbox } from "@comp/ui/checkbox";
+import { cn } from "@comp/ui/cn";
 import {
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@bubba/ui/dialog";
+} from "@comp/ui/dialog";
 import {
 	Form,
 	FormControl,
@@ -22,12 +22,12 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Input } from "@bubba/ui/input";
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { Loader2 } from "lucide-react";
-import { useSession } from "@bubba/auth";
+import { useSession } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

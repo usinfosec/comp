@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { FrameworkInstanceWithControls } from "../types";
 
 export async function getAllFrameworkInstancesWithControls({

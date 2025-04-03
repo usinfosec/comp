@@ -2,7 +2,7 @@
 
 import { appErrors } from "@/lib/errors";
 import type { ActionResponse } from "@/types/actions";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import { Impact, Likelihood } from "@prisma/client";

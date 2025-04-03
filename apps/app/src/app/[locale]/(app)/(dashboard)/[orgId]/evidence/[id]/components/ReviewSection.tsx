@@ -9,9 +9,9 @@ import type {
 	Member,
 	User,
 	User as UserType,
-} from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+} from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { FileIcon } from "lucide-react";
 import type { EvidenceDetailsProps } from "../types";
 import { EditEvidenceForm } from "./EditEvidenceForm";

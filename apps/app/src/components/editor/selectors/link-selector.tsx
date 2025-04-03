@@ -1,6 +1,6 @@
-import { Button } from "@bubba/ui/button";
-import { PopoverContent } from "@bubba/ui/popover";
-import { cn } from "@bubba/ui/cn";
+import { Button } from "@comp/ui/button";
+import { PopoverContent } from "@comp/ui/popover";
+import { cn } from "@comp/ui/cn";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { Check, Trash } from "lucide-react";
 import { useEditor } from "novel";

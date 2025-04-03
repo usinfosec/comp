@@ -1,10 +1,10 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Input } from "@bubba/ui/input";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Input } from "@comp/ui/input";
+import { Skeleton } from "@comp/ui/skeleton";
 import { Search, X } from "lucide-react";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";

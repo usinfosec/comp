@@ -1,7 +1,7 @@
 "use client";
 
 import { Loading } from "@/components/tables/risk-tasks/loading";
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import {
 	flexRender,
 	getCoreRowModel,

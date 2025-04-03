@@ -7,12 +7,12 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Button } from "@bubba/ui/button";
+} from "@comp/ui/select";
+import { Button } from "@comp/ui/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateEmployeeDepartment } from "../actions/update-department";
-import type { Departments } from "@bubba/db/types";
+import type { Departments } from "@comp/db/types";
 
 const DEPARTMENTS = [
 	{ value: "admin", label: "Admin" },

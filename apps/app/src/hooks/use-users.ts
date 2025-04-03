@@ -1,4 +1,4 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { getServersideSession } from "@/lib/get-session";

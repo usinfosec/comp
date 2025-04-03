@@ -1,11 +1,11 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
 import {
 	getIntegrationHandler,
 	type DecryptFunction,
-} from "@bubba/integrations";
-import { decrypt } from "@bubba/app/src/lib/encryption";
+} from "@comp/integrations";
+import { decrypt } from "@comp/app/src/lib/encryption";
 
 export const sendIntegrationResults = schemaTask({
 	id: "send-integration-results",

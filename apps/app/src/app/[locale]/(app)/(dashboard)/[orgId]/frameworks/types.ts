@@ -5,7 +5,7 @@ import {
 	FrameworkInstance,
 	Policy,
 	RequirementMap,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 
 export type FrameworkInstanceWithControls = FrameworkInstance & {
 	controls: (Control & {

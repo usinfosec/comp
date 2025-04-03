@@ -4,9 +4,9 @@ import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "@/components/tables/people/employee-status";
-import type { Member, User } from "@bubba/db/types";
-import { Avatar, AvatarFallback } from "@bubba/ui/avatar";
-import { Badge } from "@bubba/ui/badge";
+import type { Member, User } from "@comp/db/types";
+import { Avatar, AvatarFallback } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 
 // Define a consistent type for employees with user data

@@ -1,11 +1,11 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import {
 	Departments,
 	RiskCategory,
 	RiskStatus,
 	Likelihood,
 	Impact,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";

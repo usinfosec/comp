@@ -1,4 +1,4 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { logger, schedules } from "@trigger.dev/sdk/v3";
 import { syncDeelEmployees } from "./index";
 

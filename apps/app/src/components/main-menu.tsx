@@ -1,14 +1,14 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
-import { Icons } from "@bubba/ui/icons";
+import { cn } from "@comp/ui/cn";
+import { Icons } from "@comp/ui/icons";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {

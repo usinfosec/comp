@@ -2,7 +2,7 @@
 
 import { Loading } from "@/components/tables/risk-tasks/loading";
 import { useI18n } from "@/locales/client";
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import {
 	flexRender,
 	getCoreRowModel,
@@ -11,7 +11,7 @@ import {
 import { Suspense } from "react";
 import { ControlsTableColumns } from "./ControlsTableColumns";
 import { ControlsTableHeader } from "./ControlsTableHeader";
-import type { Control } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
 
 interface DataTableProps {
 	data: (Control & {

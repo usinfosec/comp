@@ -1,7 +1,7 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { EvidenceDetails } from "./components/EvidenceDetails";
 import { headers } from "next/headers";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 
 interface EvidencePageProps {
 	params: Promise<{

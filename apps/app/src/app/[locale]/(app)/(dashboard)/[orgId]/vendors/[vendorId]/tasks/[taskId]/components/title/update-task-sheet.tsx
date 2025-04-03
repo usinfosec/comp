@@ -2,16 +2,16 @@
 
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
 import { useI18n } from "@/locales/client";
-import type { Task, VendorStatus } from "@bubba/db/types";
+import type { Task, VendorStatus } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@bubba/ui/accordion";
-import { Button } from "@bubba/ui/button";
-import { Calendar } from "@bubba/ui/calendar";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/ui/accordion";
+import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -19,17 +19,17 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Input } from "@bubba/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Textarea } from "@bubba/ui/textarea";
+} from "@comp/ui/select";
+import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ArrowRightIcon, CalendarIcon } from "lucide-react";

@@ -1,8 +1,8 @@
 "use client";
 
 import type { Column } from "@tanstack/react-table";
-import { Button } from "@bubba/ui/button";
-import { TableHead } from "@bubba/ui/table";
+import { Button } from "@comp/ui/button";
+import { TableHead } from "@comp/ui/table";
 
 interface DataTableColumnHeaderProps<TData, TValue> {
 	column: Column<TData, TValue>;

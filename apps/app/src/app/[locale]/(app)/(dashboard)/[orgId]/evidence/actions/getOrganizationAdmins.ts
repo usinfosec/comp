@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { Role } from "@prisma/client";
 
 export const getOrganizationAdmins = authActionClient

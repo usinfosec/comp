@@ -1,14 +1,14 @@
 "use client";
 
-import type { Departments } from "@bubba/db/types";
+import type { Departments } from "@comp/db/types";
 
 export interface PersonType {
-  id: string;
-  name: string;
-  email: string;
-  department: Departments;
-  externalEmployeeId?: string;
-  isActive: boolean;
+	id: string;
+	name: string;
+	email: string;
+	department: Departments;
+	externalEmployeeId?: string;
+	isActive: boolean;
 }
 
 // Note: Column definitions have been moved to data-table.tsx

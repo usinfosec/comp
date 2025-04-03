@@ -1,5 +1,5 @@
 {
-	"@comp/data",
+	"name": "@comp/data",
 	"version": "1.0.0",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",

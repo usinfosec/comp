@@ -1,8 +1,8 @@
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 import { useUsers } from "@/hooks/use-users";
 import { getI18n } from "@/locales/server";
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

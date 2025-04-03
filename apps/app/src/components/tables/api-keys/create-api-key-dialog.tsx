@@ -2,7 +2,7 @@
 
 import { createApiKeyAction } from "@/actions/organization/create-api-key-action";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -10,7 +10,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@bubba/ui/dialog";
+} from "@comp/ui/dialog";
 import {
 	Sheet,
 	SheetContent,
@@ -18,20 +18,20 @@ import {
 	SheetFooter,
 	SheetHeader,
 	SheetTitle,
-} from "@bubba/ui/sheet";
-import { Input } from "@bubba/ui/input";
+} from "@comp/ui/sheet";
+import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { Copy, Check, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useMediaQuery } from "@bubba/ui/hooks";
+import { useMediaQuery } from "@comp/ui/hooks";
 
 interface CreateApiKeyDialogProps {
 	open: boolean;

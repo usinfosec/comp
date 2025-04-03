@@ -11,7 +11,7 @@ model RequirementMap {
     @@index([requirementId, frameworkInstanceId])
 }
 
-// Ensure these map to @bubba/data requirements object
+// Ensure these map to @comp/data requirements object
 enum RequirementId {
     soc2_CC1
     soc2_CC2

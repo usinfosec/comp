@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@bubba/ui/card";
-import { Progress } from "@bubba/ui/progress";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Card, CardContent } from "@comp/ui/card";
+import { Progress } from "@comp/ui/progress";
+import { Skeleton } from "@comp/ui/skeleton";
 
 export default function Loading() {
 	return (

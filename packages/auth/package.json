@@ -1,22 +1,22 @@
 {
-  "@comp/auth",
-  "version": "1.0.0",
-  "private": true,
-  "main": "src/index.ts",
-  "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "better-auth": "^1.2.5",
-    "server-only": "0.0.1",
-    "@comp/email": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.2",
-    "@types/node-fetch": "^2.6.2",
-    "typescript": "^5.7.3"
-  }
+	"name": "@comp/auth",
+	"version": "1.0.0",
+	"private": true,
+	"main": "src/index.ts",
+	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"better-auth": "^1.2.5",
+		"server-only": "0.0.1",
+		"@comp/email": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.2",
+		"@types/node-fetch": "^2.6.2",
+		"typescript": "^5.7.3"
+	}
 }

@@ -3,8 +3,8 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Cloud, Loader2, Plus, Upload } from "lucide-react";
-import { cn } from "@bubba/ui/cn";
-import { Card, CardContent } from "@bubba/ui/card";
+import { cn } from "@comp/ui/cn";
+import { Card, CardContent } from "@comp/ui/card";
 import { useI18n } from "@/locales/client";
 
 interface FileUploadProps {

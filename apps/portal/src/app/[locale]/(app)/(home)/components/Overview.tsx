@@ -1,5 +1,5 @@
 import { auth } from "@/app/lib/auth";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { EmployeeTasksList } from "./EmployeeTasksList";
 

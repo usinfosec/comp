@@ -7,7 +7,7 @@ import {
 } from "nuqs/server";
 import * as z from "zod";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
-import { Policy, PolicyStatus } from "@bubba/db/types";
+import { Policy, PolicyStatus } from "@comp/db/types";
 
 export const searchParamsCache = createSearchParamsCache({
 	page: parseAsInteger.withDefault(1),

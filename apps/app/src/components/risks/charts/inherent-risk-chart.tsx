@@ -2,20 +2,20 @@
 
 import { InherentRiskSheet } from "@/components/sheets/inherent-risk";
 import { useI18n } from "@/locales/client";
-import type { Risk, Likelihood, Impact } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { Risk, Likelihood, Impact } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@bubba/ui/card";
+} from "@comp/ui/card";
 import {
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-} from "@bubba/ui/chart";
+} from "@comp/ui/chart";
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import {

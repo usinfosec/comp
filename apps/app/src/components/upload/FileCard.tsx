@@ -10,21 +10,21 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@bubba/ui/alert-dialog";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardFooter } from "@bubba/ui/card";
+} from "@comp/ui/alert-dialog";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardFooter } from "@comp/ui/card";
 import {
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	DialogTrigger,
-} from "@bubba/ui/dialog";
+} from "@comp/ui/dialog";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import { ExternalLink, Loader2, Maximize2, Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";

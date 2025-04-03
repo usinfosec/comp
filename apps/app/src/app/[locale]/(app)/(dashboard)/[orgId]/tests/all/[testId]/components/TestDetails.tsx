@@ -1,12 +1,12 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { User } from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Badge } from "@bubba/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Label } from "@bubba/ui/label";
-import { Skeleton } from "@bubba/ui/skeleton";
+import type { User } from "@comp/db/types";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
+import { Badge } from "@comp/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Label } from "@comp/ui/label";
+import { Skeleton } from "@comp/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -14,8 +14,8 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+} from "@comp/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { AlertCircle, User as UserIcon } from "lucide-react";
 import { useTest } from "../../hooks/useTest";
 import { AssigneeSection } from "./AssigneeSection";

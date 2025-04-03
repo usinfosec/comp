@@ -1,13 +1,13 @@
 "use client";
 
-import type { Frequency } from "@bubba/db/types";
+import type { Frequency } from "@comp/db/types";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { RefreshCw } from "lucide-react";
 
 interface FrequencySectionProps {

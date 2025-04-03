@@ -1,14 +1,14 @@
 "use client";
 
-import { Member, User } from "@bubba/db/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+import { Member, User } from "@comp/db/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { User as UserIcon } from "lucide-react";
 import { useState } from "react";
 
