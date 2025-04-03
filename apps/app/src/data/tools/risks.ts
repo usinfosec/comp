@@ -41,7 +41,7 @@ export const getRisks = tool({
 				status,
 				department,
 				category,
-				ownerId: owner,
+				assigneeId: owner,
 			},
 			select: {
 				id: true,

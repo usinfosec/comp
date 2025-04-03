@@ -65,14 +65,17 @@ export async function GET(
 				residualImpact: true,
 				createdAt: true,
 				updatedAt: true,
-				ownerId: true,
+				assigneeId: true,
 				treatmentStrategy: true,
 				treatmentStrategyDescription: true,
-				owner: {
+				assignee: {
 					select: {
 						id: true,
-						name: true,
-						email: true,
+						user: {
+							select: {
+								name: true,
+							},
+						},
 					},
 				},
 			},
@@ -104,7 +107,7 @@ export async function GET(
 				dueDate: true,
 				createdAt: true,
 				updatedAt: true,
-				userId: true,
+				assigneeId: true,
 			},
 			orderBy: {
 				createdAt: "desc",

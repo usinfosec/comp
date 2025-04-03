@@ -1,6 +1,6 @@
 import { auth } from "@comp/auth";
 import { db } from "@comp/db";
-import type { Departments, Member } from "@comp/db/types";
+import type { Departments, Member, Role } from "@comp/db/types";
 import { InvitePortalEmail } from "@comp/email/emails/invite-portal";
 import { sendEmail } from "@comp/email/lib/resend";
 import { revalidatePath } from "next/cache";
@@ -179,7 +179,7 @@ async function handleExistingUser({
 
 		return {
 			...existingMember,
-			role: updatedMember.role,
+			role: updatedMember.role as Role,
 		};
 	}
 

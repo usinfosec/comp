@@ -6,6 +6,7 @@ import { ac, owner, admin, auditor, member, employee } from "./permissions";
 import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
 import { sendEmail } from "@comp/email/lib/resend";
 import { nextCookies } from "better-auth/next-js";
+import { OTPVerificationEmail } from "@comp/email";
 
 export const auth = betterAuth({
 	database: prismaAdapter(db, {

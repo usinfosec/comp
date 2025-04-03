@@ -68,9 +68,16 @@ export const updateMemberRole = authActionClient
 					};
 				}
 
+				if (!role) {
+					throw new Error("Role is required");
+				}
+
+				// Convert role to a valid role type for the authClient
+				const validRole = role === "auditor" ? "member" : role;
+
 				await authClient.organization.updateMemberRole({
 					memberId: targetMember.userId,
-					role: role,
+					role: validRole as "owner" | "admin" | "member",
 					organizationId: ctx.session.activeOrganizationId ?? "",
 				});
 
