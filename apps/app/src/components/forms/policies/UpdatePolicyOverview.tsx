@@ -2,17 +2,20 @@
 
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
+import { SelectAssignee } from "@/app/[locale]/(app)/(dashboard)/[orgId]/components/SelectAssignee";
 import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
 	Frequency,
+	Member,
+	User,
 	type Policy,
 	type PolicyStatus,
-} from "@comp/db/types";
-import { Button } from "@comp/ui/button";
-import { Calendar } from "@comp/ui/calendar";
-import { cn } from "@comp/ui/cn";
+} from "@bubba/db/types";
+import { Button } from "@bubba/ui/button";
+import { Calendar } from "@bubba/ui/calendar";
+import { cn } from "@bubba/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -20,20 +23,19 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@comp/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
+} from "@bubba/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@comp/ui/select";
-import { Switch } from "@comp/ui/switch";
+} from "@bubba/ui/select";
+import { Switch } from "@bubba/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useSession } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -47,11 +49,12 @@ const policyStatuses: PolicyStatus[] = [
 
 export function UpdatePolicyOverview({
 	policy,
+	assignees,
 }: {
 	policy: Policy;
+	assignees: (Member & { user: User })[];
 }) {
 	const t = useI18n();
-	const session = useSession();
 
 	const updatePolicyForm = useAction(updatePolicyFormAction, {
 		onSuccess: () => {
@@ -76,7 +79,7 @@ export function UpdatePolicyOverview({
 		defaultValues: {
 			id: policy.id,
 			status: policy.status,
-			assigneeId: policy.assigneeId ?? session.data?.user?.id,
+			assigneeId: policy.assigneeId ?? "",
 			department: policy.department ?? Departments.admin,
 			review_frequency: policy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
@@ -195,6 +198,27 @@ export function UpdatePolicyOverview({
 											})}
 										</SelectContent>
 									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="assigneeId"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									{t("policies.overview.form.policy_assignee")}
+								</FormLabel>
+								<FormControl>
+									<SelectAssignee
+										assignees={assignees}
+										onAssigneeChange={field.onChange}
+										assigneeId={field.value ?? null}
+										disabled={updatePolicyForm.status === "executing"}
+										withTitle={false}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
