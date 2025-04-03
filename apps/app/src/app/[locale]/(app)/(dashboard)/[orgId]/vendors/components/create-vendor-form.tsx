@@ -1,8 +1,8 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Member, useSession } from "@comp/auth";
-import { User, VendorCategory, VendorStatus } from "@comp/db/types";
+import { useSession } from "@comp/auth";
+import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -49,9 +49,7 @@ const createVendorSchema = z.object({
 
 export function CreateVendorForm({
 	assignees,
-}: {
-	assignees: (Member & { user: User })[];
-}) {
+}: { assignees: (Member & { user: User })[] }) {
 	const t = useI18n();
 	const session = useSession();
 
@@ -292,7 +290,7 @@ export function CreateVendorForm({
 													<FormControl>
 														<SelectAssignee
 															assignees={assignees}
-															assigneeId={field.value}
+															assigneeId={field.value ?? null}
 															withTitle={false}
 															onAssigneeChange={field.onChange}
 														/>

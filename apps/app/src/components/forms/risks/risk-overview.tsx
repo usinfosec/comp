@@ -95,7 +95,7 @@ export function UpdateRiskOverview({
 								<FormLabel>{t("common.assignee.label")}</FormLabel>
 								<FormControl>
 									<SelectAssignee
-										assigneeId={field.value}
+										assigneeId={field.value ?? null}
 										assignees={assignees}
 										onAssigneeChange={field.onChange}
 										disabled={updateRisk.status === "executing"}
