@@ -1,5 +1,5 @@
 model Integration {
-  id             String              @id @default(cuid())
+  id             String              @id @default(dbgenerated("generate_prefixed_cuid('int'::text)"))
   name           String              @unique
   integrationId  String
   settings       Json
@@ -13,7 +13,7 @@ model Integration {
 }
 
 model IntegrationResult {
-  id             String    @id @default(cuid())
+  id             String    @id @default(dbgenerated("generate_prefixed_cuid('itr'::text)"))
   title          String?
   description    String?
   remediation    String?

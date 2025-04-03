@@ -94,26 +94,33 @@ export async function createFrameworkInstance(
     throw new Error(`Framework with ID ${frameworkId} not found`);
   }
 
-  // Use upsert to handle the case where a record may already exist
-  const frameworkInstance = await db.frameworkInstance.upsert({
+  // Check if a framework instance already exists
+  const existingFrameworkInstance = await db.frameworkInstance.findUnique({
     where: {
       organizationId_frameworkId: {
         organizationId,
         frameworkId: frameworkId as FrameworkId,
       },
     },
-    update: {
-      organizationId,
-      frameworkId: frameworkId as FrameworkId,
-    },
-    create: {
-      organizationId,
-      frameworkId: frameworkId as FrameworkId,
-    },
-    select: {
-      id: true,
-    },
   });
+
+  // Create or update the framework instance
+  const frameworkInstance = existingFrameworkInstance
+    ? await db.frameworkInstance.update({
+        where: {
+          id: existingFrameworkInstance.id,
+        },
+        data: {
+          organizationId,
+          frameworkId: frameworkId as FrameworkId,
+        },
+      })
+    : await db.frameworkInstance.create({
+        data: {
+          organizationId,
+          frameworkId: frameworkId as FrameworkId,
+        },
+      });
 
   console.info("Created/updated organization framework", {
     organizationId,

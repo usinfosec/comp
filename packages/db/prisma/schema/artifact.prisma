@@ -1,6 +1,6 @@
 model Artifact {
   // Metadata
-  id   String       @id @default(cuid())
+  id   String       @id @default(dbgenerated("generate_prefixed_cuid('art'::text)"))
   type ArtifactType
 
   // Timestamps
