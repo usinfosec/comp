@@ -63,9 +63,7 @@ export function ResidualRiskForm({
 
 	async function onSubmit(values: FormValues) {
 		try {
-			// Set this immediately to force closing the sheet
-			setOpen(null);
-
+			// Call the server action
 			const response = await updateVendorResidualRisk({
 				vendorId,
 				residualProbability: values.residualProbability,
@@ -80,17 +78,27 @@ export function ResidualRiskForm({
 					description: result?.error || t("common.unexpected_error"),
 					variant: "destructive",
 				});
-				return;
+				return; // Stop execution on failure
 			}
 
-			// Show success toast
+			// On success:
+			// 1. Show success toast
 			toast({
 				title: t("common.success"),
 				description: t("vendors.risks.residual_risk_updated"),
 			});
 
-			// Force page refresh rather than router manipulation
-			window.location.reload();
+			// 2. Refresh the page data first to ensure it's updated before navigation
+			router.refresh();
+
+			// 3. Close the sheet by navigating to the same route without the query parameter
+			const params = new URLSearchParams(searchParams);
+			params.delete("residual-risk-sheet");
+			const newPath = `${window.location.pathname}${params.size > 0 ? `?${params.toString()}` : ""}`;
+			router.replace(newPath, { scroll: false });
+
+			// 4. Call onSuccess callback if provided (optional, might not be needed if navigation handles updates)
+			if (onSuccess) onSuccess();
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({

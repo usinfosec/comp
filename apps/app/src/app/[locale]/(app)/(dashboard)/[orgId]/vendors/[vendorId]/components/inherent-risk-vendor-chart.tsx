@@ -48,6 +48,14 @@ export function InherentRiskVendorChart({ vendor }: InherentRiskChartProps) {
 	const t = useI18n();
 	const [open, setOpen] = useQueryState("inherent-risk-sheet");
 
+	// Debug information
+	console.log("VENDOR DATA:", {
+		inherentProbability: vendor.inherentProbability,
+		inherentImpact: vendor.inherentImpact,
+		probabilityScore: LIKELIHOOD_SCORES[vendor.inherentProbability],
+		impactScore: IMPACT_SCORES[vendor.inherentImpact],
+	});
+
 	// Calculate risk score from probability and impact
 	const riskScore =
 		LIKELIHOOD_SCORES[vendor.inherentProbability] *
@@ -62,42 +70,28 @@ export function InherentRiskVendorChart({ vendor }: InherentRiskChartProps) {
 	// Get color based on risk level
 	const riskColor = RISK_COLORS[riskLevel as keyof typeof RISK_COLORS];
 
-	// Generate the 5x5 matrix
-	const matrix = [] as {
-		x: number;
-		y: number;
-		color: string;
-		isActive: boolean;
-	}[];
+	// Define the visual order of likelihood for rendering
+	const VISUAL_LIKELIHOOD_ORDER: Likelihood[] = [
+		Likelihood.very_likely,
+		Likelihood.likely,
+		Likelihood.possible,
+		Likelihood.unlikely,
+		Likelihood.very_unlikely,
+	];
 
-	for (let impactScore = 5; impactScore >= 1; impactScore--) {
-		for (let likelihoodScore = 1; likelihoodScore <= 5; likelihoodScore++) {
-			const cellScore = likelihoodScore * impactScore;
-			let cellColor = RISK_COLORS.low;
-
-			if (cellScore > 16) cellColor = RISK_COLORS.critical;
-			else if (cellScore > 9) cellColor = RISK_COLORS.high;
-			else if (cellScore > 4) cellColor = RISK_COLORS.medium;
-
-			matrix.push({
-				x: likelihoodScore,
-				y: impactScore,
-				color: cellColor,
-				isActive:
-					likelihoodScore === LIKELIHOOD_SCORES[vendor.inherentProbability] &&
-					impactScore === IMPACT_SCORES[vendor.inherentImpact],
-			});
-		}
-	}
-
+	// We'll determine the active cell while building the grid
 	const yAxisLabels = [
-		"V.Likely",
+		"V.Likely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[0]
 		"Likely",
 		"Possible",
 		"Unlikely",
-		"V.Unlikely",
+		"V.Unlikely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[4]
 	];
 	const xAxisLabels = ["Insig", "Minor", "Mod", "Major", "Severe"];
+
+	// Store the active cell position values
+	const activeProbability = vendor.inherentProbability;
+	const activeImpact = vendor.inherentImpact;
 
 	return (
 		<>
@@ -137,41 +131,63 @@ export function InherentRiskVendorChart({ vendor }: InherentRiskChartProps) {
 							<div className="absolute top-0 left-[90px] right-[10px] bottom-[35px]">
 								<div className="relative w-full h-full border-l border-b">
 									{/* Grid rows */}
-									{[...Array(5)].map((_, rowIndex) => (
-										<div
-											key={`row-${rowIndex}`}
-											className="h-[20%] flex border-t"
-										>
-											{/* Grid cells for this row */}
-											{[...Array(5)].map((_, colIndex) => {
-												// Find the corresponding cell in our matrix data
-												const cell = matrix.find(
-													(m) => m.x === colIndex + 1 && m.y === 5 - rowIndex,
-												);
+									{[...Array(5)].map((_, rowIndex) => {
+										// Map row index to likelihood enum based on visual order
+										const rowLikelihood = VISUAL_LIKELIHOOD_ORDER[rowIndex];
 
-												return (
-													<div
-														key={`cell-${rowIndex}-${colIndex}`}
-														className="w-[20%] border-r relative"
-														style={{ backgroundColor: `${cell?.color}25` }}
-													>
-														{cell?.isActive && (
-															<div className="absolute inset-0 flex items-center justify-center">
-																<div
-																	className="absolute inset-0 z-10 border-2"
-																	style={{
-																		backgroundColor: cell.color,
-																		borderColor: cell.color,
-																		opacity: 0.9,
-																	}}
-																/>
-															</div>
-														)}
-													</div>
-												);
-											})}
-										</div>
-									))}
+										return (
+											<div
+												key={`row-${rowIndex}`}
+												className="h-[20%] flex border-t"
+											>
+												{/* Grid cells for this row */}
+												{[...Array(5)].map((_, colIndex) => {
+													// Map column index to impact enum
+													const colImpact = Object.keys(IMPACT_SCORES)[
+														colIndex
+													] as Impact;
+
+													// Calculate cell score and color
+													const likelihoodScore =
+														LIKELIHOOD_SCORES[rowLikelihood];
+													const impactScore = IMPACT_SCORES[colImpact];
+													const cellScore = likelihoodScore * impactScore;
+
+													let cellColor = RISK_COLORS.low;
+													if (cellScore > 16) cellColor = RISK_COLORS.critical;
+													else if (cellScore > 9) cellColor = RISK_COLORS.high;
+													else if (cellScore > 4)
+														cellColor = RISK_COLORS.medium;
+
+													// Check if this is the active cell
+													const isActive =
+														rowLikelihood === activeProbability &&
+														colImpact === activeImpact;
+
+													return (
+														<div
+															key={`cell-${rowIndex}-${colIndex}`}
+															className="w-[20%] border-r relative"
+															style={{ backgroundColor: `${cellColor}25` }}
+														>
+															{isActive && (
+																<div className="absolute inset-0 flex items-center justify-center">
+																	<div
+																		className="absolute inset-0 z-10 border-2"
+																		style={{
+																			backgroundColor: cellColor,
+																			borderColor: cellColor,
+																			opacity: 0.9,
+																		}}
+																	/>
+																</div>
+															)}
+														</div>
+													);
+												})}
+											</div>
+										);
+									})}
 
 									{/* Y-axis labels - positioned outside the grid */}
 									{yAxisLabels.map((label, i) => (
