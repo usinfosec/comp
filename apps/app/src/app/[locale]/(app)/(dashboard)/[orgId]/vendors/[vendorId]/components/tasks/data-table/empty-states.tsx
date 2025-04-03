@@ -64,7 +64,7 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
 				</Button>
 			</div>
 
-			<CreateVendorTaskSheet />
+			{/* <CreateVendorTaskSheet assignees={[]} /> */}
 		</div>
 	);
 }
