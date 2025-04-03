@@ -68,8 +68,6 @@ export const SingleControl = ({
 				requirements={control.requirementsMapped}
 				orgId={orgId}
 			/>
-			<Separator />
-
 			<ArtifactsTable
 				artifacts={relatedArtifacts}
 				orgId={orgId}

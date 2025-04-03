@@ -39,7 +39,7 @@ export const frameworks = {
 			control: "Control",
 			artifacts: "Artifacts",
 			actions: "Actions",
-			requirements: "Mapped Requirements",
+			requirements: "Linked Requirements",
 		},
 		statuses: {
 			completed: "Completed",
@@ -49,7 +49,7 @@ export const frameworks = {
 	},
 	requirements: {
 		requirement: "Requirement",
-		title: "Requirements",
+		title: "Linked Requirements",
 		description: "Review and manage compliance requirements",
 		table: {
 			id: "ID",
@@ -64,7 +64,7 @@ export const frameworks = {
 		},
 	},
 	artifacts: {
-		title: "Related Artifacts",
+		title: "Linked Artifacts",
 		table: {
 			id: "ID",
 			name: "Name",
@@ -77,6 +77,6 @@ export const frameworks = {
 			type_placeholder: "Filter by type...",
 			universal_placeholder: "Search artifacts...",
 		},
-		no_artifacts: "No related artifacts found",
+		no_artifacts: "No Linked Artifacts found",
 	},
 } as const;

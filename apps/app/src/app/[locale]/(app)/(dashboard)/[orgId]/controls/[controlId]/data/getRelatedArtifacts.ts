@@ -72,7 +72,7 @@ export const getRelatedArtifacts = cache(
 				};
 			});
 		} catch (error) {
-			console.error("Error fetching related artifacts:", error);
+			console.error("Error fetching Linked Artifacts:", error);
 			return [];
 		}
 	},
