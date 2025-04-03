@@ -9,7 +9,6 @@ model User {
     lastLogin     DateTime?
 
     accounts           Account[]
-    assignedEvidence   Evidence[]
     auditLog           AuditLog[]
     integrationResults IntegrationResult[]
     invitations        Invitation[]
@@ -88,6 +87,7 @@ model Member {
     department                      Departments                       @default(none)
     isActive                        Boolean                           @default(true)
     EmployeeTrainingVideoCompletion EmployeeTrainingVideoCompletion[]
+    Evidence                        Evidence[]
 }
 
 model Invitation {

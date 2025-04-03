@@ -5,6 +5,7 @@ import { getControl } from "./data/getControl";
 import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
 import { headers } from "next/headers";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 interface PageProps {
 	params: Promise<{ controlId: string }>;
@@ -41,5 +42,17 @@ export default async function SingleControlPage({ params }: PageProps) {
 		byType: {},
 	};
 
-	return <SingleControl control={control} controlProgress={controlProgress} />;
+	return (
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{
+					label: "Controls",
+					href: `/${session.session.activeOrganizationId}/controls`,
+				},
+				{ label: control.name },
+			]}
+		>
+			<SingleControl control={control} controlProgress={controlProgress} />
+		</PageWithBreadcrumb>
+	);
 }

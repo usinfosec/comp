@@ -28,7 +28,7 @@ export function ControlsTableColumns(): ColumnDef<ControlTableType>[] {
 				const control = row.original;
 				return (
 					<Link
-						href={`/${params.locale}/${params.orgId}/controls/${control.id}`}
+						href={`/${params.orgId}/controls/${control.id}`}
 						className="hover:underline"
 					>
 						{control.name}

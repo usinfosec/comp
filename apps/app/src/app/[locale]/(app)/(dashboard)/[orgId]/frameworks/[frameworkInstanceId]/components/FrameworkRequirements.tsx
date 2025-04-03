@@ -76,7 +76,7 @@ export function FrameworkRequirements({
 						>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full"
 								>
 									{requirement.id}
@@ -84,7 +84,7 @@ export function FrameworkRequirements({
 							</TableCell>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full"
 								>
 									{requirement.name}
@@ -100,7 +100,7 @@ export function FrameworkRequirements({
 							</TableCell>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full text-sm text-muted-foreground"
 								>
 									{requirement.mappedControlsCount}
