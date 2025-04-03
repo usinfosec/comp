@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
-import PageWithBreadcrumb from "../components/PageWithBreadcrumb";
+import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
 import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 interface PageProps {
 	params: Promise<{

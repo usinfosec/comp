@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInstancesWithControls";
-import PageWithBreadcrumb from "./components/PageWithBreadcrumb";
+import PageWithBreadcrumb from "../../../../../../components/pages/PageWithBreadcrumb";
 
 export async function generateMetadata() {
 	const t = await getI18n();
