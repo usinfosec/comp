@@ -1,37 +1,74 @@
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { ControlsOverview } from "./components/ControlsOverview";
-import { getAllOrganizationControls } from "./data/getAllOrganizationControls";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { Metadata } from "next";
+import { setStaticParamsLocale } from "next-international/server";
+import { SearchParams } from "nuqs";
+import { getValidFilters } from "@/lib/data-table";
+import { searchParamsCache } from "./data/validations";
+import { getControls } from "./data/queries";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+import { Suspense } from "react";
+import { ControlsTable } from "./components/controls-table";
 
-export async function generateMetadata() {
-	const t = await getI18n();
-
-	return {
-		title: t("controls.overview.title"),
-	};
+interface ControlTableProps {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<SearchParams>;
 }
 
-export default async function ControlsPage() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+export default async function ControlsPage({
+  params,
+  ...props
+}: ControlTableProps) {
+  const { locale } = await params;
+  const searchParams = await props.searchParams;
+  const search = searchParamsCache.parse(searchParams);
+  const validFilters = getValidFilters(search.filters);
+  setStaticParamsLocale(locale);
 
-	const organizationId = session?.session.activeOrganizationId;
+  const promises = Promise.all([
+    getControls({
+      ...search,
+      filters: validFilters,
+    }),
+  ]);
 
-	if (!organizationId) {
-		redirect("/");
-	}
+  return (
+    <PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
+      <Suspense
+        fallback={
+          <DataTableSkeleton
+            columnCount={3}
+            filterCount={2}
+            cellWidths={[
+              "10rem",
+              "30rem",
+              "10rem",
+              "10rem",
+              "6rem",
+              "6rem",
+              "6rem",
+            ]}
+            shrinkZero
+          />
+        }
+      >
+        <ControlsTable promises={promises} />
+      </Suspense>
+    </PageWithBreadcrumb>
+  );
+}
 
-	const controls = await getAllOrganizationControls({
-		organizationId,
-	});
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
 
-	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
-			<ControlsOverview controls={controls} organizationId={organizationId} />
-		</PageWithBreadcrumb>
-	);
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
+
+  return {
+    title: t("sidebar.policies"),
+  };
 }

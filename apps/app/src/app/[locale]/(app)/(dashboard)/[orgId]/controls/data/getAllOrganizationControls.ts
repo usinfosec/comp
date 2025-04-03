@@ -3,24 +3,20 @@
 import { auth } from "@comp/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
+import { cache } from "react";
 
-export async function getAllOrganizationControls(params: {
-	organizationId: string;
-}) {
+export const getAllOrganizationControls = cache(async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
-	if (
-		!session ||
-		session.session.activeOrganizationId !== params.organizationId
-	) {
+	if (!session || !session.session.activeOrganizationId) {
 		throw new Error("Unauthorized");
 	}
 
 	const controls = await db.control.findMany({
 		where: {
-			organizationId: params.organizationId,
+			organizationId: session.session.activeOrganizationId,
 		},
 		include: {
 			artifacts: {
@@ -42,4 +38,4 @@ export async function getAllOrganizationControls(params: {
 	});
 
 	return controls;
-}
+});

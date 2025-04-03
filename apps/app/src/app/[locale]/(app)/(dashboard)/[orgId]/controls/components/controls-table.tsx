@@ -4,28 +4,29 @@ import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getPolicies } from "../data/queries";
+import { getControls } from "../data/queries";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
-import { getPolicyColumns } from "./policies-table-columns";
+import { getControlColumns } from "./controls-table-columns";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 
-interface PoliciesTableProps {
+interface ControlsTableProps {
   promises: Promise<[
-    Awaited<ReturnType<typeof getPolicies>>
+    Awaited<ReturnType<typeof getControls>>
   ]>;
 }
 
-export function PoliciesTable({ promises }: PoliciesTableProps) {
+export function ControlsTable({ promises }: ControlsTableProps) {
   const [{ data, pageCount }] = React.use(promises);
 
-  const columns = React.useMemo(() => getPolicyColumns(), []);
+  const columns = React.useMemo(() => getControlColumns(), []);
 
   const { table } = useDataTable({
     data,
     columns,
     pageCount,
     initialState: {
+      sorting: [{ id: "name", desc: true }],
       columnPinning: { right: ["actions"] },
     },
     getRowId: (originalRow) => originalRow.id,
@@ -39,7 +40,7 @@ export function PoliciesTable({ promises }: PoliciesTableProps) {
         table={table}
         getRowId={(row) => row.id}
       >
-        <DataTableToolbar table={table} sheet="create-policy-sheet" action="Create Policy">
+        <DataTableToolbar table={table} sheet="create-control-sheet" action="Create Control">
           <DataTableSortList table={table} align="end" />
         </DataTableToolbar>
       </DataTable>
