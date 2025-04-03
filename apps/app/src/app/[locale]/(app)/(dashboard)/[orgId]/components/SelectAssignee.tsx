@@ -68,6 +68,13 @@ export const SelectAssignee = ({
 		return image;
 	};
 
+	// Render the none fallback avatar
+	const renderNoneAvatar = () => (
+		<div className="flex items-center justify-center h-5 w-5 rounded-full bg-muted">
+			<UserIcon className="h-3 w-3" />
+		</div>
+	);
+
 	return (
 		<div className="flex flex-col gap-2">
 			{withTitle && (
@@ -101,11 +108,7 @@ export const SelectAssignee = ({
 						</div>
 					) : (
 						<div className="flex items-center gap-2">
-							<Avatar className="h-5 w-5 shrink-0">
-								<AvatarFallback>
-									<UserIcon className="h-3 w-3" />
-								</AvatarFallback>
-							</Avatar>
+							{renderNoneAvatar()}
 							<span>None</span>
 						</div>
 					)}
@@ -118,11 +121,7 @@ export const SelectAssignee = ({
 				>
 					<SelectItem value="none" className="w-full p-0 overflow-hidden">
 						<div className="flex items-center gap-2 py-1.5 px-3 w-full">
-							<Avatar className="h-5 w-5 shrink-0">
-								<AvatarFallback>
-									<UserIcon className="h-3 w-3" />
-								</AvatarFallback>
-							</Avatar>
+							{renderNoneAvatar()}
 							<span>None</span>
 						</div>
 					</SelectItem>

@@ -2,11 +2,13 @@
 
 import { updateRiskAction } from "@/actions/risk/update-risk-action";
 import { updateRiskSchema } from "@/actions/schema";
+import { SelectAssignee } from "@/app/[locale]/(app)/(dashboard)/[orgId]/components/SelectAssignee";
 import { SelectUser } from "@/components/select-user";
 import { STATUS_TYPES, Status, type StatusType } from "@/components/status";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
+	Member,
 	type Risk,
 	RiskCategory,
 	RiskStatus,
@@ -38,10 +40,10 @@ import type { z } from "zod";
 
 export function UpdateRiskOverview({
 	risk,
-	users,
+	assignees,
 }: {
 	risk: Risk;
-	users: User[];
+	assignees: (Member & { user: User })[];
 }) {
 	const t = useI18n();
 
@@ -60,7 +62,7 @@ export function UpdateRiskOverview({
 			id: risk.id,
 			title: risk.title ?? "",
 			description: risk.description ?? "",
-			ownerId: risk.ownerId ?? undefined,
+			assigneeId: risk.assigneeId ?? null,
 			category: risk.category ?? RiskCategory.operations,
 			department: risk.department ?? Departments.admin,
 			status: risk.status ?? RiskStatus.open,
@@ -72,7 +74,7 @@ export function UpdateRiskOverview({
 			id: data.id,
 			title: data.title,
 			description: data.description,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			category: data.category,
 			department: data.department,
 			status: data.status,
@@ -87,30 +89,18 @@ export function UpdateRiskOverview({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="ownerId"
+						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>{t("common.assignee.label")}</FormLabel>
 								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-										onOpenChange={() => form.handleSubmit(onSubmit)}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t("common.assignee.placeholder")}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectUser
-												isLoading={false}
-												onSelect={field.onChange}
-												selectedId={field.value}
-												users={users}
-											/>
-										</SelectContent>
-									</Select>
+									<SelectAssignee
+										assigneeId={field.value}
+										assignees={assignees}
+										onAssigneeChange={field.onChange}
+										disabled={updateRisk.status === "executing"}
+										withTitle={false}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

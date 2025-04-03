@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Task } from "@comp/db/types";
+import type { Member, Task, User } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
@@ -18,11 +18,12 @@ const UpdateTaskSheet = dynamic(
 
 interface TitleProps {
 	task: Task & {
-		user: { name: string | null; image: string | null } | null;
+		assignee: { user: User } | null;
 	};
+	assignees: (Member & { user: User })[];
 }
 
-export default function Title({ task }: TitleProps) {
+export default function Title({ task, assignees }: TitleProps) {
 	const t = useI18n();
 	const [isOpen, setOpen] = useQueryState("task-overview-sheet");
 	const open = isOpen === "true";
@@ -52,7 +53,7 @@ export default function Title({ task }: TitleProps) {
 				onOpenChange={(isOpen) => setOpen(isOpen ? "true" : null)}
 			>
 				<SheetContent className="sm:max-w-md md:max-w-lg lg:max-w-xl">
-					{open && <UpdateTaskSheet task={task} />}
+					{open && <UpdateTaskSheet task={task} assignees={assignees} />}
 				</SheetContent>
 			</Sheet>
 		</div>

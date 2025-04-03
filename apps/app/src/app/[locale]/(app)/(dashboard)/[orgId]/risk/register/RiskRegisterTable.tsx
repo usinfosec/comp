@@ -3,23 +3,31 @@
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
-import type { Departments, Risk, RiskStatus, User } from "@comp/db/types";
+import type {
+	Departments,
+	Member,
+	Risk,
+	RiskStatus,
+	User,
+} from "@comp/db/types";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
-import { useOrganizationAdmins } from "../../hooks/useOrganizationAdmins";
 import { columns } from "./components/table/RiskRegisterColumns";
 import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
 import { useSession } from "@comp/auth";
 
-type RiskRegisterTableRow = Risk & { owner: User | null };
+// Define the expected structure of a risk with User as assignee
+export type RiskRegisterTableRow = Risk & { assignee: User | null };
 
 export const RiskRegisterTable = ({
 	risks,
 	isLoading,
+	assignees,
 }: {
 	risks: RiskRegisterTableRow[];
 	isLoading: boolean;
+	assignees: (Member & { user: User })[];
 }) => {
 	const t = useI18n();
 	const session = useSession();
@@ -75,12 +83,10 @@ export const RiskRegisterTable = ({
 		"qms",
 	] as const;
 
-	const { data: admins } = useOrganizationAdmins();
-
 	const filterCategories = RiskRegisterFilters({
 		setPage: (newPage: number) => setPage(newPage),
 		departments: departments,
-		assignees: admins || [],
+		assignees,
 		status,
 		setStatus,
 		department,
@@ -91,7 +97,7 @@ export const RiskRegisterTable = ({
 
 	return (
 		<>
-			<DataTable<RiskRegisterTableRow>
+			<DataTable
 				columns={columns(orgId ?? "")}
 				data={risks}
 				isLoading={isLoading}
@@ -123,7 +129,7 @@ export const RiskRegisterTable = ({
 					icon: <Plus className="h-4 w-4 mr-2" />,
 				}}
 			/>
-			<CreateRiskSheet />
+			<CreateRiskSheet assignees={assignees} />
 		</>
 	);
 };

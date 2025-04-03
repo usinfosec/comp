@@ -2,10 +2,9 @@
 
 import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
-import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
-import { SelectUser } from "@/components/select-user";
+import { SelectAssignee } from "@/app/[locale]/(app)/(dashboard)/[orgId]/components/SelectAssignee";
 import { useI18n } from "@/locales/client";
-import type { RiskStatus } from "@comp/db/types";
+import type { Member, RiskStatus, User } from "@comp/db/types";
 import { Departments, RiskCategory } from "@comp/db/types";
 import {
 	Accordion,
@@ -39,13 +38,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-interface User {
-	id: string;
-	image?: string | null;
-	name: string | null;
-}
-
-export function CreateRisk() {
+export function CreateRisk({
+	assignees,
+}: { assignees: (Member & { user: User })[] }) {
 	const t = useI18n();
 
 	// Get the same query parameters as the table
@@ -71,7 +66,6 @@ export function CreateRisk() {
 		parse: (value) => value,
 	});
 
-	const { data: admins, isLoading: isLoadingAdmins } = useOrganizationAdmins();
 	const [_, setCreateRiskSheet] = useQueryState("create-risk-sheet");
 
 	const createRisk = useAction(createRiskAction, {
@@ -91,6 +85,7 @@ export function CreateRisk() {
 			description: "",
 			category: RiskCategory.operations,
 			department: Departments.admin,
+			assigneeId: null,
 		},
 	});
 
@@ -241,29 +236,18 @@ export function CreateRisk() {
 										/>
 										<FormField
 											control={form.control}
-											name="ownerId"
+											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>{t("common.assignee.label")}</FormLabel>
 													<FormControl>
-														<Select
-															value={field.value}
-															onValueChange={field.onChange}
-														>
-															<SelectTrigger>
-																<SelectValue
-																	placeholder={t("common.assignee.placeholder")}
-																/>
-															</SelectTrigger>
-															<SelectContent>
-																<SelectUser
-																	users={admins || []}
-																	isLoading={isLoadingAdmins}
-																	onSelect={field.onChange}
-																	selectedId={field.value}
-																/>
-															</SelectContent>
-														</Select>
+														<SelectAssignee
+															assigneeId={field.value}
+															assignees={assignees}
+															onAssigneeChange={field.onChange}
+															disabled={createRisk.status === "executing"}
+															withTitle={false}
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>

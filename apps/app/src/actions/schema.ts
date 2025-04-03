@@ -95,9 +95,7 @@ export const createRiskSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Risk department is required",
   }),
-  ownerId: z.string({
-    required_error: "You must assign an owner to the risk",
-  }),
+  assigneeId: z.string().nullable(),
 });
 
 export const updateRiskSchema = z.object({
@@ -116,9 +114,7 @@ export const updateRiskSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Risk department is required",
   }),
-  ownerId: z.string({
-    required_error: "You must assign an owner to the risk",
-  }),
+  assigneeId: z.string().nullable(),
   status: z.nativeEnum(RiskStatus, {
     required_error: "Risk status is required",
   }),

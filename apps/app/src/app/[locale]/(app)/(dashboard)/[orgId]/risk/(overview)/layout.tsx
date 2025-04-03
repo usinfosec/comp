@@ -18,10 +18,10 @@ export default async function Layout({
 		headers: await headers(),
 	});
 
-	const user = session?.user;
 	const orgId = session?.session.activeOrganizationId;
 
 	const overview = await getRiskOverview();
+	const assignees = await getAssignees();
 
 	if (overview?.risks === 0) {
 		return (
@@ -56,7 +56,7 @@ export default async function Layout({
 								},
 							]}
 						/>
-						<CreateRiskSheet />
+						<CreateRiskSheet assignees={assignees} />
 					</div>
 				</Suspense>
 			</div>
@@ -81,6 +81,28 @@ export default async function Layout({
 		</div>
 	);
 }
+
+const getAssignees = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
+
+	const activeOrganizationId = session.session.activeOrganizationId;
+
+	return await db.member.findMany({
+		where: {
+			organizationId: activeOrganizationId,
+			isActive: true,
+		},
+		include: {
+			user: true,
+		},
+	});
+});
 
 const getRiskOverview = cache(async () => {
 	const session = await auth.api.getSession({

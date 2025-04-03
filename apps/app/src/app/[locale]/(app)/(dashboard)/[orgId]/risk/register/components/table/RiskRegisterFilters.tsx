@@ -1,6 +1,5 @@
 import { Status } from "@/components/status";
-import { type Departments, RiskStatus } from "@comp/db/types";
-import type { Admin } from "../../../../hooks/useOrganizationAdmins";
+import { type Departments, Member, RiskStatus, User } from "@comp/db/types";
 import { AssigneeAvatar } from "../../../../evidence/list/components/table/components/AssigneeAvatar";
 
 export const RiskRegisterFilters = ({
@@ -16,7 +15,7 @@ export const RiskRegisterFilters = ({
 }: {
 	setPage: (page: number) => void;
 	departments: Departments[];
-	assignees: Admin[] | undefined;
+	assignees: (Member & { user: User })[] | undefined;
 	status: RiskStatus | null;
 	setStatus: (status: RiskStatus | null) => void;
 	department: Departments | null;
@@ -57,14 +56,14 @@ export const RiskRegisterFilters = ({
 		{
 			label: "Filter by Assignee",
 			items: (assignees || []).map((assignee) => ({
-				label: assignee.name || "Unknown",
+				label: assignee.user.name || "Unknown",
 				value: assignee.id,
 				checked: assigneeId === assignee.id,
 				onChange: (checked: boolean) => {
 					setAssigneeId(checked ? assignee.id : null);
 					setPage(1);
 				},
-				icon: <AssigneeAvatar assignee={assignee} />,
+				icon: <AssigneeAvatar assignee={assignee.user} />,
 			})),
 			maxHeight: "150px",
 		},
