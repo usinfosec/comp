@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { auth } from "@comp/auth";
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
@@ -6,58 +7,55 @@ import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
-import { Suspense } from "react";
 
 export default async function OrganizationSettings({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
 
-	const organization = await organizationDetails();
+  const organization = await organizationDetails();
 
-	return (
-		<Suspense>
-			<div className="space-y-12">
-				<UpdateOrganizationName organizationName={organization?.name ?? ""} />
-				<DeleteOrganization organizationId={organization?.id ?? ""} />
-			</div>
-		</Suspense>
-	);
+  return (
+    <div className="space-y-12">
+      <UpdateOrganizationName organizationName={organization?.name ?? ""} />
+      <DeleteOrganization organizationId={organization?.id ?? ""} />
+    </div>
+  );
 }
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("sidebar.settings"),
-	};
+  return {
+    title: t("sidebar.settings"),
+  };
 }
 
-const organizationDetails = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+const organizationDetails = cache(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!session?.session.activeOrganizationId) {
-		return null;
-	}
+  if (!session?.session.activeOrganizationId) {
+    return null;
+  }
 
-	const organization = await db.organization.findUnique({
-		where: { id: session?.session.activeOrganizationId },
-		select: {
-			name: true,
-			id: true,
-		},
-	});
+  const organization = await db.organization.findUnique({
+    where: { id: session?.session.activeOrganizationId },
+    select: {
+      name: true,
+      id: true,
+    },
+  });
 
-	return organization;
-};
+  return organization;
+});
