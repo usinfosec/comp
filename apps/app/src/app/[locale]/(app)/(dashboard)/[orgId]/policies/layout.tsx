@@ -1,6 +1,5 @@
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
-import { Separator } from "@comp/ui/separator";
 
 interface LayoutProps {
 	children: React.ReactNode;

@@ -43,13 +43,12 @@ export function SecondaryMenu({
 		itemPath: string,
 		activeOverrideIdPrefix?: string,
 	): boolean {
-		console.log(itemPath, activeOverrideIdPrefix);
-
 		const currentSegments = getPathSegments(pathname);
 		const itemSegments = getPathSegments(itemPath);
 
 		const segmentsToCompare = currentSegments.slice(0, 3);
 
+		console.log(currentSegments, activeOverrideIdPrefix);
 		if (
 			activeOverrideIdPrefix &&
 			currentSegments.toString().includes(activeOverrideIdPrefix)
@@ -64,7 +63,10 @@ export function SecondaryMenu({
 	}
 
 	return (
-		<nav className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}>
+		<nav
+			className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}
+			key={pathname}
+		>
 			<ul
 				className={cn(
 					"scrollbar-hide flex overflow-auto py-2 text-sm border-b border-border",
