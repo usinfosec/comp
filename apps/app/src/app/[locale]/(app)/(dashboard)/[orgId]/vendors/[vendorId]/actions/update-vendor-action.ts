@@ -24,6 +24,15 @@ export const updateVendorAction = authActionClient
       throw new Error("Invalid user input");
     }
 
+    console.log({
+      id,
+      name,
+      description,
+      category,
+      assigneeId,
+      status,
+    });
+
     try {
       await db.vendor.update({
         where: {

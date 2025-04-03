@@ -60,11 +60,14 @@ export function UpdateSecondaryFieldsForm({
 	});
 
 	const onSubmit = (data: z.infer<typeof updateVendorSchema>) => {
+		// Explicitly set assigneeId to null if it's an empty string (representing "None")
+		const finalAssigneeId = data.assigneeId === "" ? null : data.assigneeId;
+
 		updateVendor.execute({
 			id: data.id,
 			name: data.name,
 			description: data.description,
-			assigneeId: data.assigneeId,
+			assigneeId: finalAssigneeId, // Use the potentially nulled value
 			category: data.category,
 			status: data.status,
 		});

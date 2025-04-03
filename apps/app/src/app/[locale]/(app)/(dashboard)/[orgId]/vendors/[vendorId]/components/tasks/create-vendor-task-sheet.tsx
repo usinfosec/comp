@@ -8,7 +8,7 @@ import { ScrollArea } from "@comp/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@comp/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { CreateVendorTaskForm } from "./create-vendor-task-form";
+// import { CreateVendorTaskForm } from "./create-vendor-task-form";
 
 export function CreateVendorTaskSheet() {
 	const t = useI18n();
@@ -38,7 +38,7 @@ export function CreateVendorTaskSheet() {
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-						<CreateVendorTaskForm />
+						{/* <CreateVendorTaskForm assignees={assignees} /> */}
 					</ScrollArea>
 				</SheetContent>
 			</Sheet>
@@ -49,7 +49,7 @@ export function CreateVendorTaskSheet() {
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>{t("vendors.tasks.sheet.title")}</DrawerTitle>
 			<DrawerContent className="p-6">
-				<CreateVendorTaskForm />
+				{/* <CreateVendorTaskForm assignees={assignees} /> */}
 			</DrawerContent>
 		</Drawer>
 	);
