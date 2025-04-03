@@ -17,11 +17,11 @@ export default async function Layout({ children, params }: LayoutProps) {
 				backButtonHref={`/${orgId}/policies/all`}
 				items={[
 					{
-						path: `/${orgId}/policies/all/${policyId}`,
+						path: `/${orgId}/policies/${policyId}`,
 						label: t("policies.dashboard.sub_pages.overview"),
 					},
 					{
-						path: `/${orgId}/policies/all/${policyId}/editor`,
+						path: `/${orgId}/policies/${policyId}/editor`,
 						label: t("policies.dashboard.sub_pages.edit_policy"),
 					},
 				]}
