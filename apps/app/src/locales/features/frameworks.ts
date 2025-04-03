@@ -56,5 +56,27 @@ export const frameworks = {
 			name: "Name",
 			description: "Description",
 		},
+		search: {
+			id_placeholder: "Search by ID...",
+			name_placeholder: "Search by name...",
+			description_placeholder: "Search in description...",
+			universal_placeholder: "Search requirements...",
+		},
+	},
+	artifacts: {
+		title: "Related Artifacts",
+		table: {
+			id: "ID",
+			name: "Name",
+			type: "Type",
+			created_at: "Created At",
+		},
+		search: {
+			id_placeholder: "Search by ID...",
+			name_placeholder: "Search by name...",
+			type_placeholder: "Filter by type...",
+			universal_placeholder: "Search artifacts...",
+		},
+		no_artifacts: "No related artifacts found",
 	},
 } as const;

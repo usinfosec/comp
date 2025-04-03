@@ -1,34 +1,36 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import type { Control, RequirementMap } from "@comp/db/types";
+import type { Control } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@comp/ui/table";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
 import { useI18n } from "@/locales/client";
-import { RequirementRow } from "./RequirementRow";
+import { useParams } from "next/navigation";
+import { RequirementsTable } from "./RequirementsTable";
+import { ArtifactsTable } from "./ArtifactsTable";
+import type { RelatedArtifact } from "../data/getRelatedArtifacts";
+import { Separator } from "@comp/ui/separator";
 
 interface SingleControlProps {
 	control: Control & {
-		requirementsMapped: RequirementMap[];
+		requirementsMapped: any[];
 	};
 	controlProgress: ControlProgressResponse;
+	relatedArtifacts: RelatedArtifact[];
 }
 
 export const SingleControl = ({
 	control,
 	controlProgress,
+	relatedArtifacts = [],
 }: SingleControlProps) => {
 	const t = useI18n();
+	const params = useParams();
+	const orgId = params.orgId as string;
+	const controlId = params.controlId as string;
+
 	const progressStatus = useMemo(() => {
 		if (!controlProgress) return "not_started";
 
@@ -62,51 +64,17 @@ export const SingleControl = ({
 				</CardContent>
 			</Card>
 
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						{t("frameworks.requirements.title")} (
-						{control.requirementsMapped.length})
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="relative w-full">
-						<div className="overflow-auto">
-							<Table>
-								<TableHeader>
-									<TableRow>
-										<TableHead>
-											{t("frameworks.requirements.table.id")}
-										</TableHead>
-										<TableHead>
-											{t("frameworks.requirements.table.name")}
-										</TableHead>
-										<TableHead>
-											{t("frameworks.requirements.table.description")}
-										</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{control.requirementsMapped.length > 0 ? (
-										control.requirementsMapped.map((requirement) => (
-											<RequirementRow
-												key={requirement.id}
-												requirement={requirement}
-											/>
-										))
-									) : (
-										<TableRow>
-											<TableCell colSpan={2} className="h-24 text-center">
-												{t("controls.requirements.no_requirements_mapped")}
-											</TableCell>
-										</TableRow>
-									)}
-								</TableBody>
-							</Table>
-						</div>
-					</div>
-				</CardContent>
-			</Card>
+			<RequirementsTable
+				requirements={control.requirementsMapped}
+				orgId={orgId}
+			/>
+			<Separator />
+
+			<ArtifactsTable
+				artifacts={relatedArtifacts}
+				orgId={orgId}
+				controlId={controlId}
+			/>
 		</div>
 	);
 };

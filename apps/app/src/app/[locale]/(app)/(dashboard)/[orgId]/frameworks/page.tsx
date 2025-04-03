@@ -31,7 +31,7 @@ export default async function DashboardPage() {
 	});
 
 	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Frameworks" }]}>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Frameworks", current: true }]}>
 			<FrameworksOverview frameworksWithControls={frameworksWithControls} />
 		</PageWithBreadcrumb>
 	);
