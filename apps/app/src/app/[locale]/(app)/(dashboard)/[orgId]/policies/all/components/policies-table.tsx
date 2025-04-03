@@ -4,28 +4,29 @@ import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getControls } from "../data/queries";
+import { getPolicies } from "../data/queries";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
-import { getControlColumns } from "./controls-table-columns";
+import { getPolicyColumns } from "./policies-table-columns";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
-interface ControlsTableProps {
-	promises: Promise<[Awaited<ReturnType<typeof getControls>>]>;
+interface PoliciesTableProps {
+	promises: Promise<[Awaited<ReturnType<typeof getPolicies>>]>;
 }
 
-export function ControlsTable({ promises }: ControlsTableProps) {
+export function PoliciesTable({ promises }: PoliciesTableProps) {
 	const [{ data, pageCount }] = React.use(promises);
 	const { orgId } = useParams();
-	const columns = React.useMemo(() => getControlColumns(), []);
+
+	const columns = React.useMemo(() => getPolicyColumns(), []);
 
 	const { table } = useDataTable({
 		data,
 		columns,
 		pageCount,
 		initialState: {
-			sorting: [{ id: "name", desc: true }],
 			columnPinning: { right: ["actions"] },
 		},
 		getRowId: (originalRow) => originalRow.id,
@@ -38,12 +39,12 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 			<DataTable
 				table={table}
 				getRowId={(row) => row.id}
-				rowClickBasePath={`/${orgId}/controls`}
+				rowClickBasePath={`/${orgId}/policies`}
 			>
 				<DataTableToolbar
 					table={table}
-					sheet="create-control-sheet"
-					action="Create Control"
+					sheet="create-policy-sheet"
+					action="Create Policy"
 				>
 					<DataTableSortList table={table} align="end" />
 				</DataTableToolbar>

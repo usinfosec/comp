@@ -59,7 +59,7 @@ export const updatePolicyOverviewAction = authActionClient
 				},
 			});
 
-			revalidatePath(`/${session.activeOrganizationId}/policies/all/${id}`);
+			revalidatePath(`/${session.activeOrganizationId}/policies/${id}`);
 			revalidatePath(`/${session.activeOrganizationId}/policies/all`);
 			revalidatePath(`/${session.activeOrganizationId}/policies`);
 

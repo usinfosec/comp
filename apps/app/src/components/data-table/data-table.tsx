@@ -1,8 +1,9 @@
 import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 import type * as React from "react";
-import { usePathname, useRouter } from "next/navigation";
 
-import { DataTablePagination } from "./data-table-pagination";
+import { getCommonPinningStyles } from "@/lib/data-table";
+import { cn } from "@comp/ui/cn";
 import {
 	Table,
 	TableBody,
@@ -11,13 +12,13 @@ import {
 	TableHeader,
 	TableRow,
 } from "@comp/ui/table";
-import { getCommonPinningStyles } from "@/lib/data-table";
-import { cn } from "@comp/ui/cn";
+import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	table: TanstackTable<TData>;
 	actionBar?: React.ReactNode;
 	getRowId?: (row: TData) => string;
+	rowClickBasePath: string;
 }
 
 export function DataTable<TData>({
@@ -26,15 +27,15 @@ export function DataTable<TData>({
 	children,
 	className,
 	getRowId,
+	rowClickBasePath,
 	...props
 }: DataTableProps<TData>) {
 	const router = useRouter();
-	const currentPath = usePathname();
 
 	const handleRowClick = (row: TData) => {
 		if (getRowId) {
 			const id = getRowId(row);
-			router.push(`${currentPath}/${id}`);
+			router.push(`${rowClickBasePath}/${id}`);
 		}
 	};
 
