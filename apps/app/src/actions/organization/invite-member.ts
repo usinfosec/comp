@@ -34,7 +34,7 @@ export const inviteMember = authActionClient
 			}
 
 			try {
-				revalidatePath("/settings/members");
+				revalidatePath(`/${ctx.session.activeOrganizationId}/settings/members`);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {
