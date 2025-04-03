@@ -1,17 +1,20 @@
 model Task {
+    // Metadata
     id          String     @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
     title       String
     description String
-    dueDate     DateTime
     status      TaskStatus @default(open)
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
-
     relatedId   String
     relatedType TaskType
 
-    userId         String
-    user           User         @relation(fields: [userId], references: [id])
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    dueDate   DateTime
+
+    // Relationships
+    assigneeId     String
+    assignee       Member       @relation(fields: [assigneeId], references: [id])
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id])
 

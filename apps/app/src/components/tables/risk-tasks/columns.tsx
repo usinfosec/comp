@@ -15,8 +15,8 @@ export type RiskTaskType = {
 	title: string;
 	status: RiskStatus;
 	dueDate: string;
-	ownerId: string;
-	owner: {
+	assigneeId: string;
+	assignee: {
 		image: string;
 		name: string;
 	};
@@ -81,8 +81,8 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 			},
 		},
 		{
-			id: "ownerId",
-			accessorKey: "ownerId",
+			id: "assigneeId",
+			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden sm:table-cell">
 					{t("common.table.assigned_to")}
@@ -92,8 +92,8 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 				return (
 					<div className="hidden sm:table-cell">
 						<AssignedUser
-							fullName={row.original.owner?.name}
-							avatarUrl={row.original.owner?.image}
+							fullName={row.original.assignee?.name}
+							avatarUrl={row.original.assignee?.image}
 						/>
 					</div>
 				);

@@ -1,16 +1,21 @@
-import { DataTableSkeleton } from "@/components/ui/data-table";
-import { Card } from "@comp/ui/card";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 
-export default function EvidenceListLoading() {
-	return (
-		<Card className="p-6">
-			<DataTableSkeleton
-				columns={6}
-				rows={10}
-				showFilters={true}
-				showSearch={true}
-				showPagination={true}
-			/>
-		</Card>
-	);
+export default function Loading() {
+  return (
+    <DataTableSkeleton
+      columnCount={7}
+      filterCount={2}
+      cellWidths={[
+        "10rem",
+        "30rem",
+        "10rem",
+        "10rem",
+        "6rem",
+        "6rem",
+        "6rem",
+      ]}
+      shrinkZero
+    />
+  );
 }
+

@@ -1,8 +1,7 @@
 "use client";
 
-import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
-import { useI18n } from "@/locales/client";
-import type { Task, VendorStatus } from "@comp/db/types";
+import { SelectAssignee } from "@/app/[locale]/(app)/(dashboard)/[orgId]/components/SelectAssignee";
+import type { Member, Task, User } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -36,43 +35,20 @@ import { ArrowRightIcon, CalendarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { updateVendorTaskSchema } from "../../../../actions/schema";
 import { updateVendorTaskAction } from "../../../../actions/task/update-task-action";
-import { SelectUser } from "@/components/select-user";
-
-interface User {
-	id: string;
-	image?: string | null;
-	name: string | null;
-}
 
 interface UpdateTaskSheetProps {
-	task: Task & { user: { name: string | null; image: string | null } | null };
+	task: Task & { assignee: { user: User } | null };
+	assignees: (Member & { user: User })[];
 }
 
-export function UpdateTaskSheet({ task }: UpdateTaskSheetProps) {
-	const t = useI18n();
-
-	const [users, setUsers] = useState<User[]>([]);
-	const [isLoadingUsers, setIsLoadingUsers] = useState(true);
+export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 	const [_, setTaskOverviewSheet] = useQueryState("task-overview-sheet");
 	const params = useParams<{ taskId: string }>();
-
-	useEffect(() => {
-		async function loadUsers() {
-			const result = await getOrganizationUsersAction();
-			if (result?.data?.success && result?.data?.data) {
-				setUsers(result.data.data);
-			}
-			setIsLoadingUsers(false);
-		}
-
-		loadUsers();
-	}, []);
 
 	const updateTask = useAction(updateVendorTaskAction, {
 		onSuccess: () => {
@@ -92,7 +68,7 @@ export function UpdateTaskSheet({ task }: UpdateTaskSheetProps) {
 			description: task.description,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
-			userId: task.userId || undefined,
+			assigneeId: task.assigneeId || null,
 		},
 	});
 
@@ -264,30 +240,18 @@ export function UpdateTaskSheet({ task }: UpdateTaskSheetProps) {
 
 										<FormField
 											control={form.control}
-											name="userId"
+											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Assignee</FormLabel>
 													<FormControl>
-														<Select
-															value={field.value}
-															onValueChange={(value) => {
-																field.onChange(value);
-																form.handleSubmit(onSubmit)();
-															}}
-														>
-															<SelectTrigger>
-																<SelectValue placeholder="Select assignee" />
-															</SelectTrigger>
-															<SelectContent>
-																<SelectUser
-																	isLoading={isLoadingUsers}
-																	onSelect={field.onChange}
-																	selectedId={field.value}
-																	users={users}
-																/>
-															</SelectContent>
-														</Select>
+														<SelectAssignee
+															assigneeId={field.value}
+															assignees={assignees}
+															onAssigneeChange={field.onChange}
+															disabled={updateTask.status === "executing"}
+															withTitle={false}
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>

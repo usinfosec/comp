@@ -9,8 +9,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@comp/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { CreateRisk } from "../forms/risks/create-risk-form";
+import { Member, User } from "@comp/db/types";
 
-export function CreateRiskSheet() {
+export function CreateRiskSheet({
+	assignees,
+}: {
+	assignees: (Member & { user: User })[];
+}) {
 	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("create-risk-sheet");
@@ -37,7 +42,7 @@ export function CreateRiskSheet() {
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-						<CreateRisk />
+						<CreateRisk assignees={assignees} />
 					</ScrollArea>
 				</SheetContent>
 			</Sheet>
@@ -48,7 +53,7 @@ export function CreateRiskSheet() {
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>{t("risk.create")}</DrawerTitle>
 			<DrawerContent className="p-6">
-				<CreateRisk />
+				<CreateRisk assignees={assignees} />
 			</DrawerContent>
 		</Drawer>
 	);

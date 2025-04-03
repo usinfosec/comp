@@ -1,8 +1,6 @@
 import { Status } from "@/components/status";
-import { type Departments, RiskStatus } from "@comp/db/types";
-import type { Admin } from "../../../../hooks/useOrganizationAdmins";
-import { AssigneeAvatar } from "../../../../evidence/all/components/table/components/AssigneeAvatar";
-
+import { type Departments, Member, RiskStatus, User } from "@comp/db/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 export const RiskRegisterFilters = ({
 	setPage,
 	departments,
@@ -16,7 +14,7 @@ export const RiskRegisterFilters = ({
 }: {
 	setPage: (page: number) => void;
 	departments: Departments[];
-	assignees: Admin[] | undefined;
+	assignees: (Member & { user: User })[] | undefined;
 	status: RiskStatus | null;
 	setStatus: (status: RiskStatus | null) => void;
 	department: Departments | null;
@@ -57,14 +55,21 @@ export const RiskRegisterFilters = ({
 		{
 			label: "Filter by Assignee",
 			items: (assignees || []).map((assignee) => ({
-				label: assignee.name || "Unknown",
+				label: assignee.user.name || "Unknown",
 				value: assignee.id,
 				checked: assigneeId === assignee.id,
 				onChange: (checked: boolean) => {
 					setAssigneeId(checked ? assignee.id : null);
 					setPage(1);
 				},
-				icon: <AssigneeAvatar assignee={assignee} />,
+				icon: (
+					<Avatar>
+						<AvatarImage src={assignee.user.image || undefined} />
+						<AvatarFallback>
+							{assignee.user.name?.charAt(0) || "?"}
+						</AvatarFallback>
+					</Avatar>
+				),
 			})),
 			maxHeight: "150px",
 		},

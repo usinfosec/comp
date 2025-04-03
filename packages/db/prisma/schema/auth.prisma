@@ -13,10 +13,8 @@ model User {
     integrationResults IntegrationResult[]
     invitations        Invitation[]
     members            Member[]
-    risk               Risk[]
     sessions           Session[]
     vendor             Vendor[]
-    tasks              Task[]
 
     @@unique([email])
 }
@@ -88,6 +86,8 @@ model Member {
     EmployeeTrainingVideoCompletion EmployeeTrainingVideoCompletion[]
     Evidence                        Evidence[]
     Policy                          Policy[]
+    Risk                            Risk[]
+    Task                            Task[]
 }
 
 model Invitation {

@@ -1,11 +1,10 @@
 "use client";
 
-import { SelectUser } from "@/components/select-user";
-import { useI18n } from "@/locales/client";
-import type { Task } from "@comp/db/types";
+import { SelectAssignee } from "@/app/[locale]/(app)/(dashboard)/[orgId]/components/SelectAssignee";
+import type { Member, Task, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Calendar } from "@comp/ui/calendar";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { cn } from "@comp/ui/cn";
 import {
 	Form,
@@ -33,18 +32,12 @@ import type { z } from "zod";
 import { updateVendorTaskSchema } from "../../../../actions/schema";
 import { updateVendorTaskAction } from "../../../../actions/task/update-task-action";
 
-interface UserBasic {
-	id: string;
-	name: string | null;
-	image: string | null;
-}
-
 export default function SecondaryFields({
 	task,
-	users,
+	assignees,
 }: {
-	task: Task & { user: { name: string | null; image: string | null } | null };
-	users: UserBasic[];
+	task: Task & { assignee: { user: User } | null };
+	assignees: (Member & { user: User })[];
 }) {
 	return (
 		<div className="space-y-4">
@@ -57,7 +50,7 @@ export default function SecondaryFields({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<TaskSecondaryFieldsForm task={task} users={users} />
+					<TaskSecondaryFieldsForm task={task} assignees={assignees} />
 				</CardContent>
 			</Card>
 		</div>
@@ -66,12 +59,12 @@ export default function SecondaryFields({
 
 function TaskSecondaryFieldsForm({
 	task,
-	users,
+	assignees,
 }: {
 	task: Task & {
-		user: { name: string | null; image: string | null } | null;
+		assignee: { user: User } | null;
 	};
-	users: UserBasic[];
+	assignees: (Member & { user: User })[];
 }) {
 	const updateTask = useAction(updateVendorTaskAction, {
 		onSuccess: () => {
@@ -90,7 +83,7 @@ function TaskSecondaryFieldsForm({
 			description: task.description,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
-			userId: task.userId || undefined,
+			assigneeId: task.assigneeId || null,
 		},
 	});
 
@@ -132,30 +125,18 @@ function TaskSecondaryFieldsForm({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="userId"
+						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Assignee</FormLabel>
 								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={(value) => {
-											field.onChange(value);
-											form.handleSubmit(onSubmit)();
-										}}
-									>
-										<SelectTrigger>
-											<SelectValue placeholder="Select assignee" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectUser
-												isLoading={false}
-												onSelect={field.onChange}
-												selectedId={field.value}
-												users={users}
-											/>
-										</SelectContent>
-									</Select>
+									<SelectAssignee
+										assigneeId={field.value}
+										assignees={assignees}
+										onAssigneeChange={field.onChange}
+										disabled={updateTask.status === "executing"}
+										withTitle={false}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
