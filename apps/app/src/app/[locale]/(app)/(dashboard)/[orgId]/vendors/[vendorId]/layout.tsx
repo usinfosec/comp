@@ -50,10 +50,10 @@ export default async function Layout({ children, params }: LayoutProps) {
 						path: `/${orgId}/vendors/${vendorId}`,
 						label: vendor.name,
 					},
-					{
-						path: `/${orgId}/vendors/${vendorId}/comments`,
-						label: t("common.comments.title"),
-					},
+					// {
+					// 	path: `/${orgId}/vendors/${vendorId}/comments`,
+					// 	label: t("common.comments.title"),
+					// },
 				]}
 			/>
 			<main className="mt-8">{children}</main>

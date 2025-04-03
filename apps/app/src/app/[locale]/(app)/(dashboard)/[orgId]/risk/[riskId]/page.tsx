@@ -1,21 +1,12 @@
-import { auth } from "@comp/auth";
-import { Loading } from "@/components/frameworks/loading";
 import { InherentRiskChart } from "@/components/risks/charts/inherent-risk-chart";
 import { ResidualRiskChart } from "@/components/risks/charts/residual-risk-chart";
 import { RiskOverview } from "@/components/risks/risk-overview";
 import type { RiskTaskType } from "@/components/tables/risk-tasks/columns";
-import { DataTable } from "@/components/tables/risk-tasks/data-table";
-import {
-	NoResults,
-	NoTasks,
-} from "@/components/tables/risk-tasks/empty-states";
-import { FilterToolbar } from "@/components/tables/risk-tasks/filter-toolbar";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
-import { useUsers } from "@/hooks/use-users";
 import { getI18n } from "@/locales/server";
+import { auth } from "@comp/auth";
 import { db } from "@comp/db";
 import type { TaskStatus } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
@@ -68,7 +59,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 		<div className="flex flex-col gap-4">
 			<RiskOverview risk={risk} assignees={assignees} />
 
-			<Card>
+			{/* <Card>
 				<CardHeader>
 					<CardTitle>
 						<div className="flex items-center justify-between gap-2">
@@ -99,7 +90,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 						)}
 					</div>
 				</CardContent>
-			</Card>
+			</Card> */}
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<InherentRiskChart risk={risk} />
