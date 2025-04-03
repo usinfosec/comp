@@ -1,4 +1,5 @@
 import type { ActionResponse } from "@/actions/types";
+import { Evidence, Member, User } from "@bubba/db/types";
 
 export interface UploadUrlResponse {
   uploadUrl: string;
@@ -20,5 +21,12 @@ export interface UploadFileResponse
   }> {}
 
 export interface EvidenceDetailsProps {
-  id: string;
+  assignees: (Member & {
+    user: User;
+  })[];
+  evidence: Evidence & {
+    assignee: Member & {
+      user: User;
+    };
+  };
 }

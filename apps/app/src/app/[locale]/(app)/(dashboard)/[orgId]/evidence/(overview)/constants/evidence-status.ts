@@ -2,35 +2,36 @@
  * Evidence status types and constants
  */
 
+import { EvidenceStatus } from "@bubba/db/types";
+
 // Status priority and type definitions
-export const STATUS_PRIORITY = [
-  "upToDate",
+export const EVIDENCE_STATUS_PRIORITY: EvidenceStatus[] = [
   "draft",
-  "needsReview",
-  "empty",
+  "not_relevant",
+  "published",
 ] as const;
-export type StatusType = (typeof STATUS_PRIORITY)[number];
+export type EvidenceStatusType = (typeof EVIDENCE_STATUS_PRIORITY)[number];
 
 // Status color mapping for UI components
-export const STATUS_COLORS = {
-  upToDate: "bg-primary",
+export const EVIDENCE_STATUS_COLORS = {
   draft: "bg-[var(--chart-open)]",
-  needsReview: "bg-[hsl(var(--destructive))]",
-  empty: "bg-[var(--chart-pending)]",
+  not_relevant: "bg-[hsl(var(--destructive))]",
+  published: "bg-[hsl(var(--destructive))]",
 } as const;
 
 // Status color hex values for charts
-export const STATUS_HEX_COLORS: Record<StatusType, string> = {
-  upToDate: "#10b981",
+export const EVIDENCE_STATUS_HEX_COLORS: Record<EvidenceStatusType, string> = {
   draft: "#f59e0b",
-  needsReview: "#ef4444",
-  empty: "#6b7280",
+  not_relevant: "#ef4444",
+  published: "#10b981",
 };
 
 // Translation keys for evidence statuses
-export const STATUS_TRANSLATION_KEYS: Record<StatusType, string> = {
-  upToDate: "evidence.status.up_to_date",
-  needsReview: "evidence.status.needs_review",
+export const EVIDENCE_STATUS_TRANSLATION_KEYS: Record<
+  EvidenceStatusType,
+  string
+> = {
   draft: "evidence.status.draft",
-  empty: "evidence.status.empty",
+  not_relevant: "evidence.status.not_relevant",
+  published: "evidence.status.published",
 };
