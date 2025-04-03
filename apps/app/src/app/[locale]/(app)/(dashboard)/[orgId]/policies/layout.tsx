@@ -22,6 +22,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 					{
 						path: `/${orgId}/policies/all`,
 						label: t("policies.dashboard.all"),
+						activeOverrideIdPrefix: "pol_",
 					},
 				]}
 			/>

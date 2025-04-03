@@ -17,6 +17,8 @@ interface SecondaryMenuProps {
 		path: string;
 		label: string;
 		query?: Record<string, string>;
+		// We use this to override the active state for a specific item based on the prefix of the id
+		activeOverrideIdPrefix?: string;
 	}[];
 	isChild?: boolean;
 	showBackButton?: boolean;
@@ -37,11 +39,23 @@ export function SecondaryMenu({
 		return path.split("/").filter(Boolean);
 	}
 
-	function isActiveLink(itemPath: string) {
+	function isActiveLink(
+		itemPath: string,
+		activeOverrideIdPrefix?: string,
+	): boolean {
+		console.log(itemPath, activeOverrideIdPrefix);
+
 		const currentSegments = getPathSegments(pathname);
 		const itemSegments = getPathSegments(itemPath);
 
 		const segmentsToCompare = currentSegments.slice(0, 3);
+
+		if (
+			activeOverrideIdPrefix &&
+			currentSegments.toString().includes(activeOverrideIdPrefix)
+		) {
+			return true;
+		}
 
 		return (
 			segmentsToCompare.length === itemSegments.length &&
@@ -75,7 +89,7 @@ export function SecondaryMenu({
 						<span
 							className={cn(
 								"hover:bg-secondary p-2 border-b-2 font-medium",
-								isActiveLink(item.path)
+								isActiveLink(item.path, item.activeOverrideIdPrefix)
 									? "border-primary"
 									: "border-transparent",
 								isDisabled && "opacity-50 cursor-not-allowed",
