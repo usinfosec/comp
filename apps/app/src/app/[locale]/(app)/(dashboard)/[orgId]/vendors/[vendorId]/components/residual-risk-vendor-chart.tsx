@@ -46,7 +46,7 @@ const RISK_COLORS = {
 
 export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState("residual-risk-sheet");
+	const [, setOpen] = useQueryState("residual-risk-sheet");
 
 	// Calculate risk score from probability and impact
 	const riskScore =
@@ -59,10 +59,7 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 	else if (riskScore > 9) riskLevel = "high";
 	else if (riskScore > 4) riskLevel = "medium";
 
-	// Get color based on risk level
-	const riskColor = RISK_COLORS[riskLevel as keyof typeof RISK_COLORS];
-
-	// Define the visual order of likelihood for rendering
+	// Define the visual order for rows and columns
 	const VISUAL_LIKELIHOOD_ORDER: Likelihood[] = [
 		Likelihood.very_likely,
 		Likelihood.likely,
@@ -70,16 +67,22 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 		Likelihood.unlikely,
 		Likelihood.very_unlikely,
 	];
+	const VISUAL_IMPACT_ORDER: Impact[] = [
+		Impact.insignificant,
+		Impact.minor,
+		Impact.moderate,
+		Impact.major,
+		Impact.severe,
+	];
 
-	// We'll determine the active cell while building the grid
 	const yAxisLabels = [
-		"V.Likely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[0]
+		"Very Likely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[0]
 		"Likely",
 		"Possible",
 		"Unlikely",
-		"V.Unlikely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[4]
+		"Very Unlikely", // Corresponds to VISUAL_LIKELIHOOD_ORDER[4]
 	];
-	const xAxisLabels = ["Insig", "Minor", "Mod", "Major", "Severe"];
+	const xAxisLabels = ["Insignificant", "Minor", "Moderate", "Major", "Severe"];
 
 	// Store the active cell position values
 	const activeProbability = vendor.residualProbability;
@@ -111,121 +114,86 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 					</div>
 				</CardHeader>
 				<CardContent>
-					<div className="mb-8">
-						{/* 5x5 Risk Matrix */}
-						<div className="relative w-full aspect-[1.5/1] max-h-[300px]">
-							{/* Y-axis label */}
-							<div className="absolute left-[-30px] top-1/2 -translate-y-1/2 -rotate-90 font-semibold text-sm text-muted-foreground z-10">
+					<div
+						className="grid w-full max-h-[350px] aspect-[1.5/1] gap-1 
+								   grid-cols-1 grid-rows-1 
+								   lg:grid-cols-[auto_auto_1fr] lg:grid-rows-[1fr_auto_auto]"
+					>
+						{/* Y-axis Title - Hidden on small/medium screens */}
+						<div className="hidden lg:grid place-items-center lg:row-start-1 lg:col-start-1">
+							<span className="-rotate-90 font-semibold text-sm text-muted-foreground whitespace-nowrap">
 								Probability
-							</div>
+							</span>
+						</div>
 
-							{/* Main grid container */}
-							<div className="absolute top-0 left-[90px] right-[10px] bottom-[35px]">
-								<div className="relative w-full h-full border-l border-b">
-									{/* Grid rows */}
-									{[...Array(5)].map((_, rowIndex) => {
-										// Map row index to likelihood enum based on visual order
-										const rowLikelihood = VISUAL_LIKELIHOOD_ORDER[rowIndex];
-
-										return (
-											<div
-												key={`row-${rowIndex}`}
-												className="h-[20%] flex border-t"
-											>
-												{/* Grid cells for this row */}
-												{[...Array(5)].map((_, colIndex) => {
-													// Map column index to impact enum
-													const colImpact = Object.keys(IMPACT_SCORES)[
-														colIndex
-													] as Impact;
-
-													// Calculate cell score and color
-													const likelihoodScore =
-														LIKELIHOOD_SCORES[rowLikelihood];
-													const impactScore = IMPACT_SCORES[colImpact];
-													const cellScore = likelihoodScore * impactScore;
-
-													let cellColor = RISK_COLORS.low;
-													if (cellScore > 16) cellColor = RISK_COLORS.critical;
-													else if (cellScore > 9) cellColor = RISK_COLORS.high;
-													else if (cellScore > 4)
-														cellColor = RISK_COLORS.medium;
-
-													// Check if this is the active cell
-													const isActive =
-														rowLikelihood === activeProbability &&
-														colImpact === activeImpact;
-
-													return (
-														<div
-															key={`cell-${rowIndex}-${colIndex}`}
-															className="w-[20%] border-r relative"
-															style={{ backgroundColor: `${cellColor}25` }}
-														>
-															{isActive && (
-																<div className="absolute inset-0 flex items-center justify-center">
-																	<div
-																		className="absolute inset-0 z-10 border-2"
-																		style={{
-																			backgroundColor: cellColor,
-																			borderColor: cellColor,
-																			opacity: 0.9,
-																		}}
-																	/>
-																</div>
-															)}
-														</div>
-													);
-												})}
-											</div>
-										);
-									})}
-
-									{/* Y-axis labels - positioned outside the grid */}
-									{yAxisLabels.map((label, i) => (
-										<div
-											key={`y-label-${i}`}
-											className="absolute text-sm text-right"
-											style={{
-												left: "-75px",
-												top: `${i * 20 + 10}%`,
-												transform: "translateY(-50%)",
-												width: "65px",
-											}}
-										>
-											{label}
-										</div>
-									))}
-
-									{/* X-axis labels */}
-									{xAxisLabels.map((label, i) => (
-										<div
-											key={`x-label-${i}`}
-											className="absolute text-sm text-center"
-											style={{
-												left: `${i * 20 + 10}%`,
-												bottom: "-25px",
-												transform: "translateX(-50%)",
-												width: "40px",
-											}}
-										>
-											{label}
-										</div>
-									))}
-
-									{/* X-axis title */}
-									<div
-										className="absolute font-semibold text-sm text-muted-foreground"
-										style={{
-											bottom: "-45px",
-											left: "50%",
-											transform: "translateX(-50%)",
-										}}
-									>
-										Impact
-									</div>
+						{/* Y-axis Labels Area - Hidden on small/medium screens */}
+						<div className="hidden lg:grid grid-rows-5 lg:row-start-1 lg:col-start-2 pr-2">
+							{yAxisLabels.map((label, i) => (
+								<div
+									key={`y-label-${i}`}
+									className="grid place-items-center justify-end text-sm"
+								>
+									{label}
 								</div>
-							</div>
+							))}
+						</div>
+
+						{/* 5x5 Matrix Grid - Spans full area on small/medium screens */}
+						<div className="grid grid-cols-5 grid-rows-5 border-l border-b row-start-1 col-start-1 lg:col-start-3 lg:row-start-1">
+							{VISUAL_LIKELIHOOD_ORDER.map((rowLikelihood, rowIndex) =>
+								VISUAL_IMPACT_ORDER.map((colImpact, colIndex) => {
+									const likelihoodScore = LIKELIHOOD_SCORES[rowLikelihood];
+									const impactScore = IMPACT_SCORES[colImpact];
+									const cellScore = likelihoodScore * impactScore;
+
+									let cellColor = RISK_COLORS.low;
+									if (cellScore > 16) cellColor = RISK_COLORS.critical;
+									else if (cellScore > 9) cellColor = RISK_COLORS.high;
+									else if (cellScore > 4) cellColor = RISK_COLORS.medium;
+
+									const isActive =
+										rowLikelihood === activeProbability &&
+										colImpact === activeImpact;
+
+									return (
+										<div
+											key={`cell-${rowIndex}-${colIndex}`}
+											className="border-t border-r relative"
+											style={{ backgroundColor: `${cellColor}25` }}
+										>
+											{isActive && (
+												<div
+													className="absolute inset-0 z-10 border"
+													style={{
+														backgroundColor: cellColor,
+														borderColor: cellColor,
+														opacity: 0.9,
+													}}
+												/>
+											)}
+										</div>
+									);
+								}),
+							)}
+						</div>
+
+						{/* X-axis Labels Area - Hidden on small/medium screens */}
+						<div className="hidden lg:grid grid-cols-5 lg:col-start-3 lg:row-start-2 pt-1">
+							{xAxisLabels.map((label, i) => (
+								<div
+									key={`x-label-${i}`}
+									className="grid place-items-center text-sm"
+								>
+									{label}
+								</div>
+							))}
+						</div>
+
+						{/* X-axis Title - Hidden on small/medium screens */}
+						<div className="hidden lg:grid place-items-center lg:col-start-3 lg:row-start-3 pt-1">
+							<span className="font-semibold text-sm text-muted-foreground">
+								Impact
+							</span>
 						</div>
 					</div>
 				</CardContent>

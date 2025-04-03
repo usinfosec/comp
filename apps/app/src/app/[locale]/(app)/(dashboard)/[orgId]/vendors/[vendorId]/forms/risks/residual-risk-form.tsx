@@ -1,5 +1,6 @@
 "use client";
 
+import { updateVendorResidualRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
 import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
@@ -19,13 +20,10 @@ import {
 } from "@comp/ui/select";
 import { useToast } from "@comp/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { updateVendorResidualRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
-import type { ActionResponse } from "@/types/actions";
 import { Impact, Likelihood } from "@prisma/client";
 import { useQueryState } from "nuqs";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
 	residualProbability: z.nativeEnum(Likelihood),
@@ -38,19 +36,15 @@ interface ResidualRiskFormProps {
 	vendorId: string;
 	initialProbability?: Likelihood;
 	initialImpact?: Impact;
-	onSuccess?: () => void;
 }
 
 export function ResidualRiskForm({
 	vendorId,
 	initialProbability = Likelihood.very_unlikely,
 	initialImpact = Impact.insignificant,
-	onSuccess,
 }: ResidualRiskFormProps) {
 	const t = useI18n();
 	const { toast } = useToast();
-	const router = useRouter();
-	const searchParams = useSearchParams();
 	const [_, setOpen] = useQueryState("residual-risk-sheet");
 
 	const form = useForm<FormValues>({
@@ -70,35 +64,12 @@ export function ResidualRiskForm({
 				residualImpact: values.residualImpact,
 			});
 
-			const result = response as unknown as ActionResponse;
-
-			if (!result?.success) {
-				toast({
-					title: t("common.error"),
-					description: result?.error || t("common.unexpected_error"),
-					variant: "destructive",
-				});
-				return; // Stop execution on failure
-			}
-
-			// On success:
-			// 1. Show success toast
 			toast({
 				title: t("common.success"),
 				description: t("vendors.risks.residual_risk_updated"),
 			});
 
-			// 2. Refresh the page data first to ensure it's updated before navigation
-			router.refresh();
-
-			// 3. Close the sheet by navigating to the same route without the query parameter
-			const params = new URLSearchParams(searchParams);
-			params.delete("residual-risk-sheet");
-			const newPath = `${window.location.pathname}${params.size > 0 ? `?${params.toString()}` : ""}`;
-			router.replace(newPath, { scroll: false });
-
-			// 4. Call onSuccess callback if provided (optional, might not be needed if navigation handles updates)
-			if (onSuccess) onSuccess();
+			setOpen("false");
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({
