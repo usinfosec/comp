@@ -3,6 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Policy } from "@bubba/db/types";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { StatusPolicies } from "@/components/status-policies";
+import { formatDate } from "@/lib/format";
 
 export function getPolicyColumns(): ColumnDef<Policy>[] {
   return [
@@ -10,7 +12,7 @@ export function getPolicyColumns(): ColumnDef<Policy>[] {
       id: "name",
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Name" />
+        <DataTableColumnHeader column={column} title="Policy Name" />
       ),
       cell: ({ row }) => {
         return (
@@ -22,8 +24,8 @@ export function getPolicyColumns(): ColumnDef<Policy>[] {
         );
       },
       meta: {
-        label: "Name",
-        placeholder: "Search names...",
+        label: "Policy Name",
+        placeholder: "Search for a policy...",
         variant: "text",
       },
       enableColumnFilter: true,
@@ -35,16 +37,31 @@ export function getPolicyColumns(): ColumnDef<Policy>[] {
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
-        return (
-          <p className="text-sm font-medium">
-            {row.getValue("status")}
-          </p>
-        )
+        return <StatusPolicies status={row.getValue("status")} />;
       },
       meta: {
         label: "Status",
         placeholder: "Search status...",
         variant: "select",
+      },
+    },
+    {
+      id: "updatedAt",
+      accessorKey: "updatedAt",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Last Updated" />
+      ),
+      cell: ({ row }) => {
+        return (
+          <div className="text-muted-foreground">
+            {formatDate(row.getValue("updatedAt"))}
+          </div>
+        );
+      },
+      meta: {
+        label: "Last Updated",
+        placeholder: "Search last updated...",
+        variant: "date",
       },
     },
   ];

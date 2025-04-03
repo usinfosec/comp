@@ -7,6 +7,27 @@ import { db } from "@bubba/db";
 import { appErrors, updatePolicySchema } from "../types";
 import { headers } from "next/headers";
 
+// Helper function to clean the content by removing function references
+function cleanContent(content: any): any {
+	if (!content) return content;
+
+	if (Array.isArray(content)) {
+		return content.map((item) => cleanContent(item));
+	}
+
+	if (typeof content === "object") {
+		const cleaned: any = {};
+		for (const [key, value] of Object.entries(content)) {
+			// Skip function properties
+			if (typeof value === "function") continue;
+			cleaned[key] = cleanContent(value);
+		}
+		return cleaned;
+	}
+
+	return content;
+}
+
 export const updatePolicy = authActionClient
 	.schema(updatePolicySchema)
 	.metadata({
@@ -50,25 +71,24 @@ export const updatePolicy = authActionClient
 			const updateData: Record<string, any> = {};
 
 			if (content !== undefined) {
-				console.log("CONTENT TYPE:", typeof content);
+				// Clean the content before processing
+				const cleanedContent = cleanContent(content);
 
-				if (typeof content === "object" && content !== null) {
+				if (typeof cleanedContent === "object" && cleanedContent !== null) {
 					if (
-						"type" in content &&
-						content.type === "doc" &&
-						"content" in content &&
-						Array.isArray(content.content)
+						"type" in cleanedContent &&
+						cleanedContent.type === "doc" &&
+						"content" in cleanedContent &&
+						Array.isArray(cleanedContent.content)
 					) {
-						updateData.content = content.content;
-						console.log("Extracted content array from TipTap doc");
-					} else if (Array.isArray(content)) {
-						updateData.content = content;
+						updateData.content = cleanedContent.content;
+					} else if (Array.isArray(cleanedContent)) {
+						updateData.content = cleanedContent;
 					} else {
-						console.log("Unknown content format - using as is");
-						updateData.content = content;
+						updateData.content = cleanedContent;
 					}
 				} else {
-					updateData.content = content;
+					updateData.content = cleanedContent;
 				}
 			}
 
@@ -86,6 +106,7 @@ export const updatePolicy = authActionClient
 			const updatedPolicy = await db.policy.update({
 				where: {
 					id: policyId,
+					organizationId,
 				},
 				data: {
 					...updateData,

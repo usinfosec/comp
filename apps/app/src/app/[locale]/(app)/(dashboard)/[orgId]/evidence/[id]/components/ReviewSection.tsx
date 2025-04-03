@@ -1,64 +1,95 @@
 "use client";
 
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import type { Frequency, Evidence } from "@bubba/db/types";
+import type {
+	Departments,
+	Evidence,
+	EvidenceStatus,
+	Frequency,
+	Member,
+	User,
+	User as UserType,
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { format } from "date-fns";
-import { Building, CalendarClock, RefreshCw, User } from "lucide-react";
+import { Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
 import { toast } from "sonner";
-import { publishEvidence } from "../actions/publishEvidence";
-import { toggleRelevance } from "../actions/toggleRelevance";
-import { useEvidence } from "../hooks/useEvidence";
-import { AssigneeSection } from "./AssigneeSection";
-import { DepartmentSection } from "./DepartmentSection";
-import { FrequencySection } from "./FrequencySection";
+import { updateEvidenceDetails } from "../actions/updateEvidenceDetails";
+import { EvidenceAssigneeSection } from "./EvidenceAssigneeSection";
+import { EvidenceDepartmentSection } from "./EvidenceDepartmentSection";
+import { EvidenceFrequencySection } from "./EvidenceFrequencySection";
+import { EvidenceNextReviewSection } from "./EvidenceNextReviewSection";
+import { EvidenceStatusSection } from "./EvidenceStatusSection";
 
 interface ReviewSectionProps {
-	evidence: Evidence;
-	evidenceId: string;
+	evidence: Evidence & {
+		assignee: Member & {
+			user: User;
+		};
+	};
 	lastPublishedAt: Date | null;
 	frequency: Frequency | null;
-	department: string | null;
+	department: Departments;
 	currentAssigneeId: string | null | undefined;
-	onSuccess: () => Promise<void>;
-	id: string;
+	assignees: (Member & {
+		user: UserType;
+	})[];
 }
 
 export function ReviewSection({
-	evidenceId,
 	lastPublishedAt,
-	frequency,
-	department,
+	frequency: initialFrequency,
+	department: initialDepartment,
 	currentAssigneeId,
-	onSuccess,
-	id,
 	evidence,
+	assignees,
 }: ReviewSectionProps) {
-	const { mutate } = useEvidence({ id });
-	const reviewInfo = calculateNextReview(lastPublishedAt, frequency);
+	const reviewInfo = calculateNextReview(lastPublishedAt, initialFrequency);
 
-	const { execute: toggleRelevanceAction, isExecuting: isTogglingRelevance } =
-		useAction(toggleRelevance, {
-			onSuccess: () => {
-				toast.success("Evidence relevance updated successfully");
-				mutate();
-			},
-			onError: () => {
-				toast.error("Failed to update evidence relevance, please try again.");
-			},
-		});
+	// State for tracking form values
+	const [frequency, setFrequency] = useState<Frequency | null>(
+		initialFrequency,
+	);
+	const [department, setDepartment] = useState<Departments>(initialDepartment);
+	const [assigneeId, setAssigneeId] = useState<string | null>(
+		currentAssigneeId || null,
+	);
+	const [status, setStatus] = useState<EvidenceStatus>(
+		evidence.status || "draft",
+	);
+	const [isSaving, setIsSaving] = useState(false);
 
-	const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
-		onSuccess: () => {
-			toast.success("Evidence published successfully");
-			mutate();
+	const { execute: updateDetailsAction } = useAction(updateEvidenceDetails, {
+		onSuccess: async () => {
+			toast.success("Evidence details updated successfully");
+			setIsSaving(false);
 		},
 		onError: () => {
-			toast.error("Failed to publish evidence, please try again.");
+			toast.error("Failed to update evidence details");
+			setIsSaving(false);
 		},
 	});
+
+	const handleSaveChanges = () => {
+		setIsSaving(true);
+		updateDetailsAction({
+			id: evidence.id,
+			frequency,
+			department,
+			assigneeId,
+			status,
+		});
+	};
+
+	const handleDepartmentChange = (value: Departments) => {
+		setDepartment(value);
+	};
+
+	const handleStatusChange = (value: EvidenceStatus) => {
+		setStatus(value);
+	};
 
 	return (
 		<Card className="overflow-hidden">
@@ -71,96 +102,47 @@ export function ReviewSection({
 							review dates
 						</h3>
 					</div>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() =>
-							toggleRelevanceAction({
-								id,
-								isNotRelevant: !evidence.isNotRelevant,
-							})
-						}
-						disabled={isTogglingRelevance}
-						className="text-xs whitespace-nowrap"
-					>
-						{evidence.isNotRelevant
-							? "Mark as relevant"
-							: "Mark as not relevant"}
-					</Button>
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-4 pt-2">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-					<div className="flex-1">
-						<div className="flex items-center gap-2 mb-1.5">
-							<Building className="h-3.5 w-3.5 text-muted-foreground" />
-							<h3 className="text-xs font-medium text-muted-foreground">
-								DEPARTMENT
-							</h3>
-						</div>
-						<DepartmentSection
-							evidenceId={evidenceId}
-							currentDepartment={department}
-							onSuccess={onSuccess}
-						/>
-					</div>
+					<EvidenceAssigneeSection
+						onAssigneeChange={setAssigneeId}
+						assigneeId={assigneeId}
+						assignees={assignees}
+						disabled={isSaving}
+					/>
 
-					<div className="flex-1">
-						<div className="flex items-center gap-2 mb-1.5">
-							<RefreshCw className="h-3.5 w-3.5 text-muted-foreground" />
-							<h3 className="text-xs font-medium text-muted-foreground">
-								FREQUENCY
-							</h3>
-						</div>
-						<FrequencySection
-							evidenceId={evidenceId}
-							currentFrequency={frequency}
-							onSuccess={onSuccess}
-						/>
-					</div>
+					<EvidenceStatusSection
+						status={status}
+						handleStatusChange={handleStatusChange}
+						isSaving={isSaving}
+					/>
 
-					<div>
-						<div className="flex items-center gap-2 mb-1.5">
-							<CalendarClock className="h-3.5 w-3.5 text-muted-foreground" />
-							<h3 className="text-xs font-medium text-muted-foreground">
-								NEXT REVIEW
-							</h3>
-						</div>
-						{!reviewInfo ? (
-							<p className="text-red-500 font-medium text-sm">ASAP</p>
-						) : (
-							<div
-								className={`text-sm font-medium ${reviewInfo.isUrgent ? "text-red-500" : ""}`}
-							>
-								{reviewInfo.daysUntil} days (
-								{format(reviewInfo.nextReviewDate, "MM/dd/yyyy")})
-							</div>
-						)}
-					</div>
-					<div>
-						<div className="flex items-center gap-2 mb-1.5">
-							<User className="h-3.5 w-3.5 text-muted-foreground" />
-							<h3 className="text-xs font-medium text-muted-foreground">
-								ASSIGNEE
-							</h3>
-						</div>
-						<AssigneeSection
-							evidenceId={evidenceId}
-							currentAssigneeId={currentAssigneeId}
-							onSuccess={onSuccess}
-						/>
-					</div>
+					<EvidenceDepartmentSection
+						onDepartmentChange={handleDepartmentChange}
+						department={department}
+						disabled={isSaving}
+					/>
+
+					<EvidenceFrequencySection
+						onFrequencyChange={setFrequency}
+						frequency={frequency}
+						disabled={isSaving}
+					/>
+
+					<EvidenceNextReviewSection reviewInfo={reviewInfo} />
 				</div>
-				{!evidence.published && (
-					<Button
-						size="sm"
-						className="w-full md:w-fit self-center sm:self-end mt-2"
-						onClick={() => publishAction({ id })}
-						disabled={isExecuting}
-					>
-						{isExecuting ? "Publishing..." : "Publish"}
-					</Button>
-				)}
+
+				<Button
+					size="sm"
+					onClick={handleSaveChanges}
+					disabled={isSaving}
+					className="self-end"
+				>
+					<Save className="h-4 w-4 mr-2" />
+					Save
+				</Button>
 			</CardContent>
 		</Card>
 	);

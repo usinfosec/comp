@@ -1,7 +1,7 @@
 "use client";
 
 import type { Column, Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import * as React from "react";
 
 import { DataTableDateFilter } from "./data-table-date-filter";
@@ -11,18 +11,25 @@ import { DataTableViewOptions } from "./data-table-view-options";
 import { Button } from "@bubba/ui/button";
 import { Input } from "@bubba/ui/input";
 import { cn } from "@bubba/ui/cn";
+import { useQueryState } from "nuqs";
 
 interface DataTableToolbarProps<TData> extends React.ComponentProps<"div"> {
   table: Table<TData>;
+  sheet?: string;
+  action?: string;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  sheet,
+  action,
   children,
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const [open, setOpen] = useQueryState(sheet ?? "");
+  const isOpen = Boolean(open);
 
   const columns = React.useMemo(
     () => table.getAllColumns().filter((column) => column.getCanFilter()),
@@ -38,7 +45,7 @@ export function DataTableToolbar<TData>({
       role="toolbar"
       aria-orientation="horizontal"
       className={cn(
-        "flex w-full items-start justify-between gap-2 p-1",
+        "flex w-full items-start justify-between mb-4 gap-2",
         className,
       )}
       {...props}
@@ -55,18 +62,27 @@ export function DataTableToolbar<TData>({
             className="border-dashed"
             onClick={onReset}
           >
-            <X />
-            Reset
+            <div className="flex items-center gap-2">
+              <X className="size-4 md:block hidden" />
+              Reset
+            </div>
           </Button>
         )}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 overflow-x-hidden">
         {children}
         <DataTableViewOptions table={table} />
+        {sheet && (
+          <Button variant="action" size="sm" onClick={() => { setOpen("true") }}>
+            <Plus className="size-4 md:block hidden" />
+            {action}
+          </Button>
+        )}
       </div>
     </div>
   );
 }
+
 interface DataTableToolbarFilterProps<TData> {
   column: Column<TData>;
 }
@@ -87,7 +103,7 @@ function DataTableToolbarFilter<TData>({
               placeholder={columnMeta.placeholder ?? columnMeta.label}
               value={(column.getFilterValue() as string) ?? ""}
               onChange={(event) => column.setFilterValue(event.target.value)}
-              className="h-8 w-40 lg:w-56"
+              className="h-8 w-40 md:w-56"
             />
           );
 

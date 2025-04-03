@@ -2,10 +2,9 @@ import "server-only";
 
 import { db } from "@bubba/db";
 import { auth } from "@bubba/auth";
-import type { GetPolicySchema } from "@/lib/validations";
+import type { GetPolicySchema } from "./validations";
 import { cache } from "react";
 import { headers } from "next/headers";
-import { getValidFilters } from "@/lib/data-table";
 import { Prisma } from "@prisma/client";
 
 export async function getPolicies(input: GetPolicySchema) {
@@ -28,6 +27,11 @@ export async function getPolicies(input: GetPolicySchema) {
 					name: {
 						contains: input.name,
 						mode: Prisma.QueryMode.insensitive,
+					},
+				}),
+				...(input.status.length > 0 && {
+					status: {
+						in: input.status,
 					},
 				}),
 			};

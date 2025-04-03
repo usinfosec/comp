@@ -7,16 +7,16 @@ import type {
   Frequency,
   Evidence,
   Departments,
+  EvidenceStatus,
 } from "@bubba/db/types";
 
 // Define the props interface with clear types
 interface UseOrganizationEvidenceTasksProps {
   search?: string | null;
-  status?: "published" | "draft" | null;
+  status?: EvidenceStatus | null;
   frequency?: Frequency | null;
   department?: Departments | null;
   assigneeId?: string | null;
-  relevance?: "relevant" | "not-relevant" | null;
   page?: number;
   pageSize?: number;
 }
@@ -70,7 +70,6 @@ export function useOrganizationEvidenceTasks(
     frequency,
     department,
     assigneeId,
-    relevance,
     page = 1,
     pageSize = 10,
   } = props;
@@ -83,7 +82,6 @@ export function useOrganizationEvidenceTasks(
       frequency,
       department,
       assigneeId,
-      relevance,
       page,
       pageSize,
     ],
@@ -94,7 +92,6 @@ export function useOrganizationEvidenceTasks(
         frequency,
         department,
         assigneeId,
-        relevance,
         page,
         pageSize,
       })
