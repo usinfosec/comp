@@ -85,6 +85,12 @@ const getEmployeesOverview = cache(async () => {
 	const employees = await db.member.findMany({
 		where: {
 			organizationId: orgId,
+			role: {
+				in: ["employee"],
+			},
+		},
+		include: {
+			user: true,
 		},
 	});
 
