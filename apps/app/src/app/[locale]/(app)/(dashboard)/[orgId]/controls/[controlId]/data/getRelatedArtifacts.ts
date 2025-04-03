@@ -2,15 +2,9 @@
 
 import { auth } from "@comp/auth";
 import { db } from "@comp/db";
+import { Artifact, Evidence, Policy } from "@comp/db/types";
 import { headers } from "next/headers";
 import { cache } from "react";
-
-export interface RelatedArtifact {
-	id: string;
-	name: string;
-	type: string;
-	createdAt: string;
-}
 
 interface GetRelatedArtifactsParams {
 	organizationId: string;
@@ -21,7 +15,12 @@ export const getRelatedArtifacts = cache(
 	async ({
 		organizationId,
 		controlId,
-	}: GetRelatedArtifactsParams): Promise<RelatedArtifact[]> => {
+	}: GetRelatedArtifactsParams): Promise<
+		(Artifact & {
+			evidence: Evidence | null;
+			policy: Policy | null;
+		})[]
+	> => {
 		try {
 			const session = await auth.api.getSession({
 				headers: await headers(),
@@ -52,25 +51,7 @@ export const getRelatedArtifacts = cache(
 			}
 
 			// Transform the artifacts into the format expected by the UI
-			return control.artifacts.map((artifact) => {
-				let name = "Unknown";
-				let displayType = artifact.type;
-
-				if (artifact.policy) {
-					name = artifact.policy.name;
-					displayType = "policy";
-				} else if (artifact.evidence) {
-					name = artifact.evidence.name;
-					displayType = "evidence";
-				}
-
-				return {
-					id: artifact.id,
-					name,
-					type: displayType,
-					createdAt: artifact.createdAt.toISOString(),
-				};
-			});
+			return control.artifacts;
 		} catch (error) {
 			console.error("Error fetching Linked Artifacts:", error);
 			return [];

@@ -152,12 +152,6 @@ export function DataTableSortList<TData>({
 		for (const column of table.getAllColumns()) {
 			if (!column.getCanSort()) continue;
 
-			// Debug column definitions
-			console.log(`Column ID: ${column.id}`, {
-				meta: column.columnDef.meta,
-				def: column.columnDef,
-			});
-
 			// Use a safe way to get the label
 			let label = column.columnDef.meta?.label;
 			if (!label) {
@@ -170,11 +164,6 @@ export function DataTableSortList<TData>({
 				availableColumns.push({ id: column.id, label });
 			}
 		}
-
-		// Debug all labels and available columns
-		console.log("Column Labels:", Object.fromEntries(labels));
-		console.log("Available Columns:", availableColumns);
-		console.log("Current Sorting:", sorting);
 
 		return {
 			columnLabels: labels,
