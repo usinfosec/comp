@@ -29,11 +29,11 @@ export function PolicyArchiveSheet({
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("archive-policy-sheet");
 	const isOpen = Boolean(open);
-	const isArchived = policy.status === "archived";
+	const isArchived = policy.isArchived;
 
 	const archivePolicy = useAction(archivePolicyAction, {
 		onSuccess: (result) => {
-			if (result.data?.status === "archived") {
+			if (result) {
 				toast.success(t("policies.archive.success"));
 				// Redirect to policies list after successful archive
 				router.push(`/${policy.organizationId}/policies/all`);

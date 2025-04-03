@@ -61,24 +61,27 @@ const getPoliciesOverview = async () => {
 				where: {
 					organizationId,
 					status: "published",
+					isArchived: false,
 				},
 			}),
 			tx.policy.count({
 				where: {
 					organizationId,
 					status: "draft",
+					isArchived: false,
 				},
 			}),
 			tx.policy.count({
 				where: {
 					organizationId,
-					status: "archived",
+					isArchived: true,
 				},
 			}),
 			tx.policy.count({
 				where: {
 					organizationId,
 					status: "needs_review",
+					isArchived: false,
 				},
 			}),
 			tx.policy.groupBy({
@@ -96,6 +99,7 @@ const getPoliciesOverview = async () => {
 				},
 				select: {
 					status: true,
+					isArchived: true,
 					assignee: {
 						select: {
 							id: true,
@@ -133,15 +137,16 @@ const getPoliciesOverview = async () => {
 			const assigneeData = policyDataByOwner.get(assigneeId);
 			assigneeData.total += 1;
 
+			// Handle archived policies separately
+			if (policy.isArchived) {
+				assigneeData.archived += 1;
+				continue;
+			}
+
 			// Handle each status type explicitly
-			const status = policy.status as
-				| "published"
-				| "draft"
-				| "archived"
-				| "needs_review";
+			const status = policy.status;
 			if (status === "published") assigneeData.published += 1;
 			else if (status === "draft") assigneeData.draft += 1;
-			else if (status === "archived") assigneeData.archived += 1;
 			else if (status === "needs_review") assigneeData.needs_review += 1;
 		}
 

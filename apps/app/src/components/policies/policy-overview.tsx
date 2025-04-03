@@ -26,14 +26,14 @@ export function PolicyOverview({
 
 	return (
 		<div className="space-y-4">
-			{policy?.status === "archived" && (
+			{policy?.isArchived && (
 				<Alert>
 					<div className="flex items-center gap-2">
 						<ArchiveIcon className="h-4 w-4" />
 						<div className="font-medium">{t("policies.archive.status")}</div>
 					</div>
 					<AlertDescription className="mt-1 mb-3 text-sm text-muted-foreground">
-						{policy?.status === "archived" && (
+						{policy?.isArchived && (
 							<>
 								{t("policies.archive.archived_on")}{" "}
 								{format(new Date(policy?.updatedAt ?? new Date()), "PPP")}
@@ -64,12 +64,12 @@ export function PolicyOverview({
 								className="p-0 m-0 size-auto"
 								onClick={() => setArchiveOpen("true")}
 								title={
-									policy?.status === "archived"
+									policy?.isArchived
 										? t("policies.archive.restore_tooltip")
 										: t("policies.archive.tooltip")
 								}
 							>
-								{policy?.status === "archived" ? (
+								{policy?.isArchived ? (
 									<ArchiveRestoreIcon className="h-3 w-3" />
 								) : (
 									<ArchiveIcon className="h-3 w-3" />

@@ -47,13 +47,12 @@ export const archivePolicyAction = authActionClient
 
       // Determine if we should archive or restore based on action or current state
       const shouldArchive =
-        action === "archive" ||
-        (action === undefined && policy.status !== "archived");
+        action === "archive" || (action === undefined && !policy.isArchived);
 
       await db.policy.update({
         where: { id },
         data: {
-          status: shouldArchive ? "archived" : "published",
+          isArchived: shouldArchive,
         },
       });
 
@@ -64,7 +63,7 @@ export const archivePolicyAction = authActionClient
 
       return {
         success: true,
-        status: shouldArchive ? "archived" : "published",
+        isArchived: shouldArchive,
       };
     } catch (error) {
       console.error(error);
