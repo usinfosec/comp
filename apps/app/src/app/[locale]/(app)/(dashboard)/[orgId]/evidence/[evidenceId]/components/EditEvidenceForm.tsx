@@ -9,8 +9,8 @@ import { UrlSection } from "./UrlSection";
 import { useEvidence } from "../hooks/useEvidence";
 
 export function EditEvidenceForm() {
-	const { id } = useParams<{ id: string }>();
-	const { data, isLoading, error, mutate } = useEvidence({ id });
+	const { evidenceId } = useParams<{ evidenceId: string }>();
+	const { data, isLoading, error, mutate } = useEvidence({ id: evidenceId });
 	const t = useI18n();
 
 	if (isLoading) {
@@ -46,13 +46,13 @@ export function EditEvidenceForm() {
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<FileSection
-					evidenceId={id}
+					evidenceId={evidenceId}
 					fileUrls={evidence.fileUrls}
 					onSuccess={handleMutate}
 				/>
 
 				<UrlSection
-					evidenceId={id}
+					evidenceId={evidenceId}
 					additionalUrls={evidence.additionalUrls}
 					onSuccess={handleMutate}
 				/>

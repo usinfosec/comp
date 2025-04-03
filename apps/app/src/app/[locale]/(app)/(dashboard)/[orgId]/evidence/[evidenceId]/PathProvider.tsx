@@ -55,7 +55,7 @@ export function PathProvider({
 				},
 			]}
 			showBackButton={showBackButton}
-			backButtonHref={`/${organizationId}/evidence/list`}
+			backButtonHref={`/${organizationId}/evidence/all`}
 			backButtonLabel={translationBackButton}
 		/>
 	);

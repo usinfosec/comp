@@ -1,21 +1,31 @@
-import { db } from "@comp/db";
-import { EvidenceDetails } from "./components/EvidenceDetails";
-import { headers } from "next/headers";
 import { auth } from "@comp/auth";
-
+import { db } from "@comp/db";
+import { headers } from "next/headers";
+import { EvidenceDetails } from "./components/EvidenceDetails";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 interface EvidencePageProps {
 	params: Promise<{
-		id: string;
+		evidenceId: string;
+		orgId: string;
 	}>;
 }
 
 export default async function EvidencePage({ params }: EvidencePageProps) {
-	const { id } = await params;
+	const { evidenceId, orgId } = await params;
 
 	const assignees = await getAssignees();
-	const evidence = await getEvidence(id);
+	const evidence = await getEvidence(evidenceId);
 
-	return <EvidenceDetails assignees={assignees} evidence={evidence} />;
+	return (
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Evidence", href: `/${orgId}/evidence/all` },
+				{ label: evidence.name, current: true },
+			]}
+		>
+			<EvidenceDetails assignees={assignees} evidence={evidence} />
+		</PageWithBreadcrumb>
+	);
 }
 
 const getAssignees = async () => {
@@ -50,7 +60,11 @@ const getEvidence = async (id: string) => {
 			id,
 		},
 		include: {
-			assignee: true,
+			assignee: {
+				include: {
+					user: true,
+				},
+			},
 		},
 	});
 

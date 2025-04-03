@@ -25,9 +25,11 @@ import { SelectAssignee } from "../../../components/SelectAssignee";
 
 interface ReviewSectionProps {
 	evidence: Evidence & {
-		assignee: Member & {
-			user: User;
-		};
+		assignee?:
+			| (Member & {
+					user: User;
+			  })
+			| null;
 	};
 	lastPublishedAt: Date | null;
 	frequency: Frequency | null;
