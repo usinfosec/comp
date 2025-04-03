@@ -1,24 +1,34 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import type { Control } from "@comp/db/types";
+import { useI18n } from "@/locales/client";
+import type {
+	Artifact,
+	Control,
+	Evidence,
+	FrameworkInstance,
+	Policy,
+	RequirementMap,
+} from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
-import { SingleControlSkeleton } from "./SingleControlSkeleton";
-import { useI18n } from "@/locales/client";
-import { useParams } from "next/navigation";
-import { RequirementsTable } from "./RequirementsTable";
 import { ArtifactsTable } from "./ArtifactsTable";
-import type { RelatedArtifact } from "../data/getRelatedArtifacts";
-import { Separator } from "@comp/ui/separator";
+import { RequirementsTable } from "./RequirementsTable";
+import { SingleControlSkeleton } from "./SingleControlSkeleton";
 
 interface SingleControlProps {
 	control: Control & {
-		requirementsMapped: any[];
+		requirementsMapped: (RequirementMap & {
+			frameworkInstance: FrameworkInstance;
+		})[];
 	};
 	controlProgress: ControlProgressResponse;
-	relatedArtifacts: RelatedArtifact[];
+	relatedArtifacts: (Artifact & {
+		evidence: Evidence | null;
+		policy: Policy | null;
+	})[];
 }
 
 export const SingleControl = ({
@@ -63,13 +73,10 @@ export const SingleControl = ({
 					<p className="text-sm text-muted-foreground">{control.description}</p>
 				</CardContent>
 			</Card>
-
 			<RequirementsTable
 				requirements={control.requirementsMapped}
 				orgId={orgId}
 			/>
-			<Separator />
-
 			<ArtifactsTable
 				artifacts={relatedArtifacts}
 				orgId={orgId}

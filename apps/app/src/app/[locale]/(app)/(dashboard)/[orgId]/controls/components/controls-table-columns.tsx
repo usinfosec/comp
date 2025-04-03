@@ -69,7 +69,7 @@ export function getControlColumns(): ColumnDef<
 			id: "mappedRequirements",
 			accessorKey: "mappedRequirements",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Mapped Requirements" />
+				<DataTableColumnHeader column={column} title="Linked Requirements" />
 			),
 			cell: ({ row }) => {
 				const control = row.original;
@@ -94,8 +94,8 @@ export function getControlColumns(): ColumnDef<
 				);
 			},
 			meta: {
-				label: "Mapped Requirements",
-				placeholder: "Search mapped requirements...",
+				label: "Linked Requirements",
+				placeholder: "Search Linked Requirements...",
 				variant: "text",
 			},
 		},

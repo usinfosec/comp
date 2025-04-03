@@ -8,11 +8,14 @@ import { useI18n } from "@/locales/client";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import type { RelatedArtifact } from "../data/getRelatedArtifacts";
 import { Card, CardTitle, CardHeader, CardContent } from "@comp/ui/card";
+import { Artifact, Evidence, Policy } from "@comp/db/types";
 
 interface ArtifactsTableProps {
-	artifacts: RelatedArtifact[];
+	artifacts: (Artifact & {
+		evidence: Evidence | null;
+		policy: Policy | null;
+	})[];
 	orgId: string;
 	controlId: string;
 }
@@ -26,7 +29,14 @@ export function ArtifactsTable({
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Define columns for artifacts table
-	const columns = useMemo<ColumnDef<RelatedArtifact>[]>(
+	const columns = useMemo<
+		ColumnDef<
+			Artifact & {
+				evidence: Evidence | null;
+				policy: Policy | null;
+			}
+		>[]
+	>(
 		() => [
 			{
 				accessorKey: "name",
@@ -36,10 +46,24 @@ export function ArtifactsTable({
 						title={t("frameworks.artifacts.table.name")}
 					/>
 				),
-				cell: ({ row }) => <span>{row.original.name}</span>,
+				cell: ({ row }) => {
+					const name =
+						row.original.type === "evidence"
+							? row.original.evidence?.name
+							: row.original.policy?.name;
+					return <span>{name}</span>;
+				},
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
-					return rowA.original.name.localeCompare(rowB.original.name);
+					const nameA =
+						rowA.original.type === "evidence"
+							? rowA.original.evidence?.name || ""
+							: rowA.original.policy?.name || "";
+					const nameB =
+						rowB.original.type === "evidence"
+							? rowB.original.evidence?.name || ""
+							: rowB.original.policy?.name || "";
+					return nameA.localeCompare(nameB);
 				},
 			},
 			{
@@ -88,7 +112,11 @@ export function ArtifactsTable({
 		return artifacts.filter(
 			(artifact) =>
 				artifact.id.toLowerCase().includes(searchLower) ||
-				artifact.name.toLowerCase().includes(searchLower) ||
+				(artifact.type === "evidence"
+					? artifact.evidence?.name?.toLowerCase().includes(searchLower) ||
+						false
+					: artifact.policy?.name?.toLowerCase().includes(searchLower) ||
+						false) ||
 				artifact.type.toLowerCase().includes(searchLower),
 		);
 	}, [artifacts, searchTerm]);
@@ -127,8 +155,18 @@ export function ArtifactsTable({
 				</div>
 				<DataTable
 					table={table.table}
-					rowClickBasePath={`/${orgId}/controls/${controlId}/artifacts`}
-					getRowId={(row) => row.id}
+					rowClickBasePath={`/${orgId}/`}
+					getRowId={(row) => {
+						if (row.type === "policy") {
+							return `/policies/${row.policyId}`;
+						}
+
+						if (row.type === "evidence") {
+							return `/evidence/${row.evidenceId}`;
+						}
+
+						return `/artifacts/${row.id}`;
+					}}
 					tableId={"a"}
 				/>
 			</CardContent>

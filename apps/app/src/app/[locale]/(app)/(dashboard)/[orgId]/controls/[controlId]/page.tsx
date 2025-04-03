@@ -6,7 +6,7 @@ import { getOrganizationControlProgress } from "./data/getOrganizationControlPro
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
 import { headers } from "next/headers";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getRelatedArtifacts } from "./data/getRelatedArtifacts";
+import { getRelatedArtifacts } from "@/app/[locale]/(app)/(dashboard)/[orgId]/controls/[controlId]/data/getRelatedArtifacts";
 
 interface ControlPageProps {
 	params: {
