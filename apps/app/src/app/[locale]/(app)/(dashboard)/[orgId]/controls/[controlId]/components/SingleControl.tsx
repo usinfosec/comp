@@ -15,6 +15,7 @@ import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { ArtifactsTable } from "./ArtifactsTable";
+import { RequirementsTable } from "./RequirementsTable";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
 
 interface SingleControlProps {
@@ -72,11 +73,10 @@ export const SingleControl = ({
 					<p className="text-sm text-muted-foreground">{control.description}</p>
 				</CardContent>
 			</Card>
-			{/* 
 			<RequirementsTable
 				requirements={control.requirementsMapped}
 				orgId={orgId}
-			/> */}
+			/>
 			<ArtifactsTable
 				artifacts={relatedArtifacts}
 				orgId={orgId}
