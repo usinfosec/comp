@@ -1,7 +1,6 @@
 import { Status } from "@/components/status";
 import { type Departments, Member, RiskStatus, User } from "@comp/db/types";
-import { AssigneeAvatar } from "../../../../evidence/list/components/table/components/AssigneeAvatar";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 export const RiskRegisterFilters = ({
 	setPage,
 	departments,
@@ -63,7 +62,14 @@ export const RiskRegisterFilters = ({
 					setAssigneeId(checked ? assignee.id : null);
 					setPage(1);
 				},
-				icon: <AssigneeAvatar assignee={assignee.user} />,
+				icon: (
+					<Avatar>
+						<AvatarImage src={assignee.user.image || undefined} />
+						<AvatarFallback>
+							{assignee.user.name?.charAt(0) || "?"}
+						</AvatarFallback>
+					</Avatar>
+				),
 			})),
 			maxHeight: "150px",
 		},

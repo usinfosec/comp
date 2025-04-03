@@ -17,6 +17,8 @@ interface SecondaryMenuProps {
 		path: string;
 		label: string;
 		query?: Record<string, string>;
+		// We use this to override the active state for a specific item based on the prefix of the id
+		activeOverrideIdPrefix?: string;
 	}[];
 	isChild?: boolean;
 	showBackButton?: boolean;
@@ -37,11 +39,22 @@ export function SecondaryMenu({
 		return path.split("/").filter(Boolean);
 	}
 
-	function isActiveLink(itemPath: string) {
+	function isActiveLink(
+		itemPath: string,
+		activeOverrideIdPrefix?: string,
+	): boolean {
 		const currentSegments = getPathSegments(pathname);
 		const itemSegments = getPathSegments(itemPath);
 
 		const segmentsToCompare = currentSegments.slice(0, 3);
+
+		console.log(currentSegments, activeOverrideIdPrefix);
+		if (
+			activeOverrideIdPrefix &&
+			currentSegments.toString().includes(activeOverrideIdPrefix)
+		) {
+			return true;
+		}
 
 		return (
 			segmentsToCompare.length === itemSegments.length &&
@@ -50,10 +63,13 @@ export function SecondaryMenu({
 	}
 
 	return (
-		<nav className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}>
+		<nav
+			className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}
+			key={pathname}
+		>
 			<ul
 				className={cn(
-					"scrollbar-hide flex overflow-auto py-2 text-sm",
+					"scrollbar-hide flex overflow-auto py-2 text-sm border-b border-border",
 					isChild ? "space-x-3" : "space-x-6",
 				)}
 			>
@@ -74,9 +90,11 @@ export function SecondaryMenu({
 					const itemContent = (
 						<span
 							className={cn(
-								"hover:bg-secondary p-2",
-								isActiveLink(item.path) && "font-medium border-b border-white",
-								isDisabled && "opacity-50 cursor-pointer",
+								"hover:bg-secondary p-2 border-b-2 font-medium",
+								isActiveLink(item.path, item.activeOverrideIdPrefix)
+									? "border-primary"
+									: "border-transparent",
+								isDisabled && "opacity-50 cursor-not-allowed",
 							)}
 						>
 							{item.label}

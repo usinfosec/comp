@@ -1,22 +1,18 @@
 import {
   Departments,
+  FrameworkId,
   Frequency,
+  Impact,
+  Likelihood,
   PolicyStatus,
   RiskCategory,
   RiskStatus,
-  VendorCategory,
-  VendorStatus,
-  FrameworkId,
   TaskStatus,
-  Impact,
-  Likelihood,
 } from "@comp/db/types";
 import { z } from "zod";
 
 export const organizationSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  fullName: z.string().min(1, "Full name is required"),
-  website: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  name: z.string().min(1, "Organization name is required"),
   frameworks: z
     .array(z.nativeEnum(FrameworkId))
     .min(1, "Please select at least one framework to get started with"),

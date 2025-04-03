@@ -1,6 +1,6 @@
 export const evidence = {
 	title: "Evidence",
-	list: "All Evidence",
+	list: "Evidence",
 	overview: "Evidence Overview",
 	edit: "Edit Evidence",
 	dashboard: {
