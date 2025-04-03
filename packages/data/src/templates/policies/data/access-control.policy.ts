@@ -1,6 +1,6 @@
-import type { Policy } from "../types";
+import type { TemplatePolicy } from "../types";
 
-export const accessControlPolicy: Policy = {
+export const accessControlPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "access_control",

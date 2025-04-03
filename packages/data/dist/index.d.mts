@@ -73,32 +73,78 @@ declare const soc2Requirements: SingleFrameworkRequirements<soc2RequirementIds>;
 
 declare const requirements: AllRequirements;
 
+/**
+ * Represents the structure of JSON content used in policy documents.
+ * This type is compatible with ProseMirror/TipTap document structure.
+ */
+type JSONContent = {
+    [key: string]: any;
+    type?: string;
+    attrs?: Record<string, any>;
+    content?: JSONContent[];
+    marks?: {
+        type: string;
+        attrs?: Record<string, any>;
+        [key: string]: any;
+    }[];
+    text?: string;
+};
+/**
+ * Represents the metadata associated with a policy document.
+ */
+interface TemplatePolicyMetadata {
+    id: string;
+    slug: string;
+    name: string;
+    description: string;
+    frequency: Frequency;
+    department: Departments;
+}
+/**
+ * Represents the structure of a policy document, including metadata and content.
+ */
+interface TemplatePolicy {
+    /**
+     * The main type of the document, typically "doc".
+     */
+    type: "doc";
+    /**
+     * Metadata providing details about the policy.
+     */
+    metadata: TemplatePolicyMetadata;
+    /**
+     * The structured content of the policy document.
+     */
+    content: JSONContent[];
+}
+type TemplatePolicies = Record<string, TemplatePolicy>;
+
 declare const policies: {
-    readonly access_control_policy: Policy;
-    readonly application_security_policy: Policy;
-    readonly availability_policy: Policy;
-    readonly business_continuity_policy: Policy;
-    readonly change_management_policy: Policy;
-    readonly classification_policy: Policy;
-    readonly code_of_conduct_policy: Policy;
-    readonly confidentiality_policy: Policy;
-    readonly corporate_governance_policy: Policy;
-    readonly cyber_risk_policy: Policy;
-    readonly data_center_policy: Policy;
-    readonly data_classification_policy: Policy;
-    readonly disaster_recovery_policy: Policy;
-    readonly human_resources_policy: Policy;
-    readonly incident_response_policy: Policy;
-    readonly information_security_policy: Policy;
-    readonly password_policy: Policy;
-    readonly privacy_policy: Policy;
-    readonly risk_assessment_policy: Policy;
-    readonly risk_management_policy: Policy;
-    readonly software_development_policy: Policy;
-    readonly system_change_policy: Policy;
-    readonly third_party_policy: Policy;
-    readonly vendor_risk_management_policy: Policy;
-    readonly workstation_policy: Policy;
+    readonly access_control_policy: TemplatePolicy;
+    readonly application_security_policy: TemplatePolicy;
+    readonly availability_policy: TemplatePolicy;
+    readonly business_continuity_policy: TemplatePolicy;
+    readonly change_management_policy: TemplatePolicy;
+    readonly classification_policy: TemplatePolicy;
+    readonly code_of_conduct_policy: TemplatePolicy;
+    readonly confidentiality_policy: TemplatePolicy;
+    readonly corporate_governance_policy: TemplatePolicy;
+    readonly cyber_risk_policy: TemplatePolicy;
+    readonly data_center_policy: TemplatePolicy;
+    readonly data_classification_policy: TemplatePolicy;
+    readonly disaster_recovery_policy: TemplatePolicy;
+    readonly human_resources_policy: TemplatePolicy;
+    readonly incident_response_policy: TemplatePolicy;
+    readonly information_security_policy: TemplatePolicy;
+    readonly password_policy: TemplatePolicy;
+    readonly privacy_policy: TemplatePolicy;
+    readonly risk_assessment_policy: TemplatePolicy;
+    readonly risk_management_policy: TemplatePolicy;
+    readonly software_development_policy: TemplatePolicy;
+    readonly system_change_policy: TemplatePolicy;
+    readonly third_party_policy: TemplatePolicy;
+    readonly vendor_risk_management_policy: TemplatePolicy;
+    readonly workstation_policy: TemplatePolicy;
 };
 type TemplatePolicyId = keyof typeof policies;
 
@@ -213,51 +259,5 @@ interface TemplateControl {
 }
 
 declare const controls: [TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl];
-
-/**
- * Represents the structure of JSON content used in policy documents.
- * This type is compatible with ProseMirror/TipTap document structure.
- */
-type JSONContent = {
-    [key: string]: any;
-    type?: string;
-    attrs?: Record<string, any>;
-    content?: JSONContent[];
-    marks?: {
-        type: string;
-        attrs?: Record<string, any>;
-        [key: string]: any;
-    }[];
-    text?: string;
-};
-/**
- * Represents the metadata associated with a policy document.
- */
-interface TemplatePolicyMetadata {
-    id: string;
-    slug: string;
-    name: string;
-    description: string;
-    frequency: Frequency;
-    department: Departments;
-}
-/**
- * Represents the structure of a policy document, including metadata and content.
- */
-interface TemplatePolicy {
-    /**
-     * The main type of the document, typically "doc".
-     */
-    type: "doc";
-    /**
-     * Metadata providing details about the policy.
-     */
-    metadata: TemplatePolicyMetadata;
-    /**
-     * The structured content of the policy document.
-     */
-    content: JSONContent[];
-}
-type TemplatePolicies = Record<string, TemplatePolicy>;
 
 export { type AllRequirementIdsByFramework, type AllRequirements, type Framework, type FrameworkId, type Frameworks, type Requirement, type SingleFrameworkRequirements, type TemplateArtifact, type TemplateControl, type TemplateEvidence, type TemplateEvidenceId, type TemplateEvidenceKey, type TemplateEvidenceMap, type TemplatePolicies, type TemplatePolicy, type TemplatePolicyId, type TemplatePolicyMetadata, type TemplateRequirement, type TrainingVideo, controls, evidence, frameworks, policies, requirements, soc2Requirements, trainingVideos };
