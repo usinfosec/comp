@@ -1,5 +1,5 @@
 {
-  "name": "@bubba/integrations",
+  "@comp/integrations",
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
@@ -13,7 +13,7 @@
     "@ai-sdk/openai": "^0.0.66",
     "@aws-sdk/client-securityhub": "^3.0.0",
     "@azure/identity": "^3.0.0",
-    "@bubba/app": "workspace:*",
+    "@comp/app": "workspace:*",
     "@google-cloud/security-center": "^7.0.0",
     "@slack/bolt": "^3.22.0",
     "@slack/web-api": "^7.8.0",

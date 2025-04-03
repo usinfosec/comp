@@ -1,5 +1,5 @@
 {
-	"name": "@bubba/app",
+	"@comp/app",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -22,9 +22,9 @@
 		"@aws-sdk/client-s3": "^3.779.0",
 		"@aws-sdk/s3-request-presigner": "^3.779.0",
 		"@browserbasehq/sdk": "^2.5.0",
-		"@bubba/auth": "workspace:*",
-		"@bubba/data": "workspace:*",
-		"@bubba/notifications": "workspace:*",
+		"@comp/auth": "workspace:*",
+		"@comp/data": "workspace:*",
+		"@comp/notifications": "workspace:*",
 		"@date-fns/tz": "^1.2.0",
 		"@dnd-kit/core": "^6.3.1",
 		"@dnd-kit/modifiers": "^9.0.0",
@@ -98,8 +98,8 @@
 		"zustand": "^5.0.3"
 	},
 	"devDependencies": {
-		"@bubba/auth": "workspace:*",
-		"@bubba/db": "workspace:*",
+		"@comp/auth": "workspace:*",
+		"@comp/db": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.13.17",
 		"@types/react": "19.0.10",

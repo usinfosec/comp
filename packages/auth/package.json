@@ -1,5 +1,5 @@
 {
-  "name": "@bubba/auth",
+  "@comp/auth",
   "version": "1.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -12,7 +12,7 @@
   "dependencies": {
     "better-auth": "^1.2.5",
     "server-only": "0.0.1",
-    "@bubba/email": "workspace:*"
+    "@comp/email": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.13.2",

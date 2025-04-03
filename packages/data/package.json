@@ -1,10 +1,10 @@
 {
-	"name": "@bubba/data",
+	"@comp/data",
 	"version": "1.0.0",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
 	"devDependencies": {
-		"@bubba/db": "workspace:*",
+		"@comp/db": "workspace:*",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.2"
 	},
