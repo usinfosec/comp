@@ -19,10 +19,9 @@ export function PolicyEditor({
 
   const documentContent = {
     type: "doc",
-    content:
-      Array.isArray(content) && content.length > 0
-        ? content
-        : [{ type: "paragraph", content: [{ type: "text", text: "" }] }],
+    content: Array.isArray(content) && content.length > 0
+      ? content
+      : [{ type: "paragraph", content: [{ type: "text", text: "" }] }]
   };
 
   const handleUpdate = (updatedContent: JSONContent) => {

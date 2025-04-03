@@ -24,12 +24,6 @@ export const searchParamsCache = createSearchParamsCache({
 	joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
 });
 
-export const createPolicySchema = z.object({
-	name: z.string(),
-	status: z.nativeEnum(PolicyStatus),
-});
-
 export type GetPolicySchema = Awaited<
 	ReturnType<typeof searchParamsCache.parse>
 >;
-export type CreatePolicySchema = z.infer<typeof createPolicySchema>;

@@ -35,8 +35,12 @@ export function DataTablePagination<TData>({
       )}
       {...props}
     >
-      <div className="flex-1" />
-      <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
+      <div className="flex-1 flex items-center gap-2 select-none">
+        <p className="text-sm text-muted-foreground">
+          {table.getCoreRowModel().rows.length} items
+        </p>
+      </div>
+      <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8 select-none">
         <div className="flex items-center space-x-2">
           <p className="whitespace-nowrap text-sm">Rows per page</p>
           <Select

@@ -9,68 +9,54 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function PolicyDetails({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string; policyId: string; orgId: string }>;
+  params: Promise<{ locale: string; policyId: string }>;
 }) {
-	const { locale, policyId, orgId } = await params;
-	setStaticParamsLocale(locale);
+  const { locale, policyId } = await params;
+  setStaticParamsLocale(locale);
+  const policy = await getPolicy(policyId);
 
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const organizationId = session?.session.activeOrganizationId;
-
-	if (!organizationId) {
-		redirect(`/${orgId}/policies/all`);
-	}
-
-	const policy = await getPolicy(policyId, organizationId);
-	const users = await getUsers(organizationId);
-
-	if (!policy) {
-		redirect(`/${orgId}/policies/all`);
-	}
-
-	return (
-		<div className="flex flex-col gap-4">
-			<PolicyOverview policy={policy} users={users} />
-		</div>
-	);
+  return (
+    <div className="flex flex-col gap-4">
+      <PolicyOverview policy={policy ?? null} />
+    </div>
+  );
 }
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string; policyId: string }>;
+  params: Promise<{ locale: string; policyId: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
+  const { locale } = await params;
 
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("policies.overview.title"),
-	};
+  return {
+    title: t("policies.overview.title"),
+  };
 }
 
-const getPolicy = cache(async (policyId: string, organizationId: string) => {
-	const policy = await db.policy.findUnique({
-		where: { id: policyId, organizationId },
-	});
-	return policy;
-});
+const getPolicy = cache(async (policyId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-const getUsers = cache(async (organizationId: string) => {
-	const orgMembers = await db.member.findMany({
-		where: { organizationId },
-		include: {
-			user: true,
-		},
-	});
+  const organizationId = session?.session.activeOrganizationId;
 
-	const users = orgMembers.map((member) => member.user);
+  if (!organizationId) {
+    return null;
+  }
 
-	return users;
+  const policy = await db.policy.findUnique({
+    where: { id: policyId, organizationId },
+  });
+
+  if (!policy) {
+    return null;
+  }
+
+  return policy;
 });
