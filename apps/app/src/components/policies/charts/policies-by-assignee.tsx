@@ -13,11 +13,11 @@ interface UserPolicyStats {
 		name: string | null;
 		image: string | null;
 	};
-	totalPolicies: number | undefined;
-	publishedPolicies: number | undefined;
-	draftPolicies: number | undefined;
-	archivedPolicies: number | undefined;
-	needsReviewPolicies: number | undefined;
+	totalPolicies: number;
+	publishedPolicies: number;
+	draftPolicies: number;
+	archivedPolicies: number;
+	needsReviewPolicies: number;
 }
 
 const policyStatus = {
@@ -25,34 +25,42 @@ const policyStatus = {
 	draft: "bg-[var(--chart-open)]",
 	archived: "bg-[var(--chart-pending)]",
 	needs_review: "bg-[hsl(var(--destructive))]",
-};
+} as const;
 
 export async function PoliciesByAssignee({ organizationId }: Props) {
 	const t = await getI18n();
-	const userStats = await userData(organizationId);
+	const [userStats, policies] = await Promise.all([
+		userData(organizationId),
+		policiesByUser(organizationId),
+	]);
 
-	const stats: UserPolicyStats[] = userStats.map((user) => ({
-		user: {
-			id: user.id,
-			name: user.name,
-			image: user.image,
-		},
-		totalPolicies: user.organization?.OrganizationPolicy.length,
-		publishedPolicies: user.organization?.OrganizationPolicy.filter(
-			(policy) => policy.status === "published",
-		).length,
-		draftPolicies: user.organization?.OrganizationPolicy.filter(
-			(policy) => policy.status === "draft",
-		).length,
-		archivedPolicies: user.organization?.OrganizationPolicy.filter(
-			(policy) => policy.isArchived,
-		).length,
-		needsReviewPolicies: user.organization?.OrganizationPolicy.filter(
-			(policy) => policy.status === "needs_review",
-		).length,
-	}));
+	const stats: UserPolicyStats[] = userStats.map((user) => {
+		const userPolicies = policies.filter(
+			(policy) => policy.ownerId === user.id,
+		);
 
-	stats.sort((a, b) => (b.totalPolicies ?? 0) - (a.totalPolicies ?? 0));
+		return {
+			user: {
+				id: user.id,
+				name: user.name,
+				image: user.image,
+			},
+			totalPolicies: userPolicies.length,
+			publishedPolicies: userPolicies.filter(
+				(policy) => policy.status === "published",
+			).length,
+			draftPolicies: userPolicies.filter((policy) => policy.status === "draft")
+				.length,
+			archivedPolicies: userPolicies.filter(
+				(policy) => policy.status === "archived",
+			).length,
+			needsReviewPolicies: userPolicies.filter(
+				(policy) => policy.status === "needs_review",
+			).length,
+		};
+	});
+
+	stats.sort((a, b) => b.totalPolicies - a.totalPolicies);
 
 	return (
 		<Card>
@@ -142,7 +150,7 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 	];
 
 	const gap = 0.3;
-	const totalValue = stat.totalPolicies ?? 0;
+	const totalValue = stat.totalPolicies;
 	const barHeight = 12;
 	const totalWidth = totalValue + gap * (data.length - 1);
 	let cumulativeWidth = 0;
@@ -207,25 +215,31 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 	);
 }
 
+const policiesByUser = async (organizationId: string) => {
+	return await db.policy.findMany({
+		where: {
+			organizationId,
+		},
+		select: {
+			ownerId: true,
+			status: true,
+		},
+	});
+};
+
 const userData = async (organizationId: string) => {
 	return await db.user.findMany({
 		where: {
-			organizationId,
+			members: {
+				some: {
+					organizationId,
+				},
+			},
 		},
 		select: {
 			id: true,
 			name: true,
 			image: true,
-			organization: {
-				select: {
-					OrganizationPolicy: {
-						select: {
-							status: true,
-							isArchived: true,
-						},
-					},
-				},
-			},
 		},
 	});
 };

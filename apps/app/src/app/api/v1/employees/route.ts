@@ -1,8 +1,5 @@
 import { db } from "@bubba/db";
-import {
-  Departments,
-  type Employee,
-} from "@bubba/db/types";
+import { Departments } from "@bubba/db/types";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";
@@ -27,8 +24,7 @@ const employeeCreateSchema = z.object({
   department: z.nativeEnum(Departments).optional().default(Departments.none),
   isActive: z.boolean().optional().default(true),
   externalEmployeeId: z.string().optional().nullable(),
-  userId: z.string().optional().nullable(),
-  linkId: z.string().optional().nullable(),
+  role: z.string().optional().default("member"),
 });
 
 // Type for the validated query parameters
@@ -108,47 +104,40 @@ export async function GET(request: NextRequest) {
       where.department = department;
     }
 
-    // Add search filter if provided
-    if (search) {
-      where.OR = [
-        {
-          name: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-        {
-          email: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-      ];
-    }
-
-    // Fetch employees
-    const employees = await db.employee.findMany({
+    // Query members with their associated users
+    const members = await db.member.findMany({
       where,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        department: true,
-        isActive: true,
-        externalEmployeeId: true,
-        createdAt: true,
-        updatedAt: true,
+      include: {
+        user: true,
       },
       orderBy: {
-        name: "asc",
+        user: {
+          name: "asc",
+        },
       },
     });
 
-    // Format dates for JSON response
-    const formattedEmployees = employees.map((employee) => ({
-      ...employee,
-      createdAt: employee.createdAt.toISOString(),
-      updatedAt: employee.updatedAt.toISOString(),
+    // Apply search filter if provided (we need to do this in memory due to nested user data)
+    let filteredMembers = members;
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filteredMembers = members.filter(
+        (member) =>
+          member.user.name.toLowerCase().includes(searchLower) ||
+          member.user.email.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Format the response to include both member and user data
+    const formattedEmployees = filteredMembers.map((member) => ({
+      id: member.id,
+      userId: member.userId,
+      name: member.user.name,
+      email: member.user.email,
+      department: member.department,
+      isActive: member.isActive,
+      role: member.role,
+      createdAt: member.createdAt.toISOString(),
     }));
 
     return NextResponse.json({ success: true, data: formattedEmployees });
@@ -175,8 +164,7 @@ export async function GET(request: NextRequest) {
  * - department: Departments - The department of the employee (optional, defaults to "none")
  * - isActive: boolean - Whether the employee is active (optional, defaults to true)
  * - externalEmployeeId: string - External employee ID (optional)
- * - userId: string - User ID (optional)
- * - linkId: string - Link ID (optional)
+ * - role: string - Role in the organization (optional, defaults to "member")
  *
  * Returns:
  * - 200: { success: true, data: Employee }
@@ -215,24 +203,58 @@ export async function POST(request: NextRequest) {
     // Extract validated data
     const validatedData: EmployeeCreateInput = validationResult.data;
 
-    // Create the employee using the organization ID from the API key
-    const employee = await db.employee.create({
-      data: {
-        ...validatedData,
-        organizationId: organizationId!,
-      },
-    });
+    // Start a transaction to ensure both user and member are created successfully
+    const result = await db.$transaction(async (tx) => {
+      // Check if a user with this email already exists
+      let user = await tx.user.findUnique({
+        where: {
+          email: validatedData.email,
+        },
+      });
 
-    // Format dates for JSON response
-    const formattedEmployee = {
-      ...employee,
-      createdAt: employee.createdAt.toISOString(),
-      updatedAt: employee.updatedAt.toISOString(),
-    };
+      // Create the user if they don't exist already
+      if (!user) {
+        user = await tx.user.create({
+          data: {
+            name: validatedData.name,
+            email: validatedData.email,
+            emailVerified: false, // Default as not verified
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+      }
+
+      // Create the member record to link the user to the organization
+      const member = await tx.member.create({
+        data: {
+          userId: user.id,
+          organizationId: organizationId!,
+          role: validatedData.role || "member",
+          department: validatedData.department,
+          isActive: validatedData.isActive ?? true,
+          createdAt: new Date(),
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      return {
+        id: member.id,
+        userId: user.id,
+        name: user.name,
+        email: user.email,
+        department: member.department,
+        isActive: member.isActive,
+        role: member.role,
+        createdAt: member.createdAt.toISOString(),
+      };
+    });
 
     return NextResponse.json({
       success: true,
-      data: formattedEmployee,
+      data: result,
     });
   } catch (error) {
     console.error("Error creating employee:", error);

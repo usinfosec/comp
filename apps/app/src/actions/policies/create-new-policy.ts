@@ -17,9 +17,17 @@ export const createPolicyAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { title, description, frameworkIds, controlIds } = parsedInput;
+    const { activeOrganizationId } = ctx.session;
     const { user } = ctx;
 
-    if (!user || !user.organizationId) {
+    if (!activeOrganizationId) {
+      return {
+        success: false,
+        error: "Not authorized",
+      };
+    }
+
+    if (!user) {
       return {
         success: false,
         error: "Not authorized",
@@ -27,35 +35,51 @@ export const createPolicyAction = authActionClient
     }
 
     try {
+      // Create the policy
       const policy = await db.policy.create({
         data: {
-          slug: title,
           name: title,
           description,
-          content: [
-            { type: "paragraph", content: [{ type: "text", text: "" }] },
-          ],
-          usedBy: JSON.stringify([]),
-          policyFrameworks: {
-            create: frameworkIds.map((id) => ({ frameworkId: id })),
-          },
-          PolicyControl: {
-            create: controlIds.map((id) => ({ controlId: id })),
-          },
-        },
-      });
-
-      await db.organizationPolicy.create({
-        data: {
-          organizationId: user.organizationId,
-          policyId: policy.id,
+          organizationId: activeOrganizationId,
           ownerId: user.id,
           department: Departments.none,
           frequency: Frequency.monthly,
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "" }] },
+          ],
         },
       });
 
-      revalidatePath(`/${user.organizationId}/policies`);
+      // Create artifacts for each control
+      if (controlIds && controlIds.length > 0) {
+        // Create artifacts that link the policy to controls
+        await Promise.all(
+          controlIds.map(async (controlId) => {
+            // Create the artifact
+            const artifact = await db.artifact.create({
+              data: {
+                type: "policy",
+                policyId: policy.id,
+                organizationId: activeOrganizationId,
+              },
+            });
+
+            // Connect the artifact to the control
+            await db.control.update({
+              where: { id: controlId },
+              data: {
+                artifacts: {
+                  connect: { id: artifact.id },
+                },
+              },
+            });
+
+            return artifact;
+          })
+        );
+      }
+
+      revalidatePath(`/${activeOrganizationId}/policies`);
       revalidateTag("policies");
 
       return {

@@ -1,7 +1,0 @@
-{
-  "id": "vendor_risk_assessment_records",
-  "name": "Vendor Risk Assessment Records",
-  "description": "Vendor risk assessment reports, due diligence records, and contract reviews. Provide procedure for assessing vendor risk through questionnaires, audits, and continuous monitoring.",
-  "frequency": "yearly",
-  "department": "gov"
-}

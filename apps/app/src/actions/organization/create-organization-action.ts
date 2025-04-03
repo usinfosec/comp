@@ -1,56 +1,84 @@
 "use server";
 
-import { createOrganizationAndConnectUser } from "@/auth/org";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
-import { tasks } from "@trigger.dev/sdk/v3";
-import type { createOrganizationTask } from "@/jobs/tasks/organization/create-organization";
+import { auth } from "@bubba/auth";
+import { headers } from "next/headers";
+import {
+	createFrameworkInstance,
+	getRelevantControls,
+	createOrganizationPolicies,
+	createOrganizationEvidence,
+	createControlArtifacts,
+} from "./lib/utils";
 
 export const createOrganizationAction = authActionClient
-  .schema(organizationSchema)
-  .metadata({
-    name: "create-organization",
-    track: {
-      event: "create-organization",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { name, website, frameworks } = parsedInput;
-    const { id: userId } = ctx.user;
+	.schema(organizationSchema)
+	.metadata({
+		name: "create-organization",
+		track: {
+			event: "create-organization",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { name, frameworks } = parsedInput;
+		const { id: userId } = ctx.user;
 
-    if (!name || !website) {
-      console.log("Invalid input detected:", { name, website });
-      throw new Error("Invalid user input");
-    }
+		if (!name) {
+			console.log("Invalid input detected:", { name });
+			throw new Error("Invalid user input");
+		}
 
-    const newOrganization = await createOrganizationAndConnectUser({
-      userId,
-      normalizedEmail: ctx.user.email!,
-      orgName: name,
-    });
+		try {
+			const session = await auth.api.getSession({
+				headers: await headers(),
+			});
 
-    try {
-      const handle = await tasks.trigger<typeof createOrganizationTask>(
-        "create-organization",
-        {
-          userId,
-          fullName: name,
-          website,
-          frameworkIds: frameworks,
-          organizationId: newOrganization.id,
-        }
-      );
+			if (!session?.session.activeOrganizationId) {
+				throw new Error("User is not part of an organization");
+			}
 
-      return {
-        success: true,
-        runId: handle.id,
-        publicAccessToken: handle.publicAccessToken,
-        newOrganization,
-      };
-    } catch (error) {
-      console.error("Error during organization update:", error);
+			const organizationId = session.session.activeOrganizationId;
 
-      throw new Error("Failed to update organization");
-    }
-  });
+			const organizationFrameworks = await Promise.all(
+				frameworks.map((frameworkId) =>
+					createFrameworkInstance(organizationId, frameworkId),
+				),
+			);
+
+			// Get controls relevant to the selected frameworks
+			const relevantControls = getRelevantControls(frameworks);
+
+			// Create policies required by the controls
+			const policiesForFrameworks = await createOrganizationPolicies(
+				organizationId,
+				relevantControls,
+				userId,
+			);
+
+			// Create evidence requirements for the controls
+			const evidenceForFrameworks = await createOrganizationEvidence(
+				organizationId,
+				relevantControls,
+				userId,
+			);
+
+			// Link controls to their policies and evidence through artifacts
+			await createControlArtifacts(
+				organizationId,
+				organizationFrameworks.map((framework) => framework.id),
+				relevantControls,
+				policiesForFrameworks,
+				evidenceForFrameworks,
+			);
+			return {
+				success: true,
+				organizationId: session.session.activeOrganizationId,
+			};
+		} catch (error) {
+			console.error("Error during organization update:", error);
+
+			throw new Error("Failed to update organization");
+		}
+	});

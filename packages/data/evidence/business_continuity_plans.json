@@ -1,7 +1,0 @@
-{
-  "id": "business_continuity_plans",
-  "name": "Business Continuity Plans",
-  "description": "Business continuity plans, BIA reports, and disaster recovery test results. Provide procedure for conducting business impact analyses, backup operations, and disaster recovery testing.",
-  "frequency": "yearly",
-  "department": "it"
-}

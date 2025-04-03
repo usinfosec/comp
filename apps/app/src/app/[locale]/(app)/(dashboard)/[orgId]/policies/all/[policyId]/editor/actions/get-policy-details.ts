@@ -1,71 +1,60 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { appErrors, policyDetailsInputSchema } from "../types";
+import { headers } from "next/headers";
 
 export const getPolicyDetails = authActionClient
-  .schema(policyDetailsInputSchema)
-  .metadata({
-    name: "get-policy-details",
-    track: {
-      event: "get-policy-details",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput }) => {
-    const { policyId } = parsedInput;
+	.schema(policyDetailsInputSchema)
+	.metadata({
+		name: "get-policy-details",
+		track: {
+			event: "get-policy-details",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput }) => {
+		const { policyId } = parsedInput;
 
-    const session = await auth();
-    const organizationId = session?.user.organizationId;
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-    if (!organizationId) {
-      return {
-        success: false,
-        error: appErrors.UNAUTHORIZED.message,
-      };
-    }
+		const organizationId = session?.session.activeOrganizationId;
 
-    try {
-      const policy = await db.organizationPolicy.findUnique({
-        where: {
-          id: policyId,
-          organizationId,
-        },
-        select: {
-          id: true,
-          status: true,
-          content: true,
-          createdAt: true,
-          updatedAt: true,
-          policy: {
-            select: {
-              id: true,
-              name: true,
-              description: true,
-              slug: true,
-            },
-          },
-        },
-      });
+		if (!organizationId) {
+			return {
+				success: false,
+				error: appErrors.UNAUTHORIZED.message,
+			};
+		}
 
-      if (!policy) {
-        return {
-          success: false,
-          error: appErrors.NOT_FOUND.message,
-        };
-      }
+		try {
+			const policy = await db.policy.findUnique({
+				where: {
+					id: policyId,
+					organizationId,
+				},
+			});
 
-      return {
-        success: true,
-        data: policy,
-      };
-    } catch (error) {
-      console.error("Error fetching policy details:", error);
-      return {
-        success: false,
-        error: appErrors.UNEXPECTED_ERROR.message,
-      };
-    }
-  });
+			if (!policy) {
+				return {
+					success: false,
+					error: appErrors.NOT_FOUND.message,
+				};
+			}
+
+			return {
+				success: true,
+				data: policy,
+			};
+		} catch (error) {
+			console.error("Error fetching policy details:", error);
+			return {
+				success: false,
+				error: appErrors.UNEXPECTED_ERROR.message,
+			};
+		}
+	});

@@ -5,7 +5,7 @@ import { getOrganizationEvidenceTasks } from "../actions/getOrganizationEvidence
 import type { PaginationMetadata } from "../actions/getOrganizationEvidenceTasks";
 import type {
   Frequency,
-  OrganizationEvidence,
+  Evidence,
   Departments,
 } from "@bubba/db/types";
 
@@ -23,7 +23,7 @@ interface UseOrganizationEvidenceTasksProps {
 
 // Define the hook result type
 interface UseOrganizationEvidenceTasksResult {
-  data: OrganizationEvidence[] | undefined;
+  data: Evidence[] | undefined;
   pagination: PaginationMetadata | undefined;
   isLoading: boolean;
   error: Error | undefined;

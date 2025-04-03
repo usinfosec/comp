@@ -15,12 +15,15 @@ export async function middleware(request: NextRequest) {
   const response = I18nMiddleware(request);
   const nextUrl = request.nextUrl;
 
-  const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
-    baseURL: request.nextUrl.origin,
-    headers: {
-      cookie: request.headers.get("cookie") || "",
-    },
-  });
+  const { data: session } = await betterFetch<Session>(
+    "/api/auth/get-session",
+    {
+      baseURL: request.nextUrl.origin,
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+    }
+  );
 
   const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
 
@@ -36,13 +39,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (session?.user?.organizationId && newUrl.pathname === "/unauthorized") {
+  if (
+    session?.session?.activeOrganizationId &&
+    newUrl.pathname === "/unauthorized"
+  ) {
     const url = new URL("/", request.url);
 
     return NextResponse.redirect(url);
   }
 
-  if (session && !session.user.organizationId && newUrl.pathname !== "/unauthorized") {
+  if (
+    session &&
+    !session.session.activeOrganizationId &&
+    newUrl.pathname !== "/unauthorized"
+  ) {
     const url = new URL("/unauthorized", request.url);
 
     return NextResponse.redirect(url);

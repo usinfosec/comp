@@ -1,8 +1,9 @@
-import { auth } from "@/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
+import { getServersideSession } from "@/lib/get-session";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { cache, Suspense } from "react";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
 
@@ -12,9 +13,14 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const t = await getI18n();
-  const session = await auth();
-  const user = session?.user;
-  const orgId = user?.organizationId;
+
+  const {
+    session: { activeOrganizationId },
+  } = await getServersideSession({
+    headers: await headers(),
+  });
+
+  const orgId = activeOrganizationId;
 
   const overview = await getVendorOverview();
 
@@ -42,10 +48,6 @@ export default async function Layout({
                 {
                   questionKey: t("app_onboarding.vendors.faqs.question_3"),
                   answerKey: t("app_onboarding.vendors.faqs.answer_3"),
-                },
-                {
-                  questionKey: t("app_onboarding.vendors.faqs.question_4"),
-                  answerKey: t("app_onboarding.vendors.faqs.answer_4"),
                 },
               ]}
             />
@@ -75,24 +77,28 @@ export default async function Layout({
   );
 }
 
-const getVendorOverview = cache(
-  async () => {
-    const session = await auth();
+const getVendorOverview = cache(async () => {
+  const {
+    session: { activeOrganizationId },
+  } = await getServersideSession({
+    headers: await headers(),
+  });
 
-    if (!session || !session.user.organizationId) {
-      return { vendors: 0 };
-    }
+  const orgId = activeOrganizationId;
 
-    return await db.$transaction(async (tx) => {
-      const [vendors] = await Promise.all([
-        tx.vendor.count({
-          where: { organizationId: session.user.organizationId },
-        }),
-      ]);
-
-      return {
-        vendors,
-      };
-    });
+  if (!orgId) {
+    return { vendors: 0 };
   }
-);
+
+  return await db.$transaction(async (tx) => {
+    const [vendors] = await Promise.all([
+      tx.vendor.count({
+        where: { organizationId: orgId },
+      }),
+    ]);
+
+    return {
+      vendors,
+    };
+  });
+});

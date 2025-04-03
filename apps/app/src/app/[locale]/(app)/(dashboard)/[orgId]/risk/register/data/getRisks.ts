@@ -1,8 +1,9 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { type Departments, Prisma, type RiskStatus } from "@bubba/db/types";
+import { headers } from "next/headers";
 
 export async function getRisks({
 	search,
@@ -19,9 +20,11 @@ export async function getRisks({
 	department?: Departments | null;
 	assigneeId?: string | null;
 }) {
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	if (!session || !session.user.organizationId) {
+	if (!session || !session.session.activeOrganizationId) {
 		return {
 			success: false,
 			error: "Unauthorized",
@@ -29,7 +32,7 @@ export async function getRisks({
 	}
 
 	const where = {
-		organizationId: session.user.organizationId,
+		organizationId: session.session.activeOrganizationId,
 		...(search && {
 			title: {
 				contains: search,

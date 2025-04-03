@@ -56,6 +56,7 @@ export const common = {
     active: "Active",
     inactive: "Inactive",
     title: "Status",
+    compliant: "Compliant",
   },
   filters: {
     clear: "Clear filters",
@@ -163,4 +164,5 @@ export const common = {
   success: "Success",
   error: "Error",
   unexpected_error: "An unexpected error occurred",
+  tasks: "tasks",
 } as const;

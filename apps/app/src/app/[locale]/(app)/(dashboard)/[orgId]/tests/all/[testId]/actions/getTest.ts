@@ -1,34 +1,35 @@
 "use server";
 
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
-import { auth } from "@/auth";
-import { 
-  appErrors, 
-  type ActionResponse 
-} from "./types";
+import { appErrors, type ActionResponse } from "./types";
 
 import type { Test } from "../../types";
+import { headers } from "next/headers";
 
-export async function getTest(input: { testId: string }): Promise<ActionResponse<Test>> {
+export async function getTest(input: {
+  testId: string;
+}): Promise<ActionResponse<Test>> {
   const { testId } = input;
 
-  const session = await auth();
-  const organizationId = session?.user.organizationId;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
     throw new Error("Organization ID not found");
   }
 
   try {
-
-    const results = await db.organizationIntegrationResults.findUnique({
+    const results = await db.integrationResult.findUnique({
       where: {
         id: testId,
         organizationId: organizationId,
       },
       include: {
-        organizationIntegration: true,
-        IntegrationResultsComments: true,
+        integration: true,
       },
     });
 
@@ -41,21 +42,20 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
 
     const integrationResult = results;
 
-    // Format the result to match the expected CloudTestResult structure
+    // Format the result to match the expected Test structure
     const result: Test = {
       id: integrationResult.id,
       title: integrationResult.title || "",
       description: integrationResult.description || "",
       remediation: integrationResult.remediation || "",
-      provider: integrationResult.organizationIntegration.name,
+      provider: integrationResult.integration.name,
       status: integrationResult.status || "",
       resultDetails: integrationResult.resultDetails,
       severity: integrationResult.severity || "",
       assignedUserId: integrationResult.assignedUserId || "",
       organizationId: organizationId,
       completedAt: integrationResult.completedAt || new Date(),
-      organizationIntegrationId: integrationResult.organizationIntegrationId,
-      TestComments: integrationResult.IntegrationResultsComments,
+      organizationIntegrationId: integrationResult.integrationId || "",
     };
 
     return {
@@ -69,4 +69,4 @@ export async function getTest(input: { testId: string }): Promise<ActionResponse
       error: appErrors.UNEXPECTED_ERROR,
     };
   }
-} 
+}

@@ -2,8 +2,9 @@ import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { DepartmentChart } from "./department-chart";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { cache } from "react";
+import { headers } from "next/headers";
 
 const ALL_DEPARTMENTS = ["none", "admin", "gov", "hr", "it", "itsm", "qms"];
 
@@ -51,20 +52,20 @@ export async function RisksByDepartment() {
   );
 }
 
-const getRisksByDepartment = cache(
-  async () => {
-    const session = await auth();
+const getRisksByDepartment = cache(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    if (!session || !session.user.organizationId) {
-      return [];
-    }
+  if (!session || !session.session.activeOrganizationId) {
+    return [];
+  }
 
-    const risksByDepartment = await db.risk.groupBy({
-      by: ["department"],
-      where: { organizationId: session.user.organizationId },
-      _count: true,
-    });
+  const risksByDepartment = await db.risk.groupBy({
+    by: ["department"],
+    where: { organizationId: session.session.activeOrganizationId },
+    _count: true,
+  });
 
-    return risksByDepartment;
-  },
-);
+  return risksByDepartment;
+});

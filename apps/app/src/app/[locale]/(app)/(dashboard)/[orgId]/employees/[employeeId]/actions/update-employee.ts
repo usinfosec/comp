@@ -4,9 +4,10 @@ import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { appErrors } from "../types";
 import type { Departments } from "@bubba/db/types";
+import { headers } from "next/headers";
 
 const schema = z.object({
   employeeId: z.string(),
@@ -31,8 +32,11 @@ export const updateEmployee = authActionClient
     > => {
       const { employeeId, department, isActive } = parsedInput;
 
-      const session = await auth();
-      const organizationId = session?.user.organizationId;
+      const session = await auth.api.getSession({
+        headers: await headers(),
+      });
+
+      const organizationId = session?.session.activeOrganizationId;
 
       if (!organizationId) {
         return {
@@ -42,7 +46,7 @@ export const updateEmployee = authActionClient
       }
 
       try {
-        const employee = await db.employee.findUnique({
+        const employee = await db.member.findUnique({
           where: {
             id: employeeId,
             organizationId,
@@ -76,7 +80,7 @@ export const updateEmployee = authActionClient
           };
         }
 
-        const updatedEmployee = await db.employee.update({
+        const updatedEmployee = await db.member.update({
           where: {
             id: employeeId,
             organizationId,

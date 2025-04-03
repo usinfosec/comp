@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { model, type modelID } from "@/hooks/ai/providers";
 import { streamText, type UIMessage } from "ai";
 import { tools } from "@/data/tools";
+import { headers } from "next/headers";
 
 export const maxDuration = 30;
 
@@ -11,9 +12,11 @@ export async function POST(req: Request) {
 		selectedModel,
 	}: { messages: UIMessage[]; selectedModel: modelID } = await req.json();
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	if (!session?.user.organizationId) {
+	if (!session?.session.activeOrganizationId) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 

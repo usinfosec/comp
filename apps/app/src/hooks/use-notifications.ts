@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
 import { HeadlessService, type IMessage } from "@novu/headless";
-import { useSession } from "next-auth/react";
+import { useSession } from "@bubba/auth";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface Notification {
@@ -35,7 +35,7 @@ export function useNotifications() {
             ...notification,
             read: true,
           };
-        }),
+        })
       );
 
       headlessService.markAllMessagesAsRead({
@@ -59,7 +59,7 @@ export function useNotifications() {
           }
 
           return notification;
-        }),
+        })
       );
 
       headlessService.markNotificationsAsRead({
@@ -85,7 +85,7 @@ export function useNotifications() {
               seen: msg.seen,
               createdAt: msg.createdAt,
               payload: msg.payload || {}, // Handle case where payload might be empty
-            })),
+            }))
           );
         },
       });
@@ -100,7 +100,7 @@ export function useNotifications() {
         prevNotifications.map((notification) => ({
           ...notification,
           seen: true,
-        })),
+        }))
       );
       headlessService.markAllMessagesAsSeen({
         listener: () => {},
@@ -111,7 +111,9 @@ export function useNotifications() {
 
   useEffect(() => {
     if (session?.user) {
-      setSubscriberId(`${session.user.organizationId}_${session.user.id}`);
+      setSubscriberId(
+        `${session.session.activeOrganizationId}_${session.user.id}`
+      );
     }
   }, [session]);
 
@@ -154,7 +156,7 @@ export function useNotifications() {
     markMessageAsRead,
     markAllMessagesAsSeen,
     hasUnseenNotifications: notifications.some(
-      (notification) => !notification.seen,
+      (notification) => !notification.seen
     ),
     notifications,
     subscriberId,

@@ -3,9 +3,9 @@
 import { db } from "@bubba/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
-import { MembershipRole } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { Role } from "@bubba/db/types";
 
 const revokeInvitationSchema = z.object({
 	invitationId: z.string(),
@@ -25,7 +25,7 @@ export const revokeInvitation = authActionClient
 			parsedInput,
 			ctx,
 		}): Promise<ActionResponse<{ revoked: boolean }>> => {
-			if (!ctx.user.organizationId) {
+			if (!ctx.session.activeOrganizationId) {
 				return {
 					success: false,
 					error: "User does not have an organization",
@@ -35,31 +35,12 @@ export const revokeInvitation = authActionClient
 			const { invitationId } = parsedInput;
 
 			try {
-				// Check if user has admin permissions
-				const currentUserMember = await db.organizationMember.findFirst({
-					where: {
-						organizationId: ctx.user.organizationId,
-						userId: ctx.user.id,
-					},
-				});
-
-				if (
-					!currentUserMember ||
-					(currentUserMember.role !== MembershipRole.admin &&
-						currentUserMember.role !== MembershipRole.owner)
-				) {
-					return {
-						success: false,
-						error: "You don't have permission to revoke invitations",
-					};
-				}
-
 				// Check if the invitation exists in the organization
-				const invitation = await db.organizationMember.findFirst({
+				const invitation = await db.invitation.findFirst({
 					where: {
 						id: invitationId,
-						organizationId: ctx.user.organizationId,
-						accepted: false,
+						organizationId: ctx.session.activeOrganizationId,
+						status: "pending",
 					},
 				});
 
@@ -70,8 +51,8 @@ export const revokeInvitation = authActionClient
 					};
 				}
 
-				// Revoke the invitation by deleting the organization member record
-				await db.organizationMember.delete({
+				// Revoke the invitation by deleting the invitation record
+				await db.invitation.delete({
 					where: {
 						id: invitationId,
 					},

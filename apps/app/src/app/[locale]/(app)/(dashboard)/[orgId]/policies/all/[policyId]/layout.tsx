@@ -1,63 +1,64 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 interface LayoutProps {
-	children: React.ReactNode;
-	params: Promise<{ policyId: string; orgId: string }>;
+  children: React.ReactNode;
+  params: Promise<{ policyId: string; orgId: string }>;
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
-	const t = await getI18n();
-	const { policyId, orgId } = await params;
+  const t = await getI18n();
+  const { policyId, orgId } = await params;
 
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!organizationId) {
-		redirect("/");
-	}
+  const organizationId = session?.session.activeOrganizationId;
 
-	const policy = await getPolicy(policyId, organizationId);
+  if (!organizationId) {
+    redirect("/");
+  }
 
-	if (!policy) {
-		redirect("/");
-	}
+  const policy = await getPolicy(policyId, organizationId);
 
-	return (
-		<div className="max-w-[1200px] space-y-4 m-auto">
-			<SecondaryMenu
-				showBackButton
-				backButtonHref={`/${orgId}/policies/all`}
-				items={[
-					{
-						path: `/${orgId}/policies/all/${policyId}`,
-						label: t("policies.dashboard.sub_pages.overview"),
-					},
-					{
-						path: `/${orgId}/policies/all/${policyId}/editor`,
-						label: t("policies.dashboard.sub_pages.edit_policy"),
-					},
-				]}
-			/>
+  if (!policy) {
+    redirect("/");
+  }
 
-			<main className="mt-8">{children}</main>
-		</div>
-	);
+  return (
+    <div className="max-w-[1200px] space-y-4 m-auto">
+      <SecondaryMenu
+        showBackButton
+        backButtonHref={`/${orgId}/policies/all`}
+        items={[
+          {
+            path: `/${orgId}/policies/all/${policyId}`,
+            label: t("policies.dashboard.sub_pages.overview"),
+          },
+          {
+            path: `/${orgId}/policies/all/${policyId}/editor`,
+            label: t("policies.dashboard.sub_pages.edit_policy"),
+          },
+        ]}
+      />
+
+      <main className="mt-8">{children}</main>
+    </div>
+  );
 }
 
 const getPolicy = async (policyId: string, organizationId: string) => {
-	const policy = await db.organizationPolicy.findUnique({
-		where: {
-			id: policyId,
-			organizationId: organizationId,
-		},
-		include: {
-			policy: true,
-		},
-	});
+  const policy = await db.policy.findUnique({
+    where: {
+      id: policyId,
+      organizationId: organizationId,
+    },
+  });
 
-	return policy;
+  return policy;
 };

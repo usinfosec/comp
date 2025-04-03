@@ -5,7 +5,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { getColumns } from "./columns";
+import { employeesColumns } from "./columns";
 import { useEmployeesTable } from "./hooks/useEmployeesTableContext";
 
 export function EmployeesTable() {
@@ -46,8 +46,8 @@ export function EmployeesTable() {
 	return (
 		<>
 			<DataTable
-				data={employees || []}
-				columns={getColumns(handleRowClick)}
+				data={employees}
+				columns={employeesColumns}
 				onRowClick={(row) => handleRowClick(row.id)}
 				emptyMessage="No employees found."
 				isLoading={isLoading || isSearching}

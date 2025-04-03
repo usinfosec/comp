@@ -14,13 +14,13 @@ export const sendIntegrationSchedule = schedules.task({
       `Sending integration runs from now: ${now} to ${upcomingThreshold}`
     );
 
-    const integrations = await db.organizationIntegrations.findMany({
+    const integrations = await db.integration.findMany({
       select: {
         id: true,
         name: true,
-        integration_id: true,
+        integrationId: true,
         settings: true,
-        user_settings: true,
+        userSettings: true,
         organization: {
           select: {
             id: true,
@@ -35,9 +35,9 @@ export const sendIntegrationSchedule = schedules.task({
         integration: {
           id: integration.id,
           name: integration.name,
-          integration_id: integration.integration_id,
+          integration_id: integration.integrationId,
           settings: integration.settings,
-          user_settings: integration.user_settings,
+          user_settings: integration.userSettings,
           organization: integration.organization,
         },
       },

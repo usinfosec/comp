@@ -3,66 +3,61 @@
 "use server";
 
 import { db } from "@bubba/db";
-import type { RiskTaskStatus } from "@bubba/db/types";
+import type { TaskStatus } from "@bubba/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../../safe-action";
 import { updateTaskSchema } from "../../schema";
 
 export const updateTaskAction = authActionClient
-  .schema(updateTaskSchema)
-  .metadata({
-    name: "update-task",
-    track: {
-      event: "update-task",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { id, dueDate, status, ownerId, title, description } = parsedInput;
-    const { user } = ctx;
+	.schema(updateTaskSchema)
+	.metadata({
+		name: "update-task",
+		track: {
+			event: "update-task",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { id, dueDate, status, ownerId, title, description } = parsedInput;
+		const { session } = ctx;
 
-    if (!user.id || !user.organizationId) {
-      throw new Error("Invalid user input");
-    }
+		if (!session.activeOrganizationId) {
+			throw new Error("Invalid user input");
+		}
 
-    try {
-      const riskId = await db.riskMitigationTask.findUnique({
-        where: {
-          id: id,
-        },
-        select: {
-          riskId: true,
-        },
-      });
+		try {
+			const task = await db.task.findUnique({
+				where: {
+					id: id,
+				},
+			});
 
-      if (!riskId) {
-        throw new Error("Risk not found");
-      }
+			if (!task) {
+				throw new Error("Task not found");
+			}
 
-      await db.riskMitigationTask.update({
-        where: {
-          id: id,
-          organizationId: user.organizationId,
-        },
-        data: {
-          dueDate: dueDate,
-          status: status as RiskTaskStatus,
-          ownerId: ownerId,
-          title: title,
-          description: description,
-        },
-      });
+			await db.task.update({
+				where: {
+					id: id,
+					organizationId: session.activeOrganizationId,
+				},
+				data: {
+					dueDate: dueDate,
+					status: status as TaskStatus,
+					userId: ownerId,
+					title: title,
+					description: description,
+				},
+			});
 
-      revalidatePath(`/${user.organizationId}/risk`);
-      revalidatePath(`/${user.organizationId}/risk/${riskId.riskId}`);
-      revalidatePath(
-        `/${user.organizationId}/risk/${riskId.riskId}/tasks/${id}`
-      );
-      revalidateTag("risks");
+			revalidatePath(`/${session.activeOrganizationId}/risk`);
+			revalidatePath(`/${session.activeOrganizationId}/risk/${id}`);
+			revalidatePath(`/${session.activeOrganizationId}/risk/${id}/tasks/${id}`);
+			revalidateTag("risks");
 
-      return { success: true };
-    } catch (error) {
-      console.error(error);
-      return { success: false };
-    }
-  });
+			return { success: true };
+		} catch (error) {
+			console.error(error);
+			return { success: false };
+		}
+	});

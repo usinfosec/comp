@@ -30,7 +30,7 @@ import {
 import { Textarea } from "@bubba/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@bubba/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
@@ -38,7 +38,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createVendorAction } from "../actions/create-vendor-action";
-
 
 const createVendorSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -82,7 +81,7 @@ export function CreateVendorForm() {
 
 	const createVendor = useAction(createVendorAction, {
 		onSuccess: async (data) => {
-			const organizationId = session.data?.user?.organizationId;
+			const organizationId = session.data?.session.activeOrganizationId;
 
 			if (!organizationId) {
 				toast.error(t("vendors.form.create_vendor_error"));
@@ -135,7 +134,9 @@ export function CreateVendorForm() {
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t("vendors.form.vendor_name_placeholder")}
+															placeholder={t(
+																"vendors.form.vendor_name_placeholder",
+															)}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -148,12 +149,16 @@ export function CreateVendorForm() {
 											name="website"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("vendors.form.vendor_website")}</FormLabel>
+													<FormLabel>
+														{t("vendors.form.vendor_website")}
+													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															className="mt-3"
-															placeholder={t("vendors.form.vendor_website_placeholder")}
+															placeholder={t(
+																"vendors.form.vendor_website_placeholder",
+															)}
 															type="url"
 														/>
 													</FormControl>
@@ -166,12 +171,16 @@ export function CreateVendorForm() {
 											name="description"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("vendors.form.vendor_description")}</FormLabel>
+													<FormLabel>
+														{t("vendors.form.vendor_description")}
+													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t("vendors.form.vendor_description_placeholder")}
+															placeholder={t(
+																"vendors.form.vendor_description_placeholder",
+															)}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -183,7 +192,9 @@ export function CreateVendorForm() {
 											name="category"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("vendors.form.vendor_category")}</FormLabel>
+													<FormLabel>
+														{t("vendors.form.vendor_category")}
+													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
@@ -192,26 +203,33 @@ export function CreateVendorForm() {
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t("vendors.form.vendor_category_placeholder")}
+																	placeholder={t(
+																		"vendors.form.vendor_category_placeholder",
+																	)}
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(VendorCategory).map((category) => {
-																	const formattedCategory = category
-																		.toLowerCase()
-																		.split("_")
-																		.map(
-																			(word) =>
-																				word.charAt(0).toUpperCase() +
-																				word.slice(1),
-																		)
-																		.join(" ");
-																	return (
-																		<SelectItem key={category} value={category}>
-																			{formattedCategory}
-																		</SelectItem>
-																	);
-																})}
+																{Object.values(VendorCategory).map(
+																	(category) => {
+																		const formattedCategory = category
+																			.toLowerCase()
+																			.split("_")
+																			.map(
+																				(word) =>
+																					word.charAt(0).toUpperCase() +
+																					word.slice(1),
+																			)
+																			.join(" ");
+																		return (
+																			<SelectItem
+																				key={category}
+																				value={category}
+																			>
+																				{formattedCategory}
+																			</SelectItem>
+																		);
+																	},
+																)}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -224,7 +242,9 @@ export function CreateVendorForm() {
 											name="status"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("vendors.form.vendor_status")}</FormLabel>
+													<FormLabel>
+														{t("vendors.form.vendor_status")}
+													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
@@ -233,7 +253,9 @@ export function CreateVendorForm() {
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t("vendors.form.vendor_status_placeholder")}
+																	placeholder={t(
+																		"vendors.form.vendor_status_placeholder",
+																	)}
 																/>
 															</SelectTrigger>
 															<SelectContent>

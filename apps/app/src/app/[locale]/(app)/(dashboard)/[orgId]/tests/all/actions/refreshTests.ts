@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "@bubba/db";
 import { authActionClient } from "@/actions/safe-action";
-import { getIntegrationHandler } from "@bubba/integrations";
 import { decrypt } from "@bubba/app/src/lib/encryption";
+import { db } from "@bubba/db";
 import type { DecryptFunction } from "@bubba/integrations";
+import { getIntegrationHandler } from "@bubba/integrations";
 
 export const refreshTestsAction = authActionClient
 	.metadata({
@@ -15,35 +15,35 @@ export const refreshTestsAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { user } = ctx;
+		const { session } = ctx;
 
-		if (!user.id || !user.organizationId) {
+		if (!session?.activeOrganizationId || !session.activeOrganizationId) {
 			throw new Error("Invalid user input");
 		}
 
-		const integrationsTable = await db.organizationIntegrations.findMany({
+		const integrationsTable = await db.integration.findMany({
 			where: {
-				organizationId: user.organizationId,
+				organizationId: session.activeOrganizationId,
 			},
 		});
 
 		for (const integration of integrationsTable) {
 			// Get the integration handler with proper typing
 			const integrationHandler = getIntegrationHandler<any>(
-				integration.integration_id,
+				integration.integrationId,
 			);
 
 			// Skip if no handler is found for this integration type
 			if (!integrationHandler) {
 				console.log(
-					`No handler found for integration type: ${integration.integration_id}`,
+					`No handler found for integration type: ${integration.integrationId}`,
 				);
 				continue;
 			}
 
 			try {
 				// Process credentials using the integration handler
-				const userSettings = integration.user_settings as unknown as Record<
+				const userSettings = integration.userSettings as unknown as Record<
 					string,
 					unknown
 				>;
@@ -61,10 +61,9 @@ export const refreshTestsAction = authActionClient
 				// Store the integration results using model name that matches the database
 				for (const result of results) {
 					// First verify the integration exists
-					const existingIntegration =
-						await db.organizationIntegrations.findUnique({
-							where: { id: integration.id },
-						});
+					const existingIntegration = await db.integration.findUnique({
+						where: { id: integration.id },
+					});
 
 					if (!existingIntegration) {
 						console.log(`Integration with ID ${integration.id} not found`);
@@ -72,17 +71,16 @@ export const refreshTestsAction = authActionClient
 					}
 
 					// Check if a result with the same title already exists
-					const existingResult =
-						await db.organizationIntegrationResults.findFirst({
-							where: {
-								title: result.title,
-								organizationIntegrationId: existingIntegration.id,
-							},
-						});
+					const existingResult = await db.integrationResult.findFirst({
+						where: {
+							title: result.title,
+							integrationId: existingIntegration.id,
+						},
+					});
 
 					if (existingResult) {
 						// Update the existing result instead of creating a new one
-						await db.organizationIntegrationResults.update({
+						await db.integrationResult.update({
 							where: { id: existingResult.id },
 							data: {
 								title: result.title,
@@ -96,7 +94,7 @@ export const refreshTestsAction = authActionClient
 						continue;
 					}
 
-					await db.organizationIntegrationResults.create({
+					await db.integrationResult.create({
 						data: {
 							title: result.title,
 							description: result.description,
@@ -104,14 +102,14 @@ export const refreshTestsAction = authActionClient
 							status: result.status,
 							severity: result.severity,
 							resultDetails: result.resultDetails,
-							organizationIntegrationId: existingIntegration.id,
+							integrationId: existingIntegration.id,
 							organizationId: integration.organizationId,
 						},
 					});
 				}
 			} catch (error) {
 				console.error(
-					`Error processing ${integration.integration_id} integration:`,
+					`Error processing ${integration.integrationId} integration:`,
 					error,
 				);
 			}

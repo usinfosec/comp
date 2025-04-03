@@ -21,9 +21,9 @@ export const archivePolicyAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { id, action } = parsedInput;
-    const { user } = ctx;
+    const { activeOrganizationId } = ctx.session;
 
-    if (!user.id || !user.organizationId) {
+    if (!activeOrganizationId) {
       return {
         success: false,
         error: "Not authorized",
@@ -31,10 +31,10 @@ export const archivePolicyAction = authActionClient
     }
 
     try {
-      const policy = await db.organizationPolicy.findUnique({
+      const policy = await db.policy.findUnique({
         where: {
           id,
-          organizationId: user.organizationId,
+          organizationId: activeOrganizationId,
         },
       });
 
@@ -47,24 +47,24 @@ export const archivePolicyAction = authActionClient
 
       // Determine if we should archive or restore based on action or current state
       const shouldArchive =
-        action === "archive" || (action === undefined && !policy.isArchived);
+        action === "archive" ||
+        (action === undefined && policy.status !== "archived");
 
-      await db.organizationPolicy.update({
+      await db.policy.update({
         where: { id },
         data: {
-          isArchived: shouldArchive,
-          archivedAt: shouldArchive ? new Date() : null,
+          status: shouldArchive ? "archived" : "published",
         },
       });
 
-      revalidatePath(`/${user.organizationId}/policies/all/${id}`);
-      revalidatePath(`/${user.organizationId}/policies/all`);
-      revalidatePath(`/${user.organizationId}/policies`);
+      revalidatePath(`/${activeOrganizationId}/policies/all/${id}`);
+      revalidatePath(`/${activeOrganizationId}/policies/all`);
+      revalidatePath(`/${activeOrganizationId}/policies`);
       revalidateTag("policies");
 
       return {
         success: true,
-        isArchived: shouldArchive,
+        status: shouldArchive ? "archived" : "published",
       };
     } catch (error) {
       console.error(error);

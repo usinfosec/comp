@@ -18,12 +18,19 @@ export const deleteIntegrationConnectionAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { integrationId } = parsedInput;
-    const { user } = ctx;
+    const { session } = ctx;
 
-    const integration = await db.organizationIntegrations.findUnique({
+    if (!session.activeOrganizationId) {
+      return {
+        success: false,
+        error: "Unauthorized",
+      };
+    }
+
+    const integration = await db.integration.findUnique({
       where: {
         name: integrationId.toLowerCase(),
-        organizationId: user.organizationId,
+        organizationId: session.activeOrganizationId,
       },
     });
 
@@ -34,7 +41,7 @@ export const deleteIntegrationConnectionAction = authActionClient
       };
     }
 
-    await db.organizationIntegrations.delete({
+    await db.integration.delete({
       where: {
         id: integration.id,
       },

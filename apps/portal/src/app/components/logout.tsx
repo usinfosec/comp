@@ -4,7 +4,7 @@ import { useI18n } from "@/app/locales/client";
 import { DropdownMenuItem } from "@bubba/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { authClient } from "../lib/auth-client";
+import { authClient } from "@bubba/auth";
 
 export function Logout() {
   const t = useI18n();

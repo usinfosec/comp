@@ -3,9 +3,10 @@
 import { db } from "@bubba/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
-import { MembershipRole } from "@prisma/client";
+import { Role } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { authClient } from "@bubba/auth";
 
 const removeMemberSchema = z.object({
   memberId: z.string(),
@@ -25,7 +26,7 @@ export const removeMember = authActionClient
       parsedInput,
       ctx,
     }): Promise<ActionResponse<{ removed: boolean }>> => {
-      if (!ctx.user.organizationId) {
+      if (!ctx.session.activeOrganizationId) {
         return {
           success: false,
           error: "User does not have an organization",
@@ -36,18 +37,14 @@ export const removeMember = authActionClient
 
       try {
         // Check if user has admin permissions
-        const currentUserMember = await db.organizationMember.findFirst({
+        const currentUserMember = await db.member.findFirst({
           where: {
-            organizationId: ctx.user.organizationId,
+            organizationId: ctx.session.activeOrganizationId,
             userId: ctx.user.id,
           },
         });
 
-        if (
-          !currentUserMember ||
-          (currentUserMember.role !== MembershipRole.admin &&
-            currentUserMember.role !== MembershipRole.owner)
-        ) {
+        if (!currentUserMember || currentUserMember.role !== Role.admin) {
           return {
             success: false,
             error: "You don't have permission to remove members",
@@ -55,10 +52,10 @@ export const removeMember = authActionClient
         }
 
         // Check if the target member exists in the organization
-        const targetMember = await db.organizationMember.findFirst({
+        const targetMember = await db.member.findFirst({
           where: {
             id: memberId,
-            organizationId: ctx.user.organizationId,
+            organizationId: ctx.session.activeOrganizationId,
           },
         });
 
@@ -70,7 +67,7 @@ export const removeMember = authActionClient
         }
 
         // Prevent removing the owner
-        if (targetMember.role === MembershipRole.owner) {
+        if (targetMember.role === Role.admin) {
           return {
             success: false,
             error: "Cannot remove the organization owner",
@@ -86,22 +83,9 @@ export const removeMember = authActionClient
         }
 
         // Remove the member
-        await db.organizationMember.delete({
-          where: {
-            id: memberId,
-          },
-          select: {
-            organizationId: true,
-          },
-        });
-
-        await db.user.update({
-          where: {
-            id: targetMember.userId,
-          },
-          data: {
-            organizationId: null,
-          },
+        await authClient.organization.removeMember({
+          memberIdOrEmail: targetMember.userId, // this can also be the email of the member
+          organizationId: ctx.session.activeOrganizationId ?? "", // optional, by default it will use the active organization
         });
 
         await db.session.deleteMany({
@@ -110,7 +94,7 @@ export const removeMember = authActionClient
           },
         });
 
-        revalidatePath(`/${ctx.user.organizationId}`);
+        revalidatePath(`/${ctx.session.activeOrganizationId}`);
         revalidateTag(`user_${ctx.user.id}`);
 
         return {

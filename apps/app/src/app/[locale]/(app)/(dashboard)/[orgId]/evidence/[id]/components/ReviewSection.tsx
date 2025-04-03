@@ -1,7 +1,7 @@
 "use client";
 
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import type { Frequency, OrganizationEvidence } from "@bubba/db/types";
+import type { Frequency, Evidence } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { format } from "date-fns";
@@ -10,13 +10,13 @@ import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { publishEvidence } from "../actions/publishEvidence";
 import { toggleRelevance } from "../actions/toggleRelevance";
-import { useOrganizationEvidence } from "../hooks/useOrganizationEvidence";
+import { useEvidence } from "../hooks/useEvidence";
 import { AssigneeSection } from "./AssigneeSection";
 import { DepartmentSection } from "./DepartmentSection";
 import { FrequencySection } from "./FrequencySection";
 
 interface ReviewSectionProps {
-	evidence: OrganizationEvidence;
+	evidence: Evidence;
 	evidenceId: string;
 	lastPublishedAt: Date | null;
 	frequency: Frequency | null;
@@ -36,7 +36,7 @@ export function ReviewSection({
 	id,
 	evidence,
 }: ReviewSectionProps) {
-	const { mutate } = useOrganizationEvidence({ id });
+	const { mutate } = useEvidence({ id });
 	const reviewInfo = calculateNextReview(lastPublishedAt, frequency);
 
 	const { execute: toggleRelevanceAction, isExecuting: isTogglingRelevance } =

@@ -15,6 +15,7 @@ import { theme } from "./layout/theme";
 import { user_menu } from "./layout/user-menu";
 
 // Feature translations
+import { controls } from "./features/controls";
 import { evidence, evidence_tasks } from "./features/evidence";
 import { frameworks } from "./features/frameworks";
 import { overview } from "./features/overview";
@@ -29,6 +30,8 @@ import { app_onboarding } from "./onboarding/app-onboarding";
 
 // Settings translations
 import { settings } from "./settings/settings";
+
+// Never add translations here, add them to the appropriate feature file.
 
 export const translations = {
 	// Core
@@ -49,6 +52,7 @@ export const translations = {
 	user_menu,
 
 	// Features
+	controls,
 	evidence,
 	evidence_tasks,
 	frameworks,

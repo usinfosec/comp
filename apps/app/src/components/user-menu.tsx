@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
 import { Avatar, AvatarFallback, AvatarImageNext } from "@bubba/ui/avatar";
 import {
@@ -8,12 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@bubba/ui/dropdown-menu";
-import { LocaleSwitch } from "./locale-switch";
 import { SignOut } from "./sign-out";
-import { ThemeSwitch } from "./theme-switch";
+import { headers } from "next/headers";
 
 export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getI18n();
   return (
     <DropdownMenu>

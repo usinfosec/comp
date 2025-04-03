@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
 import { Departments, RiskStatus, RiskCategory } from "@bubba/db/types";
 import { tool } from "ai";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 export function getRiskTools() {
@@ -26,15 +27,17 @@ export const getRisks = tool({
 		owner: z.string().optional(),
 	}),
 	execute: async ({ status, department, category, owner }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const risks = await db.risk.findMany({
 			where: {
-				organizationId: session.user.organizationId,
+				organizationId: session.session.activeOrganizationId,
 				status,
 				department,
 				category,
@@ -66,68 +69,16 @@ export const getRiskById = tool({
 		id: z.string(),
 	}),
 	execute: async ({ id }) => {
-		const session = await auth();
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-		if (!session?.user.organizationId) {
+		if (!session?.session.activeOrganizationId) {
 			return { error: "Unauthorized" };
 		}
 
 		const risk = await db.risk.findUnique({
-			where: { id, organizationId: session.user.organizationId },
-			select: {
-				id: true,
-				title: true,
-				status: true,
-				department: true,
-				impact: true,
-				probability: true,
-				residual_impact: true,
-				residual_probability: true,
-				owner: {
-					select: {
-						name: true,
-					},
-				},
-				mitigationTasks: {
-					select: {
-						title: true,
-						status: true,
-						dueDate: true,
-						completedAt: true,
-						TaskComments: {
-							select: {
-								id: true,
-								content: true,
-								createdAt: true,
-								updatedAt: true,
-								owner: {
-									select: {
-										name: true,
-									},
-								},
-							},
-						},
-						owner: {
-							select: {
-								name: true,
-							},
-						},
-					},
-				},
-				comments: {
-					select: {
-						id: true,
-						content: true,
-						createdAt: true,
-						updatedAt: true,
-						owner: {
-							select: {
-								name: true,
-							},
-						},
-					},
-				},
-			},
+			where: { id, organizationId: session.session.activeOrganizationId },
 		});
 
 		if (!risk) {

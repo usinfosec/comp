@@ -6,6 +6,8 @@ import { db } from "@bubba/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createRiskSchema } from "../schema";
+import { Likelihood } from "@bubba/db/types";
+import { Impact } from "@bubba/db/types";
 
 export const createRiskAction = authActionClient
   .schema(createRiskSchema)
@@ -18,9 +20,9 @@ export const createRiskAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }) => {
     const { title, description, category, department } = parsedInput;
-    const { user } = ctx;
+    const { user, session } = ctx;
 
-    if (!user.id || !user.organizationId) {
+    if (!user.id || !session.activeOrganizationId) {
       throw new Error("Invalid user input");
     }
 
@@ -31,16 +33,16 @@ export const createRiskAction = authActionClient
           description,
           category,
           department,
-          probability: 1,
-          impact: 1,
+          likelihood: Likelihood.very_unlikely,
+          impact: Impact.insignificant,
           ownerId: user.id,
-          organizationId: user.organizationId,
+          organizationId: session.activeOrganizationId,
         },
       });
 
-      revalidatePath(`/${user.organizationId}/risk`);
-      revalidatePath(`/${user.organizationId}/risk/register`);
-      revalidateTag(`risk_${user.organizationId}`);
+      revalidatePath(`/${session.activeOrganizationId}/risk`);
+      revalidatePath(`/${session.activeOrganizationId}/risk/register`);
+      revalidateTag(`risk_${session.activeOrganizationId}`);
 
       return {
         success: true,

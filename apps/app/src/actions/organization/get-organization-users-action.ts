@@ -18,7 +18,7 @@ export const getOrganizationUsersAction = authActionClient
       parsedInput,
       ctx,
     }): Promise<{ success: boolean; error?: string; data?: User[] }> => {
-      if (!ctx.user.organizationId) {
+      if (!ctx.session.activeOrganizationId) {
         return {
           success: false,
           error: "User does not have an organization",
@@ -26,9 +26,9 @@ export const getOrganizationUsersAction = authActionClient
       }
 
       try {
-        const users = await db.organizationMember.findMany({
+        const users = await db.member.findMany({
           where: {
-            organizationId: ctx.user.organizationId,
+            organizationId: ctx.session.activeOrganizationId,
           },
           select: {
             user: {
@@ -60,5 +60,5 @@ export const getOrganizationUsersAction = authActionClient
           error: "Failed to fetch organization users",
         };
       }
-    },
+    }
   );

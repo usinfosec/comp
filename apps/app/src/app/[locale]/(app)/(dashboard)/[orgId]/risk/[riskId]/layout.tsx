@@ -1,9 +1,8 @@
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { cache } from "react";
-
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ riskId: string }>;
@@ -11,19 +10,22 @@ interface LayoutProps {
 
 export default async function Layout({ children, params }: LayoutProps) {
   const t = await getI18n();
-  const session = await auth();
 
-  if (!session || !session.user.organizationId) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || !session.session.activeOrganizationId) {
     redirect("/");
   }
 
   const { riskId } = await params;
 
   if (!riskId) {
-    redirect(`/${session.user.organizationId}/risk`);
+    redirect(`/${session.session.activeOrganizationId}/risk`);
   }
 
-  const orgId = session.user.organizationId;
+  const orgId = session.session.activeOrganizationId;
 
   return (
     <div className="max-w-[1200px] space-y-4 m-auto">

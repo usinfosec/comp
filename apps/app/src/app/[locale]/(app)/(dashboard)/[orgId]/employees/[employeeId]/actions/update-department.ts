@@ -9,7 +9,8 @@ import {
   updateEmployeeDepartmentSchema,
   appErrors,
 } from "../types";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
+import { headers } from "next/headers";
 
 export type ActionResponse<T = any> = Promise<
   { success: true; data: T } | { success: false; error: AppError }
@@ -27,8 +28,11 @@ export const updateEmployeeDepartment = authActionClient
   .action(async ({ parsedInput }): Promise<ActionResponse> => {
     const { employeeId, department } = parsedInput;
 
-    const session = await auth();
-    const organizationId = session?.user.organizationId;
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    const organizationId = session?.session.activeOrganizationId;
 
     if (!organizationId) {
       return {
@@ -38,7 +42,7 @@ export const updateEmployeeDepartment = authActionClient
     }
 
     try {
-      const employee = await db.employee.findUnique({
+      const employee = await db.member.findUnique({
         where: {
           id: employeeId,
           organizationId,
@@ -52,7 +56,7 @@ export const updateEmployeeDepartment = authActionClient
         };
       }
 
-      const updatedEmployee = await db.employee.update({
+      const updatedEmployee = await db.member.update({
         where: {
           id: employeeId,
           organizationId,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy, User } from "@bubba/db/types";
+import type { Policy, User } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
@@ -18,9 +18,7 @@ export function PolicyOverview({
 	policy,
 	users,
 }: {
-	policy: OrganizationPolicy & {
-		policy: Policy;
-	};
+	policy: Policy;
 	users: User[];
 }) {
 	const t = useI18n();
@@ -30,7 +28,7 @@ export function PolicyOverview({
 
 	return (
 		<div className="space-y-4">
-			{policy.isArchived && (
+			{policy.status === "archived" && (
 				<Alert
 					variant="destructive"
 					className="bg-muted border-muted-foreground/10 text-foreground"
@@ -40,10 +38,10 @@ export function PolicyOverview({
 						<div className="font-medium">{t("policies.archive.status")}</div>
 					</div>
 					<AlertDescription className="mt-1 mb-3 text-sm text-muted-foreground">
-						{policy.archivedAt && (
+						{policy.status === "archived" && (
 							<>
 								{t("policies.archive.archived_on")}{" "}
-								{format(new Date(policy.archivedAt), "PPP")}
+								{format(new Date(policy.updatedAt), "PPP")}
 							</>
 						)}
 					</AlertDescription>
@@ -63,7 +61,7 @@ export function PolicyOverview({
 				<Icons.Policies className="h-4 w-4" />
 				<AlertTitle>
 					<div className="flex items-center justify-between gap-2">
-						{policy.policy.name}
+						{policy.name}
 						<div className="flex gap-2">
 							<Button
 								size="icon"
@@ -71,12 +69,12 @@ export function PolicyOverview({
 								className="p-0 m-0 size-auto"
 								onClick={() => setArchiveOpen("true")}
 								title={
-									policy.isArchived
+									policy.status === "archived"
 										? t("policies.archive.restore_tooltip")
 										: t("policies.archive.tooltip")
 								}
 							>
-								{policy.isArchived ? (
+								{policy.status === "archived" ? (
 									<ArchiveRestoreIcon className="h-3 w-3" />
 								) : (
 									<ArchiveIcon className="h-3 w-3" />
@@ -95,7 +93,7 @@ export function PolicyOverview({
 					</div>
 				</AlertTitle>
 				<AlertDescription className="mt-4">
-					{policy.policy.description}
+					{policy.description}
 				</AlertDescription>
 			</Alert>
 
@@ -108,7 +106,7 @@ export function PolicyOverview({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<UpdatePolicyOverview organizationPolicy={policy} users={users} />
+					<UpdatePolicyOverview policy={policy} users={users} />
 				</CardContent>
 			</Card>
 

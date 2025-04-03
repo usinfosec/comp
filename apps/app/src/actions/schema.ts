@@ -4,9 +4,12 @@ import {
   PolicyStatus,
   RiskCategory,
   RiskStatus,
-  RiskTaskStatus,
   VendorCategory,
   VendorStatus,
+  FrameworkId,
+  TaskStatus,
+  Impact,
+  Likelihood,
 } from "@bubba/db/types";
 import { z } from "zod";
 
@@ -15,7 +18,7 @@ export const organizationSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   website: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   frameworks: z
-    .array(z.string())
+    .array(z.nativeEnum(FrameworkId))
     .min(1, "Please select at least one framework to get started with"),
 });
 
@@ -162,7 +165,7 @@ export const updateTaskSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   dueDate: z.date().optional(),
-  status: z.nativeEnum(RiskTaskStatus, {
+  status: z.nativeEnum(TaskStatus, {
     required_error: "Task status is required",
   }),
   ownerId: z.string({
@@ -218,8 +221,8 @@ export const updateInherentRiskSchema = z.object({
   id: z.string().min(1, {
     message: "Risk ID is required",
   }),
-  probability: z.number().min(1).max(10),
-  impact: z.number().min(1).max(10),
+  probability: z.nativeEnum(Likelihood),
+  impact: z.nativeEnum(Impact),
 });
 
 export const updateResidualRiskSchema = z.object({

@@ -17,9 +17,9 @@ export const createEmployeeAction = authActionClient
   })
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse> => {
     const { name, email, department, externalEmployeeId } = parsedInput;
-    const { user } = ctx;
+    const { user, session } = ctx;
 
-    if (!user.organizationId) {
+    if (!session.activeOrganizationId) {
       return {
         success: false,
         error: "Not authorized - no organization found",
@@ -31,7 +31,7 @@ export const createEmployeeAction = authActionClient
         name,
         email,
         department,
-        organizationId: user.organizationId,
+        organizationId: session.activeOrganizationId,
         externalEmployeeId,
       });
 

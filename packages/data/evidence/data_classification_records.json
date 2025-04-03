@@ -1,7 +1,0 @@
-{
-  "id": "data_classification_records",
-  "name": "Data Classification Records",
-  "description": "Data classification records, labeling practices, and access control lists for confidential information. Provide procedure for classifying, labeling, and handling confidential information.",
-  "frequency": "yearly",
-  "department": "gov"
-}

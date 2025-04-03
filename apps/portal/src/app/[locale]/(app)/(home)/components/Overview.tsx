@@ -38,11 +38,11 @@ const getPolicies = async () => {
 		headers: await headers(),
 	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session?.activeOrganizationId) {
 		throw new Error("Unauthorized");
 	}
 
-	const organizationId = session.user.organizationId;
+	const organizationId = session.session.activeOrganizationId;
 
 	const policies = await db.organizationPolicy.findMany({
 		where: {
@@ -67,11 +67,11 @@ const getTrainingVideos = async () => {
 		headers: await headers(),
 	});
 
-	if (!session?.user?.organizationId) {
+	if (!session?.session?.activeOrganizationId) {
 		throw new Error("Unauthorized");
 	}
 
-	const organizationId = session.user.organizationId;
+	const organizationId = session.session.activeOrganizationId;
 
 	const trainingVideos = await db.organizationTrainingVideos.findMany({
 		where: { organizationId },

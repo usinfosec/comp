@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImageNext } from "@bubba/ui/avatar";
 import { Icons } from "@bubba/ui/icons";
-import { useSession } from "next-auth/react";
+import { useSession } from "@bubba/auth";
 
 type Props = {
   role: "assistant" | "user";

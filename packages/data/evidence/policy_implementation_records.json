@@ -1,7 +1,0 @@
-{
-  "id": "policy_implementation_records",
-  "name": "Policy Implementation Records",
-  "description": "Policy distribution records, training logs, and compliance monitoring reports. Provide Policy Implementation Procedures document that outlines operationalizing policies including documentation, training, and compliance monitoring.",
-  "frequency": "yearly",
-  "department": "gov"
-}

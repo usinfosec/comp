@@ -2,13 +2,18 @@
 
 import { useCallback, useState } from "react";
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
 
 import { getEmployees } from "../actions/get-employees";
 
-import type { EmployeesResponse, AppError, EmployeesInput } from "../types";
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
 import type { Departments } from "@bubba/db/types";
+import type {
+  AppError,
+  Employee,
+  EmployeesInput,
+  EmployeesResponse,
+} from "../types";
+import type { EmployeeWithUser } from "../components/table/columns";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(
@@ -32,7 +37,19 @@ async function fetchEmployees(
     throw error;
   }
 
-  return result.data?.data as EmployeesResponse;
+  // Transform the data to match the expected EmployeesResponse format
+  const rawData = result.data?.data;
+
+  if (!rawData) {
+    return { employees: [], total: 0 };
+  }
+
+  const employees = rawData.employees;
+
+  return {
+    employees,
+    total: rawData.total,
+  };
 }
 
 export function useEmployees({
@@ -103,10 +120,10 @@ export function useEmployees({
   );
 
   return {
-    employees: data?.employees ?? [],
+    employees: (data?.employees as EmployeeWithUser[]) ?? [],
     total: data?.total,
     isLoading,
-    isMutating, // <--- expose the mutation loader
+    isMutating,
     error,
     revalidateEmployees,
     addEmployee,

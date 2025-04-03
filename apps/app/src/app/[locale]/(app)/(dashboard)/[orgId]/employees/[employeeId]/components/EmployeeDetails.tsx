@@ -2,12 +2,13 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
+import { TrainingVideo } from "@bubba/data";
 import type {
 	Departments,
-	OrganizationPolicy,
-	OrganizationTrainingVideos,
+	EmployeeTrainingVideoCompletion,
+	Member,
 	Policy,
-	PortalTrainingVideos,
+	User,
 } from "@bubba/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
 import { Button } from "@bubba/ui/button";
@@ -26,6 +27,7 @@ import {
 	SelectValue,
 } from "@bubba/ui/select";
 import { Skeleton } from "@bubba/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
@@ -33,7 +35,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -52,22 +53,22 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 
 interface EmployeeDetailsProps {
 	employeeId: string;
-	portalEmployeeId: string;
-	policies: (OrganizationPolicy & {
-		policy: Policy;
-	})[];
-	trainingVideos: (OrganizationTrainingVideos & {
-		trainingVideo: PortalTrainingVideos;
+	employee: Member & {
+		user: User;
+	};
+	policies: Policy[];
+	trainingVideos: (EmployeeTrainingVideoCompletion & {
+		metadata: TrainingVideo;
 	})[];
 }
 
 export function EmployeeDetails({
 	employeeId,
-	portalEmployeeId,
+	employee,
 	policies,
 	trainingVideos,
 }: EmployeeDetailsProps) {
-	const { employee, isLoading, error, mutate } = useEmployeeDetails(employeeId);
+	const { isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
 	const [isSaving, setIsSaving] = useState(false);
 	const [department, setDepartment] = useState<Departments | null>(null);
@@ -199,11 +200,11 @@ export function EmployeeDetails({
 						<div className="grid grid-cols-2 gap-10">
 							<div>
 								<p className="text-sm font-medium mb-1">Name</p>
-								<p className="text-sm">{employee.name}</p>
+								<p className="text-sm">{employee.user.name}</p>
 							</div>
 							<div>
 								<p className="text-sm font-medium mb-1">Email</p>
-								<p className="text-sm">{employee.email}</p>
+								<p className="text-sm">{employee.user.email}</p>
 							</div>
 						</div>
 					</div>
@@ -309,8 +310,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									policies.map((policy) => {
-										const isCompleted =
-											policy.signedBy.includes(portalEmployeeId);
+										const isCompleted = policy.signedBy.includes(employee.id);
 
 										return (
 											<div
@@ -323,7 +323,7 @@ export function EmployeeDetails({
 													) : (
 														<AlertCircle className="h-4 w-4 text-red-500" />
 													)}
-													{policy.policy.name}
+													{policy.name}
 												</h2>
 											</div>
 										);
@@ -340,21 +340,33 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										const isCompleted =
-											video.completedBy.includes(portalEmployeeId);
+										const isCompleted = video.completedAt !== null;
 
 										return (
 											<div
 												key={video.id}
-												className="flex items-center gap-2 border p-3 justify-between"
+												className="flex items-center gap-2 border p-3 justify-between "
 											>
-												<h2 className="flex items-center gap-2">
-													{isCompleted ? (
-														<CheckCircle2 className="h-4 w-4 text-green-500" />
-													) : (
-														<AlertCircle className="h-4 w-4 text-red-500" />
+												<h2 className="flex flex-col items-center">
+													<div className="flex items-center gap-2">
+														{isCompleted ? (
+															<div className="flex items-center gap-1">
+																<CheckCircle2 className="h-4 w-4 text-green-500" />
+															</div>
+														) : (
+															<AlertCircle className="h-4 w-4 text-red-500" />
+														)}
+														{video.metadata.title}
+													</div>
+													{isCompleted && (
+														<span className="text-xs text-muted-foreground self-start">
+															Completed -{" "}
+															{video.completedAt &&
+																new Date(
+																	video.completedAt,
+																).toLocaleDateString()}
+														</span>
 													)}
-													{video.trainingVideo.title}
 												</h2>
 											</div>
 										);

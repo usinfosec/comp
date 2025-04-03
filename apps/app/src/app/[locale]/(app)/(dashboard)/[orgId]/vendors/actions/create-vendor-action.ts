@@ -1,12 +1,13 @@
-'use server'
+"use server";
 
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
-import type { ActionResponse } from '@/types/actions';
+import type { ActionResponse } from "@/types/actions";
 import { VendorStatus, VendorCategory, type Vendor } from "@bubba/db/types";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { db } from "@bubba/db";
+import { headers } from "next/headers";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -21,9 +22,11 @@ export const createVendorAction = createSafeActionClient()
   .schema(schema)
   .action(async (input): Promise<ActionResponse<Vendor>> => {
     try {
-      const session = await auth();
-      
-      if (!session?.user?.organizationId) {
+      const session = await auth.api.getSession({
+        headers: await headers(),
+      });
+
+      if (!session?.session?.activeOrganizationId) {
         throw new Error("Unauthorized");
       }
 
@@ -34,17 +37,18 @@ export const createVendorAction = createSafeActionClient()
           category: input.parsedInput.category,
           status: input.parsedInput.status,
           ownerId: input.parsedInput.ownerId,
-          organizationId: session.user.organizationId,
-        }
+          organizationId: session.session.activeOrganizationId,
+        },
       });
 
-      revalidatePath(`/${session.user.organizationId}/vendors`);
-      
+      revalidatePath(`/${session.session.activeOrganizationId}/vendors`);
+
       return { success: true, data: vendor };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "Failed to create vendor" 
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to create vendor",
       };
     }
   });

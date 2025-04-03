@@ -1,0 +1,19 @@
+model Control {
+  // Metadata
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  // Review dates
+  lastReviewDate DateTime?
+  nextReviewDate DateTime?
+
+  // Relationships
+  frameworkInstances FrameworkInstance[]
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId     String
+  artifacts          Artifact[]
+  requirementsMapped RequirementMap[]
+
+  @@index([organizationId])
+}

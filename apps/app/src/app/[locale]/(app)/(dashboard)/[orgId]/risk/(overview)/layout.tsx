@@ -1,10 +1,11 @@
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { auth } from "@/auth";
+import { auth } from "@bubba/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { db } from "@bubba/db";
 import { cache, Suspense } from "react";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
+import { headers } from "next/headers";
 
 export default async function Layout({
   children,
@@ -12,9 +13,13 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const t = await getI18n();
-  const session = await auth();
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const user = session?.user;
-  const orgId = user?.organizationId;
+  const orgId = session?.session.activeOrganizationId;
 
   const overview = await getRiskOverview();
 
@@ -32,20 +37,22 @@ export default async function Layout({
               sheetName="create-risk-sheet"
               faqs={[
                 {
-                  questionKey: t("app_onboarding.risk_management.faqs.question_1"),
+                  questionKey: t(
+                    "app_onboarding.risk_management.faqs.question_1",
+                  ),
                   answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
                 },
                 {
-                  questionKey: t("app_onboarding.risk_management.faqs.question_2"),
+                  questionKey: t(
+                    "app_onboarding.risk_management.faqs.question_2",
+                  ),
                   answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
                 },
                 {
-                  questionKey: t("app_onboarding.risk_management.faqs.question_3"),
+                  questionKey: t(
+                    "app_onboarding.risk_management.faqs.question_3",
+                  ),
                   answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
-                },
-                {
-                  questionKey: t("app_onboarding.risk_management.faqs.question_4"),
-                  answerKey: t("app_onboarding.risk_management.faqs.answer_4"),
                 },
               ]}
             />
@@ -62,7 +69,10 @@ export default async function Layout({
         <SecondaryMenu
           items={[
             { path: `/${orgId}/risk`, label: t("risk.dashboard.title") },
-            { path: `/${orgId}/risk/register`, label: t("risk.register.title") },
+            {
+              path: `/${orgId}/risk/register`,
+              label: t("risk.register.title"),
+            },
           ]}
         />
 
@@ -72,24 +82,30 @@ export default async function Layout({
   );
 }
 
-const getRiskOverview = cache(
-  async () => {
-    const session = await auth();
+const getRiskOverview = cache(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    if (!session || !session.user.organizationId) {
-      return { risks: 0 };
-    }
+  if (!session || !session.session.activeOrganizationId) {
+    return { risks: 0 };
+  }
 
-    return await db.$transaction(async (tx) => {
-      const [risks] = await Promise.all([
-        tx.risk.count({
-          where: { organizationId: session.user.organizationId },
-        }),
-      ]);
+  const activeOrganizationId = session.session.activeOrganizationId;
 
-      return {
-        risks,
-      };
-    });
-  },
-);
+  if (!activeOrganizationId) {
+    return { risks: 0 };
+  }
+
+  return await db.$transaction(async (tx) => {
+    const [risks] = await Promise.all([
+      tx.risk.count({
+        where: { organizationId: activeOrganizationId },
+      }),
+    ]);
+
+    return {
+      risks,
+    };
+  });
+});

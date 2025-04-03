@@ -14,7 +14,7 @@ import type { Frequency, Departments } from "@bubba/db/types";
 import { useOrganizationEvidenceTasks } from "../../hooks/useEvidenceTasks";
 import { ALL_DEPARTMENTS } from "../../constants";
 import { ALL_FREQUENCIES } from "../../constants";
-import type { EvidenceTaskRow } from "../components/table";
+import type { EvidenceTaskRow } from "../types";
 
 interface Assignee {
 	id: string;

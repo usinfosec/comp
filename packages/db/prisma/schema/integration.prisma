@@ -1,14 +1,32 @@
-model IntegrationLastRun {
-    id             String                   @id @default(cuid())
-    integrationId  String
-    organizationId String
-    lastRunAt      DateTime
-    createdAt      DateTime                 @default(now())
-    updatedAt      DateTime                 @updatedAt
-    integration    OrganizationIntegrations @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-    organization   Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+model Integration {
+  id             String              @id @default(cuid())
+  name           String              @unique
+  integrationId  String
+  settings       Json
+  userSettings   Json
+  organizationId String
+  lastRunAt      DateTime?
+  organization   Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  results        IntegrationResult[]
 
-    @@unique([integrationId, organizationId])
-    @@index([integrationId])
-    @@index([organizationId])
+  @@index([organizationId])
+}
+
+model IntegrationResult {
+  id             String    @id @default(cuid())
+  title          String?
+  description    String?
+  remediation    String?
+  status         String?
+  severity       String?
+  resultDetails  Json?
+  completedAt    DateTime? @default(now())
+  integrationId  String
+  organizationId String
+  assignedUserId String?
+
+  assignedUser User?       @relation(fields: [assignedUserId], references: [id], onDelete: Cascade)
+  integration  Integration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([integrationId])
 }

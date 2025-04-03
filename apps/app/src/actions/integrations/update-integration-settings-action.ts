@@ -14,7 +14,7 @@ export const updateIntegrationSettingsAction = authActionClient
         id: z.string(),
         value: z.unknown(),
       }),
-    }),
+    })
   )
   .metadata({
     name: "update-integration-settings",
@@ -24,32 +24,32 @@ export const updateIntegrationSettingsAction = authActionClient
     },
   })
   .action(
-    async ({ parsedInput: { integration_id, option }, ctx: { user } }) => {
+    async ({ parsedInput: { integration_id, option }, ctx: { session } }) => {
       try {
-        if (!user.organizationId) {
+        if (!session.activeOrganizationId) {
           throw new Error("User organization not found");
         }
 
-        let existingIntegration = await db.organizationIntegrations.findFirst({
+        let existingIntegration = await db.integration.findFirst({
           where: {
             name: integration_id,
-            organizationId: user.organizationId,
+            organizationId: session.activeOrganizationId,
           },
         });
 
         if (!existingIntegration) {
-          existingIntegration = await db.organizationIntegrations.create({
+          existingIntegration = await db.integration.create({
             data: {
               name: integration_id,
-              organizationId: user.organizationId,
-              user_settings: {},
-              integration_id: integration_id,
+              organizationId: session.activeOrganizationId,
+              userSettings: {},
+              integrationId: integration_id,
               settings: {},
             },
           });
         }
 
-        const userSettings = existingIntegration.user_settings;
+        const userSettings = existingIntegration.userSettings;
 
         if (!userSettings) {
           throw new Error("User settings not found");
@@ -61,7 +61,7 @@ export const updateIntegrationSettingsAction = authActionClient
         };
 
         const parsedUserSettings = JSON.parse(
-          JSON.stringify(updatedUserSettings),
+          JSON.stringify(updatedUserSettings)
         );
 
         const encryptedSettings = await Promise.all(
@@ -71,15 +71,15 @@ export const updateIntegrationSettingsAction = authActionClient
               return [key, encrypted];
             }
             return [key, value];
-          }),
+          })
         ).then(Object.fromEntries);
 
-        await db.organizationIntegrations.update({
+        await db.integration.update({
           where: {
             id: existingIntegration.id,
           },
           data: {
-            user_settings: encryptedSettings,
+            userSettings: encryptedSettings,
           },
         });
 
@@ -96,5 +96,5 @@ export const updateIntegrationSettingsAction = authActionClient
               : "Failed to update integration settings",
         };
       }
-    },
+    }
   );

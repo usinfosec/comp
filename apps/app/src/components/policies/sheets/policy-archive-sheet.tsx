@@ -2,7 +2,7 @@
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
+import type { Policy } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
 import { useMediaQuery } from "@bubba/ui/hooks";
@@ -22,18 +22,18 @@ import { toast } from "sonner";
 export function PolicyArchiveSheet({
 	policy,
 }: {
-	policy: OrganizationPolicy & { policy: Policy };
+	policy: Policy;
 }) {
 	const t = useI18n();
 	const router = useRouter();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("archive-policy-sheet");
 	const isOpen = Boolean(open);
-	const isArchived = policy.isArchived;
+	const isArchived = policy.status === "archived";
 
 	const archivePolicy = useAction(archivePolicyAction, {
 		onSuccess: (result) => {
-			if (result.data?.isArchived) {
+			if (result.data?.status === "archived") {
 				toast.success(t("policies.archive.success"));
 				// Redirect to policies list after successful archive
 				router.push(`/${policy.organizationId}/policies/all`);
@@ -127,7 +127,7 @@ export function PolicyArchiveSheet({
 								<X className="h-5 w-5" />
 							</Button>
 						</div>
-						<SheetDescription>{policy.policy.name}</SheetDescription>
+						<SheetDescription>{policy.name}</SheetDescription>
 					</SheetHeader>
 					{content}
 				</SheetContent>
@@ -149,9 +149,7 @@ export function PolicyArchiveSheet({
 							? t("policies.archive.restore_title")
 							: t("policies.archive.title")}
 					</h3>
-					<p className="text-sm text-muted-foreground mt-1">
-						{policy.policy.name}
-					</p>
+					<p className="text-sm text-muted-foreground mt-1">{policy.name}</p>
 				</div>
 				{content}
 			</DrawerContent>
