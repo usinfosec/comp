@@ -14,7 +14,6 @@ model User {
     invitations        Invitation[]
     members            Member[]
     sessions           Session[]
-    vendor             Vendor[]
 
     @@unique([email])
 }
@@ -88,6 +87,7 @@ model Member {
     Policy                          Policy[]
     Risk                            Risk[]
     Task                            Task[]
+    Vendor                          Vendor[]
 }
 
 model Invitation {

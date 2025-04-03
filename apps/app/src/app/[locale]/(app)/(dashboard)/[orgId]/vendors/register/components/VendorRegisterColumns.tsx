@@ -4,6 +4,7 @@ import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import type { VendorRegisterTableRow } from "./VendorRegisterTable";
+import { UserIcon } from "lucide-react";
 
 export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 	{
@@ -41,18 +42,32 @@ export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 		header: "Assignee",
 		accessorKey: "assignee",
 		cell: ({ row }) => {
+			// Handle null assignee
+			if (!row.original.assignee) {
+				return (
+					<div className="flex items-center gap-2">
+						<div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
+							<UserIcon className="h-4 w-4 text-muted-foreground" />
+						</div>
+						<p className="text-sm font-medium text-muted-foreground">None</p>
+					</div>
+				);
+			}
+
 			return (
 				<div className="flex items-center gap-2">
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={row.original.owner?.image || undefined}
-							alt={row.original.owner?.name || ""}
+							src={row.original.assignee.user.image || undefined}
+							alt={row.original.assignee.user.name || ""}
 						/>
 						<AvatarFallback>
-							{row.original.owner?.name?.charAt(0) || "?"}
+							{row.original.assignee.user.name?.charAt(0) || "?"}
 						</AvatarFallback>
 					</Avatar>
-					<p className="text-sm font-medium">{row.original.owner?.name}</p>
+					<p className="text-sm font-medium">
+						{row.original.assignee.user.name}
+					</p>
 				</div>
 			);
 		},

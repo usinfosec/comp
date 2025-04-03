@@ -107,18 +107,18 @@ export function DataTableHeader({ table, loading }: Props) {
 					</TableHead>
 				)}
 
-				{isVisible("ownerId") && (
+				{isVisible("assigneeId") && (
 					<TableHead className="min-w-[120px] px-3 md:px-4 py-2 hidden sm:table-cell">
 						<Button
 							className="p-0 hover:bg-transparent space-x-2"
 							variant="ghost"
-							onClick={() => createSortQuery("ownerId")}
+							onClick={() => createSortQuery("assigneeId")}
 						>
 							<span>{t("common.table.assigned_to")}</span>
-							{"ownerId" === column && value === "asc" && (
+							{"assigneeId" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
-							{"ownerId" === column && value === "desc" && (
+							{"assigneeId" === column && value === "desc" && (
 								<ArrowUp size={16} />
 							)}
 						</Button>

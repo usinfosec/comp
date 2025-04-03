@@ -13,221 +13,224 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 interface PageProps {
-  searchParams: Promise<{
-    search?: string;
-    status?: string;
-    sort?: string;
-    page?: string;
-    per_page?: string;
-  }>;
-  params: Promise<{ riskId: string; locale: string }>;
+	searchParams: Promise<{
+		search?: string;
+		status?: string;
+		sort?: string;
+		page?: string;
+		per_page?: string;
+	}>;
+	params: Promise<{ riskId: string; locale: string }>;
 }
 
 export default async function RiskPage({ searchParams, params }: PageProps) {
-  const { riskId } = await params;
-  const risk = await getRisk(riskId);
+	const { riskId } = await params;
+	const risk = await getRisk(riskId);
 
-  const assignees = await getAssignees();
-  const t = await getI18n();
+	const assignees = await getAssignees();
+	const t = await getI18n();
 
-  const {
-    search,
-    status,
-    sort,
-    page = "1",
-    per_page = "5",
-  } = await searchParams;
+	const {
+		search,
+		status,
+		sort,
+		page = "1",
+		per_page = "5",
+	} = await searchParams;
 
-  const columnHeaders = await getServerColumnHeaders();
-  const [column, order] = sort?.split(":") ?? [];
-  const hasFilters = !!(search || status);
-  const { tasks: loadedTasks, total } = await getTasks({
-    riskId,
-    search,
-    status: status as TaskStatus,
-    column,
-    order,
-    page: Number.parseInt(page),
-    per_page: Number.parseInt(per_page),
-  });
+	const columnHeaders = await getServerColumnHeaders();
+	const [column, order] = sort?.split(":") ?? [];
+	const hasFilters = !!(search || status);
+	const { tasks: loadedTasks, total } = await getTasks({
+		riskId,
+		search,
+		status: status as TaskStatus,
+		column,
+		order,
+		page: Number.parseInt(page),
+		per_page: Number.parseInt(per_page),
+	});
 
-  if (!risk) {
-    redirect("/");
-  }
+	if (!risk) {
+		redirect("/");
+	}
 
-  return (
-    <div className="flex flex-col gap-4">
-      <RiskOverview risk={risk} assignees={assignees} />
+	return (
+		<div className="flex flex-col gap-4">
+			<RiskOverview risk={risk} assignees={assignees} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <InherentRiskChart risk={risk} />
-        <ResidualRiskChart risk={risk} />
-      </div>
-    </div>
-  );
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<InherentRiskChart risk={risk} />
+				<ResidualRiskChart risk={risk} />
+			</div>
+		</div>
+	);
 }
 
 async function getRisk(riskId: string) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!session || !session.session.activeOrganizationId) {
-    return null;
-  }
+	if (!session || !session.session.activeOrganizationId) {
+		return null;
+	}
 
-  const risk = await db.risk.findUnique({
-    where: {
-      id: riskId,
-      organizationId: session.session.activeOrganizationId,
-    },
-    include: {
-      assignee: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+	const risk = await db.risk.findUnique({
+		where: {
+			id: riskId,
+			organizationId: session.session.activeOrganizationId,
+		},
+		include: {
+			assignee: {
+				include: {
+					user: true,
+				},
+			},
+		},
+	});
 
-  return risk;
+	return risk;
 }
 
 async function getTasks({
-  riskId,
-  search,
-  status,
-  column,
-  order,
-  page = 1,
-  per_page = 10,
+	riskId,
+	search,
+	status,
+	column,
+	order,
+	page = 1,
+	per_page = 10,
 }: {
-  riskId: string;
-  search?: string;
-  status?: TaskStatus;
-  column?: string;
-  order?: string;
-  page?: number;
-  per_page?: number;
+	riskId: string;
+	search?: string;
+	status?: TaskStatus;
+	column?: string;
+	order?: string;
+	page?: number;
+	per_page?: number;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!session || !session.session.activeOrganizationId) {
-    return { tasks: [], total: 0 };
-  }
+	if (!session || !session.session.activeOrganizationId) {
+		return { tasks: [], total: 0 };
+	}
 
-  const skip = (page - 1) * per_page;
+	const skip = (page - 1) * per_page;
 
-  const [tasks, total] = await Promise.all([
-    db.task
-      .findMany({
-        where: {
-          relatedId: riskId,
-          relatedType: "risk",
-          organizationId: session.session.activeOrganizationId,
-          AND: [
-            search
-              ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  {
-                    description: { contains: search, mode: "insensitive" },
-                  },
-                ],
-              }
-              : {},
-            status ? { status } : {},
-          ],
-        },
-        orderBy: column
-          ? {
-            [column]: order === "asc" ? "asc" : "desc",
-          }
-          : {
-            createdAt: "desc",
-          },
-        skip,
-        take: per_page,
-        include: {
-          assignee: {
-            include: {
-              user: true,
-            },
-          },
-        },
-      })
-      .then((tasks) =>
-        tasks.map(
-          (task): RiskTaskType => ({
-            id: task.id,
-            riskId: task.relatedId,
-            title: task.title,
-            status: task.status,
-            dueDate: task.dueDate.toISOString(),
-            assigneeId: task.assigneeId,
-            assignee: {
-              name: task.assignee.user.name,
-              image: task.assignee.user.image ?? "",
-            },
-          }),
-        ),
-      ),
-    db.task.count({
-      where: {
-        relatedId: riskId,
-        relatedType: "risk",
-        organizationId: session.session.activeOrganizationId,
-        AND: [
-          search
-            ? {
-              OR: [
-                { title: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
-              ],
-            }
-            : {},
-          status ? { status } : {},
-        ],
-      },
-    }),
-  ]);
+	const [tasks, total] = await Promise.all([
+		db.task
+			.findMany({
+				where: {
+					relatedId: riskId,
+					relatedType: "risk",
+					organizationId: session.session.activeOrganizationId,
+					AND: [
+						search
+							? {
+									OR: [
+										{ title: { contains: search, mode: "insensitive" } },
+										{
+											description: { contains: search, mode: "insensitive" },
+										},
+									],
+								}
+							: {},
+						status ? { status } : {},
+					],
+				},
+				orderBy: column
+					? {
+							[column]: order === "asc" ? "asc" : "desc",
+						}
+					: {
+							createdAt: "desc",
+						},
+				skip,
+				take: per_page,
+				include: {
+					assignee: {
+						include: {
+							user: true,
+						},
+					},
+				},
+			})
+			.then((tasks) =>
+				tasks.map(
+					(task): RiskTaskType => ({
+						id: task.id,
+						riskId: task.relatedId,
+						title: task.title,
+						status: task.status,
+						dueDate: task.dueDate.toISOString(),
+						assigneeId: task.assigneeId ?? "",
+						assignee: {
+							name: task.assignee?.user.name ?? "",
+							image: task.assignee?.user.image ?? "",
+						},
+					}),
+				),
+			),
+		db.task.count({
+			where: {
+				relatedId: riskId,
+				relatedType: "risk",
+				organizationId: session.session.activeOrganizationId,
+				AND: [
+					search
+						? {
+								OR: [
+									{ title: { contains: search, mode: "insensitive" } },
+									{ description: { contains: search, mode: "insensitive" } },
+								],
+							}
+						: {},
+					status ? { status } : {},
+				],
+			},
+		}),
+	]);
 
-  return { tasks, total };
+	return { tasks, total };
 }
 
 async function getAssignees() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-  if (!session || !session.session.activeOrganizationId) {
-    return [];
-  }
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
 
-  const assignees = await db.member.findMany({
-    where: {
-      organizationId: session.session.activeOrganizationId,
-    },
-    include: {
-      user: true,
-    },
-  });
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId: session.session.activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
 
-  return assignees;
+	return assignees;
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("risk.risk_overview"),
-  };
+	return {
+		title: t("risk.risk_overview"),
+	};
 }

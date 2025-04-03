@@ -97,6 +97,9 @@ const getAssignees = cache(async () => {
 		where: {
 			organizationId: activeOrganizationId,
 			isActive: true,
+			role: {
+				notIn: ["employee"],
+			},
 		},
 		include: {
 			user: true,

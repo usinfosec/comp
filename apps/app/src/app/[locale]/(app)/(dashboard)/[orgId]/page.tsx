@@ -9,9 +9,6 @@ export default async function DashboardPage() {
 
 	const organizationId = session?.session.activeOrganizationId;
 
-	console.log("session", session);
-	console.log("organizationId", organizationId);
-
 	if (!organizationId) {
 		redirect("/");
 	}

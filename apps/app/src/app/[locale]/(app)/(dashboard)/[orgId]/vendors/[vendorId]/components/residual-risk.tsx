@@ -15,7 +15,8 @@ import {
 import { X } from "lucide-react";
 import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/residual-risk-form";
 import type { Vendor } from "@comp/db/types";
-import { useState } from "react";
+import { useQueryState } from "nuqs";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function ResidualRiskSheet({
 	vendorId,
@@ -27,19 +28,50 @@ export function ResidualRiskSheet({
 	onSuccess?: () => void;
 }) {
 	const t = useI18n();
+	const router = useRouter();
+	const searchParams = useSearchParams();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
-	const [isOpen, setIsOpen] = useState(true);
+	const [open, setOpen] = useQueryState("residual-risk-sheet");
+	const isOpen = open === "true";
 
-	const handleClose = () => setIsOpen(false);
+	const handleClose = () => {
+		setOpen(null);
+
+		// Create new URLSearchParams without the residual-risk-sheet parameter
+		const params = new URLSearchParams(searchParams);
+		params.delete("residual-risk-sheet");
+
+		// Create the new URL path with the updated query parameters
+		const newPath =
+			window.location.pathname +
+			(params.toString() ? `?${params.toString()}` : "");
+
+		// Update the URL without refreshing the page
+		router.replace(newPath);
+	};
 
 	const handleFormSuccess = () => {
-		setIsOpen(false);
+		setOpen(null);
+
+		// Remove query params on success
+		const params = new URLSearchParams(searchParams);
+		params.delete("residual-risk-sheet");
+
+		const newPath =
+			window.location.pathname +
+			(params.toString() ? `?${params.toString()}` : "");
+
+		router.replace(newPath);
+
 		if (onSuccess) onSuccess();
 	};
 
 	if (isDesktop) {
 		return (
-			<Sheet open={isOpen} onOpenChange={setIsOpen}>
+			<Sheet
+				open={isOpen}
+				onOpenChange={(value) => (value ? setOpen("true") : handleClose())}
+			>
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
@@ -72,7 +104,10 @@ export function ResidualRiskSheet({
 	}
 
 	return (
-		<Drawer open={isOpen} onOpenChange={setIsOpen}>
+		<Drawer
+			open={isOpen}
+			onOpenChange={(value) => (value ? setOpen("true") : handleClose())}
+		>
 			<DrawerTitle hidden>
 				{t("vendors.risks.update_residual_risk")}
 			</DrawerTitle>
