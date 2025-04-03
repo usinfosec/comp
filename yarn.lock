@@ -1442,7 +1442,6 @@
     "@types/node" "^22.13.17"
     "@types/react" "19.0.10"
     "@types/react-dom" "19.0.4"
-    "@types/uuid" "^10.0.0"
     postcss "^8.5.3"
     tailwindcss "^3.4.17"
     typescript "^5.8.2"
@@ -1527,7 +1526,6 @@
     ts-pattern "^5.7.0"
     use-debounce "^10.0.4"
     use-long-press "^3.3.0"
-    uuid "^11.1.0"
     xml2js "^0.6.2"
     yarn "^1.22.22"
     zustand "^5.0.3"
@@ -1567,7 +1565,6 @@
     "@prisma/adapter-neon" "^6.5.0"
     "@prisma/client" "^6.5.0"
     "@prisma/extension-accelerate" "^1.2.2"
-    cuid "^3.0.0"
     prisma "^6.5.0"
 
 "@bubba/email@^workspace:packages/email", "@bubba/email@workspace:*":
@@ -6037,11 +6034,6 @@
   resolved "https://registry.npmjs.org/@types/use-sync-external-store/-/use-sync-external-store-0.0.6.tgz"
   integrity sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==
 
-"@types/uuid@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-10.0.0.tgz"
-  integrity sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==
-
 "@types/ws@^7.4.7":
   version "7.4.7"
   resolved "https://registry.npmjs.org/@types/ws/-/ws-7.4.7.tgz"
@@ -7306,11 +7298,6 @@ csv-stringify@^6.5.2:
   version "6.5.2"
   resolved "https://registry.npmjs.org/csv-stringify/-/csv-stringify-6.5.2.tgz"
   integrity sha512-RFPahj0sXcmUyjrObAK+DOWtMvMIFV328n4qZJhgX3x2RqkQgOTU2mCUmiFR0CzM6AzChlRSUErjiJeEt8BaQA==
-
-cuid@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/cuid/-/cuid-3.0.0.tgz"
-  integrity sha512-WZYYkHdIDnaxdeP8Misq3Lah5vFjJwGuItJuV+tvMafosMzw0nF297T7mrm8IOWiPJkV6gc7sa8pzx27+w25Zg==
 
 d3@^7.9.0:
   version "7.9.0"
@@ -14749,11 +14736,6 @@ uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
   resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
-
-uuid@^11.1.0:
-  version "11.1.0"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-11.1.0.tgz"
-  integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
 
 "valibot@1.0.0-beta.15", "valibot@>= 0.36.0", "valibot@^1.0.0-beta.7 || ^1.0.0":
   version "1.0.0-beta.15"
