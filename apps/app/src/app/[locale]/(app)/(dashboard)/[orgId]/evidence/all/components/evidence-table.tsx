@@ -9,6 +9,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { getEvidenceColumns } from "./evidence-table-columns";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
+import { useParams } from "next/navigation";
 
 interface EvidenceTableProps {
   promises: Promise<[
@@ -18,6 +19,7 @@ interface EvidenceTableProps {
 
 export function EvidenceTable({ promises }: EvidenceTableProps) {
   const [{ data, pageCount }] = React.use(promises);
+  const { orgId } = useParams();
 
   const columns = React.useMemo(() => getEvidenceColumns(), []);
 
@@ -38,7 +40,7 @@ export function EvidenceTable({ promises }: EvidenceTableProps) {
       <DataTable
         table={table}
         getRowId={(row) => row.id}
-        rowClickBasePath="/evidence/all"
+        rowClickBasePath={`/${orgId}/evidence`}
       >
         <DataTableToolbar table={table} sheet="create-evidence-sheet" action="Create Evidence">
           <DataTableSortList table={table} align="end" />
