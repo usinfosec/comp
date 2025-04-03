@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInstancesWithControls";
+import PageWithBreadcrumb from "./components/PageWithBreadcrumb";
 
 export async function generateMetadata() {
 	const t = await getI18n();
@@ -30,9 +31,8 @@ export default async function DashboardPage() {
 	});
 
 	return (
-		<FrameworksOverview
-			frameworksWithControls={frameworksWithControls}
-			organizationId={organizationId}
-		/>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Frameworks" }]}>
+			<FrameworksOverview frameworksWithControls={frameworksWithControls} />
+		</PageWithBreadcrumb>
 	);
 }

@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
-
+import PageWithBreadcrumb from "../components/PageWithBreadcrumb";
+import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 interface PageProps {
 	params: Promise<{
 		frameworkInstanceId: string;
@@ -38,15 +39,26 @@ export default async function FrameworkPage({ params }: PageProps) {
 		redirect("/");
 	}
 
+	const framework = getFrameworkDetails(
+		frameworkInstanceWithControls.frameworkId,
+	).name;
+
 	return (
-		<div className="flex flex-col gap-6">
-			<FrameworkOverview
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
-			<FrameworkRequirements
-				frameworkId={frameworkInstanceWithControls.frameworkId}
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
-		</div>
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Frameworks", href: `/${organizationId}/frameworks` },
+				{ label: framework },
+			]}
+		>
+			<div className="flex flex-col gap-6">
+				<FrameworkOverview
+					frameworkInstanceWithControls={frameworkInstanceWithControls}
+				/>
+				<FrameworkRequirements
+					frameworkId={frameworkInstanceWithControls.frameworkId}
+					frameworkInstanceWithControls={frameworkInstanceWithControls}
+				/>
+			</div>
+		</PageWithBreadcrumb>
 	);
 }

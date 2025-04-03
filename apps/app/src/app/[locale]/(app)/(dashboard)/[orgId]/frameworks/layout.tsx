@@ -1,8 +1,7 @@
-import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
-import { redirect } from "next/navigation";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { auth } from "@bubba/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Layout({
 	children,
@@ -21,15 +20,6 @@ export default async function Layout({
 
 	return (
 		<div className="max-w-[1200px] mx-auto">
-			<SecondaryMenu
-				items={[
-					{
-						path: `/${session.session.activeOrganizationId}/frameworks`,
-						label: t("frameworks.title"),
-					},
-				]}
-			/>
-
 			<main className="mt-8">{children}</main>
 		</div>
 	);

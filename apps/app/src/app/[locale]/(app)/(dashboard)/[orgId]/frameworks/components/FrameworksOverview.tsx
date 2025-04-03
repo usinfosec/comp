@@ -15,14 +15,12 @@ export async function FrameworksOverview({
 		});
 
 	return (
-		<div className="space-y-12">
-			<div className="grid gap-4 md:grid-cols-2 select-none">
-				<FrameworkList
-					frameworksWithControlsAndComplianceScores={
-						frameworksWithControlsAndComplianceScores
-					}
-				/>
-			</div>
+		<div className="grid gap-4 md:grid-cols-2 select-none w-full">
+			<FrameworkList
+				frameworksWithControlsAndComplianceScores={
+					frameworksWithControlsAndComplianceScores
+				}
+			/>
 		</div>
 	);
 }
