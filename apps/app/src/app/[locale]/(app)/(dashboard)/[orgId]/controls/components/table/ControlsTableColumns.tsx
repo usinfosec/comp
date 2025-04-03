@@ -29,7 +29,7 @@ export function ControlsTableColumns(): ColumnDef<ControlTableType>[] {
 				return (
 					<div className="min-w-[200px]">
 						<Link
-							href={`/${params.locale}/${params.orgId}/controls/${control.id}`}
+							href={`/${params.orgId}/controls/${control.id}`}
 							className="hover:underline"
 						>
 							{control.name}
