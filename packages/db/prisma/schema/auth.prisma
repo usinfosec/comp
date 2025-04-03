@@ -1,5 +1,5 @@
 model User {
-    id            String    @id @default(cuid())
+    id            String    @id @default("generate_prefixed_cuid('user'::text)")
     name          String
     email         String
     emailVerified Boolean
