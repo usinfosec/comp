@@ -36,9 +36,8 @@ We transform compliance from a vendor checkbox into an engineering problem solve
 
 - [Next.js](https://nextjs.org/?ref=trycomp.ai)
 - [Trigger.dev](https://trigger.dev/?ref=trycomp.ai)
-- [Prisma.io](https://prisma.io/?ref=trycomp.ai)
+- [Prisma](https://prisma.io/?ref=trycomp.ai)
 - [Tailwind CSS](https://tailwindcss.com/?ref=trycomp.ai)
-- [Neon](https://neon.tech/?ref=trycomp.ai)
 - [Upstash](https://upstash.com/?ref=trycomp.ai)
 - [Vercel](https://vercel.com/?ref=trycomp.ai)
 - [Novu](https://novu.co/?ref=trycomp.ai)
