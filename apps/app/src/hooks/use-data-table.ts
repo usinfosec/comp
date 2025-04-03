@@ -62,6 +62,7 @@ interface UseDataTableProps<TData>
 	scroll?: boolean;
 	shallow?: boolean;
 	startTransition?: React.TransitionStartFunction;
+	tableId?: string;
 }
 
 export function useDataTable<TData>(props: UseDataTableProps<TData>) {
@@ -77,6 +78,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 		scroll = false,
 		shallow = true,
 		startTransition,
+		tableId,
 		...tableProps
 	} = props;
 
@@ -109,12 +111,17 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>(initialState?.columnVisibility ?? {});
 
+	// Use tableId prefix for URL parameters if provided
+	const pageKey = tableId ? `${tableId}_${PAGE_KEY}` : PAGE_KEY;
+	const perPageKey = tableId ? `${tableId}_${PER_PAGE_KEY}` : PER_PAGE_KEY;
+	const sortKey = tableId ? `${tableId}_${SORT_KEY}` : SORT_KEY;
+
 	const [page, setPage] = useQueryState(
-		PAGE_KEY,
+		pageKey,
 		parseAsInteger.withOptions(queryStateOptions).withDefault(1),
 	);
 	const [perPage, setPerPage] = useQueryState(
-		PER_PAGE_KEY,
+		perPageKey,
 		parseAsInteger
 			.withOptions(queryStateOptions)
 			.withDefault(initialState?.pagination?.pageSize ?? 10),
@@ -148,7 +155,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 	}, [columns]);
 
 	const [sorting, setSorting] = useQueryState(
-		SORT_KEY,
+		sortKey,
 		getSortingStateParser<TData>(columnIds)
 			.withOptions(queryStateOptions)
 			.withDefault(initialState?.sorting ?? []),
@@ -288,7 +295,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 		getFacetedUniqueValues: getFacetedUniqueValues(),
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		manualPagination: true,
-		manualSorting: true,
+		manualSorting: pageCount !== 1,
 		manualFiltering: true,
 	});
 

@@ -56,7 +56,11 @@ export async function getControls(input: GetControlSchema) {
 							},
 						},
 					},
-					requirementsMapped: true,
+					requirementsMapped: {
+						include: {
+							frameworkInstance: true,
+						},
+					},
 				},
 			});
 

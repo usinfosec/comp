@@ -47,7 +47,7 @@ export default async function FrameworkPage({ params }: PageProps) {
 		<PageWithBreadcrumb
 			breadcrumbs={[
 				{ label: "Frameworks", href: `/${organizationId}/frameworks` },
-				{ label: framework },
+				{ label: framework, current: true },
 			]}
 		>
 			<div className="flex flex-col gap-6">

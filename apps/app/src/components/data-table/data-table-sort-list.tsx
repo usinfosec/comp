@@ -8,6 +8,7 @@ import {
 	Trash2,
 } from "lucide-react";
 import * as React from "react";
+import { useQueryState } from "nuqs";
 
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
@@ -43,10 +44,12 @@ const REMOVE_SORT_SHORTCUTS = ["backspace", "delete"];
 interface DataTableSortListProps<TData>
 	extends React.ComponentProps<typeof PopoverContent> {
 	table: Table<TData>;
+	tableId?: string;
 }
 
 export function DataTableSortList<TData>({
 	table,
+	tableId,
 	...props
 }: DataTableSortListProps<TData>) {
 	const id = React.useId();
@@ -55,8 +58,91 @@ export function DataTableSortList<TData>({
 	const [open, setOpen] = React.useState(false);
 	const addButtonRef = React.useRef<HTMLButtonElement>(null);
 
-	const sorting = table.getState().sorting;
-	const onSortingChange = table.setSorting;
+	const sortParam = tableId ? `${tableId}_sort` : "sort";
+	const [urlSorting, setUrlSorting] = useQueryState(sortParam);
+
+	// Parse the URL sorting state
+	const parsedSorting = React.useMemo(() => {
+		try {
+			if (!urlSorting) return [];
+
+			// Check if urlSorting is already an object (this can happen with nuqs)
+			if (typeof urlSorting === "object" && urlSorting !== null) {
+				// If it's already an array, validate its structure
+				if (Array.isArray(urlSorting)) {
+					const sortArray = urlSorting as unknown[];
+					return sortArray.every(
+						(item: unknown) =>
+							typeof item === "object" &&
+							item !== null &&
+							"id" in (item as object) &&
+							"desc" in (item as object),
+					)
+						? (sortArray as ColumnSort[])
+						: [];
+				}
+				return [];
+			}
+
+			// Parse the string if it's a string
+			if (typeof urlSorting === "string") {
+				const parsed = JSON.parse(urlSorting);
+				// Validate that we have a proper array of ColumnSort objects
+				if (
+					Array.isArray(parsed) &&
+					parsed.every(
+						(item) =>
+							typeof item === "object" &&
+							item !== null &&
+							"id" in item &&
+							"desc" in item &&
+							typeof item.id === "string",
+					)
+				) {
+					return parsed as ColumnSort[];
+				}
+			}
+
+			return [];
+		} catch (e) {
+			console.error("Error parsing sort state:", e);
+			return [];
+		}
+	}, [urlSorting]);
+
+	// Use URL sorting if available, otherwise use table state
+	const sorting = React.useMemo(() => {
+		return parsedSorting.length > 0
+			? parsedSorting
+			: table.getState().sorting || [];
+	}, [parsedSorting, table]);
+
+	// Custom sorting change handler that updates both table and URL
+	const onSortingChange = React.useCallback(
+		(updater: ColumnSort[] | ((prev: ColumnSort[]) => ColumnSort[])) => {
+			// Update table sorting
+			table.setSorting(updater);
+
+			// Update URL sorting
+			const newSorting =
+				typeof updater === "function" ? updater(sorting) : updater;
+
+			// Only set URL if there's something to save
+			if (newSorting.length > 0) {
+				// Convert to a proper JSON string
+				try {
+					const stringified = JSON.stringify(newSorting);
+					setUrlSorting(stringified);
+				} catch (e) {
+					console.error("Error stringifying sort state:", e);
+					setUrlSorting(null);
+				}
+			} else {
+				setUrlSorting(null);
+			}
+		},
+		[table, sorting, setUrlSorting],
+	);
 
 	const { columnLabels, columns } = React.useMemo(() => {
 		const labels = new Map<string, string>();
@@ -66,13 +152,29 @@ export function DataTableSortList<TData>({
 		for (const column of table.getAllColumns()) {
 			if (!column.getCanSort()) continue;
 
-			const label = column.columnDef.meta?.label ?? column.id;
+			// Debug column definitions
+			console.log(`Column ID: ${column.id}`, {
+				meta: column.columnDef.meta,
+				def: column.columnDef,
+			});
+
+			// Use a safe way to get the label
+			let label = column.columnDef.meta?.label;
+			if (!label) {
+				// Try to get accessorKey if available
+				label = column.id;
+			}
 			labels.set(column.id, label);
 
 			if (!sortingIds.has(column.id)) {
 				availableColumns.push({ id: column.id, label });
 			}
 		}
+
+		// Debug all labels and available columns
+		console.log("Column Labels:", Object.fromEntries(labels));
+		console.log("Available Columns:", availableColumns);
+		console.log("Current Sorting:", sorting);
 
 		return {
 			columnLabels: labels,
@@ -93,7 +195,7 @@ export function DataTableSortList<TData>({
 	const onSortUpdate = React.useCallback(
 		(sortId: string, updates: Partial<ColumnSort>) => {
 			onSortingChange((prevSorting) => {
-				if (!prevSorting) return prevSorting;
+				if (!prevSorting.length) return prevSorting;
 				return prevSorting.map((sort) =>
 					sort.id === sortId ? { ...sort, ...updates } : sort,
 				);
@@ -111,10 +213,21 @@ export function DataTableSortList<TData>({
 		[onSortingChange],
 	);
 
-	const onSortingReset = React.useCallback(
-		() => onSortingChange(table.initialState.sorting),
-		[onSortingChange, table.initialState.sorting],
-	);
+	const onSortingReset = React.useCallback(() => {
+		const initialSorting = table.initialState.sorting || [];
+		onSortingChange(initialSorting);
+	}, [onSortingChange, table.initialState.sorting]);
+
+	// Sync table sorting with URL on component mount
+	React.useEffect(() => {
+		if (parsedSorting.length > 0) {
+			// Only update if different to avoid unnecessary renders
+			const currentSorting = table.getState().sorting;
+			if (JSON.stringify(parsedSorting) !== JSON.stringify(currentSorting)) {
+				table.setSorting(parsedSorting);
+			}
+		}
+	}, [parsedSorting, table]);
 
 	React.useEffect(() => {
 		function onKeyDown(event: KeyboardEvent) {
@@ -319,7 +432,9 @@ function DataTableSortItem({
 							size="sm"
 							className="w-44 justify-between font-normal"
 						>
-							<span className="truncate">{columnLabels.get(sort.id)}</span>
+							<span className="truncate">
+								{columnLabels.get(sort.id) || sort.id || "Unknown column"}
+							</span>
 							<ChevronsUpDown className="opacity-50" />
 						</Button>
 					</PopoverTrigger>
