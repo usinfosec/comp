@@ -36,7 +36,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 	const { riskId } = await params;
 	const risk = await getRisk(riskId);
 
-	const users = await useUsers();
+	const assignees = await getAssignees();
 	const t = await getI18n();
 
 	const {
@@ -66,7 +66,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<RiskOverview risk={risk} users={users} />
+			<RiskOverview risk={risk} assignees={assignees} />
 
 			<Card>
 				<CardHeader>
@@ -78,7 +78,10 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 				</CardHeader>
 				<CardContent>
 					<div className="relative">
-						<FilterToolbar isEmpty={loadedTasks.length === 0} users={users} />
+						<FilterToolbar
+							isEmpty={loadedTasks.length === 0}
+							assignees={assignees}
+						/>
 						{loadedTasks.length > 0 ? (
 							<DataTable
 								columnHeaders={columnHeaders}
@@ -121,7 +124,11 @@ async function getRisk(riskId: string) {
 			organizationId: session.session.activeOrganizationId,
 		},
 		include: {
-			owner: true,
+			assignee: {
+				include: {
+					user: true,
+				},
+			},
 		},
 	});
 
@@ -186,10 +193,9 @@ async function getTasks({
 				skip,
 				take: per_page,
 				include: {
-					user: {
-						select: {
-							name: true,
-							image: true,
+					assignee: {
+						include: {
+							user: true,
 						},
 					},
 				},
@@ -202,10 +208,10 @@ async function getTasks({
 						title: task.title,
 						status: task.status,
 						dueDate: task.dueDate.toISOString(),
-						ownerId: task.userId,
-						owner: {
-							name: task.user.name,
-							image: task.user.image ?? "",
+						assigneeId: task.assigneeId,
+						assignee: {
+							name: task.assignee.user.name,
+							image: task.assignee.user.image ?? "",
 						},
 					}),
 				),
@@ -231,6 +237,27 @@ async function getTasks({
 	]);
 
 	return { tasks, total };
+}
+
+async function getAssignees() {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
+
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId: session.session.activeOrganizationId,
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	return assignees;
 }
 
 export async function generateMetadata({

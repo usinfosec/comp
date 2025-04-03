@@ -4,6 +4,10 @@ import { getI18n } from "@/locales/server";
 import { setStaticParamsLocale } from "next-international/server";
 import type { RiskStatus, Departments } from "@comp/db/types";
 import { getRisks } from "./data/getRisks";
+import { auth } from "@comp/auth";
+import { cache } from "react";
+import { db } from "@comp/db";
+import { headers } from "next/headers";
 
 export default async function RiskRegisterPage({
 	params,
@@ -30,7 +34,15 @@ export default async function RiskRegisterPage({
 		assigneeId: assigneeId || null,
 	});
 
-	return <RiskRegisterTable risks={risks.risks || []} isLoading={false} />;
+	const assignees = await getAssignees();
+
+	return (
+		<RiskRegisterTable
+			risks={risks?.risks || []}
+			isLoading={false}
+			assignees={assignees}
+		/>
+	);
 }
 
 export async function generateMetadata({
@@ -46,3 +58,26 @@ export async function generateMetadata({
 		title: t("risk.register.title"),
 	};
 }
+
+const getAssignees = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
+
+	return await db.member.findMany({
+		where: {
+			organizationId: session.session.activeOrganizationId,
+			isActive: true,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
+});

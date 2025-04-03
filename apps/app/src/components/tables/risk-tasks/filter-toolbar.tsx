@@ -1,25 +1,20 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@comp/ui/button";
+import type { Member, User } from "@comp/db/types";
 import { cn } from "@comp/ui/cn";
 import { Input } from "@comp/ui/input";
 import { Skeleton } from "@comp/ui/skeleton";
-import { Search, X } from "lucide-react";
-import { Plus } from "lucide-react";
+import { Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useTransition } from "react";
-import { useCallback } from "react";
 
 type Props = {
 	isEmpty?: boolean;
-	users: {
-		id: string;
-		name: string | null;
-	}[];
+	assignees: (Member & { user: User })[];
 };
 
-export function FilterToolbar({ isEmpty, users }: Props) {
+export function FilterToolbar({ isEmpty, assignees }: Props) {
 	const t = useI18n();
 	const [isPending, startTransition] = useTransition();
 	const [open, setOpen] = useQueryState("create-task-sheet");

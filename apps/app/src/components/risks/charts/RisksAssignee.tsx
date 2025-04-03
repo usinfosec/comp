@@ -33,18 +33,24 @@ const riskStatusColors = {
 export async function RisksAssignee() {
 	const t = await getI18n();
 	const userStats = await userData();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	const stats: UserRiskStats[] = userStats.map((user) => ({
+	const orgId = session?.session.activeOrganizationId;
+
+	const stats: UserRiskStats[] = userStats.map((member) => ({
 		user: {
-			id: user.id,
-			name: user.name,
-			image: user.image,
+			id: member.id,
+			name: member.user.name,
+			image: member.user.image,
 		},
-		totalRisks: user.risk.length,
-		openRisks: user.risk.filter((risk) => risk.status === "open").length,
-		pendingRisks: user.risk.filter((risk) => risk.status === "pending").length,
-		closedRisks: user.risk.filter((risk) => risk.status === "closed").length,
-		archivedRisks: user.risk.filter((risk) => risk.status === "archived")
+		totalRisks: member.Risk.length,
+		openRisks: member.Risk.filter((risk) => risk.status === "open").length,
+		pendingRisks: member.Risk.filter((risk) => risk.status === "pending")
+			.length,
+		closedRisks: member.Risk.filter((risk) => risk.status === "closed").length,
+		archivedRisks: member.Risk.filter((risk) => risk.status === "archived")
 			.length,
 	}));
 
@@ -60,7 +66,7 @@ export async function RisksAssignee() {
 					<div className="space-y-4">
 						{stats.map((stat) => (
 							<Link
-								href={`/risk/register?ownerId=${stat.user.id}`}
+								href={`/${orgId}/risk/register?assigneeId=${stat.user.id}`}
 								key={stat.user.id}
 							>
 								<div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50">
@@ -188,24 +194,13 @@ const userData = cache(async () => {
 		return [];
 	}
 
-	return await db.user.findMany({
+	const members = await db.member.findMany({
 		where: {
-			members: {
-				some: {
-					organizationId: session.session.activeOrganizationId,
-				},
-			},
-			risk: {
-				some: {
-					organizationId: session.session.activeOrganizationId,
-				},
-			},
+			organizationId: session.session.activeOrganizationId,
 		},
 		select: {
 			id: true,
-			name: true,
-			image: true,
-			risk: {
+			Risk: {
 				where: {
 					organizationId: session.session.activeOrganizationId,
 				},
@@ -213,6 +208,14 @@ const userData = cache(async () => {
 					status: true,
 				},
 			},
+			user: {
+				select: {
+					name: true,
+					image: true,
+				},
+			},
 		},
 	});
+
+	return members;
 });

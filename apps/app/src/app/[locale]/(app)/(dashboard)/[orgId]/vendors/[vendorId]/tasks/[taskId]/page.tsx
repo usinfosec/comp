@@ -13,13 +13,12 @@ interface PageProps {
 	params: Promise<{
 		locale: string;
 		orgId: string;
-		vendorId: string;
 		taskId: string;
 	}>;
 }
 
 export default async function TaskPage({ params }: PageProps) {
-	const { locale, orgId, vendorId, taskId } = await params;
+	const { locale, orgId, taskId } = await params;
 	setStaticParamsLocale(locale);
 	const t = await getI18n();
 
@@ -38,10 +37,9 @@ export default async function TaskPage({ params }: PageProps) {
 			organizationId: orgId,
 		},
 		include: {
-			user: {
-				select: {
-					name: true,
-					image: true,
+			assignee: {
+				include: {
+					user: true,
 				},
 			},
 		},
@@ -51,32 +49,25 @@ export default async function TaskPage({ params }: PageProps) {
 		notFound();
 	}
 
-	// Fetch organization users
-	const users = await db.member.findMany({
-		where: {
-			organizationId: orgId,
-		},
-		select: {
-			user: {
-				select: {
-					id: true,
-					name: true,
-					image: true,
-				},
+	const getAssignees = async () => {
+		const assignees = await db.member.findMany({
+			where: {
+				organizationId: orgId,
 			},
-		},
-	});
+			include: {
+				user: true,
+			},
+		});
 
-	const formattedUsers = users.map((member) => ({
-		id: member.user.id,
-		name: member.user.name,
-		image: member.user.image,
-	}));
+		return assignees;
+	};
+
+	const assignees = await getAssignees();
 
 	return (
 		<div className="space-y-8">
-			<Title task={task} />
-			<SecondaryFields task={task} users={formattedUsers} />
+			<Title task={task} assignees={assignees} />
+			<SecondaryFields task={task} assignees={assignees} />
 		</div>
 	);
 }
