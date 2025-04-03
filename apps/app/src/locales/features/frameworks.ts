@@ -55,6 +55,8 @@ export const frameworks = {
 			id: "ID",
 			name: "Name",
 			description: "Description",
+			frameworkId: "Framework",
+			requirementId: "Requirement ID",
 		},
 		search: {
 			id_placeholder: "Search by ID...",

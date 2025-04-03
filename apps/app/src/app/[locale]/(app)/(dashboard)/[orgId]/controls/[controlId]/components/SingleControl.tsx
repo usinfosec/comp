@@ -1,7 +1,11 @@
 "use client";
 
 import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import type { Control } from "@comp/db/types";
+import type {
+	Control,
+	FrameworkInstance,
+	RequirementMap,
+} from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
@@ -15,7 +19,9 @@ import { Separator } from "@comp/ui/separator";
 
 interface SingleControlProps {
 	control: Control & {
-		requirementsMapped: any[];
+		requirementsMapped: (RequirementMap & {
+			frameworkInstance: FrameworkInstance;
+		})[];
 	};
 	controlProgress: ControlProgressResponse;
 	relatedArtifacts: RelatedArtifact[];
