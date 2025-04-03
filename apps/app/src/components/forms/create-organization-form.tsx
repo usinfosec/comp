@@ -3,6 +3,7 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
+import { authClient } from "@comp/auth";
 import { frameworks, type FrameworkId } from "@comp/data";
 import { Button } from "@comp/ui/button";
 import { Checkbox } from "@comp/ui/checkbox";
@@ -19,15 +20,14 @@ import { Icons } from "@comp/ui/icons";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { authClient } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
-import { useRouter } from "next/navigation";
 
 function OnboardingClient() {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
@@ -115,27 +115,6 @@ function OnboardingClient() {
 						className="space-y-6"
 						suppressHydrationWarning
 					>
-						<FormField
-							control={form.control}
-							name="fullName"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.fullName.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t("onboarding.fields.fullName.placeholder")}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-
 						<FormField
 							control={form.control}
 							name="name"
