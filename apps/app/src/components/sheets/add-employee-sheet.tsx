@@ -62,7 +62,7 @@ export function EmployeeInviteSheet() {
 				department,
 			});
 
-			toast.success(t("people.invite.success"));
+			// toast.success(t("people.invite.success"));
 			setOpen(null);
 		} catch (error) {
 			toast.error(t("errors.unexpected"));
