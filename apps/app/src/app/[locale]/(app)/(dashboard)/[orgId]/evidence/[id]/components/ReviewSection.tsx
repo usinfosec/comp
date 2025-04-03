@@ -17,11 +17,11 @@ import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateEvidenceDetails } from "../actions/updateEvidenceDetails";
-import { EvidenceAssigneeSection } from "./EvidenceAssigneeSection";
 import { EvidenceDepartmentSection } from "./EvidenceDepartmentSection";
 import { EvidenceFrequencySection } from "./EvidenceFrequencySection";
 import { EvidenceNextReviewSection } from "./EvidenceNextReviewSection";
 import { EvidenceStatusSection } from "./EvidenceStatusSection";
+import { SelectAssignee } from "../../../components/SelectAssignee";
 
 interface ReviewSectionProps {
 	evidence: Evidence & {
@@ -106,10 +106,10 @@ export function ReviewSection({
 			</CardHeader>
 			<CardContent className="flex flex-col gap-4 pt-2">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-					<EvidenceAssigneeSection
+					<SelectAssignee
+						assignees={assignees}
 						onAssigneeChange={setAssigneeId}
 						assigneeId={assigneeId}
-						assignees={assignees}
 						disabled={isSaving}
 					/>
 

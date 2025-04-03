@@ -34,6 +34,8 @@ export const policies = {
       policy_department_placeholder: "Select a department",
       policy_status: "Policy Status",
       policy_status_placeholder: "Select a policy status",
+      policy_assignee: "Assignee",
+      policy_assignee_placeholder: "Select an assignee",
     },
   },
   new: {
