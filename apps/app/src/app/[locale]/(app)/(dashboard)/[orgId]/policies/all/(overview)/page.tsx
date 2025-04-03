@@ -4,7 +4,7 @@ import { setStaticParamsLocale } from "next-international/server";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { Suspense } from "react";
 import type { SearchParams } from "@/types";
-import { searchParamsCache } from "@/lib/validations";
+import { searchParamsCache } from "./data/validations";
 import { getValidFilters } from "@/lib/data-table";
 import { PoliciesTable } from "./components/policies-table";
 import { getPolicies } from "./data/queries";
