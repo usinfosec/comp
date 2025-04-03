@@ -64,6 +64,11 @@ export function getControlColumns(): ColumnDef<Control & {
         const control = row.original;
         return <div>{control.requirementsMapped.length}</div>;
       },
+      meta: {
+        label: "Mapped Requirements",
+        placeholder: "Search mapped requirements...",
+        variant: "text",
+      },
     },
   ];
 }

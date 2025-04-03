@@ -6,8 +6,6 @@ import { SearchParams } from "nuqs";
 import { getValidFilters } from "@/lib/data-table";
 import { searchParamsCache } from "./data/validations";
 import { getControls } from "./data/queries";
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import { Suspense } from "react";
 import { ControlsTable } from "./components/controls-table";
 
 interface ControlTableProps {
@@ -33,27 +31,8 @@ export default async function ControlsPage({
 	]);
 
 	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls", current: true }]}>
-			<Suspense
-				fallback={
-					<DataTableSkeleton
-						columnCount={3}
-						filterCount={2}
-						cellWidths={[
-							"10rem",
-							"30rem",
-							"10rem",
-							"10rem",
-							"6rem",
-							"6rem",
-							"6rem",
-						]}
-						shrinkZero
-					/>
-				}
-			>
-				<ControlsTable promises={promises} />
-			</Suspense>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
+			<ControlsTable promises={promises} />
 		</PageWithBreadcrumb>
 	);
 }
