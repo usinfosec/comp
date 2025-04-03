@@ -2,77 +2,61 @@
 
 import { useState, useEffect } from "react";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from "@bubba/ui/select";
-import { useAction } from "next-safe-action/hooks";
-import { toast } from "sonner";
 import { Departments } from "@bubba/db/types";
-import { updateEvidenceDepartment } from "../actions/updateEvidenceDepartment";
 
 interface DepartmentSectionProps {
-  evidenceId: string;
-  currentDepartment: string | null;
-  onSuccess: () => Promise<void>;
+	evidenceId: string;
+	currentDepartment: string | null;
+	onDepartmentChange: (value: string | null) => void;
+	department: string | null;
+	disabled?: boolean;
 }
 
 export function DepartmentSection({
-  evidenceId,
-  currentDepartment,
-  onSuccess,
+	currentDepartment,
+	onDepartmentChange,
+	department,
+	disabled = false,
 }: DepartmentSectionProps) {
-  const [department, setDepartment] = useState<string | null>(
-    currentDepartment || null
-  );
+	useEffect(() => {
+		if (department !== currentDepartment) {
+			onDepartmentChange(currentDepartment || null);
+		}
+	}, [currentDepartment, onDepartmentChange, department]);
 
-  const { execute: updateDepartment, isExecuting } = useAction(
-    updateEvidenceDepartment,
-    {
-      onSuccess: async () => {
-        toast.success("Department updated successfully");
-        await onSuccess();
-      },
-      onError: (error) => {
-        console.error("Error updating department:", error);
-        toast.error("Failed to update department");
-      },
-    }
-  );
+	const handleDepartmentChange = (value: string) => {
+		const newDepartment = value === "none" ? null : value;
+		onDepartmentChange(newDepartment);
+	};
 
-  useEffect(() => {
-    setDepartment(currentDepartment || null);
-  }, [currentDepartment]);
+	// Filter out 'none' from the displayed options as we handle it separately
+	const departmentOptions = Object.values(Departments).filter(
+		(dept) => dept !== "none",
+	);
 
-  const handleDepartmentChange = (value: string) => {
-    const newDepartment = value === "none" ? null : value;
-    setDepartment(newDepartment);
-    updateDepartment({ id: evidenceId, department: newDepartment });
-  };
-
-  const departmentOptions = Object.values(Departments).filter(
-    (dept) => dept !== "none"
-  );
-
-  return (
-    <Select
-      value={department || "none"}
-      onValueChange={handleDepartmentChange}
-      disabled={isExecuting}
-    >
-      <SelectTrigger className="w-full h-9 text-sm">
-        <SelectValue placeholder="Select department" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="none">None</SelectItem>
-        {departmentOptions.map((dept) => (
-          <SelectItem key={dept} value={dept}>
-            {dept.replace(/_/g, " ").toUpperCase()}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
+	return (
+		<Select
+			value={department || "none"}
+			onValueChange={handleDepartmentChange}
+			disabled={disabled}
+		>
+			<SelectTrigger className="w-full h-9 text-sm">
+				<SelectValue placeholder="Select department" />
+			</SelectTrigger>
+			<SelectContent>
+				<SelectItem value="none">None</SelectItem>
+				{departmentOptions.map((dept) => (
+					<SelectItem key={dept} value={dept}>
+						{dept.replace(/_/g, " ").toUpperCase()}
+					</SelectItem>
+				))}
+			</SelectContent>
+		</Select>
+	);
 }

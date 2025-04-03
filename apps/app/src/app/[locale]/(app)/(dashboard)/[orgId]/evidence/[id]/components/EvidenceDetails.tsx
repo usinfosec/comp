@@ -8,7 +8,7 @@ import type { EvidenceDetailsProps } from "../types";
 import { ReviewSection } from "./ReviewSection";
 import { EditEvidenceForm } from "./EditEvidenceForm";
 
-export function EvidenceDetails({ id }: EvidenceDetailsProps) {
+export function EvidenceDetails({ id, assignees }: EvidenceDetailsProps) {
 	const { data, isLoading, mutate } = useEvidence({ id });
 
 	if (isLoading) {
@@ -72,6 +72,7 @@ export function EvidenceDetails({ id }: EvidenceDetailsProps) {
 				currentAssigneeId={evidence.assigneeId}
 				onSuccess={handleMutate}
 				id={id}
+				assignees={assignees}
 			/>
 			<EditEvidenceForm />
 		</div>

@@ -1,19 +1,27 @@
 "use client";
 
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import type { Frequency, Evidence } from "@bubba/db/types";
+import type {
+	Frequency,
+	Evidence,
+	Member,
+	User as UserType,
+	Departments,
+} from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { format } from "date-fns";
-import { Building, CalendarClock, RefreshCw, User } from "lucide-react";
+import { Building, CalendarClock, RefreshCw, User, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { publishEvidence } from "../actions/publishEvidence";
 import { toggleRelevance } from "../actions/toggleRelevance";
+import { updateEvidenceDetails } from "../actions/updateEvidenceDetails";
 import { useEvidence } from "../hooks/useEvidence";
 import { AssigneeSection } from "./AssigneeSection";
 import { DepartmentSection } from "./DepartmentSection";
 import { FrequencySection } from "./FrequencySection";
+import { useState, useEffect } from "react";
 
 interface ReviewSectionProps {
 	evidence: Evidence;
@@ -24,20 +32,56 @@ interface ReviewSectionProps {
 	currentAssigneeId: string | null | undefined;
 	onSuccess: () => Promise<void>;
 	id: string;
+	assignees: (Member & {
+		user: UserType;
+	})[];
 }
 
 export function ReviewSection({
 	evidenceId,
 	lastPublishedAt,
-	frequency,
-	department,
+	frequency: initialFrequency,
+	department: initialDepartment,
 	currentAssigneeId,
 	onSuccess,
 	id,
 	evidence,
+	assignees,
 }: ReviewSectionProps) {
 	const { mutate } = useEvidence({ id });
-	const reviewInfo = calculateNextReview(lastPublishedAt, frequency);
+	const reviewInfo = calculateNextReview(lastPublishedAt, initialFrequency);
+
+	// State for tracking form values
+	const [frequency, setFrequency] = useState<Frequency | null>(
+		initialFrequency,
+	);
+	const [department, setDepartment] = useState<Departments | null>(
+		initialDepartment as Departments | null,
+	);
+	const [assigneeId, setAssigneeId] = useState<string | null>(
+		currentAssigneeId || null,
+	);
+	const [hasChanges, setHasChanges] = useState(false);
+	const [isSaving, setIsSaving] = useState(false);
+
+	// Check for changes whenever form values change
+	useEffect(() => {
+		const hasFrequencyChanged = frequency !== initialFrequency;
+		const hasDepartmentChanged =
+			department !== (initialDepartment as Departments | null);
+		const hasAssigneeChanged = assigneeId !== currentAssigneeId;
+
+		setHasChanges(
+			hasFrequencyChanged || hasDepartmentChanged || hasAssigneeChanged,
+		);
+	}, [
+		frequency,
+		department,
+		assigneeId,
+		initialFrequency,
+		initialDepartment,
+		currentAssigneeId,
+	]);
 
 	const { execute: toggleRelevanceAction, isExecuting: isTogglingRelevance } =
 		useAction(toggleRelevance, {
@@ -50,15 +94,44 @@ export function ReviewSection({
 			},
 		});
 
-	const { execute: publishAction, isExecuting } = useAction(publishEvidence, {
-		onSuccess: () => {
-			toast.success("Evidence published successfully");
-			mutate();
+	const { execute: publishAction, isExecuting: isPublishing } = useAction(
+		publishEvidence,
+		{
+			onSuccess: () => {
+				toast.success("Evidence published successfully");
+				mutate();
+			},
+			onError: () => {
+				toast.error("Failed to publish evidence, please try again.");
+			},
+		},
+	);
+
+	const { execute: updateDetailsAction } = useAction(updateEvidenceDetails, {
+		onSuccess: async () => {
+			toast.success("Evidence details updated successfully");
+			setIsSaving(false);
+			await onSuccess();
 		},
 		onError: () => {
-			toast.error("Failed to publish evidence, please try again.");
+			toast.error("Failed to update evidence details");
+			setIsSaving(false);
 		},
 	});
+
+	const handleSaveChanges = () => {
+		setIsSaving(true);
+		updateDetailsAction({
+			id,
+			frequency,
+			department,
+			assigneeId,
+		});
+	};
+
+	const handleDepartmentChange = (value: string | null) => {
+		setDepartment(value as Departments | null);
+	};
 
 	return (
 		<Card className="overflow-hidden">
@@ -100,8 +173,10 @@ export function ReviewSection({
 						</div>
 						<DepartmentSection
 							evidenceId={evidenceId}
-							currentDepartment={department}
-							onSuccess={onSuccess}
+							currentDepartment={initialDepartment}
+							onDepartmentChange={handleDepartmentChange}
+							department={department as string | null}
+							disabled={isSaving}
 						/>
 					</div>
 
@@ -113,9 +188,9 @@ export function ReviewSection({
 							</h3>
 						</div>
 						<FrequencySection
-							evidenceId={evidenceId}
-							currentFrequency={frequency}
-							onSuccess={onSuccess}
+							onFrequencyChange={setFrequency}
+							frequency={frequency}
+							disabled={isSaving}
 						/>
 					</div>
 
@@ -147,20 +222,37 @@ export function ReviewSection({
 						<AssigneeSection
 							evidenceId={evidenceId}
 							currentAssigneeId={currentAssigneeId}
-							onSuccess={onSuccess}
+							onAssigneeChange={setAssigneeId}
+							assigneeId={assigneeId}
+							assignees={assignees}
+							disabled={isSaving}
 						/>
 					</div>
 				</div>
-				{!evidence.published && (
+
+				<div className="flex flex-col xs:flex-row gap-2 justify-end mt-2">
 					<Button
 						size="sm"
-						className="w-full md:w-fit self-center sm:self-end mt-2"
-						onClick={() => publishAction({ id })}
-						disabled={isExecuting}
+						onClick={handleSaveChanges}
+						disabled={isSaving || !hasChanges}
+						className="w-full xs:w-auto order-1 xs:order-none"
 					>
-						{isExecuting ? "Publishing..." : "Publish"}
+						<Save className="h-4 w-4 mr-2" />
+						Save Changes
 					</Button>
-				)}
+
+					{!evidence.published && (
+						<Button
+							size="sm"
+							variant="outline"
+							className="w-full xs:w-auto"
+							onClick={() => publishAction({ id })}
+							disabled={isPublishing || isSaving}
+						>
+							{isPublishing ? "Publishing..." : "Publish"}
+						</Button>
+					)}
+				</div>
 			</CardContent>
 		</Card>
 	);
