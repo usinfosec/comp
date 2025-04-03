@@ -48,14 +48,6 @@ export function InherentRiskVendorChart({ vendor }: InherentRiskChartProps) {
 	const t = useI18n();
 	const [open, setOpen] = useQueryState("inherent-risk-sheet");
 
-	// Debug information
-	console.log("VENDOR DATA:", {
-		inherentProbability: vendor.inherentProbability,
-		inherentImpact: vendor.inherentImpact,
-		probabilityScore: LIKELIHOOD_SCORES[vendor.inherentProbability],
-		impactScore: IMPACT_SCORES[vendor.inherentImpact],
-	});
-
 	// Calculate risk score from probability and impact
 	const riskScore =
 		LIKELIHOOD_SCORES[vendor.inherentProbability] *
@@ -66,9 +58,6 @@ export function InherentRiskVendorChart({ vendor }: InherentRiskChartProps) {
 	if (riskScore > 16) riskLevel = "critical";
 	else if (riskScore > 9) riskLevel = "high";
 	else if (riskScore > 4) riskLevel = "medium";
-
-	// Get color based on risk level
-	const riskColor = RISK_COLORS[riskLevel as keyof typeof RISK_COLORS];
 
 	// Define the visual order for rows and columns
 	const VISUAL_LIKELIHOOD_ORDER: Likelihood[] = [

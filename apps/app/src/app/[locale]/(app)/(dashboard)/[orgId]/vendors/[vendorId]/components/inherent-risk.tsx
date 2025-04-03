@@ -21,29 +21,19 @@ export function InherentRiskSheet({
 	vendorId,
 	initialProbability,
 	initialImpact,
-	onSuccess,
 }: {
 	vendorId: string;
 	initialProbability?: Likelihood;
 	initialImpact?: Impact;
-	onSuccess?: () => void;
 }) {
 	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
-	const [open, setOpen] = useQueryState("inherent-risk-sheet");
-	const isOpen = open === "true";
-
-	const handleClose = () => setOpen(null);
-
-	const handleFormSuccess = () => {
-		setOpen(null);
-		if (onSuccess) onSuccess();
-	};
+	const [isOpen, setOpen] = useQueryState("inherent-risk-sheet");
 
 	if (isDesktop) {
 		return (
 			<Sheet
-				open={isOpen}
+				open={isOpen === "true"}
 				onOpenChange={(value) => setOpen(value ? "true" : null)}
 			>
 				<SheetContent stack>
@@ -54,7 +44,7 @@ export function InherentRiskSheet({
 								size="icon"
 								variant="ghost"
 								className="p-0 m-0 size-auto hover:bg-transparent"
-								onClick={handleClose}
+								onClick={() => setOpen(null)}
 							>
 								<X className="h-5 w-5" />
 							</Button>
@@ -69,7 +59,6 @@ export function InherentRiskSheet({
 							vendorId={vendorId}
 							initialProbability={initialProbability}
 							initialImpact={initialImpact}
-							onSuccess={handleFormSuccess}
 						/>
 					</ScrollArea>
 				</SheetContent>
@@ -79,7 +68,7 @@ export function InherentRiskSheet({
 
 	return (
 		<Drawer
-			open={isOpen}
+			open={isOpen === "true"}
 			onOpenChange={(value) => setOpen(value ? "true" : null)}
 		>
 			<DrawerTitle hidden>
@@ -90,7 +79,6 @@ export function InherentRiskSheet({
 					vendorId={vendorId}
 					initialProbability={initialProbability}
 					initialImpact={initialImpact}
-					onSuccess={handleFormSuccess}
 				/>
 			</DrawerContent>
 		</Drawer>

@@ -46,7 +46,7 @@ const RISK_COLORS = {
 
 export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState("residual-risk-sheet");
+	const [, setOpen] = useQueryState("residual-risk-sheet");
 
 	// Calculate risk score from probability and impact
 	const riskScore =
@@ -58,9 +58,6 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 	if (riskScore > 16) riskLevel = "critical";
 	else if (riskScore > 9) riskLevel = "high";
 	else if (riskScore > 4) riskLevel = "medium";
-
-	// Get color based on risk level
-	const riskColor = RISK_COLORS[riskLevel as keyof typeof RISK_COLORS];
 
 	// Define the visual order for rows and columns
 	const VISUAL_LIKELIHOOD_ORDER: Likelihood[] = [
