@@ -1,72 +1,54 @@
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { getValidFilters } from "@/lib/data-table";
 import { getI18n } from "@/locales/server";
+import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import { Suspense } from "react";
-import type { SearchParams } from "@/types";
-import { searchParamsCache } from "./data/validations";
-import { getValidFilters } from "@/lib/data-table";
 import { PoliciesTable } from "./components/policies-table";
 import { getPolicies } from "./data/queries";
+import { searchParamsCache } from "./data/validations";
 
 interface PolicyTableProps {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<SearchParams>;
+	params: Promise<{ locale: string }>;
+	searchParams: Promise<SearchParams>;
 }
 
 export default async function PoliciesPage({
-  params,
-  ...props
+	params,
+	...props
 }: PolicyTableProps) {
-  const { locale } = await params;
-  const searchParams = await props.searchParams;
-  const search = searchParamsCache.parse(searchParams);
-  const validFilters = getValidFilters(search.filters);
+	const { locale } = await params;
+	const searchParams = await props.searchParams;
+	const search = searchParamsCache.parse(searchParams);
+	const validFilters = getValidFilters(search.filters);
 
-  setStaticParamsLocale(locale);
+	setStaticParamsLocale(locale);
 
-  const promises = Promise.all([
-    getPolicies({
-      ...search,
-      filters: validFilters,
-    }),
-  ]);
+	const promises = Promise.all([
+		getPolicies({
+			...search,
+			filters: validFilters,
+		}),
+	]);
 
-  return (
-    <Suspense
-      fallback={
-        <DataTableSkeleton
-          columnCount={7}
-          filterCount={2}
-          cellWidths={[
-            "10rem",
-            "30rem",
-            "10rem",
-            "10rem",
-            "6rem",
-            "6rem",
-            "6rem",
-          ]}
-          shrinkZero
-        />
-      }
-    >
-      <PoliciesTable promises={promises} />
-    </Suspense>
-  );
+	return (
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Policies" }]}>
+			<PoliciesTable promises={promises} />
+		</PageWithBreadcrumb>
+	);
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+	const { locale } = await params;
 
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.policies"),
-  };
+	return {
+		title: t("sidebar.policies"),
+	};
 }

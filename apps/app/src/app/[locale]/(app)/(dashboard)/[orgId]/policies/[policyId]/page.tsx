@@ -6,6 +6,7 @@ import { auth } from "@comp/auth";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 export default async function PolicyDetails({
 	params,
@@ -18,9 +19,11 @@ export default async function PolicyDetails({
 	const assignees = await getAssignees();
 
 	return (
-		<div className="flex flex-col gap-4">
+		<PageWithBreadcrumb
+			breadcrumbs={[{ label: "Policies" }, { label: policy?.name ?? "Policy" }]}
+		>
 			<PolicyOverview policy={policy ?? null} assignees={assignees} />
-		</div>
+		</PageWithBreadcrumb>
 	);
 }
 
