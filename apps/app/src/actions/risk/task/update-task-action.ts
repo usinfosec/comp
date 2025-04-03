@@ -18,7 +18,7 @@ export const updateTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, dueDate, status, ownerId, title, description } = parsedInput;
+		const { id, dueDate, status, assigneeId, title, description } = parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {
@@ -44,7 +44,7 @@ export const updateTaskAction = authActionClient
 				data: {
 					dueDate: dueDate,
 					status: status as TaskStatus,
-					userId: ownerId,
+					assigneeId: assigneeId,
 					title: title,
 					description: description,
 				},

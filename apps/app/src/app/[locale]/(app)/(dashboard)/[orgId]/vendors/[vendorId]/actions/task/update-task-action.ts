@@ -18,11 +18,15 @@ export const updateVendorTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, title, description, dueDate, status, userId } = parsedInput;
+		const { id, title, description, dueDate, status, assigneeId } = parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {
 			throw new Error("Invalid user input");
+		}
+
+		if (!assigneeId) {
+			throw new Error("Assignee ID is required");
 		}
 
 		try {
@@ -49,7 +53,7 @@ export const updateVendorTaskAction = authActionClient
 					description,
 					dueDate,
 					status: status as TaskStatus,
-					userId,
+					assigneeId,
 				},
 			});
 

@@ -1,5 +1,5 @@
 import { db } from "@comp/db";
-import { Departments } from "@comp/db/types";
+import { Departments, Role } from "@comp/db/types";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { z } from "zod";
@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
 				data: {
 					userId: user.id,
 					organizationId: organizationId!,
-					role: validatedData.role || "member",
+					role: validatedData.role as Role,
 					department: validatedData.department,
 					isActive: validatedData.isActive ?? true,
 					createdAt: new Date(),

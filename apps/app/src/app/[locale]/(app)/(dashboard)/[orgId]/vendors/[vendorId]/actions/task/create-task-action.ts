@@ -17,7 +17,7 @@ export const createVendorTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { vendorId, title, description, dueDate, ownerId } = parsedInput;
+		const { vendorId, title, description, dueDate, assigneeId } = parsedInput;
 		const {
 			session: { activeOrganizationId },
 			user,
@@ -27,13 +27,17 @@ export const createVendorTaskAction = authActionClient
 			throw new Error("Invalid user input");
 		}
 
+		if (!assigneeId) {
+			throw new Error("Assignee ID is required");
+		}
+
 		try {
 			await db.task.create({
 				data: {
 					title,
 					description,
 					dueDate,
-					userId: user.id,
+					assigneeId,
 					organizationId: activeOrganizationId,
 					relatedId: vendorId,
 					relatedType: "vendor",

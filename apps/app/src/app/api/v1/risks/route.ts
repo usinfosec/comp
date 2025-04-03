@@ -157,12 +157,15 @@ export async function GET(request: NextRequest) {
 				residualImpact: true,
 				createdAt: true,
 				updatedAt: true,
-				ownerId: true,
-				owner: {
+				assigneeId: true,
+				assignee: {
 					select: {
 						id: true,
-						name: true,
-						email: true,
+						user: {
+							select: {
+								name: true,
+							},
+						},
 					},
 				},
 			},

@@ -96,11 +96,15 @@ export const completeInvitation = authActionClient
 					};
 				}
 
+				if (!invitation.role) {
+					throw new Error("Invitation role is required");
+				}
+
 				await db.member.create({
 					data: {
 						userId: user.id,
 						organizationId: invitation.organizationId,
-						role: invitation.role || "member",
+						role: invitation.role,
 						department: "none",
 					},
 				});

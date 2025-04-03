@@ -17,7 +17,7 @@ export const updateVendorAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, name, description, category, ownerId, status } = parsedInput;
+		const { id, name, description, category, status } = parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {
@@ -33,7 +33,6 @@ export const updateVendorAction = authActionClient
 				data: {
 					name,
 					description,
-					ownerId,
 					category,
 					status,
 				},

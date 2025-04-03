@@ -41,10 +41,13 @@
         "GROQ_API_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build", "^db:generate", "clean-react"],
+      "dependsOn": ["^build", "^db:generate", "^auth:build","clean-react"],
       "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
     },
     "db:generate": {
+      "cache": false
+    },
+    "auth:build": {
       "cache": false
     },
     "db:push": {
