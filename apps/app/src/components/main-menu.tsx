@@ -139,19 +139,19 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "evidence",
-			path: "/:organizationId/evidence",
-			name: t("sidebar.evidence"),
-			disabled: false,
-			icon: ListCheck,
-			protected: false,
-		},
-		{
 			id: "policies",
 			path: "/:organizationId/policies",
 			name: t("sidebar.policies"),
 			disabled: false,
 			icon: NotebookText,
+			protected: false,
+		},
+		{
+			id: "evidence",
+			path: "/:organizationId/evidence",
+			name: t("sidebar.evidence"),
+			disabled: false,
+			icon: ListCheck,
 			protected: false,
 		},
 		{

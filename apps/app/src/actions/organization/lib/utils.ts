@@ -5,7 +5,7 @@ import type {
 } from "@bubba/data";
 import { controls, evidence, frameworks, policies } from "@bubba/data";
 import { db } from "@bubba/db";
-import { FrameworkId, type PolicyStatus } from "@prisma/client";
+import { FrameworkId, type PolicyStatus, RequirementId } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 /**
@@ -127,8 +127,9 @@ export async function createFrameworkInstance(
 	);
 
 	// Create database records for each control
+	const createdControls = [];
 	for (const control of frameworkControls) {
-		await db.control.create({
+		const createdControl = await db.control.create({
 			data: {
 				organizationId,
 				name: control.name,
@@ -141,13 +142,99 @@ export async function createFrameworkInstance(
 			},
 		});
 
+		createdControls.push(createdControl);
+
 		console.info("Created control", {
 			controlName: control.name,
 			frameworkId,
 		});
 	}
 
+	// Create requirement maps for the controls
+	await createRequirementMaps(
+		{ id: frameworkInstance.id, frameworkId },
+		createdControls,
+		frameworkControls,
+	);
+
 	return frameworkInstance;
+}
+
+/**
+ * Creates requirement map entries linking controls to their requirements.
+ *
+ * This function:
+ * 1. Takes a framework instance and its controls
+ * 2. Creates RequirementMap entries linking controls to their requirements
+ * 3. Ensures proper tracking of compliance requirements
+ *
+ * RequirementMaps represent which specific requirements (e.g., SOC2 CC1.1)
+ * are satisfied by each control in the organization's compliance program.
+ *
+ * @param frameworkInstance - The framework instance record
+ * @param controls - Array of created control records
+ * @param templateControls - Array of control templates with requirement mappings
+ * @returns The number of requirement maps created
+ */
+export async function createRequirementMaps(
+	frameworkInstance: { id: string; frameworkId: FrameworkId },
+	controls: { id: string; name: string }[],
+	templateControls: TemplateControl[],
+) {
+	console.info("Creating requirement maps", {
+		frameworkInstanceId: frameworkInstance.id,
+		controlCount: controls.length,
+	});
+
+	let requirementMapsCreated = 0;
+
+	// Create a map for efficient control lookup
+	const controlMap = new Map(
+		controls.map((control) => [control.name, control]),
+	);
+
+	// For each template control
+	for (const templateControl of templateControls) {
+		// Find the corresponding created control
+		const control = controlMap.get(templateControl.name);
+		if (!control) {
+			console.warn(`Control not found for template: ${templateControl.name}`);
+			continue;
+		}
+
+		// Get requirements for this framework
+		const frameworkRequirements = templateControl.mappedRequirements.filter(
+			(req) => req.frameworkId === frameworkInstance.frameworkId,
+		);
+
+		// Create requirement maps
+		for (const requirement of frameworkRequirements) {
+			try {
+				await db.requirementMap.create({
+					data: {
+						controlId: control.id,
+						frameworkInstanceId: frameworkInstance.id,
+						requirementId:
+							`${frameworkInstance.frameworkId}_${requirement.requirementId}` as RequirementId,
+					},
+				});
+
+				requirementMapsCreated++;
+			} catch (error) {
+				console.error(
+					`Error creating requirement map for control ${control.name}`,
+					{
+						error,
+						requirementId: requirement.requirementId,
+					},
+				);
+			}
+		}
+	}
+
+	console.info(`Created ${requirementMapsCreated} requirement maps`);
+
+	return requirementMapsCreated;
 }
 
 /**
@@ -318,7 +405,7 @@ export async function createOrganizationEvidence(
 				templateId: evidenceId,
 			});
 		} catch (error) {
-			console.error(`Error creating evidence ${evidenceId}`, { error });
+			console.error(`Error creating evidence record ${evidenceId}`, { error });
 		}
 	}
 
