@@ -13,12 +13,14 @@ import {
 	TableRow,
 } from "@comp/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
+import { DataTableSortList } from "./data-table-sort-list";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	table: TanstackTable<TData>;
 	actionBar?: React.ReactNode;
 	getRowId?: (row: TData) => string;
 	rowClickBasePath: string;
+	tableId?: string;
 }
 
 export function DataTable<TData>({
@@ -28,6 +30,7 @@ export function DataTable<TData>({
 	className,
 	getRowId,
 	rowClickBasePath,
+	tableId,
 	...props
 }: DataTableProps<TData>) {
 	const router = useRouter();
@@ -116,7 +119,7 @@ export function DataTable<TData>({
 				</Table>
 			</div>
 			<div className="flex flex-col gap-2.5">
-				<DataTablePagination table={table} />
+				<DataTablePagination table={table} tableId={tableId} />
 				{actionBar &&
 					table.getFilteredSelectedRowModel().rows.length > 0 &&
 					actionBar}

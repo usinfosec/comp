@@ -1,16 +1,17 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import { useI18n } from "@/locales/client";
 import { DataTable } from "@/components/data-table/data-table";
-import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
-import { Input } from "@comp/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { useDataTable } from "@/hooks/use-data-table";
+import { useI18n } from "@/locales/client";
 import type { FrameworkId, RequirementMap } from "@comp/db/types";
+import { Input } from "@comp/ui/input";
+import { ColumnDef } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
 import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
+import { Card, CardTitle, CardHeader } from "@comp/ui/card";
+import { CardContent } from "@comp/ui/card";
 
 interface RequirementsTableProps {
 	requirements: RequirementMap[];
@@ -39,6 +40,12 @@ export function RequirementsTable({
 					const requirementId = row.original.requirementId.split("_").pop();
 					return <span className="font-mono text-xs">{requirementId}</span>;
 				},
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					const a = rowA.original.requirementId.split("_").pop() || "";
+					const b = rowB.original.requirementId.split("_").pop() || "";
+					return a.localeCompare(b);
+				},
 			},
 			{
 				accessorKey: "name",
@@ -56,6 +63,27 @@ export function RequirementsTable({
 						requirementId,
 					);
 					return <span>{details?.name}</span>;
+				},
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					const [frameworkIdA, requirementIdA] =
+						rowA.original.requirementId.split("_");
+					const [frameworkIdB, requirementIdB] =
+						rowB.original.requirementId.split("_");
+
+					const detailsA = getRequirementDetails(
+						frameworkIdA as FrameworkId,
+						requirementIdA,
+					);
+					const detailsB = getRequirementDetails(
+						frameworkIdB as FrameworkId,
+						requirementIdB,
+					);
+
+					const nameA = detailsA?.name || "";
+					const nameB = detailsB?.name || "";
+
+					return nameA.localeCompare(nameB);
 				},
 			},
 			{
@@ -78,6 +106,27 @@ export function RequirementsTable({
 							{details?.description}
 						</span>
 					);
+				},
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					const [frameworkIdA, requirementIdA] =
+						rowA.original.requirementId.split("_");
+					const [frameworkIdB, requirementIdB] =
+						rowB.original.requirementId.split("_");
+
+					const detailsA = getRequirementDetails(
+						frameworkIdA as FrameworkId,
+						requirementIdA,
+					);
+					const detailsB = getRequirementDetails(
+						frameworkIdB as FrameworkId,
+						requirementIdB,
+					);
+
+					const descA = detailsA?.description || "";
+					const descB = detailsB?.description || "";
+
+					return descA.localeCompare(descB);
 				},
 			},
 		],
@@ -117,34 +166,40 @@ export function RequirementsTable({
 		initialState: {
 			sorting: [{ id: "requirementId", desc: false }],
 		},
+		tableId: "r",
 	});
 
 	return (
-		<>
-			<h2 className="text-lg font-semibold mb-4">
-				{t("frameworks.requirements.title")} ({filteredRequirements.length})
-			</h2>
-			<div className="flex items-center mb-4">
-				<Input
-					placeholder={t(
-						"frameworks.requirements.search.universal_placeholder",
-					)}
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					className="max-w-sm"
-				/>
-				<div className="ml-auto">
-					<DataTableSortList table={table.table} align="end" />
+		<Card>
+			<CardHeader>
+				<CardTitle>
+					{t("frameworks.requirements.title")} ({filteredRequirements.length})
+				</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<div className="flex items-center mb-4">
+					<Input
+						placeholder={t(
+							"frameworks.requirements.search.universal_placeholder",
+						)}
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className="max-w-sm"
+					/>
+					<div className="ml-auto">
+						<DataTableSortList table={table.table} align="end" tableId="r" />
+					</div>
 				</div>
-			</div>
-			<DataTable
-				table={table.table}
-				rowClickBasePath={`/${orgId}/frameworks`}
-				getRowId={(row) => {
-					const [_, requirementId] = row.requirementId.split("_");
-					return `${row.frameworkInstanceId}/requirements/${requirementId}`;
-				}}
-			/>
-		</>
+				<DataTable
+					table={table.table}
+					rowClickBasePath={`/${orgId}/frameworks`}
+					getRowId={(row) => {
+						const [_, requirementId] = row.requirementId.split("_");
+						return `${row.frameworkInstanceId}/requirements/${requirementId}`;
+					}}
+					tableId={"r"}
+				/>
+			</CardContent>
+		</Card>
 	);
 }

@@ -17,7 +17,8 @@ interface ControlPageProps {
 }
 
 export default async function ControlPage({ params }: ControlPageProps) {
-	const { controlId } = params;
+	// Await params before using them
+	const { controlId, orgId, locale } = await Promise.resolve(params);
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -48,14 +49,14 @@ export default async function ControlPage({ params }: ControlPageProps) {
 	};
 
 	const relatedArtifacts = await getRelatedArtifacts({
-		organizationId: params.orgId,
-		controlId: params.controlId,
+		organizationId: orgId,
+		controlId: controlId,
 	});
 
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
-				{ label: "Controls", href: `/${params.orgId}/controls` },
+				{ label: "Controls", href: `/${orgId}/controls` },
 				{ label: control.name, current: true },
 			]}
 		>

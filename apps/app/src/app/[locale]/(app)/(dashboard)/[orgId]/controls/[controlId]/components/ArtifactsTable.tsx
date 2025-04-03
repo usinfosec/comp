@@ -1,15 +1,15 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import { useI18n } from "@/locales/client";
 import { DataTable } from "@/components/data-table/data-table";
-import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { useDataTable } from "@/hooks/use-data-table";
+import { useI18n } from "@/locales/client";
 import { Input } from "@comp/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
 import type { RelatedArtifact } from "../data/getRelatedArtifacts";
+import { Card, CardTitle, CardHeader, CardContent } from "@comp/ui/card";
 
 interface ArtifactsTableProps {
 	artifacts: RelatedArtifact[];
@@ -37,6 +37,10 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => <span>{row.original.name}</span>,
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					return rowA.original.name.localeCompare(rowB.original.name);
+				},
 			},
 			{
 				accessorKey: "type",
@@ -49,6 +53,10 @@ export function ArtifactsTable({
 				cell: ({ row }) => (
 					<span className="capitalize">{row.original.type}</span>
 				),
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					return rowA.original.type.localeCompare(rowB.original.type);
+				},
 			},
 			{
 				accessorKey: "createdAt",
@@ -61,6 +69,12 @@ export function ArtifactsTable({
 				cell: ({ row }) => (
 					<span>{new Date(row.original.createdAt).toLocaleDateString()}</span>
 				),
+				enableSorting: true,
+				sortingFn: (rowA, rowB, columnId) => {
+					const dateA = new Date(rowA.original.createdAt);
+					const dateB = new Date(rowB.original.createdAt);
+					return dateA.getTime() - dateB.getTime();
+				},
 			},
 		],
 		[t],
@@ -89,29 +103,35 @@ export function ArtifactsTable({
 		initialState: {
 			sorting: [{ id: "createdAt", desc: true }],
 		},
+		tableId: "a",
 	});
 
 	return (
-		<>
-			<h2 className="text-lg font-semibold mb-4">
-				{t("frameworks.artifacts.title")} ({filteredArtifacts.length})
-			</h2>
-			<div className="flex items-center mb-4">
-				<Input
-					placeholder={t("frameworks.artifacts.search.universal_placeholder")}
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					className="max-w-sm"
-				/>
-				<div className="ml-auto">
-					<DataTableSortList table={table.table} align="end" />
+		<Card>
+			<CardHeader>
+				<CardTitle>
+					{t("frameworks.artifacts.title")} ({filteredArtifacts.length})
+				</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<div className="flex items-center mb-4">
+					<Input
+						placeholder={t("frameworks.artifacts.search.universal_placeholder")}
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className="max-w-sm"
+					/>
+					<div className="ml-auto">
+						<DataTableSortList table={table.table} align="end" tableId="a" />
+					</div>
 				</div>
-			</div>
-			<DataTable
-				table={table.table}
-				rowClickBasePath={`/${orgId}/controls/${controlId}/artifacts`}
-				getRowId={(row) => row.id}
-			/>
-		</>
+				<DataTable
+					table={table.table}
+					rowClickBasePath={`/${orgId}/controls/${controlId}/artifacts`}
+					getRowId={(row) => row.id}
+					tableId={"a"}
+				/>
+			</CardContent>
+		</Card>
 	);
 }
