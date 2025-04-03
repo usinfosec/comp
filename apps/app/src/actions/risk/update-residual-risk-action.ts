@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { updateResidualRiskSchema } from "../schema";

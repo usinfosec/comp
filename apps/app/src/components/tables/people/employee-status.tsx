@@ -1,5 +1,5 @@
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 
 // Define employee status types
 export const EMPLOYEE_STATUS_TYPES = ["active", "inactive"] as const;

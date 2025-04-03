@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useToast } from "@bubba/ui/use-toast";
+import { useToast } from "@comp/ui/use-toast";
 import { uploadFile } from "@/actions/files/upload-file";
 import axios, { type AxiosProgressEvent } from "axios";
 import type { UPLOAD_TYPE } from "@/actions/types";

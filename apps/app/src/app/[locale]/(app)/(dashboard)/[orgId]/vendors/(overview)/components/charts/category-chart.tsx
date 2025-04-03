@@ -2,7 +2,7 @@
 
 import React, { type CSSProperties } from "react";
 import { scaleBand, scaleLinear, max, format } from "d3";
-import { ClientTooltip } from "@bubba/ui/chart-tooltip";
+import { ClientTooltip } from "@comp/ui/chart-tooltip";
 
 interface CategoryData {
 	name: string;

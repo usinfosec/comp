@@ -7,15 +7,15 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
+} from "@comp/ui/table";
 import {
 	useReactTable,
 	getCoreRowModel,
 	flexRender,
 } from "@tanstack/react-table";
 import { RequirementControlsTableColumns } from "./RequirementControlsTableColumns";
-import type { Control } from "@bubba/db/types";
-import type { Artifact, Evidence, Policy } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
+import type { Artifact, Evidence, Policy } from "@comp/db/types";
 
 interface RequirementControlsTableProps {
 	controls: (Control & {

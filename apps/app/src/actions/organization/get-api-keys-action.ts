@@ -1,8 +1,8 @@
 "use server";
 
 import type { ActionResponse } from "@/actions/types";
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
 
 export const getApiKeysAction = async (): Promise<

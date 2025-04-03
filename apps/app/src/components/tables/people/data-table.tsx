@@ -8,15 +8,15 @@ import {
 } from "@tanstack/react-table";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { useParams, useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { Badge } from "@bubba/ui/badge";
+import { Badge } from "@comp/ui/badge";
 import { Status, type StatusType } from "@/components/status";
 import {
 	DropdownMenu,
@@ -25,7 +25,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,

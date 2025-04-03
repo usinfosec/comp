@@ -1,10 +1,10 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { FrameworkInstance } from "@bubba/db/types";
-import { Card, CardContent } from "@bubba/ui/card";
-import { cn } from "@bubba/ui/cn";
-import { Progress } from "@bubba/ui/progress";
+import type { FrameworkInstance } from "@comp/db/types";
+import { Card, CardContent } from "@comp/ui/card";
+import { cn } from "@comp/ui/cn";
+import { Progress } from "@comp/ui/progress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getFrameworkDetails } from "../lib/getFrameworkDetails";

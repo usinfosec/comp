@@ -1,4 +1,4 @@
-import type { Departments, Frequency } from "@bubba/db/types";
+import type { Departments, Frequency } from "@comp/db/types";
 
 /**
  * Represents the structure of JSON content used in policy documents.

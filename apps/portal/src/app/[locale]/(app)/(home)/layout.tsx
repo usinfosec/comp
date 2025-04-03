@@ -1,18 +1,18 @@
 import { getI18n } from "@/app/locales/server";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 
 export default async function Layout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const t = await getI18n();
+	const t = await getI18n();
 
-  return (
-    <div className="max-w-[1200px]">
-      <SecondaryMenu items={[{ path: "/", label: t("sidebar.dashboard") }]} />
+	return (
+		<div className="max-w-[1200px]">
+			<SecondaryMenu items={[{ path: "/", label: t("sidebar.dashboard") }]} />
 
-      <main className="mt-8">{children}</main>
-    </div>
-  );
+			<main className="mt-8">{children}</main>
+		</div>
+	);
 }

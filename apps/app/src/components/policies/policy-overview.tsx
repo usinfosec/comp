@@ -1,11 +1,11 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Member, Policy, User } from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Icons } from "@bubba/ui/icons";
+import type { Member, Policy, User } from "@comp/db/types";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Icons } from "@comp/ui/icons";
 import { format } from "date-fns";
 import { ArchiveIcon, ArchiveRestoreIcon, PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";

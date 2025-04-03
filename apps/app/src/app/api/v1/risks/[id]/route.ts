@@ -1,4 +1,4 @@
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { NextResponse, type NextRequest } from "next/server";
 import { getOrganizationFromApiKey } from "@/lib/api-key";
 import type {
@@ -8,7 +8,7 @@ import type {
 	Departments,
 	Likelihood,
 	Impact,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 
 // Configure this route to use Node.js runtime instead of Edge
 export const runtime = "nodejs";

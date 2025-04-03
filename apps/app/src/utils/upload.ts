@@ -1,1 +1,1 @@
-import { stripSpecialCharacters } from "@bubba/utils";
+import { stripSpecialCharacters } from "@comp/utils";

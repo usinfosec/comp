@@ -1,13 +1,12 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@bubba/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@comp/ui/avatar";
 import {
 	Select,
 	SelectTrigger,
 	SelectContent,
 	SelectItem,
-	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { UserIcon } from "lucide-react";
-import { Member, User } from "@bubba/db/types";
+import { Member, User } from "@comp/db/types";
 import { useState, useEffect } from "react";
 
 interface SelectAssigneeProps {

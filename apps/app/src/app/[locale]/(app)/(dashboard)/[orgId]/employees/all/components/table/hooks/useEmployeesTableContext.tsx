@@ -1,6 +1,6 @@
 "use client";
 
-import { Member } from "@bubba/db/types";
+import { Member } from "@comp/db/types";
 import { useQueryState } from "nuqs";
 import {
 	createContext,

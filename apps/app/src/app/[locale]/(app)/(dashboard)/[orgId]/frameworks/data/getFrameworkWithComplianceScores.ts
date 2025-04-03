@@ -1,6 +1,6 @@
 "use server";
 
-import type { Artifact, Evidence, Policy } from "@bubba/db/types";
+import type { Artifact, Evidence, Policy } from "@comp/db/types";
 import { FrameworkInstanceWithControls } from "../types";
 import { FrameworkInstanceWithComplianceScore } from "../components/types";
 

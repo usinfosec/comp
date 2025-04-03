@@ -7,8 +7,8 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
+} from "@comp/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { assignTest } from "../actions/assignTest";

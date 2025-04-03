@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FileX, FileCheck, Clock, CheckCircle } from "lucide-react";
 import { useEvidenceTasksStats } from "../../hooks/useEvidenceTasksStats";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 
 export function EvidenceSummaryCards() {
 	const { stats, isLoading, error } = useEvidenceTasksStats();

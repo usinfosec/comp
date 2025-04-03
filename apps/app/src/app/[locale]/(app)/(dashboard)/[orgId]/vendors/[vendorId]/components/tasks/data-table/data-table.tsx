@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@bubba/db/types";
+import { Task } from "@comp/db/types";
 import {
 	Table,
 	TableBody,
@@ -8,7 +8,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
+} from "@comp/ui/table";
 import {
 	flexRender,
 	getCoreRowModel,

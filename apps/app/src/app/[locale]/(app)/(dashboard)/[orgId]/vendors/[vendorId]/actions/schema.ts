@@ -1,4 +1,4 @@
-import { VendorStatus, VendorCategory, TaskStatus } from "@bubba/db/types";
+import { VendorStatus, VendorCategory, TaskStatus } from "@comp/db/types";
 import { z } from "zod";
 
 export const createVendorTaskCommentSchema = z.object({

@@ -1,5 +1,5 @@
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 
 export const STATUS_TYPES = [
 	"completed",

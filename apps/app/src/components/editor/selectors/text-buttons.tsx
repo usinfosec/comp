@@ -1,5 +1,5 @@
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	BoldIcon,
 	CodeIcon,

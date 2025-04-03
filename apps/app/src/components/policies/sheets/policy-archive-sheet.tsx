@@ -2,17 +2,17 @@
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
 import { useI18n } from "@/locales/client";
-import type { Policy } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
-import { useMediaQuery } from "@bubba/ui/hooks";
+import type { TemplatePolicy } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
+import { useMediaQuery } from "@comp/ui/hooks";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@bubba/ui/sheet";
+} from "@comp/ui/sheet";
 import { ArchiveIcon, ArchiveRestoreIcon, X } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";

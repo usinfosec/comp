@@ -6,12 +6,12 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
 import { useParams, useRouter } from "next/navigation";
-import type { Evidence, Policy } from "@bubba/db/types";
-import { Requirement } from "@bubba/data";
+import type { Evidence, Policy } from "@comp/db/types";
+import { Requirement } from "@comp/data";
 
 // Define the type that matches what we receive from the hook
 export type RequirementTableData = Requirement & {

@@ -2,8 +2,8 @@
 
 import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
 import { Plus, Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";

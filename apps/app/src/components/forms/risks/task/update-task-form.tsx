@@ -5,9 +5,9 @@ import { updateTaskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { STATUS_TYPES, Status, type StatusType } from "@/components/status";
 import { useI18n } from "@/locales/client";
-import { type Task, TaskStatus, type User } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Calendar } from "@bubba/ui/calendar";
+import { type Task, TaskStatus, type User } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
 import {
 	Form,
 	FormControl,
@@ -15,15 +15,15 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
+} from "@comp/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";

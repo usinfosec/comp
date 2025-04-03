@@ -1,5 +1,5 @@
 import { useI18n } from "@/locales/client";
-import { cn } from "@bubba/ui/cn";
+import { cn } from "@comp/ui/cn";
 
 export const STATUS_TYPES = [
 	"draft",
@@ -22,7 +22,10 @@ const STATUS_COLORS: Record<StatusType, string> = {
 } as const;
 
 // Map status types to translation keys
-const getStatusTranslation = (status: StatusType, t: ReturnType<typeof useI18n>) => {
+const getStatusTranslation = (
+	status: StatusType,
+	t: ReturnType<typeof useI18n>,
+) => {
 	switch (status) {
 		case "draft":
 			return t("policies.status.draft");

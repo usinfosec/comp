@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Control } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -11,8 +11,8 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
-import type { Artifact, Evidence, Policy } from "@bubba/db/types";
+} from "@comp/ui/tooltip";
+import type { Artifact, Evidence, Policy } from "@comp/db/types";
 import { getControlStatus } from "../../../../../lib/utils";
 import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
 

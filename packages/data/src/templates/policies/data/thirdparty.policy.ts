@@ -1,6 +1,6 @@
-import type { Policy } from "../types";
+import type { TemplatePolicy } from "../types";
 
-export const thirdPartyPolicy: Policy = {
+export const thirdPartyPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "thirdparty",

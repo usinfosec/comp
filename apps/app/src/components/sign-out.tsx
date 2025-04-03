@@ -1,8 +1,8 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { DropdownMenuItem } from "@bubba/ui/dropdown-menu";
+import { Button } from "@comp/ui/button";
+import { DropdownMenuItem } from "@comp/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

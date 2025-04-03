@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { FrameworkId } from "@bubba/db/types";
+import { FrameworkId } from "@comp/db/types";
 import {
 	Table,
 	TableBody,
@@ -9,7 +9,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
+} from "@comp/ui/table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";

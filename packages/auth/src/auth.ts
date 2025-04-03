@@ -1,11 +1,10 @@
 import { betterAuth } from "better-auth";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { emailOTP, organization } from "better-auth/plugins";
 import { ac, owner, admin, auditor, member, employee } from "./permissions";
-import { sendInviteMemberEmail } from "@bubba/email/lib/invite-member";
-import { OTPVerificationEmail } from "@bubba/email/emails/otp";
-import { sendEmail } from "@bubba/email/lib/resend";
+import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
+import { sendEmail } from "@comp/email/lib/resend";
 import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({

@@ -1,8 +1,8 @@
 "use server";
 
 import { getI18n } from "@/locales/server";
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";

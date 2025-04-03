@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Skeleton } from "@comp/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -7,7 +7,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
+} from "@comp/ui/table";
 
 export default function Loading() {
 	return (

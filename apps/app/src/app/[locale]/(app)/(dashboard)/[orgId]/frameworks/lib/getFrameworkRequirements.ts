@@ -1,4 +1,4 @@
-import { requirements } from "@bubba/data";
+import { requirements } from "@comp/data";
 
 export function getFrameworkRequirements(
 	frameworkId: keyof typeof requirements,

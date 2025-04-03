@@ -1,14 +1,14 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Task } from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
+import type { Task } from "@comp/db/types";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import dynamic from "next/dynamic";
-import { Sheet, SheetContent } from "@bubba/ui/sheet";
+import { Sheet, SheetContent } from "@comp/ui/sheet";
 
 // Dynamically import the UpdateTaskSheet component
 const UpdateTaskSheet = dynamic(

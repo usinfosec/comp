@@ -1,7 +1,7 @@
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { VendorCategory } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { db } from "@comp/db";
+import { VendorCategory } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { VendorCategoryChart } from "./category-chart";
 
 const VENDOR_CATEGORIES = Object.values(VendorCategory);

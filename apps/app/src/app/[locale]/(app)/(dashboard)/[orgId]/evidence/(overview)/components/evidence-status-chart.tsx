@@ -9,13 +9,13 @@ import {
 	CardHeader,
 	CardFooter,
 	CardTitle,
-} from "@bubba/ui/card";
+} from "@comp/ui/card";
 import {
 	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-} from "@bubba/ui/chart";
+} from "@comp/ui/chart";
 import { useI18n } from "@/locales/client";
 
 interface EvidenceOverviewData {

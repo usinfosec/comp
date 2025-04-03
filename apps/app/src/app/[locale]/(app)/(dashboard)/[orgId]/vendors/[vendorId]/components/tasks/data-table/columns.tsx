@@ -1,9 +1,9 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { VendorStatus } from "@bubba/db/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Badge } from "@bubba/ui/badge";
+import { VendorStatus } from "@comp/db/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Link from "next/link";

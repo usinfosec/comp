@@ -1,10 +1,10 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { decrypt } from "@bubba/app/src/lib/encryption";
-import { db } from "@bubba/db";
-import type { DecryptFunction } from "@bubba/integrations";
-import { getIntegrationHandler } from "@bubba/integrations";
+import { decrypt } from "@comp/app/src/lib/encryption";
+import { db } from "@comp/db";
+import type { DecryptFunction } from "@comp/integrations";
+import { getIntegrationHandler } from "@comp/integrations";
 
 export const refreshTestsAction = authActionClient
 	.metadata({

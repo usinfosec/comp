@@ -3,15 +3,15 @@
 import { updateInherentRiskAction } from "@/actions/risk/update-inherent-risk-action";
 import { updateInherentRiskSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-} from "@bubba/ui/form";
-import { RadioGroup, RadioGroupItem } from "@bubba/ui/radio-group";
+} from "@comp/ui/form";
+import { RadioGroup, RadioGroupItem } from "@comp/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Impact, Likelihood } from "@prisma/client";
 import { Loader2 } from "lucide-react";

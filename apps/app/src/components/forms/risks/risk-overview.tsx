@@ -11,8 +11,8 @@ import {
 	RiskCategory,
 	RiskStatus,
 	type User,
-} from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+} from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -20,14 +20,14 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
+} from "@comp/ui/form";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";

@@ -10,7 +10,7 @@ import {
   TaskStatus,
   Impact,
   Likelihood,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 import { z } from "zod";
 
 export const organizationSchema = z.object({

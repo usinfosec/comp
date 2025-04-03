@@ -1,4 +1,4 @@
-import { Departments, Frequency } from "@bubba/db/types";
+import { Departments, Frequency } from "@comp/db/types";
 
 /**
  * Represents a piece of compliance or regulatory evidence

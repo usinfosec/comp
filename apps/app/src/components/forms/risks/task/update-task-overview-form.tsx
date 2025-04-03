@@ -3,8 +3,8 @@
 import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 import { updateTaskSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import type { Task } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { Task } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -12,9 +12,9 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Input } from "@bubba/ui/input";
-import { Textarea } from "@bubba/ui/textarea";
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
+import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";

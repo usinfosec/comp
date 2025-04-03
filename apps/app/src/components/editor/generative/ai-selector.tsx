@@ -1,6 +1,6 @@
 "use client";
 
-import { Command, CommandInput } from "@bubba/ui/command";
+import { Command, CommandInput } from "@comp/ui/command";
 
 import { useCompletion } from "@ai-sdk/react";
 import { ArrowUp } from "lucide-react";
@@ -9,10 +9,10 @@ import { addAIHighlight } from "novel";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import CrazySpinner from "../icons/crazy-spinner";
 import Magic from "../icons/magic";
-import { ScrollArea } from "@bubba/ui/scroll-area";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import AICompletionCommands from "./ai-completion-command";
 import AISelectorCommands from "./ai-selector-commands";
 

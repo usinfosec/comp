@@ -11,7 +11,7 @@ const config = {
 			},
 		],
 	},
-	transpilePackages: ["@bubba/ui", "@bubba/data"],
+	transpilePackages: ["@comp/ui", "@comp/data"],
 	logging: {
 		fetches: {
 			fullUrl: process.env.LOG_FETCHES === "true",

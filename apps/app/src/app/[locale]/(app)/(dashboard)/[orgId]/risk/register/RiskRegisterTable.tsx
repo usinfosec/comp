@@ -3,14 +3,14 @@
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
-import type { Departments, Risk, RiskStatus, User } from "@bubba/db/types";
+import type { Departments, Risk, RiskStatus, User } from "@comp/db/types";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useOrganizationAdmins } from "../../hooks/useOrganizationAdmins";
 import { columns } from "./components/table/RiskRegisterColumns";
 import { RiskRegisterFilters } from "./components/table/RiskRegisterFilters";
-import { useSession } from "@bubba/auth";
+import { useSession } from "@comp/auth";
 
 type RiskRegisterTableRow = Risk & { owner: User | null };
 
