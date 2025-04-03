@@ -193,8 +193,8 @@ export function EvidenceTableProvider({ children }: { children: ReactNode }) {
 			if (task.assignee) {
 				uniqueAssignees.set(task.assignee.id, {
 					id: task.assignee.id,
-					name: task.assignee.name,
-					image: task.assignee.image,
+					name: task.assignee.user.name,
+					image: task.assignee.user.image,
 				});
 			}
 		}

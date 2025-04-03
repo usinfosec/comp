@@ -60,19 +60,19 @@ const getEvidenceOverview = cache(async () => {
 			tx.evidence.count({
 				where: {
 					organizationId,
-					published: true,
+					status: "published",
 				},
 			}),
 			tx.evidence.count({
 				where: {
 					organizationId,
-					published: false,
+					status: "draft",
 				},
 			}),
 			tx.evidence.count({
 				where: {
 					organizationId,
-					isNotRelevant: true,
+					status: "not_relevant",
 				},
 			}),
 			tx.evidence.groupBy({
@@ -88,12 +88,15 @@ const getEvidenceOverview = cache(async () => {
 					assigneeId: { not: null },
 				},
 				select: {
-					published: true,
-					isNotRelevant: true,
+					status: true,
 					assignee: {
 						select: {
 							id: true,
-							name: true,
+							user: {
+								select: {
+									name: true,
+								},
+							},
 						},
 					},
 				},
@@ -110,7 +113,7 @@ const getEvidenceOverview = cache(async () => {
 			if (!evidenceAssigneeByStatus.has(assigneeId)) {
 				evidenceAssigneeByStatus.set(assigneeId, {
 					id: assigneeId,
-					name: evidence.assignee.name || "Unknown",
+					name: evidence.assignee.user.name || "Unknown",
 					total: 0,
 					published: 0,
 					draft: 0,
@@ -127,9 +130,9 @@ const getEvidenceOverview = cache(async () => {
 			// status = isNotRelevant if published is false and isNotRelevant is true
 			// status = needsReview if published is true and needs review
 
-			if (evidence.published) {
+			if (evidence.status === "published") {
 				assigneeData.published += 1;
-			} else if (evidence.isNotRelevant) {
+			} else if (evidence.status === "not_relevant") {
 				assigneeData.isNotRelevant += 1;
 			} else {
 				// If not published and not irrelevant, it's a draft

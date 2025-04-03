@@ -3,14 +3,16 @@
 import { authActionClient } from "@/actions/safe-action";
 import { db } from "@bubba/db";
 import { Departments, Frequency } from "@bubba/db/types";
+import { Evidence, EvidenceStatus, Role } from "@prisma/client";
 import { z } from "zod";
 import type { ActionResponse } from "@/actions/types";
 
 const schema = z.object({
   id: z.string(),
-  department: z.nativeEnum(Departments).nullable(),
+  department: z.nativeEnum(Departments),
   frequency: z.nativeEnum(Frequency).nullable(),
   assigneeId: z.string().nullable(),
+  status: z.nativeEnum(EvidenceStatus).nullable(),
 });
 
 export const updateEvidenceDetails = authActionClient
@@ -24,7 +26,7 @@ export const updateEvidenceDetails = authActionClient
   })
   .action(async ({ ctx, parsedInput }): Promise<ActionResponse> => {
     const { session } = ctx;
-    const { id, department, frequency, assigneeId } = parsedInput;
+    const { id, department, frequency, assigneeId, status } = parsedInput;
 
     if (!session.activeOrganizationId) {
       return {
@@ -49,17 +51,23 @@ export const updateEvidenceDetails = authActionClient
         };
       }
 
+      const payload: Pick<
+        Evidence,
+        "department" | "frequency" | "assigneeId" | "status" | "lastPublishedAt"
+      > = {
+        department,
+        frequency,
+        assigneeId,
+        lastPublishedAt: new Date(),
+        status,
+      };
+
       // Update all evidence details in a single operation
       const updatedEvidence = await db.evidence.update({
         where: {
           id,
         },
-        data: {
-          department: department as Departments,
-          frequency,
-          assigneeId,
-          updatedAt: new Date(),
-        },
+        data: payload,
       });
 
       return {

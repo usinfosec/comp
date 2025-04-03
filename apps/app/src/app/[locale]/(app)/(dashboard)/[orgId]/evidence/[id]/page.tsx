@@ -13,8 +13,9 @@ export default async function EvidencePage({ params }: EvidencePageProps) {
 	const { id } = await params;
 
 	const assignees = await getAssignees();
+	const evidence = await getEvidence(id);
 
-	return <EvidenceDetails assignees={assignees} id={id} />;
+	return <EvidenceDetails assignees={assignees} evidence={evidence} />;
 }
 
 const getAssignees = async () => {
@@ -41,4 +42,21 @@ const getAssignees = async () => {
 	});
 
 	return assignees;
+};
+
+const getEvidence = async (id: string) => {
+	const evidence = await db.evidence.findUnique({
+		where: {
+			id,
+		},
+		include: {
+			assignee: true,
+		},
+	});
+
+	if (!evidence) {
+		throw new Error("Evidence not found");
+	}
+
+	return evidence;
 };
