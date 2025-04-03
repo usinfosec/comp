@@ -9,11 +9,9 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const t = await getI18n();
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
   const user = session?.user;
   const organizationId = session?.session.activeOrganizationId;
 
@@ -32,7 +30,7 @@ export default async function Layout({
         ]}
       />
 
-      <main className="py-8">{children}</main>
+      <main className="mt-8">{children}</main>
     </div>
   );
 }

@@ -1,40 +1,40 @@
 import { getI18n } from "@/locales/server";
-import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { SearchParams } from "nuqs";
-import { getValidFilters } from "@/lib/data-table";
+import type { SearchParams } from "@/types";
 import { searchParamsCache } from "./data/validations";
-import { getControls } from "./data/queries";
-import { ControlsTable } from "./components/controls-table";
+import { getValidFilters } from "@/lib/data-table";
+import { getEvidence } from "./data/queries";
+import { EvidenceTable } from "./components/evidence-table";
 
-interface ControlTableProps {
+interface PolicyTableProps {
   params: Promise<{ locale: string }>;
   searchParams: Promise<SearchParams>;
 }
 
-export default async function ControlsPage({
+export default async function PoliciesPage({
   params,
   ...props
-}: ControlTableProps) {
+}: PolicyTableProps) {
   const { locale } = await params;
   const searchParams = await props.searchParams;
   const search = searchParamsCache.parse(searchParams);
   const validFilters = getValidFilters(search.filters);
+
   setStaticParamsLocale(locale);
 
   const promises = Promise.all([
-    getControls({
+    getEvidence({
       ...search,
       filters: validFilters,
     }),
   ]);
 
   return (
-    <PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
-      <ControlsTable promises={promises} />
-    </PageWithBreadcrumb>
-  );
+    <>
+      <EvidenceTable promises={promises} />
+    </>
+  )
 }
 
 export async function generateMetadata({
@@ -48,6 +48,6 @@ export async function generateMetadata({
   const t = await getI18n();
 
   return {
-    title: t("sidebar.policies"),
+    title: t("sidebar.evidence"),
   };
 }
