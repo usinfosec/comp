@@ -1,6 +1,6 @@
 export const policies = {
 	dashboard: {
-		title: "Dashboard",
+		title: "Overview",
 		all: "Policies",
 		policy_status: "Policy by Status",
 		policies_by_assignee: "Policies by Assignee",

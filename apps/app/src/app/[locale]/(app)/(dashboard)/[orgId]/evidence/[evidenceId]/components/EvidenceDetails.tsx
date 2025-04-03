@@ -5,6 +5,7 @@ import { FileIcon } from "lucide-react";
 import type { EvidenceDetailsProps } from "../types";
 import { EditEvidenceForm } from "./EditEvidenceForm";
 import { ReviewSection } from "./ReviewSection";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 export function EvidenceDetails({ assignees, evidence }: EvidenceDetailsProps) {
 	return (

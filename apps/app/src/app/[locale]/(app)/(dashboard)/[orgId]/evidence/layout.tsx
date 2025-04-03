@@ -15,13 +15,13 @@ export default async function Layout({ children, params }: LayoutProps) {
 			<SecondaryMenu
 				items={[
 					{
-						path: `/${orgId}/policies`,
-						label: t("policies.dashboard.title"),
+						path: `/${orgId}/evidence`,
+						label: t("evidence.dashboard.layout"),
 					},
 					{
-						path: `/${orgId}/policies/all`,
-						label: t("policies.dashboard.all"),
-						activeOverrideIdPrefix: "pol_",
+						path: `/${orgId}/evidence/all`,
+						label: t("evidence.list"),
+						activeOverrideIdPrefix: "evd_",
 					},
 				]}
 			/>

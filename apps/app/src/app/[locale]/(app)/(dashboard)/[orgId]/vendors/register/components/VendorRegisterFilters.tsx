@@ -1,7 +1,7 @@
 import { Status } from "@/components/status";
 import { type Departments, RiskStatus } from "@comp/db/types";
 import type { Admin } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
-import { AssigneeAvatar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/evidence/list/components/table/components/AssigneeAvatar";
+import { AssigneeAvatar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/evidence/all/components/table/components/AssigneeAvatar";
 
 export const VendorRegisterFilters = ({
 	setPage,

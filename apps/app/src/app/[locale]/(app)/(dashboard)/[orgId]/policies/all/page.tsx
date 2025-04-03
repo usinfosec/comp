@@ -32,7 +32,7 @@ export default async function PoliciesPage({
 	]);
 
 	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Policies" }]}>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Policies", current: true }]}>
 			<PoliciesTable promises={promises} />
 		</PageWithBreadcrumb>
 	);

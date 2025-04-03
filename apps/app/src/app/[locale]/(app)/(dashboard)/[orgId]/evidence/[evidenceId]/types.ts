@@ -21,12 +21,12 @@ export interface UploadFileResponse
 	}> {}
 
 export interface EvidenceDetailsProps {
-	assignees: (Member & {
-		user: User;
-	})[];
 	evidence: Evidence & {
-		assignee: Member & {
-			user: User;
-		};
+		assignee?:
+			| (Member & {
+					user: User;
+			  })
+			| null;
 	};
+	assignees: Array<Member & { user: User }>;
 }
