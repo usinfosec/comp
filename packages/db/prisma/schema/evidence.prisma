@@ -1,8 +1,10 @@
 model Evidence {
   // Metadata
-  id             String          @id @unique @default(cuid())
+  id             String          @id @default(dbgenerated("generate_prefixed_cuid('evd'::text)"))
   name           String
   description    String
+  published      Boolean         @default(false)
+  isNotRelevant  Boolean         @default(false)
   additionalUrls String[]
   fileUrls       String[]
   frequency      Frequency?

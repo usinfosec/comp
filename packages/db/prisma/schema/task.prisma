@@ -1,5 +1,5 @@
 model Task {
-    id          String     @id @default(cuid())
+    id          String     @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
     title       String
     description String
     dueDate     DateTime

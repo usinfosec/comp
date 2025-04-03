@@ -1,5 +1,5 @@
 model Policy {
-  id               String       @id @default(cuid())
+  id               String       @id @default(dbgenerated("generate_prefixed_cuid('pol'::text)"))
   name             String
   description      String?
   organizationId   String

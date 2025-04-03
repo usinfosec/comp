@@ -1,5 +1,5 @@
 model Vendor {
-  id                  String          @id @default(cuid())
+  id                  String          @id @default(dbgenerated("generate_prefixed_cuid('vnd'::text)"))
   name                String
   description         String
   category            VendorCategory  @default(other)
@@ -22,7 +22,7 @@ model Vendor {
 }
 
 model VendorContact {
-  id        String   @id @default(cuid())
+  id        String   @id @default(dbgenerated("generate_prefixed_cuid('vct'::text)"))
   vendorId  String
   name      String
   email     String

@@ -1,5 +1,5 @@
 model RequirementMap {
-    id            String        @id @default(cuid())
+    id            String        @id @default(dbgenerated("generate_prefixed_cuid('req'::text)"))
     requirementId RequirementId
 
     controlId           String
