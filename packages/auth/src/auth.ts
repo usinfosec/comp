@@ -36,6 +36,11 @@ export const auth = betterAuth({
 				auditor,
 				employee,
 			},
+			schema: {
+				organization: {
+					modelName: "Organization",
+				},
+			},
 		}),
 		emailOTP({
 			otpLength: 6,

@@ -93,19 +93,17 @@
 		"ts-pattern": "^5.7.0",
 		"use-debounce": "^10.0.4",
 		"use-long-press": "^3.3.0",
-		"uuid": "^11.1.0",
 		"xml2js": "^0.6.2",
 		"yarn": "^1.22.22",
 		"zustand": "^5.0.3"
 	},
 	"devDependencies": {
-		"@bubba/db": "workspace:*",
 		"@bubba/auth": "workspace:*",
+		"@bubba/db": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.13.17",
 		"@types/react": "19.0.10",
 		"@types/react-dom": "19.0.4",
-		"@types/uuid": "^10.0.0",
 		"postcss": "^8.5.3",
 		"tailwindcss": "^3.4.17",
 		"typescript": "^5.8.2"
