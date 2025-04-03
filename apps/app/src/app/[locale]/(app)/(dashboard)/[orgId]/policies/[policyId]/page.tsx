@@ -1,26 +1,29 @@
-import { cache } from "react";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
-import { db } from "@comp/db";
 import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
-import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-
+import { cache } from "react";
 export default async function PolicyDetails({
 	params,
 }: {
-	params: Promise<{ locale: string; policyId: string }>;
+	params: Promise<{ locale: string; policyId: string; orgId: string }>;
 }) {
-	const { locale, policyId } = await params;
+	const { locale, policyId, orgId } = await params;
+
 	setStaticParamsLocale(locale);
 	const policy = await getPolicy(policyId);
 	const assignees = await getAssignees();
 
 	return (
 		<PageWithBreadcrumb
-			breadcrumbs={[{ label: "Policies" }, { label: policy?.name ?? "Policy" }]}
+			breadcrumbs={[
+				{ label: "Policies", href: `/${orgId}/policies/all` },
+				{ label: policy?.name ?? "Policy" },
+			]}
 		>
 			<PolicyOverview policy={policy ?? null} assignees={assignees} />
 		</PageWithBreadcrumb>

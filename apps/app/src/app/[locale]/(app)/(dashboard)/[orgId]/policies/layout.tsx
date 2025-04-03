@@ -25,7 +25,6 @@ export default async function Layout({ children, params }: LayoutProps) {
 					},
 				]}
 			/>
-			<Separator />
 			<div>{children}</div>
 		</div>
 	);
