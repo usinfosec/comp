@@ -11,7 +11,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 	const { orgId } = await params;
 
 	return (
-		<div className="max-w-[1200px] m-auto flex flex-col gap-4">
+		<div className="max-w-[1200px] m-auto flex flex-col gap-6">
 			<SecondaryMenu
 				items={[
 					{
