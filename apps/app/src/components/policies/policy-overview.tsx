@@ -61,7 +61,7 @@ export function PolicyOverview({
 							<Button
 								size="icon"
 								variant="ghost"
-								className="p-0 m-0 size-auto"
+								className="m-0 p-2 size-auto"
 								onClick={() => setArchiveOpen("true")}
 								title={
 									policy?.isArchived
@@ -78,7 +78,7 @@ export function PolicyOverview({
 							<Button
 								size="icon"
 								variant="ghost"
-								className="p-0 m-0 size-auto"
+								className="p-2 m-0 size-auto"
 								onClick={() => setOpen("true")}
 								title={t("policies.edit.tooltip")}
 							>

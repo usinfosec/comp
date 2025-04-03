@@ -22,7 +22,7 @@ export default async function PolicyDetails({
 		<PageWithBreadcrumb
 			breadcrumbs={[
 				{ label: "Policies", href: `/${orgId}/policies/all` },
-				{ label: policy?.name ?? "Policy" },
+				{ label: policy?.name ?? "Policy", current: true },
 			]}
 		>
 			<PolicyOverview policy={policy ?? null} assignees={assignees} />

@@ -49,7 +49,7 @@ export default async function SingleControlPage({ params }: PageProps) {
 					label: "Controls",
 					href: `/${session.session.activeOrganizationId}/controls`,
 				},
-				{ label: control.name },
+				{ label: control.name, current: true },
 			]}
 		>
 			<SingleControl control={control} controlProgress={controlProgress} />

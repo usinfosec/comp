@@ -1,12 +1,22 @@
-import type { Departments, Evidence } from "@comp/db/types";
+import type {
+	Departments,
+	Evidence,
+	EvidenceStatus,
+	Member,
+	User,
+	Frequency,
+} from "@comp/db/types";
 import { db } from "@comp/db";
 import { cache } from "react";
 
-export type EvidenceStatus = "empty" | "draft" | "needsReview" | "upToDate";
+// Only define the dashboard-specific status which isn't in DB
+type DashboardStatus = "empty" | "draft" | "needsReview" | "upToDate";
 
-export interface EvidenceWithStatus extends Omit<Evidence, "assignee"> {
-	status: EvidenceStatus;
+// Extend the Evidence type with only what's needed for the dashboard
+interface EvidenceWithStatus extends Omit<Evidence, "status"> {
+	status: DashboardStatus;
 	assigneeEmail?: string;
+	dbStatus?: EvidenceStatus | null;
 }
 
 export interface EvidenceDashboardData {
@@ -35,7 +45,11 @@ export const getEvidenceDashboard = cache(
 				organizationId,
 			},
 			include: {
-				assignee: true,
+				assignee: {
+					include: {
+						user: true,
+					},
+				},
 			},
 		});
 
@@ -82,7 +96,7 @@ export const getEvidenceDashboard = cache(
 
 			const isPastDue = nextReviewDate && nextReviewDate < now;
 
-			let status: EvidenceStatus;
+			let status: DashboardStatus;
 
 			if (!hasContent && !isPublished) {
 				// No files or links
@@ -103,15 +117,13 @@ export const getEvidenceDashboard = cache(
 			}
 
 			// Extract assignee email if available
-			const assigneeEmail = item.assignee?.email || undefined;
-
-			// Create a new object without the assignee property
-			const { assignee, ...evidenceWithoutAssignee } = item;
+			const assigneeEmail = item.assignee?.user?.email || undefined;
 
 			return {
-				...evidenceWithoutAssignee,
+				...item,
 				status,
 				assigneeEmail,
+				dbStatus: item.status,
 			};
 		});
 
@@ -173,7 +185,7 @@ export const getEvidenceDashboard = cache(
 		if (firstAssigneeEmail) {
 			const firstAssigneeItems = byAssignee[firstAssigneeEmail];
 			// Count items by status for the first assignee
-			const statusCounts = {
+			const statusCounts: Record<DashboardStatus, number> = {
 				empty: 0,
 				draft: 0,
 				needsReview: 0,
