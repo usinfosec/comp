@@ -42,34 +42,19 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { SelectAssignee } from "../../../../components/SelectAssignee";
+import { Member, User } from "@comp/db/types";
 
-interface User {
-	id: string;
-	image?: string | null;
-	name: string | null;
-}
-
-export function CreateVendorTaskForm() {
+export function CreateVendorTaskForm({
+	assignees,
+}: {
+	assignees: (Member & { user: User })[];
+}) {
 	const t = useI18n();
 
-	const [users, setUsers] = useState<User[]>([]);
-	const [isLoadingUsers, setIsLoadingUsers] = useState(true);
 	const [_, setCreateVendorTaskSheet] = useQueryState(
 		"create-vendor-task-sheet",
 	);
 	const params = useParams<{ vendorId: string }>();
-
-	useEffect(() => {
-		async function loadUsers() {
-			const result = await getOrganizationUsersAction();
-			if (result?.data?.success && result?.data?.data) {
-				setUsers(result.data.data);
-			}
-			setIsLoadingUsers(false);
-		}
-
-		loadUsers();
-	}, []);
 
 	const createTask = useAction(createVendorTaskAction, {
 		onSuccess: () => {
@@ -205,11 +190,10 @@ export function CreateVendorTaskForm() {
 													<FormLabel>{t("common.assignee.label")}</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assignees={users}
+															assignees={assignees}
 															assigneeId={field.value}
-															isLoading={isLoadingUsers}
-															onSelect={field.onChange}
-															selectedId={field.value}
+															onAssigneeChange={field.onChange}
+															withTitle={false}
 														/>
 													</FormControl>
 													<FormMessage />

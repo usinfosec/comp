@@ -50,7 +50,7 @@ export function UpdateTitleAndDescriptionForm({
 			description: vendor.description,
 			category: vendor.category,
 			status: vendor.status,
-			assigneeId: vendor.assigneeId ?? undefined,
+			assigneeId: vendor.assigneeId,
 		},
 	});
 

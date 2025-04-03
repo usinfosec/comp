@@ -29,11 +29,10 @@ import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import React from "react";
-
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { cn } from "../../../../../../../packages/ui/src/utils";
+import { cn } from "@comp/ui/cn";
 
 export function UpdateTaskForm({
 	task,
@@ -58,10 +57,11 @@ export function UpdateTaskForm({
 		defaultValues: {
 			id: task.id,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-			assigneeId: task.userId ?? undefined,
+			assigneeId: task.assigneeId,
 			status: task.status ?? TaskStatus.open,
 		},
 	});
+
 	const onSubmit = (data: z.infer<typeof updateTaskSchema>) => {
 		updateTask.execute({
 			id: data.id,
@@ -83,7 +83,7 @@ export function UpdateTaskForm({
 								<FormLabel>{t("common.assignee.label")}</FormLabel>
 								<FormControl>
 									<Select
-										value={field.value}
+										value={field.value ?? ""}
 										onValueChange={field.onChange}
 										onOpenChange={() => form.handleSubmit(onSubmit)}
 									>
@@ -96,7 +96,7 @@ export function UpdateTaskForm({
 											<SelectUser
 												isLoading={false}
 												onSelect={field.onChange}
-												selectedId={field.value}
+												selectedId={field.value ?? undefined}
 												users={users}
 											/>
 										</SelectContent>

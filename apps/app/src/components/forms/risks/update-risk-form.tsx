@@ -50,7 +50,7 @@ export function UpdateRiskForm({
 			category: risk.category,
 			department: risk.department ?? Departments.admin,
 			status: risk.status,
-			assigneeId: risk.assigneeId ?? undefined,
+			assigneeId: risk.assigneeId,
 		},
 	});
 

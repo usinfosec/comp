@@ -2,12 +2,7 @@
 
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useI18n } from "@/locales/client";
-import {
-	Departments,
-	RiskCategory,
-	RiskStatus,
-	type User,
-} from "@comp/db/types";
+import { Departments, Member, RiskStatus, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Input } from "@comp/ui/input";
@@ -30,10 +25,7 @@ const departments = Object.values(Departments).filter((d) => d !== "none");
 
 type Props = {
 	isEmpty?: boolean;
-	users: {
-		id: string;
-		name: string | null;
-	}[];
+	users: (Member & { user: User })[];
 };
 
 const statusTranslationKeys = {

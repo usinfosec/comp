@@ -158,11 +158,15 @@ export async function GET(request: NextRequest) {
         createdAt: true,
         updatedAt: true,
         assigneeId: true,
-        owner: {
+        assignee: {
           select: {
             id: true,
-            name: true,
-            email: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
           },
         },
       },

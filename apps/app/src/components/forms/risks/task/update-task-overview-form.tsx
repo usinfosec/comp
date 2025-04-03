@@ -49,7 +49,7 @@ export function UpdateTaskOverviewForm({
 			description: task.description,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
-			assigneeId: task.userId,
+			assigneeId: task.assigneeId,
 		},
 	});
 
