@@ -1,6 +1,6 @@
 model Control {
   // Metadata
-  id          String @id @default(cuid())
+  id          String @id @default(dbgenerated("generate_prefixed_cuid('ctl'::text)"))
   name        String
   description String
 

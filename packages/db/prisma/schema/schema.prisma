@@ -5,12 +5,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
 model ApiKey {
-  id         String    @id @default(cuid())
+  id         String    @id @default(dbgenerated("generate_prefixed_cuid('apk'::text)"))
   name       String
   key        String    @unique
   salt       String?
@@ -27,7 +28,7 @@ model ApiKey {
 }
 
 model AuditLog {
-  id             String   @id @default(cuid())
+  id             String   @id @default(dbgenerated("generate_prefixed_cuid('aud'::text)"))
   timestamp      DateTime @default(now())
   userId         String
   organizationId String

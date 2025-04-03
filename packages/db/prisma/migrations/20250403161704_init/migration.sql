@@ -1,26 +1,23 @@
--- Create function to generate prefixed CUID
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+
+-- Create function to generate prefixed CUID with sortable timestamp (compact)
 CREATE OR REPLACE FUNCTION generate_prefixed_cuid(prefix text)
 RETURNS text AS $$
 DECLARE
-    timestamp_part text;
-    counter_part text;
-    fingerprint_part text;
-    random_part text;
+    timestamp_hex text;
+    random_hex text;
 BEGIN
-    -- Generate timestamp component (first 8 chars)
-    timestamp_part = LOWER(TO_HEX(EXTRACT(EPOCH FROM NOW())::BIGINT));
-    
-    -- Generate counter component (4 chars)
-    counter_part = LOWER(TO_HEX((RANDOM() * 16777215)::INT));
-    
-    -- Generate fingerprint (4 chars)
-    fingerprint_part = LOWER(TO_HEX((RANDOM() * 16777215)::INT));
-    
-    -- Generate random component (8 chars) 
-    random_part = LOWER(TO_HEX((RANDOM() * 4294967295)::BIGINT));
+    -- Generate timestamp component (seconds since epoch) as hex
+    timestamp_hex = LOWER(TO_HEX(EXTRACT(EPOCH FROM NOW())::BIGINT));
 
-    -- Combine all parts with prefix
-    RETURN prefix || '_' || timestamp_part || counter_part || fingerprint_part || random_part;
+    -- Generate 8 random bytes and encode as hex (16 characters)
+    -- Ensure we call the function from the correct schema if pgcrypto is installed elsewhere
+    random_hex = encode(gen_random_bytes(8), 'hex');
+
+    -- Combine prefix, timestamp, and random hex string
+    RETURN prefix || '_' || timestamp_hex || random_hex;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -75,7 +72,7 @@ CREATE TYPE "VendorStatus" AS ENUM ('not_assessed', 'in_progress', 'assessed');
 
 -- CreateTable
 CREATE TABLE "Artifact" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('art'::text),
     "type" "ArtifactType" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -88,7 +85,7 @@ CREATE TABLE "Artifact" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('usr'::text),
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "emailVerified" BOOLEAN NOT NULL,
@@ -102,7 +99,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "EmployeeTrainingVideoCompletion" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('evc'::text),
     "completedAt" TIMESTAMP(3),
     "videoId" TEXT NOT NULL,
     "memberId" TEXT NOT NULL,
@@ -112,7 +109,7 @@ CREATE TABLE "EmployeeTrainingVideoCompletion" (
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('ses'::text),
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "token" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -127,7 +124,7 @@ CREATE TABLE "Session" (
 
 -- CreateTable
 CREATE TABLE "Account" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('acc'::text),
     "accountId" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
@@ -146,7 +143,7 @@ CREATE TABLE "Account" (
 
 -- CreateTable
 CREATE TABLE "Verification" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('ver'::text),
     "identifier" TEXT NOT NULL,
     "value" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
@@ -158,10 +155,10 @@ CREATE TABLE "Verification" (
 
 -- CreateTable
 CREATE TABLE "Member" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('mem'::text),
     "organizationId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "department" "Departments" NOT NULL DEFAULT 'none',
     "isActive" BOOLEAN NOT NULL DEFAULT true,
@@ -171,10 +168,10 @@ CREATE TABLE "Member" (
 
 -- CreateTable
 CREATE TABLE "Invitation" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('inv'::text),
     "organizationId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "role" TEXT,
+    "role" "Role",
     "status" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "inviterId" TEXT NOT NULL,
@@ -184,7 +181,7 @@ CREATE TABLE "Invitation" (
 
 -- CreateTable
 CREATE TABLE "Control" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('ctl'::text),
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "lastReviewDate" TIMESTAMP(3),
@@ -196,7 +193,7 @@ CREATE TABLE "Control" (
 
 -- CreateTable
 CREATE TABLE "Evidence" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('evd'::text),
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
@@ -216,7 +213,7 @@ CREATE TABLE "Evidence" (
 
 -- CreateTable
 CREATE TABLE "FrameworkInstance" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('frm'::text),
     "organizationId" TEXT NOT NULL,
     "frameworkId" "FrameworkId" NOT NULL,
 
@@ -225,7 +222,7 @@ CREATE TABLE "FrameworkInstance" (
 
 -- CreateTable
 CREATE TABLE "Integration" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('int'::text),
     "name" TEXT NOT NULL,
     "integrationId" TEXT NOT NULL,
     "settings" JSONB NOT NULL,
@@ -238,7 +235,7 @@ CREATE TABLE "Integration" (
 
 -- CreateTable
 CREATE TABLE "IntegrationResult" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('itr'::text),
     "title" TEXT,
     "description" TEXT,
     "remediation" TEXT,
@@ -255,7 +252,7 @@ CREATE TABLE "IntegrationResult" (
 
 -- CreateTable
 CREATE TABLE "Organization" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('org'::text),
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "logo" TEXT,
@@ -267,7 +264,7 @@ CREATE TABLE "Organization" (
 
 -- CreateTable
 CREATE TABLE "Policy" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('pol'::text),
     "name" TEXT NOT NULL,
     "description" TEXT,
     "organizationId" TEXT NOT NULL,
@@ -288,7 +285,7 @@ CREATE TABLE "Policy" (
 
 -- CreateTable
 CREATE TABLE "RequirementMap" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('req'::text),
     "requirementId" "RequirementId" NOT NULL,
     "controlId" TEXT NOT NULL,
     "frameworkInstanceId" TEXT NOT NULL,
@@ -298,7 +295,7 @@ CREATE TABLE "RequirementMap" (
 
 -- CreateTable
 CREATE TABLE "Risk" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('rsk'::text),
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "category" "RiskCategory" NOT NULL,
@@ -320,7 +317,7 @@ CREATE TABLE "Risk" (
 
 -- CreateTable
 CREATE TABLE "ApiKey" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('apk'::text),
     "name" TEXT NOT NULL,
     "key" TEXT NOT NULL,
     "salt" TEXT,
@@ -335,7 +332,7 @@ CREATE TABLE "ApiKey" (
 
 -- CreateTable
 CREATE TABLE "AuditLog" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('aud'::text),
     "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
     "organizationId" TEXT NOT NULL,
@@ -346,7 +343,7 @@ CREATE TABLE "AuditLog" (
 
 -- CreateTable
 CREATE TABLE "Task" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('tsk'::text),
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "dueDate" TIMESTAMP(3) NOT NULL,
@@ -363,7 +360,7 @@ CREATE TABLE "Task" (
 
 -- CreateTable
 CREATE TABLE "Vendor" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('vnd'::text),
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "category" "VendorCategory" NOT NULL DEFAULT 'other',
@@ -382,7 +379,7 @@ CREATE TABLE "Vendor" (
 
 -- CreateTable
 CREATE TABLE "VendorContact" (
-    "id" TEXT NOT NULL,
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('vct'::text),
     "vendorId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -423,9 +420,6 @@ CREATE UNIQUE INDEX "Session_token_key" ON "Session"("token");
 
 -- CreateIndex
 CREATE INDEX "Control_organizationId_idx" ON "Control"("organizationId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Evidence_id_key" ON "Evidence"("id");
 
 -- CreateIndex
 CREATE INDEX "Evidence_organizationId_idx" ON "Evidence"("organizationId");

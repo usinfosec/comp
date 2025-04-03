@@ -1,5 +1,5 @@
 model Risk {
-  id                           String            @id @default(cuid())
+  id                           String            @id @default(dbgenerated("generate_prefixed_cuid('rsk'::text)"))
   title                        String
   description                  String
   category                     RiskCategory
