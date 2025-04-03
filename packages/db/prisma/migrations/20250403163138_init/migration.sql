@@ -1,7 +1,6 @@
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-
 -- Create function to generate prefixed CUID with sortable timestamp (compact)
 CREATE OR REPLACE FUNCTION generate_prefixed_cuid(prefix text)
 RETURNS text AS $$
@@ -27,6 +26,9 @@ CREATE TYPE "ArtifactType" AS ENUM ('policy', 'evidence', 'procedure', 'training
 
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('owner', 'admin', 'auditor', 'employee');
+
+-- CreateEnum
+CREATE TYPE "EvidenceStatus" AS ENUM ('draft', 'published', 'not_relevant');
 
 -- CreateEnum
 CREATE TYPE "FrameworkId" AS ENUM ('soc2');
@@ -200,11 +202,12 @@ CREATE TABLE "Evidence" (
     "isNotRelevant" BOOLEAN NOT NULL DEFAULT false,
     "additionalUrls" TEXT[],
     "fileUrls" TEXT[],
-    "lastPublishedAt" TIMESTAMP(3),
     "frequency" "Frequency",
     "department" "Departments" NOT NULL DEFAULT 'none',
+    "status" "EvidenceStatus" DEFAULT 'draft',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "lastPublishedAt" TIMESTAMP(3),
     "assigneeId" TEXT,
     "organizationId" TEXT NOT NULL,
 
@@ -425,9 +428,6 @@ CREATE INDEX "Control_organizationId_idx" ON "Control"("organizationId");
 CREATE INDEX "Evidence_organizationId_idx" ON "Evidence"("organizationId");
 
 -- CreateIndex
-CREATE INDEX "Evidence_assigneeId_idx" ON "Evidence"("assigneeId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "FrameworkInstance_organizationId_frameworkId_key" ON "FrameworkInstance"("organizationId", "frameworkId");
 
 -- CreateIndex
@@ -539,7 +539,7 @@ ALTER TABLE "Invitation" ADD CONSTRAINT "Invitation_inviterId_fkey" FOREIGN KEY 
 ALTER TABLE "Control" ADD CONSTRAINT "Control_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Evidence" ADD CONSTRAINT "Evidence_assigneeId_fkey" FOREIGN KEY ("assigneeId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Evidence" ADD CONSTRAINT "Evidence_assigneeId_fkey" FOREIGN KEY ("assigneeId") REFERENCES "Member"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Evidence" ADD CONSTRAINT "Evidence_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
