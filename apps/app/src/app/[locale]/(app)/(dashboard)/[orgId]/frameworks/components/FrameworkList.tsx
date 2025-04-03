@@ -1,8 +1,7 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
-import type { FrameworkInstanceWithComplianceScore } from "./types";
 import { FrameworkCard } from "./FrameworkCard";
+import type { FrameworkInstanceWithComplianceScore } from "./types";
 
 export function FrameworkList({
 	frameworksWithControlsAndComplianceScores,

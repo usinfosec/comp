@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
 import { useI18n } from "@/locales/client";
+import { RequirementRow } from "./RequirementRow";
 
 interface SingleControlProps {
 	control: Control & {
@@ -80,17 +81,18 @@ export const SingleControl = ({
 										<TableHead>
 											{t("frameworks.requirements.table.name")}
 										</TableHead>
+										<TableHead>
+											{t("frameworks.requirements.table.description")}
+										</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
 									{control.requirementsMapped.length > 0 ? (
 										control.requirementsMapped.map((requirement) => (
-											<TableRow key={requirement.id}>
-												<TableCell className="font-medium">
-													{requirement.requirementId}
-												</TableCell>
-												<TableCell>{requirement.requirementId}</TableCell>
-											</TableRow>
+											<RequirementRow
+												key={requirement.id}
+												requirement={requirement}
+											/>
 										))
 									) : (
 										<TableRow>
