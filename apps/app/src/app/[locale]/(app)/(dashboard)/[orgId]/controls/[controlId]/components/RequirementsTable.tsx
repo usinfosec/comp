@@ -10,13 +10,12 @@ import type {
 	FrameworkInstance,
 	RequirementMap,
 } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
-import { Card, CardTitle, CardHeader } from "@comp/ui/card";
-import { CardContent } from "@comp/ui/card";
 import { getFrameworkDetails } from "../../../frameworks/lib/getFrameworkDetails";
+import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
 
 interface RequirementsTableProps {
 	requirements: (RequirementMap & { frameworkInstance: FrameworkInstance })[];
@@ -36,50 +35,7 @@ export function RequirementsTable({
 	>(
 		() => [
 			{
-				accessorKey: "framework",
-				header: ({ column }) => (
-					<DataTableColumnHeader
-						column={column}
-						title={t("frameworks.requirements.table.frameworkId")}
-					/>
-				),
-				cell: ({ row }) => {
-					const requirementId = row.original.requirementId.split("_").pop();
-					const frameworkDetails = getFrameworkDetails(
-						row.original.frameworkInstance.frameworkId,
-					);
-					return (
-						<span className="font-mono text-xs">{frameworkDetails?.name}</span>
-					);
-				},
-				enableSorting: true,
-				sortingFn: (rowA, rowB, columnId) => {
-					const a = rowA.original.requirementId.split("_").pop() || "";
-					const b = rowB.original.requirementId.split("_").pop() || "";
-					return a.localeCompare(b);
-				},
-			},
-			{
-				accessorKey: "requirementId",
-				header: ({ column }) => (
-					<DataTableColumnHeader
-						column={column}
-						title={t("frameworks.requirements.table.requirementId")}
-					/>
-				),
-				cell: ({ row }) => {
-					const requirementId = row.original.requirementId.split("_").pop();
-					return <span className="font-mono text-xs">{requirementId}</span>;
-				},
-				enableSorting: true,
-				sortingFn: (rowA, rowB, columnId) => {
-					const a = rowA.original.requirementId.split("_").pop() || "";
-					const b = rowB.original.requirementId.split("_").pop() || "";
-					return a.localeCompare(b);
-				},
-			},
-			{
-				accessorKey: "name",
+				accessorKey: "id",
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
@@ -93,7 +49,15 @@ export function RequirementsTable({
 						frameworkId as FrameworkId,
 						requirementId,
 					);
-					return <span>{details?.name}</span>;
+
+					const frameworkDetails = getFrameworkDetails(
+						row.original.frameworkInstance.frameworkId,
+					);
+					return (
+						<span>
+							{frameworkDetails?.name} - {details?.name}
+						</span>
+					);
 				},
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
@@ -196,7 +160,7 @@ export function RequirementsTable({
 		shallow: false,
 		getRowId: (row) => row.id,
 		initialState: {
-			sorting: [{ id: "requirementId", desc: false }],
+			sorting: [{ id: "id", desc: false }],
 		},
 		tableId: "r",
 	});
