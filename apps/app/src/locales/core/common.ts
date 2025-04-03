@@ -63,7 +63,7 @@ export const common = {
     search: "Search...",
     status: "Status",
     department: "Department",
-    owner: {
+    assignee: {
       label: "Assignee",
       placeholder: "Filter by assignee",
     },

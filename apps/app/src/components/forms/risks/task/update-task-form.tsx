@@ -58,7 +58,7 @@ export function UpdateTaskForm({
 		defaultValues: {
 			id: task.id,
 			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-			ownerId: task.userId ?? undefined,
+			assigneeId: task.userId ?? undefined,
 			status: task.status ?? TaskStatus.open,
 		},
 	});
@@ -66,7 +66,7 @@ export function UpdateTaskForm({
 		updateTask.execute({
 			id: data.id,
 			dueDate: data.dueDate ? data.dueDate : undefined,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			status: data.status as TaskStatus,
 		});
 	};
@@ -77,7 +77,7 @@ export function UpdateTaskForm({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="ownerId"
+						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>{t("common.assignee.label")}</FormLabel>

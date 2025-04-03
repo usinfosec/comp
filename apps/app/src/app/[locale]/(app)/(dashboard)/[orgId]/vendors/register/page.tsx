@@ -8,6 +8,8 @@ import { VendorRegisterTable } from "./components/VendorRegisterTable";
 import { Departments, VendorStatus } from "@comp/db/types";
 import { z } from "zod";
 import { headers } from "next/headers";
+import { getServersideSession } from "@/lib/get-session";
+import { cache } from "react";
 
 export default async function Page({
 	searchParams,
@@ -53,16 +55,22 @@ export default async function Page({
 			organizationId: session.session.activeOrganizationId,
 			...(status && { status: status }),
 			...(department && { department: department }),
-			...(assigneeId && { ownerId: assigneeId }),
+			...(assigneeId && { assigneeId: assigneeId }),
 		},
 		include: {
-			owner: true,
+			assignee: {
+				select: {
+					user: true,
+				},
+			},
 		},
 		skip: page ? (Number(page) - 1) * Number(pageSize || 10) : 0,
 		take: Number(pageSize || 10),
 	});
 
-	return <VendorRegisterTable data={vendors} />;
+	const assignees = await getAssignees();
+
+	return <VendorRegisterTable assignees={assignees} data={vendors} />;
 }
 
 export async function generateMetadata({
@@ -78,3 +86,29 @@ export async function generateMetadata({
 		title: t("vendors.register.title"),
 	};
 }
+
+const getAssignees = cache(async () => {
+	const {
+		session: { activeOrganizationId },
+	} = await getServersideSession({
+		headers: await headers(),
+	});
+
+	if (!activeOrganizationId) {
+		return [];
+	}
+
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId: activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	return assignees;
+});

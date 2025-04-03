@@ -8,6 +8,7 @@ import {
 import { UserIcon } from "lucide-react";
 import { Member, User } from "@comp/db/types";
 import { useState, useEffect } from "react";
+import { db } from "@comp/db";
 
 interface SelectAssigneeProps {
 	assigneeId: string | null;

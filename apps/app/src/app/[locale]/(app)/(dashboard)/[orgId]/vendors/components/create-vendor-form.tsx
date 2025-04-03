@@ -1,9 +1,8 @@
 "use client";
 
-import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
-import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
-import { VendorCategory, VendorStatus } from "@comp/db/types";
+import { Member, useSession } from "@comp/auth";
+import { User, VendorCategory, VendorStatus } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -30,13 +29,13 @@ import {
 import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
-import { useSession } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { SelectAssignee } from "../../components/SelectAssignee";
 import { createVendorAction } from "../actions/create-vendor-action";
 
 const createVendorSchema = z.object({
@@ -45,10 +44,14 @@ const createVendorSchema = z.object({
 	description: z.string().optional(),
 	category: z.nativeEnum(VendorCategory),
 	status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
-	ownerId: z.string().optional(),
+	assigneeId: z.string().optional(),
 });
 
-export function CreateVendorForm() {
+export function CreateVendorForm({
+	assignees,
+}: {
+	assignees: (Member & { user: User })[];
+}) {
 	const t = useI18n();
 	const session = useSession();
 
@@ -76,8 +79,6 @@ export function CreateVendorForm() {
 	});
 
 	const router = useRouter();
-
-	const { data: admins, isLoading: isLoadingAdmins } = useOrganizationAdmins();
 
 	const createVendor = useAction(createVendorAction, {
 		onSuccess: async (data) => {
@@ -284,29 +285,17 @@ export function CreateVendorForm() {
 										/>
 										<FormField
 											control={form.control}
-											name="ownerId"
+											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>{t("common.assignee.label")}</FormLabel>
 													<FormControl>
-														<Select
-															value={field.value}
-															onValueChange={field.onChange}
-														>
-															<SelectTrigger>
-																<SelectValue
-																	placeholder={t("common.assignee.placeholder")}
-																/>
-															</SelectTrigger>
-															<SelectContent>
-																<SelectUser
-																	users={admins || []}
-																	isLoading={isLoadingAdmins}
-																	onSelect={field.onChange}
-																	selectedId={field.value}
-																/>
-															</SelectContent>
-														</Select>
+														<SelectAssignee
+															assignees={assignees}
+															assigneeId={field.value}
+															withTitle={false}
+															onAssigneeChange={field.onChange}
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>

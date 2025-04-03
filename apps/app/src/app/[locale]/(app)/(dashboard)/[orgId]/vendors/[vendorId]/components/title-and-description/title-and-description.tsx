@@ -12,7 +12,7 @@ import { UpdateTitleAndDescriptionSheet } from "./update-title-and-description-s
 export function TitleAndDescription({
 	vendor,
 }: {
-	vendor: Vendor & { owner: User | null };
+	vendor: Vendor & { assignee: { user: User | null } | null };
 }) {
 	const t = useI18n();
 	const [_, setOpen] = useQueryState("vendor-overview-sheet");

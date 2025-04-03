@@ -65,11 +65,13 @@ Get all risks for the organization associated with the API key.
       "residual_impact": 5,
       "createdAt": "2023-01-15T12:00:00.000Z",
       "updatedAt": "2023-01-16T09:30:00.000Z",
-      "ownerId": "u123abc456",
-      "owner": {
+      "assigneeId": "u123abc456",
+      "assignee": {
         "id": "u123abc456",
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "user": {
+          "name": "John Doe",
+          "email": "john.doe@example.com"
+        }
       }
     }
     // More risks...
@@ -134,7 +136,7 @@ Create a new risk for the organization associated with the API key.
 | impact               | number | The initial impact score (0-10). Default: 0                              | No       |
 | residual_probability | number | The residual probability score after mitigation (0-10). Default: 0       | No       |
 | residual_impact      | number | The residual impact score after mitigation (0-10). Default: 0            | No       |
-| ownerId              | string | The ID of the user who owns the risk                                     | No       |
+| assigneeId           | string | The ID of the user who owns the risk                                     | No       |
 
 #### Example Request
 
@@ -167,7 +169,7 @@ Create a new risk for the organization associated with the API key.
     "residual_impact": 0,
     "createdAt": "2023-01-15T12:00:00.000Z",
     "updatedAt": "2023-01-15T12:00:00.000Z",
-    "ownerId": null,
+    "assigneeId": null,
     "organizationId": "org123abc456"
   }
 }
@@ -242,11 +244,13 @@ Get a single risk by ID for the organization associated with the API key.
     "residual_impact": 5,
     "createdAt": "2023-01-15T12:00:00.000Z",
     "updatedAt": "2023-01-16T09:30:00.000Z",
-    "ownerId": "u123abc456",
-    "owner": {
+    "assigneeId": "u123abc456",
+    "assignee": {
       "id": "u123abc456",
-      "name": "John Doe",
-      "email": "john.doe@example.com"
+      "user": {
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      }
     },
     "treatmentStrategy": {
       "id": "trt123abc456",
@@ -265,7 +269,7 @@ Get a single risk by ID for the organization associated with the API key.
         "completedAt": null,
         "createdAt": "2023-01-15T14:10:00.000Z",
         "updatedAt": "2023-01-15T14:10:00.000Z",
-        "ownerId": "u123abc456"
+        "assigneeId": "u123abc456"
       },
       {
         "id": "tsk789xyz123",
@@ -276,7 +280,7 @@ Get a single risk by ID for the organization associated with the API key.
         "completedAt": null,
         "createdAt": "2023-01-15T14:15:00.000Z",
         "updatedAt": "2023-01-15T14:15:00.000Z",
-        "ownerId": "u123abc456"
+        "assigneeId": "u123abc456"
       }
     ]
   }

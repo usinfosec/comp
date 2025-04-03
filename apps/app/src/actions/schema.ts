@@ -141,7 +141,7 @@ export const createTaskSchema = z.object({
     message: "Task description is required",
   }),
   dueDate: z.date().optional(),
-  ownerId: z
+  assigneeId: z
     .string({
       required_error: "You must assign an owner to the task",
     })
@@ -160,7 +160,7 @@ export const updateTaskSchema = z.object({
   status: z.nativeEnum(TaskStatus, {
     required_error: "Task status is required",
   }),
-  ownerId: z.string({
+  assigneeId: z.string({
     required_error: "You must assign an owner to the task",
   }),
 });

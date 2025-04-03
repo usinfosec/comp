@@ -35,7 +35,7 @@ interface PageProps {
 export default async function VendorPage({ searchParams, params }: PageProps) {
 	const { vendorId } = await params;
 	const vendor = await getVendor(vendorId);
-	const users = await getUsers();
+	const assignees = await getAssignees();
 	const t = await getI18n();
 
 	const {
@@ -66,8 +66,8 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
 	return (
 		<div className="flex flex-col gap-4">
 			<TitleAndDescription vendor={vendor} />
-			<SecondaryFields vendor={vendor} users={users} />
-			<Card>
+			<SecondaryFields vendor={vendor} assignees={assignees} />
+			{/* <Card>
 				<CardHeader>
 					<CardTitle>
 						<div className="flex items-center justify-between gap-2">
@@ -99,8 +99,8 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
 						)}
 					</div>
 				</CardContent>
-			</Card>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			</Card> */}
+			<div className="grid grid-cols-1 gap-4">
 				<InherentRiskVendorChart vendor={vendor} />
 				<ResidualRiskVendorChart vendor={vendor} />
 			</div>
@@ -123,14 +123,18 @@ async function getVendor(vendorId: string) {
 			organizationId: session.session.activeOrganizationId,
 		},
 		include: {
-			owner: true,
+			assignee: {
+				include: {
+					user: true,
+				},
+			},
 		},
 	});
 
 	return vendor;
 }
 
-async function getUsers() {
+async function getAssignees() {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -139,14 +143,19 @@ async function getUsers() {
 		return [];
 	}
 
-	const members = await db.member.findMany({
-		where: { organizationId: session.session.activeOrganizationId },
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId: session.session.activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
 		include: {
 			user: true,
 		},
 	});
 
-	return members.map((member) => member.user);
+	return assignees;
 }
 
 async function getTasks({
@@ -205,10 +214,9 @@ async function getTasks({
 				skip,
 				take: per_page,
 				include: {
-					user: {
-						select: {
-							name: true,
-							image: true,
+					assignee: {
+						include: {
+							user: true,
 						},
 					},
 				},
@@ -217,9 +225,9 @@ async function getTasks({
 				tasks.map((task) => ({
 					...task,
 					dueDate: task.dueDate ?? new Date(),
-					user: {
-						name: task.user?.name ?? "",
-						image: task.user?.image ?? "",
+					assignee: {
+						name: task.assignee?.user.name ?? "",
+						image: task.assignee?.user.image ?? "",
 					},
 				})),
 			),

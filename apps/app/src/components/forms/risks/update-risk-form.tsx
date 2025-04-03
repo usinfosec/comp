@@ -50,7 +50,7 @@ export function UpdateRiskForm({
 			category: risk.category,
 			department: risk.department ?? Departments.admin,
 			status: risk.status,
-			ownerId: risk.ownerId ?? undefined,
+			assigneeId: risk.assigneeId ?? undefined,
 		},
 	});
 
@@ -62,7 +62,7 @@ export function UpdateRiskForm({
 			category: data.category,
 			department: data.department,
 			status: data.status,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 		});
 	};
 

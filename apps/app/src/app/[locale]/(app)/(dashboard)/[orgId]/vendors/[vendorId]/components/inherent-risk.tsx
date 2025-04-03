@@ -15,7 +15,7 @@ import {
 import { X } from "lucide-react";
 import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/inherent-risk-form";
 import { Impact, Likelihood } from "@prisma/client";
-import { useState } from "react";
+import { useQueryState } from "nuqs";
 
 export function InherentRiskSheet({
 	vendorId,
@@ -30,18 +30,22 @@ export function InherentRiskSheet({
 }) {
 	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
-	const [isOpen, setIsOpen] = useState(true);
+	const [open, setOpen] = useQueryState("inherent-risk-sheet");
+	const isOpen = open === "true";
 
-	const handleClose = () => setIsOpen(false);
+	const handleClose = () => setOpen(null);
 
 	const handleFormSuccess = () => {
-		setIsOpen(false);
+		setOpen(null);
 		if (onSuccess) onSuccess();
 	};
 
 	if (isDesktop) {
 		return (
-			<Sheet open={isOpen} onOpenChange={setIsOpen}>
+			<Sheet
+				open={isOpen}
+				onOpenChange={(value) => setOpen(value ? "true" : null)}
+			>
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
@@ -74,7 +78,10 @@ export function InherentRiskSheet({
 	}
 
 	return (
-		<Drawer open={isOpen} onOpenChange={setIsOpen}>
+		<Drawer
+			open={isOpen}
+			onOpenChange={(value) => setOpen(value ? "true" : null)}
+		>
 			<DrawerTitle hidden>
 				{t("vendors.risks.update_inherent_risk")}
 			</DrawerTitle>

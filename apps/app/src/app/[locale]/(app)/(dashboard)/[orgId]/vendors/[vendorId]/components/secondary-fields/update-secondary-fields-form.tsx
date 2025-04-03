@@ -1,9 +1,8 @@
 "use client";
 
-import { SelectUser } from "@/components/select-user";
 import { VENDOR_STATUS_TYPES, VendorStatus } from "@/components/vendor-status";
 import { useI18n } from "@/locales/client";
-import { VendorCategory, type User, type Vendor } from "@comp/db/types";
+import { Member, VendorCategory, type User, type Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -26,15 +25,16 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { updateVendorAction } from "../../actions/update-vendor-action";
+import { SelectAssignee } from "../../../../components/SelectAssignee";
 import { updateVendorSchema } from "../../actions/schema";
+import { updateVendorAction } from "../../actions/update-vendor-action";
 
 export function UpdateSecondaryFieldsForm({
 	vendor,
-	users,
+	assignees,
 }: {
 	vendor: Vendor;
-	users: User[];
+	assignees: (Member & { user: User })[];
 }) {
 	const t = useI18n();
 
@@ -53,7 +53,7 @@ export function UpdateSecondaryFieldsForm({
 			id: vendor.id,
 			name: vendor.name,
 			description: vendor.description,
-			ownerId: vendor.ownerId ?? undefined,
+			assigneeId: vendor.assigneeId,
 			category: vendor.category,
 			status: vendor.status,
 		},
@@ -64,7 +64,7 @@ export function UpdateSecondaryFieldsForm({
 			id: data.id,
 			name: data.name,
 			description: data.description,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			category: data.category,
 			status: data.status,
 		});
@@ -76,30 +76,18 @@ export function UpdateSecondaryFieldsForm({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="ownerId"
+						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>{t("common.assignee.label")}</FormLabel>
 								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-										onOpenChange={() => form.handleSubmit(onSubmit)}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t("common.assignee.placeholder")}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectUser
-												isLoading={false}
-												onSelect={field.onChange}
-												selectedId={field.value}
-												users={users}
-											/>
-										</SelectContent>
-									</Select>
+									<SelectAssignee
+										disabled={updateVendor.status === "executing"}
+										withTitle={false}
+										assignees={assignees}
+										assigneeId={field.value}
+										onAssigneeChange={field.onChange}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

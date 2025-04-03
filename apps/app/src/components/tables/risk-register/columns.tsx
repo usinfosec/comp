@@ -5,7 +5,6 @@ import { useI18n } from "@/locales/client";
 import type { Departments, RiskStatus } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
-import { cn } from "@comp/ui/cn";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -15,10 +14,12 @@ export type RiskRegisterType = {
 	title: string;
 	status: RiskStatus;
 	department?: Departments;
-	ownerId: string;
-	owner: {
-		image: string;
-		name: string;
+	assigneeId: string;
+	assignee: {
+		user: {
+			image: string;
+			name: string;
+		};
 	};
 };
 
@@ -89,8 +90,8 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			},
 		},
 		{
-			id: "ownerId",
-			accessorKey: "ownerId",
+			id: "assigneeId",
+			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden md:table-cell">
 					{t("common.assignee.label")}
@@ -100,8 +101,8 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 				return (
 					<div className="hidden md:table-cell">
 						<AssignedUser
-							fullName={row.original.owner?.name}
-							avatarUrl={row.original.owner?.image}
+							fullName={row.original.assignee?.user?.name}
+							avatarUrl={row.original.assignee?.user?.image}
 						/>
 					</div>
 				);

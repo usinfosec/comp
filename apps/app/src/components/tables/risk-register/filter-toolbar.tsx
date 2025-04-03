@@ -72,7 +72,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 		parse: (value) => value || null,
 	});
 
-	const [ownerId, setOwnerId] = useQueryState("ownerId", {
+	const [assigneeId, setAssigneeId] = useQueryState("assigneeId", {
 		shallow: false,
 		history: "push",
 		parse: (value) => value || null,
@@ -85,12 +85,12 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				setCategory(null),
 				setStatus(null),
 				setDepartment(null),
-				setOwnerId(null),
+				setAssigneeId(null),
 			]);
 		});
-	}, [setSearch, setCategory, setStatus, setDepartment, setOwnerId]);
+	}, [setSearch, setCategory, setStatus, setDepartment, setAssigneeId]);
 
-	const hasFilters = search || category || status || department || ownerId;
+	const hasFilters = search || category || status || department || assigneeId;
 
 	if (isEmpty) {
 		return (
@@ -173,11 +173,13 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				</Select>
 
 				<Select
-					value={ownerId || ""}
-					onValueChange={(value) => setOwnerId(value || null)}
+					value={assigneeId || ""}
+					onValueChange={(value) => setAssigneeId(value || null)}
 				>
 					<SelectTrigger className="w-[200px] min-w-[200px]">
-						<SelectValue placeholder={t("common.filters.owner.placeholder")} />
+						<SelectValue
+							placeholder={t("common.filters.assignee.placeholder")}
+						/>
 					</SelectTrigger>
 					<SelectContent>
 						{users.map((user) => (
@@ -206,7 +208,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				</Button>
 			</div>
 
-			<CreateRiskSheet />
+			<CreateRiskSheet assignees={users} />
 		</div>
 	);
 }

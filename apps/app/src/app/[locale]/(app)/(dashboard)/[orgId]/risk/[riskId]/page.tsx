@@ -199,10 +199,10 @@ async function getTasks({
 						title: task.title,
 						status: task.status,
 						dueDate: task.dueDate.toISOString(),
-						assigneeId: task.assigneeId,
+						assigneeId: task.assigneeId ?? "",
 						assignee: {
-							name: task.assignee.user.name,
-							image: task.assignee.user.image ?? "",
+							name: task.assignee?.user.name ?? "",
+							image: task.assignee?.user.image ?? "",
 						},
 					}),
 				),
@@ -242,6 +242,9 @@ async function getAssignees() {
 	const assignees = await db.member.findMany({
 		where: {
 			organizationId: session.session.activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
 		},
 		include: {
 			user: true,

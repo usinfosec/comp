@@ -16,7 +16,7 @@ interface DataTableProps<TData, TValue> {
 		title: string;
 		status: string;
 		department: string;
-		ownerId: string;
+		assigneeId: string;
 	};
 	data: TData[];
 	pageCount: number;
@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
 										key={cell.id}
 										className={cn(
 											(cell.column.id === "department" ||
-												cell.column.id === "ownerId" ||
+												cell.column.id === "assigneeId" ||
 												cell.column.id === "assignedTo" ||
 												cell.column.id === "status") &&
 												"hidden md:table-cell",

@@ -25,6 +25,7 @@ import { z } from "zod";
 import { updateVendorResidualRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
 import type { ActionResponse } from "@/types/actions";
 import { Impact, Likelihood } from "@prisma/client";
+import { useQueryState } from "nuqs";
 
 const formSchema = z.object({
 	residualProbability: z.nativeEnum(Likelihood),
@@ -49,6 +50,7 @@ export function ResidualRiskForm({
 	const t = useI18n();
 	const { toast } = useToast();
 	const router = useRouter();
+	const [_, setOpen] = useQueryState("residual-risk-sheet");
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -59,6 +61,7 @@ export function ResidualRiskForm({
 	});
 
 	async function onSubmit(values: FormValues) {
+		console.log("Form submitted with values:", values);
 		try {
 			const response = await updateVendorResidualRisk({
 				vendorId,
@@ -66,12 +69,14 @@ export function ResidualRiskForm({
 				residualImpact: values.residualImpact,
 			});
 
+			console.log("Server response:", response);
+
 			const result = response as unknown as ActionResponse;
 
-			if (!result.success) {
+			if (!result?.success) {
 				toast({
 					title: t("common.error"),
-					description: result.error || t("common.unexpected_error"),
+					description: result?.error || t("common.unexpected_error"),
 					variant: "destructive",
 				});
 				return;
@@ -82,10 +87,14 @@ export function ResidualRiskForm({
 				description: t("vendors.risks.residual_risk_updated"),
 			});
 
+			// Close the sheet by setting the query parameter to null
+			setOpen(null);
+
 			if (onSuccess) onSuccess();
 
 			router.refresh();
 		} catch (error) {
+			console.error("Error submitting form:", error);
 			toast({
 				title: t("common.error"),
 				description: t("common.unexpected_error"),
@@ -103,7 +112,11 @@ export function ResidualRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>{t("vendors.risks.residual_probability")}</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+								value={field.value}
+							>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
@@ -140,7 +153,11 @@ export function ResidualRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>{t("vendors.risks.residual_impact")}</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+								value={field.value}
+							>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue

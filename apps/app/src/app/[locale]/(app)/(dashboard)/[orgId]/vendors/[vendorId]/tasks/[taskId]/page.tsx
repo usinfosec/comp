@@ -53,6 +53,9 @@ export default async function TaskPage({ params }: PageProps) {
 		const assignees = await db.member.findMany({
 			where: {
 				organizationId: orgId,
+				role: {
+					notIn: ["employee"],
+				},
 			},
 			include: {
 				user: true,

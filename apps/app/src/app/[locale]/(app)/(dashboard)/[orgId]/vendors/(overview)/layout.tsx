@@ -21,8 +21,8 @@ export default async function Layout({
 	});
 
 	const orgId = activeOrganizationId;
-
 	const overview = await getVendorOverview();
+	const assignees = await getAssignees();
 
 	if (overview?.vendors === 0) {
 		return (
@@ -51,7 +51,7 @@ export default async function Layout({
 								},
 							]}
 						/>
-						<CreateVendorSheet />
+						<CreateVendorSheet assignees={assignees} />
 					</div>
 				</Suspense>
 			</div>
@@ -76,6 +76,32 @@ export default async function Layout({
 		</div>
 	);
 }
+
+const getAssignees = cache(async () => {
+	const {
+		session: { activeOrganizationId },
+	} = await getServersideSession({
+		headers: await headers(),
+	});
+
+	if (!activeOrganizationId) {
+		return [];
+	}
+
+	const assignees = await db.member.findMany({
+		where: {
+			organizationId: activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	return assignees;
+});
 
 const getVendorOverview = cache(async () => {
 	const {

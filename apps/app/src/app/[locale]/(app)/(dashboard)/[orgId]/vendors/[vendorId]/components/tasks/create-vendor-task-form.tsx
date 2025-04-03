@@ -41,6 +41,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { SelectAssignee } from "../../../../components/SelectAssignee";
 
 interface User {
 	id: string;
@@ -86,7 +87,7 @@ export function CreateVendorTaskForm() {
 			title: "",
 			description: "",
 			dueDate: new Date(),
-			ownerId: "",
+			assigneeId: "",
 			vendorId: params.vendorId,
 		},
 	});
@@ -198,29 +199,18 @@ export function CreateVendorTaskForm() {
 
 										<FormField
 											control={form.control}
-											name="ownerId"
+											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>{t("common.assignee.label")}</FormLabel>
 													<FormControl>
-														<Select
-															value={field.value}
-															onValueChange={field.onChange}
-														>
-															<SelectTrigger>
-																<SelectValue
-																	placeholder={t("common.assignee.placeholder")}
-																/>
-															</SelectTrigger>
-															<SelectContent>
-																<SelectUser
-																	users={users}
-																	isLoading={isLoadingUsers}
-																	onSelect={field.onChange}
-																	selectedId={field.value}
-																/>
-															</SelectContent>
-														</Select>
+														<SelectAssignee
+															assignees={users}
+															assigneeId={field.value}
+															isLoading={isLoadingUsers}
+															onSelect={field.onChange}
+															selectedId={field.value}
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>

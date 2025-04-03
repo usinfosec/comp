@@ -1,16 +1,16 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { User, Vendor } from "@comp/db/types";
+import type { Member, User, Vendor } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { UpdateSecondaryFieldsForm } from "./update-secondary-fields-form";
 
 export function SecondaryFields({
 	vendor,
-	users,
+	assignees,
 }: {
-	vendor: Vendor & { owner: User | null };
-	users: User[];
+	vendor: Vendor & { assignee: { user: User | null } | null };
+	assignees: (Member & { user: User })[];
 }) {
 	const t = useI18n();
 
@@ -25,7 +25,7 @@ export function SecondaryFields({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<UpdateSecondaryFieldsForm vendor={vendor} users={users} />
+					<UpdateSecondaryFieldsForm vendor={vendor} assignees={assignees} />
 				</CardContent>
 			</Card>
 		</div>

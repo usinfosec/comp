@@ -1,5 +1,6 @@
 import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
+import { PolicyStatus } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import type { CSSProperties } from "react";
 
@@ -36,7 +37,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 
 	const stats: UserPolicyStats[] = userStats.map((user) => {
 		const userPolicies = policies.filter(
-			(policy) => policy.ownerId === user.id,
+			(policy) => policy.assigneeId === user.id,
 		);
 
 		return {
@@ -47,15 +48,15 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 			},
 			totalPolicies: userPolicies.length,
 			publishedPolicies: userPolicies.filter(
-				(policy) => policy.status === "published",
+				(policy) => policy.status === PolicyStatus.published,
 			).length,
-			draftPolicies: userPolicies.filter((policy) => policy.status === "draft")
+			draftPolicies: userPolicies.filter(
+				(policy) => policy.status === PolicyStatus.draft,
+			).length,
+			archivedPolicies: userPolicies.filter((policy) => policy.isArchived)
 				.length,
-			archivedPolicies: userPolicies.filter(
-				(policy) => policy.status === "archived",
-			).length,
 			needsReviewPolicies: userPolicies.filter(
-				(policy) => policy.status === "needs_review",
+				(policy) => policy.status === PolicyStatus.needs_review,
 			).length,
 		};
 	});
@@ -221,8 +222,9 @@ const policiesByUser = async (organizationId: string) => {
 			organizationId,
 		},
 		select: {
-			ownerId: true,
+			assigneeId: true,
 			status: true,
+			isArchived: true,
 		},
 	});
 };

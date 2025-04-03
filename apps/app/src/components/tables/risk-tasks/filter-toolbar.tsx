@@ -37,7 +37,7 @@ export function FilterToolbar({ isEmpty, assignees }: Props) {
 		parse: (value) => value || null,
 	});
 
-	const [ownerId, setOwnerId] = useQueryState("ownerId", {
+	const [assigneeId, setAssigneeId] = useQueryState("assigneeId", {
 		shallow: false,
 		history: "push",
 		parse: (value) => value || null,
