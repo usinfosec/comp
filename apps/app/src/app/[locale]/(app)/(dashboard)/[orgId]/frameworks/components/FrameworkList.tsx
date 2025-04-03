@@ -5,15 +5,15 @@ import type { FrameworkInstanceWithComplianceScore } from "./types";
 import { FrameworkCard } from "./FrameworkCard";
 
 export function FrameworkList({
-	frameworksWithComplianceScores,
+	frameworksWithControlsAndComplianceScores,
 }: {
-	frameworksWithComplianceScores: FrameworkInstanceWithComplianceScore[];
+	frameworksWithControlsAndComplianceScores: FrameworkInstanceWithComplianceScore[];
 }) {
-	if (!frameworksWithComplianceScores.length) return null;
+	if (!frameworksWithControlsAndComplianceScores.length) return null;
 
 	return (
 		<div className="space-y-6">
-			{frameworksWithComplianceScores.map(
+			{frameworksWithControlsAndComplianceScores.map(
 				({ frameworkInstance, complianceScore }) => (
 					<FrameworkCard
 						key={frameworkInstance.id}

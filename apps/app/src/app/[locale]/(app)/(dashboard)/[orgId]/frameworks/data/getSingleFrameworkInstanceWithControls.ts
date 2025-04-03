@@ -24,6 +24,7 @@ export async function getSingleFrameworkInstanceWithControls({
 							evidence: true,
 						},
 					},
+					requirementsMapped: true,
 				},
 			},
 		},

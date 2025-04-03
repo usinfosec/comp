@@ -8,9 +8,10 @@ import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getFrameworkName } from "../lib/getFrameworkName";
+import { FrameworkInstanceWithControls } from "../types";
 
 interface FrameworkCardProps {
-	frameworkInstance: FrameworkInstance & { controls?: { length: number }[] };
+	frameworkInstance: FrameworkInstanceWithControls;
 	complianceScore: number;
 }
 
