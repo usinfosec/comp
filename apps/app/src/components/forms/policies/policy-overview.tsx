@@ -76,7 +76,7 @@ export function UpdatePolicyOverview({
 		defaultValues: {
 			id: policy.id,
 			status: policy.status,
-			ownerId: policy.ownerId ?? session.data?.user?.id,
+			assigneeId: policy.assigneeId ?? session.data?.user?.id,
 			department: policy.department ?? Departments.admin,
 			review_frequency: policy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
@@ -88,7 +88,7 @@ export function UpdatePolicyOverview({
 		updatePolicyForm.execute({
 			id: data.id,
 			status: data.status as PolicyStatus,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			department: data.department,
 			review_frequency: data.review_frequency,
 			review_date: data.review_date,
