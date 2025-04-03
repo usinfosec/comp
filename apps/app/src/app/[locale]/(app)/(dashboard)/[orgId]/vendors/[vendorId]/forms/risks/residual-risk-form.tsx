@@ -61,15 +61,12 @@ export function ResidualRiskForm({
 	});
 
 	async function onSubmit(values: FormValues) {
-		console.log("Form submitted with values:", values);
 		try {
 			const response = await updateVendorResidualRisk({
 				vendorId,
 				residualProbability: values.residualProbability,
 				residualImpact: values.residualImpact,
 			});
-
-			console.log("Server response:", response);
 
 			const result = response as unknown as ActionResponse;
 
@@ -87,12 +84,14 @@ export function ResidualRiskForm({
 				description: t("vendors.risks.residual_risk_updated"),
 			});
 
-			// Close the sheet by setting the query parameter to null
+			// Refresh router first for data update
+			router.refresh();
+
+			// Close the sheet after successful submission
 			setOpen(null);
 
+			// Call onSuccess callback if provided
 			if (onSuccess) onSuccess();
-
-			router.refresh();
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({

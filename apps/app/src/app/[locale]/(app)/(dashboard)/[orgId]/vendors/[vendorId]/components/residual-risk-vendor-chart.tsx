@@ -62,25 +62,6 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 	// Get color based on risk level
 	const riskColor = RISK_COLORS[riskLevel as keyof typeof RISK_COLORS];
 
-	// Get translated risk level using known safe keys
-	let riskLevelText: string;
-	switch (riskLevel) {
-		case "low":
-			riskLevelText = t("vendors.risks.low");
-			break;
-		case "medium":
-			riskLevelText = t("vendors.risks.medium");
-			break;
-		case "high":
-			riskLevelText = t("vendors.risks.high");
-			break;
-		case "critical":
-			riskLevelText = "Critical";
-			break;
-		default:
-			riskLevelText = "Unknown";
-	}
-
 	// Generate the 5x5 matrix
 	const matrix = [] as {
 		x: number;
@@ -123,7 +104,7 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 			<Card>
 				<CardHeader>
 					<div className="flex justify-between items-center">
-						<div>
+						<div className="w-full">
 							<CardTitle>
 								<div className="flex items-center justify-between gap-2">
 									{t("vendors.risks.residual_risk")}
@@ -133,7 +114,7 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 										variant="ghost"
 										className="p-0 m-0 size-auto"
 									>
-										<PencilIcon className="h-3 w-3" />
+										<PencilIcon className="h-4 w-4" />
 									</Button>
 								</div>
 							</CardTitle>
@@ -177,8 +158,12 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 														{cell?.isActive && (
 															<div className="absolute inset-0 flex items-center justify-center">
 																<div
-																	className="w-3 h-3 md:w-4 md:h-4 rounded-full border-2 border-white"
-																	style={{ backgroundColor: cell.color }}
+																	className="absolute inset-0 z-10 border-2"
+																	style={{
+																		backgroundColor: cell.color,
+																		borderColor: cell.color,
+																		opacity: 0.9,
+																	}}
 																/>
 															</div>
 														)}
@@ -234,14 +219,6 @@ export function ResidualRiskVendorChart({ vendor }: ResidualRiskChartProps) {
 								</div>
 							</div>
 						</div>
-					</div>
-
-					{/* Risk level display */}
-					<div className="text-center mt-8">
-						<span className="text-2xl font-bold" style={{ color: riskColor }}>
-							{riskLevelText}
-						</span>
-						<span className="text-muted-foreground ml-2">({riskScore}/25)</span>
 					</div>
 				</CardContent>
 			</Card>
