@@ -19,7 +19,7 @@ import {
 } from "@comp/ui/select";
 import { useToast } from "@comp/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { updateVendorInherentRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-inherent-risk";
@@ -50,6 +50,7 @@ export function InherentRiskForm({
 	const t = useI18n();
 	const { toast } = useToast();
 	const router = useRouter();
+	const searchParams = useSearchParams();
 	const [_, setOpen] = useQueryState("inherent-risk-sheet");
 
 	const form = useForm<FormValues>({
@@ -62,6 +63,9 @@ export function InherentRiskForm({
 
 	async function onSubmit(values: FormValues) {
 		try {
+			// Set this immediately to force closing the sheet
+			setOpen(null);
+
 			const response = await updateVendorInherentRisk({
 				vendorId,
 				inherentProbability: values.inherentProbability,
@@ -79,19 +83,14 @@ export function InherentRiskForm({
 				return;
 			}
 
+			// Show success toast
 			toast({
 				title: t("common.success"),
 				description: t("vendors.risks.inherent_risk_updated"),
 			});
 
-			// Refresh router first for data update
-			router.refresh();
-
-			// Close the sheet after successful submission
-			setOpen(null);
-
-			// Call onSuccess callback if provided
-			if (onSuccess) onSuccess();
+			// Force page refresh rather than router manipulation
+			window.location.reload();
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({
@@ -110,7 +109,9 @@ export function InherentRiskForm({
 					name="inherentProbability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.inherent_probability")}</FormLabel>
+							<FormLabel>
+								{t("vendors.risks.inherent_probability")} (Vertical Axis)
+							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								defaultValue={field.value}
@@ -124,20 +125,20 @@ export function InherentRiskForm({
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={Likelihood.very_unlikely}>
-										{t("vendors.risks.very_unlikely")}
-									</SelectItem>
-									<SelectItem value={Likelihood.unlikely}>
-										{t("vendors.risks.unlikely")}
-									</SelectItem>
-									<SelectItem value={Likelihood.possible}>
-										{t("vendors.risks.possible")}
+									<SelectItem value={Likelihood.very_likely}>
+										{t("vendors.risks.very_likely")} (Top row)
 									</SelectItem>
 									<SelectItem value={Likelihood.likely}>
 										{t("vendors.risks.likely")}
 									</SelectItem>
-									<SelectItem value={Likelihood.very_likely}>
-										{t("vendors.risks.very_likely")}
+									<SelectItem value={Likelihood.possible}>
+										{t("vendors.risks.possible")}
+									</SelectItem>
+									<SelectItem value={Likelihood.unlikely}>
+										{t("vendors.risks.unlikely")}
+									</SelectItem>
+									<SelectItem value={Likelihood.very_unlikely}>
+										{t("vendors.risks.very_unlikely")} (Bottom row)
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -151,7 +152,9 @@ export function InherentRiskForm({
 					name="inherentImpact"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.inherent_impact")}</FormLabel>
+							<FormLabel>
+								{t("vendors.risks.inherent_impact")} (Horizontal Axis)
+							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								defaultValue={field.value}
@@ -166,7 +169,7 @@ export function InherentRiskForm({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value={Impact.insignificant}>
-										{t("vendors.risks.insignificant")}
+										{t("vendors.risks.insignificant")} (Left column)
 									</SelectItem>
 									<SelectItem value={Impact.minor}>
 										{t("vendors.risks.minor")}
@@ -178,7 +181,7 @@ export function InherentRiskForm({
 										{t("vendors.risks.major")}
 									</SelectItem>
 									<SelectItem value={Impact.severe}>
-										{t("vendors.risks.severe")}
+										{t("vendors.risks.severe")} (Right column)
 									</SelectItem>
 								</SelectContent>
 							</Select>

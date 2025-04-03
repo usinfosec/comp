@@ -1,17 +1,9 @@
 "use server";
 
-import { DataTable } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/data-table";
-import {
-	NoResults,
-	NoTasks,
-} from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/empty-states";
-import { FilterToolbar } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/components/tasks/data-table/filter-toolbar";
-import { Loading } from "@/components/frameworks/loading";
 import { getI18n } from "@/locales/server";
 import { auth } from "@comp/auth";
 import { db } from "@comp/db";
 import type { TaskStatus } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
