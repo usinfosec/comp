@@ -31,7 +31,7 @@ export default async function ControlsPage({
 	]);
 
 	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls" }]}>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls", current: true }]}>
 			<ControlsTable promises={promises} />
 		</PageWithBreadcrumb>
 	);

@@ -13,4 +13,7 @@ export const controls = {
 	requirements: {
 		no_requirements_mapped: "No requirements mapped to this control.",
 	},
+	artifacts: {
+		no_artifacts: "No Linked Artifacts found",
+	},
 } as const;

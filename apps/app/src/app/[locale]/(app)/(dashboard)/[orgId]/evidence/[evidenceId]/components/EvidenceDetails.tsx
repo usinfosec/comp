@@ -16,13 +16,6 @@ export function EvidenceDetails({ assignees, evidence }: EvidenceDetailsProps) {
 					in compliance reports.
 				</div>
 			)}
-			<Alert>
-				<FileIcon className="h-4 w-4" />
-				<AlertTitle>{evidence.name} Evidence</AlertTitle>
-				<AlertDescription className="mt-4">
-					{evidence.description || "No description provided."}
-				</AlertDescription>
-			</Alert>
 			<ReviewSection
 				evidence={evidence}
 				lastPublishedAt={evidence.lastPublishedAt}

@@ -98,10 +98,9 @@ export function ReviewSection({
 			<CardHeader>
 				<CardTitle className="text-base flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 					<div>
-						<h2 className="text-lg font-medium">Evidence Overview</h2>
+						<h2 className="text-lg font-medium">{evidence.name}</h2>
 						<h3 className="text-sm text-muted-foreground">
-							Manage review frequency, department assignment, and track upcoming
-							review dates
+							{evidence.description}
 						</h3>
 					</div>
 				</CardTitle>

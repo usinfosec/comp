@@ -69,9 +69,20 @@ export default function PageWithBreadcrumb({
 								<BreadcrumbItem>
 									{item.dropdown ? (
 										<DropdownMenu>
-											<DropdownMenuTrigger className="flex items-center gap-1 text-sm">
-												{item.label}
-												<ChevronDown className="h-4 w-4" />
+											<DropdownMenuTrigger
+												className={`flex items-center gap-1 text-sm ${item.current ? "font-medium" : ""}`}
+											>
+												{item.current ? (
+													<BreadcrumbPage className="inline-flex items-center gap-1">
+														{item.label}
+														<ChevronDown className="h-4 w-4" />
+													</BreadcrumbPage>
+												) : (
+													<>
+														{item.label}
+														<ChevronDown className="h-4 w-4" />
+													</>
+												)}
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="start">
 												{item.dropdown.map((dropdownItem) => (

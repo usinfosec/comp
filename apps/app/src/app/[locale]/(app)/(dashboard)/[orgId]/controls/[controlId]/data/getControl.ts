@@ -25,7 +25,11 @@ export const getControl = async (id: string) => {
 			id,
 		},
 		include: {
-			requirementsMapped: true,
+			requirementsMapped: {
+				include: {
+					frameworkInstance: true,
+				},
+			},
 		},
 	});
 

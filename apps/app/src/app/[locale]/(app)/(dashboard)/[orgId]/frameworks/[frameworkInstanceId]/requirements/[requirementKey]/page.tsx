@@ -71,7 +71,11 @@ export default async function RequirementPage({ params }: PageProps) {
 					label: frameworkName,
 					href: `/${organizationId}/frameworks/${frameworkInstanceId}`,
 				},
-				{ label: requirement.name, dropdown: siblingRequirementsDropdown },
+				{
+					label: requirement.name,
+					dropdown: siblingRequirementsDropdown,
+					current: true,
+				},
 			]}
 		>
 			<div className="flex flex-col gap-6">

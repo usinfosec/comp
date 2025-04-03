@@ -6,13 +6,19 @@ import { getOrganizationControlProgress } from "./data/getOrganizationControlPro
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
 import { headers } from "next/headers";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { getRelatedArtifacts } from "@/app/[locale]/(app)/(dashboard)/[orgId]/controls/[controlId]/data/getRelatedArtifacts";
 
-interface PageProps {
-	params: Promise<{ controlId: string }>;
+interface ControlPageProps {
+	params: {
+		controlId: string;
+		orgId: string;
+		locale: string;
+	};
 }
 
-export default async function SingleControlPage({ params }: PageProps) {
-	const { controlId } = await params;
+export default async function ControlPage({ params }: ControlPageProps) {
+	// Await params before using them
+	const { controlId, orgId, locale } = await Promise.resolve(params);
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -42,17 +48,23 @@ export default async function SingleControlPage({ params }: PageProps) {
 		byType: {},
 	};
 
+	const relatedArtifacts = await getRelatedArtifacts({
+		organizationId: orgId,
+		controlId: controlId,
+	});
+
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
-				{
-					label: "Controls",
-					href: `/${session.session.activeOrganizationId}/controls`,
-				},
+				{ label: "Controls", href: `/${orgId}/controls` },
 				{ label: control.name, current: true },
 			]}
 		>
-			<SingleControl control={control} controlProgress={controlProgress} />
+			<SingleControl
+				control={control}
+				controlProgress={controlProgress}
+				relatedArtifacts={relatedArtifacts}
+			/>
 		</PageWithBreadcrumb>
 	);
 }

@@ -59,39 +59,6 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 		<div className="flex flex-col gap-4">
 			<RiskOverview risk={risk} assignees={assignees} />
 
-			{/* <Card>
-				<CardHeader>
-					<CardTitle>
-						<div className="flex items-center justify-between gap-2">
-							{t("risk.tasks.title")}
-						</div>
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="relative">
-						<FilterToolbar
-							isEmpty={loadedTasks.length === 0}
-							assignees={assignees}
-						/>
-						{loadedTasks.length > 0 ? (
-							<DataTable
-								columnHeaders={columnHeaders}
-								data={loadedTasks}
-								pageCount={Math.ceil(total / Number.parseInt(per_page))}
-								currentPage={Number.parseInt(page)}
-							/>
-						) : hasFilters ? (
-							<NoResults hasFilters={hasFilters} />
-						) : (
-							<>
-								<NoTasks isEmpty={true} />
-								<Loading isEmpty={true} amount={3} />
-							</>
-						)}
-					</div>
-				</CardContent>
-			</Card> */}
-
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<InherentRiskChart risk={risk} />
 				<ResidualRiskChart risk={risk} />
