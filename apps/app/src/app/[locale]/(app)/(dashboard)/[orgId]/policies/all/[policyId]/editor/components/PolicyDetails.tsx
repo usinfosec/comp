@@ -1,69 +1,37 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@bubba/ui/card";
-import { Skeleton } from "@bubba/ui/skeleton";
-import { redirect, useParams } from "next/navigation";
 import { PolicyEditor } from "@/components/editor/policy-editor";
-import { usePolicyDetails } from "../../../(overview)/hooks/usePolicy";
 import type { JSONContent } from "@tiptap/react";
 import "@bubba/ui/editor.css";
-
+import { updatePolicy } from "../actions/update-policy";
 interface PolicyDetailsProps {
-	policyId: string;
+  policyId: string;
+  policyContent: JSONContent | JSONContent[];
 }
 
-export function PolicyDetails({ policyId }: PolicyDetailsProps) {
-	const { policy, isLoading, updatePolicy } = usePolicyDetails(policyId);
-	const { orgId } = useParams();
+export function PolicyDetails({ policyId, policyContent }: PolicyDetailsProps) {
 
-	if (isLoading) {
-		return (
-			<div className="space-y-4">
-				<div className="flex flex-col space-y-4">
-					<Skeleton className="h-8 w-48" />
-					<Skeleton className="h-4 w-32" />
-				</div>
-				<Card>
-					<CardHeader>
-						<Skeleton className="h-6 w-32" />
-					</CardHeader>
-					<CardContent>
-						<div className="space-y-2">
-							<Skeleton className="h-4 w-full" />
-							<Skeleton className="h-4 w-full" />
-							<Skeleton className="h-4 w-3/4" />
-						</div>
-					</CardContent>
-				</Card>
-			</div>
-		);
-	}
+  const formattedContent = Array.isArray(policyContent)
+    ? policyContent
+    : typeof policyContent === "object" && policyContent !== null
+      ? [policyContent as JSONContent]
+      : [];
 
-	if (!policy) return redirect(`/${orgId}/policies`);
+  const handleSavePolicy = async (policyContent: JSONContent[]): Promise<void> => {
+    if (!policyId) return;
 
-	const formattedContent = Array.isArray(policy.content)
-		? policy.content
-		: typeof policy.content === "object" && policy.content !== null
-			? [policy.content as JSONContent]
-			: [];
+    try {
+      await updatePolicy({ policyId, content: policyContent });
+    } catch (error) {
+      console.error("Error saving policy:", error);
+      throw error;
+    }
+  };
 
-	const handleSavePolicy = async (content: JSONContent[]): Promise<void> => {
-		if (!policy) return;
-
-		try {
-			await updatePolicy({
-				...policy,
-				content,
-			});
-		} catch (error) {
-			console.error("Error saving policy:", error);
-			throw error;
-		}
-	};
-
-	return (
-		<div className="flex flex-col h-full mx-auto">
-			<PolicyEditor content={formattedContent} onSave={handleSavePolicy} />
-		</div>
-	);
+  return (
+    <div className="flex flex-col h-full mx-auto">
+      <PolicyEditor content={formattedContent} onSave={handleSavePolicy} />
+    </div>
+  );
 }
+

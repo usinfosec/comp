@@ -108,19 +108,18 @@ export function CreateNewPolicyForm() {
               </AccordionItem>
             </Accordion>
           </div>
-        </div>
-
-        <div className="flex justify-end mt-4">
-          <Button
-            type="submit"
-            variant="action"
-            disabled={createPolicy.status === "executing"}
-          >
-            <div className="flex items-center justify-center">
-              {t("common.actions.save")}
-              <ArrowRightIcon className="ml-2 h-4 w-4" />
-            </div>
-          </Button>
+          <div className="flex justify-end mt-4">
+            <Button
+              type="submit"
+              variant="action"
+              disabled={createPolicy.status === "executing"}
+            >
+              <div className="flex items-center justify-center">
+                {t("common.actions.create")}
+                <ArrowRightIcon className="ml-2 h-4 w-4" />
+              </div>
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

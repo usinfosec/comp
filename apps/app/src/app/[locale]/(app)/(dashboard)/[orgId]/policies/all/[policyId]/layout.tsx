@@ -1,9 +1,5 @@
-import { auth } from "@bubba/auth";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
 import { SecondaryMenu } from "@bubba/ui/secondary-menu";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,22 +9,6 @@ interface LayoutProps {
 export default async function Layout({ children, params }: LayoutProps) {
   const t = await getI18n();
   const { policyId, orgId } = await params;
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const organizationId = session?.session.activeOrganizationId;
-
-  if (!organizationId) {
-    redirect("/");
-  }
-
-  const policy = await getPolicy(policyId, organizationId);
-
-  if (!policy) {
-    redirect("/");
-  }
 
   return (
     <div className="max-w-[1200px] space-y-4 m-auto">
@@ -51,14 +31,3 @@ export default async function Layout({ children, params }: LayoutProps) {
     </div>
   );
 }
-
-const getPolicy = async (policyId: string, organizationId: string) => {
-  const policy = await db.policy.findUnique({
-    where: {
-      id: policyId,
-      organizationId: organizationId,
-    },
-  });
-
-  return policy;
-};

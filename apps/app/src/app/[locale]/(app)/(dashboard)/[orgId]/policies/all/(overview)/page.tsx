@@ -2,7 +2,7 @@ import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import React from "react";
+import { Suspense } from "react";
 import type { SearchParams } from "@/types";
 import { searchParamsCache } from "@/lib/validations";
 import { getValidFilters } from "@/lib/data-table";
@@ -33,7 +33,7 @@ export default async function PoliciesPage({
   ]);
 
   return (
-    <React.Suspense
+    <Suspense
       fallback={
         <DataTableSkeleton
           columnCount={7}
@@ -52,7 +52,7 @@ export default async function PoliciesPage({
       }
     >
       <PoliciesTable promises={promises} />
-    </React.Suspense>
+    </Suspense>
   );
 }
 

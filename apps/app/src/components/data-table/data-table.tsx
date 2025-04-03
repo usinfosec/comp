@@ -1,5 +1,6 @@
 import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import type * as React from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { DataTablePagination } from "./data-table-pagination";
 import {
@@ -16,6 +17,7 @@ import { cn } from "@bubba/ui/cn";
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+  getRowId?: (row: TData) => string;
 }
 
 export function DataTable<TData>({
@@ -23,8 +25,19 @@ export function DataTable<TData>({
   actionBar,
   children,
   className,
+  getRowId,
   ...props
 }: DataTableProps<TData>) {
+  const router = useRouter();
+  const currentPath = usePathname();
+
+  const handleRowClick = (row: TData) => {
+    if (getRowId) {
+      const id = getRowId(row);
+      router.push(`${currentPath}/${id}`);
+    }
+  };
+
   return (
     <div
       className={cn("flex w-full flex-col gap-2.5 overflow-auto", className)}
@@ -36,10 +49,14 @@ export function DataTable<TData>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header, index) => (
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
+                    className={cn(
+                      index !== 0 && "hidden md:table-cell",
+                      index === 0 && "max-w-[200px] md:max-w-none"
+                    )}
                     style={{
                       ...getCommonPinningStyles({ column: header.column }),
                     }}
@@ -55,16 +72,24 @@ export function DataTable<TData>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="[&_tr]:cursor-pointer">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={cn(
+                    getRowId
+                  )}
+                  onClick={() => handleRowClick(row.original)}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell, index) => (
                     <TableCell
                       key={cell.id}
+                      className={cn(
+                        index !== 0 && "hidden md:table-cell",
+                        index === 0 && "max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50"
+                      )}
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}

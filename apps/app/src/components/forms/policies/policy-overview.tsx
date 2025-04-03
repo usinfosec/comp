@@ -2,7 +2,6 @@
 
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
-import { SelectUser } from "@/components/select-user";
 import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { useI18n } from "@/locales/client";
 import {
@@ -10,7 +9,6 @@ import {
   Frequency,
   type Policy,
   type PolicyStatus,
-  type User,
 } from "@bubba/db/types";
 import { Button } from "@bubba/ui/button";
 import { Calendar } from "@bubba/ui/calendar";
@@ -49,10 +47,8 @@ const policyStatuses: PolicyStatus[] = [
 
 export function UpdatePolicyOverview({
   policy,
-  users,
 }: {
   policy: Policy;
-  users: User[];
 }) {
   const t = useI18n();
   const session = useSession();
@@ -104,37 +100,6 @@ export function UpdatePolicyOverview({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="ownerId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("common.assignee.label")}</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    onOpenChange={() => form.handleSubmit(onSubmit)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={t("common.assignee.placeholder")}
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectUser
-                        isLoading={false}
-                        onSelect={field.onChange}
-                        selectedId={field.value}
-                        users={users}
-                      />
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="status"
