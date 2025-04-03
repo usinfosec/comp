@@ -91,7 +91,7 @@ export const createRiskSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Risk department is required",
   }),
-  assigneeId: z.string().nullable(),
+  assigneeId: z.string().optional().nullable(),
 });
 
 export const updateRiskSchema = z.object({
@@ -110,7 +110,7 @@ export const updateRiskSchema = z.object({
   department: z.nativeEnum(Departments, {
     required_error: "Risk department is required",
   }),
-  assigneeId: z.string().nullable(),
+  assigneeId: z.string().optional().nullable(),
   status: z.nativeEnum(RiskStatus, {
     required_error: "Risk status is required",
   }),
@@ -141,13 +141,7 @@ export const createTaskSchema = z.object({
     message: "Task description is required",
   }),
   dueDate: z.date().optional(),
-  assigneeId: z
-    .string({
-      required_error: "You must assign an owner to the task",
-    })
-    .min(1, {
-      message: "You must assign an owner to the task",
-    }),
+  assigneeId: z.string().optional().nullable(),
 });
 
 export const updateTaskSchema = z.object({
@@ -160,9 +154,7 @@ export const updateTaskSchema = z.object({
   status: z.nativeEnum(TaskStatus, {
     required_error: "Task status is required",
   }),
-  assigneeId: z.string({
-    required_error: "You must assign an owner to the task",
-  }),
+  assigneeId: z.string().optional().nullable(),
 });
 
 export const createTaskCommentSchema = z.object({
@@ -262,7 +254,7 @@ export const updatePolicyOverviewSchema = z.object({
 export const updatePolicyFormSchema = z.object({
   id: z.string(),
   status: z.nativeEnum(PolicyStatus),
-  assigneeId: z.string().nullable(),
+  assigneeId: z.string().optional().nullable(),
   department: z.nativeEnum(Departments),
   review_frequency: z.nativeEnum(Frequency),
   review_date: z.date(),
