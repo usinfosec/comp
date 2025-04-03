@@ -2,10 +2,16 @@
 CREATE TYPE "ArtifactType" AS ENUM ('policy', 'evidence', 'procedure', 'training');
 
 -- CreateEnum
+CREATE TYPE "Role" AS ENUM ('owner', 'admin', 'auditor', 'employee');
+
+-- CreateEnum
 CREATE TYPE "FrameworkId" AS ENUM ('soc2');
 
 -- CreateEnum
 CREATE TYPE "PolicyStatus" AS ENUM ('draft', 'published', 'needs_review', 'archived');
+
+-- CreateEnum
+CREATE TYPE "RequirementId" AS ENUM ('soc2_CC1', 'soc2_CC2', 'soc2_CC3', 'soc2_CC4', 'soc2_CC5', 'soc2_CC6', 'soc2_CC7', 'soc2_CC8', 'soc2_CC9', 'soc2_A1', 'soc2_C1', 'soc2_PI1', 'soc2_P1');
 
 -- CreateEnum
 CREATE TYPE "RiskTreatmentType" AS ENUM ('accept', 'avoid', 'mitigate', 'transfer');
@@ -27,6 +33,12 @@ CREATE TYPE "Likelihood" AS ENUM ('very_unlikely', 'unlikely', 'possible', 'like
 
 -- CreateEnum
 CREATE TYPE "Impact" AS ENUM ('insignificant', 'minor', 'moderate', 'major', 'severe');
+
+-- CreateEnum
+CREATE TYPE "TaskStatus" AS ENUM ('open', 'closed');
+
+-- CreateEnum
+CREATE TYPE "TaskType" AS ENUM ('vendor', 'risk');
 
 -- CreateEnum
 CREATE TYPE "VendorCategory" AS ENUM ('cloud', 'infrastructure', 'software_as_a_service', 'finance', 'marketing', 'sales', 'hr', 'other');
@@ -54,7 +66,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "emailVerified" BOOLEAN NOT NULL,
     "image" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "lastLogin" TIMESTAMP(3),
 
@@ -64,9 +76,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "EmployeeTrainingVideoCompletion" (
     "id" TEXT NOT NULL,
+    "completedAt" TIMESTAMP(3),
     "videoId" TEXT NOT NULL,
-    "completedAt" TIMESTAMP(3) NOT NULL,
-    "userId" TEXT NOT NULL,
+    "memberId" TEXT NOT NULL,
 
     CONSTRAINT "EmployeeTrainingVideoCompletion_pkey" PRIMARY KEY ("id")
 );
@@ -76,7 +88,7 @@ CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "token" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "ipAddress" TEXT,
     "userAgent" TEXT,
@@ -111,8 +123,8 @@ CREATE TABLE "Verification" (
     "identifier" TEXT NOT NULL,
     "value" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3),
-    "updatedAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Verification_pkey" PRIMARY KEY ("id")
 );
@@ -123,7 +135,7 @@ CREATE TABLE "Member" (
     "organizationId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "role" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "department" "Departments" NOT NULL DEFAULT 'none',
     "isActive" BOOLEAN NOT NULL DEFAULT true,
 
@@ -222,7 +234,6 @@ CREATE TABLE "Organization" (
     "logo" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "metadata" TEXT,
-    "website" TEXT NOT NULL,
 
     CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
 );
@@ -246,6 +257,16 @@ CREATE TABLE "Policy" (
     "reviewDate" TIMESTAMP(3),
 
     CONSTRAINT "Policy_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RequirementMap" (
+    "id" TEXT NOT NULL,
+    "requirementId" "RequirementId" NOT NULL,
+    "controlId" TEXT NOT NULL,
+    "frameworkInstanceId" TEXT NOT NULL,
+
+    CONSTRAINT "RequirementMap_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -294,6 +315,23 @@ CREATE TABLE "AuditLog" (
     "data" JSONB NOT NULL,
 
     CONSTRAINT "AuditLog_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Task" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "dueDate" TIMESTAMP(3) NOT NULL,
+    "status" "TaskStatus" NOT NULL DEFAULT 'open',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "relatedId" TEXT NOT NULL,
+    "relatedType" "TaskType" NOT NULL,
+    "userId" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+
+    CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -348,7 +386,10 @@ CREATE TABLE "_ControlToFrameworkInstance" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE INDEX "EmployeeTrainingVideoCompletion_userId_idx" ON "EmployeeTrainingVideoCompletion"("userId");
+CREATE INDEX "EmployeeTrainingVideoCompletion_memberId_idx" ON "EmployeeTrainingVideoCompletion"("memberId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "EmployeeTrainingVideoCompletion_memberId_videoId_key" ON "EmployeeTrainingVideoCompletion"("memberId", "videoId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_token_key" ON "Session"("token");
@@ -387,6 +428,12 @@ CREATE INDEX "Organization_slug_idx" ON "Organization"("slug");
 CREATE INDEX "Policy_organizationId_idx" ON "Policy"("organizationId");
 
 -- CreateIndex
+CREATE INDEX "RequirementMap_requirementId_frameworkInstanceId_idx" ON "RequirementMap"("requirementId", "frameworkInstanceId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RequirementMap_controlId_frameworkInstanceId_requirementId_key" ON "RequirementMap"("controlId", "frameworkInstanceId", "requirementId");
+
+-- CreateIndex
 CREATE INDEX "Risk_organizationId_idx" ON "Risk"("organizationId");
 
 -- CreateIndex
@@ -412,6 +459,12 @@ CREATE INDEX "AuditLog_userId_idx" ON "AuditLog"("userId");
 
 -- CreateIndex
 CREATE INDEX "AuditLog_organizationId_idx" ON "AuditLog"("organizationId");
+
+-- CreateIndex
+CREATE INDEX "Task_relatedId_idx" ON "Task"("relatedId");
+
+-- CreateIndex
+CREATE INDEX "Task_relatedId_organizationId_idx" ON "Task"("relatedId", "organizationId");
 
 -- CreateIndex
 CREATE INDEX "Vendor_organizationId_idx" ON "Vendor"("organizationId");
@@ -441,7 +494,7 @@ ALTER TABLE "Artifact" ADD CONSTRAINT "Artifact_evidenceId_fkey" FOREIGN KEY ("e
 ALTER TABLE "Artifact" ADD CONSTRAINT "Artifact_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EmployeeTrainingVideoCompletion" ADD CONSTRAINT "EmployeeTrainingVideoCompletion_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "EmployeeTrainingVideoCompletion" ADD CONSTRAINT "EmployeeTrainingVideoCompletion_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Member"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -489,6 +542,12 @@ ALTER TABLE "Policy" ADD CONSTRAINT "Policy_organizationId_fkey" FOREIGN KEY ("o
 ALTER TABLE "Policy" ADD CONSTRAINT "Policy_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "RequirementMap" ADD CONSTRAINT "RequirementMap_controlId_fkey" FOREIGN KEY ("controlId") REFERENCES "Control"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RequirementMap" ADD CONSTRAINT "RequirementMap_frameworkInstanceId_fkey" FOREIGN KEY ("frameworkInstanceId") REFERENCES "FrameworkInstance"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Risk" ADD CONSTRAINT "Risk_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -504,13 +563,19 @@ ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_organizationId_fkey" FOREIGN KEY
 ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Vendor" ADD CONSTRAINT "Vendor_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Vendor" ADD CONSTRAINT "Vendor_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VendorContact" ADD CONSTRAINT "VendorContact_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "VendorContact" ADD CONSTRAINT "VendorContact_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ArtifactToControl" ADD CONSTRAINT "_ArtifactToControl_A_fkey" FOREIGN KEY ("A") REFERENCES "Artifact"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -523,3 +588,30 @@ ALTER TABLE "_ControlToFrameworkInstance" ADD CONSTRAINT "_ControlToFrameworkIns
 
 -- AddForeignKey
 ALTER TABLE "_ControlToFrameworkInstance" ADD CONSTRAINT "_ControlToFrameworkInstance_B_fkey" FOREIGN KEY ("B") REFERENCES "FrameworkInstance"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- Create function to generate prefixed CUID
+CREATE OR REPLACE FUNCTION generate_prefixed_cuid(prefix text)
+RETURNS text AS $$
+DECLARE
+    timestamp_part text;
+    counter_part text;
+    fingerprint_part text;
+    random_part text;
+BEGIN
+    -- Generate timestamp component (first 8 chars)
+    timestamp_part = LOWER(TO_HEX(EXTRACT(EPOCH FROM NOW())::BIGINT));
+    
+    -- Generate counter component (4 chars)
+    counter_part = LOWER(TO_HEX((RANDOM() * 16777215)::INT));
+    
+    -- Generate fingerprint (4 chars)
+    fingerprint_part = LOWER(TO_HEX((RANDOM() * 16777215)::INT));
+    
+    -- Generate random component (8 chars) 
+    random_part = LOWER(TO_HEX((RANDOM() * 4294967295)::BIGINT));
+
+    -- Combine all parts with prefix
+    RETURN prefix || '_' || timestamp_part || counter_part || fingerprint_part || random_part;
+END;
+$$ LANGUAGE plpgsql;
