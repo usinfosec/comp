@@ -2,7 +2,7 @@
 
 import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { formatDate } from "@/utils/format";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";

@@ -1,4 +1,4 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { Loading } from "@/components/frameworks/loading";
 import { InherentRiskChart } from "@/components/risks/charts/inherent-risk-chart";
 import { ResidualRiskChart } from "@/components/risks/charts/residual-risk-chart";
@@ -13,9 +13,9 @@ import { FilterToolbar } from "@/components/tables/risk-tasks/filter-toolbar";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { useUsers } from "@/hooks/use-users";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import type { TaskStatus } from "@bubba/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { db } from "@comp/db";
+import type { TaskStatus } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

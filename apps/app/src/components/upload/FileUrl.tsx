@@ -1,14 +1,14 @@
 "use client";
 
-import { Badge } from "@bubba/ui/badge";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
+import { Badge } from "@comp/ui/badge";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import { Copy, ExternalLink, Link, Plus, Save, Trash } from "lucide-react";
 import { useUrlManagement } from "@/hooks/upload/use-url-management";
 import { useTranslations } from "next-intl";

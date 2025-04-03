@@ -1,8 +1,8 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { db } from "@comp/db";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { cache, Suspense } from "react";
 import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 import { headers } from "next/headers";

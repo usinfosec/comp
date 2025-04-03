@@ -1,8 +1,8 @@
 import { cache } from "react";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { getI18n } from "@/locales/server";
-import { trainingVideos as trainingVideosData } from "@bubba/data";
-import { db } from "@bubba/db";
+import { trainingVideos as trainingVideosData } from "@comp/data";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { notFound, redirect } from "next/navigation";

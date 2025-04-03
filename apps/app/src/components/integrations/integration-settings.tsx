@@ -1,8 +1,8 @@
 import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
-import { Label } from "@bubba/ui/label";
-import { Switch } from "@bubba/ui/switch";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
+import { Label } from "@comp/ui/label";
+import { Switch } from "@comp/ui/switch";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";

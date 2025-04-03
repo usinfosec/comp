@@ -1,4 +1,4 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { getOrganizations } from "@/data/getOrganizations";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";

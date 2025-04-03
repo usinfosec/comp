@@ -1,16 +1,16 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { User, TaskStatus } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
+import type { User, TaskStatus } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { XIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 

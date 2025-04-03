@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@bubba/ui/badge";
+import { Badge } from "@comp/ui/badge";
 import { X } from "lucide-react";
 import { useEvidenceTable } from "../../../hooks/useEvidenceTableContext";
 

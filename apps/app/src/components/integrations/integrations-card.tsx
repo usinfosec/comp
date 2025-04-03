@@ -5,11 +5,11 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@bubba/ui/accordion";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { ScrollArea } from "@bubba/ui/scroll-area";
-import { Sheet, SheetContent, SheetHeader } from "@bubba/ui/sheet";
+} from "@comp/ui/accordion";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { ScrollArea } from "@comp/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader } from "@comp/ui/sheet";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
@@ -25,13 +25,13 @@ import { Calendar, Clock, Check, Globe } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
-import { Input } from "@bubba/ui/input";
+import { Input } from "@comp/ui/input";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 
 // Add a type for the logo
 export type LogoType = StaticImageData | { light: string; dark: string };

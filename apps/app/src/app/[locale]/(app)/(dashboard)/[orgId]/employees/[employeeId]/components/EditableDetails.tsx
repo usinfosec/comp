@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateEmployeeDetails } from "../actions/update-employee-details";

@@ -1,7 +1,7 @@
 "use server";
 
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { ArtifactType } from "@prisma/client";
 

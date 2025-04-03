@@ -2,32 +2,32 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import { TrainingVideo } from "@bubba/data";
+import { TrainingVideo } from "@comp/data";
 import type {
 	Departments,
 	EmployeeTrainingVideoCompletion,
 	Member,
 	Policy,
 	User,
-} from "@bubba/db/types";
-import { Alert, AlertDescription, AlertTitle } from "@bubba/ui/alert";
-import { Button } from "@bubba/ui/button";
+} from "@comp/db/types";
+import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
+import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@bubba/ui/card";
+} from "@comp/ui/card";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Skeleton } from "@bubba/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+} from "@comp/ui/select";
+import { Skeleton } from "@comp/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";

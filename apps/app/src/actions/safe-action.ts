@@ -1,6 +1,6 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { logger } from "@/utils/logger";
-import { client } from "@bubba/kv";
+import { client } from "@comp/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import {
 	DEFAULT_SERVER_ERROR_MESSAGE,

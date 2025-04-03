@@ -1,5 +1,5 @@
 import { DataTableSkeleton } from "@/components/ui/data-table";
-import { Card } from "@bubba/ui/card";
+import { Card } from "@comp/ui/card";
 
 export default function EvidenceListLoading() {
 	return (

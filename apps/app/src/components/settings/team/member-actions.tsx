@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import { MoreHorizontal, UserCog, UserMinus } from "lucide-react";
 import { useState } from "react";
 import {
@@ -21,7 +21,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@bubba/ui/alert-dialog";
+} from "@comp/ui/alert-dialog";
 import { updateMemberRole } from "@/actions/organization/update-member-role";
 import { removeMember } from "@/actions/organization/remove-member";
 import { toast } from "sonner";
@@ -32,15 +32,15 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@bubba/ui/dialog";
-import { Label } from "@bubba/ui/label";
+} from "@comp/ui/dialog";
+import { Label } from "@comp/ui/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import type { User, Role, Member } from "@prisma/client";
 import { useI18n } from "@/locales/client";
 

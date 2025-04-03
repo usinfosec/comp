@@ -4,7 +4,7 @@ import { authActionClient } from "../safe-action";
 import { z } from "zod";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { headers } from "next/headers";
 
 const inviteMemberSchema = z.object({

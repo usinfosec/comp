@@ -1,4 +1,4 @@
-import { auth, authClient } from "@bubba/auth";
+import { auth, authClient } from "@comp/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";

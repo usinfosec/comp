@@ -8,13 +8,13 @@ import {
 	CardHeader,
 	CardFooter,
 	CardTitle,
-} from "@bubba/ui/card";
+} from "@comp/ui/card";
 import {
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
 	type ChartConfig,
-} from "@bubba/ui/chart";
+} from "@comp/ui/chart";
 import { useI18n } from "@/locales/client";
 import {
 	Bar,

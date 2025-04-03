@@ -1,8 +1,8 @@
 "use client";
 
-import { Integration } from "@bubba/db/types";
-import { integrations } from "@bubba/integrations";
-import { Button } from "@bubba/ui/button";
+import { Integration } from "@comp/db/types";
+import { integrations } from "@comp/integrations";
+import { Button } from "@comp/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IntegrationsCard, type LogoType } from "./integrations-card";
 

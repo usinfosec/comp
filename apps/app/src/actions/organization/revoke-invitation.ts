@@ -1,11 +1,11 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { authActionClient } from "../safe-action";
 import { z } from "zod";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { Role } from "@bubba/db/types";
+import { Role } from "@comp/db/types";
 
 const revokeInvitationSchema = z.object({
 	invitationId: z.string(),

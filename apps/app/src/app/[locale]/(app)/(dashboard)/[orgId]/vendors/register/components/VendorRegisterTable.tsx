@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { useI18n } from "@/locales/client";
-import type { Departments, RiskStatus, User, Vendor } from "@bubba/db/types";
+import type { Departments, RiskStatus, User, Vendor } from "@comp/db/types";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";

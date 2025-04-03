@@ -1,5 +1,5 @@
-import type { FrameworkId, RequirementMap } from "@bubba/db/types";
-import { TableCell, TableRow } from "@bubba/ui/table";
+import type { FrameworkId, RequirementMap } from "@comp/db/types";
+import { TableCell, TableRow } from "@comp/ui/table";
 import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";

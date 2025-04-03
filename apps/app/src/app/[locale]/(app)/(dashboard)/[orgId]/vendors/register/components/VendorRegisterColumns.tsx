@@ -1,6 +1,6 @@
 import { VendorStatus } from "@/components/vendor-status";
-import { Avatar, AvatarFallback, AvatarImage } from "@bubba/ui/avatar";
-import { Badge } from "@bubba/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import type { VendorRegisterTableRow } from "./VendorRegisterTable";
@@ -11,7 +11,9 @@ export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 		accessorKey: "name",
 		cell: ({ row }) => {
 			return (
-				<Link href={`/${row.original.organizationId}/vendors/${row.original.id}`}>
+				<Link
+					href={`/${row.original.organizationId}/vendors/${row.original.id}`}
+				>
 					{row.original.name}
 				</Link>
 			);

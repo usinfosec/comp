@@ -1,18 +1,18 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import * as React from "react";
 import type { CSSProperties } from "react";
 
 // Use correct types from the database
-import { TrainingVideo } from "@bubba/data";
+import { TrainingVideo } from "@comp/data";
 import {
 	EmployeeTrainingVideoCompletion,
 	Member,
 	Policy,
 	User,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 
 interface EmployeeCompletionChartProps {
 	employees: (Member & {

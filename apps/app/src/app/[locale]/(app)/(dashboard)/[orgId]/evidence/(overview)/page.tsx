@@ -1,7 +1,7 @@
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { redirect } from "next/navigation";
 import { cache, Suspense } from "react";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";

@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { appErrors } from "@/lib/errors";
 import type { ActionResponse } from "@/types/actions";
 import { createSafeActionClient } from "next-safe-action";

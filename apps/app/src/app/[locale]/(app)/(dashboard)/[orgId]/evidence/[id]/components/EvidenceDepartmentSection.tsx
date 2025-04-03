@@ -6,8 +6,8 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Departments } from "@bubba/db/types";
+} from "@comp/ui/select";
+import { Departments } from "@comp/db/types";
 import { Building } from "lucide-react";
 
 interface DepartmentSectionProps {

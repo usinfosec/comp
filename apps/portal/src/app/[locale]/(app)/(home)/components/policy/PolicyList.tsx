@@ -1,6 +1,6 @@
 "use client";
 
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
+import type { OrganizationPolicy, Policy } from "@comp/db/types";
 import { PolicyContainer } from "./PolicyContainer";
 import type { Session } from "@/app/lib/auth";
 

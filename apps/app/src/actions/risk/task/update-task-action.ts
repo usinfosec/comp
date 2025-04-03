@@ -2,8 +2,8 @@
 
 "use server";
 
-import { db } from "@bubba/db";
-import type { TaskStatus } from "@bubba/db/types";
+import { db } from "@comp/db";
+import type { TaskStatus } from "@comp/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../../safe-action";
 import { updateTaskSchema } from "../../schema";

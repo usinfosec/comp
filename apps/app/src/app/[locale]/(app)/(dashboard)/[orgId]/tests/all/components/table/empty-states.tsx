@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { CloudOff } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { refreshTestsAction } from "@/app/[locale]/(app)/(dashboard)/[orgId]/tests/all/actions/refreshTests";
@@ -11,19 +11,19 @@ import { toast } from "sonner";
 export function NoTests() {
 	const t = useI18n();
 
-  const refreshTests = useAction(refreshTestsAction, {
-    onSuccess: () => {
-      toast.success(t("tests.actions.refresh_success"));
-      window.location.reload();
-    },
-    onError: () => {
-      toast.error(t("tests.actions.refresh_error"));
-    },
-  });
+	const refreshTests = useAction(refreshTestsAction, {
+		onSuccess: () => {
+			toast.success(t("tests.actions.refresh_success"));
+			window.location.reload();
+		},
+		onError: () => {
+			toast.error(t("tests.actions.refresh_error"));
+		},
+	});
 
-  const refreshTestsClick = () => {
-    refreshTests.execute();
-  };
+	const refreshTestsClick = () => {
+		refreshTests.execute();
+	};
 
 	return (
 		<div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">
@@ -35,7 +35,9 @@ export function NoTests() {
 				<p className="text-sm text-muted-foreground mb-6">
 					{t("tests.empty.no_tests.description")}
 				</p>
-				<Button variant="action" onClick={refreshTestsClick}>{t("tests.actions.refresh")}</Button>
+				<Button variant="action" onClick={refreshTestsClick}>
+					{t("tests.actions.refresh")}
+				</Button>
 			</div>
 		</div>
 	);

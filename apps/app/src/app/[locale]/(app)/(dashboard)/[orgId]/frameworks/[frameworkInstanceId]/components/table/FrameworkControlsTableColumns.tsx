@@ -5,7 +5,7 @@ import {
 	type StatusType,
 } from "@/components/frameworks/framework-status";
 import { useI18n } from "@/locales/client";
-import type { Artifact, PolicyStatus } from "@bubba/db/types";
+import type { Artifact, PolicyStatus } from "@comp/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import {
@@ -13,7 +13,7 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import { useParams } from "next/navigation";
 import { getControlStatus } from "../../../lib/utils";
 

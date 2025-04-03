@@ -3,10 +3,10 @@
 import { STATUS_FILTERS } from "./filterConfigs";
 import { AssigneeAvatar } from "./AssigneeAvatar";
 import { EVIDENCE_STATUS_HEX_COLORS } from "../../../../(overview)/constants/evidence-status";
-import { cn } from "@bubba/ui/cn";
-import { Departments } from "@bubba/db/types";
-import { EvidenceStatus } from "@bubba/db/types";
-import { Frequency } from "@bubba/db/types";
+import { cn } from "@comp/ui/cn";
+import { Departments } from "@comp/db/types";
+import { EvidenceStatus } from "@comp/db/types";
+import { Frequency } from "@comp/db/types";
 
 interface FilterCategoriesProps {
 	status: EvidenceStatus | null;

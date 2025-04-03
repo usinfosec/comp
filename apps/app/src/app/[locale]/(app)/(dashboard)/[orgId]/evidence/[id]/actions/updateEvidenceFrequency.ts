@@ -1,10 +1,10 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { z } from "zod";
 import type { ActionResponse } from "@/actions/types";
-import { Frequency } from "@bubba/db/types";
+import { Frequency } from "@comp/db/types";
 
 const schema = z.object({
 	id: z.string(),

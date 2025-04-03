@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { PolicyCard } from "./PolicyCard";
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
+import type { OrganizationPolicy, Policy } from "@comp/db/types";
 import { useAction } from "next-safe-action/hooks";
 import { markPolicyAsCompleted } from "../../actions/markPolicyAsCompleted";
 import { toast } from "sonner";

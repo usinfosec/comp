@@ -1,8 +1,8 @@
 "use client";
 
-import { Badge } from "@bubba/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Progress } from "@bubba/ui/progress";
+import { Badge } from "@comp/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Progress } from "@comp/ui/progress";
 import { FrameworkInstanceWithControls } from "../../types";
 import { getControlStatus } from "../../lib/utils";
 import { getFrameworkDetails } from "../../lib/getFrameworkDetails";

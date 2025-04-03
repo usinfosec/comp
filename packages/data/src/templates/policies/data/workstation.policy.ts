@@ -1,6 +1,6 @@
-import type { Policy } from "../types";
+import type { TemplatePolicy } from "../types";
 
-export const workstationPolicy: Policy = {
+export const workstationPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "workstation",

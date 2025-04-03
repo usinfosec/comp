@@ -3,14 +3,14 @@
 import { useOrganizationAdmins } from "@/app/[locale]/(app)/(dashboard)/[orgId]/hooks/useOrganizationAdmins";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
-import { VendorCategory, VendorStatus } from "@bubba/db/types";
+import { VendorCategory, VendorStatus } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@bubba/ui/accordion";
-import { Button } from "@bubba/ui/button";
+} from "@comp/ui/accordion";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -18,19 +18,19 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Input } from "@bubba/ui/input";
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Textarea } from "@bubba/ui/textarea";
+} from "@comp/ui/select";
+import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
-import { useSession } from "@bubba/auth";
+import { useSession } from "@comp/auth";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";

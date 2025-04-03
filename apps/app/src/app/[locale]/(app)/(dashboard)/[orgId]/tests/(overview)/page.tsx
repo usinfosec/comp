@@ -1,9 +1,9 @@
 import { cache } from "react";
-import { auth } from "@bubba/auth";
+import { auth } from "@comp/auth";
 import { TestsSeverity } from "@/components/tests/charts/tests-severity";
 import { TestsByAssignee } from "@/components/tests/charts/tests-by-assignee";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";

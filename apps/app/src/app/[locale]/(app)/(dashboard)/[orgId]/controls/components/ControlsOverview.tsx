@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Control } from "@bubba/db/types";
+import type { Control } from "@comp/db/types";
 import { ControlsTable } from "./table/ControlsTable";
 
 interface ControlsOverviewProps {

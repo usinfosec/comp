@@ -2,13 +2,13 @@
 
 import { usePolicies } from "@/app/[locale]/(app)/(dashboard)/[orgId]/policies/all/(overview)/hooks/usePolicies";
 import { useI18n } from "@/locales/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import {
 	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-} from "@bubba/ui/chart";
+} from "@comp/ui/chart";
 import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 export function PoliciesByFramework() {

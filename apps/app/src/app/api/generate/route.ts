@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
 import { openai } from "@ai-sdk/openai";
-import { client } from "@bubba/kv";
+import { client } from "@comp/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import { streamText } from "ai";
 import { match } from "ts-pattern";

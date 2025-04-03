@@ -1,8 +1,8 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";

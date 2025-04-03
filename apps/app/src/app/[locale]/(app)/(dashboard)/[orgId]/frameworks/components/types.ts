@@ -3,7 +3,7 @@ import type {
 	FrameworkInstance,
 	IntegrationResult,
 	Policy,
-} from "@bubba/db/types";
+} from "@comp/db/types";
 import { FrameworkInstanceWithControls } from "../types";
 
 export interface ComplianceScoresProps {

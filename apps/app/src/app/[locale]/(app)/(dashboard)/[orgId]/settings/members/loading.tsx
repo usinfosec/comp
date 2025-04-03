@@ -6,8 +6,8 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@bubba/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+} from "@comp/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 
 export default async function Loading() {
 	const t = await getI18n();

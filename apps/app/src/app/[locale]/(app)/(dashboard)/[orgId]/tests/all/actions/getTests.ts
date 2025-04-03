@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { authActionClient } from "@/actions/safe-action";
 import { testsInputSchema } from "../types";
 

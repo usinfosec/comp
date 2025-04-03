@@ -1,4 +1,4 @@
-import type { Session } from "@bubba/auth";
+import type { Session } from "@comp/auth";
 import { createContext } from "react";
 import { createStore } from "zustand";
 

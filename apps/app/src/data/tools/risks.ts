@@ -1,6 +1,6 @@
-import { auth } from "@bubba/auth";
-import { db } from "@bubba/db";
-import { Departments, RiskStatus, RiskCategory } from "@bubba/db/types";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
+import { Departments, RiskStatus, RiskCategory } from "@comp/db/types";
 import { tool } from "ai";
 import { headers } from "next/headers";
 import { z } from "zod";

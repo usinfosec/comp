@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -9,15 +9,15 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
+} from "@comp/ui/form";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { useToast } from "@bubba/ui/use-toast";
+} from "@comp/ui/select";
+import { useToast } from "@comp/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

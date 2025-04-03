@@ -1,5 +1,5 @@
 import { UserMenu } from "@/app/components/user-menu";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 import { Suspense } from "react";
 import { MobileMenu } from "./mobile-menu";
 

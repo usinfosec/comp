@@ -1,7 +1,7 @@
 import "server-only";
 
-import { db } from "@bubba/db";
-import { auth } from "@bubba/auth";
+import { db } from "@comp/db";
+import { auth } from "@comp/auth";
 import type { GetPolicySchema } from "./validations";
 import { cache } from "react";
 import { headers } from "next/headers";
