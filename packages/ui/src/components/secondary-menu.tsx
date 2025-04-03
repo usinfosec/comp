@@ -53,7 +53,7 @@ export function SecondaryMenu({
 		<nav className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}>
 			<ul
 				className={cn(
-					"scrollbar-hide flex overflow-auto py-2 text-sm",
+					"scrollbar-hide flex overflow-auto py-2 text-sm border-b border-border",
 					isChild ? "space-x-3" : "space-x-6",
 				)}
 			>
@@ -74,9 +74,11 @@ export function SecondaryMenu({
 					const itemContent = (
 						<span
 							className={cn(
-								"hover:bg-secondary p-2",
-								isActiveLink(item.path) && "font-medium border-b border-white",
-								isDisabled && "opacity-50 cursor-pointer",
+								"hover:bg-secondary p-2 border-b-2 font-medium",
+								isActiveLink(item.path)
+									? "border-primary"
+									: "border-transparent",
+								isDisabled && "opacity-50 cursor-not-allowed",
 							)}
 						>
 							{item.label}
