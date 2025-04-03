@@ -1,11 +1,11 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-
 import type { Requirement } from "@bubba/data";
+import { FrameworkId } from "@bubba/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
-import { RequirementControlsTable } from "./table/RequirementControlsTable";
 import { FrameworkInstanceWithControls } from "../../../../types";
+import { RequirementControlsTable } from "./table/RequirementControlsTable";
 
 interface RequirementControlsProps {
 	requirement: Requirement;
@@ -20,11 +20,15 @@ export function RequirementControls({
 }: RequirementControlsProps) {
 	const t = useI18n();
 
-	// Filter controls that are mapped to this requirement
+	// Get the framework ID from the instance
+	const frameworkId = frameworkInstanceWithControls.frameworkId as FrameworkId;
+	const compositeId = `${frameworkId}_${requirementKey}`;
+
+	// Filter controls that are mapped to this requirement using the composite ID
 	const requirementControls = frameworkInstanceWithControls.controls.filter(
 		(control) =>
 			control.requirementsMapped?.some(
-				(req) => req.requirementId === requirementKey,
+				(req) => req.requirementId === compositeId,
 			) ?? false,
 	);
 

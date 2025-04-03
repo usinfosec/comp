@@ -1,9 +1,7 @@
 "use client";
 
-import type { Requirement } from "@bubba/data";
+import { useI18n } from "@/locales/client";
 import { FrameworkId } from "@bubba/db/types";
-import { useMemo } from "react";
-import { getFrameworkRequirements } from "../../lib/getFrameworkRequirements";
 import {
 	Table,
 	TableBody,
@@ -14,7 +12,8 @@ import {
 } from "@bubba/ui/table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useI18n } from "@/locales/client";
+import { useMemo } from "react";
+import { getFrameworkRequirements } from "../../lib/getFrameworkRequirements";
 import type { FrameworkInstanceWithControls } from "../../types";
 
 export function FrameworkRequirements({
@@ -33,15 +32,17 @@ export function FrameworkRequirements({
 	const requirements = useMemo(() => {
 		const reqs = getFrameworkRequirements(frameworkId);
 		return Object.entries(reqs).map(([id, requirement]) => {
-			// Count controls mapped to this requirement
+			const compositeId = `${frameworkId}_${id}`;
 			const mappedControlsCount = frameworkInstanceWithControls.controls.filter(
 				(control) =>
-					control.requirementsMapped?.some((req) => req.requirementId === id) ??
-					false,
+					control.requirementsMapped?.some(
+						(req) => req.requirementId === compositeId,
+					) ?? false,
 			).length;
 
 			return {
 				id,
+				compositeId,
 				...requirement,
 				mappedControlsCount,
 			};
@@ -75,7 +76,7 @@ export function FrameworkRequirements({
 						>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full"
 								>
 									{requirement.id}
@@ -83,7 +84,7 @@ export function FrameworkRequirements({
 							</TableCell>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full"
 								>
 									{requirement.name}
@@ -99,7 +100,7 @@ export function FrameworkRequirements({
 							</TableCell>
 							<TableCell>
 								<Link
-									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirement/${requirement.id}`}
+									href={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/${requirement.id}`}
 									className="block w-full text-sm text-muted-foreground"
 								>
 									{requirement.mappedControlsCount}

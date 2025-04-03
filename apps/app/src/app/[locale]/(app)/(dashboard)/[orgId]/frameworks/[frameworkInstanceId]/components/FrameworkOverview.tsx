@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@bubba/ui/card";
 import { Progress } from "@bubba/ui/progress";
 import { FrameworkInstanceWithControls } from "../../types";
 import { getControlStatus } from "../../lib/utils";
-import { getFrameworkName } from "../../lib/getFrameworkName";
+import { getFrameworkDetails } from "../../lib/getFrameworkDetails";
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }
@@ -34,7 +34,10 @@ export function FrameworkOverview({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{getFrameworkName(frameworkInstanceWithControls.frameworkId)}
+						{
+							getFrameworkDetails(frameworkInstanceWithControls.frameworkId)
+								.name
+						}
 					</CardTitle>
 				</CardHeader>
 				<CardContent>

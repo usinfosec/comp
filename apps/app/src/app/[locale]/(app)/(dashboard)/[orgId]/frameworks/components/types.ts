@@ -4,6 +4,7 @@ import type {
 	IntegrationResult,
 	Policy,
 } from "@bubba/db/types";
+import { FrameworkInstanceWithControls } from "../types";
 
 export interface ComplianceScoresProps {
 	policiesCompliance: number;
@@ -26,6 +27,6 @@ export interface FrameworkWithCompliance {
 }
 
 export interface FrameworkInstanceWithComplianceScore {
-	frameworkInstance: FrameworkInstance;
+	frameworkInstance: FrameworkInstanceWithControls;
 	complianceScore: number;
 }

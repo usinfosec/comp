@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../../../data/getSingleFrameworkInstanceWithControls";
 import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
 import { RequirementControls } from "./components/RequirementControls";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
 
 interface PageProps {
 	params: Promise<{
@@ -48,13 +50,37 @@ export default async function RequirementPage({ params }: PageProps) {
 		redirect(`/${organizationId}/frameworks/${frameworkInstanceId}`);
 	}
 
+	const frameworkName = getFrameworkDetails(
+		frameworkInstanceWithControls.frameworkId,
+	).name;
+
+	const siblingRequirements = Object.keys(requirements).filter(
+		(req) => req !== requirementKey,
+	);
+
+	const siblingRequirementsDropdown = siblingRequirements.map((req) => ({
+		label: requirements[req as keyof typeof requirements].name,
+		href: `/${organizationId}/frameworks/${frameworkInstanceId}/requirements/${req}`,
+	}));
+
 	return (
-		<div className="flex flex-col gap-6">
-			<RequirementControls
-				requirement={requirement}
-				requirementKey={requirementKey}
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
-		</div>
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Frameworks", href: `/${organizationId}/frameworks` },
+				{
+					label: frameworkName,
+					href: `/${organizationId}/frameworks/${frameworkInstanceId}`,
+				},
+				{ label: requirement.name, dropdown: siblingRequirementsDropdown },
+			]}
+		>
+			<div className="flex flex-col gap-6">
+				<RequirementControls
+					requirement={requirement}
+					requirementKey={requirementKey}
+					frameworkInstanceWithControls={frameworkInstanceWithControls}
+				/>
+			</div>
+		</PageWithBreadcrumb>
 	);
 }

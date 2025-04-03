@@ -2,10 +2,10 @@ import { auth } from "@bubba/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
-import { FrameworkControls } from "./components/FrameworkControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
-
+import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
+import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 interface PageProps {
 	params: Promise<{
 		frameworkInstanceId: string;
@@ -39,18 +39,26 @@ export default async function FrameworkPage({ params }: PageProps) {
 		redirect("/");
 	}
 
+	const framework = getFrameworkDetails(
+		frameworkInstanceWithControls.frameworkId,
+	).name;
+
 	return (
-		<div className="flex flex-col gap-6">
-			<FrameworkOverview
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
-			{/* <FrameworkControls
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/> */}
-			<FrameworkRequirements
-				frameworkId={frameworkInstanceWithControls.frameworkId}
-				frameworkInstanceWithControls={frameworkInstanceWithControls}
-			/>
-		</div>
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Frameworks", href: `/${organizationId}/frameworks` },
+				{ label: framework },
+			]}
+		>
+			<div className="flex flex-col gap-6">
+				<FrameworkOverview
+					frameworkInstanceWithControls={frameworkInstanceWithControls}
+				/>
+				<FrameworkRequirements
+					frameworkId={frameworkInstanceWithControls.frameworkId}
+					frameworkInstanceWithControls={frameworkInstanceWithControls}
+				/>
+			</div>
+		</PageWithBreadcrumb>
 	);
 }

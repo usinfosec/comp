@@ -1,19 +1,18 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
-import type { FrameworkInstanceWithComplianceScore } from "./types";
 import { FrameworkCard } from "./FrameworkCard";
+import type { FrameworkInstanceWithComplianceScore } from "./types";
 
 export function FrameworkList({
-	frameworksWithComplianceScores,
+	frameworksWithControlsAndComplianceScores,
 }: {
-	frameworksWithComplianceScores: FrameworkInstanceWithComplianceScore[];
+	frameworksWithControlsAndComplianceScores: FrameworkInstanceWithComplianceScore[];
 }) {
-	if (!frameworksWithComplianceScores.length) return null;
+	if (!frameworksWithControlsAndComplianceScores.length) return null;
 
 	return (
 		<div className="space-y-6">
-			{frameworksWithComplianceScores.map(
+			{frameworksWithControlsAndComplianceScores.map(
 				({ frameworkInstance, complianceScore }) => (
 					<FrameworkCard
 						key={frameworkInstance.id}

@@ -7,10 +7,11 @@ import { cn } from "@bubba/ui/cn";
 import { Progress } from "@bubba/ui/progress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getFrameworkName } from "../lib/getFrameworkName";
+import { getFrameworkDetails } from "../lib/getFrameworkDetails";
+import { FrameworkInstanceWithControls } from "../types";
 
 interface FrameworkCardProps {
-	frameworkInstance: FrameworkInstance & { controls?: { length: number }[] };
+	frameworkInstance: FrameworkInstanceWithControls;
 	complianceScore: number;
 }
 
@@ -43,7 +44,7 @@ export function FrameworkCard({
 						<div className="flex-1">
 							<div className="flex items-center justify-between">
 								<h2 className="font-medium text-2xl">
-									{getFrameworkName(frameworkInstance.frameworkId)}
+									{getFrameworkDetails(frameworkInstance.frameworkId).name}
 								</h2>
 								<span
 									className={cn(
