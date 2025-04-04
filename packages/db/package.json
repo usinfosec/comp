@@ -34,8 +34,5 @@
 	"devDependencies": {
 		"@comp/tsconfig": "workspace:*",
 		"typescript": "^5.8.2"
-	},
-	"prisma": {
-		"seed": "bun prisma/seed.ts"
 	}
 }
