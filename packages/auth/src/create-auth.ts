@@ -7,7 +7,6 @@ import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
 import { sendEmail } from "@comp/email/lib/resend";
 import { nextCookies } from "better-auth/next-js";
 import { OTPVerificationEmail } from "@comp/email";
-import "server-only";
 
 export interface AuthConfig {
 	/**
