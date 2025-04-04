@@ -2,12 +2,11 @@
 
 import { ButtonIcon } from "@/components/ui/button-icon";
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Loader2 } from "lucide-react";
-import { authClient } from "@/utils/auth-client";
 import { useState } from "react";
-import router from "next/router";
 
 export function GoogleSignIn({
 	inviteCode,

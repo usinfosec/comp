@@ -38,6 +38,10 @@ export default async function Layout({
 		redirect("/");
 	}
 
+	if (!session?.session.activeOrganizationId) {
+		redirect("/");
+	}
+
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
 			<AnimatedLayout sidebar={<Sidebar />} isCollapsed={isCollapsed}>

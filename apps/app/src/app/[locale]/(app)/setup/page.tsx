@@ -1,4 +1,4 @@
-import { Onboarding } from "@/components/forms/create-organization-form";
+import { OnboardingClient } from "@/components/forms/create-organization-form";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -11,16 +11,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+	const headersList = await headers();
+
 	const session = await auth.api.getSession({
-		headers: await headers(),
+		headers: headersList,
 	});
 
-	const hasInvite = await db.invitation.findFirst({
-		where: {
-			email: session?.user.email,
-			status: "pending",
-		},
-	});
+	if (session?.session?.activeOrganizationId) {
+		redirect(`/${session.session.activeOrganizationId}/frameworks`);
+	}
 
 	const organization = await db.organization.findFirst({
 		where: {
@@ -34,23 +33,24 @@ export default async function Page() {
 
 	if (!session?.session?.activeOrganizationId && organization?.id) {
 		await auth.api.setActiveOrganization({
-			headers: await headers(),
+			headers: headersList,
 			body: {
 				organizationId: organization.id,
 			},
 		});
-		redirect("/");
-	} else if (session?.session?.activeOrganizationId) {
-		redirect("/");
+		redirect(`/${organization.id}/frameworks`);
 	}
 
-	if (session?.session?.activeOrganizationId) {
-		redirect("/");
-	}
+	const hasInvite = await db.invitation.findFirst({
+		where: {
+			email: session?.user.email,
+			status: "pending",
+		},
+	});
 
 	if (hasInvite) {
 		return <AcceptInvite inviteCode={hasInvite.id} />;
 	}
 
-	return <Onboarding />;
+	return <OnboardingClient />;
 }
