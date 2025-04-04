@@ -56,16 +56,41 @@ export function EmployeeInviteSheet() {
 		e.preventDefault();
 
 		try {
-			await addEmployee({
+			const result = await addEmployee({
 				name,
 				email: email.trim(),
 				department,
 			});
 
+			console.log("Employee creation result:", result);
 			// toast.success(t("people.invite.success"));
 			setOpen(null);
 		} catch (error) {
-			toast.error(t("errors.unexpected"));
+			console.error("Employee creation error:", error);
+
+			// Extract error message from various possible error formats
+			let errorMessage = t("errors.unexpected");
+
+			if (error instanceof Error) {
+				errorMessage = error.message;
+				console.log("Error instance:", error.message);
+			} else if (typeof error === "object" && error !== null) {
+				console.log("Error object structure:", JSON.stringify(error, null, 2));
+
+				// Handle API error response formats
+				if ("error" in error && typeof error.error === "string") {
+					errorMessage = error.error;
+				} else if ("message" in error && typeof error.message === "string") {
+					errorMessage = error.message;
+				} else if (
+					"serverError" in error &&
+					typeof error.serverError === "string"
+				) {
+					errorMessage = error.serverError;
+				}
+			}
+
+			toast.error(errorMessage);
 		}
 	};
 
