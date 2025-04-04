@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { RiskOverview } from "@/components/risks/charts/risk-overview";
 import { RisksAssignee } from "@/components/risks/charts/RisksAssignee";
 import { getI18n } from "@/locales/server";

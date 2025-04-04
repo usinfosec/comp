@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import type { Metadata } from "next";

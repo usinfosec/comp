@@ -4,8 +4,8 @@ import { authActionClient } from "./safe-action";
 import { z } from "zod";
 import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
-import { auth } from "@comp/auth";
 import { headers } from "next/headers";
+import { auth } from "@/utils/auth";
 
 export const changeOrganizationAction = authActionClient
 	.schema(

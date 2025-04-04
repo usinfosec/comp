@@ -4,7 +4,7 @@ import { db } from "@comp/db";
 import { authActionClient } from "@/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { appErrors } from "../types";
 

@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { redirect } from "next/navigation";
 import { cache, Suspense } from "react";
 import { db } from "@comp/db";

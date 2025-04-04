@@ -1,7 +1,7 @@
 "use server";
 
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

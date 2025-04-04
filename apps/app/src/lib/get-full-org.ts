@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { redirect } from "next/navigation";
 
