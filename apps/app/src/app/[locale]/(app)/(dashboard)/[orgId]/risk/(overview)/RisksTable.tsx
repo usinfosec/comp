@@ -5,7 +5,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 import type { Member, Risk, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";

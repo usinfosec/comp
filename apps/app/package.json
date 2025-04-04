@@ -22,7 +22,6 @@
 		"@aws-sdk/client-s3": "^3.779.0",
 		"@aws-sdk/s3-request-presigner": "^3.779.0",
 		"@browserbasehq/sdk": "^2.5.0",
-		"@comp/auth": "workspace:*",
 		"@comp/data": "workspace:*",
 		"@comp/notifications": "workspace:*",
 		"@date-fns/tz": "^1.2.0",
@@ -98,7 +97,6 @@
 		"zustand": "^5.0.3"
 	},
 	"devDependencies": {
-		"@comp/auth": "workspace:*",
 		"@comp/db": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.13.17",

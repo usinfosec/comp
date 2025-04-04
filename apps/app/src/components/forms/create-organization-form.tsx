@@ -3,7 +3,7 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { authClient } from "@comp/auth";
+import { authClient } from "@/utils/auth-client";
 import { frameworks, type FrameworkId } from "@comp/data";
 import { Button } from "@comp/ui/button";
 import { Checkbox } from "@comp/ui/checkbox";

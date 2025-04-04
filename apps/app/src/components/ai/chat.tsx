@@ -5,7 +5,7 @@ import { useChat } from "@ai-sdk/react";
 import { useState } from "react";
 import { Messages } from "./messages";
 import { ChatEmpty } from "./chat-empty";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 import { ChatTextarea } from "./chat-text-area";
 import { ScrollArea } from "@comp/ui/scroll-area";
 

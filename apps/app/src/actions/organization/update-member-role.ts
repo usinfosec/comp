@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Departments, Role } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authClient } from "@comp/auth";
+import { authClient } from "@/utils/auth-client";
 
 const updateMemberRoleSchema = z.object({
 	memberId: z.string(),
