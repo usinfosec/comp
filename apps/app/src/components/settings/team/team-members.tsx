@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";

@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";

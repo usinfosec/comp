@@ -5,7 +5,7 @@ import { RiskOverview } from "@/components/risks/risk-overview";
 import type { RiskTaskType } from "@/components/tables/risk-tasks/columns";
 import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { TaskStatus } from "@comp/db/types";
 import type { Metadata } from "next";

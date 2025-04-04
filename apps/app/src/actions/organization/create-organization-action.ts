@@ -2,7 +2,7 @@
 
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import {
 	createFrameworkInstance,

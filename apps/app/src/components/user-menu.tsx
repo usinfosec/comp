@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
 import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import {

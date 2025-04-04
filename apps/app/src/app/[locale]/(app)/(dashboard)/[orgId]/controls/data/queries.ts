@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "@comp/db";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import type { GetControlSchema } from "./validations";
 import { cache } from "react";
 import { headers } from "next/headers";

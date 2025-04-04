@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { AssistantSheet } from "@/components/sheets/assistant-sheet";
 import { Sidebar } from "@/components/sidebar";
 import { SidebarProvider } from "@/context/sidebar-context";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import dynamic from "next/dynamic";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";

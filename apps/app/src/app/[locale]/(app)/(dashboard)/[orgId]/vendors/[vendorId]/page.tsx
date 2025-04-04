@@ -1,7 +1,7 @@
 "use server";
 
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { TaskStatus } from "@comp/db/types";
 import type { Metadata } from "next";

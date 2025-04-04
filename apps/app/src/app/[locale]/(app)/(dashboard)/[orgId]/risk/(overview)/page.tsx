@@ -2,7 +2,7 @@ import { AppOnboarding } from "@/components/app-onboarding";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Departments, RiskStatus } from "@comp/db/types";
 import type { Metadata } from "next";
