@@ -33,7 +33,7 @@ import { Switch } from "@comp/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

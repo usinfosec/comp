@@ -15,7 +15,7 @@ export async function FrameworksOverview({
 		});
 
 	return (
-		<div className="grid gap-4 md:grid-cols-2 select-none w-full">
+		<div className="grid gap-4 md:grid-cols-1 select-none w-full">
 			<FrameworkList
 				frameworksWithControlsAndComplianceScores={
 					frameworksWithControlsAndComplianceScores

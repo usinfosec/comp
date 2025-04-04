@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { cache } from "react";
 

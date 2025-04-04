@@ -38,8 +38,8 @@
         "@aws-sdk/client-s3": "^3.779.0",
         "@aws-sdk/s3-request-presigner": "^3.779.0",
         "@browserbasehq/sdk": "^2.5.0",
-        "@comp/auth": "workspace:*",
         "@comp/data": "workspace:*",
+        "@comp/db": "workspace:*",
         "@comp/notifications": "workspace:*",
         "@date-fns/tz": "^1.2.0",
         "@dnd-kit/core": "^6.3.1",
@@ -114,7 +114,6 @@
         "zustand": "^5.0.3",
       },
       "devDependencies": {
-        "@comp/auth": "workspace:*",
         "@comp/db": "workspace:*",
         "@trigger.dev/build": "3.3.17",
         "@types/node": "^22.13.17",
@@ -153,20 +152,6 @@
       "dependencies": {
         "posthog-js": "^1.215.3",
         "posthog-node": "^4.4.1",
-      },
-    },
-    "packages/auth": {
-      "name": "@comp/auth",
-      "version": "1.0.0",
-      "dependencies": {
-        "@comp/email": "workspace:*",
-        "better-auth": "^1.2.5",
-        "server-only": "0.0.1",
-      },
-      "devDependencies": {
-        "@types/node": "^22.13.2",
-        "@types/node-fetch": "^2.6.2",
-        "typescript": "^5.7.3",
       },
     },
     "packages/data": {
@@ -576,8 +561,6 @@
     "@comp/analytics": ["@comp/analytics@workspace:packages/analytics"],
 
     "@comp/app": ["@comp/app@workspace:apps/app"],
-
-    "@comp/auth": ["@comp/auth@workspace:packages/auth"],
 
     "@comp/data": ["@comp/data@workspace:packages/data"],
 
@@ -3874,8 +3857,6 @@
     "@comp/app/ai": ["ai@4.2.10", "", { "dependencies": { "@ai-sdk/provider": "1.1.0", "@ai-sdk/provider-utils": "2.2.3", "@ai-sdk/react": "1.2.5", "@ai-sdk/ui-utils": "1.2.4", "@opentelemetry/api": "1.9.0", "jsondiffpatch": "0.6.0" }, "peerDependencies": { "react": "^18 || ^19 || ^19.0.0-rc", "zod": "^3.23.8" }, "optionalPeers": ["react"] }, "sha512-rOfKbNRWlzwxbFll6W9oAdnC0R5VVbAJoof+p92CatHzA3reqQZmYn33IBnj+CgqeXYUsH9KX9Wnj7g2wCHc9Q=="],
 
     "@comp/app/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
-
-    "@comp/auth/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 
     "@comp/data/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 

@@ -17,6 +17,7 @@ export const auth = betterAuth({
 		// It's important so we can use customs ID's specified in Prisma Schema.
 		generateId: false,
 	},
+	secret: process.env.AUTH_SECRET!,
 	plugins: [
 		organization({
 			async sendInvitationEmail(data) {

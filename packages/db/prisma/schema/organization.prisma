@@ -5,6 +5,7 @@ model Organization {
   logo      String?
   createdAt DateTime
   metadata  String?
+  stripeCustomerId String?
 
   apiKeys            ApiKey[]
   artifacts          Artifact[]

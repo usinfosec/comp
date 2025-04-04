@@ -21,7 +21,7 @@ import {
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Building, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -57,13 +57,17 @@ export function UpdateOrganizationName({
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 				<Card>
-					<CardHeader>
-						<CardTitle>{t("settings.general.org_name")}</CardTitle>
-						<CardDescription>
+					<CardHeader className="pb-2">
+						<CardTitle className="flex items-center gap-2">
+							<Building className="h-4 w-4 text-primary" />
+							{t("settings.general.org_name")}
+						</CardTitle>
+
+						<CardDescription className="mt-1">
 							{t("settings.general.org_name_description")}
 						</CardDescription>
 					</CardHeader>
-					<CardContent>
+					<CardContent className="pb-4">
 						<FormField
 							control={form.control}
 							name="name"
@@ -84,19 +88,19 @@ export function UpdateOrganizationName({
 								</FormItem>
 							)}
 						/>
-					</CardContent>{" "}
-					<CardFooter className="flex justify-between">
+					</CardContent>
+					<CardFooter className="py-3 flex justify-between bg-muted/30 border-t text-xs text-muted-foreground">
 						<div>{t("settings.general.org_name_tip")}</div>
 						<Button
 							type="submit"
-							variant="action"
+							variant="default"
+							size="sm"
 							disabled={updateOrganizationName.status === "executing"}
 						>
 							{updateOrganizationName.status === "executing" ? (
-								<Loader2 className="h-4 w-4 animate-spin" />
-							) : (
-								t("common.actions.save")
-							)}
+								<Loader2 className="h-4 w-4 animate-spin mr-1" />
+							) : null}
+							{t("common.actions.save")}
 						</Button>
 					</CardFooter>
 				</Card>

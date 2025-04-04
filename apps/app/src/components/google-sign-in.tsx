@@ -5,7 +5,7 @@ import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Loader2 } from "lucide-react";
-import { authClient } from "@comp/auth";
+import { authClient } from "@/utils/auth-client";
 import { useState } from "react";
 import router from "next/router";
 

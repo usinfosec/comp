@@ -1,4 +1,4 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { tool } from "ai";
 import { headers } from "next/headers";
 import { z } from "zod";

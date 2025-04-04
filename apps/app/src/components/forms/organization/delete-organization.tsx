@@ -23,7 +23,7 @@ import {
 } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { Label } from "@comp/ui/label";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertTriangle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect } from "next/navigation";
 import { useState } from "react";
@@ -47,19 +47,28 @@ export function DeleteOrganization({
 	});
 
 	return (
-		<Card className="border-2 border-destructive">
-			<CardHeader>
-				<CardTitle>{t("settings.general.org_delete")}</CardTitle>
-				<CardDescription>
+		<Card className="border border-destructive/50">
+			<CardHeader className="pb-2">
+				<div className="flex items-center gap-2">
+					<CardTitle className="flex items-center gap-2">
+						<AlertTriangle className="h-4 w-4 text-destructive" />
+						{t("settings.general.org_delete")}
+					</CardTitle>
+				</div>
+				<CardDescription className="mt-1">
 					{t("settings.general.org_delete_description")}
 				</CardDescription>
 			</CardHeader>
-			<CardFooter className="flex justify-between">
+			<CardFooter className="py-3 flex justify-between bg-muted/30 border-t text-xs text-muted-foreground">
 				<div />
 
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button variant="destructive" className="hover:bg-destructive">
+						<Button
+							variant="destructive"
+							size="sm"
+							className="hover:bg-destructive/90"
+						>
 							{t("common.actions.delete")}
 						</Button>
 					</AlertDialogTrigger>
@@ -84,7 +93,7 @@ export function DeleteOrganization({
 							/>
 						</div>
 
-						<AlertDialogFooter>
+						<AlertDialogFooter className="mt-4">
 							<AlertDialogCancel>
 								{t("common.actions.cancel")}
 							</AlertDialogCancel>
@@ -96,12 +105,12 @@ export function DeleteOrganization({
 									})
 								}
 								disabled={value !== t("settings.general.delete_confirm")}
+								className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
 							>
 								{deleteOrganization.status === "executing" ? (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								) : (
-									t("common.actions.delete")
-								)}
+									<Loader2 className="h-4 w-4 animate-spin mr-1" />
+								) : null}
+								{t("common.actions.delete")}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

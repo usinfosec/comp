@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { cache } from "react";

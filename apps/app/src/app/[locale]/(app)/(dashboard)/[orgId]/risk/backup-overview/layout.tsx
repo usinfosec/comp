@@ -1,6 +1,6 @@
 import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { db } from "@comp/db";
 import { cache, Suspense } from "react";

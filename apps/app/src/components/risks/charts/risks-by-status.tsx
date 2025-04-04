@@ -1,5 +1,5 @@
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { cache } from "react";
 import { db } from "@comp/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@comp/ui/card";

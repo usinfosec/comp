@@ -1,6 +1,6 @@
 import { getInitials } from "@/lib/utils";
 import { getI18n } from "@/locales/server";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
 import {
 	Accordion,
