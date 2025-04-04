@@ -31,7 +31,7 @@ export default async function PolicyDetails({
       <PolicyOverview policy={policy ?? null} assignees={assignees} />
       <PolicyPageEditor
         policyId={policyId}
-        policyContent={policy?.content as JSONContent[]}
+        policyContent={policy?.content ? (policy.content as JSONContent[]) : []}
       />
     </PageWithBreadcrumb>
   );
