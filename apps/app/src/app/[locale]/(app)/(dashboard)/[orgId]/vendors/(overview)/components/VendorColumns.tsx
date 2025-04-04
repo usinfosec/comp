@@ -1,38 +1,41 @@
-import type { Risk, User } from "@comp/db/types";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@comp/ui/badge";
-import Link from "next/link";
+import { VendorStatus } from "@/components/vendor-status";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
-import { Status } from "@/components/status";
-import { RiskRegisterTableRow } from "../../RiskRegisterTable";
+import { Badge } from "@comp/ui/badge";
+import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+import type { VendorRegisterTableRow } from "./VendorsTable";
 import { UserIcon } from "lucide-react";
 
-export const columns = (orgId: string): ColumnDef<RiskRegisterTableRow>[] => [
+export const columns = (orgId: string): ColumnDef<VendorRegisterTableRow>[] => [
 	{
-		header: "Risk",
-		accessorKey: "title",
+		header: "Vendor",
+		accessorKey: "name",
 		cell: ({ row }) => {
 			return (
-				<Link href={`/${orgId}/risk/${row.original.id}`}>
-					{row.original.title}
+				<Link href={`/${orgId}/vendors/${row.original.id}`}>
+					{row.original.name}
 				</Link>
 			);
 		},
+		sortingFn: (a, b) => {
+			return a.original.name.localeCompare(b.original.name);
+		},
+		enableSorting: true,
 	},
 	{
 		header: "Status",
 		accessorKey: "status",
 		cell: ({ row }) => {
-			return <Status status={row.original.status} />;
+			return <VendorStatus status={row.original.status} />;
 		},
 	},
 	{
-		header: "Department",
-		accessorKey: "department",
+		header: "Category",
+		accessorKey: "category",
 		cell: ({ row }) => {
 			return (
 				<Badge variant="marketing" className="uppercase w-fit">
-					{row.original.department}
+					{row.original.category}
 				</Badge>
 			);
 		},
@@ -41,6 +44,7 @@ export const columns = (orgId: string): ColumnDef<RiskRegisterTableRow>[] => [
 		header: "Assignee",
 		accessorKey: "assignee",
 		cell: ({ row }) => {
+			// Handle null assignee
 			if (!row.original.assignee) {
 				return (
 					<div className="flex items-center gap-2">
@@ -56,14 +60,16 @@ export const columns = (orgId: string): ColumnDef<RiskRegisterTableRow>[] => [
 				<div className="flex items-center gap-2">
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={row.original.assignee.image || undefined}
-							alt={row.original.assignee.name || ""}
+							src={row.original.assignee.user.image || undefined}
+							alt={row.original.assignee.user.name || ""}
 						/>
 						<AvatarFallback>
-							{row.original.assignee.name?.charAt(0) || "?"}
+							{row.original.assignee.user.name?.charAt(0) || "?"}
 						</AvatarFallback>
 					</Avatar>
-					<p className="text-sm font-medium">{row.original.assignee.name}</p>
+					<p className="text-sm font-medium">
+						{row.original.assignee.user.name}
+					</p>
 				</div>
 			);
 		},
