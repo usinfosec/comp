@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@comp/auth";
+import { auth } from "@/app/lib/auth";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 

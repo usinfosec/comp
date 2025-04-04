@@ -1,18 +1,10 @@
-import { auth } from "@comp/auth";
+import { auth } from "@/app/lib/auth";
 import { db } from "@comp/db";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { EmployeeTasksList } from "./EmployeeTasksList";
 
 export async function Overview() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	if (!session?.user) {
-		throw new Error("Unauthorized");
-	}
-
 	const policies = await getPolicies();
 	const trainingVideos = await getTrainingVideos();
 	const member = await getMember();
@@ -36,6 +28,8 @@ const getMember = cache(async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
+
+	console.log({ session });
 
 	if (!session?.user) {
 		throw new Error("Unauthorized");

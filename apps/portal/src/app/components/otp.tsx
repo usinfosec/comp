@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { authClient } from "@comp/auth";
+import { authClient } from "@/app/lib/auth-client";
 import { OtpForm } from "./otp-form";
 
 const formSchema = z.object({
