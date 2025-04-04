@@ -78,7 +78,7 @@ const EMPLOYEE_STATUS_COLORS = {
 } as const;
 
 // Status color hex values for charts
-const EMPLOYEE_STATUS_HEX_COLORS: Record<EmployeeStatusType, string> = {
+export const EMPLOYEE_STATUS_HEX_COLORS: Record<EmployeeStatusType, string> = {
 	inactive: "#ef4444",
 	active: "#10b981",
 };
@@ -125,10 +125,10 @@ export function EmployeeDetails({
 	const form = useForm<EmployeeFormValues>({
 		resolver: zodResolver(employeeFormSchema),
 		defaultValues: {
-			name: "",
-			email: "",
-			department: "none" as Departments,
-			status: "inactive" as EmployeeStatusType,
+			name: employee.user.name ?? "",
+			email: employee.user.email ?? "",
+			department: employee.department as Departments,
+			status: employee.isActive ? "active" : "inactive",
 		},
 		mode: "onChange",
 	});
