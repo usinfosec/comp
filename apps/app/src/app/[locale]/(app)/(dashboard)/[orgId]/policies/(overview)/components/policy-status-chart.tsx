@@ -74,7 +74,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 							</CardTitle>
 						</div>
 						<Badge variant="outline" className="text-xs">
-							{t("common.status.overview")}
+							Overview
 						</Badge>
 					</div>
 				</CardHeader>

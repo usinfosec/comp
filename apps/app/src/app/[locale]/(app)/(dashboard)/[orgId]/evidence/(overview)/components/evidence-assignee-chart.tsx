@@ -16,6 +16,8 @@ import {
 	type ChartConfig,
 } from "@comp/ui/chart";
 import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
+import { BarChart as BarChartIcon, Users, Info } from "lucide-react";
 import {
 	Bar,
 	BarChart,
@@ -50,19 +52,32 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 
 	if (!data || data.length === 0) {
 		return (
-			<Card className="flex flex-col">
-				<CardHeader>
-					<CardTitle>
-						{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
-					</CardTitle>
+			<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
+				<CardHeader className="pb-2">
+					<div className="flex items-center justify-between">
+						<div className="flex items-center gap-2">
+							<BarChartIcon className="h-4 w-4 text-primary" />
+							<CardTitle>
+								{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
+							</CardTitle>
+						</div>
+						<Badge variant="outline" className="text-xs">
+							Distribution
+						</Badge>
+					</div>
 				</CardHeader>
-				<CardContent className="flex-1 flex items-center justify-center">
-					<p className="text-center text-sm text-muted-foreground">
-						No evidence assigned to users
-					</p>
+				<CardContent className="flex-1 flex items-center justify-center py-10">
+					<div className="text-center space-y-2">
+						<div className="flex justify-center text-muted-foreground">
+							<Users className="h-10 w-10 opacity-30" />
+						</div>
+						<p className="text-center text-sm text-muted-foreground">
+							No evidence assigned to users
+						</p>
+					</div>
 				</CardContent>
-				<CardFooter>
-					<div className="flex flex-wrap gap-4 py-2" />
+				<CardFooter className="bg-muted/30 border-t py-3">
+					<div className="flex flex-wrap gap-4 py-1 justify-center w-full" />
 				</CardFooter>
 			</Card>
 		);
@@ -93,58 +108,112 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 		},
 	} satisfies ChartConfig;
 
+	// Calculate total evidence and top assignee
+	const totalEvidence = React.useMemo(() => {
+		if (!data.length) return 0;
+		return data.reduce((sum, item) => sum + item.total, 0);
+	}, [data]);
+
+	const topAssignee = React.useMemo(() => {
+		if (!data.length) return null;
+		return data.reduce((prev, current) =>
+			prev.total > current.total ? prev : current,
+		);
+	}, [data]);
+
 	return (
-		<Card className="flex flex-col">
-			<CardHeader>
-				<CardTitle>
-					{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
-				</CardTitle>
+		<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
+			<CardHeader className="pb-2">
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<BarChartIcon className="h-4 w-4 text-primary mb-1" />
+						<CardTitle>
+							{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
+						</CardTitle>
+					</div>
+					{topAssignee && (
+						<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-xs">
+							Top: {topAssignee.name}
+						</Badge>
+					)}
+				</div>
+
+				<div className="relative h-1 w-full bg-secondary/50 rounded-full overflow-hidden mt-2">
+					<div
+						className="h-full bg-primary/80 transition-all"
+						style={{
+							width: `${totalEvidence > 0 ? 100 : 0}%`,
+							opacity: 0.7,
+						}}
+					/>
+				</div>
 			</CardHeader>
 			<CardContent className="flex-1">
-				<ChartContainer config={chartConfig}>
-					<ResponsiveContainer width="100%" height={250}>
-						<BarChart
-							accessibilityLayer
-							data={chartData}
-							layout="vertical"
-							barSize={30}
-							barGap={8}
-							margin={{
-								top: 0,
-								right: 0,
-								bottom: 0,
-								left: 0,
-							}}
-						>
-							<XAxis type="number" hide />
-							<YAxis
-								dataKey="name"
-								type="category"
-								tickLine={false}
-								tickMargin={10}
-								axisLine={false}
-								tickFormatter={(value) => value.split(" ")[0]}
-							/>
-							<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-							<Bar
-								dataKey="published"
-								stackId="a"
-								fill={CHART_COLORS.published}
-							/>
-							<Bar dataKey="draft" stackId="a" fill={CHART_COLORS.draft} />
-						</BarChart>
-					</ResponsiveContainer>
-				</ChartContainer>
+				<div className="flex flex-col h-full">
+					<div className="flex justify-between items-center mb-1 text-xs text-muted-foreground px-1">
+						<span>Assignee</span>
+						<span>Evidence Count</span>
+					</div>
+					<ChartContainer config={chartConfig}>
+						<ResponsiveContainer width="100%" height={250}>
+							<BarChart
+								accessibilityLayer
+								data={chartData}
+								layout="vertical"
+								barSize={24}
+								barGap={4}
+								margin={{
+									top: 0,
+									right: 0,
+									bottom: 0,
+									left: 0,
+								}}
+							>
+								<XAxis type="number" hide />
+								<YAxis
+									dataKey="name"
+									type="category"
+									tickLine={false}
+									tickMargin={10}
+									axisLine={false}
+									tickFormatter={(value) => value.split(" ")[0]}
+									fontSize={12}
+									stroke="hsl(var(--muted-foreground))"
+								/>
+								<ChartTooltip
+									cursor={false}
+									content={<ChartTooltipContent />}
+								/>
+								<Bar
+									dataKey="published"
+									stackId="a"
+									fill={CHART_COLORS.published}
+									radius={[0, 2, 2, 0]}
+									animationDuration={800}
+									animationBegin={100}
+								/>
+								<Bar
+									dataKey="draft"
+									stackId="a"
+									fill={CHART_COLORS.draft}
+									radius={[0, 0, 0, 0]}
+									animationDuration={800}
+									animationBegin={200}
+								/>
+							</BarChart>
+						</ResponsiveContainer>
+					</ChartContainer>
+				</div>
 			</CardContent>
-			<CardFooter>
-				<div className="flex flex-wrap gap-4 py-2">
+			<CardFooter className="bg-muted/30 border-t py-3">
+				<div className="flex flex-wrap gap-4 justify-center w-full py-1">
 					{Object.entries(chartConfig).map(([key, config]) => (
 						<div key={key} className="flex items-center gap-2">
 							<div
-								className="h-3 w-3"
+								className="h-3 w-3 rounded-sm"
 								style={{ backgroundColor: config.color }}
 							/>
-							<span className="text-xs">{config.label}</span>
+							<span className="text-xs font-medium">{config.label}</span>
 						</div>
 					))}
 				</div>
