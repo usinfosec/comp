@@ -6,14 +6,7 @@ import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Dialog } from "@comp/ui/dialog";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@comp/ui/dropdown-menu";
-import { Plus } from "lucide-react";
+import { DropdownMenu, DropdownMenuTrigger } from "@comp/ui/dropdown-menu";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -81,31 +74,31 @@ export function OrganizationSwitcher({
 						)}
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent align="start" className="w-56">
-					{otherOrganizations.map((org) => (
-						<DropdownMenuItem
-							key={org.id}
-							onClick={() => handleOrgChange(org)}
-							disabled={status === "executing"}
-						>
-							<div className="h-6 w-6 mr-2 bg-muted flex items-center justify-center flex-shrink-0">
-								<span className="text-xs">
-									{org.name?.slice(0, 2).toUpperCase()}
-								</span>
-							</div>
-							<span className="truncate"> {org.name}</span>
-						</DropdownMenuItem>
-					))}
-					{otherOrganizations.length > 0 && <DropdownMenuSeparator />}
-					<DropdownMenuItem
-						onClick={() => setShowCreateOrg(true)}
-						className="cursor-pointer"
-						disabled={status === "executing"}
-					>
-						<Plus className="mr-2 h-4 w-4" />
-						{t("common.actions.create")}
-					</DropdownMenuItem>
-				</DropdownMenuContent>
+				{/* <DropdownMenuContent align="start" className="w-56">
+          {otherOrganizations.map((org) => (
+            <DropdownMenuItem
+              key={org.id}
+              onClick={() => handleOrgChange(org)}
+              disabled={status === "executing"}
+            >
+              <div className="h-6 w-6 mr-2 bg-muted flex items-center justify-center flex-shrink-0">
+                <span className="text-xs">
+                  {org.name?.slice(0, 2).toUpperCase()}
+                </span>
+              </div>
+              <span className="truncate"> {org.name}</span>
+            </DropdownMenuItem>
+          ))}
+          {otherOrganizations.length > 0 && <DropdownMenuSeparator />}
+          <DropdownMenuItem
+            onClick={() => setShowCreateOrg(true)}
+            className="cursor-pointer"
+            disabled={status === "executing"}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            {t("common.actions.create")}
+          </DropdownMenuItem>
+        </DropdownMenuContent> */}
 			</DropdownMenu>
 
 			<Dialog
