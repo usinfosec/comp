@@ -1,38 +1,50 @@
-import { auth } from "@comp/auth";
-import { RiskOverview } from "@/components/risks/charts/risk-overview";
-import { RisksAssignee } from "@/components/risks/charts/RisksAssignee";
-import { getI18n } from "@/locales/server";
+import { RiskRegisterTable } from "./RiskRegisterTable";
 import type { Metadata } from "next";
+import { getI18n } from "@/locales/server";
 import { setStaticParamsLocale } from "next-international/server";
+import type { RiskStatus, Departments } from "@comp/db/types";
+import { getRisks } from "./data/getRisks";
+import { auth } from "@comp/auth";
+import { cache } from "react";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
-export default async function RiskManagement({
+export default async function RiskRegisterPage({
 	params,
 }: {
-	params: Promise<{ locale: string }>;
+	params: Promise<{
+		locale: string;
+		search: string;
+		page: number;
+		pageSize: number;
+		status: RiskStatus | null;
+		department: Departments | null;
+		assigneeId: string | null;
+	}>;
 }) {
-	const { locale } = await params;
-	const session = await auth.api.getSession({
-		headers: await headers(),
+	const { search, page, pageSize, status, department, assigneeId } =
+		await params;
+
+	const risks = await getRisks({
+		search: search || "",
+		page: page || 1,
+		pageSize: pageSize || 10,
+		status: status || null,
+		department: department || null,
+		assigneeId: assigneeId || null,
 	});
 
-	if (!session || !session.session.activeOrganizationId) {
-		redirect("/");
-	}
-
-	setStaticParamsLocale(locale);
+	const assignees = await getAssignees();
 
 	return (
-		<div className="space-y-4 sm:space-y-8">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<RiskOverview />
-			</div>
-
-			<div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-				<RisksAssignee />
-			</div>
-		</div>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Risk", current: true }]}>
+			<RiskRegisterTable
+				risks={risks?.risks || []}
+				isLoading={false}
+				assignees={assignees}
+			/>
+		</PageWithBreadcrumb>
 	);
 }
 
@@ -46,6 +58,29 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sidebar.risk"),
+		title: t("risk.register.title"),
 	};
 }
+
+const getAssignees = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session || !session.session.activeOrganizationId) {
+		return [];
+	}
+
+	return await db.member.findMany({
+		where: {
+			organizationId: session.session.activeOrganizationId,
+			isActive: true,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
+	});
+});
