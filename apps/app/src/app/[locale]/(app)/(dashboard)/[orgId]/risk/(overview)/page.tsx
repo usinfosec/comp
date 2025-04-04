@@ -13,105 +13,105 @@ import { getRisks } from "./data/getRisks";
 import { RisksTable } from "./RisksTable";
 
 export default async function RiskRegisterPage({
-	params,
+  params,
 }: {
-	params: Promise<{
-		locale: string;
-		search: string;
-		page: number;
-		pageSize: number;
-		status: RiskStatus | null;
-		department: Departments | null;
-		assigneeId: string | null;
-	}>;
+  params: Promise<{
+    locale: string;
+    search: string;
+    page: number;
+    pageSize: number;
+    status: RiskStatus | null;
+    department: Departments | null;
+    assigneeId: string | null;
+  }>;
 }) {
-	const { locale, search, page, pageSize, status, department, assigneeId } =
-		await params;
+  const { locale, search, page, pageSize, status, department, assigneeId } =
+    await params;
 
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	const risks = await getRisks({
-		search: search || "",
-		page: page || 1,
-		pageSize: pageSize || 10,
-		status: status || null,
-		department: department || null,
-		assigneeId: assigneeId || null,
-	});
+  const risks = await getRisks({
+    search: search || "",
+    page: page || 1,
+    pageSize: pageSize || 10,
+    status: status || null,
+    department: department || null,
+    assigneeId: assigneeId || null,
+  });
 
-	const assignees = await getAssignees();
+  const assignees = await getAssignees();
 
-	if (risks.risks?.length === 0) {
-		return (
-			<>
-				<AppOnboarding
-					title={t("app_onboarding.risk_management.title")}
-					description={t("app_onboarding.risk_management.description")}
-					cta={t("app_onboarding.risk_management.cta")}
-					imageSrc="/onboarding/risk-management.webp"
-					imageAlt="Risk Management"
-					sheetName="create-risk-sheet"
-					faqs={[
-						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_1"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
-						},
-						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_2"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
-						},
-						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_3"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
-						},
-					]}
-				/>
-				<CreateRiskSheet assignees={assignees} />
-			</>
-		);
-	}
+  if (risks.risks?.length === 0) {
+    return (
+      <>
+        <AppOnboarding
+          title={t("app_onboarding.risk_management.title")}
+          description={t("app_onboarding.risk_management.description")}
+          cta={t("app_onboarding.risk_management.cta")}
+          imageSrc="/onboarding/risk-management.webp"
+          imageAlt="Risk Management"
+          sheetName="create-risk-sheet"
+          faqs={[
+            {
+              questionKey: t("app_onboarding.risk_management.faqs.question_1"),
+              answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
+            },
+            {
+              questionKey: t("app_onboarding.risk_management.faqs.question_2"),
+              answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
+            },
+            {
+              questionKey: t("app_onboarding.risk_management.faqs.question_3"),
+              answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
+            },
+          ]}
+        />
+        <CreateRiskSheet assignees={assignees} />
+      </>
+    );
+  }
 
-	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Risk", current: true }]}>
-			<RisksTable risks={risks?.risks || []} assignees={assignees} />
-		</PageWithBreadcrumb>
-	);
+  return (
+    <>
+      <RisksTable risks={risks?.risks || []} assignees={assignees} />
+    </>
+  );
 }
 
 export async function generateMetadata({
-	params,
+  params,
 }: {
-	params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-	const t = await getI18n();
+  const { locale } = await params;
+  setStaticParamsLocale(locale);
+  const t = await getI18n();
 
-	return {
-		title: t("risk.register.title"),
-	};
+  return {
+    title: t("risk.register.title"),
+  };
 }
 
 const getAssignees = cache(async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-	if (!session || !session.session.activeOrganizationId) {
-		return [];
-	}
+  if (!session || !session.session.activeOrganizationId) {
+    return [];
+  }
 
-	return await db.member.findMany({
-		where: {
-			organizationId: session.session.activeOrganizationId,
-			isActive: true,
-			role: {
-				notIn: ["employee"],
-			},
-		},
-		include: {
-			user: true,
-		},
-	});
+  return await db.member.findMany({
+    where: {
+      organizationId: session.session.activeOrganizationId,
+      isActive: true,
+      role: {
+        notIn: ["employee"],
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
 });
