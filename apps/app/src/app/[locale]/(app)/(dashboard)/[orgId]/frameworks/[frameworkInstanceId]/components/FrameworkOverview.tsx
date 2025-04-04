@@ -42,7 +42,10 @@ export function FrameworkOverview({
 				</CardHeader>
 				<CardContent>
 					<p className="text-sm text-muted-foreground">
-						Framework implementation for organization
+						{
+							getFrameworkDetails(frameworkInstanceWithControls.frameworkId)
+								.description
+						}{" "}
 					</p>
 					<div className="mt-4">
 						<Badge variant="outline">

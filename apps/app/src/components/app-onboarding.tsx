@@ -51,7 +51,7 @@ export function AppOnboarding({
 	const isOpen = Boolean(open);
 
 	return (
-		<Card className="w-full bg-gradient-to-b from-accent/10 to-background/80 overflow-hidden border">
+		<Card className="w-full overflow-hidden border">
 			<div className="flex flex-col lg:min-h-[600px]">
 				<div className="p-6 flex-1">
 					<div className="flex flex-col max-h-[500px]">
