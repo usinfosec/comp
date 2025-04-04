@@ -105,13 +105,13 @@ export function AppOnboarding({
 													value={faq.questionKey}
 													className="border-b-0 px-0"
 												>
-													<AccordionTrigger className="py-3 hover:bg-muted/30 px-2 rounded-md">
+													<AccordionTrigger className="py-3 hover:bg-muted/30 px-2">
 														<div className="flex items-center gap-2 text-left">
 															<HelpCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
 															<span>{faq.questionKey}</span>
 														</div>
 													</AccordionTrigger>
-													<AccordionContent className="px-2 ml-6 border-l-2 border-muted">
+													<AccordionContent className="px-2 ml-6 border-l-2 my-2 border-muted">
 														{faq.answerKey}
 													</AccordionContent>
 												</AccordionItem>
