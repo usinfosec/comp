@@ -49,6 +49,7 @@ export const frameworks = {
 	},
 	requirements: {
 		requirement: "Requirement",
+		requirements: "Requirements",
 		title: "Linked Requirements",
 		description: "Review and manage compliance requirements",
 		table: {
