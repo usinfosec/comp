@@ -19,6 +19,16 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
+import { cn } from "@comp/ui/cn";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -28,11 +38,14 @@ import {
 } from "@comp/ui/select";
 import { Skeleton } from "@comp/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
 
@@ -51,6 +64,11 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 	{ value: "inactive", label: "Inactive" },
 ];
 
+const EMPLOYEE_STATUS_HEX_COLORS: Record<EmployeeStatusType, string> = {
+	inactive: "#ef4444",
+	active: "#10b981",
+};
+
 interface EmployeeDetailsProps {
 	employeeId: string;
 	employee: Member & {
@@ -62,6 +80,24 @@ interface EmployeeDetailsProps {
 	})[];
 }
 
+// Form validation schema
+const employeeFormSchema = z.object({
+	name: z.string().min(1, "Name is required"),
+	email: z.string().email("Please enter a valid email address"),
+	department: z.enum([
+		"admin",
+		"gov",
+		"hr",
+		"it",
+		"itsm",
+		"qms",
+		"none",
+	] as const),
+	status: z.enum(["active", "inactive"] as const),
+});
+
+type EmployeeFormValues = z.infer<typeof employeeFormSchema>;
+
 export function EmployeeDetails({
 	employeeId,
 	employee,
@@ -71,37 +107,22 @@ export function EmployeeDetails({
 	const { isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
 	const [isSaving, setIsSaving] = useState(false);
-	const [department, setDepartment] = useState<Departments | null>(null);
-	const [status, setStatus] = useState<EmployeeStatusType | null>(null);
-	const [hasChanges, setHasChanges] = useState(false);
 
-	// Set initial values when employee data loads
-	useEffect(() => {
-		if (employee) {
-			setDepartment(employee.department as Departments);
-			setStatus(employee.isActive ? "active" : "inactive");
-		}
-	}, [employee]);
-
-	// Track changes
-	useEffect(() => {
-		if (employee) {
-			const departmentChanged =
-				department !== null && department !== employee.department;
-			const statusChanged =
-				status !== null &&
-				((status === "active" && !employee.isActive) ||
-					(status === "inactive" && employee.isActive));
-
-			setHasChanges(departmentChanged || statusChanged);
-		}
-	}, [department, status, employee]);
+	// Initialize form with react-hook-form
+	const form = useForm<EmployeeFormValues>({
+		resolver: zodResolver(employeeFormSchema),
+		defaultValues: {
+			name: employee.user.name ?? "",
+			email: employee.user.email ?? "",
+			department: employee.department as Departments,
+			status: employee.isActive ? "active" : "inactive",
+		},
+	});
 
 	const { execute } = useAction(updateEmployee, {
 		onSuccess: () => {
 			toast.success("Employee details updated successfully");
 			mutate();
-			setHasChanges(false);
 		},
 		onError: (error) => {
 			toast.error(
@@ -140,40 +161,22 @@ export function EmployeeDetails({
 
 	if (!employee) return null;
 
-	const handleDepartmentChange = (value: Departments) => {
-		setDepartment(value);
-	};
-
-	const handleStatusChange = (value: EmployeeStatusType) => {
-		setStatus(value);
-	};
-
-	const handleSave = async () => {
+	const onSubmit = async (data: EmployeeFormValues) => {
 		setIsSaving(true);
 		try {
-			// Prepare update data
-			const updateData: {
-				employeeId: string;
-				department?: string;
-				isActive?: boolean;
-			} = { employeeId };
-
-			// Only include changed fields
-			if (department && department !== employee.department) {
-				updateData.department = department;
-			}
-
-			if (status) {
-				const isActive = status === "active";
-				if (isActive !== employee.isActive) {
-					updateData.isActive = isActive;
-				}
-			}
+			// Prepare update data with all fields
+			const updateData = {
+				employeeId,
+				name: data.name,
+				email: data.email,
+				department: data.department,
+				isActive: data.status === "active",
+			};
 
 			// Execute the update
 			await execute(updateData);
 		} catch (error) {
-			toast.error("Failed to update employee details");
+			// Error handled by useAction hook's onError
 		} finally {
 			setIsSaving(false);
 		}
@@ -191,96 +194,165 @@ export function EmployeeDetails({
 						Manage employee information and department assignment
 					</p>
 				</CardHeader>
-				<CardContent className="px-0 pb-8 space-y-8">
-					{/* Personal Info Section */}
-					<div>
-						<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
-							Personal Info
-						</h3>
-						<div className="grid grid-cols-2 gap-10">
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
+						<CardContent className="px-0 pb-8 space-y-8">
+							{/* Personal Info Section */}
 							<div>
-								<p className="text-sm font-medium mb-1">Name</p>
-								<p className="text-sm">{employee.user.name}</p>
+								<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
+									Personal Info
+								</h3>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+									<FormField
+										control={form.control}
+										name="name"
+										render={({ field, fieldState }) => (
+											<FormItem>
+												<FormLabel className="text-sm font-medium">
+													Name
+												</FormLabel>
+												<FormControl>
+													<Input
+														{...field}
+														placeholder="Employee name"
+														className="h-10"
+													/>
+												</FormControl>
+												{fieldState.error && (
+													<FormMessage>{fieldState.error.message}</FormMessage>
+												)}
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="email"
+										render={({ field, fieldState }) => (
+											<FormItem>
+												<FormLabel className="text-sm font-medium">
+													Email
+												</FormLabel>
+												<FormControl>
+													<Input
+														{...field}
+														type="email"
+														placeholder="Employee email"
+														className="h-10"
+													/>
+												</FormControl>
+												{fieldState.error && (
+													<FormMessage>{fieldState.error.message}</FormMessage>
+												)}
+											</FormItem>
+										)}
+									/>
+								</div>
 							</div>
-							<div>
-								<p className="text-sm font-medium mb-1">Email</p>
-								<p className="text-sm">{employee.user.email}</p>
+
+							{/* Department & Status Row */}
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+								<FormField
+									control={form.control}
+									name="department"
+									render={({ field, fieldState }) => (
+										<FormItem>
+											<FormLabel className="text-xs font-medium text-muted-foreground uppercase">
+												Department
+											</FormLabel>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+												value={field.value}
+											>
+												<FormControl>
+													<SelectTrigger className="h-10">
+														<SelectValue placeholder="Select department" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{DEPARTMENTS.map((dept) => (
+														<SelectItem key={dept.value} value={dept.value}>
+															{dept.label}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											{fieldState.error && (
+												<FormMessage>{fieldState.error.message}</FormMessage>
+											)}
+										</FormItem>
+									)}
+								/>
+
+								<FormField
+									control={form.control}
+									name="status"
+									render={({ field, fieldState }) => (
+										<FormItem>
+											<FormLabel className="text-xs font-medium text-muted-foreground uppercase">
+												Status
+											</FormLabel>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+												value={field.value}
+											>
+												<FormControl>
+													<SelectTrigger className="h-10">
+														<SelectValue placeholder="Select status" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{STATUS_OPTIONS.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															<div className={cn("flex items-center gap-2")}>
+																<div
+																	className={cn("size-2.5")}
+																	style={{
+																		backgroundColor:
+																			EMPLOYEE_STATUS_HEX_COLORS[
+																				option.value
+																			] ?? "  ",
+																	}}
+																/>
+																{option.label}
+															</div>
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											{fieldState.error && (
+												<FormMessage>{fieldState.error.message}</FormMessage>
+											)}
+										</FormItem>
+									)}
+								/>
 							</div>
-						</div>
-					</div>
 
-					{/* Department & Status Row */}
-					<div className="grid grid-cols-2 gap-10">
-						<div>
-							<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
-								Department
-							</h3>
-							<Select
-								value={department || employee.department}
-								onValueChange={(value) =>
-									handleDepartmentChange(value as Departments)
-								}
-							>
-								<SelectTrigger className="h-10">
-									<SelectValue placeholder="Select department" />
-								</SelectTrigger>
-								<SelectContent>
-									{DEPARTMENTS.map((dept) => (
-										<SelectItem key={dept.value} value={dept.value}>
-											{dept.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-
-						<div>
-							<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
-								Status
-							</h3>
-							<Select
-								value={status || (employee.isActive ? "active" : "inactive")}
-								onValueChange={(value) =>
-									handleStatusChange(value as EmployeeStatusType)
-								}
-							>
-								<SelectTrigger className="h-10">
-									<SelectValue placeholder="Select status" />
-								</SelectTrigger>
-								<SelectContent>
-									{STATUS_OPTIONS.map((option) => (
-										<SelectItem key={option.value} value={option.value}>
-											{option.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-					</div>
-
-					{/* Join Date Row */}
-					<div className="grid grid-cols-2 gap-10">
-						<div>
-							<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
-								Join Date
-							</h3>
-							<p className="text-sm">
-								{formatDate(employee.createdAt.toISOString(), "MMM d, yyyy")}
-							</p>
-						</div>
-						<div />
-					</div>
-				</CardContent>
-				<CardFooter className="px-0 py-0 flex justify-end outline-none border-none">
-					<Button
-						onClick={handleSave}
-						disabled={!hasChanges || isSaving}
-						className="w-auto"
-					>
-						{isSaving ? "Saving..." : "Save"}
-						{!isSaving && <Save className="ml-2 h-4 w-4" />}
-					</Button>
-				</CardFooter>
+							{/* Join Date Row */}
+							<div className="grid grid-cols-2 gap-10">
+								<div>
+									<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
+										Join Date
+									</h3>
+									<p className="text-sm">
+										{formatDate(
+											employee.createdAt.toISOString(),
+											"MMM d, yyyy",
+										)}
+									</p>
+								</div>
+								<div />
+							</div>
+						</CardContent>
+						<CardFooter className="px-0 py-0 flex justify-end outline-none border-none">
+							<Button type="submit" disabled={isSaving} className="w-auto">
+								{isSaving ? "Saving..." : "Save"}
+								{!isSaving && <Save className="ml-2 h-4 w-4" />}
+							</Button>
+						</CardFooter>
+					</form>
+				</Form>
 			</Card>
 
 			{/* Tasks Section */}
