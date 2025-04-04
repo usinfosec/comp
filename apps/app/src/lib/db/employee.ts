@@ -179,7 +179,7 @@ async function handleExistingUser({
       `[EXISTING_USER] User already has role(s): ${existingMemberRoles.join(", ")}. Cannot add as employee.`
     );
     throw new Error(
-      `User already has role(s): ${existingMemberRoles.join(", ")}. One person can only have one role.`
+      `User already has role(s): ${existingMemberRoles.join(", ")}. Each person can only have one role.`
     );
   }
 
