@@ -16,7 +16,6 @@ import {
 import { Button } from "@comp/ui/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardFooter,
 	CardHeader,
@@ -58,15 +57,8 @@ export function DeleteOrganization({
 					{t("settings.general.org_delete_description")}
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="pb-4">
-				<p className="text-sm text-muted-foreground mb-2">
-					{t("settings.general.org_delete_warning")}
-				</p>
-			</CardContent>
 			<CardFooter className="py-3 flex justify-between bg-muted/30 border-t text-xs text-muted-foreground">
-				<div className="text-destructive/80">
-					{t("settings.general.org_delete_permanent")}
-				</div>
+				<div />
 
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
