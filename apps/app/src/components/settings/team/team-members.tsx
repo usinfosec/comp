@@ -7,13 +7,12 @@ import { InviteMemberForm } from "./invite-member-form";
 import { MembersList } from "./members-list";
 import { PendingInvitations } from "./pending-invitations";
 import { headers } from "next/headers";
-import type { OrganizationWithMembers } from "./members-list";
 
 export async function TeamMembers() {
 	const t = await getI18n();
 
 	const pendingInvitations = await getPendingInvitations();
-	const organization = await getOrganizationMembers();
+	const members = await getMembers();
 
 	return (
 		<Tabs defaultValue="members">
@@ -28,9 +27,7 @@ export async function TeamMembers() {
 			</TabsList>
 
 			<TabsContent value="members">
-				{organization ? (
-					<MembersList organization={organization as OrganizationWithMembers} />
-				) : null}
+				<MembersList members={members ?? []} />
 			</TabsContent>
 
 			<TabsContent value="invite">
@@ -43,7 +40,7 @@ export async function TeamMembers() {
 	);
 }
 
-const getOrganizationMembers = cache(async () => {
+const getMembers = cache(async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -52,10 +49,19 @@ const getOrganizationMembers = cache(async () => {
 		return null;
 	}
 
-	return auth.api.getFullOrganization({
-		organizationId: session?.session.activeOrganizationId,
-		headers: await headers(),
+	const members = await db.member.findMany({
+		where: {
+			organizationId: session?.session.activeOrganizationId,
+			role: {
+				notIn: ["employee"],
+			},
+		},
+		include: {
+			user: true,
+		},
 	});
+
+	return members;
 });
 
 const getOrganizationId = cache(async () => {
