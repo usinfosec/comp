@@ -32,17 +32,16 @@ export default async function Page() {
 		},
 	});
 
-	if (!organization) {
-		redirect("/auth");
-	}
-
-	if (!session?.session?.activeOrganizationId) {
+	if (!session?.session?.activeOrganizationId && organization?.id) {
 		await auth.api.setActiveOrganization({
 			headers: await headers(),
 			body: {
 				organizationId: organization.id,
 			},
 		});
+		redirect("/");
+	} else if (session?.session?.activeOrganizationId) {
+		redirect("/");
 	}
 
 	if (session?.session?.activeOrganizationId) {
