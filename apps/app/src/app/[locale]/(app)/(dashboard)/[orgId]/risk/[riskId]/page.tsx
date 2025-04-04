@@ -1,3 +1,4 @@
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { InherentRiskChart } from "@/components/risks/charts/inherent-risk-chart";
 import { ResidualRiskChart } from "@/components/risks/charts/residual-risk-chart";
 import { RiskOverview } from "@/components/risks/risk-overview";
@@ -20,11 +21,11 @@ interface PageProps {
 		page?: string;
 		per_page?: string;
 	}>;
-	params: Promise<{ riskId: string; locale: string }>;
+	params: Promise<{ riskId: string; locale: string; orgId: string }>;
 }
 
 export default async function RiskPage({ searchParams, params }: PageProps) {
-	const { riskId } = await params;
+	const { riskId, orgId } = await params;
 	const risk = await getRisk(riskId);
 
 	const assignees = await getAssignees();
@@ -56,14 +57,20 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 	}
 
 	return (
-		<div className="flex flex-col gap-4">
-			<RiskOverview risk={risk} assignees={assignees} />
-
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<InherentRiskChart risk={risk} />
-				<ResidualRiskChart risk={risk} />
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Risk", href: `/${orgId}/risk` },
+				{ label: risk.title, current: true },
+			]}
+		>
+			<div className="flex flex-col gap-4">
+				<RiskOverview risk={risk} assignees={assignees} />
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<InherentRiskChart risk={risk} />
+					<ResidualRiskChart risk={risk} />
+				</div>
 			</div>
-		</div>
+		</PageWithBreadcrumb>
 	);
 }
 

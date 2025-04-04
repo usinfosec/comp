@@ -1,13 +1,12 @@
-import { auth } from "@comp/auth";
-import { Header } from "@/components/header";
-import { Sidebar } from "@/components/sidebar";
 import { AnimatedLayout } from "@/components/animated-layout";
-import { SidebarProvider } from "@/context/sidebar-context";
-import { cookies, headers } from "next/headers";
-import dynamic from "next/dynamic";
-import { redirect } from "next/navigation";
-import { UserProvider } from "@/store/user/provider";
+import { Header } from "@/components/header";
 import { AssistantSheet } from "@/components/sheets/assistant-sheet";
+import { Sidebar } from "@/components/sidebar";
+import { SidebarProvider } from "@/context/sidebar-context";
+import { auth } from "@comp/auth";
+import dynamic from "next/dynamic";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),

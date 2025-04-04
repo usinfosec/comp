@@ -12,6 +12,7 @@ import { InherentRiskVendorChart } from "./components/inherent-risk-vendor-chart
 import { ResidualRiskVendorChart } from "./components/residual-risk-vendor-chart";
 import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
 import { TitleAndDescription } from "./components/title-and-description/title-and-description";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 interface PageProps {
 	searchParams: Promise<{
@@ -21,11 +22,11 @@ interface PageProps {
 		page?: string;
 		per_page?: string;
 	}>;
-	params: Promise<{ vendorId: string; locale: string }>;
+	params: Promise<{ vendorId: string; locale: string; orgId: string }>;
 }
 
 export default async function VendorPage({ searchParams, params }: PageProps) {
-	const { vendorId } = await params;
+	const { vendorId, orgId } = await params;
 	const vendor = await getVendor(vendorId);
 	const assignees = await getAssignees();
 	const t = await getI18n();
@@ -56,47 +57,21 @@ export default async function VendorPage({ searchParams, params }: PageProps) {
 	}
 
 	return (
-		<div className="flex flex-col gap-4">
-			<TitleAndDescription vendor={vendor} />
-			<SecondaryFields vendor={vendor} assignees={assignees} />
-			{/* <Card>
-				<CardHeader>
-					<CardTitle>
-						<div className="flex items-center justify-between gap-2">
-							{t("vendors.tasks.title")}
-						</div>
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="relative">
-						{loadedTasks.length > 0 ? (
-							<>
-								<FilterToolbar
-									isEmpty={loadedTasks.length === 0}
-									users={users}
-								/>
-								<DataTable
-									data={loadedTasks}
-									pageCount={Math.ceil(total / Number.parseInt(per_page))}
-									currentPage={Number.parseInt(page)}
-								/>
-							</>
-						) : hasFilters ? (
-							<NoResults hasFilters={hasFilters} />
-						) : (
-							<>
-								<NoTasks isEmpty={true} />
-								<Loading isEmpty={true} amount={3} />
-							</>
-						)}
-					</div>
-				</CardContent>
-			</Card> */}
-			<div className="grid grid-cols-1 gap-4">
-				<InherentRiskVendorChart vendor={vendor} />
-				<ResidualRiskVendorChart vendor={vendor} />
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Vendors", href: `/${orgId}/vendors` },
+				{ label: vendor.name, current: true },
+			]}
+		>
+			<div className="flex flex-col gap-4">
+				<TitleAndDescription vendor={vendor} />
+				<SecondaryFields vendor={vendor} assignees={assignees} />
+				<div className="grid grid-cols-1 gap-4">
+					<InherentRiskVendorChart vendor={vendor} />
+					<ResidualRiskVendorChart vendor={vendor} />
+				</div>
 			</div>
-		</div>
+		</PageWithBreadcrumb>
 	);
 }
 

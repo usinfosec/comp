@@ -46,9 +46,13 @@ export const frameworks = {
 			in_progress: "In Progress",
 			not_started: "Not Started",
 		},
+		search: {
+			placeholder: "Search controls...",
+		},
 	},
 	requirements: {
 		requirement: "Requirement",
+		requirements: "Requirements",
 		title: "Linked Requirements",
 		description: "Review and manage compliance requirements",
 		table: {
