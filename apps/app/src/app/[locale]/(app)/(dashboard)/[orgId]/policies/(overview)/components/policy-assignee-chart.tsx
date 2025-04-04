@@ -58,7 +58,7 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
-							<BarChartIcon className="h-4 w-4 text-primary" />
+							<BarChartIcon className="h-4 w-4 text-primary mb-1" />
 							<CardTitle>
 								{t("policies.dashboard.policies_by_assignee") ||
 									"Policies by Assignee"}
@@ -139,7 +139,7 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-2">
-						<BarChartIcon className="h-4 w-4 text-primary" />
+						<BarChartIcon className="h-4 w-4 text-primary mb-1" />
 						<CardTitle>
 							{t("policies.dashboard.policies_by_assignee") ||
 								"Policies by Assignee"}

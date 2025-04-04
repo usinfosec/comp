@@ -114,7 +114,7 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-2">
-						<PieChartIcon className="h-4 w-4 text-primary" />
+						<PieChartIcon className="h-4 w-4 text-primary mb-1" />
 						<CardTitle>
 							{t("evidence.dashboard.evidence_status") || "Evidence Status"}
 						</CardTitle>

@@ -68,7 +68,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
-							<PieChartIcon className="h-4 w-4 text-primary" />
+							<PieChartIcon className="h-4 w-4 text-primary mb-1" />
 							<CardTitle>
 								{t("policies.dashboard.policy_status") || "Policy Status"}
 							</CardTitle>
@@ -141,7 +141,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-2">
-						<PieChartIcon className="h-4 w-4 text-primary" />
+						<PieChartIcon className="h-4 w-4 text-primary mb-1" />
 						<CardTitle>
 							{t("policies.dashboard.policy_status") || "Policy Status"}
 						</CardTitle>
