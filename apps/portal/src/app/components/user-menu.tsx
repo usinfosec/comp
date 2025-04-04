@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
 import { headers } from "next/headers";
-import { auth } from "@comp/auth";
+import { auth } from "@/app/lib/auth";
 import { LocaleSwitch } from "./locale-switch";
 import { Logout } from "./logout";
 import { ThemeSwitch } from "./theme-switch";

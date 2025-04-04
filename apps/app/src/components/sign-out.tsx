@@ -1,9 +1,9 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { DropdownMenuItem } from "@comp/ui/dropdown-menu";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,8 +14,13 @@ export function SignOut({ asButton = false }: { asButton?: boolean }) {
 
 	const handleSignOut = async () => {
 		setLoading(true);
-		await signOut({ redirect: false });
-		router.push("/auth");
+		await authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					router.push("/auth");
+				},
+			},
+		});
 	};
 
 	if (asButton) {

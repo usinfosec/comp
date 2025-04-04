@@ -1,6 +1,6 @@
 "use client";
 
-import type { OrganizationPolicy, Policy } from "@comp/db/types";
+import type { Policy, Member } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -14,14 +14,13 @@ import type { JSONContent } from "@tiptap/react";
 import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
 import { PolicyEditor } from "./PolicyEditor";
-import type { Session } from "@/app/lib/auth";
 
 interface PolicyCardProps {
-	policy: OrganizationPolicy & { policy: Policy };
+	policy: Policy;
 	onNext?: () => void;
 	onComplete?: () => void;
 	onClick?: () => void;
-	user: Session["user"];
+	member: Member;
 	isLastPolicy?: boolean;
 }
 
@@ -30,11 +29,11 @@ export function PolicyCard({
 	onNext,
 	onComplete,
 	onClick,
-	user,
+	member,
 	isLastPolicy,
 }: PolicyCardProps) {
 	const [isAccepted, setIsAccepted] = useState(
-		policy.signedBy.includes(user.id),
+		policy.signedBy.includes(member.id),
 	);
 
 	const handleAccept = () => {
@@ -71,9 +70,9 @@ export function PolicyCard({
 				</div>
 			)}
 			<CardHeader>
-				<CardTitle className="text-2xl">{policy.policy.name}</CardTitle>
+				<CardTitle className="text-2xl">{policy.name}</CardTitle>
 				<CardDescription className="text-muted-foreground">
-					{policy.policy.description}
+					{policy.description}
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="w-full flex-1 overflow-y-auto">

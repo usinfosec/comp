@@ -1,19 +1,18 @@
 "use client";
 
-import type { OrganizationPolicy, Policy } from "@comp/db/types";
+import type { Policy, Member } from "@comp/db/types";
 import { useState } from "react";
 import { PolicyGrid } from "./PolicyGrid";
 import { PolicyCarousel } from "./PolicyCarousel";
-import type { Session } from "@/app/lib/auth";
 import { Button } from "@comp/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 interface PolicyContainerProps {
-	policies: (OrganizationPolicy & { policy: Policy })[];
-	user: Session["user"];
+	policies: Policy[];
+	member: Member;
 }
 
-export function PolicyContainer({ policies, user }: PolicyContainerProps) {
+export function PolicyContainer({ policies, member }: PolicyContainerProps) {
 	const [selectedPolicyIndex, setSelectedPolicyIndex] = useState<number | null>(
 		null,
 	);
@@ -49,7 +48,7 @@ export function PolicyContainer({ policies, user }: PolicyContainerProps) {
 				</div>
 				<PolicyCarousel
 					policies={policies}
-					user={user}
+					member={member}
 					initialIndex={selectedPolicyIndex}
 					onIndexChange={handleIndexChange}
 				/>
@@ -61,7 +60,7 @@ export function PolicyContainer({ policies, user }: PolicyContainerProps) {
 		<PolicyGrid
 			policies={policies}
 			onPolicyClick={handlePolicyClick}
-			user={user}
+			member={member}
 		/>
 	);
 }

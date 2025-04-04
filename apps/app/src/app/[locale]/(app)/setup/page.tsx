@@ -22,11 +22,30 @@ export default async function Page() {
 		},
 	});
 
-	if (!session?.session) {
+	const organization = await db.organization.findFirst({
+		where: {
+			members: {
+				some: {
+					userId: session?.user.id,
+				},
+			},
+		},
+	});
+
+	if (!organization) {
 		redirect("/auth");
 	}
 
-	if (session.session.activeOrganizationId) {
+	if (!session?.session?.activeOrganizationId) {
+		await auth.api.setActiveOrganization({
+			headers: await headers(),
+			body: {
+				organizationId: organization.id,
+			},
+		});
+	}
+
+	if (session?.session?.activeOrganizationId) {
 		redirect("/");
 	}
 
