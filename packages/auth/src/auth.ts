@@ -12,6 +12,7 @@ export const auth = betterAuth({
 	database: prismaAdapter(db, {
 		provider: "postgresql",
 	}),
+	secret: process.env.AUTH_SECRET!,
 	advanced: {
 		// This will enable us to fall back to DB for ID generation.
 		// It's important so we can use customs ID's specified in Prisma Schema.
