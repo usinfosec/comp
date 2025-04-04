@@ -1,39 +1,41 @@
-import { VendorStatus } from "@/components/vendor-status";
+import { Status } from "@/components/status";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import type { VendorRegisterTableRow } from "./VendorRegisterTable";
 import { UserIcon } from "lucide-react";
+import Link from "next/link";
+import { RiskRow } from "../../RisksTable";
 
-export const columns: ColumnDef<VendorRegisterTableRow>[] = [
+export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 	{
-		header: "Vendor",
-		accessorKey: "name",
+		header: "Risk",
+		accessorKey: "title",
 		cell: ({ row }) => {
 			return (
-				<Link
-					href={`/${row.original.organizationId}/vendors/${row.original.id}`}
-				>
-					{row.original.name}
+				<Link href={`/${orgId}/risk/${row.original.id}`}>
+					{row.original.title}
 				</Link>
 			);
 		},
+		sortingFn: (a, b) => {
+			return a.original.title.localeCompare(b.original.title);
+		},
+		enableSorting: true,
 	},
 	{
 		header: "Status",
 		accessorKey: "status",
 		cell: ({ row }) => {
-			return <VendorStatus status={row.original.status} />;
+			return <Status status={row.original.status} />;
 		},
 	},
 	{
-		header: "Category",
-		accessorKey: "category",
+		header: "Department",
+		accessorKey: "department",
 		cell: ({ row }) => {
 			return (
 				<Badge variant="marketing" className="uppercase w-fit">
-					{row.original.category}
+					{row.original.department}
 				</Badge>
 			);
 		},
@@ -42,7 +44,6 @@ export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 		header: "Assignee",
 		accessorKey: "assignee",
 		cell: ({ row }) => {
-			// Handle null assignee
 			if (!row.original.assignee) {
 				return (
 					<div className="flex items-center gap-2">
@@ -58,16 +59,14 @@ export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 				<div className="flex items-center gap-2">
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={row.original.assignee.user.image || undefined}
-							alt={row.original.assignee.user.name || ""}
+							src={row.original.assignee.image || undefined}
+							alt={row.original.assignee.name || ""}
 						/>
 						<AvatarFallback>
-							{row.original.assignee.user.name?.charAt(0) || "?"}
+							{row.original.assignee.name?.charAt(0) || "?"}
 						</AvatarFallback>
 					</Avatar>
-					<p className="text-sm font-medium">
-						{row.original.assignee.user.name}
-					</p>
+					<p className="text-sm font-medium">{row.original.assignee.name}</p>
 				</div>
 			);
 		},

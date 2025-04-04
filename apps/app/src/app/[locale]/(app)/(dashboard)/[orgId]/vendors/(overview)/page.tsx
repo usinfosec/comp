@@ -4,7 +4,7 @@ import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { redirect } from "next/navigation";
-import { VendorRegisterTable } from "./components/VendorRegisterTable";
+import { VendorsTable } from "./components/VendorsTable";
 import { Departments, VendorStatus } from "@comp/db/types";
 import { z } from "zod";
 import { headers } from "next/headers";
@@ -80,7 +80,7 @@ export default async function Page({
 				{ label: "Vendors", href: `/${orgId}/vendors`, current: true },
 			]}
 		>
-			<VendorRegisterTable assignees={assignees} data={vendors} />
+			<VendorsTable assignees={assignees} data={vendors} />
 		</PageWithBreadcrumb>
 	);
 }

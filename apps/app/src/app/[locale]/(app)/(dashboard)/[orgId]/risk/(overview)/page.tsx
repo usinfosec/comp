@@ -1,14 +1,14 @@
-import { RiskRegisterTable } from "./RiskRegisterTable";
-import type { Metadata } from "next";
-import { getI18n } from "@/locales/server";
-import { setStaticParamsLocale } from "next-international/server";
-import type { RiskStatus, Departments } from "@comp/db/types";
-import { getRisks } from "./data/getRisks";
-import { auth } from "@comp/auth";
-import { cache } from "react";
-import { db } from "@comp/db";
-import { headers } from "next/headers";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { getI18n } from "@/locales/server";
+import { auth } from "@comp/auth";
+import { db } from "@comp/db";
+import type { Departments, RiskStatus } from "@comp/db/types";
+import type { Metadata } from "next";
+import { setStaticParamsLocale } from "next-international/server";
+import { headers } from "next/headers";
+import { cache } from "react";
+import { getRisks } from "./data/getRisks";
+import { RisksTable } from "./RisksTable";
 
 export default async function RiskRegisterPage({
 	params,
@@ -39,11 +39,7 @@ export default async function RiskRegisterPage({
 
 	return (
 		<PageWithBreadcrumb breadcrumbs={[{ label: "Risk", current: true }]}>
-			<RiskRegisterTable
-				risks={risks?.risks || []}
-				isLoading={false}
-				assignees={assignees}
-			/>
+			<RisksTable risks={risks?.risks || []} assignees={assignees} />
 		</PageWithBreadcrumb>
 	);
 }

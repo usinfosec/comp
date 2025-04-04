@@ -7,7 +7,7 @@ export const vendors = {
 		status: "Vendor Status",
 	},
 	register: {
-		title: "Vendor Register",
+		title: "Vendors",
 		create_new: "Create Vendor",
 	},
 	create: "Create Vendor",
