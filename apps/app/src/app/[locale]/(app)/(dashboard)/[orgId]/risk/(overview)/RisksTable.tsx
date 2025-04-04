@@ -49,7 +49,6 @@ export const RisksTable = ({
 				pageIndex: 0,
 			},
 		},
-		enableSorting: true,
 	});
 
 	const [searchTerm, setSearchTerm] = useQueryState("search", {
