@@ -54,7 +54,7 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 
 	if (!data || data.length === 0) {
 		return (
-			<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
+			<Card className="flex flex-col border overflow-hidden">
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<CardTitle className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 	}, [data]);
 
 	return (
-		<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
+		<Card className="flex flex-col border overflow-hidden">
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
