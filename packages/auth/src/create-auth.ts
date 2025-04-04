@@ -1,12 +1,12 @@
-import { betterAuth } from "better-auth";
 import { db } from "@comp/db";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { emailOTP, organization } from "better-auth/plugins";
-import { ac, owner, admin, auditor, member, employee } from "./permissions";
+import { OTPVerificationEmail } from "@comp/email";
 import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
 import { sendEmail } from "@comp/email/lib/resend";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { OTPVerificationEmail } from "@comp/email";
+import { emailOTP, organization } from "better-auth/plugins";
+import { ac, admin, auditor, employee, member, owner } from "./permissions";
 
 export interface AuthConfig {
 	/**
@@ -17,11 +17,11 @@ export interface AuthConfig {
 	 *
 	 * In production, if no secret is found, an error will be thrown.
 	 */
-	secret?: string;
+	secret: string;
 	/**
 	 * Google OAuth credentials
 	 */
-	googleAuth?: {
+	googleAuth: {
 		clientId: string;
 		clientSecret: string;
 	};
@@ -29,8 +29,8 @@ export interface AuthConfig {
 
 const DEFAULT_SECRET = "better-auth-secret-123456789";
 
-export function createAuth(config?: AuthConfig) {
-	let secret = config?.secret;
+export function createAuth(config: AuthConfig) {
+	let secret = config.secret;
 
 	// Use default secret in non-production environments as fallback
 	if (!secret) {
@@ -86,10 +86,7 @@ export function createAuth(config?: AuthConfig) {
 			nextCookies(),
 		],
 		socialProviders: {
-			google: config?.googleAuth || {
-				clientId: process.env.AUTH_GOOGLE_ID!,
-				clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-			},
+			google: config.googleAuth,
 		},
 		user: {
 			modelName: "User",
@@ -117,9 +114,9 @@ export function createAuth(config?: AuthConfig) {
 
 // Export type definitions
 export type {
-	Session,
 	ActiveOrganization,
+	Invitation,
 	Member,
 	Organization,
-	Invitation,
+	Session,
 } from "./auth";
