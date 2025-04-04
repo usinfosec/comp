@@ -6,8 +6,7 @@ import { z } from "zod";
 import { Role } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { auth } from "@/utils/auth";
-
+import { authClient } from "@/utils/auth-client";
 const removeMemberSchema = z.object({
 	memberId: z.string(),
 });
@@ -83,7 +82,7 @@ export const removeMember = authActionClient
 				}
 
 				// Remove the member
-				await auth.organization.removeMember({
+				await authClient.organization.removeMember({
 					memberIdOrEmail: targetMember.userId, // this can also be the email of the member
 					organizationId: ctx.session.activeOrganizationId ?? "", // optional, by default it will use the active organization
 				});
