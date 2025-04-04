@@ -12,40 +12,38 @@ import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 import { useParams } from "next/navigation";
 
 interface EvidenceTableProps {
-  promises: Promise<[
-    Awaited<ReturnType<typeof getEvidence>>
-  ]>;
+	promises: Promise<[Awaited<ReturnType<typeof getEvidence>>]>;
 }
 
 export function EvidenceTable({ promises }: EvidenceTableProps) {
-  const [{ data, pageCount }] = React.use(promises);
-  const { orgId } = useParams();
+	const [{ data, pageCount }] = React.use(promises);
+	const { orgId } = useParams();
 
-  const columns = React.useMemo(() => getEvidenceColumns(), []);
+	const columns = React.useMemo(() => getEvidenceColumns(), []);
 
-  const { table } = useDataTable({
-    data,
-    columns,
-    pageCount,
-    initialState: {
-      columnPinning: { right: ["actions"] },
-    },
-    getRowId: (originalRow) => originalRow.id,
-    shallow: false,
-    clearOnDefault: true,
-  });
+	const { table } = useDataTable({
+		data,
+		columns,
+		pageCount,
+		initialState: {
+			columnPinning: { right: ["actions"] },
+		},
+		getRowId: (originalRow) => originalRow.id,
+		shallow: false,
+		clearOnDefault: true,
+	});
 
-  return (
-    <>
-      <DataTable
-        table={table}
-        getRowId={(row) => row.id}
-        rowClickBasePath={`/${orgId}/evidence`}
-      >
-        <DataTableToolbar table={table} sheet="create-evidence-sheet" action="Create Evidence">
-          <DataTableSortList table={table} align="end" />
-        </DataTableToolbar>
-      </DataTable>
-    </>
-  );
+	return (
+		<>
+			<DataTable
+				table={table}
+				getRowId={(row) => row.id}
+				rowClickBasePath={`/${orgId}/evidence`}
+			>
+				<DataTableToolbar table={table}>
+					<DataTableSortList table={table} align="end" />
+				</DataTableToolbar>
+			</DataTable>
+		</>
+	);
 }
