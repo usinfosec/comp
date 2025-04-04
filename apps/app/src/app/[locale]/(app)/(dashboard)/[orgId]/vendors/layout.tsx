@@ -18,16 +18,6 @@ export default async function Layout({
 
 	return (
 		<div className="max-w-[1200px] m-auto">
-			<SecondaryMenu
-				items={[
-					{ path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
-					{
-						path: `/${orgId}/vendors/register`,
-						label: t("vendors.register.title"),
-					},
-				]}
-			/>
-
 			<main className="mt-8">{children}</main>
 		</div>
 	);
