@@ -21,18 +21,15 @@ export function AppsTabs() {
 	});
 
 	return (
-		<div className="flex">
+		<div className="flex gap-0 border-b">
 			{tabs.map((tab) => (
 				<button
 					onClick={() => setTab(tab.value)}
 					key={tab.value}
 					type="button"
 					className={cn(
-						"text-sm transition-colors px-4",
-						"dark:bg-[#1D1D1D] dark:text-[#878787]",
-						"bg-white text-gray-600",
-						currentTab === tab.value &&
-							"text-primary dark:bg-[#2C2C2C] bg-gray-100",
+						"hover:bg-secondary p-2 border-b-2 font-medium min-w-16 px-4 text-center text-sm",
+						currentTab === tab.value ? "border-primary" : "border-transparent",
 					)}
 				>
 					{tab.name}
