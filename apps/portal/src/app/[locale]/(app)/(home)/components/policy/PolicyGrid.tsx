@@ -1,19 +1,23 @@
 "use client";
 
-import type { Session } from "@/app/lib/auth";
-import type { OrganizationPolicy, Policy } from "@comp/db/types";
+import type { Member, Policy } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Check } from "lucide-react";
 
 interface PolicyGridProps {
-	policies: (OrganizationPolicy & { policy: Policy })[];
+	policies: Policy[];
 	onPolicyClick: (index: number) => void;
-	user: Session["user"];
+	member: Member;
 }
 
-export function PolicyGrid({ policies, onPolicyClick, user }: PolicyGridProps) {
+export function PolicyGrid({
+	policies,
+	onPolicyClick,
+	member,
+}: PolicyGridProps) {
+	console.log({ policiesInGrid: policies });
 	const allPoliciesCompleted = policies.every((policy) =>
-		policy.signedBy.includes(user.id),
+		policy.signedBy.includes(member.id),
 	);
 
 	const noPoliciesFound = policies.length === 0;
@@ -38,7 +42,7 @@ export function PolicyGrid({ policies, onPolicyClick, user }: PolicyGridProps) {
 			{!noPoliciesFound && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{policies.map((policy, index) => {
-						const isCompleted = policy.signedBy.includes(user.id);
+						const isCompleted = policy.signedBy.includes(member.id);
 						return (
 							<Card
 								key={policy.id}
@@ -51,13 +55,11 @@ export function PolicyGrid({ policies, onPolicyClick, user }: PolicyGridProps) {
 									</div>
 								)}
 								<CardHeader>
-									<CardTitle className="text-xl">
-										{policy.policy.name}
-									</CardTitle>
+									<CardTitle className="text-xl">{policy.name}</CardTitle>
 								</CardHeader>
 								<CardContent className="flex-1">
 									<p className="text-muted-foreground line-clamp-4">
-										{policy.policy.description}
+										{policy.description}
 									</p>
 									<div className="absolute bottom-6 left-6 right-6">
 										<p className="text-sm text-muted-foreground">

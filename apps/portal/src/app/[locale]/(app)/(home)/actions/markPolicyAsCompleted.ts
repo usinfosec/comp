@@ -7,62 +7,73 @@ import { logger } from "@/utils/logger";
 import { revalidatePath } from "next/cache";
 
 export const markPolicyAsCompleted = authActionClient
-	.schema(z.object({ policyId: z.string() }))
-	.metadata({
-		name: "markPolicyAsCompleted",
-		track: {
-			event: "markPolicyAsCompleted",
-			channel: "server",
-		},
-	})
-	.action(async ({ parsedInput, ctx }) => {
-		const { policyId } = parsedInput;
-		const { user } = ctx;
+  .schema(z.object({ policyId: z.string() }))
+  .metadata({
+    name: "markPolicyAsCompleted",
+    track: {
+      event: "markPolicyAsCompleted",
+      channel: "server",
+    },
+  })
+  .action(async ({ parsedInput, ctx }) => {
+    const { policyId } = parsedInput;
+    const { user } = ctx;
 
-		logger("markPolicyAsCompleted action started", {
-			policyId,
-			userId: user?.id,
-		});
+    logger("markPolicyAsCompleted action started", {
+      policyId,
+      userId: user?.id,
+    });
 
-		if (!user) {
-			logger("Unauthorized attempt to mark policy as completed", { policyId });
-			throw new Error("Unauthorized");
-		}
+    if (!user) {
+      logger("Unauthorized attempt to mark policy as completed", { policyId });
+      throw new Error("Unauthorized");
+    }
 
-		const organizationPolicy = await db.organizationPolicy.findUnique({
-			where: {
-				id: policyId,
-			},
-		});
+    const member = await db.member.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
 
-		if (!organizationPolicy) {
-			logger("Policy not found", { policyId });
-			throw new Error("Policy not found");
-		}
+    if (!member) {
+      logger("Member not found", { userId: user.id });
+      throw new Error("Member not found");
+    }
 
-		// Check if user has already signed this policy
-		if (organizationPolicy.signedBy.includes(user.id)) {
-			logger("User has already signed this policy", {
-				policyId,
-				userId: user.id,
-			});
-			return organizationPolicy;
-		}
+    const policy = await db.policy.findUnique({
+      where: {
+        id: policyId,
+      },
+    });
 
-		logger("Updating policy signature", { policyId, userId: user.id });
-		const completedPolicy = await db.organizationPolicy.update({
-			where: { id: policyId },
-			data: {
-				signedBy: [...organizationPolicy.signedBy, user.id],
-			},
-		});
+    if (!policy) {
+      logger("Policy not found", { policyId });
+      throw new Error("Policy not found");
+    }
 
-		logger("Policy successfully marked as completed", {
-			policyId,
-			userId: user.id,
-		});
+    // Check if user has already signed this policy
+    if (policy.signedBy.includes(member.id)) {
+      logger("User has already signed this policy", {
+        policyId,
+        memberId: member.id,
+      });
+      return policy;
+    }
 
-		revalidatePath("/");
+    logger("Updating policy signature", { policyId, memberId: member.id });
+    const completedPolicy = await db.policy.update({
+      where: { id: policyId },
+      data: {
+        signedBy: [...policy.signedBy, member.id],
+      },
+    });
 
-		return completedPolicy;
-	});
+    logger("Policy successfully marked as completed", {
+      policyId,
+      memberId: member.id,
+    });
+
+    revalidatePath("/");
+
+    return completedPolicy;
+  });

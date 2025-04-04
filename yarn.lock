@@ -266,7 +266,7 @@
     "@smithy/util-utf8" "^2.0.0"
     tslib "^2.6.2"
 
-"@aws-sdk/client-s3@^3.758.0", "@aws-sdk/client-s3@^3.779.0":
+"@aws-sdk/client-s3@^3.779.0", "@aws-sdk/client-s3@^3.782.0":
   version "3.782.0"
   resolved "https://registry.npmjs.org/@aws-sdk/client-s3/-/client-s3-3.782.0.tgz"
   integrity sha512-V6JR2JAGYQY7J8wk5un5n/ja2nfCUyyoRCF8Du8JL91NGI8i41Mdr/TzuOGwTgFl6RSXb/ge1K1jk30OH4MugQ==
@@ -328,7 +328,7 @@
     "@smithy/util-waiter" "^4.0.3"
     tslib "^2.6.2"
 
-"@aws-sdk/client-securityhub@^3.0.0", "@aws-sdk/client-securityhub@^3.758.0":
+"@aws-sdk/client-securityhub@^3.0.0", "@aws-sdk/client-securityhub@^3.782.0":
   version "3.782.0"
   resolved "https://registry.npmjs.org/@aws-sdk/client-securityhub/-/client-securityhub-3.782.0.tgz"
   integrity sha512-hT/MMK4h9iOmj59RrzpRC1HG/4BkZ7YDFpEi7V3MfWZaEe3zDiet46RehPBTpJNdBRDpY8BO9gUtU/rUnn64xg==
@@ -1461,6 +1461,7 @@
   devDependencies:
     "@comp/auth" "workspace:*"
     "@comp/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.17"
     "@types/react" "19.0.10"
@@ -1476,9 +1477,11 @@
     "@aws-sdk/client-s3" "^3.779.0"
     "@aws-sdk/s3-request-presigner" "^3.779.0"
     "@browserbasehq/sdk" "^2.5.0"
+  dependencies:
     "@comp/auth" "workspace:*"
     "@comp/data" "workspace:*"
     "@comp/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1560,6 +1563,7 @@
     typescript "^5.7.3"
   dependencies:
     "@comp/email" "workspace:*"
+  dependencies:
     better-auth "^1.2.5"
     server-only "0.0.1"
 
@@ -1568,6 +1572,7 @@
   resolved "workspace:packages/data"
   devDependencies:
     "@comp/db" "workspace:*"
+  devDependencies:
     tsup "^8.4.0"
     typescript "^5.8.2"
 
@@ -1576,6 +1581,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1596,6 +1602,7 @@
   dependencies:
     "@comp/ui" "workspace:*"
     "@comp/utils" "workspace:*"
+  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"
@@ -1616,7 +1623,9 @@
     "@ai-sdk/openai" "^0.0.66"
     "@aws-sdk/client-securityhub" "^3.0.0"
     "@azure/identity" "^3.0.0"
+  dependencies:
     "@comp/app" "workspace:*"
+  dependencies:
     "@google-cloud/security-center" "^7.0.0"
     "@slack/bolt" "^3.22.0"
     "@slack/web-api" "^7.8.0"
@@ -1648,6 +1657,7 @@
   devDependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
+  devDependencies:
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"
     "@types/react-dom" "^19.0.3"
@@ -14360,7 +14370,7 @@ tunnel-rat@^0.1.2:
   dependencies:
     zustand "^4.3.2"
 
-turbo@^2.4.4:
+turbo@^2.5.0:
   version "2.5.0"
   resolved "https://registry.npmjs.org/turbo/-/turbo-2.5.0.tgz"
   integrity sha512-PvSRruOsitjy6qdqwIIyolv99+fEn57gP6gn4zhsHTEcCYgXPhv6BAxzAjleS8XKpo+Y582vTTA9nuqYDmbRuA==
