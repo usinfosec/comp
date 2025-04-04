@@ -32,18 +32,6 @@ const DEFAULT_SECRET = "better-auth-secret-123456789";
 export function createAuth(config?: AuthConfig) {
 	let secret = config?.secret;
 
-	// Try to get secret from env vars if not provided
-	if (!secret) {
-		secret = process.env.BETTER_AUTH_SECRET || process.env.AUTH_SECRET;
-	}
-
-	// In production, throw error if no secret is provided
-	if (!secret && process.env.NODE_ENV === "production") {
-		throw new Error(
-			"No authentication secret provided. Please set BETTER_AUTH_SECRET or AUTH_SECRET environment variable, or pass a secret in the config.",
-		);
-	}
-
 	// Use default secret in non-production environments as fallback
 	if (!secret) {
 		secret = DEFAULT_SECRET;
