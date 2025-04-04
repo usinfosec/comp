@@ -11,6 +11,8 @@ import {
 	createOrganizationEvidence,
 	createControlArtifacts,
 } from "./lib/utils";
+import { createStripeCustomer } from "./lib/create-stripe-customer";
+import { db } from "@comp/db";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -40,6 +42,21 @@ export const createOrganizationAction = authActionClient
 			}
 
 			const organizationId = session.session.activeOrganizationId;
+
+			const stripeCustomerId = await createStripeCustomer({
+				name,
+				email: session.user.email,
+				organizationId,
+			});
+
+			if (!stripeCustomerId) {
+				throw new Error("Failed to create Stripe customer");
+			}
+
+			await db.organization.update({
+				where: { id: organizationId },
+				data: { stripeCustomerId },
+			});
 
 			const organizationFrameworks = await Promise.all(
 				frameworks.map((frameworkId) =>
