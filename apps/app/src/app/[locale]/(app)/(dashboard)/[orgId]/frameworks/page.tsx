@@ -2,9 +2,9 @@ import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import PageWithBreadcrumb from "../../../../../../components/pages/PageWithBreadcrumb";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInstancesWithControls";
-import PageWithBreadcrumb from "../../../../../../components/pages/PageWithBreadcrumb";
 
 export async function generateMetadata() {
 	const t = await getI18n();

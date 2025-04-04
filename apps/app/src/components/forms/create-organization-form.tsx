@@ -29,19 +29,15 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
 
-function OnboardingClient() {
+export function OnboardingClient() {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
 	const router = useRouter();
-
 	const t = useI18n();
 
 	const createOrganization = useAction(createOrganizationAction, {
 		onSuccess: async () => {
 			toast.success(t("onboarding.success"));
-
-			setTimeout(() => {
-				router.push("/");
-			}, 2000);
+			router.push("/");
 		},
 		onError: () => {
 			toast.error(t("common.actions.error"));
@@ -51,17 +47,8 @@ function OnboardingClient() {
 		},
 	});
 
-	const form = useForm<z.infer<typeof organizationSchema>>({
-		resolver: zodResolver(organizationSchema),
-		defaultValues: {
-			name: "",
-			frameworks: [],
-		},
-		mode: "onChange",
-	});
-
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-		const organization = await authClient.organization.create({
+		await authClient.organization.create({
 			name: data.name,
 			slug: data.name,
 		});
@@ -70,6 +57,15 @@ function OnboardingClient() {
 			...data,
 		});
 	};
+
+	const form = useForm<z.infer<typeof organizationSchema>>({
+		resolver: zodResolver(organizationSchema),
+		defaultValues: {
+			name: "",
+			frameworks: [],
+		},
+		mode: "onChange",
+	});
 
 	if (isCreatingOrganization) {
 		return (
@@ -215,8 +211,4 @@ function OnboardingClient() {
 			</div>
 		</div>
 	);
-}
-
-export function Onboarding() {
-	return <OnboardingClient />;
 }
