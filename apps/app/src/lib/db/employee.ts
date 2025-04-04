@@ -145,7 +145,10 @@ async function handleExistingUser({
 
   if (!existingMember) {
     // Create a new member record if they're not already in the organization
-    return await db.member.create({
+    console.log(
+      `[EXISTING_USER] Creating new member for existing user ${userId}`
+    );
+    const newMember = await db.member.create({
       data: {
         userId,
         organizationId,
@@ -154,36 +157,70 @@ async function handleExistingUser({
         isActive: true,
       },
     });
+    console.log(`[EXISTING_USER] Created new member with ID: ${newMember.id}`);
+    return newMember;
   }
 
-  // User is already a member, check if they have employee role
+  // User is already a member, check if they have any role
   const existingMemberRoles = existingMember.role.split(",") as (
     | "admin"
     | "auditor"
     | "employee"
+    | "owner"
   )[];
 
-  if (!existingMemberRoles.includes("employee")) {
-    // Update existing member with employee role
-    const updatedMember = await auth.api.updateMemberRole({
-      body: {
-        memberId: existingMember.id,
-        organizationId,
-        role: [...existingMemberRoles, "employee"],
+  console.log(
+    `[EXISTING_USER] Current roles for user: ${existingMemberRoles.join(", ")}`
+  );
+
+  // If they already have any role, we can't add them as an employee
+  if (existingMemberRoles.length > 0) {
+    console.log(
+      `[EXISTING_USER] User already has role(s): ${existingMemberRoles.join(", ")}. Cannot add as employee.`
+    );
+    throw new Error(
+      `User already has role(s): ${existingMemberRoles.join(", ")}. One person can only have one role.`
+    );
+  }
+
+  // If they have no role (this shouldn't happen but just in case), assign employee role
+  console.log(
+    `[EXISTING_USER] Adding employee role to member ${existingMember.id}`
+  );
+
+  // Instead of using auth.api, update the member record directly
+  try {
+    const updatedMember = await db.member.update({
+      where: {
+        id: existingMember.id,
+      },
+      data: {
+        role: "employee" as Role,
+        department,
+        isActive: true,
       },
     });
 
     if (!updatedMember) {
+      console.error(
+        "[EXISTING_USER] Failed to update member role - no member returned"
+      );
       throw new Error("Failed to update member role");
     }
 
-    return {
-      ...existingMember,
-      role: updatedMember.role as Role,
-    };
+    console.log(
+      `[EXISTING_USER] Successfully updated member role to: ${updatedMember.role}`
+    );
+    return updatedMember;
+  } catch (dbError) {
+    console.error(
+      "[EXISTING_USER] Database error when updating member role:",
+      dbError
+    );
+    throw new Error(
+      `Failed to update member role: ${dbError instanceof Error ? dbError.message : String(dbError)}`
+    );
   }
-
-  return existingMember;
 }
 
 /**
