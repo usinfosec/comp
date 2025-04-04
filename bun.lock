@@ -39,6 +39,7 @@
         "@aws-sdk/s3-request-presigner": "^3.779.0",
         "@browserbasehq/sdk": "^2.5.0",
         "@comp/data": "workspace:*",
+        "@comp/db": "workspace:*",
         "@comp/notifications": "workspace:*",
         "@date-fns/tz": "^1.2.0",
         "@dnd-kit/core": "^6.3.1",
