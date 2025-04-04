@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
+import { cn } from "@comp/ui/cn";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -50,6 +51,25 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 	{ value: "active", label: "Active" },
 	{ value: "inactive", label: "Inactive" },
 ];
+
+// Status priority and type definitions
+const EMPLOYEE_STATUS_PRIORITY: EmployeeStatusType[] = [
+	"active",
+	"inactive",
+] as const;
+type IEmployeeStatusType = (typeof EMPLOYEE_STATUS_PRIORITY)[number];
+
+// Status color mapping for UI components
+const EMPLOYEE_STATUS_COLORS = {
+	active: "bg-[var(--chart-open)]",
+	inactive: "bg-[hsl(var(--destructive))]",
+} as const;
+
+// Status color hex values for charts
+const EMPLOYEE_STATUS_HEX_COLORS: Record<EmployeeStatusType, string> = {
+	inactive: "#ef4444",
+	active: "#10b981",
+};
 
 interface EmployeeDetailsProps {
 	employeeId: string;
@@ -250,7 +270,16 @@ export function EmployeeDetails({
 								<SelectContent>
 									{STATUS_OPTIONS.map((option) => (
 										<SelectItem key={option.value} value={option.value}>
-											{option.label}
+											<div className={cn("flex items-center gap-2")}>
+												<div
+													className={cn("size-2.5")}
+													style={{
+														backgroundColor:
+															EMPLOYEE_STATUS_HEX_COLORS[option.value] ?? "  ",
+													}}
+												/>
+												{option.label}
+											</div>
 										</SelectItem>
 									))}
 								</SelectContent>
