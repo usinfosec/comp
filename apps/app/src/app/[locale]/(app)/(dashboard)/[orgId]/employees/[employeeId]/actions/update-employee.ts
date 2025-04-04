@@ -1,13 +1,12 @@
 "use server";
 
-import { db } from "@comp/db";
 import { authActionClient } from "@/actions/safe-action";
+import { db } from "@comp/db";
+import type { Departments } from "@comp/db/types";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@comp/auth";
 import { appErrors } from "../types";
-import type { Departments } from "@comp/db/types";
-import { headers } from "next/headers";
 
 const schema = z.object({
   employeeId: z.string(),
@@ -26,105 +25,89 @@ export const updateEmployee = authActionClient
       channel: "server",
     },
   })
-  .action(
-    async ({
-      parsedInput,
-    }): Promise<
-      { success: true; data: any } | { success: false; error: any }
-    > => {
-      const { employeeId, name, email, department, isActive } = parsedInput;
+  .action(async ({ parsedInput, ctx }) => {
+    const { employeeId, name, email, department, isActive } = parsedInput;
 
-      const session = await auth.api.getSession({
-        headers: await headers(),
+    const organizationId = ctx.session.activeOrganizationId;
+    if (!organizationId) throw new Error(appErrors.UNAUTHORIZED.message);
+
+    const member = await db.member.findUnique({
+      where: {
+        id: employeeId,
+        organizationId,
+      },
+      include: { user: true },
+    });
+
+    if (!member || !member.user) {
+      throw new Error(appErrors.NOT_FOUND.message);
+    }
+
+    const memberUpdateData: { department?: Departments; isActive?: boolean } =
+      {};
+    const userUpdateData: { name?: string; email?: string } = {};
+
+    if (department !== undefined && department !== member.department) {
+      memberUpdateData.department = department as Departments;
+    }
+    if (isActive !== undefined && isActive !== member.isActive) {
+      memberUpdateData.isActive = isActive;
+    }
+    if (name !== undefined && name !== member.user.name) {
+      userUpdateData.name = name;
+    }
+    if (email !== undefined && email !== member.user.email) {
+      userUpdateData.email = email;
+    }
+
+    const hasMemberChanges = Object.keys(memberUpdateData).length > 0;
+    const hasUserChanges = Object.keys(userUpdateData).length > 0;
+
+    if (!hasMemberChanges && !hasUserChanges) {
+      return { success: true, data: member };
+    }
+
+    try {
+      let updatedMemberResult = member;
+
+      await db.$transaction(async (tx) => {
+        if (hasUserChanges) {
+          await tx.user.update({
+            where: { id: member.userId },
+            data: userUpdateData,
+          });
+        }
+
+        if (hasMemberChanges) {
+          updatedMemberResult = await tx.member.update({
+            where: {
+              id: employeeId,
+              organizationId,
+            },
+            data: memberUpdateData,
+            include: { user: true },
+          });
+        } else if (hasUserChanges) {
+          updatedMemberResult = await tx.member.findUniqueOrThrow({
+            where: { id: member.id },
+            include: { user: true },
+          });
+        }
       });
 
-      const organizationId = session?.session.activeOrganizationId;
+      revalidatePath(`/${organizationId}/employees/${employeeId}`);
+      revalidatePath(`/${organizationId}/employees`);
 
-      if (!organizationId) {
-        return {
-          success: false,
-          error: appErrors.UNAUTHORIZED,
-        };
-      }
-
-      try {
-        const member = await db.member.findUnique({
-          where: {
-            id: employeeId,
-            organizationId,
-          },
-        });
-
-        if (!member) {
-          return {
-            success: false,
-            error: appErrors.NOT_FOUND,
-          };
-        }
-
-        const memberUpdateData: {
-          department?: Departments;
-          isActive?: boolean;
-        } = {};
-        const userUpdateData: { name?: string; email?: string } = {};
-
-        if (department !== undefined && department !== member.department) {
-          memberUpdateData.department = department as Departments;
-        }
-        if (isActive !== undefined && isActive !== member.isActive) {
-          memberUpdateData.isActive = isActive;
-        }
-        if (name !== undefined) {
-          userUpdateData.name = name;
-        }
-        if (email !== undefined) {
-          userUpdateData.email = email;
-        }
-
-        const hasMemberChanges = Object.keys(memberUpdateData).length > 0;
-        const hasUserChanges = Object.keys(userUpdateData).length > 0;
-
-        if (!hasMemberChanges && !hasUserChanges) {
-          return {
-            success: true,
-            data: member,
-          };
-        }
-
-        const updatedMember = await db.$transaction(async (tx) => {
-          if (hasUserChanges) {
-            await tx.user.update({
-              where: { id: member.userId },
-              data: userUpdateData,
-            });
+      return { success: true, data: updatedMemberResult };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          const targetFields = error.meta?.target as string[] | undefined;
+          if (targetFields?.includes("email")) {
+            throw new Error("Email address is already in use.");
           }
-
-          if (hasMemberChanges) {
-            return tx.member.update({
-              where: {
-                id: employeeId,
-                organizationId,
-              },
-              data: memberUpdateData,
-            });
-          }
-
-          return member;
-        });
-
-        revalidatePath(`/${organizationId}/employees/${employeeId}`);
-        revalidatePath(`/${organizationId}/employees`);
-
-        return {
-          success: true,
-          data: updatedMember,
-        };
-      } catch (error) {
-        console.error("Error updating employee:", error);
-        return {
-          success: false,
-          error: appErrors.UNEXPECTED_ERROR,
-        };
+        }
       }
+      throw error;
     }
-  );
+  });

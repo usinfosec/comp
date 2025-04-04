@@ -19,16 +19,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import { cn } from "@comp/ui/cn";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@comp/ui/form";
-import { Input } from "@comp/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -38,16 +28,26 @@ import {
 } from "@comp/ui/select";
 import { Skeleton } from "@comp/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
+import { cn } from "@comp/ui/cn";
+import { Input } from "@comp/ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@comp/ui/form";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -64,26 +64,29 @@ const STATUS_OPTIONS: { value: EmployeeStatusType; label: string }[] = [
 	{ value: "inactive", label: "Inactive" },
 ];
 
+// Status priority and type definitions
+const EMPLOYEE_STATUS_PRIORITY: EmployeeStatusType[] = [
+	"active",
+	"inactive",
+] as const;
+type IEmployeeStatusType = (typeof EMPLOYEE_STATUS_PRIORITY)[number];
+
+// Status color mapping for UI components
+const EMPLOYEE_STATUS_COLORS = {
+	active: "bg-[var(--chart-open)]",
+	inactive: "bg-[hsl(var(--destructive))]",
+} as const;
+
+// Status color hex values for charts
 const EMPLOYEE_STATUS_HEX_COLORS: Record<EmployeeStatusType, string> = {
 	inactive: "#ef4444",
 	active: "#10b981",
 };
 
-interface EmployeeDetailsProps {
-	employeeId: string;
-	employee: Member & {
-		user: User;
-	};
-	policies: Policy[];
-	trainingVideos: (EmployeeTrainingVideoCompletion & {
-		metadata: TrainingVideo;
-	})[];
-}
-
-// Form validation schema
+// Define form schema with Zod
 const employeeFormSchema = z.object({
 	name: z.string().min(1, "Name is required"),
-	email: z.string().email("Please enter a valid email address"),
+	email: z.string().email("Invalid email address"),
 	department: z.enum([
 		"admin",
 		"gov",
@@ -98,6 +101,17 @@ const employeeFormSchema = z.object({
 
 type EmployeeFormValues = z.infer<typeof employeeFormSchema>;
 
+interface EmployeeDetailsProps {
+	employeeId: string;
+	employee: Member & {
+		user: User;
+	};
+	policies: Policy[];
+	trainingVideos: (EmployeeTrainingVideoCompletion & {
+		metadata: TrainingVideo;
+	})[];
+}
+
 export function EmployeeDetails({
 	employeeId,
 	employee,
@@ -106,20 +120,32 @@ export function EmployeeDetails({
 }: EmployeeDetailsProps) {
 	const { isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
-	const [isSaving, setIsSaving] = useState(false);
 
-	// Initialize form with react-hook-form
+	// Setup form with React Hook Form
 	const form = useForm<EmployeeFormValues>({
 		resolver: zodResolver(employeeFormSchema),
 		defaultValues: {
-			name: employee.user.name ?? "",
-			email: employee.user.email ?? "",
-			department: employee.department as Departments,
-			status: employee.isActive ? "active" : "inactive",
+			name: "",
+			email: "",
+			department: "none" as Departments,
+			status: "inactive" as EmployeeStatusType,
 		},
+		mode: "onChange",
 	});
 
-	const { execute } = useAction(updateEmployee, {
+	// Set initial form values when employee data loads
+	useEffect(() => {
+		if (employee) {
+			form.reset({
+				name: employee.user.name ?? "",
+				email: employee.user.email ?? "",
+				department: employee.department as Departments,
+				status: employee.isActive ? "active" : "inactive",
+			});
+		}
+	}, [employee, form]);
+
+	const { execute, status: actionStatus } = useAction(updateEmployee, {
 		onSuccess: () => {
 			toast.success("Employee details updated successfully");
 			mutate();
@@ -161,24 +187,38 @@ export function EmployeeDetails({
 
 	if (!employee) return null;
 
-	const onSubmit = async (data: EmployeeFormValues) => {
-		setIsSaving(true);
-		try {
-			// Prepare update data with all fields
-			const updateData = {
-				employeeId,
-				name: data.name,
-				email: data.email,
-				department: data.department,
-				isActive: data.status === "active",
-			};
+	const onSubmit = async (values: EmployeeFormValues) => {
+		// Prepare update data
+		const updateData: {
+			employeeId: string;
+			name?: string;
+			email?: string;
+			department?: string;
+			isActive?: boolean;
+		} = { employeeId };
 
-			// Execute the update
+		// Only include changed fields
+		if (values.name !== employee.user.name) {
+			updateData.name = values.name;
+		}
+		if (values.email !== employee.user.email) {
+			updateData.email = values.email;
+		}
+		if (values.department !== employee.department) {
+			updateData.department = values.department;
+		}
+
+		const isActive = values.status === "active";
+		if (isActive !== employee.isActive) {
+			updateData.isActive = isActive;
+		}
+
+		// Execute the update only if there are changes
+		if (Object.keys(updateData).length > 1) {
 			await execute(updateData);
-		} catch (error) {
-			// Error handled by useAction hook's onError
-		} finally {
-			setIsSaving(false);
+		} else {
+			// No changes were made
+			toast.info("No changes to save");
 		}
 	};
 
@@ -206,11 +246,9 @@ export function EmployeeDetails({
 									<FormField
 										control={form.control}
 										name="name"
-										render={({ field, fieldState }) => (
+										render={({ field }) => (
 											<FormItem>
-												<FormLabel className="text-sm font-medium">
-													Name
-												</FormLabel>
+												<FormLabel>Name</FormLabel>
 												<FormControl>
 													<Input
 														{...field}
@@ -218,20 +256,16 @@ export function EmployeeDetails({
 														className="h-10"
 													/>
 												</FormControl>
-												{fieldState.error && (
-													<FormMessage>{fieldState.error.message}</FormMessage>
-												)}
+												<FormMessage />
 											</FormItem>
 										)}
 									/>
 									<FormField
 										control={form.control}
 										name="email"
-										render={({ field, fieldState }) => (
+										render={({ field }) => (
 											<FormItem>
-												<FormLabel className="text-sm font-medium">
-													Email
-												</FormLabel>
+												<FormLabel>Email</FormLabel>
 												<FormControl>
 													<Input
 														{...field}
@@ -240,9 +274,7 @@ export function EmployeeDetails({
 														className="h-10"
 													/>
 												</FormControl>
-												{fieldState.error && (
-													<FormMessage>{fieldState.error.message}</FormMessage>
-												)}
+												<FormMessage />
 											</FormItem>
 										)}
 									/>
@@ -254,7 +286,7 @@ export function EmployeeDetails({
 								<FormField
 									control={form.control}
 									name="department"
-									render={({ field, fieldState }) => (
+									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="text-xs font-medium text-muted-foreground uppercase">
 												Department
@@ -277,9 +309,7 @@ export function EmployeeDetails({
 													))}
 												</SelectContent>
 											</Select>
-											{fieldState.error && (
-												<FormMessage>{fieldState.error.message}</FormMessage>
-											)}
+											<FormMessage />
 										</FormItem>
 									)}
 								/>
@@ -287,7 +317,7 @@ export function EmployeeDetails({
 								<FormField
 									control={form.control}
 									name="status"
-									render={({ field, fieldState }) => (
+									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="text-xs font-medium text-muted-foreground uppercase">
 												Status
@@ -312,7 +342,7 @@ export function EmployeeDetails({
 																		backgroundColor:
 																			EMPLOYEE_STATUS_HEX_COLORS[
 																				option.value
-																			] ?? "  ",
+																			] ?? "",
 																	}}
 																/>
 																{option.label}
@@ -321,9 +351,7 @@ export function EmployeeDetails({
 													))}
 												</SelectContent>
 											</Select>
-											{fieldState.error && (
-												<FormMessage>{fieldState.error.message}</FormMessage>
-											)}
+											<FormMessage />
 										</FormItem>
 									)}
 								/>
@@ -346,9 +374,21 @@ export function EmployeeDetails({
 							</div>
 						</CardContent>
 						<CardFooter className="px-0 py-0 flex justify-end outline-none border-none">
-							<Button type="submit" disabled={isSaving} className="w-auto">
-								{isSaving ? "Saving..." : "Save"}
-								{!isSaving && <Save className="ml-2 h-4 w-4" />}
+							<Button
+								type="submit"
+								disabled={
+									!form.formState.isDirty ||
+									form.formState.isSubmitting ||
+									actionStatus === "executing"
+								}
+								className="w-auto"
+							>
+								{form.formState.isSubmitting || actionStatus === "executing"
+									? "Saving..."
+									: "Save"}
+								{!(
+									form.formState.isSubmitting || actionStatus === "executing"
+								) && <Save className="ml-2 h-4 w-4" />}
 							</Button>
 						</CardFooter>
 					</form>
