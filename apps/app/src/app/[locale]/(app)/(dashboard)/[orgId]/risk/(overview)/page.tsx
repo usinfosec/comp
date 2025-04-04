@@ -1,4 +1,6 @@
+import { AppOnboarding } from "@/components/app-onboarding";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { getI18n } from "@/locales/server";
 import { auth } from "@comp/auth";
 import { db } from "@comp/db";
@@ -23,8 +25,11 @@ export default async function RiskRegisterPage({
 		assigneeId: string | null;
 	}>;
 }) {
-	const { search, page, pageSize, status, department, assigneeId } =
+	const { locale, search, page, pageSize, status, department, assigneeId } =
 		await params;
+
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
 	const risks = await getRisks({
 		search: search || "",
@@ -36,6 +41,36 @@ export default async function RiskRegisterPage({
 	});
 
 	const assignees = await getAssignees();
+
+	if (risks.risks?.length === 0) {
+		return (
+			<>
+				<AppOnboarding
+					title={t("app_onboarding.risk_management.title")}
+					description={t("app_onboarding.risk_management.description")}
+					cta={t("app_onboarding.risk_management.cta")}
+					imageSrc="/onboarding/risk-management.webp"
+					imageAlt="Risk Management"
+					sheetName="create-risk-sheet"
+					faqs={[
+						{
+							questionKey: t("app_onboarding.risk_management.faqs.question_1"),
+							answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
+						},
+						{
+							questionKey: t("app_onboarding.risk_management.faqs.question_2"),
+							answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
+						},
+						{
+							questionKey: t("app_onboarding.risk_management.faqs.question_3"),
+							answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
+						},
+					]}
+				/>
+				<CreateRiskSheet assignees={assignees} />
+			</>
+		);
+	}
 
 	return (
 		<PageWithBreadcrumb breadcrumbs={[{ label: "Risk", current: true }]}>

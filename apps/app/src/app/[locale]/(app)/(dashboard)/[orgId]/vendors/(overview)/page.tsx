@@ -11,6 +11,8 @@ import { headers } from "next/headers";
 import { getServersideSession } from "@/lib/get-session";
 import { cache } from "react";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { CreateVendorSheet } from "../components/create-vendor-sheet";
+import { AppOnboarding } from "@/components/app-onboarding";
 
 export default async function Page({
 	searchParams,
@@ -73,6 +75,36 @@ export default async function Page({
 	});
 
 	const assignees = await getAssignees();
+
+	if (vendors.length === 0) {
+		return (
+			<>
+				<AppOnboarding
+					title={t("app_onboarding.vendors.title")}
+					description={t("app_onboarding.vendors.description")}
+					cta={t("app_onboarding.vendors.cta")}
+					imageSrc="/onboarding/vendor-management.webp"
+					imageAlt="Vendor Management"
+					sheetName="createVendorSheet"
+					faqs={[
+						{
+							questionKey: t("app_onboarding.vendors.faqs.question_1"),
+							answerKey: t("app_onboarding.vendors.faqs.answer_1"),
+						},
+						{
+							questionKey: t("app_onboarding.vendors.faqs.question_2"),
+							answerKey: t("app_onboarding.vendors.faqs.answer_2"),
+						},
+						{
+							questionKey: t("app_onboarding.vendors.faqs.question_3"),
+							answerKey: t("app_onboarding.vendors.faqs.answer_3"),
+						},
+					]}
+				/>
+				<CreateVendorSheet assignees={assignees} />
+			</>
+		);
+	}
 
 	return (
 		<PageWithBreadcrumb
