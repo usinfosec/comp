@@ -266,7 +266,7 @@ export function IntegrationsCard({
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
-							<div className="w-12 h-12 bg-muted rounded-none flex items-center justify-center p-2">
+							<div className="w-12 h-12 bg-muted rounded-sm flex items-center justify-center p-2">
 								{renderLogo()}
 							</div>
 							<div className="flex flex-col gap-1">
@@ -327,9 +327,9 @@ export function IntegrationsCard({
 					</div>
 				</CardContent>
 
-				<CardFooter className="py-3 bg-muted/30 border-t flex justify-between">
+				<CardFooter className="py-2 bg-muted/30 border-t flex justify-between">
 					<Button
-						variant={installed ? "default" : "outline"}
+						variant={installed ? "default" : "ghost"}
 						size="sm"
 						className="w-full"
 						disabled={!active}

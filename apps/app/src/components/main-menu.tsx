@@ -97,7 +97,6 @@ const Item = ({
 									className={cn(
 										"flex items-center gap-3",
 										"transition-all duration-300",
-										isActive && "text-primary",
 									)}
 								>
 									{Icon && <Icon size={22} />}
