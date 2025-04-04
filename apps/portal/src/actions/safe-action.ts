@@ -39,15 +39,22 @@ export const actionClientWithMeta = createSafeActionClient({
 
 export const authActionClient = actionClientWithMeta
   .use(async ({ next, clientInput }) => {
-    const session = await auth.api.getSession({
+    const response = await auth.api.getSession({
       headers: await headers(),
     });
+
+    const { session, user } = response ?? {};
 
     if (!session) {
       throw new Error("Unauthorized");
     }
 
-    const result = await next({ ctx: {} });
+    const result = await next({
+      ctx: {
+        user: user,
+        session: session,
+      },
+    });
 
     if (process.env.NODE_ENV === "development") {
       logger("Input ->", clientInput as string);
@@ -87,6 +94,37 @@ export const authActionClient = actionClientWithMeta
     if (!session) {
       throw new Error("Unauthorized");
     }
+
+    // try {
+    // 	const auditData = {
+    // 		userId: session.user.id,
+    // 		email: session.user.email,
+    // 		name: session.user.name,
+    // 		organizationId: session.session.activeOrganizationId,
+    // 		action: metadata.name,
+    // 		ip: ctx.ip,
+    // 		userAgent: ctx.userAgent,
+    // 	};
+
+    // 	await db.auditLog.create({
+    // 		data: {
+    // 			data: auditData,
+    // 			userId: session.user.id,
+    // 			organizationId: session.session.activeOrganizationId,
+    // 		},
+    // 	});
+
+    // 	if (metadata.track) {
+    // 		track(session.user.id, metadata.track.event, {
+    // 			channel: metadata.track.channel,
+    // 			email: session.user.email,
+    // 			name: session.user.name,
+    // 			organizationId: session.session.activeOrganizationId,
+    // 		});
+    // 	}
+    // } catch (error) {
+    // 	logger("Audit log error:", error);
+    // }
 
     return next({
       ctx: {
