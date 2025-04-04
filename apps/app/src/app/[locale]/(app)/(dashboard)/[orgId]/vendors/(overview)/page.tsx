@@ -28,6 +28,7 @@ export default async function Page({
 	}>;
 	params: Promise<{ orgId: string }>;
 }) {
+	const t = await getI18n();
 	const searchParamsSchema = z.object({
 		createVendorSheet: z.string().optional(),
 		page: z.string().regex(/^\d+$/).transform(Number).optional(),
