@@ -30,7 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { useI18n } from "@/locales/client";
-import { authClient } from "@comp/auth";
+import { authClient } from "@/utils/auth-client";
 import { toast } from "sonner";
 
 const inviteMemberSchema = z.object({

@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import { Icons } from "@comp/ui/icons";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 
 type Props = {
 	role: "assistant" | "user";

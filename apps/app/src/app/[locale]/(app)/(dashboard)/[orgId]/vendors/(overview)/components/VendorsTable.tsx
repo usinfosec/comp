@@ -4,7 +4,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
-import { useSession } from "@comp/auth";
+import { useSession } from "@/utils/auth-client";
 import type { Member, User, Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";
