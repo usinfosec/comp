@@ -61,7 +61,7 @@ export const VendorsTable = ({
 				/>
 				<div className="ml-auto flex gap-2">
 					<DataTableSortList table={table.table} align="end" />
-					<Button onClick={() => setOpen("true")} variant="default">
+					<Button onClick={() => setOpen("true")} variant="default" size="sm">
 						<Plus className="h-4 w-4 mr-2" />
 						{t("vendors.register.create_new")}
 					</Button>

@@ -49,6 +49,7 @@ export const RisksTable = ({
 				pageIndex: 0,
 			},
 		},
+		enableSorting: true,
 	});
 
 	const [searchTerm, setSearchTerm] = useQueryState("search", {
@@ -66,7 +67,7 @@ export const RisksTable = ({
 				/>
 				<div className="ml-auto flex gap-2">
 					<DataTableSortList table={table.table} align="end" />
-					<Button onClick={() => setOpen("true")} variant="default">
+					<Button onClick={() => setOpen("true")} variant="default" size="sm">
 						<Plus className="h-4 w-4 mr-2" />
 						{t("risk.register.empty.create_risk")}
 					</Button>
