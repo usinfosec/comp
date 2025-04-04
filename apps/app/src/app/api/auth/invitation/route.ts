@@ -1,4 +1,5 @@
-import { auth, authClient } from "@/utils/auth";
+import { auth } from "@/utils/auth";
+import { authClient } from "@/utils/auth-client";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
