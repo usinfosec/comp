@@ -46,6 +46,9 @@ export const frameworks = {
 			in_progress: "In Progress",
 			not_started: "Not Started",
 		},
+		search: {
+			placeholder: "Search controls...",
+		},
 	},
 	requirements: {
 		requirement: "Requirement",
