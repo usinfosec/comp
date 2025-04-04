@@ -1459,7 +1459,6 @@
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
-    "@comp/auth" "workspace:*"
     "@comp/db" "workspace:*"
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.17"
@@ -1476,7 +1475,6 @@
     "@aws-sdk/client-s3" "^3.779.0"
     "@aws-sdk/s3-request-presigner" "^3.779.0"
     "@browserbasehq/sdk" "^2.5.0"
-    "@comp/auth" "workspace:*"
     "@comp/data" "workspace:*"
     "@comp/notifications" "workspace:*"
     "@date-fns/tz" "^1.2.0"
@@ -1551,18 +1549,6 @@
     yarn "^1.22.22"
     zustand "^5.0.3"
 
-"@comp/auth@packages/auth", "@comp/auth@workspace:*":
-  version "workspace:packages/auth"
-  resolved "workspace:packages/auth"
-  devDependencies:
-    "@types/node" "^22.13.2"
-    "@types/node-fetch" "^2.6.2"
-    typescript "^5.7.3"
-  dependencies:
-    "@comp/email" "workspace:*"
-    better-auth "^1.2.5"
-    server-only "0.0.1"
-
 "@comp/data@packages/data", "@comp/data@workspace:*":
   version "workspace:packages/data"
   resolved "workspace:packages/data"
@@ -1585,7 +1571,7 @@
     "@prisma/extension-accelerate" "^1.2.2"
     prisma "^6.5.0"
 
-"@comp/email@packages/email", "@comp/email@workspace:*":
+"@comp/email@packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1596,6 +1582,7 @@
   dependencies:
     "@comp/ui" "workspace:*"
     "@comp/utils" "workspace:*"
+  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"

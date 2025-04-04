@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Role } from "@prisma/client";
 import type { ActionResponse } from "../types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { auth } from "@comp/auth";
+import { auth } from "@/utils/auth";
 
 const removeMemberSchema = z.object({
 	memberId: z.string(),

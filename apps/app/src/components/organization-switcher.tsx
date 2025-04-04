@@ -2,7 +2,7 @@
 
 import { changeOrganizationAction } from "@/actions/change-organization";
 import { useI18n } from "@/locales/client";
-import { Avatar, AvatarFallback } from "@comp/ui/avatar";
+import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Dialog } from "@comp/ui/dialog";
@@ -18,8 +18,6 @@ import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CreateOrgModal } from "./modals/create-org-modal";
-import type { Framework } from "@comp/data";
-import type { Organization } from "@comp/db/types";
 
 interface OrganizationSwitcherProps {
 	organizations: Organization[];
