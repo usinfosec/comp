@@ -50,8 +50,10 @@ export function DeleteOrganization({
 		<Card className="border border-destructive/50">
 			<CardHeader className="pb-2">
 				<div className="flex items-center gap-2">
-					<AlertTriangle className="h-4 w-4 text-destructive" />
-					<CardTitle>{t("settings.general.org_delete")}</CardTitle>
+					<CardTitle className="flex items-center gap-2">
+						<AlertTriangle className="h-4 w-4 text-destructive" />
+						{t("settings.general.org_delete")}
+					</CardTitle>
 				</div>
 				<CardDescription className="mt-1">
 					{t("settings.general.org_delete_description")}

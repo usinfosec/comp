@@ -58,10 +58,11 @@ export function UpdateOrganizationName({
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 				<Card>
 					<CardHeader className="pb-2">
-						<div className="flex items-center gap-2">
+						<CardTitle className="flex items-center gap-2">
 							<Building className="h-4 w-4 text-primary" />
-							<CardTitle>{t("settings.general.org_name")}</CardTitle>
-						</div>
+							{t("settings.general.org_name")}
+						</CardTitle>
+
 						<CardDescription className="mt-1">
 							{t("settings.general.org_name_description")}
 						</CardDescription>

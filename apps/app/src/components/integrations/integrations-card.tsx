@@ -1,22 +1,43 @@
 import { deleteIntegrationConnectionAction } from "@/actions/integrations/delete-integration-connection";
 import { retrieveIntegrationSessionTokenAction } from "@/actions/integrations/retrieve-integration-session-token";
+import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@comp/ui/accordion";
+import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardFooter,
 } from "@comp/ui/card";
+import { Input } from "@comp/ui/input";
 import { ScrollArea } from "@comp/ui/scroll-area";
-import { Sheet, SheetContent, SheetHeader } from "@comp/ui/sheet";
+import { Sheet, SheetContent } from "@comp/ui/sheet";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@comp/ui/tooltip";
+import { format, formatDistanceToNow } from "date-fns";
+import {
+	Calendar,
+	Check,
+	Clock,
+	ExternalLink,
+	Globe,
+	Loader2,
+	Settings,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import type { StaticImageData } from "next/image";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { useState } from "react";
@@ -25,29 +46,6 @@ import {
 	IntegrationSettings,
 	type IntegrationSettingsItem,
 } from "./integration-settings";
-import Image from "next/image";
-import type { StaticImageData } from "next/image";
-import {
-	Calendar,
-	Clock,
-	Check,
-	Globe,
-	Puzzle,
-	ExternalLink,
-	Settings,
-} from "lucide-react";
-import { formatDistanceToNow, format } from "date-fns";
-import { Loader2 } from "lucide-react";
-import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
-import { Input } from "@comp/ui/input";
-import { Badge } from "@comp/ui/badge";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@comp/ui/tooltip";
-import { cn } from "@comp/ui/cn";
 
 // Add a type for the logo
 export type LogoType = StaticImageData | { light: string; dark: string };
@@ -268,12 +266,12 @@ export function IntegrationsCard({
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
-							{renderLogo()}
-							<div>
-								<div className="flex items-center gap-2">
-									<CardTitle className="text-md font-medium leading-none">
-										{name}
-									</CardTitle>
+							<div className="w-12 h-12 bg-muted rounded-none flex items-center justify-center p-2">
+								{renderLogo()}
+							</div>
+							<div className="flex flex-col gap-1">
+								<CardTitle className="flex items-center gap-2 mb-0">
+									<p className="text-md font-medium leading-none">{name}</p>
 									{installed ? (
 										<Badge
 											variant="outline"
@@ -286,8 +284,8 @@ export function IntegrationsCard({
 											Coming Soon
 										</Badge>
 									) : null}
-								</div>
-								<p className="text-xs text-muted-foreground mt-1">{category}</p>
+								</CardTitle>
+								<p className="text-xs text-muted-foreground">{category}</p>
 							</div>
 						</div>
 					</div>

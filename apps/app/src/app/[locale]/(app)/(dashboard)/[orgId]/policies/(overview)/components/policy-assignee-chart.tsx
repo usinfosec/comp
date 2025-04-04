@@ -57,13 +57,12 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 			<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-2">
-							<BarChartIcon className="h-4 w-4 text-primary mb-1" />
-							<CardTitle>
-								{t("policies.dashboard.policies_by_assignee") ||
-									"Policies by Assignee"}
-							</CardTitle>
-						</div>
+						<CardTitle className="flex items-center gap-2">
+							<BarChartIcon className="h-4 w-4 text-primary" />
+							{t("policies.dashboard.policies_by_assignee") ||
+								"Policies by Assignee"}
+						</CardTitle>
+
 						<Badge variant="outline" className="text-xs">
 							Distribution
 						</Badge>
@@ -138,13 +137,11 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 		<Card className="flex flex-col bg-gradient-to-b from-background to-muted/20 border overflow-hidden">
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
-					<div className="flex items-center gap-2">
-						<BarChartIcon className="h-4 w-4 text-primary mb-1" />
-						<CardTitle>
-							{t("policies.dashboard.policies_by_assignee") ||
-								"Policies by Assignee"}
-						</CardTitle>
-					</div>
+					<CardTitle className="flex items-center gap-2">
+						<BarChartIcon className="h-4 w-4 text-primary" />
+						{t("policies.dashboard.policies_by_assignee") ||
+							"Policies by Assignee"}
+					</CardTitle>
 					{topAssignee && (
 						<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-xs">
 							Top: {topAssignee.name}
