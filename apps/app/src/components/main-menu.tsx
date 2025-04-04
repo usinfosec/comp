@@ -224,10 +224,10 @@ export function MainMenu({
 			disabled: false,
 			icon: Icons.Risk,
 			protected: false,
-			badge: {
-				text: "New",
-				variant: "new",
-			},
+			// badge: {
+			// 	text: "New",
+			// 	variant: "new",
+			// },
 		},
 		{
 			id: "vendors",
