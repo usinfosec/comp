@@ -12,10 +12,10 @@ import {
 	User,
 	type Policy,
 	type PolicyStatus,
-} from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Calendar } from "@bubba/ui/calendar";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -23,16 +23,16 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@bubba/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
+} from "@comp/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Switch } from "@bubba/ui/switch";
+} from "@comp/ui/select";
+import { Switch } from "@comp/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";

@@ -1,8 +1,8 @@
-import { auth } from "@/utils/auth";
 import { model, type modelID } from "@/hooks/ai/providers";
 import { streamText, type UIMessage } from "ai";
 import { tools } from "@/data/tools";
 import { headers } from "next/headers";
+import { auth } from "@/utils/auth";
 
 export const maxDuration = 30;
 
