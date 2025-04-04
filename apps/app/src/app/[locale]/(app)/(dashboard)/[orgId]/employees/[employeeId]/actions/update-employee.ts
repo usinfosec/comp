@@ -10,98 +10,121 @@ import type { Departments } from "@comp/db/types";
 import { headers } from "next/headers";
 
 const schema = z.object({
-	employeeId: z.string(),
-	department: z.string().optional(),
-	isActive: z.boolean().optional(),
+  employeeId: z.string(),
+  name: z.string().min(1, "Name cannot be empty").optional(),
+  email: z.string().email("Invalid email format").optional(),
+  department: z.string().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const updateEmployee = authActionClient
-	.schema(schema)
-	.metadata({
-		name: "update-employee",
-		track: {
-			event: "update-employee",
-			channel: "server",
-		},
-	})
-	.action(
-		async ({
-			parsedInput,
-		}): Promise<
-			{ success: true; data: any } | { success: false; error: any }
-		> => {
-			const { employeeId, department, isActive } = parsedInput;
+  .schema(schema)
+  .metadata({
+    name: "update-employee",
+    track: {
+      event: "update-employee",
+      channel: "server",
+    },
+  })
+  .action(
+    async ({
+      parsedInput,
+    }): Promise<
+      { success: true; data: any } | { success: false; error: any }
+    > => {
+      const { employeeId, name, email, department, isActive } = parsedInput;
 
-			const session = await auth.api.getSession({
-				headers: await headers(),
-			});
+      const session = await auth.api.getSession({
+        headers: await headers(),
+      });
 
-			const organizationId = session?.session.activeOrganizationId;
+      const organizationId = session?.session.activeOrganizationId;
 
-			if (!organizationId) {
-				return {
-					success: false,
-					error: appErrors.UNAUTHORIZED,
-				};
-			}
+      if (!organizationId) {
+        return {
+          success: false,
+          error: appErrors.UNAUTHORIZED,
+        };
+      }
 
-			try {
-				const employee = await db.member.findUnique({
-					where: {
-						id: employeeId,
-						organizationId,
-					},
-				});
+      try {
+        const member = await db.member.findUnique({
+          where: {
+            id: employeeId,
+            organizationId,
+          },
+        });
 
-				if (!employee) {
-					return {
-						success: false,
-						error: appErrors.NOT_FOUND,
-					};
-				}
+        if (!member) {
+          return {
+            success: false,
+            error: appErrors.NOT_FOUND,
+          };
+        }
 
-				// Build update data based on provided values
-				const updateData: { department?: Departments; isActive?: boolean } = {};
+        const memberUpdateData: {
+          department?: Departments;
+          isActive?: boolean;
+        } = {};
+        const userUpdateData: { name?: string; email?: string } = {};
 
-				// Only include fields that were provided
-				if (department !== undefined) {
-					updateData.department = department as Departments;
-				}
+        if (department !== undefined && department !== member.department) {
+          memberUpdateData.department = department as Departments;
+        }
+        if (isActive !== undefined && isActive !== member.isActive) {
+          memberUpdateData.isActive = isActive;
+        }
+        if (name !== undefined) {
+          userUpdateData.name = name;
+        }
+        if (email !== undefined) {
+          userUpdateData.email = email;
+        }
 
-				if (isActive !== undefined) {
-					updateData.isActive = isActive;
-				}
+        const hasMemberChanges = Object.keys(memberUpdateData).length > 0;
+        const hasUserChanges = Object.keys(userUpdateData).length > 0;
 
-				// Only update if there are changes
-				if (Object.keys(updateData).length === 0) {
-					return {
-						success: true,
-						data: employee,
-					};
-				}
+        if (!hasMemberChanges && !hasUserChanges) {
+          return {
+            success: true,
+            data: member,
+          };
+        }
 
-				const updatedEmployee = await db.member.update({
-					where: {
-						id: employeeId,
-						organizationId,
-					},
-					data: updateData,
-				});
+        const updatedMember = await db.$transaction(async (tx) => {
+          if (hasUserChanges) {
+            await tx.user.update({
+              where: { id: member.userId },
+              data: userUpdateData,
+            });
+          }
 
-				// Revalidate related paths
-				revalidatePath(`/${organizationId}/employees/${employeeId}`);
-				revalidatePath(`/${organizationId}/employees`);
+          if (hasMemberChanges) {
+            return tx.member.update({
+              where: {
+                id: employeeId,
+                organizationId,
+              },
+              data: memberUpdateData,
+            });
+          }
 
-				return {
-					success: true,
-					data: updatedEmployee,
-				};
-			} catch (error) {
-				console.error("Error updating employee:", error);
-				return {
-					success: false,
-					error: appErrors.UNEXPECTED_ERROR,
-				};
-			}
-		},
-	);
+          return member;
+        });
+
+        revalidatePath(`/${organizationId}/employees/${employeeId}`);
+        revalidatePath(`/${organizationId}/employees`);
+
+        return {
+          success: true,
+          data: updatedMember,
+        };
+      } catch (error) {
+        console.error("Error updating employee:", error);
+        return {
+          success: false,
+          error: appErrors.UNEXPECTED_ERROR,
+        };
+      }
+    }
+  );

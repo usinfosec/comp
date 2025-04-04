@@ -11,32 +11,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import type { Organization, Role } from "@prisma/client";
+import type { Member, Role, User } from "@prisma/client";
 import { Crown, UserCheck, UserCog, UserMinus } from "lucide-react";
 
-interface Member {
-	id: string;
-	organizationId: string;
-	userId: string;
-	role: Role;
-	createdAt: Date;
-	teamId?: string;
-	user: {
-		email: string;
-		name: string;
-		image?: string;
-	};
-}
-
-export interface OrganizationWithMembers extends Organization {
-	members: Member[];
-}
-
 interface MembersListProps {
-	organization?: OrganizationWithMembers;
+	members: (Member & { user: User })[];
 }
 
-export function MembersList({ organization }: MembersListProps) {
+export function MembersList({ members }: MembersListProps) {
 	const t = useI18n();
 
 	return (
@@ -49,7 +31,7 @@ export function MembersList({ organization }: MembersListProps) {
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-3">
-					{organization?.members.map((member) => {
+					{members.map((member) => {
 						return (
 							<div
 								key={member.id}
