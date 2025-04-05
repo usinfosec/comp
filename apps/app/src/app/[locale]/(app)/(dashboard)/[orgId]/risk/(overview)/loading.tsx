@@ -12,10 +12,6 @@ export default function Loading() {
             "10rem",
             "30rem",
             "10rem",
-            "10rem",
-            "6rem",
-            "6rem",
-            "6rem",
           ]}
           shrinkZero
         />

@@ -62,7 +62,7 @@ export function DeleteOrganization({
         </CardDescription>
       </CardHeader>
       <CardContent />
-      <CardFooter className="flex justify-between bg-accent/30">
+      <CardFooter className="flex justify-between">
         <div />
 
         <AlertDialog>
