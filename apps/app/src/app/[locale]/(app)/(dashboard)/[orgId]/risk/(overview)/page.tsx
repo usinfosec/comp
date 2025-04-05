@@ -16,6 +16,7 @@ export default async function RiskRegisterPage({
   params,
 }: {
   params: Promise<{
+    orgId: string;
     locale: string;
     search: string;
     page: number;
@@ -25,14 +26,14 @@ export default async function RiskRegisterPage({
     assigneeId: string | null;
   }>;
 }) {
-  const { locale, search, page, pageSize, status, department, assigneeId } =
+  const { orgId, locale, search, page, pageSize, status, department, assigneeId } =
     await params;
 
   setStaticParamsLocale(locale);
   const t = await getI18n();
 
   const risks = await getRisks({
-    search: search || "",
+    search: search,
     page: page || 1,
     pageSize: pageSize || 10,
     status: status || null,
@@ -73,9 +74,13 @@ export default async function RiskRegisterPage({
   }
 
   return (
-    <>
+    <PageWithBreadcrumb
+      breadcrumbs={[
+        { label: "Risks", href: `/${orgId}/risk` },
+      ]}
+    >
       <RisksTable risks={risks?.risks || []} assignees={assignees} />
-    </>
+    </PageWithBreadcrumb>
   );
 }
 

@@ -90,7 +90,7 @@ export function UpdateOrganizationName({
               )}
             />
           </CardContent>
-          <CardFooter className="flex justify-between bg-accent/30">
+          <CardFooter className="flex justify-between">
             <div className="text-xs text-muted-foreground">
               {t("settings.general.org_name_tip")}
             </div>
