@@ -49,7 +49,7 @@ export function OnboardingClient() {
 
   const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
     const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
-    const slug = `${data.name.toLowerCase().replace(/\s+/g, '-')}-${randomSuffix}`;
+    const slug = `${data.name.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-')}-${randomSuffix}`;
 
     await authClient.organization.create({
       name: data.name,
