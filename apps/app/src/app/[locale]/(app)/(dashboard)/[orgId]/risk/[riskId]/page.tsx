@@ -95,24 +95,29 @@ const getComments = cache(async ({
     return [];
   }
 
-  const comments = await db.comment.findMany({
-    where: {
-      entityId: riskId,
-      organizationId: session.session.activeOrganizationId,
-    },
-    include: {
-      author: {
-        include: {
-          user: true,
+  try {
+    const comments = await db.comment.findMany({
+      where: {
+        entityId: riskId,
+        organizationId: session.session.activeOrganizationId,
+      },
+      include: {
+        author: {
+          include: {
+            user: true,
+          },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-  return comments;
+    return comments;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 });
 
 const getAssignees = cache(async () => {
