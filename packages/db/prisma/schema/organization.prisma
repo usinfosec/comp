@@ -20,6 +20,7 @@ model Organization {
   risk               Risk[]
   vendors            Vendor[]
   tasks              Task[]
+  comments           Comment[]
 
   @@index([slug])
 }
