@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
 
+
 export function OnboardingClient() {
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
   const router = useRouter();
