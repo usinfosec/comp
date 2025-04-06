@@ -61,6 +61,10 @@ export const auth = betterAuth({
 			clientId: process.env.AUTH_GOOGLE_ID!,
 			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
 		},
+		github: {
+			clientId: process.env.AUTH_GITHUB_ID!,
+			clientSecret: process.env.AUTH_GITHUB_SECRET!,
+		},
 	},
 	user: {
 		modelName: "User",

@@ -10,6 +10,8 @@
       "env": [
         "AUTH_GOOGLE_ID",
         "AUTH_GOOGLE_SECRET",
+        "AUTH_GITHUB_ID",
+        "AUTH_GITHUB_SECRET",
         "AUTH_SECRET",
         "DATABASE_URL",
         "OPENAI_API_KEY",
