@@ -1,3 +1,4 @@
+import { cache } from "react";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { InherentRiskChart } from "@/components/risks/charts/inherent-risk-chart";
 import { ResidualRiskChart } from "@/components/risks/charts/residual-risk-chart";
@@ -12,6 +13,7 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Comments } from "@/components/comments";
 
 interface PageProps {
   searchParams: Promise<{
@@ -27,30 +29,9 @@ interface PageProps {
 export default async function RiskPage({ searchParams, params }: PageProps) {
   const { riskId, orgId } = await params;
   const risk = await getRisk(riskId);
-
+  const comments = await getComments({ riskId });
   const assignees = await getAssignees();
   const t = await getI18n();
-
-  const {
-    search,
-    status,
-    sort,
-    page = "1",
-    per_page = "5",
-  } = await searchParams;
-
-  const columnHeaders = await getServerColumnHeaders();
-  const [column, order] = sort?.split(":") ?? [];
-  const hasFilters = !!(search || status);
-  const { tasks: loadedTasks, total } = await getTasks({
-    riskId,
-    search,
-    status: status as TaskStatus,
-    column,
-    order,
-    page: Number.parseInt(page),
-    per_page: Number.parseInt(per_page),
-  });
 
   if (!risk) {
     redirect("/");
@@ -69,12 +50,13 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
           <InherentRiskChart risk={risk} />
           <ResidualRiskChart risk={risk} />
         </div>
+        <Comments entityId={riskId} comments={comments} />
       </div>
     </PageWithBreadcrumb>
   );
 }
 
-async function getRisk(riskId: string) {
+const getRisk = cache(async (riskId: string) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -98,113 +80,42 @@ async function getRisk(riskId: string) {
   });
 
   return risk;
-}
+});
 
-async function getTasks({
+const getComments = cache(async ({
   riskId,
-  search,
-  status,
-  column,
-  order,
-  page = 1,
-  per_page = 10,
 }: {
   riskId: string;
-  search?: string;
-  status?: TaskStatus;
-  column?: string;
-  order?: string;
-  page?: number;
-  per_page?: number;
-}) {
+}) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session || !session.session.activeOrganizationId) {
-    return { tasks: [], total: 0 };
+    return [];
   }
 
-  const skip = (page - 1) * per_page;
-
-  const [tasks, total] = await Promise.all([
-    db.task
-      .findMany({
-        where: {
-          relatedId: riskId,
-          relatedType: "risk",
-          organizationId: session.session.activeOrganizationId,
-          AND: [
-            search
-              ? {
-                OR: [
-                  { title: { contains: search, mode: "insensitive" } },
-                  {
-                    description: { contains: search, mode: "insensitive" },
-                  },
-                ],
-              }
-              : {},
-            status ? { status } : {},
-          ],
-        },
-        orderBy: column
-          ? {
-            [column]: order === "asc" ? "asc" : "desc",
-          }
-          : {
-            createdAt: "desc",
-          },
-        skip,
-        take: per_page,
+  const comments = await db.comment.findMany({
+    where: {
+      entityId: riskId,
+      organizationId: session.session.activeOrganizationId,
+    },
+    include: {
+      author: {
         include: {
-          assignee: {
-            include: {
-              user: true,
-            },
-          },
+          user: true,
         },
-      })
-      .then((tasks) =>
-        tasks.map(
-          (task): RiskTaskType => ({
-            id: task.id,
-            riskId: task.relatedId,
-            title: task.title,
-            status: task.status,
-            dueDate: task.dueDate.toISOString(),
-            assigneeId: task.assigneeId ?? "",
-            assignee: {
-              name: task.assignee?.user.name ?? "",
-              image: task.assignee?.user.image ?? "",
-            },
-          }),
-        ),
-      ),
-    db.task.count({
-      where: {
-        relatedId: riskId,
-        relatedType: "risk",
-        organizationId: session.session.activeOrganizationId,
-        AND: [
-          search
-            ? {
-              OR: [
-                { title: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
-              ],
-            }
-            : {},
-          status ? { status } : {},
-        ],
       },
-    }),
-  ]);
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-  return { tasks, total };
-}
+  return comments;
+});
 
-async function getAssignees() {
+const getAssignees = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -226,7 +137,7 @@ async function getAssignees() {
   });
 
   return assignees;
-}
+});
 
 export async function generateMetadata({
   params,

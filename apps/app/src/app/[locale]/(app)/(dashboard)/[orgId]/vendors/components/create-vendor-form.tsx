@@ -1,7 +1,6 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { useSession } from "@/utils/auth-client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
 import {
   Accordion,
@@ -30,7 +29,6 @@ import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -51,45 +49,12 @@ export function CreateVendorForm({
   assignees,
 }: { assignees: (Member & { user: User })[] }) {
   const t = useI18n();
-  const session = useSession();
-
-  // Get the same query parameters as the table
-  const [search] = useQueryState("search");
-  const [page] = useQueryState("page", {
-    defaultValue: 1,
-    parse: Number.parseInt,
-  });
-  const [pageSize] = useQueryState("pageSize", {
-    defaultValue: 10,
-    parse: Number,
-  });
-  const [status] = useQueryState<VendorStatus | null>("status", {
-    defaultValue: null,
-    parse: (value) => value as VendorStatus | null,
-  });
-  const [category] = useQueryState<VendorCategory | null>("category", {
-    defaultValue: null,
-    parse: (value) => value as VendorCategory | null,
-  });
-  const [assigneeId] = useQueryState<string | null>("assigneeId", {
-    defaultValue: null,
-    parse: (value) => value,
-  });
-
-  const router = useRouter();
+  const [_, setCreateVendorSheet] = useQueryState("create-vendor-sheet");
 
   const createVendor = useAction(createVendorAction, {
     onSuccess: async (data) => {
-      const organizationId = session.data?.session.activeOrganizationId;
-
-      if (!organizationId) {
-        toast.error(t("vendors.form.create_vendor_error"));
-        return;
-      }
-
       toast.success(t("vendors.form.create_vendor_success"));
-
-      router.push(`/${organizationId}/vendors/${data.data?.data?.id}`);
+      setCreateVendorSheet(null);
     },
     onError: () => {
       toast.error(t("vendors.form.create_vendor_error"));
