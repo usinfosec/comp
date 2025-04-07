@@ -7,11 +7,11 @@ export default async function RootPage() {
 		headers: await headers(),
 	});
 
-	if (!session) {
+	if (!session || !session.session) {
 		return redirect("/auth");
 	}
 
-	if (session?.session?.activeOrganizationId) {
+	if (session.session.activeOrganizationId) {
 		return redirect(`/${session.session.activeOrganizationId}/frameworks`);
 	}
 
