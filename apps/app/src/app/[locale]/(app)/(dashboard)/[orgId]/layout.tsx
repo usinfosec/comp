@@ -33,11 +33,11 @@ export default async function Layout({
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
 	if (!session) {
-		redirect("/auth");
+		return redirect("/auth");
 	}
 
-	if (!session?.session.activeOrganizationId) {
-		redirect("/");
+	if (!session.session.activeOrganizationId) {
+		return redirect("/");
 	}
 
 	return (
@@ -63,12 +63,12 @@ const getOrganization = async (orgId: string) => {
 		});
 
 		if (!organization) {
-			redirect("/setup");
+			return redirect("/setup");
 		}
 
 		return organization;
 	} catch (error) {
 		console.error(error);
-		redirect("/setup");
+		return redirect("/setup");
 	}
 };

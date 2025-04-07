@@ -7,13 +7,13 @@ export default async function RootPage() {
 		headers: await headers(),
 	});
 
-	if (!session) {
-		redirect("/auth");
+	if (!session || !session.session) {
+		return redirect("/auth");
 	}
 
-	if (session?.session?.activeOrganizationId) {
-		redirect(`/${session.session.activeOrganizationId}/frameworks`);
+	if (session.session.activeOrganizationId) {
+		return redirect(`/${session.session.activeOrganizationId}/frameworks`);
 	}
 
-	redirect("/setup");
+	return redirect("/setup");
 }
