@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Questions
-    url: https://github.com/trycompai/comp/discussions
-    about: Need help selfhosting or ask a general question about the project? Open a discussion
   - name: Discord Help
     url: https://discord.gg/compai
-    about: If you want to chat directly with the community
+    about: If you have questions or need help, this is the place.
+  - name: Roadmap
+    url: https://roadmap.trycomp.ai/
+    about: Suggest new features, vote for existing ones or checkout the roadmap.
