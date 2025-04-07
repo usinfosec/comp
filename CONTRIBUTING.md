@@ -1,66 +1,146 @@
-# Contributing Guidelines
+# Contributing to Comp AI
 
-This project enforces the Developer Certificate of Origin (DCO) on all contributions. The DCO is a certification that you wrote the contribution or have the right to submit it under an open source license.
+Contributions are what makes the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## DCO Sign-Off Methods
+## House rules
 
-You must add a `Signed-off-by` line to every commit message. The easiest way is to use the `-s` flag when committing:
+- Before submitting a new issue or PR, check if it already exists in [issues](https://github.com/trycompai/comp/issues) or [PRs](https://github.com/trycompai/comp/pulls).
+- GitHub issues: take note of the `🚨 needs approval` label.
+  - **For Contributors**:
+    - Feature Requests: Wait for a core member to approve and remove the `🚨 needs approval` label before you start coding or submit a PR.
+    - Bugs, Security, Performance, Documentation, etc.: You can start coding immediately, even if the `🚨 needs approval` label is present. This label mainly concerns feature requests.
+  - **Our Process**:
+    - Issues from non-core members automatically receive the `🚨 needs approval` label.
+    - We greatly value new feature ideas. To ensure consistency in the product's direction, they undergo review and approval.
+
+## Priorities
+
+<table>
+  <tr>
+    <td>
+      Type of Issue
+    </td>
+    <td>
+      Priority
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Minor improvements, non-core feature requests
+    </td>
+    <td>
+      <a href="https://github.com/trycompai/comp/issues?q=is:issue+is:open+sort:updated-desc+label:%22Low+priority%22">
+        <img src="https://img.shields.io/badge/-Low%20Priority-green">
+      </a>
+    </td>
+  </tr>
+   <tr>
+    <td>
+      Confusing UX (... but working)
+    </td>
+    <td>
+      <a href="https://github.com/trycompai/comp/issues?q=is:issue+is:open+sort:updated-desc+label:%22Medium+priority%22">
+        <img src="https://img.shields.io/badge/-Medium%20Priority-yellow">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Core Features (Booking page, availability, timezone calculation)
+    </td>
+    <td>
+      <a href="https://github.com/trycompai/comp/issues?q=is:issue+is:open+sort:updated-desc+label:%22High+priority%22">
+        <img src="https://img.shields.io/badge/-High%20Priority-orange">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Core Bugs (Login, Booking page, Emails are not working)
+    </td>
+    <td>
+      <a href="https://github.com/trycompai/comp/issues?q=is:issue+is:open+sort:updated-desc+label:Urgent">
+        <img src="https://img.shields.io/badge/-Urgent-red">
+      </a>
+    </td>
+  </tr>
+</table>
+
+## Developing
+
+The development branch is `dev`. This is the branch that all pull
+requests should be made against. We will merge into main every week.
+
+To develop locally:
+
+1. [Fork](https://github.com/trycompai/comp/fork/) this repository to your
+   own GitHub account and then
+   [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device.
+2. Create a new branch:
+
+   ```sh
+   git checkout -b MY_BRANCH_NAME
+   ```
+
+3. Install bun:
+
+   https://bun.sh/docs/installation
+
+4. Install the dependencies with:
+
+   ```sh
+   bun i
+   ```
+
+5. Set up your `.env` file:
+
+   - Duplicate `.env.example` to `.env`.
+   - Use `openssl rand -base64 32` to generate a key and add it under `SECRET_KEY` in the `.env` file.
+   
+   - Setup Trigger.dev
+     - CD into apps/app and run `bunx trigger.dev@latest login`, then `bunx trigger.dev@latest dev`
+     - Use `openssl rand -base64 32` to generate a key and add it under `TRIGGER_SECRET_KEY` in the `.env` file.
+
+6. Start developing and watch for code changes:
+
+   ```sh
+   bun run dev
+   ```
+
+## Building
+
+You can build the project with:
 
 ```bash
-git commit -s -m "Add new feature"
+bun run build
 ```
 
-Or you can manually add to your commit message:
+Please be sure that you can make a full production build before pushing code.
 
+## Testing
+
+Coming soon.
+
+### Running tests
+
+Coming soon.
+
+#### Resolving issues
+
+## Linting
+
+To check the formatting of your code:
+
+```sh
+bun run lint
 ```
-Signed-off-by: Random Developer <random@developer.example.org>
-```
 
-## Quick Guide for Contributors
+If you get errors, be sure to fix them before committing.
 
-### First-Time Setup
+## Making a Pull Request
 
-1. Configure git with your name and email:
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
+- Be sure to [check the "Allow edits from maintainers" option](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) while creating your PR.
+- If your PR refers to or fixes an issue, be sure to add `refs #XXX` or `fixes #XXX` to the PR description. Replacing `XXX` with the respective issue number. See more about [Linking a pull request to an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue).
+- Be sure to fill the PR Template accordingly.
 
-### Signing Your Commits
-
-1. Always use the `-s` flag when committing:
-   ```bash
-   git commit -s -m "Your commit message"
-   ```
-
-2. If you forgot to sign your last commit:
-   ```bash
-   git commit --amend -s
-   ```
-
-3. To sign-off multiple commits in a branch:
-   ```bash
-   git rebase --signoff main
-   ```
-
-### Common Issues
-
-1. If your pull request is marked as "DCO failed":
-   - Check that your commits are signed-off
-   - The email used in the `Signed-off-by` line must match your GitHub email
-   - You may need to amend your commits with the correct email
-
-2. If you need to fix multiple commits:
-   ```bash
-   git rebase -i HEAD~n  # n is the number of commits to fix
-   # Mark commits as 'edit' in the interactive rebase
-   # For each commit:
-   git commit --amend -s --no-edit
-   git rebase --continue
-   ```
-
-## Additional Resources
-
-- [More about DCO](https://developercertificate.org/)
-- [Git documentation on signing commits](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--s)
-- [GitHub's DCO app](https://github.com/apps/dco)
+Lastly, make sure to keep the branches updated (e.g. click the `Update branch` button on GitHub PR).
