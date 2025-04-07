@@ -21,7 +21,10 @@ export const auth = betterAuth({
   plugins: [
     organization({
       async sendInvitationEmail(data) {
-        const inviteLink = `https://app.trycomp.ai/auth?inviteCode=${data.invitation.id}`;
+        const isLocalhost = process.env.NODE_ENV === "development";
+        const protocol = isLocalhost ? "http" : "https";
+        const domain = isLocalhost ? "localhost:3000" : "app.trycomp.ai";
+        const inviteLink = `${protocol}://${domain}/auth?inviteCode=${data.invitation.id}`;
 
         await sendInviteMemberEmail({
           email: data.email,
@@ -33,7 +36,6 @@ export const auth = betterAuth({
       roles: {
         owner,
         admin,
-        member,
         auditor,
         employee,
       },

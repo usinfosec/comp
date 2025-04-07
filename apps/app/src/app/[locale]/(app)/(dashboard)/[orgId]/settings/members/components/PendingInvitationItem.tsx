@@ -1,8 +1,8 @@
 "use client";
 
-import { inviteMember } from "@/actions/organization/invite-member";
 import { revokeInvitation } from "@/actions/organization/revoke-invitation";
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import type { Invitation } from "@comp/db/types";
 import {
 	AlertDialog,
@@ -29,30 +29,7 @@ export function PendingInvitationItem({
 	invitation,
 }: PendingInvitationItemProps) {
 	const t = useI18n();
-	const [isResending, setIsResending] = useState(false);
 	const [isRevoking, setIsRevoking] = useState(false);
-
-	const handleResendInvitation = async () => {
-		setIsResending(true);
-		try {
-			const result = await inviteMember({
-				email: invitation.email,
-				role: invitation.role as "owner" | "admin" | "member" | "auditor",
-			});
-
-			if (result?.data?.success) {
-				toast.success(
-					`${t("settings.team.invitations.toast.resend_success_prefix")} ${invitation.email}`,
-				);
-			} else {
-				toast.error(t("settings.team.invitations.toast.resend_error"));
-			}
-		} catch (error) {
-			toast.error(t("settings.team.invitations.toast.resend_unexpected"));
-		} finally {
-			setIsResending(false);
-		}
-	};
 
 	const handleRevokeInvitation = async () => {
 		setIsRevoking(true);
@@ -75,12 +52,6 @@ export function PendingInvitationItem({
 		}
 	};
 
-	// Format the role for display
-	const role =
-		typeof invitation.role === "string"
-			? invitation.role.charAt(0).toUpperCase() + invitation.role.slice(1)
-			: invitation.role;
-
 	// Safety check - don't render if no email
 	if (!invitation.email) return null;
 
@@ -102,21 +73,6 @@ export function PendingInvitationItem({
 				</div>
 			</div>
 			<div className="flex items-center gap-2">
-				<Button
-					variant="outline"
-					onClick={handleResendInvitation}
-					disabled={isResending}
-				>
-					{isResending ? (
-						<>
-							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-							{t("settings.team.invitations.actions.sending")}
-						</>
-					) : (
-						t("settings.team.invitations.actions.resend")
-					)}
-				</Button>
-
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
 						<Button variant="destructive" size="icon" disabled={isRevoking}>
