@@ -40,7 +40,8 @@
         "AWS_SECRET_ACCESS_KEY",
         "ANTHROPIC_API_KEY",
         "REVALIDATION_SECRET",
-        "GROQ_API_KEY"
+        "GROQ_API_KEY",
+        "SENTRY_AUTH_TOKEN"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "dependsOn": ["^build", "^db:generate", "^auth:build", "clean-react"],
