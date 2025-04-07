@@ -1460,11 +1460,10 @@
   resolved "workspace:apps/app"
   devDependencies:
     "@comp/db" "workspace:*"
-  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.17"
-    "@types/react" "19.0.10"
-    "@types/react-dom" "19.0.4"
+    "@types/react" "19.1.0"
+    "@types/react-dom" "19.1.1"
     postcss "^8.5.3"
     tailwindcss "^3.4.17"
     typescript "^5.8.2"
@@ -1479,7 +1478,6 @@
     "@comp/data" "workspace:*"
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
-  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1557,7 +1555,6 @@
   resolved "workspace:packages/data"
   devDependencies:
     "@comp/db" "workspace:*"
-  devDependencies:
     tsup "^8.4.0"
     typescript "^5.8.2"
 
@@ -1566,7 +1563,6 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
-  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"
@@ -1580,20 +1576,19 @@
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
-    "@types/react" "^19.0.0"
-    "@types/react-dom" "^19.0.0"
+    "@types/react" "^19.1.0"
+    "@types/react-dom" "^19.1.1"
     tsup "^8.4.0"
     typescript "^5.7.2"
   dependencies:
     "@comp/ui" "workspace:*"
     "@comp/utils" "workspace:*"
-  dependencies:
     "@react-email/components" "0.0.31"
     "@react-email/render" "0.0.10"
     "@react-email/tailwind" "1.0.4"
     date-fns "^4.1.0"
-    react "^19.0.0"
-    react-dom "^19.0.0"
+    react "^19.1.0"
+    react-dom "^19.1.0"
     react-email "3.0.4"
     responsive-react-email "^0.0.5"
 
@@ -1642,10 +1637,9 @@
   devDependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
-  devDependencies:
     "@types/node" "^22.13.2"
     "@types/react" "^19.0.8"
-    "@types/react-dom" "^19.0.3"
+    "@types/react-dom" "^19.1.1"
     postcss "^8.5.2"
     tailwindcss "^3.4.17"
     typescript "^5.7.3"
@@ -1653,8 +1647,8 @@
     "@t3-oss/env-nextjs" "^0.12.0"
     better-auth "^1.2.4"
     next "^15.2.0"
-    react "^19.0.0"
-    react-dom "^19.0.0"
+    react "^19.1.0"
+    react-dom "^19.1.0"
     react-otp-input "^3.1.1"
 
 "@comp/tsconfig@packages/tsconfig", "@comp/tsconfig@workspace:*":
@@ -1666,8 +1660,8 @@
   resolved "workspace:packages/ui"
   devDependencies:
     autoprefixer "^10.4.20"
-    react "19.0.0"
-    react-dom "19.0.0"
+    react "19.1.0"
+    react-dom "19.1.0"
     typescript "^5.7.2"
   dependencies:
     "@mui/icons-material" "^6.1.6"
@@ -5957,17 +5951,29 @@
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.7.tgz"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
-"@types/react@*", "@types/react@19.0.10", "@types/react@>=16.8", "@types/react@>=17.0.0", "@types/react@>=18", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^17.0.0 || ^18.0.0 || ^19.0.0", "@types/react@^19.0.0", "@types/react@^19.0.8":
+"@types/react@*", "@types/react@>=16.8", "@types/react@>=17.0.0", "@types/react@>=18", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^17.0.0 || ^18.0.0 || ^19.0.0", "@types/react@^19.0.0":
   version "19.0.10"
   resolved "https://registry.npmjs.org/@types/react/-/react-19.0.10.tgz"
   integrity sha512-JuRQ9KXLEjaUNjTWpzuR231Z2WpIwczOkBEIvbHNCzQefFIT0L8IqE6NV6ULLyC1SI/i234JnDoMkfg+RjQj2g==
   dependencies:
     csstype "^3.0.2"
 
-"@types/react-dom@*", "@types/react-dom@19.0.4", "@types/react-dom@^19.0.0", "@types/react-dom@^19.0.3":
+"@types/react@19.1.0", "@types/react@^19.0.0", "@types/react@^19.0.8", "@types/react@^19.1.0":
+  version "19.1.0"
+  resolved "https://registry.npmjs.org/@types/react/-/react-19.1.0.tgz"
+  integrity sha512-UaicktuQI+9UKyA4njtDOGBD/67t8YEBt2xdfqu8+gP9hqPUPsiXlNPcpS2gVdjmis5GKPG3fCxbQLVgxsQZ8w==
+  dependencies:
+    csstype "^3.0.2"
+
+"@types/react-dom@*":
   version "19.0.4"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.0.4.tgz"
   integrity sha512-4fSQ8vWFkg+TGhePfUzVmat3eC14TXYSsiiDSLI0dVLsrm9gZFABjPy/Qu6TKgl1tq1Bu1yDsuQgY3A3DOjCcg==
+
+"@types/react-dom@19.1.1", "@types/react-dom@^19.1.1":
+  version "19.1.1"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.1.1.tgz"
+  integrity sha512-jFf/woGTVTjUJsl2O7hcopJ1r0upqoq/vIOoCj0yLh3RIXxWcljlpuZ+vEBRXsymD1jhfeJrlyTy/S1UW+4y1w==
 
 "@types/react-transition-group@^4.4.12":
   version "4.4.12"
@@ -12601,12 +12607,7 @@ react@18.2.0, react@18.x, "react@^16.8 || ^17.0 || ^18.0", react@^18.0.0, react@
   dependencies:
     loose-envify "^1.1.0"
 
-react@19.0.0, react@^19.0.0:
-  version "19.0.0"
-  resolved "https://registry.npmjs.org/react/-/react-19.0.0.tgz"
-  integrity sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==
-
-react@*, "react@>= 16.8 || 18.0.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0 || ^19.0.0-0", "react@>= 18.2.0", react@>=16, react@>=16.6.0, react@>=16.8, react@>=16.8.1, "react@>=16.8.6 || ^17.0.0 || ^18.0.0", react@>=17, react@>=18, "react@>=18.2.0 || ^19.0.0-0", "react@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc", "react@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.x || ^17.x || ^18.x || ^19.0.0 || ^19.0.0-rc", "react@^17.0.0 || ^18.0.0 || ^19.0.0", "react@^17.0.2 || ^18.0.0 || ^19.0.0", "react@^18 || ^19", "react@^18 || ^19 || ^19.0.0-rc", "react@^18.0 || ^19.0", "react@^18.0 || ^19.0 || ^19.0.0-rc", "react@^18.0.0 || ^19.0.0", "react@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react@^18.2.0 || ^19.0.0-0", react@^19.0.0, react@^19.1.0:
+react@*, react@19.1.0, "react@>= 16.8 || 18.0.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0 || ^19.0.0-0", "react@>= 18.2.0", react@>=16, react@>=16.6.0, react@>=16.8, react@>=16.8.1, "react@>=16.8.6 || ^17.0.0 || ^18.0.0", react@>=17, react@>=18, "react@>=18.2.0 || ^19.0.0-0", "react@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc", "react@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0 || ^19.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^16.x || ^17.x || ^18.x || ^19.0.0 || ^19.0.0-rc", "react@^17.0.0 || ^18.0.0 || ^19.0.0", "react@^17.0.2 || ^18.0.0 || ^19.0.0", "react@^18 || ^19", "react@^18 || ^19 || ^19.0.0-rc", "react@^18.0 || ^19.0", "react@^18.0 || ^19.0 || ^19.0.0-rc", "react@^18.0.0 || ^19.0.0", "react@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react@^18.2.0 || ^19.0.0-0", react@^19.1.0:
   version "19.1.0"
   resolved "https://registry.npmjs.org/react/-/react-19.1.0.tgz"
   integrity sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==
@@ -12632,14 +12633,7 @@ react-dom@18.2.0, "react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18.0.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-dom@19.0.0:
-  version "19.0.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.0.0.tgz"
-  integrity sha512-4GV5sHFG0e/0AD4X+ySy6UJd3jVl1iNsNHdpad0qhABJ11twS3TTBnseqsKurKcsNqCEFeGL3uLpVChpIO3QfQ==
-  dependencies:
-    scheduler "^0.25.0"
-
-"react-dom@>= 18.2.0", react-dom@>=16.6.0, react-dom@>=16.8, react-dom@>=16.8.1, "react-dom@>=16.8.6 || ^17.0.0 || ^18.0.0", react-dom@>=17, react-dom@>=18.0.0, "react-dom@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18 || ^19 || ^19.0.0-rc", "react-dom@^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react-dom@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", react-dom@^19.0.0, react-dom@^19.1.0:
+react-dom@19.1.0, "react-dom@>= 18.2.0", react-dom@>=16.6.0, react-dom@>=16.8, react-dom@>=16.8.1, "react-dom@>=16.8.6 || ^17.0.0 || ^18.0.0", react-dom@>=17, react-dom@>=18.0.0, "react-dom@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18 || ^19 || ^19.0.0-rc", "react-dom@^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react-dom@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", react-dom@^19.1.0:
   version "19.1.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.1.0.tgz"
   integrity sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==
@@ -13278,11 +13272,6 @@ scheduler@^0.23.0:
   integrity sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==
   dependencies:
     loose-envify "^1.1.0"
-
-scheduler@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.25.0.tgz"
-  integrity sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==
 
 scheduler@^0.26.0:
   version "0.26.0"
