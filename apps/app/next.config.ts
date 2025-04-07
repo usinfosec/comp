@@ -1,6 +1,7 @@
 import "./src/env.mjs";
+import type { NextConfig } from "next";
 
-const config = {
+const config: NextConfig = {
 	poweredByHeader: false,
 	reactStrictMode: true,
 	images: {
