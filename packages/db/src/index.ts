@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-// import { generateIdExtension } from "./extensions/generate-id-extension";
 
 const createPrismaClient = () => {
 	return new PrismaClient({

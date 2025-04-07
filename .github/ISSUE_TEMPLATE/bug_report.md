@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Report any issues with the platform
+name: Report a bug
+about: Any issues with the platform, unexpected behavior, etc.
 title: ""
 labels: ["🐛 bug"]
 assignees: ""
