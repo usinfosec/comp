@@ -87,8 +87,8 @@ Here is what you need to be able to run Comp AI.
 4. Set up your `.env` files
    - Copy the example environment files to create your local environment files:
    ```sh
-   cp apps/web/.env.example apps/web/.env
    cp apps/app/.env.example apps/app/.env
+   cp apps/portal/.env.example apps/portal/.env
    ```
    - Fill in the required environment variables in both `.env` files
    - Use `openssl rand -base64 32` to generate a key and add it under `AUTH_SECRET` in the `apps/app/.env` file
