@@ -3,9 +3,9 @@ import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
-import { InviteMemberForm } from "./invite-member-form";
-import { MembersList } from "./members-list";
-import { PendingInvitations } from "./pending-invitations";
+import { InviteMemberForm } from "./InviteMemberForm";
+import { MembersList } from "./MembersList";
+import { PendingInvitations } from "./PendingInvitations";
 import { headers } from "next/headers";
 
 export async function TeamMembers() {

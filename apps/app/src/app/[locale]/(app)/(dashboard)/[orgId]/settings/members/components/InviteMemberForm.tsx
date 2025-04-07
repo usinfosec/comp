@@ -1,5 +1,8 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
+import { Role } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -25,17 +28,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { z } from "zod";
-import { useI18n } from "@/locales/client";
-import { authClient } from "@/utils/auth-client";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const inviteMemberSchema = z.object({
 	email: z.string().email("Please enter a valid email address"),
-	role: z.enum(["owner", "admin", "member", "auditor"]),
+	role: z.nativeEnum(Role),
 });
 
 type FormValues = z.infer<typeof inviteMemberSchema>;
@@ -47,18 +48,19 @@ export function InviteMemberForm() {
 		resolver: zodResolver(inviteMemberSchema),
 		defaultValues: {
 			email: "",
-			role: "member",
+			role: "admin",
 		},
 	});
 
 	const onSubmit = async (data: FormValues) => {
 		const response = await authClient.organization.inviteMember({
 			email: data.email,
-			role: data.role as "owner" | "admin" | "member",
+			// @ts-expect-error - Table is correct but authClient is not typed for some reason.
+			role: data.role,
 		});
 
 		if (response.error) {
-			toast.error(response.error.message);
+			toast.error("Something went wrong");
 		} else {
 			toast.success(t("settings.team.invitations.invitation_sent"));
 			form.reset();
@@ -128,9 +130,6 @@ export function InviteMemberForm() {
 											</SelectItem>
 											<SelectItem value="admin">
 												{t("settings.team.members.role.admin")}
-											</SelectItem>
-											<SelectItem value="member">
-												{t("settings.team.members.role.member")}
 											</SelectItem>
 											<SelectItem value="auditor">
 												{t("settings.team.members.role.auditor")}
