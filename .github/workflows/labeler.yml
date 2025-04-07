@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: equitybee/team-label-action@main
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GH_PERSONAL_TOKEN }}
           organization-name: trycompai
           ignore-labels: "admin, ai, authentication, automated-testing, devops, billing, ci, console, docs, documentation, emails, embeds, event-types, i18n, impersonation, manual-testing, ui, performance, ops-stack, organizations, public-api, routing-forms, seats, teams, webhooks, workflows, zapier"
   apply-labels-from-issue:
