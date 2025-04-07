@@ -8,12 +8,12 @@ export default async function RootPage() {
 	});
 
 	if (!session) {
-		redirect("/auth");
+		return redirect("/auth");
 	}
 
 	if (session?.session?.activeOrganizationId) {
-		redirect(`/${session.session.activeOrganizationId}/frameworks`);
+		return redirect(`/${session.session.activeOrganizationId}/frameworks`);
 	}
 
-	redirect("/setup");
+	return redirect("/setup");
 }
