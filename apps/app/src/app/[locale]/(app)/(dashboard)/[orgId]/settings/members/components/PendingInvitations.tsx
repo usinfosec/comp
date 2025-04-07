@@ -7,7 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import { PendingInvitationItem } from "./pending-invitation-item";
+import { PendingInvitationItem } from "./PendingInvitationItem";
 import type { Invitation } from "@comp/db/types";
 import { useI18n } from "@/locales/client";
 

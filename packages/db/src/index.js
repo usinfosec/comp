@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
 const client_1 = require("@prisma/client");
-// import { generateIdExtension } from "./extensions/generate-id-extension";
 const createPrismaClient = () => {
     return new client_1.PrismaClient({
         datasources: {
