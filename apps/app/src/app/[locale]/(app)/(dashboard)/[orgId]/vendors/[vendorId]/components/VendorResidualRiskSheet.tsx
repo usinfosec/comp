@@ -13,7 +13,7 @@ import {
 	SheetTitle,
 } from "@comp/ui/sheet";
 import { X } from "lucide-react";
-import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/residual-risk-form";
+import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
 import type { Vendor } from "@comp/db/types";
 import { useQueryState } from "nuqs";
 
@@ -31,7 +31,10 @@ export function VendorResidualRiskSheet({
 
 	if (isDesktop) {
 		return (
-			<Sheet open={open}>
+			<Sheet
+				open={open}
+				onOpenChange={(value) => setOpen(value ? "true" : "false")}
+			>
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">

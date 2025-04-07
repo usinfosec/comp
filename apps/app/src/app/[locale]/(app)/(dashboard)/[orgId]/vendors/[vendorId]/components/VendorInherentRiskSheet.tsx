@@ -13,7 +13,7 @@ import {
 	SheetTitle,
 } from "@comp/ui/sheet";
 import { X } from "lucide-react";
-import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/inherent-risk-form";
+import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
 import { Impact, Likelihood } from "@prisma/client";
 import { useQueryState } from "nuqs";
 
