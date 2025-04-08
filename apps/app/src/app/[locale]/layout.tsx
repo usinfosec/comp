@@ -1,7 +1,5 @@
-import { env } from "@/env.mjs";
 import "@/styles/globals.css";
 import { auth } from "@/utils/auth";
-import { initializeServer } from "@comp/analytics/src/server";
 import { cn } from "@comp/ui/cn";
 import "@comp/ui/globals.css";
 import { GeistMono } from "geist/font/mono";
@@ -72,13 +70,6 @@ const font = localFont({
 });
 
 export const preferredRegion = ["auto"];
-
-if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
-	initializeServer({
-		apiKey: env.NEXT_PUBLIC_POSTHOG_KEY,
-		apiHost: env.NEXT_PUBLIC_POSTHOG_HOST,
-	});
-}
 
 export default async function Layout(props: {
 	children: React.ReactNode;
