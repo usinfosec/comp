@@ -15,7 +15,6 @@ function getPostHogClient(): PostHog | null {
 
   if (apiKey && apiHost) {
     posthogInstance = new PostHog(apiKey, {
-      host: apiHost,
       flushAt: 1,
       flushInterval: 0,
     });
