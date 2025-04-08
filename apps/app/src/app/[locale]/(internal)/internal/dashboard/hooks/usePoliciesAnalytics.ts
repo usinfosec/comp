@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
+import { chartConfig } from "../config";
 
 interface PoliciesAnalyticsData {
 	total: number;
@@ -32,7 +33,7 @@ export function usePoliciesAnalytics() {
 		key,
 		fetcher,
 		{
-			refreshInterval: 30000, // Poll every 30 seconds
+			refreshInterval: chartConfig.refreshIntervals.policies,
 			revalidateOnFocus: true,
 			revalidateOnReconnect: true,
 		},

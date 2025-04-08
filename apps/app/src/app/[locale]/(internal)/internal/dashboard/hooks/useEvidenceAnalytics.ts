@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
+import { chartConfig } from "../config";
 
 interface EvidenceAnalyticsData {
 	total: number;
@@ -32,7 +33,7 @@ export function useEvidenceAnalytics() {
 		key,
 		fetcher,
 		{
-			refreshInterval: 30000,
+			refreshInterval: chartConfig.refreshIntervals.evidence,
 			revalidateOnFocus: true,
 			revalidateOnReconnect: true,
 		},

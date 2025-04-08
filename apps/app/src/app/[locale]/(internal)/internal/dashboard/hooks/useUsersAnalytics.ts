@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { useSearchParams } from "next/navigation";
+import { chartConfig } from "../config";
 
 interface UsersAnalyticsData {
 	total: number;
@@ -28,7 +29,7 @@ export function useUsersAnalytics() {
 		key, // Use the conditional key
 		fetcher,
 		{
-			refreshInterval: 30000, // Poll every 30 seconds
+			refreshInterval: chartConfig.refreshIntervals.users,
 			revalidateOnFocus: true,
 			revalidateOnReconnect: true,
 		},

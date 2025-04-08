@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { useSearchParams } from "next/navigation";
+import { chartConfig } from "../config";
 
 interface OrganizationsAnalyticsData {
 	countLast30Days: number;
@@ -29,7 +30,7 @@ export function useOrganizationsAnalytics() {
 		key, // Use the conditional key
 		fetcher,
 		{
-			refreshInterval: 30000, // Poll every 30 seconds
+			refreshInterval: chartConfig.refreshIntervals.organizations,
 			revalidateOnFocus: true,
 			revalidateOnReconnect: true,
 		},
