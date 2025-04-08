@@ -24,7 +24,10 @@ export function Providers({ children, locale, session }: ProviderProps) {
 			disableTransitionOnChange
 			scriptProps={{ "data-cfasync": "false" }}
 		>
-			<AnalyticsProvider userId={session?.user?.id ?? undefined}>
+			<AnalyticsProvider
+				userId={session?.user?.id ?? undefined}
+				userEmail={session?.user?.email ?? undefined}
+			>
 				<I18nProviderClient locale={locale}>{children}</I18nProviderClient>
 			</AnalyticsProvider>
 		</ThemeProvider>
