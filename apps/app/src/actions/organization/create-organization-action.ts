@@ -13,6 +13,7 @@ import {
 } from "./lib/utils";
 import { createStripeCustomer } from "./lib/create-stripe-customer";
 import { db } from "@comp/db";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -89,6 +90,10 @@ export const createOrganizationAction = authActionClient
 				policiesForFrameworks,
 				evidenceForFrameworks,
 			);
+
+			revalidatePath(`/${organizationId}`);
+			revalidateTag(`user_${userId}`);
+
 			return {
 				success: true,
 				organizationId: session.session.activeOrganizationId,
