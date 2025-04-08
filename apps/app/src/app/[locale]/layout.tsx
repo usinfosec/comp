@@ -1,11 +1,11 @@
 import "@/styles/globals.css";
+import { auth } from "@/utils/auth";
 import { cn } from "@comp/ui/cn";
 import "@comp/ui/globals.css";
-import { env } from "@/env.mjs";
-import { initializeServer } from "@comp/analytics/src/server";
 import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { headers } from "next/headers";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
@@ -71,13 +71,6 @@ const font = localFont({
 
 export const preferredRegion = ["auto"];
 
-if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
-	initializeServer({
-		apiKey: env.NEXT_PUBLIC_POSTHOG_KEY,
-		apiHost: env.NEXT_PUBLIC_POSTHOG_HOST,
-	});
-}
-
 export default async function Layout(props: {
 	children: React.ReactNode;
 	params: Promise<{ locale: string }>;
@@ -85,6 +78,10 @@ export default async function Layout(props: {
 	const params = await props.params;
 	const { locale } = params;
 	const { children } = props;
+
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
@@ -95,7 +92,7 @@ export default async function Layout(props: {
 				)}
 			>
 				<NuqsAdapter>
-					<Providers locale={locale}>
+					<Providers locale={locale} session={session}>
 						<main>{children}</main>
 					</Providers>
 				</NuqsAdapter>
