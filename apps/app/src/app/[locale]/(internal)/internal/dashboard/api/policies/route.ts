@@ -22,7 +22,12 @@ interface PolicyGroupByDateResult {
 	};
 }
 
-const ANALYTICS_SECRET = process.env.ANALYTICS_SECRET;
+interface DailyPolicyCount {
+	day: Date;
+	count: bigint; // Prisma $queryRaw returns bigint for COUNT
+}
+
+const ANALYTICS_SECRET = process.env.ANALYTICS_SECRET || "dev_secret";
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
@@ -33,66 +38,122 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
+		const thirtyDaysAgo = new Date();
+		thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+		const sixtyDaysAgo = new Date();
+		sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
 		const [
-			totalPolicies,
-			publishedPolicies,
-			draftPolicies,
-			policiesByMonthRaw,
-			policiesByAssigneeRaw,
+			allTimeTotal,
+			allTimePublished,
+			allTimeDraft,
+			last30DaysTotal,
+			last30DaysPublished,
+			last30DaysDraft,
+			last30DaysTotalByDayRaw,
+			previous30DaysTotal,
 		] = await Promise.all([
 			db.policy.count(),
 			db.policy.count({
 				where: { status: PolicyStatus.published },
 			}),
 			db.policy.count({ where: { status: PolicyStatus.draft } }),
-			db.policy.groupBy({
-				by: ["createdAt"],
-				_count: { _all: true },
-				orderBy: { createdAt: "asc" },
+			db.policy.count({
+				where: {
+					createdAt: {
+						gte: thirtyDaysAgo,
+					},
+				},
 			}),
-			db.policy.groupBy({
-				by: ["assigneeId"],
-				_count: { _all: true },
+			db.policy.count({
+				where: {
+					status: PolicyStatus.published,
+					createdAt: {
+						gte: thirtyDaysAgo,
+					},
+				},
+			}),
+			db.policy.count({
+				where: {
+					status: PolicyStatus.draft,
+					createdAt: {
+						gte: thirtyDaysAgo,
+					},
+				},
+			}),
+			// Group by day for chart data (last 30 days)
+			db.$queryRaw<DailyPolicyCount[]>`
+				SELECT 
+					DATE_TRUNC('day', "createdAt") as day,
+					COUNT(*) as count
+				FROM "Policy"
+				WHERE "createdAt" >= ${thirtyDaysAgo}
+				GROUP BY DATE_TRUNC('day', "createdAt")
+				ORDER BY day ASC
+			`,
+			db.policy.count({
+				// Policies created between 30 and 60 days ago
+				where: {
+					createdAt: {
+						gte: sixtyDaysAgo,
+						lt: thirtyDaysAgo,
+					},
+				},
 			}),
 		]);
 
-		const policiesByMonth = policiesByMonthRaw as PolicyGroupByDateResult[];
-		const policiesByAssigneeRawTyped =
-			policiesByAssigneeRaw as PolicyGroupByAssigneeResult[];
+		// Prepare daily data, ensuring all days in the last 30 days are present
+		const last30DaysTotalByDayMap = new Map<string, number>();
+		const today = new Date();
+		for (let i = 0; i < 30; i++) {
+			const date = new Date(today);
+			date.setDate(today.getDate() - i);
+			const dateString = date.toISOString().split("T")[0];
+			last30DaysTotalByDayMap.set(dateString, 0);
+		}
 
-		const policiesByAssignee = [...policiesByAssigneeRawTyped].sort(
-			(a, b) => b._count._all - a._count._all,
-		);
+		// Populate the map with actual counts from the database
+		for (const item of last30DaysTotalByDayRaw) {
+			// Ensure item.day is treated as UTC if it's not already
+			const itemDate = new Date(item.day);
+			// Adjust for potential timezone offset if item.day is local time
+			const itemUtcDate = new Date(
+				Date.UTC(
+					itemDate.getFullYear(),
+					itemDate.getMonth(),
+					itemDate.getDate(),
+				),
+			);
+			const dateString = itemUtcDate.toISOString().split("T")[0];
+			if (last30DaysTotalByDayMap.has(dateString)) {
+				last30DaysTotalByDayMap.set(dateString, Number(item.count)); // Convert bigint to number
+			}
+		}
 
-		const assigneeIds = policiesByAssignee
-			.map((item) => item.assigneeId)
-			.filter((id): id is string => id !== null);
+		const last30DaysTotalByDay = Array.from(last30DaysTotalByDayMap.entries())
+			.map(([date, count]) => ({ date, count }))
+			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()); // Sort chronologically
 
-		const assigneeDetails = await db.user.findMany({
-			where: { id: { in: assigneeIds } },
-			select: { id: true, name: true, email: true },
-		});
-
-		const assigneeMap = assigneeDetails.reduce(
-			(acc, assignee) => {
-				acc[assignee.id] = assignee;
-				return acc;
-			},
-			{} as Record<string, AssigneeDetails>,
-		);
+		// Calculate percentage change
+		let percentageChangeLast30Days: number | null = null;
+		if (previous30DaysTotal > 0) {
+			percentageChangeLast30Days =
+				((last30DaysTotal - previous30DaysTotal) / previous30DaysTotal) * 100;
+		} else if (last30DaysTotal > 0) {
+			percentageChangeLast30Days = null; // Indicate infinite change from 0
+		} else {
+			percentageChangeLast30Days = 0; // No change from 0 to 0
+		}
 
 		return NextResponse.json({
-			total: totalPolicies,
-			published: publishedPolicies,
-			draft: draftPolicies,
-			byMonth: policiesByMonth.map((item) => ({
-				date: item.createdAt.toISOString().split("T")[0],
-				count: item._count._all,
-			})),
-			byAssignee: policiesByAssignee.map((item) => ({
-				assignee: item.assigneeId ? assigneeMap[item.assigneeId] : null,
-				count: item._count._all,
-			})),
+			allTimeTotal,
+			allTimePublished,
+			allTimeDraft,
+			last30DaysTotal,
+			last30DaysPublished,
+			last30DaysDraft,
+			last30DaysTotalByDay,
+			percentageChangeLast30Days,
 		});
 	} catch (error) {
 		console.error("Error fetching policy analytics:", error);

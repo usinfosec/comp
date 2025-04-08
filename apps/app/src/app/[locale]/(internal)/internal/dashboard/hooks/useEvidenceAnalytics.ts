@@ -6,22 +6,19 @@ import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
 import { chartConfig } from "../config";
 
 interface EvidenceAnalyticsData {
-	total: number;
-	published: number;
-	draft: number;
-	notRelevant: number;
-	byMonth: Array<{
+	allTimeTotal: number;
+	allTimePublished: number;
+	allTimeDraft: number;
+	allTimeNotRelevant: number;
+	last30DaysTotal: number;
+	last30DaysPublished: number;
+	last30DaysDraft: number;
+	last30DaysNotRelevant: number;
+	last30DaysTotalByDay: Array<{
 		date: string;
 		count: number;
 	}>;
-	byAssignee: Array<{
-		assignee: {
-			id: string;
-			name: string | null;
-			email: string | null;
-		} | null;
-		count: number;
-	}>;
+	percentageChangeLast30Days: number | null;
 }
 
 const API_ENDPOINT = "/internal/dashboard/api/evidence";

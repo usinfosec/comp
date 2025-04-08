@@ -6,22 +6,17 @@ import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
 import { chartConfig } from "../config";
 
 interface PoliciesAnalyticsData {
-	total: number;
-	published: number;
-	draft: number;
-	needsReview: number;
-	byMonth: Array<{
+	allTimeTotal: number;
+	allTimePublished: number;
+	allTimeDraft: number;
+	last30DaysTotal: number;
+	last30DaysPublished: number;
+	last30DaysDraft: number;
+	last30DaysTotalByDay: Array<{
 		date: string; // YYYY-MM-DD format
 		count: number;
 	}>;
-	byAssignee: Array<{
-		assignee: {
-			id: string;
-			name: string | null;
-			email: string | null;
-		} | null;
-		count: number;
-	}>;
+	percentageChangeLast30Days: number | null;
 }
 
 const API_ENDPOINT = "/internal/dashboard/api/policies";

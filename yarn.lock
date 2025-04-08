@@ -1460,7 +1460,6 @@
   resolved "workspace:apps/app"
   devDependencies:
     "@comp/db" "workspace:*"
-  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.13.17"
     "@types/react" "19.1.0"
@@ -1476,11 +1475,9 @@
     "@aws-sdk/client-s3" "^3.779.0"
     "@aws-sdk/s3-request-presigner" "^3.779.0"
     "@browserbasehq/sdk" "^2.5.0"
-  dependencies:
     "@comp/data" "workspace:*"
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
-  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1559,7 +1556,6 @@
   resolved "workspace:packages/data"
   devDependencies:
     "@comp/db" "workspace:*"
-  devDependencies:
     tsup "^8.4.0"
     typescript "^5.8.2"
 
@@ -1568,7 +1564,6 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
-  devDependencies:
     typescript "^5.8.2"
   dependencies:
     "@auth/prisma-adapter" "^2.8.0"

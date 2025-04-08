@@ -6,12 +6,14 @@ import { useSearchParams } from "next/navigation";
 import { chartConfig } from "../config";
 
 interface UsersAnalyticsData {
-	total: number;
-	active: number;
-	byMonth: Array<{
+	allTimeTotal: number;
+	last30DaysTotal: number;
+	last30DaysByDay: Array<{
 		date: string; // YYYY-MM-DD format
 		count: number;
 	}>;
+	activeSessionTotal: number;
+	percentageChangeLast30Days: number | null;
 }
 
 const API_ENDPOINT = "/internal/dashboard/api/users";

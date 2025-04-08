@@ -1,8 +1,8 @@
 export const chartConfig = {
 	refreshIntervals: {
-		organizations: 30000,
-		policies: 30000,
-		users: 30000,
-		evidence: 30000,
+		organizations: 3000,
+		policies: 3000,
+		users: 3000,
+		evidence: 3000,
 	},
 };

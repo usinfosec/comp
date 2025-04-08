@@ -26,19 +26,21 @@ export function useOrganizationsAnalytics() {
 		? `${API_ENDPOINT}?secret=${encodeURIComponent(secret)}`
 		: null;
 
-	const { data, error, isLoading } = useSWR<OrganizationsAnalyticsData>(
-		key, // Use the conditional key
-		fetcher,
-		{
-			refreshInterval: chartConfig.refreshIntervals.organizations,
-			revalidateOnFocus: true,
-			revalidateOnReconnect: true,
-		},
-	);
+	const { data, error, isLoading, isValidating } =
+		useSWR<OrganizationsAnalyticsData>(
+			key, // Use the conditional key
+			fetcher,
+			{
+				refreshInterval: chartConfig.refreshIntervals.organizations,
+				revalidateOnFocus: true,
+				revalidateOnReconnect: true,
+			},
+		);
 
 	return {
 		data,
 		isLoading,
 		isError: error,
+		isValidating,
 	};
 }
