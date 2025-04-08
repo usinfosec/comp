@@ -36,4 +36,4 @@ jobs:
       - name: Generate Prisma Client
         run: |
           cd packages/db
-          bunx prisma generate
+          bunx prisma generate --schema=./prisma/schema/schema.prisma
