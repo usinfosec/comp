@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export function OnboardingClient() {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
@@ -62,6 +63,12 @@ export function OnboardingClient() {
 
 		createOrganization.execute({
 			...data,
+		});
+
+		sendGTMEvent({
+			event: "conversion",
+			category: "create_organization",
+			label: data.name,
 		});
 	};
 
