@@ -182,12 +182,6 @@ export function EvidenceCard() {
 									{formatNumber(evidenceData?.last30DaysTotal)}
 								</span>
 							</div>
-							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">Published</span>
-								<span className="text-sm font-medium">
-									{formatNumber(evidenceData?.last30DaysPublished)}
-								</span>
-							</div>
 						</div>
 
 						{/* All Time Section */}

@@ -162,19 +162,6 @@ export function PoliciesCard() {
 									{formatNumber(policiesData?.last30DaysTotal)}
 								</span>
 							</div>
-							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">Published</span>
-								<span className="text-sm font-medium">
-									{formatNumber(policiesData?.last30DaysPublished)}
-								</span>
-							</div>
-							{/* Optionally show Draft for last 30 days */}
-							{/* <div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">Draft</span>
-								<span className="text-sm font-medium">
-									{formatNumber(policiesData?.last30DaysDraft)}
-								</span>
-							</div> */}
 						</div>
 
 						{/* All Time Section */}
