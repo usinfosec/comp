@@ -9,6 +9,7 @@ import localFont from "next/font/local";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://app.trycomp.ai"),
@@ -95,9 +96,11 @@ export default async function Layout(props: {
 				)}
 			>
 				<NuqsAdapter>
-					<Providers locale={locale}>
-						<main>{children}</main>
-					</Providers>
+					<Suspense fallback={<div>Loading locale...</div>}>
+						<Providers locale={locale}>
+							<main>{children}</main>
+						</Providers>
+					</Suspense>
 				</NuqsAdapter>
 				<Toaster richColors />
 			</body>
