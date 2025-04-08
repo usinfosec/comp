@@ -9,6 +9,7 @@ interface OrganizationsAnalyticsData {
 	countLast30Days: number;
 	count30To60DaysAgo: number;
 	changeLast30Days: number;
+	allTimeTotal: number;
 	byDateLast30Days: Array<{
 		date: string; // YYYY-MM-DD format
 		count: number;

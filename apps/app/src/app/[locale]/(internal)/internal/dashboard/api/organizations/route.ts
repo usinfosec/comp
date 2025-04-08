@@ -69,6 +69,8 @@ export async function GET(request: NextRequest) {
 			count30To60DaysAgo,
 			// Fetch createdAt timestamps for the last 30 days (for daily breakdown)
 			organizationsCreatedLast30DaysRaw,
+			// Count all organizations regardless of creation date
+			allTimeTotal,
 		] = await Promise.all([
 			// Query 1: Count organizations created in the last 30 days
 			db.organization.count({
@@ -90,6 +92,8 @@ export async function GET(request: NextRequest) {
 				select: { createdAt: true },
 				orderBy: { createdAt: "asc" },
 			}),
+			// Query 4: Count all organizations (all-time total)
+			db.organization.count(),
 		]);
 
 		// Calculate percentage change
@@ -110,6 +114,7 @@ export async function GET(request: NextRequest) {
 			count30To60DaysAgo,
 			changeLast30Days,
 			byDateLast30Days,
+			allTimeTotal,
 		});
 	} catch (error) {
 		console.error("Error fetching organizations analytics:", error);
