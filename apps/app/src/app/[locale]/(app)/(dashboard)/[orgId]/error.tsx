@@ -2,11 +2,16 @@
 
 import { Button } from "@comp/ui/button";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function ErrorPage({
 	reset,
 	error,
 }: { reset: () => void; error: Error & { digest?: string } }) {
+	useEffect(() => {
+		console.error("app/[locale]/(app)/(dashboard)/[orgId]/error.tsx", error);
+	}, [error]);
+
 	return (
 		<div className="h-[calc(100vh-200px)] w-full">
 			<div className="mt-8 flex flex-col items-center justify-center h-full">
