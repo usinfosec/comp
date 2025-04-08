@@ -3,19 +3,19 @@
 import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
-import { updateInherentRiskSchema } from "../schema";
+import { updateResidualRiskEnumSchema } from "../schema"; // Use the new enum schema
 
-export const updateInherentRiskAction = authActionClient
-  .schema(updateInherentRiskSchema)
+export const updateResidualRiskEnumAction = authActionClient
+  .schema(updateResidualRiskEnumSchema) // Use the new enum schema
   .metadata({
-    name: "update-inherent-risk",
+    name: "update-residual-risk-enum", // New name
     track: {
-      event: "update-inherent-risk",
+      event: "update-residual-risk", // Keep original event if desired
       channel: "server",
     },
   })
   .action(async ({ parsedInput, ctx }) => {
-    const { id, probability, impact } = parsedInput;
+    const { id, probability, impact } = parsedInput; // These are now enums
     const { session } = ctx;
 
     if (!session.activeOrganizationId) {
@@ -29,8 +29,8 @@ export const updateInherentRiskAction = authActionClient
           organizationId: session.activeOrganizationId,
         },
         data: {
-          likelihood: probability,
-          impact,
+          residualLikelihood: probability, // Use enum directly
+          residualImpact: impact, // Use enum directly
         },
       });
 
@@ -43,7 +43,7 @@ export const updateInherentRiskAction = authActionClient
         success: true,
       };
     } catch (error) {
-      console.error("Error updating inherent risk:", error);
+      console.error("Error updating residual risk (enum):", error);
       return {
         success: false,
       };
