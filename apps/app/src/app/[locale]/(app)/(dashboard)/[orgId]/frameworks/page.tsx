@@ -22,7 +22,6 @@ export default async function DashboardPage() {
   const organizationId = session?.session.activeOrganizationId;
 
   if (!organizationId) {
-    console.log("Redirect on page.tsx");
     redirect("/");
   }
 

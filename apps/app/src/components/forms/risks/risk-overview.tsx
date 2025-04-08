@@ -80,8 +80,6 @@ export function UpdateRiskOverview({
     });
   };
 
-  console.log(form.formState.defaultValues);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
