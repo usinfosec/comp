@@ -7,10 +7,15 @@ import { PostHogPageView } from "./page-view";
 
 interface ProviderProps {
 	children: React.ReactNode;
-	userId?: string;
+	userId?: string | undefined;
+	userEmail?: string | undefined;
 }
 
-export function AnalyticsProvider({ children, userId }: ProviderProps) {
+export function AnalyticsProvider({
+	children,
+	userId,
+	userEmail,
+}: ProviderProps) {
 	useEffect(() => {
 		if (
 			!process.env.NEXT_PUBLIC_POSTHOG_KEY ||
@@ -22,9 +27,17 @@ export function AnalyticsProvider({ children, userId }: ProviderProps) {
 		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
 			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 			capture_pageview: true,
+			session_recording: {
+				maskAllInputs: false,
+				maskInputOptions: {
+					password: true,
+				},
+			},
 			loaded: (ph) => {
 				if (userId) {
-					ph.identify(userId);
+					ph.identify(userId, {
+						email: userEmail,
+					});
 				}
 			},
 		});
