@@ -136,7 +136,7 @@ export function PoliciesCard() {
 										margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
 									>
 										<Line
-											type="monotone"
+											type="linear"
 											dataKey="value"
 											stroke="#3b82f6"
 											strokeWidth={2}

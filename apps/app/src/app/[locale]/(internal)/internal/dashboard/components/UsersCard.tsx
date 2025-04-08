@@ -153,7 +153,7 @@ export function UsersCard() {
 											</linearGradient>
 										</defs>
 										<Area
-											type="monotone"
+											type="linear"
 											dataKey="value"
 											stroke="#10b981"
 											strokeWidth={2}

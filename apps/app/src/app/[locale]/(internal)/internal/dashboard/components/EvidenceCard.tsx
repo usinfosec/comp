@@ -156,7 +156,7 @@ export function EvidenceCard() {
 											</linearGradient>
 										</defs>
 										<Area
-											type="monotone"
+											type="linear"
 											dataKey="value"
 											stroke="#9333ea"
 											strokeWidth={2}
