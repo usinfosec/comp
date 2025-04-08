@@ -5,6 +5,7 @@ import { AnalyticsProvider } from "@comp/analytics";
 import { Session, User } from "better-auth";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 type ProviderProps = {
 	children: ReactNode;
@@ -24,6 +25,13 @@ export function Providers({ children, locale, session }: ProviderProps) {
 			disableTransitionOnChange
 			scriptProps={{ "data-cfasync": "false" }}
 		>
+			<GoogleTagManager
+				gtmId="GTM-56GW3TVW"
+				dataLayer={{
+					user_id: session?.user?.id ?? "",
+					user_email: session?.user?.email ?? "",
+				}}
+			/>
 			<AnalyticsProvider
 				userId={session?.user?.id ?? undefined}
 				userEmail={session?.user?.email ?? undefined}
