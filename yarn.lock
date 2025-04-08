@@ -1488,6 +1488,7 @@
     "@next/third-parties" "^15.2.4"
     "@novu/headless" "^2.6.6"
     "@novu/react" "^2.6.6"
+    "@number-flow/react" "^0.5.9"
     "@prisma/instrumentation" "^6.5.0"
     "@sentry/nextjs" "^9.11.0"
     "@tanstack/react-query" "^5.71.1"
@@ -3042,6 +3043,14 @@
   version "2.6.6"
   resolved "https://registry.npmjs.org/@novu/shared/-/shared-2.6.6.tgz"
   integrity sha512-Y4YrvvJHX8yopkkvb4MnS+u59JBjUsrJBYqcn/STKkbbdzmSPccVwA0GUTiCZivUKSBtrTvllIHtP7Bi5ATQ4A==
+
+"@number-flow/react@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.npmjs.org/@number-flow/react/-/react-0.5.9.tgz"
+  integrity sha512-cletUjLUIV6NoNg36z4CR4khIff3fb4RWzuNx8TOZVw34pUpZlgWpnDpJb4UG8B2QyYAFbptVunW0RiqoHVCDA==
+  dependencies:
+    esm-env "^1.1.4"
+    number-flow "0.5.7"
 
 "@one-ini/wasm@0.1.1":
   version "0.1.1"
@@ -8592,6 +8601,11 @@ data-view-byte-offset@^1.0.1:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-4.1.0.tgz"
   integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
 
+dayjs@^1.11.13:
+  version "1.11.13"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.13.tgz"
+  integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
+
 debounce@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/debounce/-/debounce-2.0.0.tgz"
@@ -9264,7 +9278,7 @@ eslint-visitor-keys@^3.4.1:
   resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.4.3.tgz"
   integrity sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==
 
-esm-env@^1.2.1:
+esm-env@^1.1.4, esm-env@^1.2.1:
   version "1.2.2"
   resolved "https://registry.npmjs.org/esm-env/-/esm-env-1.2.2.tgz"
   integrity sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==
@@ -12567,6 +12581,13 @@ npm-run-path@^5.1.0:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
+number-flow@0.5.7:
+  version "0.5.7"
+  resolved "https://registry.npmjs.org/number-flow/-/number-flow-0.5.7.tgz"
+  integrity sha512-P83Y9rBgN3Xpz5677YDNtuQHZpIldw6WXeWRg0+edrfFthhV7QqRdABas5gtu07QPLvbA8XhfO69rIvbKRzYIg==
+  dependencies:
+    esm-env "^1.1.4"
+
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/number-is-nan/-/number-is-nan-1.0.1.tgz"
@@ -13781,7 +13802,7 @@ react-dom@18.2.0, "react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18.0.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-dom@19.1.0, "react-dom@>= 18.2.0", react-dom@>=16.6.0, react-dom@>=16.8, react-dom@>=16.8.1, "react-dom@>=16.8.6 || ^17.0.0 || ^18.0.0", react-dom@>=17, react-dom@>=18.0.0, "react-dom@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18 || ^19 || ^19.0.0-rc", "react-dom@^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react-dom@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", react-dom@^19.1.0:
+react-dom@19.1.0, "react-dom@>= 18.2.0", react-dom@>=16.6.0, react-dom@>=16.8, react-dom@>=16.8.1, "react-dom@>=16.8.6 || ^17.0.0 || ^18.0.0", react-dom@>=17, react-dom@>=18.0.0, "react-dom@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18 || ^19", "react-dom@^18 || ^19 || ^19.0.0-rc", "react-dom@^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom@^18.2.0 || 19.0.0-rc-66855b96-20241106 || ^19.0.0", "react-dom@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", react-dom@^19.1.0:
   version "19.1.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.1.0.tgz"
   integrity sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==
