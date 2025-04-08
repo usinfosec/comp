@@ -1,15 +1,16 @@
+import { env } from "@/env.mjs";
 import "@/styles/globals.css";
+import { auth } from "@/utils/auth";
+import { initializeServer } from "@comp/analytics/src/server";
 import { cn } from "@comp/ui/cn";
 import "@comp/ui/globals.css";
-import { env } from "@/env.mjs";
-import { initializeServer } from "@comp/analytics/src/server";
 import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { headers } from "next/headers";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://app.trycomp.ai"),
@@ -87,6 +88,10 @@ export default async function Layout(props: {
 	const { locale } = params;
 	const { children } = props;
 
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	return (
 		<html lang={locale} suppressHydrationWarning>
 			<body
@@ -96,11 +101,9 @@ export default async function Layout(props: {
 				)}
 			>
 				<NuqsAdapter>
-					<Suspense fallback={<div>Loading locale...</div>}>
-						<Providers locale={locale}>
-							<main>{children}</main>
-						</Providers>
-					</Suspense>
+					<Providers locale={locale} session={session}>
+						<main>{children}</main>
+					</Providers>
 				</NuqsAdapter>
 				<Toaster richColors />
 			</body>
