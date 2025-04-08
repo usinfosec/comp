@@ -32,8 +32,3 @@ jobs:
         run: |
           cd packages/db
           bunx prisma migrate deploy --schema=./prisma/schema/schema.prisma
-
-      - name: Generate Prisma Client
-        run: |
-          cd packages/db
-          bunx prisma generate --schema=./prisma/schema/schema.prisma
