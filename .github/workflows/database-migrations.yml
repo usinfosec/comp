@@ -30,8 +30,8 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_PROD }}
         run: |
-          cd packages/db/prisma
-          bunx prisma migrate deploy
+          cd packages/db
+          bunx prisma migrate deploy --schema=./prisma/schema/schema.prisma
 
       - name: Generate Prisma Client
         run: |
