@@ -42,24 +42,6 @@ export function PoliciesCard() {
 			}));
 	}, [policiesData?.last30DaysTotalByDay]);
 
-	if (isPoliciesError) {
-		return (
-			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
-				<CardHeader className="pb-2 flex flex-row items-center justify-between">
-					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-blue-900/50">
-							<ShieldCheck className="h-5 w-5 text-blue-400" />
-						</div>
-						<CardTitle className="text-lg">Policies</CardTitle>
-					</div>
-				</CardHeader>
-				<CardContent>
-					<p className="text-sm text-destructive">Error loading data.</p>
-				</CardContent>
-			</Card>
-		);
-	}
-
 	// Calculate published percentage using all-time data
 	const policiesPublishedPercent = useMemo(() => {
 		if (
@@ -87,6 +69,24 @@ export function PoliciesCard() {
 			? "text-green-400"
 			: "text-red-400";
 	}, [policiesData?.percentageChangeLast30Days]);
+
+	if (isPoliciesError) {
+		return (
+			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
+				<CardHeader className="pb-2 flex flex-row items-center justify-between">
+					<div className="flex items-center gap-2">
+						<div className="p-1.5 bg-blue-900/50">
+							<ShieldCheck className="h-5 w-5 text-blue-400" />
+						</div>
+						<CardTitle className="text-lg">Policies</CardTitle>
+					</div>
+				</CardHeader>
+				<CardContent>
+					<p className="text-sm text-destructive">Error loading data.</p>
+				</CardContent>
+			</Card>
+		);
+	}
 
 	return (
 		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">

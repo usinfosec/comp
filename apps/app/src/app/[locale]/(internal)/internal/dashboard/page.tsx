@@ -8,12 +8,9 @@ import { PoliciesCard } from "./components/PoliciesCard";
 import { EvidenceCard } from "./components/EvidenceCard";
 
 export default function Page() {
-	const { data: organizationsData, isLoading: isOrgsLoading } =
-		useOrganizationsAnalytics();
-
 	return (
 		<div className="space-y-4 p-4">
-			<FullScreenNumberAnimation total={organizationsData?.allTimeTotal ?? 0} />
+			{/* <FullScreenNumberAnimation total={organizationsData?.allTimeTotal ?? 0} /> */}
 			<div className="grid gap-4 grid-cols-1">
 				<OrganizationsCard />
 			</div>
