@@ -28,24 +28,6 @@ export function UsersCard() {
 		isError: isUsersError,
 	} = useUsersAnalytics();
 
-	if (isUsersError) {
-		return (
-			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
-				<CardHeader className="pb-2 flex flex-row items-center justify-between">
-					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-emerald-900/50">
-							<Users className="h-5 w-5 text-emerald-400" />
-						</div>
-						<CardTitle className="text-lg">Users</CardTitle>
-					</div>
-				</CardHeader>
-				<CardContent>
-					<p className="text-sm text-destructive">Error loading data.</p>
-				</CardContent>
-			</Card>
-		);
-	}
-
 	// Calculate chart data from the API data - use last 30 days daily data
 	const chartData = useMemo(() => {
 		if (!usersData?.last30DaysByDay) {
@@ -86,6 +68,24 @@ export function UsersCard() {
 			? "text-green-400"
 			: "text-red-400";
 	}, [usersData?.percentageChangeLast30Days]);
+
+	if (isUsersError) {
+		return (
+			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
+				<CardHeader className="pb-2 flex flex-row items-center justify-between">
+					<div className="flex items-center gap-2">
+						<div className="p-1.5 bg-emerald-900/50">
+							<Users className="h-5 w-5 text-emerald-400" />
+						</div>
+						<CardTitle className="text-lg">Users</CardTitle>
+					</div>
+				</CardHeader>
+				<CardContent>
+					<p className="text-sm text-destructive">Error loading data.</p>
+				</CardContent>
+			</Card>
+		);
+	}
 
 	return (
 		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
