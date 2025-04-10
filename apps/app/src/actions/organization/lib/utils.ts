@@ -1,7 +1,7 @@
 import type {
-  TemplateControl,
-  TemplateEvidence,
-  TemplatePolicy,
+	TemplateControl,
+	TemplateEvidence,
+	TemplatePolicy,
 } from "@comp/data";
 import { controls, evidence, frameworks, policies } from "@comp/data";
 import { db } from "@comp/db";
@@ -16,8 +16,8 @@ import { Prisma, type PrismaClient } from "@prisma/client";
  * @returns The policy template or undefined if not found
  */
 export function getPolicyById(id: string): TemplatePolicy | undefined {
-  // Use a type-safe approach to check if the key exists in the policies object
-  return Object.entries(policies).find(([key]) => key === id)?.[1];
+	// Use a type-safe approach to check if the key exists in the policies object
+	return Object.entries(policies).find(([key]) => key === id)?.[1];
 }
 
 /**
@@ -27,8 +27,8 @@ export function getPolicyById(id: string): TemplatePolicy | undefined {
  * @returns The evidence template or undefined if not found
  */
 export function getEvidenceById(id: string): TemplateEvidence | undefined {
-  // Use a type-safe approach to check if the key exists in the evidence object
-  return Object.entries(evidence).find(([key]) => key === id)?.[1];
+	// Use a type-safe approach to check if the key exists in the evidence object
+	return Object.entries(evidence).find(([key]) => key === id)?.[1];
 }
 
 /**
@@ -43,13 +43,13 @@ export function getEvidenceById(id: string): TemplateEvidence | undefined {
  * @returns Array of control templates relevant to the selected frameworks
  */
 export function getRelevantControls(
-  frameworkIds: FrameworkId[]
+	frameworkIds: FrameworkId[],
 ): TemplateControl[] {
-  return controls.filter((control) =>
-    control.mappedRequirements.some((req) =>
-      frameworkIds.includes(req.frameworkId)
-    )
-  );
+	return controls.filter((control) =>
+		control.mappedRequirements.some((req) =>
+			frameworkIds.includes(req.frameworkId),
+		),
+	);
 }
 
 /**
@@ -68,128 +68,128 @@ export function getRelevantControls(
  * @returns The created framework instance record
  */
 export async function createFrameworkInstance(
-  organizationId: string,
-  frameworkId: FrameworkId,
-  txClient?: Prisma.TransactionClient
+	organizationId: string,
+	frameworkId: FrameworkId,
+	txClient?: Prisma.TransactionClient,
 ) {
-  const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
-  // First verify the organization exists
-  const organization = await prisma.organization.findUnique({
-    where: { id: organizationId },
-  });
+	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
+	// First verify the organization exists
+	const organization = await prisma.organization.findUnique({
+		where: { id: organizationId },
+	});
 
-  if (!organization) {
-    console.error("Organization not found when creating framework", {
-      organizationId,
-      frameworkId,
-    });
-    throw new Error(`Organization with ID ${organizationId} not found`);
-  }
+	if (!organization) {
+		console.error("Organization not found when creating framework", {
+			organizationId,
+			frameworkId,
+		});
+		throw new Error(`Organization with ID ${organizationId} not found`);
+	}
 
-  // Verify the framework exists
-  const framework = frameworks[frameworkId as FrameworkId];
+	// Verify the framework exists
+	const framework = frameworks[frameworkId as FrameworkId];
 
-  if (!framework) {
-    console.error("Framework not found when creating organization framework", {
-      organizationId,
-      frameworkId,
-    });
-    throw new Error(`Framework with ID ${frameworkId} not found`);
-  }
+	if (!framework) {
+		console.error("Framework not found when creating organization framework", {
+			organizationId,
+			frameworkId,
+		});
+		throw new Error(`Framework with ID ${frameworkId} not found`);
+	}
 
-  // Check if a framework instance already exists
-  const existingFrameworkInstance = await prisma.frameworkInstance.findUnique({
-    where: {
-      organizationId_frameworkId: {
-        organizationId,
-        frameworkId: frameworkId as FrameworkId,
-      },
-    },
-  });
+	// Check if a framework instance already exists
+	const existingFrameworkInstance = await prisma.frameworkInstance.findUnique({
+		where: {
+			organizationId_frameworkId: {
+				organizationId,
+				frameworkId: frameworkId as FrameworkId,
+			},
+		},
+	});
 
-  // Create or update the framework instance
-  const frameworkInstance = existingFrameworkInstance
-    ? await prisma.frameworkInstance.update({
-        where: {
-          id: existingFrameworkInstance.id,
-        },
-        data: {
-          organizationId,
-          frameworkId: frameworkId as FrameworkId,
-        },
-      })
-    : await prisma.frameworkInstance.create({
-        data: {
-          organizationId,
-          frameworkId: frameworkId as FrameworkId,
-        },
-      });
+	// Create or update the framework instance
+	const frameworkInstance = existingFrameworkInstance
+		? await prisma.frameworkInstance.update({
+				where: {
+					id: existingFrameworkInstance.id,
+				},
+				data: {
+					organizationId,
+					frameworkId: frameworkId as FrameworkId,
+				},
+			})
+		: await prisma.frameworkInstance.create({
+				data: {
+					organizationId,
+					frameworkId: frameworkId as FrameworkId,
+				},
+			});
 
-  console.info("Created/updated organization framework", {
-    organizationId,
-    frameworkId,
-    frameworkInstanceId: frameworkInstance.id,
-  });
+	console.info("Created/updated organization framework", {
+		organizationId,
+		frameworkId,
+		frameworkInstanceId: frameworkInstance.id,
+	});
 
-  // Find all controls that apply to this specific framework
-  const frameworkControls = controls.filter((control) =>
-    control.mappedRequirements.some((req) => req.frameworkId === frameworkId)
-  );
+	// Find all controls that apply to this specific framework
+	const frameworkControls = controls.filter((control) =>
+		control.mappedRequirements.some((req) => req.frameworkId === frameworkId),
+	);
 
-  // Prepare data for batch control creation
-  const controlsToCreate = frameworkControls.map((control) => ({
-    organizationId,
-    name: control.name,
-    description: control.description,
-    // We connect frameworkInstances later or handle differently if createMany doesn't support relation connection easily
-  }));
+	// Prepare data for batch control creation
+	const controlsToCreate = frameworkControls.map((control) => ({
+		organizationId,
+		name: control.name,
+		description: control.description,
+		// We connect frameworkInstances later or handle differently if createMany doesn't support relation connection easily
+	}));
 
-  // Batch create controls if there are any to create
-  if (controlsToCreate.length > 0) {
-    await prisma.control.createMany({
-      data: controlsToCreate,
-      skipDuplicates: true, // Assuming we want to skip if a control with the same unique constraint exists
-    });
+	// Batch create controls if there are any to create
+	if (controlsToCreate.length > 0) {
+		await prisma.control.createMany({
+			data: controlsToCreate,
+			skipDuplicates: true, // Assuming we want to skip if a control with the same unique constraint exists
+		});
 
-    // Fetch the controls we just created or found (based on name and orgId)
-    // to get their IDs and connect them to the framework instance
-    const createdOrFoundDbControls = await prisma.control.findMany({
-      where: {
-        organizationId,
-        name: { in: frameworkControls.map((c: TemplateControl) => c.name) },
-      },
-      select: { id: true, name: true }, // Select only necessary fields
-    });
+		// Fetch the controls we just created or found (based on name and orgId)
+		// to get their IDs and connect them to the framework instance
+		const createdOrFoundDbControls = await prisma.control.findMany({
+			where: {
+				organizationId,
+				name: { in: frameworkControls.map((c: TemplateControl) => c.name) },
+			},
+			select: { id: true, name: true }, // Select only necessary fields
+		});
 
-    // Connect the controls to the framework instance
-    if (createdOrFoundDbControls.length > 0) {
-      await prisma.frameworkInstance.update({
-        where: { id: frameworkInstance.id },
-        data: {
-          controls: {
-            connect: createdOrFoundDbControls.map((c) => ({ id: c.id })),
-          },
-        },
-      });
-    }
+		// Connect the controls to the framework instance
+		if (createdOrFoundDbControls.length > 0) {
+			await prisma.frameworkInstance.update({
+				where: { id: frameworkInstance.id },
+				data: {
+					controls: {
+						connect: createdOrFoundDbControls.map((c) => ({ id: c.id })),
+					},
+				},
+			});
+		}
 
-    console.info(
-      `Batch created/found ${createdOrFoundDbControls.length} controls for framework ${frameworkId}`
-    );
+		console.info(
+			`Batch created/found ${createdOrFoundDbControls.length} controls for framework ${frameworkId}`,
+		);
 
-    // Create requirement maps for the controls
-    // Pass the fetched controls with IDs to createRequirementMaps
-    await createRequirementMaps(
-      { id: frameworkInstance.id, frameworkId },
-      createdOrFoundDbControls, // Pass controls with IDs
-      frameworkControls, // Pass original templates for mapping logic
-      txClient // Pass the transaction client down
-    );
-  } else {
-    console.info(`No new controls to create for framework ${frameworkId}`);
-  }
+		// Create requirement maps for the controls
+		// Pass the fetched controls with IDs to createRequirementMaps
+		await createRequirementMaps(
+			{ id: frameworkInstance.id, frameworkId },
+			createdOrFoundDbControls, // Pass controls with IDs
+			frameworkControls, // Pass original templates for mapping logic
+			txClient, // Pass the transaction client down
+		);
+	} else {
+		console.info(`No new controls to create for framework ${frameworkId}`);
+	}
 
-  return frameworkInstance;
+	return frameworkInstance;
 }
 
 /**
@@ -209,83 +209,83 @@ export async function createFrameworkInstance(
  * @returns The number of requirement maps created
  */
 export async function createRequirementMaps(
-  frameworkInstance: { id: string; frameworkId: FrameworkId },
-  controls: { id: string; name: string }[],
-  templateControls: TemplateControl[],
-  txClient?: Prisma.TransactionClient
+	frameworkInstance: { id: string; frameworkId: FrameworkId },
+	controls: { id: string; name: string }[],
+	templateControls: TemplateControl[],
+	txClient?: Prisma.TransactionClient,
 ) {
-  const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
+	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
 
-  console.info("Creating requirement maps", {
-    frameworkInstanceId: frameworkInstance.id,
-    controlCount: controls.length,
-  });
+	console.info("Creating requirement maps", {
+		frameworkInstanceId: frameworkInstance.id,
+		controlCount: controls.length,
+	});
 
-  // Create a map for efficient control lookup
-  const controlMap = new Map(
-    controls.map((control) => [control.name, control])
-  );
+	// Create a map for efficient control lookup
+	const controlMap = new Map(
+		controls.map((control) => [control.name, control]),
+	);
 
-  // Prepare data for batch requirement map creation
-  const requirementMapsToCreate: {
-    controlId: string;
-    frameworkInstanceId: string;
-    requirementId: RequirementId;
-  }[] = [];
+	// Prepare data for batch requirement map creation
+	const requirementMapsToCreate: {
+		controlId: string;
+		frameworkInstanceId: string;
+		requirementId: RequirementId;
+	}[] = [];
 
-  // For each template control
-  for (const templateControl of templateControls) {
-    // Find the corresponding created control
-    const control = controlMap.get(templateControl.name);
-    if (!control) {
-      console.warn(`Control not found for template: ${templateControl.name}`);
-      continue;
-    }
+	// For each template control
+	for (const templateControl of templateControls) {
+		// Find the corresponding created control
+		const control = controlMap.get(templateControl.name);
+		if (!control) {
+			console.warn(`Control not found for template: ${templateControl.name}`);
+			continue;
+		}
 
-    // Get requirements for this framework
-    const frameworkRequirements = templateControl.mappedRequirements.filter(
-      (req) => req.frameworkId === frameworkInstance.frameworkId
-    );
+		// Get requirements for this framework
+		const frameworkRequirements = templateControl.mappedRequirements.filter(
+			(req) => req.frameworkId === frameworkInstance.frameworkId,
+		);
 
-    // Create requirement maps
-    for (const requirement of frameworkRequirements) {
-      // Prepare data instead of creating immediately
-      requirementMapsToCreate.push({
-        controlId: control.id,
-        frameworkInstanceId: frameworkInstance.id,
-        requirementId:
-          `${frameworkInstance.frameworkId}_${requirement.requirementId}` as RequirementId,
-      });
-    }
-  }
+		// Create requirement maps
+		for (const requirement of frameworkRequirements) {
+			// Prepare data instead of creating immediately
+			requirementMapsToCreate.push({
+				controlId: control.id,
+				frameworkInstanceId: frameworkInstance.id,
+				requirementId:
+					`${frameworkInstance.frameworkId}_${requirement.requirementId}` as RequirementId,
+			});
+		}
+	}
 
-  // Batch create requirement maps if there are any
-  let requirementMapsCreatedCount = 0;
-  if (requirementMapsToCreate.length > 0) {
-    try {
-      const result = await prisma.requirementMap.createMany({
-        data: requirementMapsToCreate,
-        skipDuplicates: true, // Skip if the mapping already exists
-      });
-      requirementMapsCreatedCount = result.count;
-      console.info(
-        `Batch created ${requirementMapsCreatedCount} requirement maps`
-      );
-    } catch (error) {
-      console.error(
-        `Error batch creating requirement maps for framework ${frameworkInstance.frameworkId}`,
-        { error }
-      );
+	// Batch create requirement maps if there are any
+	let requirementMapsCreatedCount = 0;
+	if (requirementMapsToCreate.length > 0) {
+		try {
+			const result = await prisma.requirementMap.createMany({
+				data: requirementMapsToCreate,
+				skipDuplicates: true, // Skip if the mapping already exists
+			});
+			requirementMapsCreatedCount = result.count;
+			console.info(
+				`Batch created ${requirementMapsCreatedCount} requirement maps`,
+			);
+		} catch (error) {
+			console.error(
+				`Error batch creating requirement maps for framework ${frameworkInstance.frameworkId}`,
+				{ error },
+			);
 
-      throw new Error("Failed to create requirement maps");
-    }
-  } else {
-    console.info(
-      `No new requirement maps to create for framework ${frameworkInstance.frameworkId}`
-    );
-  }
+			throw new Error("Failed to create requirement maps");
+		}
+	} else {
+		console.info(
+			`No new requirement maps to create for framework ${frameworkInstance.frameworkId}`,
+		);
+	}
 
-  return requirementMapsCreatedCount;
+	return requirementMapsCreatedCount;
 }
 
 /**
@@ -306,129 +306,157 @@ export async function createRequirementMaps(
  * @returns Map of template policy IDs to created policy records
  */
 export async function createOrganizationPolicies(
-  organizationId: string,
-  relevantControls: TemplateControl[],
-  userId: string,
-  txClient?: Prisma.TransactionClient
+	organizationId: string,
+	relevantControls: TemplateControl[],
+	userId: string,
+	txClient?: Prisma.TransactionClient,
 ) {
-  const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
+	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
 
-  if (!organizationId) {
-    throw new Error("Not authorized - no organization found");
-  }
+	if (!organizationId) {
+		throw new Error("Not authorized - no organization found");
+	}
 
-  // Extract all policy IDs required by the controls
-  const policyIds = new Set<string>();
-  for (const control of relevantControls) {
-    for (const artifact of control.mappedArtifacts) {
-      if (artifact.type === "policy") {
-        policyIds.add(artifact.policyId);
-      }
-    }
-  }
+	// 1. Gather Required Template IDs and map templateId -> template
+	const requiredTemplatesMap = new Map<string, TemplatePolicy>();
+	for (const control of relevantControls) {
+		for (const artifact of control.mappedArtifacts) {
+			if (
+				artifact.type === "policy" &&
+				!requiredTemplatesMap.has(artifact.policyId)
+			) {
+				const policyTemplate = getPolicyById(artifact.policyId);
+				if (policyTemplate) {
+					requiredTemplatesMap.set(artifact.policyId, policyTemplate);
+				} else {
+					console.warn(`Policy template not found: ${artifact.policyId}`);
+				}
+			}
+		}
+	}
 
-  if (policyIds.size === 0) {
-    console.info("No policies required for the selected controls.");
-    return new Map<string, any>(); // Return empty map if no policies needed
-  }
+	const requiredTemplateIds = Array.from(requiredTemplatesMap.keys());
 
-  console.info("Preparing to create organization policies", {
-    organizationId,
-    policyCount: policyIds.size,
-    policyIds: Array.from(policyIds),
-  });
+	if (requiredTemplateIds.length === 0) {
+		console.info("No policies required for the selected controls.");
+		return new Map<string, any>();
+	}
 
-  // Find the member record for the user once
-  const memberRecord = await prisma.member.findFirst({
-    where: {
-      organizationId,
-      userId,
-    },
-    select: { id: true }, // Select only the ID
-  });
+	console.info("Required policy templates identified", {
+		organizationId,
+		count: requiredTemplateIds.length,
+		templateIds: requiredTemplateIds,
+	});
 
-  if (!memberRecord) {
-    console.warn(
-      `Member record not found for user: ${userId} in org ${organizationId}. Cannot assign policies.`
-    );
-  }
+	// 2. Check Existing Records
+	const existingDbPolicies = await prisma.policy.findMany({
+		where: {
+			organizationId,
+			name: {
+				in: requiredTemplateIds.map(
+					(id) => requiredTemplatesMap.get(id)!.metadata.name,
+				),
+			},
+		},
+	});
+	const existingPolicyNameMap = new Map(
+		existingDbPolicies.map((p) => [p.name, p]),
+	);
+	const finalPoliciesMap = new Map<string, any>();
 
-  const policiesToCreateData: Prisma.PolicyCreateManyInput[] = [];
-  const policyTemplateMap = new Map<string, TemplatePolicy>();
+	// Populate map with existing policies, keyed by template ID
+	for (const [templateId, template] of requiredTemplatesMap.entries()) {
+		const existingPolicy = existingPolicyNameMap.get(template.metadata.name);
+		if (existingPolicy) {
+			finalPoliciesMap.set(templateId, existingPolicy);
+		}
+	}
 
-  for (const policyId of policyIds) {
-    const policyTemplate = getPolicyById(policyId);
-    if (!policyTemplate) {
-      console.warn(`Policy template not found: ${policyId}`);
-      continue;
-    }
-    policyTemplateMap.set(policyId, policyTemplate); // Store template for later use
+	// 3. Identify Missing Templates
+	const missingTemplateIds = requiredTemplateIds.filter(
+		(templateId) => !finalPoliciesMap.has(templateId),
+	);
 
-    policiesToCreateData.push({
-      organizationId,
-      name: policyTemplate.metadata.name,
-      description: policyTemplate.metadata.description,
-      status: "draft" as PolicyStatus,
-      content: policyTemplate.content as InputJsonValue[],
-      assigneeId: memberRecord?.id || null, // Use found member ID or null
-      frequency: policyTemplate.metadata.frequency,
-      department: policyTemplate.metadata.department,
-    });
-  }
+	if (missingTemplateIds.length === 0) {
+		console.info("All required policies already exist.");
+		return finalPoliciesMap; // Return map containing only existing policies
+	}
 
-  if (policiesToCreateData.length === 0) {
-    console.info("No valid policy templates found to create policies.");
-    return new Map<string, any>();
-  }
+	console.info("Policies to be created", {
+		organizationId,
+		count: missingTemplateIds.length,
+		templateIds: missingTemplateIds,
+	});
 
-  // Batch create policies
-  try {
-    await prisma.policy.createMany({
-      data: policiesToCreateData,
-      skipDuplicates: true, // Assuming name+orgId might be unique, or handle constraints appropriately
-    });
-    console.info(
-      `Batch created ${policiesToCreateData.length} policies for org ${organizationId}`
-    );
-  } catch (error) {
-    console.error(`Error batch creating policies for org ${organizationId}`, {
-      error,
-    });
-    // Depending on requirements, might need to throw or handle differently
-    throw new Error("Failed to create organization policies"); // Throw for now
-  }
+	// Prepare data for missing policies
+	const memberRecord = await prisma.member.findFirst({
+		where: { organizationId, userId },
+		select: { id: true },
+	});
+	if (!memberRecord) {
+		console.warn(
+			`Member record not found for user: ${userId} in org ${organizationId}. Cannot assign policies.`,
+		);
+	}
 
-  // Fetch the created policies to return them with IDs
-  // We need to map back using a unique identifier, e.g., name + organizationId
-  const createdPolicyNames = policiesToCreateData.map(
-    (p: Prisma.PolicyCreateManyInput) => p.name
-  );
-  const createdDbPolicies = await prisma.policy.findMany({
-    where: {
-      organizationId,
-      name: { in: createdPolicyNames },
-    },
-  });
+	const policiesToCreateData: Prisma.PolicyCreateManyInput[] = [];
+	for (const templateId of missingTemplateIds) {
+		const policyTemplate = requiredTemplatesMap.get(templateId)!;
+		policiesToCreateData.push({
+			organizationId,
+			name: policyTemplate.metadata.name,
+			description: policyTemplate.metadata.description,
+			status: "draft" as PolicyStatus,
+			content: policyTemplate.content as InputJsonValue[],
+			assigneeId: memberRecord?.id || null,
+			frequency: policyTemplate.metadata.frequency,
+			department: policyTemplate.metadata.department,
+		});
+	}
 
-  // Create the final map to return, mapping templateId to the created policy record
-  const createdPoliciesMap = new Map<string, any>();
-  const dbPolicyMap = new Map(createdDbPolicies.map((p) => [p.name, p]));
+	// 4. Create Only Missing Records
+	if (policiesToCreateData.length > 0) {
+		try {
+			await prisma.policy.createMany({
+				data: policiesToCreateData,
+				skipDuplicates: true, // Keep for safety, though logic should prevent duplicates
+			});
+			console.info(
+				`Batch created ${policiesToCreateData.length} policies for org ${organizationId}`,
+			);
 
-  for (const [templateId, template] of policyTemplateMap.entries()) {
-    const dbPolicy = dbPolicyMap.get(template.metadata.name);
-    if (dbPolicy) {
-      createdPoliciesMap.set(templateId, {
-        ...dbPolicy,
-        templateId: templateId, // Add templateId back for consistency if needed elsewhere
-      });
-    } else {
-      console.warn(
-        `Could not find created policy in DB for template: ${templateId} (Name: ${template.metadata.name})`
-      );
-    }
-  }
+			// Fetch the newly created policies to add them to the map
+			const newlyCreatedDbPolicies = await prisma.policy.findMany({
+				where: {
+					organizationId,
+					name: { in: policiesToCreateData.map((p) => p.name) },
+				},
+			});
+			const newPolicyNameMap = new Map(
+				newlyCreatedDbPolicies.map((p) => [p.name, p]),
+			);
 
-  return createdPoliciesMap;
+			// 5. Combine and Return Map (Add newly created policies)
+			for (const templateId of missingTemplateIds) {
+				const policyTemplate = requiredTemplatesMap.get(templateId)!;
+				const newPolicy = newPolicyNameMap.get(policyTemplate.metadata.name);
+				if (newPolicy) {
+					finalPoliciesMap.set(templateId, newPolicy);
+				} else {
+					console.warn(
+						`Could not find newly created policy in DB for template: ${templateId} (Name: ${policyTemplate.metadata.name})`,
+					);
+				}
+			}
+		} catch (error) {
+			console.error(`Error batch creating policies for org ${organizationId}`, {
+				error,
+			});
+			throw new Error("Failed to create organization policies");
+		}
+	}
+
+	return finalPoliciesMap;
 }
 
 /**
@@ -448,133 +476,156 @@ export async function createOrganizationPolicies(
  * @returns Map of template evidence IDs to created evidence records
  */
 export async function createOrganizationEvidence(
-  organizationId: string,
-  relevantControls: TemplateControl[],
-  userId: string,
-  txClient?: Prisma.TransactionClient
+	organizationId: string,
+	relevantControls: TemplateControl[],
+	userId: string,
+	txClient?: Prisma.TransactionClient,
 ) {
-  const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
+	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
 
-  if (!organizationId) {
-    throw new Error("Not authorized - no organization found");
-  }
+	if (!organizationId) {
+		throw new Error("Not authorized - no organization found");
+	}
 
-  // Extract all evidence IDs required by the controls
-  const evidenceIds = new Set<string>();
-  for (const control of relevantControls) {
-    for (const artifact of control.mappedArtifacts) {
-      if (artifact.type === "evidence") {
-        evidenceIds.add(artifact.evidenceId);
-      }
-    }
-  }
+	// 1. Gather Required Template IDs and map templateId -> template
+	const requiredTemplatesMap = new Map<string, TemplateEvidence>();
+	for (const control of relevantControls) {
+		for (const artifact of control.mappedArtifacts) {
+			if (
+				artifact.type === "evidence" &&
+				!requiredTemplatesMap.has(artifact.evidenceId)
+			) {
+				const evidenceTemplate = getEvidenceById(artifact.evidenceId);
+				if (evidenceTemplate) {
+					requiredTemplatesMap.set(artifact.evidenceId, evidenceTemplate);
+				} else {
+					console.warn(`Evidence template not found: ${artifact.evidenceId}`);
+				}
+			}
+		}
+	}
 
-  if (evidenceIds.size === 0) {
-    console.info("No evidence required for the selected controls.");
-    return new Map<string, any>(); // Return empty map if no evidence needed
-  }
+	const requiredTemplateIds = Array.from(requiredTemplatesMap.keys());
 
-  console.info("Preparing to create evidence record instances", {
-    organizationId,
-    evidenceCount: evidenceIds.size,
-    evidenceIds: Array.from(evidenceIds),
-  });
+	if (requiredTemplateIds.length === 0) {
+		console.info("No evidence required for the selected controls.");
+		return new Map<string, any>();
+	}
 
-  // Find the member record for the user once
-  const memberRecord = await prisma.member.findFirst({
-    where: {
-      organizationId,
-      userId,
-      isActive: true, // Keep the isActive check if necessary
-    },
-    select: { id: true }, // Select only the ID
-  });
+	console.info("Required evidence templates identified", {
+		organizationId,
+		count: requiredTemplateIds.length,
+		templateIds: requiredTemplateIds,
+	});
 
-  if (!memberRecord) {
-    console.warn(
-      `Active member record not found for user: ${userId} in org ${organizationId}. Cannot assign evidence.`
-    );
-    // Decide if we should throw, or proceed without an assignee
-  }
+	// 2. Check Existing Records
+	const existingDbEvidence = await prisma.evidence.findMany({
+		where: {
+			organizationId,
+			name: {
+				in: requiredTemplateIds.map((id) => requiredTemplatesMap.get(id)!.name),
+			},
+		},
+	});
+	const existingEvidenceNameMap = new Map(
+		existingDbEvidence.map((e) => [e.name, e]),
+	);
+	const finalEvidenceMap = new Map<string, any>();
 
-  const evidenceToCreateData: Prisma.EvidenceCreateManyInput[] = [];
-  const evidenceTemplateMap = new Map<string, TemplateEvidence>();
+	// Populate map with existing evidence, keyed by template ID
+	for (const [templateId, template] of requiredTemplatesMap.entries()) {
+		const existingEvidence = existingEvidenceNameMap.get(template.name);
+		if (existingEvidence) {
+			finalEvidenceMap.set(templateId, existingEvidence);
+		}
+	}
 
-  for (const evidenceId of evidenceIds) {
-    const evidenceTemplate = getEvidenceById(evidenceId);
-    if (!evidenceTemplate) {
-      console.warn(`Evidence template not found: ${evidenceId}`);
-      continue;
-    }
-    evidenceTemplateMap.set(evidenceId, evidenceTemplate); // Store template for later use
+	// 3. Identify Missing Templates
+	const missingTemplateIds = requiredTemplateIds.filter(
+		(templateId) => !finalEvidenceMap.has(templateId),
+	);
 
-    evidenceToCreateData.push({
-      organizationId,
-      name: evidenceTemplate.name,
-      description: evidenceTemplate.description,
-      frequency: evidenceTemplate.frequency,
-      assigneeId: memberRecord?.id || null, // Use found member ID or null
-      department: evidenceTemplate.department,
-      // Defaults for array fields if createMany requires them
-      additionalUrls: [],
-      fileUrls: [],
-    });
-  }
+	if (missingTemplateIds.length === 0) {
+		console.info("All required evidence already exists.");
+		return finalEvidenceMap; // Return map containing only existing evidence
+	}
 
-  if (evidenceToCreateData.length === 0) {
-    console.info(
-      "No valid evidence templates found to create evidence records."
-    );
-    return new Map<string, any>();
-  }
+	console.info("Evidence to be created", {
+		organizationId,
+		count: missingTemplateIds.length,
+		templateIds: missingTemplateIds,
+	});
 
-  // Batch create evidence records
-  try {
-    await prisma.evidence.createMany({
-      data: evidenceToCreateData,
-      skipDuplicates: true, // Assuming name+orgId might be unique
-    });
-    console.info(
-      `Batch created ${evidenceToCreateData.length} evidence records for org ${organizationId}`
-    );
-  } catch (error) {
-    console.error(
-      `Error batch creating evidence records for org ${organizationId}`,
-      { error }
-    );
-    throw new Error("Failed to create organization evidence");
-  }
+	// Prepare data for missing evidence
+	const memberRecord = await prisma.member.findFirst({
+		where: { organizationId, userId, isActive: true },
+		select: { id: true },
+	});
+	if (!memberRecord) {
+		console.warn(
+			`Active member record not found for user: ${userId} in org ${organizationId}. Cannot assign evidence.`,
+		);
+	}
 
-  // Fetch the created evidence records to return them with IDs
-  const createdEvidenceNames = evidenceToCreateData.map(
-    (e: Prisma.EvidenceCreateManyInput) => e.name
-  );
-  const createdDbEvidence = await prisma.evidence.findMany({
-    where: {
-      organizationId,
-      name: { in: createdEvidenceNames },
-    },
-  });
+	const evidenceToCreateData: Prisma.EvidenceCreateManyInput[] = [];
+	for (const templateId of missingTemplateIds) {
+		const evidenceTemplate = requiredTemplatesMap.get(templateId)!;
+		evidenceToCreateData.push({
+			organizationId,
+			name: evidenceTemplate.name,
+			description: evidenceTemplate.description,
+			frequency: evidenceTemplate.frequency,
+			assigneeId: memberRecord?.id || null,
+			department: evidenceTemplate.department,
+			additionalUrls: [],
+			fileUrls: [],
+		});
+	}
 
-  // Create the final map to return, mapping templateId to the created evidence record
-  const createdEvidenceMap = new Map<string, any>();
-  const dbEvidenceMap = new Map(createdDbEvidence.map((e) => [e.name, e]));
+	// 4. Create Only Missing Records
+	if (evidenceToCreateData.length > 0) {
+		try {
+			await prisma.evidence.createMany({
+				data: evidenceToCreateData,
+				skipDuplicates: true, // Keep for safety
+			});
+			console.info(
+				`Batch created ${evidenceToCreateData.length} evidence records for org ${organizationId}`,
+			);
 
-  for (const [templateId, template] of evidenceTemplateMap.entries()) {
-    const dbEvidence = dbEvidenceMap.get(template.name);
-    if (dbEvidence) {
-      createdEvidenceMap.set(templateId, {
-        ...dbEvidence,
-        templateId: templateId, // Add templateId back for consistency
-      });
-    } else {
-      console.warn(
-        `Could not find created evidence in DB for template: ${templateId} (Name: ${template.name})`
-      );
-    }
-  }
+			// Fetch the newly created evidence to add them to the map
+			const newlyCreatedDbEvidence = await prisma.evidence.findMany({
+				where: {
+					organizationId,
+					name: { in: evidenceToCreateData.map((e) => e.name) },
+				},
+			});
+			const newEvidenceNameMap = new Map(
+				newlyCreatedDbEvidence.map((e) => [e.name, e]),
+			);
 
-  return createdEvidenceMap;
+			// 5. Combine and Return Map (Add newly created evidence)
+			for (const templateId of missingTemplateIds) {
+				const evidenceTemplate = requiredTemplatesMap.get(templateId)!;
+				const newEvidence = newEvidenceNameMap.get(evidenceTemplate.name);
+				if (newEvidence) {
+					finalEvidenceMap.set(templateId, newEvidence);
+				} else {
+					console.warn(
+						`Could not find newly created evidence in DB for template: ${templateId} (Name: ${evidenceTemplate.name})`,
+					);
+				}
+			}
+		} catch (error) {
+			console.error(
+				`Error batch creating evidence records for org ${organizationId}`,
+				{ error },
+			);
+			throw new Error("Failed to create organization evidence");
+		}
+	}
+
+	return finalEvidenceMap;
 }
 
 /**
@@ -596,136 +647,166 @@ export async function createOrganizationEvidence(
  * @returns Object with success status and artifact count
  */
 export async function createControlArtifacts(
-  organizationId: string,
-  frameworkInstanceIds: string[],
-  relevantControls: TemplateControl[],
-  createdPolicies: Map<string, any>,
-  createdEvidence: Map<string, any>,
-  txClient?: Prisma.TransactionClient
+	organizationId: string,
+	frameworkInstanceIds: string[],
+	relevantControls: TemplateControl[],
+	createdPolicies: Map<string, any>,
+	createdEvidence: Map<string, any>,
+	txClient?: Prisma.TransactionClient,
 ) {
-  const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
+	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
 
-  if (!organizationId) {
-    throw new Error("Not authorized - no organization found");
-  }
+	if (!organizationId) {
+		throw new Error("Not authorized - no organization found");
+	}
 
-  console.info("Creating organization control artifacts", {
-    organizationId,
-    frameworkInstanceIds,
-    relevantControlsCount: relevantControls.length,
-  });
+	console.info("Creating/Verifying organization control artifacts", {
+		organizationId,
+		frameworkInstanceIds,
+		relevantControlsCount: relevantControls.length,
+	});
 
-  // Get all controls for this organization and framework instances
-  const dbControls = await prisma.control.findMany({
-    where: {
-      organizationId,
-      frameworkInstances: {
-        some: {
-          id: {
-            in: frameworkInstanceIds,
-          },
-        },
-      },
-    },
-  });
+	// 1. Get all relevant controls from DB for this organization
+	const dbControls = await prisma.control.findMany({
+		where: {
+			organizationId,
+			// Filter by name based on relevantControls to narrow down the search
+			name: { in: relevantControls.map((c) => c.name) },
+		},
+		select: { id: true, name: true }, // Select only necessary fields
+	});
 
-  // Create a mapping from control name to database control record for efficient lookup
-  const controlMap = new Map<string, any>();
-  for (const control of dbControls) {
-    controlMap.set(control.name, control);
-  }
+	// Create a mapping from control name to database control record for efficient lookup
+	const controlMap = new Map<string, { id: string }>();
+	for (const control of dbControls) {
+		controlMap.set(control.name, control);
+	}
 
-  // Create artifacts for each control
-  let artifactsCreated = 0;
+	// 2. Fetch Existing Artifacts linked to these controls
+	const controlIds = dbControls.map((c) => c.id);
+	const existingArtifacts = await prisma.artifact.findMany({
+		where: {
+			organizationId,
+			controls: {
+				some: {
+					id: { in: controlIds },
+				},
+			},
+		},
+		select: {
+			policyId: true,
+			evidenceId: true,
+			controls: { select: { id: true } }, // Fetch linked control IDs
+		},
+	});
 
-  for (const control of relevantControls) {
-    const dbControl = controlMap.get(control.name);
+	// 3. Build Existing Links Set (ControlID-PolicyID or ControlID-EvidenceID)
+	const existingLinks = new Set<string>();
+	for (const artifact of existingArtifacts) {
+		const targetId = artifact.policyId ?? artifact.evidenceId;
+		if (!targetId) continue; // Should not happen if schema is correct
 
-    if (!dbControl) {
-      console.warn(
-        `Control not found in database: ${control.name}, skipping artifact creation.`
-      );
-      continue;
-    }
+		// An artifact might be linked to multiple controls, iterate through them
+		for (const linkedControl of artifact.controls) {
+			// Revert to template literal as preferred by linter
+			existingLinks.add(`${linkedControl.id}-${targetId}`);
+		}
+	}
+	console.info(`Found ${existingLinks.size} existing artifact links.`);
 
-    // Create artifacts for each policy and evidence mapped to this control
-    for (const artifact of control.mappedArtifacts) {
-      try {
-        if (artifact.type === "policy") {
-          // Link control to a policy
-          const policy = createdPolicies.get(artifact.policyId);
+	let artifactsCreatedCount = 0;
+	// Removed the batch preparation array and related variables
 
-          if (!policy) {
-            console.warn(
-              `Policy not found for artifact: ${artifact.policyId} (Control: ${control.name}), skipping policy artifact.`
-            );
-            continue;
-          }
+	console.info(`Attempting to create missing artifact links.`);
 
-          // Create the policy artifact
-          await prisma.artifact.create({
-            data: {
-              type: "policy",
-              policyId: policy.id,
-              organizationId,
-              controls: {
-                connect: {
-                  id: dbControl.id,
-                },
-              },
-            },
-          });
+	for (const templateControl of relevantControls) {
+		const dbControl = controlMap.get(templateControl.name);
+		if (!dbControl) continue;
 
-          artifactsCreated++;
-        } else if (artifact.type === "evidence") {
-          // Link control to evidence
-          const evidenceRecord = createdEvidence.get(artifact.evidenceId);
+		for (const templateArtifact of templateControl.mappedArtifacts) {
+			let createData: Prisma.ArtifactCreateInput | null = null;
+			let linkKey: string | null = null; // Initialize linkKey as potentially null
 
-          if (!evidenceRecord) {
-            console.warn(
-              `Evidence not found for artifact: ${artifact.evidenceId} (Control: ${control.name}), skipping evidence artifact.`
-            );
-            continue;
-          }
+			if (templateArtifact.type === "policy") {
+				const policy = createdPolicies.get(templateArtifact.policyId);
+				// Ensure policy and policy.id exist before proceeding
+				if (policy?.id) {
+					const targetDbId = policy.id;
+					// Revert to template literal as preferred by linter
+					linkKey = `${dbControl.id}-${targetDbId}`;
 
-          // Create the evidence artifact
-          await prisma.artifact.create({
-            data: {
-              type: "evidence",
-              evidenceId: evidenceRecord.id,
-              organizationId,
-              controls: {
-                connect: {
-                  id: dbControl.id,
-                },
-              },
-            },
-          });
+					// Check existence only if linkKey is valid
+					if (!existingLinks.has(linkKey)) {
+						createData = {
+							type: "policy",
+							policy: { connect: { id: targetDbId } },
+							organization: { connect: { id: organizationId } },
+							controls: { connect: { id: dbControl.id } },
+						};
+					}
+				} else {
+					console.warn(
+						`Policy not found in map for template: ${templateArtifact.policyId} (Control: ${templateControl.name}), skipping artifact.`,
+					);
+				}
+			} else if (templateArtifact.type === "evidence") {
+				const evidenceRecord = createdEvidence.get(templateArtifact.evidenceId);
+				// Ensure evidenceRecord and evidenceRecord.id exist before proceeding
+				if (evidenceRecord?.id) {
+					const targetDbId = evidenceRecord.id;
+					// Revert to template literal as preferred by linter
+					linkKey = `${dbControl.id}-${targetDbId}`;
 
-          artifactsCreated++;
-        }
-      } catch (error) {
-        if (
-          error instanceof Prisma.PrismaClientKnownRequestError &&
-          error.code === "P2002"
-        ) {
-          console.warn(
-            `Artifact link already exists for control ${control.name}, skipping creation.`
-          );
-        } else {
-          console.error(`Error creating artifact for control ${control.name}`, {
-            error,
-            artifactDetails: artifact, // Log artifact details for debugging
-          });
-          throw new Error(
-            `Failed to create artifact for control ${control.name}`
-          );
-        }
-      }
-    }
-  }
+					// Check existence only if linkKey is valid
+					if (!existingLinks.has(linkKey)) {
+						createData = {
+							type: "evidence",
+							evidence: { connect: { id: targetDbId } },
+							organization: { connect: { id: organizationId } },
+							controls: { connect: { id: dbControl.id } },
+						};
+					}
+				} else {
+					console.warn(
+						`Evidence not found in map for template: ${templateArtifact.evidenceId} (Control: ${templateControl.name}), skipping artifact.`,
+					);
+				}
+			}
 
-  console.info(`Created/verified ${artifactsCreated} artifacts for controls`);
+			// Create artifact only if createData is set (meaning link didn't exist) and linkKey is valid
+			if (createData && linkKey) {
+				// Local variable for catch block scope
+				const currentLinkKey = linkKey;
+				try {
+					await prisma.artifact.create({ data: createData });
+					artifactsCreatedCount++;
+					existingLinks.add(currentLinkKey); // Add to set after successful creation
+				} catch (error) {
+					if (
+						error instanceof Prisma.PrismaClientKnownRequestError &&
+						error.code === "P2002"
+					) {
+						// Handle potential race condition
+						// Check linkKey again for safety in error logging
+						console.warn(
+							`Artifact link ${currentLinkKey || "(unknown)"} likely created concurrently, skipping.`,
+						);
+						// Add it to the set anyway if race condition occurred
+						existingLinks.add(currentLinkKey);
+					} else {
+						// Check linkKey again for safety in error logging
+						const errorLinkKey = currentLinkKey || "(unknown)";
+						console.error(`Error creating artifact link ${errorLinkKey}`, {
+							error,
+						});
+						throw new Error(`Failed to create artifact link ${errorLinkKey}`);
+					}
+				}
+			}
+		}
+	}
 
-  return { success: true, artifactsCreated };
+	console.info(`Created ${artifactsCreatedCount} new artifacts for controls.`);
+
+	return { success: true, artifactsCreated: artifactsCreatedCount };
 }
