@@ -50,7 +50,7 @@ export const ControlRequirementsTableColumns: ColumnDef<RequirementTableData>[] 
 				const isCompleted = requirement.policy
 					? requirement.policy?.status === "published"
 					: requirement.evidence
-						? requirement.evidence?.published
+						? requirement.evidence?.status === "published"
 						: false;
 
 				return (

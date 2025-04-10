@@ -3,11 +3,12 @@
 import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 import { updateTaskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
-import { STATUS_TYPES, Status, type StatusType } from "@/components/status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import { type Task, TaskStatus, type User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -28,11 +29,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { cn } from "@comp/ui/cn";
 
 export function UpdateTaskForm({
 	task,
@@ -119,14 +118,14 @@ export function UpdateTaskForm({
 												placeholder={t("risk.tasks.form.status_placeholder")}
 											>
 												{field.value && (
-													<Status status={field.value as StatusType} />
+													<StatusIndicator status={field.value} />
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{STATUS_TYPES.map((status) => (
+											{Object.values(TaskStatus).map((status) => (
 												<SelectItem key={status} value={status}>
-													<Status status={status} />
+													<StatusIndicator status={status} />
 												</SelectItem>
 											))}
 										</SelectContent>
