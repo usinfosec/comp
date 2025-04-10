@@ -8,29 +8,21 @@ import {
 } from "@tanstack/react-table";
 
 import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { useParams, useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
+import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { Badge } from "@comp/ui/badge";
-import { Status, type StatusType } from "@/components/status";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@comp/ui/dropdown-menu";
+
+import Link from "next/link";
 import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "./employee-status";
-import Link from "next/link";
 
 interface DataTableProps {
 	columnHeaders: {
