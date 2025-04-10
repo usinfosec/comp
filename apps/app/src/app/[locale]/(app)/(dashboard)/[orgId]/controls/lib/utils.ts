@@ -2,9 +2,6 @@ import type { ControlWithRelations } from "../data/queries";
 import { StatusType } from "@/components/status-indicator";
 
 export function getControlStatus(control: ControlWithRelations): StatusType {
-  console.log({
-    control,
-  });
   if (!control.artifacts.length) {
     return "not_started";
   }
