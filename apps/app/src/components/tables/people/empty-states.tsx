@@ -6,7 +6,7 @@ import { Users } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { Plus } from "lucide-react";
-import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 
 interface Props {
 	hasFilters?: boolean;
@@ -47,7 +47,7 @@ export function NoResults({ hasFilters }: Props) {
 
 export function NoEmployees() {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState("invite-user-sheet");
+	const [open, setOpen] = useQueryState("employee-invite-sheet");
 
 	return (
 		<div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">

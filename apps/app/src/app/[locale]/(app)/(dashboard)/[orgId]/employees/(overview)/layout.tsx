@@ -4,7 +4,7 @@ import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { cache, Suspense } from "react";
-import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { headers } from "next/headers";
 
 export default async function Layout({
@@ -31,7 +31,7 @@ export default async function Layout({
 							cta={t("app_onboarding.employees.cta")}
 							imageSrc="/onboarding/people-management.webp"
 							imageAlt="Employee Management"
-							sheetName="invite-user-sheet"
+							sheetName="employee-invite-sheet"
 							faqs={[
 								{
 									questionKey: t("app_onboarding.employees.faqs.question_1"),

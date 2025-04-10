@@ -1,6 +1,6 @@
 "use client";
 
-import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { DataTable } from "@/components/ui/data-table";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ import { useEmployeesTable } from "./hooks/useEmployeesTableContext";
 
 export function EmployeesTable() {
 	const router = useRouter();
-	const [, setInviteSheetOpen] = useQueryState("invite-user-sheet");
+	const [, setInviteSheetOpen] = useQueryState("employee-invite-sheet");
 	const { orgId } = useParams<{ orgId: string }>();
 
 	const {
