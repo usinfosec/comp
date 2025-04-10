@@ -1,6 +1,6 @@
 "use client";
 
-import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type {
 	Artifact,
@@ -66,7 +66,7 @@ export const SingleControl = ({
 							</span>
 							<h1 className="text-2xl font-semibold">{control.name}</h1>
 						</div>
-						<DisplayFrameworkStatus status={progressStatus} />
+						<StatusIndicator status={progressStatus} />
 					</CardTitle>
 				</CardHeader>
 				<CardContent>

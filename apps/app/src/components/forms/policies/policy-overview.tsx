@@ -2,7 +2,6 @@
 
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
@@ -38,6 +37,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { StatusIndicator } from "@/components/status-indicator";
 
 const policyStatuses: PolicyStatus[] = [
 	"draft",
@@ -115,14 +115,14 @@ export function UpdatePolicyOverview({
 												)}
 											>
 												{field.value && (
-													<StatusPolicies status={field.value as StatusType} />
+													<StatusIndicator status={field.value} />
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
 											{policyStatuses.map((status) => (
 												<SelectItem key={status} value={status}>
-													<StatusPolicies status={status} />
+													<StatusIndicator status={status} />
 												</SelectItem>
 											))}
 										</SelectContent>

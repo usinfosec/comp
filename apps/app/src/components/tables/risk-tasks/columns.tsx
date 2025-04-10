@@ -1,7 +1,7 @@
 "use client";
 import { AssignedUser } from "@/components/assigned-user";
-import { Status, type StatusType } from "@/components/status";
 import { StatusDate } from "@/components/status-date";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type { RiskStatus } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -54,7 +54,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 
 				return (
 					<div className="flex items-center gap-2">
-						<Status status={status.toLowerCase() as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},

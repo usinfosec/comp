@@ -1,4 +1,3 @@
-import { Status } from "@/components/status";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -6,6 +5,7 @@ import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { RiskRow } from "../../RisksTable";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { StatusIndicator } from "@/components/status-indicator";
 
 export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 	{
@@ -36,7 +36,7 @@ export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 			<DataTableColumnHeader column={column} title="Status" />
 		),
 		cell: ({ row }) => {
-			return <Status status={row.original.status} />;
+			return <StatusIndicator status={row.original.status} />;
 		},
 		meta: {
 			label: "Status",

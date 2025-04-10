@@ -3,7 +3,7 @@
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
@@ -118,14 +118,14 @@ export function UpdatePolicyOverview({
 												)}
 											>
 												{field.value && (
-													<StatusPolicies status={field.value as StatusType} />
+													<StatusIndicator status={field.value} />
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
 											{policyStatuses.map((status) => (
 												<SelectItem key={status} value={status}>
-													<StatusPolicies status={status} />
+													<StatusIndicator status={status} />
 												</SelectItem>
 											))}
 										</SelectContent>

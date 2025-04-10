@@ -5,16 +5,23 @@ import type { Control } from "@comp/db/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@comp/ui/tooltip";
-import type { Artifact, Evidence, Policy } from "@comp/db/types";
+import type {
+	Artifact,
+	Control as ControlType,
+	Evidence,
+	EvidenceStatus,
+	Policy,
+	PolicyStatus,
+} from "@comp/db/types";
 import { getControlStatus } from "../../../../../lib/utils";
 import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
+import { StatusIndicator } from "@/components/status-indicator";
 
 type OrganizationControlType = Control & {
 	artifacts: (Artifact & {
@@ -61,7 +68,7 @@ export function RequirementControlsTableColumns(): ColumnDef<OrganizationControl
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<div className="w-[200px]">
-									<DisplayFrameworkStatus status={status} />
+									<StatusIndicator status={status} />
 								</div>
 							</TooltipTrigger>
 							<TooltipContent>
