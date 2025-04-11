@@ -2,6 +2,7 @@
 
 import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { Resend } from "resend";
 import { z } from "zod";
 import { authActionClient } from "../safe-action";
 import type { ActionResponse } from "../types";
@@ -132,6 +133,19 @@ export const completeInvitation = authActionClient
 						activeOrganizationId: invitation.organizationId,
 					},
 				});
+
+				if (
+					process.env.RESEND_API_KEY &&
+					process.env.RESEND_AUDIENCE_ID
+				) {
+					const resend = new Resend(process.env.RESEND_API_KEY);
+
+					await resend.contacts.create({
+						email: user.email,
+						unsubscribed: false,
+						audienceId: process.env.RESEND_AUDIENCE_ID,
+					});
+				}
 
 				revalidatePath(`/${invitation.organization.id}`);
 				revalidatePath(
