@@ -10,20 +10,24 @@ export const fixAllOrgsTask = schemaTask({
 		// Remove the previous logic related to integrations
 
 		try {
-			logger.info("Starting fix-all-orgs task: Fetching all organizations.");
+			logger.info(
+				"Starting fix-all-orgs task: Fetching all organizations.",
+			);
 
 			const organizations = await db.organization.findMany({
 				select: { id: true, name: true },
 			});
 
-			logger.info(`Found ${organizations.length} organizations to process.`);
+			logger.info(
+				`Found ${organizations.length} organizations to process.`,
+			);
 
 			const batchSize = 500; // Trigger.dev batch limit
 			let totalSent = 0;
 
 			for (let i = 0; i < organizations.length; i += batchSize) {
 				const batch = organizations.slice(i, i + batchSize);
-				const events = batch.map((org: any) => ({
+				const events = batch.map((org) => ({
 					payload: { organizationId: org.id },
 				}));
 
@@ -40,7 +44,9 @@ export const fixAllOrgsTask = schemaTask({
 			}
 
 			if (totalSent === 0) {
-				logger.info("No organizations found or processed, no events sent.");
+				logger.info(
+					"No organizations found or processed, no events sent.",
+				);
 			} else {
 				logger.info(
 					`Finished sending events. Total organizations processed: ${totalSent}.`,
