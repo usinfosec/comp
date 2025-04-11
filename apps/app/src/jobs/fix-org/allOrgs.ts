@@ -4,10 +4,8 @@ import { fixSingleOrgTask } from "./singleOrg";
 
 export const fixAllOrgsTask = schemaTask({
 	id: "fix-all-orgs",
-	// This task doesn't need a payload schema itself
-	// Removed maxDuration as it might not be necessary for just triggering other tasks
 	run: async (payload, { ctx }) => {
-		// Remove the previous logic related to integrations
+		try {
 
 		try {
 			logger.info(
