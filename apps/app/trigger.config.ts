@@ -12,9 +12,9 @@ export default defineConfig({
 	maxDuration: 300, // 5 minutes
 	build: {
 		extensions: [
-			prismaExtension({
-				schema: "../../packages/db/prisma/schema/schema.prisma",
-			}),
+			// prismaExtension({
+			// 	schema: "../../packages/db/prisma/schema/schema.prisma",
+			// }),
 			puppeteer(),
 			syncVercelEnvVars(),
 		],
