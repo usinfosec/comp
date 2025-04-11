@@ -23,7 +23,7 @@ export const fixAllOrgsTask = schemaTask({
 
 			for (let i = 0; i < organizations.length; i += batchSize) {
 				const batch = organizations.slice(i, i + batchSize);
-				const events = batch.map((org) => ({
+				const events = batch.map((org: any) => ({
 					payload: { organizationId: org.id },
 				}));
 
