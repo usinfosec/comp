@@ -13,7 +13,7 @@ export default defineConfig({
 	build: {
 		extensions: [
 			prismaExtension({
-				schema: "../../packages/db/prisma/schema",
+				schema: "../../packages/db/prisma/schema/schema.prisma",
 			}),
 			puppeteer(),
 			syncVercelEnvVars(),
