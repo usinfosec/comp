@@ -3,11 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import type { VendorRegisterTableRow } from "./VendorsTable";
+import type { GetVendorsResult } from "../data/queries";
 import { UserIcon } from "lucide-react";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 
-export const columns: ColumnDef<VendorRegisterTableRow>[] = [
+type VendorRow = GetVendorsResult["data"][number];
+
+export const columns: ColumnDef<VendorRow>[] = [
 	{
 		id: "name",
 		accessorKey: "name",
@@ -87,15 +89,15 @@ export const columns: ColumnDef<VendorRegisterTableRow>[] = [
 				<div className="flex items-center gap-2">
 					<Avatar className="h-8 w-8">
 						<AvatarImage
-							src={row.original.assignee.user.image || undefined}
-							alt={row.original.assignee.user.name || ""}
+							src={row.original.assignee.user?.image || undefined}
+							alt={row.original.assignee.user?.name || ""}
 						/>
 						<AvatarFallback>
-							{row.original.assignee.user.name?.charAt(0) || "?"}
+							{row.original.assignee.user?.name?.charAt(0) || "?"}
 						</AvatarFallback>
 					</Avatar>
 					<p className="text-sm font-medium">
-						{row.original.assignee.user.name}
+						{row.original.assignee.user?.name || "Unknown User"}
 					</p>
 				</div>
 			);

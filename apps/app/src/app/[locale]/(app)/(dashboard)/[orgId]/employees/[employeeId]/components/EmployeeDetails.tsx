@@ -48,6 +48,10 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
+import { Calendar } from "@comp/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -97,6 +101,7 @@ const employeeFormSchema = z.object({
 		"none",
 	] as const),
 	status: z.enum(["active", "inactive"] as const),
+	createdAt: z.date(),
 });
 
 type EmployeeFormValues = z.infer<typeof employeeFormSchema>;
@@ -129,6 +134,7 @@ export function EmployeeDetails({
 			email: employee.user.email ?? "",
 			department: employee.department as Departments,
 			status: employee.isActive ? "active" : "inactive",
+			createdAt: new Date(employee.createdAt),
 		},
 		mode: "onChange",
 	});
@@ -141,6 +147,7 @@ export function EmployeeDetails({
 				email: employee.user.email ?? "",
 				department: employee.department as Departments,
 				status: employee.isActive ? "active" : "inactive",
+				createdAt: new Date(employee.createdAt),
 			});
 		}
 	}, [employee, form]);
@@ -195,6 +202,7 @@ export function EmployeeDetails({
 			email?: string;
 			department?: string;
 			isActive?: boolean;
+			createdAt?: Date;
 		} = { employeeId };
 
 		// Only include changed fields
@@ -206,6 +214,12 @@ export function EmployeeDetails({
 		}
 		if (values.department !== employee.department) {
 			updateData.department = values.department;
+		}
+		if (
+			values.createdAt &&
+			values.createdAt.toISOString() !== employee.createdAt.toISOString()
+		) {
+			updateData.createdAt = values.createdAt;
 		}
 
 		const isActive = values.status === "active";
@@ -355,25 +369,52 @@ export function EmployeeDetails({
 										</FormItem>
 									)}
 								/>
-							</div>
-
-							{/* Join Date Row */}
-							<div className="grid grid-cols-2 gap-10">
-								<div>
-									<h3 className="text-xs font-medium text-muted-foreground uppercase mb-3">
-										Join Date
-									</h3>
-									<p className="text-sm">
-										{formatDate(
-											employee.createdAt.toISOString(),
-											"MMM d, yyyy",
-										)}
-									</p>
-								</div>
-								<div />
+								<FormField
+									control={form.control}
+									name="createdAt"
+									render={({ field }) => (
+										<FormItem className="flex flex-col">
+											<FormLabel className="text-xs font-medium text-muted-foreground uppercase">
+												Join Date
+											</FormLabel>
+											<Popover>
+												<PopoverTrigger asChild>
+													<FormControl>
+														<Button
+															variant={"outline"}
+															className={cn(
+																"h-10 pl-3 text-left font-normal", // Use h-10 for consistency
+																!field.value && "text-muted-foreground",
+															)}
+														>
+															{field.value ? (
+																format(field.value, "PPP")
+															) : (
+																<span>Pick a date</span>
+															)}
+															<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+														</Button>
+													</FormControl>
+												</PopoverTrigger>
+												<PopoverContent className="w-auto p-0" align="start">
+													<Calendar
+														mode="single"
+														selected={field.value}
+														onSelect={field.onChange}
+														disabled={
+															(date: Date) => date > new Date() // Explicitly type the date argument
+														}
+														initialFocus
+													/>
+												</PopoverContent>
+											</Popover>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 							</div>
 						</CardContent>
-						<CardFooter className="px-0 py-0 flex justify-end outline-none border-none">
+						<CardFooter className="px-0 py-0 flex justify-end outline-none border-none bg-transparent">
 							<Button
 								type="submit"
 								disabled={
@@ -381,7 +422,7 @@ export function EmployeeDetails({
 									form.formState.isSubmitting ||
 									actionStatus === "executing"
 								}
-								className="w-auto"
+								className="w-auto text-foreground"
 							>
 								{form.formState.isSubmitting || actionStatus === "executing"
 									? "Saving..."

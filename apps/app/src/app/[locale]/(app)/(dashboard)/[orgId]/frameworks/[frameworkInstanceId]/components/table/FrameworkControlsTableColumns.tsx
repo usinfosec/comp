@@ -1,19 +1,22 @@
 "use client";
 
-import {
-	DisplayFrameworkStatus,
-	type StatusType,
-} from "@/components/frameworks/framework-status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type { Artifact, PolicyStatus } from "@comp/db/types";
-import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+import type {
+	Artifact,
+	Evidence,
+	EvidenceStatus,
+	Policy,
+	PolicyStatus,
+} from "@comp/db/types";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@comp/ui/tooltip";
+import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getControlStatus } from "../../../lib/utils";
 
@@ -23,26 +26,25 @@ export type OrganizationControlType = {
 	description: string | null;
 	frameworkInstanceId: string;
 	artifacts: (Artifact & {
-		policy: {
-			status: PolicyStatus;
-		} | null;
-		evidence: {
-			published: boolean;
-		} | null;
+		policy: Policy | null;
+		evidence: Evidence | null;
 	})[];
 };
 
 // Local helper function to check artifact completion
-function isArtifactCompleted(
-	artifact: OrganizationControlType["artifacts"][0],
-): boolean {
+type ArtifactForCompletionCheck = Artifact & {
+	policy: (Policy & { status: PolicyStatus | null }) | null;
+	evidence: (Evidence & { status: EvidenceStatus | null }) | null;
+};
+
+function isArtifactCompleted(artifact: ArtifactForCompletionCheck): boolean {
 	if (!artifact) return false;
 
 	switch (artifact.type) {
 		case "policy":
 			return artifact.policy?.status === "published";
 		case "evidence":
-			return artifact.evidence?.published === true;
+			return artifact.evidence?.status === "published";
 		case "procedure":
 		case "training":
 			// For other types, they're completed if they exist
@@ -100,7 +102,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<div className="w-[200px]">
-									<DisplayFrameworkStatus status={status} />
+									<StatusIndicator status={status} />
 								</div>
 							</TooltipTrigger>
 							<TooltipContent>

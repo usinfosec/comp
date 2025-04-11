@@ -3,7 +3,7 @@
 import { updateRiskAction } from "@/actions/risk/update-risk-action";
 import { updateRiskSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
-import { STATUS_TYPES, Status, type StatusType } from "@/components/status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import {
 	Departments,
@@ -116,14 +116,14 @@ export function UpdateRiskOverview({
 												placeholder={t("risk.form.risk_status_placeholder")}
 											>
 												{field.value && (
-													<Status status={field.value as StatusType} />
+													<StatusIndicator status={field.value as RiskStatus} />
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{STATUS_TYPES.map((status) => (
+											{Object.values(RiskStatus).map((status) => (
 												<SelectItem key={status} value={status}>
-													<Status status={status} />
+													<StatusIndicator status={status} />
 												</SelectItem>
 											))}
 										</SelectContent>

@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
-import { getControls } from "../data/queries";
+import { getControls, ControlWithRelations } from "../data/queries";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { getControlColumns } from "./controls-table-columns";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
@@ -12,7 +12,7 @@ import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 import { useParams } from "next/navigation";
 
 interface ControlsTableProps {
-	promises: Promise<[Awaited<ReturnType<typeof getControls>>]>;
+	promises: Promise<[{ data: ControlWithRelations[]; pageCount: number }]>;
 }
 
 export function ControlsTable({ promises }: ControlsTableProps) {
@@ -28,7 +28,7 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 			sorting: [{ id: "name", desc: true }],
 			columnPinning: { right: ["actions"] },
 		},
-		getRowId: (originalRow) => originalRow.id,
+		getRowId: (originalRow: ControlWithRelations) => originalRow.id,
 		shallow: false,
 		clearOnDefault: true,
 	});

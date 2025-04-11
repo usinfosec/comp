@@ -1,29 +1,14 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
-import {
-	Artifact,
-	Control,
-	FrameworkInstance,
-	RequirementMap,
-} from "@comp/db/types";
+import { StatusIndicator } from "@/components/status-indicator";
 import { Badge } from "@comp/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { getFrameworkDetails } from "../../frameworks/lib/getFrameworkDetails";
+import { ControlWithRelations } from "../data/queries";
 import { getControlStatus } from "../lib/utils";
 
-export function getControlColumns(): ColumnDef<
-	Control & {
-		artifacts: (Artifact & {
-			policy: { status: string } | null;
-			evidence: { published: boolean } | null;
-		})[];
-		requirementsMapped: (RequirementMap & {
-			frameworkInstance: FrameworkInstance;
-		})[];
-	}
->[] {
+export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 	return [
 		{
 			id: "name",
@@ -57,7 +42,7 @@ export function getControlColumns(): ColumnDef<
 				const control = row.original;
 				const status = getControlStatus(control);
 
-				return <DisplayFrameworkStatus status={status} />;
+				return <StatusIndicator status={status} />;
 			},
 			meta: {
 				label: "Status",

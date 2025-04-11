@@ -1,6 +1,6 @@
 "use client";
 
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
+import { StatusIndicator, StatusType } from "@/components/status-indicator";
 import { formatDate } from "@/utils/format";
 import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -40,7 +40,7 @@ export function columns(): ColumnDef<PolicyType>[] {
 							</Link>
 						</Button>
 						<div className="md:hidden">
-							<StatusPolicies status={status as StatusType} />
+							<StatusIndicator status={status} />
 						</div>
 					</div>
 				);
@@ -54,7 +54,7 @@ export function columns(): ColumnDef<PolicyType>[] {
 
 				return (
 					<div className="hidden md:flex items-center gap-2">
-						<StatusPolicies status={status as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},
