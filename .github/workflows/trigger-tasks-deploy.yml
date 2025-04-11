@@ -7,9 +7,6 @@ name: Deploy to Trigger.dev (prod)
 
 on:
   push:
-    branches:
-      - '*'
-
 
 jobs:
   deploy:
