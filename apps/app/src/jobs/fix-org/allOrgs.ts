@@ -66,5 +66,3 @@ export const fixAllOrgsTask = schemaTask({
 		}
 	},
 });
-
-// Remove the old logic related to integrations
