@@ -20,7 +20,7 @@ export const fixAllOrgsTask = schemaTask({
 				`Found ${organizations.length} organizations to process.`,
 			);
 
-			const batchSize = 500; // Trigger.dev batch limit
+			const batchSize = 500;
 			let totalSent = 0;
 
 			for (let i = 0; i < organizations.length; i += batchSize) {
