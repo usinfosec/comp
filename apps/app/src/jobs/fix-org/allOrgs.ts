@@ -12,33 +12,50 @@ export const fixAllOrgsTask = schemaTask({
 		try {
 			logger.info("Starting fix-all-orgs task: Fetching all organizations.");
 
-			// Fetch all organizations
 			const organizations = await db.organization.findMany({
 				select: { id: true, name: true },
 			});
 
 			logger.info(`Found ${organizations.length} organizations to process.`);
 
-			// Trigger fixSingleOrgTask for each organization
-			const events = organizations.map((org) => ({
-				payload: { organizationId: org.id }, // batchTrigger expects an array of { payload: ... }
-				// name is not needed for batchTrigger, the task is specified by the object called
-			}));
+			const batchSize = 500; // Trigger.dev batch limit
+			let totalSent = 0;
 
-			if (events.length > 0) {
-				// Use batchTrigger directly on the imported task definition
-				await fixSingleOrgTask.batchTrigger(events);
-				logger.info(`Sent ${events.length} events to fixSingleOrgTask.`);
-			} else {
-				logger.info("No organizations found, no events sent.");
+			for (let i = 0; i < organizations.length; i += batchSize) {
+				const batch = organizations.slice(i, i + batchSize);
+				const events = batch.map((org) => ({
+					payload: { organizationId: org.id },
+				}));
+
+				if (events.length > 0) {
+					logger.info(
+						`Processing batch ${i / batchSize + 1}: Sending ${events.length} events.`,
+					);
+					await fixSingleOrgTask.batchTrigger(events);
+					totalSent += events.length;
+					logger.info(
+						`Sent batch ${i / batchSize + 1}. Total sent so far: ${totalSent}.`,
+					);
+				}
 			}
 
-			return { success: true, count: organizations.length };
+			if (totalSent === 0) {
+				logger.info("No organizations found or processed, no events sent.");
+			} else {
+				logger.info(
+					`Finished sending events. Total organizations processed: ${totalSent}.`,
+				);
+			}
+
+			return { success: true, count: totalSent };
 		} catch (error) {
 			logger.error(`Error in fix-all-orgs task: ${error}`);
+			// Consider more robust error handling/reporting if needed
+			const errorMessage =
+				error instanceof Error ? error.message : String(error);
 			return {
 				success: false,
-				error: error instanceof Error ? error.message : String(error),
+				error: errorMessage,
 			};
 		}
 	},
