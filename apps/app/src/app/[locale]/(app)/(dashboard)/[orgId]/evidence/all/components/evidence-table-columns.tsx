@@ -3,10 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Evidence } from "@comp/db/types";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { StatusPolicies } from "@/components/status-policies";
 import { formatDate } from "@/lib/format";
 import { Badge } from "@comp/ui/badge";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
+import { StatusIndicator } from "@/components/status-indicator";
 
 export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 	return [
@@ -39,7 +39,7 @@ export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 				<DataTableColumnHeader column={column} title="Status" />
 			),
 			cell: ({ row }) => {
-				return <StatusPolicies status={row.getValue("status")} />;
+				return <StatusIndicator status={row.original.status} />;
 			},
 			meta: {
 				label: "Status",

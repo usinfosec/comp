@@ -1,6 +1,6 @@
 "use client";
 import { AssignedUser } from "@/components/assigned-user";
-import { Status, type StatusType } from "@/components/status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type { Departments, RiskStatus } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
@@ -43,7 +43,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 							</Link>
 						</Button>
 						<div className="md:hidden">
-							<Status status={status.toLowerCase() as StatusType} />
+							<StatusIndicator status={status} />
 						</div>
 					</div>
 				);
@@ -60,7 +60,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 
 				return (
 					<div className="hidden md:flex items-center gap-2">
-						<Status status={status.toLowerCase() as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},

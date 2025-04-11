@@ -1,26 +1,25 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
+import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ColumnDef } from "@tanstack/react-table";
-import { DisplayFrameworkStatus } from "@/components/frameworks/framework-status";
+import { useI18n } from "@/locales/client";
+import type { Artifact, Control, Evidence, Policy } from "@comp/db/types";
+import { Input } from "@comp/ui/input";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@comp/ui/tooltip";
-import { Input } from "@comp/ui/input";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
 import { getControlStatus } from "../../../../../lib/utils";
-import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
-import type { Control } from "@comp/db/types";
-import type { Artifact, Evidence, Policy } from "@comp/db/types";
 
 interface RequirementControlsTableProps {
 	controls: (Control & {
@@ -97,7 +96,7 @@ export function RequirementControlsTable({
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<div className="w-[200px]">
-										<DisplayFrameworkStatus status={status} />
+										<StatusIndicator status={status} />
 									</div>
 								</TooltipTrigger>
 								<TooltipContent>

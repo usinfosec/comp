@@ -3,13 +3,14 @@
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
+import { Artifact, Evidence, Policy } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { Card, CardTitle, CardHeader, CardContent } from "@comp/ui/card";
-import { Artifact, Evidence, Policy } from "@comp/db/types";
 
 interface ArtifactsTableProps {
 	artifacts: (Artifact & {
@@ -98,6 +99,24 @@ export function ArtifactsTable({
 					const dateA = new Date(rowA.original.createdAt);
 					const dateB = new Date(rowB.original.createdAt);
 					return dateA.getTime() - dateB.getTime();
+				},
+			},
+			{
+				accessorKey: "status",
+				header: ({ column }) => (
+					<DataTableColumnHeader
+						column={column}
+						title={t("frameworks.artifacts.table.status")}
+					/>
+				),
+				cell: ({ row }) => {
+					const rawStatus =
+						row.original.type === "evidence"
+							? row.original.evidence?.status
+							: row.original.policy?.status;
+
+					// Pass the mapped status directly to StatusIndicator
+					return <StatusIndicator status={rawStatus} />;
 				},
 			},
 		],
