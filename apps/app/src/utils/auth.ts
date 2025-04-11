@@ -5,7 +5,12 @@ import { sendEmail } from "@comp/email/lib/resend";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { emailOTP, organization } from "better-auth/plugins";
+import {
+	createAuthMiddleware,
+	emailOTP,
+	organization,
+} from "better-auth/plugins";
+import { Resend } from "resend";
 import { ac, admin, auditor, employee, member, owner } from "./permissions";
 
 export const auth = betterAuth({
@@ -16,6 +21,25 @@ export const auth = betterAuth({
 		// This will enable us to fall back to DB for ID generation.
 		// It's important so we can use customs ID's specified in Prisma Schema.
 		generateId: false,
+	},
+	hooks: {
+		after: createAuthMiddleware(async (ctx) => {
+			const newSession = ctx.context.newSession;
+
+			if (
+				process.env.RESEND_AUDIENCE_ID &&
+				process.env.RESEND_API_KEY &&
+				newSession
+			) {
+				const resend = new Resend(process.env.RESEND_API_KEY);
+
+				resend.contacts.create({
+					email: newSession.user.email,
+					unsubscribed: false,
+					audienceId: process.env.RESEND_AUDIENCE_ID,
+				});
+			}
+		}),
 	},
 	secret: process.env.AUTH_SECRET!,
 	plugins: [
