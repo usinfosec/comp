@@ -14,6 +14,7 @@ export default defineConfig({
 		extensions: [
 			prismaExtension({
 				schema: "../../packages/db/prisma/schema/schema.prisma",
+				version: "6.5.0",
 			}),
 			puppeteer(),
 			syncVercelEnvVars(),
