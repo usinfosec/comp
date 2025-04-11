@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import {
+	EMPLOYEE_STATUS_TYPES,
+	getEmployeeStatusFromBoolean,
+} from "@/components/tables/people/employee-status";
+import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
+import { Button } from "@comp/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -8,15 +13,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { Button } from "@comp/ui/button";
-import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
+import { toast } from "sonner";
 import { updateEmployeeStatus } from "../actions/update-employee-status";
-import {
-	EMPLOYEE_STATUS_TYPES,
-	getEmployeeStatusFromBoolean,
-} from "@/components/tables/people/employee-status";
-import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 
 const STATUS_OPTIONS = [
 	{ value: "active", label: "Active" },
@@ -58,7 +58,9 @@ export function EditableStatus({
 		<div>
 			<Select
 				value={status}
-				onValueChange={(value) => setStatus(value as EmployeeStatusType)}
+				onValueChange={(value) =>
+					setStatus(value as EmployeeStatusType)
+				}
 			>
 				<SelectTrigger className="h-8 w-full">
 					<SelectValue placeholder="Select status" />

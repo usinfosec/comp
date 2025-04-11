@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import {
@@ -9,11 +10,9 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@comp/ui/tooltip";
-import { Badge } from "@comp/ui/badge";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
 	Blocks,
+	ChevronRight,
 	FileText,
 	FlaskConical,
 	Gauge,
@@ -23,8 +22,9 @@ import {
 	ShieldPlus,
 	Store,
 	Users,
-	ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Define menu item types with icon component
 type MenuItem = {
@@ -65,7 +65,8 @@ const Item = ({
 	// Badge variants mapping
 	const badgeVariants = {
 		default: "bg-primary/80 text-primary-foreground hover:bg-primary/90",
-		secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+		secondary:
+			"bg-secondary text-secondary-foreground hover:bg-secondary/80",
 		outline:
 			"border-border bg-background hover:bg-accent hover:text-accent-foreground",
 		new: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
@@ -85,7 +86,9 @@ const Item = ({
 							<div
 								className={cn(
 									"relative border border-transparent flex items-center",
-									isCollapsed ? "md:w-[45px] md:justify-center" : "md:px-3",
+									isCollapsed
+										? "md:w-[45px] md:justify-center"
+										: "md:px-3",
 									"w-full px-3 md:w-auto h-[45px]",
 									"hover:bg-accent hover:border-border",
 									"transition-all duration-300",
@@ -116,7 +119,10 @@ const Item = ({
 														variant="outline"
 														className={cn(
 															"ml-1.5 text-[9px] px-1 py-0 h-auto",
-															badgeVariants[item.badge.variant],
+															badgeVariants[
+																item.badge
+																	.variant
+															],
 														)}
 													>
 														{item.badge.text}
@@ -275,7 +281,8 @@ export function MainMenu({
 
 		// Extract the base path from the menu item (first two segments after normalization)
 		const itemPathParts = normalizedItemPath.split("/").filter(Boolean);
-		const itemBaseSegment = itemPathParts.length > 1 ? itemPathParts[1] : "";
+		const itemBaseSegment =
+			itemPathParts.length > 1 ? itemPathParts[1] : "";
 
 		// Extract the current path parts
 		const currentPathParts = pathname.split("/").filter(Boolean);

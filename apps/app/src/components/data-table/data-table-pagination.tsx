@@ -9,6 +9,7 @@ import { useQueryState } from "nuqs";
 import * as React from "react";
 
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	Select,
 	SelectContent,
@@ -16,7 +17,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { cn } from "@comp/ui/cn";
 
 interface DataTablePaginationProps<TData> extends React.ComponentProps<"div"> {
 	table: Table<TData>;
@@ -126,11 +126,18 @@ export function DataTablePagination<TData>({
 						onValueChange={handlePageSizeChange}
 					>
 						<SelectTrigger className="h-8 w-[4.5rem] [&[data-size]]:h-8">
-							<SelectValue placeholder={table.getState().pagination.pageSize} />
+							<SelectValue
+								placeholder={
+									table.getState().pagination.pageSize
+								}
+							/>
 						</SelectTrigger>
 						<SelectContent side="bottom">
 							{pageSizeOptions.map((pageSize) => (
-								<SelectItem key={pageSize} value={`${pageSize}`}>
+								<SelectItem
+									key={pageSize}
+									value={`${pageSize}`}
+								>
 									{pageSize}
 								</SelectItem>
 							))}
@@ -177,7 +184,9 @@ export function DataTablePagination<TData>({
 						variant="outline"
 						size="icon"
 						className="hidden size-8 lg:flex"
-						onClick={() => handlePageChange(table.getPageCount() - 1)}
+						onClick={() =>
+							handlePageChange(table.getPageCount() - 1)
+						}
 						disabled={!table.getCanNextPage()}
 					>
 						<ChevronsRight className="size-4" />

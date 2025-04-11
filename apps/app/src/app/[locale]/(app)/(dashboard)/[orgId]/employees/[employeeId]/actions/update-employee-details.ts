@@ -1,11 +1,11 @@
 "use server";
 
-import { db } from "@comp/db";
 import { authActionClient } from "@/actions/safe-action";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { z } from "zod";
 import { appErrors } from "../types";
 
 const schema = z.object({

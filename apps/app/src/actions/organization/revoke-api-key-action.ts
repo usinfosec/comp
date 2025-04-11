@@ -1,9 +1,9 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { z } from "zod";
 import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 const revokeApiKeySchema = z.object({
 	id: z.string().min(1),
@@ -39,7 +39,9 @@ export const revokeApiKeyAction = authActionClient
 				};
 			}
 
-			revalidatePath(`/${ctx.session.activeOrganizationId}/settings/api-keys`);
+			revalidatePath(
+				`/${ctx.session.activeOrganizationId}/settings/api-keys`,
+			);
 
 			return {
 				success: true,

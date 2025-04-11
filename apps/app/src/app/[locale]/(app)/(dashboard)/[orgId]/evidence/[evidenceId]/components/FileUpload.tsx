@@ -1,10 +1,10 @@
 "use client";
 
+import { Card, CardContent } from "@comp/ui/card";
+import { cn } from "@comp/ui/cn";
+import { Cloud, Loader2, Plus, Upload } from "lucide-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Cloud, Loader2, Plus, Upload } from "lucide-react";
-import { cn } from "@comp/ui/cn";
-import { Card, CardContent } from "@comp/ui/card";
 
 interface FileUploadProps {
 	onFileSelect: (file: File) => void;
@@ -34,9 +34,8 @@ export function FileUpload({
 		"application/pdf": [".pdf"],
 		"image/*": [".png", ".jpg", ".jpeg", ".gif"],
 		"application/msword": [".doc"],
-		"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-			".docx",
-		],
+		"application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+			[".docx"],
 		"application/vnd.ms-excel": [".xls"],
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
 			".xlsx",
@@ -91,7 +90,9 @@ export function FileUpload({
 								<div className="rounded-full bg-primary/10 p-3 mb-2">
 									<Upload className="h-6 w-6 text-primary animate-pulse" />
 								</div>
-								<p className="text-sm font-medium text-center">Uploading...</p>
+								<p className="text-sm font-medium text-center">
+									Uploading...
+								</p>
 							</div>
 						) : isDragActive ? (
 							<div className="flex flex-col items-center justify-center">
@@ -110,7 +111,9 @@ export function FileUpload({
 								<div className="rounded-full bg-primary/10 p-3 mb-2">
 									<Plus className="h-6 w-6 text-primary" />
 								</div>
-								<p className="text-sm font-medium text-center">Add Files</p>
+								<p className="text-sm font-medium text-center">
+									Add Files
+								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
 									Upload additional evidence files
 								</p>
@@ -155,7 +158,8 @@ export function FileUpload({
 									: "Drag & drop a file here, or click to select"}
 							</p>
 							<p className="mt-1">
-								Max file size: {Math.round(maxSize / 1024 / 1024)}MB
+								Max file size:{" "}
+								{Math.round(maxSize / 1024 / 1024)}MB
 							</p>
 						</>
 					)}

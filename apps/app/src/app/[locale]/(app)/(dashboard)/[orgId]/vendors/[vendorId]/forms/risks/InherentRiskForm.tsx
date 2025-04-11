@@ -87,7 +87,9 @@ export function InherentRiskForm({
 					name="inherentProbability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.inherent_probability")}</FormLabel>
+							<FormLabel>
+								{t("vendors.risks.inherent_probability")}
+							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								defaultValue={field.value}
@@ -96,7 +98,9 @@ export function InherentRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t("vendors.risks.select_probability")}
+											placeholder={t(
+												"vendors.risks.select_probability",
+											)}
 										/>
 									</SelectTrigger>
 								</FormControl>
@@ -113,7 +117,9 @@ export function InherentRiskForm({
 									<SelectItem value={Likelihood.unlikely}>
 										{t("vendors.risks.unlikely")}
 									</SelectItem>
-									<SelectItem value={Likelihood.very_unlikely}>
+									<SelectItem
+										value={Likelihood.very_unlikely}
+									>
 										{t("vendors.risks.very_unlikely")}
 									</SelectItem>
 								</SelectContent>
@@ -128,7 +134,9 @@ export function InherentRiskForm({
 					name="inherentImpact"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.risks.inherent_impact")}</FormLabel>
+							<FormLabel>
+								{t("vendors.risks.inherent_impact")}
+							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								defaultValue={field.value}
@@ -137,7 +145,9 @@ export function InherentRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t("vendors.risks.select_impact")}
+											placeholder={t(
+												"vendors.risks.select_impact",
+											)}
 										/>
 									</SelectTrigger>
 								</FormControl>

@@ -2,29 +2,29 @@
 
 import * as React from "react";
 
+import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardHeader,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
 import {
+	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-	type ChartConfig,
 } from "@comp/ui/chart";
-import { useI18n } from "@/locales/client";
-import { Badge } from "@comp/ui/badge";
-import { BarChart as BarChartIcon, Users, Info } from "lucide-react";
+import { BarChart as BarChartIcon, Info, Users } from "lucide-react";
 import {
 	Bar,
 	BarChart,
-	XAxis,
-	YAxis,
 	Legend,
 	ResponsiveContainer,
+	XAxis,
+	YAxis,
 } from "recharts";
 
 interface AssigneeData {
@@ -56,7 +56,8 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<CardTitle className="flex items-center gap-2">
-							{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
+							{t("evidence.dashboard.by_assignee") ||
+								"Evidence by Assignee"}
 						</CardTitle>
 						<Badge variant="outline" className="text-xs">
 							Distribution
@@ -123,7 +124,8 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
-						{t("evidence.dashboard.by_assignee") || "Evidence by Assignee"}
+						{t("evidence.dashboard.by_assignee") ||
+							"Evidence by Assignee"}
 					</CardTitle>
 					{topAssignee && (
 						<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-xs">
@@ -170,7 +172,9 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 									tickLine={false}
 									tickMargin={10}
 									axisLine={false}
-									tickFormatter={(value) => value.split(" ")[0]}
+									tickFormatter={(value) =>
+										value.split(" ")[0]
+									}
 									fontSize={12}
 									stroke="hsl(var(--muted-foreground))"
 								/>
@@ -207,7 +211,9 @@ export function EvidenceAssigneeChart({ data }: EvidenceAssigneeChartProps) {
 								className="h-3 w-3"
 								style={{ backgroundColor: config.color }}
 							/>
-							<span className="text-xs font-medium">{config.label}</span>
+							<span className="text-xs font-medium">
+								{config.label}
+							</span>
 						</div>
 					))}
 				</div>

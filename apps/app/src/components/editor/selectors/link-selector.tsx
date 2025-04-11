@@ -1,6 +1,6 @@
 import { Button } from "@comp/ui/button";
-import { PopoverContent } from "@comp/ui/popover";
 import { cn } from "@comp/ui/cn";
+import { PopoverContent } from "@comp/ui/popover";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { Check, Trash } from "lucide-react";
 import { useEditor } from "novel";
@@ -49,9 +49,12 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
 				>
 					<p className="text-base">↗</p>
 					<p
-						className={cn("underline decoration-stone-400 underline-offset-4", {
-							"text-blue-500": editor.isActive("link"),
-						})}
+						className={cn(
+							"underline decoration-stone-400 underline-offset-4",
+							{
+								"text-blue-500": editor.isActive("link"),
+							},
+						)}
 					>
 						Link
 					</p>

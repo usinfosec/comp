@@ -65,9 +65,15 @@ export function FrameworkControlsTableHeader({ table, loading }: Props) {
 							variant="ghost"
 							onClick={() => createSortQuery("name")}
 						>
-							<span>{t("frameworks.controls.table.control")}</span>
-							{"name" === column && value === "asc" && <ArrowDown size={16} />}
-							{"name" === column && value === "desc" && <ArrowUp size={16} />}
+							<span>
+								{t("frameworks.controls.table.control")}
+							</span>
+							{"name" === column && value === "asc" && (
+								<ArrowDown size={16} />
+							)}
+							{"name" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}
@@ -101,7 +107,9 @@ export function FrameworkControlsTableHeader({ table, loading }: Props) {
 							{"status" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
-							{"status" === column && value === "desc" && <ArrowUp size={16} />}
+							{"status" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}

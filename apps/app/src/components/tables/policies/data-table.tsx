@@ -56,15 +56,20 @@ export function DataTable<TData, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
 											key={cell.id}
 											className={cn(
-												(cell.column.id === "description" ||
-													cell.column.id === "updatedAt" ||
-													cell.column.id === "status") &&
+												(cell.column.id ===
+													"description" ||
+													cell.column.id ===
+														"updatedAt" ||
+													cell.column.id ===
+														"status") &&
 													"hidden md:table-cell",
 											)}
 										>
@@ -88,7 +93,10 @@ export function DataTable<TData, TValue>({
 						)}
 					</TableBody>
 				</Table>
-				<DataTablePagination pageCount={pageCount} currentPage={currentPage} />
+				<DataTablePagination
+					pageCount={pageCount}
+					currentPage={currentPage}
+				/>
 			</div>
 		</Suspense>
 	);

@@ -44,7 +44,9 @@ export function InherentRiskSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("risk.form.update_inherent_risk")}</SheetTitle>
+							<SheetTitle>
+								{t("risk.form.update_inherent_risk")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
@@ -73,7 +75,9 @@ export function InherentRiskSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.form.update_inherent_risk")}</DrawerTitle>
+			<DrawerTitle hidden>
+				{t("risk.form.update_inherent_risk")}
+			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<InherentRiskForm
 					riskId={riskId}

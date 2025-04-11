@@ -99,7 +99,9 @@ export function EmployeeInviteSheet() {
 			>
 				<SheetHeader className="mb-4">
 					<SheetTitle>{t("people.invite.title")}</SheetTitle>
-					<SheetDescription>{t("people.invite.description")}</SheetDescription>
+					<SheetDescription>
+						{t("people.invite.description")}
+					</SheetDescription>
 				</SheetHeader>
 
 				<div className="space-y-4 py-4">
@@ -108,10 +110,14 @@ export function EmployeeInviteSheet() {
 						name="name"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("people.invite.name.label")}</FormLabel>
+								<FormLabel>
+									{t("people.invite.name.label")}
+								</FormLabel>
 								<FormControl>
 									<Input
-										placeholder={t("people.invite.name.placeholder")}
+										placeholder={t(
+											"people.invite.name.placeholder",
+										)}
 										{...field}
 									/>
 								</FormControl>
@@ -125,11 +131,15 @@ export function EmployeeInviteSheet() {
 						name="email"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("people.invite.email.label")}</FormLabel>
+								<FormLabel>
+									{t("people.invite.email.label")}
+								</FormLabel>
 								<FormControl>
 									<Input
 										type="email"
-										placeholder={t("people.invite.email.placeholder")}
+										placeholder={t(
+											"people.invite.email.placeholder",
+										)}
 										{...field}
 									/>
 								</FormControl>
@@ -143,7 +153,9 @@ export function EmployeeInviteSheet() {
 						name="department"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("people.invite.department.label")}</FormLabel>
+								<FormLabel>
+									{t("people.invite.department.label")}
+								</FormLabel>
 								<Select
 									onValueChange={field.onChange}
 									defaultValue={field.value}
@@ -151,7 +163,9 @@ export function EmployeeInviteSheet() {
 									<FormControl>
 										<SelectTrigger id="department">
 											<SelectValue
-												placeholder={t("people.invite.department.placeholder")}
+												placeholder={t(
+													"people.invite.department.placeholder",
+												)}
 											/>
 										</SelectTrigger>
 									</FormControl>
@@ -159,7 +173,9 @@ export function EmployeeInviteSheet() {
 										{DEPARTMENTS.map((dept) => (
 											<SelectItem key={dept} value={dept}>
 												{dept === "none"
-													? t("people.invite.department.none")
+													? t(
+															"people.invite.department.none",
+														)
 													: dept.toUpperCase()}
 											</SelectItem>
 										))}

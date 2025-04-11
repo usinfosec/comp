@@ -46,7 +46,11 @@ export const ThemeSwitch = () => {
 				<SelectContent>
 					<SelectGroup>
 						{themes.map((theme) => (
-							<SelectItem key={theme} value={theme} className="capitalize">
+							<SelectItem
+								key={theme}
+								value={theme}
+								className="capitalize"
+							>
 								{t(
 									`theme.options.${theme.toLowerCase() as "dark" | "system" | "light"}`,
 								)}

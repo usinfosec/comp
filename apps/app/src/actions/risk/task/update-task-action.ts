@@ -18,7 +18,8 @@ export const updateTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, dueDate, status, assigneeId, title, description } = parsedInput;
+		const { id, dueDate, status, assigneeId, title, description } =
+			parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {
@@ -52,7 +53,9 @@ export const updateTaskAction = authActionClient
 
 			revalidatePath(`/${session.activeOrganizationId}/risk`);
 			revalidatePath(`/${session.activeOrganizationId}/risk/${id}`);
-			revalidatePath(`/${session.activeOrganizationId}/risk/${id}/tasks/${id}`);
+			revalidatePath(
+				`/${session.activeOrganizationId}/risk/${id}/tasks/${id}`,
+			);
 			revalidateTag("risks");
 
 			return { success: true };

@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface PathProviderProps {
@@ -22,7 +22,9 @@ export function PathProvider({
 
 	useEffect(() => {
 		const pathParts = pathname.split("/");
-		const evidenceIndex = pathParts.findIndex((part) => part === "evidence");
+		const evidenceIndex = pathParts.findIndex(
+			(part) => part === "evidence",
+		);
 		const id =
 			evidenceIndex >= 0 && pathParts.length > evidenceIndex + 1
 				? pathParts[evidenceIndex + 1]

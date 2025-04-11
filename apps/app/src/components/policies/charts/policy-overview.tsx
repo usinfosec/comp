@@ -59,7 +59,9 @@ export function PolicyOverview({ data }: PolicyOverviewProps) {
 		return (
 			<Card>
 				<CardHeader>
-					<CardTitle>{t("policies.dashboard.policy_status")}</CardTitle>
+					<CardTitle>
+						{t("policies.dashboard.policy_status")}
+					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex h-[300px] items-center justify-center text-muted-foreground">
 					No data
@@ -114,7 +116,11 @@ export function PolicyOverview({ data }: PolicyOverviewProps) {
 							{chartData.map((entry) => (
 								<Cell
 									key={entry.status}
-									fill={config[entry.status as keyof typeof config].color}
+									fill={
+										config[
+											entry.status as keyof typeof config
+										].color
+									}
 									radius={8}
 								/>
 							))}

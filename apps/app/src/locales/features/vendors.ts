@@ -83,7 +83,8 @@ export const vendors = {
 			no_results_description: "No tasks match your current filters",
 			clear_filters: "Clear Filters",
 			no_tasks: "No Tasks Available",
-			no_tasks_description: "There are currently no tasks for this vendor",
+			no_tasks_description:
+				"There are currently no tasks for this vendor",
 		},
 	},
 	actions: {

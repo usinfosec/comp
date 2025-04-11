@@ -1,11 +1,11 @@
 import {
 	Breadcrumb,
+	BreadcrumbEllipsis,
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-	BreadcrumbEllipsis,
 } from "@comp/ui/breadcrumb";
 import {
 	DropdownMenu,
@@ -85,20 +85,37 @@ export default function PageWithBreadcrumb({
 												)}
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="start">
-												{item.dropdown.map((dropdownItem) => (
-													<DropdownMenuItem key={dropdownItem.href} asChild>
-														<Link href={dropdownItem.href}>
-															{dropdownItem.label}
-														</Link>
-													</DropdownMenuItem>
-												))}
+												{item.dropdown.map(
+													(dropdownItem) => (
+														<DropdownMenuItem
+															key={
+																dropdownItem.href
+															}
+															asChild
+														>
+															<Link
+																href={
+																	dropdownItem.href
+																}
+															>
+																{
+																	dropdownItem.label
+																}
+															</Link>
+														</DropdownMenuItem>
+													),
+												)}
 											</DropdownMenuContent>
 										</DropdownMenu>
 									) : item.current ? (
-										<BreadcrumbPage>{item.label}</BreadcrumbPage>
+										<BreadcrumbPage>
+											{item.label}
+										</BreadcrumbPage>
 									) : (
 										<BreadcrumbLink asChild>
-											<Link href={item.href || "#"}>{item.label}</Link>
+											<Link href={item.href || "#"}>
+												{item.label}
+											</Link>
 										</BreadcrumbLink>
 									)}
 								</BreadcrumbItem>
@@ -111,13 +128,27 @@ export default function PageWithBreadcrumb({
 													<BreadcrumbEllipsis />
 												</DropdownMenuTrigger>
 												<DropdownMenuContent align="start">
-													{hiddenItems.map((hiddenItem) => (
-														<DropdownMenuItem key={hiddenItem.label} asChild>
-															<Link href={hiddenItem.href || "#"}>
-																{hiddenItem.label}
-															</Link>
-														</DropdownMenuItem>
-													))}
+													{hiddenItems.map(
+														(hiddenItem) => (
+															<DropdownMenuItem
+																key={
+																	hiddenItem.label
+																}
+																asChild
+															>
+																<Link
+																	href={
+																		hiddenItem.href ||
+																		"#"
+																	}
+																>
+																	{
+																		hiddenItem.label
+																	}
+																</Link>
+															</DropdownMenuItem>
+														),
+													)}
 												</DropdownMenuContent>
 											</DropdownMenu>
 										</BreadcrumbItem>

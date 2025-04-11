@@ -20,8 +20,8 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { updateVendorAction } from "../../actions/update-vendor-action";
 import { updateVendorSchema } from "../../actions/schema";
+import { updateVendorAction } from "../../actions/update-vendor-action";
 
 export function UpdateTitleAndDescriptionForm({
 	vendor,
@@ -73,13 +73,17 @@ export function UpdateTitleAndDescriptionForm({
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.form.vendor_name")}</FormLabel>
+							<FormLabel>
+								{t("vendors.form.vendor_name")}
+							</FormLabel>
 							<FormControl>
 								<Input
 									{...field}
 									autoFocus
 									className="mt-3"
-									placeholder={t("vendors.form.vendor_name_description")}
+									placeholder={t(
+										"vendors.form.vendor_name_description",
+									)}
 									autoCorrect="off"
 								/>
 							</FormControl>
@@ -92,12 +96,16 @@ export function UpdateTitleAndDescriptionForm({
 					name="description"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("vendors.form.vendor_description")}</FormLabel>
+							<FormLabel>
+								{t("vendors.form.vendor_description")}
+							</FormLabel>
 							<FormControl>
 								<Textarea
 									{...field}
 									className="mt-3 min-h-[80px]"
-									placeholder={t("vendors.form.vendor_description_description")}
+									placeholder={t(
+										"vendors.form.vendor_description_description",
+									)}
 								/>
 							</FormControl>
 							<FormMessage />

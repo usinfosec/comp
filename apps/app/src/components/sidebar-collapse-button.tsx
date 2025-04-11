@@ -3,10 +3,10 @@
 import { updateSidebarState } from "@/actions/sidebar";
 import { useSidebar } from "@/context/sidebar-context";
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import { cn } from "@comp/ui/cn";
 
 interface SidebarCollapseButtonProps {
 	isCollapsed: boolean;

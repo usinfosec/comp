@@ -49,43 +49,51 @@ export default function Loading() {
 							<Table>
 								<TableHeader>
 									<TableRow className="h-[44px]">
-										<TableHead key="header-type" className="w-[91px]">
+										<TableHead
+											key="header-type"
+											className="w-[91px]"
+										>
 											<Skeleton className="h-5 w-24" />
 										</TableHead>
 										<TableHead key="header-description">
 											<Skeleton className="h-5 w-24" />
 										</TableHead>
-										<TableHead key="header-status" className="w-[91px]">
+										<TableHead
+											key="header-status"
+											className="w-[91px]"
+										>
 											<Skeleton className="h-5 w-24" />
 										</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{["type", "description", "status"].map((requirementType) => (
-										<TableRow
-											key={`row-${requirementType}`}
-											className="h-[73px]"
-										>
-											<TableCell
-												key={`cell-${requirementType}-type`}
-												className="w-[91px]"
+									{["type", "description", "status"].map(
+										(requirementType) => (
+											<TableRow
+												key={`row-${requirementType}`}
+												className="h-[73px]"
 											>
-												<Skeleton className="h-4 w-full" />
-											</TableCell>
-											<TableCell
-												key={`cell-${requirementType}-description`}
-												className="p-4"
-											>
-												<Skeleton className="h-4 w-full" />
-											</TableCell>
-											<TableCell
-												key={`cell-${requirementType}-status`}
-												className="w-[91px]"
-											>
-												<Skeleton className="h-4 w-full" />
-											</TableCell>
-										</TableRow>
-									))}
+												<TableCell
+													key={`cell-${requirementType}-type`}
+													className="w-[91px]"
+												>
+													<Skeleton className="h-4 w-full" />
+												</TableCell>
+												<TableCell
+													key={`cell-${requirementType}-description`}
+													className="p-4"
+												>
+													<Skeleton className="h-4 w-full" />
+												</TableCell>
+												<TableCell
+													key={`cell-${requirementType}-status`}
+													className="w-[91px]"
+												>
+													<Skeleton className="h-4 w-full" />
+												</TableCell>
+											</TableRow>
+										),
+									)}
 								</TableBody>
 							</Table>
 						</div>

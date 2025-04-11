@@ -1,3 +1,5 @@
+import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
+import { Control } from "@comp/db/types";
 import {
 	createSearchParamsCache,
 	parseAsArrayOf,
@@ -6,8 +8,6 @@ import {
 	parseAsStringEnum,
 } from "nuqs/server";
 import * as z from "zod";
-import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
-import { Control } from "@comp/db/types";
 
 export const searchParamsCache = createSearchParamsCache({
 	page: parseAsInteger.withDefault(1),

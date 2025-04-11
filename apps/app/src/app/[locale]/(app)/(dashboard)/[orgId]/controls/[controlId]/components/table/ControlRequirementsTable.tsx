@@ -6,12 +6,12 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 
+import { Requirement } from "@comp/data";
+import type { Evidence, Policy } from "@comp/db/types";
 import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
+import { useParams, useRouter } from "next/navigation";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
-import { useParams, useRouter } from "next/navigation";
-import type { Evidence, Policy } from "@comp/db/types";
-import { Requirement } from "@comp/data";
 
 // Define the type that matches what we receive from the hook
 export type RequirementTableData = Requirement & {
@@ -37,12 +37,16 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 		switch (requirement.policy ? "policy" : "evidence") {
 			case "policy":
 				if (requirement.policy?.id) {
-					router.push(`/${orgId}/policies/all/${requirement.policy.id}`);
+					router.push(
+						`/${orgId}/policies/all/${requirement.policy.id}`,
+					);
 				}
 				break;
 			case "evidence":
 				if (requirement.evidence?.id) {
-					router.push(`/${orgId}/evidence/${requirement.evidence.id}`);
+					router.push(
+						`/${orgId}/evidence/${requirement.evidence.id}`,
+					);
 				}
 				break;
 			default:
@@ -60,12 +64,17 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 									className="hover:bg-muted/50 cursor-pointer"
 									onClick={() => onRowClick(row.original)}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id} className="p-4">
+										<TableCell
+											key={cell.id}
+											className="p-4"
+										>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext(),
@@ -77,7 +86,9 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={ControlRequirementsTableColumns.length}
+									colSpan={
+										ControlRequirementsTableColumns.length
+									}
 									className="h-24 text-center"
 								>
 									No requirements found.

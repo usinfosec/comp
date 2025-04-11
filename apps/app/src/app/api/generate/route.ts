@@ -27,14 +27,17 @@ export async function POST(req: Request): Promise<Response> {
 		);
 
 		if (!success) {
-			return new Response("You have reached your request limit for the day.", {
-				status: 429,
-				headers: {
-					"X-RateLimit-Limit": limit.toString(),
-					"X-RateLimit-Remaining": remaining.toString(),
-					"X-RateLimit-Reset": reset.toString(),
+			return new Response(
+				"You have reached your request limit for the day.",
+				{
+					status: 429,
+					headers: {
+						"X-RateLimit-Limit": limit.toString(),
+						"X-RateLimit-Remaining": remaining.toString(),
+						"X-RateLimit-Reset": reset.toString(),
+					},
 				},
-			});
+			);
 		}
 	}
 

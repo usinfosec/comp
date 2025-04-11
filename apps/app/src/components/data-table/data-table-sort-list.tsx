@@ -7,11 +7,20 @@ import {
 	GripVertical,
 	Trash2,
 } from "lucide-react";
-import * as React from "react";
 import { useQueryState } from "nuqs";
+import * as React from "react";
 
+import {
+	Sortable,
+	SortableContent,
+	SortableItem,
+	SortableItemHandle,
+	SortableOverlay,
+} from "@/components/data-table/sortable";
+import { dataTableConfig } from "@/lib/data-table-config";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	Command,
 	CommandEmpty,
@@ -28,15 +37,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import {
-	Sortable,
-	SortableContent,
-	SortableItem,
-	SortableItemHandle,
-	SortableOverlay,
-} from "@/components/data-table/sortable";
-import { dataTableConfig } from "@/lib/data-table-config";
-import { cn } from "@comp/ui/cn";
 
 const OPEN_MENU_SHORTCUT = "s";
 const REMOVE_SORT_SHORTCUTS = ["backspace", "delete"];
@@ -212,7 +212,9 @@ export function DataTableSortList<TData>({
 		if (parsedSorting.length > 0) {
 			// Only update if different to avoid unnecessary renders
 			const currentSorting = table.getState().sorting;
-			if (JSON.stringify(parsedSorting) !== JSON.stringify(currentSorting)) {
+			if (
+				JSON.stringify(parsedSorting) !== JSON.stringify(currentSorting)
+			) {
 				table.setSorting(parsedSorting);
 			}
 		}
@@ -298,7 +300,9 @@ export function DataTableSortList<TData>({
 				>
 					<div className="flex flex-col gap-1">
 						<h4 id={labelId} className="font-medium leading-none">
-							{sorting.length > 0 ? "Sort by" : "No sorting applied"}
+							{sorting.length > 0
+								? "Sort by"
+								: "No sorting applied"}
 						</h4>
 						<p
 							id={descriptionId}
@@ -339,7 +343,11 @@ export function DataTableSortList<TData>({
 							Add sort
 						</Button>
 						{sorting.length > 0 && (
-							<Button variant="outline" size="sm" onClick={onSortingReset}>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={onSortingReset}
+							>
 								Reset sorting
 							</Button>
 						)}
@@ -412,7 +420,10 @@ function DataTableSortItem({
 				className="flex items-center gap-2"
 				onKeyDown={onItemKeyDown}
 			>
-				<Popover open={showFieldSelector} onOpenChange={setShowFieldSelector}>
+				<Popover
+					open={showFieldSelector}
+					onOpenChange={setShowFieldSelector}
+				>
 					<PopoverTrigger asChild>
 						<Button
 							id={fieldTriggerId}
@@ -422,7 +433,9 @@ function DataTableSortItem({
 							className="w-44 justify-between font-normal"
 						>
 							<span className="truncate">
-								{columnLabels.get(sort.id) || sort.id || "Unknown column"}
+								{columnLabels.get(sort.id) ||
+									sort.id ||
+									"Unknown column"}
 							</span>
 							<ChevronsUpDown className="opacity-50" />
 						</Button>
@@ -440,9 +453,15 @@ function DataTableSortItem({
 										<CommandItem
 											key={column.id}
 											value={column.id}
-											onSelect={(value) => onSortUpdate(sort.id, { id: value })}
+											onSelect={(value) =>
+												onSortUpdate(sort.id, {
+													id: value,
+												})
+											}
 										>
-											<span className="truncate">{column.label}</span>
+											<span className="truncate">
+												{column.label}
+											</span>
 										</CommandItem>
 									))}
 								</CommandGroup>
@@ -485,7 +504,11 @@ function DataTableSortItem({
 					<Trash2 className="size-4" />
 				</Button>
 				<SortableItemHandle asChild>
-					<Button variant="outline" size="icon" className="size-8 shrink-0">
+					<Button
+						variant="outline"
+						size="icon"
+						className="size-8 shrink-0"
+					>
 						<GripVertical className="size-4" />
 					</Button>
 				</SortableItemHandle>

@@ -30,13 +30,18 @@ export function PolicyOverview({
 				<Alert>
 					<div className="flex items-center gap-2">
 						<ArchiveIcon className="h-4 w-4" />
-						<div className="font-medium">{t("policies.archive.status")}</div>
+						<div className="font-medium">
+							{t("policies.archive.status")}
+						</div>
 					</div>
 					<AlertDescription className="mt-1 mb-3 text-sm text-muted-foreground">
 						{policy?.isArchived && (
 							<>
 								{t("policies.archive.archived_on")}{" "}
-								{format(new Date(policy?.updatedAt ?? new Date()), "PPP")}
+								{format(
+									new Date(policy?.updatedAt ?? new Date()),
+									"PPP",
+								)}
 							</>
 						)}
 					</AlertDescription>
@@ -102,7 +107,10 @@ export function PolicyOverview({
 				</CardHeader>
 				<CardContent>
 					{policy && (
-						<UpdatePolicyOverview policy={policy} assignees={assignees} />
+						<UpdatePolicyOverview
+							policy={policy}
+							assignees={assignees}
+						/>
 					)}
 				</CardContent>
 			</Card>

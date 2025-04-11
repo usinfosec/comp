@@ -34,7 +34,11 @@ export function columns(): ColumnDef<PolicyType>[] {
 
 				return (
 					<div className="flex flex-col gap-1">
-						<Button variant="link" className="p-0 justify-start" asChild>
+						<Button
+							variant="link"
+							className="p-0 justify-start"
+							asChild
+						>
 							<Link href={`/${orgId}/policies/${id}`}>
 								<span className="truncate">{name}</span>
 							</Link>

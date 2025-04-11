@@ -5,10 +5,10 @@ import type { Member, Task, User } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
-import { PencilIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import dynamic from "next/dynamic";
 import { Sheet, SheetContent } from "@comp/ui/sheet";
+import { PencilIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useQueryState } from "nuqs";
 
 // Dynamically import the UpdateTaskSheet component
 const UpdateTaskSheet = dynamic(
@@ -45,7 +45,9 @@ export default function Title({ task, assignees }: TitleProps) {
 						</Button>
 					</div>
 				</AlertTitle>
-				<AlertDescription className="mt-4">{task.description}</AlertDescription>
+				<AlertDescription className="mt-4">
+					{task.description}
+				</AlertDescription>
 			</Alert>
 
 			<Sheet
@@ -53,7 +55,9 @@ export default function Title({ task, assignees }: TitleProps) {
 				onOpenChange={(isOpen) => setOpen(isOpen ? "true" : null)}
 			>
 				<SheetContent className="sm:max-w-md md:max-w-lg lg:max-w-xl">
-					{open && <UpdateTaskSheet task={task} assignees={assignees} />}
+					{open && (
+						<UpdateTaskSheet task={task} assignees={assignees} />
+					)}
 				</SheetContent>
 			</Sheet>
 		</div>

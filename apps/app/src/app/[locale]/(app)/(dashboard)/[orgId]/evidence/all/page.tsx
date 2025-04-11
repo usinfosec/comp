@@ -1,11 +1,11 @@
+import { getValidFilters } from "@/lib/data-table";
 import { getI18n } from "@/locales/server";
+import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import type { SearchParams } from "@/types";
-import { searchParamsCache } from "./data/validations";
-import { getValidFilters } from "@/lib/data-table";
-import { getEvidence } from "./data/queries";
 import { EvidenceTable } from "./components/evidence-table";
+import { getEvidence } from "./data/queries";
+import { searchParamsCache } from "./data/validations";
 
 interface PolicyTableProps {
 	params: Promise<{ locale: string }>;

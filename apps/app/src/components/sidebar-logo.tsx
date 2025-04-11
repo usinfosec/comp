@@ -1,7 +1,7 @@
 "use client";
 
-import { Icons } from "@comp/ui/icons";
 import { cn } from "@comp/ui/cn";
+import { Icons } from "@comp/ui/icons";
 import Link from "next/link";
 
 interface SidebarLogoProps {

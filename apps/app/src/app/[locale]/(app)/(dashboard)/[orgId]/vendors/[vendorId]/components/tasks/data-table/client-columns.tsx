@@ -64,7 +64,11 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 						{status
 							.toLowerCase()
 							.split("_")
-							.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+							.map(
+								(word) =>
+									word.charAt(0).toUpperCase() +
+									word.slice(1),
+							)
 							.join(" ")}
 					</Badge>
 				);
@@ -83,7 +87,10 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 			accessorKey: "owner",
 			header: t("vendors.tasks.columns.owner"),
 			cell: ({ row }) => {
-				const owner = row.getValue("owner") as { name: string; image: string };
+				const owner = row.getValue("owner") as {
+					name: string;
+					image: string;
+				};
 				if (!owner) return "-";
 				return (
 					<div className="flex items-center gap-2">

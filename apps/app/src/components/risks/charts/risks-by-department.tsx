@@ -1,10 +1,10 @@
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { DepartmentChart } from "./department-chart";
-import { auth } from "@/utils/auth";
-import { cache } from "react";
 import { headers } from "next/headers";
+import { cache } from "react";
+import { DepartmentChart } from "./department-chart";
 
 const ALL_DEPARTMENTS = ["none", "admin", "gov", "hr", "it", "itsm", "qms"];
 
@@ -16,7 +16,8 @@ export async function RisksByDepartment() {
 	const data = ALL_DEPARTMENTS.map((dept) => {
 		const found = risks.find(
 			(risk) =>
-				(risk.department || "none").toLowerCase() === dept.toLowerCase(),
+				(risk.department || "none").toLowerCase() ===
+				dept.toLowerCase(),
 		);
 
 		return {
@@ -33,7 +34,10 @@ export async function RisksByDepartment() {
 	let departmentsToShow = [...departmentsWithValues];
 
 	// If we have fewer than 4 departments with values, show up to 2 departments with no values
-	if (departmentsWithValues.length < 4 && departmentsWithoutValues.length > 0) {
+	if (
+		departmentsWithValues.length < 4 &&
+		departmentsWithoutValues.length > 0
+	) {
 		departmentsToShow = [
 			...departmentsWithValues,
 			...departmentsWithoutValues.slice(0, 2),
@@ -46,7 +50,10 @@ export async function RisksByDepartment() {
 				<CardTitle>{t("risk.dashboard.by_department")}</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<DepartmentChart data={departmentsToShow} showEmptyDepartments={true} />
+				<DepartmentChart
+					data={departmentsToShow}
+					showEmptyDepartments={true}
+				/>
 			</CardContent>
 		</Card>
 	);

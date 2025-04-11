@@ -3,22 +3,13 @@
 import { createPolicyAction } from "@/actions/policies/create-new-policy";
 import { createPolicySchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { Button } from "@comp/ui/button";
-import { Textarea } from "@comp/ui/textarea";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
-import { useQueryState } from "nuqs";
-import { Input } from "@comp/ui/input";
-import { ArrowRightIcon } from "lucide-react";
-import { toast } from "sonner";
-import type { z } from "zod";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@comp/ui/accordion";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -27,7 +18,16 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
+import { Textarea } from "@comp/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRightIcon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryState } from "nuqs";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 export function CreateNewPolicyForm() {
 	const t = useI18n();
@@ -64,7 +64,9 @@ export function CreateNewPolicyForm() {
 					<div>
 						<Accordion type="multiple" defaultValue={["policy"]}>
 							<AccordionItem value="policy">
-								<AccordionTrigger>{t("policies.new.details")}</AccordionTrigger>
+								<AccordionTrigger>
+									{t("policies.new.details")}
+								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
 										<FormField
@@ -72,13 +74,19 @@ export function CreateNewPolicyForm() {
 											name="title"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("policies.new.title")}</FormLabel>
+													<FormLabel>
+														{t(
+															"policies.new.title",
+														)}
+													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t("policies.new.title")}
+															placeholder={t(
+																"policies.new.title",
+															)}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -91,12 +99,18 @@ export function CreateNewPolicyForm() {
 											name="description"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("policies.new.description")}</FormLabel>
+													<FormLabel>
+														{t(
+															"policies.new.description",
+														)}
+													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t("policies.new.description")}
+															placeholder={t(
+																"policies.new.description",
+															)}
 														/>
 													</FormControl>
 													<FormMessage />

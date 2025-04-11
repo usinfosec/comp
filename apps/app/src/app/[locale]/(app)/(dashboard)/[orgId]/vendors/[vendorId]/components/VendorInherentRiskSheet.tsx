@@ -1,5 +1,6 @@
 "use client";
 
+import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
 import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -12,9 +13,8 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@comp/ui/sheet";
-import { X } from "lucide-react";
-import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
 import { Impact, Likelihood } from "@prisma/client";
+import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 export function VendorInherentRiskSheet({
@@ -39,7 +39,9 @@ export function VendorInherentRiskSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("vendors.risks.update_inherent_risk")}</SheetTitle>
+							<SheetTitle>
+								{t("vendors.risks.update_inherent_risk")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
@@ -50,7 +52,9 @@ export function VendorInherentRiskSheet({
 							</Button>
 						</div>
 						<SheetDescription>
-							{t("vendors.risks.update_inherent_risk_description")}
+							{t(
+								"vendors.risks.update_inherent_risk_description",
+							)}
 						</SheetDescription>
 					</SheetHeader>
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
+import type { Invitation } from "@comp/db/types";
 import {
 	Card,
 	CardContent,
@@ -8,8 +10,6 @@ import {
 	CardTitle,
 } from "@comp/ui/card";
 import { PendingInvitationItem } from "./PendingInvitationItem";
-import type { Invitation } from "@comp/db/types";
-import { useI18n } from "@/locales/client";
 
 interface PendingInvitationsProps {
 	pendingInvitations: Invitation[];
@@ -25,10 +25,14 @@ export function PendingInvitations({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("settings.team.invitations.empty.no_invitations.title")}
+						{t(
+							"settings.team.invitations.empty.no_invitations.title",
+						)}
 					</CardTitle>
 					<CardDescription>
-						{t("settings.team.invitations.empty.no_invitations.description")}
+						{t(
+							"settings.team.invitations.empty.no_invitations.description",
+						)}
 					</CardDescription>
 				</CardHeader>
 			</Card>
@@ -39,7 +43,9 @@ export function PendingInvitations({
 		<div className="space-y-4">
 			<Card>
 				<CardHeader>
-					<CardTitle>{t("settings.team.invitations.title")}</CardTitle>
+					<CardTitle>
+						{t("settings.team.invitations.title")}
+					</CardTitle>
 					<CardDescription>
 						{t("settings.team.invitations.description")} (
 						{pendingInvitations.length})

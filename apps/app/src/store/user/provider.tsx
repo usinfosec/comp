@@ -14,5 +14,7 @@ export function UserProvider({ children, data }: UserProviderProps) {
 		}
 	}, [data, store]);
 
-	return <UserContext.Provider value={store}>{children}</UserContext.Provider>;
+	return (
+		<UserContext.Provider value={store}>{children}</UserContext.Provider>
+	);
 }

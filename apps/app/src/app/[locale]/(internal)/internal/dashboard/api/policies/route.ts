@@ -1,5 +1,5 @@
 import { db } from "@comp/db";
-import { Prisma, PolicyStatus } from "@prisma/client";
+import { PolicyStatus, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 interface AssigneeDetails {
@@ -130,15 +130,22 @@ export async function GET(request: NextRequest) {
 			}
 		}
 
-		const last30DaysTotalByDay = Array.from(last30DaysTotalByDayMap.entries())
+		const last30DaysTotalByDay = Array.from(
+			last30DaysTotalByDayMap.entries(),
+		)
 			.map(([date, count]) => ({ date, count }))
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()); // Sort chronologically
+			.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime(),
+			); // Sort chronologically
 
 		// Calculate percentage change
 		let percentageChangeLast30Days: number | null = null;
 		if (previous30DaysTotal > 0) {
 			percentageChangeLast30Days =
-				((last30DaysTotal - previous30DaysTotal) / previous30DaysTotal) * 100;
+				((last30DaysTotal - previous30DaysTotal) /
+					previous30DaysTotal) *
+				100;
 		} else if (last30DaysTotal > 0) {
 			percentageChangeLast30Days = null; // Indicate infinite change from 0
 		} else {

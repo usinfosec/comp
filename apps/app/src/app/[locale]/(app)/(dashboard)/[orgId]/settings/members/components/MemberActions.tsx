@@ -1,16 +1,8 @@
 "use client";
 
-import { Button } from "@comp/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@comp/ui/dropdown-menu";
-import { MoreHorizontal, UserCog, UserMinus } from "lucide-react";
-import { useState } from "react";
+import { removeMember } from "@/actions/organization/remove-member";
+import { updateMemberRole } from "@/actions/organization/update-member-role";
+import { useI18n } from "@/locales/client";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -22,9 +14,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@comp/ui/alert-dialog";
-import { updateMemberRole } from "@/actions/organization/update-member-role";
-import { removeMember } from "@/actions/organization/remove-member";
-import { toast } from "sonner";
+import { Button } from "@comp/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -33,6 +23,14 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@comp/ui/dialog";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@comp/ui/dropdown-menu";
 import { Label } from "@comp/ui/label";
 import {
 	Select,
@@ -41,8 +39,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import type { User, Role, Member } from "@prisma/client";
-import { useI18n } from "@/locales/client";
+import type { Member, Role, User } from "@prisma/client";
+import { MoreHorizontal, UserCog, UserMinus } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface MemberActionsProps {
 	permission: Member & { user: User };
@@ -70,10 +70,14 @@ export function MemberActions({ permission }: MemberActionsProps) {
 					`${memberName} ${t("settings.team.member_actions.toast.remove_success")}`,
 				);
 			} else {
-				toast.error(t("settings.team.member_actions.toast.remove_error"));
+				toast.error(
+					t("settings.team.member_actions.toast.remove_error"),
+				);
 			}
 		} catch (error) {
-			toast.error(t("settings.team.member_actions.toast.remove_unexpected"));
+			toast.error(
+				t("settings.team.member_actions.toast.remove_unexpected"),
+			);
 		} finally {
 			setIsRemoving(false);
 		}
@@ -93,7 +97,9 @@ export function MemberActions({ permission }: MemberActionsProps) {
 				);
 				setIsRoleDialogOpen(false);
 			} else {
-				toast.error(t("settings.team.member_actions.toast.update_role_error"));
+				toast.error(
+					t("settings.team.member_actions.toast.update_role_error"),
+				);
 			}
 		} catch (error) {
 			toast.error(
@@ -119,7 +125,9 @@ export function MemberActions({ permission }: MemberActionsProps) {
 						{t("settings.team.member_actions.actions")}
 					</DropdownMenuLabel>
 					{canChangeRole && (
-						<DropdownMenuItem onSelect={() => setIsRoleDialogOpen(true)}>
+						<DropdownMenuItem
+							onSelect={() => setIsRoleDialogOpen(true)}
+						>
 							<UserCog className="h-4 w-4 mr-2" />
 							{t("settings.team.member_actions.change_role")}
 						</DropdownMenuItem>
@@ -127,15 +135,21 @@ export function MemberActions({ permission }: MemberActionsProps) {
 					<DropdownMenuSeparator />
 					<AlertDialog>
 						<AlertDialogTrigger asChild>
-							<DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+							<DropdownMenuItem
+								onSelect={(e) => e.preventDefault()}
+							>
 								<UserMinus className="h-4 w-4 mr-2" />
-								{t("settings.team.member_actions.remove_member")}
+								{t(
+									"settings.team.member_actions.remove_member",
+								)}
 							</DropdownMenuItem>
 						</AlertDialogTrigger>
 						<AlertDialogContent>
 							<AlertDialogHeader>
 								<AlertDialogTitle>
-									{t("settings.team.member_actions.remove_confirm.title")}
+									{t(
+										"settings.team.member_actions.remove_confirm.title",
+									)}
 								</AlertDialogTitle>
 								<AlertDialogDescription>
 									{t(
@@ -167,21 +181,29 @@ export function MemberActions({ permission }: MemberActionsProps) {
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>
-							{t("settings.team.member_actions.role_dialog.title")}
+							{t(
+								"settings.team.member_actions.role_dialog.title",
+							)}
 						</DialogTitle>
 						<DialogDescription>
-							{t("settings.team.member_actions.role_dialog.description_prefix")}{" "}
+							{t(
+								"settings.team.member_actions.role_dialog.description_prefix",
+							)}{" "}
 							{memberName}
 						</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4 py-4">
 						<div className="space-y-2">
 							<Label htmlFor="role">
-								{t("settings.team.member_actions.role_dialog.role_label")}
+								{t(
+									"settings.team.member_actions.role_dialog.role_label",
+								)}
 							</Label>
 							<Select
 								value={newRole}
-								onValueChange={(value) => setNewRole(value as Role)}
+								onValueChange={(value) =>
+									setNewRole(value as Role)
+								}
 							>
 								<SelectTrigger id="role">
 									<SelectValue
@@ -195,10 +217,14 @@ export function MemberActions({ permission }: MemberActionsProps) {
 										{t("settings.team.members.role.admin")}
 									</SelectItem>
 									<SelectItem value={"auditor" as Role}>
-										{t("settings.team.members.role.auditor")}
+										{t(
+											"settings.team.members.role.auditor",
+										)}
 									</SelectItem>
 									<SelectItem value={"employee" as Role}>
-										{t("settings.team.members.role.employee")}
+										{t(
+											"settings.team.members.role.employee",
+										)}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -223,10 +249,17 @@ export function MemberActions({ permission }: MemberActionsProps) {
 							variant="outline"
 							onClick={() => setIsRoleDialogOpen(false)}
 						>
-							{t("settings.team.member_actions.role_dialog.cancel")}
+							{t(
+								"settings.team.member_actions.role_dialog.cancel",
+							)}
 						</Button>
-						<Button onClick={handleUpdateRole} disabled={isUpdatingRole}>
-							{t("settings.team.member_actions.role_dialog.update")}
+						<Button
+							onClick={handleUpdateRole}
+							disabled={isUpdatingRole}
+						>
+							{t(
+								"settings.team.member_actions.role_dialog.update",
+							)}
 						</Button>
 					</DialogFooter>
 				</DialogContent>

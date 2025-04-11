@@ -45,7 +45,10 @@ function getColumns(): ColumnDef<PersonType>[] {
 			id: "name",
 			accessorKey: "name",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title={t("people.table.name")} />
+				<DataTableColumnHeader
+					column={column}
+					title={t("people.table.name")}
+				/>
 			),
 			cell: ({ row }) => {
 				const name = row.original.name;
@@ -55,8 +58,14 @@ function getColumns(): ColumnDef<PersonType>[] {
 
 				return (
 					<div className="flex flex-col space-y-0.5">
-						<Button variant="link" className="p-0 h-auto justify-start" asChild>
-							<Link href={`/${orgId}/employees/${row.original.id}`}>
+						<Button
+							variant="link"
+							className="p-0 h-auto justify-start"
+							asChild
+						>
+							<Link
+								href={`/${orgId}/employees/${row.original.id}`}
+							>
 								<span className="truncate">{name}</span>
 							</Link>
 						</Button>
@@ -82,7 +91,9 @@ function getColumns(): ColumnDef<PersonType>[] {
 			cell: ({ row }) => {
 				const email = row.original.email;
 				return (
-					<div className="hidden md:block text-muted-foreground">{email}</div>
+					<div className="hidden md:block text-muted-foreground">
+						{email}
+					</div>
 				);
 			},
 		},
@@ -156,7 +167,9 @@ export function DataTable({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 									className="hover:bg-muted/50"
 								>
 									{row.getVisibleCells().map((cell) => (
@@ -164,8 +177,10 @@ export function DataTable({
 											key={cell.id}
 											className={cn(
 												(cell.column.id === "email" ||
-													cell.column.id === "department" ||
-													cell.column.id === "status") &&
+													cell.column.id ===
+														"department" ||
+													cell.column.id ===
+														"status") &&
 													"hidden md:table-cell",
 											)}
 										>
@@ -190,7 +205,10 @@ export function DataTable({
 					</TableBody>
 				</Table>
 			</div>
-			<DataTablePagination pageCount={pageCount} currentPage={currentPage} />
+			<DataTablePagination
+				pageCount={pageCount}
+				currentPage={currentPage}
+			/>
 		</div>
 	);
 }

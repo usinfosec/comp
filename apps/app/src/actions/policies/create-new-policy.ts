@@ -60,7 +60,10 @@ export const createPolicyAction = authActionClient
 					department: Departments.none,
 					frequency: Frequency.monthly,
 					content: [
-						{ type: "paragraph", content: [{ type: "text", text: "" }] },
+						{
+							type: "paragraph",
+							content: [{ type: "text", text: "" }],
+						},
 					],
 				},
 			});

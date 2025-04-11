@@ -4,6 +4,7 @@ import type { Table } from "@tanstack/react-table";
 import { Check, ChevronsUpDown, Settings2 } from "lucide-react";
 
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	Command,
 	CommandEmpty,
@@ -13,7 +14,6 @@ import {
 	CommandList,
 } from "@comp/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
-import { cn } from "@comp/ui/cn";
 import * as React from "react";
 
 interface DataTableViewOptionsProps<TData> {
@@ -29,7 +29,8 @@ export function DataTableViewOptions<TData>({
 				.getAllColumns()
 				.filter(
 					(column) =>
-						typeof column.accessorFn !== "undefined" && column.getCanHide(),
+						typeof column.accessorFn !== "undefined" &&
+						column.getCanHide(),
 				),
 		[table],
 	);
@@ -58,16 +59,21 @@ export function DataTableViewOptions<TData>({
 								<CommandItem
 									key={column.id}
 									onSelect={() =>
-										column.toggleVisibility(!column.getIsVisible())
+										column.toggleVisibility(
+											!column.getIsVisible(),
+										)
 									}
 								>
 									<span className="truncate">
-										{column.columnDef.meta?.label ?? column.id}
+										{column.columnDef.meta?.label ??
+											column.id}
 									</span>
 									<Check
 										className={cn(
 											"ml-auto size-4 shrink-0",
-											column.getIsVisible() ? "opacity-100" : "opacity-0",
+											column.getIsVisible()
+												? "opacity-100"
+												: "opacity-0",
 										)}
 									/>
 								</CommandItem>

@@ -2,8 +2,8 @@
 
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useHotkeys } from "react-hotkeys-hook";
 import { useQueryState } from "nuqs";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function HotKeys() {
 	const router = useRouter();

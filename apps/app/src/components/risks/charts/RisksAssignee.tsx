@@ -2,13 +2,13 @@ import { getInitials } from "@/lib/utils";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import type { RiskStatus } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { ScrollArea } from "@comp/ui/scroll-area";
 import { headers } from "next/headers";
-import { cache } from "react";
-import type { RiskStatus } from "@comp/db/types";
 import Link from "next/link";
+import { cache } from "react";
 
 interface UserRiskStats {
 	user: {
@@ -49,7 +49,8 @@ export async function RisksAssignee() {
 		openRisks: member.Risk.filter((risk) => risk.status === "open").length,
 		pendingRisks: member.Risk.filter((risk) => risk.status === "pending")
 			.length,
-		closedRisks: member.Risk.filter((risk) => risk.status === "closed").length,
+		closedRisks: member.Risk.filter((risk) => risk.status === "closed")
+			.length,
 		archivedRisks: member.Risk.filter((risk) => risk.status === "archived")
 			.length,
 	}));
@@ -71,19 +72,26 @@ export async function RisksAssignee() {
 							>
 								<div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50">
 									<Avatar>
-										<AvatarImage src={stat.user.image || undefined} />
+										<AvatarImage
+											src={stat.user.image || undefined}
+										/>
 										<AvatarFallback>
-											{getInitials(stat.user.name || "Unknown User")}
+											{getInitials(
+												stat.user.name ||
+													"Unknown User",
+											)}
 										</AvatarFallback>
 									</Avatar>
 
 									<div className="flex-1 min-w-0">
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-medium leading-none truncate">
-												{stat.user.name || "Unknown User"}
+												{stat.user.name ||
+													"Unknown User"}
 											</p>
 											<span className="text-sm text-muted-foreground">
-												{stat.totalRisks} {t("risk.risks")}
+												{stat.totalRisks}{" "}
+												{t("risk.risks")}
 											</span>
 										</div>
 
@@ -104,7 +112,9 @@ export async function RisksAssignee() {
 															className={`${riskStatusColors.pending} h-full`}
 															style={{
 																width: `${
-																	(stat.pendingRisks / stat.totalRisks) * 100
+																	(stat.pendingRisks /
+																		stat.totalRisks) *
+																	100
 																}%`,
 															}}
 															title={`${t("common.status.pending")}: ${stat.pendingRisks}`}
@@ -139,7 +149,10 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.open}`}
 													/>
 													<span>
-														{t("common.status.open")} ({stat.openRisks})
+														{t(
+															"common.status.open",
+														)}{" "}
+														({stat.openRisks})
 													</span>
 												</div>
 											)}
@@ -149,7 +162,10 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.pending}`}
 													/>
 													<span>
-														{t("common.status.pending")} ({stat.pendingRisks})
+														{t(
+															"common.status.pending",
+														)}{" "}
+														({stat.pendingRisks})
 													</span>
 												</div>
 											)}
@@ -159,7 +175,10 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.closed}`}
 													/>
 													<span>
-														{t("common.status.closed")} ({stat.closedRisks})
+														{t(
+															"common.status.closed",
+														)}{" "}
+														({stat.closedRisks})
 													</span>
 												</div>
 											)}
@@ -169,7 +188,10 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.archived}`}
 													/>
 													<span>
-														{t("common.status.archived")} ({stat.archivedRisks})
+														{t(
+															"common.status.archived",
+														)}{" "}
+														({stat.archivedRisks})
 													</span>
 												</div>
 											)}

@@ -1,20 +1,21 @@
 "use client";
 
+import { useSession } from "@/utils/auth-client";
 import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import { Icons } from "@comp/ui/icons";
-import { useSession } from "@/utils/auth-client";
 
 type Props = {
-	role: "assistant" | "user";
+	participantType: "assistant" | "user";
+	ariaLabel?: string;
 };
 
-export function ChatAvatar({ role }: Props) {
+export function ChatAvatar({ participantType, ariaLabel }: Props) {
 	const { data: session } = useSession();
 
-	switch (role) {
+	switch (participantType) {
 		case "user": {
 			return (
-				<Avatar className="size-6">
+				<Avatar className="size-6" aria-label={ariaLabel}>
 					<AvatarImageNext
 						src={session?.user?.image || ""}
 						alt={session?.user?.name || ""}
@@ -30,6 +31,6 @@ export function ChatAvatar({ role }: Props) {
 		}
 
 		default:
-			return <Icons.Logo />;
+			return <Icons.Logo aria-label={ariaLabel} />;
 	}
 }

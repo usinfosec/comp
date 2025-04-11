@@ -1,10 +1,10 @@
+import { completeEmployeeCreation } from "@/lib/db/employee";
+import { decrypt } from "@/lib/encryption";
 import { db } from "@comp/db";
+import { Departments } from "@comp/db/types";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import axios from "axios";
 import { z } from "zod";
-import { Departments } from "@comp/db/types";
-import { decrypt } from "@/lib/encryption";
-import { completeEmployeeCreation } from "@/lib/db/employee";
 
 const deelTaskSchema = z.object({
 	integration: z.object({
@@ -197,24 +197,26 @@ export const syncDeelEmployees = schemaTask({
 				) {
 					// Decrypt the access token
 					try {
-						accessToken = await decrypt(integration.user_settings.api_key);
+						accessToken = await decrypt(
+							integration.user_settings.api_key,
+						);
 						logger.info("Successfully decrypted Deel API key");
 					} catch (decryptError) {
-						logger.error(`Failed to decrypt Deel API key: ${decryptError}`);
+						logger.error(
+							`Failed to decrypt Deel API key: ${decryptError}`,
+						);
 
 						// Check if SECRET_KEY is set
 						if (!process.env.SECRET_KEY) {
 							return {
 								success: false,
-								error:
-									"Missing SECRET_KEY environment variable required for decryption",
+								error: "Missing SECRET_KEY environment variable required for decryption",
 							};
 						}
 
 						return {
 							success: false,
-							error:
-								"Failed to decrypt API key. Make sure SECRET_KEY is correct.",
+							error: "Failed to decrypt API key. Make sure SECRET_KEY is correct.",
 						};
 					}
 				} else {
@@ -232,7 +234,10 @@ export const syncDeelEmployees = schemaTask({
 				logger.error(
 					`Failed to decrypt access token for Deel integration ${integration.name}: ${error}`,
 				);
-				return { success: false, error: "Failed to decrypt access token" };
+				return {
+					success: false,
+					error: "Failed to decrypt access token",
+				};
 			}
 
 			// Fetch employees from Deel
@@ -244,11 +249,13 @@ export const syncDeelEmployees = schemaTask({
 			// Log active vs inactive employees
 			const activeEmployees = deelEmployees.filter(
 				(emp) =>
-					emp.hiring_status === "active" || emp.new_hiring_status === "active",
+					emp.hiring_status === "active" ||
+					emp.new_hiring_status === "active",
 			);
 			const inactiveEmployees = deelEmployees.filter(
 				(emp) =>
-					emp.hiring_status !== "active" && emp.new_hiring_status !== "active",
+					emp.hiring_status !== "active" &&
+					emp.new_hiring_status !== "active",
 			);
 			logger.info(
 				`Found ${activeEmployees.length} active employees and ${inactiveEmployees.length} inactive employees out of ${deelEmployees.length} total`,
@@ -308,7 +315,9 @@ export const syncDeelEmployees = schemaTask({
 					continue;
 				}
 
-				logger.info(`Looking for existing employee with email: ${email}`);
+				logger.info(
+					`Looking for existing employee with email: ${email}`,
+				);
 
 				// Check if employee already exists using the reusable function
 				const existingUser = await db.user.findFirst({
@@ -375,7 +384,9 @@ export const syncDeelEmployees = schemaTask({
 									isActive: false,
 								},
 							});
-							logger.info("Updated new employee to inactive status");
+							logger.info(
+								"Updated new employee to inactive status",
+							);
 						}
 
 						logger.info(
@@ -398,7 +409,9 @@ export const syncDeelEmployees = schemaTask({
 			logger.info(
 				`Employee processing complete. Created/updated ${processedEmployees.length} employees.`,
 			);
-			logger.info(`Summary: ${JSON.stringify(processedEmployees, null, 2)}`);
+			logger.info(
+				`Summary: ${JSON.stringify(processedEmployees, null, 2)}`,
+			);
 
 			logger.info(`Deel employee sync completed for ${integration.name}`);
 			return {

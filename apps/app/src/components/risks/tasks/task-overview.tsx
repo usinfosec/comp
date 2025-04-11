@@ -38,7 +38,9 @@ export function TaskOverview({
 						</Button>
 					</div>
 				</AlertTitle>
-				<AlertDescription className="mt-4">{task.description}</AlertDescription>
+				<AlertDescription className="mt-4">
+					{task.description}
+				</AlertDescription>
 			</Alert>
 
 			<Card>

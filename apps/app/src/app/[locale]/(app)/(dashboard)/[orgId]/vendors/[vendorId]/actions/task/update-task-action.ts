@@ -2,10 +2,10 @@
 
 "use server";
 
+import { authActionClient } from "@/actions/safe-action";
 import { db } from "@comp/db";
 import type { TaskStatus } from "@comp/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authActionClient } from "@/actions/safe-action";
 import { updateVendorTaskSchema } from "../schema";
 
 export const updateVendorTaskAction = authActionClient
@@ -18,7 +18,8 @@ export const updateVendorTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, title, description, dueDate, status, assigneeId } = parsedInput;
+		const { id, title, description, dueDate, status, assigneeId } =
+			parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {

@@ -52,7 +52,10 @@ export const getAllOrganizationControlRequirements = authActionClient
 				},
 			};
 		} catch (error) {
-			console.error("Error fetching organization control requirements:", error);
+			console.error(
+				"Error fetching organization control requirements:",
+				error,
+			);
 			return {
 				error: "Failed to fetch organization control requirements",
 			};

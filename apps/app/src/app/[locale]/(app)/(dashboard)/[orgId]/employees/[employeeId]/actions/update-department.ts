@@ -1,16 +1,16 @@
 "use server";
 
+import { authActionClient } from "@/actions/safe-action";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Departments } from "@comp/db/types";
-import { authActionClient } from "@/actions/safe-action";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import {
 	type AppError,
-	updateEmployeeDepartmentSchema,
 	appErrors,
+	updateEmployeeDepartmentSchema,
 } from "../types";
-import { auth } from "@/utils/auth";
-import { headers } from "next/headers";
 
 export type ActionResponse<T = any> = Promise<
 	{ success: true; data: T } | { success: false; error: AppError }

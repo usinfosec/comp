@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { LogoSpinner } from "@/components/logo-spinner";
 import { cn } from "@comp/ui/cn";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface ValidatingSpinnerProps {
 	isValidating: boolean;
@@ -90,7 +90,10 @@ export function ValidatingSpinner({
 					}}
 				>
 					<LogoSpinner
-						className={cn("h-6 w-6 text-muted-foreground", className)}
+						className={cn(
+							"h-6 w-6 text-muted-foreground",
+							className,
+						)}
 					/>
 				</motion.div>
 			)}

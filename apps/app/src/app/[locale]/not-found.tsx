@@ -6,7 +6,9 @@ export default async function NotFound() {
 
 	return (
 		<div className="h-screen flex flex-col items-center justify-center text-center text-sm text-muted-foreground ">
-			<h2 className="text-xl font-semibold mb-2">{t("not_found.title")}</h2>
+			<h2 className="text-xl font-semibold mb-2">
+				{t("not_found.title")}
+			</h2>
 			<p className="mb-4">{t("not_found.description")}</p>
 			<Link href="/" className="underline">
 				{t("not_found.return")}

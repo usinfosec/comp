@@ -113,13 +113,16 @@ export const updatePolicyAction = authActionClient
 		} catch (error) {
 			logger.error("Error updating policy:", {
 				error,
-				errorMessage: error instanceof Error ? error.message : "Unknown error",
+				errorMessage:
+					error instanceof Error ? error.message : "Unknown error",
 				errorStack: error instanceof Error ? error.stack : undefined,
 			});
 			return {
 				success: false,
 				error:
-					error instanceof Error ? error.message : "Failed to update policy",
+					error instanceof Error
+						? error.message
+						: "Failed to update policy",
 			};
 		}
 	});

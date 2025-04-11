@@ -26,7 +26,8 @@ export async function VendorsByCategory({ organizationId }: Props) {
 	const data = VENDOR_CATEGORIES.map((category, index) => {
 		const found = vendors.find(
 			(vendor) =>
-				(vendor.category || "other").toLowerCase() === category.toLowerCase(),
+				(vendor.category || "other").toLowerCase() ===
+				category.toLowerCase(),
 		);
 
 		const formattedName =
@@ -36,7 +37,8 @@ export async function VendorsByCategory({ organizationId }: Props) {
 						.split("_")
 						.map(
 							(word) =>
-								word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+								word.charAt(0).toUpperCase() +
+								word.slice(1).toLowerCase(),
 						)
 						.join(" ");
 

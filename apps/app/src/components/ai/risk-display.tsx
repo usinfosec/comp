@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Badge } from "@comp/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 
 interface Risk {
 	id: string;
@@ -34,7 +34,9 @@ export function RiskDisplay({ risks }: RiskDisplayProps) {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<p className="text-sm text-muted-foreground">{risk.description}</p>
+						<p className="text-sm text-muted-foreground">
+							{risk.description}
+						</p>
 					</CardContent>
 				</Card>
 			))}

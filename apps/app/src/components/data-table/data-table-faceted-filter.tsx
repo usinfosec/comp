@@ -6,6 +6,7 @@ import { Check, PlusCircle, XCircle } from "lucide-react";
 
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	Command,
 	CommandEmpty,
@@ -17,7 +18,6 @@ import {
 } from "@comp/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import { Separator } from "@comp/ui/separator";
-import { cn } from "@comp/ui/cn";
 import * as React from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
@@ -52,7 +52,9 @@ export function DataTableFacetedFilter<TData, TValue>({
 					newSelectedValues.add(option.value);
 				}
 				const filterValues = Array.from(newSelectedValues);
-				column.setFilterValue(filterValues.length ? filterValues : undefined);
+				column.setFilterValue(
+					filterValues.length ? filterValues : undefined,
+				);
 			} else {
 				column.setFilterValue(isSelected ? undefined : [option.value]);
 				setOpen(false);
@@ -107,7 +109,9 @@ export function DataTableFacetedFilter<TData, TValue>({
 									</Badge>
 								) : (
 									options
-										.filter((option) => selectedValues.has(option.value))
+										.filter((option) =>
+											selectedValues.has(option.value),
+										)
 										.map((option) => (
 											<Badge
 												variant="secondary"
@@ -130,12 +134,16 @@ export function DataTableFacetedFilter<TData, TValue>({
 						<CommandEmpty>No results found.</CommandEmpty>
 						<CommandGroup className="max-h-[18.75rem] overflow-y-auto overflow-x-hidden">
 							{options.map((option) => {
-								const isSelected = selectedValues.has(option.value);
+								const isSelected = selectedValues.has(
+									option.value,
+								);
 
 								return (
 									<CommandItem
 										key={option.value}
-										onSelect={() => onItemSelect(option, isSelected)}
+										onSelect={() =>
+											onItemSelect(option, isSelected)
+										}
 									>
 										<div
 											className={cn(
@@ -148,7 +156,9 @@ export function DataTableFacetedFilter<TData, TValue>({
 											<Check />
 										</div>
 										{option.icon && <option.icon />}
-										<span className="truncate">{option.label}</span>
+										<span className="truncate">
+											{option.label}
+										</span>
 										{option.count && (
 											<span className="ml-auto font-mono text-xs">
 												{option.count}

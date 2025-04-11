@@ -110,7 +110,11 @@ export function CreateRisk({
 											name="title"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("risk.form.risk_title")}</FormLabel>
+													<FormLabel>
+														{t(
+															"risk.form.risk_title",
+														)}
+													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -132,7 +136,9 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("risk.form.risk_description")}
+														{t(
+															"risk.form.risk_description",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Textarea
@@ -152,12 +158,18 @@ export function CreateRisk({
 											name="category"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("risk.form.risk_category")}</FormLabel>
+													<FormLabel>
+														{t(
+															"risk.form.risk_category",
+														)}
+													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={field.onChange}
+															onValueChange={
+																field.onChange
+															}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -167,22 +179,50 @@ export function CreateRisk({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(RiskCategory).map((category) => {
-																	const formattedCategory = category
-																		.toLowerCase()
-																		.split("_")
-																		.map(
-																			(word) =>
-																				word.charAt(0).toUpperCase() +
-																				word.slice(1),
-																		)
-																		.join(" ");
-																	return (
-																		<SelectItem key={category} value={category}>
-																			{formattedCategory}
-																		</SelectItem>
-																	);
-																})}
+																{Object.values(
+																	RiskCategory,
+																).map(
+																	(
+																		category,
+																	) => {
+																		const formattedCategory =
+																			category
+																				.toLowerCase()
+																				.split(
+																					"_",
+																				)
+																				.map(
+																					(
+																						word,
+																					) =>
+																						word
+																							.charAt(
+																								0,
+																							)
+																							.toUpperCase() +
+																						word.slice(
+																							1,
+																						),
+																				)
+																				.join(
+																					" ",
+																				);
+																		return (
+																			<SelectItem
+																				key={
+																					category
+																				}
+																				value={
+																					category
+																				}
+																			>
+																				{
+																					formattedCategory
+																				}
+																			</SelectItem>
+																		);
+																	},
+																)}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -196,13 +236,17 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("risk.form.risk_department")}
+														{t(
+															"risk.form.risk_department",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={field.onChange}
+															onValueChange={
+																field.onChange
+															}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -212,17 +256,27 @@ export function CreateRisk({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(Departments).map(
-																	(department) => {
+																{Object.values(
+																	Departments,
+																).map(
+																	(
+																		department,
+																	) => {
 																		const formattedDepartment =
 																			department.toUpperCase();
 
 																		return (
 																			<SelectItem
-																				key={department}
-																				value={department}
+																				key={
+																					department
+																				}
+																				value={
+																					department
+																				}
 																			>
-																				{formattedDepartment}
+																				{
+																					formattedDepartment
+																				}
 																			</SelectItem>
 																		);
 																	},
@@ -239,13 +293,27 @@ export function CreateRisk({
 											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("common.assignee.label")}</FormLabel>
+													<FormLabel>
+														{t(
+															"common.assignee.label",
+														)}
+													</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assigneeId={field.value ?? null}
-															assignees={assignees}
-															onAssigneeChange={field.onChange}
-															disabled={createRisk.status === "executing"}
+															assigneeId={
+																field.value ??
+																null
+															}
+															assignees={
+																assignees
+															}
+															onAssigneeChange={
+																field.onChange
+															}
+															disabled={
+																createRisk.status ===
+																"executing"
+															}
 															withTitle={false}
 														/>
 													</FormControl>

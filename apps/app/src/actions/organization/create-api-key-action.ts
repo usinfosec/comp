@@ -18,7 +18,9 @@ export const createApiKeyAction = authActionClient
 	.action(async ({ parsedInput, ctx }) => {
 		try {
 			const { name, expiresAt } = parsedInput;
-			console.log(`Creating API key "${name}" with expiration: ${expiresAt}`);
+			console.log(
+				`Creating API key "${name}" with expiration: ${expiresAt}`,
+			);
 
 			// Generate a new API key and salt
 			const apiKey = generateApiKey();
@@ -34,16 +36,24 @@ export const createApiKeyAction = authActionClient
 				const now = new Date();
 				switch (expiresAt) {
 					case "30days":
-						expirationDate = new Date(now.setDate(now.getDate() + 30));
+						expirationDate = new Date(
+							now.setDate(now.getDate() + 30),
+						);
 						break;
 					case "90days":
-						expirationDate = new Date(now.setDate(now.getDate() + 90));
+						expirationDate = new Date(
+							now.setDate(now.getDate() + 90),
+						);
 						break;
 					case "1year":
-						expirationDate = new Date(now.setFullYear(now.getFullYear() + 1));
+						expirationDate = new Date(
+							now.setFullYear(now.getFullYear() + 1),
+						);
 						break;
 				}
-				console.log(`Set expiration date to: ${expirationDate?.toISOString()}`);
+				console.log(
+					`Set expiration date to: ${expirationDate?.toISOString()}`,
+				);
 			} else {
 				console.log("No expiration date set for API key");
 			}
@@ -64,9 +74,13 @@ export const createApiKeyAction = authActionClient
 					expiresAt: true,
 				},
 			});
-			console.log(`Successfully created API key with ID: ${apiKeyRecord.id}`);
+			console.log(
+				`Successfully created API key with ID: ${apiKeyRecord.id}`,
+			);
 
-			revalidatePath(`/${ctx.session.activeOrganizationId}/settings/api-keys`);
+			revalidatePath(
+				`/${ctx.session.activeOrganizationId}/settings/api-keys`,
+			);
 
 			return {
 				success: true,
@@ -112,7 +126,8 @@ export const createApiKeyAction = authActionClient
 				success: false,
 				error: {
 					code: "INTERNAL_ERROR",
-					message: "An unexpected error occurred while creating the API key",
+					message:
+						"An unexpected error occurred while creating the API key",
 				},
 			};
 		}

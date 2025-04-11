@@ -30,7 +30,10 @@ export const getSortingStateParser = <TData>(
 
 				if (!result.success) return null;
 
-				if (validKeys && result.data.some((item) => !validKeys.has(item.id))) {
+				if (
+					validKeys &&
+					result.data.some((item) => !validKeys.has(item.id))
+				) {
 					return null;
 				}
 
@@ -76,7 +79,10 @@ export const getFiltersStateParser = <TData>(
 
 				if (!result.success) return null;
 
-				if (validKeys && result.data.some((item) => !validKeys.has(item.id))) {
+				if (
+					validKeys &&
+					result.data.some((item) => !validKeys.has(item.id))
+				) {
 					return null;
 				}
 

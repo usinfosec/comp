@@ -1,5 +1,5 @@
-import { auth } from "@/utils/auth";
 import { getOrganizations } from "@/data/getOrganizations";
+import { auth } from "@/utils/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { MainMenu } from "./main-menu";
@@ -29,7 +29,9 @@ export async function Sidebar() {
 						isCollapsed={isCollapsed}
 						organizationId={organizationId}
 					/>
-					{!isCollapsed && <SidebarCollapseButton isCollapsed={isCollapsed} />}
+					{!isCollapsed && (
+						<SidebarCollapseButton isCollapsed={isCollapsed} />
+					)}
 				</div>
 				<MainMenu
 					//userIsAdmin={user?.isAdmin ?? false}

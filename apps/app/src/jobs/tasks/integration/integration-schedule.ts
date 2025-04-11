@@ -8,7 +8,9 @@ export const sendIntegrationSchedule = schedules.task({
 	maxDuration: 1000 * 60 * 10, // 10 minutes
 	run: async () => {
 		const now = new Date();
-		const upcomingThreshold = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+		const upcomingThreshold = new Date(
+			now.getTime() + 7 * 24 * 60 * 60 * 1000,
+		);
 
 		logger.info(
 			`Sending integration runs from now: ${now} to ${upcomingThreshold}`,
@@ -47,7 +49,9 @@ export const sendIntegrationSchedule = schedules.task({
 			try {
 				await sendIntegrationResults.batchTrigger(triggerPayloads);
 
-				logger.info(`Triggered ${triggerPayloads.length} integration runs`);
+				logger.info(
+					`Triggered ${triggerPayloads.length} integration runs`,
+				);
 			} catch (error) {
 				logger.error(`Failed to trigger batch runs: ${error}`);
 
@@ -55,7 +59,8 @@ export const sendIntegrationSchedule = schedules.task({
 					success: false,
 					totalIntegrations: integrations.length,
 					triggeredIntegrations: triggerPayloads.length,
-					error: error instanceof Error ? error.message : String(error),
+					error:
+						error instanceof Error ? error.message : String(error),
 				};
 			}
 		}

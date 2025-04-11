@@ -37,9 +37,15 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 
 				return (
 					<div className="flex flex-col gap-1">
-						<Button variant="link" className="p-0 justify-start" asChild>
+						<Button
+							variant="link"
+							className="p-0 justify-start"
+							asChild
+						>
 							<Link href={`/${orgId}/risk/${row.original.id}`}>
-								<span className="truncate">{row.original.title}</span>
+								<span className="truncate">
+									{row.original.title}
+								</span>
 							</Link>
 						</Button>
 						<div className="md:hidden">
@@ -53,7 +59,9 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			id: "status",
 			accessorKey: "status",
 			header: () => (
-				<span className="hidden md:table-cell">{t("common.table.status")}</span>
+				<span className="hidden md:table-cell">
+					{t("common.table.status")}
+				</span>
 			),
 			cell: ({ row }) => {
 				const status = row.original.status;

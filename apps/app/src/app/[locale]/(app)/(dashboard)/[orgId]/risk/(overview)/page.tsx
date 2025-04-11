@@ -9,8 +9,8 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { cache } from "react";
-import { getRisks } from "./data/getRisks";
 import { RisksTable } from "./RisksTable";
+import { getRisks } from "./data/getRisks";
 
 export default async function RiskRegisterPage({
 	params,
@@ -56,23 +56,37 @@ export default async function RiskRegisterPage({
 			<>
 				<AppOnboarding
 					title={t("app_onboarding.risk_management.title")}
-					description={t("app_onboarding.risk_management.description")}
+					description={t(
+						"app_onboarding.risk_management.description",
+					)}
 					cta={t("app_onboarding.risk_management.cta")}
 					imageSrc="/onboarding/risk-management.webp"
 					imageAlt="Risk Management"
 					sheetName="create-risk-sheet"
 					faqs={[
 						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_1"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
+							questionKey: t(
+								"app_onboarding.risk_management.faqs.question_1",
+							),
+							answerKey: t(
+								"app_onboarding.risk_management.faqs.answer_1",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_2"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
+							questionKey: t(
+								"app_onboarding.risk_management.faqs.question_2",
+							),
+							answerKey: t(
+								"app_onboarding.risk_management.faqs.answer_2",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.risk_management.faqs.question_3"),
-							answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
+							questionKey: t(
+								"app_onboarding.risk_management.faqs.question_3",
+							),
+							answerKey: t(
+								"app_onboarding.risk_management.faqs.answer_3",
+							),
 						},
 					]}
 				/>

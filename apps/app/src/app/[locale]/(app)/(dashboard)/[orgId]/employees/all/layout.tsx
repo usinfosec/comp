@@ -1,5 +1,5 @@
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { composeEventHandlers, useComposedRefs } from "@/lib/composition";
+import { cn } from "@comp/ui/cn";
 import {
 	type Announcements,
 	DndContext,
@@ -36,8 +38,6 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
-import { composeEventHandlers, useComposedRefs } from "@/lib/composition";
-import { cn } from "@comp/ui/cn";
 import * as ReactDOM from "react-dom";
 
 const orientationConfig = {
@@ -129,7 +129,9 @@ function Sortable<T>(props: SortableProps<T>) {
 		...sortableProps
 	} = props;
 	const id = React.useId();
-	const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null);
+	const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(
+		null,
+	);
 
 	const sensors = useSensors(
 		useSensor(MouseSensor),
@@ -192,8 +194,10 @@ function Sortable<T>(props: SortableProps<T>) {
 			onDragOver({ active, over }) {
 				if (over) {
 					const overIndex = over.data.current?.sortable.index ?? 0;
-					const activeIndex = active.data.current?.sortable.index ?? 0;
-					const moveDirection = overIndex > activeIndex ? "down" : "up";
+					const activeIndex =
+						active.data.current?.sortable.index ?? 0;
+					const moveDirection =
+						overIndex > activeIndex ? "down" : "up";
 					const activeValue = active.id.toString();
 					return `Sortable item "${activeValue}" moved ${moveDirection} to position ${overIndex + 1} of ${value.length}.`;
 				}
@@ -215,8 +219,10 @@ function Sortable<T>(props: SortableProps<T>) {
 			onDragMove({ active, over }) {
 				if (over) {
 					const overIndex = over.data.current?.sortable.index ?? 0;
-					const activeIndex = active.data.current?.sortable.index ?? 0;
-					const moveDirection = overIndex > activeIndex ? "down" : "up";
+					const activeIndex =
+						active.data.current?.sortable.index ?? 0;
+					const moveDirection =
+						overIndex > activeIndex ? "down" : "up";
 					const activeValue = active.id.toString();
 					return `Sortable item "${activeValue}" is moving ${moveDirection} to position ${overIndex + 1} of ${value.length}.`;
 				}
@@ -266,7 +272,9 @@ function Sortable<T>(props: SortableProps<T>) {
 			value={contextValue as SortableRootContextValue<unknown>}
 		>
 			<DndContext
-				collisionDetection={collisionDetection ?? config.collisionDetection}
+				collisionDetection={
+					collisionDetection ?? config.collisionDetection
+				}
 				modifiers={modifiers ?? config.modifiers}
 				sensors={sensors}
 				{...sortableProps}
@@ -275,9 +283,13 @@ function Sortable<T>(props: SortableProps<T>) {
 					sortableProps.onDragStart,
 					({ active }) => setActiveId(active.id),
 				)}
-				onDragEnd={composeEventHandlers(sortableProps.onDragEnd, onDragEnd)}
-				onDragCancel={composeEventHandlers(sortableProps.onDragCancel, () =>
-					setActiveId(null),
+				onDragEnd={composeEventHandlers(
+					sortableProps.onDragEnd,
+					onDragEnd,
+				)}
+				onDragCancel={composeEventHandlers(
+					sortableProps.onDragCancel,
+					() => setActiveId(null),
 				)}
 				accessibility={{
 					announcements,
@@ -409,7 +421,14 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
 				isDragging,
 				disabled,
 			}),
-			[id, attributes, listeners, setActivatorNodeRef, isDragging, disabled],
+			[
+				id,
+				attributes,
+				listeners,
+				setActivatorNodeRef,
+				isDragging,
+				disabled,
+			],
 		);
 
 		const ItemPrimitive = asChild ? Slot : "div";
@@ -430,8 +449,10 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
 						{
 							"touch-none select-none": asHandle,
 							"cursor-default": context.flatCursor,
-							"data-dragging:cursor-grabbing": !context.flatCursor,
-							"cursor-grab": !isDragging && asHandle && !context.flatCursor,
+							"data-dragging:cursor-grabbing":
+								!context.flatCursor,
+							"cursor-grab":
+								!isDragging && asHandle && !context.flatCursor,
 							"opacity-50": isDragging,
 							"pointer-events-none opacity-50": disabled,
 						},
@@ -505,7 +526,10 @@ const dropAnimation: DropAnimation = {
 };
 
 interface SortableOverlayProps
-	extends Omit<React.ComponentPropsWithoutRef<typeof DragOverlay>, "children"> {
+	extends Omit<
+		React.ComponentPropsWithoutRef<typeof DragOverlay>,
+		"children"
+	> {
 	container?: Element | DocumentFragment | null;
 	children?:
 		| ((params: { value: UniqueIdentifier }) => React.ReactNode)

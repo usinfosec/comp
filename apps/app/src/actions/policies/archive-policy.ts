@@ -2,8 +2,8 @@
 
 import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authActionClient } from "../safe-action";
 import { z } from "zod";
+import { authActionClient } from "../safe-action";
 
 const archivePolicySchema = z.object({
 	id: z.string(),
@@ -47,7 +47,8 @@ export const archivePolicyAction = authActionClient
 
 			// Determine if we should archive or restore based on action or current state
 			const shouldArchive =
-				action === "archive" || (action === undefined && !policy.isArchived);
+				action === "archive" ||
+				(action === undefined && !policy.isArchived);
 
 			await db.policy.update({
 				where: { id },

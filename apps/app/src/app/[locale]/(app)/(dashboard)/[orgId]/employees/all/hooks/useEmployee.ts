@@ -1,8 +1,8 @@
 "use client";
 
 import useSWR from "swr";
-import type { EmployeeDetails } from "../../[employeeId]/types";
 import { getEmployeeDetails } from "../../[employeeId]/actions/get-employee-details";
+import type { EmployeeDetails } from "../../[employeeId]/types";
 import type { AppError } from "../types";
 
 async function fetchEmployeeDetails(
@@ -30,7 +30,10 @@ async function fetchEmployeeDetails(
 }
 
 export function useEmployeeDetails(employeeId: string) {
-	const { data, error, isLoading, mutate } = useSWR<EmployeeDetails, AppError>(
+	const { data, error, isLoading, mutate } = useSWR<
+		EmployeeDetails,
+		AppError
+	>(
 		["employee-details", employeeId],
 		() => fetchEmployeeDetails(employeeId),
 		{

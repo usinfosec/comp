@@ -3,9 +3,9 @@
 import { Badge } from "@comp/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Progress } from "@comp/ui/progress";
-import { FrameworkInstanceWithControls } from "../../types";
-import { getControlStatus } from "../../lib/utils";
 import { getFrameworkDetails } from "../../lib/getFrameworkDetails";
+import { getControlStatus } from "../../lib/utils";
+import { FrameworkInstanceWithControls } from "../../types";
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }
@@ -35,21 +35,24 @@ export function FrameworkOverview({
 				<CardHeader>
 					<CardTitle>
 						{
-							getFrameworkDetails(frameworkInstanceWithControls.frameworkId)
-								.name
+							getFrameworkDetails(
+								frameworkInstanceWithControls.frameworkId,
+							).name
 						}
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<p className="text-sm text-muted-foreground">
 						{
-							getFrameworkDetails(frameworkInstanceWithControls.frameworkId)
-								.description
+							getFrameworkDetails(
+								frameworkInstanceWithControls.frameworkId,
+							).description
 						}{" "}
 					</p>
 					<div className="mt-4">
 						<Badge variant="outline">
-							Framework ID: {frameworkInstanceWithControls.frameworkId}
+							Framework ID:{" "}
+							{frameworkInstanceWithControls.frameworkId}
 						</Badge>
 					</div>
 				</CardContent>
@@ -63,7 +66,8 @@ export function FrameworkOverview({
 					<div className="flex flex-col gap-2">
 						<Progress value={compliancePercentage} />
 						<p className="text-sm text-muted-foreground">
-							{compliantControls} of {totalControls} controls compliant
+							{compliantControls} of {totalControls} controls
+							compliant
 						</p>
 					</div>
 				</CardContent>

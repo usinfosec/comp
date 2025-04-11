@@ -1,4 +1,4 @@
-import { CardHeader, CardContent, CardTitle } from "@comp/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 
 import { Card } from "@comp/ui/card";
 

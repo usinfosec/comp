@@ -22,7 +22,9 @@ export function AssignedUser({ avatarUrl, fullName, date }: Props) {
 				</Avatar>
 			)}
 			<div className="flex flex-col">
-				<span className="text-sm font-medium text-foreground">{fullName}</span>
+				<span className="text-sm font-medium text-foreground">
+					{fullName}
+				</span>
 				{date && (
 					<span className="text-xs text-muted-foreground leading-tight">
 						{date}

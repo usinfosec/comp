@@ -58,15 +58,19 @@ export function DataTable<TData, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
 											key={cell.id}
 											className={cn(
-												cell.column.id === "assigneeId" &&
+												cell.column.id ===
+													"assigneeId" &&
 													"hidden sm:table-cell",
-												cell.column.id === "dueDate" && "hidden sm:table-cell",
+												cell.column.id === "dueDate" &&
+													"hidden sm:table-cell",
 											)}
 										>
 											{flexRender(
@@ -89,7 +93,10 @@ export function DataTable<TData, TValue>({
 						)}
 					</TableBody>
 				</Table>
-				<DataTablePagination pageCount={pageCount} currentPage={currentPage} />
+				<DataTablePagination
+					pageCount={pageCount}
+					currentPage={currentPage}
+				/>
 			</div>
 		</Suspense>
 	);

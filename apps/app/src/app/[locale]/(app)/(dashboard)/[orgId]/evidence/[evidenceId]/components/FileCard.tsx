@@ -173,8 +173,8 @@ export function FileCard({
 								) : (
 									<div className="flex items-center justify-center h-full">
 										<p className="text-muted-foreground">
-											Preview not available. Click the download button to view
-											the file.
+											Preview not available. Click the
+											download button to view the file.
 										</p>
 									</div>
 								)}
@@ -242,8 +242,8 @@ export function FileCard({
 						<AlertDialogHeader>
 							<AlertDialogTitle>Delete File</AlertDialogTitle>
 							<AlertDialogDescription>
-								Are you sure you want to delete this file? This action cannot be
-								undone.
+								Are you sure you want to delete this file? This
+								action cannot be undone.
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>

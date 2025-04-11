@@ -2,30 +2,30 @@
 
 import * as React from "react";
 
+import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardHeader,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
 import {
+	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-	type ChartConfig,
 } from "@comp/ui/chart";
-import { useI18n } from "@/locales/client";
-import { Badge } from "@comp/ui/badge";
-import { BarChart as BarChartIcon, Users, Info } from "lucide-react";
+import { BarChart as BarChartIcon, Info, Users } from "lucide-react";
 import {
 	Bar,
 	BarChart,
-	XAxis,
-	YAxis,
+	LabelList,
 	Legend,
 	ResponsiveContainer,
-	LabelList,
+	XAxis,
+	YAxis,
 } from "recharts";
 
 interface AssigneeData {
@@ -185,7 +185,9 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 									tickLine={false}
 									tickMargin={10}
 									axisLine={false}
-									tickFormatter={(value) => value.split(" ")[0]}
+									tickFormatter={(value) =>
+										value.split(" ")[0]
+									}
 									fontSize={12}
 									stroke="hsl(var(--muted-foreground))"
 								/>
@@ -238,7 +240,9 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 								className="h-3 w-3"
 								style={{ backgroundColor: config.color }}
 							/>
-							<span className="text-xs font-medium">{config.label}</span>
+							<span className="text-xs font-medium">
+								{config.label}
+							</span>
 						</div>
 					))}
 				</div>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback } from "react";
-import { useToast } from "@comp/ui/use-toast";
 import { deleteFile } from "@/actions/files/delete-file";
 import type { UPLOAD_TYPE } from "@/actions/types";
+import { useToast } from "@comp/ui/use-toast";
+import { useCallback } from "react";
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -37,7 +37,9 @@ export function useFileDelete({
 				}
 
 				if (!response.data.success) {
-					throw new Error(response.data.error || "Failed to delete file");
+					throw new Error(
+						response.data.error || "Failed to delete file",
+					);
 				}
 
 				await onSuccess();
@@ -51,7 +53,9 @@ export function useFileDelete({
 				toast({
 					title: "Error",
 					description:
-						error instanceof Error ? error.message : "Failed to delete file",
+						error instanceof Error
+							? error.message
+							: "Failed to delete file",
 					variant: "destructive",
 				});
 			}

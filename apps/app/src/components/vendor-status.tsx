@@ -25,7 +25,9 @@ export function VendorStatus({ status }: { status: VendorStatusType }) {
 		<div className="flex items-center gap-2">
 			<div
 				className={cn("size-2.5 rounded-full ")}
-				style={{ backgroundColor: VENDOR_STATUS_COLORS[status] ?? "  " }}
+				style={{
+					backgroundColor: VENDOR_STATUS_COLORS[status] ?? "  ",
+				}}
 			/>
 			{t(`common.status.${status}`)}
 		</div>

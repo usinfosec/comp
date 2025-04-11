@@ -12,6 +12,7 @@ import type {
 } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
 import {
 	Card,
 	CardContent,
@@ -19,6 +20,17 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
+import { cn } from "@comp/ui/cn";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@comp/ui/form";
+import { Input } from "@comp/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -28,30 +40,18 @@ import {
 } from "@comp/ui/select";
 import { Skeleton } from "@comp/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { AlertCircle, CheckCircle2, Save } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
-import { cn } from "@comp/ui/cn";
-import { Input } from "@comp/ui/input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@comp/ui/form";
-import { Calendar } from "@comp/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
 	{ value: "admin", label: "Admin" },
@@ -159,7 +159,8 @@ export function EmployeeDetails({
 		},
 		onError: (error) => {
 			toast.error(
-				error?.error?.serverError || "Failed to update employee details",
+				error?.error?.serverError ||
+					"Failed to update employee details",
 			);
 		},
 	});
@@ -317,7 +318,10 @@ export function EmployeeDetails({
 												</FormControl>
 												<SelectContent>
 													{DEPARTMENTS.map((dept) => (
-														<SelectItem key={dept.value} value={dept.value}>
+														<SelectItem
+															key={dept.value}
+															value={dept.value}
+														>
 															{dept.label}
 														</SelectItem>
 													))}
@@ -347,22 +351,41 @@ export function EmployeeDetails({
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													{STATUS_OPTIONS.map((option) => (
-														<SelectItem key={option.value} value={option.value}>
-															<div className={cn("flex items-center gap-2")}>
+													{STATUS_OPTIONS.map(
+														(option) => (
+															<SelectItem
+																key={
+																	option.value
+																}
+																value={
+																	option.value
+																}
+															>
 																<div
-																	className={cn("size-2.5")}
-																	style={{
-																		backgroundColor:
-																			EMPLOYEE_STATUS_HEX_COLORS[
-																				option.value
-																			] ?? "",
-																	}}
-																/>
-																{option.label}
-															</div>
-														</SelectItem>
-													))}
+																	className={cn(
+																		"flex items-center gap-2",
+																	)}
+																>
+																	<div
+																		className={cn(
+																			"size-2.5",
+																		)}
+																		style={{
+																			backgroundColor:
+																				EMPLOYEE_STATUS_HEX_COLORS[
+																					option
+																						.value
+																				] ??
+																				"",
+																		}}
+																	/>
+																	{
+																		option.label
+																	}
+																</div>
+															</SelectItem>
+														),
+													)}
 												</SelectContent>
 											</Select>
 											<FormMessage />
@@ -384,25 +407,38 @@ export function EmployeeDetails({
 															variant={"outline"}
 															className={cn(
 																"h-10 pl-3 text-left font-normal", // Use h-10 for consistency
-																!field.value && "text-muted-foreground",
+																!field.value &&
+																	"text-muted-foreground",
 															)}
 														>
 															{field.value ? (
-																format(field.value, "PPP")
+																format(
+																	field.value,
+																	"PPP",
+																)
 															) : (
-																<span>Pick a date</span>
+																<span>
+																	Pick a date
+																</span>
 															)}
 															<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 														</Button>
 													</FormControl>
 												</PopoverTrigger>
-												<PopoverContent className="w-auto p-0" align="start">
+												<PopoverContent
+													className="w-auto p-0"
+													align="start"
+												>
 													<Calendar
 														mode="single"
 														selected={field.value}
-														onSelect={field.onChange}
+														onSelect={
+															field.onChange
+														}
 														disabled={
-															(date: Date) => date > new Date() // Explicitly type the date argument
+															(date: Date) =>
+																date >
+																new Date() // Explicitly type the date argument
 														}
 														initialFocus
 													/>
@@ -424,11 +460,13 @@ export function EmployeeDetails({
 								}
 								className="w-auto text-foreground"
 							>
-								{form.formState.isSubmitting || actionStatus === "executing"
+								{form.formState.isSubmitting ||
+								actionStatus === "executing"
 									? "Saving..."
 									: "Save"}
 								{!(
-									form.formState.isSubmitting || actionStatus === "executing"
+									form.formState.isSubmitting ||
+									actionStatus === "executing"
 								) && <Save className="ml-2 h-4 w-4" />}
 							</Button>
 						</CardFooter>
@@ -441,7 +479,9 @@ export function EmployeeDetails({
 				<CardHeader>
 					<CardTitle className="text-base flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 						<div>
-							<h2 className="text-lg font-medium">Employee Tasks</h2>
+							<h2 className="text-lg font-medium">
+								Employee Tasks
+							</h2>
 							<h3 className="text-sm text-muted-foreground">
 								View and manage employee tasks and their status
 							</h3>
@@ -452,7 +492,9 @@ export function EmployeeDetails({
 					<Tabs defaultValue="policies">
 						<TabsList className="mb-4">
 							<TabsTrigger value="policies">Policies</TabsTrigger>
-							<TabsTrigger value="training">Training Videos</TabsTrigger>
+							<TabsTrigger value="training">
+								Training Videos
+							</TabsTrigger>
 						</TabsList>
 
 						<TabsContent value="policies">
@@ -463,7 +505,10 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									policies.map((policy) => {
-										const isCompleted = policy.signedBy.includes(employee.id);
+										const isCompleted =
+											policy.signedBy.includes(
+												employee.id,
+											);
 
 										return (
 											<div
@@ -489,11 +534,15 @@ export function EmployeeDetails({
 							<div className="flex flex-col gap-2">
 								{trainingVideos.length === 0 ? (
 									<div className="text-center py-6 text-muted-foreground">
-										<p>No training videos required to watch.</p>
+										<p>
+											No training videos required to
+											watch.
+										</p>
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										const isCompleted = video.completedAt !== null;
+										const isCompleted =
+											video.completedAt !== null;
 
 										return (
 											<div

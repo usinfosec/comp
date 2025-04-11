@@ -1,5 +1,6 @@
 "use client";
 
+import { useUrlManagement } from "@/hooks/upload/use-url-management";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";
@@ -10,7 +11,6 @@ import {
 	TooltipTrigger,
 } from "@comp/ui/tooltip";
 import { Copy, ExternalLink, Link, Plus, Save, Trash } from "lucide-react";
-import { useUrlManagement } from "@/hooks/upload/use-url-management";
 import { useTranslations } from "next-intl";
 
 interface UrlSectionProps {
@@ -91,7 +91,9 @@ export function UrlSection({
 								type="url"
 								placeholder={t("enterUrl")}
 								value={draft.url}
-								onChange={(e) => handleUpdateDraft(draft.id, e.target.value)}
+								onChange={(e) =>
+									handleUpdateDraft(draft.id, e.target.value)
+								}
 								className="flex-1"
 								onKeyDown={(e) => {
 									if (e.key === "Enter" && draft.url.trim()) {
@@ -152,7 +154,9 @@ export function UrlSection({
 
 									<div className="flex-grow min-w-0">
 										<div className="flex items-center gap-2">
-											<h4 className="font-medium text-sm truncate">{domain}</h4>
+											<h4 className="font-medium text-sm truncate">
+												{domain}
+											</h4>
 											<Badge
 												variant="outline"
 												className="hidden sm:flex text-xs"
@@ -173,7 +177,9 @@ export function UrlSection({
 														size="icon"
 														variant="ghost"
 														className="h-8 w-8 rounded-full"
-														onClick={() => copyToClipboard(url)}
+														onClick={() =>
+															copyToClipboard(url)
+														}
 													>
 														<Copy className="h-4 w-4" />
 													</Button>
@@ -216,7 +222,9 @@ export function UrlSection({
 														size="icon"
 														variant="ghost"
 														className="h-8 w-8 rounded-full hover:text-destructive"
-														onClick={() => handleUrlRemove(url)}
+														onClick={() =>
+															handleUrlRemove(url)
+														}
 													>
 														<Trash className="h-4 w-4" />
 													</Button>

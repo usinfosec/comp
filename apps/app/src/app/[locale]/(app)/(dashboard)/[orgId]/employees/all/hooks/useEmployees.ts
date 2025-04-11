@@ -7,13 +7,13 @@ import { getEmployees } from "../actions/get-employees";
 
 import { createEmployeeAction } from "@/actions/people/create-employee-action";
 import type { Departments } from "@comp/db/types";
+import type { EmployeeWithUser } from "../components/table/columns";
 import type {
 	AppError,
 	Employee,
 	EmployeesInput,
 	EmployeesResponse,
 } from "../types";
-import type { EmployeeWithUser } from "../components/table/columns";
 
 /** Fetcher function, same as before */
 async function fetchEmployees(
@@ -102,7 +102,9 @@ export function useEmployees({
 				}
 
 				if (result.serverError) {
-					throw new Error(result.serverError || "Failed to create employee");
+					throw new Error(
+						result.serverError || "Failed to create employee",
+					);
 				}
 
 				if (result.data?.error) {

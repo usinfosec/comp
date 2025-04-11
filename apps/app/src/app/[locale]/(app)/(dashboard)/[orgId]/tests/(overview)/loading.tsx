@@ -1,3 +1,4 @@
+import { getI18n } from "@/locales/server";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -8,7 +9,6 @@ import {
 	CardTitle,
 } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
-import { getI18n } from "@/locales/server";
 
 export default async function Loading() {
 	const t = await getI18n();

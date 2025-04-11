@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Button } from "@comp/ui/button";
-import { CreateCommentForm } from "./forms/create-comment-form";
 import { useI18n } from "@/locales/client";
-import { MessageSquarePlus } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { Avatar, AvatarImage, AvatarFallback } from "@comp/ui/avatar";
 import { Member, User } from "@comp/db/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { cn } from "@comp/ui/cn";
+import { formatDistanceToNow } from "date-fns";
+import { MessageSquarePlus } from "lucide-react";
+import { useState } from "react";
+import { CreateCommentForm } from "./forms/create-comment-form";
 
 interface Comment {
 	id: string;
@@ -56,28 +56,41 @@ export function Comments({ entityId, comments }: CommentsProps) {
 							key={comment.id}
 							className={cn(
 								"space-y-3",
-								index !== comments.length - 1 && "pb-6 border-b",
+								index !== comments.length - 1 &&
+									"pb-6 border-b",
 							)}
 						>
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-3">
 									<Avatar className="h-8 w-8">
 										<AvatarImage
-											src={comment.author.user.image || undefined}
-											alt={comment.author.user.name || "User"}
+											src={
+												comment.author.user.image ||
+												undefined
+											}
+											alt={
+												comment.author.user.name ||
+												"User"
+											}
 										/>
 										<AvatarFallback className="bg-primary/10">
-											{comment.author.user.name?.charAt(0) || "?"}
+											{comment.author.user.name?.charAt(
+												0,
+											) || "?"}
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col">
 										<span className="text-sm font-medium leading-none">
-											{comment.author.user.name || "Unknown User"}
+											{comment.author.user.name ||
+												"Unknown User"}
 										</span>
 										<span className="text-xs text-muted-foreground">
-											{formatDistanceToNow(new Date(comment.createdAt), {
-												addSuffix: true,
-											})}
+											{formatDistanceToNow(
+												new Date(comment.createdAt),
+												{
+													addSuffix: true,
+												},
+											)}
 										</span>
 									</div>
 								</div>

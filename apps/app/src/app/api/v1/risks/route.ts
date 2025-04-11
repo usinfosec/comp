@@ -1,13 +1,13 @@
+import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { db } from "@comp/db";
 import {
 	Departments,
+	Impact,
+	Likelihood,
 	RiskCategory,
 	RiskStatus,
-	Likelihood,
-	Impact,
 } from "@comp/db/types";
-import { NextResponse, type NextRequest } from "next/server";
-import { getOrganizationFromApiKey } from "@/lib/api-key";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 // Configure this route to use Node.js runtime instead of Edge
@@ -37,7 +37,10 @@ const riskCreateSchema = z.object({
 		.nativeEnum(Likelihood)
 		.optional()
 		.default(Likelihood.very_unlikely),
-	residualImpact: z.nativeEnum(Impact).optional().default(Impact.insignificant),
+	residualImpact: z
+		.nativeEnum(Impact)
+		.optional()
+		.default(Impact.insignificant),
 	assigneeId: z.string().optional().nullable(),
 });
 

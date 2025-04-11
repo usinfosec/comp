@@ -1,19 +1,19 @@
 "use server";
 
+import { performance } from "node:perf_hooks";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
+import { headers } from "next/headers";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
-import { auth } from "@/utils/auth";
-import { headers } from "next/headers";
-import {
-	createFrameworkInstance,
-	getRelevantControls,
-	createOrganizationPolicies,
-	createOrganizationEvidence,
-	createControlArtifacts,
-} from "./lib/utils";
 import { createStripeCustomer } from "./lib/create-stripe-customer";
-import { db } from "@comp/db";
-import { performance } from "node:perf_hooks";
+import {
+	createControlArtifacts,
+	createFrameworkInstance,
+	createOrganizationEvidence,
+	createOrganizationPolicies,
+	getRelevantControls,
+} from "./lib/utils";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -88,14 +88,19 @@ export const createOrganizationAction = authActionClient
 
 					start = performance.now();
 					const relevantControls = getRelevantControls(frameworks);
-					const getRelevantControlsTime = (performance.now() - start) / 1000;
+					const getRelevantControlsTime =
+						(performance.now() - start) / 1000;
 
 					start = performance.now();
 					// Pass the transaction client `tx` to the helper
 					const organizationFrameworks = await Promise.all(
 						frameworks.map(
 							(frameworkId) =>
-								createFrameworkInstance(organizationId, frameworkId, tx), // Pass tx
+								createFrameworkInstance(
+									organizationId,
+									frameworkId,
+									tx,
+								), // Pass tx
 						),
 					);
 					const createFrameworkInstancesTime =
@@ -132,7 +137,8 @@ export const createOrganizationAction = authActionClient
 						evidenceForFrameworks,
 						tx, // Pass tx
 					);
-					const createControlArtifactsTime = (performance.now() - start) / 1000;
+					const createControlArtifactsTime =
+						(performance.now() - start) / 1000;
 
 					// Return timings calculated inside the transaction scope
 					return {
@@ -152,7 +158,8 @@ export const createOrganizationAction = authActionClient
 
 			// Assign timings from the transaction result
 			timings.getRelevantControls = result.getRelevantControlsTime;
-			timings.createFrameworkInstances = result.createFrameworkInstancesTime;
+			timings.createFrameworkInstances =
+				result.createFrameworkInstancesTime;
 			timings.createPoliciesAndEvidenceParallel =
 				result.createPoliciesAndEvidenceParallelTime;
 			timings.createControlArtifacts = result.createControlArtifactsTime;
@@ -170,9 +177,14 @@ export const createOrganizationAction = authActionClient
 		} catch (error) {
 			console.error("Error during organization creation/update:", error);
 			timings.total = (performance.now() - totalStart) / 1000;
-			console.log("createOrganizationAction timings on error (s):", timings);
+			console.log(
+				"createOrganizationAction timings on error (s):",
+				timings,
+			);
 
 			// More specific error handling could be added here
-			throw new Error("Failed to create or update organization structure");
+			throw new Error(
+				"Failed to create or update organization structure",
+			);
 		}
 	});

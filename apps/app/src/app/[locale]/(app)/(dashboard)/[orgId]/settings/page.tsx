@@ -1,12 +1,12 @@
-import { cache } from "react";
-import { auth } from "@/utils/auth";
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
+import { cache } from "react";
 
 export default async function OrganizationSettings({
 	params,
@@ -20,7 +20,9 @@ export default async function OrganizationSettings({
 
 	return (
 		<div className="space-y-12">
-			<UpdateOrganizationName organizationName={organization?.name ?? ""} />
+			<UpdateOrganizationName
+				organizationName={organization?.name ?? ""}
+			/>
 			<DeleteOrganization organizationId={organization?.id ?? ""} />
 		</div>
 	);

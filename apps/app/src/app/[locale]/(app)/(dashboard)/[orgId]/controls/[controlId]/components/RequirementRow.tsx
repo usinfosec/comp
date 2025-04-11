@@ -1,8 +1,8 @@
 import type { FrameworkId, RequirementMap } from "@comp/db/types";
 import { TableCell, TableRow } from "@comp/ui/table";
-import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
+import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
 
 interface RequirementRowProps {
 	requirement: RequirementMap;

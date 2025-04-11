@@ -29,7 +29,8 @@ export function OrganizationIntegration({
 
 	const installedSettings: Record<string, unknown> = installed.reduce(
 		(acc, integration) => {
-			acc[integration.integrationId.toLowerCase()] = integration.userSettings;
+			acc[integration.integrationId.toLowerCase()] =
+				integration.userSettings;
 			return acc;
 		},
 		{} as Record<string, unknown>,
@@ -38,7 +39,8 @@ export function OrganizationIntegration({
 	const integrationsByCategory = integrations
 		.filter((integration) => {
 			const shouldInclude =
-				!isInstalledPage || installedIntegrations.includes(integration.id);
+				!isInstalledPage ||
+				installedIntegrations.includes(integration.id);
 
 			return shouldInclude;
 		})
@@ -68,8 +70,8 @@ export function OrganizationIntegration({
 					No integrations found
 				</h3>
 				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
-					No integrations found for your search, let us know if you want to see
-					a specific integration.
+					No integrations found for your search, let us know if you
+					want to see a specific integration.
 				</p>
 
 				<Button
@@ -106,7 +108,9 @@ export function OrganizationIntegration({
 						{items.map((integration) => {
 							// Find the installed integration data
 							const installedIntegration = installed.find(
-								(i) => i.integrationId.toLowerCase() === integration.id,
+								(i) =>
+									i.integrationId.toLowerCase() ===
+									integration.id,
 							);
 
 							// Handle different integration formats
@@ -117,8 +121,10 @@ export function OrganizationIntegration({
 								short_description:
 									"short_description" in integration
 										? integration.short_description
-										: (integration as any).description || "",
-								description: (integration as any).description || "",
+										: (integration as any).description ||
+											"",
+								description:
+									(integration as any).description || "",
 								settings:
 									"settings" in integration
 										? (integration as any).settings
@@ -126,19 +132,29 @@ export function OrganizationIntegration({
 											? (integration as any).fields
 											: [],
 								images:
-									"images" in integration ? (integration as any).images : [],
+									"images" in integration
+										? (integration as any).images
+										: [],
 								active:
-									"active" in integration ? (integration as any).active : true,
-								installed: installedIntegrations.includes(integration.id),
+									"active" in integration
+										? (integration as any).active
+										: true,
+								installed: installedIntegrations.includes(
+									integration.id,
+								),
 								category: integration.category,
-								installedSettings: installedSettings[integration.id] || {},
+								installedSettings:
+									installedSettings[integration.id] || {},
 								// Pass the last run and next run information
 								lastRunAt: installedIntegration?.lastRunAt,
 								nextRunAt: installedIntegration?.nextRunAt,
 							};
 
 							return (
-								<IntegrationsCard key={integration.id} {...integrationProps} />
+								<IntegrationsCard
+									key={integration.id}
+									{...integrationProps}
+								/>
 							);
 						})}
 					</div>

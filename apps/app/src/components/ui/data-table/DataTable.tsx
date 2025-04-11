@@ -1,33 +1,33 @@
 "use client";
 
-import {
-	type Column,
-	flexRender,
-	getCoreRowModel,
-	useReactTable,
-	getSortedRowModel,
-	type SortingState,
-	type ColumnDef,
-} from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
-import { cn } from "@comp/ui/cn";
-import { useState, useEffect } from "react";
-import { DataTableHeader } from "./DataTableHeader";
-import { DataTablePagination } from "./DataTablePagination";
-import { Input } from "@comp/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import {
 	DropdownMenu,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
-	DropdownMenuTrigger,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuCheckboxItem,
+	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
+import { Input } from "@comp/ui/input";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
+import {
+	type Column,
+	type ColumnDef,
+	type SortingState,
+	flexRender,
+	getCoreRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
 import { Filter, Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { DataTableHeader } from "./DataTableHeader";
+import { DataTablePagination } from "./DataTablePagination";
 import { DataTableSkeleton } from "./DataTableSkeleton";
-import { Badge } from "@comp/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 
 interface FilterItem {
 	label: string;
@@ -136,9 +136,13 @@ export function DataTable<TData>({
 							<div className="relative">
 								<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
 								<Input
-									placeholder={search.placeholder || "Search..."}
+									placeholder={
+										search.placeholder || "Search..."
+									}
 									value={searchValue}
-									onChange={(e) => setSearchValue(e.target.value)}
+									onChange={(e) =>
+										setSearchValue(e.target.value)
+									}
 									className="pl-8 pr-8"
 								/>
 								{searchValue && (
@@ -162,16 +166,21 @@ export function DataTable<TData>({
 									size="sm"
 									className={cn(
 										"h-9 px-3",
-										filters.hasActiveFilters && "border-primary",
+										filters.hasActiveFilters &&
+											"border-primary",
 									)}
 								>
 									<Filter className="mr-2 h-4 w-4" />
 									Filters
-									{filters.hasActiveFilters && filters.activeFilterCount && (
-										<Badge variant="secondary" className="ml-2 px-1 py-0">
-											{filters.activeFilterCount}
-										</Badge>
-									)}
+									{filters.hasActiveFilters &&
+										filters.activeFilterCount && (
+											<Badge
+												variant="secondary"
+												className="ml-2 px-1 py-0"
+											>
+												{filters.activeFilterCount}
+											</Badge>
+										)}
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent
@@ -179,40 +188,63 @@ export function DataTable<TData>({
 								className="w-[500px] max-w-[90vw]"
 							>
 								<div className="grid grid-cols-2 gap-4 p-2">
-									{filters.categories.map((category, index) => (
-										<div key={category.label}>
-											<DropdownMenuLabel>{category.label}</DropdownMenuLabel>
-											<div
-												className={cn(
-													"space-y-1",
-													category.maxHeight && "overflow-y-auto",
-													index < filters.categories.length - 1 && "mb-3",
-												)}
-												style={
-													category.maxHeight
-														? { maxHeight: category.maxHeight }
-														: undefined
-												}
-											>
-												{category.items.map((item) => (
-													<DropdownMenuCheckboxItem
-														key={item.value}
-														checked={item.checked}
-														onCheckedChange={item.onChange}
-													>
-														{item.icon ? (
-															<div className="flex items-center gap-2">
-																{item.icon}
-																<span>{item.label}</span>
-															</div>
-														) : (
-															item.label
-														)}
-													</DropdownMenuCheckboxItem>
-												))}
+									{filters.categories.map(
+										(category, index) => (
+											<div key={category.label}>
+												<DropdownMenuLabel>
+													{category.label}
+												</DropdownMenuLabel>
+												<div
+													className={cn(
+														"space-y-1",
+														category.maxHeight &&
+															"overflow-y-auto",
+														index <
+															filters.categories
+																.length -
+																1 && "mb-3",
+													)}
+													style={
+														category.maxHeight
+															? {
+																	maxHeight:
+																		category.maxHeight,
+																}
+															: undefined
+													}
+												>
+													{category.items.map(
+														(item) => (
+															<DropdownMenuCheckboxItem
+																key={item.value}
+																checked={
+																	item.checked
+																}
+																onCheckedChange={
+																	item.onChange
+																}
+															>
+																{item.icon ? (
+																	<div className="flex items-center gap-2">
+																		{
+																			item.icon
+																		}
+																		<span>
+																			{
+																				item.label
+																			}
+																		</span>
+																	</div>
+																) : (
+																	item.label
+																)}
+															</DropdownMenuCheckboxItem>
+														),
+													)}
+												</div>
 											</div>
-										</div>
-									))}
+										),
+									)}
 								</div>
 
 								{filters.hasActiveFilters && (
@@ -253,37 +285,52 @@ export function DataTable<TData>({
 						<TableBody>
 							{isLoading ? (
 								<TableRow>
-									<TableCell colSpan={columns.length} className="p-0">
-										<DataTableSkeleton columns={columns.length} rows={10} />
+									<TableCell
+										colSpan={columns.length}
+										className="p-0"
+									>
+										<DataTableSkeleton
+											columns={columns.length}
+											rows={10}
+										/>
 									</TableCell>
 								</TableRow>
 							) : table.getRowModel().rows?.length ? (
 								table.getRowModel().rows.map((row) => (
 									<TableRow
 										key={row.id}
-										data-state={row.getIsSelected() && "selected"}
+										data-state={
+											row.getIsSelected() && "selected"
+										}
 										className={cn(
 											"hover:bg-muted/50",
 											onRowClick && "cursor-pointer",
 										)}
-										onClick={() => onRowClick?.(row.original)}
+										onClick={() =>
+											onRowClick?.(row.original)
+										}
 									>
 										{row.getVisibleCells().map((cell) => (
 											<TableCell
 												key={cell.id}
 												className="p-4 relative whitespace-nowrap"
-												style={{ width: cell.column.getSize() }}
+												style={{
+													width: cell.column.getSize(),
+												}}
 											>
 												<div>
 													{flexRender(
-														cell.column.columnDef.cell,
+														cell.column.columnDef
+															.cell,
 														cell.getContext(),
 													)}
 												</div>
 												<div
 													className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none bg-border opacity-0 hover:opacity-100 ${
-														table.getState().columnSizingInfo
-															.isResizingColumn === cell.column.id
+														table.getState()
+															.columnSizingInfo
+															.isResizingColumn ===
+														cell.column.id
 															? "bg-primary opacity-100"
 															: ""
 													}`}

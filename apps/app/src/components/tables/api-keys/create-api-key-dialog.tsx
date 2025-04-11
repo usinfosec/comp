@@ -11,14 +11,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@comp/ui/dialog";
-import {
-	Sheet,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-} from "@comp/ui/sheet";
+import { useMediaQuery } from "@comp/ui/hooks";
 import { Input } from "@comp/ui/input";
 import {
 	Select,
@@ -27,11 +20,18 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { Copy, Check, Loader2 } from "lucide-react";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+} from "@comp/ui/sheet";
+import { Check, Copy, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useMediaQuery } from "@comp/ui/hooks";
 
 interface CreateApiKeyDialogProps {
 	open: boolean;
@@ -108,7 +108,10 @@ export function CreateApiKeyDialog({
 	const renderFormContent = () => (
 		<form onSubmit={handleSubmit} className="space-y-4 py-4">
 			<div className="space-y-2">
-				<label htmlFor="name" className="text-sm font-medium leading-none">
+				<label
+					htmlFor="name"
+					className="text-sm font-medium leading-none"
+				>
 					{t("settings.api_keys.name")}
 				</label>
 				<Input
@@ -130,12 +133,16 @@ export function CreateApiKeyDialog({
 				<Select
 					value={expiration}
 					onValueChange={(value) =>
-						setExpiration(value as "never" | "30days" | "90days" | "1year")
+						setExpiration(
+							value as "never" | "30days" | "90days" | "1year",
+						)
 					}
 				>
 					<SelectTrigger id="expiration" className="w-full">
 						<SelectValue
-							placeholder={t("settings.api_keys.expiration_placeholder")}
+							placeholder={t(
+								"settings.api_keys.expiration_placeholder",
+							)}
 						/>
 					</SelectTrigger>
 					<SelectContent>
@@ -184,7 +191,9 @@ export function CreateApiKeyDialog({
 						<div className="relative w-full">
 							<div className="rounded-md bg-muted p-3 pr-10 overflow-hidden">
 								<div className="overflow-x-auto">
-									<code className="text-sm break-all">{createdApiKey}</code>
+									<code className="text-sm break-all">
+										{createdApiKey}
+									</code>
 								</div>
 							</div>
 							<Button
@@ -219,7 +228,10 @@ export function CreateApiKeyDialog({
 	if (isMobile) {
 		return (
 			<Sheet open={open} onOpenChange={handleClose}>
-				<SheetContent side="right" className="p-0 h-full w-full sm:max-w-md">
+				<SheetContent
+					side="right"
+					className="p-0 h-full w-full sm:max-w-md"
+				>
 					<div className="px-4 py-6 h-full overflow-y-auto">
 						{createdApiKey ? (
 							<>
@@ -228,7 +240,9 @@ export function CreateApiKeyDialog({
 										{t("settings.api_keys.created_title")}
 									</SheetTitle>
 									<SheetDescription>
-										{t("settings.api_keys.created_description")}
+										{t(
+											"settings.api_keys.created_description",
+										)}
 									</SheetDescription>
 								</SheetHeader>
 								{renderCreatedKeyContent()}
@@ -236,9 +250,13 @@ export function CreateApiKeyDialog({
 						) : (
 							<>
 								<SheetHeader className="text-left mb-4">
-									<SheetTitle>{t("settings.api_keys.create_title")}</SheetTitle>
+									<SheetTitle>
+										{t("settings.api_keys.create_title")}
+									</SheetTitle>
 									<SheetDescription>
-										{t("settings.api_keys.create_description")}
+										{t(
+											"settings.api_keys.create_description",
+										)}
 									</SheetDescription>
 								</SheetHeader>
 								{renderFormContent()}
@@ -256,7 +274,9 @@ export function CreateApiKeyDialog({
 				{createdApiKey ? (
 					<>
 						<DialogHeader>
-							<DialogTitle>{t("settings.api_keys.created_title")}</DialogTitle>
+							<DialogTitle>
+								{t("settings.api_keys.created_title")}
+							</DialogTitle>
 							<DialogDescription>
 								{t("settings.api_keys.created_description")}
 							</DialogDescription>
@@ -266,7 +286,9 @@ export function CreateApiKeyDialog({
 				) : (
 					<>
 						<DialogHeader>
-							<DialogTitle>{t("settings.api_keys.create_title")}</DialogTitle>
+							<DialogTitle>
+								{t("settings.api_keys.create_title")}
+							</DialogTitle>
 							<DialogDescription>
 								{t("settings.api_keys.create_description")}
 							</DialogDescription>

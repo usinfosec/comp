@@ -33,12 +33,19 @@ export default async function Page({
 					<div className="relative flex w-full flex-col">
 						<div className="inline-block from-primary bg-clip-text pb-4">
 							<div className="flex flex-row items-center gap-2">
-								<Link href="/" className="flex flex-row items-center gap-2">
+								<Link
+									href="/"
+									className="flex flex-row items-center gap-2"
+								>
 									<Icons.Logo className="h-8 w-8" />
-									<h1 className="font-mono text-xl font-semibold">Comp AI</h1>
+									<h1 className="font-mono text-xl font-semibold">
+										Comp AI
+									</h1>
 								</Link>
 							</div>
-							<h2 className="mt-4 text-lg font-medium">{t("auth.title")}</h2>
+							<h2 className="mt-4 text-lg font-medium">
+								{t("auth.title")}
+							</h2>
 							<div className="mt-2">
 								<span className="text-xs text-muted-foreground">
 									{t("auth.description")}
@@ -50,7 +57,9 @@ export default async function Page({
 							{defaultSignInOptions}
 						</div>
 
-						<p className="text-xs text-muted-foreground">{t("auth.terms")}</p>
+						<p className="text-xs text-muted-foreground">
+							{t("auth.terms")}
+						</p>
 					</div>
 				</div>
 			</div>

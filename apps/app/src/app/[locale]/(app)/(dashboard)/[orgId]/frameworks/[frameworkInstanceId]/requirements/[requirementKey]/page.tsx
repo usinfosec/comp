@@ -1,11 +1,11 @@
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../../../data/getSingleFrameworkInstanceWithControls";
+import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
 import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
 import { RequirementControls } from "./components/RequirementControls";
-import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
 
 interface PageProps {
 	params: Promise<{
@@ -44,7 +44,8 @@ export default async function RequirementPage({ params }: PageProps) {
 	const requirements = getFrameworkRequirements(
 		frameworkInstanceWithControls.frameworkId,
 	);
-	const requirement = requirements[requirementKey as keyof typeof requirements];
+	const requirement =
+		requirements[requirementKey as keyof typeof requirements];
 
 	if (!requirement) {
 		redirect(`/${organizationId}/frameworks/${frameworkInstanceId}`);
@@ -82,7 +83,9 @@ export default async function RequirementPage({ params }: PageProps) {
 				<RequirementControls
 					requirement={requirement}
 					requirementKey={requirementKey}
-					frameworkInstanceWithControls={frameworkInstanceWithControls}
+					frameworkInstanceWithControls={
+						frameworkInstanceWithControls
+					}
 				/>
 			</div>
 		</PageWithBreadcrumb>

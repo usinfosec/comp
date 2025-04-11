@@ -2,9 +2,9 @@
 
 "use server";
 
+import { authActionClient } from "@/actions/safe-action";
 import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { authActionClient } from "@/actions/safe-action";
 import { createVendorTaskSchema } from "../schema";
 
 export const createVendorTaskAction = authActionClient
@@ -17,7 +17,8 @@ export const createVendorTaskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { vendorId, title, description, dueDate, assigneeId } = parsedInput;
+		const { vendorId, title, description, dueDate, assigneeId } =
+			parsedInput;
 		const {
 			session: { activeOrganizationId },
 			user,

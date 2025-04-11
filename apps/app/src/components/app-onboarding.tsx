@@ -1,5 +1,14 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@comp/ui/accordion";
+import { Badge } from "@comp/ui/badge";
+import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
@@ -8,19 +17,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@comp/ui/accordion";
-import Image from "next/image";
-import { Button } from "@comp/ui/button";
 import { PlusIcon } from "lucide-react";
-import { useI18n } from "@/locales/client";
+import { BookOpen, Clock, HelpCircle } from "lucide-react";
+import Image from "next/image";
 import { useQueryState } from "nuqs";
-import { Badge } from "@comp/ui/badge";
-import { BookOpen, HelpCircle, Clock } from "lucide-react";
 
 interface FAQ {
 	questionKey: string;
@@ -62,7 +62,10 @@ export function AppOnboarding({
 										<CardTitle className="text-2xl font-bold">
 											{title}
 										</CardTitle>
-										<Badge variant="outline" className="ml-2 text-xs">
+										<Badge
+											variant="outline"
+											className="ml-2 text-xs"
+										>
 											New
 										</Badge>
 									</div>
@@ -89,7 +92,9 @@ export function AppOnboarding({
 									<div className="flex items-center gap-2 mb-4">
 										<BookOpen className="h-4 w-4 text-primary" />
 										<p className="font-medium text-md">
-											{t("app_onboarding.risk_management.learn_more")}
+											{t(
+												"app_onboarding.risk_management.learn_more",
+											)}
 										</p>
 									</div>
 
@@ -108,7 +113,11 @@ export function AppOnboarding({
 													<AccordionTrigger className="py-3 hover:bg-muted/30 px-2">
 														<div className="flex items-center gap-2 text-left">
 															<HelpCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-															<span>{faq.questionKey}</span>
+															<span>
+																{
+																	faq.questionKey
+																}
+															</span>
 														</div>
 													</AccordionTrigger>
 													<AccordionContent className="px-2 ml-6 border-l-2 my-2 border-muted">

@@ -66,8 +66,12 @@ export function DataTableHeader({ table, loading }: Props) {
 							onClick={() => createSortQuery("name")}
 						>
 							<span>{t("policies.table.name")}</span>
-							{"name" === column && value === "asc" && <ArrowDown size={16} />}
-							{"name" === column && value === "desc" && <ArrowUp size={16} />}
+							{"name" === column && value === "asc" && (
+								<ArrowDown size={16} />
+							)}
+							{"name" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}
@@ -83,7 +87,9 @@ export function DataTableHeader({ table, loading }: Props) {
 							{"status" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
-							{"status" === column && value === "desc" && <ArrowUp size={16} />}
+							{"status" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}

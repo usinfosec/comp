@@ -73,13 +73,17 @@ export function UpdateTaskOverviewForm({
 						name="title"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.tasks.form.task_title")}</FormLabel>
+								<FormLabel>
+									{t("risk.tasks.form.task_title")}
+								</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t("risk.tasks.form.task_title_description")}
+										placeholder={t(
+											"risk.tasks.form.task_title_description",
+										)}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -97,7 +101,9 @@ export function UpdateTaskOverviewForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t("risk.tasks.form.description_description")}
+										placeholder={t(
+											"risk.tasks.form.description_description",
+										)}
 									/>
 								</FormControl>
 								<FormMessage />

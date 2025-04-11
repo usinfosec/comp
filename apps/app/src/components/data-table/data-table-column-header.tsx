@@ -9,6 +9,7 @@ import {
 	X,
 } from "lucide-react";
 
+import { cn } from "@comp/ui/cn";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -16,7 +17,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
-import { cn } from "@comp/ui/cn";
 
 interface DataTableColumnHeaderProps<TData, TValue>
 	extends React.ComponentProps<typeof DropdownMenuTrigger> {
@@ -118,7 +118,10 @@ export function DataTableColumnHeader<TData, TValue>({
 												try {
 													column.clearSorting();
 												} catch (e) {
-													console.error("Error clearing sort:", e);
+													console.error(
+														"Error clearing sort:",
+														e,
+													);
 												}
 											}}
 										>

@@ -1,11 +1,11 @@
 "use server";
 
-import { authActionClient } from "./safe-action";
-import { z } from "zod";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { auth } from "@/utils/auth";
+import { z } from "zod";
+import { authActionClient } from "./safe-action";
 
 export const changeOrganizationAction = authActionClient
 	.schema(

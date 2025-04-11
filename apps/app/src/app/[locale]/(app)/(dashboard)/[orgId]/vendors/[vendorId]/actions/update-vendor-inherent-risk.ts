@@ -1,12 +1,12 @@
 "use server";
 
-import { db } from "@comp/db";
 import { appErrors } from "@/lib/errors";
 import type { ActionResponse } from "@/types/actions";
+import { db } from "@comp/db";
+import { Impact, Likelihood } from "@prisma/client";
 import { createSafeActionClient } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { Impact, Likelihood } from "@prisma/client";
 
 const schema = z.object({
 	vendorId: z.string(),
@@ -33,7 +33,9 @@ export const updateVendorInherentRisk = createSafeActionClient()
 			return {
 				success: false,
 				error:
-					error instanceof Error ? error.message : appErrors.UNEXPECTED_ERROR,
+					error instanceof Error
+						? error.message
+						: appErrors.UNEXPECTED_ERROR,
 			};
 		}
 	});

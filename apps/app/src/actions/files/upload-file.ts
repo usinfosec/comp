@@ -1,11 +1,11 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { z } from "zod";
-import { db } from "@comp/db";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { UPLOAD_TYPE } from "@/actions/types";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { db } from "@comp/db";
+import { z } from "zod";
 
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
 	throw new Error("AWS credentials are not set");
@@ -80,7 +80,10 @@ export const uploadFile = authActionClient
 				}
 
 				const timestamp = Date.now();
-				const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
+				const sanitizedFileName = fileName.replace(
+					/[^a-zA-Z0-9.-]/g,
+					"_",
+				);
 				key = `${session.activeOrganizationId}/${evidenceId}/${timestamp}-${sanitizedFileName}`;
 
 				const command = new PutObjectCommand({

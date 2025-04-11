@@ -26,7 +26,9 @@ export function CreateVendorTaskSheet() {
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
-						<SheetTitle>{t("vendors.tasks.sheet.title")}</SheetTitle>
+						<SheetTitle>
+							{t("vendors.tasks.sheet.title")}
+						</SheetTitle>
 						<Button
 							size="icon"
 							variant="ghost"

@@ -35,7 +35,10 @@ export function EvidenceCard() {
 		}
 		// Ensure data is sorted chronologically if not already guaranteed by API
 		return [...evidenceData.last30DaysTotalByDay]
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+			.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime(),
+			)
 			.map((item) => ({
 				date: item.date,
 				value: item.count,
@@ -82,7 +85,9 @@ export function EvidenceCard() {
 					</div>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-destructive">Error loading data.</p>
+					<p className="text-sm text-destructive">
+						Error loading data.
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -97,7 +102,9 @@ export function EvidenceCard() {
 					</div>
 					<CardTitle className="text-lg">Evidence</CardTitle>
 				</div>
-				<div className={`flex items-center text-xs ${growthColor} font-medium`}>
+				<div
+					className={`flex items-center text-xs ${growthColor} font-medium`}
+				>
 					<TrendingUp className="h-3.5 w-3.5 mr-1" />
 					{isEvidenceLoading ? (
 						<Skeleton className="h-3 w-10" />
@@ -109,7 +116,8 @@ export function EvidenceCard() {
 			<CardContent>
 				{isEvidenceLoading ? (
 					<div className="space-y-4 mt-2">
-						<Skeleton className="h-10 w-full" /> {/* Chart Placeholder */}
+						<Skeleton className="h-10 w-full" />{" "}
+						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
 						<div className="bg-[#1a1a1a] p-3 space-y-2">
 							<Skeleton className="h-4 w-1/3" />
@@ -133,7 +141,12 @@ export function EvidenceCard() {
 								<ResponsiveContainer width="100%" height="100%">
 									<AreaChart
 										data={chartData}
-										margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+										margin={{
+											top: 0,
+											right: 0,
+											left: 0,
+											bottom: 0,
+										}}
 									>
 										<defs>
 											<linearGradient
@@ -177,9 +190,13 @@ export function EvidenceCard() {
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">New</span>
+								<span className="text-gray-400 text-sm">
+									New
+								</span>
 								<span className="text-sm font-medium">
-									{formatNumber(evidenceData?.last30DaysTotal)}
+									{formatNumber(
+										evidenceData?.last30DaysTotal,
+									)}
 								</span>
 							</div>
 						</div>
@@ -194,22 +211,32 @@ export function EvidenceCard() {
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Total</span>
+									<span className="text-gray-400 text-sm">
+										Total
+									</span>
 									<span className="text-xl font-bold">
-										{formatNumber(evidenceData?.allTimeTotal) ?? "N/A"}
+										{formatNumber(
+											evidenceData?.allTimeTotal,
+										) ?? "N/A"}
 									</span>
 								</div>
 							</div>
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Published</span>
+									<span className="text-gray-400 text-sm">
+										Published
+									</span>
 									<span className="text-sm font-medium">
-										{formatNumber(evidenceData?.allTimePublished) ?? "N/A"}
+										{formatNumber(
+											evidenceData?.allTimePublished,
+										) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
-									value={Number.parseFloat(evidencePublishedPercent)}
+									value={Number.parseFloat(
+										evidencePublishedPercent,
+									)}
 									className="h-1.5 bg-gray-800 rounded-none [&>div]:bg-purple-500"
 								/>
 								<div className="text-xs text-gray-500 mt-1">

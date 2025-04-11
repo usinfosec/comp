@@ -4,14 +4,14 @@ import type { Column, Table } from "@tanstack/react-table";
 import { Plus, X } from "lucide-react";
 import * as React from "react";
 
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Input } from "@comp/ui/input";
+import { useQueryState } from "nuqs";
 import { DataTableDateFilter } from "./data-table-date-filter";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableSliderFilter } from "./data-table-slider-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
-import { Button } from "@comp/ui/button";
-import { Input } from "@comp/ui/input";
-import { cn } from "@comp/ui/cn";
-import { useQueryState } from "nuqs";
 
 interface DataTableToolbarProps<TData> extends React.ComponentProps<"div"> {
 	table: Table<TData>;
@@ -106,9 +106,13 @@ function DataTableToolbarFilter<TData>({
 				case "text":
 					return (
 						<Input
-							placeholder={columnMeta.placeholder ?? columnMeta.label}
+							placeholder={
+								columnMeta.placeholder ?? columnMeta.label
+							}
 							value={(column.getFilterValue() as string) ?? ""}
-							onChange={(event) => column.setFilterValue(event.target.value)}
+							onChange={(event) =>
+								column.setFilterValue(event.target.value)
+							}
 							className="h-8 w-40 md:w-56"
 						/>
 					);
@@ -119,10 +123,19 @@ function DataTableToolbarFilter<TData>({
 							<Input
 								type="number"
 								inputMode="numeric"
-								placeholder={columnMeta.placeholder ?? columnMeta.label}
-								value={(column.getFilterValue() as string) ?? ""}
-								onChange={(event) => column.setFilterValue(event.target.value)}
-								className={cn("h-8 w-[120px]", columnMeta.unit && "pr-8")}
+								placeholder={
+									columnMeta.placeholder ?? columnMeta.label
+								}
+								value={
+									(column.getFilterValue() as string) ?? ""
+								}
+								onChange={(event) =>
+									column.setFilterValue(event.target.value)
+								}
+								className={cn(
+									"h-8 w-[120px]",
+									columnMeta.unit && "pr-8",
+								)}
 							/>
 							{columnMeta.unit && (
 								<span className="absolute top-0 right-0 bottom-0 flex items-center bg-accent px-2 text-muted-foreground text-sm">

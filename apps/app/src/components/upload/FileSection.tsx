@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
-import { FileUpload } from "./FileUpload";
-import { useFileUpload } from "@/hooks/upload/use-file-upload";
+import type { UPLOAD_TYPE } from "@/actions/types";
 import { useFileDelete } from "@/hooks/upload/use-file-delete";
 import { useFilePreview } from "@/hooks/upload/use-file-preview";
-import { FileCard } from "./FileCard";
-import type { UPLOAD_TYPE } from "@/actions/types";
+import { useFileUpload } from "@/hooks/upload/use-file-upload";
 import { useI18n } from "@/locales/client";
+import { useCallback, useEffect, useState } from "react";
+import { FileCard } from "./FileCard";
+import { FileUpload } from "./FileUpload";
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -63,7 +63,10 @@ export function FileSection({
 		async (fileUrl: string) => {
 			try {
 				// Skip if already loading or loaded
-				if (previewStates[fileUrl]?.isLoading || previewStates[fileUrl]?.url) {
+				if (
+					previewStates[fileUrl]?.isLoading ||
+					previewStates[fileUrl]?.url
+				) {
 					return;
 				}
 

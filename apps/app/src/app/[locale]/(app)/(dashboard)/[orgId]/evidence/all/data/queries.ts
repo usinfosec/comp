@@ -1,16 +1,18 @@
 import "server-only";
 
-import { db } from "@comp/db";
 import { auth } from "@/utils/auth";
-import type { GetEvidenceSchema } from "./validations";
-import { cache } from "react";
-import { headers } from "next/headers";
+import { db } from "@comp/db";
 import { Prisma } from "@prisma/client";
+import { headers } from "next/headers";
+import { cache } from "react";
+import type { GetEvidenceSchema } from "./validations";
 
 export async function getEvidence(input: GetEvidenceSchema) {
 	return await cache(async () => {
 		try {
-			const session = await auth.api.getSession({ headers: await headers() });
+			const session = await auth.api.getSession({
+				headers: await headers(),
+			});
 			const organizationId = session?.session.activeOrganizationId;
 
 			if (!organizationId) {

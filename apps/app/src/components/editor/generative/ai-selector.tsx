@@ -3,16 +3,16 @@
 import { Command, CommandInput } from "@comp/ui/command";
 
 import { useCompletion } from "@ai-sdk/react";
+import { Button } from "@comp/ui/button";
+import { ScrollArea } from "@comp/ui/scroll-area";
 import { ArrowUp } from "lucide-react";
 import { useEditor } from "novel";
 import { addAIHighlight } from "novel";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
-import { Button } from "@comp/ui/button";
 import CrazySpinner from "../icons/crazy-spinner";
 import Magic from "../icons/magic";
-import { ScrollArea } from "@comp/ui/scroll-area";
 import AICompletionCommands from "./ai-completion-command";
 import AISelectorCommands from "./ai-selector-commands";
 
@@ -84,16 +84,23 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
 							onClick={() => {
 								if (completion)
 									return complete(completion, {
-										body: { option: "zap", command: inputValue },
+										body: {
+											option: "zap",
+											command: inputValue,
+										},
 									}).then(() => setInputValue(""));
 
 								const slice = editor?.state.selection.content();
-								const text = editor?.storage.markdown.serializer.serialize(
-									slice?.content,
-								);
+								const text =
+									editor?.storage.markdown.serializer.serialize(
+										slice?.content,
+									);
 
 								complete(text, {
-									body: { option: "zap", command: inputValue },
+									body: {
+										option: "zap",
+										command: inputValue,
+									},
 								}).then(() => setInputValue(""));
 							}}
 						>
@@ -103,7 +110,12 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
 					{hasCompletion ? (
 						<AICompletionCommands
 							onDiscard={() => {
-								if (editor) editor.chain().unsetAIHighlight().focus().run();
+								if (editor)
+									editor
+										.chain()
+										.unsetAIHighlight()
+										.focus()
+										.run();
 								onOpenChange(false);
 							}}
 						/>

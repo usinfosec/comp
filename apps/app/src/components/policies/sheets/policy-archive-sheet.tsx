@@ -2,6 +2,7 @@
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
 import { useI18n } from "@/locales/client";
+import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -17,7 +18,6 @@ import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { toast } from "sonner";
-import { Policy } from "@comp/db/types";
 
 export function PolicyArchiveSheet({
 	policy,
@@ -149,7 +149,9 @@ export function PolicyArchiveSheet({
 							? t("policies.archive.restore_title")
 							: t("policies.archive.title")}
 					</h3>
-					<p className="text-sm text-muted-foreground mt-1">{policy.name}</p>
+					<p className="text-sm text-muted-foreground mt-1">
+						{policy.name}
+					</p>
 				</div>
 				{content}
 			</DrawerContent>

@@ -1,11 +1,11 @@
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { VendorStatus } from "@/components/vendor-status";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
+import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import type { GetVendorsResult } from "../data/queries";
-import { UserIcon } from "lucide-react";
-import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 
 type VendorRow = GetVendorsResult["data"][number];
 
@@ -14,7 +14,9 @@ export const columns: ColumnDef<VendorRow>[] = [
 		id: "name",
 		accessorKey: "name",
 		header: ({ column }) => {
-			return <DataTableColumnHeader column={column} title="Vendor Name" />;
+			return (
+				<DataTableColumnHeader column={column} title="Vendor Name" />
+			);
 		},
 		cell: ({ row }) => {
 			return (
@@ -80,7 +82,9 @@ export const columns: ColumnDef<VendorRow>[] = [
 						<div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
 							<UserIcon className="h-4 w-4 text-muted-foreground" />
 						</div>
-						<p className="text-sm font-medium text-muted-foreground">None</p>
+						<p className="text-sm font-medium text-muted-foreground">
+							None
+						</p>
 					</div>
 				);
 			}

@@ -9,7 +9,10 @@ interface FileIconProps {
 export function FileIcon({ fileName }: FileIconProps) {
 	const extension = fileName.split(".").pop()?.toLowerCase();
 
-	if (extension && ["jpg", "jpeg", "png", "gif", "webp"].includes(extension)) {
+	if (
+		extension &&
+		["jpg", "jpeg", "png", "gif", "webp"].includes(extension)
+	) {
 		return <FileImage className="h-12 w-12 text-muted-foreground" />;
 	}
 	if (extension && ["pdf", "doc", "docx", "txt"].includes(extension)) {

@@ -1,7 +1,7 @@
 import { db } from "@comp/db";
+import dayjs from "dayjs";
 // No need for Prisma import if not using enums/types directly
 import { NextRequest, NextResponse } from "next/server";
-import dayjs from "dayjs";
 
 // Type for the raw data fetched from the database
 interface RawOrganizationData {

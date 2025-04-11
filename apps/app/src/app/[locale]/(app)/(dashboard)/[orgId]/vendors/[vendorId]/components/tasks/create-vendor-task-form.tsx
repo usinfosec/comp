@@ -1,10 +1,10 @@
 "use client";
 
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
-import { createVendorTaskAction } from "../../actions/task/create-task-action";
-import { createVendorTaskSchema } from "../../actions/schema";
+import { SelectAssignee } from "@/components/SelectAssignee";
 import { SelectUser } from "@/components/select-user";
 import { useI18n } from "@/locales/client";
+import { Member, User } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -34,8 +34,8 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { SelectAssignee } from "@/components/SelectAssignee";
-import { Member, User } from "@comp/db/types";
+import { createVendorTaskSchema } from "../../actions/schema";
+import { createVendorTaskAction } from "../../actions/task/create-task-action";
 
 export function CreateVendorTaskForm({
 	assignees,
@@ -92,7 +92,9 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("risk.tasks.form.task_title")}
+														{t(
+															"risk.tasks.form.task_title",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Input
@@ -116,7 +118,9 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("risk.tasks.form.description")}
+														{t(
+															"risk.tasks.form.description",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Textarea
@@ -137,21 +141,35 @@ export function CreateVendorTaskForm({
 											name="dueDate"
 											render={({ field }) => (
 												<FormItem className="flex flex-col">
-													<FormLabel>{t("risk.tasks.form.due_date")}</FormLabel>
+													<FormLabel>
+														{t(
+															"risk.tasks.form.due_date",
+														)}
+													</FormLabel>
 													<Popover>
 														<PopoverTrigger asChild>
 															<FormControl>
 																<Button
-																	variant={"outline"}
+																	variant={
+																		"outline"
+																	}
 																	className={cn(
 																		"w-[240px] pl-3 text-left font-normal",
-																		!field.value && "text-muted-foreground",
+																		!field.value &&
+																			"text-muted-foreground",
 																	)}
 																>
 																	{field.value ? (
-																		format(field.value, "PPP")
+																		format(
+																			field.value,
+																			"PPP",
+																		)
 																	) : (
-																		<span>{t("common.date.pick")}</span>
+																		<span>
+																			{t(
+																				"common.date.pick",
+																			)}
+																		</span>
 																	)}
 																	<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 																</Button>
@@ -163,9 +181,18 @@ export function CreateVendorTaskForm({
 														>
 															<Calendar
 																mode="single"
-																selected={field.value}
-																onSelect={field.onChange}
-																disabled={(date) => date <= new Date()}
+																selected={
+																	field.value
+																}
+																onSelect={
+																	field.onChange
+																}
+																disabled={(
+																	date,
+																) =>
+																	date <=
+																	new Date()
+																}
 																initialFocus
 															/>
 														</PopoverContent>
@@ -180,12 +207,22 @@ export function CreateVendorTaskForm({
 											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("common.assignee.label")}</FormLabel>
+													<FormLabel>
+														{t(
+															"common.assignee.label",
+														)}
+													</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assignees={assignees}
-															assigneeId={field.value}
-															onAssigneeChange={field.onChange}
+															assignees={
+																assignees
+															}
+															assigneeId={
+																field.value
+															}
+															onAssigneeChange={
+																field.onChange
+															}
 															withTitle={false}
 														/>
 													</FormControl>

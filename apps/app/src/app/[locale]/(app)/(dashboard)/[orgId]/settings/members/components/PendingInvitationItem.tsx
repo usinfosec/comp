@@ -75,7 +75,11 @@ export function PendingInvitationItem({
 			<div className="flex items-center gap-2">
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button variant="destructive" size="icon" disabled={isRevoking}>
+						<Button
+							variant="destructive"
+							size="icon"
+							disabled={isRevoking}
+						>
 							{isRevoking ? (
 								<Loader2 className="h-4 w-4 animate-spin" />
 							) : (
@@ -86,7 +90,9 @@ export function PendingInvitationItem({
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
-								{t("settings.team.invitations.actions.revoke_title")}
+								{t(
+									"settings.team.invitations.actions.revoke_title",
+								)}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
 								{t(

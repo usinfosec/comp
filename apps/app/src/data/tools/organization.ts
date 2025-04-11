@@ -1,8 +1,8 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { tool } from "ai";
-import { z } from "zod";
 import { headers } from "next/headers";
+import { z } from "zod";
 
 export function getOrganizationTools() {
 	return {

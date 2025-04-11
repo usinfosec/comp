@@ -9,7 +9,9 @@ export const addDomainToVercel = async (domain: string) => {
 		`https://api.vercel.com/v10/projects/${
 			process.env.VERCEL_PROJECT_ID
 		}/domains${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			method: "POST",
@@ -29,7 +31,9 @@ export const removeDomainFromVercelProject = async (domain: string) => {
 		`https://api.vercel.com/v9/projects/${
 			process.env.VERCEL_PROJECT_ID
 		}/domains/${domain}${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			headers: {
@@ -43,7 +47,9 @@ export const removeDomainFromVercelProject = async (domain: string) => {
 export const removeDomainFromVercelTeam = async (domain: string) => {
 	return await fetch(
 		`https://api.vercel.com/v6/domains/${domain}${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			headers: {
@@ -61,7 +67,9 @@ export const getDomainResponse = async (
 		`https://api.vercel.com/v9/projects/${
 			process.env.VERCEL_PROJECT_ID
 		}/domains/${domain}${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			method: "GET",
@@ -80,7 +88,9 @@ export const getConfigResponse = async (
 ): Promise<DomainConfigResponse> => {
 	return await fetch(
 		`https://api.vercel.com/v6/domains/${domain}/config${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			method: "GET",
@@ -99,7 +109,9 @@ export const verifyDomain = async (
 		`https://api.vercel.com/v9/projects/${
 			process.env.VERCEL_PROJECT_ID
 		}/domains/${domain}/verify${
-			process.env.VERCEL_TEAM_ID ? `?teamId=${process.env.VERCEL_TEAM_ID}` : ""
+			process.env.VERCEL_TEAM_ID
+				? `?teamId=${process.env.VERCEL_TEAM_ID}`
+				: ""
 		}`,
 		{
 			method: "POST",

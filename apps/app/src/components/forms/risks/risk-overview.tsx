@@ -89,13 +89,17 @@ export function UpdateRiskOverview({
 						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("common.assignee.label")}</FormLabel>
+								<FormLabel>
+									{t("common.assignee.label")}
+								</FormLabel>
 								<FormControl>
 									<SelectAssignee
 										assigneeId={field.value ?? null}
 										assignees={assignees}
 										onAssigneeChange={field.onChange}
-										disabled={updateRisk.status === "executing"}
+										disabled={
+											updateRisk.status === "executing"
+										}
 										withTitle={false}
 									/>
 								</FormControl>
@@ -108,24 +112,42 @@ export function UpdateRiskOverview({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_status")}</FormLabel>
+								<FormLabel>
+									{t("risk.form.risk_status")}
+								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
+									<Select
+										value={field.value}
+										onValueChange={field.onChange}
+									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_status_placeholder")}
+												placeholder={t(
+													"risk.form.risk_status_placeholder",
+												)}
 											>
 												{field.value && (
-													<StatusIndicator status={field.value as RiskStatus} />
+													<StatusIndicator
+														status={
+															field.value as RiskStatus
+														}
+													/>
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(RiskStatus).map((status) => (
-												<SelectItem key={status} value={status}>
-													<StatusIndicator status={status} />
-												</SelectItem>
-											))}
+											{Object.values(RiskStatus).map(
+												(status) => (
+													<SelectItem
+														key={status}
+														value={status}
+													>
+														<StatusIndicator
+															status={status}
+														/>
+													</SelectItem>
+												),
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -138,7 +160,9 @@ export function UpdateRiskOverview({
 						name="category"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_category")}</FormLabel>
+								<FormLabel>
+									{t("risk.form.risk_category")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										{...field}
@@ -147,25 +171,40 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_category_placeholder")}
+												placeholder={t(
+													"risk.form.risk_category_placeholder",
+												)}
 											/>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(RiskCategory).map((category) => {
-												const formattedCategory = category
-													.toLowerCase()
-													.split("_")
-													.map(
-														(word) =>
-															word.charAt(0).toUpperCase() + word.slice(1),
-													)
-													.join(" ");
-												return (
-													<SelectItem key={category} value={category}>
-														{formattedCategory}
-													</SelectItem>
-												);
-											})}
+											{Object.values(RiskCategory).map(
+												(category) => {
+													const formattedCategory =
+														category
+															.toLowerCase()
+															.split("_")
+															.map(
+																(word) =>
+																	word
+																		.charAt(
+																			0,
+																		)
+																		.toUpperCase() +
+																	word.slice(
+																		1,
+																	),
+															)
+															.join(" ");
+													return (
+														<SelectItem
+															key={category}
+															value={category}
+														>
+															{formattedCategory}
+														</SelectItem>
+													);
+												},
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -178,7 +217,9 @@ export function UpdateRiskOverview({
 						name="department"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.form.risk_department")}</FormLabel>
+								<FormLabel>
+									{t("risk.form.risk_department")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										{...field}
@@ -187,19 +228,29 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.form.risk_department_placeholder")}
+												placeholder={t(
+													"risk.form.risk_department_placeholder",
+												)}
 											/>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(Departments).map((department) => {
-												const formattedDepartment = department.toUpperCase();
+											{Object.values(Departments).map(
+												(department) => {
+													const formattedDepartment =
+														department.toUpperCase();
 
-												return (
-													<SelectItem key={department} value={department}>
-														{formattedDepartment}
-													</SelectItem>
-												);
-											})}
+													return (
+														<SelectItem
+															key={department}
+															value={department}
+														>
+															{
+																formattedDepartment
+															}
+														</SelectItem>
+													);
+												},
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>

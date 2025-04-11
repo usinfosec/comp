@@ -3,13 +3,13 @@
 import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
-import { useDataTable } from "@/hooks/use-data-table";
-import { getEvidence } from "../data/queries";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
-import { getEvidenceColumns } from "./evidence-table-columns";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
+import { useDataTable } from "@/hooks/use-data-table";
 import { useParams } from "next/navigation";
+import { getEvidence } from "../data/queries";
+import { getEvidenceColumns } from "./evidence-table-columns";
 
 interface EvidenceTableProps {
 	promises: Promise<[Awaited<ReturnType<typeof getEvidence>>]>;

@@ -10,7 +10,11 @@ const AICompletionCommands = ({
 		<>
 			<CommandSeparator />
 			<CommandGroup>
-				<CommandItem onSelect={onDiscard} value="thrash" className="gap-2 px-4">
+				<CommandItem
+					onSelect={onDiscard}
+					value="thrash"
+					className="gap-2 px-4"
+				>
 					<TrashIcon className="h-4 w-4 text-muted-foreground" />
 					Discard
 				</CommandItem>

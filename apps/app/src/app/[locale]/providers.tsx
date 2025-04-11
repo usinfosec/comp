@@ -2,10 +2,10 @@
 
 import { I18nProviderClient } from "@/locales/client";
 import { AnalyticsProvider } from "@comp/analytics";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Session, User } from "better-auth";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
-import { GoogleTagManager } from "@next/third-parties/google";
 
 type ProviderProps = {
 	children: ReactNode;
@@ -36,7 +36,9 @@ export function Providers({ children, locale, session }: ProviderProps) {
 				userId={session?.user?.id ?? undefined}
 				userEmail={session?.user?.email ?? undefined}
 			>
-				<I18nProviderClient locale={locale}>{children}</I18nProviderClient>
+				<I18nProviderClient locale={locale}>
+					{children}
+				</I18nProviderClient>
 			</AnalyticsProvider>
 		</ThemeProvider>
 	);

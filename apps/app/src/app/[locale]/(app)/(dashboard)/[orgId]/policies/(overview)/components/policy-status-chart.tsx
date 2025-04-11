@@ -1,13 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Pie, PieChart, Label, Tooltip, ResponsiveContainer } from "recharts";
+import { Label, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
+import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardHeader,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
 import {
@@ -16,12 +18,10 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@comp/ui/chart";
-import { useI18n } from "@/locales/client";
-import { Badge } from "@comp/ui/badge";
 import {
-	PieChart as PieChartIcon,
 	BarChart as ChartIcon,
 	Info,
+	PieChart as PieChartIcon,
 } from "lucide-react";
 
 interface PolicyOverviewData {
@@ -68,7 +68,8 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<CardTitle className="flex items-center gap-2">
-							{t("policies.dashboard.policy_status") || "Policy Status"}
+							{t("policies.dashboard.policy_status") ||
+								"Policy Status"}
 						</CardTitle>
 						<Badge variant="outline" className="text-xs">
 							Overview
@@ -138,7 +139,8 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
-						{t("policies.dashboard.policy_status") || "Policy Status"}
+						{t("policies.dashboard.policy_status") ||
+							"Policy Status"}
 					</CardTitle>
 
 					{data.totalPolicies > 0 && mostCommonStatus && (
@@ -178,7 +180,10 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 							left: 16,
 						}}
 					>
-						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+						<ChartTooltip
+							cursor={false}
+							content={<ChartTooltipContent />}
+						/>
 						<Pie
 							data={chartData}
 							dataKey="value"
@@ -194,7 +199,11 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 						>
 							<Label
 								content={({ viewBox }) => {
-									if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+									if (
+										viewBox &&
+										"cx" in viewBox &&
+										"cy" in viewBox
+									) {
 										return (
 											<g>
 												<text
@@ -212,7 +221,10 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 													</tspan>
 													<tspan
 														x={viewBox.cx}
-														y={(viewBox.cy || 0) + 26}
+														y={
+															(viewBox.cy || 0) +
+															26
+														}
 														className="fill-muted-foreground text-xs"
 													>
 														Policies
@@ -240,7 +252,10 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 			<CardFooter className="bg-muted/30 border-t py-3">
 				<div className="flex flex-wrap gap-4 justify-center w-full py-1">
 					{chartData.map((entry) => (
-						<div key={entry.name} className="flex items-center gap-2">
+						<div
+							key={entry.name}
+							className="flex items-center gap-2"
+						>
 							<div
 								className="h-3 w-3"
 								style={{ backgroundColor: entry.fill }}

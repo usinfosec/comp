@@ -41,7 +41,9 @@ export function NoResults({ hasFilters }: { hasFilters: boolean }) {
 				</h3>
 				<p className="text-muted-foreground">
 					{hasFilters
-						? t("common.empty_states.no_results.description_filters")
+						? t(
+								"common.empty_states.no_results.description_filters",
+							)
 						: t("common.empty_states.no_results.description")}
 				</p>
 			</CardContent>

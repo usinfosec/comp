@@ -74,7 +74,10 @@ export const deleteEvidenceFile = authActionClient
 			console.error("Error deleting file:", error);
 			return {
 				success: false,
-				error: error instanceof Error ? error.message : "Failed to delete file",
+				error:
+					error instanceof Error
+						? error.message
+						: "Failed to delete file",
 			};
 		}
 	});

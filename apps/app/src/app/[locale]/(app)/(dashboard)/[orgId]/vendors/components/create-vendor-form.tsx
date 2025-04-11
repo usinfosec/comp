@@ -1,5 +1,6 @@
 "use client";
 
+import { SelectAssignee } from "@/components/SelectAssignee";
 import { useI18n } from "@/locales/client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
 import {
@@ -33,7 +34,6 @@ import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { SelectAssignee } from "@/components/SelectAssignee";
 import { createVendorAction } from "../actions/create-vendor-action";
 
 const createVendorSchema = z.object({
@@ -92,7 +92,11 @@ export function CreateVendorForm({
 											name="name"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("vendors.form.vendor_name")}</FormLabel>
+													<FormLabel>
+														{t(
+															"vendors.form.vendor_name",
+														)}
+													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -114,7 +118,9 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("vendors.form.vendor_website")}
+														{t(
+															"vendors.form.vendor_website",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Input
@@ -136,7 +142,9 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("vendors.form.vendor_description")}
+														{t(
+															"vendors.form.vendor_description",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Textarea
@@ -157,13 +165,17 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("vendors.form.vendor_category")}
+														{t(
+															"vendors.form.vendor_category",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={field.onChange}
+															onValueChange={
+																field.onChange
+															}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -173,23 +185,46 @@ export function CreateVendorForm({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(VendorCategory).map(
-																	(category) => {
-																		const formattedCategory = category
-																			.toLowerCase()
-																			.split("_")
-																			.map(
-																				(word) =>
-																					word.charAt(0).toUpperCase() +
-																					word.slice(1),
-																			)
-																			.join(" ");
+																{Object.values(
+																	VendorCategory,
+																).map(
+																	(
+																		category,
+																	) => {
+																		const formattedCategory =
+																			category
+																				.toLowerCase()
+																				.split(
+																					"_",
+																				)
+																				.map(
+																					(
+																						word,
+																					) =>
+																						word
+																							.charAt(
+																								0,
+																							)
+																							.toUpperCase() +
+																						word.slice(
+																							1,
+																						),
+																				)
+																				.join(
+																					" ",
+																				);
 																		return (
 																			<SelectItem
-																				key={category}
-																				value={category}
+																				key={
+																					category
+																				}
+																				value={
+																					category
+																				}
 																			>
-																				{formattedCategory}
+																				{
+																					formattedCategory
+																				}
 																			</SelectItem>
 																		);
 																	},
@@ -207,13 +242,17 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t("vendors.form.vendor_status")}
+														{t(
+															"vendors.form.vendor_status",
+														)}
 													</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={field.onChange}
+															onValueChange={
+																field.onChange
+															}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -223,22 +262,50 @@ export function CreateVendorForm({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(VendorStatus).map((status) => {
-																	const formattedStatus = status
-																		.toLowerCase()
-																		.split("_")
-																		.map(
-																			(word) =>
-																				word.charAt(0).toUpperCase() +
-																				word.slice(1),
-																		)
-																		.join(" ");
-																	return (
-																		<SelectItem key={status} value={status}>
-																			{formattedStatus}
-																		</SelectItem>
-																	);
-																})}
+																{Object.values(
+																	VendorStatus,
+																).map(
+																	(
+																		status,
+																	) => {
+																		const formattedStatus =
+																			status
+																				.toLowerCase()
+																				.split(
+																					"_",
+																				)
+																				.map(
+																					(
+																						word,
+																					) =>
+																						word
+																							.charAt(
+																								0,
+																							)
+																							.toUpperCase() +
+																						word.slice(
+																							1,
+																						),
+																				)
+																				.join(
+																					" ",
+																				);
+																		return (
+																			<SelectItem
+																				key={
+																					status
+																				}
+																				value={
+																					status
+																				}
+																			>
+																				{
+																					formattedStatus
+																				}
+																			</SelectItem>
+																		);
+																	},
+																)}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -251,13 +318,24 @@ export function CreateVendorForm({
 											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>{t("common.assignee.label")}</FormLabel>
+													<FormLabel>
+														{t(
+															"common.assignee.label",
+														)}
+													</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assignees={assignees}
-															assigneeId={field.value ?? null}
+															assignees={
+																assignees
+															}
+															assigneeId={
+																field.value ??
+																null
+															}
 															withTitle={false}
-															onAssigneeChange={field.onChange}
+															onAssigneeChange={
+																field.onChange
+															}
 														/>
 													</FormControl>
 													<FormMessage />

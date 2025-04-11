@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import type { Departments } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -8,11 +9,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { Button } from "@comp/ui/button";
-import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
+import { toast } from "sonner";
 import { updateEmployeeDepartment } from "../actions/update-department";
-import type { Departments } from "@comp/db/types";
 
 const DEPARTMENTS = [
 	{ value: "admin", label: "Admin" },
@@ -43,7 +43,9 @@ export function EditableDepartment({
 			onSuccess?.();
 		},
 		onError: (error) => {
-			toast.error(error?.error?.serverError || "Failed to update department");
+			toast.error(
+				error?.error?.serverError || "Failed to update department",
+			);
 		},
 	});
 

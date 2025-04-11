@@ -26,7 +26,10 @@ export const getPolicies = tool({
 		}
 
 		const policies = await db.policy.findMany({
-			where: { organizationId: session.session.activeOrganizationId, status },
+			where: {
+				organizationId: session.session.activeOrganizationId,
+				status,
+			},
 			select: {
 				id: true,
 				name: true,

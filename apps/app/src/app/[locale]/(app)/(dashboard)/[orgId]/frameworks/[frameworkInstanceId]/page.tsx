@@ -1,11 +1,11 @@
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
+import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
-import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
-import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 interface PageProps {
 	params: Promise<{
 		frameworkInstanceId: string;
@@ -52,11 +52,15 @@ export default async function FrameworkPage({ params }: PageProps) {
 		>
 			<div className="flex flex-col gap-6">
 				<FrameworkOverview
-					frameworkInstanceWithControls={frameworkInstanceWithControls}
+					frameworkInstanceWithControls={
+						frameworkInstanceWithControls
+					}
 				/>
 				<FrameworkRequirements
 					frameworkId={frameworkInstanceWithControls.frameworkId}
-					frameworkInstanceWithControls={frameworkInstanceWithControls}
+					frameworkInstanceWithControls={
+						frameworkInstanceWithControls
+					}
 				/>
 			</div>
 		</PageWithBreadcrumb>

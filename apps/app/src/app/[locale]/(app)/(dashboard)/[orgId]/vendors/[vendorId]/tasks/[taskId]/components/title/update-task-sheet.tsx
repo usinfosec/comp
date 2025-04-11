@@ -111,7 +111,9 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 					<div>
 						<Accordion type="multiple" defaultValue={["task"]}>
 							<AccordionItem value="task">
-								<AccordionTrigger>Task Details</AccordionTrigger>
+								<AccordionTrigger>
+									Task Details
+								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
 										<FormField
@@ -139,7 +141,9 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 											name="description"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Description</FormLabel>
+													<FormLabel>
+														Description
+													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
@@ -157,7 +161,9 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 											name="dueDate"
 											render={({ field }) => (
 												<FormItem className="flex flex-col">
-													<FormLabel>Due Date</FormLabel>
+													<FormLabel>
+														Due Date
+													</FormLabel>
 													<Popover>
 														<PopoverTrigger asChild>
 															<FormControl>
@@ -165,13 +171,21 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 																	variant="outline"
 																	className={cn(
 																		"w-full pl-3 text-left font-normal",
-																		!field.value && "text-muted-foreground",
+																		!field.value &&
+																			"text-muted-foreground",
 																	)}
 																>
 																	{field.value ? (
-																		format(field.value, "PPP")
+																		format(
+																			field.value,
+																			"PPP",
+																		)
 																	) : (
-																		<span>Select a date</span>
+																		<span>
+																			Select
+																			a
+																			date
+																		</span>
 																	)}
 																	<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 																</Button>
@@ -183,11 +197,24 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 														>
 															<Calendar
 																mode="single"
-																selected={field.value}
-																onSelect={field.onChange}
-																disabled={(date) =>
+																selected={
+																	field.value
+																}
+																onSelect={
+																	field.onChange
+																}
+																disabled={(
+																	date,
+																) =>
 																	date <
-																	new Date(new Date().setHours(0, 0, 0, 0))
+																	new Date(
+																		new Date().setHours(
+																			0,
+																			0,
+																			0,
+																			0,
+																		),
+																	)
 																}
 																initialFocus
 															/>
@@ -203,32 +230,51 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 											name="status"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Status</FormLabel>
+													<FormLabel>
+														Status
+													</FormLabel>
 													<FormControl>
 														<Select
 															value={field.value}
-															onValueChange={(value) => {
-																field.onChange(value);
-																form.handleSubmit(onSubmit)();
+															onValueChange={(
+																value,
+															) => {
+																field.onChange(
+																	value,
+																);
+																form.handleSubmit(
+																	onSubmit,
+																)();
 															}}
 														>
 															<SelectTrigger>
 																<SelectValue placeholder="Select status">
-																	{field.value && renderStatus(field.value)}
+																	{field.value &&
+																		renderStatus(
+																			field.value,
+																		)}
 																</SelectValue>
 															</SelectTrigger>
 															<SelectContent>
 																<SelectItem value="open">
-																	{renderStatus("open")}
+																	{renderStatus(
+																		"open",
+																	)}
 																</SelectItem>
 																<SelectItem value="in_progress">
-																	{renderStatus("in_progress")}
+																	{renderStatus(
+																		"in_progress",
+																	)}
 																</SelectItem>
 																<SelectItem value="completed">
-																	{renderStatus("completed")}
+																	{renderStatus(
+																		"completed",
+																	)}
 																</SelectItem>
 																<SelectItem value="cancelled">
-																	{renderStatus("cancelled")}
+																	{renderStatus(
+																		"cancelled",
+																	)}
 																</SelectItem>
 															</SelectContent>
 														</Select>
@@ -243,13 +289,24 @@ export function UpdateTaskSheet({ task, assignees }: UpdateTaskSheetProps) {
 											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Assignee</FormLabel>
+													<FormLabel>
+														Assignee
+													</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assigneeId={field.value}
-															assignees={assignees}
-															onAssigneeChange={field.onChange}
-															disabled={updateTask.status === "executing"}
+															assigneeId={
+																field.value
+															}
+															assignees={
+																assignees
+															}
+															onAssigneeChange={
+																field.onChange
+															}
+															disabled={
+																updateTask.status ===
+																"executing"
+															}
 															withTitle={false}
 														/>
 													</FormControl>

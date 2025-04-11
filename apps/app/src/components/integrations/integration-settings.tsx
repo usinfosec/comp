@@ -34,7 +34,9 @@ function IntegrationSettingsItem({
 			return (
 				<div className="flex items-center justify-between">
 					<div className="pr-4 space-y-1">
-						<Label className="text-muted-foreground">{setting.label}</Label>
+						<Label className="text-muted-foreground">
+							{setting.label}
+						</Label>
 						<p className="text-xs text-muted-foreground">
 							{setting.description}
 						</p>
@@ -59,9 +61,13 @@ function IntegrationSettingsItem({
 						</p>
 					</div>
 					<Input
-						type={installedSettings[setting.id] ? "password" : "text"}
+						type={
+							installedSettings[setting.id] ? "password" : "text"
+						}
 						value={setting.value as string}
-						placeholder={installedSettings[setting.id] ? "••••••••" : ""}
+						placeholder={
+							installedSettings[setting.id] ? "••••••••" : ""
+						}
 						onChange={(e) => {
 							onSettingChange(setting.id, e.target.value);
 						}}
@@ -82,14 +88,17 @@ export function IntegrationSettings({
 	integrationId: string;
 	installedSettings: Record<string, any>;
 }) {
-	const updateIntegrationSettings = useAction(updateIntegrationSettingsAction, {
-		onSuccess: () => {
-			toast.success("Settings updated");
+	const updateIntegrationSettings = useAction(
+		updateIntegrationSettingsAction,
+		{
+			onSuccess: () => {
+				toast.success("Settings updated");
+			},
+			onError: () => {
+				toast.error("Failed to update settings");
+			},
 		},
-		onError: () => {
-			toast.error("Failed to update settings");
-		},
-	});
+	);
 
 	// Convert non-array settings to array format if needed
 	const normalizedSettings = Array.isArray(settings)
@@ -97,7 +106,9 @@ export function IntegrationSettings({
 		: settings
 			? Object.entries(settings).map(([key, value]) => ({
 					id: key,
-					label: key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " "),
+					label:
+						key.charAt(0).toUpperCase() +
+						key.slice(1).replace(/_/g, " "),
 					description: `Enter your ${key.replace(/_/g, " ")}`,
 					type: "text",
 					required: true,
@@ -131,7 +142,9 @@ export function IntegrationSettings({
 	return (
 		<div className="flex flex-col gap-2">
 			{localSettings.length === 0 ? (
-				<p className="text-sm text-muted-foreground">No settings available</p>
+				<p className="text-sm text-muted-foreground">
+					No settings available
+				</p>
 			) : (
 				localSettings.map((setting) => (
 					<div key={setting.id}>

@@ -2,15 +2,15 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
 import type { Member, User, Vendor } from "@comp/db/types";
-import { CreateVendorSheet } from "../../components/create-vendor-sheet";
-import { columns } from "./VendorColumns";
 import { useParams } from "next/navigation";
 import * as React from "react";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import type { GetVendorsResult, GetAssigneesResult } from "../data/queries";
+import { CreateVendorSheet } from "../../components/create-vendor-sheet";
+import type { GetAssigneesResult, GetVendorsResult } from "../data/queries";
+import { columns } from "./VendorColumns";
 
 export const VendorsTable = ({
 	promises,

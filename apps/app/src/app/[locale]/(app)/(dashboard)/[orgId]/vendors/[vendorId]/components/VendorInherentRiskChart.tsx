@@ -1,9 +1,9 @@
 "use client";
 
+import { RiskMatrixChart } from "@/components/risks/charts/RiskMatrixChart";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
 import { VendorInherentRiskSheet } from "./VendorInherentRiskSheet";
-import { RiskMatrixChart } from "@/components/risks/charts/RiskMatrixChart";
 
 interface InherentRiskChartProps {
 	vendor: Vendor;

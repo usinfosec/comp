@@ -71,7 +71,9 @@ export async function TestsByAssignee({ organizationId }: Props) {
 					{stats.map((stat) => (
 						<div key={stat.user.id} className="space-y-2">
 							<div className="flex justify-between items-center">
-								<p className="text-sm">{stat.user.name || "Unknown User"}</p>
+								<p className="text-sm">
+									{stat.user.name || "Unknown User"}
+								</p>
 								<span className="text-sm text-muted-foreground">
 									{stat.totalTests} Tests
 								</span>
@@ -83,18 +85,22 @@ export async function TestsByAssignee({ organizationId }: Props) {
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-success)]" />
 									<span>
-										{t("tests.dashboard.passed")} ({stat.passedTests})
+										{t("tests.dashboard.passed")} (
+										{stat.passedTests})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[hsl(var(--destructive))]" />
 									<span>
-										{t("tests.dashboard.failed")} ({stat.failedTests})
+										{t("tests.dashboard.failed")} (
+										{stat.failedTests})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[hsl(var(--muted-foreground))]" />
-									<span>Unsupported ({stat.unsupportedTests})</span>
+									<span>
+										Unsupported ({stat.unsupportedTests})
+									</span>
 								</div>
 							</div>
 						</div>

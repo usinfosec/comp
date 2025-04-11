@@ -20,7 +20,9 @@ export const useTransactionsStore = create<TransactionsState>()((set) => ({
 		set((state) => {
 			return {
 				rowSelection:
-					typeof updater === "function" ? updater(state.rowSelection) : updater,
+					typeof updater === "function"
+						? updater(state.rowSelection)
+						: updater,
 			};
 		}),
 }));

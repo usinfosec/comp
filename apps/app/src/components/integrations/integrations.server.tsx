@@ -46,7 +46,9 @@ export async function IntegrationsServer() {
 					now.getUTCFullYear(),
 					now.getUTCMonth(),
 					// If we're already past midnight UTC today, use tomorrow
-					now.getUTCHours() >= 0 ? now.getUTCDate() + 1 : now.getUTCDate(),
+					now.getUTCHours() >= 0
+						? now.getUTCDate() + 1
+						: now.getUTCDate(),
 					0,
 					0,
 					0,

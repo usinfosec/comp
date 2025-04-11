@@ -1,5 +1,6 @@
 "use client";
 
+import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
 import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
@@ -13,13 +14,12 @@ import {
 } from "@comp/ui/select";
 import { Skeleton } from "@comp/ui/skeleton";
 import { Plus, Search, X } from "lucide-react";
+import type { User } from "next-auth";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useTransition } from "react";
-import { useCallback, useState, useEffect } from "react";
-import type { User } from "next-auth";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
+import { useCallback, useEffect, useState } from "react";
 
 interface FilterToolbarProps {
 	isEmpty?: boolean;
@@ -94,18 +94,29 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 		return (
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4 opacity-20 pointer-events-none blur-[7px]">
 				<div className="relative flex-1 md:max-w-sm">
-					<Skeleton className={cn("h-10", isEmpty && "animate-none")} />
+					<Skeleton
+						className={cn("h-10", isEmpty && "animate-none")}
+					/>
 				</div>
 
 				<div className="md:flex gap-2 md:flex-row md:items-center hidden">
 					<Skeleton
-						className={cn("h-10 w-[200px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-10 w-[200px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 					<Skeleton
-						className={cn("h-10 w-[200px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-10 w-[200px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 					<Skeleton
-						className={cn("h-9 w-[120px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-9 w-[120px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 				</div>
 			</div>
@@ -134,13 +145,22 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 			</div>
 
 			<div className="hidden md:flex items-center gap-2">
-				<Select value={status || "all"} onValueChange={handleStatusChange}>
+				<Select
+					value={status || "all"}
+					onValueChange={handleStatusChange}
+				>
 					<SelectTrigger className="w-auto min-w-[100px]">
-						<SelectValue placeholder={t("policies.status_filter")} />
+						<SelectValue
+							placeholder={t("policies.status_filter")}
+						/>
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all">{t("policies.all_statuses")}</SelectItem>
-						<SelectItem value="draft">{t("common.status.draft")}</SelectItem>
+						<SelectItem value="all">
+							{t("policies.all_statuses")}
+						</SelectItem>
+						<SelectItem value="draft">
+							{t("common.status.draft")}
+						</SelectItem>
 						<SelectItem value="published">
 							{t("common.status.published")}
 						</SelectItem>
@@ -158,7 +178,9 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 					onValueChange={(value) => setAssigneeId(value || null)}
 				>
 					<SelectTrigger className="w-[200px] min-w-[200px]">
-						<SelectValue placeholder={t("common.filters.assignee.label")} />
+						<SelectValue
+							placeholder={t("common.filters.assignee.label")}
+						/>
 					</SelectTrigger>
 					<SelectContent>
 						{users.map((user) => (

@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback } from "react";
 import { useToast } from "@comp/ui/use-toast";
+import { useCallback } from "react";
 import { deleteEvidenceFile } from "../actions/deleteEvidenceFile";
 
 interface UseFileDeleteProps {
@@ -25,7 +25,9 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
 				}
 
 				if (!response.data.success) {
-					throw new Error(response.data.error || "Failed to delete file");
+					throw new Error(
+						response.data.error || "Failed to delete file",
+					);
 				}
 
 				await onSuccess();
@@ -38,7 +40,9 @@ export function useFileDelete({ evidenceId, onSuccess }: UseFileDeleteProps) {
 				toast({
 					title: "Error",
 					description:
-						error instanceof Error ? error.message : "Failed to delete file",
+						error instanceof Error
+							? error.message
+							: "Failed to delete file",
 					variant: "destructive",
 				});
 			}

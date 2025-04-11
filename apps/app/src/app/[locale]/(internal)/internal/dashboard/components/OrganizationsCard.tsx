@@ -8,7 +8,7 @@ import {
 	ChartTooltipContent,
 } from "@comp/ui/chart";
 import { Skeleton } from "@comp/ui/skeleton";
-import { TrendingUp, BarChart2 } from "lucide-react";
+import { BarChart2, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { useOrganizationsAnalytics } from "../hooks/useOrganizationsAnalytics";
 import { ValidatingSpinner } from "./ValidatingSpinner";
@@ -48,7 +48,9 @@ export function OrganizationsCard() {
 					</p>
 				</div>
 				<div className="px-6 pb-6">
-					<p className="text-sm text-destructive">Error loading data.</p>
+					<p className="text-sm text-destructive">
+						Error loading data.
+					</p>
 				</div>
 			</div>
 		);
@@ -63,7 +65,9 @@ export function OrganizationsCard() {
 						<BarChart2 className="h-8 w-8 text-green-400" />
 					</div>
 					<div>
-						<h3 className="text-lg font-semibold mb-0">Organizations</h3>
+						<h3 className="text-lg font-semibold mb-0">
+							Organizations
+						</h3>
 						<p className="text-sm text-gray-400">
 							Daily trend over the last 30 days
 						</p>
@@ -80,7 +84,10 @@ export function OrganizationsCard() {
 						<Skeleton className="h-4 w-[150px]" />
 					</div>
 				) : (
-					<ChartContainer config={chartConfig} className="h-[200px] w-full">
+					<ChartContainer
+						config={chartConfig}
+						className="h-[200px] w-full"
+					>
 						<AreaChart
 							accessibilityLayer
 							data={chartData}
@@ -147,7 +154,9 @@ export function OrganizationsCard() {
 							{formattedTotalCount}
 						</div>
 						<div className="flex flex-col gap-1">
-							<div className="text-sm text-gray-400">{dateRange}</div>
+							<div className="text-sm text-gray-400">
+								{dateRange}
+							</div>
 							{trendPercentage !== undefined && (
 								<Badge
 									variant="outline"

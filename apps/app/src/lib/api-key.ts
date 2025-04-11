@@ -1,7 +1,7 @@
+import { createHash, randomBytes } from "node:crypto";
 import { db } from "@comp/db";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { createHash, randomBytes } from "node:crypto";
 
 /**
  * Generate a new API key
@@ -80,7 +80,9 @@ async function validateApiKeyValue(apiKey: string): Promise<string | null> {
 	try {
 		// Check if the model exists in the Prisma client
 		if (typeof db.apiKey === "undefined") {
-			console.error("ApiKey model not found. Make sure to run migrations.");
+			console.error(
+				"ApiKey model not found. Make sure to run migrations.",
+			);
 			return null;
 		}
 

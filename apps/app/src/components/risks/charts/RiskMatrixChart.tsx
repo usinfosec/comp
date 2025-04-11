@@ -151,40 +151,57 @@ export function RiskMatrixChart({
 
 						{/* 5x5 Matrix Grid */}
 						<div className="grid grid-cols-5 grid-rows-5 border-l border-b row-start-1 col-start-1 lg:col-start-3 lg:row-start-1">
-							{VISUAL_LIKELIHOOD_ORDER.map((rowLikelihood, rowIndex) =>
-								VISUAL_IMPACT_ORDER.map((colImpact, colIndex) => {
-									const likelihoodScore = LIKELIHOOD_SCORES[rowLikelihood];
-									const impactScore = IMPACT_SCORES[colImpact];
-									const cellScore = likelihoodScore * impactScore;
+							{VISUAL_LIKELIHOOD_ORDER.map(
+								(rowLikelihood, rowIndex) =>
+									VISUAL_IMPACT_ORDER.map(
+										(colImpact, colIndex) => {
+											const likelihoodScore =
+												LIKELIHOOD_SCORES[
+													rowLikelihood
+												];
+											const impactScore =
+												IMPACT_SCORES[colImpact];
+											const cellScore =
+												likelihoodScore * impactScore;
 
-									let cellColor = RISK_COLORS.low;
-									if (cellScore > 16) cellColor = RISK_COLORS.critical;
-									else if (cellScore > 9) cellColor = RISK_COLORS.high;
-									else if (cellScore > 4) cellColor = RISK_COLORS.medium;
+											let cellColor = RISK_COLORS.low;
+											if (cellScore > 16)
+												cellColor =
+													RISK_COLORS.critical;
+											else if (cellScore > 9)
+												cellColor = RISK_COLORS.high;
+											else if (cellScore > 4)
+												cellColor = RISK_COLORS.medium;
 
-									const isActive =
-										rowLikelihood === activeLikelihood &&
-										colImpact === activeImpact;
+											const isActive =
+												rowLikelihood ===
+													activeLikelihood &&
+												colImpact === activeImpact;
 
-									return (
-										<div
-											key={`cell-${rowIndex}-${colIndex}`}
-											className="border-t border-r relative"
-											style={{ backgroundColor: `${cellColor}25` }} // Cell background based on risk level
-										>
-											{isActive && (
+											return (
 												<div
-													className="absolute inset-0 z-10 border" // Highlight active cell
+													key={`cell-${rowIndex}-${colIndex}`}
+													className="border-t border-r relative"
 													style={{
-														backgroundColor: cellColor,
-														borderColor: cellColor,
-														opacity: 0.9,
-													}}
-												/>
-											)}
-										</div>
-									);
-								}),
+														backgroundColor: `${cellColor}25`,
+													}} // Cell background based on risk level
+												>
+													{isActive && (
+														<div
+															className="absolute inset-0 z-10 border" // Highlight active cell
+															style={{
+																backgroundColor:
+																	cellColor,
+																borderColor:
+																	cellColor,
+																opacity: 0.9,
+															}}
+														/>
+													)}
+												</div>
+											);
+										},
+									),
 							)}
 						</div>
 

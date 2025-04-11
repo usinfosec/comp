@@ -1,11 +1,11 @@
 "use server";
 
-import { authActionClient } from "./safe-action";
-import { z } from "zod";
-import { db } from "@comp/db";
 import { AppError, appErrors } from "@/lib/errors";
-import { headers } from "next/headers";
+import { db } from "@comp/db";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { z } from "zod";
+import { authActionClient } from "./safe-action";
 
 export const addCommentAction = authActionClient
 	.schema(
@@ -58,7 +58,9 @@ export const addCommentAction = authActionClient
 
 			const headersList = await headers();
 			let path =
-				headersList.get("x-pathname") || headersList.get("referer") || "";
+				headersList.get("x-pathname") ||
+				headersList.get("referer") ||
+				"";
 			path = path.replace(/\/[a-z]{2}\//, "/");
 
 			if (path) {
@@ -69,7 +71,10 @@ export const addCommentAction = authActionClient
 		} catch (error) {
 			return {
 				success: false,
-				error: error instanceof AppError ? error : appErrors.UNEXPECTED_ERROR,
+				error:
+					error instanceof AppError
+						? error
+						: appErrors.UNEXPECTED_ERROR,
 			};
 		}
 	});

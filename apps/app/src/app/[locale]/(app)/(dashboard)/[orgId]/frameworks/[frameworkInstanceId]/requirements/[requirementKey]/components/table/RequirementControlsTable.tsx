@@ -64,7 +64,9 @@ export function RequirementControlsTable({
 							href={`/${orgId}/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
-							<span className="font-medium truncate">{row.original.name}</span>
+							<span className="font-medium truncate">
+								{row.original.name}
+							</span>
 						</Link>
 					</div>
 				),
@@ -104,12 +106,15 @@ export function RequirementControlsTable({
 										<p>
 											Progress:{" "}
 											{Math.round(
-												(completedArtifacts / totalArtifacts) * 100,
+												(completedArtifacts /
+													totalArtifacts) *
+													100,
 											) || 0}
 											%
 										</p>
 										<p>
-											Completed: {completedArtifacts}/{totalArtifacts} artifacts
+											Completed: {completedArtifacts}/
+											{totalArtifacts} artifacts
 										</p>
 									</div>
 								</TooltipContent>

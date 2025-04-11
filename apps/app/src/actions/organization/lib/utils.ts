@@ -6,8 +6,8 @@ import type {
 import { controls, evidence, frameworks, policies } from "@comp/data";
 import { db } from "@comp/db";
 import { FrameworkId, type PolicyStatus, RequirementId } from "@prisma/client";
-import type { InputJsonValue } from "@prisma/client/runtime/library";
 import { Prisma, type PrismaClient } from "@prisma/client";
+import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 /**
  * A type-safe wrapper for accessing policy templates by ID
@@ -90,22 +90,27 @@ export async function createFrameworkInstance(
 	const framework = frameworks[frameworkId as FrameworkId];
 
 	if (!framework) {
-		console.error("Framework not found when creating organization framework", {
-			organizationId,
-			frameworkId,
-		});
+		console.error(
+			"Framework not found when creating organization framework",
+			{
+				organizationId,
+				frameworkId,
+			},
+		);
 		throw new Error(`Framework with ID ${frameworkId} not found`);
 	}
 
 	// Check if a framework instance already exists
-	const existingFrameworkInstance = await prisma.frameworkInstance.findUnique({
-		where: {
-			organizationId_frameworkId: {
-				organizationId,
-				frameworkId: frameworkId as FrameworkId,
+	const existingFrameworkInstance = await prisma.frameworkInstance.findUnique(
+		{
+			where: {
+				organizationId_frameworkId: {
+					organizationId,
+					frameworkId: frameworkId as FrameworkId,
+				},
 			},
 		},
-	});
+	);
 
 	// Create or update the framework instance
 	const frameworkInstance = existingFrameworkInstance
@@ -133,7 +138,9 @@ export async function createFrameworkInstance(
 
 	// Find all controls that apply to this specific framework
 	const frameworkControls = controls.filter((control) =>
-		control.mappedRequirements.some((req) => req.frameworkId === frameworkId),
+		control.mappedRequirements.some(
+			(req) => req.frameworkId === frameworkId,
+		),
 	);
 
 	// Prepare data for batch control creation
@@ -156,7 +163,9 @@ export async function createFrameworkInstance(
 		const createdOrFoundDbControls = await prisma.control.findMany({
 			where: {
 				organizationId,
-				name: { in: frameworkControls.map((c: TemplateControl) => c.name) },
+				name: {
+					in: frameworkControls.map((c: TemplateControl) => c.name),
+				},
 			},
 			select: { id: true, name: true }, // Select only necessary fields
 		});
@@ -167,7 +176,9 @@ export async function createFrameworkInstance(
 				where: { id: frameworkInstance.id },
 				data: {
 					controls: {
-						connect: createdOrFoundDbControls.map((c) => ({ id: c.id })),
+						connect: createdOrFoundDbControls.map((c) => ({
+							id: c.id,
+						})),
 					},
 				},
 			});
@@ -238,7 +249,9 @@ export async function createRequirementMaps(
 		// Find the corresponding created control
 		const control = controlMap.get(templateControl.name);
 		if (!control) {
-			console.warn(`Control not found for template: ${templateControl.name}`);
+			console.warn(
+				`Control not found for template: ${templateControl.name}`,
+			);
 			continue;
 		}
 
@@ -329,7 +342,9 @@ export async function createOrganizationPolicies(
 				if (policyTemplate) {
 					requiredTemplatesMap.set(artifact.policyId, policyTemplate);
 				} else {
-					console.warn(`Policy template not found: ${artifact.policyId}`);
+					console.warn(
+						`Policy template not found: ${artifact.policyId}`,
+					);
 				}
 			}
 		}
@@ -366,7 +381,9 @@ export async function createOrganizationPolicies(
 
 	// Populate map with existing policies, keyed by template ID
 	for (const [templateId, template] of requiredTemplatesMap.entries()) {
-		const existingPolicy = existingPolicyNameMap.get(template.metadata.name);
+		const existingPolicy = existingPolicyNameMap.get(
+			template.metadata.name,
+		);
 		if (existingPolicy) {
 			finalPoliciesMap.set(templateId, existingPolicy);
 		}
@@ -439,7 +456,9 @@ export async function createOrganizationPolicies(
 			// 5. Combine and Return Map (Add newly created policies)
 			for (const templateId of missingTemplateIds) {
 				const policyTemplate = requiredTemplatesMap.get(templateId)!;
-				const newPolicy = newPolicyNameMap.get(policyTemplate.metadata.name);
+				const newPolicy = newPolicyNameMap.get(
+					policyTemplate.metadata.name,
+				);
 				if (newPolicy) {
 					finalPoliciesMap.set(templateId, newPolicy);
 				} else {
@@ -449,9 +468,12 @@ export async function createOrganizationPolicies(
 				}
 			}
 		} catch (error) {
-			console.error(`Error batch creating policies for org ${organizationId}`, {
-				error,
-			});
+			console.error(
+				`Error batch creating policies for org ${organizationId}`,
+				{
+					error,
+				},
+			);
 			throw new Error("Failed to create organization policies");
 		}
 	}
@@ -497,9 +519,14 @@ export async function createOrganizationEvidence(
 			) {
 				const evidenceTemplate = getEvidenceById(artifact.evidenceId);
 				if (evidenceTemplate) {
-					requiredTemplatesMap.set(artifact.evidenceId, evidenceTemplate);
+					requiredTemplatesMap.set(
+						artifact.evidenceId,
+						evidenceTemplate,
+					);
 				} else {
-					console.warn(`Evidence template not found: ${artifact.evidenceId}`);
+					console.warn(
+						`Evidence template not found: ${artifact.evidenceId}`,
+					);
 				}
 			}
 		}
@@ -523,7 +550,9 @@ export async function createOrganizationEvidence(
 		where: {
 			organizationId,
 			name: {
-				in: requiredTemplateIds.map((id) => requiredTemplatesMap.get(id)!.name),
+				in: requiredTemplateIds.map(
+					(id) => requiredTemplatesMap.get(id)!.name,
+				),
 			},
 		},
 	});
@@ -607,7 +636,9 @@ export async function createOrganizationEvidence(
 			// 5. Combine and Return Map (Add newly created evidence)
 			for (const templateId of missingTemplateIds) {
 				const evidenceTemplate = requiredTemplatesMap.get(templateId)!;
-				const newEvidence = newEvidenceNameMap.get(evidenceTemplate.name);
+				const newEvidence = newEvidenceNameMap.get(
+					evidenceTemplate.name,
+				);
 				if (newEvidence) {
 					finalEvidenceMap.set(templateId, newEvidence);
 				} else {
@@ -717,7 +748,7 @@ export async function createControlArtifacts(
 	let artifactsCreatedCount = 0;
 	// Removed the batch preparation array and related variables
 
-	console.info(`Attempting to create missing artifact links.`);
+	console.info("Attempting to create missing artifact links.");
 
 	for (const templateControl of relevantControls) {
 		const dbControl = controlMap.get(templateControl.name);
@@ -750,7 +781,9 @@ export async function createControlArtifacts(
 					);
 				}
 			} else if (templateArtifact.type === "evidence") {
-				const evidenceRecord = createdEvidence.get(templateArtifact.evidenceId);
+				const evidenceRecord = createdEvidence.get(
+					templateArtifact.evidenceId,
+				);
 				// Ensure evidenceRecord and evidenceRecord.id exist before proceeding
 				if (evidenceRecord?.id) {
 					const targetDbId = evidenceRecord.id;
@@ -796,17 +829,24 @@ export async function createControlArtifacts(
 					} else {
 						// Check linkKey again for safety in error logging
 						const errorLinkKey = currentLinkKey || "(unknown)";
-						console.error(`Error creating artifact link ${errorLinkKey}`, {
-							error,
-						});
-						throw new Error(`Failed to create artifact link ${errorLinkKey}`);
+						console.error(
+							`Error creating artifact link ${errorLinkKey}`,
+							{
+								error,
+							},
+						);
+						throw new Error(
+							`Failed to create artifact link ${errorLinkKey}`,
+						);
 					}
 				}
 			}
 		}
 	}
 
-	console.info(`Created ${artifactsCreatedCount} new artifacts for controls.`);
+	console.info(
+		`Created ${artifactsCreatedCount} new artifacts for controls.`,
+	);
 
 	return { success: true, artifactsCreated: artifactsCreatedCount };
 }

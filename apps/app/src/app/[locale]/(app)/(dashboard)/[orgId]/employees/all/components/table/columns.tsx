@@ -22,7 +22,9 @@ export const employeesColumns: ColumnDef<EmployeeWithUser>[] = [
 			return (
 				<div className="flex items-center gap-2">
 					<Avatar>
-						<AvatarFallback>{employee.user.name[0] || "?"}</AvatarFallback>
+						<AvatarFallback>
+							{employee.user.name[0] || "?"}
+						</AvatarFallback>
 					</Avatar>
 					<div>
 						<div className="font-medium">{employee.user.name}</div>
