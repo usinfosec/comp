@@ -22,16 +22,28 @@ export default async function CloudTests({
 					sheetName="create-cloud-test-sheet"
 					faqs={[
 						{
-							questionKey: t("app_onboarding.cloud_tests.faqs.question_1"),
-							answerKey: t("app_onboarding.cloud_tests.faqs.answer_1"),
+							questionKey: t(
+								"app_onboarding.cloud_tests.faqs.question_1",
+							),
+							answerKey: t(
+								"app_onboarding.cloud_tests.faqs.answer_1",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.cloud_tests.faqs.question_2"),
-							answerKey: t("app_onboarding.cloud_tests.faqs.answer_2"),
+							questionKey: t(
+								"app_onboarding.cloud_tests.faqs.question_2",
+							),
+							answerKey: t(
+								"app_onboarding.cloud_tests.faqs.answer_2",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.cloud_tests.faqs.question_3"),
-							answerKey: t("app_onboarding.cloud_tests.faqs.answer_3"),
+							questionKey: t(
+								"app_onboarding.cloud_tests.faqs.question_3",
+							),
+							answerKey: t(
+								"app_onboarding.cloud_tests.faqs.answer_3",
+							),
 						},
 					]}
 				/>

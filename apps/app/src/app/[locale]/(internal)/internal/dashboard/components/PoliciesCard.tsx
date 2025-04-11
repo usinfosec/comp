@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Skeleton } from "@comp/ui/skeleton";
-import { usePoliciesAnalytics } from "../hooks/usePoliciesAnalytics";
-import { Line, LineChart, ResponsiveContainer } from "recharts";
-import { ShieldCheck, TrendingUp, Clock, Calendar } from "lucide-react";
 import { Progress } from "@comp/ui/progress";
+import { Skeleton } from "@comp/ui/skeleton";
+import { Calendar, Clock, ShieldCheck, TrendingUp } from "lucide-react";
 import { useMemo } from "react";
+import { Line, LineChart, ResponsiveContainer } from "recharts";
+import { usePoliciesAnalytics } from "../hooks/usePoliciesAnalytics";
 
 // Helper function for formatting numbers
 function formatNumber(value: number | null | undefined): string {
@@ -35,7 +35,10 @@ export function PoliciesCard() {
 		}
 		// Ensure data is sorted chronologically if not already guaranteed by API
 		return [...policiesData.last30DaysTotalByDay]
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+			.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime(),
+			)
 			.map((item) => ({
 				date: item.date,
 				value: item.count,
@@ -82,7 +85,9 @@ export function PoliciesCard() {
 					</div>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-destructive">Error loading data.</p>
+					<p className="text-sm text-destructive">
+						Error loading data.
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -97,7 +102,9 @@ export function PoliciesCard() {
 					</div>
 					<CardTitle className="text-lg">Policies</CardTitle>
 				</div>
-				<div className={`flex items-center text-xs ${growthColor} font-medium`}>
+				<div
+					className={`flex items-center text-xs ${growthColor} font-medium`}
+				>
 					<TrendingUp className="h-3.5 w-3.5 mr-1" />
 					{isPoliciesLoading ? (
 						<Skeleton className="h-3 w-10" />
@@ -109,7 +116,8 @@ export function PoliciesCard() {
 			<CardContent>
 				{isPoliciesLoading ? (
 					<div className="space-y-4 mt-2">
-						<Skeleton className="h-10 w-full" /> {/* Chart Placeholder */}
+						<Skeleton className="h-10 w-full" />{" "}
+						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
 						<div className="bg-[#1a1a1a] p-3 space-y-2">
 							<Skeleton className="h-4 w-1/3" />
@@ -133,7 +141,12 @@ export function PoliciesCard() {
 								<ResponsiveContainer width="100%" height="100%">
 									<LineChart
 										data={chartData}
-										margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+										margin={{
+											top: 0,
+											right: 0,
+											left: 0,
+											bottom: 0,
+										}}
 									>
 										<Line
 											type="linear"
@@ -157,9 +170,13 @@ export function PoliciesCard() {
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">New</span>
+								<span className="text-gray-400 text-sm">
+									New
+								</span>
 								<span className="text-sm font-medium">
-									{formatNumber(policiesData?.last30DaysTotal)}
+									{formatNumber(
+										policiesData?.last30DaysTotal,
+									)}
 								</span>
 							</div>
 						</div>
@@ -174,22 +191,32 @@ export function PoliciesCard() {
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Total</span>
+									<span className="text-gray-400 text-sm">
+										Total
+									</span>
 									<span className="text-xl font-bold">
-										{formatNumber(policiesData?.allTimeTotal) ?? "N/A"}
+										{formatNumber(
+											policiesData?.allTimeTotal,
+										) ?? "N/A"}
 									</span>
 								</div>
 							</div>
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Published</span>
+									<span className="text-gray-400 text-sm">
+										Published
+									</span>
 									<span className="text-sm font-medium">
-										{formatNumber(policiesData?.allTimePublished) ?? "N/A"}
+										{formatNumber(
+											policiesData?.allTimePublished,
+										) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
-									value={Number.parseFloat(policiesPublishedPercent)}
+									value={Number.parseFloat(
+										policiesPublishedPercent,
+									)}
 									className="h-1.5 bg-gray-800 rounded-none [&>div]:bg-blue-500"
 								/>
 								<div className="text-xs text-gray-500 mt-1">

@@ -52,8 +52,12 @@ function DynamicContainer({
 
 			rafRef.current = requestAnimationFrame(() => {
 				setDimensions({
-					width: width ? (entry?.contentRect?.width ?? "auto") : "auto",
-					height: height ? (entry?.contentRect?.height ?? "auto") : "auto",
+					width: width
+						? (entry?.contentRect?.width ?? "auto")
+						: "auto",
+					height: height
+						? (entry?.contentRect?.height ?? "auto")
+						: "auto",
 				});
 			});
 		}

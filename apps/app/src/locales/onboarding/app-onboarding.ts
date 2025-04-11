@@ -1,7 +1,8 @@
 export const app_onboarding = {
 	risk_management: {
 		title: "Risk Management",
-		description: "Manage your risks and ensure your organization is protected.",
+		description:
+			"Manage your risks and ensure your organization is protected.",
 		detailed_description:
 			"Create and manage your risks in one place. Add details, assign owners, and track progress.",
 		cta: "Create your first risk",

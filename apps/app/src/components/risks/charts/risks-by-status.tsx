@@ -1,10 +1,10 @@
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
-import { cache } from "react";
 import { db } from "@comp/db";
-import { Card, CardHeader, CardTitle, CardContent } from "@comp/ui/card";
-import { StatusChart } from "./status-chart";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { headers } from "next/headers";
+import { cache } from "react";
+import { StatusChart } from "./status-chart";
 
 export async function RisksByStatus() {
 	const t = await getI18n();

@@ -1,3 +1,4 @@
+import { Comments } from "@/components/comments";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
@@ -9,7 +10,6 @@ import { headers } from "next/headers";
 import { JSONContent } from "novel";
 import { cache } from "react";
 import { PolicyPageEditor } from "./editor/components/PolicyDetails";
-import { Comments } from "@/components/comments";
 
 export default async function PolicyDetails({
 	params,
@@ -33,7 +33,9 @@ export default async function PolicyDetails({
 			<PolicyOverview policy={policy ?? null} assignees={assignees} />
 			<PolicyPageEditor
 				policyId={policyId}
-				policyContent={policy?.content ? (policy.content as JSONContent[]) : []}
+				policyContent={
+					policy?.content ? (policy.content as JSONContent[]) : []
+				}
 			/>
 			<Comments entityId={policyId} comments={comments} />
 		</PageWithBreadcrumb>

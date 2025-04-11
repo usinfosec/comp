@@ -1,13 +1,13 @@
 "use client";
 
 import type { modelID } from "@/hooks/ai/providers";
-import { useChat } from "@ai-sdk/react";
-import { useState } from "react";
-import { Messages } from "./messages";
-import { ChatEmpty } from "./chat-empty";
 import { useSession } from "@/utils/auth-client";
-import { ChatTextarea } from "./chat-text-area";
+import { useChat } from "@ai-sdk/react";
 import { ScrollArea } from "@comp/ui/scroll-area";
+import { useState } from "react";
+import { ChatEmpty } from "./chat-empty";
+import { ChatTextarea } from "./chat-text-area";
+import { Messages } from "./messages";
 
 export default function Chat() {
 	const { data: session } = useSession();
@@ -41,11 +41,17 @@ export default function Chat() {
 				{messages.length === 0 ? (
 					<div className="max-w-xl mx-auto w-full">
 						<ChatEmpty
-							firstName={session?.user?.name?.split(" ").at(0) ?? ""}
+							firstName={
+								session?.user?.name?.split(" ").at(0) ?? ""
+							}
 						/>
 					</div>
 				) : (
-					<Messages messages={messages} isLoading={isLoading} status={status} />
+					<Messages
+						messages={messages}
+						isLoading={isLoading}
+						status={status}
+					/>
 				)}
 			</ScrollArea>
 

@@ -15,6 +15,5 @@ export const auth = {
 		success: "Email sent - check your inbox!",
 		error: "Error sending email - try again?",
 	},
-	terms:
-		"By clicking continue, you acknowledge that you have read and agree to the Terms of Service and Privacy Policy.",
+	terms: "By clicking continue, you acknowledge that you have read and agree to the Terms of Service and Privacy Policy.",
 } as const;

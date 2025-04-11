@@ -12,7 +12,10 @@ export function formatSize(bytes: number): string {
 
 	const unitIndex = Math.max(
 		0,
-		Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1),
+		Math.min(
+			Math.floor(Math.log(bytes) / Math.log(1024)),
+			units.length - 1,
+		),
 	);
 
 	return Intl.NumberFormat("en-US", {

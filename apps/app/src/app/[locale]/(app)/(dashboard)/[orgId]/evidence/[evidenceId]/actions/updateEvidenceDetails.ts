@@ -1,11 +1,11 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
+import type { ActionResponse } from "@/actions/types";
 import { db } from "@comp/db";
 import { Departments, Frequency } from "@comp/db/types";
 import { Evidence, EvidenceStatus, Role } from "@prisma/client";
 import { z } from "zod";
-import type { ActionResponse } from "@/actions/types";
 
 const schema = z.object({
 	id: z.string(),
@@ -53,7 +53,11 @@ export const updateEvidenceDetails = authActionClient
 
 			const payload: Pick<
 				Evidence,
-				"department" | "frequency" | "assigneeId" | "status" | "lastPublishedAt"
+				| "department"
+				| "frequency"
+				| "assigneeId"
+				| "status"
+				| "lastPublishedAt"
 			> = {
 				department,
 				frequency,

@@ -1,11 +1,11 @@
-import { auth } from "@/utils/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
-import { cache, Suspense } from "react";
-import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { headers } from "next/headers";
+import { Suspense, cache } from "react";
 
 export default async function Layout({
 	children,
@@ -27,23 +27,37 @@ export default async function Layout({
 					<div className="mt-8">
 						<AppOnboarding
 							title={t("app_onboarding.employees.title")}
-							description={t("app_onboarding.employees.description")}
+							description={t(
+								"app_onboarding.employees.description",
+							)}
 							cta={t("app_onboarding.employees.cta")}
 							imageSrc="/onboarding/people-management.webp"
 							imageAlt="Employee Management"
 							sheetName="employee-invite-sheet"
 							faqs={[
 								{
-									questionKey: t("app_onboarding.employees.faqs.question_1"),
-									answerKey: t("app_onboarding.employees.faqs.answer_1"),
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_1",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_1",
+									),
 								},
 								{
-									questionKey: t("app_onboarding.employees.faqs.question_2"),
-									answerKey: t("app_onboarding.employees.faqs.answer_2"),
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_2",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_2",
+									),
 								},
 								{
-									questionKey: t("app_onboarding.employees.faqs.question_3"),
-									answerKey: t("app_onboarding.employees.faqs.answer_3"),
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_3",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_3",
+									),
 								},
 							]}
 						/>

@@ -39,7 +39,9 @@ export function MembersList({ members }: MembersListProps) {
 							>
 								<div className="flex items-center gap-4">
 									<Avatar>
-										<AvatarImage src={member.user.image || undefined} />
+										<AvatarImage
+											src={member.user.image || undefined}
+										/>
 										<AvatarFallback>
 											{member.user.name
 												? member.user.name
@@ -47,21 +49,31 @@ export function MembersList({ members }: MembersListProps) {
 														.map((n) => n[0])
 														.join("")
 														.toUpperCase()
-												: member.user.email?.slice(0, 2).toUpperCase()}
+												: member.user.email
+														?.slice(0, 2)
+														.toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 									<div>
 										<div className="font-medium flex flex-col space-y-1">
 											<span className="text-sm">
-												{member.user.name || member.user.email}{" "}
+												{member.user.name ||
+													member.user.email}{" "}
 												<span className="text-xs text-muted-foreground">
 													({member.user.email})
 												</span>
 											</span>
 											<div className="flex flex-wrap gap-2 items-center">
-												<Badge variant="marketing" className="w-fit">
-													{getMemberRoleIcon(member.role)}
-													{t(`settings.team.members.role.${member.role}`)}
+												<Badge
+													variant="marketing"
+													className="w-fit"
+												>
+													{getMemberRoleIcon(
+														member.role,
+													)}
+													{t(
+														`settings.team.members.role.${member.role}`,
+													)}
 												</Badge>
 											</div>
 										</div>

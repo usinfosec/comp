@@ -41,7 +41,9 @@ export function FeedbackForm() {
 			>
 				{action.status === "hasSucceeded" ? (
 					<div className="flex items-center justify-center flex-col space-y-1 mt-10 text-center">
-						<p className="font-medium text-sm">{t("header.feedback.title")}</p>
+						<p className="font-medium text-sm">
+							{t("header.feedback.title")}
+						</p>
 						<p className="text-sm text-muted-foreground">
 							{t("header.feedback.description")}
 						</p>
@@ -61,8 +63,13 @@ export function FeedbackForm() {
 						<div className="mt-1 flex items-center justify-end">
 							<Button
 								type="button"
-								onClick={() => action.execute({ feedback: value })}
-								disabled={value.length === 0 || action.status === "executing"}
+								onClick={() =>
+									action.execute({ feedback: value })
+								}
+								disabled={
+									value.length === 0 ||
+									action.status === "executing"
+								}
 							>
 								{action.status === "executing" ? (
 									<Loader2 className="h-4 w-4 animate-spin" />

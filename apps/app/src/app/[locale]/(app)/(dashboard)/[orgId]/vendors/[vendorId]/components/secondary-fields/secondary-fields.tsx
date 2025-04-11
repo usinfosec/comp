@@ -25,7 +25,10 @@ export function SecondaryFields({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<UpdateSecondaryFieldsForm vendor={vendor} assignees={assignees} />
+					<UpdateSecondaryFieldsForm
+						vendor={vendor}
+						assignees={assignees}
+					/>
 				</CardContent>
 			</Card>
 		</div>

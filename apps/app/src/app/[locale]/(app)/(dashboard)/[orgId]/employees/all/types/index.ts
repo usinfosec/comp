@@ -1,5 +1,5 @@
-import { z } from "zod";
 import type { Member, Role, User } from "@comp/db/types";
+import { z } from "zod";
 
 export const employeeSchema = z.object({
 	id: z.string(),

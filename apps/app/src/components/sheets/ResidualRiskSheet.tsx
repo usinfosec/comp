@@ -12,10 +12,10 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@comp/ui/sheet";
+import { Impact, Likelihood } from "@prisma/client";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { ResidualRiskForm } from "../forms/risks/ResidualRiskForm";
-import { Likelihood, Impact } from "@prisma/client";
 
 export function ResidualRiskSheet({
 	riskId,
@@ -42,7 +42,9 @@ export function ResidualRiskSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("risk.form.update_residual_risk")}</SheetTitle>
+							<SheetTitle>
+								{t("risk.form.update_residual_risk")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
@@ -71,7 +73,9 @@ export function ResidualRiskSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.form.update_residual_risk")}</DrawerTitle>
+			<DrawerTitle hidden>
+				{t("risk.form.update_residual_risk")}
+			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<ResidualRiskForm
 					riskId={riskId}

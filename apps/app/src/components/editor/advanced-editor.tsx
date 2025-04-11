@@ -44,9 +44,9 @@ const AdvancedEditor = ({
 	className,
 	saveDebounceMs = 500,
 }: AdvancedEditorProps) => {
-	const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving" | "Unsaved">(
-		"Saved",
-	);
+	const [saveStatus, setSaveStatus] = useState<
+		"Saved" | "Saving" | "Unsaved"
+	>("Saved");
 	const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 	const [charsCount, setCharsCount] = useState();
 
@@ -99,11 +99,11 @@ const AdvancedEditor = ({
 					className="relative min-h-[500px] w-full max-w-screen-lg bg-background sm:mb-[calc(20vh)] p-2"
 					editorProps={{
 						handleDOMEvents: {
-							keydown: (_view, event) => handleCommandNavigation(event),
+							keydown: (_view, event) =>
+								handleCommandNavigation(event),
 						},
 						attributes: {
-							class:
-								"prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+							class: "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
 						},
 					}}
 					onUpdate={({ editor }) => {
@@ -136,7 +136,9 @@ const AdvancedEditor = ({
 										{item.icon}
 									</div>
 									<div>
-										<p className="font-medium">{item.title}</p>
+										<p className="font-medium">
+											{item.title}
+										</p>
 										<p className="text-xs text-muted-foreground">
 											{item.description}
 										</p>
@@ -146,12 +148,21 @@ const AdvancedEditor = ({
 						</EditorCommandList>
 					</EditorCommand>
 
-					<GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
+					<GenerativeMenuSwitch
+						open={openAI}
+						onOpenChange={setOpenAI}
+					>
 						<Separator orientation="vertical" />
-						<NodeSelector open={openNode} onOpenChange={setOpenNode} />
+						<NodeSelector
+							open={openNode}
+							onOpenChange={setOpenNode}
+						/>
 						<Separator orientation="vertical" />
 
-						<LinkSelector open={openLink} onOpenChange={setOpenLink} />
+						<LinkSelector
+							open={openLink}
+							onOpenChange={setOpenLink}
+						/>
 						<Separator orientation="vertical" />
 						<MathSelector />
 						<Separator orientation="vertical" />

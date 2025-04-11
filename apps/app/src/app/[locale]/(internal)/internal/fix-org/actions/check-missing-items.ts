@@ -1,27 +1,27 @@
 "use server";
 
-import { authActionClient } from "../../../../../../actions/safe-action";
-import { z } from "zod";
-import {
-	getRelevantControls,
-	createOrganizationPolicies,
-	createOrganizationEvidence,
-	createControlArtifacts,
-} from "../../../../../../actions/organization/lib/utils";
-import { db } from "@comp/db";
-import type { PrismaClient, Prisma } from "@prisma/client";
 import type { ActionResponse } from "@/app/actions/actions";
 import { FrameworkId } from "@comp/data";
 import type { TemplateControl } from "@comp/data";
+import { db } from "@comp/db";
+import type { Prisma, PrismaClient } from "@prisma/client";
 import type {
 	Artifact,
 	Control,
 	Evidence,
+	FrameworkInstance,
 	Policy,
 	RequirementMap,
-	FrameworkInstance,
 } from "@prisma/client";
 import type { RequirementId } from "@prisma/client";
+import { z } from "zod";
+import {
+	createControlArtifacts,
+	createOrganizationEvidence,
+	createOrganizationPolicies,
+	getRelevantControls,
+} from "../../../../../../actions/organization/lib/utils";
+import { authActionClient } from "../../../../../../actions/safe-action";
 
 const checkMissingItemsSchema = z.object({
 	organizationId: z.string(),
@@ -137,9 +137,10 @@ async function createMissingRequirementMaps(
 		// For each framework instance
 		for (const frameworkInstance of frameworkInstances) {
 			// Get requirements for this framework
-			const frameworkRequirements = templateControl.mappedRequirements.filter(
-				(req) => req.frameworkId === frameworkInstance.frameworkId,
-			);
+			const frameworkRequirements =
+				templateControl.mappedRequirements.filter(
+					(req) => req.frameworkId === frameworkInstance.frameworkId,
+				);
 
 			// Check if requirement maps exist
 			for (const requirement of frameworkRequirements) {
@@ -230,10 +231,21 @@ async function performCheckAndFixMissingItems(
 
 	const result = await dbInstance.$transaction(async (tx) => {
 		// Create missing policies and evidence based on all relevant controls
-		const [policiesForFrameworks, evidenceForFrameworks] = await Promise.all([
-			createOrganizationPolicies(organizationId, relevantControls, userId, tx),
-			createOrganizationEvidence(organizationId, relevantControls, userId, tx),
-		]);
+		const [policiesForFrameworks, evidenceForFrameworks] =
+			await Promise.all([
+				createOrganizationPolicies(
+					organizationId,
+					relevantControls,
+					userId,
+					tx,
+				),
+				createOrganizationEvidence(
+					organizationId,
+					relevantControls,
+					userId,
+					tx,
+				),
+			]);
 
 		// First create the missing controls
 		const controlsToCreate = missingItems.controls.map((control) => ({
@@ -251,7 +263,11 @@ async function performCheckAndFixMissingItems(
 		const newControls = await tx.control.findMany({
 			where: {
 				organizationId,
-				name: { in: missingItems.controls.map((c: TemplateControl) => c.name) },
+				name: {
+					in: missingItems.controls.map(
+						(c: TemplateControl) => c.name,
+					),
+				},
 			},
 		});
 
@@ -262,7 +278,9 @@ async function performCheckAndFixMissingItems(
 					where: { id: instance.id },
 					data: {
 						controls: {
-							connect: newControls.map((c: Control) => ({ id: c.id })),
+							connect: newControls.map((c: Control) => ({
+								id: c.id,
+							})),
 						},
 					},
 				}),

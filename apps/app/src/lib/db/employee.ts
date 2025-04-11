@@ -1,10 +1,10 @@
 import { auth } from "@/utils/auth";
+import { trainingVideos } from "@comp/data";
 import { db } from "@comp/db";
 import type { Departments, Member, Role } from "@comp/db/types";
 import { InvitePortalEmail } from "@comp/email/emails/invite-portal";
 import { sendEmail } from "@comp/email/lib/resend";
 import { revalidatePath } from "next/cache";
-import { trainingVideos } from "@comp/data";
 
 if (!process.env.NEXT_PUBLIC_PORTAL_URL) {
 	throw new Error("NEXT_PUBLIC_PORTAL_URL is not set");
@@ -157,7 +157,9 @@ async function handleExistingUser({
 				isActive: true,
 			},
 		});
-		console.log(`[EXISTING_USER] Created new member with ID: ${newMember.id}`);
+		console.log(
+			`[EXISTING_USER] Created new member with ID: ${newMember.id}`,
+		);
 		return newMember;
 	}
 

@@ -1,11 +1,11 @@
-import { getI18n } from "@/locales/server";
-import { SecondaryMenu } from "@comp/ui/secondary-menu";
-import { auth } from "@/utils/auth";
 import { AppOnboarding } from "@/components/app-onboarding";
-import { db } from "@comp/db";
-import { cache, Suspense } from "react";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
+import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
+import { Suspense, cache } from "react";
 
 export default async function Layout({
 	children,
@@ -30,7 +30,9 @@ export default async function Layout({
 					<div className="mt-8">
 						<AppOnboarding
 							title={t("app_onboarding.risk_management.title")}
-							description={t("app_onboarding.risk_management.description")}
+							description={t(
+								"app_onboarding.risk_management.description",
+							)}
 							cta={t("app_onboarding.risk_management.cta")}
 							imageSrc="/onboarding/risk-management.webp"
 							imageAlt="Risk Management"
@@ -40,19 +42,25 @@ export default async function Layout({
 									questionKey: t(
 										"app_onboarding.risk_management.faqs.question_1",
 									),
-									answerKey: t("app_onboarding.risk_management.faqs.answer_1"),
+									answerKey: t(
+										"app_onboarding.risk_management.faqs.answer_1",
+									),
 								},
 								{
 									questionKey: t(
 										"app_onboarding.risk_management.faqs.question_2",
 									),
-									answerKey: t("app_onboarding.risk_management.faqs.answer_2"),
+									answerKey: t(
+										"app_onboarding.risk_management.faqs.answer_2",
+									),
 								},
 								{
 									questionKey: t(
 										"app_onboarding.risk_management.faqs.question_3",
 									),
-									answerKey: t("app_onboarding.risk_management.faqs.answer_3"),
+									answerKey: t(
+										"app_onboarding.risk_management.faqs.answer_3",
+									),
 								},
 							]}
 						/>
@@ -68,7 +76,10 @@ export default async function Layout({
 			<Suspense fallback={<div>Loading...</div>}>
 				<SecondaryMenu
 					items={[
-						{ path: `/${orgId}/risk`, label: t("risk.dashboard.title") },
+						{
+							path: `/${orgId}/risk`,
+							label: t("risk.dashboard.title"),
+						},
 						{
 							path: `/${orgId}/risk/register`,
 							label: t("risk.register.title"),

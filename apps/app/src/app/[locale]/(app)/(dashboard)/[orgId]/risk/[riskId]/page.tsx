@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { Comments } from "@/components/comments";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { InherentRiskChart } from "@/components/risks/charts/InherentRiskChart";
 import { ResidualRiskChart } from "@/components/risks/charts/ResidualRiskChart";
@@ -13,7 +13,7 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Comments } from "@/components/comments";
+import { cache } from "react";
 
 interface PageProps {
 	searchParams: Promise<{

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import NumberFlow, { continuous } from "@number-flow/react";
+import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 interface FullScreenNumberAnimationProps {
@@ -159,7 +159,10 @@ export function FullScreenNumberAnimation({
 					respectMotionPreference={true}
 					onAnimationsFinish={(e) => {
 						// Mark animation as complete
-						if (isTransitioning && animationValue === debouncedTotal) {
+						if (
+							isTransitioning &&
+							animationValue === debouncedTotal
+						) {
 							animationCompleteRef.current = true;
 
 							// If we're past the hide timer duration, hide now

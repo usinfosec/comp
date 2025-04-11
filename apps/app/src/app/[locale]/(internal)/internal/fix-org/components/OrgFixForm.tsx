@@ -1,12 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { getOrgStatsAction } from "../actions/get-org-stats";
-import { checkMissingItemsAction } from "../actions/check-missing-items";
 import type { ActionResponse } from "@/app/actions/actions";
 import { Button } from "@comp/ui/button";
-import { useToast } from "@comp/ui/use-toast";
-import { Input } from "@comp/ui/input";
 import {
 	Card,
 	CardContent,
@@ -14,6 +9,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
+import { Input } from "@comp/ui/input";
+import { useToast } from "@comp/ui/use-toast";
+import { useState } from "react";
+import { checkMissingItemsAction } from "../actions/check-missing-items";
+import { getOrgStatsAction } from "../actions/get-org-stats";
 
 interface OrgStats {
 	controls: number;
@@ -71,7 +71,9 @@ export function OrgFixForm() {
 					"Setting error: Result is undefined. Current error state:",
 					error,
 				);
-				setError("Failed to fetch organization stats: Unexpected result");
+				setError(
+					"Failed to fetch organization stats: Unexpected result",
+				);
 			} else if (result.serverError) {
 				console.log(
 					"Setting error: Server Error. Current error state:",
@@ -79,7 +81,9 @@ export function OrgFixForm() {
 					"Server error:",
 					result.serverError,
 				);
-				setError(result.serverError || "Failed to fetch stats: Server error");
+				setError(
+					result.serverError || "Failed to fetch stats: Server error",
+				);
 			} else if (result.validationErrors) {
 				console.log(
 					"Setting error: Validation Error. Current error state:",
@@ -108,7 +112,9 @@ export function OrgFixForm() {
 						"Action error:",
 						actionResponse.error,
 					);
-					setError(actionResponse.error || "Failed to process stats data");
+					setError(
+						actionResponse.error || "Failed to process stats data",
+					);
 				}
 			} else {
 				console.log(
@@ -122,7 +128,9 @@ export function OrgFixForm() {
 		} catch (err) {
 			console.error("Error caught in fetchStats catch block:", err);
 			console.log("Current error state before setting in catch:", error);
-			setError("Failed to fetch organization stats: Network or client error");
+			setError(
+				"Failed to fetch organization stats: Network or client error",
+			);
 		} finally {
 			console.log("fetchStats finally block executing.");
 			setIsLoading(false);
@@ -146,10 +154,14 @@ export function OrgFixForm() {
 					variant: "destructive",
 				});
 			} else if (result.serverError) {
-				console.log("Toast error: Fix Server Error", result.serverError);
+				console.log(
+					"Toast error: Fix Server Error",
+					result.serverError,
+				);
 				toast({
 					title: "Error",
-					description: result.serverError || "Failed to fix: Server error",
+					description:
+						result.serverError || "Failed to fix: Server error",
 					variant: "destructive",
 				});
 			} else if (result.validationErrors) {
@@ -169,8 +181,13 @@ export function OrgFixForm() {
 					JSON.stringify(actionResponse),
 				);
 				if (actionResponse.success && actionResponse.data) {
-					console.log("Fix successful, showing toast and setting results.");
-					toast({ title: "Success", description: actionResponse.data.message });
+					console.log(
+						"Fix successful, showing toast and setting results.",
+					);
+					toast({
+						title: "Success",
+						description: actionResponse.data.message,
+					});
 					setFixResults(actionResponse.data.details);
 					console.log("Refreshing stats after fix...");
 					await fetchStats();
@@ -182,7 +199,8 @@ export function OrgFixForm() {
 					toast({
 						title: "Error",
 						description:
-							actionResponse.error || "Failed to process fix results",
+							actionResponse.error ||
+							"Failed to process fix results",
 						variant: "destructive",
 					});
 				}
@@ -221,7 +239,10 @@ export function OrgFixForm() {
 		<div className="space-y-6">
 			<div className="space-y-4">
 				<div className="space-y-2">
-					<label htmlFor="organizationId" className="text-sm font-medium">
+					<label
+						htmlFor="organizationId"
+						className="text-sm font-medium"
+					>
 						Organization ID
 					</label>
 					<Input
@@ -246,7 +267,9 @@ export function OrgFixForm() {
 				<Card>
 					<CardHeader>
 						<CardTitle>Organization Stats</CardTitle>
-						<CardDescription>Current state of the organization</CardDescription>
+						<CardDescription>
+							Current state of the organization
+						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div className="grid grid-cols-2 gap-4">
@@ -254,25 +277,33 @@ export function OrgFixForm() {
 								<p className="text-sm font-medium text-muted-foreground">
 									Controls
 								</p>
-								<p className="text-2xl font-bold">{stats.controls}</p>
+								<p className="text-2xl font-bold">
+									{stats.controls}
+								</p>
 							</div>
 							<div className="space-y-1">
 								<p className="text-sm font-medium text-muted-foreground">
 									Policies
 								</p>
-								<p className="text-2xl font-bold">{stats.policies}</p>
+								<p className="text-2xl font-bold">
+									{stats.policies}
+								</p>
 							</div>
 							<div className="space-y-1">
 								<p className="text-sm font-medium text-muted-foreground">
 									Evidence
 								</p>
-								<p className="text-2xl font-bold">{stats.evidence}</p>
+								<p className="text-2xl font-bold">
+									{stats.evidence}
+								</p>
 							</div>
 							<div className="space-y-1">
 								<p className="text-sm font-medium text-muted-foreground">
 									Requirement Maps
 								</p>
-								<p className="text-2xl font-bold">{stats.requirementMaps}</p>
+								<p className="text-2xl font-bold">
+									{stats.requirementMaps}
+								</p>
 							</div>
 						</div>
 						<div className="mt-6">
@@ -298,7 +329,9 @@ export function OrgFixForm() {
 				<Card>
 					<CardHeader>
 						<CardTitle>Fix Results</CardTitle>
-						<CardDescription>Items created during fix</CardDescription>
+						<CardDescription>
+							Items created during fix
+						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div className="grid grid-cols-2 gap-4">

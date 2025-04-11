@@ -1,9 +1,9 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
+import { db } from "@comp/db";
 import { Departments, EvidenceStatus, Frequency } from "@comp/db/types";
 import type { Evidence, Prisma } from "@comp/db/types";
-import { db } from "@comp/db";
 
 import { z } from "zod";
 

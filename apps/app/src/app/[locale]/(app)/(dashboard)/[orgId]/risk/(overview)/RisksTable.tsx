@@ -2,6 +2,7 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
@@ -11,7 +12,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useQueryState } from "nuqs";
 import { useMemo } from "react";
 import { columns as getColumns } from "./components/table/RiskColumns";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
 // Define the expected structure of a risk with User as assignee
 export type RiskRow = Risk & { assignee: User | null };

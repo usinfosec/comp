@@ -4,12 +4,12 @@ import type { Column } from "@tanstack/react-table";
 import * as React from "react";
 
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
 import { Input } from "@comp/ui/input";
 import { Label } from "@comp/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import { Separator } from "@comp/ui/separator";
 import { Slider } from "@comp/ui/slider";
-import { cn } from "@comp/ui/cn";
 import { PlusCircle, XCircle } from "lucide-react";
 
 interface Range {
@@ -88,7 +88,11 @@ export function DataTableSliderFilter<TData>({
 	const onFromInputChange = React.useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const numValue = Number(event.target.value);
-			if (!Number.isNaN(numValue) && numValue >= min && numValue <= range[1]) {
+			if (
+				!Number.isNaN(numValue) &&
+				numValue >= min &&
+				numValue <= range[1]
+			) {
 				column.setFilterValue([numValue, range[1]]);
 			}
 		},
@@ -98,7 +102,11 @@ export function DataTableSliderFilter<TData>({
 	const onToInputChange = React.useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const numValue = Number(event.target.value);
-			if (!Number.isNaN(numValue) && numValue <= max && numValue >= range[0]) {
+			if (
+				!Number.isNaN(numValue) &&
+				numValue <= max &&
+				numValue >= range[0]
+			) {
 				column.setFilterValue([range[0], numValue]);
 			}
 		},
@@ -153,7 +161,10 @@ export function DataTableSliderFilter<TData>({
 					) : null}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent align="start" className="flex w-auto flex-col gap-4">
+			<PopoverContent
+				align="start"
+				className="flex w-auto flex-col gap-4"
+			>
 				<div className="flex flex-col gap-3">
 					<p className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
 						{title}

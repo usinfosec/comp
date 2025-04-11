@@ -8,7 +8,9 @@ export function getRequirementDetails(
 		requirements[frameworkId as keyof typeof requirements] || [];
 
 	const requirement =
-		frameworkRequirements[requirementId as keyof typeof frameworkRequirements];
+		frameworkRequirements[
+			requirementId as keyof typeof frameworkRequirements
+		];
 
 	return requirement;
 }

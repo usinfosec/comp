@@ -44,7 +44,10 @@ export function DataTable<TData>({
 
 	return (
 		<div
-			className={cn("flex w-full flex-col gap-2.5 overflow-auto", className)}
+			className={cn(
+				"flex w-full flex-col gap-2.5 overflow-auto",
+				className,
+			)}
 			{...props}
 		>
 			{children}
@@ -58,17 +61,22 @@ export function DataTable<TData>({
 										key={header.id}
 										colSpan={header.colSpan}
 										className={cn(
-											index !== 0 && "hidden md:table-cell",
-											index === 0 && "max-w-[200px] md:max-w-none",
+											index !== 0 &&
+												"hidden md:table-cell",
+											index === 0 &&
+												"max-w-[200px] md:max-w-none",
 										)}
 										style={{
-											...getCommonPinningStyles({ column: header.column }),
+											...getCommonPinningStyles({
+												column: header.column,
+											}),
 										}}
 									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header,
+													header.column.columnDef
+														.header,
 													header.getContext(),
 												)}
 									</TableHead>
@@ -81,28 +89,35 @@ export function DataTable<TData>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 									className={cn(getRowId)}
 									onClick={() => handleRowClick(row.original)}
 								>
-									{row.getVisibleCells().map((cell, index) => (
-										<TableCell
-											key={cell.id}
-											className={cn(
-												index !== 0 && "hidden md:table-cell",
-												index === 0 &&
-													"max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50",
-											)}
-											style={{
-												...getCommonPinningStyles({ column: cell.column }),
-											}}
-										>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</TableCell>
-									))}
+									{row
+										.getVisibleCells()
+										.map((cell, index) => (
+											<TableCell
+												key={cell.id}
+												className={cn(
+													index !== 0 &&
+														"hidden md:table-cell",
+													index === 0 &&
+														"max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50",
+												)}
+												style={{
+													...getCommonPinningStyles({
+														column: cell.column,
+													}),
+												}}
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext(),
+												)}
+											</TableCell>
+										))}
 								</TableRow>
 							))
 						) : (

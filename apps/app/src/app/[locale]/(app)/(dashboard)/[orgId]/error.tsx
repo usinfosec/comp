@@ -9,7 +9,10 @@ export default function ErrorPage({
 	error,
 }: { reset: () => void; error: Error & { digest?: string } }) {
 	useEffect(() => {
-		console.error("app/[locale]/(app)/(dashboard)/[orgId]/error.tsx", error);
+		console.error(
+			"app/[locale]/(app)/(dashboard)/[orgId]/error.tsx",
+			error,
+		);
 	}, [error]);
 
 	return (

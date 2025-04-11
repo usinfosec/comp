@@ -1,8 +1,8 @@
 "use client";
 
-import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 import { chartConfig } from "../config";
 
 interface UsersAnalyticsData {

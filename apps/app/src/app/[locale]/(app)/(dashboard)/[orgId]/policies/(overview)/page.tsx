@@ -1,13 +1,13 @@
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { Suspense } from "react";
-import { PolicyStatusChart } from "./components/policy-status-chart";
-import { PolicyAssigneeChart } from "./components/policy-assignee-chart";
-import Loading from "./loading";
 import { headers } from "next/headers";
+import { Suspense } from "react";
+import { PolicyAssigneeChart } from "./components/policy-assignee-chart";
+import { PolicyStatusChart } from "./components/policy-status-chart";
+import Loading from "./loading";
 
 export default async function PoliciesOverview({
 	params,

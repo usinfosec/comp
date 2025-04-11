@@ -9,8 +9,8 @@ import {
 } from "@tanstack/react-table";
 import { Suspense } from "react";
 import {
-	type OrganizationControlType,
 	FrameworkControlsTableColumns,
+	type OrganizationControlType,
 } from "./FrameworkControlsTableColumns";
 import { FrameworkControlsTableHeader } from "./FrameworkControlsTableHeader";
 
@@ -38,10 +38,15 @@ export function FrameworkControlsTable({ data }: DataTableProps) {
 								<TableRow
 									key={row.id}
 									className="h-[45px]"
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id} className="px-3 md:px-4 py-2">
+										<TableCell
+											key={cell.id}
+											className="px-3 md:px-4 py-2"
+										>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext(),

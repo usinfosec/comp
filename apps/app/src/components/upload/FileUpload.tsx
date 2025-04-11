@@ -1,11 +1,11 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
+import { Card, CardContent } from "@comp/ui/card";
+import { cn } from "@comp/ui/cn";
+import { Cloud, Loader2, Plus, Upload } from "lucide-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Cloud, Loader2, Plus, Upload } from "lucide-react";
-import { cn } from "@comp/ui/cn";
-import { Card, CardContent } from "@comp/ui/card";
-import { useI18n } from "@/locales/client";
 
 interface FileUploadProps {
 	onFileSelect: (file: File) => void;
@@ -31,9 +31,8 @@ export function FileUpload({
 		"application/pdf": [".pdf"],
 		"image/*": [".png", ".jpg", ".jpeg", ".gif"],
 		"application/msword": [".doc"],
-		"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-			".docx",
-		],
+		"application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+			[".docx"],
 		"application/vnd.ms-excel": [".xls"],
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
 			".xlsx",
@@ -90,7 +89,9 @@ export function FileUpload({
 									<Upload className="h-6 w-6 text-primary animate-pulse" />
 								</div>
 								<p className="text-sm font-medium text-center">
-									{t("common.upload.fileUpload.uploadingText")}
+									{t(
+										"common.upload.fileUpload.uploadingText",
+									)}
 								</p>
 							</div>
 						) : isDragActive ? (
@@ -102,7 +103,9 @@ export function FileUpload({
 									{t("common.upload.fileUpload.dropFileHere")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("common.upload.fileUpload.releaseToUpload")}
+									{t(
+										"common.upload.fileUpload.releaseToUpload",
+									)}
 								</p>
 							</div>
 						) : (
@@ -114,10 +117,14 @@ export function FileUpload({
 									{t("common.upload.fileUpload.addFiles")}
 								</p>
 								<p className="text-xs text-muted-foreground mt-1 text-center">
-									{t("common.upload.fileUpload.uploadAdditionalEvidence")}
+									{t(
+										"common.upload.fileUpload.uploadAdditionalEvidence",
+									)}
 								</p>
 								<p className="text-xs text-muted-foreground mt-2 text-center">
-									{t("common.upload.fileUpload.dragDropOrClick")}
+									{t(
+										"common.upload.fileUpload.dragDropOrClick",
+									)}
 								</p>
 							</>
 						)}
@@ -155,8 +162,12 @@ export function FileUpload({
 							<Cloud className="h-6 w-6 text-primary" />
 							<p className="mt-2">
 								{isDragActive
-									? t("common.upload.fileUpload.dropFileHereAlt")
-									: t("common.upload.fileUpload.dragDropOrClickToSelect")}
+									? t(
+											"common.upload.fileUpload.dropFileHereAlt",
+										)
+									: t(
+											"common.upload.fileUpload.dragDropOrClickToSelect",
+										)}
 							</p>
 							<p className="mt-1">
 								{t("common.upload.fileUpload.maxFileSize", {

@@ -81,7 +81,9 @@ export const deleteFile = authActionClient
 					where: { id: evidenceId },
 					data: {
 						fileUrls: {
-							set: evidence.fileUrls.filter((url) => url !== fileUrl),
+							set: evidence.fileUrls.filter(
+								(url) => url !== fileUrl,
+							),
 						},
 					},
 				});

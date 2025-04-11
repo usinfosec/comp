@@ -92,7 +92,9 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => (
-					<span>{new Date(row.original.createdAt).toLocaleDateString()}</span>
+					<span>
+						{new Date(row.original.createdAt).toLocaleDateString()}
+					</span>
 				),
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
@@ -132,10 +134,12 @@ export function ArtifactsTable({
 			(artifact) =>
 				artifact.id.toLowerCase().includes(searchLower) ||
 				(artifact.type === "evidence"
-					? artifact.evidence?.name?.toLowerCase().includes(searchLower) ||
-						false
-					: artifact.policy?.name?.toLowerCase().includes(searchLower) ||
-						false) ||
+					? artifact.evidence?.name
+							?.toLowerCase()
+							.includes(searchLower) || false
+					: artifact.policy?.name
+							?.toLowerCase()
+							.includes(searchLower) || false) ||
 				artifact.type.toLowerCase().includes(searchLower),
 		);
 	}, [artifacts, searchTerm]);
@@ -157,19 +161,26 @@ export function ArtifactsTable({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.artifacts.title")} ({filteredArtifacts.length})
+					{t("frameworks.artifacts.title")} (
+					{filteredArtifacts.length})
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="flex items-center mb-4">
 					<Input
-						placeholder={t("frameworks.artifacts.search.universal_placeholder")}
+						placeholder={t(
+							"frameworks.artifacts.search.universal_placeholder",
+						)}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="max-w-sm"
 					/>
 					<div className="ml-auto">
-						<DataTableSortList table={table.table} align="end" tableId="a" />
+						<DataTableSortList
+							table={table.table}
+							align="end"
+							tableId="a"
+						/>
 					</div>
 				</div>
 				<DataTable

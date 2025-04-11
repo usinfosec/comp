@@ -1,3 +1,5 @@
+import { getI18n } from "@/locales/server";
+import { AlertDialog, AlertDialogTrigger } from "@comp/ui/alert-dialog";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -8,8 +10,6 @@ import {
 	CardTitle,
 } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
-import { getI18n } from "@/locales/server";
-import { AlertDialog, AlertDialogTrigger } from "@comp/ui/alert-dialog";
 
 export default async function Loading() {
 	const t = await getI18n();

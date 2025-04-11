@@ -17,8 +17,15 @@ export const updateRiskAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { id, title, description, category, department, assigneeId, status } =
-			parsedInput;
+		const {
+			id,
+			title,
+			description,
+			category,
+			department,
+			assigneeId,
+			status,
+		} = parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {

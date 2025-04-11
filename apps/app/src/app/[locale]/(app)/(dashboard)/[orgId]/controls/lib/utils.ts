@@ -1,30 +1,30 @@
-import type { ControlWithRelations } from "../data/queries";
 import { StatusType } from "@/components/status-indicator";
+import type { ControlWithRelations } from "../data/queries";
 
 export function getControlStatus(control: ControlWithRelations): StatusType {
-  if (!control.artifacts.length) {
-    return "not_started";
-  }
+	if (!control.artifacts.length) {
+		return "not_started";
+	}
 
-  const hasUnpublishedArtifacts = control.artifacts.some(
-    (artifact) =>
-      (artifact.policy && artifact.policy.status !== "published") ||
-      (artifact.evidence && artifact.evidence.status !== "published")
-  );
+	const hasUnpublishedArtifacts = control.artifacts.some(
+		(artifact) =>
+			(artifact.policy && artifact.policy.status !== "published") ||
+			(artifact.evidence && artifact.evidence.status !== "published"),
+	);
 
-  const allArtifactsAreDraft = control.artifacts.every(
-    (artifact) =>
-      (artifact.policy && artifact.policy.status === "draft") ||
-      (artifact.evidence && artifact.evidence.status === "draft")
-  );
+	const allArtifactsAreDraft = control.artifacts.every(
+		(artifact) =>
+			(artifact.policy && artifact.policy.status === "draft") ||
+			(artifact.evidence && artifact.evidence.status === "draft"),
+	);
 
-  if (allArtifactsAreDraft) {
-    return "not_started";
-  }
+	if (allArtifactsAreDraft) {
+		return "not_started";
+	}
 
-  if (hasUnpublishedArtifacts) {
-    return "in_progress";
-  }
+	if (hasUnpublishedArtifacts) {
+		return "in_progress";
+	}
 
-  return "completed";
+	return "completed";
 }

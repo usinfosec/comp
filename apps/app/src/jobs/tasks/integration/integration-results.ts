@@ -1,11 +1,11 @@
+import { decrypt } from "@comp/app/src/lib/encryption";
 import { db } from "@comp/db";
+import {
+	type DecryptFunction,
+	getIntegrationHandler,
+} from "@comp/integrations";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { z } from "zod";
-import {
-	getIntegrationHandler,
-	type DecryptFunction,
-} from "@comp/integrations";
-import { decrypt } from "@comp/app/src/lib/encryption";
 
 export const sendIntegrationResults = schemaTask({
 	id: "send-integration-results",
@@ -34,8 +34,13 @@ export const sendIntegrationResults = schemaTask({
 			const integrationHandler = getIntegrationHandler(integrationId);
 
 			if (!integrationHandler) {
-				logger.error(`Integration handler for ${integrationId} not found`);
-				return { success: false, error: "Integration handler not found" };
+				logger.error(
+					`Integration handler for ${integrationId} not found`,
+				);
+				return {
+					success: false,
+					error: "Integration handler not found",
+				};
 			}
 
 			// Extract user settings which may contain necessary credentials
@@ -45,11 +50,12 @@ export const sendIntegrationResults = schemaTask({
 			>;
 
 			// Process credentials using the integration handler
-			const typedCredentials = await integrationHandler.processCredentials(
-				userSettings,
-				// Cast decrypt to match the expected DecryptFunction type
-				decrypt as unknown as DecryptFunction,
-			);
+			const typedCredentials =
+				await integrationHandler.processCredentials(
+					userSettings,
+					// Cast decrypt to match the expected DecryptFunction type
+					decrypt as unknown as DecryptFunction,
+				);
 
 			// Fetch results using properly typed credentials
 			const results = await integrationHandler.fetch(typedCredentials);
@@ -62,7 +68,9 @@ export const sendIntegrationResults = schemaTask({
 				});
 
 				if (!existingIntegration) {
-					logger.error(`Integration with ID ${integration.id} not found`);
+					logger.error(
+						`Integration with ID ${integration.id} not found`,
+					);
 					continue;
 				}
 
@@ -121,7 +129,10 @@ export const sendIntegrationResults = schemaTask({
 						status: "error",
 						severity: "ERROR",
 						resultDetails: {
-							error: error instanceof Error ? error.message : String(error),
+							error:
+								error instanceof Error
+									? error.message
+									: String(error),
 						},
 						integrationId: integration.integration_id,
 						organizationId: integration.organization.id,

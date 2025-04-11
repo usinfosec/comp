@@ -1,9 +1,9 @@
 "use server";
 
-import { createSafeActionClient } from "next-safe-action";
-import { z } from "zod";
-import { cookies } from "next/headers";
 import { addYears } from "date-fns";
+import { createSafeActionClient } from "next-safe-action";
+import { cookies } from "next/headers";
+import { z } from "zod";
 
 const schema = z.object({
 	isCollapsed: z.boolean(),

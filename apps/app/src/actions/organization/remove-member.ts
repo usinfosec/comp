@@ -1,12 +1,12 @@
 "use server";
 
-import { db } from "@comp/db";
-import { authActionClient } from "../safe-action";
-import { z } from "zod";
-import { Role } from "@prisma/client";
-import type { ActionResponse } from "../types";
-import { revalidatePath, revalidateTag } from "next/cache";
 import { authClient } from "@/utils/auth-client";
+import { db } from "@comp/db";
+import { Role } from "@prisma/client";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { z } from "zod";
+import { authActionClient } from "../safe-action";
+import type { ActionResponse } from "../types";
 const removeMemberSchema = z.object({
 	memberId: z.string(),
 });
@@ -43,7 +43,10 @@ export const removeMember = authActionClient
 					},
 				});
 
-				if (!currentUserMember || currentUserMember.role !== Role.admin) {
+				if (
+					!currentUserMember ||
+					currentUserMember.role !== Role.admin
+				) {
 					return {
 						success: false,
 						error: "You don't have permission to remove members",

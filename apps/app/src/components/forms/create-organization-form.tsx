@@ -4,7 +4,7 @@ import { createOrganizationAction } from "@/actions/organization/create-organiza
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
-import { frameworks, type FrameworkId } from "@comp/data";
+import { type FrameworkId, frameworks } from "@comp/data";
 import { Button } from "@comp/ui/button";
 import { Checkbox } from "@comp/ui/checkbox";
 import { cn } from "@comp/ui/cn";
@@ -19,6 +19,7 @@ import {
 import { Icons } from "@comp/ui/icons";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
@@ -28,7 +29,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 export function OnboardingClient() {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
@@ -49,7 +49,9 @@ export function OnboardingClient() {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-		const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
+		const randomSuffix = Math.floor(
+			100000 + Math.random() * 900000,
+		).toString();
 		const slug = `${data.name
 			.toLowerCase()
 			.trim()
@@ -136,7 +138,9 @@ export function OnboardingClient() {
 									<FormControl>
 										<Input
 											autoCorrect="off"
-											placeholder={t("onboarding.fields.name.placeholder")}
+											placeholder={t(
+												"onboarding.fields.name.placeholder",
+											)}
 											suppressHydrationWarning
 											{...field}
 										/>
@@ -157,51 +161,76 @@ export function OnboardingClient() {
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
 											<legend className="sr-only">
-												{t("frameworks.overview.grid.title")}
+												{t(
+													"frameworks.overview.grid.title",
+												)}
 											</legend>
-											{Object.entries(frameworks).map(([id, framework]) => {
-												const frameworkId = id as FrameworkId;
-												return (
-													<label
-														key={frameworkId}
-														htmlFor={`framework-${frameworkId}`}
-														className={cn(
-															"relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
-															field.value.includes(frameworkId) &&
-																"border-primary bg-primary/5",
-														)}
-													>
-														<div className="flex items-start justify-between">
-															<div>
-																<h3 className="font-semibold">
-																	{framework.name}
-																</h3>
-																<p className="text-sm text-muted-foreground mt-1">
-																	{framework.description}
-																</p>
-																<p className="text-xs text-muted-foreground/75 mt-2">
-																	{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
-																</p>
+											{Object.entries(frameworks).map(
+												([id, framework]) => {
+													const frameworkId =
+														id as FrameworkId;
+													return (
+														<label
+															key={frameworkId}
+															htmlFor={`framework-${frameworkId}`}
+															className={cn(
+																"relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																field.value.includes(
+																	frameworkId,
+																) &&
+																	"border-primary bg-primary/5",
+															)}
+														>
+															<div className="flex items-start justify-between">
+																<div>
+																	<h3 className="font-semibold">
+																		{
+																			framework.name
+																		}
+																	</h3>
+																	<p className="text-sm text-muted-foreground mt-1">
+																		{
+																			framework.description
+																		}
+																	</p>
+																	<p className="text-xs text-muted-foreground/75 mt-2">
+																		{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+																	</p>
+																</div>
+																<div>
+																	<Checkbox
+																		id={`framework-${frameworkId}`}
+																		checked={field.value.includes(
+																			frameworkId,
+																		)}
+																		className="mt-1"
+																		onCheckedChange={(
+																			checked,
+																		) => {
+																			const newValue =
+																				checked
+																					? [
+																							...field.value,
+																							frameworkId,
+																						]
+																					: field.value.filter(
+																							(
+																								name,
+																							) =>
+																								name !==
+																								frameworkId,
+																						);
+																			field.onChange(
+																				newValue,
+																			);
+																		}}
+																	/>
+																</div>
 															</div>
-															<div>
-																<Checkbox
-																	id={`framework-${frameworkId}`}
-																	checked={field.value.includes(frameworkId)}
-																	className="mt-1"
-																	onCheckedChange={(checked) => {
-																		const newValue = checked
-																			? [...field.value, frameworkId]
-																			: field.value.filter(
-																					(name) => name !== frameworkId,
-																				);
-																		field.onChange(newValue);
-																	}}
-																/>
-															</div>
-														</div>
-													</label>
-												);
-											})}
+														</label>
+													);
+												},
+											)}
 										</fieldset>
 									</FormControl>
 									<FormMessage className="text-xs" />

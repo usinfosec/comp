@@ -1,6 +1,6 @@
+import { useScrollToBottom } from "@/hooks/use-scroll-to-bottom";
 import type { Message as TMessage } from "ai";
 import { Message } from "./message";
-import { useScrollToBottom } from "@/hooks/use-scroll-to-bottom";
 
 export const Messages = ({
 	messages,

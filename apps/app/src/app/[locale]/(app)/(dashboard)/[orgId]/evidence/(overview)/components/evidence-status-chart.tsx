@@ -1,13 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Pie, PieChart, Label } from "recharts";
+import { Label, Pie, PieChart } from "recharts";
 
+import { useI18n } from "@/locales/client";
+import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardHeader,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
 import {
@@ -16,9 +18,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@comp/ui/chart";
-import { useI18n } from "@/locales/client";
-import { Badge } from "@comp/ui/badge";
-import { PieChart as PieChartIcon, FileCheck, Info } from "lucide-react";
+import { FileCheck, Info, PieChart as PieChartIcon } from "lucide-react";
 
 interface EvidenceOverviewData {
 	totalEvidence: number;
@@ -47,7 +47,8 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
 							<CardTitle>
-								{t("evidence.dashboard.evidence_status") || "Evidence Status"}
+								{t("evidence.dashboard.evidence_status") ||
+									"Evidence Status"}
 							</CardTitle>
 						</div>
 						<Badge variant="outline" className="text-xs">
@@ -113,7 +114,8 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
-						{t("evidence.dashboard.evidence_status") || "Evidence Status"}
+						{t("evidence.dashboard.evidence_status") ||
+							"Evidence Status"}
 					</CardTitle>
 					{data.totalEvidence > 0 && mostCommonStatus && (
 						<Badge
@@ -152,7 +154,10 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 							left: 16,
 						}}
 					>
-						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+						<ChartTooltip
+							cursor={false}
+							content={<ChartTooltipContent />}
+						/>
 						<Pie
 							data={chartData}
 							dataKey="value"
@@ -168,7 +173,11 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 						>
 							<Label
 								content={({ viewBox }) => {
-									if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+									if (
+										viewBox &&
+										"cx" in viewBox &&
+										"cy" in viewBox
+									) {
 										return (
 											<g>
 												<text
@@ -186,7 +195,10 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 													</tspan>
 													<tspan
 														x={viewBox.cx}
-														y={(viewBox.cy || 0) + 26}
+														y={
+															(viewBox.cy || 0) +
+															26
+														}
 														className="fill-muted-foreground text-xs"
 													>
 														Evidence
@@ -214,7 +226,10 @@ export function EvidenceStatusChart({ data }: EvidenceStatusChartProps) {
 			<CardFooter className="bg-muted/30 border-t py-3">
 				<div className="flex flex-wrap gap-4 justify-center w-full py-1">
 					{chartData.map((entry) => (
-						<div key={entry.name} className="flex items-center gap-2">
+						<div
+							key={entry.name}
+							className="flex items-center gap-2"
+						>
 							<div
 								className="h-3 w-3"
 								style={{ backgroundColor: entry.fill }}

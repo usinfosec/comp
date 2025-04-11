@@ -1,5 +1,6 @@
 "use client";
 
+import { SelectAssignee } from "@/components/SelectAssignee";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
 import type {
 	Departments,
@@ -21,7 +22,6 @@ import { EvidenceDepartmentSection } from "./EvidenceDepartmentSection";
 import { EvidenceFrequencySection } from "./EvidenceFrequencySection";
 import { EvidenceNextReviewSection } from "./EvidenceNextReviewSection";
 import { EvidenceStatusSection } from "./EvidenceStatusSection";
-import { SelectAssignee } from "@/components/SelectAssignee";
 
 interface ReviewSectionProps {
 	evidence: Evidence & {
@@ -54,7 +54,8 @@ export function ReviewSection({
 	const [frequency, setFrequency] = useState<Frequency | null>(
 		initialFrequency,
 	);
-	const [department, setDepartment] = useState<Departments>(initialDepartment);
+	const [department, setDepartment] =
+		useState<Departments>(initialDepartment);
 	const [assigneeId, setAssigneeId] = useState<string | null>(
 		currentAssigneeId || null,
 	);

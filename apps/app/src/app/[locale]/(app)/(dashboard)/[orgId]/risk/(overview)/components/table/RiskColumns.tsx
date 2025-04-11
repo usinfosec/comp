@@ -1,11 +1,11 @@
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { StatusIndicator } from "@/components/status-indicator";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import type { ColumnDef } from "@tanstack/react-table";
 import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { RiskRow } from "../../RisksTable";
-import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { StatusIndicator } from "@/components/status-indicator";
 
 export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 	{
@@ -76,7 +76,9 @@ export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 						<div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
 							<UserIcon className="h-4 w-4 text-muted-foreground" />
 						</div>
-						<p className="text-sm font-medium text-muted-foreground">None</p>
+						<p className="text-sm font-medium text-muted-foreground">
+							None
+						</p>
 					</div>
 				);
 			}
@@ -92,7 +94,9 @@ export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 							{row.original.assignee.name?.charAt(0) || "?"}
 						</AvatarFallback>
 					</Avatar>
-					<p className="text-sm font-medium">{row.original.assignee.name}</p>
+					<p className="text-sm font-medium">
+						{row.original.assignee.name}
+					</p>
 				</div>
 			);
 		},

@@ -3,11 +3,11 @@
 "use server";
 
 import { db } from "@comp/db";
+import { Likelihood } from "@comp/db/types";
+import { Impact } from "@comp/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { createRiskSchema } from "../schema";
-import { Likelihood } from "@comp/db/types";
-import { Impact } from "@comp/db/types";
 
 export const createRiskAction = authActionClient
 	.schema(createRiskSchema)

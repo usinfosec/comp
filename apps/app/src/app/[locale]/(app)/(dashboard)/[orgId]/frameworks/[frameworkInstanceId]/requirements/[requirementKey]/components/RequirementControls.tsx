@@ -21,7 +21,8 @@ export function RequirementControls({
 	const t = useI18n();
 
 	// Get the framework ID from the instance
-	const frameworkId = frameworkInstanceWithControls.frameworkId as FrameworkId;
+	const frameworkId =
+		frameworkInstanceWithControls.frameworkId as FrameworkId;
 	const compositeId = `${frameworkId}_${requirementKey}`;
 
 	// Filter controls that are mapped to this requirement using the composite ID
@@ -41,7 +42,9 @@ export function RequirementControls({
 							<span className="text-sm text-muted-foreground">
 								{t("frameworks.requirements.requirement")}
 							</span>
-							<h1 className="text-2xl font-semibold">{requirement.name}</h1>
+							<h1 className="text-2xl font-semibold">
+								{requirement.name}
+							</h1>
 						</div>
 					</CardTitle>
 				</CardHeader>
@@ -55,7 +58,8 @@ export function RequirementControls({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("frameworks.controls.title")} ({requirementControls.length})
+						{t("frameworks.controls.title")} (
+						{requirementControls.length})
 					</CardTitle>
 				</CardHeader>
 				<CardContent>

@@ -66,7 +66,9 @@ export function EmployeeCompletionChart({
 
 			// Count training videos completed by this employee
 			const employeeTrainingVideos = trainingVideos.filter(
-				(video) => video.memberId === employee.id && video.completedAt !== null,
+				(video) =>
+					video.memberId === employee.id &&
+					video.completedAt !== null,
 			);
 			const trainingsCompletedCount = employeeTrainingVideos.length;
 
@@ -78,7 +80,9 @@ export function EmployeeCompletionChart({
 
 			// Calculate training completion percentage
 			const trainingCompletionPercentage = trainingVideosTotal
-				? Math.round((trainingsCompletedCount / trainingVideosTotal) * 100)
+				? Math.round(
+						(trainingsCompletedCount / trainingVideosTotal) * 100,
+					)
 				: 0;
 
 			// Calculate total completion percentage
@@ -150,7 +154,9 @@ export function EmployeeCompletionChart({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("people.dashboard.employee_task_completion")}</CardTitle>
+				<CardTitle>
+					{t("people.dashboard.employee_task_completion")}
+				</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-8">
@@ -159,8 +165,9 @@ export function EmployeeCompletionChart({
 							<div className="flex justify-between items-center text-sm">
 								<p>{stat.name}</p>
 								<span className="text-muted-foreground">
-									{stat.policiesCompleted + stat.trainingsCompleted} /{" "}
-									{stat.totalTasks} {t("common.tasks")}
+									{stat.policiesCompleted +
+										stat.trainingsCompleted}{" "}
+									/ {stat.totalTasks} {t("common.tasks")}
 								</span>
 							</div>
 
@@ -169,11 +176,15 @@ export function EmployeeCompletionChart({
 							<div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-primary" />
-									<span>{t("people.dashboard.completed")}</span>
+									<span>
+										{t("people.dashboard.completed")}
+									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-open)]" />
-									<span>{t("people.dashboard.not_completed")}</span>
+									<span>
+										{t("people.dashboard.not_completed")}
+									</span>
 								</div>
 							</div>
 						</div>

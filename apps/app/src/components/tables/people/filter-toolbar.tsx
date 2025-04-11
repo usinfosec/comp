@@ -27,7 +27,9 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 
 	const createQueryString = useCallback(
 		(params: Record<string, string | null>) => {
-			const newSearchParams = new URLSearchParams(searchParams?.toString());
+			const newSearchParams = new URLSearchParams(
+				searchParams?.toString(),
+			);
 
 			for (const [key, value] of Object.entries(params)) {
 				if (value === null) {

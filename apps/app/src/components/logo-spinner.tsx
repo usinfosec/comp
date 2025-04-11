@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, type SVGMotionProps } from "framer-motion";
+import { cn } from "@comp/ui/cn";
+import { type SVGMotionProps, motion } from "framer-motion";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import { cn } from "@comp/ui/cn";
 
 export interface LogoSpinnerProps extends React.SVGProps<SVGSVGElement> {
 	size?: number;

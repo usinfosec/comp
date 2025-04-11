@@ -1,12 +1,12 @@
-import { getI18n } from "@/locales/server";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
+import { getValidFilters } from "@/lib/data-table";
+import { getI18n } from "@/locales/server";
 import { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { SearchParams } from "nuqs";
-import { getValidFilters } from "@/lib/data-table";
-import { searchParamsCache } from "./data/validations";
-import { getControls } from "./data/queries";
 import { ControlsTable } from "./components/controls-table";
+import { getControls } from "./data/queries";
+import { searchParamsCache } from "./data/validations";
 
 interface ControlTableProps {
 	params: Promise<{ locale: string }>;
@@ -31,7 +31,9 @@ export default async function ControlsPage({
 	]);
 
 	return (
-		<PageWithBreadcrumb breadcrumbs={[{ label: "Controls", current: true }]}>
+		<PageWithBreadcrumb
+			breadcrumbs={[{ label: "Controls", current: true }]}
+		>
 			<ControlsTable promises={promises} />
 		</PageWithBreadcrumb>
 	);

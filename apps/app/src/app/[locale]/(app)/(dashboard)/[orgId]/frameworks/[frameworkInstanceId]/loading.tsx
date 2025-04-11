@@ -71,7 +71,10 @@ export default function Loading() {
 					<TableHeader>
 						<TableRow className="h-[53px]">
 							{["code", "name", "status"].map((column) => (
-								<TableHead key={`header-${column}`} className="h-[53px]">
+								<TableHead
+									key={`header-${column}`}
+									className="h-[53px]"
+								>
 									<Skeleton className="h-5 w-20" />
 								</TableHead>
 							))}
@@ -98,7 +101,10 @@ export default function Loading() {
 							"control17",
 							"control18",
 						].map((control) => (
-							<TableRow key={`row-${control}`} className="h-[57px]">
+							<TableRow
+								key={`row-${control}`}
+								className="h-[57px]"
+							>
 								{["code", "name", "status"].map((column) => (
 									<TableCell
 										key={`cell-${control}-${column}`}

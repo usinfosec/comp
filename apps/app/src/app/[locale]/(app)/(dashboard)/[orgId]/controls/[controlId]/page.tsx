@@ -1,12 +1,12 @@
+import { getRelatedArtifacts } from "@/app/[locale]/(app)/(dashboard)/[orgId]/controls/[controlId]/data/getRelatedArtifacts";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { SingleControl } from "./components/SingleControl";
 import { getControl } from "./data/getControl";
 import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
-import { headers } from "next/headers";
-import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getRelatedArtifacts } from "@/app/[locale]/(app)/(dashboard)/[orgId]/controls/[controlId]/data/getRelatedArtifacts";
 
 interface ControlPageProps {
 	params: {

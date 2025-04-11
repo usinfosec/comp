@@ -54,7 +54,10 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 			id: "mappedRequirements",
 			accessorKey: "mappedRequirements",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Linked Requirements" />
+				<DataTableColumnHeader
+					column={column}
+					title="Linked Requirements"
+				/>
 			),
 			cell: ({ row }) => {
 				const control = row.original;
@@ -67,8 +70,13 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 									req.frameworkInstance.frameworkId,
 								).name;
 								return (
-									<Badge key={req.id} variant="secondary" className="text-xs">
-										{frameworkName}: {req.requirementId.split("_").pop()}
+									<Badge
+										key={req.id}
+										variant="secondary"
+										className="text-xs"
+									>
+										{frameworkName}:{" "}
+										{req.requirementId.split("_").pop()}
 									</Badge>
 								);
 							})

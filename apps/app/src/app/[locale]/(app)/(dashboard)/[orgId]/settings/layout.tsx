@@ -1,5 +1,5 @@
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -28,7 +28,10 @@ export default async function Layout({
 			<Suspense fallback={<div>Loading...</div>}>
 				<SecondaryMenu
 					items={[
-						{ path: `/${orgId}/settings`, label: t("settings.general.title") },
+						{
+							path: `/${orgId}/settings`,
+							label: t("settings.general.title"),
+						},
 						{
 							path: `/${orgId}/settings/members`,
 							label: t("settings.members.title"),

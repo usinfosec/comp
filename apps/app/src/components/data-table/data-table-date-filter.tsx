@@ -5,11 +5,11 @@ import { CalendarIcon, XCircle } from "lucide-react";
 import * as React from "react";
 import type { DateRange } from "react-day-picker";
 
+import { formatDate } from "@/lib/format";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import { Separator } from "@comp/ui/separator";
-import { formatDate } from "@/lib/format";
 
 type DateSelection = Date[] | DateRange;
 
@@ -203,7 +203,9 @@ export function DataTableDateFilter<TData>({
 						initialFocus
 						mode="single"
 						selected={
-							!getIsDateRange(selectedDates) ? selectedDates[0] : undefined
+							!getIsDateRange(selectedDates)
+								? selectedDates[0]
+								: undefined
 						}
 						onSelect={onSelect}
 					/>

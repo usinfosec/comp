@@ -69,7 +69,8 @@ export const fixSingleOrgTask = schemaTask({
 				`Error checking missing items for organization: ${organizationId}`,
 				{
 					organizationId,
-					error: error instanceof Error ? error.message : String(error),
+					error:
+						error instanceof Error ? error.message : String(error),
 				},
 			);
 

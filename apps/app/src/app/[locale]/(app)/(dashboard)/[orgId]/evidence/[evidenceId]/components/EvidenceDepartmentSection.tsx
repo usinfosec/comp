@@ -1,5 +1,6 @@
 "use client";
 
+import { Departments } from "@comp/db/types";
 import {
 	Select,
 	SelectContent,
@@ -7,7 +8,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { Departments } from "@comp/db/types";
 import { Building } from "lucide-react";
 
 interface DepartmentSectionProps {

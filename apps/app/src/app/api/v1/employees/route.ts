@@ -1,7 +1,7 @@
+import { getOrganizationFromApiKey } from "@/lib/api-key";
 import { db } from "@comp/db";
 import { Departments, Role } from "@comp/db/types";
-import { NextResponse, type NextRequest } from "next/server";
-import { getOrganizationFromApiKey } from "@/lib/api-key";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 // Configure this route to use Node.js runtime instead of Edge

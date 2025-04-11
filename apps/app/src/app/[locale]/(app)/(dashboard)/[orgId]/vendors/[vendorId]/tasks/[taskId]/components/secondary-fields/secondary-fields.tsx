@@ -50,7 +50,10 @@ export default function SecondaryFields({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<TaskSecondaryFieldsForm task={task} assignees={assignees} />
+					<TaskSecondaryFieldsForm
+						task={task}
+						assignees={assignees}
+					/>
 				</CardContent>
 			</Card>
 		</div>
@@ -134,7 +137,9 @@ function TaskSecondaryFieldsForm({
 										assigneeId={field.value}
 										assignees={assignees}
 										onAssigneeChange={field.onChange}
-										disabled={updateTask.status === "executing"}
+										disabled={
+											updateTask.status === "executing"
+										}
 										withTitle={false}
 									/>
 								</FormControl>
@@ -159,7 +164,8 @@ function TaskSecondaryFieldsForm({
 									>
 										<SelectTrigger>
 											<SelectValue placeholder="Select status">
-												{field.value && renderStatus(field.value)}
+												{field.value &&
+													renderStatus(field.value)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
@@ -196,7 +202,8 @@ function TaskSecondaryFieldsForm({
 												variant="outline"
 												className={cn(
 													"w-full pl-3 text-left font-normal",
-													!field.value && "text-muted-foreground",
+													!field.value &&
+														"text-muted-foreground",
 												)}
 											>
 												{field.value ? (
@@ -208,7 +215,10 @@ function TaskSecondaryFieldsForm({
 											</Button>
 										</FormControl>
 									</PopoverTrigger>
-									<PopoverContent className="w-auto p-0" align="start">
+									<PopoverContent
+										className="w-auto p-0"
+										align="start"
+									>
 										<Calendar
 											mode="single"
 											selected={field.value}
@@ -217,7 +227,15 @@ function TaskSecondaryFieldsForm({
 												form.handleSubmit(onSubmit)();
 											}}
 											disabled={(date) =>
-												date < new Date(new Date().setHours(0, 0, 0, 0))
+												date <
+												new Date(
+													new Date().setHours(
+														0,
+														0,
+														0,
+														0,
+													),
+												)
 											}
 											initialFocus
 										/>

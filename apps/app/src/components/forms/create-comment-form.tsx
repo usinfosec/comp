@@ -1,9 +1,15 @@
 "use client";
 
-import { useAction } from "next-safe-action/hooks";
 import { addCommentAction } from "@/actions/add-comment";
-import { Textarea } from "@comp/ui/textarea";
-import { useForm } from "react-hook-form";
+import { addCommentSchema } from "@/actions/schema";
+import { useI18n } from "@/locales/client";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@comp/ui/accordion";
+import { Button } from "@comp/ui/button";
 import {
 	Form,
 	FormControl,
@@ -12,19 +18,13 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
+import { Textarea } from "@comp/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRightIcon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { addCommentSchema } from "@/actions/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@comp/ui/accordion";
-import { Button } from "@comp/ui/button";
-import { useI18n } from "@/locales/client";
-import { ArrowRightIcon } from "lucide-react";
 
 export function CreateCommentForm({
 	entityId,
@@ -86,7 +86,10 @@ export function CreateCommentForm({
 										<Button
 											type="submit"
 											variant="action"
-											disabled={addComment.status === "executing"}
+											disabled={
+												addComment.status ===
+												"executing"
+											}
 										>
 											<div className="flex items-center justify-center">
 												{t("common.actions.create")}

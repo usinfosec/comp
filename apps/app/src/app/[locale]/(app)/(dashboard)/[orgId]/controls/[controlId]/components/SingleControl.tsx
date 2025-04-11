@@ -64,13 +64,17 @@ export const SingleControl = ({
 							<span className="text-sm text-muted-foreground">
 								{t("frameworks.controls.title")}
 							</span>
-							<h1 className="text-2xl font-semibold">{control.name}</h1>
+							<h1 className="text-2xl font-semibold">
+								{control.name}
+							</h1>
 						</div>
 						<StatusIndicator status={progressStatus} />
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-muted-foreground">{control.description}</p>
+					<p className="text-sm text-muted-foreground">
+						{control.description}
+					</p>
 				</CardContent>
 			</Card>
 			<RequirementsTable

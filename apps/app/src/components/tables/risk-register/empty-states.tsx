@@ -5,7 +5,7 @@ import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Plus } from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 
 type Props = {
@@ -27,7 +27,9 @@ export function NoResults({ hasFilters }: Props) {
 					</h2>
 					<p className="text-muted-foreground text-sm">
 						{hasFilters
-							? t("common.empty_states.no_results.description_filters")
+							? t(
+									"common.empty_states.no_results.description_filters",
+								)
 							: t("common.empty_states.no_results.description")}
 					</p>
 				</div>

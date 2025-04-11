@@ -21,7 +21,9 @@ export const LocaleSwitch = () => {
 		<div className="flex items-center relative">
 			<Select
 				defaultValue={locale}
-				onValueChange={(value: keyof typeof languages) => changeLocale(value)}
+				onValueChange={(value: keyof typeof languages) =>
+					changeLocale(value)
+				}
 			>
 				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-none capitalize h-[32px] text-xs">
 					<SelectValue placeholder={t("language.placeholder")} />
@@ -29,7 +31,11 @@ export const LocaleSwitch = () => {
 				<SelectContent>
 					<SelectGroup>
 						{Object.entries(languages).map(([code, name]) => (
-							<SelectItem key={code} value={code} className="capitalize">
+							<SelectItem
+								key={code}
+								value={code}
+								className="capitalize"
+							>
 								{name}
 							</SelectItem>
 						))}

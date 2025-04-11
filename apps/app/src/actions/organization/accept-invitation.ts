@@ -57,7 +57,10 @@ export const completeInvitation = authActionClient
 			}
 
 			try {
-				const invitation = await validateInviteCode(inviteCode, user.email);
+				const invitation = await validateInviteCode(
+					inviteCode,
+					user.email,
+				);
 
 				if (!invitation) {
 					throw new Error("Invitation either used or expired");
@@ -71,7 +74,10 @@ export const completeInvitation = authActionClient
 				});
 
 				if (existingMembership) {
-					if (ctx.session.activeOrganizationId !== invitation.organizationId) {
+					if (
+						ctx.session.activeOrganizationId !==
+						invitation.organizationId
+					) {
 						await db.session.update({
 							where: { id: ctx.session.id },
 							data: {
@@ -128,7 +134,9 @@ export const completeInvitation = authActionClient
 				});
 
 				revalidatePath(`/${invitation.organization.id}`);
-				revalidatePath(`/${invitation.organization.id}/settings/members`);
+				revalidatePath(
+					`/${invitation.organization.id}/settings/members`,
+				);
 				revalidateTag(`user_${user.id}`);
 
 				return {

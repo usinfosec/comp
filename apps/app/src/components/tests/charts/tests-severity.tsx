@@ -67,16 +67,23 @@ export function TestsSeverity({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("tests.dashboard.severity_distribution")}</CardTitle>
+				<CardTitle>
+					{t("tests.dashboard.severity_distribution")}
+				</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<PieChart data={data} />
 				<div className="mt-4 gap-2 text-sm">
 					{data.map((item) => (
-						<div key={item.name} className="flex items-center gap-2">
+						<div
+							key={item.name}
+							className="flex items-center gap-2"
+						>
 							<div className={cn("h-3 w-3", item.colorClass)} />
 							<span>{item.name}</span>
-							<span className="ml-auto font-medium">{item.value}</span>
+							<span className="ml-auto font-medium">
+								{item.value}
+							</span>
 						</div>
 					))}
 				</div>

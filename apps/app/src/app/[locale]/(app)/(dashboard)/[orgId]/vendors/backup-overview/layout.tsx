@@ -4,7 +4,7 @@ import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
-import { cache, Suspense } from "react";
+import { Suspense, cache } from "react";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
 
 export default async function Layout({
@@ -31,23 +31,37 @@ export default async function Layout({
 					<div className="mt-8">
 						<AppOnboarding
 							title={t("app_onboarding.vendors.title")}
-							description={t("app_onboarding.vendors.description")}
+							description={t(
+								"app_onboarding.vendors.description",
+							)}
 							cta={t("app_onboarding.vendors.cta")}
 							imageSrc="/onboarding/vendor-management.webp"
 							imageAlt="Vendor Management"
 							sheetName="createVendorSheet"
 							faqs={[
 								{
-									questionKey: t("app_onboarding.vendors.faqs.question_1"),
-									answerKey: t("app_onboarding.vendors.faqs.answer_1"),
+									questionKey: t(
+										"app_onboarding.vendors.faqs.question_1",
+									),
+									answerKey: t(
+										"app_onboarding.vendors.faqs.answer_1",
+									),
 								},
 								{
-									questionKey: t("app_onboarding.vendors.faqs.question_2"),
-									answerKey: t("app_onboarding.vendors.faqs.answer_2"),
+									questionKey: t(
+										"app_onboarding.vendors.faqs.question_2",
+									),
+									answerKey: t(
+										"app_onboarding.vendors.faqs.answer_2",
+									),
 								},
 								{
-									questionKey: t("app_onboarding.vendors.faqs.question_3"),
-									answerKey: t("app_onboarding.vendors.faqs.answer_3"),
+									questionKey: t(
+										"app_onboarding.vendors.faqs.question_3",
+									),
+									answerKey: t(
+										"app_onboarding.vendors.faqs.answer_3",
+									),
 								},
 							]}
 						/>
@@ -63,7 +77,10 @@ export default async function Layout({
 			<Suspense fallback={<div>Loading...</div>}>
 				<SecondaryMenu
 					items={[
-						{ path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
+						{
+							path: `/${orgId}/vendors`,
+							label: t("vendors.dashboard.title"),
+						},
 						{
 							path: `/${orgId}/vendors/register`,
 							label: t("vendors.register.title"),

@@ -1,5 +1,5 @@
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import {
 	DropdownMenu,
@@ -8,8 +8,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
-import { SignOut } from "./sign-out";
 import { headers } from "next/headers";
+import { SignOut } from "./sign-out";
 
 export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 	const session = await auth.api.getSession({
@@ -36,7 +36,11 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 					</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-[240px]" sideOffset={10} align="end">
+			<DropdownMenuContent
+				className="w-[240px]"
+				sideOffset={10}
+				align="end"
+			>
 				{!onlySignOut && (
 					<>
 						<DropdownMenuLabel>

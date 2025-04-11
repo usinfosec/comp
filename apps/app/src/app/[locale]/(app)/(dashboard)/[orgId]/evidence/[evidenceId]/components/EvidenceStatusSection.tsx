@@ -40,12 +40,18 @@ export const EvidenceStatusSection = ({
 							<div
 								className={cn("size-2.5")}
 								style={{
-									backgroundColor: EVIDENCE_STATUS_HEX_COLORS[status] ?? "  ",
+									backgroundColor:
+										EVIDENCE_STATUS_HEX_COLORS[status] ??
+										"  ",
 								}}
 							/>
 							{status
 								.split("_")
-								.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+								.map(
+									(word) =>
+										word.charAt(0).toUpperCase() +
+										word.slice(1),
+								)
 								.join(" ")}
 						</div>
 					</SelectValue>
@@ -58,7 +64,9 @@ export const EvidenceStatusSection = ({
 									className={cn("size-2.5")}
 									style={{
 										backgroundColor:
-											EVIDENCE_STATUS_HEX_COLORS[option.value] ?? "  ",
+											EVIDENCE_STATUS_HEX_COLORS[
+												option.value
+											] ?? "  ",
 									}}
 								/>
 								{option.label}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { Member, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -9,7 +10,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@comp/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { CreateVendorForm } from "./create-vendor-form";
-import { Member, User } from "@comp/db/types";
 
 export function CreateVendorSheet({
 	assignees,

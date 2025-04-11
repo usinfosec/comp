@@ -66,16 +66,21 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("policies.dashboard.policies_by_assignee")}</CardTitle>
+				<CardTitle>
+					{t("policies.dashboard.policies_by_assignee")}
+				</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-8">
 					{stats.map((stat) => (
 						<div key={stat.user.id} className="space-y-2">
 							<div className="flex justify-between items-center">
-								<p className="text-sm">{stat.user.name || "Unknown User"}</p>
+								<p className="text-sm">
+									{stat.user.name || "Unknown User"}
+								</p>
 								<span className="text-sm text-muted-foreground">
-									{stat.totalPolicies} {t("policies.policies")}
+									{stat.totalPolicies}{" "}
+									{t("policies.policies")}
 								</span>
 							</div>
 
@@ -85,19 +90,22 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-primary" />
 									<span>
-										{t("common.status.published")} ({stat.publishedPolicies})
+										{t("common.status.published")} (
+										{stat.publishedPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-open)]" />
 									<span>
-										{t("common.status.draft")} ({stat.draftPolicies})
+										{t("common.status.draft")} (
+										{stat.draftPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-pending)]" />
 									<span>
-										{t("common.status.archived")} ({stat.archivedPolicies})
+										{t("common.status.archived")} (
+										{stat.archivedPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">

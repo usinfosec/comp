@@ -1,7 +1,7 @@
-import { auth } from "@/utils/auth";
-import { RiskOverview } from "@/components/risks/charts/risk-overview";
 import { RisksAssignee } from "@/components/risks/charts/RisksAssignee";
+import { RiskOverview } from "@/components/risks/charts/risk-overview";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";

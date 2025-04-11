@@ -1,14 +1,14 @@
-import { auth } from "@/utils/auth";
-import { redirect } from "next/navigation";
-import { cache, Suspense } from "react";
-import { db } from "@comp/db";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { EvidenceStatusChart } from "./components/evidence-status-chart";
-import { EvidenceAssigneeChart } from "./components/evidence-assignee-chart";
-import Loading from "./loading";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { Suspense, cache } from "react";
+import { EvidenceAssigneeChart } from "./components/evidence-assignee-chart";
+import { EvidenceStatusChart } from "./components/evidence-status-chart";
+import Loading from "./loading";
 
 export default async function EvidenceOverview({
 	params,

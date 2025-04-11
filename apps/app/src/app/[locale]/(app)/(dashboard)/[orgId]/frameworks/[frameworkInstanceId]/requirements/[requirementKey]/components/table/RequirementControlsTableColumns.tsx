@@ -1,16 +1,9 @@
 "use client";
 
+import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type { Control } from "@comp/db/types";
-import type { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@comp/ui/tooltip";
 import type {
 	Artifact,
 	Control as ControlType,
@@ -19,9 +12,16 @@ import type {
 	Policy,
 	PolicyStatus,
 } from "@comp/db/types";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@comp/ui/tooltip";
+import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { getControlStatus } from "../../../../../lib/utils";
-import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
-import { StatusIndicator } from "@/components/status-indicator";
 
 type OrganizationControlType = Control & {
 	artifacts: (Artifact & {
@@ -46,7 +46,9 @@ export function RequirementControlsTableColumns(): ColumnDef<OrganizationControl
 							href={`/${orgId}/controls/${row.original.id}`}
 							className="flex flex-col"
 						>
-							<span className="font-medium truncate">{row.original.name}</span>
+							<span className="font-medium truncate">
+								{row.original.name}
+							</span>
 						</Link>
 					</div>
 				);
@@ -61,7 +63,8 @@ export function RequirementControlsTableColumns(): ColumnDef<OrganizationControl
 				const status = getControlStatus(artifacts);
 
 				const totalArtifacts = artifacts.length;
-				const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
+				const completedArtifacts =
+					artifacts.filter(isArtifactCompleted).length;
 
 				return (
 					<TooltipProvider>
@@ -75,12 +78,16 @@ export function RequirementControlsTableColumns(): ColumnDef<OrganizationControl
 								<div className="text-sm">
 									<p>
 										Progress:{" "}
-										{Math.round((completedArtifacts / totalArtifacts) * 100) ||
-											0}
+										{Math.round(
+											(completedArtifacts /
+												totalArtifacts) *
+												100,
+										) || 0}
 										%
 									</p>
 									<p>
-										Completed: {completedArtifacts}/{totalArtifacts} artifacts
+										Completed: {completedArtifacts}/
+										{totalArtifacts} artifacts
 									</p>
 								</div>
 							</TooltipContent>

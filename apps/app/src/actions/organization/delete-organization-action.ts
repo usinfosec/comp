@@ -3,9 +3,9 @@
 "use server";
 
 import { db } from "@comp/db";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "../safe-action";
 import { deleteOrganizationSchema } from "../schema";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 type DeleteOrganizationResult = {
 	success: boolean;

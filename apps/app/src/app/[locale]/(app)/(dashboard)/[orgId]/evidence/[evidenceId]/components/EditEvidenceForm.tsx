@@ -1,12 +1,12 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Skeleton } from "@comp/ui/skeleton";
-import { useI18n } from "@/locales/client";
 import { useParams } from "next/navigation";
+import { useEvidence } from "../hooks/useEvidence";
 import { FileSection } from "./FileSection";
 import { UrlSection } from "./UrlSection";
-import { useEvidence } from "../hooks/useEvidence";
 
 export function EditEvidenceForm() {
 	const { evidenceId } = useParams<{ evidenceId: string }>();

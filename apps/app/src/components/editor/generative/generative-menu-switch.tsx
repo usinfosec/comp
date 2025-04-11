@@ -1,6 +1,6 @@
+import { Button } from "@comp/ui/button";
 import { EditorBubble, removeAIHighlight, useEditor } from "novel";
 import { Fragment, type ReactNode, useEffect } from "react";
-import { Button } from "@comp/ui/button";
 import Magic from "../icons/magic";
 import { AISelector } from "./ai-selector";
 

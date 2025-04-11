@@ -1,10 +1,10 @@
-import { cache } from "react";
 import { auth } from "@/utils/auth";
-import { db } from "@comp/db";
-import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
-import { headers } from "next/headers";
-import { Member } from "@comp/db/types";
 import { trainingVideos as trainingVideosData } from "@comp/data";
+import { db } from "@comp/db";
+import { Member } from "@comp/db/types";
+import { headers } from "next/headers";
+import { cache } from "react";
+import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
 
 export async function EmployeesOverview() {
 	const employees = await getEmployees();

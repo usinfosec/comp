@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Skeleton } from "@comp/ui/skeleton";
-import { useUsersAnalytics } from "../hooks/useUsersAnalytics";
-import { Area, AreaChart, ResponsiveContainer } from "recharts";
-import { Users, TrendingUp, Clock, Calendar } from "lucide-react";
 import { Progress } from "@comp/ui/progress";
+import { Skeleton } from "@comp/ui/skeleton";
+import { Calendar, Clock, TrendingUp, Users } from "lucide-react";
 import { useMemo } from "react";
+import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { useUsersAnalytics } from "../hooks/useUsersAnalytics";
 
 // Helper function for formatting numbers
 function formatNumber(value: number | null | undefined): string {
@@ -35,7 +35,10 @@ export function UsersCard() {
 		}
 		// Ensure data is sorted chronologically
 		return [...usersData.last30DaysByDay]
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+			.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime(),
+			)
 			.map((item) => ({
 				date: item.date,
 				value: item.count,
@@ -63,7 +66,8 @@ export function UsersCard() {
 	}, [usersData?.percentageChangeLast30Days]);
 
 	const growthColor = useMemo(() => {
-		if (usersData?.percentageChangeLast30Days == null) return "text-gray-400";
+		if (usersData?.percentageChangeLast30Days == null)
+			return "text-gray-400";
 		return usersData.percentageChangeLast30Days >= 0
 			? "text-green-400"
 			: "text-red-400";
@@ -81,7 +85,9 @@ export function UsersCard() {
 					</div>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-destructive">Error loading data.</p>
+					<p className="text-sm text-destructive">
+						Error loading data.
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -96,7 +102,9 @@ export function UsersCard() {
 					</div>
 					<CardTitle className="text-lg">Users</CardTitle>
 				</div>
-				<div className={`flex items-center text-xs ${growthColor} font-medium`}>
+				<div
+					className={`flex items-center text-xs ${growthColor} font-medium`}
+				>
 					<TrendingUp className="h-3.5 w-3.5 mr-1" />
 					{isUsersLoading ? (
 						<Skeleton className="h-3 w-10" />
@@ -108,7 +116,8 @@ export function UsersCard() {
 			<CardContent>
 				{isUsersLoading ? (
 					<div className="space-y-4 mt-2">
-						<Skeleton className="h-10 w-full" /> {/* Chart Placeholder */}
+						<Skeleton className="h-10 w-full" />{" "}
+						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
 						<div className="bg-[#1a1a1a] p-3 space-y-2">
 							<Skeleton className="h-4 w-1/3" />
@@ -130,7 +139,12 @@ export function UsersCard() {
 								<ResponsiveContainer width="100%" height="100%">
 									<AreaChart
 										data={chartData}
-										margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+										margin={{
+											top: 0,
+											right: 0,
+											left: 0,
+											bottom: 0,
+										}}
 									>
 										<defs>
 											<linearGradient
@@ -174,7 +188,9 @@ export function UsersCard() {
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">New</span>
+								<span className="text-gray-400 text-sm">
+									New
+								</span>
 								<span className="text-sm font-medium">
 									{formatNumber(usersData?.last30DaysTotal)}
 								</span>
@@ -196,22 +212,32 @@ export function UsersCard() {
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Total</span>
+									<span className="text-gray-400 text-sm">
+										Total
+									</span>
 									<span className="text-xl font-bold">
-										{formatNumber(usersData?.allTimeTotal) ?? "N/A"}
+										{formatNumber(
+											usersData?.allTimeTotal,
+										) ?? "N/A"}
 									</span>
 								</div>
 							</div>
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">Active</span>
+									<span className="text-gray-400 text-sm">
+										Active
+									</span>
 									<span className="text-sm font-medium">
-										{formatNumber(usersData?.activeSessionTotal) ?? "N/A"}
+										{formatNumber(
+											usersData?.activeSessionTotal,
+										) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
-									value={Number.parseFloat(usersActivePercent)}
+									value={Number.parseFloat(
+										usersActivePercent,
+									)}
 									className="h-1.5 bg-gray-800 rounded-none [&>div]:bg-emerald-500"
 								/>
 								<div className="text-xs text-gray-500 mt-1">

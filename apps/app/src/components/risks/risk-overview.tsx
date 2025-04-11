@@ -38,7 +38,9 @@ export function RiskOverview({
 						</Button>
 					</div>
 				</AlertTitle>
-				<AlertDescription className="mt-4">{risk.description}</AlertDescription>
+				<AlertDescription className="mt-4">
+					{risk.description}
+				</AlertDescription>
 			</Alert>
 
 			<Card>

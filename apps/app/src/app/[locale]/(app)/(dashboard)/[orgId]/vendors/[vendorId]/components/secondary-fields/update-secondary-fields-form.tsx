@@ -1,8 +1,9 @@
 "use client";
 
+import { SelectAssignee } from "@/components/SelectAssignee";
 import { VENDOR_STATUS_TYPES, VendorStatus } from "@/components/vendor-status";
 import { useI18n } from "@/locales/client";
-import { Member, VendorCategory, type User, type Vendor } from "@comp/db/types";
+import { Member, type User, type Vendor, VendorCategory } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -25,7 +26,6 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { SelectAssignee } from "@/components/SelectAssignee";
 import { updateVendorSchema } from "../../actions/schema";
 import { updateVendorAction } from "../../actions/update-vendor-action";
 
@@ -82,10 +82,14 @@ export function UpdateSecondaryFieldsForm({
 						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("common.assignee.label")}</FormLabel>
+								<FormLabel>
+									{t("common.assignee.label")}
+								</FormLabel>
 								<FormControl>
 									<SelectAssignee
-										disabled={updateVendor.status === "executing"}
+										disabled={
+											updateVendor.status === "executing"
+										}
 										withTitle={false}
 										assignees={assignees}
 										assigneeId={field.value}
@@ -101,22 +105,38 @@ export function UpdateSecondaryFieldsForm({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("vendors.form.vendor_status")}</FormLabel>
+								<FormLabel>
+									{t("vendors.form.vendor_status")}
+								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
+									<Select
+										value={field.value}
+										onValueChange={field.onChange}
+									>
 										<SelectTrigger>
 											<SelectValue
 												placeholder={t(
 													"vendors.form.vendor_status_placeholder",
 												)}
 											>
-												{field.value && <VendorStatus status={field.value} />}
+												{field.value && (
+													<VendorStatus
+														status={field.value}
+													/>
+												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(VENDOR_STATUS_TYPES).map((status) => (
-												<SelectItem key={status} value={status}>
-													<VendorStatus status={status} />
+											{Object.values(
+												VENDOR_STATUS_TYPES,
+											).map((status) => (
+												<SelectItem
+													key={status}
+													value={status}
+												>
+													<VendorStatus
+														status={status}
+													/>
 												</SelectItem>
 											))}
 										</SelectContent>
@@ -131,7 +151,9 @@ export function UpdateSecondaryFieldsForm({
 						name="category"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("vendors.form.vendor_category")}</FormLabel>
+								<FormLabel>
+									{t("vendors.form.vendor_category")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										{...field}
@@ -146,21 +168,34 @@ export function UpdateSecondaryFieldsForm({
 											/>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(VendorCategory).map((category) => {
-												const formattedCategory = category
-													.toLowerCase()
-													.split("_")
-													.map(
-														(word) =>
-															word.charAt(0).toUpperCase() + word.slice(1),
-													)
-													.join(" ");
-												return (
-													<SelectItem key={category} value={category}>
-														{formattedCategory}
-													</SelectItem>
-												);
-											})}
+											{Object.values(VendorCategory).map(
+												(category) => {
+													const formattedCategory =
+														category
+															.toLowerCase()
+															.split("_")
+															.map(
+																(word) =>
+																	word
+																		.charAt(
+																			0,
+																		)
+																		.toUpperCase() +
+																	word.slice(
+																		1,
+																	),
+															)
+															.join(" ");
+													return (
+														<SelectItem
+															key={category}
+															value={category}
+														>
+															{formattedCategory}
+														</SelectItem>
+													);
+												},
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>

@@ -85,24 +85,32 @@ export function VendorInherentRiskForm({
 					name="probability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("risk.metrics.probability")}</FormLabel>
+							<FormLabel>
+								{t("risk.metrics.probability")}
+							</FormLabel>
 							<FormControl>
 								<RadioGroup
 									onValueChange={field.onChange}
 									defaultValue={field.value}
 									className="grid gap-3"
 								>
-									{Object.entries(LIKELIHOOD_LABELS).map(([value, label]) => (
-										<FormItem
-											key={value}
-											className="flex items-center space-x-3 space-y-0"
-										>
-											<FormControl>
-												<RadioGroupItem value={value} />
-											</FormControl>
-											<FormLabel className="font-normal">{label}</FormLabel>
-										</FormItem>
-									))}
+									{Object.entries(LIKELIHOOD_LABELS).map(
+										([value, label]) => (
+											<FormItem
+												key={value}
+												className="flex items-center space-x-3 space-y-0"
+											>
+												<FormControl>
+													<RadioGroupItem
+														value={value}
+													/>
+												</FormControl>
+												<FormLabel className="font-normal">
+													{label}
+												</FormLabel>
+											</FormItem>
+										),
+									)}
 								</RadioGroup>
 							</FormControl>
 						</FormItem>
@@ -121,17 +129,23 @@ export function VendorInherentRiskForm({
 									defaultValue={field.value}
 									className="grid gap-3"
 								>
-									{Object.entries(IMPACT_LABELS).map(([value, label]) => (
-										<FormItem
-											key={value}
-											className="flex items-center space-x-3 space-y-0"
-										>
-											<FormControl>
-												<RadioGroupItem value={value} />
-											</FormControl>
-											<FormLabel className="font-normal">{label}</FormLabel>
-										</FormItem>
-									))}
+									{Object.entries(IMPACT_LABELS).map(
+										([value, label]) => (
+											<FormItem
+												key={value}
+												className="flex items-center space-x-3 space-y-0"
+											>
+												<FormControl>
+													<RadioGroupItem
+														value={value}
+													/>
+												</FormControl>
+												<FormLabel className="font-normal">
+													{label}
+												</FormLabel>
+											</FormItem>
+										),
+									)}
 								</RadioGroup>
 							</FormControl>
 						</FormItem>

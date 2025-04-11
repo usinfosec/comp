@@ -1,10 +1,10 @@
 "use server";
 
+import { completeEmployeeCreation } from "@/lib/db/employee";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { authActionClient } from "../safe-action";
 import { createEmployeeSchema } from "../schema";
 import type { ActionResponse } from "../types";
-import { completeEmployeeCreation } from "@/lib/db/employee";
 
 export const createEmployeeAction = authActionClient
 	.schema(createEmployeeSchema)
@@ -48,15 +48,16 @@ export const createEmployeeAction = authActionClient
 			) {
 				return {
 					success: false,
-					error:
-						"An employee with this email already exists in your organization",
+					error: "An employee with this email already exists in your organization",
 				};
 			}
 
 			return {
 				success: false,
 				error:
-					error instanceof Error ? error.message : "Failed to create employee",
+					error instanceof Error
+						? error.message
+						: "Failed to create employee",
 			};
 		}
 	});

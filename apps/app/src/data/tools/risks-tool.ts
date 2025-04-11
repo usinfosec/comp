@@ -1,6 +1,6 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { Departments, RiskStatus, RiskCategory } from "@comp/db/types";
+import { Departments, RiskCategory, RiskStatus } from "@comp/db/types";
 import { tool } from "ai";
 import { headers } from "next/headers";
 import { z } from "zod";
@@ -22,7 +22,12 @@ export const getRisks = tool({
 			.enum(Object.values(Departments) as [Departments, ...Departments[]])
 			.optional(),
 		category: z
-			.enum(Object.values(RiskCategory) as [RiskCategory, ...RiskCategory[]])
+			.enum(
+				Object.values(RiskCategory) as [
+					RiskCategory,
+					...RiskCategory[],
+				],
+			)
 			.optional(),
 		owner: z.string().optional(),
 	}),

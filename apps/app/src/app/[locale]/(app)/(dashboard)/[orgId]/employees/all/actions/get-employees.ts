@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@comp/db";
 import { authActionClient } from "@/actions/safe-action";
+import { db } from "@comp/db";
 import { employeesInputSchema } from "../types";
 import { appErrors } from "../types";
 
@@ -41,12 +41,18 @@ export const getEmployees = authActionClient
 										OR: [
 											{
 												user: {
-													name: { contains: search, mode: "insensitive" },
+													name: {
+														contains: search,
+														mode: "insensitive",
+													},
 												},
 											},
 											{
 												user: {
-													email: { contains: search, mode: "insensitive" },
+													email: {
+														contains: search,
+														mode: "insensitive",
+													},
 												},
 											},
 										],
@@ -70,12 +76,18 @@ export const getEmployees = authActionClient
 										OR: [
 											{
 												user: {
-													name: { contains: search, mode: "insensitive" },
+													name: {
+														contains: search,
+														mode: "insensitive",
+													},
 												},
 											},
 											{
 												user: {
-													email: { contains: search, mode: "insensitive" },
+													email: {
+														contains: search,
+														mode: "insensitive",
+													},
 												},
 											},
 										],

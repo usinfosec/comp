@@ -94,7 +94,9 @@ export function UpdateOrganizationName({
 						</div>
 						<Button
 							type="submit"
-							disabled={updateOrganizationName.status === "executing"}
+							disabled={
+								updateOrganizationName.status === "executing"
+							}
 						>
 							{updateOrganizationName.status === "executing" ? (
 								<Loader2 className="h-4 w-4 animate-spin mr-1" />

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { type CSSProperties } from "react";
-import { scaleBand, scaleLinear, max, format } from "d3";
 import { ClientTooltip } from "@comp/ui/chart-tooltip";
+import { format, max, scaleBand, scaleLinear } from "d3";
+import React, { type CSSProperties } from "react";
 
 const STATUS_COLORS = {
 	not_assessed: "bg-chart-destructive",
@@ -26,7 +26,9 @@ export function StatusChart({ data }: StatusChartProps) {
 			name: item.name
 				.split("_")
 				.map(
-					(word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+					(word) =>
+						word.charAt(0).toUpperCase() +
+						word.slice(1).toLowerCase(),
 				)
 				.join(" "),
 		}));
@@ -35,7 +37,9 @@ export function StatusChart({ data }: StatusChartProps) {
 			key
 				.split("_")
 				.map(
-					(word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+					(word) =>
+						word.charAt(0).toUpperCase() +
+						word.slice(1).toLowerCase(),
 				)
 				.join(" "),
 		);
@@ -148,13 +152,16 @@ export function StatusChart({ data }: StatusChartProps) {
 				>
 					{sortedData.map((d, index) => {
 						const barWidth = d.value === 0 ? 3 : xScale(d.value);
-						const fixedBarHeightPercentage = (barHeight / chartHeight) * 100;
+						const fixedBarHeightPercentage =
+							(barHeight / chartHeight) * 100;
 
 						// Calculate exact position to align with labels
 						// Get center point of the band for this item
-						const bandCenter = yScale(d.name)! + yScale.bandwidth() / 2;
+						const bandCenter =
+							yScale(d.name)! + yScale.bandwidth() / 2;
 						// Position bar so its center aligns with the band center
-						const barTopPosition = bandCenter - fixedBarHeightPercentage / 2;
+						const barTopPosition =
+							bandCenter - fixedBarHeightPercentage / 2;
 
 						return (
 							<div
@@ -205,7 +212,9 @@ export function StatusChart({ data }: StatusChartProps) {
 							}}
 							className="absolute text-xs -translate-x-1/2 tabular-nums text-muted-foreground"
 						>
-							{Number.isInteger(value) ? format(",")(value) : value.toFixed(2)}
+							{Number.isInteger(value)
+								? format(",")(value)
+								: value.toFixed(2)}
 						</div>
 					))}
 				</div>

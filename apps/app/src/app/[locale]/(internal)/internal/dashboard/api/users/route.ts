@@ -40,7 +40,9 @@ export async function GET(request: NextRequest) {
 			db.user.count(), // All time total users
 			db.user.count({
 				// Active users (session not expired)
-				where: { sessions: { some: { expiresAt: { gt: new Date() } } } },
+				where: {
+					sessions: { some: { expiresAt: { gt: new Date() } } },
+				},
 			}),
 			db.user.count({
 				// Users created in the last 30 days
@@ -83,13 +85,18 @@ export async function GET(request: NextRequest) {
 
 		const last30DaysByDay = Array.from(last30DaysByDayMap.entries())
 			.map(([date, count]) => ({ date, count }))
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()); // Sort chronologically
+			.sort(
+				(a, b) =>
+					new Date(a.date).getTime() - new Date(b.date).getTime(),
+			); // Sort chronologically
 
 		// Calculate percentage change
 		let percentageChangeLast30Days: number | null = null;
 		if (previous30DaysTotal > 0) {
 			percentageChangeLast30Days =
-				((last30DaysTotal - previous30DaysTotal) / previous30DaysTotal) * 100;
+				((last30DaysTotal - previous30DaysTotal) /
+					previous30DaysTotal) *
+				100;
 		} else if (last30DaysTotal > 0) {
 			// If previous was 0 and current is > 0, change is infinite.
 			// Representing as null, but could also be a large number or specific indicator.

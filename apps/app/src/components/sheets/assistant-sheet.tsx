@@ -1,7 +1,7 @@
 "use client";
 
-import { Sheet, SheetContent } from "@comp/ui/sheet";
 import { useMediaQuery } from "@comp/ui/hooks";
+import { Sheet, SheetContent } from "@comp/ui/sheet";
 
 import { useQueryState } from "nuqs";
 import Chat from "../ai/chat";

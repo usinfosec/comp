@@ -15,7 +15,10 @@ type Props = {
 export function NoResults({ hasFilters }: Props) {
 	const t = useI18n();
 	const router = useRouter();
-	const { orgId, vendorId } = useParams<{ orgId: string; vendorId: string }>();
+	const { orgId, vendorId } = useParams<{
+		orgId: string;
+		vendorId: string;
+	}>();
 
 	return (
 		<div className="flex items-center justify-center">
@@ -27,15 +30,21 @@ export function NoResults({ hasFilters }: Props) {
 					</h2>
 					<p className="text-muted-foreground text-sm">
 						{hasFilters
-							? t("common.empty_states.no_results.description_filters")
-							: t("common.empty_states.no_results.description_no_tasks")}
+							? t(
+									"common.empty_states.no_results.description_filters",
+								)
+							: t(
+									"common.empty_states.no_results.description_no_tasks",
+								)}
 					</p>
 				</div>
 
 				{hasFilters && (
 					<Button
 						variant="outline"
-						onClick={() => router.push(`/${orgId}/vendors/${vendorId}`)}
+						onClick={() =>
+							router.push(`/${orgId}/vendors/${vendorId}`)
+						}
 					>
 						{t("common.filters.clear")}
 					</Button>

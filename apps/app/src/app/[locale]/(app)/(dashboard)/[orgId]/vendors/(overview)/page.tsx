@@ -21,7 +21,8 @@ export default async function Page({
 	const { orgId, locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const parsedSearchParams = await vendorsSearchParamsCache.parse(searchParams);
+	const parsedSearchParams =
+		await vendorsSearchParamsCache.parse(searchParams);
 
 	const [vendorsResult, assignees] = await Promise.all([
 		getVendors(orgId, parsedSearchParams),
@@ -53,16 +54,28 @@ export default async function Page({
 					sheetName="createVendorSheet"
 					faqs={[
 						{
-							questionKey: t("app_onboarding.vendors.faqs.question_1"),
-							answerKey: t("app_onboarding.vendors.faqs.answer_1"),
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_1",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_1",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.vendors.faqs.question_2"),
-							answerKey: t("app_onboarding.vendors.faqs.answer_2"),
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_2",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_2",
+							),
 						},
 						{
-							questionKey: t("app_onboarding.vendors.faqs.question_3"),
-							answerKey: t("app_onboarding.vendors.faqs.answer_3"),
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_3",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_3",
+							),
 						},
 					]}
 				/>

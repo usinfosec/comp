@@ -1,9 +1,9 @@
 "use client";
 
-import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
-import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
+import useSWR from "swr";
 import { chartConfig } from "../config";
+import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
 
 interface PoliciesAnalyticsData {
 	allTimeTotal: number;

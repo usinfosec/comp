@@ -165,13 +165,25 @@ export function NotificationCenter() {
 											<NotificationItem
 												key={notification.id}
 												id={notification.id}
-												markMessageAsRead={markMessageAsRead}
+												markMessageAsRead={
+													markMessageAsRead
+												}
 												setOpen={setOpen}
-												description={notification.payload.description}
-												createdAt={notification.createdAt}
-												recordId={notification.payload.recordId}
+												description={
+													notification.payload
+														.description
+												}
+												createdAt={
+													notification.createdAt
+												}
+												recordId={
+													notification.payload
+														.recordId
+												}
 												type={notification.payload.type}
-												from={notification.payload?.from}
+												from={
+													notification.payload?.from
+												}
 												to={notification.payload?.to}
 											/>
 										);
@@ -196,29 +208,51 @@ export function NotificationCenter() {
 					<TabsContent value="archive" className="mt-0">
 						{!archivedNotifications.length && (
 							<EmptyState
-								description={t("common.notifications.no_notifications")}
+								description={t(
+									"common.notifications.no_notifications",
+								)}
 							/>
 						)}
 
 						{archivedNotifications.length > 0 && (
 							<ScrollArea className="h-[490px]">
 								<div className="divide-y">
-									{archivedNotifications.map((notification) => {
-										return (
-											<NotificationItem
-												key={notification.id}
-												id={notification.id}
-												setOpen={setOpen}
-												description={notification.payload.description}
-												createdAt={notification.createdAt}
-												recordId={notification.payload.recordId}
-												type={notification.payload.type}
-												from={notification.payload?.from}
-												to={notification.payload?.to}
-												markMessageAsRead={markMessageAsRead}
-											/>
-										);
-									})}
+									{archivedNotifications.map(
+										(notification) => {
+											return (
+												<NotificationItem
+													key={notification.id}
+													id={notification.id}
+													setOpen={setOpen}
+													description={
+														notification.payload
+															.description
+													}
+													createdAt={
+														notification.createdAt
+													}
+													recordId={
+														notification.payload
+															.recordId
+													}
+													type={
+														notification.payload
+															.type
+													}
+													from={
+														notification.payload
+															?.from
+													}
+													to={
+														notification.payload?.to
+													}
+													markMessageAsRead={
+														markMessageAsRead
+													}
+												/>
+											);
+										},
+									)}
 								</div>
 							</ScrollArea>
 						)}

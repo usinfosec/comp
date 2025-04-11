@@ -12,9 +12,15 @@ import {
 import { useQueryState } from "nuqs";
 import * as React from "react";
 
-import { DataTableRangeFilter } from "./data-table-range-filter";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
+import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
+import { formatDate } from "@/lib/format";
+import { generateId } from "@/lib/id";
+import { getFiltersStateParser } from "@/lib/parsers";
+import type { ExtendedColumnFilter, FilterOperator } from "@/types/data-table";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Command,
 	CommandEmpty,
@@ -32,13 +38,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
-import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
-import { formatDate } from "@/lib/format";
-import { generateId } from "@/lib/id";
-import { getFiltersStateParser } from "@/lib/parsers";
-import { cn } from "@comp/ui/cn";
-import type { ExtendedColumnFilter, FilterOperator } from "@/types/data-table";
+import { DataTableRangeFilter } from "./data-table-range-filter";
 
 const FILTERS_KEY = "filters";
 const DEBOUNCE_MS = 300;
@@ -121,7 +121,9 @@ export function DataTableFilterMenu<TData>({
 			}
 
 			const filterValue =
-				column.columnDef.meta?.variant === "multiSelect" ? [value] : value;
+				column.columnDef.meta?.variant === "multiSelect"
+					? [value]
+					: value;
 
 			const newFilter: ExtendedColumnFilter<TData> = {
 				id: column.id as Extract<keyof TData, string>,
@@ -165,7 +167,10 @@ export function DataTableFilterMenu<TData>({
 			debouncedSetFilters((prevFilters) => {
 				const updatedFilters = prevFilters.map((filter) => {
 					if (filter.filterId === filterId) {
-						return { ...filter, ...updates } as ExtendedColumnFilter<TData>;
+						return {
+							...filter,
+							...updates,
+						} as ExtendedColumnFilter<TData>;
 					}
 					return filter;
 				});
@@ -268,12 +273,16 @@ export function DataTableFilterMenu<TData>({
 					className="w-full max-w-[var(--radix-popover-content-available-width)] origin-[var(--radix-popover-content-transform-origin)] p-0"
 					{...props}
 				>
-					<Command loop className="[&_[cmdk-input-wrapper]_svg]:hidden">
+					<Command
+						loop
+						className="[&_[cmdk-input-wrapper]_svg]:hidden"
+					>
 						<CommandInput
 							ref={inputRef}
 							placeholder={
 								selectedColumn
-									? (selectedColumn.columnDef.meta?.label ?? selectedColumn.id)
+									? (selectedColumn.columnDef.meta?.label ??
+										selectedColumn.id)
 									: "Search fields..."
 							}
 							value={inputValue}
@@ -284,17 +293,23 @@ export function DataTableFilterMenu<TData>({
 							{selectedColumn ? (
 								<>
 									{selectedColumn.columnDef.meta?.options && (
-										<CommandEmpty>No options found.</CommandEmpty>
+										<CommandEmpty>
+											No options found.
+										</CommandEmpty>
 									)}
 									<FilterValueSelector
 										column={selectedColumn}
 										value={inputValue}
-										onSelect={(value) => onFilterAdd(selectedColumn, value)}
+										onSelect={(value) =>
+											onFilterAdd(selectedColumn, value)
+										}
 									/>
 								</>
 							) : (
 								<>
-									<CommandEmpty>No fields found.</CommandEmpty>
+									<CommandEmpty>
+										No fields found.
+									</CommandEmpty>
 									<CommandGroup>
 										{columns.map((column) => (
 											<CommandItem
@@ -303,16 +318,20 @@ export function DataTableFilterMenu<TData>({
 												onSelect={() => {
 													setSelectedColumn(column);
 													setInputValue("");
-													requestAnimationFrame(() => {
-														inputRef.current?.focus();
-													});
+													requestAnimationFrame(
+														() => {
+															inputRef.current?.focus();
+														},
+													);
 												}}
 											>
-												{column.columnDef.meta?.icon && (
+												{column.columnDef.meta
+													?.icon && (
 													<column.columnDef.meta.icon />
 												)}
 												<span className="truncate">
-													{column.columnDef.meta?.label ?? column.id}
+													{column.columnDef.meta
+														?.label ?? column.id}
 												</span>
 											</CommandItem>
 										))}
@@ -369,7 +388,11 @@ function DataTableFilterItem<TData>({
 					return;
 				}
 
-				if (showFieldSelector || showOperatorSelector || showValueSelector) {
+				if (
+					showFieldSelector ||
+					showOperatorSelector ||
+					showValueSelector
+				) {
 					return;
 				}
 
@@ -394,7 +417,10 @@ function DataTableFilterItem<TData>({
 				className="flex h-8 items-center rounded-md bg-background"
 				onKeyDown={onItemKeyDown}
 			>
-				<Popover open={showFieldSelector} onOpenChange={setShowFieldSelector}>
+				<Popover
+					open={showFieldSelector}
+					onOpenChange={setShowFieldSelector}
+				>
 					<PopoverTrigger asChild>
 						<Button
 							variant="ghost"
@@ -421,14 +447,28 @@ function DataTableFilterItem<TData>({
 											key={column.id}
 											value={column.id}
 											onSelect={() => {
-												onFilterUpdate(filter.filterId, {
-													id: column.id as Extract<keyof TData, string>,
-													variant: column.columnDef.meta?.variant ?? "text",
-													operator: getDefaultFilterOperator(
-														column.columnDef.meta?.variant ?? "text",
-													),
-													value: "",
-												});
+												onFilterUpdate(
+													filter.filterId,
+													{
+														id: column.id as Extract<
+															keyof TData,
+															string
+														>,
+														variant:
+															column.columnDef
+																.meta
+																?.variant ??
+															"text",
+														operator:
+															getDefaultFilterOperator(
+																column.columnDef
+																	.meta
+																	?.variant ??
+																	"text",
+															),
+														value: "",
+													},
+												);
 
 												setShowFieldSelector(false);
 											}}
@@ -437,12 +477,15 @@ function DataTableFilterItem<TData>({
 												<column.columnDef.meta.icon />
 											)}
 											<span className="truncate">
-												{column.columnDef.meta?.label ?? column.id}
+												{column.columnDef.meta?.label ??
+													column.id}
 											</span>
 											<Check
 												className={cn(
 													"ml-auto",
-													column.id === filter.id ? "opacity-100" : "opacity-0",
+													column.id === filter.id
+														? "opacity-100"
+														: "opacity-0",
 												)}
 											/>
 										</CommandItem>
@@ -529,7 +572,10 @@ function FilterValueSelector<TData>({
 					<CommandItem value="true" onSelect={() => onSelect("true")}>
 						True
 					</CommandItem>
-					<CommandItem value="false" onSelect={() => onSelect("false")}>
+					<CommandItem
+						value="false"
+						onSelect={() => onSelect("false")}
+					>
 						False
 					</CommandItem>
 				</CommandGroup>
@@ -564,7 +610,9 @@ function FilterValueSelector<TData>({
 					initialFocus
 					mode="single"
 					selected={value ? new Date(value) : undefined}
-					onSelect={(date) => onSelect(date?.getTime().toString() ?? "")}
+					onSelect={(date) =>
+						onSelect(date?.getTime().toString() ?? "")
+					}
 				/>
 			);
 
@@ -586,7 +634,9 @@ function FilterValueSelector<TData>({
 						) : (
 							<>
 								<BadgeCheck />
-								<span className="truncate">Filter by &quot;{value}&quot;</span>
+								<span className="truncate">
+									Filter by &quot;{value}&quot;
+								</span>
 							</>
 						)}
 					</CommandItem>
@@ -633,7 +683,8 @@ function onFilterInputRender<TData>({
 		case "number":
 		case "range": {
 			if (
-				(filter.variant === "range" && filter.operator === "isBetween") ||
+				(filter.variant === "range" &&
+					filter.operator === "isBetween") ||
 				filter.operator === "isBetween"
 			) {
 				return (
@@ -655,11 +706,17 @@ function onFilterInputRender<TData>({
 					id={inputId}
 					type={isNumber ? "number" : "text"}
 					inputMode={isNumber ? "numeric" : undefined}
-					placeholder={column.columnDef.meta?.placeholder ?? "Enter value..."}
+					placeholder={
+						column.columnDef.meta?.placeholder ?? "Enter value..."
+					}
 					className="h-full w-24 rounded-none px-1.5"
-					defaultValue={typeof filter.value === "string" ? filter.value : ""}
+					defaultValue={
+						typeof filter.value === "string" ? filter.value : ""
+					}
 					onChange={(event) =>
-						onFilterUpdate(filter.filterId, { value: event.target.value })
+						onFilterUpdate(filter.filterId, {
+							value: event.target.value,
+						})
 					}
 				/>
 			);
@@ -672,7 +729,9 @@ function onFilterInputRender<TData>({
 				<Select
 					open={showValueSelector}
 					onOpenChange={setShowValueSelector}
-					value={typeof filter.value === "string" ? filter.value : "true"}
+					value={
+						typeof filter.value === "string" ? filter.value : "true"
+					}
 					onValueChange={(value: "true" | "false") =>
 						onFilterUpdate(filter.filterId, { value })
 					}
@@ -682,7 +741,9 @@ function onFilterInputRender<TData>({
 						aria-controls={inputListboxId}
 						className="rounded-none bg-transparent px-1.5 py-0.5 [&_svg]:hidden"
 					>
-						<SelectValue placeholder={filter.value ? "True" : "False"} />
+						<SelectValue
+							placeholder={filter.value ? "True" : "False"}
+						/>
 					</SelectTrigger>
 					<SelectContent id={inputListboxId}>
 						<SelectItem value="true">True</SelectItem>
@@ -706,7 +767,10 @@ function onFilterInputRender<TData>({
 			);
 
 			return (
-				<Popover open={showValueSelector} onOpenChange={setShowValueSelector}>
+				<Popover
+					open={showValueSelector}
+					onOpenChange={setShowValueSelector}
+				>
 					<PopoverTrigger asChild>
 						<Button
 							id={inputId}
@@ -724,15 +788,18 @@ function onFilterInputRender<TData>({
 							) : (
 								<>
 									<div className="-space-x-2 flex items-center rtl:space-x-reverse">
-										{selectedOptions.map((selectedOption) =>
-											selectedOption.icon ? (
-												<div
-													key={selectedOption.value}
-													className="rounded-full border bg-background p-0.5"
-												>
-													<selectedOption.icon className="size-3.5" />
-												</div>
-											) : null,
+										{selectedOptions.map(
+											(selectedOption) =>
+												selectedOption.icon ? (
+													<div
+														key={
+															selectedOption.value
+														}
+														className="rounded-full border bg-background p-0.5"
+													>
+														<selectedOption.icon className="size-3.5" />
+													</div>
+												) : null,
 										)}
 									</div>
 									<span className="truncate">
@@ -760,21 +827,39 @@ function onFilterInputRender<TData>({
 											value={option.value}
 											onSelect={() => {
 												const value =
-													filter.variant === "multiSelect"
-														? selectedValues.includes(option.value)
-															? selectedValues.filter((v) => v !== option.value)
-															: [...selectedValues, option.value]
+													filter.variant ===
+													"multiSelect"
+														? selectedValues.includes(
+																option.value,
+															)
+															? selectedValues.filter(
+																	(v) =>
+																		v !==
+																		option.value,
+																)
+															: [
+																	...selectedValues,
+																	option.value,
+																]
 														: option.value;
-												onFilterUpdate(filter.filterId, { value });
+												onFilterUpdate(
+													filter.filterId,
+													{ value },
+												);
 											}}
 										>
 											{option.icon && <option.icon />}
-											<span className="truncate">{option.label}</span>
-											{filter.variant === "multiSelect" && (
+											<span className="truncate">
+												{option.label}
+											</span>
+											{filter.variant ===
+												"multiSelect" && (
 												<Check
 													className={cn(
 														"ml-auto",
-														selectedValues.includes(option.value)
+														selectedValues.includes(
+															option.value,
+														)
 															? "opacity-100"
 															: "opacity-0",
 													)}
@@ -808,7 +893,10 @@ function onFilterInputRender<TData>({
 						: "Pick date...";
 
 			return (
-				<Popover open={showValueSelector} onOpenChange={setShowValueSelector}>
+				<Popover
+					open={showValueSelector}
+					onOpenChange={setShowValueSelector}
+				>
 					<PopoverTrigger asChild>
 						<Button
 							id={inputId}
@@ -836,8 +924,12 @@ function onFilterInputRender<TData>({
 								selected={
 									dateValue.length === 2
 										? {
-												from: new Date(Number(dateValue[0])),
-												to: new Date(Number(dateValue[1])),
+												from: new Date(
+													Number(dateValue[0]),
+												),
+												to: new Date(
+													Number(dateValue[1]),
+												),
 											}
 										: {
 												from: new Date(),
@@ -848,8 +940,13 @@ function onFilterInputRender<TData>({
 									onFilterUpdate(filter.filterId, {
 										value: date
 											? [
-													(date.from?.getTime() ?? "").toString(),
-													(date.to?.getTime() ?? "").toString(),
+													(
+														date.from?.getTime() ??
+														""
+													).toString(),
+													(
+														date.to?.getTime() ?? ""
+													).toString(),
 												]
 											: [],
 									});
@@ -860,11 +957,15 @@ function onFilterInputRender<TData>({
 								mode="single"
 								initialFocus
 								selected={
-									dateValue[0] ? new Date(Number(dateValue[0])) : undefined
+									dateValue[0]
+										? new Date(Number(dateValue[0]))
+										: undefined
 								}
 								onSelect={(date) => {
 									onFilterUpdate(filter.filterId, {
-										value: (date?.getTime() ?? "").toString(),
+										value: (
+											date?.getTime() ?? ""
+										).toString(),
 									});
 								}}
 							/>

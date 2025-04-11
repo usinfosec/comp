@@ -27,7 +27,9 @@ export default async function Loading() {
 				<TabsContent value="members">
 					<Card>
 						<CardHeader>
-							<CardTitle>{t("settings.team.members.title")}</CardTitle>
+							<CardTitle>
+								{t("settings.team.members.title")}
+							</CardTitle>
 							<CardDescription />
 						</CardHeader>
 						<CardContent>
@@ -40,7 +42,9 @@ export default async function Loading() {
 					<div className="flex flex-col gap-4">
 						<Card>
 							<CardHeader className="blur-sm">
-								<CardTitle>{t("settings.team.invite.title")}</CardTitle>
+								<CardTitle>
+									{t("settings.team.invite.title")}
+								</CardTitle>
 								<CardDescription>
 									{t("settings.team.invite.description")}
 								</CardDescription>

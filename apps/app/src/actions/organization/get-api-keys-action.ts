@@ -56,7 +56,9 @@ export const getApiKeysAction = async (): Promise<
 				...key,
 				createdAt: key.createdAt.toISOString(),
 				expiresAt: key.expiresAt ? key.expiresAt.toISOString() : null,
-				lastUsedAt: key.lastUsedAt ? key.lastUsedAt.toISOString() : null,
+				lastUsedAt: key.lastUsedAt
+					? key.lastUsedAt.toISOString()
+					: null,
 			})),
 		};
 	} catch (error) {

@@ -1,10 +1,10 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { Policy } from "@comp/db/types";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { formatDate } from "@/lib/format";
 import { StatusIndicator } from "@/components/status-indicator";
+import { formatDate } from "@/lib/format";
+import { Policy } from "@comp/db/types";
+import { ColumnDef } from "@tanstack/react-table";
 
 export function getPolicyColumns(): ColumnDef<Policy>[] {
 	return [

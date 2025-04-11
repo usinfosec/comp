@@ -113,7 +113,10 @@ export function StatusIndicator({
 
 	return (
 		<div className={cn("flex items-center gap-2", className)}>
-			<div className={cn("size-2.5")} style={{ backgroundColor: color }} />
+			<div
+				className={cn("size-2.5")}
+				style={{ backgroundColor: color }}
+			/>
 			{withLabel && label ? label : null}
 		</div>
 	);

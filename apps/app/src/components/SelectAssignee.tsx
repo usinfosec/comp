@@ -1,14 +1,14 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@comp/ui/avatar";
+import { db } from "@comp/db";
+import { Member, User } from "@comp/db/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import {
 	Select,
-	SelectTrigger,
 	SelectContent,
 	SelectItem,
+	SelectTrigger,
 } from "@comp/ui/select";
 import { UserIcon } from "lucide-react";
-import { Member, User } from "@comp/db/types";
-import { useState, useEffect } from "react";
-import { db } from "@comp/db";
+import { useEffect, useState } from "react";
 
 interface SelectAssigneeProps {
 	assigneeId: string | null;
@@ -93,11 +93,14 @@ export const SelectAssignee = ({
 						<div className="flex items-center gap-2">
 							<Avatar className="h-5 w-5 shrink-0">
 								<AvatarImage
-									src={getImageUrl(selectedAssignee.user.image)}
+									src={getImageUrl(
+										selectedAssignee.user.image,
+									)}
 									alt={selectedAssignee.user.name || "User"}
 								/>
 								<AvatarFallback>
-									{selectedAssignee.user.name?.charAt(0) || "?"}
+									{selectedAssignee.user.name?.charAt(0) ||
+										"?"}
 								</AvatarFallback>
 							</Avatar>
 							<span className="truncate">
@@ -117,7 +120,10 @@ export const SelectAssignee = ({
 					sideOffset={5}
 					align="start"
 				>
-					<SelectItem value="none" className="w-full p-0 overflow-hidden">
+					<SelectItem
+						value="none"
+						className="w-full p-0 overflow-hidden"
+					>
 						<div className="flex items-center gap-2 py-1.5 px-3 w-full">
 							{renderNoneAvatar()}
 							<span>None</span>

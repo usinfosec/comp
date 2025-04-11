@@ -1,7 +1,7 @@
 "use client";
 
-import { pie, arc, type PieArcDatum } from "d3";
 import { ClientTooltip, TooltipTrigger } from "@comp/ui/chart-tooltip";
+import { type PieArcDatum, arc, pie } from "d3";
 
 interface ChartItem {
 	name: string;
@@ -79,8 +79,15 @@ export function DonutChart({
 						return (
 							<clipPath key={`clip-${keyBase}`} id={clipId}>
 								<path d={arcClip(d) || undefined} />
-								<linearGradient key={`gradient-${keyBase}`} id={gradientId}>
-									<stop offset="55%" stopColor={colors[i]} stopOpacity={0.95} />
+								<linearGradient
+									key={`gradient-${keyBase}`}
+									id={gradientId}
+								>
+									<stop
+										offset="55%"
+										stopColor={colors[i]}
+										stopOpacity={0.95}
+									/>
 								</linearGradient>
 							</clipPath>
 						);
@@ -99,7 +106,9 @@ export function DonutChart({
 						centroid[1] -= 0;
 					}
 					return (
-						<ClientTooltip key={`tooltip-${d.data.name}-${d.data.value}`}>
+						<ClientTooltip
+							key={`tooltip-${d.data.name}-${d.data.value}`}
+						>
 							<TooltipTrigger>
 								<g key={`slice-${d.data.name}-${d.data.value}`}>
 									<g clipPath={`url(#donut-c0-clip-${i})`}>

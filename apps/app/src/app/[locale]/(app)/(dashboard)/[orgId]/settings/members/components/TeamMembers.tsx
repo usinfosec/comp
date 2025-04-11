@@ -1,12 +1,12 @@
-import { cache } from "react";
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
+import { headers } from "next/headers";
+import { cache } from "react";
 import { InviteMemberForm } from "./InviteMemberForm";
 import { MembersList } from "./MembersList";
 import { PendingInvitations } from "./PendingInvitations";
-import { headers } from "next/headers";
 
 export async function TeamMembers() {
 	const t = await getI18n();
@@ -32,7 +32,9 @@ export async function TeamMembers() {
 
 			<TabsContent value="invite">
 				<div className="flex flex-col gap-4">
-					<PendingInvitations pendingInvitations={pendingInvitations} />
+					<PendingInvitations
+						pendingInvitations={pendingInvitations}
+					/>
 					<InviteMemberForm />
 				</div>
 			</TabsContent>

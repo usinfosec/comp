@@ -79,23 +79,31 @@ export function UpdateTaskForm({
 						name="assigneeId"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("common.assignee.label")}</FormLabel>
+								<FormLabel>
+									{t("common.assignee.label")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										value={field.value ?? ""}
 										onValueChange={field.onChange}
-										onOpenChange={() => form.handleSubmit(onSubmit)}
+										onOpenChange={() =>
+											form.handleSubmit(onSubmit)
+										}
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("common.assignee.placeholder")}
+												placeholder={t(
+													"common.assignee.placeholder",
+												)}
 											/>
 										</SelectTrigger>
 										<SelectContent>
 											<SelectUser
 												isLoading={false}
 												onSelect={field.onChange}
-												selectedId={field.value ?? undefined}
+												selectedId={
+													field.value ?? undefined
+												}
 												users={users}
 											/>
 										</SelectContent>
@@ -110,24 +118,40 @@ export function UpdateTaskForm({
 						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("risk.tasks.form.status")}</FormLabel>
+								<FormLabel>
+									{t("risk.tasks.form.status")}
+								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
+									<Select
+										value={field.value}
+										onValueChange={field.onChange}
+									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t("risk.tasks.form.status_placeholder")}
+												placeholder={t(
+													"risk.tasks.form.status_placeholder",
+												)}
 											>
 												{field.value && (
-													<StatusIndicator status={field.value} />
+													<StatusIndicator
+														status={field.value}
+													/>
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(TaskStatus).map((status) => (
-												<SelectItem key={status} value={status}>
-													<StatusIndicator status={status} />
-												</SelectItem>
-											))}
+											{Object.values(TaskStatus).map(
+												(status) => (
+													<SelectItem
+														key={status}
+														value={status}
+													>
+														<StatusIndicator
+															status={status}
+														/>
+													</SelectItem>
+												),
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -141,7 +165,9 @@ export function UpdateTaskForm({
 						name="dueDate"
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
-								<FormLabel>{t("risk.tasks.form.due_date")}</FormLabel>
+								<FormLabel>
+									{t("risk.tasks.form.due_date")}
+								</FormLabel>
 								<Popover>
 									<PopoverTrigger asChild>
 										<FormControl>
@@ -149,24 +175,32 @@ export function UpdateTaskForm({
 												variant={"outline"}
 												className={cn(
 													"pl-3 text-left font-normal",
-													!field.value && "text-muted-foreground",
+													!field.value &&
+														"text-muted-foreground",
 												)}
 											>
 												{field.value ? (
 													format(field.value, "PPP")
 												) : (
-													<span>{t("common.date.pick")}</span>
+													<span>
+														{t("common.date.pick")}
+													</span>
 												)}
 												<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 											</Button>
 										</FormControl>
 									</PopoverTrigger>
-									<PopoverContent className="w-auto p-0" align="start">
+									<PopoverContent
+										className="w-auto p-0"
+										align="start"
+									>
 										<Calendar
 											mode="single"
 											selected={field.value}
 											onSelect={field.onChange}
-											disabled={(date) => date <= new Date()}
+											disabled={(date) =>
+												date <= new Date()
+											}
 											initialFocus
 										/>
 									</PopoverContent>

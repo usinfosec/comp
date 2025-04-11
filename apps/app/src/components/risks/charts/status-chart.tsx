@@ -1,8 +1,8 @@
 "use client";
 
-import React, { type CSSProperties } from "react";
-import { scaleBand, scaleLinear, max, format } from "d3";
 import { ClientTooltip } from "@comp/ui/chart-tooltip";
+import { format, max, scaleBand, scaleLinear } from "d3";
+import React, { type CSSProperties } from "react";
 
 const STATUS_COLORS = {
 	open: "bg-[var(--chart-open)]",
@@ -27,14 +27,16 @@ export function StatusChart({ data }: StatusChartProps) {
 		const result = inputData.map((item) => ({
 			...item,
 			name:
-				item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase(),
+				item.name.charAt(0).toUpperCase() +
+				item.name.slice(1).toLowerCase(),
 		}));
 
 		const statusNames = Object.keys(STATUS_COLORS);
 
 		// Add missing statuses with 0 value
 		for (const status of statusNames) {
-			const capitalized = status.charAt(0).toUpperCase() + status.slice(1);
+			const capitalized =
+				status.charAt(0).toUpperCase() + status.slice(1);
 			if (!result.some((item) => item.name.toLowerCase() === status)) {
 				result.push({ name: capitalized, value: 0 });
 			}
@@ -134,13 +136,16 @@ export function StatusChart({ data }: StatusChartProps) {
 				>
 					{sortedData.map((d, index) => {
 						const barWidth = d.value === 0 ? 3 : xScale(d.value);
-						const fixedBarHeightPercentage = (barHeight / chartHeight) * 100;
+						const fixedBarHeightPercentage =
+							(barHeight / chartHeight) * 100;
 
 						// Calculate exact position to align with labels
 						// Get center point of the band for this item
-						const bandCenter = yScale(d.name)! + yScale.bandwidth() / 2;
+						const bandCenter =
+							yScale(d.name)! + yScale.bandwidth() / 2;
 						// Position bar so its center aligns with the band center
-						const barTopPosition = bandCenter - fixedBarHeightPercentage / 2;
+						const barTopPosition =
+							bandCenter - fixedBarHeightPercentage / 2;
 
 						return (
 							<div
@@ -191,7 +196,9 @@ export function StatusChart({ data }: StatusChartProps) {
 							}}
 							className="absolute text-xs -translate-x-1/2 tabular-nums text-muted-foreground"
 						>
-							{Number.isInteger(value) ? format(",")(value) : value.toFixed(2)}
+							{Number.isInteger(value)
+								? format(",")(value)
+								: value.toFixed(2)}
 						</div>
 					))}
 				</div>

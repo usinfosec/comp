@@ -24,7 +24,7 @@ import {
 } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { Label } from "@comp/ui/label";
-import { Loader2, AlertTriangle } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect } from "next/navigation";
 import { useState } from "react";
@@ -79,7 +79,9 @@ export function DeleteOrganization({
 								{t("settings.general.org_delete_alert_title")}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t("settings.general.org_delete_alert_description")}
+								{t(
+									"settings.general.org_delete_alert_description",
+								)}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 
@@ -105,7 +107,10 @@ export function DeleteOrganization({
 										organizationId,
 									})
 								}
-								disabled={value !== t("settings.general.delete_confirm")}
+								disabled={
+									value !==
+									t("settings.general.delete_confirm")
+								}
 								className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
 							>
 								{deleteOrganization.status === "executing" ? (

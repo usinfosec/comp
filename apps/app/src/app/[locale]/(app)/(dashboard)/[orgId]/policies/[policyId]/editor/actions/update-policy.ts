@@ -4,8 +4,8 @@ import { authActionClient } from "@/actions/safe-action";
 import type { ActionResponse } from "@/actions/types";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { appErrors, updatePolicySchema } from "../types";
 import { headers } from "next/headers";
+import { appErrors, updatePolicySchema } from "../types";
 
 // Helper function to clean the content by removing function references
 function cleanContent(content: any): any {
@@ -74,7 +74,10 @@ export const updatePolicy = authActionClient
 				// Clean the content before processing
 				const cleanedContent = cleanContent(content);
 
-				if (typeof cleanedContent === "object" && cleanedContent !== null) {
+				if (
+					typeof cleanedContent === "object" &&
+					cleanedContent !== null
+				) {
 					if (
 						"type" in cleanedContent &&
 						cleanedContent.type === "doc" &&

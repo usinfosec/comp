@@ -1,10 +1,10 @@
 "use client";
 
-import type { Table } from "@tanstack/react-table";
+import { cn } from "@comp/ui/cn";
 import { TableHead, TableHeader, TableRow } from "@comp/ui/table";
+import type { Table } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { cn } from "@comp/ui/cn";
 
 interface DataTableHeaderProps<TData> {
 	table: Table<TData>;
@@ -25,7 +25,8 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
 								<div
 									className={cn(
 										"flex items-center overflow-hidden",
-										header.column.getCanSort() && "cursor-pointer select-none",
+										header.column.getCanSort() &&
+											"cursor-pointer select-none",
 									)}
 									style={{ width: header.getSize() - 32 }}
 									onClick={header.column.getToggleSortingHandler()}
@@ -35,8 +36,12 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
 										header.getContext(),
 									)}
 									{{
-										asc: <ArrowUp className="ml-2 h-4 w-4" />,
-										desc: <ArrowDown className="ml-2 h-4 w-4" />,
+										asc: (
+											<ArrowUp className="ml-2 h-4 w-4" />
+										),
+										desc: (
+											<ArrowDown className="ml-2 h-4 w-4" />
+										),
 									}[header.column.getIsSorted() as string] ??
 										(header.column.getCanSort() && (
 											<ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />
@@ -47,8 +52,8 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
 								onMouseDown={header.getResizeHandler()}
 								onTouchStart={header.getResizeHandler()}
 								className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none bg-border opacity-0 hover:opacity-100 ${
-									table.getState().columnSizingInfo.isResizingColumn ===
-									header.column.id
+									table.getState().columnSizingInfo
+										.isResizingColumn === header.column.id
 										? "bg-primary opacity-100"
 										: ""
 								}`}

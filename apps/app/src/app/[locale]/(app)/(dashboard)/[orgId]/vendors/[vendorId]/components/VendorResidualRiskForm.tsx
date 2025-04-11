@@ -72,14 +72,18 @@ export function VendorResidualRiskForm({
 					name="probability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("risk.metrics.probability")}</FormLabel>
+							<FormLabel>
+								{t("risk.metrics.probability")}
+							</FormLabel>
 							<FormControl>
 								<Slider
 									min={1}
 									max={10}
 									step={1}
 									value={[field.value]}
-									onValueChange={(value) => field.onChange(value[0])}
+									onValueChange={(value) =>
+										field.onChange(value[0])
+									}
 									className="py-4"
 								/>
 							</FormControl>
@@ -102,7 +106,9 @@ export function VendorResidualRiskForm({
 									max={10}
 									step={1}
 									value={[field.value]}
-									onValueChange={(value) => field.onChange(value[0])}
+									onValueChange={(value) =>
+										field.onChange(value[0])
+									}
 									className="py-4"
 								/>
 							</FormControl>

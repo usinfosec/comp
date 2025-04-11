@@ -84,7 +84,9 @@ export function InviteMemberForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										{t("settings.team.invite.form.email.label")}
+										{t(
+											"settings.team.invite.form.email.label",
+										)}
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -109,7 +111,9 @@ export function InviteMemberForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										{t("settings.team.invite.form.role.label")}
+										{t(
+											"settings.team.invite.form.role.label",
+										)}
 									</FormLabel>
 									<Select
 										onValueChange={field.onChange}
@@ -126,13 +130,19 @@ export function InviteMemberForm() {
 										</FormControl>
 										<SelectContent>
 											<SelectItem value="owner">
-												{t("settings.team.members.role.owner")}
+												{t(
+													"settings.team.members.role.owner",
+												)}
 											</SelectItem>
 											<SelectItem value="admin">
-												{t("settings.team.members.role.admin")}
+												{t(
+													"settings.team.members.role.admin",
+												)}
 											</SelectItem>
 											<SelectItem value="auditor">
-												{t("settings.team.members.role.auditor")}
+												{t(
+													"settings.team.members.role.auditor",
+												)}
 											</SelectItem>
 										</SelectContent>
 									</Select>

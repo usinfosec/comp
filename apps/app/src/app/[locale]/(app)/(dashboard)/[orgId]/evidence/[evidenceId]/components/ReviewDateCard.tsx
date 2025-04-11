@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardContent } from "@comp/ui/card";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import { format } from "date-fns";
 import type { Frequency } from "@comp/db/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { format } from "date-fns";
 
 export function ReviewDateCard({
 	lastPublishedAt,

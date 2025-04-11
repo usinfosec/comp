@@ -14,7 +14,8 @@ export const policies = {
 		title: "Policy Overview",
 		form: {
 			update_policy: "Update Policy",
-			update_policy_description: "Update the policy title or description.",
+			update_policy_description:
+				"Update the policy title or description.",
 			update_policy_success: "Policy updated successfully",
 			update_policy_error: "Failed to update policy",
 			update_policy_title: "Policy Name",

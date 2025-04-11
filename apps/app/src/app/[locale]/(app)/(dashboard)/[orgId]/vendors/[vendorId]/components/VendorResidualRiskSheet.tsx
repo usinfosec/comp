@@ -1,6 +1,8 @@
 "use client";
 
+import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
 import { useI18n } from "@/locales/client";
+import type { Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -13,8 +15,6 @@ import {
 	SheetTitle,
 } from "@comp/ui/sheet";
 import { X } from "lucide-react";
-import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
-import type { Vendor } from "@comp/db/types";
 import { useQueryState } from "nuqs";
 
 export function VendorResidualRiskSheet({
@@ -38,7 +38,9 @@ export function VendorResidualRiskSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("vendors.risks.update_residual_risk")}</SheetTitle>
+							<SheetTitle>
+								{t("vendors.risks.update_residual_risk")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
@@ -49,14 +51,18 @@ export function VendorResidualRiskSheet({
 							</Button>
 						</div>
 						<SheetDescription>
-							{t("vendors.risks.update_residual_risk_description")}
+							{t(
+								"vendors.risks.update_residual_risk_description",
+							)}
 						</SheetDescription>
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
 						<ResidualRiskForm
 							vendorId={vendorId}
-							initialProbability={initialRisk?.residualProbability}
+							initialProbability={
+								initialRisk?.residualProbability
+							}
 							initialImpact={initialRisk?.residualImpact}
 						/>
 					</ScrollArea>

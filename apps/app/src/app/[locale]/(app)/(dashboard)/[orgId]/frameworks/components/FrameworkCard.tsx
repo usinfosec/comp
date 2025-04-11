@@ -45,20 +45,17 @@ export function FrameworkCard({
 		if (score >= 95)
 			return {
 				label: t("common.status.compliant"),
-				color:
-					"bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+				color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
 			};
 		if (score >= 80)
 			return {
 				label: "Nearly Compliant",
-				color:
-					"bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+				color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
 			};
 		if (score >= 50)
 			return {
 				label: t("common.status.in_progress"),
-				color:
-					"bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+				color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
 			};
 		return {
 			label: "Needs Attention",
@@ -109,7 +106,10 @@ export function FrameworkCard({
 				<CardHeader className="flex-shrink-0">
 					<CardTitle className="flex items-center">
 						{frameworkDetails.name}
-						<Badge variant="outline" className="ml-2 text-xs font-normal">
+						<Badge
+							variant="outline"
+							className="ml-2 text-xs font-normal"
+						>
 							{frameworkDetails.version}
 						</Badge>
 					</CardTitle>
@@ -118,7 +118,12 @@ export function FrameworkCard({
 							<p className="text-sm text-muted-foreground line-clamp-2">
 								{frameworkDetails.description}
 							</p>
-							<Badge className={cn("hidden md:block", statusBadge.color)}>
+							<Badge
+								className={cn(
+									"hidden md:block",
+									statusBadge.color,
+								)}
+							>
 								{statusBadge.label}
 							</Badge>
 						</div>
@@ -144,7 +149,9 @@ export function FrameworkCard({
 								<div
 									className={cn(
 										"h-full transition-all",
-										getComplianceProgressColor(complianceScore),
+										getComplianceProgressColor(
+											complianceScore,
+										),
 									)}
 									style={{ width: `${complianceScore}%` }}
 								/>
@@ -168,7 +175,9 @@ export function FrameworkCard({
 							<div className="flex items-center text-muted-foreground">
 								<ClipboardCheck className="h-3.5 w-3.5 mr-1" />
 								<span className="text-xs">
-									{t("frameworks.controls.statuses.completed")}
+									{t(
+										"frameworks.controls.statuses.completed",
+									)}
 								</span>
 							</div>
 							<p className="font-medium text-sm">
@@ -179,7 +188,9 @@ export function FrameworkCard({
 							<div className="flex items-center text-muted-foreground">
 								<Clock className="h-3.5 w-3.5 mr-1" />
 								<span className="text-xs">
-									{t("frameworks.controls.statuses.in_progress")}
+									{t(
+										"frameworks.controls.statuses.in_progress",
+									)}
 								</span>
 							</div>
 							<p className="font-medium text-sm">

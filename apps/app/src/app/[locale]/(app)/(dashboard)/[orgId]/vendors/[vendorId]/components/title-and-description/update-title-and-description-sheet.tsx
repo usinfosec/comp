@@ -39,7 +39,9 @@ export function UpdateTitleAndDescriptionSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("vendors.form.update_vendor")}</SheetTitle>
+							<SheetTitle>
+								{t("vendors.form.update_vendor")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"

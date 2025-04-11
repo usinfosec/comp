@@ -1,17 +1,17 @@
-import { cache } from "react";
-import { auth } from "@/utils/auth";
 import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
 import {
-	trainingVideos as trainingVideosData,
 	TrainingVideo,
+	trainingVideos as trainingVideosData,
 } from "@comp/data";
 import { db } from "@comp/db";
 import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { notFound, redirect } from "next/navigation";
-import { EmployeeDetails } from "./components/EmployeeDetails";
 import { headers } from "next/headers";
+import { notFound, redirect } from "next/navigation";
+import { cache } from "react";
+import { EmployeeDetails } from "./components/EmployeeDetails";
 
 export default async function EmployeeDetailsPage({
 	params,

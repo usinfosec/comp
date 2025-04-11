@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
-import { FileUpload } from "./FileUpload";
-import { useFileUpload } from "../hooks/useFileUpload";
+import { useCallback, useEffect, useState } from "react";
 import { useFileDelete } from "../hooks/useFileDelete";
 import { useFilePreview } from "../hooks/useFilePreview";
+import { useFileUpload } from "../hooks/useFileUpload";
 import { FileCard } from "./FileCard";
+import { FileUpload } from "./FileUpload";
 
 interface FileSectionProps {
 	evidenceId: string;
@@ -47,7 +47,10 @@ export function FileSection({
 		async (fileUrl: string) => {
 			try {
 				// Skip if already loading or loaded
-				if (previewStates[fileUrl]?.isLoading || previewStates[fileUrl]?.url) {
+				if (
+					previewStates[fileUrl]?.isLoading ||
+					previewStates[fileUrl]?.url
+				) {
 					return;
 				}
 
@@ -95,7 +98,8 @@ export function FileSection({
 			<div className="flex items-center justify-between">
 				<h3 className="font-medium">Files</h3>
 				<span className="text-xs text-muted-foreground">
-					{fileUrls.length} file{fileUrls.length !== 1 ? "s" : ""} uploaded
+					{fileUrls.length} file{fileUrls.length !== 1 ? "s" : ""}{" "}
+					uploaded
 				</span>
 			</div>
 

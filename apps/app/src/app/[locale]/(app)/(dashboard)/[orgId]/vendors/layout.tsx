@@ -1,8 +1,8 @@
-import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import { getI18n } from "@/locales/server";
 
 export default async function Layout({
 	children,
@@ -22,7 +22,10 @@ export default async function Layout({
 			<Suspense>
 				<SecondaryMenu
 					items={[
-						{ path: `/${orgId}/vendors`, label: t("vendors.dashboard.title") },
+						{
+							path: `/${orgId}/vendors`,
+							label: t("vendors.dashboard.title"),
+						},
 					]}
 				/>
 

@@ -82,7 +82,9 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 			<Card>
 				<CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 					<div>
-						<CardTitle>{t("settings.api_keys.list_title")}</CardTitle>
+						<CardTitle>
+							{t("settings.api_keys.list_title")}
+						</CardTitle>
 						<CardDescription>
 							{t("settings.api_keys.list_description")}
 						</CardDescription>
@@ -105,7 +107,9 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 							<Table>
 								<TableHeader>
 									<TableRow>
-										<TableHead>{t("settings.api_keys.name")}</TableHead>
+										<TableHead>
+											{t("settings.api_keys.name")}
+										</TableHead>
 										<TableHead className="hidden sm:table-cell">
 											{t("settings.api_keys.created")}
 										</TableHead>
@@ -127,14 +131,26 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 												<div>
 													{apiKey.name}
 													<div className="sm:hidden mt-1 text-xs text-muted-foreground">
-														{t("settings.api_keys.created")}:{" "}
-														{formatDate(apiKey.createdAt)}
+														{t(
+															"settings.api_keys.created",
+														)}
+														:{" "}
+														{formatDate(
+															apiKey.createdAt,
+														)}
 													</div>
 													<div className="md:hidden mt-1 text-xs text-muted-foreground">
-														{t("settings.api_keys.expires")}:{" "}
+														{t(
+															"settings.api_keys.expires",
+														)}
+														:{" "}
 														{apiKey.expiresAt
-															? formatDate(apiKey.expiresAt)
-															: t("settings.api_keys.never")}
+															? formatDate(
+																	apiKey.expiresAt,
+																)
+															: t(
+																	"settings.api_keys.never",
+																)}
 													</div>
 												</div>
 											</TableCell>
@@ -143,21 +159,38 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
 												{apiKey.expiresAt
-													? formatDate(apiKey.expiresAt)
-													: t("settings.api_keys.never")}
+													? formatDate(
+															apiKey.expiresAt,
+														)
+													: t(
+															"settings.api_keys.never",
+														)}
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
 												{apiKey.lastUsedAt
-													? formatDate(apiKey.lastUsedAt)
-													: t("settings.api_keys.never_used")}
+													? formatDate(
+															apiKey.lastUsedAt,
+														)
+													: t(
+															"settings.api_keys.never_used",
+														)}
 											</TableCell>
 											<TableCell className="text-right">
 												<Button
 													variant="ghost"
 													size="icon"
-													onClick={() => handleRevokeClick(apiKey.id)}
-													disabled={isRevoking === "executing"}
-													aria-label={t("settings.api_keys.revoke")}
+													onClick={() =>
+														handleRevokeClick(
+															apiKey.id,
+														)
+													}
+													disabled={
+														isRevoking ===
+														"executing"
+													}
+													aria-label={t(
+														"settings.api_keys.revoke",
+													)}
 												>
 													<Trash2 className="h-4 w-4 text-destructive" />
 												</Button>
@@ -180,7 +213,9 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 			<Dialog open={isRevokeDialogOpen} onOpenChange={handleCancelRevoke}>
 				<DialogContent className="sm:max-w-md mx-4 w-[calc(100%-2rem)] sm:w-full">
 					<DialogHeader>
-						<DialogTitle>{t("settings.api_keys.revoke_title")}</DialogTitle>
+						<DialogTitle>
+							{t("settings.api_keys.revoke_title")}
+						</DialogTitle>
 						<DialogDescription>
 							{t("settings.api_keys.revoke_confirm")}
 						</DialogDescription>

@@ -17,22 +17,30 @@ export default function Loading() {
 								<div className="flex items-start gap-4">
 									<div className="flex-1">
 										<div className="flex items-center justify-between">
-											<Skeleton className="h-8 w-48" /> {/* Framework name */}
+											<Skeleton className="h-8 w-48" />{" "}
+											{/* Framework name */}
 											<Skeleton className="h-5 w-24" />{" "}
 											{/* Compliance percentage */}
 										</div>
-										<Progress value={0} className="h-2 mt-2 bg-secondary" />
+										<Progress
+											value={0}
+											className="h-2 mt-2 bg-secondary"
+										/>
 									</div>
 								</div>
 
 								<div className="grid grid-cols-2 gap-4 text-sm">
 									<div className="space-y-1">
-										<Skeleton className="h-4 w-24" /> {/* Controls label */}
-										<Skeleton className="h-5 w-32" /> {/* Controls count */}
+										<Skeleton className="h-4 w-24" />{" "}
+										{/* Controls label */}
+										<Skeleton className="h-5 w-32" />{" "}
+										{/* Controls count */}
 									</div>
 									<div className="space-y-1">
-										<Skeleton className="h-4 w-24" /> {/* Completed label */}
-										<Skeleton className="h-5 w-32" /> {/* Completed count */}
+										<Skeleton className="h-4 w-24" />{" "}
+										{/* Completed label */}
+										<Skeleton className="h-5 w-32" />{" "}
+										{/* Completed count */}
 									</div>
 								</div>
 							</div>

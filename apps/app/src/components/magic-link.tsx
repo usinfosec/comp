@@ -43,7 +43,9 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 
 		await signIn("resend", {
 			email: email,
-			redirectTo: inviteCode ? `/api/auth/invitation?code=${inviteCode}` : "/",
+			redirectTo: inviteCode
+				? `/api/auth/invitation?code=${inviteCode}`
+				: "/",
 		})
 			.then((res) => {
 				setSent(true);
@@ -64,7 +66,12 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 
 	if (isSent) {
 		return (
-			<div className={cn("flex flex-col items-center space-y-4", className)}>
+			<div
+				className={cn(
+					"flex flex-col items-center space-y-4",
+					className,
+				)}
+			>
 				<h1 className="text-2xl font-medium">
 					{t("auth.email.magic_link_sent")}
 				</h1>
@@ -96,7 +103,9 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 							<FormItem>
 								<FormControl>
 									<Input
-										placeholder={t("auth.email.placeholder")}
+										placeholder={t(
+											"auth.email.placeholder",
+										)}
 										{...field}
 										autoFocus
 										className="h-[40px]"

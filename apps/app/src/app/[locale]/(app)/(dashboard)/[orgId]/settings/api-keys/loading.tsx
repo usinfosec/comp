@@ -1,3 +1,6 @@
+import { LogoSpinner } from "@/components/logo-spinner";
+import { getI18n } from "@/locales/server";
+import { Button } from "@comp/ui/button";
 import {
 	Card,
 	CardContent,
@@ -6,10 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import { Button } from "@comp/ui/button";
-import { getI18n } from "@/locales/server";
 import { Plus } from "lucide-react";
-import { LogoSpinner } from "@/components/logo-spinner";
 
 export default async function Loading() {
 	const t = await getI18n();
@@ -19,7 +19,9 @@ export default async function Loading() {
 			<Card>
 				<CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 					<div>
-						<CardTitle>{t("settings.api_keys.list_title")}</CardTitle>
+						<CardTitle>
+							{t("settings.api_keys.list_title")}
+						</CardTitle>
 						<CardDescription>
 							{t("settings.api_keys.list_description")}
 						</CardDescription>

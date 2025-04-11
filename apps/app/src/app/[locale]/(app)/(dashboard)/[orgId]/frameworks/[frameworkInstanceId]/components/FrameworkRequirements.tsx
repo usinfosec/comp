@@ -6,7 +6,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
 import { FrameworkId } from "@comp/db/types";
-import { Card, CardTitle, CardHeader, CardContent } from "@comp/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
@@ -40,12 +40,13 @@ export function FrameworkRequirements({
 		const reqs = getFrameworkRequirements(frameworkId);
 		return Object.entries(reqs).map(([id, requirement]) => {
 			const compositeId = `${frameworkId}_${id}`;
-			const mappedControlsCount = frameworkInstanceWithControls.controls.filter(
-				(control) =>
-					control.requirementsMapped?.some(
-						(req) => req.requirementId === compositeId,
-					) ?? false,
-			).length;
+			const mappedControlsCount =
+				frameworkInstanceWithControls.controls.filter(
+					(control) =>
+						control.requirementsMapped?.some(
+							(req) => req.requirementId === compositeId,
+						) ?? false,
+				).length;
 
 			return {
 				id,
@@ -74,7 +75,10 @@ export function FrameworkRequirements({
 			{
 				accessorKey: "description",
 				header: ({ column }) => (
-					<DataTableColumnHeader column={column} title="Description" />
+					<DataTableColumnHeader
+						column={column}
+						title="Description"
+					/>
 				),
 				cell: ({ row }) => (
 					<span className="block max-w-[500px]">

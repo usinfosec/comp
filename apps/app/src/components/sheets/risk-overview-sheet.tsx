@@ -39,7 +39,9 @@ export function RiskOverviewSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("risk.form.update_risk")}</SheetTitle>
+							<SheetTitle>
+								{t("risk.form.update_risk")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"

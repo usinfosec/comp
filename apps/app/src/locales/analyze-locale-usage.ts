@@ -1,6 +1,6 @@
+import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
 import { createInterface } from "node:readline/promises";
 
 // This script analyzes translation usage in the codebase
@@ -56,10 +56,14 @@ async function main() {
 
 	console.log("\nWhat would you like to check?");
 	console.log(`${COLORS.green}1) Find unused translations${COLORS.reset}`);
-	console.log(`${COLORS.yellow}2) Find duplicate translations${COLORS.reset}`);
+	console.log(
+		`${COLORS.yellow}2) Find duplicate translations${COLORS.reset}`,
+	);
 	console.log(`${COLORS.blue}3) Run both checks${COLORS.reset}`);
 
-	const answer = await rl.question("\nEnter your choice (1-3) [default: 3]: ");
+	const answer = await rl.question(
+		"\nEnter your choice (1-3) [default: 3]: ",
+	);
 	const choice = answer.trim() || "3";
 
 	const runUnused = ["1", "3"].includes(choice);
@@ -89,7 +93,10 @@ async function findTranslationIssues(
 		);
 
 		// Create a temporary TypeScript file to convert the translations to JSON
-		const converterPath = path.join(process.cwd(), "src/locales/converter.ts");
+		const converterPath = path.join(
+			process.cwd(),
+			"src/locales/converter.ts",
+		);
 		createConverterScript(converterPath);
 
 		try {
@@ -153,14 +160,16 @@ async function findTranslationIssues(
 						}
 
 						// Skip excluded keys - now with wildcard support
-						const isExcluded = EXCLUDE_KEYS.some((excludePattern) => {
-							if (excludePattern.endsWith("*")) {
-								// For wildcard patterns, check if the key starts with the pattern minus the *
-								const prefix = excludePattern.slice(0, -1);
-								return key.startsWith(prefix);
-							}
-							return key === excludePattern;
-						});
+						const isExcluded = EXCLUDE_KEYS.some(
+							(excludePattern) => {
+								if (excludePattern.endsWith("*")) {
+									// For wildcard patterns, check if the key starts with the pattern minus the *
+									const prefix = excludePattern.slice(0, -1);
+									return key.startsWith(prefix);
+								}
+								return key === excludePattern;
+							},
+						);
 
 						if (isExcluded) {
 							continue;
@@ -191,7 +200,8 @@ async function findTranslationIssues(
 				);
 
 				// Find locations where duplicates are used
-				duplicatesWithLocations = await findDuplicateLocations(duplicates);
+				duplicatesWithLocations =
+					await findDuplicateLocations(duplicates);
 			}
 
 			// Report results
@@ -282,7 +292,9 @@ function displayResults(
 						);
 					} else {
 						// Mark unused duplicates
-						console.log(`  ${key} ${COLORS.gray}(unused)${COLORS.reset}`);
+						console.log(
+							`  ${key} ${COLORS.gray}(unused)${COLORS.reset}`,
+						);
 					}
 				}
 				console.log(""); // Add a line break between duplicates
@@ -397,7 +409,11 @@ function findDuplicateValues(
 async function findDuplicateLocations(
 	duplicates: Array<{ value: string; keys: string[] }>,
 ): Promise<
-	Array<{ value: string; keys: string[]; locations: Record<string, string[]> }>
+	Array<{
+		value: string;
+		keys: string[];
+		locations: Record<string, string[]>;
+	}>
 > {
 	const result = [];
 
@@ -603,10 +619,13 @@ async function isKeyUsedInCode(key: string): Promise<boolean> {
 				// Only count this as a match if it's in a t() function call context
 				if (
 					lastPartResult &&
-					(lastPartResult.includes("t(") || lastPartResult.includes("useI18n"))
+					(lastPartResult.includes("t(") ||
+						lastPartResult.includes("useI18n"))
 				) {
 					if (DEBUG)
-						console.log(`Found last part match for ${key} (${lastPart})`);
+						console.log(
+							`Found last part match for ${key} (${lastPart})`,
+						);
 					return true;
 				}
 			} catch (e) {

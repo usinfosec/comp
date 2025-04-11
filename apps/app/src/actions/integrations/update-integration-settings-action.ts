@@ -24,7 +24,10 @@ export const updateIntegrationSettingsAction = authActionClient
 		},
 	})
 	.action(
-		async ({ parsedInput: { integration_id, option }, ctx: { session } }) => {
+		async ({
+			parsedInput: { integration_id, option },
+			ctx: { session },
+		}) => {
 			try {
 				if (!session.activeOrganizationId) {
 					throw new Error("User organization not found");
@@ -65,13 +68,15 @@ export const updateIntegrationSettingsAction = authActionClient
 				);
 
 				const encryptedSettings = await Promise.all(
-					Object.entries(parsedUserSettings).map(async ([key, value]) => {
-						if (typeof value === "string") {
-							const encrypted = await encrypt(value);
-							return [key, encrypted];
-						}
-						return [key, value];
-					}),
+					Object.entries(parsedUserSettings).map(
+						async ([key, value]) => {
+							if (typeof value === "string") {
+								const encrypted = await encrypt(value);
+								return [key, encrypted];
+							}
+							return [key, value];
+						},
+					),
 				).then(Object.fromEntries);
 
 				await db.integration.update({

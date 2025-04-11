@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { User, TaskStatus } from "@comp/db/types";
+import type { TaskStatus, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";
 import {
@@ -78,9 +78,14 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 					className="max-w-sm"
 				/>
 				<div className="flex gap-4">
-					<Select value={status ?? "all"} onValueChange={handleStatusChange}>
+					<Select
+						value={status ?? "all"}
+						onValueChange={handleStatusChange}
+					>
 						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder={t("vendors.tasks.filters.status")} />
+							<SelectValue
+								placeholder={t("vendors.tasks.filters.status")}
+							/>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">
@@ -102,7 +107,11 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 						onValueChange={handleAssigneeChange}
 					>
 						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder={t("vendors.tasks.filters.assignee")} />
+							<SelectValue
+								placeholder={t(
+									"vendors.tasks.filters.assignee",
+								)}
+							/>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">

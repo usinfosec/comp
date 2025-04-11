@@ -54,7 +54,9 @@ export function UpdatePolicyForm({
 			id: policy.id,
 			title: policy.name,
 			description: policy.description ?? "",
-			isRequiredToSign: policy.isRequiredToSign ? "required" : "not_required",
+			isRequiredToSign: policy.isRequiredToSign
+				? "required"
+				: "not_required",
 		},
 	});
 
@@ -77,7 +79,9 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.update_policy_title")}
+									{t(
+										"policies.overview.form.update_policy_title",
+									)}
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -119,10 +123,15 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.signature_requirement")}
+									{t(
+										"policies.overview.form.signature_requirement",
+									)}
 								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
+									<Select
+										value={field.value}
+										onValueChange={field.onChange}
+									>
 										<SelectTrigger>
 											<SelectValue
 												placeholder={t(
@@ -132,10 +141,14 @@ export function UpdatePolicyForm({
 										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="required">
-												{t("policies.overview.form.signature_required")}
+												{t(
+													"policies.overview.form.signature_required",
+												)}
 											</SelectItem>
 											<SelectItem value="not_required">
-												{t("policies.overview.form.signature_not_required")}
+												{t(
+													"policies.overview.form.signature_not_required",
+												)}
 											</SelectItem>
 										</SelectContent>
 									</Select>

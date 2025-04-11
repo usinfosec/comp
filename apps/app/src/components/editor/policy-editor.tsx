@@ -15,14 +15,21 @@ export function PolicyEditor({
 	readOnly = false,
 	onSave,
 }: PolicyEditorProps) {
-	const [editorContent, setEditorContent] = useState<JSONContent | null>(null);
+	const [editorContent, setEditorContent] = useState<JSONContent | null>(
+		null,
+	);
 
 	const documentContent = {
 		type: "doc",
 		content:
 			Array.isArray(content) && content.length > 0
 				? content
-				: [{ type: "paragraph", content: [{ type: "text", text: "" }] }],
+				: [
+						{
+							type: "paragraph",
+							content: [{ type: "text", text: "" }],
+						},
+					],
 	};
 
 	const handleUpdate = (updatedContent: JSONContent) => {

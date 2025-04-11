@@ -1,13 +1,13 @@
 "use server";
 
-import { createSafeActionClient } from "next-safe-action";
-import { z } from "zod";
 import type { ActionResponse } from "@/types/actions";
-import { VendorStatus, VendorCategory, type Vendor } from "@comp/db/types";
-import { revalidatePath } from "next/cache";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import { type Vendor, VendorCategory, VendorStatus } from "@comp/db/types";
+import { createSafeActionClient } from "next-safe-action";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { z } from "zod";
 
 const schema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -48,7 +48,9 @@ export const createVendorAction = createSafeActionClient()
 			return {
 				success: false,
 				error:
-					error instanceof Error ? error.message : "Failed to create vendor",
+					error instanceof Error
+						? error.message
+						: "Failed to create vendor",
 			};
 		}
 	});

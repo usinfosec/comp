@@ -47,18 +47,29 @@ export function FilterToolbar({ isEmpty, assignees }: Props) {
 		return (
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4 opacity-20 pointer-events-none blur-[7px]">
 				<div className="relative flex-1 md:max-w-sm">
-					<Skeleton className={cn("h-10", isEmpty && "animate-none")} />
+					<Skeleton
+						className={cn("h-10", isEmpty && "animate-none")}
+					/>
 				</div>
 
 				<div className="md:flex gap-2 md:flex-row md:items-center hidden">
 					<Skeleton
-						className={cn("h-10 w-[200px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-10 w-[200px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 					<Skeleton
-						className={cn("h-10 w-[200px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-10 w-[200px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 					<Skeleton
-						className={cn("h-9 w-[120px]", isEmpty && "animate-none")}
+						className={cn(
+							"h-9 w-[120px]",
+							isEmpty && "animate-none",
+						)}
 					/>
 				</div>
 			</div>

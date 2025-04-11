@@ -39,7 +39,10 @@ export const deelEmployeeSchedule = schedules.task({
 					name: integration.name,
 					integration_id: "deel" as const,
 					settings: integration.settings as Record<string, any>,
-					user_settings: integration.userSettings as Record<string, any>,
+					user_settings: integration.userSettings as Record<
+						string,
+						any
+					>,
 					organization: integration.organization,
 				},
 			},
@@ -52,12 +55,15 @@ export const deelEmployeeSchedule = schedules.task({
 					`Triggered ${triggerPayloads.length} Deel employee sync jobs`,
 				);
 			} catch (error) {
-				logger.error(`Failed to trigger batch Deel sync jobs: ${error}`);
+				logger.error(
+					`Failed to trigger batch Deel sync jobs: ${error}`,
+				);
 				return {
 					success: false,
 					totalIntegrations: deelIntegrations.length,
 					triggeredIntegrations: triggerPayloads.length,
-					error: error instanceof Error ? error.message : String(error),
+					error:
+						error instanceof Error ? error.message : String(error),
 				};
 			}
 		} else {

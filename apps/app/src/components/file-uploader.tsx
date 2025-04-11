@@ -122,19 +122,25 @@ export function FileUploader(props: FileUploaderProps) {
 	const onDrop = React.useCallback(
 		(acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
 			if (!multiple && maxFileCount === 1 && acceptedFiles.length > 1) {
-				toast.error(t("common.attachments.toasts.error_uploading_files"));
+				toast.error(
+					t("common.attachments.toasts.error_uploading_files"),
+				);
 				return;
 			}
 
 			if ((files?.length ?? 0) + acceptedFiles.length > maxFileCount) {
 				toast.error(
-					t("common.attachments.toasts.error_uploading_files_multiple"),
+					t(
+						"common.attachments.toasts.error_uploading_files_multiple",
+					),
 				);
 				return;
 			}
 
 			if (acceptedFiles.length === 0) {
-				toast.error(t("common.attachments.toasts.error_no_files_selected"));
+				toast.error(
+					t("common.attachments.toasts.error_no_files_selected"),
+				);
 				return;
 			}
 
@@ -164,7 +170,9 @@ export function FileUploader(props: FileUploaderProps) {
 				updatedFiles.length <= maxFileCount
 			) {
 				const target =
-					updatedFiles.length > 0 ? `${updatedFiles.length} files` : "a file";
+					updatedFiles.length > 0
+						? `${updatedFiles.length} files`
+						: "a file";
 
 				toast.promise(onUpload(updatedFiles), {
 					loading: t("common.attachments.toasts.uploading_files", {
@@ -176,7 +184,9 @@ export function FileUploader(props: FileUploaderProps) {
 							"common.attachments.toasts.success_uploading_files_target",
 						);
 					},
-					error: t("common.attachments.toasts.error_failed_to_upload_files"),
+					error: t(
+						"common.attachments.toasts.error_failed_to_upload_files",
+					),
 				});
 			}
 		},
@@ -250,10 +260,14 @@ export function FileUploader(props: FileUploaderProps) {
 								</div>
 								<div className="flex flex-col gap-px">
 									<p className="font-medium text-muted-foreground">
-										{t("common.attachments.drop_description")}
+										{t(
+											"common.attachments.drop_description",
+										)}
 									</p>
 									<p className="text-sm text-muted-foreground/70">
-										{t("common.attachments.drop_files_description")}{" "}
+										{t(
+											"common.attachments.drop_files_description",
+										)}{" "}
 										{formatBytes(maxSize)}.
 									</p>
 								</div>
@@ -346,6 +360,9 @@ function FilePreview({ file }: FilePreviewProps) {
 	}
 
 	return (
-		<FileText className="size-10 text-muted-foreground" aria-hidden="true" />
+		<FileText
+			className="size-10 text-muted-foreground"
+			aria-hidden="true"
+		/>
 	);
 }

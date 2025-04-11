@@ -1,12 +1,12 @@
-import { betterAuth } from "better-auth";
 import { db } from "@comp/db";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { emailOTP, organization } from "better-auth/plugins";
-import { ac, owner, admin, auditor, member, employee } from "./permissions";
+import { OTPVerificationEmail } from "@comp/email";
 import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
 import { sendEmail } from "@comp/email/lib/resend";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { OTPVerificationEmail } from "@comp/email";
+import { emailOTP, organization } from "better-auth/plugins";
+import { ac, admin, auditor, employee, member, owner } from "./permissions";
 
 export const auth = betterAuth({
 	database: prismaAdapter(db, {
@@ -23,7 +23,9 @@ export const auth = betterAuth({
 			async sendInvitationEmail(data) {
 				const isLocalhost = process.env.NODE_ENV === "development";
 				const protocol = isLocalhost ? "http" : "https";
-				const domain = isLocalhost ? "localhost:3000" : "app.trycomp.ai";
+				const domain = isLocalhost
+					? "localhost:3000"
+					: "app.trycomp.ai";
 				const inviteLink = `${protocol}://${domain}/auth?inviteCode=${data.invitation.id}`;
 
 				await sendInviteMemberEmail({

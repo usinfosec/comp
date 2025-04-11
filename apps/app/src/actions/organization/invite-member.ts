@@ -1,11 +1,11 @@
 "use server";
 
-import { authActionClient } from "../safe-action";
-import { z } from "zod";
-import type { ActionResponse } from "../types";
-import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/utils/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { headers } from "next/headers";
+import { z } from "zod";
+import { authActionClient } from "../safe-action";
+import type { ActionResponse } from "../types";
 
 const inviteMemberSchema = z.object({
 	email: z.string().email(),
@@ -34,7 +34,9 @@ export const inviteMember = authActionClient
 			}
 
 			try {
-				revalidatePath(`/${ctx.session.activeOrganizationId}/settings/members`);
+				revalidatePath(
+					`/${ctx.session.activeOrganizationId}/settings/members`,
+				);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {

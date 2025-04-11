@@ -169,7 +169,8 @@ export function RequirementsTable({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.requirements.title")} ({filteredRequirements.length})
+					{t("frameworks.requirements.title")} (
+					{filteredRequirements.length})
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
@@ -183,7 +184,11 @@ export function RequirementsTable({
 						className="max-w-sm"
 					/>
 					<div className="ml-auto">
-						<DataTableSortList table={table.table} align="end" tableId="r" />
+						<DataTableSortList
+							table={table.table}
+							align="end"
+							tableId="r"
+						/>
 					</div>
 				</div>
 				<DataTable

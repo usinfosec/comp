@@ -90,21 +90,33 @@ export function InherentRiskForm({
 					name="probability"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("risk.metrics.probability")}</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
+							<FormLabel>
+								{t("risk.metrics.probability")}
+							</FormLabel>
+							<Select
+								onValueChange={field.onChange}
+								value={field.value}
+							>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t("vendors.risks.select_probability")}
+											placeholder={t(
+												"vendors.risks.select_probability",
+											)}
 										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									{Object.entries(LIKELIHOOD_LABELS).map(([value, label]) => (
-										<SelectItem key={value} value={value}>
-											{label}
-										</SelectItem>
-									))}
+									{Object.entries(LIKELIHOOD_LABELS).map(
+										([value, label]) => (
+											<SelectItem
+												key={value}
+												value={value}
+											>
+												{label}
+											</SelectItem>
+										),
+									)}
 								</SelectContent>
 							</Select>
 						</FormItem>
@@ -117,20 +129,30 @@ export function InherentRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>{t("risk.metrics.impact")}</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
+							<Select
+								onValueChange={field.onChange}
+								value={field.value}
+							>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t("vendors.risks.select_impact")}
+											placeholder={t(
+												"vendors.risks.select_impact",
+											)}
 										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									{Object.entries(IMPACT_LABELS).map(([value, label]) => (
-										<SelectItem key={value} value={value}>
-											{label}
-										</SelectItem>
-									))}
+									{Object.entries(IMPACT_LABELS).map(
+										([value, label]) => (
+											<SelectItem
+												key={value}
+												value={value}
+											>
+												{label}
+											</SelectItem>
+										),
+									)}
 								</SelectContent>
 							</Select>
 						</FormItem>

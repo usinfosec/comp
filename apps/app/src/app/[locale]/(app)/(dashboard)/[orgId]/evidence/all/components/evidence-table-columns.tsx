@@ -1,12 +1,12 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { Evidence } from "@comp/db/types";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { formatDate } from "@/lib/format";
-import { Badge } from "@comp/ui/badge";
-import { calculateNextReview } from "@/lib/utils/calculate-next-review";
 import { StatusIndicator } from "@/components/status-indicator";
+import { formatDate } from "@/lib/format";
+import { calculateNextReview } from "@/lib/utils/calculate-next-review";
+import { Evidence } from "@comp/db/types";
+import { Badge } from "@comp/ui/badge";
+import { ColumnDef } from "@tanstack/react-table";
 
 export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 	return [
@@ -58,7 +58,10 @@ export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 
 				if (!department || department === "none") {
 					return (
-						<Badge variant="marketing" className="text-xs w-min hidden md:flex">
+						<Badge
+							variant="marketing"
+							className="text-xs w-min hidden md:flex"
+						>
 							None
 						</Badge>
 					);
@@ -104,8 +107,8 @@ export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 					<div
 						className={`truncate ${reviewInfo.isUrgent ? "text-red-500" : ""} hidden md:block`}
 					>
-						{reviewInfo.daysUntil} days ({formatDate(reviewInfo.nextReviewDate)}
-						)
+						{reviewInfo.daysUntil} days (
+						{formatDate(reviewInfo.nextReviewDate)})
 					</div>
 				);
 			},

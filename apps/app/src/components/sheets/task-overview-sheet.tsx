@@ -39,7 +39,9 @@ export function TaskOverviewSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>{t("risk.tasks.sheet.update")}</SheetTitle>
+							<SheetTitle>
+								{t("risk.tasks.sheet.update")}
+							</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
