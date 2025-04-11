@@ -6,8 +6,6 @@ export const fixAllOrgsTask = schemaTask({
 	id: "fix-all-orgs",
 	run: async (payload, { ctx }) => {
 		try {
-
-		try {
 			logger.info(
 				"Starting fix-all-orgs task: Fetching all organizations.",
 			);
