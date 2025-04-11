@@ -30,6 +30,7 @@ export const env = createEnv({
 		AWS_BUCKET_NAME: z.string(),
 		GROQ_API_KEY: z.string(),
 		NEXT_PUBLIC_PORTAL_URL: z.string(),
+		RESEND_AUDIENCE_ID: z.string().optional(),
 	},
 
 	client: {
@@ -71,6 +72,7 @@ export const env = createEnv({
 		AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
 		GROQ_API_KEY: process.env.GROQ_API_KEY,
 		NEXT_PUBLIC_PORTAL_URL: process.env.NEXT_PUBLIC_PORTAL_URL,
+		RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
 	},
 
 	skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

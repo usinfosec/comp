@@ -4,6 +4,7 @@ import { performance } from "node:perf_hooks";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
+import { Resend } from "resend";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
 import { createStripeCustomer } from "./lib/create-stripe-customer";
@@ -55,6 +56,16 @@ export const createOrganizationAction = authActionClient
 
 			if (!session?.session.activeOrganizationId) {
 				throw new Error("User is not part of an organization");
+			}
+
+			if (process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID) {
+				const resend = new Resend(process.env.RESEND_API_KEY);
+
+				await resend.contacts.create({
+					email: session.user.email,
+					unsubscribed: false,
+					audienceId: process.env.RESEND_AUDIENCE_ID,
+				});
 			}
 
 			const organizationId = session.session.activeOrganizationId;

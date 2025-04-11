@@ -41,7 +41,8 @@
         "ANTHROPIC_API_KEY",
         "REVALIDATION_SECRET",
         "GROQ_API_KEY",
-        "SENTRY_AUTH_TOKEN"
+        "SENTRY_AUTH_TOKEN",
+        "RESEND_AUDIENCE_ID"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "dependsOn": ["^build", "^db:generate", "^auth:build", "clean-react"],
