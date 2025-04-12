@@ -32,12 +32,13 @@ import {
 	Clock,
 	ExternalLink,
 	Globe,
+	HelpCircle,
+	InfoIcon,
 	Loader2,
 	Settings,
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import type { StaticImageData } from "next/image";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { useState } from "react";
@@ -47,12 +48,9 @@ import {
 	type IntegrationSettingsItem,
 } from "./integration-settings";
 
-// Add a type for the logo
-export type LogoType = StaticImageData | { light: string; dark: string };
-
 export function IntegrationsCard({
 	id,
-	logo,
+	logo: Logo,
 	name,
 	short_description,
 	description,
@@ -66,7 +64,7 @@ export function IntegrationsCard({
 	nextRunAt,
 }: {
 	id: string;
-	logo: LogoType;
+	logo: React.ComponentType;
 	name: string;
 	short_description: string;
 	description: string;
@@ -170,64 +168,6 @@ export function IntegrationsCard({
 		}
 	};
 
-	// Function to render the logo
-	const renderLogo = () => {
-		if (typeof logo === "string") {
-			// It's a direct URL string
-			return (
-				<img
-					src={logo}
-					alt={name}
-					width={48}
-					height={48}
-					className="rounded-md"
-				/>
-			);
-		}
-
-		if ("light" in logo && "dark" in logo) {
-			// It's a URL-based logo object with light/dark variants
-			return (
-				<>
-					<img
-						src={logo.light}
-						alt={name}
-						width={48}
-						height={48}
-						className="dark:hidden rounded-md"
-					/>
-					<img
-						src={logo.dark}
-						alt={name}
-						width={48}
-						height={48}
-						className="hidden dark:block rounded-md"
-					/>
-				</>
-			);
-		}
-
-		// It's a StaticImageData or other object with src
-		try {
-			return (
-				<Image
-					src={logo as any}
-					alt={name}
-					width={48}
-					height={48}
-					className="rounded-md"
-				/>
-			);
-		} catch (error) {
-			console.error("Error rendering logo:", error);
-			return (
-				<div className="w-12 h-12 bg-muted rounded-md flex items-center justify-center">
-					{name.substring(0, 1)}
-				</div>
-			);
-		}
-	};
-
 	// Function to get a friendly message about time to midnight UTC
 	const getUTCMidnightMessage = (nextRunAt: Date): string => {
 		if (!nextRunAt) return "";
@@ -263,8 +203,8 @@ export function IntegrationsCard({
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
-							<div className="w-12 h-12 bg-muted rounded-sm flex items-center justify-center p-2">
-								{renderLogo()}
+							<div className="w-12 h-12 bg-muted flex items-center justify-center p-2">
+								<Logo />
 							</div>
 							<div className="flex flex-col gap-1">
 								<CardTitle className="flex items-center gap-2 mb-0">
@@ -306,34 +246,9 @@ export function IntegrationsCard({
 					<p className="text-xs text-muted-foreground">
 						{short_description}
 					</p>
-
-					<div className="grid grid-cols-2 gap-4 mt-4">
-						<div className="flex flex-col items-start gap-1 border-r pr-3">
-							<div className="flex items-center text-muted-foreground">
-								<Clock className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">Last Run</span>
-							</div>
-							<p className="font-medium text-sm">
-								{lastRunAt
-									? formatDistanceToNow(new Date(lastRunAt), {
-											addSuffix: true,
-										})
-									: "Never"}
-							</p>
-						</div>
-						<div className="flex flex-col items-start gap-1">
-							<div className="flex items-center text-muted-foreground">
-								<Settings className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">Status</span>
-							</div>
-							<p className="font-medium text-sm">
-								{installed ? "Active" : "Not Connected"}
-							</p>
-						</div>
-					</div>
 				</CardContent>
 
-				<CardFooter className="py-2 bg-muted/30 border-t flex justify-between">
+				<CardFooter className="py-2 border-t flex justify-between">
 					<Button
 						variant={installed ? "default" : "ghost"}
 						size="sm"
@@ -341,7 +256,7 @@ export function IntegrationsCard({
 						disabled={!active}
 						onClick={() => setParams({ app: id })}
 					>
-						{installed ? "Manage" : "Configure"} {name}
+						{installed ? "Manage" : "Install"}
 					</Button>
 				</CardFooter>
 
@@ -349,7 +264,9 @@ export function IntegrationsCard({
 					<div className="p-6 pb-4 border-b">
 						<div className="flex items-center justify-between">
 							<div className="flex items-center space-x-3">
-								{renderLogo()}
+								<div className="w-12 h-12 flex items-center justify-center p-2">
+									<Logo />
+								</div>
 								<div>
 									<div className="flex items-center gap-2">
 										<h3 className="text-lg font-medium leading-none">
@@ -386,7 +303,7 @@ export function IntegrationsCard({
 										}}
 									>
 										{deleteIntegrationConnection.status ===
-										"executing"
+											"executing"
 											? "Disconnecting..."
 											: "Disconnect"}
 									</Button>
@@ -413,16 +330,14 @@ export function IntegrationsCard({
 								>
 									<AccordionTrigger className="py-3 hover:no-underline">
 										<div className="flex items-center gap-2">
-											<ExternalLink className="h-3.5 w-3.5 mr-1" />
+											<InfoIcon className="h-3.5 w-3.5 mr-1" />
 											<span className="text-sm font-medium">
-												How it works
+												Information
 											</span>
 										</div>
 									</AccordionTrigger>
 									<AccordionContent className="text-muted-foreground text-sm pb-4">
-										<div className="rounded-md p-4 border">
-											{description}
-										</div>
+										{description}
 									</AccordionContent>
 								</AccordionItem>
 
@@ -440,7 +355,7 @@ export function IntegrationsCard({
 											</div>
 										</AccordionTrigger>
 										<AccordionContent className="text-muted-foreground text-sm pb-4">
-											<div className="space-y-4 p-4 border rounded-md">
+											<div className="space-y-4 p-4 border">
 												<div className="flex items-start gap-2">
 													<Calendar className="h-3.5 w-3.5 mt-0.5 text-muted-foreground" />
 													<div>
@@ -611,13 +526,10 @@ export function IntegrationsCard({
 									<AccordionContent className="text-muted-foreground text-sm pb-4">
 										{/* For Deel, always show the API key input */}
 										{id === "deel" ? (
-											<div className="space-y-4 p-4 border rounded-md">
+											<div className="space-y-4">
 												{/* API Key status with checkmark if set */}
 												<div className="flex items-center justify-between">
 													<div className="flex items-center gap-2">
-														<span className="font-medium text-foreground">
-															API Key
-														</span>
 														{installedSettings?.api_key && (
 															<div className="text-green-600">
 																<Check className="h-3.5 w-3.5" />
@@ -627,7 +539,7 @@ export function IntegrationsCard({
 
 													{/* Show update button when key is set and not in edit mode */}
 													{installedSettings?.api_key &&
-													!isEditingApiKey ? (
+														!isEditingApiKey ? (
 														<Button
 															variant="outline"
 															size="sm"
@@ -647,93 +559,91 @@ export function IntegrationsCard({
 													2. User clicked the update button */}
 												{(!installedSettings?.api_key ||
 													isEditingApiKey) && (
-													<div className="space-y-4">
-														<div className="space-y-2">
-															<label
-																htmlFor={`${id}-api-key`}
-																className="text-sm font-medium leading-none"
-															>
-																{isEditingApiKey
-																	? "Update API Key"
-																	: "Enter API Key"}
-															</label>
-															<Input
-																id={`${id}-api-key`}
-																type="password"
-																placeholder="Enter your Deel API key"
-																value={
-																	apiKeyInput
-																}
-																onChange={(e) =>
-																	setApiKeyInput(
-																		e.target
-																			.value,
-																	)
-																}
-															/>
-															<p className="text-xs text-muted-foreground">
-																You can find
-																your API key in
-																your Deel
-																account
-																settings.
-															</p>
-														</div>
-														<div className="flex gap-2">
-															{isEditingApiKey && (
-																<Button
-																	type="button"
-																	variant="outline"
-																	className="flex-1"
-																	onClick={() =>
-																		setIsEditingApiKey(
-																			false,
+														<div className="space-y-4">
+															<div className="space-y-2">
+																<label
+																	htmlFor={`${id}-api-key`}
+																	className="text-sm font-medium leading-none"
+																>
+																	{isEditingApiKey
+																		? "Update API Key"
+																		: "Enter API Key"}
+																</label>
+																<Input
+																	id={`${id}-api-key`}
+																	type="password"
+																	placeholder="Enter your Deel API key"
+																	value={
+																		apiKeyInput
+																	}
+																	onChange={(e) =>
+																		setApiKeyInput(
+																			e.target
+																				.value,
 																		)
 																	}
-																>
-																	Cancel
-																</Button>
-															)}
-															<Button
-																type="button"
-																className="flex-1"
-																onClick={
-																	handleConnect
-																}
-																disabled={
-																	isSaving
-																}
-															>
-																{isSaving ? (
-																	<>
-																		<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-																		Saving...
-																	</>
-																) : isEditingApiKey ? (
-																	"Update"
-																) : (
-																	"Save"
+																/>
+																<p className="text-xs text-muted-foreground">
+																	You can find
+																	your API key in
+																	your Deel
+																	account
+																	settings.
+																</p>
+															</div>
+															<div className="flex gap-2">
+																{isEditingApiKey && (
+																	<Button
+																		type="button"
+																		variant="outline"
+																		className="flex-1"
+																		onClick={() =>
+																			setIsEditingApiKey(
+																				false,
+																			)
+																		}
+																	>
+																		Cancel
+																	</Button>
 																)}
-															</Button>
+																<Button
+																	type="button"
+																	className="flex-1"
+																	onClick={
+																		handleConnect
+																	}
+																	disabled={
+																		isSaving
+																	}
+																>
+																	{isSaving ? (
+																		<>
+																			<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+																			Saving...
+																		</>
+																	) : isEditingApiKey ? (
+																		"Update"
+																	) : (
+																		"Save"
+																	)}
+																</Button>
+															</div>
 														</div>
-													</div>
-												)}
+													)}
 											</div>
 										) : Array.isArray(settings) &&
 											settings.length > 0 ? (
-											<div className="p-4 border rounded-md">
-												<IntegrationSettings
-													integrationId={id}
-													settings={
-														settings as IntegrationSettingsItem[]
-													}
-													installedSettings={
-														installedSettings
-													}
-												/>
-											</div>
+											<IntegrationSettings
+												integrationId={id}
+												settings={
+													settings as IntegrationSettingsItem[]
+												}
+												installedSettings={
+													installedSettings
+												}
+											/>
 										) : (
-											<div className="p-4 border rounded-md">
+											<div className="p-4 border">
 												<p className="text-sm text-muted-foreground">
 													No settings available
 												</p>
@@ -760,7 +670,7 @@ export function IntegrationsCard({
 								href="mailto:support@trycomp.ai"
 								className="text-[10px] text-primary hover:underline flex items-center gap-1"
 							>
-								<span>Report an issue</span>
+								<span>Report</span>
 								<ExternalLink className="h-3 w-3" />
 							</a>
 						</div>

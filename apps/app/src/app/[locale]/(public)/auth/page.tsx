@@ -24,13 +24,13 @@ export default async function Page({
 	const preferredSignInOption = (
 		<div className="flex flex-col space-y-2">
 			<GoogleSignIn inviteCode={inviteCode} />
-			<GithubSignIn inviteCode={inviteCode} />
 		</div>
 	);
 
 	const moreSignInOptions = (
 		<div className="flex flex-col space-y-2">
 			<MagicLinkSignIn inviteCode={inviteCode} />
+			<GithubSignIn inviteCode={inviteCode} />
 		</div>
 	);
 
