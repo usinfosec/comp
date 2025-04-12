@@ -62,6 +62,8 @@ export const createOrganizationAction = authActionClient
 				const resend = new Resend(process.env.RESEND_API_KEY);
 
 				await resend.contacts.create({
+					firstName: session.user.name?.split(" ")[0] || "",
+					lastName: session.user.name?.split(" ")[1] || "",
 					email: session.user.email,
 					unsubscribed: false,
 					audienceId: process.env.RESEND_AUDIENCE_ID,
