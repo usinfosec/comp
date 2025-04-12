@@ -6,7 +6,7 @@ import { Icons } from "@comp/ui/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export function AcceptInvite({ inviteCode }: { inviteCode: string }) {
+export function AcceptInvite({ inviteCode, organizationName }: { inviteCode: string, organizationName: string }) {
 	const router = useRouter();
 
 	const onSubmit = async () => {
@@ -28,7 +28,7 @@ export function AcceptInvite({ inviteCode }: { inviteCode: string }) {
 
 				<div className="mb-8 space-y-2">
 					<h1 className="text-2xl font-semibold tracking-tight">
-						You have been invited to join an organization
+						You have been invited to join {organizationName || "an organization"}.
 					</h1>
 					<p className="text-sm text-muted-foreground">
 						Please accept the invitation to join the organization.
