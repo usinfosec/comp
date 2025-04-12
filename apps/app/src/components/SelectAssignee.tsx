@@ -96,15 +96,14 @@ export const SelectAssignee = ({
 									src={getImageUrl(
 										selectedAssignee.user.image,
 									)}
-									alt={selectedAssignee.user.name || "User"}
+									alt={selectedAssignee.user.name || selectedAssignee.user.email || "User"}
 								/>
 								<AvatarFallback>
-									{selectedAssignee.user.name?.charAt(0) ||
-										"?"}
+									{selectedAssignee.user.name?.charAt(0) || selectedAssignee.user.email?.charAt(0).toUpperCase() || "?"}
 								</AvatarFallback>
 							</Avatar>
 							<span className="truncate">
-								{selectedAssignee.user.name || "Unknown User"}
+								{selectedAssignee.user.name || selectedAssignee.user.email || "Unknown User"}
 							</span>
 						</div>
 					) : (
@@ -139,14 +138,14 @@ export const SelectAssignee = ({
 								<Avatar className="h-5 w-5 shrink-0">
 									<AvatarImage
 										src={getImageUrl(assignee.user.image)}
-										alt={assignee.user.name || "User"}
+										alt={assignee.user.name || assignee.user.email || "User"}
 									/>
 									<AvatarFallback>
-										{assignee.user.name?.charAt(0) || "?"}
+										{assignee.user.name?.charAt(0) || assignee.user.email?.charAt(0).toUpperCase() || "?"}
 									</AvatarFallback>
 								</Avatar>
 								<span className="truncate">
-									{assignee.user.name || "Unknown User"}
+									{assignee.user.name || assignee.user.email || "Unknown User"}
 								</span>
 							</div>
 						</SelectItem>

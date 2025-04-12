@@ -1,6 +1,7 @@
 import {
 	emailOTPClient,
 	inferAdditionalFields,
+	magicLinkClient,
 	organizationClient,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
@@ -12,6 +13,7 @@ export const authClient = createAuthClient({
 		organizationClient(),
 		inferAdditionalFields<typeof auth>(),
 		emailOTPClient(),
+		magicLinkClient(),
 	],
 });
 

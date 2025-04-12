@@ -3,6 +3,7 @@
 import { performance } from "node:perf_hooks";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { authActionClient } from "../safe-action";
@@ -182,6 +183,19 @@ export const createOrganizationAction = authActionClient
 			console.warn(
 				"NOTE: Transactionality currently relies on global 'db' client within helpers. Refactor helpers to accept 'tx' for true atomicity.",
 			);
+
+			const userOrgs = await db.member.findMany({
+				where: {
+					userId: userId,
+				},
+				select: {
+					organizationId: true,
+				},
+			});
+
+			for (const org of userOrgs) {
+				revalidatePath(`/${org.organizationId}`);
+			}
 
 			return {
 				success: true,

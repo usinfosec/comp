@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Form, FormControl, FormField, FormItem } from "@comp/ui/form";
@@ -8,7 +9,6 @@ import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,27 +41,15 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 
 		setEmail(email);
 
-		await signIn("resend", {
+		const { data, error } = await authClient.signIn.magicLink({
 			email: email,
-			redirectTo: inviteCode
-				? `/api/auth/invitation?code=${inviteCode}`
-				: "/",
 		})
-			.then((res) => {
-				setSent(true);
 
-				if (res?.ok && !res?.error) {
-					toast.success(t("auth.email.success"));
-				} else {
-					toast.error(t("auth.email.error"));
-				}
-			})
-			.catch((error) => {
-				toast.error(t("auth.email.error"));
-			})
-			.finally(() => {
-				setLoading(false);
-			});
+		if (error) {
+			toast.error(t("auth.email.error"));
+		} else {
+			setSent(true);
+		}
 	}
 
 	if (isSent) {

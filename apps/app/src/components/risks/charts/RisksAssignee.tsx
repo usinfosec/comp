@@ -14,6 +14,7 @@ interface UserRiskStats {
 	user: {
 		id: string;
 		name: string | null;
+		email: string | null;
 		image: string | null;
 	};
 	totalRisks: number;
@@ -43,6 +44,7 @@ export async function RisksAssignee() {
 		user: {
 			id: member.id,
 			name: member.user.name,
+			email: member.user.email,
 			image: member.user.image,
 		},
 		totalRisks: member.Risk.length,
@@ -78,7 +80,8 @@ export async function RisksAssignee() {
 										<AvatarFallback>
 											{getInitials(
 												stat.user.name ||
-													"Unknown User",
+												stat.user.email ||
+												"Unknown User",
 											)}
 										</AvatarFallback>
 									</Avatar>
@@ -87,6 +90,7 @@ export async function RisksAssignee() {
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-medium leading-none truncate">
 												{stat.user.name ||
+													stat.user.email ||
 													"Unknown User"}
 											</p>
 											<span className="text-sm text-muted-foreground">
@@ -111,11 +115,10 @@ export async function RisksAssignee() {
 														<div
 															className={`${riskStatusColors.pending} h-full`}
 															style={{
-																width: `${
-																	(stat.pendingRisks /
-																		stat.totalRisks) *
+																width: `${(stat.pendingRisks /
+																	stat.totalRisks) *
 																	100
-																}%`,
+																	}%`,
 															}}
 															title={`${t("common.status.pending")}: ${stat.pendingRisks}`}
 														/>
@@ -234,6 +237,7 @@ const userData = cache(async () => {
 				select: {
 					name: true,
 					image: true,
+					email: true,
 				},
 			},
 		},

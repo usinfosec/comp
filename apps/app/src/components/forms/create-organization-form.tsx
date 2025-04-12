@@ -37,7 +37,6 @@ export function OnboardingClient() {
 
 	const createOrganization = useAction(createOrganizationAction, {
 		onSuccess: async () => {
-			toast.success(t("onboarding.success"));
 			router.push("/");
 		},
 		onError: () => {
@@ -178,7 +177,7 @@ export function OnboardingClient() {
 																field.value.includes(
 																	frameworkId,
 																) &&
-																	"border-primary bg-primary/5",
+																"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
@@ -210,16 +209,16 @@ export function OnboardingClient() {
 																			const newValue =
 																				checked
 																					? [
-																							...field.value,
-																							frameworkId,
-																						]
+																						...field.value,
+																						frameworkId,
+																					]
 																					: field.value.filter(
-																							(
-																								name,
-																							) =>
-																								name !==
-																								frameworkId,
-																						);
+																						(
+																							name,
+																						) =>
+																							name !==
+																							frameworkId,
+																					);
 																			field.onChange(
 																				newValue,
 																			);

@@ -94,14 +94,14 @@ export const columns: ColumnDef<VendorRow>[] = [
 					<Avatar className="h-8 w-8">
 						<AvatarImage
 							src={row.original.assignee.user?.image || undefined}
-							alt={row.original.assignee.user?.name || ""}
+							alt={row.original.assignee.user?.name || row.original.assignee.user?.email || ""}
 						/>
 						<AvatarFallback>
-							{row.original.assignee.user?.name?.charAt(0) || "?"}
+							{row.original.assignee.user?.name?.charAt(0) || row.original.assignee.user?.email?.charAt(0).toUpperCase() || "?"}
 						</AvatarFallback>
 					</Avatar>
 					<p className="text-sm font-medium">
-						{row.original.assignee.user?.name || "Unknown User"}
+						{row.original.assignee.user?.name || row.original.assignee.user?.email || "Unknown User"}
 					</p>
 				</div>
 			);

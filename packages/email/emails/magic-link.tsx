@@ -16,10 +16,10 @@ import { Logo } from "../components/logo";
 
 interface Props {
   email: string;
-  loginLink: string;
+  url: string;
 }
 
-export const MagicLinkEmail = ({ email, loginLink }: Props) => {
+export const MagicLinkEmail = ({ email, url }: Props) => {
   return (
     <Html>
       <Tailwind>
@@ -65,7 +65,7 @@ export const MagicLinkEmail = ({ email, loginLink }: Props) => {
             <Section className="mb-[42px] mt-[32px] text-center">
               <Button
                 className="bg-transparent text-primary text-[14px] text-[#121212] font-medium no-underline text-center px-6 py-3 border border-solid border-[#121212]"
-                href={loginLink}
+                href={url}
               >
                 Login now
               </Button>
@@ -73,8 +73,8 @@ export const MagicLinkEmail = ({ email, loginLink }: Props) => {
 
             <Text className="text-[14px] leading-[24px] text-[#707070] break-all">
               or copy and paste this URL into your browser{" "}
-              <Link href={loginLink} className="text-[#707070] underline">
-                {loginLink}
+              <Link href={url} className="text-[#707070] underline">
+                {url}
               </Link>
             </Text>
 

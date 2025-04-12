@@ -23,7 +23,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 					{session?.user?.image && (
 						<AvatarImageNext
 							src={session?.user?.image}
-							alt={session?.user?.name ?? ""}
+							alt={session?.user?.name ?? session?.user?.email ?? ""}
 							width={32}
 							height={32}
 							quality={100}
@@ -31,7 +31,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 					)}
 					<AvatarFallback>
 						<span className="text-xs">
-							{session?.user?.name?.charAt(0)?.toUpperCase()}
+							{session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email?.charAt(0)?.toUpperCase()}
 						</span>
 					</AvatarFallback>
 				</Avatar>
