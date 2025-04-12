@@ -11,6 +11,7 @@ interface UserTestStats {
 	user: {
 		id: string;
 		name: string | null;
+		email: string | null;
 		image: string | null;
 	};
 	totalTests: number;
@@ -27,6 +28,7 @@ interface TestData {
 interface UserData {
 	id: string;
 	name: string | null;
+	email: string | null;
 	image: string | null;
 	integrationResults: TestData[];
 }
@@ -45,6 +47,7 @@ export async function TestsByAssignee({ organizationId }: Props) {
 		user: {
 			id: user.id,
 			name: user.name,
+			email: user.email,
 			image: user.image,
 		},
 		totalTests: user.integrationResults.length,
@@ -72,7 +75,7 @@ export async function TestsByAssignee({ organizationId }: Props) {
 						<div key={stat.user.id} className="space-y-2">
 							<div className="flex justify-between items-center">
 								<p className="text-sm">
-									{stat.user.name || "Unknown User"}
+									{stat.user.name || stat.user.email || "Unknown User"}
 								</p>
 								<span className="text-sm text-muted-foreground">
 									{stat.totalTests} Tests
@@ -115,33 +118,33 @@ function TestBarChart({ stat }: { stat: UserTestStats }) {
 	const data = [
 		...(stat.passedTests > 0
 			? [
-					{
-						key: "passed",
-						value: stat.passedTests,
-						color: testStatus.passed,
-						label: "passed",
-					},
-				]
+				{
+					key: "passed",
+					value: stat.passedTests,
+					color: testStatus.passed,
+					label: "passed",
+				},
+			]
 			: []),
 		...(stat.failedTests > 0
 			? [
-					{
-						key: "failed",
-						value: stat.failedTests,
-						color: testStatus.failed,
-						label: "failed",
-					},
-				]
+				{
+					key: "failed",
+					value: stat.failedTests,
+					color: testStatus.failed,
+					label: "failed",
+				},
+			]
 			: []),
 		...(stat.unsupportedTests > 0
 			? [
-					{
-						key: "unsupported",
-						value: stat.unsupportedTests,
-						color: testStatus.unsupported,
-						label: "unsupported",
-					},
-				]
+				{
+					key: "unsupported",
+					value: stat.unsupportedTests,
+					color: testStatus.unsupported,
+					label: "unsupported",
+				},
+			]
 			: []),
 	];
 
@@ -224,6 +227,7 @@ const userData = async (organizationId: string): Promise<UserData[]> => {
 					id: true,
 					name: true,
 					image: true,
+					email: true,
 				},
 			},
 		},
@@ -265,6 +269,7 @@ const userData = async (organizationId: string): Promise<UserData[]> => {
 	const userData: UserData[] = members.map((member) => ({
 		id: member.user.id,
 		name: member.user.name,
+		email: member.user.email,
 		image: member.user.image,
 		integrationResults: resultsByUser.get(member.user.id) || [],
 	}));

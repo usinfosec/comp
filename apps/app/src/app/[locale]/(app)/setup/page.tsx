@@ -49,7 +49,16 @@ export default async function Page() {
 	}
 
 	if (hasInvite) {
-		return <AcceptInvite inviteCode={hasInvite.id} />;
+		const organization = await db.organization.findUnique({
+			where: {
+				id: hasInvite.organizationId,
+			},
+			select: {
+				name: true,
+			},
+		});
+
+		return <AcceptInvite inviteCode={hasInvite.id} organizationName={organization?.name || ""} />;
 	}
 
 	return <OnboardingClient />;

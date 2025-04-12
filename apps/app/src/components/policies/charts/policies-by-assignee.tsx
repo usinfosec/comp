@@ -12,6 +12,7 @@ interface UserPolicyStats {
 	user: {
 		id: string;
 		name: string | null;
+		email: string | null;
 		image: string | null;
 	};
 	totalPolicies: number;
@@ -44,6 +45,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 			user: {
 				id: user.id,
 				name: user.name,
+				email: user.email,
 				image: user.image,
 			},
 			totalPolicies: userPolicies.length,
@@ -76,7 +78,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 						<div key={stat.user.id} className="space-y-2">
 							<div className="flex justify-between items-center">
 								<p className="text-sm">
-									{stat.user.name || "Unknown User"}
+									{stat.user.name || stat.user.email || "Unknown User"}
 								</p>
 								<span className="text-sm text-muted-foreground">
 									{stat.totalPolicies}{" "}
@@ -128,33 +130,33 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 	const data = [
 		...(stat.publishedPolicies && stat.publishedPolicies > 0
 			? [
-					{
-						key: "published",
-						value: stat.publishedPolicies,
-						color: policyStatus.published,
-						label: t("common.status.published"),
-					},
-				]
+				{
+					key: "published",
+					value: stat.publishedPolicies,
+					color: policyStatus.published,
+					label: t("common.status.published"),
+				},
+			]
 			: []),
 		...(stat.draftPolicies && stat.draftPolicies > 0
 			? [
-					{
-						key: "draft",
-						value: stat.draftPolicies,
-						color: policyStatus.draft,
-						label: t("common.status.draft"),
-					},
-				]
+				{
+					key: "draft",
+					value: stat.draftPolicies,
+					color: policyStatus.draft,
+					label: t("common.status.draft"),
+				},
+			]
 			: []),
 		...(stat.archivedPolicies && stat.archivedPolicies > 0
 			? [
-					{
-						key: "archived",
-						value: stat.archivedPolicies,
-						color: policyStatus.archived,
-						label: t("common.status.archived"),
-					},
-				]
+				{
+					key: "archived",
+					value: stat.archivedPolicies,
+					color: policyStatus.archived,
+					label: t("common.status.archived"),
+				},
+			]
 			: []),
 	];
 
@@ -250,6 +252,7 @@ const userData = async (organizationId: string) => {
 			id: true,
 			name: true,
 			image: true,
+			email: true,
 		},
 	});
 };

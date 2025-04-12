@@ -88,14 +88,14 @@ export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 					<Avatar className="h-8 w-8">
 						<AvatarImage
 							src={row.original.assignee.image || undefined}
-							alt={row.original.assignee.name || ""}
+							alt={row.original.assignee.name || row.original.assignee.email || ""}
 						/>
 						<AvatarFallback>
-							{row.original.assignee.name?.charAt(0) || "?"}
+							{row.original.assignee.name?.charAt(0) || row.original.assignee.email?.charAt(0).toUpperCase() || "?"}
 						</AvatarFallback>
 					</Avatar>
 					<p className="text-sm font-medium">
-						{row.original.assignee.name}
+						{row.original.assignee.name || row.original.assignee.email}
 					</p>
 				</div>
 			);

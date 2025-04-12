@@ -1,11 +1,11 @@
 import { db } from "@comp/db";
-import { OTPVerificationEmail } from "@comp/email";
+import { MagicLinkEmail, OTPVerificationEmail } from "@comp/email";
 import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
 import { sendEmail } from "@comp/email/lib/resend";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { emailOTP, organization } from "better-auth/plugins";
+import { emailOTP, magicLink, organization } from "better-auth/plugins";
 import { ac, admin, auditor, employee, member, owner } from "./permissions";
 
 export const auth = betterAuth({
@@ -45,6 +45,15 @@ export const auth = betterAuth({
 				organization: {
 					modelName: "Organization",
 				},
+			},
+		}),
+		magicLink({
+			sendMagicLink: async ({ email, url }, request) => {
+				await sendEmail({
+					to: email,
+					subject: "Login to Comp AI",
+					react: MagicLinkEmail({ email, url }),
+				});
 			},
 		}),
 		emailOTP({

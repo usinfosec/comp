@@ -57,7 +57,7 @@ export function Comments({ entityId, comments }: CommentsProps) {
 							className={cn(
 								"space-y-3",
 								index !== comments.length - 1 &&
-									"pb-6 border-b",
+								"pb-6 border-b",
 							)}
 						>
 							<div className="flex items-center justify-between">
@@ -70,18 +70,20 @@ export function Comments({ entityId, comments }: CommentsProps) {
 											}
 											alt={
 												comment.author.user.name ||
+												comment.author.user.email ||
 												"User"
 											}
 										/>
 										<AvatarFallback className="bg-primary/10">
 											{comment.author.user.name?.charAt(
 												0,
-											) || "?"}
+											) || comment.author.user.email?.charAt(0).toUpperCase() || "?"}
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col">
 										<span className="text-sm font-medium leading-none">
 											{comment.author.user.name ||
+												comment.author.user.email ||
 												"Unknown User"}
 										</span>
 										<span className="text-xs text-muted-foreground">
