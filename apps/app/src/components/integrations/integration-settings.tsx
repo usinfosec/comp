@@ -15,6 +15,7 @@ export type IntegrationSettingsItem = {
 	type: "switch" | "text" | "select";
 	required: boolean;
 	value: string | boolean;
+	placeholder?: string;
 	isSet?: boolean;
 };
 
@@ -66,7 +67,7 @@ function IntegrationSettingsItem({
 						}
 						value={setting.value as string}
 						placeholder={
-							installedSettings[setting.id] ? "••••••••" : ""
+							installedSettings[setting.id] ? "••••••••" : setting.placeholder
 						}
 						onChange={(e) => {
 							onSettingChange(setting.id, e.target.value);
@@ -105,15 +106,16 @@ export function IntegrationSettings({
 		? settings
 		: settings
 			? Object.entries(settings).map(([key, value]) => ({
-					id: key,
-					label:
-						key.charAt(0).toUpperCase() +
-						key.slice(1).replace(/_/g, " "),
-					description: `Enter your ${key.replace(/_/g, " ")}`,
-					type: "text",
-					required: true,
-					value: value,
-				}))
+				id: key,
+				label:
+					key.charAt(0).toUpperCase() +
+					key.slice(1).replace(/_/g, " "),
+				description: `Enter your ${key.replace(/_/g, " ")}`,
+				type: "text",
+				required: true,
+				value: value,
+				placeholder: `Enter your ${key.replace(/_/g, " ")}`,
+			}))
 			: [];
 
 	const [localSettings, setLocalSettings] = useState(normalizedSettings);
@@ -147,7 +149,7 @@ export function IntegrationSettings({
 				</p>
 			) : (
 				localSettings.map((setting) => (
-					<div key={setting.id}>
+					<div key={setting.id} className="flex flex-col my-2">
 						<IntegrationSettingsItem
 							setting={setting}
 							integrationId={integrationId}
