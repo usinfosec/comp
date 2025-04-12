@@ -9,7 +9,7 @@ export const sendMagicLinkEmail = async (params: {
 
 	const emailTemplate = MagicLinkEmail({
 		email,
-		loginLink: url,
+		url: url,
 	});
 	try {
 		await sendEmail({
