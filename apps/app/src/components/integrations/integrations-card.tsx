@@ -39,7 +39,6 @@ import {
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import type { StaticImageData } from "next/image";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseAsBoolean, parseAsString, useQueryStates } from "nuqs";
 import { useState } from "react";
@@ -48,9 +47,6 @@ import {
 	IntegrationSettings,
 	type IntegrationSettingsItem,
 } from "./integration-settings";
-
-// Add a type for the logo
-export type LogoType = StaticImageData | { light: string; dark: string };
 
 export function IntegrationsCard({
 	id,

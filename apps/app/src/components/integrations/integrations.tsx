@@ -4,7 +4,7 @@ import { Integration } from "@comp/db/types";
 import { integrations } from "@comp/integrations";
 import { Button } from "@comp/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IntegrationsCard, type LogoType } from "./integrations-card";
+import { IntegrationsCard } from "./integrations-card";
 
 // Update the type to include lastRunAt and nextRunAt
 type ExtendedOrganizationIntegrations = Integration & {
@@ -116,13 +116,13 @@ export function OrganizationIntegration({
 							// Handle different integration formats
 							const integrationProps = {
 								id: integration.id,
-								logo: integration.logo as LogoType,
+								logo: integration.logo,
 								name: integration.name,
 								short_description:
 									"short_description" in integration
 										? integration.short_description
 										: (integration as any).description ||
-											"",
+										"",
 								description:
 									(integration as any).description || "",
 								settings:
