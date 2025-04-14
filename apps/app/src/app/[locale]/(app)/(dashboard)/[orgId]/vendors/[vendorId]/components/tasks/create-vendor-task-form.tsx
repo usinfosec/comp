@@ -156,7 +156,7 @@ export function CreateVendorTaskForm({
 																	className={cn(
 																		"w-[240px] pl-3 text-left font-normal",
 																		!field.value &&
-																			"text-muted-foreground",
+																		"text-muted-foreground",
 																	)}
 																>
 																	{field.value ? (
@@ -239,7 +239,7 @@ export function CreateVendorTaskForm({
 					<div className="flex justify-end mt-4">
 						<Button
 							type="submit"
-							variant="action"
+							variant="default"
 							disabled={createTask.status === "executing"}
 						>
 							<div className="flex items-center justify-center">

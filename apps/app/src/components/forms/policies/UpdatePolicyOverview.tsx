@@ -284,7 +284,7 @@ export function UpdatePolicyOverview({
 													className={cn(
 														"pl-3 text-left font-normal w-full",
 														!field.value &&
-															"text-muted-foreground",
+														"text-muted-foreground",
 													)}
 												>
 													{field.value ? (
@@ -353,7 +353,7 @@ export function UpdatePolicyOverview({
 				<div className="flex justify-end mt-4">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updatePolicyForm.status === "executing"}
 					>
 						{updatePolicyForm.status === "executing" ? (

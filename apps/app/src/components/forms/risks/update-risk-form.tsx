@@ -116,7 +116,7 @@ export function UpdateRiskForm({
 				<div className="flex justify-end mt-8">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updateRisk.status === "executing"}
 					>
 						{updateRisk.status === "executing" ? (

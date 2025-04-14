@@ -1,3 +1,4 @@
+import { getOnboardingForCurrentOrganization } from "@/data/getOnboarding";
 import { getOrganizations } from "@/data/getOrganizations";
 import { auth } from "@/utils/auth";
 import { cookies, headers } from "next/headers";
@@ -14,6 +15,7 @@ export async function Sidebar() {
 	const organizationId = session?.session.activeOrganizationId;
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+	const { completedAll } = await getOnboardingForCurrentOrganization();
 
 	if (!organizationId) {
 		redirect("/");
@@ -37,6 +39,7 @@ export async function Sidebar() {
 					//userIsAdmin={user?.isAdmin ?? false}
 					organizationId={organizationId}
 					isCollapsed={isCollapsed}
+					completedOnboarding={completedAll}
 				/>
 			</div>
 			<div className="flex-1" />

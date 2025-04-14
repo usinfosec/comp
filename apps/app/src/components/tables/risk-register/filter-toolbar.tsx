@@ -131,7 +131,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				</div>
 
 				<div className="md:hidden">
-					<Button onClick={() => setOpen("true")} variant="action">
+					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
 						{t("common.actions.addNew")}
 					</Button>
@@ -151,7 +151,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 							<SelectItem key={stat} value={stat}>
 								{t(
 									statusTranslationKeys[
-										stat.toLowerCase() as keyof typeof statusTranslationKeys
+									stat.toLowerCase() as keyof typeof statusTranslationKeys
 									],
 								)}
 							</SelectItem>
@@ -209,7 +209,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 					</Button>
 				)}
 
-				<Button onClick={() => setOpen("true")} variant="action">
+				<Button onClick={() => setOpen("true")} variant="default">
 					<Plus className="h-4 w-4" />
 					{t("common.actions.addNew")}
 				</Button>

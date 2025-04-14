@@ -137,7 +137,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 				</div>
 
 				<div className="md:hidden">
-					<Button onClick={() => setOpen("true")} variant="action">
+					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
 						{t("common.actions.addNew")}
 					</Button>
@@ -203,7 +203,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 					</Button>
 				)}
 
-				<Button variant="action" onClick={() => setOpen("true")}>
+				<Button variant="default" onClick={() => setOpen("true")}>
 					<Plus className="h-4 w-4" />
 					{t("policies.create_new")}
 				</Button>

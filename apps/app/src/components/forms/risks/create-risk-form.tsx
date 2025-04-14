@@ -330,7 +330,7 @@ export function CreateRisk({
 					<div className="flex justify-end mt-4">
 						<Button
 							type="submit"
-							variant="action"
+							variant="default"
 							disabled={createRisk.status === "executing"}
 						>
 							<div className="flex items-center justify-center">

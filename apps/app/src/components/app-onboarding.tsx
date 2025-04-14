@@ -152,7 +152,7 @@ export function AppOnboarding({
 							<span>Estimated time: ~15 minutes</span>
 						</div>
 						<Button
-							variant="action"
+							variant="default"
 							className="flex items-center gap-2"
 							onClick={() => setOpen("true")}
 						>

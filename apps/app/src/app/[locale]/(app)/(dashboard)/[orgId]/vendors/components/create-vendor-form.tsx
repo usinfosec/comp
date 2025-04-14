@@ -351,7 +351,7 @@ export function CreateVendorForm({
 					<div className="flex justify-end mt-4">
 						<Button
 							type="submit"
-							variant="action"
+							variant="default"
 							disabled={createVendor.status === "executing"}
 						>
 							<div className="flex items-center justify-center">

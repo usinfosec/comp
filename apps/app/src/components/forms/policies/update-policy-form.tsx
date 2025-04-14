@@ -160,7 +160,7 @@ export function UpdatePolicyForm({
 				<div className="flex justify-end mt-8">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updatePolicy.status === "executing"}
 					>
 						{updatePolicy.status === "executing" ? (
