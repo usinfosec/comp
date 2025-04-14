@@ -180,11 +180,11 @@ export function MainMenu({
 		// Special case for root organization path
 		if (
 			normalizedItemPath === `/${organizationId}` ||
-			normalizedItemPath === `/${organizationId}/frameworks`
+			normalizedItemPath === `/${organizationId}/implementation`
 		) {
 			return (
 				pathname === `/${organizationId}` ||
-				pathname?.startsWith(`/${organizationId}/frameworks`)
+				pathname?.startsWith(`/${organizationId}/implementation`)
 			);
 		}
 
