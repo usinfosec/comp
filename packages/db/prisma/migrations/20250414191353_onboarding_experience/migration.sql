@@ -16,3 +16,10 @@ CREATE INDEX "Onboarding_organizationId_idx" ON "Onboarding"("organizationId");
 
 -- AddForeignKey
 ALTER TABLE "Onboarding" ADD CONSTRAINT "Onboarding_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Insert onboarding records for existing organizations
+INSERT INTO "Onboarding" ("organizationId")
+SELECT
+    id
+FROM "Organization"
+WHERE id NOT IN (SELECT "organizationId" FROM "Onboarding");
