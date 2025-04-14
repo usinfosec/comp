@@ -115,7 +115,7 @@ export function UpdateTitleAndDescriptionForm({
 				<div className="flex justify-end mt-8">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updateVendor.status === "executing"}
 					>
 						{updateVendor.status === "executing" ? (

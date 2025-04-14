@@ -9,9 +9,11 @@ import { MainMenu } from "./main-menu";
 export function MobileMenu({
 	organizationId,
 	isAdmin,
+	completedOnboarding,
 }: {
 	organizationId: string;
 	isAdmin?: boolean;
+	completedOnboarding: boolean;
 }) {
 	const [isOpen, setOpen] = useState(false);
 
@@ -35,7 +37,7 @@ export function MobileMenu({
 					<Icons.Logo />
 				</div>
 
-				<MainMenu organizationId={organizationId} />
+				<MainMenu organizationId={organizationId} completedOnboarding={completedOnboarding} />
 			</SheetContent>
 		</Sheet>
 	);

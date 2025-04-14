@@ -46,6 +46,7 @@ export const createOrganizationAction = authActionClient
 			createControlArtifacts: 0,
 			total: 0,
 		};
+
 		const totalStart = performance.now();
 		let start = performance.now();
 
@@ -53,6 +54,7 @@ export const createOrganizationAction = authActionClient
 			const session = await auth.api.getSession({
 				headers: await headers(),
 			});
+
 			timings.getAuthSession = (performance.now() - start) / 1000;
 
 			if (!session?.session.activeOrganizationId) {
@@ -70,6 +72,12 @@ export const createOrganizationAction = authActionClient
 					audienceId: process.env.RESEND_AUDIENCE_ID,
 				});
 			}
+
+			await db.onboarding.create({
+				data: {
+					organizationId: session.session.activeOrganizationId,
+				},
+			});
 
 			const organizationId = session.session.activeOrganizationId;
 

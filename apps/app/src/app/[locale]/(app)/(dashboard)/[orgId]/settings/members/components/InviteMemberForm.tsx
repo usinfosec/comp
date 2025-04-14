@@ -156,7 +156,7 @@ export function InviteMemberForm() {
 						<Button
 							type="submit"
 							disabled={form.formState.isSubmitting}
-							variant="action"
+							variant="default"
 						>
 							{form.formState.isSubmitting ? (
 								<>

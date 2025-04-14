@@ -74,7 +74,7 @@ export function DataTableToolbar<TData>({
 				<DataTableViewOptions table={table} />
 				{sheet && (
 					<Button
-						variant="action"
+						variant="default"
 						size="sm"
 						onClick={() => {
 							setOpen("true");

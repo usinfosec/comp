@@ -176,7 +176,7 @@ export function UpdateTaskForm({
 												className={cn(
 													"pl-3 text-left font-normal",
 													!field.value &&
-														"text-muted-foreground",
+													"text-muted-foreground",
 												)}
 											>
 												{field.value ? (
@@ -213,7 +213,7 @@ export function UpdateTaskForm({
 				<div className="flex justify-end mt-4">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updateTask.status === "executing"}
 					>
 						{updateTask.status === "executing" ? (

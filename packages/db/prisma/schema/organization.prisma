@@ -6,6 +6,7 @@ model Organization {
   createdAt DateTime
   metadata  String?
   stripeCustomerId String?
+  onboarding Onboarding?
 
   apiKeys            ApiKey[]
   artifacts          Artifact[]

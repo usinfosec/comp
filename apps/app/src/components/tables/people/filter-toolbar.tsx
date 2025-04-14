@@ -71,7 +71,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 				</div>
 
 				<div className="md:hidden">
-					<Button onClick={() => setOpen("true")} variant="action">
+					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
 						{t("common.actions.addNew")}
 					</Button>
@@ -94,7 +94,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 					</Button>
 				)}
 
-				<Button onClick={() => setOpen("true")} variant="action">
+				<Button onClick={() => setOpen("true")} variant="default">
 					<Plus className="h-4 w-4" />
 					{t("common.actions.addNew")}
 				</Button>

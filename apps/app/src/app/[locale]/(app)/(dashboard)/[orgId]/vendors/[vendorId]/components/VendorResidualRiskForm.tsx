@@ -122,7 +122,7 @@ export function VendorResidualRiskForm({
 				<div className="flex justify-end">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updateResidualRisk.status === "executing"}
 					>
 						{updateResidualRisk.status === "executing" ? (
