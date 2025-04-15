@@ -92,6 +92,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 			throttleMs,
 			debounceMs,
 			clearOnDefault,
+			//@ts-ignore
 			startTransition,
 		}),
 		[
