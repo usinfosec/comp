@@ -31,4 +31,4 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL_PROD }}
         run: |
           cd packages/db
-          bunx prisma migrate deploy --schema=./prisma/schema/schema.prisma
+          bunx prisma migrate deploy
