@@ -17,6 +17,10 @@ export function MobileMenu({
 }) {
 	const [isOpen, setOpen] = useState(false);
 
+	const handleCloseSheet = () => {
+		setOpen(false);
+	};
+
 	return (
 		<Sheet open={isOpen} onOpenChange={setOpen}>
 			<div>
@@ -37,7 +41,11 @@ export function MobileMenu({
 					<Icons.Logo />
 				</div>
 
-				<MainMenu organizationId={organizationId} completedOnboarding={completedOnboarding} />
+				<MainMenu
+					organizationId={organizationId}
+					completedOnboarding={completedOnboarding}
+					onItemClick={handleCloseSheet}
+				/>
 			</SheetContent>
 		</Sheet>
 	);
