@@ -33,13 +33,13 @@
 		"@prisma/adapter-neon": "6.5.0",
 		"@prisma/client": "6.5.0",
 		"@prisma/extension-accelerate": "^1.2.2",
-		"prisma": "^6.5.0"
+		"prisma": "^6.6.0"
 	},
 	"devDependencies": {
 		"@comp/tsconfig": "workspace:*",
 		"typescript": "^5.8.2"
 	},
 	"prisma": {
-		"schema": "prisma/schema/"
+		"schema": "prisma/"
 	}
 }

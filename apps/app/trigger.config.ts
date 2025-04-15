@@ -1,20 +1,32 @@
 import { PrismaInstrumentation } from "@prisma/instrumentation";
-import { syncVercelEnvVars } from "@trigger.dev/build/extensions/core";
+import {
+	syncEnvVars,
+	syncVercelEnvVars,
+} from "@trigger.dev/build/extensions/core";
 import { prismaExtension } from "@trigger.dev/build/extensions/prisma";
 import { puppeteer } from "@trigger.dev/build/extensions/puppeteer";
 import { defineConfig } from "@trigger.dev/sdk/v3";
 
 export default defineConfig({
 	project: "proj_lhxjliiqgcdyqbgtucda",
-	runtime: "node",
+	runtime: "bun",
 	logLevel: "log",
 	instrumentations: [new PrismaInstrumentation()],
 	maxDuration: 300, // 5 minutes
 	build: {
 		extensions: [
+			syncEnvVars(async () => {
+				const databaseUrl = process.env.DATABASE_URL;
+				if (!databaseUrl) {
+					throw new Error(
+						"DATABASE_URL environment variable is not defined.",
+					);
+				}
+				return [{ name: "DATABASE_URL", value: databaseUrl }];
+			}),
 			prismaExtension({
-				schema: "../../packages/db/prisma/schema/schema.prisma",
-				version: "6.5.0",
+				schema: "../../packages/db/prisma/schema.prisma",
+				version: "6.6.0",
 			}),
 			puppeteer(),
 			syncVercelEnvVars(),
