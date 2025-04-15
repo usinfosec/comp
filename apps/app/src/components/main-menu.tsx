@@ -50,6 +50,7 @@ interface ItemProps {
 	disabled: boolean;
 	organizationId: string;
 	isCollapsed?: boolean;
+	onItemClick?: () => void;
 }
 
 export function MainMenu({
@@ -57,6 +58,7 @@ export function MainMenu({
 	//userIsAdmin,
 	isCollapsed = false,
 	completedOnboarding,
+	onItemClick,
 }: Props) {
 	const t = useI18n();
 	const pathname = usePathname();
@@ -235,6 +237,7 @@ export function MainMenu({
 									disabled={item.disabled}
 									organizationId={organizationId}
 									isCollapsed={isCollapsed}
+									onItemClick={onItemClick}
 								/>
 							);
 						})}
@@ -250,6 +253,7 @@ const Item = ({
 	disabled,
 	organizationId,
 	isCollapsed = false,
+	onItemClick,
 }: ItemProps) => {
 	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
@@ -275,7 +279,7 @@ const Item = ({
 					Coming Soon
 				</div>
 			) : (
-				<Link prefetch href={itemPath}>
+				<Link prefetch href={itemPath} onClick={onItemClick}>
 					<Tooltip>
 						<TooltipTrigger className="w-full">
 							<div
@@ -362,4 +366,5 @@ type Props = {
 	//userIsAdmin: boolean;
 	isCollapsed?: boolean;
 	completedOnboarding: boolean;
+	onItemClick?: () => void;
 };
