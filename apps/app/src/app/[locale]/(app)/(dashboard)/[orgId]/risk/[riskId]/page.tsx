@@ -46,7 +46,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 		>
 			<div className="flex flex-col gap-4">
 				<RiskOverview risk={risk} assignees={assignees} />
-				<div className="grid grid-cols-1 gap-4">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 					<InherentRiskChart risk={risk} />
 					<ResidualRiskChart risk={risk} />
 				</div>

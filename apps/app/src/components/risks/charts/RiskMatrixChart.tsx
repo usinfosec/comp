@@ -33,10 +33,10 @@ const IMPACT_SCORES: Record<Impact, number> = {
 };
 
 const RISK_COLORS = {
-	low: "#22c55e", // green
-	medium: "#f59e0b", // amber
-	high: "#f97316", // orange
-	critical: "#ef4444", // red
+	low: "#00DC73", // green
+	medium: "#FFD700", // amber
+	high: "#FFA500", // orange
+	critical: "#FF0000", // red
 };
 
 const VISUAL_LIKELIHOOD_ORDER: Likelihood[] = [
@@ -128,21 +128,21 @@ export function RiskMatrixChart({
 					<div
 						className="grid w-full max-h-[350px] aspect-[1.5/1] gap-1
                        grid-cols-1 grid-rows-1
-                       lg:grid-cols-[auto_auto_1fr] lg:grid-rows-[1fr_auto_auto]"
+                       md:grid-cols-[auto_auto_1fr] md:grid-rows-[1fr_auto_auto]"
 					>
 						{/* Y-axis Title */}
-						<div className="hidden lg:grid place-items-center lg:row-start-1 lg:col-start-1">
-							<span className="-rotate-90 font-semibold text-sm text-muted-foreground whitespace-nowrap">
+						<div className="hidden xl:grid place-items-center xl:row-start-1 xl:col-start-1">
+							<span className="-rotate-90 font-semibold text-xs text-muted-foreground whitespace-nowrap">
 								{t("risk.metrics.probability")}
 							</span>
 						</div>
 
 						{/* Y-axis Labels */}
-						<div className="hidden lg:grid grid-rows-5 lg:row-start-1 lg:col-start-2 pr-2">
+						<div className="hidden xl:grid grid-rows-5 xl:row-start-1 xl:col-start-2 pr-2">
 							{Y_AXIS_LABELS.map((label, i) => (
 								<div
 									key={`y-label-${i}`}
-									className="grid place-items-center justify-end text-sm"
+									className="grid place-items-center justify-end text-xs"
 								>
 									{label}
 								</div>
@@ -150,14 +150,14 @@ export function RiskMatrixChart({
 						</div>
 
 						{/* 5x5 Matrix Grid */}
-						<div className="grid grid-cols-5 grid-rows-5 border-l border-b row-start-1 col-start-1 lg:col-start-3 lg:row-start-1">
+						<div className="grid grid-cols-5 grid-rows-5 border-l border-b row-start-1 col-start-1 md:col-start-3 md:row-start-1">
 							{VISUAL_LIKELIHOOD_ORDER.map(
 								(rowLikelihood, rowIndex) =>
 									VISUAL_IMPACT_ORDER.map(
 										(colImpact, colIndex) => {
 											const likelihoodScore =
 												LIKELIHOOD_SCORES[
-													rowLikelihood
+												rowLikelihood
 												];
 											const impactScore =
 												IMPACT_SCORES[colImpact];
@@ -175,7 +175,7 @@ export function RiskMatrixChart({
 
 											const isActive =
 												rowLikelihood ===
-													activeLikelihood &&
+												activeLikelihood &&
 												colImpact === activeImpact;
 
 											return (
@@ -206,11 +206,11 @@ export function RiskMatrixChart({
 						</div>
 
 						{/* X-axis Labels */}
-						<div className="hidden lg:grid grid-cols-5 lg:col-start-3 lg:row-start-2 pt-1">
+						<div className="hidden md:grid grid-cols-5 md:col-start-3 md:row-start-2 pt-1">
 							{X_AXIS_LABELS.map((label, i) => (
 								<div
 									key={`x-label-${i}`}
-									className="grid place-items-center text-sm"
+									className="grid place-items-center text-xs"
 								>
 									{label}
 								</div>
@@ -218,8 +218,8 @@ export function RiskMatrixChart({
 						</div>
 
 						{/* X-axis Title */}
-						<div className="hidden lg:grid place-items-center lg:col-start-3 lg:row-start-3 pt-1">
-							<span className="font-semibold text-sm text-muted-foreground">
+						<div className="hidden md:grid place-items-center md:col-start-3 md:row-start-3 pt-1">
+							<span className="font-semibold text-xs text-muted-foreground">
 								{t("risk.metrics.impact")}
 							</span>
 						</div>

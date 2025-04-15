@@ -5,7 +5,7 @@ export const app_onboarding = {
 			"Manage your risks and ensure your organization is protected.",
 		detailed_description:
 			"Create and manage your risks in one place. Add details, assign owners, and track progress.",
-		cta: "Create your first risk",
+		cta: "Create risk",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is risk management?",
@@ -23,7 +23,7 @@ export const app_onboarding = {
 		title: "Vendor Management",
 		description:
 			"Manage your vendors and ensure your organization is protected.",
-		cta: "Add your first vendor",
+		cta: "Add vendor",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is a vendor?",
@@ -41,7 +41,7 @@ export const app_onboarding = {
 		title: "Employee Management",
 		description:
 			"Manage your employees and ensure your organization is protected.",
-		cta: "Add your first employee",
+		cta: "Get started",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is employee management?",
@@ -59,7 +59,7 @@ export const app_onboarding = {
 		title: "Cloud Compliance - Coming Soon",
 		description:
 			"Test and validate your cloud infrastructure security with automated tests and reports.",
-		cta: "Create your first cloud test",
+		cta: "Configure",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What are cloud security tests?",
