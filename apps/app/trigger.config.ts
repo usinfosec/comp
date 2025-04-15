@@ -15,15 +15,6 @@ export default defineConfig({
 	maxDuration: 300, // 5 minutes
 	build: {
 		extensions: [
-			syncEnvVars(async () => {
-				const databaseUrl = process.env.DATABASE_URL;
-				if (!databaseUrl) {
-					throw new Error(
-						"DATABASE_URL environment variable is not defined.",
-					);
-				}
-				return [{ name: "DATABASE_URL", value: databaseUrl }];
-			}),
 			prismaExtension({
 				schema: "../../packages/db/prisma/schema.prisma",
 				version: "6.6.0",
