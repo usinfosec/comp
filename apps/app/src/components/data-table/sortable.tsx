@@ -442,6 +442,7 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
 					{...(asHandle ? attributes : {})}
 					{...(asHandle ? listeners : {})}
 					tabIndex={disabled ? undefined : 0}
+					//@ts-ignore
 					ref={composedRef}
 					style={composedStyle}
 					className={cn(
@@ -498,6 +499,7 @@ const SortableItemHandle = React.forwardRef<
 			{...itemHandleProps}
 			{...itemContext.attributes}
 			{...itemContext.listeners}
+			//@ts-ignore
 			ref={composedRef}
 			className={cn(
 				"select-none disabled:pointer-events-none disabled:opacity-50",
@@ -532,8 +534,8 @@ interface SortableOverlayProps
 	> {
 	container?: Element | DocumentFragment | null;
 	children?:
-		| ((params: { value: UniqueIdentifier }) => React.ReactNode)
-		| React.ReactNode;
+	| ((params: { value: UniqueIdentifier }) => React.ReactNode)
+	| React.ReactNode;
 }
 
 function SortableOverlay(props: SortableOverlayProps) {
