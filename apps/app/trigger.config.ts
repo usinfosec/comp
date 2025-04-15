@@ -1,15 +1,11 @@
 import { PrismaInstrumentation } from "@prisma/instrumentation";
-import {
-	syncEnvVars,
-	syncVercelEnvVars,
-} from "@trigger.dev/build/extensions/core";
+import { syncVercelEnvVars } from "@trigger.dev/build/extensions/core";
 import { prismaExtension } from "@trigger.dev/build/extensions/prisma";
 import { puppeteer } from "@trigger.dev/build/extensions/puppeteer";
 import { defineConfig } from "@trigger.dev/sdk/v3";
 
 export default defineConfig({
 	project: "proj_lhxjliiqgcdyqbgtucda",
-	runtime: "bun",
 	logLevel: "log",
 	instrumentations: [new PrismaInstrumentation()],
 	maxDuration: 300, // 5 minutes

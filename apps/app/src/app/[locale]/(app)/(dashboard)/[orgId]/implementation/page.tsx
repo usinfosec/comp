@@ -1,6 +1,6 @@
 import { db } from "@comp/db";
 import { Icons } from "@comp/ui/icons";
-import { BookOpen, ListCheck, NotebookText, Store, Users } from "lucide-react";
+import { ListCheck, NotebookText, Store, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { cache } from 'react'
 import { Checklist } from "./components/Checklist";
