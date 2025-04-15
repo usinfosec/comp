@@ -25,7 +25,7 @@ export default defineConfig({
 				return [{ name: "DATABASE_URL", value: databaseUrl }];
 			}),
 			prismaExtension({
-				schema: "prisma/",
+				schema: "../../packages/db/prisma/schema.prisma",
 				version: "6.6.0",
 			}),
 			puppeteer(),
