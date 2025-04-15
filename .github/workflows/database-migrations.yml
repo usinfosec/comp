@@ -26,12 +26,6 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: List files for debugging
-        run: |
-          ls -la
-          ls -la packages/db
-          ls -la packages/db/prisma
-
       - name: Apply database migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_PROD }}
