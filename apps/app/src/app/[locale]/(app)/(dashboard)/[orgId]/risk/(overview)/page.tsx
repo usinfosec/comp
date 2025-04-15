@@ -97,7 +97,7 @@ export default async function RiskRegisterPage({
 
 	return (
 		<PageWithBreadcrumb
-			breadcrumbs={[{ label: "Risks", href: `/${orgId}/risk` }]}
+			breadcrumbs={[{ label: "Risks", href: `/${orgId}/risk`, current: true }]}
 		>
 			<RisksTable risks={risks?.risks || []} assignees={assignees} />
 		</PageWithBreadcrumb>
