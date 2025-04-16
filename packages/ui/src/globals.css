@@ -364,3 +364,28 @@
 .aria-selected\:text-accent-foreground[aria-selected='true'] {
   border-radius: 0px;
 }
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--bg-accent));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--bg-accent));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--bg-accent));
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--bg-accent)) hsl(var(--background));
+}
