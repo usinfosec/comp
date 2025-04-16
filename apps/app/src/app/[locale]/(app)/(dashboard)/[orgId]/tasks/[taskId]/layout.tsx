@@ -3,5 +3,5 @@ export default async function TaskLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <div className="overflow-hidden">{children}</div>;
+	return <>{children}</>;
 }

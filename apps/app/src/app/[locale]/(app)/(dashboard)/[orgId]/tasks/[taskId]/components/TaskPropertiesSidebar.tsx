@@ -36,11 +36,11 @@ export function TaskPropertiesSidebar({
 	handleUpdateTask,
 }: TaskPropertiesSidebarProps) {
 	return (
-		<aside className="w-full md:w-64 lg:w-72 flex-shrink-0 space-y-6 border-l pl-6 md:pl-8">
-			<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+		<aside className="w-full md:w-64 lg:w-72 flex-shrink-0 md:border-l md:pt-8 md:pl-8 hidden lg:flex flex-col">
+			<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 flex-shrink-0">
 				Properties
 			</h2>
-			<div className="space-y-4">
+			<div className="space-y-4 overflow-y-auto">
 				{/* Status Selector */}
 				<div className="flex justify-between items-center text-sm group">
 					<span className="text-muted-foreground">Status</span>

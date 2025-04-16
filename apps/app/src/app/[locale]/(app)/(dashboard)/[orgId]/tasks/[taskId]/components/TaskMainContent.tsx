@@ -1,102 +1,95 @@
-import { Task } from "@comp/db/types";
-import { Avatar, AvatarFallback } from "@comp/ui/avatar";
-import { Button } from "@comp/ui/button";
-import { Separator } from "@comp/ui/separator";
-import { Textarea } from "@comp/ui/textarea";
-import { Paperclip, SendHorizonal } from "lucide-react";
-import { ScrollArea } from "@comp/ui/scroll-area";
+"use client";
 
-// TODO: Define a proper activity type if needed
-interface Activity {
-	type: string;
-	user: string;
-	text?: string;
-	time: string;
-	label?: string;
-}
+import type { Task, Attachment } from "@comp/db/types";
+import { Separator } from "@comp/ui/separator";
+import { useAction } from "next-safe-action/hooks";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { useDebouncedCallback } from "use-debounce";
+import { updateTask } from "../../actions/updateTask";
+import type { CommentWithAuthor } from "../page";
+import { TaskCommentForm } from "./TaskCommentForm";
+import { TaskCommentList } from "./TaskCommentList";
+import { TaskBody } from "./TaskBody";
 
 interface TaskMainContentProps {
-	task: Task;
-	activities: Activity[];
+	task: Task & { fileUrls?: string[] };
+	comments: CommentWithAuthor[];
+	attachments: Attachment[];
 }
 
-export function TaskMainContent({ task, activities }: TaskMainContentProps) {
+export function TaskMainContent({
+	task,
+	comments,
+	attachments,
+}: TaskMainContentProps) {
+	const [title, setTitle] = useState(task.title);
+	const [description, setDescription] = useState(task.description ?? "");
+
+	const { execute: executeUpdateTask, status: updateStatus } = useAction(
+		updateTask,
+		{
+			onSuccess: ({ data }) => {
+				if (data?.success) {
+					toast.success("Task updated successfully!");
+				} else {
+					toast.error(data?.error || "Failed to update task.");
+				}
+			},
+			onError: () => {
+				toast.error(
+					"An unexpected error occurred while updating the task.",
+				);
+			},
+		},
+	);
+
+	const debouncedUpdateTask = useDebouncedCallback(
+		(field: "title" | "description", value: string) => {
+			executeUpdateTask({ id: task.id, [field]: value });
+		},
+		500,
+	);
+
+	useEffect(() => {
+		setTitle(task.title);
+		setDescription(task.description ?? "");
+	}, [task.title, task.description]);
+
+	const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newTitle = event.target.value;
+		setTitle(newTitle);
+		debouncedUpdateTask("title", newTitle);
+	};
+
+	const handleDescriptionChange = (
+		event: React.ChangeEvent<HTMLTextAreaElement>,
+	) => {
+		const newDescription = event.target.value;
+		setDescription(newDescription);
+		debouncedUpdateTask("description", newDescription);
+	};
+
 	return (
-		<div className="flex-1 flex flex-col gap-6 pr-4">
-			{/* Task Title */}
-			<h1 className="text-2xl font-semibold tracking-tight pt-6 flex-shrink-0">
-				{task.title}
-			</h1>
+		<div className="flex-1 flex flex-col gap-4 lg:max-w-3xl lg:mx-auto lg:py-8">
+			<TaskBody
+				taskId={task.id}
+				title={title}
+				description={description}
+				attachments={attachments}
+				onTitleChange={handleTitleChange}
+				onDescriptionChange={handleDescriptionChange}
+				disabled={updateStatus === "executing"}
+			/>
 
-			{/* Wrap scrollable content */}
-			<ScrollArea className="flex-1 pb-6">
-				<div className="flex flex-col gap-6">
-					{/* Description - Placeholder for editable/display */}
-					<div className="text-muted-foreground">
-						{task.description || "Add description..."}
-					</div>
+			<Separator />
 
-					<Separator />
-
-					{/* Activity Feed */}
-					<div className="space-y-4">
-						<h2 className="text-sm font-medium text-muted-foreground">
-							Activity
-						</h2>
-						{/* TODO: Replace with actual activity/comment rendering */}
-						{activities.map((activity, index) => (
-							<div
-								key={index}
-								className="text-sm text-muted-foreground flex gap-2 items-start"
-							>
-								<Avatar className="w-5 h-5 mt-0.5">
-									{/* Placeholder */}
-									<AvatarFallback>
-										{activity.user.charAt(0)}
-									</AvatarFallback>
-								</Avatar>
-								<div>
-									<span className="font-medium text-foreground">
-										{activity.user}
-									</span>
-									{activity.type === "creation" &&
-										` created the issue · ${activity.time}`}
-									{activity.type === "comment" &&
-										` commented · ${activity.time}`}
-									{activity.type === "label" &&
-										` added label ${activity.label} · ${activity.time}`}
-									{activity.type === "comment" && (
-										<p className="text-foreground mt-1">
-											{activity.text}
-										</p>
-									)}
-								</div>
-							</div>
-						))}
-					</div>
-
-					{/* Comment Input */}
-					<div className="border rounded p-3 space-y-2">
-						<Textarea
-							placeholder="Leave a comment..."
-							className="min-h-[80px] border-none focus-visible:ring-0 shadow-none p-0"
-						/>
-						<div className="flex justify-between items-center">
-							<Button
-								variant="ghost"
-								size="icon"
-								className="text-muted-foreground h-8 w-8"
-							>
-								<Paperclip className="h-4 w-4" />
-							</Button>
-							<Button size="sm">
-								Comment{" "}
-								<SendHorizonal className="ml-2 h-4 w-4" />
-							</Button>
-						</div>
-					</div>
-				</div>
-			</ScrollArea>
+			{/* Comment Section */}
+			<div className="space-y-6">
+				<h3 className="text-lg font-medium">Comments</h3>
+				<TaskCommentForm taskId={task.id} />
+				<TaskCommentList comments={comments} />
+			</div>
 		</div>
 	);
 }

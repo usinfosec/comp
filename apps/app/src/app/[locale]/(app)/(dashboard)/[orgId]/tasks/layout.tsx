@@ -1,4 +1,4 @@
-"use client"; // Needed for usePathname
+"use client";
 
 import {
 	Breadcrumb,
@@ -28,19 +28,17 @@ export default function Layout({
 	let taskId: string | null = null;
 
 	if (tasksIndex !== -1) {
-		// Construct the path up to and including 'tasks' using template literal
 		tasksPath = `/${segments.slice(0, tasksIndex + 1).join("/")}`;
-		// Check if there's a segment after 'tasks' (potential taskId)
 		if (segments.length > tasksIndex + 1) {
 			taskId = segments[tasksIndex + 1];
 		}
 	}
 
 	return (
-		<main className="mt-8">
+		<main className="mt-4">
 			{/* Render Breadcrumbs only if we are in the tasks section */}
 			{tasksPath && (
-				<div className="mb-4 border-b pb-8">
+				<div className="border-b pb-4">
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
