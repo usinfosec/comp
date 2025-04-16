@@ -372,20 +372,20 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--bg-accent));
+  background: hsl(var(--secondary));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--bg-accent));
+  background: hsl(var(--secondary));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--bg-accent));
+  background: hsl(var(--secondary));
 }
 
 /* Firefox scrollbar styles */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--bg-accent)) hsl(var(--background));
+  scrollbar-color: hsl(var(--secondary)) hsl(var(--background));
 }
