@@ -4,30 +4,30 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { StatusIndicator } from "@/components/status-indicator";
 import { formatDate } from "@/lib/format";
 import { calculateNextReview } from "@/lib/utils/calculate-next-review";
-import { Evidence } from "@comp/db/types";
+import { Frequency, Task, TaskFrequency } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 
-export function getEvidenceColumns(): ColumnDef<Evidence>[] {
+export function getEvidenceColumns(): ColumnDef<Task>[] {
 	return [
 		{
-			id: "name",
-			accessorKey: "name",
+			id: "title",
+			accessorKey: "title",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Evidence" />
+				<DataTableColumnHeader column={column} title="Title" />
 			),
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center gap-2">
 						<span className="max-w-[31.25rem] truncate font-medium">
-							{row.getValue("name")}
+							{row.getValue("title")}
 						</span>
 					</div>
 				);
 			},
 			meta: {
-				label: "Evidence",
-				placeholder: "Search for evidence...",
+				label: "Title",
+				placeholder: "Search for title...",
 				variant: "text",
 			},
 			enableColumnFilter: true,
@@ -48,15 +48,15 @@ export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 			},
 		},
 		{
-			id: "department",
-			accessorKey: "department",
+			id: "frequency",
+			accessorKey: "frequency",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Department" />
+				<DataTableColumnHeader column={column} title="Frequency" />
 			),
 			cell: ({ row }) => {
-				const department = row.original.department;
+				const frequency = row.original.frequency;
 
-				if (!department || department === "none") {
+				if (!frequency) {
 					return (
 						<Badge
 							variant="marketing"
@@ -70,34 +70,34 @@ export function getEvidenceColumns(): ColumnDef<Evidence>[] {
 				return (
 					<div className="hidden md:flex items-center gap-2">
 						<Badge variant="marketing">
-							{department.replace(/_/g, " ").toUpperCase()}
+							{frequency.replace(/_/g, " ").toUpperCase()}
 						</Badge>
 					</div>
 				);
 			},
 			meta: {
-				label: "Department",
-				placeholder: "Search by department...",
+				label: "Frequency",
+				placeholder: "Search by frequency...",
 				variant: "select",
 			},
 		},
 		{
-			id: "reviewDate",
-			accessorKey: "reviewDate",
+			id: "lastCompletedAt",
+			accessorKey: "lastCompletedAt",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title="Review Date" />
+				<DataTableColumnHeader column={column} title="Last Completed" />
 			),
 			cell: ({ row }) => {
-				if (row.original.lastPublishedAt === null) {
+				if (row.original.lastCompletedAt === null) {
 					return (
 						<div className="truncate text-red-500 font-medium hidden md:block">
-							ASAP
+							N/A
 						</div>
 					);
 				}
 
 				const reviewInfo = calculateNextReview(
-					row.original.lastPublishedAt,
+					row.original.lastCompletedAt,
 					row.original.frequency,
 				);
 

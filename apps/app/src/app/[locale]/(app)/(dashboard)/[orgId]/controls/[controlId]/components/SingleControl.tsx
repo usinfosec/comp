@@ -5,7 +5,6 @@ import { useI18n } from "@/locales/client";
 import type {
 	Artifact,
 	Control,
-	Evidence,
 	FrameworkInstance,
 	Policy,
 	RequirementMap,
@@ -26,7 +25,6 @@ interface SingleControlProps {
 	};
 	controlProgress: ControlProgressResponse;
 	relatedArtifacts: (Artifact & {
-		evidence: Evidence | null;
 		policy: Policy | null;
 	})[];
 }

@@ -20,7 +20,7 @@ export default async function EvidencePage({ params }: EvidencePageProps) {
 		<PageWithBreadcrumb
 			breadcrumbs={[
 				{ label: "Evidence", href: `/${orgId}/evidence/all` },
-				{ label: evidence.name, current: true },
+				{ label: evidence.title, current: true },
 			]}
 		>
 			<EvidenceDetails assignees={assignees} evidence={evidence} />
@@ -55,7 +55,7 @@ const getAssignees = async () => {
 };
 
 const getEvidence = async (id: string) => {
-	const evidence = await db.evidence.findUnique({
+	const evidence = await db.task.findUnique({
 		where: {
 			id,
 		},

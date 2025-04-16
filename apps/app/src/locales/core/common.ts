@@ -58,6 +58,8 @@ export const common = {
 		title: "Status",
 		compliant: "Compliant",
 		not_relevant: "Not Relevant",
+		todo: "Todo",
+		done: "Done",
 	},
 	filters: {
 		clear: "Clear filters",

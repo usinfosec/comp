@@ -1,5 +1,5 @@
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
-import { Evidence, EvidenceStatus } from "@comp/db/types";
+import { Task, TaskStatus } from "@comp/db/types";
 import {
 	createSearchParamsCache,
 	parseAsArrayOf,
@@ -12,11 +12,11 @@ import * as z from "zod";
 export const searchParamsCache = createSearchParamsCache({
 	page: parseAsInteger.withDefault(1),
 	perPage: parseAsInteger.withDefault(10),
-	sort: getSortingStateParser<Evidence>().withDefault([
-		{ id: "name", desc: false },
+	sort: getSortingStateParser<Task>().withDefault([
+		{ id: "title", desc: false },
 	]),
-	name: parseAsString.withDefault(""),
-	status: parseAsArrayOf(z.nativeEnum(EvidenceStatus)).withDefault([]),
+	title: parseAsString.withDefault(""),
+	status: parseAsArrayOf(z.nativeEnum(TaskStatus)).withDefault([]),
 	createdAt: parseAsArrayOf(z.coerce.date()).withDefault([]),
 	// advanced filter
 	filters: getFiltersStateParser().withDefault([]),

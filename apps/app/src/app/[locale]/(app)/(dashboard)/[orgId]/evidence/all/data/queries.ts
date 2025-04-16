@@ -23,22 +23,29 @@ export async function getEvidence(input: GetEvidenceSchema) {
 				[sort.id]: sort.desc ? "desc" : "asc",
 			}));
 
-			const where: Prisma.EvidenceWhereInput = {
+			const where: Prisma.TaskWhereInput = {
 				organizationId,
+				entityType: "control",
 			};
 
-			const evidence = await db.evidence.findMany({
+			const evidence = await db.task.findMany({
 				where,
 				orderBy: orderBy.length > 0 ? orderBy : [{ createdAt: "desc" }],
 				skip: (input.page - 1) * input.perPage,
 				take: input.perPage,
 			});
 
-			const total = await db.evidence.count({
+			const total = await db.task.count({
 				where,
 			});
 
 			const pageCount = Math.ceil(total / input.perPage);
+
+			console.log({
+				evidence,
+				total,
+				pageCount,
+			});
 			return { data: evidence, pageCount };
 		} catch (_err) {
 			return { data: [], pageCount: 0 };

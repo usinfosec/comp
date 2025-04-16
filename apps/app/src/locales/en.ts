@@ -31,6 +31,9 @@ import { app_onboarding } from "./onboarding/app-onboarding";
 // Settings translations
 import { settings } from "./settings/settings";
 
+// Tasks translations
+import { tasks } from "./features/tasks";
+
 // Never add translations here, add them to the appropriate feature file.
 
 export const translations = {
@@ -68,6 +71,9 @@ export const translations = {
 
 	// Onboarding
 	app_onboarding,
+
+	// Tasks
+	tasks,
 } as const;
 
 export type Translations = typeof translations;

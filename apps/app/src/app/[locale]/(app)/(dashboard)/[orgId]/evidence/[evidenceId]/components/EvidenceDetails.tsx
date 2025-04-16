@@ -1,8 +1,5 @@
 "use client";
 
-import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
-import { FileIcon } from "lucide-react";
 import type { EvidenceDetailsProps } from "../types";
 import { EditEvidenceForm } from "./EditEvidenceForm";
 import { ReviewSection } from "./ReviewSection";

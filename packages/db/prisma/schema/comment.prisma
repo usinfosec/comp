@@ -1,7 +1,10 @@
 model Comment {
-  id        String   @id @default(dbgenerated("generate_prefixed_cuid('cmt'::text)"))
-  content   String
-  entityId  String
+  id         String            @id @default(dbgenerated("generate_prefixed_cuid('cmt'::text)"))
+  content    String
+  entityId   String
+  entityType CommentEntityType
+
+  // Dates
   createdAt DateTime @default(now())
 
   // Relationships
@@ -11,4 +14,10 @@ model Comment {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@index([entityId])
+}
+
+enum CommentEntityType {
+  task
+  vendor
+  risk
 }

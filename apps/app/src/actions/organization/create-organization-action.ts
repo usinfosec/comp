@@ -12,8 +12,8 @@ import { createStripeCustomer } from "./lib/create-stripe-customer";
 import {
 	createControlArtifacts,
 	createFrameworkInstance,
-	createOrganizationEvidence,
 	createOrganizationPolicies,
+	createOrganizationTasks,
 	getRelevantControls,
 } from "./lib/utils";
 
@@ -128,10 +128,22 @@ export const createOrganizationAction = authActionClient
 					const createFrameworkInstancesTime =
 						(performance.now() - start) / 1000;
 
-					// Run policy and evidence creation in parallel
+					// Fetch DB controls needed for Task creation
+					const dbControlsList = await tx.control.findMany({
+						where: {
+							organizationId,
+							name: { in: relevantControls.map((c) => c.name) },
+						},
+						select: { id: true, name: true },
+					});
+					const dbControlsMap = new Map<string, { id: string }>();
+					for (const control of dbControlsList) {
+						dbControlsMap.set(control.name, control);
+					}
+
+					// Run policy and task creation in parallel
 					start = performance.now();
-					// Pass the transaction client `tx` to the helpers
-					const [policiesForFrameworks, evidenceForFrameworks] =
+					const [policiesForFrameworks, tasksCreationResult] =
 						await Promise.all([
 							createOrganizationPolicies(
 								organizationId,
@@ -139,14 +151,15 @@ export const createOrganizationAction = authActionClient
 								userId,
 								tx,
 							), // Pass tx
-							createOrganizationEvidence(
+							createOrganizationTasks(
 								organizationId,
 								relevantControls,
+								dbControlsMap, // Pass the map
 								userId,
 								tx,
-							), // Pass tx
+							),
 						]);
-					const createPoliciesAndEvidenceParallelTime =
+					const createPoliciesAndTasksParallelTime =
 						(performance.now() - start) / 1000;
 
 					start = performance.now();
@@ -156,7 +169,6 @@ export const createOrganizationAction = authActionClient
 						organizationFrameworks.map((framework) => framework.id),
 						relevantControls,
 						policiesForFrameworks,
-						evidenceForFrameworks,
 						tx, // Pass tx
 					);
 					const createControlArtifactsTime =
@@ -166,7 +178,7 @@ export const createOrganizationAction = authActionClient
 					return {
 						getRelevantControlsTime,
 						createFrameworkInstancesTime,
-						createPoliciesAndEvidenceParallelTime,
+						createPoliciesAndTasksParallelTime,
 						createControlArtifactsTime,
 						organizationFrameworks, // Need this for the final return value potentially
 					};
@@ -183,7 +195,7 @@ export const createOrganizationAction = authActionClient
 			timings.createFrameworkInstances =
 				result.createFrameworkInstancesTime;
 			timings.createPoliciesAndEvidenceParallel =
-				result.createPoliciesAndEvidenceParallelTime;
+				result.createPoliciesAndTasksParallelTime;
 			timings.createControlArtifacts = result.createControlArtifactsTime;
 
 			timings.total = (performance.now() - totalStart) / 1000;

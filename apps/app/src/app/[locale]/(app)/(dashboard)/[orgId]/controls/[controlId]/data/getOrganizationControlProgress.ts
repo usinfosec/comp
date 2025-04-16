@@ -37,7 +37,6 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 			artifacts: {
 				include: {
 					policy: true,
-					evidence: true,
 				},
 			},
 		},
@@ -74,9 +73,6 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 		switch (artifact.type) {
 			case ArtifactType.policy:
 				isCompleted = artifact.policy?.status === "published";
-				break;
-			case ArtifactType.evidence:
-				isCompleted = artifact.evidence?.status === "published";
 				break;
 			case ArtifactType.procedure:
 			case ArtifactType.training:
