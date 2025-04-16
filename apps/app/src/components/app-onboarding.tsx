@@ -56,26 +56,24 @@ export function AppOnboarding({
 				<div className="p-6 flex-1">
 					<div className="flex flex-col max-h-[500px]">
 						<CardHeader className="px-0 flex-none space-y-3">
-							<div className="flex items-start justify-between">
+							<div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-0">
 								<div>
-									<div className="flex items-center gap-2 mb-1">
-										<CardTitle className="text-2xl font-bold">
-											{title}
-										</CardTitle>
+									<CardTitle className="text-2xl font-bold flex items-center gap-2">
+										{title}
 										<Badge
 											variant="outline"
-											className="ml-2 text-xs"
+											className="text-xs"
 										>
 											New
 										</Badge>
-									</div>
+										<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 self-start sm:self-auto hidden sm:flex sm:flex-shrink-0">
+											Recommended
+										</Badge>
+									</CardTitle>
 									<CardDescription className="text-base text-muted-foreground max-w-xl">
 										{description}
 									</CardDescription>
 								</div>
-								<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-									Recommended
-								</Badge>
 							</div>
 
 							<div className="relative h-1 w-full bg-secondary/50 rounded-full overflow-hidden mt-4">
@@ -146,10 +144,10 @@ export function AppOnboarding({
 				</div>
 
 				{cta && (
-					<CardFooter className="py-4 bg-muted/30 border-t flex items-center justify-between">
-						<div className="flex items-center text-sm text-muted-foreground">
+					<CardFooter className="py-4 bg-muted/30 border-t flex items-center justify-end sm:justify-between">
+						<div className="hidden sm:flex items-center text-sm text-muted-foreground">
 							<Clock className="h-3.5 w-3.5 mr-1.5" />
-							<span>Estimated time: ~15 minutes</span>
+							<span>Estimated time: ~5 minutes</span>
 						</div>
 						<Button
 							variant="default"
