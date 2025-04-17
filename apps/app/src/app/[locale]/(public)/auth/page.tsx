@@ -1,6 +1,7 @@
 import { GithubSignIn } from "@/components/github-sign-in";
 import { GoogleSignIn } from "@/components/google-sign-in";
 import { MagicLinkSignIn } from "@/components/magic-link";
+import { env } from "@/env.mjs";
 import { getI18n } from "@/locales/server";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@comp/ui/accordion";
 import { Icons } from "@comp/ui/icons";
@@ -21,18 +22,35 @@ export default async function Page({
 
 	const { inviteCode } = await searchParams;
 
-	const preferredSignInOption = (
-		<div className="flex flex-col space-y-2">
-			<GoogleSignIn inviteCode={inviteCode} />
-		</div>
-	);
+	let preferredSignInOption: React.ReactNode;
 
-	const moreSignInOptions = (
-		<div className="flex flex-col space-y-2">
-			<MagicLinkSignIn inviteCode={inviteCode} />
-			<GithubSignIn inviteCode={inviteCode} />
-		</div>
-	);
+	if (env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET) {
+		preferredSignInOption = (
+			<div className="flex flex-col space-y-2">
+				<GoogleSignIn inviteCode={inviteCode} />
+			</div>
+		);
+	} else {
+		preferredSignInOption = (
+			<div className="flex flex-col space-y-2">
+				<MagicLinkSignIn inviteCode={inviteCode} />
+			</div>
+		);
+	}
+
+
+	let moreSignInOptions: React.ReactNode;
+
+	if (env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET && env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET) {
+		moreSignInOptions = (
+			<div className="flex flex-col space-y-2">
+				<MagicLinkSignIn inviteCode={inviteCode} />
+				<GithubSignIn inviteCode={inviteCode} />
+			</div>
+		);
+	} else {
+		moreSignInOptions = null;
+	}
 
 	return (
 		<div>
@@ -64,16 +82,18 @@ export default async function Page({
 								collapsible
 								className="border-t-[1px] pt-2 mt-6"
 							>
-								<AccordionItem value="item-1" className="border-0">
-									<AccordionTrigger className="justify-center space-x-2 flex text-sm">
-										<span>More options</span>
-									</AccordionTrigger>
-									<AccordionContent className="mt-4">
-										<div className="flex flex-col space-y-4">
-											{moreSignInOptions}
-										</div>
-									</AccordionContent>
-								</AccordionItem>
+								{moreSignInOptions && (
+									<AccordionItem value="item-1" className="border-0">
+										<AccordionTrigger className="justify-center space-x-2 flex text-sm">
+											<span>More options</span>
+										</AccordionTrigger>
+										<AccordionContent className="mt-4">
+											<div className="flex flex-col space-y-4">
+												{moreSignInOptions}
+											</div>
+										</AccordionContent>
+									</AccordionItem>
+								)}
 							</Accordion>
 						</div>
 
