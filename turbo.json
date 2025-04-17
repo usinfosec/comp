@@ -42,7 +42,8 @@
         "REVALIDATION_SECRET",
         "GROQ_API_KEY",
         "SENTRY_AUTH_TOKEN",
-        "RESEND_AUDIENCE_ID"
+        "RESEND_AUDIENCE_ID",
+        "FIRECRAWL_API_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "dependsOn": ["^build", "^db:generate", "^auth:build", "clean-react"],
