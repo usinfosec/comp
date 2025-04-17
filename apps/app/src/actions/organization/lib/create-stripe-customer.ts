@@ -6,6 +6,10 @@ async function createStripeCustomer(input: {
 	organizationId: string;
 }): Promise<string> {
 	try {
+		if (!stripe) {
+			return "test_customer_id";
+		}
+
 		const customer = await stripe.customers.create({
 			name: input.name,
 			email: input.email,

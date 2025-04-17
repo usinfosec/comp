@@ -130,7 +130,11 @@ export function useNotifications() {
 	}, [headlessServiceRef.current]);
 
 	useEffect(() => {
-		if (subscriberId && !headlessServiceRef.current) {
+		if (
+			subscriberId &&
+			!headlessServiceRef.current &&
+			env.NEXT_PUBLIC_NOVU_IDENTIFIER
+		) {
 			const headlessService = new HeadlessService({
 				applicationIdentifier: env.NEXT_PUBLIC_NOVU_IDENTIFIER!,
 				subscriberId,

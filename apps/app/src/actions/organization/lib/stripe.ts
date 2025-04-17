@@ -1,15 +1,18 @@
+import { env } from "@/env.mjs";
 import Stripe from "stripe";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-	throw new Error("STRIPE_SECRET_KEY is not set");
+export const stripeWebhookSecret = env.STRIPE_WEBHOOK_SECRET;
+
+let stripe: Stripe | undefined;
+
+if (env.STRIPE_SECRET_KEY && env.STRIPE_WEBHOOK_SECRET) {
+	stripe = new Stripe(env.STRIPE_SECRET_KEY, {
+		apiVersion: "2025-02-24.acacia",
+	});
+} else {
+	console.warn(
+		"Stripe environment variables (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET) are not fully configured. Stripe functionality will be disabled.",
+	);
 }
 
-if (!process.env.STRIPE_WEBHOOK_SECRET) {
-	throw new Error("STRIPE_WEBHOOK_SECRET is not set");
-}
-
-export const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-	apiVersion: "2025-02-24.acacia",
-});
+export { stripe };

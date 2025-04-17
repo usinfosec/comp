@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { db } from "@comp/db";
 import { MagicLinkEmail, OTPVerificationEmail } from "@comp/email";
 import { sendInviteMemberEmail } from "@comp/email/lib/invite-member";
@@ -7,6 +8,28 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailOTP, magicLink, organization } from "better-auth/plugins";
 import { ac, admin, auditor, employee, member, owner } from "./permissions";
+
+let socialProviders = {};
+
+if (env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET) {
+	socialProviders = {
+		...socialProviders,
+		google: {
+			clientId: env.AUTH_GOOGLE_ID,
+			clientSecret: env.AUTH_GOOGLE_SECRET,
+		},
+	};
+}
+
+if (env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET) {
+	socialProviders = {
+		...socialProviders,
+		github: {
+			clientId: env.AUTH_GITHUB_ID,
+			clientSecret: env.AUTH_GITHUB_SECRET,
+		},
+	};
+}
 
 export const auth = betterAuth({
 	database: prismaAdapter(db, {
@@ -69,16 +92,7 @@ export const auth = betterAuth({
 		}),
 		nextCookies(),
 	],
-	socialProviders: {
-		google: {
-			clientId: process.env.AUTH_GOOGLE_ID!,
-			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-		},
-		github: {
-			clientId: process.env.AUTH_GITHUB_ID!,
-			clientSecret: process.env.AUTH_GITHUB_SECRET!,
-		},
-	},
+	socialProviders,
 	user: {
 		modelName: "User",
 	},

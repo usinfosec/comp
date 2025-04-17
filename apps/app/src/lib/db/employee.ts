@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { auth } from "@/utils/auth";
 import { trainingVideos } from "@comp/data";
 import { db } from "@comp/db";
@@ -6,7 +7,7 @@ import { InvitePortalEmail } from "@comp/email/emails/invite-portal";
 import { sendEmail } from "@comp/email/lib/resend";
 import { revalidatePath } from "next/cache";
 
-if (!process.env.NEXT_PUBLIC_PORTAL_URL) {
+if (!env.NEXT_PUBLIC_PORTAL_URL) {
 	throw new Error("NEXT_PUBLIC_PORTAL_URL is not set");
 }
 
