@@ -29,6 +29,28 @@ model AuditLog {
     @@index([organizationId])
 }
 
+model GlobalVendors {
+    website String @id @unique
+    company_name String?
+    legal_name String?
+    company_description String?
+    company_hq_address String?
+    privacy_policy_url String?
+    terms_of_service_url String?
+    service_level_agreement_url String?
+    security_page_url String?
+    trust_page_url String?
+    security_certifications String[]
+    subprocessors String[]
+    type_of_company String?
+
+    approved Boolean @default(false)
+    createdAt DateTime @default(now())
+
+
+    @@index([website])
+}
+
 enum Departments {
     none
     admin
