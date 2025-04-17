@@ -1,17 +1,15 @@
 "use server";
-import { type ActionResponse } from "@/app/actions/actions";
+
 import { env } from "@/env.mjs";
 import { db } from "@comp/db";
-import FirecrawlApp, { ScrapeResponse } from "@mendable/firecrawl-js";
-import ky from "ky";
+import FirecrawlApp from "@mendable/firecrawl-js";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
-
 let firecrawl: FirecrawlApp | null = null;
 
-if (process.env.FIRECRAWL_API_KEY) {
+if (env.FIRECRAWL_API_KEY) {
 	firecrawl = new FirecrawlApp({
-		apiKey: process.env.FIRECRAWL_API_KEY,
+		apiKey: env.FIRECRAWL_API_KEY,
 	});
 }
 
@@ -39,7 +37,7 @@ export const researchVendorAction = authActionClient
 	.metadata({
 		name: "research-vendor",
 	})
-	.action(async ({ parsedInput: { website }, ctx: { user } }) => {
+	.action(async ({ parsedInput: { website } }) => {
 		try {
 			if (!firecrawl) {
 				return {

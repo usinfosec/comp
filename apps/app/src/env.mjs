@@ -31,6 +31,7 @@ export const env = createEnv({
 		GROQ_API_KEY: z.string().optional(),
 		NEXT_PUBLIC_PORTAL_URL: z.string(),
 		RESEND_AUDIENCE_ID: z.string().optional(),
+		FIRECRAWL_API_KEY: z.string().optional(),
 	},
 
 	client: {
@@ -73,6 +74,7 @@ export const env = createEnv({
 		GROQ_API_KEY: process.env.GROQ_API_KEY,
 		NEXT_PUBLIC_PORTAL_URL: process.env.NEXT_PUBLIC_PORTAL_URL,
 		RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
+		FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY,
 	},
 
 	skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
