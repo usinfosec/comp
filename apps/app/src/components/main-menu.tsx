@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import { Badge } from "@comp/ui/badge";
 import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
@@ -45,16 +46,15 @@ type MenuItem = {
 };
 
 interface ItemProps {
+	organizationId: string;
 	item: MenuItem;
 	isActive: boolean;
 	disabled: boolean;
-	organizationId: string;
 	isCollapsed?: boolean;
 	onItemClick?: () => void;
 }
 
 export function MainMenu({
-	organizationId,
 	//userIsAdmin,
 	isCollapsed = false,
 	completedOnboarding,
@@ -62,6 +62,8 @@ export function MainMenu({
 }: Props) {
 	const t = useI18n();
 	const pathname = usePathname();
+	const session = authClient.useSession();
+	const organizationId = session?.data?.session?.activeOrganizationId;
 
 	const items: MenuItem[] = [
 		{
@@ -167,12 +169,13 @@ export function MainMenu({
 	const isPathActive = (itemPath: string) => {
 		const normalizedItemPath = itemPath.replace(
 			":organizationId",
-			organizationId,
+			organizationId ?? "",
 		);
 
 		// Extract the base path from the menu item (first two segments after normalization)
 		const itemPathParts = normalizedItemPath.split("/").filter(Boolean);
-		const itemBaseSegment = itemPathParts.length > 1 ? itemPathParts[1] : "";
+		const itemBaseSegment =
+			itemPathParts.length > 1 ? itemPathParts[1] : "";
 
 		// Extract the current path parts
 		const currentPathParts = pathname.split("/").filter(Boolean);
@@ -232,10 +235,10 @@ export function MainMenu({
 							return (
 								<Item
 									key={item.id}
+									organizationId={organizationId ?? ""}
 									item={item}
 									isActive={isActive}
 									disabled={item.disabled}
-									organizationId={organizationId}
 									isCollapsed={isCollapsed}
 									onItemClick={onItemClick}
 								/>
@@ -248,10 +251,10 @@ export function MainMenu({
 }
 
 const Item = ({
+	organizationId,
 	item,
 	isActive,
 	disabled,
-	organizationId,
 	isCollapsed = false,
 	onItemClick,
 }: ItemProps) => {
@@ -265,7 +268,8 @@ const Item = ({
 	// Badge variants mapping
 	const badgeVariants = {
 		default: "bg-primary/80 text-primary-foreground hover:bg-primary/90",
-		secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+		secondary:
+			"bg-secondary text-secondary-foreground hover:bg-secondary/80",
 		outline:
 			"border-border bg-background hover:bg-accent hover:text-accent-foreground",
 		new: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
@@ -285,12 +289,14 @@ const Item = ({
 							<div
 								className={cn(
 									"relative border border-transparent flex items-center",
-									isCollapsed ? "md:w-[45px] md:justify-center" : "md:px-3",
+									isCollapsed
+										? "md:w-[45px] md:justify-center"
+										: "md:px-3",
 									"w-full px-3 md:w-auto h-[45px]",
 									"hover:bg-accent hover:border-border",
 									"transition-all duration-300",
 									isActive &&
-									"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary",
+										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary",
 								)}
 							>
 								<div
@@ -316,7 +322,10 @@ const Item = ({
 														variant="outline"
 														className={cn(
 															"ml-1.5 text-[9px] px-1 py-0 h-auto",
-															badgeVariants[item.badge.variant],
+															badgeVariants[
+																item.badge
+																	.variant
+															],
 														)}
 													>
 														{item.badge.text}
@@ -362,7 +371,6 @@ const Item = ({
 };
 
 type Props = {
-	organizationId: string;
 	//userIsAdmin: boolean;
 	isCollapsed?: boolean;
 	completedOnboarding: boolean;
