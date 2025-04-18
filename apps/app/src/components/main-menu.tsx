@@ -56,14 +56,13 @@ interface ItemProps {
 
 export function MainMenu({
 	//userIsAdmin,
+	organizationId,
 	isCollapsed = false,
 	completedOnboarding,
 	onItemClick,
 }: Props) {
 	const t = useI18n();
 	const pathname = usePathname();
-	const session = authClient.useSession();
-	const organizationId = session?.data?.session?.activeOrganizationId;
 
 	const items: MenuItem[] = [
 		{
@@ -371,6 +370,7 @@ const Item = ({
 };
 
 type Props = {
+	organizationId: string;
 	//userIsAdmin: boolean;
 	isCollapsed?: boolean;
 	completedOnboarding: boolean;
