@@ -12,7 +12,9 @@ export function AcceptInvite({
 }: { inviteCode: string; organizationName: string }) {
 	const router = useRouter();
 
-	const onSubmit = async () => {
+	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
 		await authClient.organization.acceptInvitation({
 			invitationId: inviteCode,
 		});
