@@ -1,107 +1,225 @@
+import { uploadFile } from "@/actions/files/upload-file";
+import type { Attachment } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
-import { Card, CardContent } from "@comp/ui/card";
-import type { CommentWithAuthor } from "../page";
 import { Button } from "@comp/ui/button";
-import { File as FileIcon, Trash2, Loader2 } from "lucide-react";
+import { Card, CardContent } from "@comp/ui/card";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@comp/ui/dropdown-menu";
+import { Label } from "@comp/ui/label";
+import { Textarea } from "@comp/ui/textarea";
+import { Loader2, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
-import { toast } from "sonner";
-import { getCommentAttachmentUrl } from "../../actions/getCommentAttachmentUrl";
-import { deleteCommentAttachment } from "../../actions/deleteCommentAttachment";
-import type { ActionResponse } from "@/actions/types";
 import { useRouter } from "next/navigation";
-
-// Copied from TaskMainContent - consider moving to a shared utils/formatters file
-function formatRelativeTime(date: Date): string {
-	const now = new Date();
-	const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-	const diffInMinutes = Math.floor(diffInSeconds / 60);
-	const diffInHours = Math.floor(diffInMinutes / 60);
-	const diffInDays = Math.floor(diffInHours / 24);
-
-	if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
-	if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-	if (diffInHours < 24) return `${diffInHours}h ago`;
-	return `${diffInDays}d ago`;
-}
+import { useCallback, useRef, useState } from "react";
+import { toast } from "sonner";
+import { deleteComment } from "../../actions/deleteComment";
+import { updateComment } from "../../actions/updateComment";
+import type { CommentWithAuthor } from "../page";
+import { AttachmentItem } from "./AttachmentItem";
+import { formatRelativeTime } from "./commentUtils";
 
 interface TaskCommentItemProps {
 	comment: CommentWithAuthor;
 }
 
 export function TaskCommentItem({ comment }: TaskCommentItemProps) {
-	const [busyAttachmentId, setBusyAttachmentId] = useState<string | null>(
-		null,
+	const [isEditing, setIsEditing] = useState(false);
+	const [editedContent, setEditedContent] = useState(comment.content);
+	const [currentAttachments, setCurrentAttachments] = useState(
+		comment.attachments,
 	);
+	const [attachmentsToRemove, setAttachmentsToRemove] = useState<string[]>(
+		[],
+	);
+	const [pendingAttachmentsToAdd, setPendingAttachmentsToAdd] = useState<
+		Attachment[]
+	>([]);
+	const [isUploading, setIsUploading] = useState(false);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 	const router = useRouter();
 
-	const { execute: executeGetDownloadUrl, status: downloadStatus } =
-		useAction(getCommentAttachmentUrl, {
-			onExecute: (args: { input: { attachmentId: string } }) => {
-				setBusyAttachmentId(args.input.attachmentId);
-			},
-			onSuccess: (args: {
-				data?: ActionResponse<{ signedUrl: string }>;
-			}) => {
-				const { data: result } = args;
-				if (result?.success && result.data?.signedUrl) {
-					window.open(result.data.signedUrl, "_blank");
+	// --- Action Hooks ---
+
+	// Upload File (for adding during edit)
+	const { execute: executeUploadFile, status: uploadFileStatus } = useAction(
+		uploadFile,
+		{
+			onExecute: () => setIsUploading(true),
+			onSuccess: ({ data }) => {
+				if (data?.success && data.data?.attachment) {
+					setPendingAttachmentsToAdd((prev) => [
+						...prev,
+						data.data.attachment,
+					]);
+					toast.success(
+						`File "${data.data.attachment.name}" staged for adding.`,
+					);
 				} else {
-					const errorMessage =
-						result && typeof result.error === "object"
-							? result.error.message
-							: result?.error;
 					toast.error(
-						String(errorMessage || "Could not get download URL."),
+						String(data?.error || "Failed to stage attachment."),
 					);
 				}
 			},
 			onError: () => {
-				console.error("Get comment download URL error occurred.");
-				toast.error("Could not get download URL. Please try again.");
+				toast.error("Failed to upload file. Please try again.");
 			},
 			onSettled: () => {
-				setBusyAttachmentId(null);
+				setIsUploading(false);
+				if (fileInputRef.current) fileInputRef.current.value = "";
 			},
-		});
+		},
+	);
 
-	const { execute: executeDeleteAttachment, status: deleteStatus } =
-		useAction(deleteCommentAttachment, {
-			onExecute: (args: { input: { attachmentId: string } }) => {
-				setBusyAttachmentId(args.input.attachmentId);
-			},
-			onSuccess: (args: {
-				data?: ActionResponse<{ deletedAttachmentId: string }>;
-			}) => {
-				if (args.data?.success) {
-					toast.success("Attachment deleted successfully.");
+	// Update Comment
+	const { execute: executeUpdateComment, status: updateStatus } = useAction(
+		updateComment,
+		{
+			onSuccess: ({ data }) => {
+				if (data?.success) {
+					toast.success("Comment updated successfully.");
+					setIsEditing(false);
+					// Refresh might not be strictly needed if optimistic update is done
+					// but it ensures consistency
 					router.refresh();
 				} else {
-					const errorMessage =
-						typeof args.data?.error === "object"
-							? args.data.error.message
-							: args.data?.error;
 					toast.error(
-						String(errorMessage || "Failed to delete attachment."),
+						String(data?.error || "Failed to update comment."),
 					);
 				}
 			},
-			onError: () => {
-				console.error("Delete comment attachment error occurred.");
-				toast.error("Failed to delete attachment. Please try again.");
+			onError: (error) => {
+				console.error("Update comment error:", error);
+				toast.error("Failed to update comment.");
 			},
-			onSettled: () => {
-				setBusyAttachmentId(null);
+		},
+	);
+
+	// Delete Comment
+	const { execute: executeDeleteComment, status: deleteCommentStatus } =
+		useAction(deleteComment, {
+			onSuccess: ({ data }) => {
+				if (data?.success) {
+					toast.success("Comment deleted successfully.");
+					// Component will unmount after refresh
+					router.refresh();
+				} else {
+					toast.error(
+						String(data?.error || "Failed to delete comment."),
+					);
+				}
+			},
+			onError: (error) => {
+				console.error("Delete comment error:", error);
+				toast.error("Failed to delete comment.");
 			},
 		});
 
-	const handleDownloadClick = (attachmentId: string) => {
-		executeGetDownloadUrl({ attachmentId });
+	// --- Handlers ---
+	const handleEditToggle = () => {
+		if (!isEditing) {
+			setEditedContent(comment.content);
+			setCurrentAttachments(comment.attachments); // Reset from original comment
+			setAttachmentsToRemove([]);
+			setPendingAttachmentsToAdd([]);
+		}
+		setIsEditing(!isEditing);
 	};
 
-	const handleDeleteClick = (attachmentId: string) => {
-		executeDeleteAttachment({ attachmentId });
+	const handleCancelEdit = () => {
+		setIsEditing(false);
+		// State reset happens automatically when toggling back via handleEditToggle
 	};
+
+	const handleSaveEdit = () => {
+		const contentChanged = editedContent !== comment.content;
+		const attachmentsAdded = pendingAttachmentsToAdd.length > 0;
+		const attachmentsRemoved = attachmentsToRemove.length > 0;
+
+		if (!contentChanged && !attachmentsAdded && !attachmentsRemoved) {
+			toast.info("No changes detected.");
+			setIsEditing(false); // Exit edit mode if no changes
+			return;
+		}
+
+		// Call the update action
+		executeUpdateComment({
+			commentId: comment.id,
+			// Only send content if it actually changed
+			content: contentChanged ? editedContent : undefined,
+			attachmentIdsToAdd: attachmentsAdded
+				? pendingAttachmentsToAdd.map((a) => a.id)
+				: undefined,
+			attachmentIdsToRemove: attachmentsRemoved
+				? attachmentsToRemove
+				: undefined,
+		});
+	};
+
+	const handleDeleteComment = () => {
+		if (window.confirm("Are you sure you want to delete this comment?")) {
+			console.log("Deleting comment:", comment.id);
+			// TODO: Call executeDeleteComment action
+			// On success: router.refresh(); (Component will disappear)
+		}
+	};
+
+	// Handler for AttachmentItem to mark for removal
+	const handleMarkForRemoval = (attachmentId: string) => {
+		setAttachmentsToRemove((prev) => [...prev, attachmentId]);
+		// Visually remove from current list
+		setCurrentAttachments((prev) =>
+			prev.filter((att) => att.id !== attachmentId),
+		);
+	};
+
+	// Handler to remove *staged* attachments before saving
+	const handleRemovePending = (attachmentId: string) => {
+		setPendingAttachmentsToAdd((prev) =>
+			prev.filter((att) => att.id !== attachmentId),
+		);
+	};
+
+	const triggerFileInput = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleFileSelect = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const file = event.target.files?.[0];
+			if (!file) return;
+
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				const base64Data = (reader.result as string)?.split(",")[1];
+				if (!base64Data) {
+					toast.error("Failed to read file data.");
+					return;
+				}
+
+				executeUploadFile({
+					fileName: file.name,
+					fileType: file.type,
+					fileData: base64Data,
+					entityId: comment.entityId,
+					entityType: "comment",
+				});
+			};
+			reader.onerror = () => {
+				toast.error("Error reading file.");
+			};
+			reader.readAsDataURL(file);
+		},
+		[executeUploadFile, comment.entityId],
+	);
+
+	const isProcessing =
+		updateStatus === "executing" ||
+		deleteCommentStatus === "executing" ||
+		isUploading;
 
 	return (
 		<Card>
@@ -116,78 +234,138 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 							"?"}
 					</AvatarFallback>
 				</Avatar>
-				<div className="flex-1 text-sm space-y-4">
+				<div className="flex-1 text-sm space-y-2">
 					<div>
-						<div className="flex items-center gap-2 mb-1">
-							<span className="font-medium">
-								{comment.author.user?.name ?? "Unknown User"}
-							</span>
-							<span className="text-xs text-muted-foreground">
-								{formatRelativeTime(comment.createdAt)}
-							</span>
+						<div className="flex items-center justify-between gap-2 mb-1">
+							<div className="flex items-center gap-2">
+								<span className="font-medium">
+									{comment.author.user?.name ??
+										"Unknown User"}
+								</span>
+								<span className="text-xs text-muted-foreground">
+									{!isEditing
+										? formatRelativeTime(comment.createdAt)
+										: "Editing..."}
+								</span>
+							</div>
+							{!isEditing && (
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Button
+											variant="ghost"
+											size="icon"
+											className="h-6 w-6 flex-shrink-0"
+											aria-label="Comment options"
+										>
+											<MoreHorizontal className="h-4 w-4" />
+										</Button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent align="end">
+										<DropdownMenuItem
+											onSelect={handleEditToggle}
+										>
+											<Pencil className="mr-2 h-3.5 w-3.5" />
+											Edit
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											className="text-destructive focus:text-destructive focus:bg-destructive/10"
+											onSelect={handleDeleteComment}
+										>
+											<Trash2 className="mr-2 h-3.5 w-3.5" />
+											Delete
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
+							)}
 						</div>
-						<p className="whitespace-pre-wrap">{comment.content}</p>
+
+						{!isEditing ? (
+							<p className="whitespace-pre-wrap">
+								{comment.content}
+							</p>
+						) : (
+							<Textarea
+								value={editedContent}
+								onChange={(e) =>
+									setEditedContent(e.target.value)
+								}
+								className="min-h-[60px] text-sm"
+								placeholder="Edit comment..."
+							/>
+						)}
 					</div>
 
-					{comment.attachments && comment.attachments.length > 0 && (
-						<div className="border-t pt-2">
-							<ul className="space-y-1.5">
-								{comment.attachments.map((attachment) => {
-									const isBusy =
-										busyAttachmentId === attachment.id;
-									const isDeleting =
-										isBusy && deleteStatus === "executing";
-									const isDownloading =
-										isBusy &&
-										!isDeleting &&
-										downloadStatus === "executing";
-									return (
-										<li
-											key={attachment.id}
-											className="flex items-center justify-between gap-2 text-xs border rounded px-2.5 py-1"
-										>
-											<button
-												type="button"
-												onClick={() =>
-													handleDownloadClick(
-														attachment.id,
-													)
-												}
-												disabled={!!busyAttachmentId}
-												className="flex items-center gap-1.5 hover:underline truncate disabled:opacity-50 disabled:no-underline"
-												title={`Download ${attachment.name}`}
-											>
-												{isDownloading ? (
-													<Loader2 className="h-3 w-3 flex-shrink-0 animate-spin" />
-												) : (
-													<FileIcon className="h-3 w-3 flex-shrink-0 text-muted-foreground" />
-												)}
-												<span className="truncate">
-													{attachment.name}
-												</span>
-											</button>
-											<Button
-												variant="ghost"
-												size="icon"
-												onClick={() =>
-													handleDeleteClick(
-														attachment.id,
-													)
-												}
-												disabled={!!busyAttachmentId}
-												className="h-5 w-5 text-destructive/70 hover:text-destructive disabled:opacity-50"
-												aria-label="Delete attachment"
-											>
-												{isDeleting ? (
-													<Loader2 className="h-2.5 w-2.5 animate-spin" />
-												) : (
-													<Trash2 className="h-2.5 w-2.5" />
-												)}
-											</Button>
-										</li>
-									);
-								})}
-							</ul>
+					{(currentAttachments.length > 0 ||
+						pendingAttachmentsToAdd.length > 0 ||
+						isEditing) && (
+						<div className="pt-6">
+							{isEditing && (
+								<Label className="text-xs font-medium mb-2 block">
+									Attachments
+								</Label>
+							)}
+							<input
+								type="file"
+								ref={fileInputRef}
+								onChange={handleFileSelect}
+								className="hidden"
+								disabled={isProcessing}
+							/>
+							<div className="flex flex-wrap gap-2">
+								{currentAttachments.map((attachment) => (
+									<AttachmentItem
+										key={attachment.id}
+										attachment={attachment}
+										isEditing={isEditing}
+										onRemove={handleMarkForRemoval}
+									/>
+								))}
+								{isEditing &&
+									pendingAttachmentsToAdd.map(
+										(attachment) => (
+											<AttachmentItem
+												key={attachment.id}
+												attachment={attachment}
+												isEditing={isEditing}
+												onRemove={handleRemovePending}
+											/>
+										),
+									)}
+								{isEditing && (
+									<button
+										type="button"
+										onClick={triggerFileInput}
+										disabled={isProcessing}
+										className="w-24 h-24 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-sm flex items-center justify-center text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+										aria-label="Add attachment"
+									>
+										{isUploading ? (
+											<Loader2 className="h-5 w-5 animate-spin" />
+										) : (
+											<Plus className="h-6 w-6" />
+										)}
+									</button>
+								)}
+							</div>
+						</div>
+					)}
+
+					{isEditing && (
+						<div className="flex justify-end gap-2 border-t pt-3">
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={handleCancelEdit}
+							>
+								Cancel
+							</Button>
+							<Button
+								size="sm"
+								onClick={handleSaveEdit}
+								disabled={isProcessing}
+							>
+								{isProcessing ? "Saving..." : "Save Changes"}
+							</Button>
 						</div>
 					)}
 				</div>
