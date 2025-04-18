@@ -5,13 +5,6 @@ import { db } from "@comp/db";
 import FirecrawlApp from "@mendable/firecrawl-js";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
-let firecrawl: FirecrawlApp | null = null;
-
-if (env.FIRECRAWL_API_KEY) {
-	firecrawl = new FirecrawlApp({
-		apiKey: env.FIRECRAWL_API_KEY,
-	});
-}
 
 const schema = z.object({
 	company_name: z.string(),
@@ -37,8 +30,21 @@ export const researchVendorAction = authActionClient
 	.metadata({
 		name: "research-vendor",
 	})
-	.action(async ({ parsedInput: { website } }) => {
+	.action(async ({ parsedInput: { website }, ctx: { session } }) => {
 		try {
+			const { activeOrganizationId } = session;
+
+			if (!activeOrganizationId) {
+				return {
+					success: false,
+					error: "Not authorized",
+				};
+			}
+
+			const firecrawl = new FirecrawlApp({
+				apiKey: env.FIRECRAWL_API_KEY,
+			});
+
 			if (!firecrawl) {
 				return {
 					success: false,
@@ -63,6 +69,8 @@ export const researchVendorAction = authActionClient
 				};
 			}
 
+			console.log(`Attempting to scrape website: ${website}`);
+
 			const scrapeResult = await firecrawl.extract([website], {
 				prompt: "You're a cyber security researcher, researching a vendor.",
 				schema: schema,
@@ -74,6 +82,10 @@ export const researchVendorAction = authActionClient
 			});
 
 			if (!scrapeResult.success || !scrapeResult.data) {
+				console.error(
+					"Firecrawl scrape failed:",
+					scrapeResult.error || "Unknown error",
+				);
 				return {
 					success: false,
 					error: {
