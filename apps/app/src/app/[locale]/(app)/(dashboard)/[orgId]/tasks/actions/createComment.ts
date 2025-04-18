@@ -13,17 +13,19 @@ import { z } from "zod";
 // Define the input schema
 const createCommentSchema = z
 	.object({
-		content: z.string().min(1, "Comment cannot be empty.").optional(), // Allow empty comment if attachments exist
-		taskId: z.string(), // This is the entityId for the task comment
-		attachmentIds: z.array(z.string()).optional(), // Add optional array of attachment IDs
+		// Allow empty string, refine handles the logic below
+		content: z.string(),
+		taskId: z.string(),
+		attachmentIds: z.array(z.string()).optional(),
 	})
 	.refine(
 		(data) =>
-			data.content ||
+			// Check if content is non-empty after trimming OR if attachments exist
+			(data.content && data.content.trim().length > 0) ||
 			(data.attachmentIds && data.attachmentIds.length > 0),
 		{
 			message: "Comment cannot be empty unless attachments are provided.",
-			path: ["content"], // You can associate the error with a specific field if desired
+			path: ["content"],
 		},
 	);
 

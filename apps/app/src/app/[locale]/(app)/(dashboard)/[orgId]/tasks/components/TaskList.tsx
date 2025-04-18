@@ -73,6 +73,11 @@ export function TaskList({
 	// Modify handleDropTaskInternal to accept hoverIndex
 	const handleDropTaskInternal = useCallback(
 		(item: DragItem, targetStatus: StatusId, hoverIndex: number) => {
+			console.log("DEBUG: handleDropTaskInternal called with:", {
+				item,
+				targetStatus,
+				hoverIndex,
+			});
 			if (
 				item.status !== targetStatus &&
 				updateTaskStatus !== "executing"

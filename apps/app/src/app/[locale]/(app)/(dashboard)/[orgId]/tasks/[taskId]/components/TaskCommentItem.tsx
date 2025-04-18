@@ -21,6 +21,7 @@ import { updateComment } from "../../actions/updateComment";
 import type { CommentWithAuthor } from "../page";
 import { AttachmentItem } from "./AttachmentItem";
 import { formatRelativeTime } from "./commentUtils";
+import { getCommentAttachmentUrl } from "../../actions/getCommentAttachmentUrl";
 
 interface TaskCommentItemProps {
 	comment: CommentWithAuthor;
@@ -222,9 +223,9 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 		isUploading;
 
 	return (
-		<Card>
+		<Card className="bg-foreground/5 rounded-lg">
 			<CardContent className="p-4 flex gap-3 items-start text-foreground">
-				<Avatar className="h-8 w-8">
+				<Avatar className="h-6 w-6">
 					<AvatarImage
 						src={comment.author.user?.image ?? undefined}
 						alt={comment.author.user?.name ?? "User"}
@@ -234,11 +235,11 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 							"?"}
 					</AvatarFallback>
 				</Avatar>
-				<div className="flex-1 text-sm space-y-2">
+				<div className="flex-1 text-sm space-y-2 items-start">
 					<div>
 						<div className="flex items-center justify-between gap-2 mb-1">
 							<div className="flex items-center gap-2">
-								<span className="font-medium">
+								<span className="font-medium leading-none">
 									{comment.author.user?.name ??
 										"Unknown User"}
 								</span>
@@ -318,6 +319,7 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 										attachment={attachment}
 										isEditing={isEditing}
 										onRemove={handleMarkForRemoval}
+										getUrlAction={getCommentAttachmentUrl}
 									/>
 								))}
 								{isEditing &&
@@ -328,6 +330,9 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 												attachment={attachment}
 												isEditing={isEditing}
 												onRemove={handleRemovePending}
+												getUrlAction={
+													getCommentAttachmentUrl
+												}
 											/>
 										),
 									)}

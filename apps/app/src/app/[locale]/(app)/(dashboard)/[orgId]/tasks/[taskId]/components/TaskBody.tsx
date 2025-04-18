@@ -7,13 +7,21 @@ import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";
 import { Label } from "@comp/ui/label";
 import { Textarea } from "@comp/ui/textarea";
-import { Loader2, Paperclip, File as FileIcon, Trash2 } from "lucide-react";
+import {
+	Loader2,
+	Paperclip,
+	File as FileIcon,
+	Trash2,
+	Plus,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import React, { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { getTaskAttachmentUrl } from "@/app/[locale]/(app)/(dashboard)/[orgId]/tasks/actions/getTaskAttachmentUrl";
 import type { ActionResponse } from "@/actions/types";
 import { deleteTaskAttachment } from "@/app/[locale]/(app)/(dashboard)/[orgId]/tasks/actions/deleteTaskAttachment";
+import { AttachmentItem } from "./AttachmentItem";
+import clsx from "clsx";
 
 interface TaskBodyProps {
 	taskId: string;
@@ -203,12 +211,12 @@ export function TaskBody({
 		executeGetDownloadUrl({ attachmentId });
 	};
 
-	const handleDeleteClick = (attachmentId: string) => {
+	const handleConfirmedDelete = (attachmentId: string) => {
 		executeDeleteAttachment({ attachmentId });
 	};
 
 	const isActionLoading = uploadFileStatus === "executing";
-	const combinedIsLoading = isUploading || isActionLoading;
+	const isUploadingFile = isUploading || isActionLoading;
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -217,102 +225,71 @@ export function TaskBody({
 				onChange={onTitleChange}
 				className="text-2xl font-semibold tracking-tight flex-shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"
 				placeholder="Task Title"
-				disabled={disabled || combinedIsLoading || !!busyAttachmentId}
+				disabled={disabled || isUploadingFile || !!busyAttachmentId}
 			/>
 			<Textarea
 				value={description}
 				onChange={onDescriptionChange}
 				placeholder="Add description..."
 				className="min-h-[80px] text-muted-foreground p-0 border-none focus-visible:ring-0 shadow-none text-md resize-none"
-				disabled={disabled || combinedIsLoading || !!busyAttachmentId}
+				disabled={disabled || isUploadingFile || !!busyAttachmentId}
 			/>
 			<input
 				type="file"
 				ref={fileInputRef}
 				onChange={handleFileSelect}
 				className="hidden"
-				disabled={combinedIsLoading || !!busyAttachmentId}
+				disabled={isUploadingFile || !!busyAttachmentId}
 			/>
 			<div className="space-y-3">
 				<Label className="text-sm font-medium flex items-center justify-between">
 					<span>Attachments</span>
-					<Button
-						variant="ghost"
-						size="icon"
-						onClick={triggerFileInput}
-						disabled={combinedIsLoading || !!busyAttachmentId}
-						className="h-7 w-7 text-muted-foreground hover:text-foreground"
-						aria-label="Add attachment"
-					>
-						{isActionLoading ? (
-							<Loader2 className="h-4 w-4 animate-spin" />
-						) : (
-							<Paperclip className="h-4 w-4" />
-						)}
-					</Button>
+					{attachments.length === 0 && (
+						<Button
+							variant="ghost"
+							size="icon"
+							onClick={triggerFileInput}
+							disabled={isUploadingFile || !!busyAttachmentId}
+							className="h-7 w-7 text-muted-foreground hover:text-foreground"
+							aria-label="Add attachment"
+						>
+							{isUploadingFile ? (
+								<Loader2 className="h-4 w-4 animate-spin" />
+							) : (
+								<Paperclip className="h-4 w-4" />
+							)}
+						</Button>
+					)}
 				</Label>
 
 				{attachments.length > 0 ? (
-					<ul className="space-y-2">
-						{attachments.map((attachment) => {
-							const isBusy = busyAttachmentId === attachment.id;
-							const isDeleting =
-								isBusy && deleteStatus === "executing";
-							const isDownloading = isBusy && !isDeleting;
-							return (
-								<li
-									key={attachment.id}
-									className="flex items-center justify-between gap-2 text-sm border rounded px-3 py-1.5"
-								>
-									<button
-										type="button"
-										onClick={() =>
-											handleDownloadClick(attachment.id)
-										}
-										disabled={
-											combinedIsLoading ||
-											!!busyAttachmentId
-										}
-										className="flex items-center gap-2 hover:underline truncate disabled:opacity-50 disabled:no-underline"
-										title={`Download ${attachment.name}`}
-									>
-										{isDownloading ? (
-											<Loader2 className="h-4 w-4 flex-shrink-0 animate-spin" />
-										) : (
-											<FileIcon className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
-										)}
-										<span className="truncate">
-											{attachment.name}
-										</span>
-									</button>
-									<div className="flex items-center gap-1">
-										<Button
-											variant="ghost"
-											size="icon"
-											onClick={() =>
-												handleDeleteClick(attachment.id)
-											}
-											disabled={
-												combinedIsLoading ||
-												!!busyAttachmentId
-											}
-											className="h-6 w-6 text-destructive/70 hover:text-destructive disabled:opacity-50"
-											aria-label="Delete attachment"
-										>
-											{isDeleting ? (
-												<Loader2 className="h-3 w-3 animate-spin" />
-											) : (
-												<Trash2 className="h-3 w-3" />
-											)}
-										</Button>
-									</div>
-								</li>
-							);
-						})}
-					</ul>
+					<div className="flex flex-wrap gap-2 pt-1">
+						{attachments.map((attachment) => (
+							<AttachmentItem
+								key={attachment.id}
+								attachment={attachment}
+								isEditing={false}
+								onRemove={handleConfirmedDelete}
+								getUrlAction={getTaskAttachmentUrl}
+							/>
+						))}
+						<button
+							type="button"
+							onClick={triggerFileInput}
+							disabled={isUploadingFile || !!busyAttachmentId}
+							className="w-24 h-24 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-sm flex items-center justify-center text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+							aria-label="Add attachment"
+						>
+							{isUploadingFile ? (
+								<Loader2 className="h-5 w-5 animate-spin" />
+							) : (
+								<Plus className="h-6 w-6" />
+							)}
+						</button>
+					</div>
 				) : (
-					!combinedIsLoading && (
-						<p className="text-sm text-muted-foreground italic">
+					!isUploadingFile && (
+						<p className="text-sm text-muted-foreground italic pt-1">
 							No attachments yet.
 						</p>
 					)

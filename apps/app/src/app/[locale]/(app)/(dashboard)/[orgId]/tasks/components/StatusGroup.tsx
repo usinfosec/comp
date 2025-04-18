@@ -5,6 +5,7 @@ import { useDrop } from "react-dnd";
 import { useRef } from "react";
 import { TaskCard, DragItem, ItemTypes, StatusId } from "./TaskCard";
 import { updateTaskOrder } from "../actions/updateTaskOrder";
+import clsx from "clsx";
 
 // --- StatusGroup Component Props Interface ---
 interface StatusGroupProps {
@@ -31,10 +32,38 @@ export function StatusGroup({
 	members,
 	statusFilter,
 }: StatusGroupProps) {
-	// const dropRef = useRef<HTMLDivElement>(null);
+	// Ref for the inner task list div (might be needed for other interactions later)
+	const taskListRef = useRef<HTMLDivElement>(null);
+	// Ref for the outer div (header + list) which will be the main drop target
+	const groupContainerRef = useRef<HTMLDivElement>(null);
 
 	// Determine if the tasks within this group should be rendered based on the status filter.
 	const shouldRenderTasks = !statusFilter || status.id === statusFilter;
+
+	// Drop hook for the entire group area (header + list)
+	const [{ isOver, canDrop }, groupDropRef] = useDrop(
+		() => ({
+			accept: ItemTypes.TASK,
+			drop: (item: DragItem) => {
+				console.log(
+					"DEBUG: StatusGroup drop activated on status:",
+					status.id,
+					"for item:",
+					item.id,
+				);
+				handleDropTaskInternal(item, status.id, tasks.length);
+			},
+			collect: (monitor) => ({
+				// isOver will now be true if hovering over header OR list area
+				isOver: monitor.isOver(),
+				canDrop: monitor.canDrop(),
+			}),
+		}),
+		[status.id, tasks.length, handleDropTaskInternal],
+	);
+
+	// Attach the main group drop ref to the outer container
+	groupDropRef(groupContainerRef);
 
 	// Handles the reordering logic when a task is dropped within this specific group.
 	async function handleDropReorder(dragIndex: number, hoverIndex: number) {
@@ -58,7 +87,8 @@ export function StatusGroup({
 	}
 
 	return (
-		<div key={status.id} className="rounded">
+		// Attach group drop ref here
+		<div ref={groupContainerRef} key={status.id} className="rounded">
 			{/* Status Group Header */}
 			<div className="flex items-center pr-2 pl-6 py-2 bg-muted/50">
 				<h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
@@ -68,10 +98,23 @@ export function StatusGroup({
 					{tasks.length}
 				</span>
 			</div>
-			{/* Task List Area - Render directly from tasks prop */}{" "}
-			{shouldRenderTasks && (
-				<div>
-					{tasks.map((task, idx) => (
+
+			{/* Task List Area - Only apply visual feedback here */}
+			<div
+				ref={taskListRef} // Keep separate ref if needed elsewhere
+				className={clsx(
+					// Remove py-px
+					"transition-colors duration-150 ease-in-out", // Keep transitions
+					{
+						// Background highlights when hovering EITHER header or list area
+						"bg-secondary/50": isOver && canDrop,
+						hidden: !shouldRenderTasks,
+					},
+				)}
+			>
+				{/* Render tasks ONLY if not filtered */}
+				{shouldRenderTasks &&
+					tasks.map((task, idx) => (
 						<TaskCard
 							key={task.id}
 							task={task}
@@ -82,8 +125,17 @@ export function StatusGroup({
 							handleDropTaskInternal={handleDropTaskInternal}
 						/>
 					))}
-				</div>
-			)}
+
+				{/* Placeholder ONLY when empty AND dragging over */}
+				{shouldRenderTasks &&
+					tasks.length === 0 &&
+					isOver &&
+					canDrop && (
+						<div className="p-4 text-center text-sm text-muted-foreground border-dashed border m-2 rounded">
+							Drop task here
+						</div>
+					)}
+			</div>
 		</div>
 	);
 }
