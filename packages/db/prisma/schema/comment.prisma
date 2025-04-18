@@ -13,6 +13,9 @@ model Comment {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  // Relation to Attachments
+  attachments Attachment[]
+
   @@index([entityId])
 }
 

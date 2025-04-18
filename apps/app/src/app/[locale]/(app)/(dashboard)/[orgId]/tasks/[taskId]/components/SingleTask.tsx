@@ -72,14 +72,12 @@ export function SingleTask({
 
 	return (
 		<div className="flex flex-col lg:flex-row overflow-hidden px-4 py-6 lg:p-0 h-full">
-			{/* Pass task and attachments to TaskMainContent */}
 			<TaskMainContent
 				task={task}
 				comments={comments}
 				attachments={attachments}
 			/>
 
-			{/* Render TaskPropertiesSidebar directly as a flex child */}
 			<TaskPropertiesSidebar
 				task={task}
 				members={members}

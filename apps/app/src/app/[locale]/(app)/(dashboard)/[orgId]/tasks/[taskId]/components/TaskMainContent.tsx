@@ -82,10 +82,12 @@ export function TaskMainContent({
 				disabled={updateStatus === "executing"}
 			/>
 
-			<Separator />
+			<div className="py-4">
+				<Separator />
+			</div>
 
 			{/* Comment Section */}
-			<div className="space-y-6">
+			<div className="space-y-4">
 				<h3 className="text-lg font-medium">Comments</h3>
 				<TaskCommentForm taskId={task.id} />
 				<TaskCommentList comments={comments} />

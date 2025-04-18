@@ -10,6 +10,7 @@ export type CommentWithAuthor = Comment & {
 	author: Member & {
 		user: User;
 	};
+	attachments: Attachment[];
 };
 
 export default async function TaskPage({
@@ -38,9 +39,21 @@ export default async function TaskPage({
 }
 
 const getTask = async (taskId: string) => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const activeOrgId = session?.session.activeOrganizationId;
+
+	if (!activeOrgId) {
+		console.warn("Could not determine active organization ID in getTask");
+		return null;
+	}
+
 	const task = await db.task.findUnique({
 		where: {
 			id: taskId,
+			organizationId: activeOrgId,
 		},
 	});
 
@@ -48,8 +61,22 @@ const getTask = async (taskId: string) => {
 };
 
 const getComments = async (taskId: string): Promise<CommentWithAuthor[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const activeOrgId = session?.session.activeOrganizationId;
+
+	if (!activeOrgId) {
+		console.warn(
+			"Could not determine active organization ID in getComments",
+		);
+		return [];
+	}
+
 	const comments = await db.comment.findMany({
 		where: {
+			organizationId: activeOrgId,
 			entityId: taskId,
 			entityType: CommentEntityType.task,
 		},
@@ -61,15 +88,45 @@ const getComments = async (taskId: string): Promise<CommentWithAuthor[]> => {
 			},
 		},
 		orderBy: {
-			createdAt: "asc",
+			createdAt: "desc",
 		},
 	});
-	return comments as CommentWithAuthor[];
+
+	const commentsWithAttachments = await Promise.all(
+		comments.map(async (comment) => {
+			const attachments = await db.attachment.findMany({
+				where: {
+					organizationId: activeOrgId,
+					entityId: comment.id,
+					entityType: AttachmentEntityType.comment,
+				},
+			});
+			return {
+				...comment,
+				attachments,
+			};
+		}),
+	);
+
+	return commentsWithAttachments;
 };
 
 const getAttachments = async (taskId: string): Promise<Attachment[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const activeOrgId = session?.session.activeOrganizationId;
+
+	if (!activeOrgId) {
+		console.warn(
+			"Could not determine active organization ID in getAttachments",
+		);
+		return [];
+	}
 	const attachments = await db.attachment.findMany({
 		where: {
+			organizationId: activeOrgId,
 			entityId: taskId,
 			entityType: AttachmentEntityType.task,
 		},
