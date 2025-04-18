@@ -26,7 +26,7 @@ export async function Sidebar({
 				</div>
 				<MainMenu
 					//userIsAdmin={user?.isAdmin ?? false}
-
+					organizationId={organization?.id ?? ""}
 					isCollapsed={isCollapsed}
 					completedOnboarding={completedAll}
 				/>
