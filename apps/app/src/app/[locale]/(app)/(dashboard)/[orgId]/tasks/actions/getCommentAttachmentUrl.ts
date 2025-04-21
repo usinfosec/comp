@@ -1,31 +1,12 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@comp/db";
 import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 import { z } from "zod";
-
-// --- S3 Client Configuration ---
-if (
-	!process.env.AWS_ACCESS_KEY_ID ||
-	!process.env.AWS_SECRET_ACCESS_KEY ||
-	!process.env.AWS_BUCKET_NAME ||
-	!process.env.AWS_REGION
-) {
-	console.error(
-		"AWS credentials or configuration missing for getCommentAttachmentUrl",
-	);
-}
-const s3Client = new S3Client({
-	region: process.env.AWS_REGION!,
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-	},
-});
-// --- End S3 Client Configuration ---
+import { s3Client, BUCKET_NAME } from "@/app/s3";
 
 // --- Input Schema ---
 const schema = z.object({
@@ -166,16 +147,16 @@ export const getCommentAttachmentUrl = authActionClient
 				} as const;
 			}
 
-			// 6. Generate Signed URL
+			// 6. Generate Signed URL using shared client and bucket name
 			try {
 				const command = new GetObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME!,
+					Bucket: BUCKET_NAME!,
 					Key: key,
 				});
 
 				const signedUrl = await getSignedUrl(s3Client, command, {
 					expiresIn: 3600,
-				}); // 1 hour expiry
+				});
 
 				if (!signedUrl) {
 					console.error(

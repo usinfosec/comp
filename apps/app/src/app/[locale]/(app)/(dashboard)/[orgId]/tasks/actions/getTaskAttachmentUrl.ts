@@ -1,34 +1,12 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@comp/db";
 import { AttachmentEntityType } from "@comp/db/types";
 import { z } from "zod";
-
-// --- S3 Client Configuration (Copied and verified) ---
-if (
-	!process.env.AWS_ACCESS_KEY_ID ||
-	!process.env.AWS_SECRET_ACCESS_KEY ||
-	!process.env.AWS_BUCKET_NAME ||
-	!process.env.AWS_REGION
-) {
-	// Log the error in production, don't throw as it crashes the serverless function
-	console.error(
-		"AWS credentials or configuration missing for getTaskAttachmentUrl",
-	);
-	// Avoid throwing here in serverless environments
-}
-
-const s3Client = new S3Client({
-	region: process.env.AWS_REGION!,
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-	},
-});
-// --- End S3 Client Configuration ---
+import { s3Client, BUCKET_NAME } from "@/app/s3"; // Import shared client
 
 // --- Input Schema ---
 const schema = z.object({
@@ -108,14 +86,15 @@ export const getTaskAttachmentUrl = authActionClient
 				} as const;
 			}
 
-			// 3. Generate Signed URL
+			// 3. Generate Signed URL using shared client
 			try {
 				const command = new GetObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME!,
+					Bucket: BUCKET_NAME!, // Use imported bucket name
 					Key: key,
 				});
 
 				const signedUrl = await getSignedUrl(s3Client, command, {
+					// Use imported client
 					expiresIn: 3600, // URL expires in 1 hour
 				});
 

@@ -1,32 +1,12 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { db } from "@comp/db";
 import { Attachment, AttachmentEntityType } from "@comp/db/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-// --- S3 Client Configuration ---
-if (
-	!process.env.AWS_ACCESS_KEY_ID ||
-	!process.env.AWS_SECRET_ACCESS_KEY ||
-	!process.env.AWS_BUCKET_NAME ||
-	!process.env.AWS_REGION
-) {
-	console.error(
-		"AWS credentials or configuration missing for deleteTaskAttachment",
-	);
-}
-
-const s3Client = new S3Client({
-	region: process.env.AWS_REGION!,
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-	},
-});
-// --- End S3 Client Configuration ---
+import { s3Client, BUCKET_NAME } from "@/app/s3";
 
 // --- Input Schema ---
 const schema = z.object({
@@ -84,12 +64,12 @@ export const deleteTaskAttachment = authActionClient
 				} as const;
 			}
 
-			// 2. Attempt to delete from S3
+			// 2. Attempt to delete from S3 using shared client
 			let key: string;
 			try {
 				key = extractS3KeyFromUrl(attachmentToDelete.url);
 				const deleteCommand = new DeleteObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME!,
+					Bucket: BUCKET_NAME!,
 					Key: key,
 				});
 				await s3Client.send(deleteCommand);

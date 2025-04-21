@@ -3,29 +3,11 @@
 import { authActionClient } from "@/actions/safe-action";
 // UPLOAD_TYPE might not be needed anymore if we only use AttachmentEntityType
 // import { UPLOAD_TYPE } from "@/actions/types";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { db } from "@comp/db";
 import { AttachmentEntityType, AttachmentType } from "@comp/db/types";
-import { revalidatePath } from "next/cache";
-// import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-if (
-	!process.env.AWS_ACCESS_KEY_ID ||
-	!process.env.AWS_SECRET_ACCESS_KEY ||
-	!process.env.AWS_BUCKET_NAME ||
-	!process.env.AWS_REGION
-) {
-	throw new Error("AWS credentials or configuration missing");
-}
-
-const s3Client = new S3Client({
-	region: process.env.AWS_REGION,
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-	},
-});
+import { s3Client, BUCKET_NAME } from "@/app/s3";
 
 // Helper to map MIME type to AttachmentType enum
 function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
@@ -83,18 +65,17 @@ export const uploadFile = authActionClient
 			const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
 			const key = `${organizationId}/attachments/${entityType}/${entityId}/${timestamp}-${sanitizedFileName}`;
 
-			// 3. Upload directly to S3
+			// 3. Upload directly to S3 using shared client and bucket name
 			const command = new PutObjectCommand({
-				Bucket: process.env.AWS_BUCKET_NAME!,
+				Bucket: BUCKET_NAME!,
 				Key: key,
-				Body: fileBuffer, // Use the decoded buffer
+				Body: fileBuffer,
 				ContentType: fileType,
-				// ACL removed as per previous fix
 			});
-			await s3Client.send(command); // Execute the upload
+			await s3Client.send(command);
 
-			// 4. Construct Final URL
-			const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+			// 4. Construct Final URL using imported BUCKET_NAME and region
+			const fileUrl = `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
 			// 5. Create Attachment Record in DB
 			const attachment = await db.attachment.create({
@@ -107,8 +88,6 @@ export const uploadFile = authActionClient
 					organizationId: organizationId,
 				},
 			});
-
-			revalidatePath(`/${organizationId}/tasks/${entityId}`);
 
 			// 6. Return Success with only Attachment Info
 			return {

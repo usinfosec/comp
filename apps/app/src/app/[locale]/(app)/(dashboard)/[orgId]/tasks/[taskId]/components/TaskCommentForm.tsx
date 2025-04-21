@@ -2,17 +2,7 @@
 
 import { Button } from "@comp/ui/button";
 import { Textarea } from "@comp/ui/textarea";
-import {
-	Loader2,
-	Paperclip,
-	Plus,
-	SendHorizonal,
-	Trash2,
-	File as FileIcon,
-	ArrowUp,
-} from "lucide-react";
-import { useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import { ArrowUp, Loader2, Paperclip, Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 
 import { uploadFile } from "@/actions/files/upload-file";
@@ -28,8 +18,8 @@ import clsx from "clsx";
 import React, { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createComment } from "../../actions/createComment";
-import { AttachmentItem } from "./AttachmentItem";
 import { getCommentAttachmentUrl } from "../../actions/getCommentAttachmentUrl";
+import { AttachmentItem } from "./AttachmentItem";
 
 interface TaskCommentFormProps {
 	taskId: string;
