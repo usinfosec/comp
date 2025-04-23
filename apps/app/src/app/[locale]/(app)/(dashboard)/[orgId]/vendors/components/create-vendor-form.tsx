@@ -1,5 +1,6 @@
 "use client";
 
+import { researchVendorAction } from "@/actions/research-vendor";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { useI18n } from "@/locales/client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
@@ -28,6 +29,7 @@ import {
 } from "@comp/ui/select";
 import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ky from "ky";
 import { ArrowRightIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryState } from "nuqs";
@@ -52,7 +54,7 @@ export function CreateVendorForm({
 	const [_, setCreateVendorSheet] = useQueryState("createVendorSheet");
 
 	const createVendor = useAction(createVendorAction, {
-		onSuccess: async (data) => {
+		onSuccess: async () => {
 			toast.success(t("vendors.form.create_vendor_success"));
 			setCreateVendorSheet(null);
 		},
@@ -60,6 +62,8 @@ export function CreateVendorForm({
 			toast.error(t("vendors.form.create_vendor_error"));
 		},
 	});
+
+	const researchVendor = useAction(researchVendorAction);
 
 	const form = useForm<z.infer<typeof createVendorSchema>>({
 		resolver: zodResolver(createVendorSchema),
@@ -71,8 +75,14 @@ export function CreateVendorForm({
 		},
 	});
 
-	const onSubmit = (data: z.infer<typeof createVendorSchema>) => {
+	const onSubmit = async (data: z.infer<typeof createVendorSchema>) => {
 		createVendor.execute(data);
+
+		if (data.website) {
+			researchVendor.execute({
+				website: data.website,
+			});
+		}
 	};
 
 	return (

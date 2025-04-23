@@ -141,8 +141,16 @@ export const completeInvitation = authActionClient
 					const resend = new Resend(process.env.RESEND_API_KEY);
 
 					await resend.contacts.create({
-						firstName: user.name?.split(" ")[0] || "",
-						lastName: user.name?.split(" ")[1] || "",
+						firstName:
+							(user.name?.split(" ")[0] || "")
+								.charAt(0)
+								.toUpperCase() +
+							(user.name?.split(" ")[0] || "").slice(1),
+						lastName:
+							(user.name?.split(" ")[1] || "")
+								.charAt(0)
+								.toUpperCase() +
+							(user.name?.split(" ")[1] || "").slice(1),
 						email: user.email,
 						unsubscribed: false,
 						audienceId: process.env.RESEND_AUDIENCE_ID,

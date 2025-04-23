@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import { Badge } from "@comp/ui/badge";
 import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
@@ -45,17 +46,17 @@ type MenuItem = {
 };
 
 interface ItemProps {
+	organizationId: string;
 	item: MenuItem;
 	isActive: boolean;
 	disabled: boolean;
-	organizationId: string;
 	isCollapsed?: boolean;
 	onItemClick?: () => void;
 }
 
 export function MainMenu({
-	organizationId,
 	//userIsAdmin,
+	organizationId,
 	isCollapsed = false,
 	completedOnboarding,
 	onItemClick,
@@ -167,7 +168,7 @@ export function MainMenu({
 	const isPathActive = (itemPath: string) => {
 		const normalizedItemPath = itemPath.replace(
 			":organizationId",
-			organizationId,
+			organizationId ?? "",
 		);
 
 		// Extract the base path from the menu item (first two segments after normalization)
@@ -233,10 +234,10 @@ export function MainMenu({
 							return (
 								<Item
 									key={item.id}
+									organizationId={organizationId ?? ""}
 									item={item}
 									isActive={isActive}
 									disabled={item.disabled}
-									organizationId={organizationId}
 									isCollapsed={isCollapsed}
 									onItemClick={onItemClick}
 								/>
@@ -249,10 +250,10 @@ export function MainMenu({
 }
 
 const Item = ({
+	organizationId,
 	item,
 	isActive,
 	disabled,
-	organizationId,
 	isCollapsed = false,
 	onItemClick,
 }: ItemProps) => {

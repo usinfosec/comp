@@ -1,4 +1,5 @@
 import { track } from "@/app/posthog";
+import { env } from "@/env.mjs";
 import { auth } from "@/utils/auth";
 import { logger } from "@/utils/logger";
 import { client } from "@comp/kv";
@@ -10,10 +11,14 @@ import {
 import { headers } from "next/headers";
 import { z } from "zod";
 
-const ratelimit = new Ratelimit({
-	limiter: Ratelimit.fixedWindow(10, "10s"),
-	redis: client,
-});
+let ratelimit: Ratelimit | undefined;
+
+if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+	ratelimit = new Ratelimit({
+		limiter: Ratelimit.fixedWindow(10, "10s"),
+		redis: client,
+	});
+}
 
 export const actionClientWithMeta = createSafeActionClient({
 	handleServerError(e) {
@@ -68,13 +73,16 @@ export const authActionClient = actionClientWithMeta
 	})
 	.use(async ({ next, metadata }) => {
 		const headersList = await headers();
+		let remaining: number | undefined;
 
-		const { success, remaining } = await ratelimit.limit(
-			`${headersList.get("x-forwarded-for")}-${metadata.name}`,
-		);
+		if (ratelimit) {
+			const { success, remaining } = await ratelimit.limit(
+				`${headersList.get("x-forwarded-for")}-${metadata.name}`,
+			);
 
-		if (!success) {
-			throw new Error("Too many requests");
+			if (!success) {
+				throw new Error("Too many requests");
+			}
 		}
 
 		return next({
@@ -82,7 +90,7 @@ export const authActionClient = actionClientWithMeta
 				ip: headersList.get("x-forwarded-for"),
 				userAgent: headersList.get("user-agent"),
 				ratelimit: {
-					remaining,
+					remaining: remaining ?? 0,
 				},
 			},
 		});

@@ -1,7 +1,7 @@
 ---
 description: 
-globs: 
-alwaysApply: true
+globs: *.tsx
+alwaysApply: false
 ---
 When writing React code follow these standards:
 

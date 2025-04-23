@@ -2,28 +2,29 @@
 
 import { authActionClient } from "@/actions/safe-action";
 import { UPLOAD_TYPE } from "@/actions/types";
+import { env } from "@/env.mjs";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@comp/db";
 import { z } from "zod";
 
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+if (!env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY) {
 	throw new Error("AWS credentials are not set");
 }
 
-if (!process.env.AWS_BUCKET_NAME) {
+if (!env.AWS_BUCKET_NAME) {
 	throw new Error("AWS bucket name is not set");
 }
 
-if (!process.env.AWS_REGION) {
+if (!env.AWS_REGION) {
 	throw new Error("AWS region is not set");
 }
 
 const s3Client = new S3Client({
-	region: process.env.AWS_REGION,
+	region: env.AWS_REGION,
 	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+		accessKeyId: env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
 	},
 });
 

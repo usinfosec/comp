@@ -1,12 +1,13 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
+import { env } from "@/env.mjs";
 import { db } from "@comp/db";
 import { z } from "zod";
 
 import { UPLOAD_TYPE } from "@/actions/types";
 
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+if (!env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY) {
 	throw new Error("AWS credentials are not set");
 }
 

@@ -15,9 +15,12 @@ export async function POST(req: Request): Promise<Response> {
 		);
 	}
 
+	let ratelimit: Ratelimit | undefined;
+
 	if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
-		const ip = req.headers.get("x-forwarded-for");
-		const ratelimit = new Ratelimit({
+		const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+		ratelimit = new Ratelimit({
 			limiter: Ratelimit.fixedWindow(100, "1 d"),
 			redis: client,
 		});

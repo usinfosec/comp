@@ -84,7 +84,10 @@ export const uploadFile = async (
 		});
 
 		// 6. Generate Pre-signed URL for immediate access
-		const getCommand = new GetObjectCommand({ Bucket: BUCKET_NAME, Key: key });
+		const getCommand = new GetObjectCommand({
+			Bucket: BUCKET_NAME,
+			Key: key,
+		});
 		const signedUrl = await getSignedUrl(s3Client, getCommand, {
 			expiresIn: 900, // Expires in 15 minutes
 		});
