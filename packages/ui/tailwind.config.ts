@@ -16,6 +16,7 @@ export default {
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
 				background: "hsl(var(--background))",
+				backgroundSoft: "hsl(var(--background-soft))",
 				foreground: "hsl(var(--foreground))",
 				primary: {
 					DEFAULT: "hsl(var(--primary))",
@@ -55,7 +56,7 @@ export default {
 					neutral: "hsl(var(--chart-neutral))",
 					warning: "hsl(var(--chart-warning))",
 					destructive: "hsl(var(--chart-destructive))",
-					other: "hsl(var(--chart-other))"
+					other: "hsl(var(--chart-other))",
 				},
 			},
 			borderRadius: {
@@ -144,7 +145,8 @@ export default {
 				},
 			},
 			animation: {
-				"animate-webgl-scale-in-fade": "webgl-scale-in-fade 1s ease-in-out",
+				"animate-webgl-scale-in-fade":
+					"webgl-scale-in-fade 1s ease-in-out",
 				"open-scale-up-fade": "open-scale-up-fade",
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
@@ -154,8 +156,7 @@ export default {
 				third: "moveInCircle 40s linear infinite",
 				fourth: "moveHorizontal 40s ease infinite",
 				fifth: "moveInCircle 20s ease infinite",
-				scroll:
-					"scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+				scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
 			},
 			screens: {
 				"3xl": "1800px",

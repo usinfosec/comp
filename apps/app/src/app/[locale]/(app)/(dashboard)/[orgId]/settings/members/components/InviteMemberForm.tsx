@@ -55,9 +55,10 @@ export function InviteMemberForm() {
 	});
 
 	const onSubmit = async (data: FormValues) => {
+		console.log(data);
+
 		const response = await authClient.organization.inviteMember({
 			email: data.email,
-			// @ts-expect-error - Table is correct but authClient is not typed for some reason.
 			role: data.role,
 		});
 
@@ -65,7 +66,7 @@ export function InviteMemberForm() {
 			toast.error("Something went wrong");
 		} else {
 			toast.success(t("settings.team.invitations.invitation_sent"));
-			invalidateMembers({
+			await invalidateMembers({
 				organizationId:
 					session.data?.session.activeOrganizationId ?? "",
 			});

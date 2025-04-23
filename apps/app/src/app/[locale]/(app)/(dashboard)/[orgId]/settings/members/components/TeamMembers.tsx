@@ -15,30 +15,11 @@ export async function TeamMembers() {
 	const members = await getMembers();
 
 	return (
-		<Tabs defaultValue="members">
-			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-sm mb-1 p-0 h-auto pb-4">
-				<TabsTrigger value="members" className="p-0 m-0 mr-4">
-					{t("settings.team.tabs.members")}
-				</TabsTrigger>
-
-				<TabsTrigger value="invite" className="p-0 m-0">
-					{t("settings.team.tabs.invite")}
-				</TabsTrigger>
-			</TabsList>
-
-			<TabsContent value="members">
-				<MembersList members={members ?? []} />
-			</TabsContent>
-
-			<TabsContent value="invite">
-				<div className="flex flex-col gap-4">
-					<PendingInvitations
-						pendingInvitations={pendingInvitations}
-					/>
-					<InviteMemberForm />
-				</div>
-			</TabsContent>
-		</Tabs>
+		<div className="flex flex-col gap-4">
+			<MembersList members={members ?? []} />
+			<PendingInvitations pendingInvitations={pendingInvitations} />
+			<InviteMemberForm />
+		</div>
 	);
 }
 

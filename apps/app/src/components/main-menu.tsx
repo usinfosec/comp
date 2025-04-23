@@ -287,7 +287,7 @@ const Item = ({
 						<TooltipTrigger className="w-full">
 							<div
 								className={cn(
-									"relative border border-transparent flex items-center",
+									"relative border border-transparent flex items-center rounded-sm",
 									isCollapsed
 										? "md:w-[45px] md:justify-center"
 										: "md:px-3",

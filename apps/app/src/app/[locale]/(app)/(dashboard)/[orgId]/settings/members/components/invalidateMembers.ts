@@ -7,5 +7,5 @@ export async function invalidateMembers({
 }: {
 	organizationId: string;
 }) {
-	await revalidatePath(`/${organizationId}/settings/members`);
+	return revalidatePath(`/${organizationId}/settings/members`);
 }
