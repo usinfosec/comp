@@ -287,10 +287,10 @@ const Item = ({
 						<TooltipTrigger className="w-full">
 							<div
 								className={cn(
-									"relative border border-transparent flex items-center rounded-sm",
+									"relative border border-transparent flex items-center",
 									isCollapsed
-										? "md:w-[45px] md:justify-center"
-										: "md:px-3",
+										? "md:w-[45px] md:justify-center rounded-sm"
+										: "md:px-3 rounded-l-sm",
 									"w-full px-3 md:w-auto h-[45px]",
 									"hover:bg-accent hover:border-border",
 									"transition-all duration-300",
@@ -304,7 +304,7 @@ const Item = ({
 										"transition-all duration-300",
 									)}
 								>
-									{Icon && <Icon size={22} />}
+									{Icon && <Icon size={18} />}
 									{!isCollapsed && (
 										<div className="flex items-center justify-between w-full">
 											<span
@@ -329,9 +329,6 @@ const Item = ({
 													>
 														{item.badge.text}
 													</Badge>
-												)}
-												{isActive && (
-													<ChevronRight className="h-3.5 w-3.5 ml-0.5 text-primary opacity-70" />
 												)}
 											</div>
 										</div>

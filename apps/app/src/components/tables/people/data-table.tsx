@@ -159,7 +159,7 @@ export function DataTable({
 
 	return (
 		<div className="w-full">
-			<div className="rounded-md border">
+			<div className="rounded-sm border">
 				<Table>
 					<DataTableHeader table={table} />
 					<TableBody>

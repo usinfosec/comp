@@ -85,7 +85,7 @@ export function UrlSection({
 					{draftUrls.map((draft) => (
 						<div
 							key={draft.id}
-							className="flex items-center gap-2 rounded-md border bg-card p-3"
+							className="flex items-center gap-2 rounded-sm border bg-card p-3"
 						>
 							<Input
 								type="url"
@@ -146,7 +146,7 @@ export function UrlSection({
 							return (
 								<div
 									key={url}
-									className="group flex items-center gap-3 p-3 rounded-md border bg-card hover:bg-accent/10 transition-colors"
+									className="group flex items-center gap-3 p-3 rounded-sm border bg-card hover:bg-accent/10 transition-colors"
 								>
 									<div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-primary/10">
 										<Link className="h-5 w-5 text-primary" />

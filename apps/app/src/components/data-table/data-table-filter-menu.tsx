@@ -414,7 +414,7 @@ function DataTableFilterItem<TData>({
 			<div
 				key={filter.filterId}
 				id={filterItemId}
-				className="flex h-8 items-center rounded-md bg-background"
+				className="flex h-8 items-center rounded-sm bg-background"
 				onKeyDown={onItemKeyDown}
 			>
 				<Popover

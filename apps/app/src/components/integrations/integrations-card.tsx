@@ -203,7 +203,7 @@ export function IntegrationsCard({
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
-							<div className="w-12 h-12 bg-muted flex items-center justify-center p-2">
+							<div className="w-12 h-12 bg-muted flex items-center justify-center p-2 rounded-sm">
 								<Logo />
 							</div>
 							<div className="flex flex-col gap-1">
@@ -303,7 +303,7 @@ export function IntegrationsCard({
 										}}
 									>
 										{deleteIntegrationConnection.status ===
-											"executing"
+										"executing"
 											? "Disconnecting..."
 											: "Disconnect"}
 									</Button>
@@ -500,7 +500,7 @@ export function IntegrationsCard({
 												</div>
 											</div>
 
-											<div className="text-xs border p-3 rounded-md mt-3">
+											<div className="text-xs border p-3 rounded-sm mt-3">
 												<p>
 													This integration syncs
 													automatically every day at
@@ -539,7 +539,7 @@ export function IntegrationsCard({
 
 													{/* Show update button when key is set and not in edit mode */}
 													{installedSettings?.api_key &&
-														!isEditingApiKey ? (
+													!isEditingApiKey ? (
 														<Button
 															variant="outline"
 															size="sm"
@@ -559,77 +559,77 @@ export function IntegrationsCard({
 													2. User clicked the update button */}
 												{(!installedSettings?.api_key ||
 													isEditingApiKey) && (
-														<div className="space-y-4">
-															<div className="space-y-2">
-																<label
-																	htmlFor={`${id}-api-key`}
-																	className="text-sm font-medium leading-none"
-																>
-																	{isEditingApiKey
-																		? "Update API Key"
-																		: "Enter API Key"}
-																</label>
-																<Input
-																	id={`${id}-api-key`}
-																	type="password"
-																	placeholder="Enter your Deel API key"
-																	value={
-																		apiKeyInput
-																	}
-																	onChange={(e) =>
-																		setApiKeyInput(
-																			e.target
-																				.value,
-																		)
-																	}
-																/>
-																<p className="text-xs text-muted-foreground">
-																	You can find
-																	your API key in
-																	your Deel
-																	account
-																	settings.
-																</p>
-															</div>
-															<div className="flex gap-2">
-																{isEditingApiKey && (
-																	<Button
-																		type="button"
-																		variant="outline"
-																		className="flex-1"
-																		onClick={() =>
-																			setIsEditingApiKey(
-																				false,
-																			)
-																		}
-																	>
-																		Cancel
-																	</Button>
-																)}
+													<div className="space-y-4">
+														<div className="space-y-2">
+															<label
+																htmlFor={`${id}-api-key`}
+																className="text-sm font-medium leading-none"
+															>
+																{isEditingApiKey
+																	? "Update API Key"
+																	: "Enter API Key"}
+															</label>
+															<Input
+																id={`${id}-api-key`}
+																type="password"
+																placeholder="Enter your Deel API key"
+																value={
+																	apiKeyInput
+																}
+																onChange={(e) =>
+																	setApiKeyInput(
+																		e.target
+																			.value,
+																	)
+																}
+															/>
+															<p className="text-xs text-muted-foreground">
+																You can find
+																your API key in
+																your Deel
+																account
+																settings.
+															</p>
+														</div>
+														<div className="flex gap-2">
+															{isEditingApiKey && (
 																<Button
 																	type="button"
+																	variant="outline"
 																	className="flex-1"
-																	onClick={
-																		handleConnect
-																	}
-																	disabled={
-																		isSaving
+																	onClick={() =>
+																		setIsEditingApiKey(
+																			false,
+																		)
 																	}
 																>
-																	{isSaving ? (
-																		<>
-																			<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-																			Saving...
-																		</>
-																	) : isEditingApiKey ? (
-																		"Update"
-																	) : (
-																		"Save"
-																	)}
+																	Cancel
 																</Button>
-															</div>
+															)}
+															<Button
+																type="button"
+																className="flex-1"
+																onClick={
+																	handleConnect
+																}
+																disabled={
+																	isSaving
+																}
+															>
+																{isSaving ? (
+																	<>
+																		<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+																		Saving...
+																	</>
+																) : isEditingApiKey ? (
+																	"Update"
+																) : (
+																	"Save"
+																)}
+															</Button>
 														</div>
-													)}
+													</div>
+												)}
 											</div>
 										) : Array.isArray(settings) &&
 											settings.length > 0 ? (

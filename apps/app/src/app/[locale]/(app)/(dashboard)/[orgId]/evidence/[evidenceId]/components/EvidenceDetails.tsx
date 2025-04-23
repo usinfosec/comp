@@ -11,7 +11,7 @@ export function EvidenceDetails({ assignees, evidence }: EvidenceDetailsProps) {
 	return (
 		<div className="flex flex-col gap-4">
 			{evidence.status === "not_relevant" && (
-				<div className="bg-yellow-800 border border-yellow-600 rounded-md p-3 mt-4 text-yellow-300 text-sm">
+				<div className="bg-yellow-800 border border-yellow-600 rounded-sm p-3 mt-4 text-yellow-300 text-sm">
 					This evidence has been marked as not relevant and will not
 					be included in compliance reports.
 				</div>

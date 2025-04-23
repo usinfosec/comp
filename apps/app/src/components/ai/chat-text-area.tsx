@@ -62,7 +62,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl("https://x.com/compai")
 									}
@@ -74,7 +74,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl(
 											"https://discord.gg/compai",
@@ -89,7 +89,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl("https://git.new/compai")
 									}

@@ -118,7 +118,7 @@ export function FileCard({
 							</div>
 						) : (
 							<div className="flex flex-col items-center justify-center">
-								<div className="flex items-center justify-center h-20 w-20 bg-accent/20 rounded-md overflow-hidden mb-2">
+								<div className="flex items-center justify-center h-20 w-20 bg-accent/20 rounded-sm overflow-hidden mb-2">
 									<FileIcon fileName={fileName} />
 								</div>
 								<DialogTrigger asChild>

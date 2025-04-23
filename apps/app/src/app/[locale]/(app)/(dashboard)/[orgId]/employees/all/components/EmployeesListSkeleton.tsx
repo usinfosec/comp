@@ -21,7 +21,7 @@ export const EmployeesListSkeleton = () => {
 	return (
 		<div className="relative overflow-hidden">
 			<FilterToolbar isEmpty={true} />
-			<div className="rounded-md border">
+			<div className="rounded-sm border">
 				<Table>
 					<TableHeader>
 						<TableRow>
