@@ -2,23 +2,15 @@
 
 import { Button } from "@comp/ui/button";
 import { Textarea } from "@comp/ui/textarea";
-import { ArrowUp, Loader2, Paperclip, Plus } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-
+import { ArrowUp, Loader2, Paperclip } from "lucide-react";
 import { uploadFile } from "@/actions/files/upload-file";
-import type { ActionResponse } from "@/actions/types";
 import { authClient } from "@/utils/auth-client";
-import {
-	AttachmentEntityType,
-	AttachmentType,
-	type Attachment,
-} from "@comp/db/types";
+import { AttachmentEntityType } from "@comp/db/types";
 import { Label } from "@comp/ui/label";
 import clsx from "clsx";
 import React, { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createComment } from "../../actions/createComment";
-import { getCommentAttachmentUrl } from "../../actions/getCommentAttachmentUrl";
 import { AttachmentItem } from "./AttachmentItem";
 
 interface TaskCommentFormProps {
@@ -29,27 +21,25 @@ interface PendingAttachment {
 	id: string;
 	name: string;
 	fileType: string;
-	dataUrl: string;
+	signedUrl: string | null;
 }
 
-// --- Helper to map MIME type (Copied from upload-file.ts) ---
-function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
+function mapFileTypeToAttachmentType(fileType: string): string {
 	const type = fileType.split("/")[0];
 	switch (type) {
 		case "image":
-			return AttachmentType.image;
+			return "image";
 		case "video":
-			return AttachmentType.video;
+			return "video";
 		case "audio":
-			return AttachmentType.audio;
+			return "audio";
 		case "application":
-			if (fileType === "application/pdf") return AttachmentType.document; // Specific PDF check
-			return AttachmentType.document;
+			if (fileType === "application/pdf") return "document"; // Specific PDF check
+			return "document";
 		default:
-			return AttachmentType.other;
+			return "other";
 	}
 }
-// --- End Helper ---
 
 export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 	const session = authClient.useSession();
@@ -59,139 +49,93 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 	>([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const pendingUploadDataUrlRef = useRef<string | null>(null);
-
-	const { execute: executeUploadFile } = useAction(uploadFile, {
-		onSuccess: (args: {
-			data?: ActionResponse<{ attachment: Attachment }>;
-			input: { fileType: string; fileName: string };
-		}) => {
-			const { data: result, input } = args;
-			if (result?.success && result.data?.attachment) {
-				const dataUrl = pendingUploadDataUrlRef.current;
-				if (dataUrl) {
-					setPendingAttachments((prev) => [
-						...prev,
-						{
-							id: result.data?.attachment.id ?? "",
-							name: result.data?.attachment.name ?? "",
-							fileType: input.fileType,
-							dataUrl: dataUrl,
-						},
-					]);
-					pendingUploadDataUrlRef.current = null;
-					toast.success(
-						`File "${result.data?.attachment.name ?? "unknown"}" ready for attachment.`,
-					);
-				} else {
-					console.error(
-						"Could not find pending dataUrl after successful upload",
-					);
-					setPendingAttachments((prev) => [
-						...prev,
-						{
-							id: result.data?.attachment.id ?? "",
-							name: result.data?.attachment.name ?? "",
-							fileType: input.fileType,
-							dataUrl: "#error-no-preview",
-						},
-					]);
-					toast.error(
-						"Attachment added, but preview is unavailable.",
-					);
-				}
-			} else {
-				const errorMessage =
-					result && typeof result.error === "object"
-						? result.error.message
-						: result?.error;
-				toast.error(
-					String(errorMessage || "Failed to stage attachment."),
-				);
-				pendingUploadDataUrlRef.current = null;
-			}
-		},
-		onError: () => {
-			pendingUploadDataUrlRef.current = null;
-			console.error("Upload file action error occurred.");
-			toast.error("Failed to upload file. Please try again.");
-		},
-		onSettled: () => {
-			setIsUploading(false);
-			if (fileInputRef.current) {
-				fileInputRef.current.value = "";
-			}
-		},
-	});
-
-	const { execute: executeCreateComment, status: commentStatus } = useAction(
-		createComment,
-		{
-			onSuccess: ({ data }) => {
-				if (data?.success) {
-					toast.success("Comment added!");
-					setNewComment("");
-					setPendingAttachments([]);
-				} else {
-					toast.error(data?.error || "Failed to add comment.");
-				}
-			},
-			onError: () => {
-				toast.error(
-					"An unexpected error occurred while adding the comment.",
-				);
-			},
-		},
-	);
 
 	const triggerFileInput = () => {
-		console.log(
-			"DEBUG: triggerFileInput called. Ref current:",
-			fileInputRef.current,
-		);
 		fileInputRef.current?.click();
 	};
 
 	const handleFileSelect = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			const file = event.target.files?.[0];
-			if (!file) return;
-
-			if (!file.type.startsWith("image/")) {
-				toast.info("Only image previews are shown before submitting.");
-			}
+			const files = event.target.files;
+			if (!files || files.length === 0) return;
 
 			setIsUploading(true);
-			const reader = new FileReader();
 
-			reader.onloadend = () => {
-				const dataUrlResult = reader.result as string;
-				const base64Data = dataUrlResult?.split(",")[1];
-
-				if (!base64Data) {
-					toast.error("Failed to read file data.");
-					setIsUploading(false);
-					return;
-				}
-
-				pendingUploadDataUrlRef.current = dataUrlResult;
-
-				executeUploadFile({
-					fileName: file.name,
-					fileType: file.type,
-					fileData: base64Data,
-					entityId: taskId,
-					entityType: AttachmentEntityType.comment,
+			// Helper to process a single file
+			const processFile = (file: File) => {
+				return new Promise<void>((resolve) => {
+					if (!file.type.startsWith("image/")) {
+						toast.info(
+							"Only image previews are shown before submitting.",
+						);
+					}
+					const reader = new FileReader();
+					reader.onloadend = async () => {
+						const dataUrlResult = reader.result as string;
+						const base64Data = dataUrlResult?.split(",")[1];
+						if (!base64Data) {
+							toast.error(
+								`Failed to read file data for ${file.name}`,
+							);
+							return resolve();
+						}
+						const { success, data, error } = await uploadFile({
+							fileName: file.name,
+							fileType: file.type,
+							fileData: base64Data,
+							entityId: taskId,
+							entityType: AttachmentEntityType.comment,
+						});
+						if (error) {
+							console.error(
+								"Upload file action error occurred:",
+								error,
+							);
+							toast.error(
+								`Failed to upload "${file.name}": ${error}`,
+							);
+						} else if (success && data?.id && data.signedUrl) {
+							setPendingAttachments((prev) => [
+								...prev,
+								{
+									id: data?.id ?? "",
+									name: data?.name ?? "",
+									fileType: file.type,
+									signedUrl: data.signedUrl,
+								},
+							]);
+							toast.success(
+								`File "${data?.name ?? "unknown"}" ready for attachment.`,
+							);
+						} else {
+							console.error(
+								"Upload succeeded but missing data:",
+								data,
+							);
+							toast.error(
+								`Failed to process "${file.name}" after upload.`,
+							);
+						}
+						resolve();
+					};
+					reader.onerror = () => {
+						toast.error(`Error reading file: ${file.name}`);
+						resolve();
+					};
+					reader.readAsDataURL(file);
 				});
 			};
-			reader.onerror = () => {
-				pendingUploadDataUrlRef.current = null;
-				toast.error("Error reading file.");
+
+			// Process all files sequentially
+			(async () => {
+				for (const file of Array.from(files)) {
+					await processFile(file);
+				}
 				setIsUploading(false);
-			};
-			reader.readAsDataURL(file);
+				if (fileInputRef.current) fileInputRef.current.value = "";
+			})();
 		},
-		[taskId, executeUploadFile],
+		[taskId, pendingAttachments.length],
 	);
 
 	const handleRemovePendingAttachment = (attachmentIdToRemove: string) => {
@@ -201,18 +145,61 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 		toast.info("Attachment removed from comment draft.");
 	};
 
-	const handleCommentSubmit = () => {
+	const handlePendingAttachmentClick = (attachmentId: string) => {
+		const pendingAttachment = pendingAttachments.find(
+			(att) => att.id === attachmentId,
+		);
+		if (!pendingAttachment) {
+			console.error(
+				"Could not find pending attachment for ID:",
+				attachmentId,
+			);
+			toast.error("Could not find attachment data.");
+			return;
+		}
+
+		console.log(
+			"DEBUG: Opening signed URL for:",
+			pendingAttachment.name,
+			pendingAttachment.signedUrl,
+		);
+		const { signedUrl } = pendingAttachment;
+
+		if (signedUrl) {
+			try {
+				// Directly open the signed URL
+				window.open(signedUrl, "_blank", "noopener,noreferrer");
+			} catch (e) {
+				console.error("Error opening signed URL:", e);
+				toast.error("Could not open attachment preview.");
+			}
+		} else {
+			// Handle case where signedUrl might be missing/null (shouldn't happen if upload worked)
+			toast.error("Attachment preview URL is not available.");
+		}
+	};
+
+	const handleCommentSubmit = async () => {
 		if (!newComment.trim() && pendingAttachments.length === 0) return;
-		executeCreateComment({
+
+		const { success, data, error } = await createComment({
 			content: newComment,
 			taskId: taskId,
 			attachmentIds: pendingAttachments.map((att) => att.id),
 		});
+
+		if (success && data) {
+			toast.success("Comment added!");
+			setNewComment("");
+			setPendingAttachments([]);
+		}
+
+		if (error) {
+			toast.error(error);
+		}
 	};
 
-	const isLoading =
-		commentStatus === "executing" || isUploading || session.isPending;
-	const user = session.data?.user;
+	const isLoading = isUploading || session.isPending;
 
 	if (session.isPending) {
 		return (
@@ -235,6 +222,7 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 				<div className="flex-1 space-y-3">
 					<input
 						type="file"
+						multiple
 						ref={fileInputRef}
 						onChange={handleFileSelect}
 						className="hidden"
@@ -247,60 +235,39 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 						onChange={(e) => setNewComment(e.target.value)}
 						disabled={isLoading}
 					/>
+
 					{pendingAttachments.length > 0 && (
-						<div className="space-y-2 pt-1">
+						<div className="space-y-2 pt-2">
 							<Label className="text-xs text-muted-foreground">
-								Attachments
+								Pending Attachments:
 							</Label>
-							<div className="flex flex-wrap gap-2">
-								{pendingAttachments.map((pendingAtt) => {
-									const partialAttachment = {
-										id: pendingAtt.id,
-										name: pendingAtt.name,
-										type: mapFileTypeToAttachmentType(
-											pendingAtt.fileType,
-										),
-										url: "#pending",
-										entityId: taskId,
-										entityType:
-											AttachmentEntityType.comment,
-										createdAt: new Date(),
-										updatedAt: new Date(),
-										organizationId: "pending",
-									};
-									return (
-										<AttachmentItem
-											key={partialAttachment.id}
-											attachment={
-												partialAttachment as any
-											}
-											isEditing={true}
-											onRemove={
-												handleRemovePendingAttachment
-											}
-											previewDataUrl={pendingAtt.dataUrl}
-											getUrlAction={
-												getCommentAttachmentUrl
-											}
-										/>
-									);
-								})}
-								{pendingAttachments.length > 0 && (
-									<button
-										type="button"
-										onClick={triggerFileInput}
-										disabled={isLoading}
-										className="w-24 h-24 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-sm flex items-center justify-center text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-										aria-label="Add attachment"
-									>
-										{isUploading ? (
-											<Loader2 className="h-5 w-5 animate-spin" />
-										) : (
-											<Plus className="h-6 w-6" />
-										)}
-									</button>
+							{pendingAttachments.map((pendingAttachment) => (
+								<AttachmentItem
+									key={pendingAttachment.id}
+									pendingAttachment={pendingAttachment}
+									onClickFilename={
+										handlePendingAttachmentClick
+									} // Pass the correct handler
+									onDelete={handleRemovePendingAttachment}
+									isParentBusy={isLoading} // Disable if form is loading/uploading
+								/>
+							))}
+							{/* Button to add more attachments */}
+							<Button
+								variant="outline"
+								size="sm"
+								className="mt-2 gap-2 w-full justify-center"
+								onClick={triggerFileInput}
+								disabled={isLoading}
+								aria-label="Add another attachment"
+							>
+								{isUploading ? (
+									<Loader2 className="h-4 w-4 animate-spin" />
+								) : (
+									<Paperclip className="h-4 w-4" />
 								)}
-							</div>
+								Add attachment
+							</Button>
 						</div>
 					)}
 
@@ -340,12 +307,9 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 								(!newComment.trim() &&
 									pendingAttachments.length === 0)
 							}
+							aria-label="Submit comment"
 						>
-							{!isLoading && <ArrowUp className="h-4 w-4" />}
-							{commentStatus === "executing" ||
-								(isLoading && (
-									<Loader2 className="h-4 w-4 animate-spin" />
-								))}
+							<ArrowUp className="h-4 w-4" />
 						</Button>
 					</div>
 				</div>

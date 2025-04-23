@@ -3,34 +3,14 @@
 import { authActionClient } from "@/actions/safe-action";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { db } from "@comp/db";
-import {
-	Attachment,
-	AttachmentEntityType,
-	CommentEntityType,
-} from "@comp/db/types";
+import { AttachmentEntityType } from "@comp/db/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { s3Client, BUCKET_NAME } from "@/app/s3";
+import { s3Client, BUCKET_NAME, extractS3KeyFromUrl } from "@/app/s3";
 
-// --- Input Schema ---
 const schema = z.object({
 	attachmentId: z.string(),
 });
-// --- End Input Schema ---
-
-// --- Helper to extract S3 key ---
-function extractS3KeyFromUrl(url: string): string {
-	const fullUrlMatch = url.match(/amazonaws\.com\/(.+)$/);
-	if (fullUrlMatch?.[1]) {
-		return decodeURIComponent(fullUrlMatch[1]);
-	}
-	if (!url.includes("amazonaws.com") && url.split("/").length > 1) {
-		return url;
-	}
-	console.error("Invalid S3 URL format for deletion:", url);
-	throw new Error("Invalid S3 URL format");
-}
-// --- End Helper ---
 
 export const deleteCommentAttachment = authActionClient
 	.schema(schema)

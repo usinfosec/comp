@@ -1,16 +1,14 @@
 "use client";
 
-import type { Task, Attachment } from "@comp/db/types";
+import type { Attachment, Task } from "@comp/db/types";
 import { Separator } from "@comp/ui/separator";
-import { useAction } from "next-safe-action/hooks";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { updateTask } from "../../actions/updateTask";
 import type { CommentWithAuthor } from "../page";
+import { TaskBody } from "./TaskBody";
 import { TaskCommentForm } from "./TaskCommentForm";
 import { TaskCommentList } from "./TaskCommentList";
-import { TaskBody } from "./TaskBody";
 
 interface TaskMainContentProps {
 	task: Task & { fileUrls?: string[] };
@@ -26,29 +24,11 @@ export function TaskMainContent({
 	const [title, setTitle] = useState(task.title);
 	const [description, setDescription] = useState(task.description ?? "");
 
-	const { execute: executeUpdateTask, status: updateStatus } = useAction(
-		updateTask,
-		{
-			onSuccess: ({ data }) => {
-				if (data?.success) {
-					toast.success("Task updated successfully!");
-				} else {
-					toast.error(data?.error || "Failed to update task.");
-				}
-			},
-			onError: () => {
-				toast.error(
-					"An unexpected error occurred while updating the task.",
-				);
-			},
-		},
-	);
-
 	const debouncedUpdateTask = useDebouncedCallback(
 		(field: "title" | "description", value: string) => {
-			executeUpdateTask({ id: task.id, [field]: value });
+			updateTask({ id: task.id, [field]: value });
 		},
-		500,
+		1000,
 	);
 
 	useEffect(() => {
@@ -79,7 +59,6 @@ export function TaskMainContent({
 				attachments={attachments}
 				onTitleChange={handleTitleChange}
 				onDescriptionChange={handleDescriptionChange}
-				disabled={updateStatus === "executing"}
 			/>
 
 			<div className="py-4">

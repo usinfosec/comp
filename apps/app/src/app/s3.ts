@@ -40,3 +40,15 @@ export const s3Client = new S3Client({
 if (!BUCKET_NAME && process.env.NODE_ENV === "production") {
 	console.error("AWS_BUCKET_NAME is not defined.");
 }
+
+export function extractS3KeyFromUrl(url: string): string {
+	const fullUrlMatch = url.match(/amazonaws\.com\/(.+)$/);
+	if (fullUrlMatch?.[1]) {
+		return decodeURIComponent(fullUrlMatch[1]);
+	}
+	if (!url.includes("amazonaws.com") && url.split("/").length > 1) {
+		return url;
+	}
+	console.error("Invalid S3 URL format for deletion:", url);
+	throw new Error("Invalid S3 URL format");
+}
