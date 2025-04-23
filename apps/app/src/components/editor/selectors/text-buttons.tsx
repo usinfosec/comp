@@ -44,7 +44,7 @@ export const TextButtons = () => {
 				>
 					<Button
 						size="sm"
-						className="rounded-none"
+						className="rounded-sm"
 						variant="ghost"
 						type="button"
 					>

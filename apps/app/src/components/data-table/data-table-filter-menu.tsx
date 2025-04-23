@@ -425,7 +425,7 @@ function DataTableFilterItem<TData>({
 						<Button
 							variant="ghost"
 							size="sm"
-							className="rounded-none rounded-l-md border border-r-0 font-normal dark:bg-input/30"
+							className="rounded-sm rounded-l-md border border-r-0 font-normal dark:bg-input/30"
 						>
 							{columnMeta?.icon && (
 								<columnMeta.icon className="text-muted-foreground" />
@@ -511,7 +511,7 @@ function DataTableFilterItem<TData>({
 				>
 					<SelectTrigger
 						aria-controls={operatorListboxId}
-						className="h-8 rounded-none border-r-0 px-2.5 lowercase [&[data-size]]:h-8 [&_svg]:hidden"
+						className="h-8 rounded-sm border-r-0 px-2.5 lowercase [&[data-size]]:h-8 [&_svg]:hidden"
 					>
 						<SelectValue placeholder={filter.operator} />
 					</SelectTrigger>
@@ -542,7 +542,7 @@ function DataTableFilterItem<TData>({
 					aria-controls={filterItemId}
 					variant="ghost"
 					size="sm"
-					className="h-full rounded-none rounded-r-md border border-l-0 px-1.5 font-normal dark:bg-input/30"
+					className="h-full rounded-sm rounded-r-md border border-l-0 px-1.5 font-normal dark:bg-input/30"
 					onClick={() => onFilterRemove(filter.filterId)}
 				>
 					<X className="size-3.5" />
@@ -673,7 +673,7 @@ function onFilterInputRender<TData>({
 					filter.operator === "isEmpty" ? "empty" : "not empty"
 				}`}
 				aria-live="polite"
-				className="h-full w-16 rounded-none border bg-transparent px-1.5 py-0.5 text-muted-foreground dark:bg-input/30"
+				className="h-full w-16 rounded-sm border bg-transparent px-1.5 py-0.5 text-muted-foreground dark:bg-input/30"
 			/>
 		);
 	}
@@ -693,7 +693,7 @@ function onFilterInputRender<TData>({
 						column={column}
 						inputId={inputId}
 						onFilterUpdate={onFilterUpdate}
-						className="size-full max-w-28 gap-0 [&_[data-slot='range-min']]:border-r-0 [&_input]:rounded-none [&_input]:px-1.5"
+						className="size-full max-w-28 gap-0 [&_[data-slot='range-min']]:border-r-0 [&_input]:rounded-sm [&_input]:px-1.5"
 					/>
 				);
 			}
@@ -709,7 +709,7 @@ function onFilterInputRender<TData>({
 					placeholder={
 						column.columnDef.meta?.placeholder ?? "Enter value..."
 					}
-					className="h-full w-24 rounded-none px-1.5"
+					className="h-full w-24 rounded-sm px-1.5"
 					defaultValue={
 						typeof filter.value === "string" ? filter.value : ""
 					}
@@ -739,7 +739,7 @@ function onFilterInputRender<TData>({
 					<SelectTrigger
 						id={inputId}
 						aria-controls={inputListboxId}
-						className="rounded-none bg-transparent px-1.5 py-0.5 [&_svg]:hidden"
+						className="rounded-sm bg-transparent px-1.5 py-0.5 [&_svg]:hidden"
 					>
 						<SelectValue
 							placeholder={filter.value ? "True" : "False"}
@@ -777,7 +777,7 @@ function onFilterInputRender<TData>({
 							aria-controls={inputListboxId}
 							variant="ghost"
 							size="sm"
-							className="h-full min-w-16 rounded-none border px-1.5 font-normal dark:bg-input/30"
+							className="h-full min-w-16 rounded-sm border px-1.5 font-normal dark:bg-input/30"
 						>
 							{selectedOptions.length === 0 ? (
 								filter.variant === "multiSelect" ? (
@@ -904,7 +904,7 @@ function onFilterInputRender<TData>({
 							variant="ghost"
 							size="sm"
 							className={cn(
-								"h-full rounded-none border px-1.5 font-normal dark:bg-input/30",
+								"h-full rounded-sm border px-1.5 font-normal dark:bg-input/30",
 								!filter.value && "text-muted-foreground",
 							)}
 						>

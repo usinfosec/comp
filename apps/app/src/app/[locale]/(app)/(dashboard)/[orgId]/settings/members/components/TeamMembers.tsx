@@ -16,7 +16,7 @@ export async function TeamMembers() {
 
 	return (
 		<Tabs defaultValue="members">
-			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-none mb-1 p-0 h-auto pb-4">
+			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-sm mb-1 p-0 h-auto pb-4">
 				<TabsTrigger value="members" className="p-0 m-0 mr-4">
 					{t("settings.team.tabs.members")}
 				</TabsTrigger>
@@ -54,16 +54,21 @@ const getMembers = cache(async () => {
 	const members = await db.member.findMany({
 		where: {
 			organizationId: session?.session.activeOrganizationId,
-			role: {
-				notIn: ["employee"],
-			},
 		},
 		include: {
 			user: true,
 		},
 	});
 
-	return members;
+	// Filter out users who only have the "employee" role
+	// We want to show only team members with administrative roles
+	const filteredMembers = members.filter(
+		(member) =>
+			!member.role.split(",").includes("employee") &&
+			member.role.split(",").length > 0,
+	);
+
+	return filteredMembers;
 });
 
 const getOrganizationId = cache(async () => {
