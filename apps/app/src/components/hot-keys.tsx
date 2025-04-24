@@ -20,12 +20,12 @@ export function HotKeys() {
 
 	useHotkeys("ctrl+m", (evt) => {
 		evt.preventDefault();
-		router.push("/settings/members");
+		router.push("/settings/users");
 	});
 
 	useHotkeys("meta+m", (evt) => {
 		evt.preventDefault();
-		router.push("/settings/members");
+		router.push("/settings/users");
 	});
 
 	useHotkeys("ctrl+e", (evt) => {

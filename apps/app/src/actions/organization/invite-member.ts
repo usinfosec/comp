@@ -44,7 +44,7 @@ export const inviteMember = authActionClient
 					role,
 				});
 
-				revalidatePath(`/${organizationId}/settings/members`);
+				revalidatePath(`/${organizationId}/settings/users`);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {

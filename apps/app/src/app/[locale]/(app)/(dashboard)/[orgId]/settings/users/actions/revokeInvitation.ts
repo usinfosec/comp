@@ -1,11 +1,13 @@
 "use server";
 
 import { db } from "@comp/db";
-import { Role } from "@comp/db/types";
+// Remove unused Role import if not needed elsewhere
+// import { Role } from "@comp/db/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
-import type { ActionResponse } from "../types";
+// Adjust safe-action import for colocalized structure
+import { authActionClient } from "@/actions/safe-action";
+import type { ActionResponse } from "@/actions/types";
 
 const revokeInvitationSchema = z.object({
 	invitationId: z.string(),
@@ -58,7 +60,9 @@ export const revokeInvitation = authActionClient
 					},
 				});
 
-				revalidatePath("/settings/members");
+				revalidatePath(
+					`/${ctx.session.activeOrganizationId}/settings/users`,
+				);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {

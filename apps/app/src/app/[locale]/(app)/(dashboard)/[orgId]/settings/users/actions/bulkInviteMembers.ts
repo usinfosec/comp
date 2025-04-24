@@ -5,9 +5,8 @@ import { authClient } from "@/utils/auth-client";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { headers } from "next/headers"; // Import headers
 import { z } from "zod";
-// Removed authActionClient import
-// import { authActionClient } from "../safe-action";
-import type { ActionResponse } from "../types";
+// Import common types from the new actions directory structure
+import type { ActionResponse } from "@/actions/types";
 
 // --- Schemas for Validation ---
 const emailSchema = z.string().email("Invalid email format");

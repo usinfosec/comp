@@ -3,8 +3,9 @@
 import { db } from "@comp/db";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
-import type { ActionResponse } from "../types";
+// Adjust safe-action import for colocalized structure
+import { authActionClient } from "@/actions/safe-action";
+import type { ActionResponse } from "@/actions/types";
 
 const removeMemberSchema = z.object({
 	memberId: z.string(),
@@ -91,6 +92,7 @@ export const removeMember = authActionClient
 					},
 				});
 
+				// Consider if deleting sessions is still desired here
 				await db.session.deleteMany({
 					where: {
 						userId: targetMember.userId,
@@ -98,7 +100,7 @@ export const removeMember = authActionClient
 				});
 
 				revalidatePath(
-					`/${ctx.session.activeOrganizationId}/settings/members`,
+					`/${ctx.session.activeOrganizationId}/settings/users`,
 				);
 				revalidateTag(`user_${ctx.user.id}`);
 
@@ -107,9 +109,11 @@ export const removeMember = authActionClient
 					data: { removed: true },
 				};
 			} catch (error) {
+				// Log the actual error for better debugging
+				console.error("Error removing member:", error);
 				return {
 					success: false,
-					error: "Failed to remove member",
+					error: "Failed to remove member", // Keep generic message for client
 				};
 			}
 		},

@@ -1,10 +1,9 @@
 "use server";
 
-import { inviteMember } from "@/actions/organization/invite-member";
-import { removeMember } from "@/actions/organization/remove-member";
-import { revokeInvitation } from "@/actions/organization/revoke-invitation";
-import { updateMemberRole } from "@/actions/organization/update-member-role";
-import { bulkInviteMembers } from "@/actions/organization/bulk-invite-members";
+import { removeMember } from "../actions/removeMember";
+import { revokeInvitation } from "../actions/revokeInvitation";
+import { updateMemberRole } from "../actions/updateMemberRole";
+import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Invitation, Member, User } from "@prisma/client";
@@ -61,7 +60,6 @@ export async function TeamMembers() {
 			removeMemberAction={removeMember}
 			updateMemberRoleAction={updateMemberRole}
 			revokeInvitationAction={revokeInvitation}
-			bulkInviteMembersAction={bulkInviteMembers}
 		/>
 	);
 }

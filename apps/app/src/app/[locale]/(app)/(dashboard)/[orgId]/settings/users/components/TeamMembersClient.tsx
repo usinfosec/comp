@@ -26,22 +26,21 @@ import { PendingInvitationRow } from "./PendingInvitationRow";
 import type { MemberWithUser, TeamMembersData } from "./TeamMembers";
 
 // Import the server actions themselves to get their types
-import { bulkInviteMembers } from "@/actions/organization/bulk-invite-members";
-import { removeMember } from "@/actions/organization/remove-member";
-import { revokeInvitation } from "@/actions/organization/revoke-invitation";
-import { updateMemberRole } from "@/actions/organization/update-member-role";
-import { invalidateMembers } from "./invalidateMembers";
+import { bulkInviteMembers } from "../actions/bulkInviteMembers";
+import { removeMember } from "../actions/removeMember";
+import { revokeInvitation } from "../actions/revokeInvitation";
+import { updateMemberRole } from "../actions/updateMemberRole";
+import { invalidateMembers } from "../actions/invalidateMembers";
 
 import { InviteMembersModal } from "./InviteMembersModal";
 
 // Define prop types using typeof for the actions
 interface TeamMembersClientProps {
 	data: TeamMembersData;
-	organizationId: string; // Add organizationId prop
+	organizationId: string;
 	removeMemberAction: typeof removeMember;
 	updateMemberRoleAction: typeof updateMemberRole;
 	revokeInvitationAction: typeof revokeInvitation;
-	bulkInviteMembersAction: typeof bulkInviteMembers; // Added prop
 }
 
 // Define a simplified type for merged list items
@@ -60,7 +59,6 @@ export function TeamMembersClient({
 	removeMemberAction,
 	updateMemberRoleAction,
 	revokeInvitationAction,
-	bulkInviteMembersAction,
 }: TeamMembersClientProps) {
 	const t = useI18n();
 	const [searchQuery, setSearchQuery] = useQueryState(
@@ -171,7 +169,6 @@ export function TeamMembersClient({
 				open={isInviteModalOpen}
 				onOpenChange={setIsInviteModalOpen}
 				organizationId={organizationId}
-				bulkInviteAction={bulkInviteMembersAction}
 			/>
 
 			<div className="flex items-center justify-between mb-6 gap-4">

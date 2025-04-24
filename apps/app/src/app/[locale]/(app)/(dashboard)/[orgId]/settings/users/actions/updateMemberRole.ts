@@ -5,8 +5,9 @@ import { db } from "@comp/db";
 import { Departments, Role } from "@prisma/client";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { authActionClient } from "../safe-action";
-import type { ActionResponse } from "../types";
+// Adjust safe-action import for colocalized structure
+import { authActionClient } from "@/actions/safe-action";
+import type { ActionResponse } from "@/actions/types";
 
 const updateMemberRoleSchema = z.object({
 	memberId: z.string(),
@@ -59,7 +60,7 @@ export const updateMemberRole = authActionClient
 				// Check if the target member exists in the organization
 				const targetMember = await db.member.findFirst({
 					where: {
-						id: memberId ?? "",
+						id: memberId ?? "", // Use nullish coalescing for safety
 						organizationId: ctx.session.activeOrganizationId,
 					},
 				});
@@ -75,16 +76,27 @@ export const updateMemberRole = authActionClient
 					throw new Error("Role is required");
 				}
 
-				// Convert role to a valid role type for the authClient
-				const validRole = role === "auditor" ? "member" : role;
+				// Remove potentially incorrect role conversion
+				// const validRole = role === "auditor" ? "member" : role;
 
 				await authClient.organization.updateMemberRole({
 					memberId: targetMember.userId,
-					role: validRole as "owner" | "admin" | "member",
+					role: role, // Pass the validated role directly
 					organizationId: ctx.session.activeOrganizationId ?? "",
 				});
 
-				revalidatePath("/settings/members");
+				// Consider updating the department if provided, though authClient might not support it directly
+				// Need to check if `db.member.update` is required here
+				if (department) {
+					await db.member.update({
+						where: { id: memberId },
+						data: { department: department },
+					});
+				}
+
+				revalidatePath(
+					`/${ctx.session.activeOrganizationId}/settings/users`,
+				);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {

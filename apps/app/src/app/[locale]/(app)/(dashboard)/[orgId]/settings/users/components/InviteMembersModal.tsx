@@ -2,15 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, PlusCircle, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { bulkInviteMembers } from "@/actions/organization/bulk-invite-members";
+import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import type { ActionResponse } from "@/actions/types";
 import { useI18n } from "@/locales/client";
-import { invalidateMembers } from "@/app/[locale]/(app)/(dashboard)/[orgId]/settings/users/components/invalidateMembers";
 import { Button } from "@comp/ui/button";
 import {
 	Dialog,
@@ -38,7 +37,6 @@ import {
 	SelectValue,
 } from "@comp/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
-import type { Role } from "@prisma/client";
 
 // --- Constants for Roles ---
 const availableRoles = ["admin", "auditor", "employee"] as const;
@@ -51,33 +49,30 @@ const manualInviteSchema = z.object({
 	role: z.enum(availableRoles),
 });
 
-const formSchema = z
-	.object({
-		mode: z.enum(["manual", "csv"]),
-		manualInvites: z.array(manualInviteSchema).optional(),
-		csvFile: z.any().optional(),
-	})
-	.refine(
-		(data) => {
-			if (data.mode === "manual") {
-				return data.manualInvites && data.manualInvites.length > 0;
-			}
-			return true;
-		},
-		{ message: "Please add at least one invite.", path: ["manualInvites"] },
-	)
-	.refine(
-		(data) => {
-			if (data.mode === "csv") {
-				return (
-					data.csvFile instanceof FileList &&
-					data.csvFile.length === 1
-				);
-			}
-			return true;
-		},
-		{ message: "Please select a CSV file.", path: ["csvFile"] },
-	);
+// Define base schemas for each mode
+const manualModeSchema = z.object({
+	mode: z.literal("manual"),
+	manualInvites: z
+		.array(manualInviteSchema)
+		.min(1, { message: "Please add at least one invite." }),
+	csvFile: z.any().optional(), // Optional here, validated by union
+});
+
+const csvModeSchema = z.object({
+	mode: z.literal("csv"),
+	manualInvites: z.array(manualInviteSchema).optional(), // Optional here
+	csvFile: z
+		.any()
+		.refine((val) => val instanceof FileList && val.length === 1, {
+			message: "Please select a single CSV file.",
+		}),
+});
+
+// Combine using discriminatedUnion
+const formSchema = z.discriminatedUnion("mode", [
+	manualModeSchema,
+	csvModeSchema,
+]);
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -103,9 +98,9 @@ export function InviteMembersModal({
 	const t = useI18n();
 	const [mode, setMode] = useState<"manual" | "csv">("manual");
 	const [isLoading, setIsLoading] = useState(false);
+	const [csvFileName, setCsvFileName] = useState<string | null>(null);
 	const [lastResult, setLastResult] =
 		useState<ActionResponse<BulkInviteResultData> | null>(null);
-	const [csvFileName, setCsvFileName] = useState<string | null>(null);
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
@@ -117,30 +112,44 @@ export function InviteMembersModal({
 		mode: "onChange",
 	});
 
+	// Log form errors on change
+	useEffect(() => {
+		if (Object.keys(form.formState.errors).length > 0) {
+			console.error("Form Validation Errors:", form.formState.errors);
+		}
+	}, [form.formState.errors]);
+
 	const { fields, append, remove } = useFieldArray({
 		control: form.control,
 		name: "manualInvites",
 	});
 
 	async function onSubmit(values: FormData) {
+		console.log("onSubmit triggered", { values });
 		setIsLoading(true);
-		setLastResult(null);
 		const formData = new FormData();
 		formData.append("type", values.mode);
 
 		if (values.mode === "manual") {
+			console.log("Processing manual mode");
 			if (!values.manualInvites || values.manualInvites.length === 0) {
+				console.error("Manual mode validation failed: No invites.");
 				toast.error("Please add at least one member to invite.");
 				setIsLoading(false);
 				return;
 			}
+			console.log("Manual invites to stringify:", values.manualInvites);
 			formData.append("invites", JSON.stringify(values.manualInvites));
 		} else if (values.mode === "csv") {
+			console.log("Processing CSV mode");
 			if (
 				!values.csvFile ||
 				!(values.csvFile instanceof FileList) ||
 				values.csvFile.length !== 1
 			) {
+				console.error(
+					"CSV mode validation failed: No valid file selected.",
+				);
 				form.setError("csvFile", {
 					message: "A valid CSV file is required.",
 				});
@@ -149,32 +158,41 @@ export function InviteMembersModal({
 			}
 			const file = values.csvFile[0];
 			if (file.type !== "text/csv") {
+				console.error(
+					"CSV mode validation failed: Incorrect file type.",
+					{ type: file.type },
+				);
 				form.setError("csvFile", { message: "File must be a CSV." });
 				setIsLoading(false);
 				return;
 			}
 			if (file.size > 5 * 1024 * 1024) {
+				console.error("CSV mode validation failed: File too large.", {
+					size: file.size,
+				});
 				form.setError("csvFile", {
 					message: "File size must be less than 5MB.",
 				});
 				setIsLoading(false);
 				return;
 			}
+			console.log("Appending CSV file to FormData:", file.name);
 			formData.append("csvFile", file);
 		}
 
 		try {
+			console.log("Calling bulkInviteMembers server action directly...");
 			const result = await bulkInviteMembers(formData);
 			setLastResult(result);
 
 			if (result.success && result.data) {
+				console.log("Server action success", { data: result.data });
 				const { successfulInvites, failedItems } = result.data;
 				const messages: string[] = [];
 				if (successfulInvites > 0) {
 					messages.push(
 						`Successfully invited ${successfulInvites} member(s).`,
 					);
-					await invalidateMembers({ organizationId });
 					form.reset();
 					onOpenChange(false);
 				}
@@ -195,6 +213,9 @@ export function InviteMembersModal({
 					);
 				}
 			} else {
+				console.warn("Server action failed or returned no data", {
+					result,
+				});
 				const errorFromAction = result.error;
 				let errorMsg: string;
 				if (typeof errorFromAction === "string") {
@@ -222,9 +243,13 @@ export function InviteMembersModal({
 				}
 			}
 		} catch (error) {
-			console.error("Error calling bulkInviteMembers:", error);
+			console.error(
+				"Error calling bulkInviteMembers (catch block):",
+				error,
+			);
 			toast.error("An unexpected client-side error occurred.");
 		} finally {
+			console.log("onSubmit finished");
 			setIsLoading(false);
 		}
 	}
@@ -233,11 +258,17 @@ export function InviteMembersModal({
 		if (newMode === "manual" || newMode === "csv") {
 			setMode(newMode);
 			form.setValue("mode", newMode, { shouldValidate: true });
-			if (newMode === "manual" && fields.length === 0) {
-				append({ email: "", role: DEFAULT_ROLE });
+
+			if (newMode === "manual") {
+				if (fields.length === 0) {
+					append({ email: "", role: DEFAULT_ROLE });
+				}
+				form.setValue("csvFile", undefined);
+				setCsvFileName(null);
+			} else if (newMode === "csv") {
+				form.setValue("manualInvites", undefined);
 			}
-			form.setValue("csvFile", undefined);
-			setCsvFileName(null);
+
 			form.clearErrors();
 		}
 	};
@@ -489,16 +520,21 @@ export function InviteMembersModal({
 							</TabsContent>
 						</Tabs>
 
-						<DialogFooter>
+						<DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2 sm:gap-0">
 							<Button
 								type="button"
 								variant="outline"
 								onClick={() => onOpenChange(false)}
 								disabled={isLoading}
+								className="w-full sm:w-auto"
 							>
 								{t("common.actions.cancel")}
 							</Button>
-							<Button type="submit" disabled={isLoading}>
+							<Button
+								type="submit"
+								disabled={isLoading}
+								className="w-full sm:w-auto"
+							>
 								{isLoading && (
 									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 								)}
