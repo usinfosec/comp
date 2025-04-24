@@ -1,6 +1,6 @@
 export const people = {
 	title: "People",
-	all: "Employees",
+	all: "All Roles",
 	details: {
 		title: "Employee Details",
 		tasks: "Tasks",
@@ -13,6 +13,7 @@ export const people = {
 	filters: {
 		search: "Search people...",
 		role: "Filter by role",
+		all_roles: "All Roles",
 	},
 	actions: {
 		invite: "Add Employee",
@@ -72,6 +73,7 @@ export const people = {
 	invite: {
 		title: "Add Employee",
 		description: "Add an employee to your organization.",
+		pending: "Pending Invitations",
 		email: {
 			label: "Email address",
 			placeholder: "Enter email address",

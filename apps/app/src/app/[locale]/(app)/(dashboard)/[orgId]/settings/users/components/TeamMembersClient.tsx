@@ -5,6 +5,7 @@ import type React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { parseAsString, useQueryState } from "nuqs";
+import { useRouter } from "next/navigation";
 
 import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
@@ -62,6 +63,7 @@ export function TeamMembersClient({
 	revokeInvitationAction,
 }: TeamMembersClientProps) {
 	const t = useI18n();
+	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useQueryState(
 		"search",
 		parseAsString.withDefault(""),
@@ -147,8 +149,8 @@ export function TeamMembersClient({
 		const result = await revokeInvitationAction({ invitationId });
 		if (result?.data) {
 			// Success case
-			// toast.success(t("settings.team.pending.toast.cancel_success"), {}); // Removed toast
 			// Data revalidates server-side via action's revalidatePath
+			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
 			const errorMessage =
@@ -161,8 +163,8 @@ export function TeamMembersClient({
 		const result = await removeMemberAction({ memberId });
 		if (result?.data) {
 			// Success case
-			// toast.success(t("settings.team.member_actions.toast.remove_success"), {}); // Removed toast
 			// Data revalidates server-side via action's revalidatePath
+			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
 			const errorMessage =
@@ -197,7 +199,7 @@ export function TeamMembersClient({
 		// Check for success by looking for the presence of the data property
 		if (result?.data) {
 			// Success: Data revalidates server-side via action's revalidatePath
-			// toast.success(t("settings.team.member_actions.toast.update_role_success"));
+			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
 			const errorMessage =
@@ -206,8 +208,6 @@ export function TeamMembersClient({
 					: result?.serverError) ||
 				t("people.member_actions.toast.update_role_error");
 			console.error("Update Role Error:", errorMessage);
-			// toast.error(errorMessage);
-			// TODO: Consider reverting optimistic UI updates if any were made
 		}
 	};
 
@@ -250,7 +250,9 @@ export function TeamMembersClient({
 					}
 				>
 					<SelectTrigger className="w-[180px]">
-						<SelectValue placeholder={t("people.filters.role")} />
+						<SelectValue
+							placeholder={t("people.filters.all_roles")}
+						/>
 					</SelectTrigger>
 					<SelectContent>
 						<SelectItem value="all">{t("people.all")}</SelectItem>
@@ -294,7 +296,7 @@ export function TeamMembersClient({
 					{pendingInvites.length > 0 && (
 						<div className="p-3 bg-muted/20">
 							<h3 className="text-sm font-medium text-muted-foreground px-3 mb-2">
-								{t("people.invite.title")}
+								{t("people.invite.pending")}
 							</h3>
 							<div className="divide-y divide-dashed">
 								{pendingInvites.map((invitation) => (

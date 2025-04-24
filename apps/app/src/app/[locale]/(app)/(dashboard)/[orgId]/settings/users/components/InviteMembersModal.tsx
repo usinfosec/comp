@@ -7,6 +7,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import type { Role } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import type { ActionResponse } from "@/actions/types";
@@ -32,6 +33,7 @@ import {
 import { Input } from "@comp/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { MultiRoleCombobox } from "./MultiRoleCombobox";
+import { authClient } from "@/utils/auth-client";
 
 // --- Constants for Roles ---
 const selectableRoles = [
@@ -97,6 +99,7 @@ export function InviteMembersModal({
 	organizationId,
 }: InviteMembersModalProps) {
 	const t = useI18n();
+	const router = useRouter();
 	const [mode, setMode] = useState<"manual" | "csv">("manual");
 	const [isLoading, setIsLoading] = useState(false);
 	const [csvFileName, setCsvFileName] = useState<string | null>(null);
@@ -128,142 +131,100 @@ export function InviteMembersModal({
 	async function onSubmit(values: FormData) {
 		console.log("onSubmit triggered", { values });
 		setIsLoading(true);
-		const formData = new FormData();
-		formData.append("type", values.mode);
-
-		if (values.mode === "manual") {
-			console.log("Processing manual mode");
-			if (!values.manualInvites || values.manualInvites.length === 0) {
-				console.error("Manual mode validation failed: No invites.");
-				toast.error("Please add at least one member to invite.");
-				setIsLoading(false);
-				return;
-			}
-			console.log("Manual invites to stringify:", values.manualInvites);
-			const invalidInvites = values.manualInvites.filter(
-				(invite) => !invite.roles || invite.roles.length === 0,
-			);
-			if (invalidInvites.length > 0) {
-				console.error(
-					`Manual mode validation failed: No roles selected for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
-				);
-				toast.error(
-					`Please select at least one role for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
-				);
-				setIsLoading(false);
-				return;
-			}
-			formData.append("invites", JSON.stringify(values.manualInvites));
-		} else if (values.mode === "csv") {
-			console.log("Processing CSV mode");
-			if (
-				!values.csvFile ||
-				!(values.csvFile instanceof FileList) ||
-				values.csvFile.length !== 1
-			) {
-				console.error(
-					"CSV mode validation failed: No valid file selected.",
-				);
-				form.setError("csvFile", {
-					message: "A valid CSV file is required.",
-				});
-				setIsLoading(false);
-				return;
-			}
-			const file = values.csvFile[0];
-			if (file.type !== "text/csv") {
-				console.error(
-					"CSV mode validation failed: Incorrect file type.",
-					{ type: file.type },
-				);
-				form.setError("csvFile", { message: "File must be a CSV." });
-				setIsLoading(false);
-				return;
-			}
-			if (file.size > 5 * 1024 * 1024) {
-				console.error("CSV mode validation failed: File too large.", {
-					size: file.size,
-				});
-				form.setError("csvFile", {
-					message: "File size must be less than 5MB.",
-				});
-				setIsLoading(false);
-				return;
-			}
-			console.log("Appending CSV file to FormData:", file.name);
-			formData.append("csvFile", file);
-		}
 
 		try {
-			console.log("Calling bulkInviteMembers server action directly...");
-			const result = await bulkInviteMembers(formData);
-			setLastResult(result as ActionResponse<BulkInviteResultData>);
-
-			if (result.success && result.data) {
-				console.log("Server action success", { data: result.data });
-				const { successfulInvites, failedItems } = result.data;
-				const messages: string[] = [];
-				if (successfulInvites > 0) {
-					messages.push(
-						`Successfully invited ${successfulInvites} member(s).`,
-					);
-					form.reset();
-					onOpenChange(false);
-				}
-				if (failedItems.length > 0) {
-					messages.push(
-						`Failed to invite ${failedItems.length}: ${failedItems.map((f) => (typeof f.input === "string" ? f.input : f.input.email)).join(", ")}`,
-					);
-				}
-
-				if (messages.length > 0) {
-					toast(messages.join(" \n "));
-				} else if (
-					successfulInvites === 0 &&
-					failedItems.length === 0
-				) {
-					toast.info(
-						"No new members were invited (perhaps they already exist or the file was empty).",
-					);
-				}
-			} else {
-				console.warn("Server action failed or returned no data", {
-					result,
-				});
-				const errorFromAction = result.error;
-				let errorMsg: string;
-				if (typeof errorFromAction === "string") {
-					errorMsg = errorFromAction;
-				} else if (
-					typeof errorFromAction === "object" &&
-					errorFromAction !== null &&
-					"message" in errorFromAction &&
-					typeof (errorFromAction as any).message === "string"
-				) {
-					errorMsg = (errorFromAction as { message: string }).message;
-				} else {
-					errorMsg = "An unknown server error occurred.";
-				}
-				toast.error(errorMsg);
-
+			if (values.mode === "manual") {
+				console.log("Processing manual mode");
 				if (
-					result.data?.failedItems &&
-					result.data.failedItems.length > 0
+					!values.manualInvites ||
+					values.manualInvites.length === 0
 				) {
+					console.error("Manual mode validation failed: No invites.");
+					toast.error("Please add at least one member to invite.");
+					setIsLoading(false);
+					return;
+				}
+
+				const invalidInvites = values.manualInvites.filter(
+					(invite) => !invite.roles || invite.roles.length === 0,
+				);
+				if (invalidInvites.length > 0) {
+					console.error(
+						`Manual mode validation failed: No roles selected for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
+					);
 					toast.error(
-						`Failed items: ${result.data.failedItems.map((f) => (typeof f.input === "string" ? f.input : f.input.email)).join(", ")}`,
-						{ duration: 6000 },
+						`Please select at least one role for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
+					);
+					setIsLoading(false);
+					return;
+				}
+
+				// Process invitations client-side using authClient
+				let successCount = 0;
+				const failedInvites: { email: string; error: string }[] = [];
+
+				// Process each invitation sequentially
+				for (const invite of values.manualInvites) {
+					try {
+						// Use authClient to send the invitation
+						await authClient.organization.inviteMember({
+							email: invite.email,
+							role:
+								invite.roles.length === 1
+									? invite.roles[0]
+									: invite.roles,
+						});
+						successCount++;
+					} catch (error) {
+						console.error(
+							`Failed to invite ${invite.email}:`,
+							error,
+						);
+						failedInvites.push({
+							email: invite.email,
+							error:
+								error instanceof Error
+									? error.message
+									: "Unknown error",
+						});
+					}
+				}
+
+				// Handle results
+				if (successCount > 0) {
+					toast.success(
+						`Successfully invited ${successCount} member(s).`,
+					);
+
+					// Revalidate the page to refresh the member list
+					router.refresh();
+
+					if (failedInvites.length === 0) {
+						form.reset();
+						onOpenChange(false);
+					}
+				}
+
+				if (failedInvites.length > 0) {
+					toast.error(
+						`Failed to invite ${failedInvites.length} member(s): ${failedInvites.map((f) => f.email).join(", ")}`,
 					);
 				}
+			} else if (values.mode === "csv") {
+				// Handle CSV file uploads
+				console.log(
+					"CSV invitation mode not yet implemented client-side",
+				);
+				toast.error(
+					"CSV invite mode is not yet implemented with client-side processing.",
+				);
 			}
 		} catch (error) {
-			console.error(
-				"Error calling bulkInviteMembers (catch block):",
-				error,
+			console.error("Error processing invitations:", error);
+			toast.error(
+				"An unexpected error occurred while processing invitations.",
 			);
-			toast.error("An unexpected client-side error occurred.");
 		} finally {
-			console.log("onSubmit finished");
 			setIsLoading(false);
 		}
 	}
