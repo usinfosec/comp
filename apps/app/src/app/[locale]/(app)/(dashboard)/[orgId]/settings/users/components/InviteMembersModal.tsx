@@ -472,6 +472,7 @@ export function InviteMembersModal({
 													)}
 													<FormControl>
 														<Input
+															className="h-10"
 															placeholder={t(
 																"people.invite.email.placeholder",
 															)}

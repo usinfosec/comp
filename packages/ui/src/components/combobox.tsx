@@ -45,12 +45,10 @@ export function ComboboxDemo() {
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					// biome-ignore lint/a11y/useSemanticElements: <explanation>
-					role="combobox"
+				<button
+					type="button"
 					aria-expanded={open}
-					className="w-[200px] justify-between"
+					className="w-[200px] justify-between shadow-none"
 				>
 					{value
 						? frameworks.find(
@@ -58,7 +56,7 @@ export function ComboboxDemo() {
 							)?.label
 						: "Select framework..."}
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
+				</button>
 			</PopoverTrigger>
 			<PopoverContent className="w-[200px] p-0">
 				<Command>

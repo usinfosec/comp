@@ -248,13 +248,14 @@ export function TeamMembersClient({
 						</Button>
 					)}
 				</div>
+				{/* Role Filter Select: Hidden on mobile, block on sm+ */}
 				<Select
 					value={roleFilter}
 					onValueChange={(value) =>
 						setRoleFilter(value === "all" ? null : value)
 					}
 				>
-					<SelectTrigger className="w-[180px]">
+					<SelectTrigger className="w-[180px] hidden sm:flex">
 						<SelectValue
 							placeholder={t("people.filters.all_roles")}
 						/>

@@ -135,7 +135,7 @@ export function MultiRoleCombobox({
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
-					className="w-full justify-between min-h-[40px] h-auto"
+					className="w-full justify-between min-h-[40px] h-auto shadow-none"
 					disabled={disabled}
 				>
 					<div className="flex flex-wrap gap-1 items-center">
