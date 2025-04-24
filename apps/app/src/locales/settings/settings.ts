@@ -92,6 +92,8 @@ export const settings = {
 		tabs: {
 			members: "Team Members",
 			invite: "Invite Members",
+			manual: "Invite Manually",
+			csv: "Upload CSV",
 		},
 		members: {
 			title: "Team Members",
@@ -159,9 +161,9 @@ export const settings = {
 		},
 		invite: {
 			title: "Invite Team Member",
-			modal_title: "Invite New Team Members",
+			modal_title: "Add Users to Organization",
 			modal_description:
-				"Enter email addresses separated by commas, spaces, or new lines. Assign a role for all invited members.",
+				"Enter email addresses separated by commas, spaces, or new lines. Assign a role for all invited users.",
 			description:
 				"Send an invitation to a new team member to join your organization",
 			error: {
@@ -200,6 +202,13 @@ export const settings = {
 					itsm: "ITSM",
 					qms: "QMS",
 				},
+				csv_label: "Upload CSV File",
+				csv_description:
+					"CSV file should have columns: email (required) and role (optional, defaults to 'employee'). Max 5MB. Roles must be one of: {roles}.",
+				manual_description: "Add team members one by one.",
+				add_another: "Add Another",
+				remove_invite_aria: "Remove invite row",
+				download_template: "Download template (.csv)",
 			},
 			button: {
 				send: "Send Invitation",
