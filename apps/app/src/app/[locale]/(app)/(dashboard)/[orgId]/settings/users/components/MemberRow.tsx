@@ -168,8 +168,6 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>Actions</DropdownMenuLabel>
-							<DropdownMenuSeparator />
 							{canEditRoles && (
 								<DropdownMenuItem
 									onSelect={() => setIsRoleDialogOpen(true)}

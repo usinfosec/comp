@@ -294,19 +294,14 @@ export function TeamMembersClient({
 					)}
 
 					{pendingInvites.length > 0 && (
-						<div className="p-3 bg-muted/20">
-							<h3 className="text-sm font-medium text-muted-foreground px-3 mb-2">
-								{t("people.invite.pending")}
-							</h3>
-							<div className="divide-y divide-dashed">
-								{pendingInvites.map((invitation) => (
-									<PendingInvitationRow
-										key={invitation.displayId}
-										invitation={invitation as Invitation}
-										onCancel={handleCancelInvitation}
-									/>
-								))}
-							</div>
+						<div className="divide-y">
+							{pendingInvites.map((invitation) => (
+								<PendingInvitationRow
+									key={invitation.displayId}
+									invitation={invitation as Invitation}
+									onCancel={handleCancelInvitation}
+								/>
+							))}
 						</div>
 					)}
 
