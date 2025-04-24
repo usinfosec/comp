@@ -277,7 +277,7 @@ export function TeamMembersClient({
 					</SelectContent>
 				</Select>
 				<Button onClick={() => setIsInviteModalOpen(true)}>
-					<UserPlus className="mr-2 h-4 w-4" />
+					<UserPlus className="h-4 w-4" />
 					{t("people.actions.invite")}
 				</Button>
 			</div>

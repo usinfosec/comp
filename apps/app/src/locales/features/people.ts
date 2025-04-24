@@ -16,7 +16,7 @@ export const people = {
 		all_roles: "All Roles",
 	},
 	actions: {
-		invite: "Add Employee",
+		invite: "Add User",
 		clear: "Clear filters",
 	},
 	table: {
@@ -77,7 +77,7 @@ export const people = {
 		},
 	},
 	invite: {
-		title: "Add Employee",
+		title: "Add User",
 		description: "Add an employee to your organization.",
 		pending: "Pending Invitations",
 		email: {
@@ -103,11 +103,11 @@ export const people = {
 				"Upload a CSV file with email and role columns. The role can be one of: admin, employee, or auditor.",
 			download_template: "Download Template",
 		},
-		submit: "Add Employee",
+		submit: "Invite",
 		submitting: "Adding Employee...",
 		success:
 			"Employee added successfully, they will receive an email to join the portal.",
-		error: "Failed to add employee",
+		error: "Failed to add user",
 	},
 	dashboard: {
 		title: "Dashboard",

@@ -34,6 +34,11 @@ export async function TeamMembers() {
 			include: {
 				user: true,
 			},
+			orderBy: {
+				user: {
+					email: "asc",
+				},
+			},
 		});
 
 		members = fetchedMembers;
