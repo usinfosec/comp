@@ -287,15 +287,15 @@ const Item = ({
 						<TooltipTrigger className="w-full">
 							<div
 								className={cn(
-									"relative border border-transparent flex items-center",
+									"relative flex items-center",
 									isCollapsed
 										? "md:w-[45px] md:justify-center rounded-sm"
 										: "md:px-3 rounded-l-sm",
 									"w-full px-3 md:w-auto h-[45px]",
-									"hover:bg-accent hover:border-border",
+									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",
 									"transition-all duration-300",
 									isActive &&
-										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary",
+										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
 								)}
 							>
 								<div
