@@ -39,19 +39,19 @@ export async function EmployeesList() {
 		});
 
 		// Filter for members who have the employee role
-		employees = fetchedMembers.filter((member) =>
-			member.role.split(",").includes("employee"),
-		);
+		employees = fetchedMembers.filter((member) => {
+			// Handle both comma-separated roles and single role
+			const roles = member.role.includes(",")
+				? member.role.split(",")
+				: [member.role];
+			return roles.includes("employee");
+		});
 	}
 
 	return (
 		<EmployeesListClient
-			data={employees} // Pass fetched data
-			organizationId={organizationId ?? ""} // Pass org ID
-			// Replace inviteEmployeeAction with bulkInviteEmployeesAction
-			// inviteEmployeeAction={inviteEmployee} // Pass actual action
-			bulkInviteEmployeesAction={bulkInviteEmployees} // Pass bulk invite action
-			removeEmployeeRoleOrMemberAction={removeEmployeeRoleOrMember} // Pass actual action
+			data={employees}
+			organizationId={organizationId ?? ""}
 		/>
 	);
 }

@@ -1,109 +1,108 @@
 import { auth } from "@/utils/auth";
 import { trainingVideos as trainingVideosData } from "@comp/data";
 import { db } from "@comp/db";
-import { Member } from "@comp/db/types";
 import { headers } from "next/headers";
 import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
+import type { Member, Policy, User } from "@prisma/client";
 
-export async function EmployeesOverview() {
-	const employees = await getEmployees();
-	const policies = await getEmployeePolicies();
-
-	const trainingVideos = await getTrainingVideos(employees);
-
-	return (
-		<div className="grid gap-6">
-			<EmployeeCompletionChart
-				employees={employees}
-				policies={policies}
-				trainingVideos={trainingVideos}
-			/>
-		</div>
-	);
+// Define EmployeeWithUser type similar to EmployeesList
+interface EmployeeWithUser extends Member {
+	user: User;
 }
 
-const getEmployees = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+// Define ProcessedTrainingVideo type
+interface ProcessedTrainingVideo {
+	id: string;
+	memberId: string;
+	videoId: string;
+	completedAt: Date | null;
+	metadata: {
+		id: string;
+		title: string;
+		description: string;
+		youtubeId: string;
+		url: string;
+	};
+}
 
-	const orgId = session?.session.activeOrganizationId;
-
-	if (!orgId) {
-		return [];
-	}
-
-	const employees = await db.member.findMany({
-		where: {
-			organizationId: orgId,
-			role: "employee",
-		},
-		include: {
-			user: true,
-		},
-	});
-
-	return employees;
-};
-
-const getEmployeePolicies = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const orgId = session?.session.activeOrganizationId;
-
-	if (!orgId) {
-		return [];
-	}
-
-	const policies = await db.policy.findMany({
-		where: {
-			organizationId: orgId,
-			isRequiredToSign: true,
-		},
-	});
-
-	return policies;
-};
-
-const getTrainingVideos = async (employees: Member[]) => {
+export async function EmployeesOverview() {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
 	const organizationId = session?.session.activeOrganizationId;
 
-	if (!organizationId || !employees.length) {
-		return [];
-	}
+	let employees: EmployeeWithUser[] = [];
+	let policies: Policy[] = [];
+	const processedTrainingVideos: ProcessedTrainingVideo[] = [];
 
-	// Get all completed training videos for the employees
-	const employeeTrainingVideos =
-		await db.employeeTrainingVideoCompletion.findMany({
+	if (organizationId) {
+		// Fetch employees
+		const fetchedMembers = await db.member.findMany({
 			where: {
-				memberId: {
-					in: employees.map((employee) => employee.id),
-				},
+				organizationId: organizationId,
+			},
+			include: {
+				user: true,
 			},
 		});
 
-	// Process the videos to include metadata
-	const processedVideos = [];
+		employees = fetchedMembers.filter((member) => {
+			const roles = member.role.includes(",")
+				? member.role.split(",")
+				: [member.role];
+			return roles.includes("employee");
+		});
 
-	for (const dbVideo of employeeTrainingVideos) {
-		// Find the training video metadata with the matching ID
-		const videoMetadata = trainingVideosData.find(
-			(metadataVideo) => metadataVideo.id === dbVideo.videoId,
-		);
+		console.log(employees);
 
-		if (videoMetadata) {
-			processedVideos.push({
-				...dbVideo,
-				metadata: videoMetadata,
-			});
+		// Fetch required policies
+		policies = await db.policy.findMany({
+			where: {
+				organizationId: organizationId,
+				isRequiredToSign: true,
+			},
+		});
+
+		// Fetch and process training videos if employees exist
+		if (employees.length > 0) {
+			const employeeTrainingVideos =
+				await db.employeeTrainingVideoCompletion.findMany({
+					where: {
+						memberId: {
+							in: employees.map((employee) => employee.id),
+						},
+					},
+				});
+
+			for (const dbVideo of employeeTrainingVideos) {
+				const videoMetadata = trainingVideosData.find(
+					(metadataVideo) => metadataVideo.id === dbVideo.videoId,
+				);
+
+				if (videoMetadata) {
+					// Push the object matching the updated ProcessedTrainingVideo interface
+					processedTrainingVideos.push({
+						id: dbVideo.id,
+						memberId: dbVideo.memberId,
+						videoId: dbVideo.videoId,
+						completedAt: dbVideo.completedAt,
+						metadata:
+							videoMetadata as ProcessedTrainingVideo["metadata"],
+					});
+				}
+			}
 		}
 	}
 
-	return processedVideos;
-};
+	return (
+		<div className="grid gap-6">
+			<EmployeeCompletionChart
+				employees={employees}
+				policies={policies}
+				// Use the correctly typed array, potentially casting if EmployeeCompletionChart expects a slightly different type
+				trainingVideos={processedTrainingVideos as any}
+			/>
+		</div>
+	);
+}

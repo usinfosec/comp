@@ -1,6 +1,7 @@
 export const people = {
 	title: "People",
 	all: "All Roles",
+	all_employees: "Employees",
 	details: {
 		title: "Employee Details",
 		tasks: "Tasks",
@@ -123,5 +124,10 @@ export const people = {
 		no_data: "No employee data available",
 		no_tasks_completed: "No tasks have been completed yet",
 		no_tasks_available: "No tasks available to complete",
+	},
+	// Added list translations for EmployeesListClient
+	list: {
+		searchPlaceholder: "Search by name or email...",
+		emptyState: "No employees found.",
 	},
 } as const;
