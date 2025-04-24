@@ -35,6 +35,40 @@ export const people = {
 			description_with_filters: "Try adjusting your filters",
 		},
 	},
+	roles: {
+		owner: "Owner",
+		admin: "Admin",
+		member: "Member",
+		auditor: "Auditor",
+		employee: "Employee",
+	},
+	member_actions: {
+		actions: "Actions",
+		edit_roles: "Edit Roles",
+		remove_member: "Remove Member",
+		remove_confirm: {
+			title: "Remove Team Member",
+			description_prefix: "Are you sure you want to remove",
+			description_suffix: "This action cannot be undone.",
+		},
+		role_dialog: {
+			title: "Change Role",
+			title_edit: "Edit Member Roles",
+			description_prefix: "Update the role for",
+			role_label: "Role(s)",
+			role_placeholder: "Select role(s)",
+		},
+		toast: {
+			remove_success: "has been removed from the organization",
+			remove_error: "Failed to remove member",
+			remove_unexpected:
+				"An unexpected error occurred while removing the member",
+			update_role_success: "has had their roles updated",
+			update_role_error: "Failed to update member roles",
+			update_role_unexpected:
+				"An unexpected error occurred while updating the member's roles",
+		},
+	},
 	invite: {
 		title: "Add Employee",
 		description: "Add an employee to your organization.",
@@ -43,8 +77,8 @@ export const people = {
 			placeholder: "Enter email address",
 		},
 		role: {
-			label: "Role",
-			placeholder: "Select a role",
+			label: "Role(s)",
+			placeholder: "Select role(s)",
 		},
 		name: {
 			label: "Name",

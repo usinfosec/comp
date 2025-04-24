@@ -20,6 +20,7 @@ export const common = {
 		error: "Error",
 		next: "Next",
 		complete: "Complete",
+		update: "Update",
 	},
 	employee: {
 		status: {
