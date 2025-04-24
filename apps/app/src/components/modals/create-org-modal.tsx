@@ -3,7 +3,7 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { authClient, useSession } from "@/utils/auth-client";
+import { authClient } from "@/utils/auth-client";
 import { FrameworkId, frameworks } from "@comp/data";
 import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -26,11 +26,9 @@ import {
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -106,11 +104,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	};
 
 	return (
-		<DialogContent
-			className="max-w-[455px]"
-			hideClose={isExecuting}
-			hideOverlayClose={isExecuting}
-		>
+		<DialogContent className="max-w-[455px]">
 			<DialogHeader className="my-4">
 				{!isExecuting ? (
 					<>
