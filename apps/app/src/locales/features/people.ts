@@ -91,6 +91,12 @@ export const people = {
 			placeholder: "Select a department",
 			none: "None",
 		},
+		csv: {
+			label: "CSV File",
+			description:
+				"Upload a CSV file with email and role columns. The role can be one of: admin, employee, or auditor.",
+			download_template: "Download Template",
+		},
 		submit: "Add Employee",
 		submitting: "Adding Employee...",
 		success:

@@ -212,12 +212,183 @@ export function InviteMembersModal({
 				}
 			} else if (values.mode === "csv") {
 				// Handle CSV file uploads
-				console.log(
-					"CSV invitation mode not yet implemented client-side",
-				);
-				toast.error(
-					"CSV invite mode is not yet implemented with client-side processing.",
-				);
+				console.log("Processing CSV mode");
+
+				// Validate file exists and is valid
+				if (
+					!values.csvFile ||
+					!(values.csvFile instanceof FileList) ||
+					values.csvFile.length !== 1
+				) {
+					console.error(
+						"CSV mode validation failed: No valid file selected.",
+					);
+					form.setError("csvFile", {
+						message: "A valid CSV file is required.",
+					});
+					setIsLoading(false);
+					return;
+				}
+
+				const file = values.csvFile[0];
+				if (file.type !== "text/csv" && !file.name.endsWith(".csv")) {
+					console.error(
+						"CSV mode validation failed: Incorrect file type.",
+						{ type: file.type },
+					);
+					form.setError("csvFile", {
+						message: "File must be a CSV.",
+					});
+					setIsLoading(false);
+					return;
+				}
+
+				if (file.size > 5 * 1024 * 1024) {
+					console.error(
+						"CSV mode validation failed: File too large.",
+						{ size: file.size },
+					);
+					form.setError("csvFile", {
+						message: "File size must be less than 5MB.",
+					});
+					setIsLoading(false);
+					return;
+				}
+
+				try {
+					// Parse CSV file
+					const text = await file.text();
+					const lines = text.split("\n");
+
+					// Skip header row, process each line
+					const header = lines[0].toLowerCase();
+					if (!header.includes("email") || !header.includes("role")) {
+						toast.error(
+							"Invalid CSV format. The first row must include 'email' and 'role' columns.",
+						);
+						setIsLoading(false);
+						return;
+					}
+
+					// Parse header to find column indexes
+					const headers = header.split(",").map((h) => h.trim());
+					const emailIndex = headers.findIndex((h) => h === "email");
+					const roleIndex = headers.findIndex((h) => h === "role");
+
+					if (emailIndex === -1 || roleIndex === -1) {
+						toast.error(
+							"CSV must contain 'email' and 'role' columns.",
+						);
+						setIsLoading(false);
+						return;
+					}
+
+					// Process rows
+					const dataRows = lines
+						.slice(1)
+						.filter((line) => line.trim() !== "");
+
+					if (dataRows.length === 0) {
+						toast.error("CSV file does not contain any data rows.");
+						setIsLoading(false);
+						return;
+					}
+
+					// Track results
+					let successCount = 0;
+					const failedInvites: { email: string; error: string }[] =
+						[];
+
+					// Process each row
+					for (const row of dataRows) {
+						const columns = row.split(",").map((col) => col.trim());
+						if (columns.length <= Math.max(emailIndex, roleIndex)) {
+							failedInvites.push({
+								email: columns[emailIndex] || "Invalid row",
+								error: "Invalid CSV row format",
+							});
+							continue;
+						}
+
+						const email = columns[emailIndex];
+						const roleValue = columns[roleIndex];
+
+						// Validate email
+						if (
+							!email ||
+							!z.string().email().safeParse(email).success
+						) {
+							failedInvites.push({
+								email: email || "Invalid email",
+								error: "Invalid email format",
+							});
+							continue;
+						}
+
+						// Validate role(s)
+						const roles = roleValue
+							.split(",")
+							.map((r) => r.trim()) as Role[];
+						const validRoles = roles.filter((role) =>
+							selectableRoles.includes(role as any),
+						);
+
+						if (validRoles.length === 0) {
+							failedInvites.push({
+								email,
+								error: `Invalid role(s): ${roleValue}. Must be one of: ${selectableRoles.join(", ")}`,
+							});
+							continue;
+						}
+
+						// Attempt to invite
+						try {
+							await authClient.organization.inviteMember({
+								email,
+								role:
+									validRoles.length === 1
+										? validRoles[0]
+										: validRoles,
+							});
+							successCount++;
+						} catch (error) {
+							console.error(`Failed to invite ${email}:`, error);
+							failedInvites.push({
+								email,
+								error:
+									error instanceof Error
+										? error.message
+										: "Unknown error",
+							});
+						}
+					}
+
+					// Handle results
+					if (successCount > 0) {
+						toast.success(
+							`Successfully invited ${successCount} member(s).`,
+						);
+
+						// Revalidate the page to refresh the member list
+						router.refresh();
+
+						if (failedInvites.length === 0) {
+							form.reset();
+							onOpenChange(false);
+						}
+					}
+
+					if (failedInvites.length > 0) {
+						toast.error(
+							`Failed to invite ${failedInvites.length} member(s): ${failedInvites.map((f) => f.email).join(", ")}`,
+						);
+					}
+				} catch (csvError) {
+					console.error("Error parsing CSV:", csvError);
+					toast.error(
+						"Failed to parse CSV file. Please check the format.",
+					);
+				}
 			}
 		} catch (error) {
 			console.error("Error processing invitations:", error);
@@ -395,7 +566,9 @@ export function InviteMembersModal({
 										},
 									}) => (
 										<FormItem>
-											<FormLabel>CSV File</FormLabel>
+											<FormLabel>
+												{t("people.invite.csv.label")}
+											</FormLabel>
 											<div className="flex items-center gap-2">
 												<Button
 													type="button"
@@ -434,14 +607,18 @@ export function InviteMembersModal({
 												/>
 											</FormControl>
 											<FormDescription>
-												CSV Template
+												{t(
+													"people.invite.csv.description",
+												)}
 											</FormDescription>
 											<a
 												href={csvTemplateDataUri}
 												download="comp_invite_template.csv"
 												className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
 											>
-												Download Template
+												{t(
+													"people.invite.csv.download_template",
+												)}
 											</a>
 											<FormMessage />
 										</FormItem>
