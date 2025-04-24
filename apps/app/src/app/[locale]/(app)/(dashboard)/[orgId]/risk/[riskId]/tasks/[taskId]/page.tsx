@@ -39,8 +39,8 @@ const getTask = cache(async (riskId: string, taskId: string) => {
 
 	const task = await db.task.findUnique({
 		where: {
-			relatedId: riskId,
-			relatedType: "risk",
+			entityId: riskId,
+			entityType: "risk",
 			id: taskId,
 			organizationId: session.session.activeOrganizationId,
 		},

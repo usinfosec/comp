@@ -54,9 +54,9 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 				return (
 					<Badge
 						variant={
-							status === TaskStatus.closed
+							status === TaskStatus.done
 								? "secondary"
-								: status === TaskStatus.open
+								: status === TaskStatus.in_progress
 									? "outline"
 									: "default"
 						}

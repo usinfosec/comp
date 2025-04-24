@@ -33,11 +33,10 @@ export const createVendorTaskAction = authActionClient
 				data: {
 					title,
 					description,
-					dueDate,
 					assigneeId,
 					organizationId: activeOrganizationId,
-					relatedId: vendorId,
-					relatedType: "vendor",
+					entityId: vendorId,
+					entityType: "vendor",
 				},
 			});
 

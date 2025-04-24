@@ -13,6 +13,7 @@ import { updateTask } from "../actions/updateTask";
 import { StatusGroup } from "./StatusGroup";
 import type { DragItem, StatusId } from "./TaskCard";
 import { TaskFilterHeader } from "./TaskFilterHeader";
+import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 
 // Defines the standard task statuses and their display order.
 const statuses = [
@@ -42,7 +43,7 @@ export function TaskList({
 }) {
 	// Hook to execute the server action for updating a task's status.
 	const { execute: updateTaskExecute, status: updateTaskStatus } = useAction(
-		updateTask,
+		updateTaskAction,
 		{},
 	);
 
