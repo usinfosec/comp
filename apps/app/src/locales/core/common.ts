@@ -9,6 +9,7 @@ export const common = {
 		save: "Save",
 		edit: "Edit",
 		delete: "Delete",
+		remove: "Remove",
 		cancel: "Cancel",
 		clear: "Clear",
 		create: "Create",
@@ -19,6 +20,7 @@ export const common = {
 		error: "Error",
 		next: "Next",
 		complete: "Complete",
+		update: "Update",
 	},
 	employee: {
 		status: {
@@ -167,4 +169,5 @@ export const common = {
 	error: "Error",
 	unexpected_error: "An unexpected error occurred",
 	tasks: "tasks",
+	exit: "Exit",
 } as const;

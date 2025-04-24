@@ -129,7 +129,7 @@ export function NotificationCenter() {
 				sideOffset={10}
 			>
 				<Tabs defaultValue="inbox">
-					<TabsList className="w-full justify-start bg-transparent border-b-[1px] rounded-none py-6">
+					<TabsList className="w-full justify-start bg-transparent border-b-[1px] rounded-sm py-6">
 						<TabsTrigger value="inbox" className="font-normal">
 							{t("common.notifications.inbox")}
 						</TabsTrigger>

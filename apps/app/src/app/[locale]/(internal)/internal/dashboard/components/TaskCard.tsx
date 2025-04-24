@@ -75,7 +75,7 @@ export function TaskCard() {
 
 	if (isTaskError) {
 		return (
-			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
+			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
 						<div className="p-1.5 bg-purple-900/50">
@@ -94,7 +94,7 @@ export function TaskCard() {
 	}
 
 	return (
-		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-none">
+		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
 					<div className="p-1.5 bg-purple-900/50">
@@ -234,7 +234,7 @@ export function TaskCard() {
 									value={Number.parseFloat(
 										taskPublishedPercent,
 									)}
-									className="h-1.5 bg-gray-800 rounded-none [&>div]:bg-purple-500"
+									className="h-1.5 bg-gray-800 rounded-sm [&>div]:bg-purple-500"
 								/>
 								<div className="text-xs text-gray-500 mt-1">
 									{taskPublishedPercent}% of total

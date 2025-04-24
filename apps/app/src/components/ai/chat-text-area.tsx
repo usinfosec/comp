@@ -25,9 +25,9 @@ export const ChatTextarea = ({
 		router.push(url);
 	};
 	return (
-		<div className="relative w-full border-t">
+		<div className="relative w-full">
 			<ShadcnTextarea
-				className="h-12 min-h-12 pt-3 resize-none border-none"
+				className="h-12 min-h-12 pt-3 mb-2 resize-none border-none"
 				value={input}
 				autoFocus
 				placeholder={"Ask Comp AI something..."}
@@ -44,7 +44,7 @@ export const ChatTextarea = ({
 				}}
 			/>
 
-			<div className="hidden md:flex px-3 h-[40px] w-full border-t-[1px] items-center backdrop-filter dark:border-[#2C2C2C] backdrop-blur-lg dark:bg-[#151515]/[99]">
+			<div className="hidden md:flex px-3 h-[40px] w-full items-center backdrop-filter dark:border-[#2C2C2C] backdrop-blur-lg dark:bg-[#151515]/[99]">
 				<Popover>
 					<PopoverTrigger>
 						<div className="scale-50 opacity-50 -ml-2">
@@ -62,7 +62,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl("https://x.com/compai")
 									}
@@ -74,7 +74,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl(
 											"https://discord.gg/compai",
@@ -89,7 +89,7 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-md transition-colors w-full p-1"
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
 									onClick={() =>
 										handleOpenUrl("https://git.new/compai")
 									}
@@ -108,7 +108,7 @@ export const ChatTextarea = ({
 						type="submit"
 					>
 						<span>Submit</span>
-						<kbd className="pointer-events-none h-5 select-none items-center gap-1 border bg-accent px-1.5 font-mono text-[10px] font-medium">
+						<kbd className="rounded-sm pointer-events-none h-5 select-none items-center gap-1 border bg-accent px-1.5 font-mono text-[10px] font-medium">
 							<span>↵</span>
 						</kbd>
 					</button>

@@ -48,10 +48,8 @@ export default async function Layout({
 				sidebar={<Sidebar organization={currentOrganization} />}
 				isCollapsed={isCollapsed}
 			>
-				<div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
-					<Header />
-					<main>{children}</main>
-				</div>
+				<Header />
+				<main className="px-4 mx-auto pb-8">{children}</main>
 				<AssistantSheet />
 			</AnimatedLayout>
 			<HotKeys />

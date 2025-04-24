@@ -48,7 +48,7 @@ const StatusTooltip = ({ active, payload }: any) => {
 	if (active && payload && payload.length) {
 		const data = payload[0].payload;
 		return (
-			<div className="rounded-md border bg-background p-2 shadow-md">
+			<div className="rounded-sm border bg-background p-2 shadow-md">
 				<p className="text-xs font-medium">{data.name}</p>
 				<p className="text-xs">
 					Count: <span className="font-medium">{data.value}</span>

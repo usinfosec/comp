@@ -1,5 +1,4 @@
 import { AppOnboarding } from "@/components/app-onboarding";
-import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
@@ -61,7 +60,6 @@ export default async function Layout({
 								},
 							]}
 						/>
-						<EmployeeInviteSheet />
 					</div>
 				</Suspense>
 			</div>
@@ -76,7 +74,10 @@ export default async function Layout({
 						path: `/${orgId}/employees`,
 						label: t("people.dashboard.title"),
 					},
-					{ path: `/${orgId}/employees/all`, label: t("people.all") },
+					{
+						path: `/${orgId}/employees/all`,
+						label: t("people.all_employees"),
+					},
 				]}
 			/>
 
@@ -96,16 +97,22 @@ const getEmployeesOverview = cache(async () => {
 		return [];
 	}
 
-	const employees = await db.member.findMany({
+	// Fetch all members first
+	const allMembers = await db.member.findMany({
 		where: {
 			organizationId: orgId,
-			role: {
-				in: ["employee"],
-			},
 		},
 		include: {
 			user: true,
 		},
+	});
+
+	// Filter in application code to handle multiple roles
+	const employees = allMembers.filter((member) => {
+		const roles = member.role.includes(",")
+			? member.role.split(",")
+			: [member.role];
+		return roles.includes("employee");
 	});
 
 	return employees;

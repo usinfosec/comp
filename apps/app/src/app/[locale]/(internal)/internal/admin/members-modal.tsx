@@ -186,44 +186,47 @@ export function MembersModal({
 										Error loading members: {error}
 									</TableCell>
 								</TableRow>
+							) : filteredMembers.length === 0 ? (
+								<TableRow>
+									<TableCell
+										colSpan={5}
+										className="h-24 text-center text-muted-foreground"
+									>
+										{searchQuery
+											? "No members match your search."
+											: "No members in this organization."}
+									</TableCell>
+								</TableRow>
 							) : (
-								filteredMembers.length === 0 ? (
-									<TableRow>
-										<TableCell
-											colSpan={5}
-											className="h-24 text-center text-muted-foreground"
-										>
-											{searchQuery
-												? "No members match your search."
-												: "No members in this organization."}
+								filteredMembers.map((member) => (
+									<TableRow
+										key={member.id}
+										className="hover:bg-muted/30 transition-colors"
+									>
+										<TableCell className="font-medium">
+											{member.user.name || "N/A"}
+										</TableCell>
+										<TableCell>
+											{member.user.email}
+										</TableCell>
+										<TableCell>
+											<Badge
+												variant="outline"
+												className={`rounded-full px-2 py-0.5 text-xs ${getRoleBadgeClass(
+													member.role,
+												)}`}
+											>
+												{member.role}
+											</Badge>
+										</TableCell>
+										<TableCell className="font-mono text-xs text-muted-foreground">
+											{member.id}
+										</TableCell>
+										<TableCell className="font-mono text-xs text-muted-foreground">
+											{member.userId}
 										</TableCell>
 									</TableRow>
-								) : (
-									filteredMembers.map((member) => (
-										<TableRow key={member.id} className="hover:bg-muted/30 transition-colors">
-											<TableCell className="font-medium">
-												{member.user.name || "N/A"}
-											</TableCell>
-											<TableCell>{member.user.email}</TableCell>
-											<TableCell>
-												<Badge
-													variant="outline"
-													className={`rounded-full px-2 py-0.5 text-xs ${getRoleBadgeClass(
-														member.role,
-													)}`}
-												>
-													{member.role}
-												</Badge>
-											</TableCell>
-											<TableCell className="font-mono text-xs text-muted-foreground">
-												{member.id}
-											</TableCell>
-											<TableCell className="font-mono text-xs text-muted-foreground">
-												{member.userId}
-											</TableCell>
-										</TableRow>
-									))
-								)
+								))
 							)}
 						</TableBody>
 					</Table>
