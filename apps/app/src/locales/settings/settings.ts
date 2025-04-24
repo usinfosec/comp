@@ -75,6 +75,14 @@ export const settings = {
 		title: "Billing",
 	},
 	team: {
+		title: "Team Settings",
+		search: {
+			placeholder: "Search members or invites...",
+		},
+		empty: {
+			title: "No team members yet",
+			description: "Invite team members to collaborate",
+		},
 		tabs: {
 			members: "Team Members",
 			invite: "Invite Members",
@@ -108,6 +116,7 @@ export const settings = {
 		invitations: {
 			title: "Pending Invitations",
 			description: "Users who have been invited but haven't accepted yet",
+			status_badge: "Pending",
 			empty: {
 				no_organization: {
 					title: "No Organization",
@@ -139,6 +148,7 @@ export const settings = {
 				revoke_error: "Failed to revoke invitation",
 				revoke_unexpected:
 					"An unexpected error occurred while revoking the invitation",
+				cancel_failure: "Failed to cancel invitation",
 			},
 		},
 		invite: {
@@ -185,6 +195,8 @@ export const settings = {
 				error: "Failed to send invitation",
 				unexpected:
 					"An unexpected error occurred while sending the invitation",
+				failure: "Failed to process invitation request",
+				success: "Invitation sent successfully",
 			},
 		},
 		member_actions: {

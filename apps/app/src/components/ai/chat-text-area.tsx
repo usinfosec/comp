@@ -25,9 +25,9 @@ export const ChatTextarea = ({
 		router.push(url);
 	};
 	return (
-		<div className="relative w-full border-t">
+		<div className="relative w-full">
 			<ShadcnTextarea
-				className="h-12 min-h-12 pt-3 resize-none border-none"
+				className="h-12 min-h-12 pt-3 mb-2 resize-none border-none"
 				value={input}
 				autoFocus
 				placeholder={"Ask Comp AI something..."}
@@ -44,7 +44,7 @@ export const ChatTextarea = ({
 				}}
 			/>
 
-			<div className="hidden md:flex px-3 h-[40px] w-full border-t-[1px] items-center backdrop-filter dark:border-[#2C2C2C] backdrop-blur-lg dark:bg-[#151515]/[99]">
+			<div className="hidden md:flex px-3 h-[40px] w-full items-center backdrop-filter dark:border-[#2C2C2C] backdrop-blur-lg dark:bg-[#151515]/[99]">
 				<Popover>
 					<PopoverTrigger>
 						<div className="scale-50 opacity-50 -ml-2">

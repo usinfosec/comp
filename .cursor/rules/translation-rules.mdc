@@ -23,3 +23,11 @@ If there is a linting error, likely this key doesn't exist in [en.ts](mdc:apps/a
 
 
 Also never add translations directly in en.ts, check the files it links to, it should always be in a subfile.
+
+NEVER add a {} object as a second param on translation calls, this is not valid syntax.
+
+BAD
+`t("vendors.tasks.title", {})`
+
+GOOD
+`t("vendors.tasks.title")`

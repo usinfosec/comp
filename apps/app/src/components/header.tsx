@@ -30,7 +30,7 @@ export async function Header() {
 	const { completedAll } = await getOnboardingForCurrentOrganization();
 
 	return (
-		<header className="-ml-4 -mr-4 md:m-0 z-10 px-4 md:px-0 md:border-b-[1px] flex justify-between pt-4 pb-2 md:pb-4 items-center todesktop:sticky todesktop:top-0 todesktop:bg-background todesktop:border-none sticky md:static top-0 backdrop-filter backdrop-blur-xl md:backdrop-filter md:backdrop-blur-none bg-opacity-70">
+		<header className="flex justify-between items-center bg-background py-4 sticky top-0 z-10 px-4">
 			<MobileMenu
 				organizationId={currentOrganizationId}
 				completedOnboarding={completedAll}

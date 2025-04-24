@@ -67,7 +67,7 @@ export function OrganizationSwitcher({
 								"opacity-50 cursor-not-allowed",
 						)}
 					>
-						<div className="h-8 w-8 shrink-0 flex items-center justify-center bg-muted">
+						<div className="h-8 w-8 shrink-0 flex items-center justify-center bg-muted rounded-sm">
 							<span className="text-sm font-medium">
 								{currentOrganization?.name
 									?.slice(0, 2)
