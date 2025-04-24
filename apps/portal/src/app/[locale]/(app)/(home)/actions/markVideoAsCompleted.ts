@@ -1,7 +1,7 @@
 "use server";
 
 import { authActionClient } from "@/actions/safe-action";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import { z } from "zod";
 import { logger } from "@/utils/logger";
 import { revalidatePath } from "next/cache";
@@ -29,16 +29,27 @@ export const markVideoAsCompleted = authActionClient
       throw new Error("Unauthorized");
     }
 
-    if (!user.organizationId) {
+    const member = await db.member.findFirstOrThrow({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!member) {
+      logger("Member not found", { userId: user.id });
+      throw new Error("Member not found");
+    }
+
+    if (!member.organizationId) {
       logger("User does not have an organization", { userId: user.id });
       throw new Error("User does not have an organization");
     }
 
     const organizationTrainingVideo =
-      await db.organizationTrainingVideos.findUnique({
+      await db.employeeTrainingVideoCompletion.findUnique({
         where: {
           id: videoId,
-          organizationId: user.organizationId,
+          memberId: member.id,
         },
       });
 
@@ -48,7 +59,7 @@ export const markVideoAsCompleted = authActionClient
     }
 
     // Check if user has already signed this policy
-    if (organizationTrainingVideo.completedBy.includes(user.id)) {
+    if (organizationTrainingVideo.completedAt) {
       logger("User has already signed this video", {
         videoId,
         userId: user.id,
@@ -57,10 +68,10 @@ export const markVideoAsCompleted = authActionClient
     }
 
     logger("Updating video completion", { videoId, userId: user.id });
-    const completedVideo = await db.organizationTrainingVideos.update({
-      where: { id: videoId, organizationId: user.organizationId },
+    const completedVideo = await db.employeeTrainingVideoCompletion.update({
+      where: { id: videoId, memberId: member.id },
       data: {
-        completedBy: [...organizationTrainingVideo.completedBy, user.id],
+        completedAt: new Date(),
       },
     });
 

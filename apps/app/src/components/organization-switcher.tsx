@@ -2,35 +2,31 @@
 
 import { changeOrganizationAction } from "@/actions/change-organization";
 import { useI18n } from "@/locales/client";
-import type { Framework, Organization } from "@bubba/db/types";
-import { Avatar, AvatarFallback } from "@bubba/ui/avatar";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Dialog } from "@bubba/ui/dialog";
+import type { Organization } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Dialog } from "@comp/ui/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+} from "@comp/ui/dropdown-menu";
 import { Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CreateOrgModal } from "./modals/create-org-modal";
-
 interface OrganizationSwitcherProps {
 	organizations: Organization[];
-	organizationId: string | undefined;
-	frameworks: Framework[];
+	organization: Organization | null;
 	isCollapsed?: boolean;
 }
 
 export function OrganizationSwitcher({
 	organizations,
-	organizationId,
-	frameworks,
+	organization,
 	isCollapsed = false,
 }: OrganizationSwitcherProps) {
 	const t = useI18n();
@@ -40,24 +36,22 @@ export function OrganizationSwitcher({
 
 	const { execute, status } = useAction(changeOrganizationAction, {
 		onSuccess: (result) => {
-			if (result.data?.success) {
-				router.refresh();
+			const orgId = result.data?.data?.id;
+			if (orgId) {
+				router.push(`/${orgId}`);
+				setIsOpen(false);
 			}
 		},
 	});
 
-	const currentOrganization = organizations.find(
-		(org) => org.id === organizationId,
-	);
+	const currentOrganization = organization;
 
 	const otherOrganizations = organizations.filter(
-		(org) => org.id !== organizationId,
+		(org) => org.id !== currentOrganization?.id,
 	);
 
 	const handleOrgChange = async (org: Organization) => {
 		execute({ organizationId: org.id });
-		router.push(`/${org.id}`);
-		setIsOpen(false);
 	};
 
 	return (
@@ -69,12 +63,15 @@ export function OrganizationSwitcher({
 						className={cn(
 							"flex items-center gap-2 transition-all m-2 w-full mx-auto",
 							isCollapsed ? "h-9 w-9" : "h-9",
-							status === "executing" && "opacity-50 cursor-not-allowed",
+							status === "executing" &&
+								"opacity-50 cursor-not-allowed",
 						)}
 					>
 						<div className="h-8 w-8 shrink-0 flex items-center justify-center bg-muted">
 							<span className="text-sm font-medium">
-								{currentOrganization?.name?.slice(0, 2).toUpperCase()}
+								{currentOrganization?.name
+									?.slice(0, 2)
+									.toUpperCase()}
 							</span>
 						</div>
 						{!isCollapsed && (
@@ -117,7 +114,6 @@ export function OrganizationSwitcher({
 			>
 				<CreateOrgModal
 					onOpenChange={(open) => setShowCreateOrg(open)}
-					frameworks={frameworks}
 				/>
 			</Dialog>
 		</div>

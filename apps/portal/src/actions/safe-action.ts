@@ -1,96 +1,143 @@
 import { auth } from "@/app/lib/auth";
+import { env } from "@/env.mjs";
 import { logger } from "@/utils/logger";
-import { client } from "@bubba/kv";
+import { client } from "@comp/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import {
-  DEFAULT_SERVER_ERROR_MESSAGE,
-  createSafeActionClient,
+	DEFAULT_SERVER_ERROR_MESSAGE,
+	createSafeActionClient,
 } from "next-safe-action";
 import { headers } from "next/headers";
 import { z } from "zod";
 
-const ratelimit = new Ratelimit({
-  limiter: Ratelimit.fixedWindow(10, "10s"),
-  redis: client,
-});
+let ratelimit: Ratelimit | undefined;
+
+if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+	ratelimit = new Ratelimit({
+		limiter: Ratelimit.fixedWindow(10, "10s"),
+		redis: client,
+	});
+}
 
 export const actionClientWithMeta = createSafeActionClient({
-  handleServerError(e) {
-    if (e instanceof Error) {
-      return e.message;
-    }
+	handleServerError(e) {
+		if (e instanceof Error) {
+			return e.message;
+		}
 
-    return DEFAULT_SERVER_ERROR_MESSAGE;
-  },
-  defineMetadataSchema() {
-    return z.object({
-      name: z.string(),
-      ip: z.string().optional(),
-      userAgent: z.string().optional(),
-      track: z
-        .object({
-          event: z.string(),
-          channel: z.string(),
-        })
-        .optional(),
-    });
-  },
+		return DEFAULT_SERVER_ERROR_MESSAGE;
+	},
+	defineMetadataSchema() {
+		return z.object({
+			name: z.string(),
+			ip: z.string().optional(),
+			userAgent: z.string().optional(),
+			track: z
+				.object({
+					event: z.string(),
+					channel: z.string(),
+				})
+				.optional(),
+		});
+	},
 });
 
 export const authActionClient = actionClientWithMeta
-  .use(async ({ next, clientInput }) => {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+	.use(async ({ next, clientInput }) => {
+		const response = await auth.api.getSession({
+			headers: await headers(),
+		});
 
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
+		const { session, user } = response ?? {};
 
-    const result = await next({ ctx: {} });
+		if (!session) {
+			throw new Error("Unauthorized");
+		}
 
-    if (process.env.NODE_ENV === "development") {
-      logger("Input ->", clientInput as string);
-      logger("Result ->", result.data as string);
+		const result = await next({
+			ctx: {
+				user: user,
+				session: session,
+			},
+		});
 
-      return result;
-    }
+		if (process.env.NODE_ENV === "development") {
+			logger("Input ->", clientInput as string);
+			logger("Result ->", result.data as string);
 
-    return result;
-  })
-  .use(async ({ next, metadata }) => {
-    const headersList = await headers();
+			return result;
+		}
 
-    const { success, remaining } = await ratelimit.limit(
-      `${headersList.get("x-forwarded-for")}-${metadata.name}`
-    );
+		return result;
+	})
+	.use(async ({ next, metadata }) => {
+		if (!ratelimit) {
+			return next({});
+		}
 
-    if (!success) {
-      throw new Error("Too many requests");
-    }
+		const headersList = await headers();
 
-    return next({
-      ctx: {
-        ip: headersList.get("x-forwarded-for"),
-        userAgent: headersList.get("user-agent"),
-        ratelimit: {
-          remaining,
-        },
-      },
-    });
-  })
-  .use(async ({ next, metadata, ctx }) => {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+		const { success, remaining } = await ratelimit.limit(
+			`${headersList.get("x-forwarded-for")}-${metadata.name}`,
+		);
 
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
+		if (!success) {
+			throw new Error("Too many requests");
+		}
 
-    return next({
-      ctx: {
-        user: session.user,
-      },
-    });
-  });
+		return next({
+			ctx: {
+				ip: headersList.get("x-forwarded-for"),
+				userAgent: headersList.get("user-agent"),
+				ratelimit: {
+					remaining,
+				},
+			},
+		});
+	})
+	.use(async ({ next, metadata, ctx }) => {
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		});
+
+		if (!session) {
+			throw new Error("Unauthorized");
+		}
+
+		// try {
+		// 	const auditData = {
+		// 		userId: session.user.id,
+		// 		email: session.user.email,
+		// 		name: session.user.name,
+		// 		organizationId: session.session.activeOrganizationId,
+		// 		action: metadata.name,
+		// 		ip: ctx.ip,
+		// 		userAgent: ctx.userAgent,
+		// 	};
+
+		// 	await db.auditLog.create({
+		// 		data: {
+		// 			data: auditData,
+		// 			userId: session.user.id,
+		// 			organizationId: session.session.activeOrganizationId,
+		// 		},
+		// 	});
+
+		// 	if (metadata.track) {
+		// 		track(session.user.id, metadata.track.event, {
+		// 			channel: metadata.track.channel,
+		// 			email: session.user.email,
+		// 			name: session.user.name,
+		// 			organizationId: session.session.activeOrganizationId,
+		// 		});
+		// 	}
+		// } catch (error) {
+		// 	logger("Audit log error:", error);
+		// }
+
+		return next({
+			ctx: {
+				user: session.user,
+			},
+		});
+	});

@@ -1,7 +1,7 @@
-import { cn } from "@bubba/ui/cn";
-import "@bubba/ui/globals.css";
+import { cn } from "@comp/ui/cn";
+import "@comp/ui/globals.css";
 import { env } from "@/env.mjs";
-import { initializeServer } from "@bubba/analytics/src/server";
+import { initializeServer } from "@comp/analytics/src/server";
 import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -69,7 +69,6 @@ const font = localFont({
 });
 
 export const preferredRegion = ["auto"];
-export const maxDuration = 5;
 
 if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
   initializeServer({

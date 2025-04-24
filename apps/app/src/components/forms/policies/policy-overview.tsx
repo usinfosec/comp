@@ -2,20 +2,18 @@
 
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
-import { SelectUser } from "@/components/select-user";
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
+import { useSession } from "@/utils/auth-client";
 import {
 	Departments,
 	Frequency,
-	type OrganizationPolicy,
 	type Policy,
 	type PolicyStatus,
-	type User,
-} from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Calendar } from "@bubba/ui/calendar";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Calendar } from "@comp/ui/calendar";
+import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -23,25 +21,23 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	FormDescription,
-} from "@bubba/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@bubba/ui/popover";
+} from "@comp/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
+import { Switch } from "@comp/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { Switch } from "@bubba/ui/switch";
 
 const policyStatuses: PolicyStatus[] = [
 	"draft",
@@ -50,11 +46,9 @@ const policyStatuses: PolicyStatus[] = [
 ] as const;
 
 export function UpdatePolicyOverview({
-	organizationPolicy,
-	users,
+	policy,
 }: {
-	organizationPolicy: OrganizationPolicy & { policy: Policy };
-	users: User[];
+	policy: Policy;
 }) {
 	const t = useI18n();
 	const session = useSession();
@@ -69,10 +63,10 @@ export function UpdatePolicyOverview({
 	});
 
 	const calculateReviewDate = (): Date => {
-		if (!organizationPolicy.reviewDate) {
+		if (!policy.reviewDate) {
 			return new Date();
 		}
-		return new Date(organizationPolicy.reviewDate);
+		return new Date(policy.reviewDate);
 	};
 
 	const reviewDate = calculateReviewDate();
@@ -80,13 +74,13 @@ export function UpdatePolicyOverview({
 	const form = useForm<z.infer<typeof updatePolicyFormSchema>>({
 		resolver: zodResolver(updatePolicyFormSchema),
 		defaultValues: {
-			id: organizationPolicy.id,
-			status: organizationPolicy.status,
-			ownerId: organizationPolicy.ownerId ?? session.data?.user?.id,
-			department: organizationPolicy.department ?? Departments.admin,
-			review_frequency: organizationPolicy.frequency ?? Frequency.monthly,
+			id: policy.id,
+			status: policy.status,
+			assigneeId: policy.assigneeId ?? session.data?.user?.id,
+			department: policy.department ?? Departments.admin,
+			review_frequency: policy.frequency ?? Frequency.monthly,
 			review_date: reviewDate,
-			isRequiredToSign: organizationPolicy.isRequiredToSign
+			isRequiredToSign: policy.isRequiredToSign
 				? "required"
 				: "not_required",
 		},
@@ -96,7 +90,7 @@ export function UpdatePolicyOverview({
 		updatePolicyForm.execute({
 			id: data.id,
 			status: data.status as PolicyStatus,
-			ownerId: data.ownerId,
+			assigneeId: data.assigneeId,
 			department: data.department,
 			review_frequency: data.review_frequency,
 			review_date: data.review_date,
@@ -110,43 +104,17 @@ export function UpdatePolicyOverview({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="ownerId"
+						name="status"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("common.assignee.label")}</FormLabel>
+								<FormLabel>
+									{t("policies.overview.form.status")}
+								</FormLabel>
 								<FormControl>
 									<Select
 										value={field.value}
 										onValueChange={field.onChange}
-										onOpenChange={() => form.handleSubmit(onSubmit)}
 									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t("common.assignee.placeholder")}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectUser
-												isLoading={false}
-												onSelect={field.onChange}
-												selectedId={field.value}
-												users={users}
-											/>
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="status"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>{t("policies.overview.form.status")}</FormLabel>
-								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
 										<SelectTrigger>
 											<SelectValue
 												placeholder={t(
@@ -154,14 +122,21 @@ export function UpdatePolicyOverview({
 												)}
 											>
 												{field.value && (
-													<StatusPolicies status={field.value as StatusType} />
+													<StatusIndicator
+														status={field.value}
+													/>
 												)}
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
 											{policyStatuses.map((status) => (
-												<SelectItem key={status} value={status}>
-													<StatusPolicies status={status} />
+												<SelectItem
+													key={status}
+													value={status}
+												>
+													<StatusIndicator
+														status={status}
+													/>
 												</SelectItem>
 											))}
 										</SelectContent>
@@ -177,10 +152,15 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.review_frequency")}
+									{t(
+										"policies.overview.form.review_frequency",
+									)}
 								</FormLabel>
 								<FormControl>
-									<Select value={field.value} onValueChange={field.onChange}>
+									<Select
+										value={field.value}
+										onValueChange={field.onChange}
+									>
 										<SelectTrigger>
 											<SelectValue
 												placeholder={t(
@@ -189,11 +169,18 @@ export function UpdatePolicyOverview({
 											/>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(Frequency).map((frequency) => (
-												<SelectItem key={frequency} value={frequency}>
-													{t(`common.frequency.${frequency}`)}
-												</SelectItem>
-											))}
+											{Object.values(Frequency).map(
+												(frequency) => (
+													<SelectItem
+														key={frequency}
+														value={frequency}
+													>
+														{t(
+															`common.frequency.${frequency}`,
+														)}
+													</SelectItem>
+												),
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -207,7 +194,9 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.policy_department")}
+									{t(
+										"policies.overview.form.policy_department",
+									)}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -223,15 +212,23 @@ export function UpdatePolicyOverview({
 											/>
 										</SelectTrigger>
 										<SelectContent>
-											{Object.values(Departments).map((department) => {
-												const formattedDepartment = department.toUpperCase();
+											{Object.values(Departments).map(
+												(department) => {
+													const formattedDepartment =
+														department.toUpperCase();
 
-												return (
-													<SelectItem key={department} value={department}>
-														{formattedDepartment}
-													</SelectItem>
-												);
-											})}
+													return (
+														<SelectItem
+															key={department}
+															value={department}
+														>
+															{
+																formattedDepartment
+															}
+														</SelectItem>
+													);
+												},
+											)}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -246,7 +243,9 @@ export function UpdatePolicyOverview({
 						name="review_date"
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
-								<FormLabel>{t("policies.overview.form.review_date")}</FormLabel>
+								<FormLabel>
+									{t("policies.overview.form.review_date")}
+								</FormLabel>
 								<Popover>
 									<PopoverTrigger asChild>
 										<FormControl>
@@ -255,11 +254,15 @@ export function UpdatePolicyOverview({
 													variant={"outline"}
 													className={cn(
 														"pl-3 text-left font-normal w-full",
-														!field.value && "text-muted-foreground",
+														!field.value &&
+														"text-muted-foreground",
 													)}
 												>
 													{field.value ? (
-														format(field.value, "PPP")
+														format(
+															field.value,
+															"PPP",
+														)
 													) : (
 														<span>
 															{t(
@@ -272,12 +275,17 @@ export function UpdatePolicyOverview({
 											</div>
 										</FormControl>
 									</PopoverTrigger>
-									<PopoverContent className="w-auto" align="start">
+									<PopoverContent
+										className="w-auto"
+										align="start"
+									>
 										<Calendar
 											mode="single"
 											selected={field.value}
 											onSelect={field.onChange}
-											disabled={(date) => date <= new Date()}
+											disabled={(date) =>
+												date <= new Date()
+											}
 											initialFocus
 										/>
 									</PopoverContent>
@@ -292,13 +300,19 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem className="flex flex-col gap-3">
 								<FormLabel>
-									{t("policies.overview.form.signature_requirement")}
+									{t(
+										"policies.overview.form.signature_requirement",
+									)}
 								</FormLabel>
 								<FormControl>
 									<Switch
 										checked={field.value === "required"}
 										onCheckedChange={(checked) => {
-											field.onChange(checked ? "required" : "not_required");
+											field.onChange(
+												checked
+													? "required"
+													: "not_required",
+											);
 										}}
 									/>
 								</FormControl>
@@ -310,7 +324,7 @@ export function UpdatePolicyOverview({
 				<div className="flex justify-end mt-4">
 					<Button
 						type="submit"
-						variant="action"
+						variant="default"
 						disabled={updatePolicyForm.status === "executing"}
 					>
 						{updatePolicyForm.status === "executing" ? (

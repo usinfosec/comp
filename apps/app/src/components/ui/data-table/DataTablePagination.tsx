@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
+} from "@comp/ui/select";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DataTablePaginationProps {

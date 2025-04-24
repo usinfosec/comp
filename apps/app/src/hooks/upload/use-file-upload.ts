@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useToast } from "@bubba/ui/use-toast";
 import { uploadFile } from "@/actions/files/upload-file";
-import axios, { type AxiosProgressEvent } from "axios";
 import type { UPLOAD_TYPE } from "@/actions/types";
+import { useToast } from "@comp/ui/use-toast";
+import axios, { type AxiosProgressEvent } from "axios";
+import { useCallback, useState } from "react";
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -66,7 +66,9 @@ export function useFileUpload({
 
 				// Validate server response
 				if (!urlResult?.data?.data?.uploadUrl) {
-					throw new Error(urlResult?.serverError || "Failed to get upload URL");
+					throw new Error(
+						urlResult?.serverError || "Failed to get upload URL",
+					);
 				}
 
 				const { uploadUrl } = urlResult.data.data;
@@ -77,12 +79,17 @@ export function useFileUpload({
 						"Content-Type": file.type,
 					},
 					transformRequest: [(data: File): File => data],
-					onUploadProgress: (progressEvent: AxiosProgressEvent): void => {
+					onUploadProgress: (
+						progressEvent: AxiosProgressEvent,
+					): void => {
 						if (progressEvent.total) {
 							const percentCompleted = Math.round(
-								(progressEvent.loaded * 100) / progressEvent.total,
+								(progressEvent.loaded * 100) /
+									progressEvent.total,
 							);
-							console.debug(`Upload progress: ${percentCompleted}%`);
+							console.debug(
+								`Upload progress: ${percentCompleted}%`,
+							);
 						}
 					},
 				});

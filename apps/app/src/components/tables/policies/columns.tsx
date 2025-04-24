@@ -1,8 +1,8 @@
 "use client";
 
-import { StatusPolicies, type StatusType } from "@/components/status-policies";
+import { StatusIndicator, StatusType } from "@/components/status-indicator";
 import { formatDate } from "@/utils/format";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -34,13 +34,17 @@ export function columns(): ColumnDef<PolicyType>[] {
 
 				return (
 					<div className="flex flex-col gap-1">
-						<Button variant="link" className="p-0 justify-start" asChild>
-							<Link href={`/${orgId}/policies/all/${id}`}>
+						<Button
+							variant="link"
+							className="p-0 justify-start"
+							asChild
+						>
+							<Link href={`/${orgId}/policies/${id}`}>
 								<span className="truncate">{name}</span>
 							</Link>
 						</Button>
 						<div className="md:hidden">
-							<StatusPolicies status={status as StatusType} />
+							<StatusIndicator status={status} />
 						</div>
 					</div>
 				);
@@ -54,7 +58,7 @@ export function columns(): ColumnDef<PolicyType>[] {
 
 				return (
 					<div className="hidden md:flex items-center gap-2">
-						<StatusPolicies status={status as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},

@@ -1,13 +1,11 @@
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export default async function DashboardPage() {
-	const session = await auth();
-	const organizationId = session?.user.organizationId;
+export default async function DashboardPage({
+	params,
+}: {
+	params: Promise<{ orgId: string }>;
+}) {
+	const organizationId = (await params).orgId;
 
-	if (!organizationId) {
-		redirect("/");
-	}
-
-	redirect(`/${organizationId}/overview`);
+	return redirect(`/${organizationId}/implementation`);
 }

@@ -1,7 +1,0 @@
-{
-  "id": "change_management_records",
-  "name": "Change Management Records",
-  "description": "Change logs, approval records, and configuration management documentation. Provide Change Management Procedures document that outlines managing, reviewing, and approving changes to information assets, including rollback measures.",
-  "frequency": "yearly",
-  "department": "it"
-}

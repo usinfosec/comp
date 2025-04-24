@@ -1,10 +1,10 @@
 "use client";
 import { AssignedUser } from "@/components/assigned-user";
-import { Status, type StatusType } from "@/components/status";
 import { StatusDate } from "@/components/status-date";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type { RiskTaskStatus } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
+import type { RiskStatus } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -13,10 +13,10 @@ export type RiskTaskType = {
 	id: string;
 	riskId: string;
 	title: string;
-	status: RiskTaskStatus;
+	status: RiskStatus;
 	dueDate: string;
-	ownerId: string;
-	owner: {
+	assigneeId: string;
+	assignee: {
 		image: string;
 		name: string;
 	};
@@ -54,7 +54,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 
 				return (
 					<div className="flex items-center gap-2">
-						<Status status={status.toLowerCase() as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},
@@ -81,8 +81,8 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 			},
 		},
 		{
-			id: "ownerId",
-			accessorKey: "ownerId",
+			id: "assigneeId",
+			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden sm:table-cell">
 					{t("common.table.assigned_to")}
@@ -92,8 +92,8 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 				return (
 					<div className="hidden sm:table-cell">
 						<AssignedUser
-							fullName={row.original.owner?.name}
-							avatarUrl={row.original.owner?.image}
+							fullName={row.original.assignee?.name}
+							avatarUrl={row.original.assignee?.image}
 						/>
 					</div>
 				);

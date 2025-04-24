@@ -2,17 +2,17 @@
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
 import { useI18n } from "@/locales/client";
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
-import { Button } from "@bubba/ui/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
-import { useMediaQuery } from "@bubba/ui/hooks";
+import { Policy } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
+import { useMediaQuery } from "@comp/ui/hooks";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@bubba/ui/sheet";
+} from "@comp/ui/sheet";
 import { ArchiveIcon, ArchiveRestoreIcon, X } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ import { toast } from "sonner";
 export function PolicyArchiveSheet({
 	policy,
 }: {
-	policy: OrganizationPolicy & { policy: Policy };
+	policy: Policy;
 }) {
 	const t = useI18n();
 	const router = useRouter();
@@ -33,7 +33,7 @@ export function PolicyArchiveSheet({
 
 	const archivePolicy = useAction(archivePolicyAction, {
 		onSuccess: (result) => {
-			if (result.data?.isArchived) {
+			if (result) {
 				toast.success(t("policies.archive.success"));
 				// Redirect to policies list after successful archive
 				router.push(`/${policy.organizationId}/policies/all`);
@@ -127,7 +127,7 @@ export function PolicyArchiveSheet({
 								<X className="h-5 w-5" />
 							</Button>
 						</div>
-						<SheetDescription>{policy.policy.name}</SheetDescription>
+						<SheetDescription>{policy.name}</SheetDescription>
 					</SheetHeader>
 					{content}
 				</SheetContent>
@@ -150,7 +150,7 @@ export function PolicyArchiveSheet({
 							: t("policies.archive.title")}
 					</h3>
 					<p className="text-sm text-muted-foreground mt-1">
-						{policy.policy.name}
+						{policy.name}
 					</p>
 				</div>
 				{content}

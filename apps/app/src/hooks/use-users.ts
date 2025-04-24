@@ -1,17 +1,23 @@
-import { auth } from "@/auth";
-import { db } from "@bubba/db";
+import { getServersideSession } from "@/lib/get-session";
+import { db } from "@comp/db";
+import { headers } from "next/headers";
 import { cache } from "react";
 
 export const useUsers = cache(async () => {
-	const session = await auth();
+	const session = await getServersideSession({
+		headers: await headers(),
+	});
 
-	if (!session || !session.user.organizationId) {
+	if (!session || !session.session.activeOrganizationId) {
 		return [];
 	}
 
-	const users = await db.user.findMany({
-		where: { organizationId: session.user.organizationId },
+	const users = await db.member.findMany({
+		where: { organizationId: session.session.activeOrganizationId },
+		include: {
+			user: true,
+		},
 	});
 
-	return users;
+	return users.map((user) => user.user);
 });

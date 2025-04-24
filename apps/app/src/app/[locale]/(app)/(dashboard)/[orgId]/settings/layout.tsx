@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
 import { getI18n } from "@/locales/server";
-import { SecondaryMenu } from "@bubba/ui/secondary-menu";
+import { auth } from "@/utils/auth";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -10,16 +11,16 @@ export default async function Layout({
 	children: React.ReactNode;
 }) {
 	const t = await getI18n();
-	const session = await auth();
+
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
 	const user = session?.user;
-	const orgId = user?.organizationId;
+	const orgId = session?.session.activeOrganizationId;
 
 	if (!session) {
 		return redirect("/");
-	}
-
-	if (!session.user.isAdmin) {
-		return redirect(`/${orgId}`);
 	}
 
 	return (
@@ -27,7 +28,10 @@ export default async function Layout({
 			<Suspense fallback={<div>Loading...</div>}>
 				<SecondaryMenu
 					items={[
-						{ path: `/${orgId}/settings`, label: t("settings.general.title") },
+						{
+							path: `/${orgId}/settings`,
+							label: t("settings.general.title"),
+						},
 						{
 							path: `/${orgId}/settings/members`,
 							label: t("settings.members.title"),

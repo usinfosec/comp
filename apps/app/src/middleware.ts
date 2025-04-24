@@ -9,7 +9,7 @@ export const config = {
 };
 
 const I18nMiddleware = createI18nMiddleware({
-	locales: ["en", "es", "fr", "no", "pt"],
+	locales: ["en"],
 	defaultLocale: "en",
 	urlMappingStrategy: "rewrite",
 });

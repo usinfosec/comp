@@ -1,43 +1,115 @@
-import { auth } from "@/auth";
-import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/(overview)/components/charts/vendor-overview";
+import { AppOnboarding } from "@/components/app-onboarding";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { getI18n } from "@/locales/server";
+import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
+import { CreateVendorSheet } from "../components/create-vendor-sheet";
+import { VendorsTable } from "./components/VendorsTable";
+import { getAssignees, getVendors } from "./data/queries";
+import { vendorsSearchParamsCache } from "./data/validations";
+import type { GetVendorsSchema } from "./data/validations";
 
-export default async function VendorManagement({
-  params,
+export default async function Page({
+	searchParams,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	searchParams: SearchParams;
+	params: Promise<{ orgId: string; locale: string }>;
 }) {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
+	const t = await getI18n();
+	const { orgId, locale } = await params;
+	setStaticParamsLocale(locale);
 
-  const session = await auth();
+	const parsedSearchParams =
+		await vendorsSearchParamsCache.parse(searchParams);
 
-  if (!session || !session.user.organizationId) {
-    redirect("/onboarding");
-  }
+	const [vendorsResult, assignees] = await Promise.all([
+		getVendors(orgId, parsedSearchParams),
+		getAssignees(orgId),
+	]);
 
-  return (
-    <div className="space-y-4 sm:space-y-8">
-      <VendorOverview
-        organizationId={session.user.organizationId}
-      />
-    </div>
-  );
+	// Helper function to check if the current view is the default, unfiltered one
+	function isDefaultView(params: GetVendorsSchema): boolean {
+		return (
+			params.filters.length === 0 &&
+			!params.status &&
+			!params.department &&
+			!params.assigneeId &&
+			params.page === 1 &&
+			!params.name
+		);
+	}
+
+	// Show onboarding only if the view is default/unfiltered and there's no data
+	if (vendorsResult.data.length === 0 && isDefaultView(parsedSearchParams)) {
+		return (
+			<>
+				<AppOnboarding
+					title={t("app_onboarding.vendors.title")}
+					description={t("app_onboarding.vendors.description")}
+					cta={t("app_onboarding.vendors.cta")}
+					imageSrc="/onboarding/vendor-management.webp"
+					imageAlt="Vendor Management"
+					sheetName="createVendorSheet"
+					faqs={[
+						{
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_1",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_1",
+							),
+						},
+						{
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_2",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_2",
+							),
+						},
+						{
+							questionKey: t(
+								"app_onboarding.vendors.faqs.question_3",
+							),
+							answerKey: t(
+								"app_onboarding.vendors.faqs.answer_3",
+							),
+						},
+					]}
+				/>
+				<CreateVendorSheet assignees={assignees} />
+			</>
+		);
+	}
+
+	return (
+		<PageWithBreadcrumb
+			breadcrumbs={[
+				{ label: "Vendors", href: `/${orgId}/vendors`, current: true },
+			]}
+		>
+			<VendorsTable
+				promises={Promise.all([
+					getVendors(orgId, parsedSearchParams),
+					getAssignees(orgId),
+				])}
+			/>
+		</PageWithBreadcrumb>
+	);
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  setStaticParamsLocale(locale);
-  const t = await getI18n();
+	const { locale } = await params;
+	setStaticParamsLocale(locale);
+	const t = await getI18n();
 
-  return {
-    title: t("sidebar.vendors"),
-  };
+	return {
+		title: t("vendors.register.title"),
+	};
 }

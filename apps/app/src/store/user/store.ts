@@ -1,19 +1,19 @@
-import type { User } from "next-auth";
+import type { Session } from "@/utils/auth";
 import { createContext } from "react";
 import { createStore } from "zustand";
 
 export interface UserProps {
-	data: User | null;
+	data: Session | null;
 }
 
 export interface UserState extends UserProps {
-	setUser: (user: User) => void;
+	setUser: (user: Session) => void;
 }
 
 export const createUserStore = (initProps: UserProps) => {
 	return createStore<UserState>()((set) => ({
 		data: initProps?.data,
-		setUser: (user: User) => set({ data: user }),
+		setUser: (user: Session) => set({ data: user }),
 	}));
 };
 

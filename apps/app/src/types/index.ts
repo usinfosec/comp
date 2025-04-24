@@ -1,3 +1,3 @@
-import type { ClientUploadedFileData } from "uploadthing/types";
-
-export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
+export interface SearchParams {
+	[key: string]: string | string[] | undefined;
+}

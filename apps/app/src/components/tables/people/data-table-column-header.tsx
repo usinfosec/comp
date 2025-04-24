@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@comp/ui/button";
+import { TableHead } from "@comp/ui/table";
 import type { Column } from "@tanstack/react-table";
-import { Button } from "@bubba/ui/button";
-import { TableHead } from "@bubba/ui/table";
 
 interface DataTableColumnHeaderProps<TData, TValue> {
 	column: Column<TData, TValue>;
@@ -19,7 +19,9 @@ export function DataTableColumnHeader<TData, TValue>({
 		<TableHead className={className || "w-[20%]"}>
 			<Button
 				variant="ghost"
-				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				onClick={() =>
+					column.toggleSorting(column.getIsSorted() === "asc")
+				}
 			>
 				{title}
 			</Button>

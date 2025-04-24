@@ -1,29 +1,24 @@
 "use client";
 
 import type {
-	OrganizationPolicy,
 	Policy,
-	OrganizationTrainingVideos,
-	PortalTrainingVideos,
-} from "@bubba/db/types";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bubba/ui/tabs";
+	EmployeeTrainingVideoCompletion,
+	Member,
+} from "@comp/db/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { PolicyList } from "./policy";
 import { VideoCarousel } from "./video";
-import { trainingVideos } from "../data";
-import type { Session } from "@/app/lib/auth";
 
 interface EmployeeTasksListProps {
-	policies: (OrganizationPolicy & { policy: Policy })[];
-	trainingVideos: (OrganizationTrainingVideos & {
-		trainingVideo: PortalTrainingVideos;
-	})[];
-	user: Session["user"];
+	policies: Policy[];
+	trainingVideos: EmployeeTrainingVideoCompletion[];
+	member: Member;
 }
 
 export const EmployeeTasksList = ({
 	policies,
 	trainingVideos,
-	user,
+	member,
 }: EmployeeTasksListProps) => {
 	return (
 		<Tabs defaultValue="policies">
@@ -32,10 +27,10 @@ export const EmployeeTasksList = ({
 				<TabsTrigger value="training">Training</TabsTrigger>
 			</TabsList>
 			<TabsContent value="policies" className="py-2">
-				<PolicyList policies={policies} user={user} />
+				<PolicyList policies={policies} member={member} />
 			</TabsContent>
 			<TabsContent value="training" className="py-2">
-				<VideoCarousel videos={trainingVideos} user={user} />
+				<VideoCarousel videos={trainingVideos} member={member} />
 			</TabsContent>
 		</Tabs>
 	);

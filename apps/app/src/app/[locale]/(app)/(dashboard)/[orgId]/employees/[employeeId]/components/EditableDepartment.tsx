@@ -1,18 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import type { Departments } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@bubba/ui/select";
-import { Button } from "@bubba/ui/button";
-import { toast } from "sonner";
+} from "@comp/ui/select";
 import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
+import { toast } from "sonner";
 import { updateEmployeeDepartment } from "../actions/update-department";
-import type { Departments } from "@bubba/db/types";
 
 const DEPARTMENTS = [
 	{ value: "admin", label: "Admin" },
@@ -43,7 +43,9 @@ export function EditableDepartment({
 			onSuccess?.();
 		},
 		onError: (error) => {
-			toast.error(error?.error?.serverError || "Failed to update department");
+			toast.error(
+				error?.error?.serverError || "Failed to update department",
+			);
 		},
 	});
 

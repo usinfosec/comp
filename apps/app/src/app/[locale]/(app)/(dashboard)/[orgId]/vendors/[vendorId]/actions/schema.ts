@@ -1,4 +1,4 @@
-import { VendorStatus, VendorCategory, VendorTaskStatus } from "@bubba/db/types";
+import { TaskStatus, VendorCategory, VendorStatus } from "@comp/db/types";
 import { z } from "zod";
 
 export const createVendorTaskCommentSchema = z.object({
@@ -18,7 +18,7 @@ export const createVendorTaskSchema = z.object({
 		message: "Vendor ID is required",
 	}),
 	title: z.string().min(1, {
-		message: "Title is required", 
+		message: "Title is required",
 	}),
 	description: z.string().min(1, {
 		message: "Description is required",
@@ -26,7 +26,7 @@ export const createVendorTaskSchema = z.object({
 	dueDate: z.date({
 		required_error: "Due date is required",
 	}),
-	ownerId: z.string().optional(),
+	assigneeId: z.string().nullable(),
 });
 
 export const vendorContactSchema = z.object({
@@ -40,7 +40,7 @@ export const createVendorSchema = z.object({
 	website: z.string().url("Must be a valid URL"),
 	description: z.string().min(1, "Description is required"),
 	category: z.nativeEnum(VendorCategory),
-	ownerId: z.string().optional(),
+	assigneeId: z.string().nullable(),
 	contacts: z
 		.array(vendorContactSchema)
 		.min(1, "At least one contact is required"),
@@ -52,7 +52,7 @@ export const updateVendorSchema = z.object({
 	description: z.string().min(1, "Description is required"),
 	category: z.nativeEnum(VendorCategory),
 	status: z.nativeEnum(VendorStatus),
-	ownerId: z.string().optional(),
+	assigneeId: z.string().nullable(),
 });
 
 export const createVendorCommentSchema = z.object({
@@ -77,8 +77,8 @@ export const updateVendorTaskSchema = z.object({
 		message: "Description is required",
 	}),
 	dueDate: z.date().optional(),
-	status: z.nativeEnum(VendorTaskStatus, {
+	status: z.nativeEnum(TaskStatus, {
 		required_error: "Task status is required",
 	}),
-	ownerId: z.string().optional(),
+	assigneeId: z.string().nullable(),
 });

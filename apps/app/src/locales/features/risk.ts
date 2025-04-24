@@ -34,7 +34,7 @@ export const risk = {
 		risk_status_placeholder: "Select status",
 	},
 	register: {
-		title: "Risk Register",
+		title: "Risks",
 		table: {
 			risk: "Risk",
 		},

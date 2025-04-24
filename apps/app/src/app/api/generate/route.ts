@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
 import { openai } from "@ai-sdk/openai";
-import { client } from "@bubba/kv";
+import { client } from "@comp/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import { streamText } from "ai";
 import { match } from "ts-pattern";
@@ -15,9 +15,12 @@ export async function POST(req: Request): Promise<Response> {
 		);
 	}
 
+	let ratelimit: Ratelimit | undefined;
+
 	if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
-		const ip = req.headers.get("x-forwarded-for");
-		const ratelimit = new Ratelimit({
+		const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+		ratelimit = new Ratelimit({
 			limiter: Ratelimit.fixedWindow(100, "1 d"),
 			redis: client,
 		});
@@ -27,14 +30,17 @@ export async function POST(req: Request): Promise<Response> {
 		);
 
 		if (!success) {
-			return new Response("You have reached your request limit for the day.", {
-				status: 429,
-				headers: {
-					"X-RateLimit-Limit": limit.toString(),
-					"X-RateLimit-Remaining": remaining.toString(),
-					"X-RateLimit-Reset": reset.toString(),
+			return new Response(
+				"You have reached your request limit for the day.",
+				{
+					status: 429,
+					headers: {
+						"X-RateLimit-Limit": limit.toString(),
+						"X-RateLimit-Remaining": remaining.toString(),
+						"X-RateLimit-Reset": reset.toString(),
+					},
 				},
-			});
+			);
 		}
 	}
 

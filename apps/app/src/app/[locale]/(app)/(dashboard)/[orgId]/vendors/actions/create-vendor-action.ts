@@ -1,50 +1,56 @@
-'use server'
+"use server";
 
+import type { ActionResponse } from "@/types/actions";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
+import { type Vendor, VendorCategory, VendorStatus } from "@comp/db/types";
 import { createSafeActionClient } from "next-safe-action";
-import { z } from "zod";
-import type { ActionResponse } from '@/types/actions';
-import { VendorStatus, VendorCategory, type Vendor } from "@bubba/db/types";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
-import { db } from "@bubba/db";
+import { headers } from "next/headers";
+import { z } from "zod";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  website: z.string().url("Must be a valid URL").optional(),
-  description: z.string().optional(),
-  category: z.nativeEnum(VendorCategory),
-  status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
-  ownerId: z.string().optional(),
+	name: z.string().min(1, "Name is required"),
+	website: z.string().url("Must be a valid URL").optional(),
+	description: z.string().optional(),
+	category: z.nativeEnum(VendorCategory),
+	status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
+	assigneeId: z.string().optional(),
 });
 
 export const createVendorAction = createSafeActionClient()
-  .schema(schema)
-  .action(async (input): Promise<ActionResponse<Vendor>> => {
-    try {
-      const session = await auth();
-      
-      if (!session?.user?.organizationId) {
-        throw new Error("Unauthorized");
-      }
+	.schema(schema)
+	.action(async (input): Promise<ActionResponse<Vendor>> => {
+		try {
+			const session = await auth.api.getSession({
+				headers: await headers(),
+			});
 
-      const vendor = await db.vendor.create({
-        data: {
-          name: input.parsedInput.name,
-          description: input.parsedInput.description || "",
-          category: input.parsedInput.category,
-          status: input.parsedInput.status,
-          ownerId: input.parsedInput.ownerId,
-          organizationId: session.user.organizationId,
-        }
-      });
+			if (!session?.session?.activeOrganizationId) {
+				throw new Error("Unauthorized");
+			}
 
-      revalidatePath(`/${session.user.organizationId}/vendors`);
-      
-      return { success: true, data: vendor };
-    } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "Failed to create vendor" 
-      };
-    }
-  });
+			const vendor = await db.vendor.create({
+				data: {
+					name: input.parsedInput.name,
+					description: input.parsedInput.description || "",
+					category: input.parsedInput.category,
+					status: input.parsedInput.status,
+					assigneeId: input.parsedInput.assigneeId,
+					organizationId: session.session.activeOrganizationId,
+				},
+			});
+
+			revalidatePath(`/${session.session.activeOrganizationId}/vendors`);
+
+			return { success: true, data: vendor };
+		} catch (error) {
+			return {
+				success: false,
+				error:
+					error instanceof Error
+						? error.message
+						: "Failed to create vendor",
+			};
+		}
+	});

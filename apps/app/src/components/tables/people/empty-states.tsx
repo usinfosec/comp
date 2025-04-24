@@ -1,12 +1,12 @@
 "use client";
 
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { Users } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { Plus } from "lucide-react";
-import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
 
 interface Props {
 	hasFilters?: boolean;
@@ -27,7 +27,9 @@ export function NoResults({ hasFilters }: Props) {
 					</h2>
 					<p className="text-muted-foreground text-sm">
 						{hasFilters
-							? t("people.empty.no_results.description_with_filters")
+							? t(
+									"people.empty.no_results.description_with_filters",
+								)
 							: t("people.empty.no_results.description")}
 					</p>
 				</div>
@@ -47,7 +49,7 @@ export function NoResults({ hasFilters }: Props) {
 
 export function NoEmployees() {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState("invite-user-sheet");
+	const [open, setOpen] = useQueryState("employee-invite-sheet");
 
 	return (
 		<div className="mt-24 absolute w-full top-0 left-0 flex items-center justify-center z-20">

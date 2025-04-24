@@ -1,10 +1,11 @@
 export const app_onboarding = {
 	risk_management: {
 		title: "Risk Management",
-		description: "Manage your risks and ensure your organization is protected.",
+		description:
+			"Manage your risks and ensure your organization is protected.",
 		detailed_description:
 			"Create and manage your risks in one place. Add details, assign owners, and track progress.",
-		cta: "Create your first risk",
+		cta: "Create risk",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is risk management?",
@@ -16,16 +17,13 @@ export const app_onboarding = {
 			question_3: "Do I need to manage risks for SOC 2?",
 			answer_3:
 				"Yes, you need to manage risks for SOC 2 and other frameworks. Risk management is a key component of SOC 2 compliance.",
-			question_4: "What information should I include in a risk?",
-			answer_4:
-				"Include details like risk description, impact, likelihood, and assigned owner to effectively track and manage the risk.",
 		},
 	},
 	vendors: {
 		title: "Vendor Management",
 		description:
 			"Manage your vendors and ensure your organization is protected.",
-		cta: "Add your first vendor",
+		cta: "Add vendor",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is a vendor?",
@@ -37,16 +35,13 @@ export const app_onboarding = {
 			question_3: "Do I need to manage vendors for SOC 2?",
 			answer_3:
 				"Yes, you need to manage vendors for SOC 2 and other frameworks. Vendor management is a key component of SOC 2 compliance.",
-			question_4: "What information should I include in a vendor?",
-			answer_4:
-				"Include details like vendor name, contact information, and services provided to effectively track and manage the vendor.",
 		},
 	},
 	employees: {
 		title: "Employee Management",
 		description:
 			"Manage your employees and ensure your organization is protected.",
-		cta: "Add your first employee",
+		cta: "Get started",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What is employee management?",
@@ -61,17 +56,21 @@ export const app_onboarding = {
 		},
 	},
 	cloud_tests: {
-		title: "Cloud Security Testing",
-		description: "Test and validate your cloud infrastructure security.",
-		cta: "Create your first cloud test",
+		title: "Cloud Compliance - Coming Soon",
+		description:
+			"Test and validate your cloud infrastructure security with automated tests and reports.",
+		cta: "Configure",
 		learn_more: "Learn more",
 		faqs: {
 			question_1: "What are cloud security tests?",
-			answer_1: "Cloud security tests are automated assessments that evaluate your cloud infrastructure for security vulnerabilities, misconfigurations, and compliance with security best practices.",
+			answer_1:
+				"Cloud security tests are automated assessments that evaluate your cloud infrastructure for security vulnerabilities, misconfigurations, and compliance with security best practices.",
 			question_2: "Why are cloud security tests important?",
-			answer_2: "Cloud security tests help identify potential security risks in your cloud environment, ensure compliance with security standards, and provide evidence of your security controls for auditors. They're essential for maintaining a strong security posture in cloud environments.",
+			answer_2:
+				"Cloud security tests help identify potential security risks in your cloud environment, ensure compliance with security standards, and provide evidence of your security controls for auditors. They're essential for maintaining a strong security posture in cloud environments.",
 			question_3: "What types of cloud tests are available?",
-			answer_3: "Cloud security tests can include infrastructure scanning, configuration analysis, vulnerability assessments, and compliance checks. These tests help ensure your cloud resources are properly secured and configured according to best practices.",
+			answer_3:
+				"Cloud security tests can include infrastructure scanning, configuration analysis, vulnerability assessments, and compliance checks. These tests help ensure your cloud resources are properly secured and configured according to best practices.",
 		},
 	},
 } as const;

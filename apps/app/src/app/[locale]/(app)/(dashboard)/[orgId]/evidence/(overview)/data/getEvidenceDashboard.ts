@@ -1,13 +1,22 @@
-import type { Departments, OrganizationEvidence } from "@bubba/db/types";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
+import type {
+	Departments,
+	Evidence,
+	EvidenceStatus,
+	Frequency,
+	Member,
+	User,
+} from "@comp/db/types";
 import { cache } from "react";
 
-export type EvidenceStatus = "empty" | "draft" | "needsReview" | "upToDate";
+// Only define the dashboard-specific status which isn't in DB
+type DashboardStatus = "empty" | "draft" | "needsReview" | "upToDate";
 
-export interface EvidenceWithStatus
-	extends Omit<OrganizationEvidence, "assignee"> {
-	status: EvidenceStatus;
+// Extend the Evidence type with only what's needed for the dashboard
+interface EvidenceWithStatus extends Omit<Evidence, "status"> {
+	status: DashboardStatus;
 	assigneeEmail?: string;
+	dbStatus?: EvidenceStatus | null;
 }
 
 export interface EvidenceDashboardData {
@@ -31,12 +40,16 @@ export interface EvidenceDashboardData {
  */
 export const getEvidenceDashboard = cache(
 	async (organizationId: string): Promise<EvidenceDashboardData | null> => {
-		const evidence = await db.organizationEvidence.findMany({
+		const evidence = await db.evidence.findMany({
 			where: {
 				organizationId,
 			},
 			include: {
-				assignee: true,
+				assignee: {
+					include: {
+						user: true,
+					},
+				},
 			},
 		});
 
@@ -52,69 +65,75 @@ export const getEvidenceDashboard = cache(
 		let upToDateCount = 0;
 		const totalCount = evidence.length;
 
-		const evidenceWithStatus: EvidenceWithStatus[] = evidence.map((item) => {
-			// Check if task has files or links
-			const hasContent =
-				item.fileUrls.length > 0 || item.additionalUrls.length > 0;
+		const evidenceWithStatus: EvidenceWithStatus[] = evidence.map(
+			(item) => {
+				// Check if task has files or links
+				const hasContent =
+					item.fileUrls.length > 0 || item.additionalUrls.length > 0;
 
-			// Check if task is published
-			const isPublished = item.published;
+				// Check if task is published
+				const isPublished = item.status === "published";
 
-			// Check if task needs review (published and next review date is in the past)
-			let nextReviewDate = null;
+				// Check if task needs review (published and next review date is in the past)
+				let nextReviewDate = null;
 
-			if (item.lastPublishedAt && item.frequency) {
-				// Calculate next review date based on last published date and frequency
-				const lastPublished = new Date(item.lastPublishedAt);
-				nextReviewDate = new Date(lastPublished);
+				if (item.lastPublishedAt && item.frequency) {
+					// Calculate next review date based on last published date and frequency
+					const lastPublished = new Date(item.lastPublishedAt);
+					nextReviewDate = new Date(lastPublished);
 
-				switch (item.frequency) {
-					case "monthly":
-						nextReviewDate.setMonth(nextReviewDate.getMonth() + 1);
-						break;
-					case "quarterly":
-						nextReviewDate.setMonth(nextReviewDate.getMonth() + 3);
-						break;
-					case "yearly":
-						nextReviewDate.setFullYear(nextReviewDate.getFullYear() + 1);
-						break;
+					switch (item.frequency) {
+						case "monthly":
+							nextReviewDate.setMonth(
+								nextReviewDate.getMonth() + 1,
+							);
+							break;
+						case "quarterly":
+							nextReviewDate.setMonth(
+								nextReviewDate.getMonth() + 3,
+							);
+							break;
+						case "yearly":
+							nextReviewDate.setFullYear(
+								nextReviewDate.getFullYear() + 1,
+							);
+							break;
+					}
 				}
-			}
 
-			const isPastDue = nextReviewDate && nextReviewDate < now;
+				const isPastDue = nextReviewDate && nextReviewDate < now;
 
-			let status: EvidenceStatus;
+				let status: DashboardStatus;
 
-			if (!hasContent && !isPublished) {
-				// No files or links
-				status = "empty";
-				emptyCount++;
-			} else if (!isPublished) {
-				// Has content but not published
-				status = "draft";
-				draftCount++;
-			} else if (isPastDue) {
-				// Published but needs review
-				status = "needsReview";
-				needsReviewCount++;
-			} else {
-				// Published and up to date
-				status = "upToDate";
-				upToDateCount++;
-			}
+				if (!hasContent && !isPublished) {
+					// No files or links
+					status = "empty";
+					emptyCount++;
+				} else if (!isPublished) {
+					// Has content but not published
+					status = "draft";
+					draftCount++;
+				} else if (isPastDue) {
+					// Published but needs review
+					status = "needsReview";
+					needsReviewCount++;
+				} else {
+					// Published and up to date
+					status = "upToDate";
+					upToDateCount++;
+				}
 
-			// Extract assignee email if available
-			const assigneeEmail = item.assignee?.email || undefined;
+				// Extract assignee email if available
+				const assigneeEmail = item.assignee?.user?.email || undefined;
 
-			// Create a new object without the assignee property
-			const { assignee, ...evidenceWithoutAssignee } = item;
-
-			return {
-				...evidenceWithoutAssignee,
-				status,
-				assigneeEmail,
-			};
-		});
+				return {
+					...item,
+					status,
+					assigneeEmail,
+					dbStatus: item.status,
+				};
+			},
+		);
 
 		// Initialize with all department values from the enum
 		const departmentValues: Departments[] = [
@@ -151,7 +170,9 @@ export const getEvidenceDashboard = cache(
 		}, initialByDepartment);
 
 		// Collect unassigned evidence
-		const unassigned = evidenceWithStatus.filter((item) => !item.assigneeId);
+		const unassigned = evidenceWithStatus.filter(
+			(item) => !item.assigneeId,
+		);
 
 		// Group evidence by assignee
 		const byAssignee = evidenceWithStatus.reduce<
@@ -174,7 +195,7 @@ export const getEvidenceDashboard = cache(
 		if (firstAssigneeEmail) {
 			const firstAssigneeItems = byAssignee[firstAssigneeEmail];
 			// Count items by status for the first assignee
-			const statusCounts = {
+			const statusCounts: Record<DashboardStatus, number> = {
 				empty: 0,
 				draft: 0,
 				needsReview: 0,
@@ -186,18 +207,83 @@ export const getEvidenceDashboard = cache(
 			}
 		}
 
+		// Get all artifacts linking evidence to controls
+		const artifacts = await db.artifact.findMany({
+			where: {
+				evidenceId: {
+					in: evidence.map((item) => item.id),
+				},
+			},
+			include: {
+				controls: {
+					include: {
+						frameworkInstances: true,
+					},
+				},
+			},
+		});
+
+		// Create a mapping of evidence ID to frameworks
+		const evidenceToFrameworkMap = new Map<string, Set<string>>();
+
+		// Populate the map based on the artifact relationships
+		for (const artifact of artifacts) {
+			if (!artifact.evidenceId) continue;
+
+			// For each control linked to this artifact
+			for (const control of artifact.controls) {
+				// Handle the many-to-many relationship between controls and framework instances
+				if (
+					!control.frameworkInstances ||
+					control.frameworkInstances.length === 0
+				)
+					continue;
+
+				// Iterate through all framework instances associated with this control
+				for (const frameworkInstance of control.frameworkInstances) {
+					const frameworkId = frameworkInstance.frameworkId;
+
+					if (!frameworkId) continue;
+
+					// Add the framework ID to the set for this evidence
+					if (!evidenceToFrameworkMap.has(artifact.evidenceId)) {
+						evidenceToFrameworkMap.set(
+							artifact.evidenceId,
+							new Set<string>(),
+						);
+					}
+
+					evidenceToFrameworkMap
+						.get(artifact.evidenceId)
+						?.add(frameworkId);
+				}
+			}
+		}
+
+		// Group evidence by framework using the mapping we created
 		const byFramework = evidenceWithStatus.reduce<
 			Record<string, EvidenceWithStatus[]>
 		>((acc, curr) => {
-			const frameworkId = curr.frameworkId;
-			if (!frameworkId) {
+			// Get the frameworks for this evidence
+			const frameworkIds = evidenceToFrameworkMap.get(curr.id);
+
+			if (!frameworkIds || frameworkIds.size === 0) {
+				// If no frameworks, add to an "unassigned" framework
+				if (!acc.unassigned) {
+					acc.unassigned = [];
+				}
+				acc.unassigned.push(curr);
 				return acc;
 			}
 
-			if (!acc[frameworkId]) {
-				acc[frameworkId] = [];
+			// Add the evidence to each framework it belongs to
+			for (const frameworkId of frameworkIds) {
+				if (!acc[frameworkId]) {
+					acc[frameworkId] = [];
+				}
+				acc[frameworkId].push(curr);
 			}
-			acc[frameworkId].push(curr);
+
 			return acc;
 		}, {});
 

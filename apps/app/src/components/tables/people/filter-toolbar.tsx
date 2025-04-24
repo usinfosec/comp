@@ -1,9 +1,9 @@
 "use client";
 
-import { EmployeeInviteSheet } from "@/components/sheets/add-employee-sheet";
+import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
 import { Plus, Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
@@ -19,7 +19,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const t = useI18n();
-	const [open, setOpen] = useQueryState("invite-user-sheet");
+	const [open, setOpen] = useQueryState("employee-invite-sheet");
 	const [isPending, startTransition] = useTransition();
 	const [inputValue, setInputValue] = useState(
 		searchParams?.get("search") ?? "",
@@ -27,7 +27,9 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 
 	const createQueryString = useCallback(
 		(params: Record<string, string | null>) => {
-			const newSearchParams = new URLSearchParams(searchParams?.toString());
+			const newSearchParams = new URLSearchParams(
+				searchParams?.toString(),
+			);
 
 			for (const [key, value] of Object.entries(params)) {
 				if (value === null) {
@@ -69,7 +71,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 				</div>
 
 				<div className="md:hidden">
-					<Button onClick={() => setOpen("true")} variant="action">
+					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
 						{t("common.actions.addNew")}
 					</Button>
@@ -92,7 +94,7 @@ export function FilterToolbar({ isEmpty }: FilterToolbarProps) {
 					</Button>
 				)}
 
-				<Button onClick={() => setOpen("true")} variant="action">
+				<Button onClick={() => setOpen("true")} variant="default">
 					<Plus className="h-4 w-4" />
 					{t("common.actions.addNew")}
 				</Button>

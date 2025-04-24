@@ -1,16 +1,21 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@bubba/ui/drawer";
-import { useMediaQuery } from "@bubba/ui/hooks";
-import { ScrollArea } from "@bubba/ui/scroll-area";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@bubba/ui/sheet";
+import { Member, User } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
+import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
+import { useMediaQuery } from "@comp/ui/hooks";
+import { ScrollArea } from "@comp/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@comp/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { CreateVendorForm } from "./create-vendor-form";
 
-export function CreateVendorSheet() {
+export function CreateVendorSheet({
+	assignees,
+}: {
+	assignees: (Member & { user: User })[];
+}) {
 	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("createVendorSheet");
@@ -37,7 +42,7 @@ export function CreateVendorSheet() {
 					</SheetHeader>
 
 					<ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
-						<CreateVendorForm />
+						<CreateVendorForm assignees={assignees} />
 					</ScrollArea>
 				</SheetContent>
 			</Sheet>
@@ -48,7 +53,7 @@ export function CreateVendorSheet() {
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>{t("vendors.create")}</DrawerTitle>
 			<DrawerContent className="p-6">
-				<CreateVendorForm />
+				<CreateVendorForm assignees={assignees} />
 			</DrawerContent>
 		</Drawer>
 	);

@@ -1,19 +1,25 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
-import { Sheet, SheetContent } from "@bubba/ui/sheet";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
+import { Sheet, SheetContent } from "@comp/ui/sheet";
 import { useState } from "react";
 import { MainMenu } from "./main-menu";
 
 export function MobileMenu({
 	organizationId,
 	isAdmin,
+	completedOnboarding,
 }: {
 	organizationId: string;
-	isAdmin: boolean;
+	isAdmin?: boolean;
+	completedOnboarding: boolean;
 }) {
 	const [isOpen, setOpen] = useState(false);
+
+	const handleCloseSheet = () => {
+		setOpen(false);
+	};
 
 	return (
 		<Sheet open={isOpen} onOpenChange={setOpen}>
@@ -27,12 +33,19 @@ export function MobileMenu({
 					<Icons.Menu size={16} />
 				</Button>
 			</div>
-			<SheetContent side="left" className="border-none rounded-none -ml-2">
+			<SheetContent
+				side="left"
+				className="border-none rounded-none -ml-2"
+			>
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>
 
-				<MainMenu organizationId={organizationId} userIsAdmin={isAdmin} />
+				<MainMenu
+					organizationId={organizationId}
+					completedOnboarding={completedOnboarding}
+					onItemClick={handleCloseSheet}
+				/>
 			</SheetContent>
 		</Sheet>
 	);

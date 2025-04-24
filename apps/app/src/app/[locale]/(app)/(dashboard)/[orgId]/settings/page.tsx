@@ -1,13 +1,12 @@
-import { auth } from "@/auth";
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
-import { UpdateOrganizationWebsite } from "@/components/forms/organization/update-organization-website";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
+import { headers } from "next/headers";
+import { cache } from "react";
 
 export default async function OrganizationSettings({
 	params,
@@ -17,24 +16,15 @@ export default async function OrganizationSettings({
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
-
-	if (!session?.user.organizationId) {
-		return redirect("/");
-	}
-
-	const organization = await organizationDetails(session.user.organizationId);
+	const organization = await organizationDetails();
 
 	return (
-		<Suspense>
-			<div className="space-y-12">
-				<UpdateOrganizationName organizationName={organization?.name ?? ""} />
-				<UpdateOrganizationWebsite
-					organizationWebsite={organization?.website ?? ""}
-				/>
-				<DeleteOrganization organizationId={organization?.id ?? ""} />
-			</div>
-		</Suspense>
+		<div className="space-y-12">
+			<UpdateOrganizationName
+				organizationName={organization?.name ?? ""}
+			/>
+			<DeleteOrganization organizationId={organization?.id ?? ""} />
+		</div>
 	);
 }
 
@@ -52,15 +42,22 @@ export async function generateMetadata({
 	};
 }
 
-const organizationDetails = async (organizationId: string) => {
+const organizationDetails = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session?.session.activeOrganizationId) {
+		return null;
+	}
+
 	const organization = await db.organization.findUnique({
-		where: { id: organizationId },
+		where: { id: session?.session.activeOrganizationId },
 		select: {
 			name: true,
-			website: true,
 			id: true,
 		},
 	});
 
 	return organization;
-};
+});

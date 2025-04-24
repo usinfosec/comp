@@ -1,3 +1,3 @@
-import uiConfig from "@bubba/ui/postcss";
+import uiConfig from "@comp/ui/postcss";
 
 export default uiConfig;

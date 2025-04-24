@@ -1,5 +1,5 @@
 import { UserMenu } from "@/app/components/user-menu";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 import { Suspense } from "react";
 import { MobileMenu } from "./mobile-menu";
 
@@ -9,7 +9,9 @@ export async function Header() {
 			<MobileMenu />
 
 			<div className="flex space-x-2 ml-auto">
-				<Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
+				<Suspense
+					fallback={<Skeleton className="h-8 w-8 rounded-full" />}
+				>
 					<UserMenu />
 				</Suspense>
 			</div>

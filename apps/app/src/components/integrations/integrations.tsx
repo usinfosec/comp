@@ -1,34 +1,13 @@
 "use client";
 
-import type { OrganizationIntegrations } from "@bubba/db/types";
-import { integrations } from "@bubba/integrations";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@bubba/ui/accordion";
-import { Button } from "@bubba/ui/button";
+import { Integration } from "@comp/db/types";
+import { integrations } from "@comp/integrations";
+import { Button } from "@comp/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IntegrationsCard, type LogoType } from "./integrations-card";
-
-// Define a type for the integration object to handle both formats
-type IntegrationType = {
-	id: string;
-	name: string;
-	description: string;
-	short_description?: string;
-	category: string;
-	logo: any;
-	active?: boolean;
-	settings?: any[];
-	fields?: any[];
-	images?: any[];
-	metadata?: Record<string, any>;
-};
+import { IntegrationsCard } from "./integrations-card";
 
 // Update the type to include lastRunAt and nextRunAt
-type ExtendedOrganizationIntegrations = OrganizationIntegrations & {
+type ExtendedOrganizationIntegrations = Integration & {
 	lastRunAt?: Date | null;
 	nextRunAt?: Date | null;
 };
@@ -45,16 +24,13 @@ export function OrganizationIntegration({
 
 	// Map installed integrations by their integration_id rather than name
 	const installedIntegrations = installed.map((i) =>
-		i.integration_id.toLowerCase(),
+		i.integrationId.toLowerCase(),
 	);
-
-	// Debug: Log all available integrations and installed integrations
-	console.log("All integrations:", integrations);
-	console.log("Installed integrations:", installedIntegrations);
 
 	const installedSettings: Record<string, unknown> = installed.reduce(
 		(acc, integration) => {
-			acc[integration.integration_id.toLowerCase()] = integration.user_settings;
+			acc[integration.integrationId.toLowerCase()] =
+				integration.userSettings;
 			return acc;
 		},
 		{} as Record<string, unknown>,
@@ -63,21 +39,16 @@ export function OrganizationIntegration({
 	const integrationsByCategory = integrations
 		.filter((integration) => {
 			const shouldInclude =
-				!isInstalledPage || installedIntegrations.includes(integration.id);
-			// Debug: Log which integrations get filtered out by installed tab
-			if (!shouldInclude) {
-				console.log("Filtered out (installed tab):", integration.name);
-			}
+				!isInstalledPage ||
+				installedIntegrations.includes(integration.id);
+
 			return shouldInclude;
 		})
 		.filter((integration) => {
 			const matchesSearch =
 				!search ||
 				integration.name.toLowerCase().includes(search.toLowerCase());
-			// Debug: Log which integrations get filtered out by search
-			if (!matchesSearch) {
-				console.log("Filtered out (search):", integration.name);
-			}
+
 			return matchesSearch;
 		})
 		.reduce(
@@ -99,8 +70,8 @@ export function OrganizationIntegration({
 					No integrations found
 				</h3>
 				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
-					No integrations found for your search, let us know if you want to see
-					a specific integration.
+					No integrations found for your search, let us know if you
+					want to see a specific integration.
 				</p>
 
 				<Button
@@ -137,19 +108,23 @@ export function OrganizationIntegration({
 						{items.map((integration) => {
 							// Find the installed integration data
 							const installedIntegration = installed.find(
-								(i) => i.integration_id.toLowerCase() === integration.id,
+								(i) =>
+									i.integrationId.toLowerCase() ===
+									integration.id,
 							);
 
 							// Handle different integration formats
 							const integrationProps = {
 								id: integration.id,
-								logo: integration.logo as LogoType,
+								logo: integration.logo,
 								name: integration.name,
 								short_description:
 									"short_description" in integration
 										? integration.short_description
-										: (integration as any).description || "",
-								description: (integration as any).description || "",
+										: (integration as any).description ||
+										"",
+								description:
+									(integration as any).description || "",
 								settings:
 									"settings" in integration
 										? (integration as any).settings
@@ -157,19 +132,29 @@ export function OrganizationIntegration({
 											? (integration as any).fields
 											: [],
 								images:
-									"images" in integration ? (integration as any).images : [],
+									"images" in integration
+										? (integration as any).images
+										: [],
 								active:
-									"active" in integration ? (integration as any).active : true,
-								installed: installedIntegrations.includes(integration.id),
+									"active" in integration
+										? (integration as any).active
+										: true,
+								installed: installedIntegrations.includes(
+									integration.id,
+								),
 								category: integration.category,
-								installedSettings: installedSettings[integration.id] || {},
+								installedSettings:
+									installedSettings[integration.id] || {},
 								// Pass the last run and next run information
 								lastRunAt: installedIntegration?.lastRunAt,
 								nextRunAt: installedIntegration?.nextRunAt,
 							};
 
 							return (
-								<IntegrationsCard key={integration.id} {...integrationProps} />
+								<IntegrationsCard
+									key={integration.id}
+									{...integrationProps}
+								/>
 							);
 						})}
 					</div>

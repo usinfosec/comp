@@ -2,56 +2,51 @@
 
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PostHogPageView } from "./page-view";
 
 interface ProviderProps {
 	children: React.ReactNode;
-	apiKey: string;
-	apiHost: string;
-	userId?: string;
+	userId?: string | undefined;
+	userEmail?: string | undefined;
 }
 
 export function AnalyticsProvider({
 	children,
-	apiKey,
-	apiHost,
 	userId,
+	userEmail,
 }: ProviderProps) {
-	const [isInitialized, setIsInitialized] = useState(false);
-
 	useEffect(() => {
-		if (typeof window === "undefined") return;
-
-		try {
-			posthog.init(apiKey, {
-				api_host: apiHost,
-				loaded: (ph) => {
-					if (userId) {
-						ph.identify(userId);
-					}
-					setIsInitialized(true);
-				},
-			});
-
-			return () => {
-				posthog.reset();
-			};
-		} catch (error) {
-			setIsInitialized(true); // Still set to true to avoid blocking rendering
+		if (
+			!process.env.NEXT_PUBLIC_POSTHOG_KEY ||
+			!process.env.NEXT_PUBLIC_POSTHOG_HOST
+		) {
+			return;
 		}
-	}, [apiKey, apiHost, userId]);
 
-	if (!isInitialized) {
-		return <>{children}</>;
-	}
+		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+			capture_pageview: true,
+			session_recording: {
+				maskAllInputs: false,
+				maskInputOptions: {
+					password: true,
+				},
+			},
+			loaded: (ph) => {
+				if (userId) {
+					ph.identify(userId, {
+						email: userEmail,
+					});
+				}
+			},
+		});
+	}, []);
 
 	return (
-		<Suspense fallback={null}>
-			<PHProvider client={posthog}>
-				<PostHogPageView />
-				{children}
-			</PHProvider>
-		</Suspense>
+		<PHProvider client={posthog}>
+			<PostHogPageView />
+			{children}
+		</PHProvider>
 	);
 }

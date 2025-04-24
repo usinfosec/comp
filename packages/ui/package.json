@@ -1,5 +1,5 @@
 {
-  "name": "@bubba/ui",
+  "name": "@comp/ui",
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "typescript": "^5.7.2"
   },
   "exports": {
@@ -91,7 +91,8 @@
     "./text-editor": "./src/text-editor.css",
     "./prosemirror": "./src/prosemirror.css",
     "./editor.css": "./src/editor.css",
-    "./chart-tooltip": "./src/components/chart-tooltip.tsx"
+    "./chart-tooltip": "./src/components/chart-tooltip.tsx",
+    "./date-picker": "./src/components/date-picker.tsx"
   },
   "dependencies": {
     "@mui/icons-material": "^6.1.6",

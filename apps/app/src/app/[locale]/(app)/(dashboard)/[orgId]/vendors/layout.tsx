@@ -1,0 +1,36 @@
+import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { headers } from "next/headers";
+import { Suspense } from "react";
+
+export default async function Layout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const t = await getI18n();
+
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const orgId = session?.session.activeOrganizationId;
+
+	return (
+		<div className="max-w-[1200px] m-auto">
+			<Suspense>
+				<SecondaryMenu
+					items={[
+						{
+							path: `/${orgId}/vendors`,
+							label: t("vendors.dashboard.title"),
+						},
+					]}
+				/>
+
+				<main className="mt-8">{children}</main>
+			</Suspense>
+		</div>
+	);
+}

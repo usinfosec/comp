@@ -361,17 +361,39 @@ export async function highlightDomElements(
 		}
 
 		// 3) Clear old overlays
-		for (const el of document.querySelectorAll(".dom-highlighter-overlay")) {
+		for (const el of document.querySelectorAll(
+			".dom-highlighter-overlay",
+		)) {
 			el.remove();
 		}
 
 		// 4) Some color rotation
 		const highlightColors = [
-			{ border: "#FF5D5D", bg: "#FF5D5D", highlight: "rgba(255,93,93,0.08)" },
-			{ border: "#4CAF50", bg: "#4CAF50", highlight: "rgba(76,175,80,0.08)" },
-			{ border: "#2196F3", bg: "#2196F3", highlight: "rgba(33,150,243,0.08)" },
-			{ border: "#FFC107", bg: "#FFC107", highlight: "rgba(255,193,7,0.08)" },
-			{ border: "#9C27B0", bg: "#9C27B0", highlight: "rgba(156,39,176,0.08)" },
+			{
+				border: "#FF5D5D",
+				bg: "#FF5D5D",
+				highlight: "rgba(255,93,93,0.08)",
+			},
+			{
+				border: "#4CAF50",
+				bg: "#4CAF50",
+				highlight: "rgba(76,175,80,0.08)",
+			},
+			{
+				border: "#2196F3",
+				bg: "#2196F3",
+				highlight: "rgba(33,150,243,0.08)",
+			},
+			{
+				border: "#FFC107",
+				bg: "#FFC107",
+				highlight: "rgba(255,193,7,0.08)",
+			},
+			{
+				border: "#9C27B0",
+				bg: "#9C27B0",
+				highlight: "rgba(156,39,176,0.08)",
+			},
 		];
 
 		// 5) For each clickable node, measure & place overlays
@@ -419,7 +441,9 @@ export async function highlightDomElements(
 
 export async function clearDomHighlights(page: Page): Promise<void> {
 	await page.evaluate(() => {
-		for (const el of document.querySelectorAll(".dom-highlighter-overlay")) {
+		for (const el of document.querySelectorAll(
+			".dom-highlighter-overlay",
+		)) {
 			el.remove();
 		}
 		const styleEl = document.getElementById("dom-highlighter-style");

@@ -1,8 +1,8 @@
 import { updateIntegrationSettingsAction } from "@/actions/integrations/update-integration-settings-action";
-import { Button } from "@bubba/ui/button";
-import { Input } from "@bubba/ui/input";
-import { Label } from "@bubba/ui/label";
-import { Switch } from "@bubba/ui/switch";
+import { Button } from "@comp/ui/button";
+import { Input } from "@comp/ui/input";
+import { Label } from "@comp/ui/label";
+import { Switch } from "@comp/ui/switch";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
@@ -15,6 +15,7 @@ export type IntegrationSettingsItem = {
 	type: "switch" | "text" | "select";
 	required: boolean;
 	value: string | boolean;
+	placeholder?: string;
 	isSet?: boolean;
 };
 
@@ -34,7 +35,9 @@ function IntegrationSettingsItem({
 			return (
 				<div className="flex items-center justify-between">
 					<div className="pr-4 space-y-1">
-						<Label className="text-muted-foreground">{setting.label}</Label>
+						<Label className="text-muted-foreground">
+							{setting.label}
+						</Label>
 						<p className="text-xs text-muted-foreground">
 							{setting.description}
 						</p>
@@ -59,9 +62,13 @@ function IntegrationSettingsItem({
 						</p>
 					</div>
 					<Input
-						type={installedSettings[setting.id] ? "password" : "text"}
+						type={
+							installedSettings[setting.id] ? "password" : "text"
+						}
 						value={setting.value as string}
-						placeholder={installedSettings[setting.id] ? "••••••••" : ""}
+						placeholder={
+							installedSettings[setting.id] ? "••••••••" : setting.placeholder
+						}
 						onChange={(e) => {
 							onSettingChange(setting.id, e.target.value);
 						}}
@@ -82,27 +89,33 @@ export function IntegrationSettings({
 	integrationId: string;
 	installedSettings: Record<string, any>;
 }) {
-	const updateIntegrationSettings = useAction(updateIntegrationSettingsAction, {
-		onSuccess: () => {
-			toast.success("Settings updated");
+	const updateIntegrationSettings = useAction(
+		updateIntegrationSettingsAction,
+		{
+			onSuccess: () => {
+				toast.success("Settings updated");
+			},
+			onError: () => {
+				toast.error("Failed to update settings");
+			},
 		},
-		onError: () => {
-			toast.error("Failed to update settings");
-		},
-	});
+	);
 
 	// Convert non-array settings to array format if needed
 	const normalizedSettings = Array.isArray(settings)
 		? settings
 		: settings
 			? Object.entries(settings).map(([key, value]) => ({
-					id: key,
-					label: key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " "),
-					description: `Enter your ${key.replace(/_/g, " ")}`,
-					type: "text",
-					required: true,
-					value: value,
-				}))
+				id: key,
+				label:
+					key.charAt(0).toUpperCase() +
+					key.slice(1).replace(/_/g, " "),
+				description: `Enter your ${key.replace(/_/g, " ")}`,
+				type: "text",
+				required: true,
+				value: value,
+				placeholder: `Enter your ${key.replace(/_/g, " ")}`,
+			}))
 			: [];
 
 	const [localSettings, setLocalSettings] = useState(normalizedSettings);
@@ -131,10 +144,12 @@ export function IntegrationSettings({
 	return (
 		<div className="flex flex-col gap-2">
 			{localSettings.length === 0 ? (
-				<p className="text-sm text-muted-foreground">No settings available</p>
+				<p className="text-sm text-muted-foreground">
+					No settings available
+				</p>
 			) : (
 				localSettings.map((setting) => (
-					<div key={setting.id}>
+					<div key={setting.id} className="flex flex-col my-2">
 						<IntegrationSettingsItem
 							setting={setting}
 							integrationId={integrationId}

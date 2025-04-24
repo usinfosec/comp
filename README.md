@@ -32,13 +32,18 @@ We're building the first open source compliance automation platform that helps c
 
 We transform compliance from a vendor checkbox into an engineering problem solved through code. Our platform automates evidence collection, policy management, and control implementation while keeping you in control of your data and infrastructure.
 
+## Recognition
+
+#### [ProductHunt](https://www.producthunt.com/posts/comp-ai)
+
+<a href="https://www.producthunt.com/posts/comp-ai?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-comp&#0045;ai" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=944698&theme=light&period=daily&t=1745500415958" alt="Comp&#0032;AI - The&#0032;open&#0032;source&#0032;Vanta&#0032;&#0038;&#0032;Drata&#0032;alternative | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 ### Built With
 
 - [Next.js](https://nextjs.org/?ref=trycomp.ai)
 - [Trigger.dev](https://trigger.dev/?ref=trycomp.ai)
-- [Prisma.io](https://prisma.io/?ref=trycomp.ai)
+- [Prisma](https://prisma.io/?ref=trycomp.ai)
 - [Tailwind CSS](https://tailwindcss.com/?ref=trycomp.ai)
-- [Neon](https://neon.tech/?ref=trycomp.ai)
 - [Upstash](https://upstash.com/?ref=trycomp.ai)
 - [Vercel](https://vercel.com/?ref=trycomp.ai)
 - [Novu](https://novu.co/?ref=trycomp.ai)
@@ -88,8 +93,8 @@ Here is what you need to be able to run Comp AI.
 4. Set up your `.env` files
    - Copy the example environment files to create your local environment files:
    ```sh
-   cp apps/web/.env.example apps/web/.env
    cp apps/app/.env.example apps/app/.env
+   cp apps/portal/.env.example apps/portal/.env
    ```
    - Fill in the required environment variables in both `.env` files
    - Use `openssl rand -base64 32` to generate a key and add it under `AUTH_SECRET` in the `apps/app/.env` file
@@ -109,7 +114,42 @@ Here is what you need to be able to run Comp AI.
 
    You can install nvm from [here](https://github.com/nvm-sh/nvm).
 
-6. Run the turbo dev command to start the development server
+6. Setup Database
+   Start the Postgres database using Docker:
+
+   ```sh
+   bun docker:up
+   ```
+
+   Then set up the database schema and seed data:
+
+   ```sh
+   # Generate Prisma client
+   bun db:generate
+
+   # Push the schema to the database
+   bun db:push
+
+   # Optional: Seed the database with initial data
+   bun db:seed
+   ```
+
+   Other useful database commands:
+   ```sh
+   # Open Prisma Studio to view/edit data
+   bun db:studio
+
+   # Run database migrations
+   bun db:migrate
+
+   # Stop the database container
+   bun docker:down
+
+   # Remove the database container and volume
+   bun docker:clean
+   ```
+
+7. Run the turbo dev command to start the development server
 
    ```sh
    turbo dev
@@ -143,4 +183,3 @@ Comp AI, Inc. is a commercial open source company, which means some parts of thi
 
 > [!TIP]
 > We work closely with the community and always invite feedback about what should be open and what is fine to be commercial. This list is not set and stone and we have moved things from commercial to open in the past. Please open a [discussion](https://github.com/trycompai/comp/discussions) if you feel like something is wrong.
-

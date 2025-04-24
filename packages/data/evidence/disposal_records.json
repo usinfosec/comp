@@ -1,7 +1,0 @@
-{
-  "id": "disposal_records",
-  "name": "Disposal Records",
-  "description": "Disposal records, certificates of destruction, and audit logs. Provide procedure for secure data destruction and disposal (electronic and physical).",
-  "frequency": "yearly",
-  "department": "it"
-}

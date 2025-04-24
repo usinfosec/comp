@@ -1,4 +1,4 @@
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -6,8 +6,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
-import { cn } from "@bubba/ui/cn";
+} from "@comp/ui/table";
 
 interface DataTableSkeletonProps {
 	columns?: number;
@@ -57,9 +56,14 @@ export function DataTableSkeleton({
 				</TableHeader>
 				<TableBody>
 					{Array.from({ length: rows }).map((_, i) => (
-						<TableRow key={`skeleton-row-${i + 1}`} className="h-[54px]">
+						<TableRow
+							key={`skeleton-row-${i + 1}`}
+							className="h-[54px]"
+						>
 							{Array.from({ length: columns }).map((_, j) => (
-								<TableCell key={`skeleton-cell-${i + 1}-${j + 1}`}>
+								<TableCell
+									key={`skeleton-cell-${i + 1}-${j + 1}`}
+								>
 									<Skeleton className="h-4 w-[150px]" />
 								</TableCell>
 							))}

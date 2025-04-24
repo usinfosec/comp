@@ -1,5 +1,5 @@
 import { FilterToolbar } from "@/components/tables/people/filter-toolbar";
-import { Skeleton } from "@bubba/ui/skeleton";
+import { Skeleton } from "@comp/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -7,7 +7,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@bubba/ui/table";
+} from "@comp/ui/table";
 
 const SKELETON_ROWS = [
 	"skeleton-1",

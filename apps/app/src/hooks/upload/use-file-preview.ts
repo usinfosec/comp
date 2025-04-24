@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useToast } from "@bubba/ui/use-toast";
 import { getFileUrl } from "@/actions/files/get-file-url";
 import { UPLOAD_TYPE } from "@/actions/types";
+import { useToast } from "@comp/ui/use-toast";
+import { useCallback, useState } from "react";
 
 type UploadType = (typeof UPLOAD_TYPE)[keyof typeof UPLOAD_TYPE];
 
@@ -73,7 +73,7 @@ export function useFilePreview({
 
 					return signedUrl;
 				}
-				
+
 				if (uploadType === UPLOAD_TYPE.vendorTask && taskId) {
 					const response = await getFileUrl({
 						uploadType,

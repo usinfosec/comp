@@ -1,11 +1,10 @@
 "use client";
 import { AssignedUser } from "@/components/assigned-user";
-import { Status, type StatusType } from "@/components/status";
+import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type { Departments, RiskStatus } from "@bubba/db/types";
-import { Badge } from "@bubba/ui/badge";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
+import type { Departments, RiskStatus } from "@comp/db/types";
+import { Badge } from "@comp/ui/badge";
+import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -15,10 +14,12 @@ export type RiskRegisterType = {
 	title: string;
 	status: RiskStatus;
 	department?: Departments;
-	ownerId: string;
-	owner: {
-		image: string;
-		name: string;
+	assigneeId: string;
+	assignee: {
+		user: {
+			image: string;
+			name: string;
+		};
 	};
 };
 
@@ -36,13 +37,19 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 
 				return (
 					<div className="flex flex-col gap-1">
-						<Button variant="link" className="p-0 justify-start" asChild>
+						<Button
+							variant="link"
+							className="p-0 justify-start"
+							asChild
+						>
 							<Link href={`/${orgId}/risk/${row.original.id}`}>
-								<span className="truncate">{row.original.title}</span>
+								<span className="truncate">
+									{row.original.title}
+								</span>
 							</Link>
 						</Button>
 						<div className="md:hidden">
-							<Status status={status.toLowerCase() as StatusType} />
+							<StatusIndicator status={status} />
 						</div>
 					</div>
 				);
@@ -52,14 +59,16 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			id: "status",
 			accessorKey: "status",
 			header: () => (
-				<span className="hidden md:table-cell">{t("common.table.status")}</span>
+				<span className="hidden md:table-cell">
+					{t("common.table.status")}
+				</span>
 			),
 			cell: ({ row }) => {
 				const status = row.original.status;
 
 				return (
 					<div className="hidden md:flex items-center gap-2">
-						<Status status={status.toLowerCase() as StatusType} />
+						<StatusIndicator status={status} />
 					</div>
 				);
 			},
@@ -89,8 +98,8 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			},
 		},
 		{
-			id: "ownerId",
-			accessorKey: "ownerId",
+			id: "assigneeId",
+			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden md:table-cell">
 					{t("common.assignee.label")}
@@ -100,8 +109,8 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 				return (
 					<div className="hidden md:table-cell">
 						<AssignedUser
-							fullName={row.original.owner?.name}
-							avatarUrl={row.original.owner?.image}
+							fullName={row.original.assignee?.user?.name}
+							avatarUrl={row.original.assignee?.user?.image}
 						/>
 					</div>
 				);

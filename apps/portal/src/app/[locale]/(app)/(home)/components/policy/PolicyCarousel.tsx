@@ -1,25 +1,24 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { PolicyCard } from "./PolicyCard";
-import type { OrganizationPolicy, Policy } from "@bubba/db/types";
+import type { Policy, Member } from "@comp/db/types";
 import { useAction } from "next-safe-action/hooks";
 import { markPolicyAsCompleted } from "../../actions/markPolicyAsCompleted";
 import { toast } from "sonner";
-import type { Session } from "@/app/lib/auth";
 
 interface PolicyCarouselProps {
-	policies: (OrganizationPolicy & { policy: Policy })[];
-	user: Session["user"];
+	policies: Policy[];
+	member: Member;
 	initialIndex?: number;
 	onIndexChange?: (index: number) => void;
 }
 
 export function PolicyCarousel({
 	policies,
-	user,
+	member,
 	initialIndex = 0,
 	onIndexChange,
 }: PolicyCarouselProps) {
@@ -96,7 +95,7 @@ export function PolicyCarousel({
 								onCompletePolicy.execute({ policyId: policy.id })
 							}
 							onClick={() => handleNext()}
-							user={user}
+							member={member}
 							isLastPolicy={currentIndex === policies.length - 1}
 						/>
 					</div>

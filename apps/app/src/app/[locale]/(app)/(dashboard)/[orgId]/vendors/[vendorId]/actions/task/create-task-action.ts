@@ -2,49 +2,54 @@
 
 "use server";
 
-import { db } from "@bubba/db";
-import { revalidatePath, revalidateTag } from "next/cache";
 import { authActionClient } from "@/actions/safe-action";
+import { db } from "@comp/db";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createVendorTaskSchema } from "../schema";
 
 export const createVendorTaskAction = authActionClient
-  .schema(createVendorTaskSchema)
-  .metadata({
-    name: "create-vendor-task",
-    track: {
-      event: "create-vendor-task",
-      channel: "server",
-    },
-  })
-  .action(async ({ parsedInput, ctx }) => {
-    const { vendorId, title, description, dueDate, ownerId } = parsedInput;
-    const { user } = ctx;
+	.schema(createVendorTaskSchema)
+	.metadata({
+		name: "create-vendor-task",
+		track: {
+			event: "create-vendor-task",
+			channel: "server",
+		},
+	})
+	.action(async ({ parsedInput, ctx }) => {
+		const { vendorId, title, description, dueDate, assigneeId } =
+			parsedInput;
+		const {
+			session: { activeOrganizationId },
+			user,
+		} = ctx;
 
-    if (!user.id || !user.organizationId) {
-      throw new Error("Invalid user input");
-    }
+		if (!user.id || !activeOrganizationId) {
+			throw new Error("Invalid user input");
+		}
 
-    try {
-      await db.vendorTask.create({
-        data: {
-          vendorId,
-          title,
-          description,
-          dueDate,
-          ownerId,
-          organizationId: user.organizationId,
-        },
-      });
+		try {
+			await db.task.create({
+				data: {
+					title,
+					description,
+					dueDate,
+					assigneeId,
+					organizationId: activeOrganizationId,
+					relatedId: vendorId,
+					relatedType: "vendor",
+				},
+			});
 
-      revalidatePath(`/${user.organizationId}/vendor/${vendorId}`);
-      revalidateTag(`vendor_${user.organizationId}`);
+			revalidatePath(`/${activeOrganizationId}/vendor/${vendorId}`);
+			revalidateTag(`vendor_${activeOrganizationId}`);
 
-      return {
-        success: true,
-      };
-    } catch (error) {
-      return {
-        success: false,
-      };
-    }
-  });
+			return {
+				success: true,
+			};
+		} catch (error) {
+			return {
+				success: false,
+			};
+		}
+	});

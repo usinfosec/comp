@@ -1,44 +1,17 @@
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@bubba/ui/card";
-import { Input } from "@bubba/ui/input";
-import { getI18n } from "@/locales/server";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+import { Suspense } from "react";
 
-export default async function Loading() {
-  const t = await getI18n();
-
-  return (
-    <div className="space-y-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("settings.general.org_name")}</CardTitle>
-          <CardDescription>
-            {t("settings.general.org_name_description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Input type="text" placeholder="Loading..." className="max-w-[300px]" />
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <div>{t("settings.general.org_name_tip")}</div>
-          <Button disabled aria-label={t("common.actions.save")}>{t("common.actions.save")}</Button>
-        </CardFooter>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("settings.general.org_website")}</CardTitle>
-          <CardDescription>
-            {t("settings.general.org_website_description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Input type="url" placeholder="Loading..." className="max-w-[300px]" />
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <div>{t("settings.general.org_website_tip")}</div>
-          <Button disabled aria-label={t("common.actions.save")}>{t("common.actions.save")}</Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
+export default function Loading() {
+	return (
+		<Suspense
+			fallback={
+				<DataTableSkeleton
+					columnCount={3}
+					filterCount={2}
+					cellWidths={["10rem", "30rem", "10rem"]}
+					shrinkZero
+				/>
+			}
+		/>
+	);
 }

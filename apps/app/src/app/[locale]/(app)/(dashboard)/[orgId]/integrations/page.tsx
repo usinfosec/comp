@@ -1,11 +1,12 @@
-import { auth } from "@/auth";
 import { IntegrationsHeader } from "@/components/integrations/integrations-header";
 import { IntegrationsServer } from "@/components/integrations/integrations.server";
 import { SkeletonLoader } from "@/components/skeleton-loader";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -17,11 +18,18 @@ export default async function IntegrationsPage({
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const session = await auth();
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session?.session.activeOrganizationId) {
+		return redirect("/");
+	}
+
 	const [organization] = await Promise.all([
 		db.organization.findUnique({
 			where: {
-				id: session?.user.organizationId,
+				id: session?.session.activeOrganizationId ?? "",
 			},
 		}),
 	]);
@@ -34,9 +42,7 @@ export default async function IntegrationsPage({
 		<div className="mt-4 max-w-[1200px] m-auto flex flex-col gap-4">
 			<IntegrationsHeader />
 
-			<Suspense fallback={<SkeletonLoader amount={2} />}>
-				<IntegrationsServer />
-			</Suspense>
+			<IntegrationsServer />
 		</div>
 	);
 }

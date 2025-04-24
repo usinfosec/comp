@@ -8,29 +8,21 @@ import {
 } from "@tanstack/react-table";
 
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { cn } from "@bubba/ui/cn";
-import { Table, TableBody, TableCell, TableRow } from "@bubba/ui/table";
+import { Badge } from "@comp/ui/badge";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { useParams, useRouter } from "next/navigation";
 import type { PersonType } from "./columns";
+import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { Badge } from "@bubba/ui/badge";
-import { Status, type StatusType } from "@/components/status";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@bubba/ui/dropdown-menu";
+
+import Link from "next/link";
 import {
 	EmployeeStatus,
 	getEmployeeStatusFromBoolean,
 } from "./employee-status";
-import Link from "next/link";
 
 interface DataTableProps {
 	columnHeaders: {
@@ -53,7 +45,10 @@ function getColumns(): ColumnDef<PersonType>[] {
 			id: "name",
 			accessorKey: "name",
 			header: ({ column }) => (
-				<DataTableColumnHeader column={column} title={t("people.table.name")} />
+				<DataTableColumnHeader
+					column={column}
+					title={t("people.table.name")}
+				/>
 			),
 			cell: ({ row }) => {
 				const name = row.original.name;
@@ -63,8 +58,14 @@ function getColumns(): ColumnDef<PersonType>[] {
 
 				return (
 					<div className="flex flex-col space-y-0.5">
-						<Button variant="link" className="p-0 h-auto justify-start" asChild>
-							<Link href={`/${orgId}/employees/${row.original.id}`}>
+						<Button
+							variant="link"
+							className="p-0 h-auto justify-start"
+							asChild
+						>
+							<Link
+								href={`/${orgId}/employees/${row.original.id}`}
+							>
 								<span className="truncate">{name}</span>
 							</Link>
 						</Button>
@@ -90,7 +91,9 @@ function getColumns(): ColumnDef<PersonType>[] {
 			cell: ({ row }) => {
 				const email = row.original.email;
 				return (
-					<div className="hidden md:block text-muted-foreground">{email}</div>
+					<div className="hidden md:block text-muted-foreground">
+						{email}
+					</div>
 				);
 			},
 		},
@@ -164,7 +167,9 @@ export function DataTable({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 									className="hover:bg-muted/50"
 								>
 									{row.getVisibleCells().map((cell) => (
@@ -172,8 +177,10 @@ export function DataTable({
 											key={cell.id}
 											className={cn(
 												(cell.column.id === "email" ||
-													cell.column.id === "department" ||
-													cell.column.id === "status") &&
+													cell.column.id ===
+														"department" ||
+													cell.column.id ===
+														"status") &&
 													"hidden md:table-cell",
 											)}
 										>
@@ -198,7 +205,10 @@ export function DataTable({
 					</TableBody>
 				</Table>
 			</div>
-			<DataTablePagination pageCount={pageCount} currentPage={currentPage} />
+			<DataTablePagination
+				pageCount={pageCount}
+				currentPage={currentPage}
+			/>
 		</div>
 	);
 }

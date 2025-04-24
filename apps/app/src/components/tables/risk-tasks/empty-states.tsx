@@ -1,9 +1,8 @@
 "use client";
 
-import { CreateTaskSheet } from "@/components/sheets/create-task-sheet";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -28,8 +27,12 @@ export function NoResults({ hasFilters }: Props) {
 					</h2>
 					<p className="text-muted-foreground text-sm">
 						{hasFilters
-							? t("common.empty_states.no_results.description_filters")
-							: t("common.empty_states.no_results.description_no_tasks")}
+							? t(
+									"common.empty_states.no_results.description_filters",
+								)
+							: t(
+									"common.empty_states.no_results.description_no_tasks",
+								)}
 					</p>
 				</div>
 
@@ -65,8 +68,6 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
 					{t("common.actions.create")}
 				</Button>
 			</div>
-
-			<CreateTaskSheet />
 		</div>
 	);
 }

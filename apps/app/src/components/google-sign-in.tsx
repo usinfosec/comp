@@ -2,10 +2,10 @@
 
 import { ButtonIcon } from "@/components/ui/button-icon";
 import { useI18n } from "@/locales/client";
-import { Button } from "@bubba/ui/button";
-import { Icons } from "@bubba/ui/icons";
+import { authClient } from "@/utils/auth-client";
+import { Button } from "@comp/ui/button";
+import { Icons } from "@comp/ui/icons";
 import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export function GoogleSignIn({
@@ -23,8 +23,8 @@ export function GoogleSignIn({
 			? `/api/auth/invitation?code=${inviteCode}`
 			: "/";
 
-		await signIn("google", {
-			redirectTo,
+		await authClient.signIn.social({
+			provider: "google",
 		});
 	};
 

@@ -1,17 +1,27 @@
 "use client";
 
-import { Button } from "@bubba/ui/button";
+import { Button } from "@comp/ui/button";
 import { Check, ArrowRight } from "lucide-react";
-import type {
-	OrganizationTrainingVideos,
-	PortalTrainingVideos,
-} from "@bubba/db/types";
+import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import { useState } from "react";
 
+// Define our own TrainingVideo interface since we can't find the import
+interface TrainingVideo {
+	id: string;
+	title: string;
+	description: string;
+	youtubeId: string;
+	url: string;
+}
+
+// Define interface for the merged video object
+interface MergedVideo extends TrainingVideo {
+	completionStatus?: EmployeeTrainingVideoCompletion;
+	isCompleted: boolean;
+}
+
 interface YoutubeEmbedProps {
-	video: OrganizationTrainingVideos & {
-		trainingVideo: PortalTrainingVideos;
-	};
+	video: MergedVideo;
 	isCompleted: boolean;
 	onComplete: () => void;
 	onNext?: () => void;
@@ -74,8 +84,8 @@ export function YoutubeEmbed({
 				)}
 				<iframe
 					className="w-full h-full"
-					src={`https://www.youtube.com/embed/${video.trainingVideo.youtubeId}?enablejsapi=1`}
-					title={video.trainingVideo.title}
+					src={`https://www.youtube.com/embed/${video.youtubeId}?enablejsapi=1`}
+					title={video.title}
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowFullScreen
 					onEnded={handleVideoEnded}

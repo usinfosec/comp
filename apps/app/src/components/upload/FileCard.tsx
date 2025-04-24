@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/locales/client";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -10,26 +11,25 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@bubba/ui/alert-dialog";
-import { Button } from "@bubba/ui/button";
-import { Card, CardContent, CardFooter } from "@bubba/ui/card";
+} from "@comp/ui/alert-dialog";
+import { Button } from "@comp/ui/button";
+import { Card, CardContent, CardFooter } from "@comp/ui/card";
 import {
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	DialogTrigger,
-} from "@bubba/ui/dialog";
+} from "@comp/ui/dialog";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@bubba/ui/tooltip";
+} from "@comp/ui/tooltip";
 import { ExternalLink, Loader2, Maximize2, Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FileIcon } from "./FileIcon";
-import { useI18n } from "@/locales/client";
 
 interface FilePreviewState {
 	url: string | null;
@@ -152,7 +152,9 @@ export function FileCard({
 					<DialogContent className="max-w-4xl w-full">
 						<DialogTitle className="flex items-center justify-between mb-4">
 							<span>
-								{t("common.upload.fileCard.filePreview", { fileName })}
+								{t("common.upload.fileCard.filePreview", {
+									fileName,
+								})}
 							</span>
 						</DialogTitle>
 
@@ -177,7 +179,9 @@ export function FileCard({
 								) : (
 									<div className="flex items-center justify-center h-full">
 										<p className="text-muted-foreground">
-											{t("common.upload.fileCard.previewNotAvailable")}
+											{t(
+												"common.upload.fileCard.previewNotAvailable",
+											)}
 										</p>
 									</div>
 								)}
@@ -244,10 +248,14 @@ export function FileCard({
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
-								{t("common.upload.fileCard.deleteFileConfirmTitle")}
+								{t(
+									"common.upload.fileCard.deleteFileConfirmTitle",
+								)}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t("common.upload.fileCard.deleteFileConfirmDescription")}
+								{t(
+									"common.upload.fileCard.deleteFileConfirmDescription",
+								)}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>

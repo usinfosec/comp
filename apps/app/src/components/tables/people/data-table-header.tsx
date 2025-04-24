@@ -2,12 +2,12 @@
 
 import { useI18n } from "@/locales/client";
 
-import { Button } from "@bubba/ui/button";
-import { TableHead, TableHeader, TableRow } from "@bubba/ui/table";
+import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { TableHead, TableHeader, TableRow } from "@comp/ui/table";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { cn } from "@bubba/ui/cn";
 
 type Props = {
 	table?: {
@@ -68,8 +68,12 @@ export function DataTableHeader({ table, loading }: Props) {
 							onClick={() => createSortQuery("name")}
 						>
 							<span>{t("people.table.name")}</span>
-							{"name" === column && value === "asc" && <ArrowDown size={16} />}
-							{"name" === column && value === "desc" && <ArrowUp size={16} />}
+							{"name" === column && value === "asc" && (
+								<ArrowDown size={16} />
+							)}
+							{"name" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}
@@ -81,8 +85,12 @@ export function DataTableHeader({ table, loading }: Props) {
 							onClick={() => createSortQuery("email")}
 						>
 							<span>{t("people.table.email")}</span>
-							{"email" === column && value === "asc" && <ArrowDown size={16} />}
-							{"email" === column && value === "desc" && <ArrowUp size={16} />}
+							{"email" === column && value === "asc" && (
+								<ArrowDown size={16} />
+							)}
+							{"email" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}
@@ -116,7 +124,9 @@ export function DataTableHeader({ table, loading }: Props) {
 							{"status" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
-							{"status" === column && value === "desc" && <ArrowUp size={16} />}
+							{"status" === column && value === "desc" && (
+								<ArrowUp size={16} />
+							)}
 						</Button>
 					</TableHead>
 				)}

@@ -1,7 +1,10 @@
-import { auth } from "@/auth";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
+import { cache } from "react";
+
 import { ApiKeysTable } from "@/components/tables/api-keys";
 import { getI18n } from "@/locales/server";
-import { db } from "@bubba/db";
+import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 
@@ -37,16 +40,18 @@ export async function generateMetadata({
 	};
 }
 
-const getApiKeys = async () => {
-	const session = await auth();
+const getApiKeys = cache(async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-	if (!session?.user.organizationId) {
+	if (!session?.session.activeOrganizationId) {
 		return [];
 	}
 
-	const apiKeys = await db.organizationApiKey.findMany({
+	const apiKeys = await db.apiKey.findMany({
 		where: {
-			organizationId: session.user.organizationId,
+			organizationId: session.session.activeOrganizationId,
 			isActive: true,
 		},
 		select: {
@@ -68,4 +73,4 @@ const getApiKeys = async () => {
 		expiresAt: key.expiresAt ? key.expiresAt.toISOString() : null,
 		lastUsedAt: key.lastUsedAt ? key.lastUsedAt.toISOString() : null,
 	}));
-};
+});
