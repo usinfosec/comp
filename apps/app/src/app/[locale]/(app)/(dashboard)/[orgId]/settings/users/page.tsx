@@ -28,6 +28,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("settings.team.members.title"),
+		title: t("people.title"),
 	};
 }

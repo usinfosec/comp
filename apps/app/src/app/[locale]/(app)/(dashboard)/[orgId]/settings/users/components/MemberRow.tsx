@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MoreHorizontal } from "lucide-react";
+import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
 import { useI18n } from "@/locales/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
@@ -19,17 +19,11 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
 import { Label } from "@comp/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@comp/ui/select";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -39,16 +33,16 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from "@comp/ui/alert-dialog";
 import type { Role } from "@prisma/client";
 
 import type { MemberWithUser } from "./TeamMembers";
+import { MultiRoleCombobox } from "./MultiRoleCombobox";
 
 interface MemberRowProps {
 	member: MemberWithUser;
-	onRemove: (memberId: string) => Promise<void>;
-	onUpdateRole: (memberId: string, newRole: Role) => Promise<void>;
+	onRemove: (memberId: string) => void;
+	onUpdateRole: (memberId: string, roles: Role[]) => void;
 }
 
 // Helper to get initials
@@ -70,26 +64,35 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 	const t = useI18n();
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
 	const [isRemoveAlertOpen, setIsRemoveAlertOpen] = useState(false);
-	const [selectedRole, setSelectedRole] = useState<Role>(member.role as Role); // Assuming member.role is compatible
+	const [selectedRoles, setSelectedRoles] = useState<Role[]>(
+		Array.isArray(member.role) ? member.role : ([member.role] as Role[]),
+	);
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [isRemoving, setIsRemoving] = useState(false);
+	const currentUserIsOwner = member.role === "owner";
 
 	const memberName = member.user.name || member.user.email || "Member";
 	const memberEmail = member.user.email || "";
 	const memberAvatar = member.user.image;
 	const memberId = member.id;
-	const currentRole = member.role as Role; // Cast for safety
+	const currentRoles = (
+		Array.isArray(member.role)
+			? member.role
+			: typeof member.role === "string" && member.role.includes(",")
+				? (member.role.split(",") as Role[])
+				: [member.role]
+	) as Role[];
 
-	// Prevent changing role of owner or removing owner/self
-	const canChangeRole = currentRole !== "owner";
-	const canRemove = currentRole !== "owner"; // Add self-removal check if needed
+	const isOwner = currentRoles.includes("owner");
+	const canEditRoles = !isOwner;
+	const canRemove = !isOwner;
 
-	const handleUpdateRoleClick = async () => {
-		if (!canChangeRole || selectedRole === currentRole) return;
+	const handleUpdateRolesClick = async () => {
+		if (!canEditRoles) return;
 		setIsUpdating(true);
-		await onUpdateRole(memberId, selectedRole);
+		await onUpdateRole(memberId, selectedRoles);
 		setIsUpdating(false);
-		setIsRoleDialogOpen(false); // Close dialog on success/failure (handled by parent toast)
+		setIsRoleDialogOpen(false);
 	};
 
 	const handleRemoveClick = async () => {
@@ -97,7 +100,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 		setIsRemoving(true);
 		await onRemove(memberId);
 		setIsRemoving(false);
-		setIsRemoveAlertOpen(false); // Close alert dialog
+		setIsRemoveAlertOpen(false);
 	};
 
 	return (
@@ -118,64 +121,83 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
-					<Badge variant="outline">{currentRole}</Badge>
-					{currentRole !== "owner" && (
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button
-									variant="ghost"
-									size="sm"
-									className="h-8 w-8 p-0"
+					<div className="flex flex-wrap gap-1 justify-end max-w-[150px]">
+						{currentRoles.map((role) => (
+							<Badge
+								key={role}
+								variant="secondary"
+								className="text-xs"
+							>
+								{(() => {
+									switch (role) {
+										case "owner":
+											return t("people.roles.owner");
+										case "admin":
+											return t("people.roles.admin");
+										case "auditor":
+											return t("people.roles.auditor");
+										case "employee":
+											return t("people.roles.employee");
+										default:
+											return "???";
+									}
+								})()}
+							</Badge>
+						))}
+					</div>
+
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="h-8 w-8 p-0"
+								disabled={isOwner}
+							>
+								<MoreHorizontal className="h-4 w-4" />
+								<span className="sr-only">Open menu</span>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuLabel>Actions</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							{canEditRoles && (
+								<DropdownMenuItem
+									onSelect={() => setIsRoleDialogOpen(true)}
 								>
-									<MoreHorizontal className="h-4 w-4" />
-									<span className="sr-only">Open menu</span>
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end">
-								{canChangeRole && (
-									<DropdownMenuItem
-										onSelect={() =>
-											setIsRoleDialogOpen(true)
-										}
-									>
+									<Edit className="mr-2 h-4 w-4" />
+									<span>
+										{t("people.member_actions.edit_roles")}
+									</span>
+								</DropdownMenuItem>
+							)}
+							{canRemove && (
+								<DropdownMenuItem
+									className="text-destructive focus:text-destructive focus:bg-destructive/10"
+									onSelect={() => setIsRemoveAlertOpen(true)}
+								>
+									<Trash2 className="mr-2 h-4 w-4" />
+									<span>
 										{t(
-											"settings.team.member_actions.change_role",
+											"people.member_actions.remove_member",
 										)}
-									</DropdownMenuItem>
-								)}
-								{canRemove && (
-									<>
-										<DropdownMenuSeparator />
-										<DropdownMenuItem
-											className="text-red-600"
-											onSelect={() =>
-												setIsRemoveAlertOpen(true)
-											}
-										>
-											{t(
-												"settings.team.member_actions.remove_member",
-											)}
-										</DropdownMenuItem>
-									</>
-								)}
-							</DropdownMenuContent>
-						</DropdownMenu>
-					)}
+									</span>
+								</DropdownMenuItem>
+							)}
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
 			</div>
 
-			{/* Change Role Dialog */}
 			<Dialog open={isRoleDialogOpen} onOpenChange={setIsRoleDialogOpen}>
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>
-							{t(
-								"settings.team.member_actions.role_dialog.title",
-							)}
+							{t("people.member_actions.role_dialog.title_edit")}
 						</DialogTitle>
 						<DialogDescription>
 							{t(
-								"settings.team.member_actions.role_dialog.description_prefix",
+								"people.member_actions.role_dialog.description_prefix",
 							)}{" "}
 							{memberName}
 						</DialogDescription>
@@ -184,36 +206,16 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 						<div className="space-y-2">
 							<Label htmlFor={`role-${memberId}`}>
 								{t(
-									"settings.team.member_actions.role_dialog.role_label",
+									"people.member_actions.role_dialog.role_label",
 								)}
 							</Label>
-							<Select
-								value={selectedRole}
-								onValueChange={(value) =>
-									setSelectedRole(value as Role)
-								}
-							>
-								<SelectTrigger id={`role-${memberId}`}>
-									<SelectValue
-										placeholder={t(
-											"settings.team.member_actions.role_dialog.role_placeholder",
-										)}
-									/>
-								</SelectTrigger>
-								<SelectContent>
-									{/* Use actual Role enum values from prisma */}
-									<SelectItem value="admin">
-										{t("settings.team.members.role.admin")}
-									</SelectItem>
-									<SelectItem value="auditor">
-										{t(
-											"settings.team.members.role.auditor",
-										)}
-									</SelectItem>
-									{/* Add employee/member if applicable */}
-								</SelectContent>
-							</Select>
-							{/* Optional: Role descriptions */}
+							<MultiRoleCombobox
+								selectedRoles={selectedRoles}
+								onSelectedRolesChange={setSelectedRoles}
+								placeholder={t(
+									"people.invite.role.placeholder",
+								)}
+							/>
 						</div>
 					</div>
 					<DialogFooter>
@@ -221,23 +223,18 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							variant="outline"
 							onClick={() => setIsRoleDialogOpen(false)}
 						>
-							{t(
-								"settings.team.member_actions.role_dialog.cancel",
-							)}
+							{t("common.actions.cancel")}
 						</Button>
 						<Button
-							onClick={handleUpdateRoleClick}
+							onClick={handleUpdateRolesClick}
 							disabled={isUpdating}
 						>
-							{t(
-								"settings.team.member_actions.role_dialog.update",
-							)}
+							{t("common.actions.update")}
 						</Button>
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
 
-			{/* Remove Member Alert Dialog */}
 			<AlertDialog
 				open={isRemoveAlertOpen}
 				onOpenChange={setIsRemoveAlertOpen}
@@ -245,17 +242,15 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
-							{t(
-								"settings.team.member_actions.remove_confirm.title",
-							)}
+							{t("people.member_actions.remove_confirm.title")}
 						</AlertDialogTitle>
 						<AlertDialogDescription>
 							{t(
-								"settings.team.member_actions.remove_confirm.description_prefix",
+								"people.member_actions.remove_confirm.description_prefix",
 							)}{" "}
 							{memberName}?{" "}
 							{t(
-								"settings.team.member_actions.remove_confirm.description_suffix",
+								"people.member_actions.remove_confirm.description_suffix",
 							)}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
@@ -266,7 +261,6 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 						<AlertDialogAction
 							onClick={handleRemoveClick}
 							disabled={isRemoving}
-							// className="bg-red-600 hover:bg-red-700" // Use default destructive style if available
 						>
 							{t("common.actions.remove")}
 						</AlertDialogAction>

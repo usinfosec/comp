@@ -3,9 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import type { Role } from "@prisma/client";
 
 import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import type { ActionResponse } from "@/actions/types";
@@ -29,24 +30,24 @@ import {
 	FormMessage,
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@comp/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
+import { MultiRoleCombobox } from "./MultiRoleCombobox";
 
 // --- Constants for Roles ---
-const availableRoles = ["admin", "auditor", "employee"] as const;
-type InviteRole = (typeof availableRoles)[number];
-const DEFAULT_ROLE: InviteRole = "employee";
+const selectableRoles = [
+	"admin",
+	"auditor",
+	"employee",
+] as const satisfies Readonly<Role[]>;
+type InviteRole = (typeof selectableRoles)[number];
+const DEFAULT_ROLES: InviteRole[] = ["employee"];
 
 // --- Schemas ---
 const manualInviteSchema = z.object({
 	email: z.string().email({ message: "Invalid email address." }),
-	role: z.enum(availableRoles),
+	roles: z
+		.array(z.enum(selectableRoles))
+		.min(1, { message: "Please select at least one role." }),
 });
 
 // Define base schemas for each mode
@@ -85,7 +86,7 @@ interface InviteMembersModalProps {
 interface BulkInviteResultData {
 	successfulInvites: number;
 	failedItems: {
-		input: string | { email: string; role: InviteRole };
+		input: string | { email: string; role: InviteRole | InviteRole[] };
 		error: string;
 	}[];
 }
@@ -106,7 +107,7 @@ export function InviteMembersModal({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			mode: "manual",
-			manualInvites: [{ email: "", role: DEFAULT_ROLE }],
+			manualInvites: [{ email: "", roles: DEFAULT_ROLES }],
 			csvFile: undefined,
 		},
 		mode: "onChange",
@@ -139,6 +140,19 @@ export function InviteMembersModal({
 				return;
 			}
 			console.log("Manual invites to stringify:", values.manualInvites);
+			const invalidInvites = values.manualInvites.filter(
+				(invite) => !invite.roles || invite.roles.length === 0,
+			);
+			if (invalidInvites.length > 0) {
+				console.error(
+					`Manual mode validation failed: No roles selected for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
+				);
+				toast.error(
+					`Please select at least one role for: ${invalidInvites.map((i) => i.email || "invite").join(", ")}`,
+				);
+				setIsLoading(false);
+				return;
+			}
 			formData.append("invites", JSON.stringify(values.manualInvites));
 		} else if (values.mode === "csv") {
 			console.log("Processing CSV mode");
@@ -183,7 +197,7 @@ export function InviteMembersModal({
 		try {
 			console.log("Calling bulkInviteMembers server action directly...");
 			const result = await bulkInviteMembers(formData);
-			setLastResult(result);
+			setLastResult(result as ActionResponse<BulkInviteResultData>);
 
 			if (result.success && result.data) {
 				console.log("Server action success", { data: result.data });
@@ -261,7 +275,7 @@ export function InviteMembersModal({
 
 			if (newMode === "manual") {
 				if (fields.length === 0) {
-					append({ email: "", role: DEFAULT_ROLE });
+					append({ email: "", roles: DEFAULT_ROLES });
 				}
 				form.setValue("csvFile", undefined);
 				setCsvFileName(null);
@@ -286,11 +300,9 @@ export function InviteMembersModal({
 				}}
 			>
 				<DialogHeader>
-					<DialogTitle>
-						{t("settings.team.invite.modal_title")}
-					</DialogTitle>
+					<DialogTitle>{t("people.invite.title")}</DialogTitle>
 					<DialogDescription>
-						{t("settings.team.invite.modal_description")}
+						{t("people.invite.description")}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -301,12 +313,8 @@ export function InviteMembersModal({
 					>
 						<Tabs value={mode} onValueChange={handleModeChange}>
 							<TabsList className="grid w-full grid-cols-2">
-								<TabsTrigger value="manual">
-									{t("settings.team.tabs.manual")}
-								</TabsTrigger>
-								<TabsTrigger value="csv">
-									{t("settings.team.tabs.csv")}
-								</TabsTrigger>
+								<TabsTrigger value="manual">Manual</TabsTrigger>
+								<TabsTrigger value="csv">CSV</TabsTrigger>
 							</TabsList>
 
 							<TabsContent
@@ -326,14 +334,14 @@ export function InviteMembersModal({
 													{index === 0 && (
 														<FormLabel>
 															{t(
-																"settings.team.invite.form.emails.label",
+																"people.invite.email.label",
 															)}
 														</FormLabel>
 													)}
 													<FormControl>
 														<Input
 															placeholder={t(
-																"settings.team.invite.form.email.placeholder",
+																"people.invite.email.placeholder",
 															)}
 															{...field}
 															value={
@@ -346,57 +354,35 @@ export function InviteMembersModal({
 												</FormItem>
 											)}
 										/>
-										<FormField
+										<Controller
 											control={form.control}
-											name={`manualInvites.${index}.role`}
+											name={`manualInvites.${index}.roles`}
 											render={({
-												field: selectField,
+												field: { onChange, value },
+												fieldState: { error },
 											}) => (
-												<FormItem className="w-[130px]">
+												<FormItem className="w-[200px]">
 													{index === 0 && (
 														<FormLabel>
 															{t(
-																"settings.team.invite.form.role.label",
+																"people.invite.role.label",
 															)}
 														</FormLabel>
 													)}
-													<Select
-														onValueChange={
-															selectField.onChange
+													<MultiRoleCombobox
+														selectedRoles={
+															value || []
 														}
-														defaultValue={
-															selectField.value
+														onSelectedRolesChange={
+															onChange
 														}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue
-																	placeholder={t(
-																		"settings.team.invite.form.role.placeholder",
-																	)}
-																/>
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{availableRoles.map(
-																(role) => (
-																	<SelectItem
-																		key={
-																			role
-																		}
-																		value={
-																			role
-																		}
-																	>
-																		{t(
-																			`settings.team.members.role.${role}`,
-																		)}
-																	</SelectItem>
-																),
-															)}
-														</SelectContent>
-													</Select>
-													<FormMessage />
+														placeholder={t(
+															"people.invite.role.placeholder",
+														)}
+													/>
+													<FormMessage>
+														{error?.message}
+													</FormMessage>
 												</FormItem>
 											)}
 										/>
@@ -410,9 +396,7 @@ export function InviteMembersModal({
 											}
 											disabled={fields.length <= 1}
 											className={`mt-${index === 0 ? "6" : "0"} self-center ${fields.length <= 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-											aria-label={t(
-												"settings.team.invite.form.remove_invite_aria",
-											)}
+											aria-label="Remove invite"
 										>
 											<Trash2 className="h-4 w-4" />
 										</Button>
@@ -426,17 +410,15 @@ export function InviteMembersModal({
 									onClick={() =>
 										append({
 											email: "",
-											role: DEFAULT_ROLE,
+											roles: DEFAULT_ROLES,
 										})
 									}
 								>
 									<PlusCircle className="mr-2 h-4 w-4" />
-									{t("settings.team.invite.form.add_another")}
+									Add Another
 								</Button>
 								<FormDescription>
-									{t(
-										"settings.team.invite.form.manual_description",
-									)}
+									{t("people.invite.description")}
 								</FormDescription>
 							</TabsContent>
 
@@ -452,11 +434,7 @@ export function InviteMembersModal({
 										},
 									}) => (
 										<FormItem>
-											<FormLabel>
-												{t(
-													"settings.team.invite.form.csv_label",
-												)}
-											</FormLabel>
+											<FormLabel>CSV File</FormLabel>
 											<div className="flex items-center gap-2">
 												<Button
 													type="button"
@@ -495,23 +473,14 @@ export function InviteMembersModal({
 												/>
 											</FormControl>
 											<FormDescription>
-												{t(
-													"settings.team.invite.form.csv_description",
-													{
-														roles: availableRoles.join(
-															", ",
-														),
-													},
-												)}
+												CSV Template
 											</FormDescription>
 											<a
 												href={csvTemplateDataUri}
 												download="comp_invite_template.csv"
 												className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
 											>
-												{t(
-													"settings.team.invite.form.download_template",
-												)}
+												Download Template
 											</a>
 											<FormMessage />
 										</FormItem>
@@ -539,8 +508,8 @@ export function InviteMembersModal({
 									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 								)}
 								{isLoading
-									? t("settings.team.invite.button.sending")
-									: t("settings.team.invite.button.send")}
+									? t("people.invite.submitting")
+									: t("people.invite.submit")}
 							</Button>
 						</DialogFooter>
 					</form>
