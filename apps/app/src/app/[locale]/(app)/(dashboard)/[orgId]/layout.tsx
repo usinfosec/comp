@@ -49,7 +49,7 @@ export default async function Layout({
 				isCollapsed={isCollapsed}
 			>
 				<Header />
-				<main className="px-4 mx-auto">{children}</main>
+				<main className="px-4 mx-auto pb-8">{children}</main>
 				<AssistantSheet />
 			</AnimatedLayout>
 			<HotKeys />

@@ -11,3 +11,8 @@ body {
 	font-size: 11px !important;
 	line-height: 18px !important;
 }
+
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

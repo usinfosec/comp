@@ -291,7 +291,7 @@ const Item = ({
 									isCollapsed
 										? "md:w-[45px] md:justify-center rounded-sm"
 										: "md:px-3 rounded-l-sm",
-									"w-full px-3 md:w-auto h-[45px]",
+									"w-full px-3 md:w-auto h-[40px]",
 									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",
 									"transition-all duration-300",
 									isActive &&
@@ -300,7 +300,7 @@ const Item = ({
 							>
 								<div
 									className={cn(
-										"flex items-center gap-3",
+										"flex items-center gap-2",
 										"transition-all duration-300",
 									)}
 								>
