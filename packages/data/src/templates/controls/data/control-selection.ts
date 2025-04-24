@@ -10,9 +10,10 @@ export const controlSelection: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "control_implementation_records",
+			taskId: "control_implementation_records",
 		},
 	],
 	mappedRequirements: [

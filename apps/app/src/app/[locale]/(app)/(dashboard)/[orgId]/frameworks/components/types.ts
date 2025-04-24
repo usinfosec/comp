@@ -1,14 +1,14 @@
 import type {
-	Evidence,
 	FrameworkInstance,
 	IntegrationResult,
 	Policy,
+	Task,
 } from "@comp/db/types";
 import { FrameworkInstanceWithControls } from "../types";
 
 export interface ComplianceScoresProps {
 	policiesCompliance: number;
-	evidenceTasksCompliance: number;
+	tasksCompliance: number;
 	cloudTestsCompliance: number;
 	overallCompliance: number;
 	frameworkCompliance: {
@@ -17,7 +17,7 @@ export interface ComplianceScoresProps {
 		compliance: number;
 	}[];
 	policies: Policy[];
-	evidenceTasks: Evidence[];
+	tasks: Task[];
 	tests: IntegrationResult[];
 }
 

@@ -3,6 +3,6 @@ export const chartConfig = {
 		organizations: 30_000,
 		policies: 30_000,
 		users: 30_000,
-		evidence: 30_000,
+		task: 30_000,
 	},
 };

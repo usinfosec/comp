@@ -3,9 +3,7 @@
 import { SelectAssignee } from "@/components/SelectAssignee";
 import type { Member, Task, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
-import { Calendar } from "@comp/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { cn } from "@comp/ui/cn";
 import {
 	Form,
 	FormControl,
@@ -14,7 +12,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -23,8 +20,7 @@ import {
 	SelectValue,
 } from "@comp/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { ArrowRightIcon, CalendarIcon, Loader2 } from "lucide-react";
+import { ArrowRightIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -84,7 +80,6 @@ function TaskSecondaryFieldsForm({
 			id: task.id,
 			title: task.title,
 			description: task.description,
-			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			status: task.status,
 			assigneeId: task.assigneeId || null,
 		},
@@ -184,63 +179,6 @@ function TaskSecondaryFieldsForm({
 										</SelectContent>
 									</Select>
 								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name="dueDate"
-						render={({ field }) => (
-							<FormItem className="flex flex-col">
-								<FormLabel>Due Date</FormLabel>
-								<Popover>
-									<PopoverTrigger asChild>
-										<FormControl>
-											<Button
-												variant="outline"
-												className={cn(
-													"w-full pl-3 text-left font-normal",
-													!field.value &&
-													"text-muted-foreground",
-												)}
-											>
-												{field.value ? (
-													format(field.value, "PPP")
-												) : (
-													<span>Select a date</span>
-												)}
-												<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-											</Button>
-										</FormControl>
-									</PopoverTrigger>
-									<PopoverContent
-										className="w-auto p-0"
-										align="start"
-									>
-										<Calendar
-											mode="single"
-											selected={field.value}
-											onSelect={(date) => {
-												field.onChange(date);
-												form.handleSubmit(onSubmit)();
-											}}
-											disabled={(date) =>
-												date <
-												new Date(
-													new Date().setHours(
-														0,
-														0,
-														0,
-														0,
-													),
-												)
-											}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
 								<FormMessage />
 							</FormItem>
 						)}

@@ -99,9 +99,9 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "evidence",
-			path: "/:organizationId/evidence",
-			name: t("sidebar.evidence"),
+			id: "tasks",
+			path: "/:organizationId/tasks",
+			name: t("sidebar.tasks"),
 			disabled: false,
 			icon: ListCheck,
 			protected: false,
@@ -192,7 +192,6 @@ export function MainMenu({
 			);
 		}
 
-		// Compare the base segments (usually the feature section like "evidence", "settings", etc.)
 		return itemBaseSegment === currentBaseSegment;
 	};
 

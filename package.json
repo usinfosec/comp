@@ -50,6 +50,8 @@
 		"gitmoji": "^1.1.1",
 		"gray-matter": "^4.0.3",
 		"react": "^19.1.0",
+		"react-dnd": "^16.0.1",
+		"react-dnd-html5-backend": "^16.0.1",
 		"react-hook-form": "^7.55.0",
 		"sharp": "^0.33.5",
 		"use-debounce": "^10.0.4",

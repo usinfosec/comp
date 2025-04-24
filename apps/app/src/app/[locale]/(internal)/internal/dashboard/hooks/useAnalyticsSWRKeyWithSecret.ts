@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
  * automatically appending the 'secret' query parameter if present.
  * Returns null if the secret is not found, preventing SWR from fetching.
  *
- * @param apiEndpointBase The base path of the API endpoint (e.g., '/api/internal/dashboard/analytics/evidence')
+ * @param apiEndpointBase The base path of the API endpoint (e.g., '/api/internal/dashboard/analytics/task')
  * @returns The SWR key (URL string with secret or null)
  */
 export function useAnalyticsSWRKeyWithSecret(

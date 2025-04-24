@@ -83,12 +83,12 @@ model Member {
     department                      Departments                       @default(none)
     isActive                        Boolean                           @default(true)
     EmployeeTrainingVideoCompletion EmployeeTrainingVideoCompletion[]
-    Evidence                        Evidence[]
-    Policy                          Policy[]
-    Risk                            Risk[]
-    Task                            Task[]
-    Vendor                          Vendor[]
-    comments                        Comment[]
+
+    Policy   Policy[]
+    Risk     Risk[]
+    Task     Task[]
+    Vendor   Vendor[]
+    comments Comment[]
 }
 
 model Invitation {

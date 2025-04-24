@@ -10,9 +10,10 @@ export const externalCommunication: Control = {
 			type: "policy",
 			policyId: "corporate_governance_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "external_communication_records",
+			taskId: "external_communication_records",
 		},
 	],
 	mappedRequirements: [

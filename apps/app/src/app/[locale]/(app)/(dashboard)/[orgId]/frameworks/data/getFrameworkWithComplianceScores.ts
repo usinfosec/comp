@@ -1,19 +1,28 @@
 "use server";
 
-import type { Artifact, Evidence, Policy } from "@comp/db/types";
+import {
+	type Artifact,
+	type Task,
+	type Policy,
+	TaskEntityType,
+} from "@comp/db/types";
 import { FrameworkInstanceWithComplianceScore } from "../components/types";
 import { FrameworkInstanceWithControls } from "../types";
+import { db } from "@comp/db";
+import { headers } from "next/headers";
+import { auth } from "@/utils/auth";
 
 /**
- * Checks if a control is compliant based on its artifacts
+ * Checks if a control is compliant based on its artifacts and tasks
  * @param artifacts - The artifacts to check
- * @returns boolean indicating if all artifacts are compliant
+ * @param tasks - The tasks to check
+ * @returns boolean indicating if all artifacts and tasks are compliant
  */
 const isControlCompliant = (
 	artifacts: (Artifact & {
 		policy: Policy | null;
-		evidence: Evidence | null;
 	})[],
+	tasks: Task[],
 ) => {
 	// If there are no artifacts, the control is not compliant
 	if (!artifacts || artifacts.length === 0) {
@@ -27,18 +36,20 @@ const isControlCompliant = (
 		switch (artifact.type) {
 			case "policy":
 				return artifact.policy?.status === "published";
-			case "evidence":
-				return artifact.evidence?.status === "published";
-			case "procedure":
-			case "training":
-				// For other types, check if there's an associated artifact at all
-				return true;
 			default:
 				return false;
 		}
 	}).length;
 
-	return completedArtifacts === totalArtifacts;
+	const totalTasks = tasks.length;
+	const completedTasks = tasks.filter(
+		(task) => task.status === "done",
+	).length;
+
+	return (
+		completedArtifacts === totalArtifacts &&
+		(totalTasks === 0 || completedTasks === totalTasks)
+	);
 };
 
 /**
@@ -48,11 +59,11 @@ const isControlCompliant = (
  */
 export async function getFrameworkWithComplianceScores({
 	frameworksWithControls,
+	tasks,
 }: {
 	frameworksWithControls: FrameworkInstanceWithControls[];
+	tasks: Task[];
 }): Promise<FrameworkInstanceWithComplianceScore[]> {
-	// Get all framework instances for the organization
-
 	// Calculate compliance for each framework
 	const frameworksWithComplianceScores = frameworksWithControls.map(
 		(frameworkInstance) => {
@@ -61,9 +72,12 @@ export async function getFrameworkWithComplianceScores({
 
 			// Calculate compliance percentage
 			const totalControls = controls.length;
-			const compliantControls = controls.filter((control) =>
-				isControlCompliant(control.artifacts),
-			).length;
+			const compliantControls = controls.filter((control) => {
+				const controlTasks = tasks.filter(
+					(task) => task.entityId === control.id,
+				);
+				return isControlCompliant(control.artifacts, controlTasks);
+			}).length;
 
 			const compliance =
 				totalControls > 0

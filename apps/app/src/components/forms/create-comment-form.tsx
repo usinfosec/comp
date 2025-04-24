@@ -3,6 +3,7 @@
 import { addCommentAction } from "@/actions/add-comment";
 import { addCommentSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
+import { CommentEntityType } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -28,8 +29,10 @@ import { z } from "zod";
 
 export function CreateCommentForm({
 	entityId,
+	entityType,
 }: {
 	entityId: string;
+	entityType: CommentEntityType;
 }) {
 	const addComment = useAction(addCommentAction, {
 		onSuccess: () => {
@@ -45,6 +48,7 @@ export function CreateCommentForm({
 		addComment.execute({
 			...data,
 			entityId,
+			entityType,
 		});
 	};
 
@@ -53,6 +57,7 @@ export function CreateCommentForm({
 		defaultValues: {
 			content: "",
 			entityId,
+			entityType,
 		},
 		mode: "onChange",
 	});

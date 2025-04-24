@@ -10,9 +10,10 @@ export const securityEventAnalysis: Control = {
 			type: "policy",
 			policyId: "incident_response_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "incident_analysis_records",
+			taskId: "incident_analysis_records",
 		},
 	],
 	mappedRequirements: [

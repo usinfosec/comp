@@ -10,9 +10,10 @@ export const accuracyAndCompleteness: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "data_validation_records",
+			taskId: "data_validation_records",
 		},
 	],
 	mappedRequirements: [

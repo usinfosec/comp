@@ -6,6 +6,8 @@ import { getSingleFrameworkInstanceWithControls } from "../../../data/getSingleF
 import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
 import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
 import { RequirementControls } from "./components/RequirementControls";
+import { db } from "@comp/db";
+import { TaskEntityType } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -64,6 +66,14 @@ export default async function RequirementPage({ params }: PageProps) {
 		href: `/${organizationId}/frameworks/${frameworkInstanceId}/requirements/${req}`,
 	}));
 
+	const tasks =
+		(await db.task.findMany({
+			where: {
+				organizationId,
+				entityType: TaskEntityType.control,
+			},
+		})) || [];
+
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
@@ -86,6 +96,7 @@ export default async function RequirementPage({ params }: PageProps) {
 					frameworkInstanceWithControls={
 						frameworkInstanceWithControls
 					}
+					tasks={tasks}
 				/>
 			</div>
 		</PageWithBreadcrumb>

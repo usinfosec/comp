@@ -10,9 +10,10 @@ export const choiceAndConsent: Control = {
 			type: "policy",
 			policyId: "privacy_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "consent_records",
+			taskId: "consent_records",
 		},
 	],
 	mappedRequirements: [

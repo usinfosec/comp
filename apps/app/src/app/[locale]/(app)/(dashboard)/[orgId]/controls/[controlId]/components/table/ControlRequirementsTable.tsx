@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-table";
 
 import { Requirement } from "@comp/data";
-import type { Evidence, Policy } from "@comp/db/types";
+import type { Task, Policy } from "@comp/db/types";
 import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { useParams, useRouter } from "next/navigation";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
@@ -16,7 +16,7 @@ import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader
 // Define the type that matches what we receive from the hook
 export type RequirementTableData = Requirement & {
 	policy: Policy | null;
-	evidence: Evidence | null;
+	task: Task | null;
 };
 
 interface DataTableProps {
@@ -34,7 +34,7 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 	});
 
 	const onRowClick = (requirement: RequirementTableData) => {
-		switch (requirement.policy ? "policy" : "evidence") {
+		switch (requirement.policy ? "policy" : "task") {
 			case "policy":
 				if (requirement.policy?.id) {
 					router.push(
@@ -42,11 +42,9 @@ export function ControlRequirementsTable({ data }: DataTableProps) {
 					);
 				}
 				break;
-			case "evidence":
-				if (requirement.evidence?.id) {
-					router.push(
-						`/${orgId}/evidence/${requirement.evidence.id}`,
-					);
+			case "task":
+				if (requirement.task?.id) {
+					router.push(`/${orgId}/tasks/${requirement.task.id}`);
 				}
 				break;
 			default:

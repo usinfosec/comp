@@ -10,9 +10,10 @@ export const exceptionHandling: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "exception_logs",
+			taskId: "exception_logs",
 		},
 	],
 	mappedRequirements: [

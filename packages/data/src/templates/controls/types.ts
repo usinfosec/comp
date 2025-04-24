@@ -1,21 +1,16 @@
 import { FrameworkId } from "../../static/frameworks/types";
 import { AllRequirementIdsByFramework } from "../../static/requirements/types";
-import { TemplateEvidenceId } from "../evidence";
+import { TemplateTaskId } from "../tasks";
 import { TemplatePolicyId } from "../policies";
 
 /**
  * Represents an artifact associated with a control
  * that can be used to demonstrate compliance.
  */
-export type TemplateArtifact =
-	| {
-			type: "policy";
-			policyId: TemplatePolicyId;
-	  }
-	| {
-			type: "evidence";
-			evidenceId: TemplateEvidenceId;
-	  };
+export type TemplateArtifact = {
+	type: "policy";
+	policyId: TemplatePolicyId;
+};
 
 /**
  * Represents a requirement that a control addresses.
@@ -40,4 +35,6 @@ export interface TemplateControl {
 	mappedArtifacts: TemplateArtifact[];
 	/** List of requirements this control addresses */
 	mappedRequirements: TemplateRequirement[];
+	/** List of tasks this control addresses */
+	mappedTasks: { taskId: TemplateTaskId }[];
 }

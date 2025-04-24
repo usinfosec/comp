@@ -10,9 +10,10 @@ export const accessReview: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "access_review_records",
+			taskId: "access_review_records",
 		},
 	],
 	mappedRequirements: [

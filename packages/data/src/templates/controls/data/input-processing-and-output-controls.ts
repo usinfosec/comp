@@ -10,9 +10,10 @@ export const inputProcessingAndOutputControls: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "data_processing_logs",
+			taskId: "data_processing_logs",
 		},
 	],
 	mappedRequirements: [

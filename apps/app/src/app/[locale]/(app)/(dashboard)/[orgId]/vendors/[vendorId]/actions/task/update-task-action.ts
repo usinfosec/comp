@@ -36,7 +36,7 @@ export const updateVendorTaskAction = authActionClient
 					id: id,
 				},
 				select: {
-					relatedId: true,
+					entityId: true,
 				},
 			});
 
@@ -52,17 +52,16 @@ export const updateVendorTaskAction = authActionClient
 				data: {
 					title,
 					description,
-					dueDate,
 					status: status as TaskStatus,
 					assigneeId,
 				},
 			});
 
 			revalidatePath(
-				`/${session.activeOrganizationId}/vendors/${task.relatedId}`,
+				`/${session.activeOrganizationId}/vendors/${task.entityId}`,
 			);
 			revalidatePath(
-				`/${session.activeOrganizationId}/vendors/${task.relatedId}/tasks/${id}`,
+				`/${session.activeOrganizationId}/vendors/${task.entityId}/tasks/${id}`,
 			);
 			revalidateTag(`vendor_${session.activeOrganizationId}`);
 

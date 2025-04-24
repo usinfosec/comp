@@ -6,7 +6,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
-import { Artifact, Evidence, Policy } from "@comp/db/types";
+import { Artifact, Policy } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,7 +14,6 @@ import { useMemo, useState } from "react";
 
 interface ArtifactsTableProps {
 	artifacts: (Artifact & {
-		evidence: Evidence | null;
 		policy: Policy | null;
 	})[];
 	orgId: string;
@@ -33,7 +32,6 @@ export function ArtifactsTable({
 	const columns = useMemo<
 		ColumnDef<
 			Artifact & {
-				evidence: Evidence | null;
 				policy: Policy | null;
 			}
 		>[]
@@ -48,22 +46,13 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const name =
-						row.original.type === "evidence"
-							? row.original.evidence?.name
-							: row.original.policy?.name;
+					const name = row.original.policy?.name;
 					return <span>{name}</span>;
 				},
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
-					const nameA =
-						rowA.original.type === "evidence"
-							? rowA.original.evidence?.name || ""
-							: rowA.original.policy?.name || "";
-					const nameB =
-						rowB.original.type === "evidence"
-							? rowB.original.evidence?.name || ""
-							: rowB.original.policy?.name || "";
+					const nameA = rowA.original.policy?.name || "";
+					const nameB = rowB.original.policy?.name || "";
 					return nameA.localeCompare(nameB);
 				},
 			},
@@ -112,10 +101,7 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const rawStatus =
-						row.original.type === "evidence"
-							? row.original.evidence?.status
-							: row.original.policy?.status;
+					const rawStatus = row.original.policy?.status;
 
 					// Pass the mapped status directly to StatusIndicator
 					return <StatusIndicator status={rawStatus} />;
@@ -133,13 +119,7 @@ export function ArtifactsTable({
 		return artifacts.filter(
 			(artifact) =>
 				artifact.id.toLowerCase().includes(searchLower) ||
-				(artifact.type === "evidence"
-					? artifact.evidence?.name
-							?.toLowerCase()
-							.includes(searchLower) || false
-					: artifact.policy?.name
-							?.toLowerCase()
-							.includes(searchLower) || false) ||
+				artifact.policy?.name?.toLowerCase().includes(searchLower) ||
 				artifact.type.toLowerCase().includes(searchLower),
 		);
 	}, [artifacts, searchTerm]);
@@ -189,10 +169,6 @@ export function ArtifactsTable({
 					getRowId={(row) => {
 						if (row.type === "policy") {
 							return `/policies/${row.policyId}`;
-						}
-
-						if (row.type === "evidence") {
-							return `/evidence/${row.evidenceId}`;
 						}
 
 						return `/artifacts/${row.id}`;

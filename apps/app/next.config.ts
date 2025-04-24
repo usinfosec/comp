@@ -24,6 +24,9 @@ const config: NextConfig = {
 		},
 	},
 	experimental: {
+		serverActions: {
+			bodySizeLimit: "15mb",
+		},
 		authInterrupts: true,
 	},
 	async rewrites() {

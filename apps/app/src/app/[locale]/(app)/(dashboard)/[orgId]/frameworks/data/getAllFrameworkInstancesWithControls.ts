@@ -18,7 +18,6 @@ export async function getAllFrameworkInstancesWithControls({
 					artifacts: {
 						include: {
 							policy: true,
-							evidence: true,
 						},
 					},
 					requirementsMapped: true,

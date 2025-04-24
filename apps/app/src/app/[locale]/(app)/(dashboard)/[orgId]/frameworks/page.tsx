@@ -5,6 +5,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FrameworksOverview } from "./components/FrameworksOverview";
 import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInstancesWithControls";
+import { db } from "@comp/db";
+import { TaskEntityType } from "@comp/db/types";
 
 export async function generateMetadata() {
 	const t = await getI18n();
@@ -25,6 +27,7 @@ export default async function DashboardPage() {
 		redirect("/");
 	}
 
+	const tasks = await getControlTasks();
 	const frameworksWithControls = await getAllFrameworkInstancesWithControls({
 		organizationId,
 	});
@@ -35,7 +38,29 @@ export default async function DashboardPage() {
 		>
 			<FrameworksOverview
 				frameworksWithControls={frameworksWithControls}
+				tasks={tasks}
 			/>
 		</PageWithBreadcrumb>
 	);
 }
+
+const getControlTasks = async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
+
+	if (!organizationId) {
+		return [];
+	}
+
+	const tasks = await db.task.findMany({
+		where: {
+			organizationId,
+			entityType: TaskEntityType.control,
+		},
+	});
+
+	return tasks;
+};

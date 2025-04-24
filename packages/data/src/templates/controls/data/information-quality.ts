@@ -10,9 +10,10 @@ export const informationQuality: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "data_quality_documentation",
+			taskId: "data_quality_documentation",
 		},
 	],
 	mappedRequirements: [

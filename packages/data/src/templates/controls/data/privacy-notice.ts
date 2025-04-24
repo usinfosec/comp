@@ -10,9 +10,10 @@ export const privacyNotice: Control = {
 			type: "policy",
 			policyId: "privacy_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "privacy_notice",
+			taskId: "privacy_notice",
 		},
 	],
 	mappedRequirements: [

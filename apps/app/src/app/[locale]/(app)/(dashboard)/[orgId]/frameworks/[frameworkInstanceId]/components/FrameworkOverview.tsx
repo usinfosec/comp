@@ -6,21 +6,26 @@ import { Progress } from "@comp/ui/progress";
 import { getFrameworkDetails } from "../../lib/getFrameworkDetails";
 import { getControlStatus } from "../../lib/utils";
 import { FrameworkInstanceWithControls } from "../../types";
+import { Task } from "@comp/db/types";
+
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
+	tasks: Task[];
 }
 
 export function FrameworkOverview({
 	frameworkInstanceWithControls,
+	tasks,
 }: FrameworkOverviewProps) {
 	// Get all controls from all requirements
 	const allControls = frameworkInstanceWithControls.controls;
-
 	const totalControls = allControls.length;
 
 	// Calculate compliant controls (all artifacts completed)
 	const compliantControls = allControls.filter(
-		(control) => getControlStatus(control.artifacts) === "completed",
+		(control) =>
+			getControlStatus(control.artifacts, tasks, control.id) ===
+			"completed",
 	).length;
 
 	// Calculate compliance percentage based on compliant controls

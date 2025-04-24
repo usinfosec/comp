@@ -1,130 +1,113 @@
 "use server";
 
-import { authActionClient } from "@/actions/safe-action";
-import { UPLOAD_TYPE } from "@/actions/types";
-import { env } from "@/env.mjs";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@comp/db";
+import { AttachmentEntityType, AttachmentType } from "@comp/db/types";
 import { z } from "zod";
+import { s3Client, BUCKET_NAME } from "@/app/s3";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
+import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-if (!env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY) {
-	throw new Error("AWS credentials are not set");
+// Helper to map MIME type to AttachmentType enum
+function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
+	const type = fileType.split("/")[0];
+	switch (type) {
+		case "image":
+			return AttachmentType.image;
+		case "video":
+			return AttachmentType.video;
+		case "audio":
+			return AttachmentType.audio;
+		// Add more specific checks if needed (e.g., application/pdf)
+		case "application":
+			return AttachmentType.document;
+		default:
+			return AttachmentType.other;
+	}
 }
 
-const s3Client = new S3Client({
-	region: env.AWS_REGION!,
-	credentials: {
-		accessKeyId: env.AWS_ACCESS_KEY_ID!,
-		secretAccessKey: env.AWS_SECRET_ACCESS_KEY!,
-	},
+// Update schema to include base64 file data
+const uploadAttachmentSchema = z.object({
+	fileName: z.string(),
+	fileType: z.string(),
+	fileData: z.string(), // Base64 encoded file content
+	entityId: z.string(),
+	entityType: z.nativeEnum(AttachmentEntityType),
 });
 
-export const uploadFile = authActionClient
-	.schema(
-		z.discriminatedUnion("uploadType", [
-			z.object({
-				uploadType: z.literal(UPLOAD_TYPE.evidence),
-				evidenceId: z.string(),
-				fileName: z.string(),
-				fileType: z.string(),
-			}),
-			z.object({
-				uploadType: z.literal(UPLOAD_TYPE.riskTask),
-				taskId: z.string(),
-				fileName: z.string(),
-				fileType: z.string(),
-			}),
-			z.object({
-				uploadType: z.literal(UPLOAD_TYPE.vendorTask),
-				taskId: z.string(),
-				fileName: z.string(),
-				fileType: z.string(),
-			}),
-		]),
-	)
-	.metadata({
-		name: "uploadFile",
-		track: {
-			event: "upload-file",
-			channel: "server",
-		},
-	})
-	.action(async ({ ctx, parsedInput }) => {
-		const { user, session } = ctx;
-		const { uploadType, fileName, fileType } = parsedInput;
+export const uploadFile = async (
+	input: z.infer<typeof uploadAttachmentSchema>,
+) => {
+	const { fileName, fileType, fileData, entityId, entityType } = input;
+	const session = await auth.api.getSession({ headers: await headers() });
+	const organizationId = session?.session.activeOrganizationId;
 
-		if (!session.activeOrganizationId) {
-			return {
-				success: false,
-				error: "Not authorized - no organization found",
-			} as const;
-		}
+	if (!organizationId) {
+		return {
+			success: false,
+			error: "Not authorized - no organization found",
+			data: null,
+		};
+	}
 
-		try {
-			let key: string;
+	try {
+		// 1. Decode Base64 Data
+		const fileBuffer = Buffer.from(fileData, "base64");
 
-			if (uploadType === UPLOAD_TYPE.evidence) {
-				const evidenceId = parsedInput.evidenceId;
-				const evidence = await db.evidence.findFirst({
-					where: {
-						id: evidenceId,
-						organizationId: session.activeOrganizationId,
-					},
-				});
+		// 2. Prepare S3 Key
+		const timestamp = Date.now();
+		const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
+		const key = `${organizationId}/attachments/${entityType}/${entityId}/${timestamp}-${sanitizedFileName}`;
 
-				if (!evidence) {
-					return {
-						success: false,
-						error: "Evidence not found",
-					} as const;
-				}
+		// 3. Upload directly to S3 using shared client and bucket name
+		const putCommand = new PutObjectCommand({
+			Bucket: BUCKET_NAME,
+			Key: key,
+			Body: fileBuffer,
+			ContentType: fileType,
+		});
+		await s3Client.send(putCommand);
 
-				const timestamp = Date.now();
-				const sanitizedFileName = fileName.replace(
-					/[^a-zA-Z0-9.-]/g,
-					"_",
-				);
-				key = `${session.activeOrganizationId}/${evidenceId}/${timestamp}-${sanitizedFileName}`;
+		// 4. S3 Key is now stored in the DB. No need to construct full public URL here.
 
-				const command = new PutObjectCommand({
-					Bucket: process.env.AWS_BUCKET_NAME!,
-					Key: key,
-					ContentType: fileType,
-				});
+		// 5. Create Attachment Record in DB
+		const attachment = await db.attachment.create({
+			data: {
+				name: fileName,
+				url: key, // Store the S3 key in the 'url' field
+				type: mapFileTypeToAttachmentType(fileType),
+				entityId: entityId,
+				entityType: entityType,
+				organizationId: organizationId,
+			},
+		});
 
-				const uploadUrl = await getSignedUrl(s3Client, command, {
-					expiresIn: 3600, // URL expires in 1 hour
-				});
+		// 6. Generate Pre-signed URL for immediate access
+		const getCommand = new GetObjectCommand({
+			Bucket: BUCKET_NAME,
+			Key: key,
+		});
+		const signedUrl = await getSignedUrl(s3Client, getCommand, {
+			expiresIn: 900, // Expires in 15 minutes
+		});
 
-				const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+		// 7. Return Success with Attachment Info AND Signed URL
+		return {
+			success: true,
+			data: {
+				...attachment, // Include all DB record fields
+				signedUrl: signedUrl, // Add the temporary signed URL
+			},
+			error: null,
+		} as const;
+	} catch (error) {
+		console.error("Upload file action error:", error);
 
-				await db.evidence.update({
-					where: { id: evidenceId },
-					data: {
-						fileUrls: {
-							push: fileUrl,
-						},
-					},
-				});
-
-				return {
-					success: true,
-					data: {
-						uploadUrl,
-						fileUrl,
-					},
-				} as const;
-			}
-
-			return {
-				success: false,
-				error: "Invalid upload type",
-			} as const;
-		} catch (error) {
-			return {
-				success: false,
-				error: "Failed to upload file",
-			} as const;
-		}
-	});
+		return {
+			success: false,
+			error: "Failed to process file upload.",
+			data: null,
+		} as const;
+	}
+};
