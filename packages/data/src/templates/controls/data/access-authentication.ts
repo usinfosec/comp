@@ -10,9 +10,10 @@ export const accessAuthentication: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "authentication_records",
+			taskId: "authentication_records",
 		},
 	],
 	mappedRequirements: [

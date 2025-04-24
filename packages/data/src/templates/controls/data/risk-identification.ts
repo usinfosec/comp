@@ -10,9 +10,10 @@ export const riskIdentification: Control = {
 			type: "policy",
 			policyId: "risk_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "risk_identification_records",
+			taskId: "risk_identification_records",
 		},
 	],
 	mappedRequirements: [

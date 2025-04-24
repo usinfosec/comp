@@ -7,7 +7,7 @@ export const sidebar = {
 	vendors: "Vendors",
 	integrations: "Integrations",
 	settings: "Settings",
-	evidence: "Evidence Tasks",
+	tasks: "Tasks",
 	employees: "Employees",
 	tests: "Cloud Tests",
 } as const;

@@ -10,9 +10,10 @@ export const boardOversight: Control = {
 			type: "policy",
 			policyId: "corporate_governance_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "board_meeting_documentation",
+			taskId: "board_meeting_documentation",
 		},
 	],
 	mappedRequirements: [

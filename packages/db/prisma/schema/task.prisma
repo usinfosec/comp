@@ -1,16 +1,19 @@
 model Task {
     // Metadata
-    id          String     @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
+    id          String         @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
     title       String
     description String
-    status      TaskStatus @default(open)
-    relatedId   String
-    relatedType TaskType
+    status      TaskStatus     @default(todo)
+    entityId    String
+    entityType  TaskEntityType
+    frequency   TaskFrequency?
+    department  Departments?   @default(none)
+    order       Int            @default(0)
 
     // Dates
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    dueDate   DateTime
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+    lastCompletedAt DateTime?
 
     // Relationships
     assigneeId     String?
@@ -18,16 +21,26 @@ model Task {
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id])
 
-    @@index([relatedId])
-    @@index([relatedId, organizationId])
+    @@index([entityId])
+    @@index([entityId, organizationId])
 }
 
 enum TaskStatus {
-    open
-    closed
+    todo
+    in_progress
+    done
 }
 
-enum TaskType {
+enum TaskFrequency {
+    daily
+    weekly
+    monthly
+    quarterly
+    yearly
+}
+
+enum TaskEntityType {
+    control
     vendor
     risk
 }

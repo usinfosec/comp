@@ -1,4 +1,5 @@
 import {
+	CommentEntityType,
 	Departments,
 	FrameworkId,
 	Frequency,
@@ -303,4 +304,5 @@ export const addCommentSchema = z.object({
 			return val.replace(/<[^>]*>/g, "");
 		}),
 	entityId: z.string().min(1, "Entity ID is required"),
+	entityType: z.nativeEnum(CommentEntityType),
 });

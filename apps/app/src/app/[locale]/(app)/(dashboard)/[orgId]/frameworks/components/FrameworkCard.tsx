@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { Task } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import {
 	Card,
@@ -20,11 +21,13 @@ import { FrameworkInstanceWithControls } from "../types";
 interface FrameworkCardProps {
 	frameworkInstance: FrameworkInstanceWithControls;
 	complianceScore: number;
+	tasks: Task[];
 }
 
 export function FrameworkCard({
 	frameworkInstance,
 	complianceScore,
+	tasks,
 }: FrameworkCardProps) {
 	const { orgId } = useParams<{ orgId: string }>();
 	const t = useI18n();
@@ -68,21 +71,38 @@ export function FrameworkCard({
 		(complianceScore / 100) * controlsCount,
 	);
 
-	// Calculate not started controls: controls where all artifacts are draft or non-existent
+	// Calculate not started controls: controls where all artifacts are draft or non-existent AND all tasks are todo or non-existent
 	const notStartedControlsCount =
 		frameworkInstance.controls?.filter((control) => {
-			// If a control has no artifacts, it's not started.
-			if (!control.artifacts || control.artifacts.length === 0) {
+			// If a control has no artifacts and no tasks, it's not started.
+			const controlTasks = tasks.filter(
+				(task) => task.entityId === control.id,
+			);
+
+			if (
+				(!control.artifacts || control.artifacts.length === 0) &&
+				controlTasks.length === 0
+			) {
 				return true;
 			}
+
 			// Check if ALL artifacts are in draft state or non-existent
-			return control.artifacts.every((artifact) => {
-				const isPolicyDraft =
-					!artifact.policy || artifact.policy.status === "draft";
-				const isEvidenceDraft =
-					!artifact.evidence || artifact.evidence.status === "draft";
-				return isPolicyDraft && isEvidenceDraft;
-			});
+			const artifactsNotStarted =
+				!control.artifacts ||
+				control.artifacts.length === 0 ||
+				control.artifacts.every((artifact) => {
+					const isPolicyDraft =
+						!artifact.policy || artifact.policy.status === "draft";
+					return isPolicyDraft;
+				});
+
+			// Check if ALL tasks are in todo state or there are no tasks
+			const tasksNotStarted =
+				controlTasks.length === 0 ||
+				controlTasks.every((task) => task.status === "todo");
+
+			return artifactsNotStarted && tasksNotStarted;
+			// If either any artifact is not draft or any task is not todo, it's in progress
 		}).length || 0;
 
 	// Calculate in progress controls: Total - Compliant - Not Started
@@ -168,7 +188,7 @@ export function FrameworkCard({
 								</span>
 							</div>
 							<p className="font-medium text-sm">
-								{controlsCount} {t("evidence.items")}
+								{controlsCount} {t("tasks.items")}
 							</p>
 						</div>
 						<div className="flex flex-col items-start gap-1 border-r pr-3">

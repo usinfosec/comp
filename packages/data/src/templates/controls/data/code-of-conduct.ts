@@ -10,9 +10,10 @@ export const codeOfConduct: Control = {
 			type: "policy",
 			policyId: "code_of_conduct_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "ethics_compliance_documentation",
+			taskId: "ethics_compliance_documentation",
 		},
 	],
 	mappedRequirements: [

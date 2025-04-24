@@ -1,4 +1,4 @@
-import type { Frequency } from "@comp/db/types";
+import { TaskFrequency } from "@comp/db/types";
 import { differenceInDays, startOfDay } from "date-fns";
 
 interface ReviewInfo {
@@ -8,13 +8,13 @@ interface ReviewInfo {
 }
 
 export function calculateNextReview(
-	lastPublishedAt: Date | null,
-	frequency: Frequency | null,
+	lastCompletedAt: Date | null,
+	frequency: TaskFrequency | null,
 	urgentThresholdDays = 7,
 ): ReviewInfo | null {
-	if (!frequency || !lastPublishedAt) return null;
+	if (!frequency || !lastCompletedAt) return null;
 
-	const baseDate = new Date(lastPublishedAt);
+	const baseDate = new Date(lastCompletedAt);
 	const nextReviewDate = new Date(baseDate);
 
 	switch (frequency) {

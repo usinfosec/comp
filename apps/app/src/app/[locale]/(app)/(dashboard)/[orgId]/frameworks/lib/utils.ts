@@ -1,38 +1,46 @@
 import { StatusType } from "@/components/status-indicator";
 // Import base types explicitly
-import type {
-	Artifact,
-	Evidence,
-	EvidenceStatus,
-	Policy,
-	PolicyStatus,
-} from "@comp/db/types";
+import type { Artifact, Policy, PolicyStatus } from "@comp/db/types";
+import { Task } from "@comp/db/types";
 
 // Define the expected artifact structure explicitly, allowing null status
 type ArtifactWithRelations = Artifact & {
 	policy: (Policy & { status: PolicyStatus | null }) | null;
-	evidence: (Evidence & { status: EvidenceStatus | null }) | null;
 };
 
 // Function to determine control status based on artifacts
 export function getControlStatus(
 	artifacts: ArtifactWithRelations[], // Use the explicit type
+	tasks: Task[],
+	controlId: string,
 ): StatusType {
-	if (!artifacts || artifacts.length === 0) return "not_started";
+	const controlTasks = tasks.filter((task) => task.entityId === controlId);
 
-	const totalArtifacts = artifacts.length;
-	const completedArtifacts = artifacts.filter((artifact) => {
-		switch (artifact.type) {
-			case "policy":
-				return artifact.policy?.status === "published";
-			case "evidence":
-				return artifact.evidence?.status === "published";
-			default:
-				return false;
-		}
-	}).length;
+	// All artifacts are draft or none
+	const allArtifactsDraft =
+		!artifacts.length ||
+		artifacts.every(
+			(artifact) =>
+				!artifact.policy || artifact.policy.status === "draft",
+		);
+	// All tasks are todo or none
+	const allTasksTodo =
+		!controlTasks.length ||
+		controlTasks.every((task) => task.status === "todo");
 
-	if (completedArtifacts === 0) return "not_started";
-	if (completedArtifacts === totalArtifacts) return "completed";
+	// All artifacts are published (or none) AND all tasks are done (or none)
+	const allArtifactsPublished =
+		artifacts.length > 0 &&
+		artifacts.every(
+			(artifact) =>
+				artifact.policy && artifact.policy.status === "published",
+		);
+	const allTasksDone =
+		controlTasks.length > 0 &&
+		controlTasks.every((task) => task.status === "done");
+
+	if (allArtifactsPublished && (controlTasks.length === 0 || allTasksDone))
+		return "completed";
+	if (allArtifactsDraft && allTasksTodo) return "not_started";
 	return "in_progress";
 }

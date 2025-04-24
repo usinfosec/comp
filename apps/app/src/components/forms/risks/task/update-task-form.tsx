@@ -55,9 +55,8 @@ export function UpdateTaskForm({
 		resolver: zodResolver(updateTaskSchema),
 		defaultValues: {
 			id: task.id,
-			dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 			assigneeId: task.assigneeId,
-			status: task.status ?? TaskStatus.open,
+			status: task.status,
 		},
 	});
 
@@ -176,7 +175,7 @@ export function UpdateTaskForm({
 												className={cn(
 													"pl-3 text-left font-normal",
 													!field.value &&
-													"text-muted-foreground",
+														"text-muted-foreground",
 												)}
 											>
 												{field.value ? (

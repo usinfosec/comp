@@ -7,9 +7,9 @@ export * from "./static/frameworks/types";
 export * from "./static/requirements/types";
 
 export * from "./templates/policies";
-export * from "./templates/evidence";
+export * from "./templates/tasks";
 export * from "./templates/controls";
 
 export * from "./templates/policies/types";
-export * from "./templates/evidence/types";
+export * from "./templates/tasks/types";
 export * from "./templates/controls/types";

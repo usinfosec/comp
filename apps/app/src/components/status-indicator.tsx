@@ -7,10 +7,11 @@ export const STATUS_TYPES = [
 	"draft",
 	"published",
 	"archived",
+	"in_progress",
+
 	// Policy
 	"needs_review",
-	// Evidence
-	"not_relevant", // Note: Mapped from DB's not_relevant
+
 	// Risk
 	"open",
 	"pending",
@@ -18,8 +19,11 @@ export const STATUS_TYPES = [
 
 	// Control
 	"not_started",
-	"in_progress",
 	"completed",
+
+	// Task
+	"todo",
+	"done",
 ] as const;
 
 export type StatusType = (typeof STATUS_TYPES)[number];
@@ -30,8 +34,10 @@ export const STATUS_COLORS: Record<StatusType, string> = {
 	published: "#00DC73", // Green
 	open: "#00DC73", // Green
 	completed: "#00DC73", // Green
+	done: "#00DC73", // Green
 	closed: "#0ea5e9", // Blue (Completed/Done)
 	archived: "#6b7280", // Gray
+	todo: "#6b7280", // Yellow
 
 	// Neutral / In Progress
 	draft: "#ffc107", // Yellow
@@ -40,7 +46,6 @@ export const STATUS_COLORS: Record<StatusType, string> = {
 
 	// Warning / Needs Attention
 	needs_review: "#ff0000", // Red
-	not_relevant: "#ff0000", // Red
 	not_started: "#ff0000", // Red
 } as const;
 
@@ -52,22 +57,24 @@ export const getStatusTranslation = (
 	switch (status) {
 		case "draft":
 			return t("common.status.draft");
+		case "todo":
+			return t("common.status.todo");
+		case "in_progress":
+			return t("common.status.in_progress");
+		case "done":
+			return t("common.status.done");
 		case "published":
 			return t("common.status.published");
 		case "archived":
 			return t("common.status.archived");
 		case "needs_review":
 			return t("common.status.needs_review");
-		case "not_relevant":
-			return t("common.status.not_relevant");
 		case "open":
 			return t("common.status.open");
 		case "pending":
 			return t("common.status.pending");
 		case "closed":
 			return t("common.status.closed");
-
-		// Task statuses reuse open/closed
 
 		default: {
 			// Fallback for unmapped statuses

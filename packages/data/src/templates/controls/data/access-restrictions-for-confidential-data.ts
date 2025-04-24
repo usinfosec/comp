@@ -10,9 +10,10 @@ export const accessRestrictionsForConfidentialData: Control = {
 			type: "policy",
 			policyId: "classification_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "access_logs",
+			taskId: "access_logs",
 		},
 	],
 	mappedRequirements: [
