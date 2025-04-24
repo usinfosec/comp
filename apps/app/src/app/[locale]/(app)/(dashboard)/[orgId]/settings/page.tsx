@@ -19,7 +19,7 @@ export default async function OrganizationSettings({
 	const organization = await organizationDetails();
 
 	return (
-		<div className="space-y-12">
+		<div className="space-y-4">
 			<UpdateOrganizationName
 				organizationName={organization?.name ?? ""}
 			/>

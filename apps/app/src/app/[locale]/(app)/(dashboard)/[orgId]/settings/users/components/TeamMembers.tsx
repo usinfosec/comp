@@ -4,6 +4,7 @@ import { inviteMember } from "@/actions/organization/invite-member";
 import { removeMember } from "@/actions/organization/remove-member";
 import { revokeInvitation } from "@/actions/organization/revoke-invitation";
 import { updateMemberRole } from "@/actions/organization/update-member-role";
+import { bulkInviteMembers } from "@/actions/organization/bulk-invite-members";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Invitation, Member, User } from "@prisma/client";
@@ -38,11 +39,7 @@ export async function TeamMembers() {
 			},
 		});
 
-		members = fetchedMembers.filter(
-			(member) =>
-				!member.role.split(",").includes("employee") &&
-				member.role.split(",").length > 0,
-		);
+		members = fetchedMembers;
 
 		pendingInvitations = await db.invitation.findMany({
 			where: {
@@ -64,6 +61,7 @@ export async function TeamMembers() {
 			removeMemberAction={removeMember}
 			updateMemberRoleAction={updateMemberRole}
 			revokeInvitationAction={revokeInvitation}
+			bulkInviteMembersAction={bulkInviteMembers}
 		/>
 	);
 }

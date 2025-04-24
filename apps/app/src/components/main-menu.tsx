@@ -304,7 +304,13 @@ const Item = ({
 										"transition-all duration-300",
 									)}
 								>
-									{Icon && <Icon size={18} />}
+									{Icon && (
+										<div className="flex-shrink-0">
+											<Icon
+												size={isCollapsed ? 16 : 14}
+											/>
+										</div>
+									)}
 									{!isCollapsed && (
 										<div className="flex items-center justify-between w-full">
 											<span

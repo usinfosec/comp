@@ -24,8 +24,8 @@ export const settings = {
 		org_name_updated: "Organization name updated",
 		org_name_error: "Error updating organization name",
 	},
-	members: {
-		title: "Members",
+	users: {
+		title: "User Management",
 	},
 	api_keys: {
 		title: "API",
@@ -78,6 +78,12 @@ export const settings = {
 		title: "Team Settings",
 		search: {
 			placeholder: "Search members or invites...",
+		},
+		filter: {
+			role: {
+				placeholder: "Filter by role...",
+				all: "All Roles",
+			},
 		},
 		empty: {
 			title: "No team members yet",
@@ -153,6 +159,9 @@ export const settings = {
 		},
 		invite: {
 			title: "Invite Team Member",
+			modal_title: "Invite New Team Members",
+			modal_description:
+				"Enter email addresses separated by commas, spaces, or new lines. Assign a role for all invited members.",
 			description:
 				"Send an invitation to a new team member to join your organization",
 			error: {
@@ -161,6 +170,12 @@ export const settings = {
 				home: "Go to Home",
 			},
 			form: {
+				emails: {
+					label: "Email Addresses",
+					placeholder: "member1@example.com, member2@example.com",
+					description:
+						"Separate multiple emails with commas, spaces, or new lines.",
+				},
 				email: {
 					label: "Email",
 					placeholder: "member@example.com",

@@ -33,8 +33,8 @@ export default async function Layout({
 							label: t("settings.general.title"),
 						},
 						{
-							path: `/${orgId}/settings/members`,
-							label: t("settings.members.title"),
+							path: `/${orgId}/settings/users`,
+							label: t("settings.users.title"),
 						},
 						{
 							path: `/${orgId}/settings/api-keys`,

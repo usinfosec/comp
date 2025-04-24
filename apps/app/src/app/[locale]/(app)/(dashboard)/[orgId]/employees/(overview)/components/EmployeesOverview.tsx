@@ -3,7 +3,6 @@ import { trainingVideos as trainingVideosData } from "@comp/data";
 import { db } from "@comp/db";
 import { Member } from "@comp/db/types";
 import { headers } from "next/headers";
-import { cache } from "react";
 import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
 
 export async function EmployeesOverview() {
@@ -23,7 +22,7 @@ export async function EmployeesOverview() {
 	);
 }
 
-const getEmployees = cache(async () => {
+const getEmployees = async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -45,9 +44,9 @@ const getEmployees = cache(async () => {
 	});
 
 	return employees;
-});
+};
 
-const getEmployeePolicies = cache(async () => {
+const getEmployeePolicies = async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -66,9 +65,9 @@ const getEmployeePolicies = cache(async () => {
 	});
 
 	return policies;
-});
+};
 
-const getTrainingVideos = cache(async (employees: Member[]) => {
+const getTrainingVideos = async (employees: Member[]) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -107,4 +106,4 @@ const getTrainingVideos = cache(async (employees: Member[]) => {
 	}
 
 	return processedVideos;
-});
+};

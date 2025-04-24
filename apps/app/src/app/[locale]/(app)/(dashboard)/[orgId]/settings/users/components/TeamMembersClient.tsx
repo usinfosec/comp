@@ -4,6 +4,7 @@ import { Mail, Search, UserPlus, X } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { parseAsString, useQueryState } from "nuqs";
 
 import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
@@ -25,10 +26,13 @@ import { PendingInvitationRow } from "./PendingInvitationRow";
 import type { MemberWithUser, TeamMembersData } from "./TeamMembers";
 
 // Import the server actions themselves to get their types
+import { bulkInviteMembers } from "@/actions/organization/bulk-invite-members";
 import { removeMember } from "@/actions/organization/remove-member";
 import { revokeInvitation } from "@/actions/organization/revoke-invitation";
 import { updateMemberRole } from "@/actions/organization/update-member-role";
 import { invalidateMembers } from "./invalidateMembers";
+
+import { InviteMembersModal } from "./InviteMembersModal";
 
 // Define prop types using typeof for the actions
 interface TeamMembersClientProps {
@@ -37,6 +41,7 @@ interface TeamMembersClientProps {
 	removeMemberAction: typeof removeMember;
 	updateMemberRoleAction: typeof updateMemberRole;
 	revokeInvitationAction: typeof revokeInvitation;
+	bulkInviteMembersAction: typeof bulkInviteMembers; // Added prop
 }
 
 // Define a simplified type for merged list items
@@ -55,13 +60,20 @@ export function TeamMembersClient({
 	removeMemberAction,
 	updateMemberRoleAction,
 	revokeInvitationAction,
+	bulkInviteMembersAction,
 }: TeamMembersClientProps) {
 	const t = useI18n();
-	const [searchQuery, setSearchQuery] = useState("");
-	const [inviteEmail, setInviteEmail] = useState("");
-	const [inviteRole, setInviteRole] = useState<Role>("auditor");
-	const [showInviteForm, setShowInviteForm] = useState(false);
-	const [isInviting, setIsInviting] = useState(false);
+	const [searchQuery, setSearchQuery] = useQueryState(
+		"search",
+		parseAsString.withDefault(""),
+	);
+	const [roleFilter, setRoleFilter] = useQueryState(
+		"role",
+		parseAsString.withDefault("all"),
+	);
+
+	// Add state for the modal
+	const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
 
 	// Combine and type members and invitations for filtering/display
 	const allItems: DisplayItem[] = [
@@ -85,13 +97,20 @@ export function TeamMembersClient({
 		})),
 	];
 
-	const filteredItems = allItems.filter(
-		(item) =>
+	const filteredItems = allItems.filter((item) => {
+		const matchesSearch =
 			item.displayName
 				.toLowerCase()
 				.includes(searchQuery.toLowerCase()) ||
-			item.displayEmail.toLowerCase().includes(searchQuery.toLowerCase()),
-	);
+			item.displayEmail.toLowerCase().includes(searchQuery.toLowerCase());
+
+		const matchesRole =
+			roleFilter === "all" ||
+			(item.type === "member" && item.role === roleFilter) ||
+			(item.type === "invitation" && item.role === roleFilter);
+
+		return matchesSearch && matchesRole;
+	});
 
 	const activeMembers = filteredItems.filter(
 		(item) => item.type === "member",
@@ -99,33 +118,6 @@ export function TeamMembersClient({
 	const pendingInvites = filteredItems.filter(
 		(item) => item.type === "invitation",
 	);
-
-	const handleInvite = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (inviteEmail && inviteRole && !isInviting) {
-			setIsInviting(true);
-			try {
-				await authClient.organization.inviteMember({
-					email: inviteEmail,
-					role: inviteRole,
-				});
-
-				await invalidateMembers({ organizationId });
-
-				toast.success(t("settings.team.invite.toast.success"), {});
-				setInviteEmail("");
-			} catch (error) {
-				console.error("Invite Error:", error);
-				const errorMessage =
-					error instanceof Error
-						? error.message
-						: t("settings.team.invite.toast.failure");
-				toast.error(errorMessage, {});
-			} finally {
-				setIsInviting(false);
-			}
-		}
-	};
 
 	const handleCancelInvitation = async (invitationId: string) => {
 		const result = await revokeInvitationAction({ invitationId });
@@ -137,7 +129,7 @@ export function TeamMembersClient({
 			// Error case
 			const errorMessage =
 				result?.serverError ||
-				t("settings.team.pending.toast.cancel_failure");
+				t("settings.team.invitations.toast.cancel_failure");
 			console.error("Cancel Invitation Error:", errorMessage);
 		}
 	};
@@ -174,108 +166,72 @@ export function TeamMembersClient({
 
 	return (
 		<div className="">
-			<div className="flex items-center justify-between mb-6">
-				<h1 className="text-2xl font-bold">
-					{t("settings.team.title")}
-				</h1>
-				<Button onClick={() => setShowInviteForm(!showInviteForm)}>
+			{/* Render the Invite Modal */}
+			<InviteMembersModal
+				open={isInviteModalOpen}
+				onOpenChange={setIsInviteModalOpen}
+				organizationId={organizationId}
+				bulkInviteAction={bulkInviteMembersAction}
+			/>
+
+			<div className="flex items-center justify-between mb-6 gap-4">
+				<div className="relative flex-1">
+					<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+					<Input
+						placeholder={t("settings.team.search.placeholder")}
+						className="pl-8"
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.target.value || null)}
+					/>
+					{searchQuery && (
+						<Button
+							variant="ghost"
+							size="sm"
+							className="absolute right-1 top-1 h-7 w-7 p-0"
+							onClick={() => setSearchQuery(null)}
+						>
+							<X className="h-4 w-4" />
+							<span className="sr-only">
+								{t("common.actions.clear")}
+							</span>
+						</Button>
+					)}
+				</div>
+				<Select
+					value={roleFilter}
+					onValueChange={(value) =>
+						setRoleFilter(value === "all" ? null : value)
+					}
+				>
+					<SelectTrigger className="w-[180px]">
+						<SelectValue
+							placeholder={t(
+								"settings.team.filter.role.placeholder",
+							)}
+						/>
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="all">
+							{t("settings.team.filter.role.all")}
+						</SelectItem>
+						<SelectItem value="admin">
+							{t("settings.team.members.role.admin")}
+						</SelectItem>
+						<SelectItem value="auditor">
+							{t("settings.team.members.role.auditor")}
+						</SelectItem>
+						<SelectItem value="employee">
+							{t("settings.team.members.role.employee")}
+						</SelectItem>
+					</SelectContent>
+				</Select>
+				<Button onClick={() => setIsInviteModalOpen(true)}>
 					<UserPlus className="mr-2 h-4 w-4" />
 					{t("settings.team.invite.button.send")}
 				</Button>
 			</div>
-			<Card className="border shadow-sm">
+			<Card className="border">
 				<CardContent className="p-0">
-					<div className="p-4 border-b">
-						<div className="relative">
-							<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-							<Input
-								placeholder={t(
-									"settings.team.search.placeholder",
-								)}
-								className="pl-8"
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-							/>
-							{searchQuery && (
-								<Button
-									variant="ghost"
-									size="sm"
-									className="absolute right-1 top-1 h-7 w-7 p-0"
-									onClick={() => setSearchQuery("")}
-								>
-									<X className="h-4 w-4" />
-									<span className="sr-only">
-										{t("common.actions.clear")}
-									</span>
-								</Button>
-							)}
-						</div>
-					</div>
-
-					{showInviteForm && (
-						<div className="p-4 bg-muted/30 border-b">
-							<form
-								onSubmit={handleInvite}
-								className="flex flex-col sm:flex-row gap-3"
-							>
-								<Input
-									placeholder={t(
-										"settings.team.invite.form.email.placeholder",
-									)}
-									type="email"
-									value={inviteEmail}
-									onChange={(e) =>
-										setInviteEmail(e.target.value)
-									}
-									required
-									className="flex-1"
-								/>
-								<Select
-									value={inviteRole}
-									onValueChange={(value) =>
-										setInviteRole(value as Role)
-									}
-								>
-									<SelectTrigger className="w-full sm:w-[140px]">
-										<SelectValue
-											placeholder={t(
-												"settings.team.invite.form.role.placeholder",
-											)}
-										/>
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="admin">
-											{t(
-												"settings.team.members.role.admin",
-											)}
-										</SelectItem>
-										<SelectItem value="auditor">
-											{t(
-												"settings.team.members.role.auditor",
-											)}
-										</SelectItem>
-										<SelectItem value="employee">
-											{t(
-												"settings.team.members.role.employee",
-											)}
-										</SelectItem>
-									</SelectContent>
-								</Select>
-								<Button
-									type="submit"
-									className="w-full sm:w-auto"
-									disabled={isInviting}
-								>
-									{isInviting
-										? t(
-												"settings.team.invite.button.sending",
-											)
-										: t("settings.team.invite.button.send")}
-								</Button>
-							</form>
-						</div>
-					)}
-
 					<div className="divide-y">
 						{activeMembers.map((member) => (
 							<MemberRow
@@ -287,26 +243,26 @@ export function TeamMembersClient({
 						))}
 					</div>
 
+					{/* Conditionally render separator only if both sections have content */}
+					{activeMembers.length > 0 && pendingInvites.length > 0 && (
+						<Separator />
+					)}
+
 					{pendingInvites.length > 0 && (
-						<>
-							<Separator />
-							<div className="p-3 bg-muted/20">
-								<h3 className="text-sm font-medium text-muted-foreground px-3 mb-2">
-									{t("settings.team.invitations.title")}
-								</h3>
-								<div className="divide-y divide-dashed">
-									{pendingInvites.map((invitation) => (
-										<PendingInvitationRow
-											key={invitation.displayId}
-											invitation={
-												invitation as Invitation
-											}
-											onCancel={handleCancelInvitation}
-										/>
-									))}
-								</div>
+						<div className="p-3 bg-muted/20">
+							<h3 className="text-sm font-medium text-muted-foreground px-3 mb-2">
+								{t("settings.team.invitations.title")}
+							</h3>
+							<div className="divide-y divide-dashed">
+								{pendingInvites.map((invitation) => (
+									<PendingInvitationRow
+										key={invitation.displayId}
+										invitation={invitation as Invitation}
+										onCancel={handleCancelInvitation}
+									/>
+								))}
 							</div>
-						</>
+						</div>
 					)}
 
 					{activeMembers.length === 0 &&
@@ -321,7 +277,7 @@ export function TeamMembersClient({
 								</p>
 								<Button
 									className="mt-4"
-									onClick={() => setShowInviteForm(true)}
+									onClick={() => setIsInviteModalOpen(true)}
 								>
 									<UserPlus className="mr-2 h-4 w-4" />
 									{t("settings.team.invite.button.send")}

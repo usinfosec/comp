@@ -1,5 +1,4 @@
 import { AppOnboarding } from "@/components/app-onboarding";
-import { EmployeeInviteSheet } from "@/components/sheets/EmployeeInviteSheet";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
@@ -61,7 +60,6 @@ export default async function Layout({
 								},
 							]}
 						/>
-						<EmployeeInviteSheet />
 					</div>
 				</Suspense>
 			</div>
