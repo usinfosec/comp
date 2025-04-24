@@ -119,44 +119,48 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 				</div>
 				<div className="flex items-center gap-2">
 					<Badge variant="outline">{currentRole}</Badge>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								size="sm"
-								className="h-8 w-8 p-0"
-							>
-								<MoreHorizontal className="h-4 w-4" />
-								<span className="sr-only">Open menu</span>
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{canChangeRole && (
-								<DropdownMenuItem
-									onSelect={() => setIsRoleDialogOpen(true)}
+					{currentRole !== "owner" && (
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="h-8 w-8 p-0"
 								>
-									{t(
-										"settings.team.member_actions.change_role",
-									)}
-								</DropdownMenuItem>
-							)}
-							{canRemove && (
-								<>
-									<DropdownMenuSeparator />
+									<MoreHorizontal className="h-4 w-4" />
+									<span className="sr-only">Open menu</span>
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								{canChangeRole && (
 									<DropdownMenuItem
-										className="text-red-600"
 										onSelect={() =>
-											setIsRemoveAlertOpen(true)
+											setIsRoleDialogOpen(true)
 										}
 									>
 										{t(
-											"settings.team.member_actions.remove_member",
+											"settings.team.member_actions.change_role",
 										)}
 									</DropdownMenuItem>
-								</>
-							)}
-						</DropdownMenuContent>
-					</DropdownMenu>
+								)}
+								{canRemove && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											className="text-red-600"
+											onSelect={() =>
+												setIsRemoveAlertOpen(true)
+											}
+										>
+											{t(
+												"settings.team.member_actions.remove_member",
+											)}
+										</DropdownMenuItem>
+									</>
+								)}
+							</DropdownMenuContent>
+						</DropdownMenu>
+					)}
 				</div>
 			</div>
 
