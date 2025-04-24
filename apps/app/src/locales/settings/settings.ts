@@ -27,6 +27,20 @@ export const settings = {
 	users: {
 		title: "User Management",
 	},
+	team: {
+		tabs: {
+			members: "Members",
+			invite: "Invite",
+		},
+		members: {
+			title: "Team Members",
+			description: "Manage your team members and their roles.",
+		},
+		invite: {
+			title: "Invite Members",
+			description: "Invite new members to join your organization.",
+		},
+	},
 	api_keys: {
 		title: "API",
 		description:
