@@ -37,7 +37,6 @@ export default async function PolicyDetails({
 					policy?.content ? (policy.content as JSONContent[]) : []
 				}
 			/>
-			<Comments entityId={policyId} comments={comments} />
 		</PageWithBreadcrumb>
 	);
 }
