@@ -10,9 +10,10 @@ export const infrastructureMonitoring: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "infrastructure_monitoring_records",
+			taskId: "infrastructure_monitoring_records",
 		},
 	],
 	mappedRequirements: [

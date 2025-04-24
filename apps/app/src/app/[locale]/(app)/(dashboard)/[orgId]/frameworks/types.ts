@@ -1,7 +1,7 @@
 import {
 	Artifact,
 	Control,
-	Evidence,
+	Task,
 	FrameworkInstance,
 	Policy,
 	RequirementMap,
@@ -11,7 +11,7 @@ export type FrameworkInstanceWithControls = FrameworkInstance & {
 	controls: (Control & {
 		artifacts: (Artifact & {
 			policy: Policy | null;
-			evidence: Evidence | null;
+			task: Task | null;
 		})[];
 		requirementsMapped: RequirementMap[];
 	})[];

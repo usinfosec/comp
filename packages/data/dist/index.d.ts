@@ -149,79 +149,79 @@ declare const policies: {
 type TemplatePolicyId = keyof typeof policies;
 
 /**
- * Represents a piece of compliance or regulatory evidence
+ * Represents a piece of compliance or regulatory task
  * that organizations need to maintain and present during audits.
  */
-interface TemplateEvidence {
-    /** Unique identifier for the evidence */
+interface TemplateTask {
+    /** Unique identifier for the task */
     id: string;
-    /** Display name of the evidence */
+    /** Display name of the task */
     name: string;
-    /** Detailed explanation of what this evidence entails */
+    /** Detailed explanation of what this task entails */
     description: string;
-    /** How often this evidence needs to be collected or updated (e.g., "monthly", "quarterly", "yearly") */
+    /** How often this task needs to be collected or updated (e.g., "monthly", "quarterly", "yearly") */
     frequency: Frequency;
-    /** The organizational department responsible for maintaining this evidence */
+    /** The organizational department responsible for maintaining this task */
     department: Departments;
 }
 /**
- * A mapping of evidence IDs to their corresponding Evidence objects.
- * Used for efficient lookup of evidence by ID.
+ * A mapping of task IDs to their corresponding Task objects.
+ * Used for efficient lookup of tasks by ID.
  */
-interface TemplateEvidenceMap {
-    [key: string]: TemplateEvidence;
+interface TemplateTaskMap {
+    [key: string]: TemplateTask;
 }
 
-declare const evidence: {
-    readonly access_control_records: TemplateEvidence;
-    readonly access_logs: TemplateEvidence;
-    readonly access_removal_records: TemplateEvidence;
-    readonly access_review_records: TemplateEvidence;
-    readonly account_management_records: TemplateEvidence;
-    readonly authentication_records: TemplateEvidence;
-    readonly board_meeting_documentation: TemplateEvidence;
-    readonly business_continuity_and_disaster_recovery_testing_records: TemplateEvidence;
-    readonly business_continuity_plans: TemplateEvidence;
-    readonly capacity_reports: TemplateEvidence;
-    readonly change_management_records: TemplateEvidence;
-    readonly change_request_logs: TemplateEvidence;
-    readonly change_risk_documentation: TemplateEvidence;
-    readonly communication_records: TemplateEvidence;
-    readonly consent_records: TemplateEvidence;
-    readonly control_implementation_records: TemplateEvidence;
-    readonly control_testing_documentation: TemplateEvidence;
-    readonly data_classification_records: TemplateEvidence;
-    readonly data_processing_logs: TemplateEvidence;
-    readonly data_quality_documentation: TemplateEvidence;
-    readonly data_validation_records: TemplateEvidence;
-    readonly deficiency_management_records: TemplateEvidence;
-    readonly disposal_records: TemplateEvidence;
-    readonly ethics_compliance_documentation: TemplateEvidence;
-    readonly exception_logs: TemplateEvidence;
-    readonly external_communication_records: TemplateEvidence;
-    readonly fraud_risk_documentation: TemplateEvidence;
-    readonly hr_documentation: TemplateEvidence;
-    readonly incident_analysis_records: TemplateEvidence;
-    readonly incident_communication_records: TemplateEvidence;
-    readonly incident_recovery_records: TemplateEvidence;
-    readonly incident_response_records: TemplateEvidence;
-    readonly infrastructure_monitoring_records: TemplateEvidence;
-    readonly malware_prevention_records: TemplateEvidence;
-    readonly management_structure_documentation: TemplateEvidence;
-    readonly personnel_compliance_documentation: TemplateEvidence;
-    readonly physical_access_records: TemplateEvidence;
-    readonly policy_implementation_records: TemplateEvidence;
-    readonly privacy_notice: TemplateEvidence;
-    readonly recovery_records: TemplateEvidence;
-    readonly retention_schedules: TemplateEvidence;
-    readonly risk_assessment_documentation: TemplateEvidence;
-    readonly risk_identification_records: TemplateEvidence;
-    readonly technology_control_records: TemplateEvidence;
-    readonly uptime_reports: TemplateEvidence;
-    readonly vendor_risk_assessment_records: TemplateEvidence;
+declare const tasks: {
+    readonly access_control_records: TemplateTask;
+    readonly access_logs: TemplateTask;
+    readonly access_removal_records: TemplateTask;
+    readonly access_review_records: TemplateTask;
+    readonly account_management_records: TemplateTask;
+    readonly authentication_records: TemplateTask;
+    readonly board_meeting_documentation: TemplateTask;
+    readonly business_continuity_and_disaster_recovery_testing_records: TemplateTask;
+    readonly business_continuity_plans: TemplateTask;
+    readonly capacity_reports: TemplateTask;
+    readonly change_management_records: TemplateTask;
+    readonly change_request_logs: TemplateTask;
+    readonly change_risk_documentation: TemplateTask;
+    readonly communication_records: TemplateTask;
+    readonly consent_records: TemplateTask;
+    readonly control_implementation_records: TemplateTask;
+    readonly control_testing_documentation: TemplateTask;
+    readonly data_classification_records: TemplateTask;
+    readonly data_processing_logs: TemplateTask;
+    readonly data_quality_documentation: TemplateTask;
+    readonly data_validation_records: TemplateTask;
+    readonly deficiency_management_records: TemplateTask;
+    readonly disposal_records: TemplateTask;
+    readonly ethics_compliance_documentation: TemplateTask;
+    readonly exception_logs: TemplateTask;
+    readonly external_communication_records: TemplateTask;
+    readonly fraud_risk_documentation: TemplateTask;
+    readonly hr_documentation: TemplateTask;
+    readonly incident_analysis_records: TemplateTask;
+    readonly incident_communication_records: TemplateTask;
+    readonly incident_recovery_records: TemplateTask;
+    readonly incident_response_records: TemplateTask;
+    readonly infrastructure_monitoring_records: TemplateTask;
+    readonly malware_prevention_records: TemplateTask;
+    readonly management_structure_documentation: TemplateTask;
+    readonly personnel_compliance_documentation: TemplateTask;
+    readonly physical_access_records: TemplateTask;
+    readonly policy_implementation_records: TemplateTask;
+    readonly privacy_notice: TemplateTask;
+    readonly recovery_records: TemplateTask;
+    readonly retention_schedules: TemplateTask;
+    readonly risk_assessment_documentation: TemplateTask;
+    readonly risk_identification_records: TemplateTask;
+    readonly technology_control_records: TemplateTask;
+    readonly uptime_reports: TemplateTask;
+    readonly vendor_risk_assessment_records: TemplateTask;
 };
-type TemplateEvidenceKey = keyof typeof evidence;
-type TemplateEvidenceId = TemplateEvidenceKey;
+type TemplateTaskKey = keyof typeof tasks;
+type TemplateTaskId = TemplateTaskKey;
 
 /**
  * Represents an artifact associated with a control
@@ -230,9 +230,6 @@ type TemplateEvidenceId = TemplateEvidenceKey;
 type TemplateArtifact = {
     type: "policy";
     policyId: TemplatePolicyId;
-} | {
-    type: "evidence";
-    evidenceId: TemplateEvidenceId;
 };
 /**
  * Represents a requirement that a control addresses.
@@ -256,8 +253,12 @@ interface TemplateControl {
     mappedArtifacts: TemplateArtifact[];
     /** List of requirements this control addresses */
     mappedRequirements: TemplateRequirement[];
+    /** List of tasks this control addresses */
+    mappedTasks: {
+        taskId: TemplateTaskId;
+    }[];
 }
 
 declare const controls: [TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl, TemplateControl];
 
-export { type AllRequirementIdsByFramework, type AllRequirements, type Framework, type FrameworkId, type Frameworks, type Requirement, type SingleFrameworkRequirements, type TemplateArtifact, type TemplateControl, type TemplateEvidence, type TemplateEvidenceId, type TemplateEvidenceKey, type TemplateEvidenceMap, type TemplatePolicies, type TemplatePolicy, type TemplatePolicyId, type TemplatePolicyMetadata, type TemplateRequirement, type TrainingVideo, controls, evidence, frameworks, policies, requirements, soc2Requirements, trainingVideos };
+export { type AllRequirementIdsByFramework, type AllRequirements, type Framework, type FrameworkId, type Frameworks, type Requirement, type SingleFrameworkRequirements, type TemplateArtifact, type TemplateControl, type TemplatePolicies, type TemplatePolicy, type TemplatePolicyId, type TemplatePolicyMetadata, type TemplateRequirement, type TemplateTask, type TemplateTaskId, type TemplateTaskKey, type TemplateTaskMap, type TrainingVideo, controls, frameworks, policies, requirements, soc2Requirements, tasks, trainingVideos };

@@ -114,7 +114,6 @@ export const common = {
 			dropFileHereAlt: "Drop file here",
 			releaseToUpload: "Release to upload",
 			addFiles: "Add Files",
-			uploadAdditionalEvidence: "Upload a file or document",
 			dragDropOrClick: "Drag and drop or click to browse",
 			dragDropOrClickToSelect: "Drag and drop or click to select file",
 			maxFileSize: "Max file size: {size}MB",

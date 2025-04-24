@@ -10,9 +10,10 @@ export const deficiencyManagement: Control = {
 			type: "policy",
 			policyId: "risk_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "deficiency_management_records",
+			taskId: "deficiency_management_records",
 		},
 	],
 	mappedRequirements: [

@@ -10,9 +10,10 @@ export const organizationalStructure: Control = {
 			type: "policy",
 			policyId: "human_resources_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "hr_documentation",
+			taskId: "hr_documentation",
 		},
 	],
 	mappedRequirements: [

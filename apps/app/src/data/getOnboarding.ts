@@ -29,14 +29,14 @@ export async function getOnboardingForCurrentOrganization() {
 	const completedEmployees = Boolean(onboarding?.employees);
 	const completedVendors = Boolean(onboarding?.vendors);
 	const completedRisk = Boolean(onboarding?.risk);
-	const completedEvidence = Boolean(onboarding?.evidence);
+	const completedTasks = Boolean(onboarding?.tasks);
 
 	const completedAll =
 		completedPolicies &&
 		completedEmployees &&
 		completedVendors &&
 		completedRisk &&
-		completedEvidence;
+		completedTasks;
 
 	return {
 		onboarding,

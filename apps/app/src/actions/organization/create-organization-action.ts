@@ -42,7 +42,7 @@ export const createOrganizationAction = authActionClient
 			transaction: 0, // Timing for the whole transaction
 			getRelevantControls: 0,
 			createFrameworkInstances: 0,
-			createPoliciesAndEvidenceParallel: 0,
+			createPoliciesAndTasksParallel: 0,
 			createControlArtifacts: 0,
 			total: 0,
 		};
@@ -194,7 +194,7 @@ export const createOrganizationAction = authActionClient
 			timings.getRelevantControls = result.getRelevantControlsTime;
 			timings.createFrameworkInstances =
 				result.createFrameworkInstancesTime;
-			timings.createPoliciesAndEvidenceParallel =
+			timings.createPoliciesAndTasksParallel =
 				result.createPoliciesAndTasksParallelTime;
 			timings.createControlArtifacts = result.createControlArtifactsTime;
 

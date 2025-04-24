@@ -6,17 +6,20 @@ import { FrameworkId } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
+import type { Task } from "@comp/db/types";
 
 interface RequirementControlsProps {
 	requirement: Requirement;
 	requirementKey: string;
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
+	tasks: Task[];
 }
 
 export function RequirementControls({
 	requirement,
 	requirementKey,
 	frameworkInstanceWithControls,
+	tasks,
 }: RequirementControlsProps) {
 	const t = useI18n();
 
@@ -63,7 +66,10 @@ export function RequirementControls({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<RequirementControlsTable controls={requirementControls} />
+					<RequirementControlsTable
+						controls={requirementControls}
+						tasks={tasks}
+					/>
 				</CardContent>
 			</Card>
 		</div>

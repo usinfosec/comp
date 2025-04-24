@@ -10,9 +10,10 @@ export const informationAssetChanges: Control = {
 			type: "policy",
 			policyId: "change_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "change_management_records",
+			taskId: "change_management_records",
 		},
 	],
 	mappedRequirements: [

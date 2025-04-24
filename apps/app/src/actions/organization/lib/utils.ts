@@ -1,9 +1,5 @@
-import type {
-	TemplateControl,
-	TemplateEvidence,
-	TemplatePolicy,
-} from "@comp/data";
-import { controls, evidence, frameworks, policies } from "@comp/data";
+import type { TemplateControl, TemplateTask, TemplatePolicy } from "@comp/data";
+import { controls, tasks, frameworks, policies } from "@comp/data";
 import { db } from "@comp/db";
 import {
 	FrameworkId,
@@ -480,14 +476,14 @@ export async function createOrganizationPolicies(
 }
 
 /**
- * Creates Task records for the organization based on control requirements for evidence.
+ * Creates Task records for the organization based on control requirements for tasks.
  *
  * This function:
- * 1. Identifies all evidence requirements (now tasks) from the relevant controls
- * 2. Creates Task records using details from the evidence templates in @comp/data
+ * 1. Identifies all task requirements from the relevant controls
+ * 2. Creates Task records using details from the task templates in @comp/data
  * 3. Records which tasks were created for the organization
  *
- * Tasks represent the evidence collection activities required to demonstrate
+ * Tasks represent the activities required to demonstrate
  * compliance with controls.
  *
  * @param organizationId - ID of the organization
@@ -524,35 +520,32 @@ export async function createOrganizationTasks(
 		const dbControl = dbControls.get(control.name);
 		if (!dbControl) continue;
 
-		for (const artifact of control.mappedArtifacts) {
-			if (artifact.type === "evidence") {
-				const evidenceTemplateId = artifact.evidenceId;
-				// Directly access the template from the imported evidence data
-				const evidenceTemplate = evidence[
-					evidenceTemplateId as keyof typeof evidence
-				] as TemplateEvidence | undefined;
+		for (const task of control.mappedTasks) {
+			const taskTemplateId = task.taskId;
+			// Directly access the template from the imported task data
+			const taskTemplate = tasks[taskTemplateId as keyof typeof tasks] as
+				| TemplateTask
+				| undefined;
 
-				if (!evidenceTemplate) {
-					console.warn(
-						`Evidence template not found in @comp/data for ID: ${evidenceTemplateId} (Control: ${control.name})`,
-					);
-					continue; // Skip if template doesn't exist
-				}
-
-				// Create one task per control that requires this type of evidence
-				tasksToCreateData.push({
-					organizationId,
-					title: evidenceTemplate.name, // Use template name
-					description: evidenceTemplate.description, // Use template desc
-					status: TaskStatus.todo,
-					entityId: dbControl.id, // Link to the Control ID
-					entityType: TaskEntityType.control,
-					frequency:
-						evidenceTemplate.frequency ?? TaskFrequency.quarterly, // Use template freq
-					assigneeId: memberRecord?.id || null,
-					department: evidenceTemplate.department ?? Departments.none, // Use template department
-				});
+			if (!taskTemplate) {
+				console.warn(
+					`Task template not found in @comp/data for ID: ${taskTemplateId} (Control: ${control.name})`,
+				);
+				continue; // Skip if template doesn't exist
 			}
+
+			// Create one task per control that requires this type of task
+			tasksToCreateData.push({
+				organizationId,
+				title: taskTemplate.name, // Use template name
+				description: taskTemplate.description, // Use template desc
+				status: TaskStatus.todo,
+				entityId: dbControl.id, // Link to the Control ID
+				entityType: TaskEntityType.control,
+				frequency: taskTemplate.frequency ?? TaskFrequency.quarterly, // Use template freq
+				assigneeId: memberRecord?.id || null,
+				department: taskTemplate.department ?? Departments.none, // Use template department
+			});
 		}
 	}
 
@@ -581,7 +574,6 @@ export async function createOrganizationTasks(
 
 /**
  * Creates artifacts that link controls to their policies.
- * (Removed evidence linking)
  *
  * This function:
  * 1. Retrieves all created control records
@@ -649,7 +641,6 @@ export async function createControlArtifacts(
 		},
 		select: {
 			policyId: true,
-			// No evidenceId needed
 			controls: { select: { id: true } }, // Still needed to build the existingLinks set correctly
 		},
 	});

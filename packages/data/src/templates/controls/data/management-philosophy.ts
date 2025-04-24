@@ -10,9 +10,10 @@ export const managementPhilosophy: Control = {
 			type: "policy",
 			policyId: "corporate_governance_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "management_structure_documentation",
+			taskId: "management_structure_documentation",
 		},
 	],
 	mappedRequirements: [

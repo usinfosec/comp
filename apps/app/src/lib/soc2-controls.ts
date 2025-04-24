@@ -110,7 +110,7 @@ export const soc2Controls = [
 		description:
 			"The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
 		categoryId: "CC2",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC2.2",
@@ -118,7 +118,7 @@ export const soc2Controls = [
 		description:
 			"The organization internally communicates information, including objectives and responsibilities for internal control.",
 		categoryId: "CC2",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC2.3",
@@ -126,7 +126,7 @@ export const soc2Controls = [
 		description:
 			"The organization communicates with external parties regarding matters affecting the functioning of internal control.",
 		categoryId: "CC2",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC3: Risk Assessment
@@ -136,7 +136,7 @@ export const soc2Controls = [
 		description:
 			"The organization specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
 		categoryId: "CC3",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC3.2",
@@ -144,7 +144,7 @@ export const soc2Controls = [
 		description:
 			"The organization identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
 		categoryId: "CC3",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC3.3",
@@ -152,7 +152,7 @@ export const soc2Controls = [
 		description:
 			"The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
 		categoryId: "CC3",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC3.4",
@@ -160,7 +160,7 @@ export const soc2Controls = [
 		description:
 			"The organization identifies and assesses changes that could significantly impact the system of internal control.",
 		categoryId: "CC3",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC4: Monitoring Activities
@@ -170,7 +170,7 @@ export const soc2Controls = [
 		description:
 			"The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
 		categoryId: "CC4",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC4.2",
@@ -178,7 +178,7 @@ export const soc2Controls = [
 		description:
 			"The organization evaluates and communicates internal control deficiencies in a timely manner to those parties responsible for taking corrective action.",
 		categoryId: "CC4",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC5: Control Activities
@@ -188,7 +188,7 @@ export const soc2Controls = [
 		description:
 			"The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
 		categoryId: "CC5",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC5.2",
@@ -196,7 +196,7 @@ export const soc2Controls = [
 		description:
 			"The organization selects and develops general control activities over technology to support the achievement of objectives.",
 		categoryId: "CC5",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC5.3",
@@ -204,7 +204,7 @@ export const soc2Controls = [
 		description:
 			"The organization deploys control activities through policies that establish what is expected and procedures that put policies into action.",
 		categoryId: "CC5",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC6: Logical and Physical Access Controls
@@ -214,7 +214,7 @@ export const soc2Controls = [
 		description:
 			"The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.2",
@@ -222,7 +222,7 @@ export const soc2Controls = [
 		description:
 			"Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.3",
@@ -230,7 +230,7 @@ export const soc2Controls = [
 		description:
 			"The organization removes access to protected information assets when appropriate.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.4",
@@ -238,7 +238,7 @@ export const soc2Controls = [
 		description:
 			"The organization evaluates and manages access to protected information assets on a periodic basis.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.5",
@@ -246,7 +246,7 @@ export const soc2Controls = [
 		description:
 			"The organization identifies and authenticates system users, devices, and other systems before allowing access.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.6",
@@ -254,7 +254,7 @@ export const soc2Controls = [
 		description:
 			"The organization restricts physical access to facilities and protected information assets.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.7",
@@ -262,7 +262,7 @@ export const soc2Controls = [
 		description:
 			"The organization manages changes to system components to minimize the risk of unauthorized changes.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC6.8",
@@ -270,7 +270,7 @@ export const soc2Controls = [
 		description:
 			"The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
 		categoryId: "CC6",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC7: System Operations
@@ -280,7 +280,7 @@ export const soc2Controls = [
 		description:
 			"To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, changing regulatory requirements, and other system vulnerabilities.",
 		categoryId: "CC7",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC7.2",
@@ -288,7 +288,7 @@ export const soc2Controls = [
 		description:
 			"The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
 		categoryId: "CC7",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC7.3",
@@ -296,7 +296,7 @@ export const soc2Controls = [
 		description:
 			"The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
 		categoryId: "CC7",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC7.4",
@@ -304,7 +304,7 @@ export const soc2Controls = [
 		description:
 			"The organization implements incident response activities to identify root causes of security incidents and develop remediation plans.",
 		categoryId: "CC7",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC8: Change Management
@@ -314,7 +314,7 @@ export const soc2Controls = [
 		description:
 			"The organization authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures.",
 		categoryId: "CC8",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 
 	// CC9: Risk Mitigation
@@ -324,7 +324,7 @@ export const soc2Controls = [
 		description:
 			"The organization identifies, develops, and implements activities to recover critical information technology resources.",
 		categoryId: "CC9",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC9.2",
@@ -332,7 +332,7 @@ export const soc2Controls = [
 		description:
 			"The organization assesses and manages risks associated with vendors and business partners.",
 		categoryId: "CC9",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 	{
 		code: "CC9.9",
@@ -340,7 +340,7 @@ export const soc2Controls = [
 		description:
 			"The organization tests business continuity and disaster recovery plans, evaluates the test results, and updates the plans accordingly.",
 		categoryId: "CC9",
-		requiredArtifactTypes: ["policy", "procedure", "evidence"],
+		requiredArtifactTypes: ["policy", "procedure", "task"],
 	},
 ];
 

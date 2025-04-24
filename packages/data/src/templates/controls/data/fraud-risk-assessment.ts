@@ -10,9 +10,10 @@ export const fraudRiskAssessment: Control = {
 			type: "policy",
 			policyId: "risk_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "fraud_risk_documentation",
+			taskId: "fraud_risk_documentation",
 		},
 	],
 	mappedRequirements: [

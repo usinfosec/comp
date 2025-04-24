@@ -10,9 +10,10 @@ export const accessRemoval: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "access_removal_records",
+			taskId: "access_removal_records",
 		},
 	],
 	mappedRequirements: [

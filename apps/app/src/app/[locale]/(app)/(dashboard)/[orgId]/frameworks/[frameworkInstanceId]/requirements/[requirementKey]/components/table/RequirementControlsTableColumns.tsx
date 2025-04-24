@@ -4,14 +4,7 @@ import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/li
 import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type { Control } from "@comp/db/types";
-import type {
-	Artifact,
-	Control as ControlType,
-	Evidence,
-	EvidenceStatus,
-	Policy,
-	PolicyStatus,
-} from "@comp/db/types";
+import type { Artifact, Control as ControlType, Policy } from "@comp/db/types";
 import {
 	Tooltip,
 	TooltipContent,
@@ -22,15 +15,19 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getControlStatus } from "../../../../../lib/utils";
+import type { Task } from "@comp/db/types";
 
 type OrganizationControlType = Control & {
 	artifacts: (Artifact & {
 		policy: Policy | null;
-		evidence: Evidence | null;
 	})[];
 };
 
-export function RequirementControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
+export function RequirementControlsTableColumns({
+	tasks,
+}: {
+	tasks: Task[];
+}): ColumnDef<OrganizationControlType>[] {
 	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
@@ -60,7 +57,11 @@ export function RequirementControlsTableColumns(): ColumnDef<OrganizationControl
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
 				const artifacts = row.original.artifacts;
-				const status = getControlStatus(artifacts);
+				const status = getControlStatus(
+					artifacts,
+					tasks,
+					row.original.id,
+				);
 
 				const totalArtifacts = artifacts.length;
 				const completedArtifacts =

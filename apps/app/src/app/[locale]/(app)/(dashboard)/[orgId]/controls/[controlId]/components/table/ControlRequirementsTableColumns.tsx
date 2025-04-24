@@ -14,8 +14,8 @@ export const ControlRequirementsTableColumns: ColumnDef<RequirementTableData>[] 
 				const requirement = row.original;
 				return requirement.policy
 					? "policy"
-					: requirement.evidence
-						? "evidence"
+					: requirement.task
+						? "task"
 						: "";
 			},
 			size: 100,
@@ -49,8 +49,8 @@ export const ControlRequirementsTableColumns: ColumnDef<RequirementTableData>[] 
 				const requirement = row.original;
 				const isCompleted = requirement.policy
 					? requirement.policy?.status === "published"
-					: requirement.evidence
-						? requirement.evidence?.status === "published"
+					: requirement.task
+						? requirement.task?.status === "done"
 						: false;
 
 				return (

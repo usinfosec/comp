@@ -7,15 +7,11 @@ export function getControlStatus(control: ControlWithRelations): StatusType {
 	}
 
 	const hasUnpublishedArtifacts = control.artifacts.some(
-		(artifact) =>
-			(artifact.policy && artifact.policy.status !== "published") ||
-			(artifact.evidence && artifact.evidence.status !== "published"),
+		(artifact) => artifact.policy && artifact.policy.status !== "published",
 	);
 
 	const allArtifactsAreDraft = control.artifacts.every(
-		(artifact) =>
-			(artifact.policy && artifact.policy.status === "draft") ||
-			(artifact.evidence && artifact.evidence.status === "draft"),
+		(artifact) => artifact.policy && artifact.policy.status === "draft",
 	);
 
 	if (allArtifactsAreDraft) {

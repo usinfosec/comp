@@ -192,7 +192,6 @@ export function MainMenu({
 			);
 		}
 
-		// Compare the base segments (usually the feature section like "evidence", "settings", etc.)
 		return itemBaseSegment === currentBaseSegment;
 	};
 

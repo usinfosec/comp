@@ -16,7 +16,6 @@ import { user_menu } from "./layout/user-menu";
 
 // Feature translations
 import { controls } from "./features/controls";
-import { evidence, evidence_tasks } from "./features/evidence";
 import { frameworks } from "./features/frameworks";
 import { overview } from "./features/overview";
 import { people } from "./features/people";
@@ -56,8 +55,6 @@ export const translations = {
 
 	// Features
 	controls,
-	evidence,
-	evidence_tasks,
 	frameworks,
 	overview,
 	people,

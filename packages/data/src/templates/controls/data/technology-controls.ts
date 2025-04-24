@@ -10,9 +10,10 @@ export const technologyControls: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "technology_control_records",
+			taskId: "technology_control_records",
 		},
 	],
 	mappedRequirements: [

@@ -10,9 +10,10 @@ export const controlMonitoring: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "control_testing_documentation",
+			taskId: "control_testing_documentation",
 		},
 	],
 	mappedRequirements: [

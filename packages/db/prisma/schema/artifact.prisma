@@ -17,7 +17,6 @@ model Artifact {
 
 enum ArtifactType {
   policy
-  evidence
   procedure
   training
 }

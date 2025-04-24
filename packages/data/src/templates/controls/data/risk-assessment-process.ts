@@ -10,9 +10,10 @@ export const riskAssessmentProcess: Control = {
 			type: "policy",
 			policyId: "risk_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "risk_assessment_documentation",
+			taskId: "risk_assessment_documentation",
 		},
 	],
 	mappedRequirements: [
