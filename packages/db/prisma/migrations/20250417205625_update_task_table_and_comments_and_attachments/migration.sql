@@ -18,7 +18,7 @@ CREATE TYPE "AttachmentEntityType" AS ENUM ('task', 'vendor', 'risk', 'comment')
 CREATE TYPE "AttachmentType" AS ENUM ('image', 'video', 'audio', 'document', 'other');
 
 -- CreateEnum
-CREATE TYPE "CommentEntityType" AS ENUM ('task', 'vendor', 'risk');
+CREATE TYPE "CommentEntityType" AS ENUM ('task', 'vendor', 'risk', 'policy');
 
 -- CreateEnum
 CREATE TYPE "TaskFrequency" AS ENUM ('daily', 'weekly', 'monthly', 'quarterly', 'yearly');

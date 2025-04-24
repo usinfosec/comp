@@ -23,4 +23,5 @@ enum CommentEntityType {
   task
   vendor
   risk
+  policy
 }
