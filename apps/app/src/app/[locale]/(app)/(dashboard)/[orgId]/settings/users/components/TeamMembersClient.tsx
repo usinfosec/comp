@@ -35,12 +35,11 @@ import { invalidateMembers } from "../actions/invalidateMembers";
 
 import { InviteMembersModal } from "./InviteMembersModal";
 
-// Define prop types using typeof for the actions
+// Define prop types using typeof for the actions still used
 interface TeamMembersClientProps {
 	data: TeamMembersData;
 	organizationId: string;
 	removeMemberAction: typeof removeMember;
-	updateMemberRoleAction: typeof updateMemberRole;
 	revokeInvitationAction: typeof revokeInvitation;
 }
 
@@ -59,7 +58,6 @@ export function TeamMembersClient({
 	data,
 	organizationId,
 	removeMemberAction,
-	updateMemberRoleAction,
 	revokeInvitationAction,
 }: TeamMembersClientProps) {
 	const t = useI18n();
@@ -163,7 +161,7 @@ export function TeamMembersClient({
 		const result = await removeMemberAction({ memberId });
 		if (result?.data) {
 			// Success case
-			// Data revalidates server-side via action's revalidatePath
+			toast.success(t("people.member_actions.toast.remove_success"));
 			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
@@ -171,43 +169,50 @@ export function TeamMembersClient({
 				result?.serverError ||
 				t("people.member_actions.toast.remove_error");
 			console.error("Remove Member Error:", errorMessage);
+			toast.error(errorMessage);
 		}
 	};
 
-	// Update handleUpdateRole to accept Role[]
+	// Update handleUpdateRole to use authClient and add toasts
 	const handleUpdateRole = async (memberId: string, roles: Role[]) => {
-		// Ensure roles is always an array, even if the action expects one (future proofing)
 		const rolesArray = Array.isArray(roles) ? roles : [roles];
-		// Basic validation: ensure owner role isn't being removed if it exists
-		// More robust validation should happen server-side in the action
 		const member = data.members.find((m) => m.id === memberId);
+
+		// Client-side check (optional, robust check should be server-side in authClient)
 		if (
 			member &&
 			member.role === "owner" &&
 			!rolesArray.includes("owner")
 		) {
-			console.error("Cannot remove owner role."); // Maybe show toast
-			// Optionally revert UI change or show error
+			// Show toast error directly, no need to return an error object
+			toast.error(t("people.member_actions.toast.cannot_remove_owner"));
 			return;
 		}
 
-		const result = await updateMemberRoleAction({
-			memberId,
-			roles: rolesArray,
-		}); // Pass array
+		// Ensure at least one role is selected
+		if (rolesArray.length === 0) {
+			toast.warning(
+				t("people.member_actions.toast.select_at_least_one_role"),
+			);
+			return;
+		}
 
-		// Check for success by looking for the presence of the data property
-		if (result?.data) {
-			// Success: Data revalidates server-side via action's revalidatePath
-			router.refresh(); // Add client-side refresh as well
-		} else {
-			// Error case
+		try {
+			// Use authClient directly
+			await authClient.organization.updateMemberRole({
+				memberId: memberId,
+				role: rolesArray, // Pass the array of roles
+			});
+			toast.success(t("people.member_actions.toast.update_role_success"));
+			router.refresh(); // Revalidate data
+		} catch (error: any) {
+			console.error("Update Role Error:", error);
+			// Attempt to get a meaningful error message from the caught error
 			const errorMessage =
-				(result?.validationErrors // Use plural validationErrors
-					? Object.values(result.validationErrors).flat().join(", ")
-					: result?.serverError) ||
+				error?.message || // Try to get message from error object
 				t("people.member_actions.toast.update_role_error");
-			console.error("Update Role Error:", errorMessage);
+			toast.error(errorMessage);
+			// Consider more specific error handling based on errors authClient might throw
 		}
 	};
 

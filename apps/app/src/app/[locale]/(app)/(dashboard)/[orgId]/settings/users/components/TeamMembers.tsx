@@ -2,8 +2,6 @@
 
 import { removeMember } from "../actions/removeMember";
 import { revokeInvitation } from "../actions/revokeInvitation";
-import { updateMemberRole } from "../actions/updateMemberRole";
-import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Invitation, Member, User } from "@prisma/client";
@@ -45,6 +43,9 @@ export async function TeamMembers() {
 				organizationId,
 				status: "pending",
 			},
+			orderBy: {
+				email: "asc",
+			},
 		});
 	}
 
@@ -58,7 +59,6 @@ export async function TeamMembers() {
 			data={data}
 			organizationId={organizationId ?? ""}
 			removeMemberAction={removeMember}
-			updateMemberRoleAction={updateMemberRole}
 			revokeInvitationAction={revokeInvitation}
 		/>
 	);

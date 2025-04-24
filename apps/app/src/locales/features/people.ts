@@ -68,10 +68,12 @@ export const people = {
 			remove_error: "Failed to remove member",
 			remove_unexpected:
 				"An unexpected error occurred while removing the member",
-			update_role_success: "has had their roles updated",
+			update_role_success: "Member roles updated successfully.",
 			update_role_error: "Failed to update member roles",
 			update_role_unexpected:
 				"An unexpected error occurred while updating the member's roles",
+			cannot_remove_owner: "The Owner role cannot be removed.",
+			select_at_least_one_role: "Please select at least one role.",
 		},
 	},
 	invite: {
