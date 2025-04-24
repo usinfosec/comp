@@ -54,44 +54,60 @@ export function TaskBody({
 
 	const handleFileSelect = useCallback(
 		async (event: React.ChangeEvent<HTMLInputElement>) => {
-			const file = event.target.files?.[0];
-			if (!file) return;
-
+			const files = event.target.files;
+			if (!files || files.length === 0) return;
 			setIsUploading(true);
-			const reader = new FileReader();
+			try {
+				const uploadedAttachments = [];
+				for (const file of Array.from(files)) {
+					const reader = new FileReader();
+					reader.onloadend = async () => {
+						const base64Data = (reader.result as string)?.split(
+							",",
+						)[1];
+						if (!base64Data) {
+							toast.error("Failed to read file data.");
+							resetState();
+							return;
+						}
+						const { success, data, error } = await uploadFile({
+							fileName: file.name,
+							fileType: file.type,
+							fileData: base64Data,
+							entityId: taskId,
+							entityType: AttachmentEntityType.task,
+						});
 
-			reader.onloadend = async () => {
-				const base64Data = (reader.result as string)?.split(",")[1];
-				if (!base64Data) {
-					toast.error("Failed to read file data.");
-					resetState();
-					return;
+						if (success && data) {
+							uploadedAttachments.push(data);
+						} else {
+							const errorMessage =
+								error ||
+								"Failed to process attachment after upload.";
+							toast.error(String(errorMessage));
+						}
+					};
+					reader.onerror = () => {
+						toast.error("Error reading file.");
+						resetState();
+					};
+					reader.readAsDataURL(file);
+					await new Promise<void>((resolve) => {
+						const intervalId = setInterval(() => {
+							if (reader.readyState === FileReader.DONE) {
+								clearInterval(intervalId);
+								resolve(undefined);
+							}
+						}, 100);
+					});
 				}
-				const { success, data, error } = await uploadFile({
-					fileName: file.name,
-					fileType: file.type,
-					fileData: base64Data,
-					entityId: taskId,
-					entityType: AttachmentEntityType.task,
-				});
-
-				if (success && data) {
-					onAttachmentsChange?.();
-					router.refresh();
-				} else {
-					const errorMessage =
-						error || "Failed to process attachment after upload.";
-					toast.error(String(errorMessage));
-				}
-				resetState();
-			};
-			reader.onerror = () => {
-				toast.error("Error reading file.");
-				resetState();
-			};
-			reader.readAsDataURL(file);
+				onAttachmentsChange?.();
+				router.refresh();
+			} finally {
+				setIsUploading(false);
+			}
 		},
-		[taskId, uploadFile, onAttachmentsChange],
+		[taskId, uploadFile, onAttachmentsChange, router],
 	);
 
 	const triggerFileInput = () => {
@@ -155,6 +171,7 @@ export function TaskBody({
 				onChange={handleFileSelect}
 				className="hidden"
 				disabled={isUploadingFile || !!busyAttachmentId}
+				multiple
 			/>
 			<div className="space-y-3">
 				<div className="flex items-center justify-between">
