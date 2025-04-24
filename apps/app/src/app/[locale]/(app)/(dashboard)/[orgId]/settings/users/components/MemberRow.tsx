@@ -84,13 +84,22 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 	) as Role[];
 
 	const isOwner = currentRoles.includes("owner");
-	const canEditRoles = !isOwner;
+	const canEditRoles = true;
 	const canRemove = !isOwner;
 
 	const handleUpdateRolesClick = async () => {
-		if (!canEditRoles) return;
+		let rolesToUpdate = selectedRoles;
+		if (isOwner && !rolesToUpdate.includes("owner")) {
+			rolesToUpdate = [...rolesToUpdate, "owner"];
+		}
+
+		// Don't update if no roles are selected
+		if (rolesToUpdate.length === 0) {
+			return;
+		}
+
 		setIsUpdating(true);
-		await onUpdateRole(memberId, selectedRoles);
+		await onUpdateRole(memberId, rolesToUpdate);
 		setIsUpdating(false);
 		setIsRoleDialogOpen(false);
 	};
@@ -152,7 +161,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								variant="ghost"
 								size="sm"
 								className="h-8 w-8 p-0"
-								disabled={isOwner}
+								disabled={!canEditRoles}
 							>
 								<MoreHorizontal className="h-4 w-4" />
 								<span className="sr-only">Open menu</span>
@@ -215,7 +224,20 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								placeholder={t(
 									"people.invite.role.placeholder",
 								)}
+								lockedRoles={isOwner ? ["owner"] : []}
 							/>
+							{isOwner && (
+								<p className="text-xs text-muted-foreground mt-1">
+									{t(
+										"people.member_actions.role_dialog.owner_note",
+									)}
+								</p>
+							)}
+							<p className="text-xs text-muted-foreground mt-1">
+								{t(
+									"people.member_actions.role_dialog.at_least_one_role_note",
+								)}
+							</p>
 						</div>
 					</div>
 					<DialogFooter>
@@ -227,7 +249,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 						</Button>
 						<Button
 							onClick={handleUpdateRolesClick}
-							disabled={isUpdating}
+							disabled={isUpdating || selectedRoles.length === 0}
 						>
 							{t("common.actions.update")}
 						</Button>

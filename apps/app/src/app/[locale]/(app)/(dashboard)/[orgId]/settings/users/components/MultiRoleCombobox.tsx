@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, X } from "lucide-react";
+import { Check, ChevronsUpDown, Lock, X } from "lucide-react";
 import type { Role } from "@prisma/client";
 
 import { cn } from "@comp/ui/cn";
@@ -17,9 +17,16 @@ import {
 	CommandList,
 } from "@comp/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@comp/ui/tooltip";
 
 // Define the selectable roles explicitly (exclude owner)
 const selectableRoles: { value: Role; labelKey: string }[] = [
+	{ value: "owner", labelKey: "people.roles.owner" },
 	{ value: "admin", labelKey: "people.roles.admin" },
 	{ value: "employee", labelKey: "people.roles.employee" },
 	{ value: "auditor", labelKey: "people.roles.auditor" },
@@ -30,6 +37,7 @@ interface MultiRoleComboboxProps {
 	onSelectedRolesChange: (roles: Role[]) => void;
 	placeholder?: string;
 	disabled?: boolean;
+	lockedRoles?: Role[]; // Roles that cannot be deselected
 }
 
 export function MultiRoleCombobox({
@@ -37,6 +45,7 @@ export function MultiRoleCombobox({
 	onSelectedRolesChange,
 	placeholder,
 	disabled = false,
+	lockedRoles = [],
 }: MultiRoleComboboxProps) {
 	const t = useI18n();
 	const [open, setOpen] = React.useState(false);
@@ -51,7 +60,30 @@ export function MultiRoleCombobox({
 		);
 	}, [inputSelectedRoles]);
 
+	const isOwner = selectedRoles.includes("owner");
+
+	// Filter out owner role for non-owners
+	const availableRoles = React.useMemo(() => {
+		return selectableRoles.filter(
+			(role) => role.value !== "owner" || isOwner,
+		);
+	}, [isOwner]);
+
 	const handleSelect = (roleValue: Role) => {
+		// Never allow owner role to be changed
+		if (roleValue === "owner") {
+			return;
+		}
+
+		// If the role is locked, don't allow deselection
+		if (
+			lockedRoles.includes(roleValue) &&
+			selectedRoles.includes(roleValue)
+		) {
+			return; // Don't allow deselection of locked roles
+		}
+
+		// Allow removal of any non-locked role, even if it's the last one
 		const newSelectedRoles = selectedRoles.includes(roleValue)
 			? selectedRoles.filter((r) => r !== roleValue)
 			: [...selectedRoles, roleValue];
@@ -78,7 +110,7 @@ export function MultiRoleCombobox({
 			? `${selectedRoles.length} selected`
 			: placeholder || t("people.invite.role.placeholder");
 
-	const filteredRoles = selectableRoles.filter((role) => {
+	const filteredRoles = availableRoles.filter((role) => {
 		const label = (() => {
 			switch (role.value) {
 				case "admin":
@@ -87,6 +119,8 @@ export function MultiRoleCombobox({
 					return t("people.roles.auditor");
 				case "employee":
 					return t("people.roles.employee");
+				case "owner":
+					return t("people.roles.owner");
 				default:
 					return role.value;
 			}
@@ -114,14 +148,35 @@ export function MultiRoleCombobox({
 							<Badge
 								key={role}
 								variant="secondary"
-								className="text-xs"
+								className={cn(
+									"text-xs",
+									lockedRoles.includes(role) &&
+										"border border-primary",
+								)}
 								onClick={(e) => {
 									e.stopPropagation(); // Prevent popover trigger
 									handleSelect(role);
 								}}
 							>
 								{getRoleLabel(role)}
-								<X className="ml-1 h-3 w-3 cursor-pointer" />
+								{!lockedRoles.includes(role) ? (
+									<X className="ml-1 h-3 w-3 cursor-pointer" />
+								) : (
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<Lock className="ml-1 h-3 w-3 text-primary" />
+											</TooltipTrigger>
+											<TooltipContent>
+												<p>
+													{t(
+														"people.member_actions.role_dialog.owner_note",
+													)}
+												</p>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								)}
 							</Badge>
 						))}
 					</div>
@@ -145,6 +200,8 @@ export function MultiRoleCombobox({
 									key={role.value}
 									value={(() => {
 										switch (role.value) {
+											case "owner":
+												return t("people.roles.owner");
 											case "admin":
 												return t("people.roles.admin");
 											case "auditor":
@@ -161,10 +218,19 @@ export function MultiRoleCombobox({
 									})()} // Use label for search
 									onSelect={() => {
 										handleSelect(role.value);
-										// Keep popover open for multi-select
-										// setOpen(false)
 									}}
-									disabled={role.value === "owner"} // Should already be excluded, but double check
+									disabled={
+										role.value === "owner" || // Always disable the owner role
+										(lockedRoles.includes(role.value) &&
+											selectedRoles.includes(role.value)) // Disable any locked roles
+									}
+									className={cn(
+										lockedRoles.includes(role.value) &&
+											selectedRoles.includes(
+												role.value,
+											) &&
+											"bg-muted/50 text-muted-foreground",
+									)}
 								>
 									<Check
 										className={cn(
@@ -176,6 +242,8 @@ export function MultiRoleCombobox({
 									/>
 									{(() => {
 										switch (role.value) {
+											case "owner":
+												return t("people.roles.owner");
 											case "admin":
 												return t("people.roles.admin");
 											case "auditor":
@@ -190,6 +258,12 @@ export function MultiRoleCombobox({
 												return role.value;
 										}
 									})()}
+									{lockedRoles.includes(role.value) &&
+										selectedRoles.includes(role.value) && (
+											<span className="ml-auto text-xs text-muted-foreground">
+												(Locked)
+											</span>
+										)}
 								</CommandItem>
 							))}
 						</CommandGroup>

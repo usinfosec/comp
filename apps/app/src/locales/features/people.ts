@@ -58,6 +58,10 @@ export const people = {
 			description_prefix: "Update the role for",
 			role_label: "Role(s)",
 			role_placeholder: "Select role(s)",
+			owner_note:
+				"The Owner role cannot be removed but additional roles can be added.",
+			at_least_one_role_note: "At least one role is required.",
+			last_role_tooltip: "At least one role is required",
 		},
 		toast: {
 			remove_success: "has been removed from the organization",
