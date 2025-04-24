@@ -48,9 +48,10 @@ interface DisplayItem extends Partial<MemberWithUser>, Partial<Invitation> {
 	type: "member" | "invitation";
 	displayName: string;
 	displayEmail: string;
-	displayRole: string; // Simplified role display
+	displayRole: string | string[]; // Simplified role display, could be comma-separated
 	displayStatus: "active" | "pending";
 	displayId: string; // Use member.id or invitation.id
+	processedRoles: Role[];
 }
 
 export function TeamMembersClient({
@@ -75,24 +76,49 @@ export function TeamMembersClient({
 
 	// Combine and type members and invitations for filtering/display
 	const allItems: DisplayItem[] = [
-		...data.members.map((member) => ({
-			...member,
-			type: "member" as const,
-			displayName: member.user.name || member.user.email || "",
-			displayEmail: member.user.email || "",
-			displayRole: member.role, // Use Prisma role
-			displayStatus: "active" as const,
-			displayId: member.id,
-		})),
-		...data.pendingInvitations.map((invitation) => ({
-			...invitation,
-			type: "invitation" as const,
-			displayName: invitation.email.split("@")[0], // Or just email
-			displayEmail: invitation.email,
-			displayRole: invitation.role, // Use Prisma role
-			displayStatus: "pending" as const,
-			displayId: invitation.id,
-		})),
+		...data.members.map((member) => {
+			// Process the role to handle comma-separated values
+			const roles =
+				typeof member.role === "string" && member.role.includes(",")
+					? (member.role.split(",") as Role[])
+					: Array.isArray(member.role)
+						? member.role
+						: [member.role as Role];
+
+			return {
+				...member,
+				type: "member" as const,
+				displayName: member.user.name || member.user.email || "",
+				displayEmail: member.user.email || "",
+				displayRole: member.role, // Keep original for filtering
+				displayStatus: "active" as const,
+				displayId: member.id,
+				// Add processed roles for rendering
+				processedRoles: roles,
+			};
+		}),
+		...data.pendingInvitations.map((invitation) => {
+			// Process the role to handle comma-separated values
+			const roles =
+				typeof invitation.role === "string" &&
+				invitation.role.includes(",")
+					? (invitation.role.split(",") as Role[])
+					: Array.isArray(invitation.role)
+						? invitation.role
+						: [invitation.role as Role];
+
+			return {
+				...invitation,
+				type: "invitation" as const,
+				displayName: invitation.email.split("@")[0], // Or just email
+				displayEmail: invitation.email,
+				displayRole: invitation.role, // Keep original for filtering
+				displayStatus: "pending" as const,
+				displayId: invitation.id,
+				// Add processed roles for rendering
+				processedRoles: roles,
+			};
+		}),
 	];
 
 	const filteredItems = allItems.filter((item) => {

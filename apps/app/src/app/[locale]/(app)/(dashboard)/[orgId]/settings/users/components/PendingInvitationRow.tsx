@@ -39,11 +39,48 @@ export function PendingInvitationRow({
 				<div>
 					<div className="font-medium">{invitation.email}</div>
 					<div className="text-sm text-muted-foreground">
-						{/* Removed specific badge colors */}
 						<Badge variant="outline" className="mr-2">
-							{t("settings.team.invitations.status_badge")}
+							Pending
 						</Badge>
-						{invitation.role} {/* Display role from invitation */}
+						{/* Display roles properly */}
+						{(() => {
+							// Process the role to handle comma-separated values
+							const roles =
+								typeof invitation.role === "string" &&
+								invitation.role.includes(",")
+									? invitation.role.split(",")
+									: Array.isArray(invitation.role)
+										? invitation.role
+										: [invitation.role];
+
+							// Return badges for each role
+							return roles.map((role) => (
+								<Badge
+									key={role}
+									variant="secondary"
+									className="mr-1 text-xs"
+								>
+									{(() => {
+										switch (role) {
+											case "owner":
+												return t("people.roles.owner");
+											case "admin":
+												return t("people.roles.admin");
+											case "auditor":
+												return t(
+													"people.roles.auditor",
+												);
+											case "employee":
+												return t(
+													"people.roles.employee",
+												);
+											default:
+												return role;
+										}
+									})()}
+								</Badge>
+							));
+						})()}
 					</div>
 				</div>
 			</div>
