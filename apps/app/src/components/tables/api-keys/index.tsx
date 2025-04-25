@@ -146,11 +146,11 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 														:{" "}
 														{apiKey.expiresAt
 															? formatDate(
-																	apiKey.expiresAt,
-																)
+																apiKey.expiresAt,
+															)
 															: t(
-																	"settings.api_keys.never",
-																)}
+																"settings.api_keys.never",
+															)}
 													</div>
 												</div>
 											</TableCell>
@@ -160,20 +160,20 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 											<TableCell className="hidden md:table-cell">
 												{apiKey.expiresAt
 													? formatDate(
-															apiKey.expiresAt,
-														)
+														apiKey.expiresAt,
+													)
 													: t(
-															"settings.api_keys.never",
-														)}
+														"settings.api_keys.never",
+													)}
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
 												{apiKey.lastUsedAt
 													? formatDate(
-															apiKey.lastUsedAt,
-														)
+														apiKey.lastUsedAt,
+													)
 													: t(
-															"settings.api_keys.never_used",
-														)}
+														"settings.api_keys.never_used",
+													)}
 											</TableCell>
 											<TableCell className="text-right">
 												<Button
@@ -202,7 +202,9 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 						</div>
 					)}
 				</CardContent>
-				<CardFooter>{t("settings.api_keys.security_note")}</CardFooter>
+				<CardFooter className="text-xs text-muted-foreground">
+					{t("settings.api_keys.security_note")}
+				</CardFooter>
 
 				<CreateApiKeyDialog
 					open={isCreateDialogOpen}

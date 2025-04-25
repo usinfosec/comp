@@ -22,6 +22,7 @@ export const common = {
 		complete: "Complete",
 		update: "Update",
 	},
+	loading: "Loading...",
 	employee: {
 		status: {
 			active: "Active",
