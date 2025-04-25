@@ -80,7 +80,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-		const organization = await authClient.organization
+		await authClient.organization
 			.create({
 				name: data.name,
 				slug: data.name,
