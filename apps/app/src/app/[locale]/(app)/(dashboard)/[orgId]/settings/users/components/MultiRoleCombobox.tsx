@@ -25,11 +25,31 @@ import {
 } from "@comp/ui/tooltip";
 
 // Define the selectable roles explicitly (exclude owner)
-const selectableRoles: { value: Role; labelKey: string }[] = [
-	{ value: "owner", labelKey: "people.roles.owner" },
-	{ value: "admin", labelKey: "people.roles.admin" },
-	{ value: "employee", labelKey: "people.roles.employee" },
-	{ value: "auditor", labelKey: "people.roles.auditor" },
+const selectableRoles: {
+	value: Role;
+	labelKey: string;
+	descriptionKey: string;
+}[] = [
+	{
+		value: "owner",
+		labelKey: "people.roles.owner",
+		descriptionKey: "people.roles.owner_description",
+	},
+	{
+		value: "admin",
+		labelKey: "people.roles.admin",
+		descriptionKey: "people.roles.admin_description",
+	},
+	{
+		value: "employee",
+		labelKey: "people.roles.employee",
+		descriptionKey: "people.roles.employee_description",
+	},
+	{
+		value: "auditor",
+		labelKey: "people.roles.auditor",
+		descriptionKey: "people.roles.auditor_description",
+	},
 ];
 
 interface MultiRoleComboboxProps {
@@ -225,6 +245,7 @@ export function MultiRoleCombobox({
 											selectedRoles.includes(role.value)) // Disable any locked roles
 									}
 									className={cn(
+										"flex flex-col items-start py-2", // Adjust padding and alignment
 										lockedRoles.includes(role.value) &&
 											selectedRoles.includes(
 												role.value,
@@ -232,38 +253,60 @@ export function MultiRoleCombobox({
 											"bg-muted/50 text-muted-foreground",
 									)}
 								>
-									<Check
-										className={cn(
-											"mr-2 h-4 w-4",
-											selectedRoles.includes(role.value)
-												? "opacity-100"
-												: "opacity-0",
-										)}
-									/>
-									{(() => {
-										switch (role.value) {
-											case "owner":
-												return t("people.roles.owner");
-											case "admin":
-												return t("people.roles.admin");
-											case "auditor":
-												return t(
-													"people.roles.auditor",
-												);
-											case "employee":
-												return t(
-													"people.roles.employee",
-												);
-											default:
-												return role.value;
-										}
-									})()}
-									{lockedRoles.includes(role.value) &&
-										selectedRoles.includes(role.value) && (
-											<span className="ml-auto text-xs text-muted-foreground">
-												(Locked)
-											</span>
-										)}
+									<div className="flex w-full items-center">
+										{" "}
+										{/* Wrap label and check */}
+										<Check
+											className={cn(
+												"mr-2 h-4 w-4 flex-shrink-0", // Ensure check doesn't shrink
+												selectedRoles.includes(
+													role.value,
+												)
+													? "opacity-100"
+													: "opacity-0",
+											)}
+										/>
+										<span className="flex-grow">
+											{" "}
+											{/* Allow label to take space */}
+											{(() => {
+												switch (role.value) {
+													case "owner":
+														return t(
+															"people.roles.owner",
+														);
+													case "admin":
+														return t(
+															"people.roles.admin",
+														);
+													case "auditor":
+														return t(
+															"people.roles.auditor",
+														);
+													case "employee":
+														return t(
+															"people.roles.employee",
+														);
+													default:
+														return role.value;
+												}
+											})()}
+										</span>
+										{lockedRoles.includes(role.value) &&
+											selectedRoles.includes(
+												role.value,
+											) && (
+												<span className="ml-auto text-xs text-muted-foreground pl-2 flex-shrink-0">
+													(Locked)
+												</span>
+											)}
+									</div>
+									{/* Add description below */}
+									<div className="ml-6 text-xs text-muted-foreground mt-1">
+										{" "}
+										{/* Indent description */}
+										{t(role.descriptionKey)}
+									</div>
 								</CommandItem>
 							))}
 						</CommandGroup>
