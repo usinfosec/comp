@@ -4,7 +4,8 @@ import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
-import { Suspense, cache } from "react";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Layout({
 	children,
@@ -12,14 +13,35 @@ export default async function Layout({
 	children: React.ReactNode;
 }) {
 	const t = await getI18n();
+
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 	const orgId = session?.session.activeOrganizationId;
 
-	const overview = await getEmployeesOverview();
+	if (!orgId) {
+		return redirect("/");
+	}
 
-	if (overview.length === 0) {
+	// Fetch all members first
+	const allMembers = await db.member.findMany({
+		where: {
+			organizationId: orgId,
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	// Filter in application code to handle multiple roles
+	const employees = allMembers.filter((member) => {
+		const roles = member.role.includes(",")
+			? member.role.split(",")
+			: [member.role];
+		return roles.includes("employee");
+	});
+
+	if (employees.length === 0) {
 		return (
 			<div className="max-w-[1200px] m-auto">
 				<Suspense fallback={<div>Loading...</div>}>
@@ -32,7 +54,7 @@ export default async function Layout({
 							cta={t("app_onboarding.employees.cta")}
 							imageSrc="/onboarding/people-management.webp"
 							imageAlt="Employee Management"
-							sheetName="employee-invite-sheet"
+							href={`/${orgId}/settings/users`}
 							faqs={[
 								{
 									questionKey: t(
@@ -85,35 +107,3 @@ export default async function Layout({
 		</div>
 	);
 }
-
-const getEmployeesOverview = cache(async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const orgId = session?.session.activeOrganizationId;
-
-	if (!orgId) {
-		return [];
-	}
-
-	// Fetch all members first
-	const allMembers = await db.member.findMany({
-		where: {
-			organizationId: orgId,
-		},
-		include: {
-			user: true,
-		},
-	});
-
-	// Filter in application code to handle multiple roles
-	const employees = allMembers.filter((member) => {
-		const roles = member.role.includes(",")
-			? member.role.split(",")
-			: [member.role];
-		return roles.includes("employee");
-	});
-
-	return employees;
-});

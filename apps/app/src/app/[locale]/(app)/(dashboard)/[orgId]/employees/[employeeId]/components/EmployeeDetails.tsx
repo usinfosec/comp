@@ -413,16 +413,15 @@ export function EmployeeDetails({
 									form.formState.isSubmitting ||
 									actionStatus === "executing"
 								}
-								className="w-auto text-foreground"
 							>
+								{!(
+									form.formState.isSubmitting ||
+									actionStatus === "executing"
+								) && <Save className="h-4 w-4" />}
 								{form.formState.isSubmitting ||
 								actionStatus === "executing"
 									? "Saving..."
 									: "Save"}
-								{!(
-									form.formState.isSubmitting ||
-									actionStatus === "executing"
-								) && <Save className="ml-2 h-4 w-4" />}
 							</Button>
 						</CardFooter>
 					</form>

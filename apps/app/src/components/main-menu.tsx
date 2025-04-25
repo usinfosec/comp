@@ -63,6 +63,7 @@ export function MainMenu({
 }: Props) {
 	const t = useI18n();
 	const pathname = usePathname();
+	const session = authClient.useSession();
 
 	const items: MenuItem[] = [
 		{
@@ -163,6 +164,17 @@ export function MainMenu({
 			protected: true,
 		},
 	];
+
+	if (session?.data?.user?.email?.endsWith("@trycomp.ai")) {
+		items.push({
+			id: "admin",
+			path: "/internal/admin",
+			name: t("sidebar.admin"),
+			disabled: false,
+			icon: Icons.AI,
+			protected: true,
+		});
+	}
 
 	// Helper function to check if a path is active
 	const isPathActive = (itemPath: string) => {

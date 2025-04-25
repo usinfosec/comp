@@ -47,7 +47,7 @@ export async function fetchOrganizations(): Promise<
 	}
 }
 
-// --- Fetch Admin Users (@trycomp.ai) ---
+// --- Fetch Admin Users (@trycomp.ai & @securis360.com) ---
 export async function fetchAdminUsers(): Promise<ActionResponse<User[]>> {
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session?.user?.email?.endsWith("@trycomp.ai")) {
@@ -57,9 +57,18 @@ export async function fetchAdminUsers(): Promise<ActionResponse<User[]>> {
 	try {
 		const adminUsers = await db.user.findMany({
 			where: {
-				email: {
-					endsWith: "@trycomp.ai",
-				},
+				OR: [
+					{
+						email: {
+							endsWith: "@trycomp.ai",
+						},
+					},
+					{
+						email: {
+							endsWith: "@securis360.com",
+						},
+					},
+				],
 			},
 			orderBy: {
 				email: "asc",

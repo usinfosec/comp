@@ -10,4 +10,5 @@ export const sidebar = {
 	tasks: "Tasks",
 	employees: "Employees",
 	tests: "Cloud Tests",
+	admin: "Shh.. I'ts a secret",
 } as const;
