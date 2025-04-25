@@ -116,7 +116,7 @@ export function CreateVendorForm({
 		createVendor.execute(data);
 
 		if (data.website) {
-			researchVendor.execute({
+			await researchVendor.execute({
 				website: data.website,
 			});
 		}

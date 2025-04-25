@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export const config = {
 	matcher: [
 		// Skip auth-related routes
-		"/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest|onboarding).*)",
+		"/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest|onboarding|research).*)",
 	],
 };
 
