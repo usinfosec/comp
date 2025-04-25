@@ -5,6 +5,7 @@ import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Form, FormControl, FormField, FormItem } from "@comp/ui/form";
+import { Icons } from "@comp/ui/icons";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Mail } from "lucide-react";
@@ -114,7 +115,7 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
 							<>
-								<Mail className="h-4 w-4" />
+								<Icons.EmailIcon />
 								<span>{t("auth.email.button")}</span>
 							</>
 						)}

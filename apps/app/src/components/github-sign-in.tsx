@@ -37,7 +37,7 @@ export function GithubSignIn({
 				<Loader2 className="h-4 w-4 animate-spin" />
 			) : (
 				<>
-					<ButtonIcon className="mr-2" isLoading={isLoading}>
+					<ButtonIcon isLoading={isLoading}>
 						<Icons.Github />
 					</ButtonIcon>
 					<span>{t("auth.github")}</span>
