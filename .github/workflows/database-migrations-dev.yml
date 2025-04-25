@@ -3,7 +3,7 @@ name: Database Migrations Dev
 on:
   push:
     branches:
-      - dev
+      - main
   workflow_dispatch: # Allows manual triggering
 
 env:
