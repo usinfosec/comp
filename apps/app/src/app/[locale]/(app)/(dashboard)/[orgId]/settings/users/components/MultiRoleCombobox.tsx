@@ -303,9 +303,28 @@ export function MultiRoleCombobox({
 									</div>
 									{/* Add description below */}
 									<div className="ml-6 text-xs text-muted-foreground mt-1">
-										{" "}
-										{/* Indent description */}
-										{t(role.descriptionKey)}
+										{(() => {
+											switch (role.value) {
+												case "owner":
+													return t(
+														"people.roles.owner_description",
+													);
+												case "admin":
+													return t(
+														"people.roles.admin_description",
+													);
+												case "auditor":
+													return t(
+														"people.roles.auditor_description",
+													);
+												case "employee":
+													return t(
+														"people.roles.employee_description",
+													);
+												default:
+													return "";
+											}
+										})()}
 									</div>
 								</CommandItem>
 							))}
