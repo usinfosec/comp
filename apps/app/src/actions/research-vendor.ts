@@ -69,8 +69,6 @@ export const researchVendorAction = authActionClient
 				};
 			}
 
-			console.log(`Attempting to scrape website: ${website}`);
-
 			const scrapeResult = await firecrawl.extract([website], {
 				prompt: "You're a cyber security researcher, researching a vendor.",
 				schema: schema,
