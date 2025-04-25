@@ -49,7 +49,7 @@ export const app_onboarding = {
 				"Employee management is the process of tracking, documenting, and managing your organization's workforce, including their roles, access levels, and compliance-related information.",
 			question_2: "Why is employee management important?",
 			answer_2:
-				"Employee management is crucial for compliance because it helps you track who has access to sensitive systems, document employee training and awareness programs, and maintain evidence of your security controls. This is essential for frameworks like SOC 2, ISO 27001, and HIPAA.",
+				"Employee management is crucial for compliance because it helps you track who has access to sensitive systems, document employee training and awareness programs, and maintain tasks of your security controls. This is essential for frameworks like SOC 2, ISO 27001, and HIPAA.",
 			question_3: "Is employee management required for SOC 2?",
 			answer_3:
 				"For SOC 2, you need to document employee onboarding/offboarding processes, track access to systems and data, maintain records of security training, and demonstrate that employees understand their security responsibilities. This helps auditors verify your security controls and personnel management practices.",
@@ -67,7 +67,7 @@ export const app_onboarding = {
 				"Cloud security tests are automated assessments that evaluate your cloud infrastructure for security vulnerabilities, misconfigurations, and compliance with security best practices.",
 			question_2: "Why are cloud security tests important?",
 			answer_2:
-				"Cloud security tests help identify potential security risks in your cloud environment, ensure compliance with security standards, and provide evidence of your security controls for auditors. They're essential for maintaining a strong security posture in cloud environments.",
+				"Cloud security tests help identify potential security risks in your cloud environment, ensure compliance with security standards, and provide tasks of your security controls for auditors. They're essential for maintaining a strong security posture in cloud environments.",
 			question_3: "What types of cloud tests are available?",
 			answer_3:
 				"Cloud security tests can include infrastructure scanning, configuration analysis, vulnerability assessments, and compliance checks. These tests help ensure your cloud resources are properly secured and configured according to best practices.",

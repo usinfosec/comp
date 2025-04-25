@@ -102,7 +102,7 @@ export function OnboardingClient() {
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
-			<div className="relative w-full max-w-[440px] border bg-card p-8 shadow-lg">
+			<div className="relative w-full max-w-[440px] border bg-card rounded-sm p-8 shadow-lg">
 				<div className="mb-8 flex justify-between">
 					<Link href="/">
 						<Icons.Logo />
@@ -171,11 +171,11 @@ export function OnboardingClient() {
 															key={frameworkId}
 															htmlFor={`framework-${frameworkId}`}
 															className={cn(
-																"relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																"relative flex flex-col p-4 border rounded-sm cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
 																field.value.includes(
 																	frameworkId,
 																) &&
-																"border-primary bg-primary/5",
+																	"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
@@ -207,16 +207,16 @@ export function OnboardingClient() {
 																			const newValue =
 																				checked
 																					? [
-																						...field.value,
-																						frameworkId,
-																					]
-																					: field.value.filter(
-																						(
-																							name,
-																						) =>
-																							name !==
+																							...field.value,
 																							frameworkId,
-																					);
+																						]
+																					: field.value.filter(
+																							(
+																								name,
+																							) =>
+																								name !==
+																								frameworkId,
+																						);
 																			field.onChange(
 																				newValue,
 																			);

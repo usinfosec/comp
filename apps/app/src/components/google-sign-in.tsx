@@ -37,7 +37,7 @@ export function GoogleSignIn({
 				<Loader2 className="h-4 w-4 animate-spin" />
 			) : (
 				<>
-					<ButtonIcon className="mr-2" isLoading={isLoading}>
+					<ButtonIcon isLoading={isLoading}>
 						<Icons.Google />
 					</ButtonIcon>
 					<span>{t("auth.google")}</span>

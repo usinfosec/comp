@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { Member, User } from "@comp/db/types";
+import { CommentEntityType, Member, User } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Button } from "@comp/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -23,10 +23,11 @@ interface Comment {
 
 interface CommentsProps {
 	entityId: string;
+	entityType: CommentEntityType;
 	comments: Comment[];
 }
 
-export function Comments({ entityId, comments }: CommentsProps) {
+export function Comments({ entityId, entityType, comments }: CommentsProps) {
 	const [isAddingComment, setIsAddingComment] = useState(false);
 	const t = useI18n();
 
@@ -47,7 +48,10 @@ export function Comments({ entityId, comments }: CommentsProps) {
 			<CardContent className="pt-6">
 				{isAddingComment && (
 					<div className="mb-6">
-						<CreateCommentForm entityId={entityId} />
+						<CreateCommentForm
+							entityId={entityId}
+							entityType={entityType}
+						/>
 					</div>
 				)}
 				<div className="space-y-6">
@@ -57,7 +61,7 @@ export function Comments({ entityId, comments }: CommentsProps) {
 							className={cn(
 								"space-y-3",
 								index !== comments.length - 1 &&
-								"pb-6 border-b",
+									"pb-6 border-b",
 							)}
 						>
 							<div className="flex items-center justify-between">
@@ -77,7 +81,11 @@ export function Comments({ entityId, comments }: CommentsProps) {
 										<AvatarFallback className="bg-primary/10">
 											{comment.author.user.name?.charAt(
 												0,
-											) || comment.author.user.email?.charAt(0).toUpperCase() || "?"}
+											) ||
+												comment.author.user.email
+													?.charAt(0)
+													.toUpperCase() ||
+												"?"}
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col">

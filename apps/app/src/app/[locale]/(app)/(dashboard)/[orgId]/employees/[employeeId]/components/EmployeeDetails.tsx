@@ -46,11 +46,9 @@ import { AlertCircle, CheckCircle2, Save } from "lucide-react";
 import { CalendarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useParams } from "next/navigation";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useEmployeeDetails } from "../../all/hooks/useEmployee";
 import { updateEmployee } from "../actions/update-employee";
 
 const DEPARTMENTS: { value: Departments; label: string }[] = [
@@ -123,7 +121,6 @@ export function EmployeeDetails({
 	policies,
 	trainingVideos,
 }: EmployeeDetailsProps) {
-	const { isLoading, error, mutate } = useEmployeeDetails(employeeId);
 	const { orgId } = useParams<{ orgId: string }>();
 
 	// Setup form with React Hook Form
@@ -139,23 +136,9 @@ export function EmployeeDetails({
 		mode: "onChange",
 	});
 
-	// Set initial form values when employee data loads
-	useEffect(() => {
-		if (employee) {
-			form.reset({
-				name: employee.user.name ?? "",
-				email: employee.user.email ?? "",
-				department: employee.department as Departments,
-				status: employee.isActive ? "active" : "inactive",
-				createdAt: new Date(employee.createdAt),
-			});
-		}
-	}, [employee, form]);
-
 	const { execute, status: actionStatus } = useAction(updateEmployee, {
 		onSuccess: () => {
 			toast.success("Employee details updated successfully");
-			mutate();
 		},
 		onError: (error) => {
 			toast.error(
@@ -164,34 +147,6 @@ export function EmployeeDetails({
 			);
 		},
 	});
-
-	if (error) {
-		if (error.code === "UNEXPECTED_ERROR") {
-			redirect(`/${orgId}/employees`);
-		}
-
-		return (
-			<div className="p-6">
-				<Alert variant="destructive">
-					<AlertCircle className="h-4 w-4" />
-					<AlertTitle>Error</AlertTitle>
-					<AlertDescription>
-						{error.message || "An unexpected error occurred"}
-					</AlertDescription>
-				</Alert>
-			</div>
-		);
-	}
-
-	if (isLoading) {
-		return (
-			<div className="flex flex-col gap-4">
-				<Skeleton className="h-20 w-full" />
-				<Skeleton className="h-40 w-full" />
-				<Skeleton className="h-60 w-full" />
-			</div>
-		);
-	}
 
 	if (!employee) return null;
 
@@ -458,16 +413,15 @@ export function EmployeeDetails({
 									form.formState.isSubmitting ||
 									actionStatus === "executing"
 								}
-								className="w-auto text-foreground"
 							>
+								{!(
+									form.formState.isSubmitting ||
+									actionStatus === "executing"
+								) && <Save className="h-4 w-4" />}
 								{form.formState.isSubmitting ||
 								actionStatus === "executing"
 									? "Saving..."
 									: "Save"}
-								{!(
-									form.formState.isSubmitting ||
-									actionStatus === "executing"
-								) && <Save className="ml-2 h-4 w-4" />}
 							</Button>
 						</CardFooter>
 					</form>

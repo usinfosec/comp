@@ -158,9 +158,7 @@ export const completeInvitation = authActionClient
 				}
 
 				revalidatePath(`/${invitation.organization.id}`);
-				revalidatePath(
-					`/${invitation.organization.id}/settings/members`,
-				);
+				revalidatePath(`/${invitation.organization.id}/settings/users`);
 				revalidateTag(`user_${user.id}`);
 
 				return {

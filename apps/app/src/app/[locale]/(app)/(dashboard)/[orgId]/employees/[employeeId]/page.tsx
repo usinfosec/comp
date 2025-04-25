@@ -10,7 +10,6 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { cache } from "react";
 import { EmployeeDetails } from "./components/EmployeeDetails";
 
 export default async function EmployeeDetailsPage({
@@ -65,7 +64,7 @@ export async function generateMetadata({
 	};
 }
 
-const getEmployee = cache(async (employeeId: string) => {
+const getEmployee = async (employeeId: string) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -86,9 +85,9 @@ const getEmployee = cache(async (employeeId: string) => {
 	});
 
 	return employee;
-});
+};
 
-const getPoliciesTasks = cache(async (employeeId: string) => {
+const getPoliciesTasks = async (employeeId: string) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -110,7 +109,7 @@ const getPoliciesTasks = cache(async (employeeId: string) => {
 	});
 
 	return policies;
-});
+};
 
 const getTrainingVideos = async (employeeId: string) => {
 	const session = await auth.api.getSession({

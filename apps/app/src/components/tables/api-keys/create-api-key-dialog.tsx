@@ -189,7 +189,7 @@ export function CreateApiKeyDialog({
 					</p>
 					<div className="flex items-center">
 						<div className="relative w-full">
-							<div className="rounded-md bg-muted p-3 pr-10 overflow-hidden">
+							<div className="rounded-sm bg-muted p-3 pr-10 overflow-hidden">
 								<div className="overflow-x-auto">
 									<code className="text-sm break-all">
 										{createdApiKey}

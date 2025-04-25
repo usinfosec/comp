@@ -1,17 +1,21 @@
+import { Task } from "@comp/db/types";
 import { getFrameworkWithComplianceScores } from "../data/getFrameworkWithComplianceScores";
 import type { FrameworkInstanceWithControls } from "../types";
 import { FrameworkList } from "./FrameworkList";
 
 export interface FrameworksOverviewProps {
 	frameworksWithControls: FrameworkInstanceWithControls[];
+	tasks: Task[];
 }
 
 export async function FrameworksOverview({
 	frameworksWithControls,
+	tasks,
 }: FrameworksOverviewProps) {
 	const frameworksWithControlsAndComplianceScores =
 		await getFrameworkWithComplianceScores({
 			frameworksWithControls,
+			tasks,
 		});
 
 	return (
@@ -20,6 +24,7 @@ export async function FrameworksOverview({
 				frameworksWithControlsAndComplianceScores={
 					frameworksWithControlsAndComplianceScores
 				}
+				tasks={tasks}
 			/>
 		</div>
 	);

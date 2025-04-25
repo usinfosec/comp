@@ -10,9 +10,10 @@ export const accessSecurity: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "access_control_records",
+			taskId: "access_control_records",
 		},
 	],
 	mappedRequirements: [

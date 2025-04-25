@@ -16,7 +16,7 @@ export function SidebarLogo({ isCollapsed }: SidebarLogoProps) {
 
 	return (
 		<div className={cn("transition-all duration-300 flex items-center")}>
-			<Link href={`/${organizationId}`}>
+			<Link href={`/${organizationId}`} suppressHydrationWarning>
 				<Icons.Logo
 					width={45}
 					height={45}

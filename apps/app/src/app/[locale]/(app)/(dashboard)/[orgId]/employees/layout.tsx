@@ -1,0 +1,109 @@
+import { AppOnboarding } from "@/components/app-onboarding";
+import { getI18n } from "@/locales/server";
+import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
+import { SecondaryMenu } from "@comp/ui/secondary-menu";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+
+export default async function Layout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const t = await getI18n();
+
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+	const orgId = session?.session.activeOrganizationId;
+
+	if (!orgId) {
+		return redirect("/");
+	}
+
+	// Fetch all members first
+	const allMembers = await db.member.findMany({
+		where: {
+			organizationId: orgId,
+		},
+		include: {
+			user: true,
+		},
+	});
+
+	// Filter in application code to handle multiple roles
+	const employees = allMembers.filter((member) => {
+		const roles = member.role.includes(",")
+			? member.role.split(",")
+			: [member.role];
+		return roles.includes("employee");
+	});
+
+	if (employees.length === 0) {
+		return (
+			<div className="max-w-[1200px] m-auto">
+				<Suspense fallback={<div>Loading...</div>}>
+					<div className="mt-8">
+						<AppOnboarding
+							title={t("app_onboarding.employees.title")}
+							description={t(
+								"app_onboarding.employees.description",
+							)}
+							cta={t("app_onboarding.employees.cta")}
+							imageSrc="/onboarding/people-management.webp"
+							imageAlt="Employee Management"
+							href={`/${orgId}/settings/users`}
+							faqs={[
+								{
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_1",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_1",
+									),
+								},
+								{
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_2",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_2",
+									),
+								},
+								{
+									questionKey: t(
+										"app_onboarding.employees.faqs.question_3",
+									),
+									answerKey: t(
+										"app_onboarding.employees.faqs.answer_3",
+									),
+								},
+							]}
+						/>
+					</div>
+				</Suspense>
+			</div>
+		);
+	}
+
+	return (
+		<div className="max-w-[1200px] m-auto">
+			<SecondaryMenu
+				items={[
+					{
+						path: `/${orgId}/employees`,
+						label: t("people.dashboard.title"),
+					},
+					{
+						path: `/${orgId}/employees/all`,
+						label: t("people.all_employees"),
+					},
+				]}
+			/>
+
+			<main className="mt-8">{children}</main>
+		</div>
+	);
+}

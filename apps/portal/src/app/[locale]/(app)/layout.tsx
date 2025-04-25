@@ -21,7 +21,7 @@ export default async function Layout({
 		<div className="relative">
 			<Sidebar />
 
-			<div className="mx-4 md:ml-[95px] md:mr-10 pb-8">
+			<div className="mx-auto w-full max-w-[1200px] px-8 pb-8">
 				<Header />
 				<main className="max-w-[1200px] mx-auto">{children}</main>
 			</div>

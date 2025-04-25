@@ -10,9 +10,10 @@ export const dataRetentionAndDisposal: Control = {
 			type: "policy",
 			policyId: "privacy_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "retention_schedules",
+			taskId: "retention_schedules",
 		},
 	],
 	mappedRequirements: [

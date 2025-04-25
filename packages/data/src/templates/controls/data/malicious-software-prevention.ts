@@ -10,9 +10,10 @@ export const maliciousSoftwarePrevention: Control = {
 			type: "policy",
 			policyId: "information_security_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "malware_prevention_records",
+			taskId: "malware_prevention_records",
 		},
 	],
 	mappedRequirements: [

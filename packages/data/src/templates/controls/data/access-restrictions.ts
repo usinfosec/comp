@@ -10,9 +10,10 @@ export const accessRestrictions: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "physical_access_records",
+			taskId: "physical_access_records",
 		},
 	],
 	mappedRequirements: [

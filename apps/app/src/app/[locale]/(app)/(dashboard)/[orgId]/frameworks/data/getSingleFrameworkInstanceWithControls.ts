@@ -23,7 +23,6 @@ export const getSingleFrameworkInstanceWithControls = cache(
 						artifacts: {
 							include: {
 								policy: true,
-								evidence: true,
 							},
 						},
 						requirementsMapped: true,

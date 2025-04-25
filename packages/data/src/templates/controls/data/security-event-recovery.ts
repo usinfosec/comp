@@ -10,9 +10,10 @@ export const securityEventRecovery: Control = {
 			type: "policy",
 			policyId: "business_continuity_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "recovery_records",
+			taskId: "recovery_records",
 		},
 	],
 	mappedRequirements: [
