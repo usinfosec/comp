@@ -89,7 +89,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 				setFormData(data);
 				setIsSetup(true);
 
-				await createOrganization.execute(data);
+				createOrganization.execute(data);
 
 				await authClient.organization.setActive({
 					organizationId: organization.data?.id,
