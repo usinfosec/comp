@@ -270,6 +270,22 @@ export const Icons = {
 			</defs>
 		</svg>
 	),
+	EmailIcon: (props: any) => (
+		<svg
+			viewBox="0 0 20 20"
+			xmlns="http://www.w3.org/2000/svg"
+			width={20}
+			height={20}
+			{...props}
+		>
+			<g strokeWidth={0} />
+			<g strokeLinecap="round" strokeLinejoin="round" />
+			<path
+				d="M20 4.461v12.391l-4.835-6.043-.919.736 4.882 6.103H.872l4.882-6.103-.919-.736L0 16.852V4.461l9.999 8.671zm-.001-2.107v.548L10 11.573.001 2.902v-.548z"
+				fillRule="evenodd"
+			/>
+		</svg>
+	),
 	InboxCustomize: (props: any) => (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
