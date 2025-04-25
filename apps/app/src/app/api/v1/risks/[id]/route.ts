@@ -96,8 +96,8 @@ export async function GET(
 		// Fetch tasks for this risk
 		const tasks = await db.task.findMany({
 			where: {
-				relatedId: riskId,
-				relatedType: "risk",
+				entityId: riskId,
+				entityType: "risk",
 				organizationId: organizationId!,
 			},
 			select: {
@@ -105,7 +105,6 @@ export async function GET(
 				title: true,
 				description: true,
 				status: true,
-				dueDate: true,
 				createdAt: true,
 				updatedAt: true,
 				assigneeId: true,
@@ -134,7 +133,6 @@ export async function GET(
 				...task,
 				createdAt: task.createdAt.toISOString(),
 				updatedAt: task.updatedAt.toISOString(),
-				dueDate: task.dueDate.toISOString(),
 			})),
 		};
 

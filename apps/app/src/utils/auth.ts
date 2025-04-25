@@ -7,7 +7,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailOTP, magicLink, organization } from "better-auth/plugins";
-import { ac, admin, auditor, employee, member, owner } from "./permissions";
+import { ac, allRoles } from "./permissions";
 
 let socialProviders = {};
 
@@ -36,9 +36,11 @@ export const auth = betterAuth({
 		provider: "postgresql",
 	}),
 	advanced: {
-		// This will enable us to fall back to DB for ID generation.
-		// It's important so we can use customs ID's specified in Prisma Schema.
-		generateId: false,
+		database: {
+			// This will enable us to fall back to DB for ID generation.
+			// It's important so we can use customs ID's specified in Prisma Schema.
+			generateId: false,
+		},
 	},
 	secret: process.env.AUTH_SECRET!,
 	plugins: [
@@ -58,12 +60,7 @@ export const auth = betterAuth({
 				});
 			},
 			ac,
-			roles: {
-				owner,
-				admin,
-				auditor,
-				employee,
-			},
+			roles: allRoles,
 			schema: {
 				organization: {
 					modelName: "Organization",

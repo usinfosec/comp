@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/utils/auth";
+import { authClient } from "@/utils/auth-client";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { z } from "zod";
@@ -9,7 +10,7 @@ import type { ActionResponse } from "../types";
 
 const inviteMemberSchema = z.object({
 	email: z.string().email(),
-	role: z.enum(["owner", "admin", "member", "auditor"]),
+	role: z.enum(["owner", "admin", "auditor", "employee"]),
 });
 
 export const inviteMember = authActionClient
@@ -26,17 +27,24 @@ export const inviteMember = authActionClient
 			parsedInput,
 			ctx,
 		}): Promise<ActionResponse<{ invited: boolean }>> => {
-			if (!ctx.session.activeOrganizationId) {
+			const organizationId = ctx.session.activeOrganizationId;
+
+			if (!organizationId) {
 				return {
 					success: false,
 					error: "Organization not found",
 				};
 			}
 
+			const { email, role } = parsedInput;
+
 			try {
-				revalidatePath(
-					`/${ctx.session.activeOrganizationId}/settings/members`,
-				);
+				await authClient.organization.inviteMember({
+					email,
+					role,
+				});
+
+				revalidatePath(`/${organizationId}/settings/users`);
 				revalidateTag(`user_${ctx.user.id}`);
 
 				return {
@@ -45,9 +53,13 @@ export const inviteMember = authActionClient
 				};
 			} catch (error) {
 				console.error("Error inviting member:", error);
+				const errorMessage =
+					error instanceof Error
+						? error.message
+						: "Failed to invite member";
 				return {
 					success: false,
-					error: "Failed to invite member",
+					error: errorMessage,
 				};
 			}
 		},

@@ -43,7 +43,11 @@ export default async function VendorPage({ params }: PageProps) {
 					<VendorInherentRiskChart vendor={vendor} />
 					<VendorResidualRiskChart vendor={vendor} />
 				</div>
-				<Comments entityId={vendorId} comments={comments} />
+				<Comments
+					entityId={vendorId}
+					comments={comments}
+					entityType="vendor"
+				/>
 			</div>
 		</PageWithBreadcrumb>
 	);

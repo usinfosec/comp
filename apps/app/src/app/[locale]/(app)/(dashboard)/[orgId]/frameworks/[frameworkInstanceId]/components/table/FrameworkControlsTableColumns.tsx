@@ -1,14 +1,8 @@
 "use client";
 
-import { StatusIndicator } from "@/components/status-indicator";
+import { StatusIndicator, StatusType } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type {
-	Artifact,
-	Evidence,
-	EvidenceStatus,
-	Policy,
-	PolicyStatus,
-} from "@comp/db/types";
+import type { Artifact, Policy, PolicyStatus } from "@comp/db/types";
 import {
 	Tooltip,
 	TooltipContent,
@@ -18,7 +12,6 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getControlStatus } from "../../../lib/utils";
 
 export type OrganizationControlType = {
 	id: string;
@@ -27,15 +20,34 @@ export type OrganizationControlType = {
 	frameworkInstanceId: string;
 	artifacts: (Artifact & {
 		policy: Policy | null;
-		evidence: Evidence | null;
 	})[];
 };
 
 // Local helper function to check artifact completion
 type ArtifactForCompletionCheck = Artifact & {
 	policy: (Policy & { status: PolicyStatus | null }) | null;
-	evidence: (Evidence & { status: EvidenceStatus | null }) | null;
 };
+
+export function getControlStatusForArtifacts(
+	artifacts: ArtifactForCompletionCheck[],
+): StatusType {
+	if (!artifacts || artifacts.length === 0) return "not_started";
+
+	const totalArtifacts = artifacts.length;
+
+	const completedArtifacts = artifacts.filter((artifact) => {
+		switch (artifact.type) {
+			case "policy":
+				return artifact.policy?.status === "published";
+			default:
+				return false;
+		}
+	}).length;
+
+	if (completedArtifacts === 0) return "not_started";
+	if (completedArtifacts === totalArtifacts) return "completed";
+	return "in_progress";
+}
 
 function isArtifactCompleted(artifact: ArtifactForCompletionCheck): boolean {
 	if (!artifact) return false;
@@ -43,12 +55,6 @@ function isArtifactCompleted(artifact: ArtifactForCompletionCheck): boolean {
 	switch (artifact.type) {
 		case "policy":
 			return artifact.policy?.status === "published";
-		case "evidence":
-			return artifact.evidence?.status === "published";
-		case "procedure":
-		case "training":
-			// For other types, they're completed if they exist
-			return true;
 		default:
 			return false;
 	}
@@ -94,7 +100,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
 				const artifacts = row.original.artifacts;
-				const status = getControlStatus(artifacts);
+				const status = getControlStatusForArtifacts(artifacts);
 
 				const totalArtifacts = artifacts.length;
 				const completedArtifacts =

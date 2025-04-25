@@ -2,7 +2,7 @@
 
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { Artifact, Evidence, Policy } from "@comp/db/types";
+import { Artifact, Policy } from "@comp/db/types";
 import { headers } from "next/headers";
 import { cache } from "react";
 
@@ -17,7 +17,6 @@ export const getRelatedArtifacts = cache(
 		controlId,
 	}: GetRelatedArtifactsParams): Promise<
 		(Artifact & {
-			evidence: Evidence | null;
 			policy: Policy | null;
 		})[]
 	> => {
@@ -40,7 +39,6 @@ export const getRelatedArtifacts = cache(
 					artifacts: {
 						include: {
 							policy: true,
-							evidence: true,
 						},
 					},
 				},

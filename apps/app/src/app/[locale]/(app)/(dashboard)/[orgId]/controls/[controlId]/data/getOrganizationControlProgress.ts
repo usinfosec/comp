@@ -2,6 +2,7 @@
 
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import { TaskEntityType } from "@comp/db/types";
 import { ArtifactType } from "@prisma/client";
 import { headers } from "next/headers";
 
@@ -28,6 +29,14 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 		};
 	}
 
+	const orgId = session.session.activeOrganizationId;
+
+	if (!orgId) {
+		return {
+			error: "Unauthorized",
+		};
+	}
+
 	// Get the control with its artifacts
 	const control = await db.control.findUnique({
 		where: {
@@ -37,7 +46,6 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 			artifacts: {
 				include: {
 					policy: true,
-					evidence: true,
 				},
 			},
 		},
@@ -50,9 +58,16 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 	}
 
 	const artifacts = control.artifacts;
+	const tasks = await db.task.findMany({
+		where: {
+			organizationId: orgId,
+			entityId: controlId,
+			entityType: "control",
+		},
+	});
 
 	const progress: ControlProgressResponse = {
-		total: artifacts.length,
+		total: artifacts.length + tasks.length,
 		completed: 0,
 		progress: 0,
 		byType: {},
@@ -75,9 +90,6 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 			case ArtifactType.policy:
 				isCompleted = artifact.policy?.status === "published";
 				break;
-			case ArtifactType.evidence:
-				isCompleted = artifact.evidence?.status === "published";
-				break;
 			case ArtifactType.procedure:
 			case ArtifactType.training:
 				// These types might need special handling based on your business logic
@@ -90,6 +102,33 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 		if (isCompleted) {
 			progress.completed++;
 			progress.byType[artifact.type].completed++;
+		}
+	}
+
+	for (const task of tasks) {
+		// Initialize type counters if not exists
+		if (!progress.byType[task.entityType]) {
+			progress.byType[task.entityType] = {
+				total: 0,
+				completed: 0,
+			};
+		}
+
+		progress.byType[task.entityType].total++;
+
+		// Check completion based on task type
+		let isCompleted = false;
+		switch (task.entityType) {
+			case TaskEntityType.control:
+				isCompleted = task.status === "done";
+				break;
+			default:
+				isCompleted = false;
+		}
+
+		if (isCompleted) {
+			progress.completed++;
+			progress.byType[task.entityType].completed++;
 		}
 	}
 

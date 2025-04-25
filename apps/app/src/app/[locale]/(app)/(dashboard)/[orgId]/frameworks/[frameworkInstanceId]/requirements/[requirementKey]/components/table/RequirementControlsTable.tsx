@@ -7,7 +7,7 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
-import type { Artifact, Control, Evidence, Policy } from "@comp/db/types";
+import type { Artifact, Control, Policy, Task } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
 import {
 	Tooltip,
@@ -25,13 +25,14 @@ interface RequirementControlsTableProps {
 	controls: (Control & {
 		artifacts: (Artifact & {
 			policy: Policy | null;
-			evidence: Evidence | null;
 		})[];
 	})[];
+	tasks: Task[];
 }
 
 export function RequirementControlsTable({
 	controls,
+	tasks,
 }: RequirementControlsTableProps) {
 	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
@@ -43,7 +44,6 @@ export function RequirementControlsTable({
 			Control & {
 				artifacts: (Artifact & {
 					policy: Policy | null;
-					evidence: Evidence | null;
 				})[];
 			}
 		>[]
@@ -87,7 +87,11 @@ export function RequirementControlsTable({
 				),
 				cell: ({ row }) => {
 					const artifacts = row.original.artifacts;
-					const status = getControlStatus(artifacts);
+					const status = getControlStatus(
+						artifacts,
+						tasks,
+						row.original.id,
+					);
 
 					const totalArtifacts = artifacts.length;
 					const completedArtifacts =

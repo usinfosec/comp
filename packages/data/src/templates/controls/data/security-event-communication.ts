@@ -10,9 +10,10 @@ export const securityEventCommunication: Control = {
 			type: "policy",
 			policyId: "incident_response_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "incident_communication_records",
+			taskId: "incident_communication_records",
 		},
 	],
 	mappedRequirements: [

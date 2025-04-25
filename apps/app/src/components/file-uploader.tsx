@@ -354,7 +354,7 @@ function FilePreview({ file }: FilePreviewProps) {
 				width={48}
 				height={48}
 				loading="lazy"
-				className="aspect-square shrink-0 rounded-md object-cover"
+				className="aspect-square shrink-0 rounded-sm object-cover"
 			/>
 		);
 	}

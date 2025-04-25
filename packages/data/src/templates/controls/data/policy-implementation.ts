@@ -10,9 +10,10 @@ export const policyImplementation: Control = {
 			type: "policy",
 			policyId: "corporate_governance_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "policy_implementation_records",
+			taskId: "policy_implementation_records",
 		},
 	],
 	mappedRequirements: [

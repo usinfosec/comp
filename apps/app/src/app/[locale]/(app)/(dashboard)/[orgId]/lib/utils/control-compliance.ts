@@ -1,15 +1,8 @@
-import type {
-	Artifact,
-	Evidence,
-	EvidenceStatus,
-	Policy,
-	PolicyStatus,
-} from "@comp/db/types";
+import type { Artifact, Policy, PolicyStatus } from "@comp/db/types";
 
 // Define the expected artifact structure explicitly, allowing null status
 type ArtifactWithRelations = Artifact & {
 	policy: (Policy & { status: PolicyStatus | null }) | null;
-	evidence: (Evidence & { status: EvidenceStatus | null }) | null;
 };
 
 /**
@@ -23,12 +16,6 @@ export function isArtifactCompleted(artifact: ArtifactWithRelations): boolean {
 	switch (artifact.type) {
 		case "policy":
 			return artifact.policy?.status === "published";
-		case "evidence":
-			return artifact.evidence?.status === "published";
-		case "procedure":
-		case "training":
-			// For other types, consider them complete if they exist
-			return true;
 		default:
 			return false;
 	}

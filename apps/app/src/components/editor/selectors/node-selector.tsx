@@ -119,7 +119,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
 		<Popover modal={true} open={open} onOpenChange={onOpenChange}>
 			<PopoverTrigger
 				asChild
-				className="gap-2 rounded-none border-none hover:bg-accent focus:ring-0"
+				className="gap-2 rounded-sm border-none hover:bg-accent focus:ring-0"
 			>
 				<Button size="sm" variant="ghost" className="gap-2">
 					<span className="whitespace-nowrap text-sm">

@@ -20,13 +20,20 @@ export function Providers({ children, locale, session }: ProviderProps) {
 	return (
 		<ThemeProvider
 			attribute="class"
-			defaultTheme="dark"
-			forcedTheme="dark"
+			enableSystem
+			// forcedTheme="dark"
 			disableTransitionOnChange
 			scriptProps={{ "data-cfasync": "false" }}
 		>
 			<GoogleTagManager
 				gtmId="GTM-56GW3TVW"
+				dataLayer={{
+					user_id: session?.user?.id ?? "",
+					user_email: session?.user?.email ?? "",
+				}}
+			/>
+			<GoogleTagManager
+				gtmId="AW-16886441131"
 				dataLayer={{
 					user_id: session?.user?.id ?? "",
 					user_email: session?.user?.email ?? "",

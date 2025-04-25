@@ -50,7 +50,11 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 					<InherentRiskChart risk={risk} />
 					<ResidualRiskChart risk={risk} />
 				</div>
-				<Comments entityId={riskId} comments={comments} />
+				<Comments
+					entityId={riskId}
+					entityType="risk"
+					comments={comments}
+				/>
 			</div>
 		</PageWithBreadcrumb>
 	);

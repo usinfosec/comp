@@ -10,9 +10,10 @@ export const changeManagementRisk: Control = {
 			type: "policy",
 			policyId: "change_management_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "change_risk_documentation",
+			taskId: "change_risk_documentation",
 		},
 	],
 	mappedRequirements: [

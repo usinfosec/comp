@@ -10,6 +10,7 @@ import {
 } from "@comp/ui/dropdown-menu";
 import { headers } from "next/headers";
 import { SignOut } from "./sign-out";
+import { ThemeSwitch } from "./theme-switch";
 
 export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 	const session = await auth.api.getSession({
@@ -23,7 +24,11 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 					{session?.user?.image && (
 						<AvatarImageNext
 							src={session?.user?.image}
-							alt={session?.user?.name ?? session?.user?.email ?? ""}
+							alt={
+								session?.user?.name ??
+								session?.user?.email ??
+								""
+							}
 							width={32}
 							height={32}
 							quality={100}
@@ -31,7 +36,8 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 					)}
 					<AvatarFallback>
 						<span className="text-xs">
-							{session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email?.charAt(0)?.toUpperCase()}
+							{session?.user?.name?.charAt(0)?.toUpperCase() ||
+								session?.user?.email?.charAt(0)?.toUpperCase()}
 						</span>
 					</AvatarFallback>
 				</Avatar>
@@ -79,12 +85,12 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
+						<div className="flex flex-row justify-between items-center p-2">
+							<p className="text-sm">{t("user_menu.theme")}</p>
+							<ThemeSwitch />
+						</div>{" "}
+						<DropdownMenuSeparator />{" "}
 						{/* <div className="flex flex-row justify-between items-center p-2">
-              <p className="text-sm">{t("user_menu.theme")}</p>
-              <ThemeSwitch />
-            </div>{" "}
-            <DropdownMenuSeparator />{" "}
-            <div className="flex flex-row justify-between items-center p-2">
               <p className="text-sm">{t("user_menu.language")}</p>
               <LocaleSwitch />
             </div>{" "} */}

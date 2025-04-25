@@ -1,12 +1,15 @@
 "use client";
 
+import { Task } from "@comp/db/types";
 import { FrameworkCard } from "./FrameworkCard";
 import type { FrameworkInstanceWithComplianceScore } from "./types";
 
 export function FrameworkList({
 	frameworksWithControlsAndComplianceScores,
+	tasks,
 }: {
 	frameworksWithControlsAndComplianceScores: FrameworkInstanceWithComplianceScore[];
+	tasks: Task[];
 }) {
 	if (!frameworksWithControlsAndComplianceScores.length) return null;
 
@@ -18,6 +21,7 @@ export function FrameworkList({
 						key={frameworkInstance.id}
 						frameworkInstance={frameworkInstance}
 						complianceScore={complianceScore}
+						tasks={tasks}
 					/>
 				),
 			)}

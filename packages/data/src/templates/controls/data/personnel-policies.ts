@@ -10,9 +10,10 @@ export const personnelPolicies: Control = {
 			type: "policy",
 			policyId: "human_resources_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "personnel_compliance_documentation",
+			taskId: "personnel_compliance_documentation",
 		},
 	],
 	mappedRequirements: [

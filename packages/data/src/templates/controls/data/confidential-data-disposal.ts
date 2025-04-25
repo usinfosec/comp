@@ -10,9 +10,10 @@ export const confidentialDataDisposal: Control = {
 			type: "policy",
 			policyId: "classification_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "disposal_records",
+			taskId: "disposal_records",
 		},
 	],
 	mappedRequirements: [

@@ -160,7 +160,7 @@ export function OrganizationsCard() {
 							{trendPercentage !== undefined && (
 								<Badge
 									variant="outline"
-									className="bg-transparent border-green-500 text-green-500 px-2 py-0.5 rounded-none"
+									className="bg-transparent border-green-500 text-green-500 px-2 py-0.5 rounded-sm"
 								>
 									<TrendingUp className="mr-1 h-3.5 w-3.5" />
 									<span>

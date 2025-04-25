@@ -3,7 +3,7 @@
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
-import { authClient, useSession } from "@/utils/auth-client";
+import { authClient } from "@/utils/auth-client";
 import { FrameworkId, frameworks } from "@comp/data";
 import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -26,15 +26,14 @@ import {
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
+import { useRouter } from "next/navigation";
 
 type Props = {
 	onOpenChange: (isOpen: boolean) => void;
@@ -43,6 +42,7 @@ type Props = {
 export function CreateOrgModal({ onOpenChange }: Props) {
 	const t = useI18n();
 	const [isSetup, setIsSetup] = useState(false);
+	const router = useRouter();
 
 	const newOrganizationRef = useRef<Pick<Organization, "id" | "name"> | null>(
 		null,
@@ -59,6 +59,8 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 					id: data.data.organizationId,
 					name: formData?.name || "",
 				};
+
+				router.push(`/${data.data.organizationId}`);
 			} else {
 				newOrganizationRef.current = null;
 			}
@@ -78,7 +80,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-		const organization = await authClient.organization
+		await authClient.organization
 			.create({
 				name: data.name,
 				slug: data.name,
@@ -87,7 +89,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 				setFormData(data);
 				setIsSetup(true);
 
-				await createOrganization.execute(data);
+				createOrganization.execute(data);
 
 				await authClient.organization.setActive({
 					organizationId: organization.data?.id,
@@ -106,11 +108,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	};
 
 	return (
-		<DialogContent
-			className="max-w-[455px]"
-			hideClose={isExecuting}
-			hideOverlayClose={isExecuting}
-		>
+		<DialogContent className="max-w-[455px]">
 			<DialogHeader className="my-4">
 				{!isExecuting ? (
 					<>

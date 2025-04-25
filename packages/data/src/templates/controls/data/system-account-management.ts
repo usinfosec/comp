@@ -10,9 +10,10 @@ export const systemAccountManagement: Control = {
 			type: "policy",
 			policyId: "access_control_policy",
 		},
+	],
+	mappedTasks: [
 		{
-			type: "evidence",
-			evidenceId: "account_management_records",
+			taskId: "account_management_records",
 		},
 	],
 	mappedRequirements: [

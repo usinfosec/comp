@@ -6846,7 +6846,7 @@ var policies = {
   workstation_policy: workstationPolicy
 };
 
-// src/templates/evidence/data/access_control_records.ts
+// src/templates/tasks/data/access_control_records.ts
 var accessControlRecords = {
   id: "access_control_records",
   name: "Access Control Records",
@@ -6855,7 +6855,7 @@ var accessControlRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/access_logs.ts
+// src/templates/tasks/data/access_logs.ts
 var accessLogs = {
   id: "access_logs",
   name: "Access Logs",
@@ -6864,7 +6864,7 @@ var accessLogs = {
   department: "it"
 };
 
-// src/templates/evidence/data/access_removal_records.ts
+// src/templates/tasks/data/access_removal_records.ts
 var accessRemovalRecords = {
   id: "access_removal_records",
   name: "Access Removal Records",
@@ -6873,7 +6873,7 @@ var accessRemovalRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/access_review_records.ts
+// src/templates/tasks/data/access_review_records.ts
 var accessReviewRecords = {
   id: "access_review_records",
   name: "Access Review Records",
@@ -6882,7 +6882,7 @@ var accessReviewRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/account_management_records.ts
+// src/templates/tasks/data/account_management_records.ts
 var accountManagementRecords = {
   id: "account_management_records",
   name: "Account Management Records",
@@ -6891,7 +6891,7 @@ var accountManagementRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/authentication_records.ts
+// src/templates/tasks/data/authentication_records.ts
 var authenticationRecords = {
   id: "authentication_records",
   name: "Authentication Records",
@@ -6900,7 +6900,7 @@ var authenticationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/board_meeting_documentation.ts
+// src/templates/tasks/data/board_meeting_documentation.ts
 var boardMeetingDocumentation = {
   id: "board_meeting_documentation",
   name: "Board Meeting Documentation",
@@ -6909,7 +6909,7 @@ var boardMeetingDocumentation = {
   department: "gov"
 };
 
-// src/templates/evidence/data/business_continuity_and_disaster_recovery_testing_records.ts
+// src/templates/tasks/data/business_continuity_and_disaster_recovery_testing_records.ts
 var businessContinuityAndDisasterRecoveryTestingRecords = {
   id: "business_continuity_and_disaster_recovery_testing_records",
   name: "Business Continuity and Disaster Recovery Testing Records",
@@ -6918,7 +6918,7 @@ var businessContinuityAndDisasterRecoveryTestingRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/business_continuity_plans.ts
+// src/templates/tasks/data/business_continuity_plans.ts
 var businessContinuityPlans = {
   id: "business_continuity_plans",
   name: "Business Continuity Plans",
@@ -6927,7 +6927,7 @@ var businessContinuityPlans = {
   department: "it"
 };
 
-// src/templates/evidence/data/capacity_reports.ts
+// src/templates/tasks/data/capacity_reports.ts
 var capacityReports = {
   id: "capacity_reports",
   name: "Capacity Reports",
@@ -6936,7 +6936,7 @@ var capacityReports = {
   department: "it"
 };
 
-// src/templates/evidence/data/change_management_records.ts
+// src/templates/tasks/data/change_management_records.ts
 var changeManagementRecords = {
   id: "change_management_records",
   name: "Change Management Records",
@@ -6945,7 +6945,7 @@ var changeManagementRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/change_request_logs.ts
+// src/templates/tasks/data/change_request_logs.ts
 var changeRequestLogs = {
   id: "change_request_logs",
   name: "Change Request Logs",
@@ -6954,7 +6954,7 @@ var changeRequestLogs = {
   department: "it"
 };
 
-// src/templates/evidence/data/change_risk_documentation.ts
+// src/templates/tasks/data/change_risk_documentation.ts
 var changeRiskDocumentation = {
   id: "change_risk_documentation",
   name: "Change Risk Documentation",
@@ -6963,7 +6963,7 @@ var changeRiskDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/communication_records.ts
+// src/templates/tasks/data/communication_records.ts
 var communicationRecords = {
   id: "communication_records",
   name: "Communication Records",
@@ -6972,7 +6972,7 @@ var communicationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/consent_records.ts
+// src/templates/tasks/data/consent_records.ts
 var consentRecords = {
   id: "consent_records",
   name: "Consent Records",
@@ -6981,7 +6981,7 @@ var consentRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/control_implementation_records.ts
+// src/templates/tasks/data/control_implementation_records.ts
 var controlImplementationRecords = {
   id: "control_implementation_records",
   name: "Control Implementation Records",
@@ -6990,7 +6990,7 @@ var controlImplementationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/control_testing_documentation.ts
+// src/templates/tasks/data/control_testing_documentation.ts
 var controlTestingDocumentation = {
   id: "control_testing_documentation",
   name: "Control Testing Documentation",
@@ -6999,7 +6999,7 @@ var controlTestingDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/data_classification_records.ts
+// src/templates/tasks/data/data_classification_records.ts
 var dataClassificationRecords = {
   id: "data_classification_records",
   name: "Data Classification Records",
@@ -7008,7 +7008,7 @@ var dataClassificationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/data_processing_logs.ts
+// src/templates/tasks/data/data_processing_logs.ts
 var dataProcessingLogs = {
   id: "data_processing_logs",
   name: "Data Processing Logs",
@@ -7017,7 +7017,7 @@ var dataProcessingLogs = {
   department: "it"
 };
 
-// src/templates/evidence/data/data_quality_documentation.ts
+// src/templates/tasks/data/data_quality_documentation.ts
 var dataQualityDocumentation = {
   id: "data_quality_documentation",
   name: "Data Quality Documentation",
@@ -7026,7 +7026,7 @@ var dataQualityDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/data_validation_records.ts
+// src/templates/tasks/data/data_validation_records.ts
 var dataValidationRecords = {
   id: "data_validation_records",
   name: "Data Validation Records",
@@ -7035,7 +7035,7 @@ var dataValidationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/deficiency_management_records.ts
+// src/templates/tasks/data/deficiency_management_records.ts
 var deficiencyManagementRecords = {
   id: "deficiency_management_records",
   name: "Deficiency Management Records",
@@ -7044,7 +7044,7 @@ var deficiencyManagementRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/disposal_records.ts
+// src/templates/tasks/data/disposal_records.ts
 var disposalRecords = {
   id: "disposal_records",
   name: "Disposal Records",
@@ -7053,7 +7053,7 @@ var disposalRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/ethics_compliance_documentation.ts
+// src/templates/tasks/data/ethics_compliance_documentation.ts
 var ethicsComplianceDocumentation = {
   id: "ethics_compliance_documentation",
   name: "Ethics Compliance Documentation",
@@ -7062,7 +7062,7 @@ var ethicsComplianceDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/exception_logs.ts
+// src/templates/tasks/data/exception_logs.ts
 var exceptionLogs = {
   id: "exception_logs",
   name: "Exception Logs",
@@ -7071,7 +7071,7 @@ var exceptionLogs = {
   department: "it"
 };
 
-// src/templates/evidence/data/external_communication_records.ts
+// src/templates/tasks/data/external_communication_records.ts
 var externalCommunicationRecords = {
   id: "external_communication_records",
   name: "External Communication Records",
@@ -7080,7 +7080,7 @@ var externalCommunicationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/fraud_risk_documentation.ts
+// src/templates/tasks/data/fraud_risk_documentation.ts
 var fraudRiskDocumentation = {
   id: "fraud_risk_documentation",
   name: "Fraud Risk Documentation",
@@ -7089,7 +7089,7 @@ var fraudRiskDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/hr_documentation.ts
+// src/templates/tasks/data/hr_documentation.ts
 var hrDocumentation = {
   id: "hr_documentation",
   name: "HR Documentation",
@@ -7098,7 +7098,7 @@ var hrDocumentation = {
   department: "hr"
 };
 
-// src/templates/evidence/data/incident_analysis_records.ts
+// src/templates/tasks/data/incident_analysis_records.ts
 var incidentAnalysisRecords = {
   id: "incident_analysis_records",
   name: "Incident Analysis Records",
@@ -7107,7 +7107,7 @@ var incidentAnalysisRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/incident_communication_records.ts
+// src/templates/tasks/data/incident_communication_records.ts
 var incidentCommunicationRecords = {
   id: "incident_communication_records",
   name: "Incident Communication Records",
@@ -7116,7 +7116,7 @@ var incidentCommunicationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/incident_recovery_records.ts
+// src/templates/tasks/data/incident_recovery_records.ts
 var incidentRecoveryRecords = {
   id: "incident_recovery_records",
   name: "Incident Recovery Records",
@@ -7125,7 +7125,7 @@ var incidentRecoveryRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/incident_response_records.ts
+// src/templates/tasks/data/incident_response_records.ts
 var incidentResponseRecords = {
   id: "incident_response_records",
   name: "Incident Response Records",
@@ -7134,7 +7134,7 @@ var incidentResponseRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/infrastructure_monitoring_records.ts
+// src/templates/tasks/data/infrastructure_monitoring_records.ts
 var infrastructureMonitoringRecords = {
   id: "infrastructure_monitoring_records",
   name: "Infrastructure Monitoring Records",
@@ -7143,7 +7143,7 @@ var infrastructureMonitoringRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/malware_prevention_records.ts
+// src/templates/tasks/data/malware_prevention_records.ts
 var malwarePreventionRecords = {
   id: "malware_prevention_records",
   name: "Malware Prevention Records",
@@ -7152,7 +7152,7 @@ var malwarePreventionRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/management_structure_documentation.ts
+// src/templates/tasks/data/management_structure_documentation.ts
 var managementStructureDocumentation = {
   id: "management_structure_documentation",
   name: "Management Structure Documentation",
@@ -7161,7 +7161,7 @@ var managementStructureDocumentation = {
   department: "hr"
 };
 
-// src/templates/evidence/data/personnel_compliance_documentation.ts
+// src/templates/tasks/data/personnel_compliance_documentation.ts
 var personnelComplianceDocumentation = {
   id: "personnel_compliance_documentation",
   name: "Personnel Compliance Documentation",
@@ -7170,7 +7170,7 @@ var personnelComplianceDocumentation = {
   department: "hr"
 };
 
-// src/templates/evidence/data/physical_access_records.ts
+// src/templates/tasks/data/physical_access_records.ts
 var physicalAccessRecords = {
   id: "physical_access_records",
   name: "Physical Access Records",
@@ -7179,7 +7179,7 @@ var physicalAccessRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/policy_implementation_records.ts
+// src/templates/tasks/data/policy_implementation_records.ts
 var policyImplementationRecords = {
   id: "policy_implementation_records",
   name: "Policy Implementation Records",
@@ -7188,7 +7188,7 @@ var policyImplementationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/privacy_notice.ts
+// src/templates/tasks/data/privacy_notice.ts
 var privacyNotice = {
   id: "privacy_notice",
   name: "Privacy Notice",
@@ -7197,7 +7197,7 @@ var privacyNotice = {
   department: "it"
 };
 
-// src/templates/evidence/data/recovery_records.ts
+// src/templates/tasks/data/recovery_records.ts
 var recoveryRecords = {
   id: "recovery_records",
   name: "Recovery Records",
@@ -7206,7 +7206,7 @@ var recoveryRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/retention_schedules.ts
+// src/templates/tasks/data/retention_schedules.ts
 var retentionSchedules = {
   id: "retention_schedules",
   name: "Retention Schedules",
@@ -7215,7 +7215,7 @@ var retentionSchedules = {
   department: "it"
 };
 
-// src/templates/evidence/data/risk_assessment_documentation.ts
+// src/templates/tasks/data/risk_assessment_documentation.ts
 var riskAssessmentDocumentation = {
   id: "risk_assessment_documentation",
   name: "Risk Assessment Documentation",
@@ -7224,7 +7224,7 @@ var riskAssessmentDocumentation = {
   department: "it"
 };
 
-// src/templates/evidence/data/risk_identification_records.ts
+// src/templates/tasks/data/risk_identification_records.ts
 var riskIdentificationRecords = {
   id: "risk_identification_records",
   name: "Risk Identification Records",
@@ -7233,7 +7233,7 @@ var riskIdentificationRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/technology_control_records.ts
+// src/templates/tasks/data/technology_control_records.ts
 var technologyControlRecords = {
   id: "technology_control_records",
   name: "Technology Control Records",
@@ -7242,7 +7242,7 @@ var technologyControlRecords = {
   department: "it"
 };
 
-// src/templates/evidence/data/uptime_reports.ts
+// src/templates/tasks/data/uptime_reports.ts
 var uptimeReports = {
   id: "uptime_reports",
   name: "Uptime Reports",
@@ -7251,7 +7251,7 @@ var uptimeReports = {
   department: "it"
 };
 
-// src/templates/evidence/data/vendor_risk_assessment_records.ts
+// src/templates/tasks/data/vendor_risk_assessment_records.ts
 var vendorRiskAssessmentRecords = {
   id: "vendor_risk_assessment_records",
   name: "Vendor Risk Assessment Records",
@@ -7260,8 +7260,8 @@ var vendorRiskAssessmentRecords = {
   department: "it"
 };
 
-// src/templates/evidence/index.ts
-var evidence = {
+// src/templates/tasks/index.ts
+var tasks = {
   access_control_records: accessControlRecords,
   access_logs: accessLogs,
   access_removal_records: accessRemovalRecords,
@@ -7319,10 +7319,11 @@ var accessAuthentication = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "authentication_records"
+      taskId: "authentication_records"
     }
   ],
   mappedRequirements: [
@@ -7342,10 +7343,11 @@ var accessRemoval = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "access_removal_records"
+      taskId: "access_removal_records"
     }
   ],
   mappedRequirements: [
@@ -7365,10 +7367,11 @@ var accessRestrictions = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "physical_access_records"
+      taskId: "physical_access_records"
     }
   ],
   mappedRequirements: [
@@ -7388,10 +7391,11 @@ var accessRestrictionsForConfidentialData = {
     {
       type: "policy",
       policyId: "classification_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "access_logs"
+      taskId: "access_logs"
     }
   ],
   mappedRequirements: [
@@ -7411,10 +7415,11 @@ var accessReview = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "access_review_records"
+      taskId: "access_review_records"
     }
   ],
   mappedRequirements: [
@@ -7434,10 +7439,11 @@ var accessSecurity = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "access_control_records"
+      taskId: "access_control_records"
     }
   ],
   mappedRequirements: [
@@ -7457,10 +7463,11 @@ var accuracyAndCompleteness = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "data_validation_records"
+      taskId: "data_validation_records"
     }
   ],
   mappedRequirements: [
@@ -7480,10 +7487,11 @@ var boardOversight = {
     {
       type: "policy",
       policyId: "corporate_governance_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "board_meeting_documentation"
+      taskId: "board_meeting_documentation"
     }
   ],
   mappedRequirements: [
@@ -7503,10 +7511,11 @@ var changeManagementRisk = {
     {
       type: "policy",
       policyId: "change_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "change_risk_documentation"
+      taskId: "change_risk_documentation"
     }
   ],
   mappedRequirements: [
@@ -7526,10 +7535,11 @@ var choiceAndConsent = {
     {
       type: "policy",
       policyId: "privacy_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "consent_records"
+      taskId: "consent_records"
     }
   ],
   mappedRequirements: [
@@ -7549,10 +7559,11 @@ var codeOfConduct = {
     {
       type: "policy",
       policyId: "code_of_conduct_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "ethics_compliance_documentation"
+      taskId: "ethics_compliance_documentation"
     }
   ],
   mappedRequirements: [
@@ -7572,10 +7583,11 @@ var confidentialDataDisposal = {
     {
       type: "policy",
       policyId: "classification_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "disposal_records"
+      taskId: "disposal_records"
     }
   ],
   mappedRequirements: [
@@ -7595,10 +7607,11 @@ var confidentialInformationClassification = {
     {
       type: "policy",
       policyId: "classification_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "data_classification_records"
+      taskId: "data_classification_records"
     }
   ],
   mappedRequirements: [
@@ -7618,10 +7631,11 @@ var controlMonitoring = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "control_testing_documentation"
+      taskId: "control_testing_documentation"
     }
   ],
   mappedRequirements: [
@@ -7641,10 +7655,11 @@ var controlSelection = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "control_implementation_records"
+      taskId: "control_implementation_records"
     }
   ],
   mappedRequirements: [
@@ -7664,10 +7679,11 @@ var dataRetentionAndDisposal = {
     {
       type: "policy",
       policyId: "privacy_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "retention_schedules"
+      taskId: "retention_schedules"
     }
   ],
   mappedRequirements: [
@@ -7687,10 +7703,11 @@ var deficiencyManagement = {
     {
       type: "policy",
       policyId: "risk_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "deficiency_management_records"
+      taskId: "deficiency_management_records"
     }
   ],
   mappedRequirements: [
@@ -7710,10 +7727,11 @@ var exceptionHandling = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "exception_logs"
+      taskId: "exception_logs"
     }
   ],
   mappedRequirements: [
@@ -7733,10 +7751,11 @@ var externalCommunication = {
     {
       type: "policy",
       policyId: "corporate_governance_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "external_communication_records"
+      taskId: "external_communication_records"
     }
   ],
   mappedRequirements: [
@@ -7756,10 +7775,11 @@ var fraudRiskAssessment = {
     {
       type: "policy",
       policyId: "risk_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "fraud_risk_documentation"
+      taskId: "fraud_risk_documentation"
     }
   ],
   mappedRequirements: [
@@ -7779,10 +7799,11 @@ var informationAssetChanges = {
     {
       type: "policy",
       policyId: "change_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "change_management_records"
+      taskId: "change_management_records"
     }
   ],
   mappedRequirements: [
@@ -7802,10 +7823,11 @@ var informationQuality = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "data_quality_documentation"
+      taskId: "data_quality_documentation"
     }
   ],
   mappedRequirements: [
@@ -7825,10 +7847,11 @@ var infrastructureMonitoring = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "infrastructure_monitoring_records"
+      taskId: "infrastructure_monitoring_records"
     }
   ],
   mappedRequirements: [
@@ -7848,10 +7871,11 @@ var inputProcessingAndOutputControls = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "data_processing_logs"
+      taskId: "data_processing_logs"
     }
   ],
   mappedRequirements: [
@@ -7871,10 +7895,11 @@ var internalCommunication = {
     {
       type: "policy",
       policyId: "corporate_governance_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "communication_records"
+      taskId: "communication_records"
     }
   ],
   mappedRequirements: [
@@ -7894,10 +7919,11 @@ var maliciousSoftwarePrevention = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "malware_prevention_records"
+      taskId: "malware_prevention_records"
     }
   ],
   mappedRequirements: [
@@ -7917,10 +7943,11 @@ var managementPhilosophy = {
     {
       type: "policy",
       policyId: "corporate_governance_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "management_structure_documentation"
+      taskId: "management_structure_documentation"
     }
   ],
   mappedRequirements: [
@@ -7940,10 +7967,11 @@ var organizationalStructure = {
     {
       type: "policy",
       policyId: "human_resources_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "hr_documentation"
+      taskId: "hr_documentation"
     }
   ],
   mappedRequirements: [
@@ -7963,10 +7991,11 @@ var personnelPolicies = {
     {
       type: "policy",
       policyId: "human_resources_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "personnel_compliance_documentation"
+      taskId: "personnel_compliance_documentation"
     }
   ],
   mappedRequirements: [
@@ -7986,10 +8015,11 @@ var policyImplementation = {
     {
       type: "policy",
       policyId: "corporate_governance_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "policy_implementation_records"
+      taskId: "policy_implementation_records"
     }
   ],
   mappedRequirements: [
@@ -8009,10 +8039,11 @@ var privacyNotice2 = {
     {
       type: "policy",
       policyId: "privacy_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "privacy_notice"
+      taskId: "privacy_notice"
     }
   ],
   mappedRequirements: [
@@ -8032,10 +8063,11 @@ var riskAssessmentProcess = {
     {
       type: "policy",
       policyId: "risk_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "risk_assessment_documentation"
+      taskId: "risk_assessment_documentation"
     }
   ],
   mappedRequirements: [
@@ -8055,10 +8087,11 @@ var riskIdentification = {
     {
       type: "policy",
       policyId: "risk_management_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "risk_identification_records"
+      taskId: "risk_identification_records"
     }
   ],
   mappedRequirements: [
@@ -8078,10 +8111,11 @@ var securityEventAnalysis = {
     {
       type: "policy",
       policyId: "incident_response_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "incident_analysis_records"
+      taskId: "incident_analysis_records"
     }
   ],
   mappedRequirements: [
@@ -8101,10 +8135,11 @@ var securityEventCommunication = {
     {
       type: "policy",
       policyId: "incident_response_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "incident_communication_records"
+      taskId: "incident_communication_records"
     }
   ],
   mappedRequirements: [
@@ -8124,10 +8159,11 @@ var securityEventRecovery = {
     {
       type: "policy",
       policyId: "business_continuity_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "recovery_records"
+      taskId: "recovery_records"
     }
   ],
   mappedRequirements: [
@@ -8147,10 +8183,11 @@ var securityEventResponse = {
     {
       type: "policy",
       policyId: "incident_response_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "incident_response_records"
+      taskId: "incident_response_records"
     }
   ],
   mappedRequirements: [
@@ -8170,10 +8207,11 @@ var systemAccountManagement = {
     {
       type: "policy",
       policyId: "access_control_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "account_management_records"
+      taskId: "account_management_records"
     }
   ],
   mappedRequirements: [
@@ -8193,10 +8231,11 @@ var technologyControls = {
     {
       type: "policy",
       policyId: "information_security_policy"
-    },
+    }
+  ],
+  mappedTasks: [
     {
-      type: "evidence",
-      evidenceId: "technology_control_records"
+      taskId: "technology_control_records"
     }
   ],
   mappedRequirements: [
@@ -8251,10 +8290,10 @@ var controls = [
 ];
 export {
   controls,
-  evidence,
   frameworks,
   policies,
   requirements,
   soc2Requirements,
+  tasks,
   trainingVideos
 };

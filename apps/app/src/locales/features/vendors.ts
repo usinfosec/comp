@@ -32,6 +32,18 @@ export const vendors = {
 		update_vendor_description: "Update the details of your vendor",
 		update_vendor_success: "Vendor updated successfully",
 		update_vendor_error: "Failed to update vendor",
+		searching: "Searching...",
+		existing_vendors_found: "Potential existing vendors found:",
+		search_vendor_placeholder: "Search or enter vendor name...",
+		suggestions: "Suggestions",
+		no_vendor_found: "No vendors found. You can create a new one.",
+		create_custom_vendor: "Create new vendor: {name}",
+		unnamed_vendor: "Unnamed Vendor",
+		continue_creating:
+			"You can still continue creating a new vendor entry.",
+		no_existing_vendors: "No existing vendors found matching that name.",
+		search_error: "Failed to search for vendors.",
+		create_new_vendor: "Create new vendor:",
 	},
 	table: {
 		name: "Name",

@@ -24,7 +24,10 @@ export default async function Layout({
 						path: `/${orgId}/employees`,
 						label: t("people.dashboard.title"),
 					},
-					{ path: `/${orgId}/employees/all`, label: t("people.all") },
+					{
+						path: `/${orgId}/employees/all`,
+						label: t("people.all_employees"),
+					},
 				]}
 			/>
 

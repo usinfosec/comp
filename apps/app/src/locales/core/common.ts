@@ -9,6 +9,7 @@ export const common = {
 		save: "Save",
 		edit: "Edit",
 		delete: "Delete",
+		remove: "Remove",
 		cancel: "Cancel",
 		clear: "Clear",
 		create: "Create",
@@ -19,7 +20,9 @@ export const common = {
 		error: "Error",
 		next: "Next",
 		complete: "Complete",
+		update: "Update",
 	},
+	loading: "Loading...",
 	employee: {
 		status: {
 			active: "Active",
@@ -58,6 +61,8 @@ export const common = {
 		title: "Status",
 		compliant: "Compliant",
 		not_relevant: "Not Relevant",
+		todo: "Todo",
+		done: "Done",
 	},
 	filters: {
 		clear: "Clear filters",
@@ -112,7 +117,6 @@ export const common = {
 			dropFileHereAlt: "Drop file here",
 			releaseToUpload: "Release to upload",
 			addFiles: "Add Files",
-			uploadAdditionalEvidence: "Upload a file or document",
 			dragDropOrClick: "Drag and drop or click to browse",
 			dragDropOrClickToSelect: "Drag and drop or click to select file",
 			maxFileSize: "Max file size: {size}MB",
@@ -166,4 +170,5 @@ export const common = {
 	error: "Error",
 	unexpected_error: "An unexpected error occurred",
 	tasks: "tasks",
+	exit: "Exit",
 } as const;

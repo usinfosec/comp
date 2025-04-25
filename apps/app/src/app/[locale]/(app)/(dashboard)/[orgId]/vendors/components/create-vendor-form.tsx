@@ -2,8 +2,10 @@
 
 import { researchVendorAction } from "@/actions/research-vendor";
 import { SelectAssignee } from "@/components/SelectAssignee";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { useI18n } from "@/locales/client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
+import { GlobalVendors } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -11,6 +13,8 @@ import {
 	AccordionTrigger,
 } from "@comp/ui/accordion";
 import { Button } from "@comp/ui/button";
+import { cn } from "@comp/ui/cn";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@comp/ui/command";
 import {
 	Form,
 	FormControl,
@@ -20,6 +24,7 @@ import {
 	FormMessage,
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -29,14 +34,15 @@ import {
 } from "@comp/ui/select";
 import { Textarea } from "@comp/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ky from "ky";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryState } from "nuqs";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createVendorAction } from "../actions/create-vendor-action";
+import { searchGlobalVendorsAction } from "../actions/search-global-vendors-action";
 
 const createVendorSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -53,6 +59,11 @@ export function CreateVendorForm({
 	const t = useI18n();
 	const [_, setCreateVendorSheet] = useQueryState("createVendorSheet");
 
+	const [searchQuery, setSearchQuery] = useState("");
+	const [searchResults, setSearchResults] = useState<GlobalVendors[]>([]);
+	const [isSearching, setIsSearching] = useState(false);
+	const [popoverOpen, setPopoverOpen] = useState(false);
+
 	const createVendor = useAction(createVendorAction, {
 		onSuccess: async () => {
 			toast.success(t("vendors.form.create_vendor_success"));
@@ -65,10 +76,36 @@ export function CreateVendorForm({
 
 	const researchVendor = useAction(researchVendorAction);
 
+	const searchVendors = useAction(searchGlobalVendorsAction, {
+		onExecute: () => setIsSearching(true),
+		onSuccess: (result) => {
+			if (result.data?.success && result.data.data?.vendors) {
+				setSearchResults(result.data.data.vendors);
+			} else {
+				setSearchResults([]);
+			}
+			setIsSearching(false);
+		},
+		onError: () => {
+			setSearchResults([]);
+			setIsSearching(false);
+		},
+	});
+
+	// Debounced search function using the custom hook
+	const debouncedSearch = useDebouncedCallback((query: string) => {
+		if (query.trim().length > 1) { // Only search if query is longer than 1 char
+			searchVendors.execute({ name: query });
+		} else {
+			setSearchResults([]); // Clear results if query is too short
+		}
+	}, 300); // 300ms debounce delay
+
 	const form = useForm<z.infer<typeof createVendorSchema>>({
 		resolver: zodResolver(createVendorSchema),
 		defaultValues: {
 			name: "",
+			website: "",
 			description: "",
 			category: VendorCategory.cloud,
 			status: VendorStatus.not_assessed,
@@ -79,10 +116,19 @@ export function CreateVendorForm({
 		createVendor.execute(data);
 
 		if (data.website) {
-			researchVendor.execute({
+			await researchVendor.execute({
 				website: data.website,
 			});
 		}
+	};
+
+	const handleSelectVendor = (vendor: GlobalVendors) => {
+		form.setValue("name", vendor.company_name ?? vendor.legal_name ?? "");
+		form.setValue("website", vendor.website ?? "");
+		form.setValue("description", vendor.company_description ?? "");
+		setSearchQuery(vendor.company_name ?? vendor.legal_name ?? ""); // Update search query display
+		setSearchResults([]); // Clear results
+		setPopoverOpen(false); // Close popover
 	};
 
 	return (
@@ -101,23 +147,83 @@ export function CreateVendorForm({
 											control={form.control}
 											name="name"
 											render={({ field }) => (
-												<FormItem>
+												<FormItem className="flex flex-col">
 													<FormLabel>
 														{t(
 															"vendors.form.vendor_name",
 														)}
 													</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															autoFocus
-															className="mt-3"
-															placeholder={t(
-																"vendors.form.vendor_name_placeholder",
-															)}
-															autoCorrect="off"
-														/>
-													</FormControl>
+													<Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+														<PopoverTrigger asChild>
+															<FormControl>
+																{/* We use a Button as the trigger, but use CommandInput inside Popover */}
+																<Button
+																	variant="outline"
+																	role="combobox"
+																	aria-expanded={popoverOpen}
+																	className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
+																>
+																	{field.value || t("vendors.form.vendor_name_placeholder")}
+																	<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+																</Button>
+															</FormControl>
+														</PopoverTrigger>
+														<PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+															<Command shouldFilter={false}> {/* Disable default filtering */}
+																<CommandInput
+																	placeholder={t("vendors.form.search_vendor_placeholder")} // Add a new translation key
+																	value={searchQuery}
+																	onValueChange={(value) => {
+																		setSearchQuery(value);
+																		// Also update the form field in real-time if user types without selecting
+																		// This allows creating a custom vendor
+																		field.onChange(value);
+																		// Trigger debounced search
+																		debouncedSearch(value);
+																	}}
+																	autoFocus
+																/>
+																<CommandList>
+																	<CommandEmpty>
+																		{isSearching ? t("common.loading") : t("vendors.form.no_vendor_found")} {/* Add new translation keys */}
+																	</CommandEmpty>
+																	<CommandGroup heading={t("vendors.form.suggestions")}> {/* Add new translation key */}
+																		{searchResults.map((vendor) => (
+																			<CommandItem
+																				key={vendor.website}
+																				value={vendor.company_name ?? vendor.website} // Use a unique value for CommandItem
+																				onSelect={() => handleSelectVendor(vendor)}
+																				className="cursor-pointer"
+																			>
+																				{/* Check icon can be used if needed, but maybe confusing here */}
+																				{/* <Check
+																					className={cn(
+																						"mr-2 h-4 w-4",
+																						(form.getValues("name") === vendor.company_name || form.getValues("name") === vendor.legal_name) ? "opacity-100" : "opacity-0",
+																					)}
+																				/> */}
+																				{vendor.company_name ?? vendor.legal_name ?? vendor.website}
+																			</CommandItem>
+																		))}
+																		{/* Option to explicitly create the custom vendor typed */}
+																		{searchQuery && !isSearching && searchResults.length === 0 && (
+																			<CommandItem
+																				key="custom"
+																				value={searchQuery}
+																				onSelect={() => {
+																					field.onChange(searchQuery); // Ensure form field has the typed value
+																					setPopoverOpen(false);
+																				}}
+																				className="cursor-pointer italic"
+																			>
+																				{t("vendors.form.create_custom_vendor", { name: searchQuery })} {/* Add new translation key */}
+																			</CommandItem>
+																		)}
+																	</CommandGroup>
+																</CommandList>
+															</Command>
+														</PopoverContent>
+													</Popover>
 													<FormMessage />
 												</FormItem>
 											)}

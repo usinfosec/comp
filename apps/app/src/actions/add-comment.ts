@@ -6,12 +6,14 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
+import { CommentEntityType } from "@comp/db/types";
 
 export const addCommentAction = authActionClient
 	.schema(
 		z.object({
 			content: z.string(),
 			entityId: z.string(),
+			entityType: z.nativeEnum(CommentEntityType),
 		}),
 	)
 	.metadata({
@@ -22,7 +24,7 @@ export const addCommentAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { content, entityId } = parsedInput;
+		const { content, entityId, entityType } = parsedInput;
 		const { user, session } = ctx;
 
 		if (!session || !session.activeOrganizationId) {
@@ -51,6 +53,7 @@ export const addCommentAction = authActionClient
 				data: {
 					content,
 					entityId,
+					entityType,
 					organizationId: session.activeOrganizationId,
 					authorId: member.id,
 				},

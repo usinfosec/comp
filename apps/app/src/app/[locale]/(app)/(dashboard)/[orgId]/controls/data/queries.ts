@@ -15,11 +15,6 @@ const controlInclude = {
 					status: true,
 				},
 			},
-			evidence: {
-				select: {
-					status: true,
-				},
-			},
 		},
 	},
 	requirementsMapped: {

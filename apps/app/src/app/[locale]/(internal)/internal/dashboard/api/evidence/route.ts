@@ -1,8 +1,8 @@
 import { db } from "@comp/db";
-import { EvidenceStatus } from "@prisma/client";
+import { TaskStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-interface DailyEvidenceCount {
+interface DailyTaskCount {
 	day: Date;
 	count: bigint; // Prisma $queryRaw returns bigint for COUNT
 }
@@ -33,24 +33,24 @@ export async function GET(request: NextRequest) {
 			last30DaysTotalByDayRaw,
 			previous30DaysTotal,
 		] = await Promise.all([
-			db.evidence.count(),
-			db.evidence.count({
-				where: { status: EvidenceStatus.published },
+			db.task.count(),
+			db.task.count({
+				where: { status: TaskStatus.done },
 			}),
-			db.evidence.count({ where: { status: EvidenceStatus.draft } }),
-			db.evidence.count({
+			db.task.count({ where: { status: TaskStatus.todo } }),
+			db.task.count({
 				where: { createdAt: { gte: thirtyDaysAgo } },
 			}),
-			db.evidence.count({
+			db.task.count({
 				where: {
 					createdAt: { gte: thirtyDaysAgo },
-					status: EvidenceStatus.published,
+					status: TaskStatus.done,
 				},
 			}),
-			db.evidence.count({
+			db.task.count({
 				where: {
 					createdAt: { gte: thirtyDaysAgo },
-					status: EvidenceStatus.draft,
+					status: TaskStatus.todo,
 				},
 			}),
 			// Group by day for chart data (last 30 days)
@@ -58,13 +58,12 @@ export async function GET(request: NextRequest) {
 				SELECT
 					DATE_TRUNC('day', "createdAt")::date as day,
 					COUNT(*) as count
-				FROM "Evidence"
+				FROM "Task"
 				WHERE "createdAt" >= ${thirtyDaysAgo}
 				GROUP BY day
 				ORDER BY day ASC
 			`,
-			db.evidence.count({
-				// Evidence created between 30 and 60 days ago
+			db.task.count({
 				where: {
 					createdAt: {
 						gte: sixtyDaysAgo,
@@ -85,7 +84,7 @@ export async function GET(request: NextRequest) {
 		}
 
 		// Populate the map with actual counts from the database
-		for (const item of last30DaysTotalByDayRaw as DailyEvidenceCount[]) {
+		for (const item of last30DaysTotalByDayRaw as DailyTaskCount[]) {
 			const itemDate = new Date(item.day);
 			const itemUtcDate = new Date(
 				Date.UTC(
@@ -134,9 +133,9 @@ export async function GET(request: NextRequest) {
 			percentageChangeLast30Days,
 		});
 	} catch (error) {
-		console.error("Error fetching evidence analytics:", error);
+		console.error("Error fetching task analytics:", error);
 		return NextResponse.json(
-			{ error: "Failed to fetch evidence analytics" },
+			{ error: "Failed to fetch task analytics" },
 			{ status: 500 },
 		);
 	}
