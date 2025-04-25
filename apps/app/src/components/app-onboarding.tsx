@@ -21,6 +21,7 @@ import { PlusIcon } from "lucide-react";
 import { BookOpen, Clock, HelpCircle } from "lucide-react";
 import Image from "next/image";
 import { useQueryState } from "nuqs";
+import Link from "next/link";
 
 interface FAQ {
 	questionKey: string;
@@ -34,7 +35,8 @@ type Props = {
 	imageSrc: string;
 	imageAlt: string;
 	faqs?: FAQ[];
-	sheetName: string;
+	sheetName?: string;
+	href?: string;
 };
 
 export function AppOnboarding({
@@ -45,9 +47,10 @@ export function AppOnboarding({
 	imageAlt,
 	faqs,
 	sheetName,
+	href,
 }: Props) {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState(sheetName);
+	const [open, setOpen] = useQueryState(sheetName ?? "sheet");
 	const isOpen = Boolean(open);
 
 	return (
@@ -149,14 +152,26 @@ export function AppOnboarding({
 							<Clock className="h-3.5 w-3.5 mr-1.5" />
 							<span>Estimated time: ~5 minutes</span>
 						</div>
-						<Button
-							variant="default"
-							className="flex items-center gap-2"
-							onClick={() => setOpen("true")}
-						>
-							<PlusIcon className="w-4 h-4" />
-							{cta}
-						</Button>
+						{href ? (
+							<Link href={href}>
+								<Button
+									variant="default"
+									className="flex items-center gap-2"
+								>
+									<PlusIcon className="w-4 h-4" />
+									{cta}
+								</Button>
+							</Link>
+						) : (
+							<Button
+								variant="default"
+								className="flex items-center gap-2"
+								onClick={() => setOpen("true")}
+							>
+								<PlusIcon className="w-4 h-4" />
+								{cta}
+							</Button>
+						)}
 					</CardFooter>
 				)}
 			</div>
