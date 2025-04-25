@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
+import { useRouter } from "next/navigation";
 
 type Props = {
 	onOpenChange: (isOpen: boolean) => void;
@@ -41,6 +42,7 @@ type Props = {
 export function CreateOrgModal({ onOpenChange }: Props) {
 	const t = useI18n();
 	const [isSetup, setIsSetup] = useState(false);
+	const router = useRouter();
 
 	const newOrganizationRef = useRef<Pick<Organization, "id" | "name"> | null>(
 		null,
@@ -57,6 +59,8 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 					id: data.data.organizationId,
 					name: formData?.name || "",
 				};
+
+				router.push(`/${data.data.organizationId}`);
 			} else {
 				newOrganizationRef.current = null;
 			}
