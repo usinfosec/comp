@@ -78,7 +78,7 @@ export function UsersCard() {
 			<Card className="overflow-hidden rounded-sm">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-emerald-500/10">
+						<div className="p-1.5 bg-emerald-500/10 rounded-sm">
 							<Users className="h-5 w-5 text-emerald-500" />
 						</div>
 						<CardTitle className="text-lg">Users</CardTitle>
@@ -97,7 +97,7 @@ export function UsersCard() {
 		<Card className="overflow-hidden rounded-sm">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-emerald-500/10">
+					<div className="p-1.5 bg-emerald-500/10 rounded-sm">
 						<Users className="h-5 w-5 text-emerald-500" />
 					</div>
 					<CardTitle className="text-lg">Users</CardTitle>
@@ -124,7 +124,7 @@ export function UsersCard() {
 						<Skeleton className="h-10 w-full" />{" "}
 						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
-						<div className="bg-muted p-3 space-y-2">
+						<div className="bg-muted p-3 space-y-2 rounded-sm">
 							<Skeleton className="h-4 w-1/3" />
 							<Skeleton className="h-4 w-full" />
 						</div>
@@ -185,7 +185,7 @@ export function UsersCard() {
 						</div>
 
 						{/* Last 30 Days Section */}
-						<div className="bg-muted p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
 								<Clock className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -208,7 +208,7 @@ export function UsersCard() {
 						</div>
 
 						{/* All Time Section */}
-						<div className="bg-muted p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
 								<Calendar className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -243,7 +243,7 @@ export function UsersCard() {
 									value={Number.parseFloat(
 										usersActivePercent,
 									)}
-									className="h-1.5 bg-muted [&>div]:bg-emerald-500"
+									className="h-1.5 bg-muted rounded-sm [&>div]:bg-emerald-500"
 								/>
 								<div className="text-xs text-muted-foreground mt-1">
 									{usersActivePercent}% of total

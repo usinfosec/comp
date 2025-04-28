@@ -64,7 +64,7 @@ export function OrganizationsCard() {
 			{/* Header */}
 			<div className="p-6 pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-primary/10">
+					<div className="p-1.5 bg-primary/10 rounded-sm">
 						<BarChart2 className="h-8 w-8 text-primary" />
 					</div>
 					<div>
