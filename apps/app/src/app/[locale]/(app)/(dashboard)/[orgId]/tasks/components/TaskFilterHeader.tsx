@@ -94,7 +94,7 @@ export function TaskFilterHeader() {
 	return (
 		<div className=" border-b-0">
 			{/* Status Filter Buttons */}
-			<div className="flex items-center space-x-1 p-2 border-b">
+			<div className="flex items-center space-x-1 py-2 border-b">
 				<Button
 					variant={statusFilter === null ? "secondary" : "ghost"}
 					size="sm"
