@@ -123,7 +123,7 @@ export function TaskFilterHeader() {
 			</div>
 
 			{/* Action Filters (Entity Type and Clear) */}
-			<div className="flex items-center p-2 space-x-2">
+			<div className="flex items-center py-2 space-x-2">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button
