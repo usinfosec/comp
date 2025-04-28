@@ -1,5 +1,6 @@
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
+import { UpdateOrganizationWebsite } from "@/components/forms/organization/update-organization-website";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
@@ -22,6 +23,9 @@ export default async function OrganizationSettings({
 		<div className="space-y-4">
 			<UpdateOrganizationName
 				organizationName={organization?.name ?? ""}
+			/>
+			<UpdateOrganizationWebsite
+				organizationWebsite={organization?.website ?? ""}
 			/>
 			<DeleteOrganization organizationId={organization?.id ?? ""} />
 		</div>
@@ -56,6 +60,7 @@ const organizationDetails = cache(async () => {
 		select: {
 			name: true,
 			id: true,
+			website: true,
 		},
 	});
 

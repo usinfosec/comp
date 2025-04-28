@@ -32,6 +32,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_PORTAL_URL: z.string(),
 		RESEND_AUDIENCE_ID: z.string().optional(),
 		FIRECRAWL_API_KEY: z.string().optional(),
+		ZAPIER_HUBSPOT_WEBHOOK_URL: z.string().optional(),
 	},
 
 	client: {
@@ -75,6 +76,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_PORTAL_URL: process.env.NEXT_PUBLIC_PORTAL_URL,
 		RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
 		FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY,
+		ZAPIER_HUBSPOT_WEBHOOK_URL: process.env.ZAPIER_HUBSPOT_WEBHOOK_URL,
 	},
 
 	skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
