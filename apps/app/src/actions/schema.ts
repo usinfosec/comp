@@ -17,6 +17,12 @@ export const organizationSchema = z.object({
 	frameworks: z
 		.array(z.nativeEnum(FrameworkId))
 		.min(1, "Please select at least one framework to get started with"),
+	website: z
+		.string()
+		.url({
+			message: "Please enter a valid website that starts with https://",
+		})
+		.max(255, "Website cannot exceed 255 characters"),
 });
 
 export type OrganizationSchema = z.infer<typeof organizationSchema>;
@@ -61,7 +67,12 @@ export const updaterMenuSchema = z.array(
 );
 
 export const organizationWebsiteSchema = z.object({
-	website: z.string().url().max(255),
+	website: z
+		.string()
+		.url({
+			message: "Please enter a valid website that starts with https://",
+		})
+		.max(255, "Website cannot exceed 255 characters"),
 });
 
 // Risks

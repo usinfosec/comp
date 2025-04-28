@@ -25,7 +25,7 @@ export const onboarding = {
 		},
 		website: {
 			label: "Website",
-			placeholder: "Your organization website",
+			placeholder: "https://example.com",
 		},
 	},
 	success: "Welcome to Comp AI, your organization has been created!",

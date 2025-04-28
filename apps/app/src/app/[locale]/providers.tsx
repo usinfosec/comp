@@ -20,8 +20,7 @@ export function Providers({ children, locale, session }: ProviderProps) {
 	return (
 		<ThemeProvider
 			attribute="class"
-			enableSystem
-			// forcedTheme="dark"
+			defaultTheme="dark"
 			disableTransitionOnChange
 			scriptProps={{ "data-cfasync": "false" }}
 		>

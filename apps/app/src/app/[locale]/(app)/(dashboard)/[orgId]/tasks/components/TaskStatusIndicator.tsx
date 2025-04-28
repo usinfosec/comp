@@ -1,6 +1,6 @@
 import { TaskStatus } from "@comp/db/types";
 import { cn } from "@comp/ui/cn";
-import { Check } from "lucide-react";
+import { Check, Circle, Loader2 } from "lucide-react";
 import { STATUS_COLORS } from "@/components/status-indicator";
 
 interface TaskStatusIndicatorProps {
@@ -39,15 +39,15 @@ export function TaskStatusIndicator({
 	const colorClasses = getStatusColorClasses(status);
 
 	return (
-		<div
-			className={cn(
-				"size-3.5 border rounded-full flex items-center justify-center flex-shrink-0", // Consistent size
-				colorClasses,
-				className,
+		<div className={cn("flex-shrink-0", className)}>
+			{status === "todo" && (
+				<Circle className="size-4 text-[#6b7280]" strokeWidth={1.5} />
 			)}
-		>
+			{status === "in_progress" && (
+				<Loader2 className="size-4 text-[#ffc107]" strokeWidth={1.5} />
+			)}
 			{status === "done" && (
-				<Check className="size-2.5" strokeWidth={2.5} />
+				<Check className="size-4 text-[#00DC73]" strokeWidth={1.5} />
 			)}
 		</div>
 	);

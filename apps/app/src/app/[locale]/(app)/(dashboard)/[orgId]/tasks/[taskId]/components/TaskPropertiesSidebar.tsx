@@ -101,7 +101,7 @@ export function TaskPropertiesSidebar({
 						)}
 						onSelect={(selectedAssigneeId) => {
 							handleUpdateTask({
-								assigneeId: selectedAssigneeId,
+								assigneeId: selectedAssigneeId === null ? null : selectedAssigneeId,
 							});
 						}}
 						trigger={

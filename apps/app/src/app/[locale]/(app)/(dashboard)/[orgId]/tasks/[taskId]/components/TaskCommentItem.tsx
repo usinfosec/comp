@@ -214,6 +214,16 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 			// Helper to process a single file
 			const processFile = (file: File) => {
 				return new Promise<void>((resolve) => {
+					// Add file size check here
+					const MAX_FILE_SIZE_MB = 5;
+					const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+					if (file.size > MAX_FILE_SIZE_BYTES) {
+						toast.error(
+							`File "${file.name}" exceeds the ${MAX_FILE_SIZE_MB}MB limit.`,
+						);
+						return resolve(); // Skip processing this file
+					}
+
 					if (!file.type.startsWith("image/")) {
 						toast.info(
 							"Only image previews are shown before submitting.",
