@@ -60,6 +60,15 @@ export function TaskBody({
 			try {
 				const uploadedAttachments = [];
 				for (const file of Array.from(files)) {
+					const MAX_FILE_SIZE_MB = 5;
+					const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+					if (file.size > MAX_FILE_SIZE_BYTES) {
+						toast.error(
+							`File "${file.name}" exceeds the ${MAX_FILE_SIZE_MB}MB limit.`,
+						);
+						continue;
+					}
+
 					const reader = new FileReader();
 					reader.onloadend = async () => {
 						const base64Data = (reader.result as string)?.split(
