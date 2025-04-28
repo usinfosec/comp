@@ -139,5 +139,5 @@ export function TaskList({
 				</div>
 			</DndProvider>
 		</div>
-	);
+	)
 }

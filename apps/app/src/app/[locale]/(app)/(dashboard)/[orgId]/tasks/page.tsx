@@ -27,11 +27,11 @@ export default async function TasksPage({
 	const members = await getCachedMembersWithMetadata();
 
 
-	return 		<main className="mt-4">
-	{/* Render Breadcrumbs only if we are in the tasks section */}
-
-		<div className="border-b pb-4">
-			<Breadcrumb>
+	return (
+		<main className="mt-4">
+			{/* Render Breadcrumbs only if we are in the tasks section */}
+			<div className="border-b pb-4">
+				<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href={`/${orgId}/tasks`}>
@@ -42,9 +42,9 @@ export default async function TasksPage({
 				</BreadcrumbList>
 			</Breadcrumb>
 		</div>
-
-	<TaskList tasks={tasks} members={members} />;
-</main>
+			<TaskList tasks={tasks} members={members} />
+		</main>
+	);
 }
 
 // Wrap getTasks logic in React.cache
