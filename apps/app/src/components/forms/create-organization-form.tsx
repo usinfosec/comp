@@ -76,6 +76,7 @@ export function OnboardingClient() {
 		defaultValues: {
 			name: "",
 			frameworks: [],
+			website: "",
 		},
 		mode: "onChange",
 	});
@@ -146,7 +147,28 @@ export function OnboardingClient() {
 								</FormItem>
 							)}
 						/>
-
+						<FormField
+							control={form.control}
+							name="website"
+							render={({ field }) => (
+								<FormItem className="space-y-2">
+									<FormLabel className="text-sm font-medium">
+										{t("onboarding.fields.website.label")}
+									</FormLabel>
+									<FormControl>
+										<Input
+											autoCorrect="off"
+											placeholder={t(
+												"onboarding.fields.website.placeholder",
+											)}
+											suppressHydrationWarning
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage className="text-xs" />
+								</FormItem>
+							)}
+						/>
 						<FormField
 							control={form.control}
 							name="frameworks"
@@ -175,7 +197,7 @@ export function OnboardingClient() {
 																field.value.includes(
 																	frameworkId,
 																) &&
-																	"border-primary bg-primary/5",
+																"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
@@ -207,16 +229,16 @@ export function OnboardingClient() {
 																			const newValue =
 																				checked
 																					? [
-																							...field.value,
-																							frameworkId,
-																						]
+																						...field.value,
+																						frameworkId,
+																					]
 																					: field.value.filter(
-																							(
-																								name,
-																							) =>
-																								name !==
-																								frameworkId,
-																						);
+																						(
+																							name,
+																						) =>
+																							name !==
+																							frameworkId,
+																					);
 																			field.onChange(
 																				newValue,
 																			);
