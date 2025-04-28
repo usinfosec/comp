@@ -20,6 +20,9 @@ const chartConfig = {
 	},
 } satisfies ChartConfig;
 
+const chartFillColor = "hsl(var(--chart-positive))";
+const chartStrokeColor = "hsl(var(--chart-positive))";
+
 export function OrganizationsCard() {
 	const {
 		data: orgsData,
@@ -40,10 +43,10 @@ export function OrganizationsCard() {
 
 	if (isOrgsError) {
 		return (
-			<div className="bg-[#121212] text-white border border-[#333] overflow-hidden">
+			<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-sm">
 				<div className="p-6">
 					<h3 className="text-lg font-semibold">Organizations</h3>
-					<p className="text-sm text-gray-400">
+					<p className="text-sm text-muted-foreground">
 						Daily trend over the last 30 days
 					</p>
 				</div>
@@ -57,18 +60,18 @@ export function OrganizationsCard() {
 	}
 
 	return (
-		<div className="bg-[#121212] text-white border border-[#333] overflow-hidden">
+		<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-sm">
 			{/* Header */}
 			<div className="p-6 pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-green-900/50">
-						<BarChart2 className="h-8 w-8 text-green-400" />
+					<div className="p-1.5 bg-primary/10 rounded-sm">
+						<BarChart2 className="h-8 w-8 text-primary" />
 					</div>
 					<div>
 						<h3 className="text-lg font-semibold mb-0">
 							Organizations
 						</h3>
-						<p className="text-sm text-gray-400">
+						<p className="text-sm text-muted-foreground">
 							Daily trend over the last 30 days
 						</p>
 					</div>
@@ -105,13 +108,13 @@ export function OrganizationsCard() {
 								tickCount={6}
 								tickFormatter={(value) => value.toFixed(0)}
 							/>
-							<CartesianGrid vertical={false} stroke="#333" />
+							<CartesianGrid vertical={false} stroke="hsl(var(--border))" />
 							<XAxis
 								dataKey="date"
 								tickLine={true}
 								axisLine={false}
 								tickMargin={8}
-								stroke="#666"
+								stroke="hsl(var(--muted-foreground))"
 								tickFormatter={(value) => {
 									const date = new Date(value);
 									return date.toLocaleDateString("en-US", {
@@ -134,9 +137,9 @@ export function OrganizationsCard() {
 							<Area
 								dataKey="count"
 								type="linear"
-								fill="rgba(16, 185, 129, 0.3)"
+								fill={chartFillColor}
 								fillOpacity={0.3}
-								stroke="rgb(16, 185, 129)"
+								stroke={chartStrokeColor}
 								strokeWidth={2}
 							/>
 						</AreaChart>
@@ -154,13 +157,13 @@ export function OrganizationsCard() {
 							{formattedTotalCount}
 						</div>
 						<div className="flex flex-col gap-1">
-							<div className="text-sm text-gray-400">
+							<div className="text-sm text-muted-foreground">
 								{dateRange}
 							</div>
 							{trendPercentage !== undefined && (
 								<Badge
 									variant="outline"
-									className="bg-transparent border-green-500 text-green-500 px-2 py-0.5 rounded-sm"
+									className="bg-transparent border-primary text-primary px-2 py-0.5 rounded-sm"
 								>
 									<TrendingUp className="mr-1 h-3.5 w-3.5" />
 									<span>

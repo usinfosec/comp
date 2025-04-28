@@ -64,6 +64,16 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 			// Helper to process a single file
 			const processFile = (file: File) => {
 				return new Promise<void>((resolve) => {
+					// Add file size check here
+					const MAX_FILE_SIZE_MB = 5;
+					const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+					if (file.size > MAX_FILE_SIZE_BYTES) {
+						toast.error(
+							`File "${file.name}" exceeds the ${MAX_FILE_SIZE_MB}MB limit.`,
+						);
+						return resolve(); // Skip processing this file
+					}
+
 					if (!file.type.startsWith("image/")) {
 						toast.info(
 							"Only image previews are shown before submitting.",
@@ -216,28 +226,41 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 		);
 	}
 
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (
+			(event.metaKey || event.ctrlKey) &&
+			event.key === "Enter" &&
+			!isLoading &&
+			(newComment.trim() || pendingAttachments.length > 0)
+		) {
+			event.preventDefault(); // Prevent default newline behavior
+			handleCommentSubmit();
+		}
+	};
+
 	return (
-		<div className="border rounded p-4 bg-foreground/5">
+		<div className="border rounded p-0 bg-foreground/5">
 			<div className="flex gap-3 items-start">
+				<input
+					type="file"
+					multiple
+					ref={fileInputRef}
+					className="hidden"
+					onChange={handleFileSelect}
+					disabled={isLoading}
+				/>
 				<div className="flex-1 space-y-3">
-					<input
-						type="file"
-						multiple
-						ref={fileInputRef}
-						onChange={handleFileSelect}
-						className="hidden"
-						disabled={isLoading}
-					/>
 					<Textarea
 						placeholder="Leave a comment..."
-						className="border-none shadow-none p-0"
+						className="border-none shadow-none p-4"
 						value={newComment}
 						onChange={(e) => setNewComment(e.target.value)}
 						disabled={isLoading}
+						onKeyDown={handleKeyDown}
 					/>
 
 					{pendingAttachments.length > 0 && (
-						<div className="space-y-2 pt-2">
+						<div className="space-y-2 pt-2 px-4">
 							<Label className="text-xs text-muted-foreground">
 								Pending Attachments:
 							</Label>
@@ -273,7 +296,7 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 
 					<div
 						className={clsx(
-							"flex items-center pt-1",
+							"flex items-center pt-1 px-4 pb-4",
 							pendingAttachments.length === 0
 								? "justify-between"
 								: "justify-end",

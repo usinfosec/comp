@@ -25,11 +25,11 @@ export async function GET(request: NextRequest) {
 
 		const [
 			allTimeTotal,
-			allTimePublished,
-			allTimeDraft,
+			allTimeDone, // Renamed from allTimePublished
+			allTimeTodo, // Renamed from allTimeDraft
 			last30DaysTotal,
-			last30DaysPublished,
-			last30DaysDraft,
+			last30DaysDone, // Renamed from last30DaysPublished
+			last30DaysTodo, // Renamed from last30DaysDraft
 			last30DaysTotalByDayRaw,
 			previous30DaysTotal,
 		] = await Promise.all([
@@ -124,11 +124,11 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.json({
 			allTimeTotal,
-			allTimePublished,
-			allTimeDraft,
+			allTimeDone, // Renamed
+			allTimeTodo, // Renamed
 			last30DaysTotal,
-			last30DaysPublished,
-			last30DaysDraft,
+			last30DaysDone, // Renamed
+			last30DaysTodo, // Renamed
 			last30DaysTotalByDay,
 			percentageChangeLast30Days,
 		});
@@ -139,4 +139,4 @@ export async function GET(request: NextRequest) {
 			{ status: 500 },
 		);
 	}
-}
+} 

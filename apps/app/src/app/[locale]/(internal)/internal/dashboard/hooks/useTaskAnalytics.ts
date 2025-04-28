@@ -7,13 +7,12 @@ import { useAnalyticsSWRKeyWithSecret } from "./useAnalyticsSWRKeyWithSecret";
 
 interface TaskAnalyticsData {
 	allTimeTotal: number;
-	allTimePublished: number;
-	allTimeDraft: number;
+	allTimeDone: number;
+	allTimeTodo: number;
 	allTimeNotRelevant: number;
 	last30DaysTotal: number;
-	last30DaysPublished: number;
-	last30DaysDraft: number;
-	last30DaysNotRelevant: number;
+	last30DaysDone: number;
+	last30DaysTodo: number;
 	last30DaysTotalByDay: Array<{
 		date: string;
 		count: number;
@@ -21,7 +20,7 @@ interface TaskAnalyticsData {
 	percentageChangeLast30Days: number | null;
 }
 
-const API_ENDPOINT = "/internal/dashboard/api/task";
+const API_ENDPOINT = "/internal/dashboard/api/tasks";
 
 export function useTaskAnalytics() {
 	const key = useAnalyticsSWRKeyWithSecret(API_ENDPOINT);

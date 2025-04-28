@@ -2,6 +2,7 @@
 
 import { OrganizationsCard } from "./components/OrganizationsCard";
 import { PoliciesCard } from "./components/PoliciesCard";
+import { TaskCard } from "./components/TaskCard";
 import { UsersCard } from "./components/UsersCard";
 
 export default function Page() {
@@ -14,6 +15,7 @@ export default function Page() {
 			<div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
 				<PoliciesCard />
 				<UsersCard />
+				<TaskCard />
 			</div>
 		</div>
 	);

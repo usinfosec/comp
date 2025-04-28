@@ -60,6 +60,15 @@ export function TaskBody({
 			try {
 				const uploadedAttachments = [];
 				for (const file of Array.from(files)) {
+					const MAX_FILE_SIZE_MB = 5;
+					const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+					if (file.size > MAX_FILE_SIZE_BYTES) {
+						toast.error(
+							`File "${file.name}" exceeds the ${MAX_FILE_SIZE_MB}MB limit.`,
+						);
+						continue;
+					}
+
 					const reader = new FileReader();
 					reader.onloadend = async () => {
 						const base64Data = (reader.result as string)?.split(
@@ -154,7 +163,7 @@ export function TaskBody({
 			<Input
 				value={title}
 				onChange={onTitleChange}
-				className="text-2xl font-semibold tracking-tight flex-shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"
+				className="text-2xl font-semibold tracking-tight bg-transparent flex-shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"
 				placeholder="Task Title"
 				disabled={disabled || isUploadingFile || !!busyAttachmentId}
 			/>
