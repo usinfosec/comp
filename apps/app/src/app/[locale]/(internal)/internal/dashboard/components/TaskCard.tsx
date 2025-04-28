@@ -21,6 +21,9 @@ function formatPercentage(value: number | null | undefined): string {
 	return `${sign}${value.toFixed(1)}%`;
 }
 
+const chartStrokeColor = "#9333ea"; // purple-600
+const chartFillColor = "#9333ea"; // purple-600
+
 export function TaskCard() {
 	const {
 		data: taskData,
@@ -46,19 +49,19 @@ export function TaskCard() {
 	}, [taskData?.last30DaysTotalByDay]);
 
 	// Calculate published percentage using all-time data
-	const taskPublishedPercent = useMemo(() => {
+	const taskDonePercent = useMemo(() => {
 		if (
-			taskData?.allTimePublished != null &&
+			taskData?.allTimeDone != null &&
 			taskData?.allTimeTotal != null &&
 			taskData.allTimeTotal > 0
 		) {
 			return (
-				(taskData.allTimePublished / taskData.allTimeTotal) *
+				(taskData.allTimeDone / taskData.allTimeTotal) *
 				100
 			).toFixed(1);
 		}
 		return "0.0";
-	}, [taskData?.allTimePublished, taskData?.allTimeTotal]);
+	}, [taskData?.allTimeDone, taskData?.allTimeTotal]);
 
 	// Format growth percentage from API data
 	const growthPercentFormatted = useMemo(() => {
@@ -67,19 +70,19 @@ export function TaskCard() {
 
 	const growthColor = useMemo(() => {
 		if (taskData?.percentageChangeLast30Days == null)
-			return "text-gray-400";
+			return "text-muted-foreground";
 		return taskData.percentageChangeLast30Days >= 0
-			? "text-green-400"
-			: "text-red-400";
+			? "text-green-500"
+			: "text-destructive";
 	}, [taskData?.percentageChangeLast30Days]);
 
 	if (isTaskError) {
 		return (
-			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
+			<Card className="overflow-hidden rounded-sm">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-purple-900/50">
-							<FileText className="h-5 w-5 text-purple-400" />
+						<div className="p-1.5 bg-purple-500/10 rounded-sm">
+							<FileText className="h-5 w-5 text-purple-500" />
 						</div>
 						<CardTitle className="text-lg">Task</CardTitle>
 					</div>
@@ -94,11 +97,11 @@ export function TaskCard() {
 	}
 
 	return (
-		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
+		<Card className="overflow-hidden rounded-sm">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-purple-900/50">
-						<FileText className="h-5 w-5 text-purple-400" />
+					<div className="p-1.5 bg-purple-500/10 rounded-sm">
+						<FileText className="h-5 w-5 text-purple-500" />
 					</div>
 					<CardTitle className="text-lg">Task</CardTitle>
 				</div>
@@ -119,7 +122,7 @@ export function TaskCard() {
 						<Skeleton className="h-10 w-full" />{" "}
 						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
-						<div className="bg-[#1a1a1a] p-3 space-y-2">
+						<div className="bg-muted p-3 space-y-2 rounded-sm">
 							<Skeleton className="h-4 w-1/3" />
 							<Skeleton className="h-4 w-full" />
 							<Skeleton className="h-4 w-full" />
@@ -158,12 +161,12 @@ export function TaskCard() {
 											>
 												<stop
 													offset="5%"
-													stopColor="#9333ea"
+													stopColor={chartFillColor}
 													stopOpacity={0.3}
 												/>
 												<stop
 													offset="95%"
-													stopColor="#9333ea"
+													stopColor={chartFillColor}
 													stopOpacity={0}
 												/>
 											</linearGradient>
@@ -171,7 +174,7 @@ export function TaskCard() {
 										<Area
 											type="linear"
 											dataKey="value"
-											stroke="#9333ea"
+											stroke={chartStrokeColor}
 											strokeWidth={2}
 											fill="url(#taskGradient)"
 											isAnimationActive={false}
@@ -182,15 +185,15 @@ export function TaskCard() {
 						</div>
 
 						{/* Last 30 Days Section */}
-						<div className="bg-[#1a1a1a] p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
-								<Clock className="h-4 w-4 text-gray-400" />
-								<span className="text-sm font-medium text-gray-300">
+								<Clock className="h-4 w-4 text-muted-foreground" />
+								<span className="text-sm font-medium text-foreground">
 									Last 30 Days
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">
+								<span className="text-muted-foreground text-sm">
 									New
 								</span>
 								<span className="text-sm font-medium">
@@ -200,16 +203,16 @@ export function TaskCard() {
 						</div>
 
 						{/* All Time Section */}
-						<div className="bg-[#1a1a1a] p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
-								<Calendar className="h-4 w-4 text-gray-400" />
-								<span className="text-sm font-medium text-gray-300">
+								<Calendar className="h-4 w-4 text-muted-foreground" />
+								<span className="text-sm font-medium text-foreground">
 									All Time
 								</span>
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">
+									<span className="text-muted-foreground text-sm">
 										Total
 									</span>
 									<span className="text-xl font-bold">
@@ -221,23 +224,23 @@ export function TaskCard() {
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">
-										Published
+									<span className="text-muted-foreground text-sm">
+										Done
 									</span>
 									<span className="text-sm font-medium">
 										{formatNumber(
-											taskData?.allTimePublished,
+											taskData?.allTimeDone,
 										) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
 									value={Number.parseFloat(
-										taskPublishedPercent,
+										taskDonePercent,
 									)}
-									className="h-1.5 bg-gray-800 rounded-sm [&>div]:bg-purple-500"
+									className="h-1.5 bg-muted rounded-sm [&>div]:bg-purple-500"
 								/>
-								<div className="text-xs text-gray-500 mt-1">
-									{taskPublishedPercent}% of total
+								<div className="text-xs text-muted-foreground mt-1">
+									{taskDonePercent}% of total
 								</div>
 							</div>
 						</div>
