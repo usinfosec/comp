@@ -92,7 +92,7 @@ export function TaskFilterHeader() {
 	};
 
 	return (
-		<div className="border border-b-0">
+		<div className=" border-b-0">
 			{/* Status Filter Buttons */}
 			<div className="flex items-center space-x-1 p-2 border-b">
 				<Button

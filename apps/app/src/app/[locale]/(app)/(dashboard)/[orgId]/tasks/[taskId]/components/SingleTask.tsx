@@ -60,7 +60,6 @@ export function SingleTask({
 				comments={comments}
 				attachments={attachments}
 			/>
-
 			<TaskPropertiesSidebar
 				task={task}
 				members={members}
