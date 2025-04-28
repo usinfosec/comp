@@ -41,8 +41,7 @@ export function SingleTask({
 			updatePayload.department = data.department;
 		}
 		if (data.assigneeId !== undefined) {
-			updatePayload.assigneeId =
-				data.assigneeId === null ? undefined : data.assigneeId;
+			updatePayload.assigneeId = data.assigneeId;
 		}
 		if (Object.prototype.hasOwnProperty.call(data, "frequency")) {
 			updatePayload.frequency = data.frequency;
