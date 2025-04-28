@@ -1,5 +1,6 @@
+import { getSessionCookie } from "better-auth/cookies";
 import { createI18nMiddleware } from "next-international/middleware";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
 	matcher: [
@@ -15,6 +16,8 @@ const I18nMiddleware = createI18nMiddleware({
 });
 
 export async function middleware(request: NextRequest) {
+	const sessionCookie = getSessionCookie(request);
+
 	const response = I18nMiddleware(request);
 	const nextUrl = request.nextUrl;
 
@@ -27,6 +30,14 @@ export async function middleware(request: NextRequest) {
 	const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
 	response.headers.set("x-pathname", request.nextUrl.pathname);
+
+	if (!sessionCookie && newUrl.pathname !== "/auth") {
+		return NextResponse.redirect(new URL("/auth", request.url));
+	}
+
+	if (sessionCookie && newUrl.pathname === "/auth") {
+		return NextResponse.redirect(new URL("/", request.url));
+	}
 
 	return response;
 }
