@@ -10,7 +10,7 @@ import {
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
 import { TaskEntityType, TaskStatus } from "@comp/db/types";
-import { CheckCircle2, Circle, Filter, List, LoaderCircle } from "lucide-react";
+import { Check, Circle, Filter, List, Loader2 } from "lucide-react";
 import { parseAsArrayOf, parseAsStringLiteral, useQueryState } from "nuqs";
 
 // Configuration for task statuses and their display order.
@@ -55,9 +55,9 @@ export function TaskFilterHeader() {
 	// Mapping of status IDs (and 'all') to their corresponding icons.
 	const statusIcons: Record<StatusId | "all", React.ElementType> = {
 		all: List,
-		in_progress: LoaderCircle,
+		in_progress: Loader2,
 		todo: Circle,
-		done: CheckCircle2,
+		done: Check,
 	};
 
 	// Helper function to determine button styling based on active state.
