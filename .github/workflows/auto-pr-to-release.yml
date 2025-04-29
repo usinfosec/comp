@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-pull-request:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
     permissions:
       pull-requests: write
       contents: write
