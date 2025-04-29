@@ -67,8 +67,8 @@ export const updateEmployeeDepartment = authActionClient
 			});
 
 			// Revalidate related paths
-			revalidatePath(`/${organizationId}/employees/${employeeId}`);
-			revalidatePath(`/${organizationId}/employees`);
+			revalidatePath(`/${organizationId}/people/${employeeId}`);
+			revalidatePath(`/${organizationId}/people`);
 
 			return {
 				success: true,

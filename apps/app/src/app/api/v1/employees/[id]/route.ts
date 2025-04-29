@@ -6,7 +6,7 @@ import { type NextRequest, NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 /**
- * GET /api/v1/employees/:id
+ * GET /api/v1/people/:id
  *
  * Get a single employee by ID for the organization associated with the API key
  *
@@ -85,7 +85,7 @@ export async function GET(
 }
 
 /**
- * DELETE /api/v1/employees/:id
+ * DELETE /api/v1/people/:id
  *
  * Delete an employee by ID for the organization associated with the API key
  *

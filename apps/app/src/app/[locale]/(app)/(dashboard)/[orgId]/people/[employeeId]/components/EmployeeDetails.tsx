@@ -242,6 +242,7 @@ export function EmployeeDetails({
 														type="email"
 														placeholder="Employee email"
 														className="h-10"
+														disabled
 													/>
 												</FormControl>
 												<FormMessage />
