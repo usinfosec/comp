@@ -5,9 +5,10 @@ import { Sidebar } from "@/components/sidebar";
 import { SidebarProvider } from "@/context/sidebar-context";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import type { Organization } from "@comp/db/types";
 import dynamic from "next/dynamic";
 import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
@@ -18,29 +19,48 @@ const HotKeys = dynamic(
 
 export default async function Layout({
 	children,
+	params,
 }: {
 	children: React.ReactNode;
+	params: Promise<{ orgId: string }>;
 }) {
+	const { orgId: requestedOrgId } = await params;
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
+	const activeOrgId = session?.session?.activeOrganizationId;
 
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
 
-	if (!session) {
+	if (!session?.session?.userId) {
 		return redirect("/auth");
 	}
 
-	if (!session.session.activeOrganizationId) {
+	if (!activeOrgId) {
 		return redirect("/");
 	}
 
-	const currentOrganization = await db.organization.findUnique({
-		where: {
-			id: session.session.activeOrganizationId,
-		},
-	});
+	let currentOrganization: Organization | null = null;
+
+	if (requestedOrgId === activeOrgId) {
+		currentOrganization = await db.organization.findUnique({
+			where: {
+				id: activeOrgId,
+			},
+		});
+	} else {
+		currentOrganization = await db.organization.findUnique({
+			where: {
+				id: requestedOrgId,
+				members: { some: { userId: session.session.userId } },
+			},
+		});
+	}
+
+	if (!currentOrganization) {
+		return notFound();
+	}
 
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
