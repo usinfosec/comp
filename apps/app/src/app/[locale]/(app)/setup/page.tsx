@@ -38,11 +38,7 @@ export default async function Page() {
 		},
 	});
 
-	if (
-		!session.session.activeOrganizationId &&
-		organization?.id &&
-		!hasInvite
-	) {
+	if (organization?.id && !hasInvite) {
 		await auth.api.setActiveOrganization({
 			headers: headersList,
 			body: {
@@ -50,7 +46,7 @@ export default async function Page() {
 			},
 		});
 
-		return redirect(`/${organization.id}/frameworks`);
+		return redirect(`/${organization.id}/implementation`);
 	}
 
 	if (hasInvite) {

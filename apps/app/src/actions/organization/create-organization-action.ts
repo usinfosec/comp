@@ -217,9 +217,16 @@ export const createOrganizationAction = authActionClient
 				revalidatePath(`/${org.organizationId}`);
 			}
 
+			await auth.api.setActiveOrganization({
+				headers: await headers(),
+				body: {
+					organizationId,
+				},
+			});
+
 			return {
 				success: true,
-				organizationId: session.session.activeOrganizationId,
+				organizationId,
 			};
 		} catch (error) {
 			console.error("Error during organization creation/update:", error);

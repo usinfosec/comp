@@ -1,23 +1,21 @@
 "use client";
 
-import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
+import { Separator } from "@comp/ui/separator";
 import { ArrowRight, CheckCheck, Circle, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateOnboardingItem } from "../actions/update-onboarding-item";
 import type { ChecklistItemProps } from "../types/ChecklistProps.types";
-import { Separator } from "@comp/ui/separator";
-import { cn } from "../../../../../../../../../../packages/ui/src/utils";
+import Link from "next/link";
 
 export function ChecklistItem({
 	title,
@@ -28,14 +26,19 @@ export function ChecklistItem({
 	completed,
 	buttonLabel,
 	icon,
+	type,
+	wizardPath,
 }: ChecklistItemProps) {
 	const { orgId } = useParams<{ orgId: string }>();
-	const linkWithOrgReplaced = href.replace(":organizationId", orgId);
+	const linkWithOrgReplaced = href
+		? href.replace(":organizationId", orgId)
+		: undefined;
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
 	const router = useRouter();
 
 	const handleMarkAsDone = async () => {
+		if (!dbColumn) return;
 		try {
 			setIsUpdating(true);
 			setIsAnimating(true);
@@ -47,7 +50,7 @@ export function ChecklistItem({
 			}
 
 			setTimeout(() => setIsAnimating(false), 600);
-			router.push(linkWithOrgReplaced);
+			router.push(linkWithOrgReplaced ?? "/");
 		} catch (error) {
 			toast.error(
 				error instanceof Error
@@ -59,9 +62,15 @@ export function ChecklistItem({
 		}
 	};
 
+	const handleWizardRedirect = () => {
+		if (wizardPath) {
+			router.push(wizardPath.replace(":organizationId", orgId));
+		}
+	};
+
 	return (
 		<Card>
-			<div className={completed ? "opacity-40" : ""}>
+			<div>
 				<CardHeader>
 					<CardTitle className="flex items-center gap-2 w-full">
 						{completed && (
@@ -71,6 +80,21 @@ export function ChecklistItem({
 						<span className={completed ? "line-through" : ""}>
 							{title}
 						</span>
+						{completed && (
+							<Button
+								className="ml-auto"
+								variant="outline"
+								onClick={() => {
+									if (type === "wizard") {
+										handleWizardRedirect();
+									} else {
+										handleMarkAsDone();
+									}
+								}}
+							>
+								View again <ArrowRight className="h-4 w-4" />
+							</Button>
+						)}
 						{/* {completed && (
 							<Badge variant="marketing">Completed</Badge>
 						)} */}
@@ -84,12 +108,22 @@ export function ChecklistItem({
 				{!completed && <Separator className="my-6" />}
 				{!completed && (
 					<CardFooter className="justify-end">
-						{!completed && (
+						{type === "wizard" ? (
+							<Button
+								variant={"secondary"}
+								className="w-full sm:w-fit"
+								onClick={handleWizardRedirect}
+								disabled={isUpdating}
+							>
+								{buttonLabel}
+								<ArrowRight className="ml-1 h-4 w-4" />
+							</Button>
+						) : (
 							<Button
 								variant={"secondary"}
 								className="w-full sm:w-fit"
 								onClick={handleMarkAsDone}
-								disabled={isUpdating}
+								disabled={isUpdating || !dbColumn}
 							>
 								{completed ? (
 									"Completed"

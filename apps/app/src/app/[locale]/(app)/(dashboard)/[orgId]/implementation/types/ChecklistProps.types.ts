@@ -7,10 +7,14 @@ export interface ChecklistProps {
 export interface ChecklistItemProps {
 	title: string;
 	description?: string;
-	href: string;
+	href?: string;
 	docs: string;
-	dbColumn: Exclude<keyof Onboarding, "organizationId">;
-	completed: boolean;
+	dbColumn?: Exclude<keyof Onboarding, "organizationId">;
+	completed?: boolean;
 	buttonLabel: string;
 	icon: React.ReactNode;
+	type?: "default" | "wizard";
+	wizardPath?: string;
+	// For wizards, allow specifying a completion boolean directly
+	wizardCompleted?: boolean;
 }

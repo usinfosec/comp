@@ -1,11 +1,13 @@
 import { db } from "@comp/db";
 import { Icons } from "@comp/ui/icons";
-import { ListCheck, NotebookText, Store, Users } from "lucide-react";
+import { Briefcase, ListCheck, NotebookText, Store, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { Checklist } from "./components/Checklist";
 import { OnboardingProgress } from "./components/OnboardingProgress";
 import { ChecklistItemProps } from "./types/ChecklistProps.types";
+import { companyDetailsObjectSchema } from "./lib/models/CompanyDetails";
+import { z } from "zod";
 
 const getChecklistItems = cache(
 	async (
@@ -29,6 +31,22 @@ const getChecklistItems = cache(
 		}
 
 		const checklistItems: ChecklistItemProps[] = [
+			{
+				title: "Fill out company details",
+				description:
+					"In order to get started, you need to provide some basic details about how your company operates.",
+				wizardPath: `/${orgId}/implementation/wizard/company-details`,
+				completed:
+					(
+						onboarding.companyDetails as z.infer<
+							typeof companyDetailsObjectSchema
+						>
+					)?.isCompleted || false,
+				docs: "https://trycomp.ai/docs/details",
+				buttonLabel: "Fill out details",
+				icon: <Briefcase className="h-5 w-5" />,
+				type: "wizard",
+			},
 			{
 				title: "Check & Publish Policies",
 				description:
@@ -87,7 +105,7 @@ const getChecklistItems = cache(
 		];
 
 		const completedItems = checklistItems.filter(
-			(item) => item.completed,
+			(item) => item.completed || item.wizardCompleted,
 		).length;
 		const totalItems = checklistItems.length;
 
