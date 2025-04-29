@@ -39,25 +39,24 @@ interface OrganizationInitialsAvatarProps {
 	className?: string;
 }
 
-// Define gradients with significantly more hue variation
-const BRAND_GRADIENTS = [
-	"from-[hsl(155,80%,45%)] to-[hsl(185,90%,55%)]", // Original Green/Cyan to Sky Blue
-	"from-[hsl(210,80%,50%)] to-[hsl(240,70%,60%)]", // Medium Blue to Indigo
-	"from-[hsl(280,60%,55%)] to-[hsl(310,75%,60%)]", // Purple to Magenta
-	"from-[hsl(340,85%,60%)] to-[hsl(10,80%,55%)]",  // Pink/Red to Orange
-	"from-[hsl(40,90%,50%)] to-[hsl(60,85%,45%)]",   // Gold to Yellow
-];
-
-// Define possible gradient directions
-const GRADIENT_DIRECTIONS = [
-	"bg-gradient-to-t",
-	"bg-gradient-to-tr",
-	"bg-gradient-to-r",
-	"bg-gradient-to-br",
-	"bg-gradient-to-b",
-	"bg-gradient-to-bl",
-	"bg-gradient-to-l",
-	"bg-gradient-to-tl",
+// Define light background and accent text color pairs with dark mode variants
+const COLOR_PAIRS = [
+	{ bg: "bg-sky-100 dark:bg-sky-900/70", text: "text-sky-700 dark:text-sky-200" },
+	{ bg: "bg-blue-100 dark:bg-blue-900/70", text: "text-blue-700 dark:text-blue-200" },
+	{ bg: "bg-indigo-100 dark:bg-indigo-900/70", text: "text-indigo-700 dark:text-indigo-200" },
+	{ bg: "bg-purple-100 dark:bg-purple-900/70", text: "text-purple-700 dark:text-purple-200" },
+	{ bg: "bg-fuchsia-100 dark:bg-fuchsia-900/70", text: "text-fuchsia-700 dark:text-fuchsia-200" },
+	{ bg: "bg-pink-100 dark:bg-pink-900/70", text: "text-pink-700 dark:text-pink-200" },
+	{ bg: "bg-rose-100 dark:bg-rose-900/70", text: "text-rose-700 dark:text-rose-200" },
+	{ bg: "bg-red-100 dark:bg-red-900/70", text: "text-red-700 dark:text-red-200" },
+	{ bg: "bg-orange-100 dark:bg-orange-900/70", text: "text-orange-700 dark:text-orange-200" },
+	{ bg: "bg-amber-100 dark:bg-amber-900/70", text: "text-amber-700 dark:text-amber-200" },
+	{ bg: "bg-yellow-100 dark:bg-yellow-900/70", text: "text-yellow-700 dark:text-yellow-200" },
+	{ bg: "bg-lime-100 dark:bg-lime-900/70", text: "text-lime-700 dark:text-lime-200" },
+	{ bg: "bg-green-100 dark:bg-green-900/70", text: "text-green-700 dark:text-green-200" },
+	{ bg: "bg-emerald-100 dark:bg-emerald-900/70", text: "text-emerald-700 dark:text-emerald-200" },
+	{ bg: "bg-teal-100 dark:bg-teal-900/70", text: "text-teal-700 dark:text-teal-200" },
+	{ bg: "bg-cyan-100 dark:bg-cyan-900/70", text: "text-cyan-700 dark:text-cyan-200" },
 ];
 
 function OrganizationInitialsAvatar({ name, isCollapsed, className }: OrganizationInitialsAvatarProps) {
@@ -70,34 +69,23 @@ function OrganizationInitialsAvatar({ name, isCollapsed, className }: Organizati
 	if (initials.length > 0) {
 		const charCodeSum = Array.from(initials)
 			.reduce((sum, char) => sum + char.charCodeAt(0), 0);
-		colorIndex = charCodeSum % BRAND_GRADIENTS.length;
+		colorIndex = charCodeSum % COLOR_PAIRS.length; // Use COLOR_PAIRS length
 	}
 
-	// Calculate direction index
-	let directionIndex = 0;
-	if (initials.length > 0) {
-		// Use a slightly different calculation for direction to avoid direct correlation with color
-		const charCodeProduct = Array.from(initials)
-			.reduce((prod, char) => prod * (char.charCodeAt(0) || 1), 1); // Use product, handle potential 0 char code
-		directionIndex = Math.abs(charCodeProduct) % GRADIENT_DIRECTIONS.length;
-	}
-
-	// Get the selected colors and direction
-	const gradientColors = BRAND_GRADIENTS[colorIndex] || BRAND_GRADIENTS[0];
-	const gradientDirection = GRADIENT_DIRECTIONS[directionIndex] || GRADIENT_DIRECTIONS[3]; // Fallback to 'to-br'
+	// Get the selected color pair
+	const selectedColorPair = COLOR_PAIRS[colorIndex] || COLOR_PAIRS[0]; // Fallback to the first pair
 
 	return (
 		<div
 			className={cn(
 				"shrink-0 flex items-center justify-center rounded-sm",
 				sizeClasses,
-				gradientDirection, // Apply the dynamic direction
-				gradientColors, // Apply the dynamic colors
-				className, // Allow additional classes to be passed
+				selectedColorPair.bg, // Apply the selected background color
+				className,
 			)}
 		>
-			{/* Apply contrasting text color */}
-			<span className={cn(textSizeClass, "text-primary-foreground")}>{initials}</span>
+			{/* Apply selected accent text color */}
+			<span className={cn(textSizeClass, selectedColorPair.text)}>{initials}</span>
 		</div>
 	);
 }
@@ -138,7 +126,7 @@ export function OrganizationSwitcher({
 						aria-expanded={isComboboxOpen}
 						aria-label={t("common.actions.selectOrg")}
 						className={cn(
-							"flex justify-between mx-auto sha",
+							"flex justify-between mx-auto rounded-md",
 							isCollapsed ? "h-min w-min p-0" : "h-10 w-full p-0",
 							status === "executing" ? "opacity-50 cursor-not-allowed" : "",
 						)}
