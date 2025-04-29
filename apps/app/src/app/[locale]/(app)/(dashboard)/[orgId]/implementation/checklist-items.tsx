@@ -1,13 +1,31 @@
 import type { Onboarding } from "@comp/db/types";
 import { Icons } from "@comp/ui/icons";
-import { ListCheck, NotebookText, Store, Users } from "lucide-react";
+import { Briefcase, ListCheck, NotebookText, Store, Users } from "lucide-react";
 import type { ChecklistItemProps } from "./types";
+import { companyDetailsObjectSchema } from "./lib/models/CompanyDetails";
+import { z } from "zod";
 
 export function generateChecklistItems(
 	onboarding: Onboarding,
 	orgId: string,
 ): ChecklistItemProps[] {
 	return [
+		{
+			title: "Fill out company details",
+			description:
+				"In order to get started, you need to provide some basic details about how your company operates.",
+			wizardPath: `/${orgId}/implementation/wizard/company-details`,
+			completed:
+				(
+					onboarding.companyDetails as z.infer<
+						typeof companyDetailsObjectSchema
+					>
+				)?.isCompleted || false,
+			docs: "https://trycomp.ai/docs/details",
+			buttonLabel: "Fill out details",
+			icon: <Briefcase className="h-5 w-5" />,
+			type: "wizard",
+		},
 		{
 			title: "Check & Publish Policies",
 			description:
@@ -64,4 +82,4 @@ export function generateChecklistItems(
 			icon: <ListCheck className="h-5 w-5" />,
 		},
 	];
-} 
+}

@@ -1,11 +1,13 @@
-'use client';
+"use client";
 
 import { Progress } from "@comp/ui/progress";
 import { cn } from "@comp/ui/cn";
 import Link from "next/link";
 import { Button } from "@comp/ui/button";
-import type { ChecklistItemProps, OnboardingStep } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/types";
-import { Circle, CheckCircle2 } from "lucide-react";
+import type {
+	ChecklistItemProps,
+	OnboardingStep,
+} from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/types";
 import { usePathname, useRouter } from "next/navigation";
 import { Checkbox } from "@comp/ui/checkbox";
 import { markOnboardingStep } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/actions";
@@ -39,17 +41,22 @@ export function FloatingOnboardingChecklist({
 	const remainingItems = totalItems - completedItems;
 	const progressPercentage = (completedItems / totalItems) * 100;
 
-	const implementationPathRegex = /\/[^/]+\/implementation$/;
+	const implementationPathRegex = /\/[^/]+\/implementation(\/.*)?$/;
 
 	if (remainingItems === 0 || implementationPathRegex.test(pathname)) {
 		return null;
 	}
 
-	const handleCheckedChange = (step: OnboardingStep, newCompletedState: boolean) => {
+	const handleCheckedChange = (
+		step: OnboardingStep,
+		newCompletedState: boolean,
+	) => {
 		// Optimistic update
 		setChecklistItems((prevItems) =>
 			prevItems.map((item) =>
-				item.dbColumn === step ? { ...item, completed: newCompletedState } : item,
+				item.dbColumn === step
+					? { ...item, completed: newCompletedState }
+					: item,
 			),
 		);
 		setCompletedItems((prevCount) =>
@@ -58,15 +65,21 @@ export function FloatingOnboardingChecklist({
 
 		startTransition(async () => {
 			try {
-				const result = await markOnboardingStep({ orgId, step, completed: newCompletedState });
+				const result = await markOnboardingStep({
+					orgId,
+					step,
+					completed: newCompletedState,
+				});
 				if (!result.success) {
 					throw new Error(result.error || "Failed to update step.");
 				}
 				// On successful action, refresh server data
-				router.refresh(); 
+				router.refresh();
 			} catch (error) {
 				console.error("Onboarding step update failed:", error);
-				toast.error(`Error: ${error instanceof Error ? error.message : "Could not update step."}`);
+				toast.error(
+					`Error: ${error instanceof Error ? error.message : "Could not update step."}`,
+				);
 				// Revert optimistic update on error
 				setChecklistItems(initialChecklistItems);
 				setCompletedItems(initialCompletedItems);
@@ -82,7 +95,9 @@ export function FloatingOnboardingChecklist({
 			)}
 		>
 			<div className="mb-3">
-				<h4 className="mb-1 font-medium leading-none">Implementation Progress</h4>
+				<h4 className="mb-1 font-medium leading-none">
+					Implementation Progress
+				</h4>
 				<div className="flex justify-between text-xs text-muted-foreground mb-2">
 					<span>{completedItems} Completed</span>
 					<span>{remainingItems} Remaining</span>
@@ -91,35 +106,51 @@ export function FloatingOnboardingChecklist({
 			</div>
 
 			<div className="mb-3 grid gap-2 max-h-40 overflow-y-auto">
-				{checklistItems.map((item) => (
-					<div
-						key={item.dbColumn}
-						className="group flex items-center gap-3"
-					>
-						<Checkbox
-							id={`checklist-${item.dbColumn}`}
-							checked={item.completed}
-							onCheckedChange={(checked) => {
-								handleCheckedChange(item.dbColumn, !!checked);
-							}}
-							disabled={isPending}
-							aria-label={`Mark ${item.title} as ${item.completed ? 'incomplete' : 'complete'}`}
-							className="shrink-0"
-						/>
-						<Link
-							href={item.href}
-							className={cn(
-								"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
-								item.completed && "line-through text-muted-foreground hover:text-muted-foreground",
-								isPending && "opacity-50 cursor-not-allowed"
-							)}
-							tabIndex={isPending ? -1 : 0}
-							aria-disabled={isPending}
+				{checklistItems.map((item) => {
+					const isWizard = item.type === "wizard";
+					const href = isWizard
+						? (item.wizardPath ?? "#")
+						: (item.href ?? "#");
+					return (
+						<div
+							key={item.dbColumn}
+							className="group flex items-center gap-3"
 						>
-							{item.title}
-						</Link>
-					</div>
-				))}
+							<Checkbox
+								id={`checklist-${item.dbColumn}`}
+								checked={item.completed}
+								onCheckedChange={(checked) => {
+									if (isWizard) return; // Prevent marking wizard as done/undone
+									handleCheckedChange(
+										item.dbColumn as OnboardingStep,
+										!!checked,
+									);
+								}}
+								disabled={isPending || isWizard}
+								aria-label={
+									isWizard
+										? `${item.title} (complete in wizard)`
+										: `Mark ${item.title} as ${item.completed ? "incomplete" : "complete"}`
+								}
+								className="shrink-0"
+							/>
+							<Link
+								href={href}
+								className={cn(
+									"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
+									item.completed &&
+										"line-through text-muted-foreground hover:text-muted-foreground",
+									isPending &&
+										"opacity-50 cursor-not-allowed",
+								)}
+								tabIndex={isPending ? -1 : 0}
+								aria-disabled={isPending}
+							>
+								{item.title}
+							</Link>
+						</div>
+					);
+				})}
 			</div>
 
 			<Link href={`/${orgId}/implementation`} passHref>
@@ -135,4 +166,4 @@ export function FloatingOnboardingChecklist({
 			</Link>
 		</div>
 	);
-} 
+}
