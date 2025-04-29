@@ -1,23 +1,20 @@
 "use client";
 
-import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardFooter,
 	CardHeader,
-	CardTitle,
+	CardTitle
 } from "@comp/ui/card";
+import { Separator } from "@comp/ui/separator";
 import { ArrowRight, CheckCheck, Circle, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateOnboardingItem } from "../actions/update-onboarding-item";
-import type { ChecklistItemProps } from "../types/ChecklistProps.types";
-import { Separator } from "@comp/ui/separator";
-import { cn } from "../../../../../../../../../../packages/ui/src/utils";
+import type { ChecklistItemProps } from "../types";
 
 export function ChecklistItem({
 	title,
