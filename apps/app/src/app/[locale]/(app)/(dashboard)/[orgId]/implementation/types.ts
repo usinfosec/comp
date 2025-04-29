@@ -1,6 +1,5 @@
-import type { Onboarding } from "@comp/db/types";
+import { Onboarding } from "@comp/db/types";
 
-// Define valid onboarding steps based on the Onboarding model keys
 export const onboardingSteps = [
 	"policies",
 	"employees",
@@ -13,11 +12,15 @@ export type OnboardingStep = (typeof onboardingSteps)[number];
 
 export interface ChecklistItemProps {
 	title: string;
-	description: string;
-	href: string;
-	dbColumn: OnboardingStep; // Use the derived literal type
-	completed: boolean;
+	description?: string;
+	href?: string;
 	docs: string;
+	dbColumn?: Exclude<keyof Onboarding, "organizationId">;
+	completed?: boolean;
 	buttonLabel: string;
 	icon: React.ReactNode;
-} 
+	type?: "default" | "wizard";
+	wizardPath?: string;
+	// For wizards, allow specifying a completion boolean directly
+	wizardCompleted?: boolean;
+}
