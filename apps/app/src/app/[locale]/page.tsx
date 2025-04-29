@@ -7,13 +7,15 @@ export default async function RootPage() {
 		headers: await headers(),
 	});
 
-	if (!session || !session.session) {
+	if (!session) {
 		return redirect("/auth");
 	}
 
-	if (session.session.activeOrganizationId) {
-		return redirect(`/${session.session.activeOrganizationId}`);
+	const orgId = session.session.activeOrganizationId;
+
+	if (!orgId) {
+		return redirect("/setup");
 	}
 
-	return redirect("/setup");
+	return redirect(`/${orgId}/implementation`);
 }

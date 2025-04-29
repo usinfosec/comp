@@ -49,7 +49,9 @@ export async function getOnboardingStatus(
 	}
 
 	const checklistItems = generateChecklistItems(onboarding, orgId);
-	const completedItems = checklistItems.filter((item) => item.completed).length;
+	const completedItems = checklistItems.filter(
+		(item) => item.completed,
+	).length;
 	const totalItems = checklistItems.length;
 
 	return { checklistItems, completedItems, totalItems };
