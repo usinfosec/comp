@@ -21,19 +21,17 @@ export async function middleware(request: NextRequest) {
 	const nextUrl = request.nextUrl;
 
 	const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
+
 	const pathnameWithoutLocale = pathnameLocale
 		? nextUrl.pathname.slice(pathnameLocale.length + 1)
 		: nextUrl.pathname;
+
 	const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
 	response.headers.set("x-pathname", request.nextUrl.pathname);
 
 	if (!sessionCookie && newUrl.pathname !== "/auth") {
 		return NextResponse.redirect(new URL("/auth", request.url));
-	}
-
-	if (sessionCookie && newUrl.pathname === "/auth") {
-		return NextResponse.redirect(new URL("/", request.url));
 	}
 
 	return response;
