@@ -4,9 +4,13 @@ import { Progress } from "@comp/ui/progress";
 import { cn } from "@comp/ui/cn";
 import Link from "next/link";
 import { Button } from "@comp/ui/button";
-import type { ChecklistItemProps } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/types";
-import { Circle } from "lucide-react";
-import { usePathname } from "next/navigation";
+import type { ChecklistItemProps, OnboardingStep } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/types";
+import { Circle, CheckCircle2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Checkbox } from "@comp/ui/checkbox";
+import { markOnboardingStep } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/actions";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface FloatingOnboardingChecklistProps {
 	orgId: string;
@@ -18,21 +22,57 @@ interface FloatingOnboardingChecklistProps {
 
 export function FloatingOnboardingChecklist({
 	orgId,
-	completedItems,
+	completedItems: initialCompletedItems,
 	totalItems,
-	checklistItems,
+	checklistItems: initialChecklistItems,
 	className,
 }: FloatingOnboardingChecklistProps) {
-	const progressPercentage = (completedItems / totalItems) * 100;
-	const remainingItems = totalItems - completedItems;
-	const incompleteItems = checklistItems.filter((item) => !item.completed);
 	const pathname = usePathname();
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
+
+	// Local state for optimistic updates
+	const [checklistItems, setChecklistItems] = useState(initialChecklistItems);
+	const [completedItems, setCompletedItems] = useState(initialCompletedItems);
+
+	const incompleteItems = checklistItems.filter((item) => !item.completed);
+	const remainingItems = totalItems - completedItems;
+	const progressPercentage = (completedItems / totalItems) * 100;
 
 	const implementationPathRegex = /\/[^/]+\/implementation$/;
 
 	if (remainingItems === 0 || implementationPathRegex.test(pathname)) {
 		return null;
 	}
+
+	const handleCheckedChange = (step: OnboardingStep, newCompletedState: boolean) => {
+		// Optimistic update
+		setChecklistItems((prevItems) =>
+			prevItems.map((item) =>
+				item.dbColumn === step ? { ...item, completed: newCompletedState } : item,
+			),
+		);
+		setCompletedItems((prevCount) =>
+			newCompletedState ? prevCount + 1 : prevCount - 1,
+		);
+
+		startTransition(async () => {
+			try {
+				const result = await markOnboardingStep({ orgId, step, completed: newCompletedState });
+				if (!result.success) {
+					throw new Error(result.error || "Failed to update step.");
+				}
+				// On successful action, refresh server data
+				router.refresh(); 
+			} catch (error) {
+				console.error("Onboarding step update failed:", error);
+				toast.error(`Error: ${error instanceof Error ? error.message : "Could not update step."}`);
+				// Revert optimistic update on error
+				setChecklistItems(initialChecklistItems);
+				setCompletedItems(initialCompletedItems);
+			}
+		});
+	};
 
 	return (
 		<div
@@ -50,16 +90,35 @@ export function FloatingOnboardingChecklist({
 				<Progress value={progressPercentage} className="h-1.5" />
 			</div>
 
-			<div className="mb-3 grid gap-3 max-h-40 overflow-y-auto">
-				{incompleteItems.map((item) => (
-					<Link
-						href={item.href}
+			<div className="mb-3 grid gap-2 max-h-40 overflow-y-auto">
+				{checklistItems.map((item) => (
+					<div
 						key={item.dbColumn}
-						className="group flex items-center gap-2 text-sm hover:text-primary"
+						className="group flex items-center gap-3"
 					>
-						<Circle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
-						<span className="font-medium">{item.title}</span>
-					</Link>
+						<Checkbox
+							id={`checklist-${item.dbColumn}`}
+							checked={item.completed}
+							onCheckedChange={(checked) => {
+								handleCheckedChange(item.dbColumn, !!checked);
+							}}
+							disabled={isPending}
+							aria-label={`Mark ${item.title} as ${item.completed ? 'incomplete' : 'complete'}`}
+							className="shrink-0"
+						/>
+						<Link
+							href={item.href}
+							className={cn(
+								"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
+								item.completed && "line-through text-muted-foreground hover:text-muted-foreground",
+								isPending && "opacity-50 cursor-not-allowed"
+							)}
+							tabIndex={isPending ? -1 : 0}
+							aria-disabled={isPending}
+						>
+							{item.title}
+						</Link>
+					</div>
 				))}
 			</div>
 
@@ -68,6 +127,8 @@ export function FloatingOnboardingChecklist({
 					variant="secondary"
 					size="sm"
 					className="w-full"
+					aria-disabled={isPending}
+					disabled={isPending}
 				>
 					View All Steps
 				</Button>
