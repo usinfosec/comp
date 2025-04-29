@@ -70,7 +70,7 @@ export async function completeEmployeeCreation(params: {
 	await createTrainingVideoEntries(employee.id);
 
 	// Revalidate relevant paths to update UI
-	revalidatePath(`/${organizationId}/employees`);
+	revalidatePath(`/${organizationId}/people`);
 
 	return employee;
 }

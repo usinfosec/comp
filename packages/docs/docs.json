@@ -56,7 +56,7 @@
             "group": "API Reference",
             "pages": [
               "api-reference/v1/index",
-              "api-reference/v1/employees"
+              "api-reference/v1/people"
             ]
           }
         ]

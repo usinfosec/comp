@@ -93,17 +93,17 @@ export default async function Layout({
 			<SecondaryMenu
 				items={[
 					{
-						path: `/${orgId}/employees`,
+						path: `/${orgId}/people`,
 						label: t("people.dashboard.title"),
 					},
 					{
-						path: `/${orgId}/employees/all`,
-						label: t("people.all_employees"),
+						path: `/${orgId}/people/all`,
+						label: t("people.title"),
 					},
 				]}
 			/>
 
-			<main className="mt-8">{children}</main>
+			<main className="mt-4">{children}</main>
 		</div>
 	);
 }
