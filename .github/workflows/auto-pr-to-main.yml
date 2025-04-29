@@ -10,7 +10,6 @@ on:
       - mariano/*
       - lewis/*
       - COMP-*
-
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest-m
