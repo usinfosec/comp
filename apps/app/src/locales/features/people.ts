@@ -11,6 +11,9 @@ export const people = {
 		inactive: "Inactive",
 	},
 	description: "Manage your team members and their roles.",
+	user_management: {
+		title: "User Management",
+	},
 	filters: {
 		search: "Search people...",
 		role: "Filter by role",
@@ -54,6 +57,7 @@ export const people = {
 		actions: "Actions",
 		edit_roles: "Edit Roles",
 		remove_member: "Remove Member",
+		view_profile: "View Profile",
 		remove_confirm: {
 			title: "Remove Team Member",
 			description_prefix: "Are you sure you want to remove",

@@ -24,12 +24,19 @@ export async function Sidebar({
 						<SidebarCollapseButton isCollapsed={isCollapsed} />
 					)}
 				</div>
-				<MainMenu
-					//userIsAdmin={user?.isAdmin ?? false}
-					organizationId={organization?.id ?? ""}
-					isCollapsed={isCollapsed}
-					completedOnboarding={completedAll}
-				/>
+				<div className="flex flex-col gap-2 mt-2">
+					<OrganizationSwitcher
+						organizations={organizations}
+						organization={organization}
+						isCollapsed={isCollapsed}
+					/>
+					<MainMenu
+						//userIsAdmin={user?.isAdmin ?? false}
+						organizationId={organization?.id ?? ""}
+						isCollapsed={isCollapsed}
+						completedOnboarding={completedAll}
+						/>
+				</div>
 			</div>
 			<div className="flex-1" />
 			{isCollapsed && (
@@ -38,13 +45,6 @@ export async function Sidebar({
 				</div>
 			)}
 
-			<div className="flex h-[60px] items-center mx-auto w-full pb-1">
-				<OrganizationSwitcher
-					organizations={organizations}
-					organization={organization}
-					isCollapsed={isCollapsed}
-				/>
-			</div>
 		</div>
 	);
 }

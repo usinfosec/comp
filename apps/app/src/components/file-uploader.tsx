@@ -63,8 +63,8 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * Maximum file size for the uploader.
 	 * @type number | undefined
-	 * @default 1024 * 1024 * 2 // 2MB
-	 * @example maxSize={1024 * 1024 * 2} // 2MB
+	 * @default 5MB
+	 * @example maxSize={5MB}
 	 */
 	maxSize?: DropzoneProps["maxSize"];
 
@@ -106,7 +106,7 @@ export function FileUploader(props: FileUploaderProps) {
 			"application/pdf": [],
 			"text/*": [],
 		},
-		maxSize = 1024 * 1024 * 2,
+		maxSize = 5 * 1024 * 1024,
 		maxFileCount = 1,
 		multiple = false,
 		disabled = false,

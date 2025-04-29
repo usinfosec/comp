@@ -13,19 +13,14 @@ import {
 } from "@comp/ui/tooltip";
 import {
 	Blocks,
-	ChevronRight,
-	FileText,
 	FlagIcon,
 	FlaskConical,
 	Gauge,
-	Home,
 	ListCheck,
 	NotebookText,
 	ShieldEllipsis,
-	ShieldPlus,
-	Star,
 	Store,
-	Users,
+	Users
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -108,9 +103,9 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "employees",
-			path: "/:organizationId/employees",
-			name: t("sidebar.employees"),
+			id: "people",
+			path: "/:organizationId/people",
+			name: t("sidebar.people"),
 			disabled: false,
 			icon: Users,
 			protected: false,
@@ -208,40 +203,14 @@ export function MainMenu({
 	};
 
 	return (
-		<div className="mt-6">
-			<style jsx global>{`
-        @keyframes subtle-pulse {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.05);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-        .animate-subtle-pulse {
-          animation: subtle-pulse 2s infinite ease-in-out;
-        }
-      `}</style>
+		<div>
 			<nav>
-				<div
-					className={cn(
-						"flex flex-col gap-1.5 py-1",
-						!isCollapsed && "md:w-56",
-					)}
-				>
+				<div className="flex flex-col gap-1.5 py-1">
 					{items
 						.filter((item) => !item.disabled)
 						.filter((item) => !item.hidden)
 						.map((item) => {
 							const isActive = isPathActive(item.path);
-
-							//if (item.protected && !userIsAdmin) {
-							//  return null;
-							//}
-
 							return (
 								<Item
 									key={item.id}
@@ -300,7 +269,7 @@ const Item = ({
 								className={cn(
 									"relative flex items-center",
 									isCollapsed
-										? "md:w-[45px] md:justify-center rounded-sm"
+										? "md:w-[45px] md:justify-center rounded-l-sm"
 										: "md:px-3 rounded-l-sm",
 									"w-full px-3 md:w-auto h-[40px]",
 									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",

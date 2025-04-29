@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { useI18n } from "@/locales/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
@@ -62,6 +64,8 @@ function getInitials(name?: string | null, email?: string | null): string {
 
 export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 	const t = useI18n();
+	const params = useParams<{ locale: string; orgId: string }>();
+	const { locale, orgId } = params;
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
 	const [isRemoveAlertOpen, setIsRemoveAlertOpen] = useState(false);
 	const [selectedRoles, setSelectedRoles] = useState<Role[]>(
@@ -86,6 +90,8 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 	const isOwner = currentRoles.includes("owner");
 	const canEditRoles = true;
 	const canRemove = !isOwner;
+
+	const isEmployee = currentRoles.includes("employee");
 
 	const handleUpdateRolesClick = async () => {
 		let rolesToUpdate = selectedRoles;
@@ -123,7 +129,17 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 						</AvatarFallback>
 					</Avatar>
 					<div>
-						<div className="font-medium">{memberName}</div>
+						<div className="flex items-center gap-2 font-medium">
+							<span>{memberName}</span>
+							{isEmployee && (
+								<Link
+									href={`/${locale}/${orgId}/people/${memberId}`}
+									className="text-xs text-blue-600 hover:underline"
+								>
+									({t("people.member_actions.view_profile")})
+								</Link>
+							)}
+						</div>
 						<div className="text-sm text-muted-foreground">
 							{memberEmail}
 						</div>

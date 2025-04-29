@@ -34,7 +34,7 @@ type QueryParams = z.infer<typeof queryParamsSchema>;
 type EmployeeCreateInput = z.infer<typeof employeeCreateSchema>;
 
 /**
- * GET /api/v1/employees
+ * GET /api/v1/people
  *
  * Get all employees for the organization associated with the API key
  *
@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * POST /api/v1/employees
+ * POST /api/v1/people
  *
  * Create a new employee for the organization associated with the API key
  *

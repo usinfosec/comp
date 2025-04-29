@@ -8,7 +8,6 @@ export const config = {
 		"/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest|onboarding|research).*)",
 	],
 };
-
 const I18nMiddleware = createI18nMiddleware({
 	locales: ["en"],
 	defaultLocale: "en",
@@ -22,11 +21,9 @@ export async function middleware(request: NextRequest) {
 	const nextUrl = request.nextUrl;
 
 	const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
-
 	const pathnameWithoutLocale = pathnameLocale
 		? nextUrl.pathname.slice(pathnameLocale.length + 1)
 		: nextUrl.pathname;
-
 	const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
 	response.headers.set("x-pathname", request.nextUrl.pathname);
@@ -35,11 +32,8 @@ export async function middleware(request: NextRequest) {
 		return NextResponse.redirect(new URL("/auth", request.url));
 	}
 
-	if (
-		sessionCookie &&
-		(newUrl.pathname === "/auth" || newUrl.pathname === "/")
-	) {
-		return NextResponse.redirect(new URL("/setup", request.url));
+	if (sessionCookie && newUrl.pathname === "/auth") {
+		return NextResponse.redirect(new URL("/", request.url));
 	}
 
 	return response;

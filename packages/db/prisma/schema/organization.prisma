@@ -7,6 +7,7 @@ model Organization {
   metadata         String?
   stripeCustomerId String?
   onboarding       Onboarding?
+  website          String?
 
   apiKeys            ApiKey[]
   artifacts          Artifact[]

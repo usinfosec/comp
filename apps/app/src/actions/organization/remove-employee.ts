@@ -108,7 +108,7 @@ export const removeEmployeeRoleOrMember = authActionClient
 					]);
 
 					// Revalidate
-					revalidatePath(`/${organizationId}/employees/all`);
+					revalidatePath(`/${organizationId}/people/all`);
 					revalidateTag(`user_${currentUserId}`);
 
 					return { success: true, data: { removed: true } };
@@ -124,7 +124,7 @@ export const removeEmployeeRoleOrMember = authActionClient
 					});
 
 					// Revalidate
-					revalidatePath(`/${organizationId}/employees/all`);
+					revalidatePath(`/${organizationId}/people/all`);
 					revalidateTag(`user_${currentUserId}`);
 
 					return {

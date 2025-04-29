@@ -1,9 +1,9 @@
 import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { EmployeesList } from "./components/EmployeesList";
+import { EmployeesOverview } from "./components/EmployeesOverview";
 
-export default async function AllPeoplePage({
+export default async function PeopleOverviewPage({
 	params,
 }: {
 	params: Promise<{ locale: string }>;
@@ -11,7 +11,7 @@ export default async function AllPeoplePage({
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
 
-	return <EmployeesList />;
+	return <EmployeesOverview />;
 }
 
 export async function generateMetadata({
@@ -25,6 +25,6 @@ export async function generateMetadata({
 	const t = await getI18n();
 
 	return {
-		title: t("sidebar.employees"),
+		title: t("sidebar.people"),
 	};
 }

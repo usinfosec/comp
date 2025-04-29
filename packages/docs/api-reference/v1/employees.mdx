@@ -10,13 +10,13 @@ The Employees endpoints allow you to manage employees within your organization. 
 ## Base URL
 
 ```
-https://app.trycomp.ai/v1/employees
+https://app.trycomp.ai/v1/people
 ```
 
 or, if you self-host
 
 ```
-https://app.yourdomain.com/v1/employees
+https://app.yourdomain.com/v1/people
 ```
 
 ## Authentication
@@ -30,14 +30,14 @@ All API endpoints require authentication using an API key. You can pass the API 
 
 The following endpoints are available for managing employees:
 
-- `GET /api/v1/employees` - List all employees with optional filtering
-- `GET /api/v1/employees/:id` - Get a single employee by ID
-- `POST /api/v1/employees` - Create a new employee
-- `DELETE /api/v1/employees/:id` - Delete an employee by ID
+- `GET /api/v1/people` - List all employees with optional filtering
+- `GET /api/v1/people/:id` - Get a single employee by ID
+- `POST /api/v1/people` - Create a new employee
+- `DELETE /api/v1/people/:id` - Delete an employee by ID
 
 ### List Employees
 
-<ParamField path="GET /api/v1/employees" method="GET">
+<ParamField path="GET /api/v1/people" method="GET">
   Retrieves employees from your organization with optional filtering.
 </ParamField>
 
@@ -110,7 +110,7 @@ The following endpoints are available for managing employees:
 #### Example Request
 
 ```bash
-curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engineering&search=john" \
+curl -X GET "https://app.trycomp.ai/api/v1/people?active=true&department=engineering&search=john" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -136,7 +136,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engi
 
 ### Get Employee
 
-<ParamField path="GET /api/v1/employees/:id" method="GET">
+<ParamField path="GET /api/v1/people/:id" method="GET">
   Retrieves a single employee by ID.
 </ParamField>
 
@@ -196,7 +196,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees?active=true&department=engi
 #### Example Request
 
 ```bash
-curl -X GET "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9f" \
+curl -X GET "https://app.trycomp.ai/api/v1/people/clg3a4x6y000789ajdg7l8e9f" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -229,7 +229,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9f" 
 
 ### Add Employee
 
-<ParamField path="POST /api/v1/employees" method="POST">
+<ParamField path="POST /api/v1/people" method="POST">
   Adds a new employee to your organization.
 </ParamField>
 
@@ -326,7 +326,7 @@ curl -X GET "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9f" 
 #### Example Request
 
 ```bash
-curl -X POST "https://app.trycomp.ai/api/v1/employees" \
+curl -X POST "https://app.trycomp.ai/api/v1/people" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -378,7 +378,7 @@ curl -X POST "https://app.trycomp.ai/api/v1/employees" \
 
 ### Delete Employee
 
-<ParamField path="DELETE /api/v1/employees/:id" method="DELETE">
+<ParamField path="DELETE /api/v1/people/:id" method="DELETE">
   Deletes an employee from your organization by ID.
 </ParamField>
 
@@ -413,7 +413,7 @@ curl -X POST "https://app.trycomp.ai/api/v1/employees" \
 #### Example Request
 
 ```bash
-curl -X DELETE "https://app.trycomp.ai/api/v1/employees/clg3a4x6y000789ajdg7l8e9f" \
+curl -X DELETE "https://app.trycomp.ai/api/v1/people/clg3a4x6y000789ajdg7l8e9f" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 

@@ -14,8 +14,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateOnboardingItem } from "../actions/update-onboarding-item";
-import type { ChecklistItemProps } from "../types/ChecklistProps.types";
-import Link from "next/link";
+import type { ChecklistItemProps } from "../types";
 
 export function ChecklistItem({
 	title,

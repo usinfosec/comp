@@ -7,7 +7,7 @@ export const settings = {
 		org_name_tip: "Please use 32 characters at maximum.",
 		org_website: "Organization Website",
 		org_website_description:
-			"This is your organization's official website URL. Make sure to include the full URL with https://.",
+			"This is your organization's official website. Include https:// in the URL.",
 		org_website_tip: "Please enter a valid URL including https://",
 		org_website_error: "Error updating organization website",
 		org_website_updated: "Organization website updated",

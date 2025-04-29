@@ -1,6 +1,8 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": ["**/.env"],
+  "globalDependencies": [
+    "**/.env"
+  ],
   "ui": "stream",
   "tasks": {
     "clean-react": {
@@ -42,11 +44,24 @@
         "REVALIDATION_SECRET",
         "GROQ_API_KEY",
         "RESEND_AUDIENCE_ID",
-        "FIRECRAWL_API_KEY"
+        "FIRECRAWL_API_KEY",
+        "ZAPIER_HUBSPOT_WEBHOOK_URL"
       ],
-      "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build", "^db:generate", "^auth:build", "clean-react"],
-      "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^build",
+        "^db:generate",
+        "^auth:build",
+        "clean-react"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "next-env.d.ts"
+      ]
     },
     "db:generate": {
       "cache": false
@@ -70,16 +85,25 @@
       "cache": false
     },
     "dev": {
-      "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^db:generate"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^db:generate"
+      ],
       "persistent": true,
       "cache": false
     },
     "lint": {
-      "dependsOn": ["^topo"]
+      "dependsOn": [
+        "^topo"
+      ]
     },
     "typecheck": {
-      "outputs": ["node_modules/.cache/tsbuildinfo.json"]
+      "outputs": [
+        "node_modules/.cache/tsbuildinfo.json"
+      ]
     }
   }
 }

@@ -44,9 +44,9 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 	const [isSetup, setIsSetup] = useState(false);
 	const router = useRouter();
 
-	const newOrganizationRef = useRef<Pick<Organization, "id" | "name"> | null>(
-		null,
-	);
+	const newOrganizationRef = useRef<
+		Pick<Organization, "id" | "name" | "website"> | null
+	>(null);
 
 	const [formData, setFormData] = useState<z.infer<
 		typeof organizationSchema
@@ -58,6 +58,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 				newOrganizationRef.current = {
 					id: data.data.organizationId,
 					name: formData?.name || "",
+					website: formData?.website || "",
 				};
 
 				router.push(`/${data.data.organizationId}`);
@@ -181,6 +182,29 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 
 						<FormField
 							control={form.control}
+							name="website"
+							render={({ field }) => (
+								<FormItem className="space-y-2">
+									<FormLabel className="text-sm font-medium">
+										{t("onboarding.fields.website.label")}
+									</FormLabel>
+									<FormControl>
+										<Input
+											autoCorrect="off"
+											placeholder={t(
+												"onboarding.fields.website.placeholder",
+											)}
+											suppressHydrationWarning
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage className="text-xs" />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
 							name="frameworks"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
@@ -207,7 +231,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 																field.value.includes(
 																	frameworkId,
 																) &&
-																	"border-primary bg-primary/5",
+																"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
@@ -239,16 +263,16 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 																			const newValue =
 																				checked
 																					? [
-																							...field.value,
-																							frameworkId,
-																						]
+																						...field.value,
+																						frameworkId,
+																					]
 																					: field.value.filter(
-																							(
-																								name,
-																							) =>
-																								name !==
-																								frameworkId,
-																						);
+																						(
+																							name,
+																						) =>
+																							name !==
+																							frameworkId,
+																					);
 																			field.onChange(
 																				newValue,
 																			);
@@ -287,8 +311,8 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 									>
 										{createOrganization.status ===
 											"executing" && (
-											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-										)}
+												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+											)}
 										{t("onboarding.submit")}
 									</Button>
 								</div>

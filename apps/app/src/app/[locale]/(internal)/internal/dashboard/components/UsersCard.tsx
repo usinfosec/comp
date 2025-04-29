@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Progress } from "@comp/ui/progress";
 import { Skeleton } from "@comp/ui/skeleton";
-import { Calendar, Clock, TrendingUp, Users } from "lucide-react";
+import { Calendar, Clock, TrendingDown, TrendingUp, Users } from "lucide-react";
 import { useMemo } from "react";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
 import { useUsersAnalytics } from "../hooks/useUsersAnalytics";
@@ -67,19 +67,19 @@ export function UsersCard() {
 
 	const growthColor = useMemo(() => {
 		if (usersData?.percentageChangeLast30Days == null)
-			return "text-gray-400";
+			return "text-muted-foreground";
 		return usersData.percentageChangeLast30Days >= 0
-			? "text-green-400"
-			: "text-red-400";
+			? "text-green-500"
+			: "text-destructive";
 	}, [usersData?.percentageChangeLast30Days]);
 
 	if (isUsersError) {
 		return (
-			<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
+			<Card className="overflow-hidden rounded-sm">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-emerald-900/50">
-							<Users className="h-5 w-5 text-emerald-400" />
+						<div className="p-1.5 bg-emerald-500/10 rounded-sm">
+							<Users className="h-5 w-5 text-emerald-500" />
 						</div>
 						<CardTitle className="text-lg">Users</CardTitle>
 					</div>
@@ -94,18 +94,23 @@ export function UsersCard() {
 	}
 
 	return (
-		<Card className="bg-[#121212] text-white border-[#333] overflow-hidden rounded-sm">
+		<Card className="overflow-hidden rounded-sm">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-emerald-900/50">
-						<Users className="h-5 w-5 text-emerald-400" />
+					<div className="p-1.5 bg-emerald-500/10 rounded-sm">
+						<Users className="h-5 w-5 text-emerald-500" />
 					</div>
 					<CardTitle className="text-lg">Users</CardTitle>
 				</div>
 				<div
 					className={`flex items-center text-xs ${growthColor} font-medium`}
 				>
-					<TrendingUp className="h-3.5 w-3.5 mr-1" />
+					{usersData?.percentageChangeLast30Days == null ||
+					usersData.percentageChangeLast30Days >= 0 ? (
+						<TrendingUp className="h-3.5 w-3.5 mr-1" />
+					) : (
+						<TrendingDown className="h-3.5 w-3.5 mr-1" />
+					)}
 					{isUsersLoading ? (
 						<Skeleton className="h-3 w-10" />
 					) : (
@@ -119,7 +124,7 @@ export function UsersCard() {
 						<Skeleton className="h-10 w-full" />{" "}
 						{/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
-						<div className="bg-[#1a1a1a] p-3 space-y-2">
+						<div className="bg-muted p-3 space-y-2 rounded-sm">
 							<Skeleton className="h-4 w-1/3" />
 							<Skeleton className="h-4 w-full" />
 						</div>
@@ -156,12 +161,12 @@ export function UsersCard() {
 											>
 												<stop
 													offset="5%"
-													stopColor="#10b981"
+													stopColor="hsl(var(--chart-positive))"
 													stopOpacity={0.3}
 												/>
 												<stop
 													offset="95%"
-													stopColor="#10b981"
+													stopColor="hsl(var(--chart-positive))"
 													stopOpacity={0}
 												/>
 											</linearGradient>
@@ -169,7 +174,7 @@ export function UsersCard() {
 										<Area
 											type="linear"
 											dataKey="value"
-											stroke="#10b981"
+											stroke="hsl(var(--chart-positive))"
 											strokeWidth={2}
 											fill="url(#usersGradient)"
 											isAnimationActive={false}
@@ -180,15 +185,15 @@ export function UsersCard() {
 						</div>
 
 						{/* Last 30 Days Section */}
-						<div className="bg-[#1a1a1a] p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
-								<Clock className="h-4 w-4 text-gray-400" />
-								<span className="text-sm font-medium text-gray-300">
+								<Clock className="h-4 w-4 text-muted-foreground" />
+								<span className="text-sm font-medium text-foreground">
 									Last 30 Days
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-gray-400 text-sm">
+								<span className="text-muted-foreground text-sm">
 									New
 								</span>
 								<span className="text-sm font-medium">
@@ -203,16 +208,16 @@ export function UsersCard() {
 						</div>
 
 						{/* All Time Section */}
-						<div className="bg-[#1a1a1a] p-3 mb-4">
+						<div className="bg-muted p-3 mb-4 rounded-sm">
 							<div className="flex items-center gap-2 mb-2">
-								<Calendar className="h-4 w-4 text-gray-400" />
-								<span className="text-sm font-medium text-gray-300">
+								<Calendar className="h-4 w-4 text-muted-foreground" />
+								<span className="text-sm font-medium text-foreground">
 									All Time
 								</span>
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">
+									<span className="text-muted-foreground text-sm">
 										Total
 									</span>
 									<span className="text-xl font-bold">
@@ -225,7 +230,7 @@ export function UsersCard() {
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-gray-400 text-sm">
+									<span className="text-muted-foreground text-sm">
 										Active
 									</span>
 									<span className="text-sm font-medium">
@@ -238,9 +243,9 @@ export function UsersCard() {
 									value={Number.parseFloat(
 										usersActivePercent,
 									)}
-									className="h-1.5 bg-gray-800 rounded-sm [&>div]:bg-emerald-500"
+									className="h-1.5 bg-muted rounded-sm [&>div]:bg-emerald-500"
 								/>
-								<div className="text-xs text-gray-500 mt-1">
+								<div className="text-xs text-muted-foreground mt-1">
 									{usersActivePercent}% of total
 								</div>
 							</div>

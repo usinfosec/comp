@@ -55,6 +55,18 @@ export const uploadFile = async (
 		// 1. Decode Base64 Data
 		const fileBuffer = Buffer.from(fileData, "base64");
 
+		// --- Add file size check ---
+		const MAX_FILE_SIZE_MB = 5;
+		const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+		if (fileBuffer.length > MAX_FILE_SIZE_BYTES) {
+			return {
+				success: false,
+				error: `File exceeds the ${MAX_FILE_SIZE_MB}MB limit.`,
+				data: null,
+			};
+		}
+		// --- End file size check ---
+
 		// 2. Prepare S3 Key
 		const timestamp = Date.now();
 		const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");

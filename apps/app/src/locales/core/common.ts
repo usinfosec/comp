@@ -13,6 +13,7 @@ export const common = {
 		cancel: "Cancel",
 		clear: "Clear",
 		create: "Create",
+		createOrg: "Create Organization",
 		addNew: "Add New",
 		send: "Send",
 		return: "Return",
@@ -21,6 +22,10 @@ export const common = {
 		next: "Next",
 		complete: "Complete",
 		update: "Update",
+		selectOrg: "Select Organization",
+	},
+	placeholders: {
+		searchOrg: "Search organization...",
 	},
 	loading: "Loading...",
 	employee: {

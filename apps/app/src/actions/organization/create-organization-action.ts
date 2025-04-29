@@ -16,6 +16,8 @@ import {
 	createOrganizationTasks,
 	getRelevantControls,
 } from "./lib/utils";
+import { env } from "@/env.mjs";
+import ky from "ky";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -27,7 +29,7 @@ export const createOrganizationAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { name, frameworks } = parsedInput;
+		const { name, frameworks, website } = parsedInput;
 		const { id: userId } = ctx.user;
 
 		if (!name) {
@@ -54,6 +56,19 @@ export const createOrganizationAction = authActionClient
 			const session = await auth.api.getSession({
 				headers: await headers(),
 			});
+
+			if (env.ZAPIER_HUBSPOT_WEBHOOK_URL) {
+				await ky.post(env.ZAPIER_HUBSPOT_WEBHOOK_URL, {
+					json: {
+						email: session?.user.email,
+						website: website,
+						organization: name,
+						frameworks: frameworks,
+						first_name: session?.user.name?.split(" ")[0] || "",
+						last_name: session?.user.name?.split(" ")[1] || "",
+					},
+				});
+			}
 
 			timings.getAuthSession = (performance.now() - start) / 1000;
 
@@ -97,7 +112,7 @@ export const createOrganizationAction = authActionClient
 			start = performance.now();
 			await db.organization.update({
 				where: { id: organizationId },
-				data: { stripeCustomerId },
+				data: { stripeCustomerId, website },
 			});
 			timings.updateOrganizationWithStripeId =
 				(performance.now() - start) / 1000;
