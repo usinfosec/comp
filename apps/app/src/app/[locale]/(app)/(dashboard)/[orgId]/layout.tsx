@@ -9,6 +9,8 @@ import type { Organization } from "@comp/db/types";
 import dynamic from "next/dynamic";
 import { cookies, headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { FloatingOnboardingChecklist } from "@/components/onboarding/FloatingOnboardingChecklist";
+import { getOnboardingStatus } from "./implementation/actions";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
@@ -62,6 +64,16 @@ export default async function Layout({
 		return notFound();
 	}
 
+	// Fetch onboarding status
+	const onboardingStatus = await getOnboardingStatus(currentOrganization.id);
+
+	// Handle potential error during fetching
+	if ("error" in onboardingStatus) {
+		// Decide how to handle the error - maybe log it or show a generic error message
+		// For now, we'll proceed without the checklist
+		console.error("Error fetching onboarding status:", onboardingStatus.error);
+	}
+
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
 			<AnimatedLayout
@@ -72,6 +84,16 @@ export default async function Layout({
 				<main className="px-4 mx-auto pb-8">{children}</main>
 				<AssistantSheet />
 			</AnimatedLayout>
+			{/* Render floating checklist only if onboarding is not complete and no fetch error */}
+			{!("error" in onboardingStatus) &&
+				onboardingStatus.completedItems < onboardingStatus.totalItems && (
+					<FloatingOnboardingChecklist
+						orgId={currentOrganization.id}
+						completedItems={onboardingStatus.completedItems}
+						totalItems={onboardingStatus.totalItems}
+						checklistItems={onboardingStatus.checklistItems}
+					/>
+				)}
 			<HotKeys />
 		</SidebarProvider>
 	);
