@@ -44,10 +44,10 @@ const getChecklistItems = cache(
 				title: "Add Employees",
 				description:
 					"You should add all of your employees to Comp AI, either through an integration or by manually adding them and then ask them to sign the policies you published in the employee portal.",
-				href: `/${orgId}/employees`,
+				href: `/${orgId}/people`,
 				dbColumn: "employees",
 				completed: onboarding.employees,
-				docs: "https://trycomp.ai/docs/employees",
+				docs: "https://trycomp.ai/docs/people",
 				buttonLabel: "Add an Employee",
 				icon: <Users className="h-5 w-5" />,
 			},

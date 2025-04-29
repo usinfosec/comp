@@ -103,9 +103,9 @@ export function MainMenu({
 			protected: false,
 		},
 		{
-			id: "employees",
-			path: "/:organizationId/employees",
-			name: t("sidebar.employees"),
+			id: "people",
+			path: "/:organizationId/people",
+			name: t("sidebar.people"),
 			disabled: false,
 			icon: Users,
 			protected: false,
