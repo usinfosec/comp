@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   create-pull-request:
-    runs-on: ubuntu-latest-16
+    runs-on: ubuntu-latest-xl
     permissions:
       pull-requests: write
       contents: write

@@ -9,7 +9,7 @@ env:
 jobs:
   migrate:
     name: Run Database Migrations
-    runs-on: ubuntu-latest-16
+    runs-on: ubuntu-latest-xl
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
