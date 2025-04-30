@@ -23,8 +23,11 @@ export function GoogleSignIn({
 			? `/api/auth/invitation?code=${inviteCode}`
 			: "/";
 
+		const callbackURL = new URL(redirectTo, window.location.origin);
+
 		await authClient.signIn.social({
 			provider: "google",
+			callbackURL: callbackURL.toString(),
 		});
 	};
 
