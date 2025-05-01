@@ -18,7 +18,7 @@
 		"@comp/ui": "workspace:*",
 		"@comp/utils": "workspace:*",
 		"@react-email/components": "0.0.31",
-		"@react-email/render": "0.0.10",
+		"@react-email/render": "1.0.6",
 		"@react-email/tailwind": "1.0.4",
 		"date-fns": "^4.1.0",
 		"react-email": "3.0.4",
@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"typescript": "^5.7.2",
-		"@types/react": "^19.1.0",
+		"@types/react": "^19.1.2",
 		"@types/react-dom": "^19.1.1",
 		"tsup": "^8.4.0"
 	}
