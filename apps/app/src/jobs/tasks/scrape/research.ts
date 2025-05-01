@@ -9,29 +9,51 @@ const firecrawlDataSchema = z.object({
 	legal_name: z.string().optional().nullable(),
 	company_description: z.string().optional().nullable(),
 	company_hq_address: z.string().optional().nullable(),
-	privacy_policy_url: z.string().url().optional().nullable(),
-	terms_of_service_url: z.string().url().optional().nullable(),
-	service_level_agreement_url: z.string().url().optional().nullable(),
-	security_overview_url: z.string().url().optional().nullable(),
-	trust_portal_url: z.string().url().optional().nullable(),
+	privacy_policy_url: z
+		.union([z.string().url(), z.literal("")])
+		.optional()
+		.nullable(),
+	terms_of_service_url: z
+		.union([z.string().url(), z.literal("")])
+		.optional()
+		.nullable(),
+	service_level_agreement_url: z
+		.union([z.string().url(), z.literal("")])
+		.optional()
+		.nullable(),
+	security_overview_url: z
+		.union([z.string().url(), z.literal("")])
+		.optional()
+		.nullable(),
+	trust_portal_url: z
+		.union([z.string().url(), z.literal("")])
+		.optional()
+		.nullable(),
 	certified_security_frameworks: z.array(z.string()).optional().nullable(),
 	subprocessors: z.array(z.string()).optional().nullable(),
 	type_of_company: z.string().optional().nullable(),
 });
 
-// Define the schema for the initial response (might contain jobId)
+// Define the schema for the initial response containing the jobId
 const initialResponseSchema = z.object({
 	success: z.boolean(),
-	jobId: z.string().optional(), // jobId might be present if async
-	data: z.any().optional(), // data might be present if sync/fast
-	status: z.string().optional(), // status might be present
+	id: z.string(), // Expecting id for async operation, not jobId
 });
 
 // Define the schema for the polling status response
 const statusResponseSchema = z.object({
 	success: z.boolean(),
 	status: z.enum(["processing", "completed", "failed", "cancelled"]),
-	data: firecrawlDataSchema.optional().nullable(), // data is present on completion
+	data: z
+		.union([
+			firecrawlDataSchema,
+			z
+				.array(z.any())
+				.length(0), // Allow empty array for processing status
+			z.null(),
+		])
+		.optional(), // data is present on completion, array on processing, maybe null/absent otherwise
+	expiresAt: z.string().optional(), // Include expiresAt as it's in the response
 });
 
 // Helper function to delay execution
@@ -39,18 +61,35 @@ function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const MAX_POLL_DURATION_MS = 1000 * 60 * 5; // 5 minutes polling timeout
+const POLL_INTERVAL_MS = 5000; // 5 seconds polling interval
+
 export const researchVendor = schemaTask({
 	id: "research-vendor",
 	schema: z.object({
 		website: z.string().url(),
 	}),
-	maxDuration: 1000 * 60 * 10, // 10 minutes
+	maxDuration: 1000 * 60 * 10, // 10 minutes total task duration
 	run: async (payload, { ctx }) => {
 		const { website } = payload;
 		logger.info("Starting vendor research", { website });
+		const startTime = Date.now();
 
 		try {
-			// 1. Initiate Extraction Job (like curl POST)
+			const doesVendorExist = await db.globalVendors.findUnique({
+				where: {
+					website: website,
+				},
+			});
+
+			if (doesVendorExist) {
+				logger.info("Vendor already exists", { website });
+				return {
+					success: true,
+					data: doesVendorExist,
+				};
+			}
+
 			const initialResponse = await fetch(
 				"https://api.firecrawl.dev/v1/extract",
 				{
@@ -62,7 +101,6 @@ export const researchVendor = schemaTask({
 					body: JSON.stringify({
 						urls: [website],
 						prompt: "You're a cyber security researcher, researching a vendor.",
-						// Sending the schema structure directly
 						schema: {
 							type: "object",
 							properties: {
@@ -92,158 +130,174 @@ export const researchVendor = schemaTask({
 							onlyMainContent: true,
 							removeBase64Images: true,
 						},
-						// Potentially needed for async, though not explicitly documented for raw API
-						// webhookId: null,
 					}),
 				},
 			);
 
-			if (!initialResponse.ok) {
-				const errorBody = await initialResponse.text();
-				throw new Error(
-					`Firecrawl initial request failed with status ${initialResponse.status}: ${errorBody}`,
+			const initialData = await initialResponse.json();
+			logger.info("Initial Firecrawl response", { initialData });
+
+			const parsedInitial = initialResponseSchema.safeParse(initialData);
+
+			if (!parsedInitial.success || !parsedInitial.data.id) {
+				logger.error(
+					"Failed to parse initial Firecrawl response or missing id",
+					{
+						error: parsedInitial.error?.issues,
+						data: initialData,
+					},
 				);
+				return {
+					success: false,
+					error: "Invalid initial response from Firecrawl",
+				};
 			}
 
-			const initialJson = await initialResponse.json();
-			const parsedInitial = initialResponseSchema.safeParse(initialJson);
+			const { id: jobId } = parsedInitial.data;
+			logger.info("Firecrawl job started", { jobId });
 
-			if (!parsedInitial.success) {
-				throw new Error(
-					`Failed to parse initial Firecrawl response: ${parsedInitial.error.message}`,
-				);
-			}
+			// Polling loop
+			while (Date.now() - startTime < MAX_POLL_DURATION_MS) {
+				await sleep(POLL_INTERVAL_MS);
 
-			const { jobId, status, data } = parsedInitial.data;
-
-			// If completed immediately (unlikely for complex scrapes but possible)
-			if (status === "completed" && data) {
-				const parsedData = firecrawlDataSchema.safeParse(data);
-				if (parsedData.success) {
-					logger.info("Firecrawl job completed synchronously", {
-						data: parsedData.data,
-					});
-					// Here you would typically save the data to your DB
-					// await db.globalVendors.create({ data: { website, ...parsedData.data } });
-					return { success: true, data: parsedData.data };
-				}
-				logger.error("Failed to parse synchronously completed data", {
-					error: parsedData.error,
-					rawData: data,
-				});
-				throw new Error("Failed to parse completed Firecrawl data");
-			}
-
-			// If job started asynchronously
-			if (jobId && status === "processing") {
-				logger.info("Firecrawl job started asynchronously", { jobId });
-				const maxAttempts = 60; // Poll for 5 minutes (60 attempts * 5 seconds)
-				let attempts = 0;
-
-				while (attempts < maxAttempts) {
-					attempts++;
-					logger.debug(`Polling job status attempt ${attempts}`, {
-						jobId,
-					});
-
-					await sleep(5000); // Wait 5 seconds between polls
-
-					// 2. Check Job Status (like curl GET)
-					const statusResponse = await fetch(
-						`https://api.firecrawl.dev/v1/extract/${jobId}`,
-						{
-							method: "GET",
-							headers: {
-								"Content-Type": "application/json",
-								Authorization: `Bearer ${env.FIRECRAWL_API_KEY}`,
-							},
+				const statusCheckResponse = await fetch(
+					`https://api.firecrawl.dev/v1/extract/${jobId}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${env.FIRECRAWL_API_KEY}`,
 						},
-					);
+					},
+				);
 
-					if (!statusResponse.ok) {
-						// Don't throw immediately, maybe temporary issue
-						logger.warn(
-							`Firecrawl status check failed with status ${statusResponse.status}`,
-							{ jobId },
-						);
-						continue; // Try again after delay
-					}
+				const statusData = await statusCheckResponse.json();
+				logger.debug("Polling Firecrawl job status", {
+					jobId,
+					statusData,
+				});
 
-					const statusJson = await statusResponse.json();
-					const parsedStatus =
-						statusResponseSchema.safeParse(statusJson);
+				const parsedStatus = statusResponseSchema.safeParse(statusData);
 
-					if (!parsedStatus.success) {
-						logger.warn(
-							"Failed to parse Firecrawl status response",
-							{
-								error: parsedStatus.error,
-								rawData: statusJson,
-								jobId,
-							},
-						);
-						continue; // Try again
-					}
-
-					const currentStatus = parsedStatus.data.status;
-					const resultData = parsedStatus.data.data;
-
-					if (currentStatus === "completed") {
-						logger.info("Firecrawl job completed", {
-							jobId,
-							data: resultData,
-						});
-						// Here you would typically save the data to your DB
-						// await db.globalVendors.create({ data: { website, ...resultData } });
-						return { success: true, data: resultData };
-					}
-
-					if (
-						currentStatus === "failed" ||
-						currentStatus === "cancelled"
-					) {
-						logger.error(
-							`Firecrawl job ended with status: ${currentStatus}`,
-							{ jobId },
-						);
-						throw new Error(
-							`Firecrawl job ${jobId} ${currentStatus}`,
-						);
-					}
-
-					// If still processing, loop continues...
-					logger.debug("Job still processing", {
-						jobId,
-						status: currentStatus,
+				if (!parsedStatus.success) {
+					logger.warn("Failed to parse Firecrawl status response", {
+						error: parsedStatus.error?.issues,
+						data: statusData, // Log the raw data for debugging
 					});
+					continue; // Try polling again
 				}
 
-				logger.error("Firecrawl job timed out after polling", {
-					jobId,
-				});
-				throw new Error(
-					`Firecrawl job ${jobId} timed out after ${maxAttempts} attempts`,
-				);
+				// Now we know the overall status response is valid according to the schema
+				const { status, data } = parsedStatus.data; // data here can be object, [], null, or undefined
+
+				switch (status) {
+					case "completed": {
+						logger.info("Firecrawl job completed successfully", {
+							jobId,
+							data,
+						});
+
+						const finalDataValidation =
+							firecrawlDataSchema.safeParse(data);
+
+						if (!finalDataValidation.success) {
+							logger.error("Final data validation failed", {
+								error: finalDataValidation.error.issues,
+								data,
+							});
+							return {
+								success: false,
+								error: "Invalid final data structure from Firecrawl",
+							};
+						}
+
+						const security_certifications =
+							finalDataValidation.data
+								.certified_security_frameworks ?? [];
+						const subprocessors =
+							finalDataValidation.data.subprocessors ?? [];
+
+						await db.globalVendors.create({
+							data: {
+								company_name:
+									finalDataValidation.data.company_name,
+								website: website,
+								company_description:
+									finalDataValidation.data
+										.company_description,
+								company_hq_address:
+									finalDataValidation.data.company_hq_address,
+								privacy_policy_url:
+									finalDataValidation.data.privacy_policy_url,
+								terms_of_service_url:
+									finalDataValidation.data
+										.terms_of_service_url,
+								service_level_agreement_url:
+									finalDataValidation.data
+										.service_level_agreement_url,
+								security_page_url:
+									finalDataValidation.data
+										.security_overview_url,
+								trust_page_url:
+									finalDataValidation.data.trust_portal_url,
+								security_certifications:
+									security_certifications,
+								subprocessors: subprocessors,
+								type_of_company:
+									finalDataValidation.data.type_of_company,
+								approved: false,
+							},
+						});
+						return {
+							success: true,
+							data: finalDataValidation.data,
+						};
+					}
+					case "processing":
+						logger.info("Firecrawl job still processing", {
+							jobId,
+						});
+						continue; // Continue polling
+					case "failed":
+						logger.error("Firecrawl job failed", {
+							jobId,
+							statusData,
+						});
+						return {
+							success: false,
+							error: "Firecrawl job failed",
+						};
+					case "cancelled":
+						logger.warn("Firecrawl job was cancelled", {
+							jobId,
+							statusData,
+						});
+						return {
+							success: false,
+							error: "Firecrawl job cancelled",
+						};
+					default:
+						logger.warn("Unknown Firecrawl job status", {
+							jobId,
+							status,
+						});
+						continue; // Treat unknown status as processing for now
+				}
 			}
 
-			// If no jobId and not completed, something went wrong
-			logger.error(
-				"Firecrawl did not return a jobId or completed status",
-				{
-					response: parsedInitial.data,
-				},
-			);
-			throw new Error(
-				"Unexpected initial response from Firecrawl: No jobId and not completed.",
-			);
+			logger.error("Firecrawl job polling timed out", { jobId, website });
+			return { success: false, error: "Firecrawl job polling timed out" };
 		} catch (error: any) {
-			logger.error("Error researching vendor", {
+			logger.error("Error during vendor research or polling", {
 				error: error.message,
 				stack: error.stack,
 				website,
 			});
 			// Return failure to Trigger.dev
-			return { success: false, error: error.message };
+			return {
+				success: false,
+				error: error.message || "Unknown error occurred",
+			};
 		}
 	},
 });
