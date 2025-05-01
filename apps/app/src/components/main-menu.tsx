@@ -160,17 +160,6 @@ export function MainMenu({
 		},
 	];
 
-	if (session?.data?.user?.email?.endsWith("@trycomp.ai")) {
-		items.push({
-			id: "admin",
-			path: "/internal/admin",
-			name: t("sidebar.admin"),
-			disabled: false,
-			icon: Icons.AI,
-			protected: true,
-		});
-	}
-
 	// Helper function to check if a path is active
 	const isPathActive = (itemPath: string) => {
 		const normalizedItemPath = itemPath.replace(
@@ -213,7 +202,7 @@ export function MainMenu({
 							const isActive = isPathActive(item.path);
 							return (
 								<Item
-									key={item.id}
+									key={`${item.id}-${Math.random()}`}
 									organizationId={organizationId ?? ""}
 									item={item}
 									isActive={isActive}
@@ -275,7 +264,7 @@ const Item = ({
 									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",
 									"transition-all duration-300",
 									isActive &&
-										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
+									"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
 								)}
 							>
 								<div
@@ -308,8 +297,8 @@ const Item = ({
 														className={cn(
 															"ml-1.5 text-[9px] px-1 py-0 h-auto",
 															badgeVariants[
-																item.badge
-																	.variant
+															item.badge
+																.variant
 															],
 														)}
 													>

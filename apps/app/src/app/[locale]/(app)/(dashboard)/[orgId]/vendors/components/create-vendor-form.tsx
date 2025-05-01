@@ -46,7 +46,7 @@ import { searchGlobalVendorsAction } from "../actions/search-global-vendors-acti
 
 const createVendorSchema = z.object({
 	name: z.string().min(1, "Name is required"),
-	website: z.string().url("Must be a valid URL").optional(),
+	website: z.string().url("URL must be valid and start with https://").optional(),
 	description: z.string().optional(),
 	category: z.nativeEnum(VendorCategory),
 	status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
@@ -245,7 +245,6 @@ export function CreateVendorForm({
 															placeholder={t(
 																"vendors.form.vendor_website_placeholder",
 															)}
-															type="url"
 														/>
 													</FormControl>
 													<FormMessage />

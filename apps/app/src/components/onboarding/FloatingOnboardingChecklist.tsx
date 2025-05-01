@@ -113,7 +113,7 @@ export function FloatingOnboardingChecklist({
 						: (item.href ?? "#");
 					return (
 						<div
-							key={item.dbColumn}
+							key={`checklist-${item.dbColumn}`}
 							className="group flex items-center gap-3"
 						>
 							<Checkbox
@@ -139,9 +139,9 @@ export function FloatingOnboardingChecklist({
 								className={cn(
 									"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
 									item.completed &&
-										"line-through text-muted-foreground hover:text-muted-foreground",
+									"line-through text-muted-foreground hover:text-muted-foreground",
 									isPending &&
-										"opacity-50 cursor-not-allowed",
+									"opacity-50 cursor-not-allowed",
 								)}
 								tabIndex={isPending ? -1 : 0}
 								aria-disabled={isPending}
