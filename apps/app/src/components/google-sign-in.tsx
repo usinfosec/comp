@@ -22,20 +22,10 @@ export function GoogleSignIn({
 
 		if (inviteCode) {
 			redirectTo = `/api/auth/invitation?code=${inviteCode}`;
-		} else if (typeof window !== "undefined") {
-			const domain = window.location.hostname;
-			if (domain === "app.trycomp.ai") {
-				redirectTo = "https://app.trycomp.ai";
-			} else if (domain === "dev.trycomp.ai") {
-				redirectTo = "https://dev.trycomp.ai";
-			} else {
-				redirectTo = window.location.origin;
-			}
 		}
 
 		await authClient.signIn.social({
 			provider: "google",
-			callbackURL: redirectTo,
 		});
 	};
 
