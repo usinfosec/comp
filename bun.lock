@@ -10,7 +10,6 @@
         "@azure/identity": "^4.9.1",
         "@hookform/resolvers": "^5.0.1",
         "@manypkg/cli": "^0.23.0",
-        "@nangohq/node": "^0.53.2",
         "@number-flow/react": "^0.5.9",
         "@prisma/adapter-pg": "6.5.0",
         "@types/d3": "^7.4.3",
@@ -830,8 +829,6 @@
     "@mui/utils": ["@mui/utils@6.4.9", "", { "dependencies": { "@babel/runtime": "^7.26.0", "@mui/types": "~7.2.24", "@types/prop-types": "^15.7.14", "clsx": "^2.1.1", "prop-types": "^15.8.1", "react-is": "^19.0.0" }, "peerDependencies": { "@types/react": "^17.0.0 || ^18.0.0 || ^19.0.0", "react": "^17.0.0 || ^18.0.0 || ^19.0.0" }, "optionalPeers": ["@types/react"] }, "sha512-Y12Q9hbK9g+ZY0T3Rxrx9m2m10gaphDuUMgWxyV5kNJevVxXYCLclYUCC9vXaIk1/NdNDTcW2Yfr2OGvNFNmHg=="],
 
     "@nangohq/frontend": ["@nangohq/frontend@0.53.2", "", { "dependencies": { "@nangohq/types": "0.53.2" } }, "sha512-ZSNY9jHVuF/Qfsu8TJBK3tujsxO+Qi7dHWNFt316Mq3g4od9MwuHefTEs0EtfpUTCB18hNE05QOQWCuD8zO8Aw=="],
-
-    "@nangohq/node": ["@nangohq/node@0.53.2", "", { "dependencies": { "@nangohq/types": "0.53.2", "axios": "^1.7.9" } }, "sha512-QfBrtbv1dekI3RH+HX+43MGIRs36MNuWMdWS1RRFKjiCmIwKaOje6qjRj0UDjQYtokKcbt2id2sAAq8fmusjCQ=="],
 
     "@nangohq/types": ["@nangohq/types@0.53.2", "", { "dependencies": { "axios": "^1.7.9", "json-schema": "0.4.0", "type-fest": "4.32.0" } }, "sha512-G7oC4QsJrmLjAWQmvB7gY8hE0UMr8PofAY/pPsk/0sHIM1YWeealBI7RiPeN4UluArT7w+OoUvMQd+jtrTh9Lw=="],
 

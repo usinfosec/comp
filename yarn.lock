@@ -2821,14 +2821,6 @@
   dependencies:
     "@nangohq/types" "0.53.2"
 
-"@nangohq/node@^0.53.2":
-  version "0.53.2"
-  resolved "https://registry.npmjs.org/@nangohq/node/-/node-0.53.2.tgz"
-  integrity sha512-QfBrtbv1dekI3RH+HX+43MGIRs36MNuWMdWS1RRFKjiCmIwKaOje6qjRj0UDjQYtokKcbt2id2sAAq8fmusjCQ==
-  dependencies:
-    "@nangohq/types" "0.53.2"
-    axios "^1.7.9"
-
 "@nangohq/types@0.53.2":
   version "0.53.2"
   resolved "https://registry.npmjs.org/@nangohq/types/-/types-0.53.2.tgz"
