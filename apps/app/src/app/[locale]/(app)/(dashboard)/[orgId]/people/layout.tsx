@@ -28,78 +28,28 @@ export default async function Layout({
 		where: {
 			organizationId: orgId,
 		},
-		include: {
-			user: true,
-		},
 	});
 
-	// Filter in application code to handle multiple roles
 	const employees = allMembers.filter((member) => {
 		const roles = member.role.includes(",")
 			? member.role.split(",")
 			: [member.role];
 		return roles.includes("employee");
 	});
-
-	if (employees.length === 0) {
-		return (
-			<div className="max-w-[1200px] m-auto">
-				<Suspense fallback={<div>Loading...</div>}>
-					<div className="mt-8">
-						<AppOnboarding
-							title={t("app_onboarding.employees.title")}
-							description={t(
-								"app_onboarding.employees.description",
-							)}
-							cta={t("app_onboarding.employees.cta")}
-							imageSrc="/onboarding/people-management.webp"
-							imageAlt="Employee Management"
-							href={`/${orgId}/settings/users`}
-							faqs={[
-								{
-									questionKey: t(
-										"app_onboarding.employees.faqs.question_1",
-									),
-									answerKey: t(
-										"app_onboarding.employees.faqs.answer_1",
-									),
-								},
-								{
-									questionKey: t(
-										"app_onboarding.employees.faqs.question_2",
-									),
-									answerKey: t(
-										"app_onboarding.employees.faqs.answer_2",
-									),
-								},
-								{
-									questionKey: t(
-										"app_onboarding.employees.faqs.question_3",
-									),
-									answerKey: t(
-										"app_onboarding.employees.faqs.answer_3",
-									),
-								},
-							]}
-						/>
-					</div>
-				</Suspense>
-			</div>
-		);
-	}
+	
 
 	return (
 		<div className="max-w-[1200px] m-auto">
 			<SecondaryMenu
 				items={[
 					{
-						path: `/${orgId}/people`,
-						label: t("people.dashboard.title"),
-					},
-					{
 						path: `/${orgId}/people/all`,
 						label: t("people.title"),
 					},
+					...(employees.length > 0 ? [{
+						path: `/${orgId}/people/dashboard`,
+						label: t("people.dashboard.title"),
+					}] : []),
 				]}
 			/>
 

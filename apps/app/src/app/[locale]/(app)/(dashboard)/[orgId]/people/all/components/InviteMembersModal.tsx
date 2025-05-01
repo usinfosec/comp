@@ -42,7 +42,7 @@ const selectableRoles = [
 	"employee",
 ] as const satisfies Readonly<Role[]>;
 type InviteRole = (typeof selectableRoles)[number];
-const DEFAULT_ROLES: InviteRole[] = ["employee"];
+const DEFAULT_ROLES: InviteRole[] = [];
 
 // --- Schemas ---
 const manualInviteSchema = z.object({
