@@ -47,10 +47,10 @@ export const people = {
 		auditor: "Auditor",
 		employee: "Employee",
 		owner_description:
-			"Full access to manage users and settings and delete organization",
+			"Can manage users, policies, tasks, and settings, and delete organization.",
 		admin_description:
-			"Full access to manage users and settings, without the ability to delete organization",
-		employee_description: "Can access employee portal and complete tasks.",
+			"Can manage users, policies, tasks, and settings.",
+		employee_description: "Can sign policies and complete training.",
 		auditor_description: "Read-only access for compliance checks.",
 	},
 	member_actions: {
