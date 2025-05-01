@@ -104,7 +104,7 @@ export function MainMenu({
 		},
 		{
 			id: "people",
-			path: "/:organizationId/people",
+			path: "/:organizationId/people/all",
 			name: t("sidebar.people"),
 			disabled: false,
 			icon: Users,
