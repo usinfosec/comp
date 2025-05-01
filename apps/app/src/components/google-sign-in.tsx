@@ -18,16 +18,14 @@ export function GoogleSignIn({
 
 	const handleSignIn = async () => {
 		setLoading(true);
+		let redirectTo = "/";
 
-		const redirectTo = inviteCode
-			? `/api/auth/invitation?code=${inviteCode}`
-			: "/";
-
-		const callbackURL = new URL(redirectTo, window.location.origin);
+		if (inviteCode) {
+			redirectTo = `/api/auth/invitation?code=${inviteCode}`;
+		}
 
 		await authClient.signIn.social({
 			provider: "google",
-			callbackURL: callbackURL.toString(),
 		});
 	};
 
