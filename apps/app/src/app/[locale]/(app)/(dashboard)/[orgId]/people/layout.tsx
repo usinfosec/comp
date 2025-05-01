@@ -28,23 +28,28 @@ export default async function Layout({
 		where: {
 			organizationId: orgId,
 		},
-		include: {
-			user: true,
-		},
 	});
+
+	const employees = allMembers.filter((member) => {
+		const roles = member.role.includes(",")
+			? member.role.split(",")
+			: [member.role];
+		return roles.includes("employee");
+	});
+	
 
 	return (
 		<div className="max-w-[1200px] m-auto">
 			<SecondaryMenu
 				items={[
 					{
-						path: `/${orgId}/people`,
-						label: t("people.dashboard.title"),
-					},
-					{
 						path: `/${orgId}/people/all`,
 						label: t("people.title"),
 					},
+					...(employees.length > 0 ? [{
+						path: `/${orgId}/people/dashboard`,
+						label: t("people.dashboard.title"),
+					}] : []),
 				]}
 			/>
 

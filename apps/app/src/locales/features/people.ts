@@ -121,7 +121,7 @@ export const people = {
 		error: "Failed to add user",
 	},
 	dashboard: {
-		title: "Dashboard",
+		title: "Employee Tasks",
 		employee_task_completion: "Employee Task Completion",
 		policies_completed: "Policies Completed",
 		policies_pending: "Policies Pending",
