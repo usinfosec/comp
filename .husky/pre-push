@@ -1,10 +1,8 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 branch_name=$(git symbolic-ref --short HEAD)
-pattern="^(claudio|mariano|alex)/leap-.*$"
+pattern="^[a-zA-Z]+/comp-.*$"
 
 if [[ ! $branch_name =~ $pattern ]]; then
   echo "Branch name '$branch_name' does not follow the naming convention."
+  echo "Branch names should follow the pattern: firstname/comp-*"
   exit 1
 fi
