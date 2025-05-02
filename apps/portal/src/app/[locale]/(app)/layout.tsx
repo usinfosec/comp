@@ -18,12 +18,16 @@ export default async function Layout({
 	}
 
 	return (
-		<div className="relative">
+		<div className="flex min-h-screen">
 			<Sidebar />
 
-			<div className="mx-auto w-full max-w-[1200px] px-8 pb-8">
-				<Header />
-				<main className="max-w-[1200px] mx-auto">{children}</main>
+			<div className="flex-1 flex flex-col">
+				<div className="w-full px-4 sm:px-6 lg:px-8">
+					<Header />
+				</div>
+				<main className="flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					{children}
+				</main>
 			</div>
 		</div>
 	);

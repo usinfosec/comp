@@ -9,10 +9,12 @@ export default async function Layout({
 	const t = await getI18n();
 
 	return (
-		<div className="max-w-[1200px]">
+		<>
 			<SecondaryMenu items={[{ path: "/", label: t("sidebar.dashboard") }]} />
 
-			<main className="mt-8">{children}</main>
-		</div>
+			<div className="mt-8">
+				{children}
+			</div>
+		</>
 	);
 }

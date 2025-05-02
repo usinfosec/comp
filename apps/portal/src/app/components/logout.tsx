@@ -16,7 +16,7 @@ export function Logout() {
 		await authClient.signOut({
 			fetchOptions: {
 				onSuccess: () => {
-					router.push("/login"); // redirect to login page
+					router.push("/auth"); // Redirect to /auth instead of /login
 				},
 			},
 		});
