@@ -35,6 +35,11 @@ export default async function Page() {
 		where: {
 			email: session.user.email,
 			status: "pending",
+			role: {
+				not: {
+					contains: "employee",
+				},
+			},
 		},
 	});
 
