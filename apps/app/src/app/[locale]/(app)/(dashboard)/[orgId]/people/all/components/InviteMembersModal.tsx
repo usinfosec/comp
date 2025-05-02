@@ -34,6 +34,7 @@ import { Input } from "@comp/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { MultiRoleCombobox } from "./MultiRoleCombobox";
 import { authClient } from "@/utils/auth-client";
+import { addEmployeeWithoutInvite } from "../actions/addEmployeeWithoutInvite";
 
 // --- Constants for Roles ---
 const selectableRoles = [
@@ -110,7 +111,12 @@ export function InviteMembersModal({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			mode: "manual",
-			manualInvites: [{ email: "", roles: DEFAULT_ROLES }],
+			manualInvites: [
+				{
+					email: "",
+					roles: DEFAULT_ROLES,
+				},
+			],
 			csvFile: undefined,
 		},
 		mode: "onChange",
@@ -165,15 +171,25 @@ export function InviteMembersModal({
 
 				// Process each invitation sequentially
 				for (const invite of values.manualInvites) {
+					const isEmployeeOnly =
+						invite.roles.length === 1 &&
+						invite.roles[0] === "employee";
 					try {
-						// Use authClient to send the invitation
-						await authClient.organization.inviteMember({
-							email: invite.email,
-							role:
-								invite.roles.length === 1
-									? invite.roles[0]
-									: invite.roles,
-						});
+						if (isEmployeeOnly) {
+							await addEmployeeWithoutInvite({
+								organizationId,
+								email: invite.email,
+							});
+						} else {
+							// Use authClient to send the invitation
+							await authClient.organization.inviteMember({
+								email: invite.email,
+								role:
+									invite.roles.length === 1
+										? invite.roles[0]
+										: invite.roles,
+							});
+						}
 						successCount++;
 					} catch (error) {
 						console.error(
