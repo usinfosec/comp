@@ -5,13 +5,12 @@ import { Overview } from "./components/Overview";
 import { Suspense } from 'react'
 
 interface HomePageProps {
-	params: { locale: string }
-	searchParams: { [key: string]: string | string[] | undefined }
+	params: Promise<{ locale: string }>
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default function HomePage({ params, searchParams }: HomePageProps) {
-	// Ensure locale is handled if needed by Overview or child components
-	// const { locale } = params;
+
 
 	return (
 		<div className="space-y-6">
