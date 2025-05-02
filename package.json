@@ -19,19 +19,36 @@
 		"db:push": "bun run -F @comp/db db:push",
 		"db:migrate": "bun run -F @comp/db db:migrate",
 		"db:studio": "bun run -F @comp/db db:studio",
-		"db:seed": "bun run -F @comp/db db:seed"
+		"db:seed": "bun run -F @comp/db db:seed",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-conventional": "^19.8.0",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/commit-analyzer": "^13.0.1",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^11.0.2",
+		"@semantic-release/release-notes-generator": "^14.0.3",
 		"@types/lodash": "^4.17.16",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.1",
+		"semantic-release": "^24.2.3",
 		"turbo": "^2.5.2",
 		"typescript": "5.7.3"
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,json,md}": "biome check --apply-unsafe"
 	},
 	"engines": {
 		"node": ">=18"
 	},
 	"packageManager": "bun@1.1.36",
-	"workspaces": ["apps/*", "packages/*"],
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.800.0",
 		"@aws-sdk/client-securityhub": "^3.799.0",

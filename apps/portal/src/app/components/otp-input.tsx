@@ -20,13 +20,19 @@ export const OtpStyledInput = ({
 	return (
 		<OtpInput
 			{...props}
+			numInputs={6}
 			renderInput={(inputProps) => (
 				<Input
 					{...inputProps}
-					className={cn("!w-12 !appearance-none selection:bg-none ", className)}
+					className={cn("selection:bg-none", className)}
+					style={{
+						caretColor: "blue",
+						textAlign: "center",
+						appearance: "none",
+					}}
 				/>
 			)}
-			containerStyle={`flex justify-center items-center flex-wrap  text-2xl font-bold ${
+			containerStyle={`flex justify-center items-center text-2xl font-bold ${
 				props.renderSeparator ? "gap-1" : "gap-x-3 gap-y-2"
 			}`}
 		/>

@@ -14,6 +14,24 @@ import { LocaleSwitch } from "./locale-switch";
 import { Logout } from "./logout";
 import { ThemeSwitch } from "./theme-switch";
 
+// Helper function to get initials
+function getInitials(name?: string | null, email?: string | null): string {
+	if (name) {
+		const names = name.split(' ');
+		const firstInitial = names[0]?.charAt(0) ?? "";
+		const lastInitial = names.length > 1 ? names[names.length - 1]?.charAt(0) : "";
+		const initials = `${firstInitial}${lastInitial}`.toUpperCase();
+		// Ensure we return something, even if splitting/chartAt fails unexpectedly
+		return initials || "?";
+	}
+	if (email) {
+		// Use first letter of email if name is missing
+		return email.charAt(0).toUpperCase();
+	}
+	// Fallback if both name and email are missing
+	return "?";
+}
+
 export async function UserMenu() {
 	const t = await getI18n();
 
@@ -21,22 +39,24 @@ export async function UserMenu() {
 		headers: await headers(),
 	});
 
+	const userInitials = getInitials(session?.user?.name, session?.user?.email);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Avatar className="rounded-full w-8 h-8 cursor-pointer">
 					{session?.user?.image && (
 						<AvatarImageNext
-							src={session?.user?.image}
-							alt={session?.user?.name ?? ""}
+							src={session.user.image}
+							alt={session?.user?.name ?? "User Avatar"}
 							width={32}
 							height={32}
 							quality={100}
 						/>
 					)}
 					<AvatarFallback>
-						<span className="text-xs">
-							{session?.user?.name?.charAt(0)?.toUpperCase()}
+						<span className="text-xs font-semibold">
+							{userInitials}
 						</span>
 					</AvatarFallback>
 				</Avatar>
