@@ -2,16 +2,26 @@ import { getI18n } from "@/app/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { Overview } from "./components/Overview";
+import { Suspense } from 'react'
 
-export default async function Portal({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+interface HomePageProps {
+	params: Promise<{ locale: string }>
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
-	return <Overview />;
+export default function HomePage({ params, searchParams }: HomePageProps) {
+
+
+	return (
+		<div className="space-y-6">
+			{/* Add loading states later if Overview becomes complex */}
+			<Suspense fallback={<div>Loading overview...</div>}>
+				{/* Pass searchParams to Overview */}
+				<Overview />
+			</Suspense>
+			{/* Other home page sections can go here */}
+		</div>
+	)
 }
 
 export async function generateMetadata({
