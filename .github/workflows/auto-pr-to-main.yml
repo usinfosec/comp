@@ -12,7 +12,7 @@ on:
       - COMP-*
 jobs:
   create-pull-request:
-    runs-on: ubuntu-latest-xl
+    runs-on: ubuntu-latest-custom
     continue-on-error: true
     permissions:
       pull-requests: write

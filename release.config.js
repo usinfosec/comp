@@ -4,6 +4,7 @@ module.exports = {
     '@semantic-release/commit-analyzer', // Analyzes commit messages
     '@semantic-release/release-notes-generator', // Generates release notes
     '@semantic-release/changelog', // Updates the CHANGELOG.md file
+    ['@semantic-release/npm', { npmPublish: false }],
     [
       '@semantic-release/git', // Commits package.json and CHANGELOG.md
       {
