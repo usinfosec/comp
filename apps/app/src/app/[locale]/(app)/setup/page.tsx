@@ -36,9 +36,7 @@ export default async function Page() {
 			email: session.user.email,
 			status: "pending",
 			role: {
-				not: {
-					contains: "employee",
-				},
+				not: "employee",
 			},
 		},
 	});
