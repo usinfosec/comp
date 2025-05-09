@@ -70,90 +70,298 @@ Here is what you need to be able to run Comp AI.
 
 ## Development
 
+To get the project working locally with all integrations, follow these extended development steps.
+
 ### Setup
 
-1. Clone the repo into a public GitHub repository (or fork https://github.com/trycompai/comp/fork). If you modify and distribute the code, or run it as a network service, you must provide the source code to users under the terms of AGPLv3. For uses not covered by AGPLv3, a commercial license is available.
+1. Clone the repo:
 
    ```sh
    git clone https://github.com/trycompai/comp.git
    ```
 
-2. Go to the project folder
+2. Navigate to the project directory:
 
    ```sh
    cd comp
    ```
 
-3. Install packages with bun
+3. Remove existing lock files:
 
-   ```sh
-   bun i
-   ```
+#### Linux / macOS
 
-4. Set up your `.env` files
-   - Copy the example environment files to create your local environment files:
-   ```sh
-   cp apps/app/.env.example apps/app/.env
-   cp apps/portal/.env.example apps/portal/.env
-   ```
-   - Fill in the required environment variables in both `.env` files
-   - Use `openssl rand -base64 32` to generate a key and add it under `AUTH_SECRET` in the `apps/app/.env` file
+```sh
+rm bun.lock yarn.lock
+```
 
-5. Setup Node
-   If your Node version does not meet the project's requirements as instructed by the docs, "nvm" (Node Version Manager) allows using Node at the version required by the project:
+#### Windows (Command Prompt)
 
-   ```sh
-   nvm use
-   ```
+```cmd
+del bun.lock yarn.lock
+```
 
-   You first might need to install the specific version and then use it:
+#### Windows (PowerShell)
 
-   ```sh
-   nvm install && nvm use
-   ```
+```powershell
+Remove-Item bun.lock, yarn.lock
+```
 
-   You can install nvm from [here](https://github.com/nvm-sh/nvm).
+4. Remove any `yarn` references from `comp/apps/app/package.json`
 
-6. Setup Database
-   Start the Postgres database using Docker:
+```sh
+"yarn": "^1.22.22",
+```
+
+> 💡 Make sure this line is already deleted or running `bun install` will give you an error.
+
+5. Install dependencies using Bun:
+
+```sh
+   bun install
+```
+
+6. Install `concurrently` as a dev dependency:
+
+```sh
+   bun add -d concurrently
+```
+
+---
+
+### Environment Setup
+
+Create the following `.env` files and fill them out with your credentials:
+
+- `comp/apps/app/.env`
+- `comp/apps/portal/.env`
+- `comp/packages/db/.env`
+
+You can copy from the `.env.example` files:
+
+### Linux / macOS
+
+```sh
+cp apps/app/.env.example apps/app/.env
+cp apps/portal/.env.example apps/portal/.env
+cp packages/db/.env.example packages/db/.env
+```
+
+### Windows (Command Prompt)
+
+```cmd
+copy apps\app\.env.example apps\app\.env
+copy apps\portal\.env.example apps\portal\.env
+copy packages\db\.env.example packages\db\.env
+```
+
+### Windows (PowerShell)
+
+```powershell
+Copy-Item apps\app\.env.example -Destination apps\app\.env
+Copy-Item apps\portal\.env.example -Destination apps\portal\.env
+Copy-Item packages\db\.env.example -Destination packages\db\.env
+```
+
+Additionally, ensure the following required environment variables are added to `.env` in `comp/apps/app/.env`:
+
+```env
+AUTH_SECRET=""                  # Use `openssl rand -base64 32` to generate
+DATABASE_URL="postgresql://user:password@host:port/database"
+RESEND_API_KEY="" # Resend (https://resend.com/api-keys) - Resend Dashboard -> API Keys
+NEXT_PUBLIC_PORTAL_URL="http://localhost:3002"
+REVALIDATION_SECRET=""         # Use `openssl rand -base64 32` to generate
+```
+
+> ✅ Make sure you have all of these variables in your `.env` file.
+> If you're copying from `.env.example`, it might be missing the last two (`NEXT_PUBLIC_PORTAL_URL` and `REVALIDATION_SECRET`), so be sure to add them manually.
+
+Some environment variables may not load correctly from `.env` — in such cases, **hard-code** the values directly in the relevant files (see Hardcoding section below).
+
+---
+
+### Cloud & Auth Configuration
+
+#### 1. Trigger.dev
+
+- Create an account on [https://cloud.trigger.dev](https://cloud.trigger.dev)
+- Create a project and copy the Project ID
+- In `comp/apps/app/trigger.config.ts`, set:
+  ```ts
+  project: "proj_****az***ywb**ob*";
+  ```
+
+#### 2. Google OAuth
+
+- Go to [Google Cloud OAuth Console](https://console.cloud.google.com/auth/clients)
+- Create an OAuth client:
+  - Type: Web Application
+  - Name: `comp_app` # You can choose a different name if you prefer!
+- Add these **Authorized Redirect URIs**:
+
+  ```
+  http://localhost
+  http://localhost:3000
+  http://localhost:3002
+  http://localhost:3000/api/auth/callback/google
+  http://localhost:3002/api/auth/callback/google
+  http://localhost:3000/auth
+  http://localhost:3002/auth
+  ```
+
+- After creating the app, copy the `GOOGLE_ID` and `GOOGLE_SECRET`
+  - Add them to your `.env` files
+  - If that doesn’t work, hard-code them in:
+    ```
+    comp/apps/portal/src/app/lib/auth.ts
+    ```
+
+#### 3. Redis (Upstash)
+
+- Go to [https://console.upstash.com](https://console.upstash.com)
+- Create a Redis database
+- Copy the **Redis URL** and **TOKEN**
+- Add them to your `.env` file, or hard-code them if the environment variables are not being recognized in:
+  ```
+  comp/packages/kv/src/index.ts
+  ```
+
+---
+
+### Database Setup
+
+Start and initialize the PostgreSQL database using Docker:
+
+1. Start the database:
 
    ```sh
    bun docker:up
    ```
 
-   Then set up the database schema and seed data:
+2. Default credentials:
 
-   ```sh
-   # Generate Prisma client
-   bun db:generate
+   - Database name: `comp`
+   - Username: `postgres`
+   - Password: `postgres`
 
-   # Push the schema to the database
-   bun db:push
+3. To change the default password:
 
-   # Optional: Seed the database with initial data
-   bun db:seed
+   ```sql
+   ALTER USER postgres WITH PASSWORD 'new_password';
    ```
 
-   Other useful database commands:
-   ```sh
-   # Open Prisma Studio to view/edit data
-   bun db:studio
+4. If you encounter the following error:
 
-   # Run database migrations
-   bun db:migrate
-
-   # Stop the database container
-   bun docker:down
-
-   # Remove the database container and volume
-   bun docker:clean
+   ```
+   HINT: No function matches the given name and argument types...
    ```
 
-7. Run the turbo dev command to start the development server
+   Run the fix:
 
    ```sh
-   turbo dev
+   psql "postgresql://postgres:<your_password>@localhost:5432/comp" -f ./packages/db/prisma/functionDefinition.sql
    ```
+
+   Expected output: `CREATE FUNCTION`
+
+   > 💡 `comp` is the database name. Make sure to use the correct **port** and **database name** for your setup.
+
+5. Apply schema and seed:
+
+```sh
+ # Generate Prisma client
+ bun db:generate
+
+ # Push the schema to the database
+ bun db:push
+
+ # Optional: Seed the database with initial data
+ bun db:seed
+```
+
+Other useful database commands:
+
+```sh
+# Open Prisma Studio to view/edit data
+bun db:studio
+
+# Run database migrations
+bun db:migrate
+
+# Stop the database container
+bun docker:down
+
+# Remove the database container and volume
+bun docker:clean
+```
+
+---
+
+### Hardcoding Env Vars (if needed)
+
+If `.env` files don’t load values as expected, you can hard-code the following:
+
+- **`comp/packages/kv/src/index.ts`** → Hard-coded Redis client credentials:
+
+  - **URL**: The Redis URL needs to start with `https`. Example:
+    ```sh
+    url: "https://default:AXhaAA***MA@charmed-wombat-3**0.upstash.io:6379"
+    ```
+  - **Token**: Example:
+    ```sh
+    token: "935****8f20"
+    ```
+
+- **`comp/packages/db/prisma/schema.prisma`** → Hard-coded `DATABASE_URL`:
+
+  - Example:
+    `sh
+    datasource db {
+  url        = "postpostgresql://user:password@host:port/database?schema=public"
+  directUrl  = "postpostgresql://user:password@host:port/database?schema=public"
+}
+    `
+
+- **`comp/apps/portal/src/app/lib/auth.ts`** → Hard-coded Google environment variables `clientId`, `clientSecret` under `socialProviders/google`:
+
+  - Example:
+    ```js
+    socialProviders: {
+      google: {
+        clientId: "your-client-id",
+        clientSecret: "your-client-secret"
+      }
+    }
+    ```
+
+- **`comp/apps/app/trigger.config.ts`** → Change the project to yours:
+  - Example:
+    ```sh
+    projectId: "proj_la**ob"
+    ```
+
+---
+
+### Start Development
+
+Once everything is configured:
+
+```sh
+bun run dev
+```
+
+Or use the Turbo repo script:
+
+```sh
+turbo dev
+```
+
+> 💡 Make sure you have Turbo installed. If not, you can install it using Bun:
+
+```sh
+bun add -g turbo
+```
+
+🎉 Yay! You now have a working local instance of Comp AI! 🚀
 
 ## Deployment
 
@@ -183,3 +391,7 @@ Comp AI, Inc. is a commercial open source company, which means some parts of thi
 
 > [!TIP]
 > We work closely with the community and always invite feedback about what should be open and what is fine to be commercial. This list is not set and stone and we have moved things from commercial to open in the past. Please open a [discussion](https://github.com/trycompai/comp/discussions) if you feel like something is wrong.
+
+```
+
+```
