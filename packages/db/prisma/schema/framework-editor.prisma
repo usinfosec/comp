@@ -1,0 +1,6 @@
+model FrameworkEditorFramework {
+    // Metadata
+    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
+    name        String
+    description String
+}
