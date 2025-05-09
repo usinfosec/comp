@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 
-export function MenuTabs() {
+function MenuTabs() {
     const segments = useSelectedLayoutSegments();
 
     const navItems = [
@@ -22,9 +22,9 @@ export function MenuTabs() {
 
     return (
         <Tabs defaultValue={currentSegment} className="w-full" value={currentSegment}>
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="flex w-full">
                 {navItems.map((item) => (
-                    <TabsTrigger key={item.name} value={item.segment} asChild>
+                    <TabsTrigger key={item.name} value={item.segment} className="flex-1">
                         <Link href={item.href}>{item.name}</Link>
                     </TabsTrigger>
                 ))}
@@ -34,4 +34,4 @@ export function MenuTabs() {
 }
 
 // Ensure named export
-export default MenuTabs;
+export { MenuTabs };
