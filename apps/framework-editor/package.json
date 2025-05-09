@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@comp/db": "workspace:*",
@@ -54,7 +55,6 @@
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
-    "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
@@ -63,12 +63,17 @@
     "vaul": "^0.9.6",
     "zod": "latest"
   },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "react-hook-form": "^7.56.3"
+  },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-		"postcss": "^8.5.3",
-		"tailwindcss": "^3.4.17",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }
 }
