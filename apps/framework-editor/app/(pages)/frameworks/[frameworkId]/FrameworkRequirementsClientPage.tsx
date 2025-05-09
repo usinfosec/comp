@@ -12,6 +12,7 @@ import { Badge } from "@comp/ui/badge";
 import { PencilIcon, FileText, Trash2 } from 'lucide-react';
 import { EditFrameworkDialog } from './components/EditFrameworkDialog';
 import { EditRequirementDialog } from './components/EditRequirementDialog';
+import { DeleteFrameworkDialog } from './components/DeleteFrameworkDialog';
 
 interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description'> {}
 
@@ -115,6 +116,14 @@ export function FrameworkRequirementsClientPage({
                     onOpenChange={setIsFrameworkEditDialogOpen} 
                     framework={frameworkDetails}
                     onFrameworkUpdated={handleFrameworkUpdated}
+                />
+            )}
+            {isDeleteDialogOpen && (
+                <DeleteFrameworkDialog
+                    isOpen={isDeleteDialogOpen}
+                    onOpenChange={setIsDeleteDialogOpen}
+                    frameworkId={frameworkDetails.id}
+                    frameworkName={frameworkDetails.name}
                 />
             )}
             {isEditRequirementDialogOpen && selectedRequirement && (

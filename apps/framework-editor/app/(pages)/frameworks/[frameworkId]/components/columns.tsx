@@ -4,6 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { FrameworkEditorRequirement } from "@prisma/client";
 import { Button } from "@comp/ui/button";
 import { PencilIcon } from "lucide-react";
+import { Badge } from "@comp/ui/badge";
 // If you need to link to individual requirement pages later, you can import Link:
 // import Link from "next/link";
 
@@ -18,7 +19,17 @@ export function getColumns(onEdit: (requirement: FrameworkEditorRequirement) => 
     {
       accessorKey: "description",
       header: "Description",
-      size: 600,
+      size: 500,
+    },
+    {
+      accessorKey: "_count.controls",
+      header: "Linked Controls",
+      size: 150,
+      cell: ({ row }) => {
+        const requirement = row.original as FrameworkEditorRequirement & { _count?: { controls?: number } };
+        const controlsCount = requirement._count?.controls ?? 0;
+        return <Badge variant="secondary">{controlsCount}</Badge>;
+      },
     },
     {
       id: "actions",
