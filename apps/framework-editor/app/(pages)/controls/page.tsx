@@ -15,7 +15,7 @@ export default async function Page() {
     });
 
     return (
-        <PageLayout title="Controls">
+        <PageLayout breadcrumbs={[{ label: "Controls", href: "/controls" }]}>
             {/* <ControlsTable controls={controls} /> */}
             <DataTable 
               data={controls} 

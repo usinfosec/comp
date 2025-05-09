@@ -19,17 +19,17 @@ export default function RootLayout({
   children: ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="flex flex-col container gap-2">
         <NuqsAdapter>
-          <Toolbar/>
-          <MenuTabs />
-
-          {children}
-
-          <Toaster />
-        </NuqsAdapter>
-      </body>
+    <html lang="en" className="h-full">
+        <body>
+          <div className="flex flex-col container gap-2 h-full">
+            <Toolbar/>
+            <MenuTabs />
+            {children}
+            <Toaster />
+          </div>
+        </body>
     </html>
+        </NuqsAdapter>
   )
 }

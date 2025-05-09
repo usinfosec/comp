@@ -8,7 +8,7 @@ export default async function Page() {
     const policies = await db.frameworkEditorPolicyTemplate.findMany();
 
     return (
-        <PageLayout title="Policies">
+        <PageLayout breadcrumbs={[{ label: "Policies", href: "/policies" }]}>
             {/* <PoliciesTable policies={policies} /> */}
             <DataTable 
               data={policies} 

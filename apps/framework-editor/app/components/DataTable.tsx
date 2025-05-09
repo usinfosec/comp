@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center gap-2 flex-wrap">
+      <div className="flex justify-between items-center gap-2">
         <Input
           placeholder="Search table..."
           value={searchTerm}
