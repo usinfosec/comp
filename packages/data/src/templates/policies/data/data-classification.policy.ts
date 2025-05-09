@@ -4,10 +4,9 @@ export const dataClassificationPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "data_classification",
-		slug: "data-classification-policy",
 		name: "Data Classification Policy",
 		description:
-			"This policy establishes a framework for classifying data based on sensitivity and defines handling requirements for each classification level.",
+			"This policy establishes guidelines for classifying data based on its sensitivity and defining handling requirements for each classification level.",
 		frequency: "yearly",
 		department: "gov",
 	},

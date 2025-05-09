@@ -4,10 +4,9 @@ export const dataCenterPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "data_center",
-		slug: "data-center",
 		name: "Data Center Policy",
 		description:
-			"This policy outlines the requirements for the organization's data center facilities to ensure protection, availability, and reliability of critical systems and data.",
+			"This policy outlines the security and operational requirements for data centers to protect physical infrastructure and ensure service availability.",
 		frequency: "yearly",
 		department: "it",
 	},

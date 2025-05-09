@@ -4,7 +4,6 @@ export const workstationPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "workstation",
-		slug: "workstation",
 		name: "Workstation Policy",
 		description:
 			"This policy outlines the requirements for workstations to ensure secure, reliable, and high-quality software development practices.",

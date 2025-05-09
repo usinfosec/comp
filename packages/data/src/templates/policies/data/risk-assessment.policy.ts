@@ -4,10 +4,9 @@ export const riskAssessmentPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "risk_assessment",
-		slug: "risk-assessment",
 		name: "Risk Assessment Policy",
 		description:
-			"This policy outlines the requirements for conducting risk assessments to identify, evaluate, and mitigate risks associated with the organization's information systems, operations, and assets.",
+			"This policy defines the process and responsibilities for conducting risk assessments to identify, analyze, and evaluate potential threats and vulnerabilities.",
 		frequency: "yearly",
 		department: "gov",
 	},

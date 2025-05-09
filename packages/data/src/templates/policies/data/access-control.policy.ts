@@ -4,10 +4,9 @@ export const accessControlPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "access_control",
-		slug: "access-control-policy",
 		name: "Access Control Policy",
 		description:
-			"This policy defines the requirements for granting, monitoring, and revoking access to the organization's information systems and data based on the principle of least privilege.",
+			"This policy defines the requirements for controlling access to information systems and data based on the principle of least privilege.",
 		frequency: "yearly",
 		department: "it",
 	},

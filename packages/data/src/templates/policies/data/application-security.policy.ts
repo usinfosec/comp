@@ -3,9 +3,7 @@ import type { TemplatePolicy } from "../types";
 export const applicationSecurityPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
-		id: "application_security",
-		slug: "application-security-policy",
-		name: "Application Security Policy",
+		id: "application_security",name: "Application Security Policy",
 		description:
 			"This policy outlines the security framework and requirements for applications, notably web applications, within the organization's production environment.",
 		frequency: "yearly",

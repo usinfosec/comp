@@ -4,12 +4,11 @@ export const businessContinuityPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "business_continuity",
-		slug: "business-continuity-dr-policy",
-		name: "Business Continuity & Disaster Recovery Policy",
+		name: "Business Continuity Policy",
 		description:
-			"This policy outlines the strategies and procedures for ensuring the availability of critical systems and data during and after a disruptive event.",
+			"This policy outlines the procedures and strategies for ensuring that essential business functions can continue during and after a disruption.",
 		frequency: "yearly",
-		department: "it",
+		department: "gov",
 	},
 	content: [
 		{

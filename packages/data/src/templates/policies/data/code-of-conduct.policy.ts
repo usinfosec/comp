@@ -4,10 +4,9 @@ export const codeOfConductPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "code_of_conduct",
-		slug: "code-of-conduct",
 		name: "Code of Conduct Policy",
 		description:
-			"This policy outlines the expected behavior from employees towards their colleagues, supervisors, and the organization as a whole.",
+			"This policy outlines the expected standards of behavior and ethical conduct for all employees and representatives of the organization.",
 		frequency: "yearly",
 		department: "hr",
 	},

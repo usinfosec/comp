@@ -4,12 +4,11 @@ export const corporateGovernancePolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "corporate_governance",
-		slug: "corporate-governance-policy",
 		name: "Corporate Governance Policy",
 		description:
-			"This policy defines the overall governance framework including board oversight, management responsibilities, and organizational structure to ensure effective oversight and accountability.",
+			"This policy outlines the structure, responsibilities, and processes that guide the organization's overall direction and management.",
 		frequency: "yearly",
-		department: "admin",
+		department: "gov",
 	},
 	content: [
 		{

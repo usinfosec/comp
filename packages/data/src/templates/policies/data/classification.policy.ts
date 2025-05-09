@@ -3,11 +3,10 @@ import type { TemplatePolicy } from "../types";
 export const classificationPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
-		id: "data_classification",
-		slug: "data-classification-policy",
-		name: "Data Classification Policy",
+		id: "classification",
+		name: "General Classification Policy",
 		description:
-			"This policy outlines the requirements for data classification.",
+			"This policy provides a general framework for classification of assets and information.",
 		frequency: "yearly",
 		department: "gov",
 	},

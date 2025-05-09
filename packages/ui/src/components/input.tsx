@@ -2,11 +2,17 @@ import * as React from "react";
 
 import { cn } from "../utils";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-	({ className, type, ...props }, ref) => {
+interface InputProps extends React.ComponentProps<"input"> {
+	leftIcon?: React.ReactNode;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+	({ className, type, leftIcon, ...props }, ref) => {
 		const isUrl = type === "url";
 
 		const adornmentWidth = 74; // px, matches pl-[74px]
+		const iconPadding = 36; // px, for left icon padding
+		
 		return (
 			<div className={cn("relative w-full", className)}>
 				{isUrl && (
@@ -22,6 +28,11 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
 						https://
 					</span>
 				)}
+				{leftIcon && !isUrl && (
+					<span className="absolute left-0 top-0 h-full flex items-center justify-center pl-3 text-muted-foreground pointer-events-none">
+						{leftIcon}
+					</span>
+				)}
 				<input
 					type={type}
 					className={cn(
@@ -29,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
 						"placeholder:text-muted-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
 						"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
 						"disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-						isUrl ? "pl-[80px]" : "px-3",
+						isUrl ? "pl-[80px]" : leftIcon ? "pl-[36px]" : "px-3",
 					)}
 					ref={ref}
 					{...props}
