@@ -31,6 +31,8 @@ interface DataTableProps<TData, TValue> {
   onCreateClick?: () => void;
   createButtonLabel?: string;
   CreateButtonIcon?: ElementType;
+  onRowClick?: (rowData: TData) => void;
+  searchPlaceholder?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -40,6 +42,8 @@ export function DataTable<TData, TValue>({
   onCreateClick,
   createButtonLabel = "Create New",
   CreateButtonIcon = PlusCircle,
+  onRowClick,
+  searchPlaceholder = "Search table...",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = useQueryState(searchQueryParamName, {
     defaultValue: ''
@@ -92,10 +96,11 @@ export function DataTable<TData, TValue>({
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center gap-2">
         <Input
-          placeholder="Search table..."
+          placeholder={searchPlaceholder}
           value={searchTerm}
           onChange={e => setGlobalFilter(e.target.value || null)}
           className="w-full max-w-sm"
+          leftIcon={<Search className="h-4 w-4 text-muted-foreground" />}
         />
         {onCreateClick && (
           <Button variant="outline" className="ml-auto" onClick={onCreateClick}>
@@ -128,6 +133,8 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    onClick={() => onRowClick && onRowClick(row.original as TData)}
+                    className={onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''}
                   >
                     {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>

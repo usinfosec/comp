@@ -2,7 +2,9 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import type { FrameworkEditorFramework } from "@prisma/client";
+// We will import the new type from the client page
+import type { FrameworkWithCounts } from "../FrameworksClientPage";
+import { Badge } from "@comp/ui/badge"; // Import the Badge component
 
 // TODO: Replace 'any' with the actual Framework type from your database schema
 // e.g., import type { Framework } from "@comp/db";
@@ -13,11 +15,11 @@ export interface Framework {
   // Add other properties of a framework that you might want to display or use
 }
 
-export const columns: ColumnDef<FrameworkEditorFramework>[] = [
+export const columns: ColumnDef<FrameworkWithCounts>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    size: 300,
+    size: 200,
     cell: ({ row }) => {
       const framework = row.original;
       return (
@@ -30,13 +32,29 @@ export const columns: ColumnDef<FrameworkEditorFramework>[] = [
   {
     accessorKey: "version",
     header: "Version",
-    size: 150,
+    size: 100, // Adjusted size
+  },
+  {
+    accessorKey: "requirementsCount",
+    header: "Requirements",
+    size: 150, // Adjusted size
+    cell: ({ row }) => (
+      <Badge variant="secondary">{row.original.requirementsCount}</Badge>
+    ),
+  },
+  {
+    accessorKey: "controlsCount",
+    header: "Controls",
+    size: 150, // Adjusted size
+    cell: ({ row }) => (
+      <Badge variant="secondary">{row.original.controlsCount}</Badge>
+    ),
   },
   {
     accessorKey: "description",
     header: "Description",
-    size: 500,
-    minSize: 300,
+    size: 400, // Adjusted size
+    minSize: 250, // Adjusted size
   },
   // Add more columns here if needed, for example:
   // {
