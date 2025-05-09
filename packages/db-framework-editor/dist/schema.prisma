@@ -1,0 +1,164 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator next {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+  output          = "../dist"
+  binaryTargets   = ["darwin-arm64", "rhel-openssl-3.0.x"]
+
+  // runtime                = "nodejs"
+  // moduleFormat           = "esm"
+  // generatedFileExtension = "ts"
+  // importFileExtension    = ""
+}
+
+// generator node {
+//   provider        = "prisma-client"
+//   previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+//   output          = "../../db-node/src"
+//   binaryTargets   = ["darwin-arm64", "rhel-openssl-3.0.x"]
+
+//   runtime                = "nodejs"
+//   moduleFormat           = "commonjs"
+//   generatedFileExtension = "ts"
+//   importFileExtension    = ""
+// }
+
+// generator types {
+//   provider        = "prisma-generator-typescript-interfaces"
+//   previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+//   output          = "../../db-types/src/interfaces.ts"
+//   binaryTargets   = ["darwin-arm64", "rhel-openssl-3.0.x"]
+// }
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+model User {
+  id            String    @id @default(dbgenerated("generate_prefixed_cuid('usr'::text)"))
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  lastLogin     DateTime?
+
+  accounts    Account[]
+  invitations Invitation[]
+  members     Member[]
+  sessions    Session[]
+
+  @@unique([email])
+}
+
+model Session {
+  id                   String   @id @default(dbgenerated("generate_prefixed_cuid('ses'::text)"))
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now()) @updatedAt
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  activeOrganizationId String?
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+}
+
+model Account {
+  id                    String    @id @default(dbgenerated("generate_prefixed_cuid('acc'::text)"))
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @default(now()) @updatedAt
+}
+
+model Verification {
+  id         String   @id @default(dbgenerated("generate_prefixed_cuid('ver'::text)"))
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+}
+
+model Member {
+  id             String       @id @default(dbgenerated("generate_prefixed_cuid('mem'::text)"))
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  isActive       Boolean      @default(true)
+}
+
+model Invitation {
+  id             String       @id @default(dbgenerated("generate_prefixed_cuid('inv'::text)"))
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+}
+
+// Not enforced on the DB level (needs to be string), but this type is used in auth client
+enum Role {
+  owner
+  admin
+  member
+}
+
+model Organization {
+  id               String   @id @default(dbgenerated("generate_prefixed_cuid('org'::text)"))
+  name             String
+  slug             String   @unique
+  logo             String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+  metadata         String?
+  stripeCustomerId String?
+
+  apiKeys     ApiKey[]
+  invitations Invitation[]
+  members     Member[]
+
+  @@index([slug])
+}
+
+model ApiKey {
+  id         String    @id @default(dbgenerated("generate_prefixed_cuid_long('pk'::text)"))
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  expiresAt  DateTime?
+  lastUsedAt DateTime?
+  isActive   Boolean   @default(true)
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+
+  @@index([organizationId])
+}

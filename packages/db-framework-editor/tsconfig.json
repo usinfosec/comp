@@ -1,0 +1,9 @@
+{
+	"extends": "@boilerplate/typescript-config/base.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"lib": ["dom", "dom.iterable", "esnext"]
+	},
+	"include": ["package.json"],
+	"exclude": ["node_modules", "prisma/generated/**"]
+}
