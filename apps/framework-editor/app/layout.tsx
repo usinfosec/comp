@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { MenuTabs } from './components/MenuTabs'
 import Toolbar from './components/Toolbar'
+import { Toaster } from '@comp/ui/toaster';
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { type ReactNode } from 'react'
 
 import "@comp/ui/globals.css";
 import './globals.css'
@@ -12,17 +15,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: ReactNode
+}) {
   return (
     <html lang="en">
-      <body className="flex flex-col">
-        <div className="flex flex-col">
+      <body className="flex flex-col container gap-2">
+        <NuqsAdapter>
           <Toolbar/>
           <MenuTabs />
-        </div>
+
           {children}
+
+          <Toaster />
+        </NuqsAdapter>
       </body>
     </html>
   )

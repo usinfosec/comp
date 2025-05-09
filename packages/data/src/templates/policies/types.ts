@@ -22,7 +22,6 @@ type JSONContent = {
  */
 export interface TemplatePolicyMetadata {
 	id: string;
-	slug: string;
 	name: string;
 	description: string;
 	frequency: Frequency;

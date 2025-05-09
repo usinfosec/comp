@@ -4,10 +4,9 @@ export const riskManagementPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "risk_management",
-		slug: "risk-management-policy",
 		name: "Risk Management Policy",
 		description:
-			"This policy defines the process for identifying, assessing, and mitigating risks to the organization's objectives and information assets.",
+			"This policy establishes the framework for identifying, assessing, treating, and monitoring risks across the organization to protect its assets and achieve its objectives.",
 		frequency: "yearly",
 		department: "gov",
 	},

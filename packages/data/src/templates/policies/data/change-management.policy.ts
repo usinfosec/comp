@@ -4,10 +4,9 @@ export const changeManagementPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "change_management",
-		slug: "change-management-policy",
 		name: "Change Management Policy",
 		description:
-			"This policy defines the process for requesting, reviewing, approving, and documenting changes to the organization's information systems and infrastructure.",
+			"This policy establishes standardized procedures for managing changes to IT systems and infrastructure to minimize risk and disruption.",
 		frequency: "yearly",
 		department: "it",
 	},

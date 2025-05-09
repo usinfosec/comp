@@ -1,17 +1,15 @@
 import { db } from "@comp/db";
+// import { FrameworksTable } from "./components/FrameworksTable"; // Old import
+import PageLayout from "@/app/components/PageLayout";
+import { DataTable } from "@/app/components/DataTable"; // New generic table
 
 export default async function Page() {
-
     const frameworks = await db.frameworkEditorFramework.findMany();
-    
+
     return (
-        <div>
-            <h1>Frameworks</h1>
-            <ul>
-                {frameworks.map((framework) => (
-                    <li key={framework.id}>{framework.name}</li>
-                ))}
-            </ul>
-        </div>
+        <PageLayout title="Frameworks">
+            {/* <FrameworksTable frameworks={frameworks} /> */}
+            <DataTable data={frameworks} searchQueryParamName="frameworks-search" />
+        </PageLayout>
     );
 }

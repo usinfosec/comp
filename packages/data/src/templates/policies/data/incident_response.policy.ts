@@ -4,10 +4,9 @@ export const incidentResponsePolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "incident_response",
-		slug: "incident-response-policy",
 		name: "Incident Response Policy",
 		description:
-			"This policy establishes the framework and procedures for detecting, responding to, and recovering from security incidents.",
+			"This policy outlines the procedures for responding to and managing security incidents to minimize impact and restore normal operations quickly.",
 		frequency: "yearly",
 		department: "it",
 	},

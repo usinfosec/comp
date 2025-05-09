@@ -31,7 +31,6 @@ model FrameworkEditorRequirement {
 
 model FrameworkEditorPolicyTemplate {
     id          String      @id @default(dbgenerated("generate_prefixed_cuid('frk_pt'::text)"))
-    slug        String      @unique
     name        String
     description String
     frequency   Frequency // Using the enum from shared.prisma

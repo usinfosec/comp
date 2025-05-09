@@ -4,10 +4,9 @@ export const availabilityPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "availability",
-		slug: "availability-policy",
 		name: "Availability Policy",
 		description:
-			"This policy outlines the requirements for proper controls to protect the availability of the organization's information systems.",
+			"This policy defines the requirements for ensuring that information systems and data are available for use when needed.",
 		frequency: "yearly",
 		department: "it",
 	},

@@ -4,10 +4,9 @@ export const humanResourcesPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "human_resources",
-		slug: "human-resources-policy",
 		name: "Human Resources Policy",
 		description:
-			"This policy outlines the principles and practices for recruitment, employee management, performance evaluations, and the enforcement of internal control responsibilities.",
+			"This policy defines guidelines for HR practices including employee conduct, data privacy, and security awareness.",
 		frequency: "yearly",
 		department: "hr",
 	},
