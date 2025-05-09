@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     onClick={() => onRowClick && onRowClick(row.original as TData)}
-                    className={onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''}
+                    className={`group ${onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''}`.trim()}
                   >
                     {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>

@@ -126,7 +126,7 @@ export function EditRequirementDialog({
                 <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Description</FormLabel>
                   <FormControl className="col-span-3">
-                    <Textarea placeholder="Enter requirement description (optional)" {...field} />
+                    <Textarea placeholder="Enter requirement description (optional)" {...field} rows={8} />
                   </FormControl>
                   <div className="col-start-2 col-span-3">
                     <FormMessage />

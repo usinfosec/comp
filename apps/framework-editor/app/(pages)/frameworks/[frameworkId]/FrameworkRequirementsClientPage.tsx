@@ -1,16 +1,17 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import PageLayout from "@/app/components/PageLayout";
 import { DataTable } from "@/app/components/DataTable";
-import { columns } from "./components/columns"; 
+import { getColumns } from "./components/columns";
 import type { FrameworkEditorRequirement, FrameworkEditorFramework } from '@prisma/client';
 import { Button } from '@comp/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { Badge } from "@comp/ui/badge";
 import { PencilIcon, FileText } from 'lucide-react';
 import { EditFrameworkDialog } from './components/EditFrameworkDialog';
+import { EditRequirementDialog } from './components/EditRequirementDialog';
 
 interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description'> {}
 
@@ -19,17 +20,46 @@ interface FrameworkRequirementsClientPageProps {
   initialRequirements: FrameworkEditorRequirement[];
 }
 
+interface SelectedRequirementToEdit extends FrameworkEditorRequirement {
+  frameworkId: string;
+}
+
 export function FrameworkRequirementsClientPage({ 
   frameworkDetails,
   initialRequirements 
 }: FrameworkRequirementsClientPageProps) {
     const router = useRouter();
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isFrameworkEditDialogOpen, setIsFrameworkEditDialogOpen] = useState(false);
+    
+    const [requirementsList, setRequirementsList] = useState<FrameworkEditorRequirement[]>(initialRequirements);
+
+    const [isEditRequirementDialogOpen, setIsEditRequirementDialogOpen] = useState(false);
+    const [selectedRequirement, setSelectedRequirement] = useState<SelectedRequirementToEdit | null>(null);
+
+    useEffect(() => {
+      setRequirementsList(initialRequirements);
+    }, [initialRequirements]);
 
     const handleFrameworkUpdated = () => {
-        setIsEditDialogOpen(false);
+        setIsFrameworkEditDialogOpen(false);
         router.refresh();
     };
+
+    const handleOpenEditRequirementDialog = (requirement: FrameworkEditorRequirement) => {
+      setSelectedRequirement({ ...requirement, frameworkId: frameworkDetails.id });
+      setIsEditRequirementDialogOpen(true);
+    };
+
+    const handleRequirementUpdated = (updatedRequirement: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description'>) => {
+      setRequirementsList(prevList => 
+        prevList.map(req => 
+          req.id === updatedRequirement.id ? { ...req, ...updatedRequirement } : req
+        )
+      );
+      setIsEditRequirementDialogOpen(false);
+    };
+
+    const columns = getColumns(handleOpenEditRequirementDialog);
 
     return (
         <PageLayout 
@@ -52,7 +82,7 @@ export function FrameworkRequirementsClientPage({
                                 {frameworkDetails.description}
                             </CardDescription>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => setIsEditDialogOpen(true)} className="gap-1">
+                        <Button variant="outline" size="sm" onClick={() => setIsFrameworkEditDialogOpen(true)} className="gap-1">
                             <PencilIcon className="h-4 w-4" />
                             Edit Details
                         </Button>
@@ -67,17 +97,25 @@ export function FrameworkRequirementsClientPage({
             </Card>
 
             <DataTable 
-                data={initialRequirements}
-                columns={columns} 
+                data={requirementsList}
+                columns={columns}
                 searchQueryParamName={`${frameworkDetails.id}-requirements-search`} 
                 searchPlaceholder="Search requirements..."
             />
-            {isEditDialogOpen && (
+            {isFrameworkEditDialogOpen && (
                 <EditFrameworkDialog 
-                    isOpen={isEditDialogOpen} 
-                    onOpenChange={setIsEditDialogOpen} 
+                    isOpen={isFrameworkEditDialogOpen} 
+                    onOpenChange={setIsFrameworkEditDialogOpen} 
                     framework={frameworkDetails}
                     onFrameworkUpdated={handleFrameworkUpdated}
+                />
+            )}
+            {isEditRequirementDialogOpen && selectedRequirement && (
+                <EditRequirementDialog
+                    isOpen={isEditRequirementDialogOpen}
+                    onOpenChange={setIsEditRequirementDialogOpen}
+                    requirement={selectedRequirement}
+                    onRequirementUpdated={handleRequirementUpdated}
                 />
             )}
         </PageLayout>
