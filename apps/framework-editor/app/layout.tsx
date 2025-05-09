@@ -28,8 +28,8 @@ export default function RootLayout({
               <MenuTabs />
               {children}
               <Toaster />
-          </div>
-        </Providers>
+            </div>
+          </Providers>
         </body>
     </html>
   )
