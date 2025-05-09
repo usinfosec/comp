@@ -1,4 +1,4 @@
-// Email templates
+// Email template
 export * from "./emails/invite";
 export * from "./emails/invite-portal";
 export * from "./emails/magic-link";
