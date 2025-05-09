@@ -9,7 +9,7 @@ import type { FrameworkEditorRequirement, FrameworkEditorFramework } from '@pris
 import { Button } from '@comp/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { Badge } from "@comp/ui/badge";
-import { PencilIcon, FileText } from 'lucide-react';
+import { PencilIcon, FileText, Trash2 } from 'lucide-react';
 import { EditFrameworkDialog } from './components/EditFrameworkDialog';
 import { EditRequirementDialog } from './components/EditRequirementDialog';
 
@@ -30,6 +30,7 @@ export function FrameworkRequirementsClientPage({
 }: FrameworkRequirementsClientPageProps) {
     const router = useRouter();
     const [isFrameworkEditDialogOpen, setIsFrameworkEditDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     
     const [requirementsList, setRequirementsList] = useState<FrameworkEditorRequirement[]>(initialRequirements);
 
@@ -82,10 +83,16 @@ export function FrameworkRequirementsClientPage({
                                 {frameworkDetails.description}
                             </CardDescription>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => setIsFrameworkEditDialogOpen(true)} className="gap-1">
-                            <PencilIcon className="h-4 w-4" />
-                            Edit Details
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button variant="outline" size="sm" onClick={() => setIsFrameworkEditDialogOpen(true)} className="gap-1">
+                                <PencilIcon className="h-4 w-4" />
+                                Edit Details
+                            </Button>
+                            <Button variant="destructive" size="sm" onClick={() => setIsDeleteDialogOpen(true)} className="gap-1">
+                                <Trash2 className="h-4 w-4" />
+                                Delete Framework
+                            </Button>
+                        </div>
                     </div>
                 </CardHeader>
                 <CardContent>
