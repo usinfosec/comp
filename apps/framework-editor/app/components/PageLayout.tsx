@@ -10,18 +10,17 @@ import React from "react";
 
 interface PageLayoutProps {
     children: React.ReactNode;
-    title?: string;
     breadcrumbs?: {
         href?: string;
         label: string;
     }[];
 }
 
-export default function PageLayout({ children, title, breadcrumbs }: PageLayoutProps) {
+export default function PageLayout({ children, breadcrumbs }: PageLayoutProps) {
     return (
-        <div className="flex flex-col gap-2">
-            {(title || breadcrumbs) && (
-                <div className="border-b pb-2">
+        <div className="flex flex-col gap-4">
+            {(breadcrumbs) && (
+                <div className="border-b py-2">
                     {breadcrumbs ? (
                         <Breadcrumb>
                             <BreadcrumbList>
@@ -39,8 +38,6 @@ export default function PageLayout({ children, title, breadcrumbs }: PageLayoutP
                                 ))}
                             </BreadcrumbList>
                         </Breadcrumb>
-                    ) : title ? (
-                        <h1 className="text-xl font-semibold">{title}</h1>
                     ) : null}
                 </div>
             )}

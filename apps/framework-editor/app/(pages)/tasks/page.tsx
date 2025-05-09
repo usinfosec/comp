@@ -11,7 +11,7 @@ export default async function Page() {
     });
 
     return (
-        <PageLayout title="Tasks">
+        <PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
             {/* <TasksTable tasks={tasks} /> */}
             <DataTable 
               data={tasks} 

@@ -2,6 +2,7 @@
 
 import { z } from 'zod'
 import { db } from '@comp/db'
+import { revalidatePath } from 'next/cache'
 // Assuming revalidatePath might be used later, uncomment if needed.
 // import { revalidatePath } from 'next/cache'
 
@@ -57,7 +58,7 @@ export async function createFrameworkAction(
         version,
       },
     })
-    // revalidatePath('/frameworks'); // Uncomment if you want to revalidate the path
+    revalidatePath('/frameworks');
     return { 
         success: true, 
         data: {

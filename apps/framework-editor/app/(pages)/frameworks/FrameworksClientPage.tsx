@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-// import { db } from "@comp/db"; // Removed: Cannot use db in client component
+import { useState } from 'react';
+// import { useRouter } from 'next/navigation';
+// import { db } from "@comp/db";
 import PageLayout from "@/app/components/PageLayout";
 import { DataTable } from "@/app/components/DataTable";
 import { columns } from "./components/columns"; 
@@ -14,25 +14,12 @@ interface FrameworksClientPageProps {
 }
 
 export function FrameworksClientPage({ initialFrameworks }: FrameworksClientPageProps) {
-    const router = useRouter();
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    // Local state to manage frameworks, initialized by prop
-    const [frameworks, setFrameworks] = useState<FrameworkEditorFramework[]>(initialFrameworks);
-
-    const refreshData = () => {
-        router.refresh(); // This will re-run the data fetching in the parent Server Component
-                        // and re-render this component with new initialFrameworks prop.
-    };
-
-    // Effect to update local state if the prop changes (e.g., after router.refresh)
-    useEffect(() => {
-        setFrameworks(initialFrameworks);
-    }, [initialFrameworks]);
 
     return (
-        <PageLayout title="Frameworks">
+        <PageLayout breadcrumbs={[{ label: "Frameworks", href: "/frameworks" }]}>
             <DataTable 
-                data={frameworks} // Use local state for DataTable
+                data={initialFrameworks}
                 columns={columns} 
                 searchQueryParamName="frameworks-search" 
                 onCreateClick={() => setIsCreateDialogOpen(true)}
@@ -41,7 +28,7 @@ export function FrameworksClientPage({ initialFrameworks }: FrameworksClientPage
             <CreateFrameworkDialog 
                 isOpen={isCreateDialogOpen} 
                 onOpenChange={setIsCreateDialogOpen} 
-                onFrameworkCreated={refreshData} 
+                onFrameworkCreated={() => setIsCreateDialogOpen(false)}
             />
         </PageLayout>
     );
