@@ -21,15 +21,17 @@ function MenuTabs() {
     const currentSegment = segments[1]  
 
     return (
-        <Tabs defaultValue={currentSegment} className="w-full" value={currentSegment}>
-            <TabsList className="flex w-full">
-                {navItems.map((item) => (
+        <div className="bg-secondary">
+            <Tabs defaultValue={currentSegment} className="w-full" value={currentSegment}>
+                <TabsList className="flex w-full">
+                    {navItems.map((item) => (
                     <TabsTrigger key={item.name} value={item.segment} className="flex-1">
                         <Link href={item.href}>{item.name}</Link>
                     </TabsTrigger>
                 ))}
             </TabsList>
         </Tabs>
+        </div>
     );
 }
 
