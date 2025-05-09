@@ -41,7 +41,7 @@ export async function generateMetadata({
 	};
 }
 
-const getTrustPortal = async () => {
+const getTrustPortal = cache(async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -77,4 +77,4 @@ const getTrustPortal = async () => {
 		enabled: true,
 		slug: slug?.slug,
 	};
-};
+});
