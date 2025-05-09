@@ -82,8 +82,14 @@ export const createOrganizationAction = authActionClient
 				const resend = new Resend(process.env.RESEND_API_KEY);
 
 				await resend.contacts.create({
-					firstName: session.user.name?.split(" ")[0] || "",
-					lastName: session.user.name?.split(" ")[1] || "",
+					firstName:
+						session.user.name?.split(" ")[0] ||
+						session.user.email.split("@")[0] ||
+						"",
+					lastName:
+						session.user.name?.split(" ")[1] ||
+						session.user.email.split("@")[1] ||
+						"",
 					email: session.user.email,
 					unsubscribed: false,
 					audienceId: process.env.RESEND_AUDIENCE_ID,
@@ -91,7 +97,6 @@ export const createOrganizationAction = authActionClient
 
 				await tasks.trigger<typeof newOrgSequence>("new-org-sequence", {
 					email: session.user.email,
-					name: session.user.name?.split(" ")[0] || "",
 				});
 			}
 
