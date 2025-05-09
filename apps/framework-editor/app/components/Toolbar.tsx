@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -9,8 +8,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Upload, RotateCcw, Download } from 'lucide-react';
+} from "@comp/ui/alert-dialog";
+import { Button } from "@comp/ui/button";
+import { Download, RotateCcw } from 'lucide-react';
 
 export default function Toolbar() {
     return (

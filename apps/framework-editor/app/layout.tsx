@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
-import './globals.css'
-import Navigation, { MenuTabs } from './components/MenuTabs'
+import { MenuTabs } from './components/MenuTabs'
 import Toolbar from './components/Toolbar'
 
+import "@comp/ui/globals.css";
+import './globals.css'
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Comp AI - Framework Editor',
+  description: 'Edit your framework',
 }
 
 export default function RootLayout({
