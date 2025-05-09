@@ -13,6 +13,8 @@ import { PencilIcon, FileText, Trash2 } from 'lucide-react';
 import { EditFrameworkDialog } from './components/EditFrameworkDialog';
 import { EditRequirementDialog } from './components/EditRequirementDialog';
 import { DeleteFrameworkDialog } from './components/DeleteFrameworkDialog';
+import { AddRequirementDialog } from './components/AddRequirementDialog';
+import { DeleteRequirementDialog } from './components/DeleteRequirementDialog';
 
 interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description'> {}
 
@@ -31,7 +33,10 @@ export function FrameworkRequirementsClientPage({
 }: FrameworkRequirementsClientPageProps) {
     const router = useRouter();
     const [isFrameworkEditDialogOpen, setIsFrameworkEditDialogOpen] = useState(false);
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); 
+    const [isAddRequirementDialogOpen, setIsAddRequirementDialogOpen] = useState(false);
+    const [isDeleteRequirementDialogOpen, setIsDeleteRequirementDialogOpen] = useState(false);
+    const [requirementToDelete, setRequirementToDelete] = useState<FrameworkEditorRequirement | null>(null);
     
     const [requirementsList, setRequirementsList] = useState<FrameworkEditorRequirement[]>(initialRequirements);
 
@@ -59,9 +64,26 @@ export function FrameworkRequirementsClientPage({
         )
       );
       setIsEditRequirementDialogOpen(false);
+      router.refresh();
     };
 
-    const columns = getColumns(handleOpenEditRequirementDialog);
+    const handleRequirementAdded = () => {
+      setIsAddRequirementDialogOpen(false);
+      router.refresh(); 
+    };
+
+    const handleOpenDeleteRequirementDialog = (requirement: FrameworkEditorRequirement) => {
+      setRequirementToDelete(requirement);
+      setIsDeleteRequirementDialogOpen(true);
+    };
+
+    const handleRequirementDeleted = () => {
+      setRequirementToDelete(null);
+      setIsDeleteRequirementDialogOpen(false);
+      router.refresh();
+    };
+
+    const columns = getColumns(handleOpenEditRequirementDialog, handleOpenDeleteRequirementDialog);
 
     return (
         <PageLayout 
@@ -109,6 +131,8 @@ export function FrameworkRequirementsClientPage({
                 columns={columns}
                 searchQueryParamName={`${frameworkDetails.id}-requirements-search`} 
                 searchPlaceholder="Search requirements..."
+                createButtonLabel="Add New Requirement" 
+                onCreateClick={() => setIsAddRequirementDialogOpen(true)} 
             />
             {isFrameworkEditDialogOpen && (
                 <EditFrameworkDialog 
@@ -126,12 +150,30 @@ export function FrameworkRequirementsClientPage({
                     frameworkName={frameworkDetails.name}
                 />
             )}
+            {isAddRequirementDialogOpen && (
+                <AddRequirementDialog
+                    isOpen={isAddRequirementDialogOpen}
+                    onOpenChange={setIsAddRequirementDialogOpen}
+                    frameworkId={frameworkDetails.id}
+                    onRequirementAdded={handleRequirementAdded}
+                />
+            )}
             {isEditRequirementDialogOpen && selectedRequirement && (
                 <EditRequirementDialog
                     isOpen={isEditRequirementDialogOpen}
                     onOpenChange={setIsEditRequirementDialogOpen}
                     requirement={selectedRequirement}
                     onRequirementUpdated={handleRequirementUpdated}
+                />
+            )}
+            {isDeleteRequirementDialogOpen && requirementToDelete && (
+                <DeleteRequirementDialog
+                    isOpen={isDeleteRequirementDialogOpen}
+                    onOpenChange={setIsDeleteRequirementDialogOpen}
+                    requirementId={requirementToDelete.id}
+                    requirementName={requirementToDelete.name}
+                    frameworkId={frameworkDetails.id} 
+                    onRequirementDeleted={handleRequirementDeleted}
                 />
             )}
         </PageLayout>

@@ -6,7 +6,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { type ReactNode } from 'react'
 
 import "@comp/ui/globals.css";
-import './globals.css'
+import '../styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'Comp AI - Framework Editor',

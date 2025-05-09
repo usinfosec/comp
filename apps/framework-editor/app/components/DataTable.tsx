@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@comp/ui/table";
-import { Search, PlusCircle } from 'lucide-react';
+import { Search, PlusCircle, TableIcon } from 'lucide-react';
 import {
   type ColumnDef,
   flexRender,
@@ -88,8 +88,24 @@ export function DataTable<TData, TValue>({
   }, [data, searchTerm, columns]);
 
 
-  if (!data || data.length === 0 && !searchTerm) {
-    return <p className="py-4 text-center">No data available.</p>;
+  if (!data || (data.length === 0 && !searchTerm)) {
+    return (
+      <div className="bg-white p-4 rounded-sm flex flex-col items-center justify-center py-8 text-center space-y-4" id="no-data-available">
+        <div className="rounded-full bg-muted p-3 w-12 h-12 flex items-center justify-center mx-auto">
+          <TableIcon className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <div>
+          <h3 className="text-lg font-medium">No data available</h3>
+          <p className="text-sm text-muted-foreground mt-1">Get started by creating your first entry.</p>
+        </div>
+        {onCreateClick && (
+          <Button onClick={onCreateClick} variant="outline">
+            <CreateButtonIcon className="mr-2 h-4 w-4" />
+            {createButtonLabel}
+          </Button>
+        )}
+      </div>
+    );
   }
 
   return (
