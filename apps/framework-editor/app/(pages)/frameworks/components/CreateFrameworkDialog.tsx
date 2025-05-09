@@ -104,7 +104,7 @@ export function CreateFrameworkDialog({ isOpen, onOpenChange, onFrameworkCreated
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} ref={formRef} className="grid gap-4 py-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} ref={formRef} className="grid gap-2 py-4">
             <FormField
               control={form.control}
               name="name"
@@ -124,7 +124,7 @@ export function CreateFrameworkDialog({ isOpen, onOpenChange, onFrameworkCreated
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Description</FormLabel>
                   <FormControl className="col-span-3">
                     <Textarea placeholder="Enter framework description" {...field} />
@@ -139,10 +139,10 @@ export function CreateFrameworkDialog({ isOpen, onOpenChange, onFrameworkCreated
               control={form.control}
               name="version"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Version</FormLabel>
                   <FormControl className="col-span-3">
-                    <Input placeholder="e.g., 1.0.0" {...field} />
+                    <Input placeholder="e.g., 1.0.0 or 2025 or V2" {...field} />
                   </FormControl>
                   <div className="col-start-2 col-span-3">
                     <FormMessage />
