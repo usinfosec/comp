@@ -3,14 +3,11 @@
 import { z } from 'zod'
 import { db } from '@comp/db'
 import { revalidatePath } from 'next/cache'
+import { FrameworkBaseSchema } from '../schemas' // Import the shared schema
 // Assuming revalidatePath might be used later, uncomment if needed.
 // import { revalidatePath } from 'next/cache'
 
-const CreateFrameworkSchema = z.object({
-  name: z.string().min(1, { message: 'Framework name is required.' }),
-  description: z.string().min(1, { message: 'Framework description is required.' }),
-  version: z.string().min(1, { message: 'Version is required.' }).default('1.0.0'),
-})
+const CreateFrameworkSchema = FrameworkBaseSchema; // Use the shared schema
 
 export interface CreateFrameworkActionState {
   success: boolean

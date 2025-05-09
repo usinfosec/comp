@@ -2,32 +2,32 @@
 
 import { Button } from '@comp/ui/button'
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
 } from '@comp/ui/dialog'
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from '@comp/ui/form'
 import { Input } from '@comp/ui/input'
 import { Textarea } from '@comp/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect, useRef } from 'react'
+import type { FrameworkEditorFramework } from '@prisma/client'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { updateFrameworkAction, type UpdateFrameworkInput } from '../../actions/update-framework-action' // Adjusted path
-import type { ActionResponse } from '@/app/actions/actions' // Assuming this path
-import type { FrameworkEditorFramework } from '@prisma/client'
+import { updateFrameworkAction } from '../../actions/update-framework-action'; // Adjusted path
+import { FrameworkBaseSchema } from '../../schemas'; // Import shared schema
 
 interface EditFrameworkDialogProps {
   isOpen: boolean
@@ -36,11 +36,7 @@ interface EditFrameworkDialogProps {
   onFrameworkUpdated?: (updatedData: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>) => void
 }
 
-const frameworkFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
-  description: z.string().min(1, { message: "Description is required." }),
-  version: z.string().min(1, { message: "Version is required." }).regex(/^\d+\.\d+\.\d+$/, { message: "Version must be in format X.Y.Z (e.g., 1.0.0)"})
-})
+const frameworkFormSchema = FrameworkBaseSchema; // Use shared schema
 
 type FrameworkFormValues = z.infer<typeof frameworkFormSchema>
 
@@ -65,14 +61,13 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
   }, [framework, form])
 
   async function onSubmit(values: FrameworkFormValues) {
-    const input: UpdateFrameworkInput = {
-      id: framework.id,
-      name: values.name,
-      description: values.description,
-      version: values.version,
-    }
+    const formData = new FormData();
+    formData.append('id', framework.id);
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('version', values.version);
     
-    const result: ActionResponse<Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>> = await updateFrameworkAction(input);
+    const result = await updateFrameworkAction(null, formData);
 
     if (result.success && result.data) {
       toast.success('Framework updated successfully!')
@@ -81,9 +76,8 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
         onFrameworkUpdated(result.data)
       }
     } else if (result.error) {
-        // Handle server-side validation errors specifically for fields
-        if (result.validationErrors) {
-            result.validationErrors.forEach(issue => {
+        if (result.issues) {
+            result.issues.forEach((issue: z.ZodIssue) => {
                 if (issue.path && issue.path.length > 0 && (issue.path[0] === 'name' || issue.path[0] === 'description' || issue.path[0] === 'version')) {
                     form.setError(issue.path[0] as keyof FrameworkFormValues, { type: 'server', message: issue.message });
                 } else {
@@ -91,7 +85,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
                 }
             });
         } else {
-            toast.error(result.error.message || 'Failed to update framework.');
+            toast.error(result.error);
         }
     } else {
         toast.error('An unexpected error occurred.');
@@ -119,12 +113,12 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-2">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Name</FormLabel>
                   <FormControl className="col-span-3">
                     <Input placeholder="Enter framework name" {...field} />
@@ -139,7 +133,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Description</FormLabel>
                   <FormControl className="col-span-3">
                     <Textarea placeholder="Enter framework description" {...field} />
@@ -154,7 +148,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
               control={form.control}
               name="version"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Version</FormLabel>
                   <FormControl className="col-span-3">
                     <Input placeholder="e.g., 1.0.0" {...field} />

@@ -4,13 +4,13 @@ import { FrameworkRequirementsClientPage } from "./FrameworkRequirementsClientPa
 import type { FrameworkEditorFramework, FrameworkEditorRequirement } from '@prisma/client';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     frameworkId: string;
-  };
+  }>;
 }
 
 export default async function Page({ params }: PageProps) {
-  const { frameworkId } = params;
+  const { frameworkId } = await params;
 
   const framework = await db.frameworkEditorFramework.findUnique({
     where: {

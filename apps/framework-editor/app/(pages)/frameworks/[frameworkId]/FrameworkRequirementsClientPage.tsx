@@ -7,7 +7,9 @@ import { DataTable } from "@/app/components/DataTable";
 import { columns } from "./components/columns"; 
 import type { FrameworkEditorRequirement, FrameworkEditorFramework } from '@prisma/client';
 import { Button } from '@comp/ui/button';
-import { PencilIcon } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
+import { Badge } from "@comp/ui/badge";
+import { PencilIcon, FileText } from 'lucide-react';
 import { EditFrameworkDialog } from './components/EditFrameworkDialog';
 
 interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description'> {}
@@ -36,20 +38,34 @@ export function FrameworkRequirementsClientPage({
                 { label: frameworkDetails.name, href: `/frameworks/${frameworkDetails.id}` }
             ]}
         >
-            <div className="mb-4 rounded-sm border bg-card p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-semibold">{frameworkDetails.name}</h2>
-                    <Button variant="outline" size="icon" onClick={() => setIsEditDialogOpen(true)}>
-                        <PencilIcon className="h-4 w-4" />
-                        <span className="sr-only">Edit Framework</span>
-                    </Button>
-                </div>
-                <span className="text-sm text-muted-foreground">Version: {frameworkDetails.version}</span>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">{frameworkDetails.description}</p>
-              <p className="mt-2 text-xs text-muted-foreground">ID: {frameworkDetails.id}</p>
-            </div>
+            <Card className="w-full mb-6 shadow-none">
+                <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                                {frameworkDetails.name}
+                                <Badge variant="outline" className="ml-2 text-sm font-normal">
+                                    Version: {frameworkDetails.version}
+                                </Badge>
+                            </CardTitle>
+                            <CardDescription className="mt-2 text-base">
+                                {frameworkDetails.description}
+                            </CardDescription>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={() => setIsEditDialogOpen(true)} className="gap-1">
+                            <PencilIcon className="h-4 w-4" />
+                            Edit Details
+                        </Button>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <FileText className="h-4 w-4" />
+                        <span className="font-medium">ID:</span> {frameworkDetails.id}
+                    </div>
+                </CardContent>
+            </Card>
+
             <DataTable 
                 data={initialRequirements}
                 columns={columns} 

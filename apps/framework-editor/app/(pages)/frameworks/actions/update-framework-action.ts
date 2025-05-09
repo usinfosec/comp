@@ -3,75 +3,76 @@
 import { z } from 'zod'
 import { db } from '@comp/db'
 import { revalidatePath } from 'next/cache'
-import { createSafeActionClient } from 'next-safe-action'
-import type { ActionResponse } from '@/app/actions/actions' // Assuming this path is correct based on instructions
 import type { FrameworkEditorFramework } from '@prisma/client'
+import { FrameworkBaseSchema } from '../schemas'
 
-const UpdateFrameworkSchema = z.object({
+const UpdateFrameworkSchema = FrameworkBaseSchema.extend({
   id: z.string().min(1, { message: 'Framework ID is required.' }),
-  name: z.string().min(1, { message: 'Framework name is required.' }),
-  description: z.string().min(1, { message: 'Framework description is required.' }),
-  version: z.string().min(1, { message: 'Version is required.' }).regex(/^\d+\.\d+\.\d+$/, { message: "Version must be in format X.Y.Z (e.g., 1.0.0)"}),
 })
 
-export type UpdateFrameworkInput = z.infer<typeof UpdateFrameworkSchema>;
-export type UpdateFrameworkSuccessData = Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>;
-
-
-// Define appErrors and AppError if they are standard in your project, or adjust error handling
-// For now, using a generic error structure.
-const appErrors = {
-  UNEXPECTED_ERROR: { message: 'An unexpected error occurred.' },
-  UPDATE_FAILED: { message: 'Failed to update framework in the database.' },
-  NOT_FOUND: { message: 'Framework not found.'}
-};
-class AppError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'AppError';
-  }
+export interface UpdateFrameworkActionState {
+  success: boolean
+  data?: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>
+  error?: string
+  issues?: z.ZodIssue[]
 }
 
+export async function updateFrameworkAction(
+  prevState: UpdateFrameworkActionState | null,
+  formData: FormData
+): Promise<UpdateFrameworkActionState> {
+  const rawInput = {
+    id: formData.get('id'),
+    name: formData.get('name'),
+    description: formData.get('description'),
+    version: formData.get('version'),
+  }
 
-export const updateFrameworkAction = createSafeActionClient()
-  .schema(UpdateFrameworkSchema)
-  .action(async (input): Promise<ActionResponse<UpdateFrameworkSuccessData>> => {
-    try {
-      const { id, name, description, version } = input;
+  const validationResult = UpdateFrameworkSchema.safeParse(rawInput)
 
-      const existingFramework = await db.frameworkEditorFramework.findUnique({
-        where: { id },
-      });
-
-      if (!existingFramework) {
-        return { success: false, error: appErrors.NOT_FOUND };
-      }
-
-      const updatedFramework = await db.frameworkEditorFramework.update({
-        where: { id },
-        data: {
-          name,
-          description,
-          version,
-        },
-        select: { // Select only the necessary fields for the response
-            id: true,
-            name: true,
-            description: true,
-            version: true,
-        }
-      });
-
-      revalidatePath('/frameworks');
-      revalidatePath(`/frameworks/${id}`); // Revalidate the specific framework page
-
-      return { success: true, data: updatedFramework };
-    } catch (error) {
-      console.error('Failed to update framework:', error);
-      // More specific error handling can be added here
-      return { 
-        success: false, 
-        error: error instanceof AppError ? error : appErrors.UPDATE_FAILED, 
-      };
+  if (!validationResult.success) {
+    return {
+      success: false,
+      error: 'Invalid input.',
+      issues: validationResult.error.issues,
     }
-  }); 
+  }
+
+  const { id, name, description, version } = validationResult.data
+
+  try {
+    const existingFramework = await db.frameworkEditorFramework.findUnique({
+      where: { id },
+    });
+
+    if (!existingFramework) {
+      return { success: false, error: 'Framework not found.' };
+    }
+
+    const updatedFramework = await db.frameworkEditorFramework.update({
+      where: { id },
+      data: {
+        name,
+        description,
+        version,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        version: true,
+      }
+    });
+
+    revalidatePath('/frameworks');
+    revalidatePath(`/frameworks/${id}`);
+
+    return { success: true, data: updatedFramework };
+  } catch (error) {
+    console.error('Failed to update framework:', error);
+    return {
+      success: false,
+      error: 'Failed to update framework in the database. Please try again.',
+    };
+  }
+} 

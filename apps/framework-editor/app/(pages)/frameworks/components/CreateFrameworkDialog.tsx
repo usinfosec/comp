@@ -26,6 +26,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { createFrameworkAction, type CreateFrameworkActionState } from '../actions/create-framework-action'
+import { FrameworkBaseSchema } from '../schemas'
 
 interface CreateFrameworkDialogProps {
   isOpen: boolean
@@ -33,11 +34,7 @@ interface CreateFrameworkDialogProps {
   onFrameworkCreated?: () => void
 }
 
-const frameworkFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
-  description: z.string().min(1, { message: "Description is required." }),
-  version: z.string().min(1, { message: "Version is required." }).regex(/^\d+\.\d+\.\d+$/, { message: "Version must be in format X.Y.Z (e.g., 1.0.0)"})
-})
+const frameworkFormSchema = FrameworkBaseSchema;
 
 type FrameworkFormValues = z.infer<typeof frameworkFormSchema>
 
@@ -112,7 +109,7 @@ export function CreateFrameworkDialog({ isOpen, onOpenChange, onFrameworkCreated
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
+                <FormItem className="grid grid-cols-4 items-center gap-2">
                   <FormLabel className="text-right">Name</FormLabel>
                   <FormControl className="col-span-3">
                     <Input placeholder="Enter framework name" {...field} />
