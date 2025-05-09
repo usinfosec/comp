@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
 
   if (!data || (data.length === 0 && !searchTerm)) {
     return (
-      <div className="bg-white p-4 rounded-sm flex flex-col items-center justify-center py-8 text-center space-y-4" id="no-data-available">
+      <div className="bg-card p-4 rounded-sm flex flex-col items-center justify-center py-16 text-center space-y-4" id="no-data-available">
         <div className="rounded-full bg-muted p-3 w-12 h-12 flex items-center justify-center mx-auto">
           <TableIcon className="h-6 w-6 text-muted-foreground" />
         </div>
@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
           placeholder={searchPlaceholder}
           value={searchTerm}
           onChange={e => setGlobalFilter(e.target.value || null)}
-          className="w-full max-w-sm"
+          className="w-full"
           leftIcon={<Search className="h-4 w-4 text-muted-foreground" />}
         />
         {onCreateClick && (
