@@ -18,6 +18,8 @@ import {
 } from "./lib/utils";
 import { env } from "@/env.mjs";
 import ky from "ky";
+import { tasks } from "@trigger.dev/sdk/v3";
+import type { newOrgSequence } from "@/jobs/tasks/marketing/new-org-sequence";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -85,6 +87,11 @@ export const createOrganizationAction = authActionClient
 					email: session.user.email,
 					unsubscribed: false,
 					audienceId: process.env.RESEND_AUDIENCE_ID,
+				});
+
+				await tasks.trigger<typeof newOrgSequence>("new-org-sequence", {
+					email: session.user.email,
+					name: session.user.name?.split(" ")[0] || "",
 				});
 			}
 

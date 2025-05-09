@@ -4,7 +4,7 @@ export * from "./emails/invite-portal";
 export * from "./emails/magic-link";
 export * from "./emails/otp";
 export * from "./emails/waitlist";
-export * from "./emails/welcome";
+export * from "./emails/marketing/welcome";
 
 // Email sending functions
 export * from "./lib/invite-member";
