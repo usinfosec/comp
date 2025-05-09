@@ -59,3 +59,7 @@ tailwind.css
 # Playground (for local testing)
 /playground
 .venv
+
+# Ignore lock files to prevent conflicts between different package managers
+bun.lock
+yarn.lock
