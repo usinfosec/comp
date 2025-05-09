@@ -1,15 +1,14 @@
 "use client"
 
-import { useSelectedLayoutSegment, useSelectedLayoutSegments } from "next/navigation";
-import Link from "next/link";
 import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
+    Tabs,
+    TabsList,
+    TabsTrigger
 } from "@comp/ui/tabs";
+import Link from "next/link";
+import { useSelectedLayoutSegments } from "next/navigation";
 
-export function Navigation() {
+export function MenuTabs() {
     const segments = useSelectedLayoutSegments();
 
     const navItems = [
@@ -35,4 +34,4 @@ export function Navigation() {
 }
 
 // Ensure named export
-export default Navigation;
+export default MenuTabs;

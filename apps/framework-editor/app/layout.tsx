@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Navigation from './components/Navigation'
+import Navigation, { MenuTabs } from './components/MenuTabs'
+import Toolbar from './components/Toolbar'
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -15,8 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Navigation />
+      <body className="flex flex-col">
+        <div className="flex flex-col">
+          <Toolbar/>
+          <MenuTabs />
+        </div>
           {children}
       </body>
     </html>
