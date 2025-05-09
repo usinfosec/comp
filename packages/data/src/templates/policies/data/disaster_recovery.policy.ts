@@ -4,10 +4,9 @@ export const disasterRecoveryPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "disaster_recovery",
-		slug: "disaster-recovery-policy",
 		name: "Disaster Recovery Policy",
 		description:
-			"This policy outlines the requirements for disaster recovery planning to ensure the organization can recover from disruptive events.",
+			"This policy outlines the procedures for recovering IT systems and data in the event of a disaster to ensure business continuity.",
 		frequency: "yearly",
 		department: "it",
 	},

@@ -1,7 +1,8 @@
 import "@/styles/globals.css";
+import "@comp/ui/globals.css";
+
 import { auth } from "@/utils/auth";
 import { cn } from "@comp/ui/cn";
-import "@comp/ui/globals.css";
 import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import localFont from "next/font/local";

@@ -22,7 +22,6 @@ type JSONContent = {
  */
 export interface TemplatePolicyMetadata {
 	id: string;
-	slug: string;
 	name: string;
 	description: string;
 	frequency: Frequency;
@@ -49,3 +48,9 @@ export interface TemplatePolicy {
 
 // Optional: If you plan to have a map of all policies similar to frameworks.ts
 export type TemplatePolicies = Record<string, TemplatePolicy>;
+
+
+/**
+ * Export types used in policy definitions for external use
+ */
+export { Departments, Frequency };

@@ -1,0 +1,61 @@
+// --- Data for Framework Editor ---
+model FrameworkEditorVideo {
+    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk_vi'::text)"))
+    title       String
+    description String
+    youtubeId   String
+    url         String
+}
+
+model FrameworkEditorFramework {
+    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
+    name        String // e.g., "soc2", "iso27001"
+    version     String
+    description String
+
+    requirements FrameworkEditorRequirement[]
+}
+
+model FrameworkEditorRequirement {
+    id          String                   @id @default(dbgenerated("generate_prefixed_cuid('frk_rq'::text)"))
+    frameworkId String
+    framework   FrameworkEditorFramework @relation(fields: [frameworkId], references: [id])
+
+    name        String // Original requirement ID within that framework, e.g., "CC1.1"
+    description String
+
+    controlTemplates FrameworkEditorControlTemplate[]
+
+    @@unique([frameworkId, name])
+}
+
+model FrameworkEditorPolicyTemplate {
+    id          String      @id @default(dbgenerated("generate_prefixed_cuid('frk_pt'::text)"))
+    name        String
+    description String
+    frequency   Frequency // Using the enum from shared.prisma
+    department  Departments // Using the enum from shared.prisma
+    content     Json
+
+    controlTemplates FrameworkEditorControlTemplate[]
+}
+
+model FrameworkEditorTaskTemplate {
+    id          String      @id @default(dbgenerated("generate_prefixed_cuid('frk_tt'::text)"))
+    name        String
+    description String
+    frequency   Frequency // Using the enum from shared.prisma
+    department  Departments // Using the enum from shared.prisma
+
+    controlTemplates FrameworkEditorControlTemplate[]
+}
+
+model FrameworkEditorControlTemplate {
+    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk_ct'::text)"))
+    name        String
+    description String
+
+    policyTemplates FrameworkEditorPolicyTemplate[]
+    requirements    FrameworkEditorRequirement[]
+    taskTemplates   FrameworkEditorTaskTemplate[]
+}

@@ -3,11 +3,10 @@ import type { TemplatePolicy } from "../types";
 export const privacyPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
-		id: "privacy",
-		slug: "privacy-policy",
+		id: "privacy_policy",
 		name: "Privacy Policy",
 		description:
-			"This policy describes how the organization collects, uses, discloses, and protects personal information in compliance with applicable privacy regulations.",
+			"This policy outlines the criteria and procedures for handling personal data and ensuring compliance with privacy regulations.",
 		frequency: "yearly",
 		department: "gov",
 	},

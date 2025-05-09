@@ -4,10 +4,9 @@ export const cyberRiskPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "cyber_risk",
-		slug: "cyber-risk",
-		name: "Cyber Risk Assessment Policy",
+		name: "Cyber Risk Policy",
 		description:
-			"This policy outlines the requirements for conducting cyber risk assessments to identify, evaluate, and mitigate cybersecurity threats to the organization.",
+			"This policy outlines the strategies and procedures for identifying, assessing, and mitigating cyber risks to protect organizational assets and ensure operational resilience.",
 		frequency: "yearly",
 		department: "it",
 	},

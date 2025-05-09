@@ -4,7 +4,6 @@ export const softwareDevelopmentPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "software_development",
-		slug: "software-development",
 		name: "Software Development Lifecycle Policy",
 		description:
 			"This policy outlines the requirements for the software development lifecycle to ensure secure, reliable, and high-quality software development practices.",
