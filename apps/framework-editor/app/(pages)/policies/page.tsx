@@ -7,8 +7,6 @@ import { columns } from "./components/columns"; // Import the new columns
 export default async function Page() {
     const policies = await db.frameworkEditorPolicyTemplate.findMany();
 
-    await new Promise(resolve => setTimeout(resolve, 10000));
-
     return (
         <PageLayout breadcrumbs={[{ label: "Policies", href: "/policies" }]}>
             {/* <PoliciesTable policies={policies} /> */}
