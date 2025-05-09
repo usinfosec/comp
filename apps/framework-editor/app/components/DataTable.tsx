@@ -105,9 +105,6 @@ export function DataTable<TData, TValue>({
         )}
       </div>
       {rows.length > 0 ? (
-        <div 
-          className="rounded-sm border"
-        >
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
@@ -145,7 +142,6 @@ export function DataTable<TData, TValue>({
               })}
             </TableBody>
           </Table>
-        </div>
       ) : (
         searchTerm && !hasFilteredResults && data.length > 0 ? (
            <p className="py-4 text-center">No results found for "{searchTerm}".</p>
