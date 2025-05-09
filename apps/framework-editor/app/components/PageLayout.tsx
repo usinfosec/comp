@@ -23,18 +23,30 @@ export default function PageLayout({ children, breadcrumbs, isLoading = false }:
     if (isLoading) {
         return (
             <div className="flex flex-col gap-4">
-            <div className="border-b py-2">
-                <Skeleton className="w-full h-10" />
+                <div className="pt-2">
+                    <Breadcrumb>
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <Skeleton className="w-24 h-6" />
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <Skeleton className="w-32 h-6" />
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+                </div>
+                <div>
+                    <Skeleton className="w-full h-[300px]" />
+                </div>
             </div>
-            <Skeleton className="w-full h-10" />
-            </div>
-        )
+        );
     }
 
     return (
         <div className="flex flex-col gap-4">
             {(breadcrumbs) && (
-                <div className="border-b py-2">
+                <div className="pt-2">
                     {breadcrumbs ? (
                         <Breadcrumb>
                             <BreadcrumbList>
