@@ -1,8 +1,6 @@
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { cache } from "react";
-
-import { ApiKeysTable } from "@/components/tables/api-keys";
 import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -40,7 +38,6 @@ export async function generateMetadata({
 		title: "Trust Portal",
 	};
 }
-
 const getTrustPortal = cache(async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
