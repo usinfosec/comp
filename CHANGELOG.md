@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/trycompai/comp/compare/v1.8.2...v1.8.3) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** update organization ID mapping for security domain in middleware ([2e690b1](https://github.com/trycompai/comp/commit/2e690b1e56da4e82e615b305927a0df9dd8d4e2c))
+
 ## [1.8.2](https://github.com/trycompai/comp/compare/v1.8.1...v1.8.2) (2025-05-10)
 
 
