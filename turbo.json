@@ -55,12 +55,22 @@
         "^build",
         "^db:generate",
         "^auth:build",
+        "^trust:build",
         "clean-react"
       ],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
         "next-env.d.ts"
+      ]
+    },
+    "trust:build": {
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "DATABASE_URL"
       ]
     },
     "db:generate": {
