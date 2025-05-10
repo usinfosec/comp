@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const DOMAIN_TO_ORG_ID_MAP = {
-	"security.trycomp.ai": "org_681e8e3282ad3e9eb78bc58c",
-	"trust.trycomp.ai": null,
-	"dad6-145-40-151-14.ngrok-free.app": "org_681e8e3282ad3e9eb78bc58c",
+	"security.trycomp.ai": "org_67f599d90e7a812d007c0c6b",
 };
 
 export async function middleware(request: NextRequest) {
