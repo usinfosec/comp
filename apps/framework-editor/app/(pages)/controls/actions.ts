@@ -222,4 +222,60 @@ export async function unlinkTaskTemplateFromControl(controlId: string, taskTempl
     console.error("Error unlinking task template from control:", error);
     throw new Error("Failed to unlink task template.");
   }
+}
+
+// --- Control Actions ---
+
+interface UpdateControlPayload {
+  name: string;
+  description: string;
+}
+
+/**
+ * Updates the details of a control template.
+ */
+export async function updateControlDetails(controlId: string, data: UpdateControlPayload): Promise<void> {
+  if (!controlId) {
+    throw new Error("Control ID must be provided.");
+  }
+  if (!data.name || data.name.trim() === "") {
+    throw new Error("Control name must be provided.");
+  }
+
+  try {
+    await db.frameworkEditorControlTemplate.update({
+      where: { id: controlId },
+      data: {
+        name: data.name,
+        description: data.description,
+      },
+    });
+    revalidatePath(`/controls/${controlId}`);
+    revalidatePath('/controls');
+  } catch (error) {
+    console.error("Error updating control details:", error);
+    throw new Error("Failed to update control details.");
+  }
+}
+
+/**
+ * Deletes a control template.
+ */
+export async function deleteControl(controlId: string): Promise<void> {
+  if (!controlId) {
+    throw new Error("Control ID must be provided.");
+  }
+  try {
+    // Note: Depending on DB constraints, you might need to disconnect relations first
+    // if there's no onDelete: Cascade or similar set up for related items.
+    await db.frameworkEditorControlTemplate.delete({
+      where: { id: controlId },
+    });
+    revalidatePath(`/controls/${controlId}`); // Or just /controls if navigating away
+    revalidatePath('/controls');
+  } catch (error) {
+    console.error("Error deleting control:", error);
+    // Consider more specific error handling, e.g., if control not found or if relations prevent deletion
+    throw new Error("Failed to delete control.");
+  }
 } 

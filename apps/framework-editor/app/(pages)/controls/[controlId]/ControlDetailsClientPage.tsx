@@ -25,6 +25,8 @@ import {
   unlinkTaskTemplateFromControl,
 } from '../actions';
 import { ManageLinksDialog } from './components/ManageLinksDialog'; // We will create this next
+import { EditControlDialog } from './components/EditControlDialog'; // Import Edit Dialog
+import { DeleteControlDialog } from './components/DeleteControlDialog'; // Import Delete Dialog
 
 // We'll need to define these dialogs later
 // import { EditControlDialog } from './components/EditControlDialog'; 
@@ -40,16 +42,15 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); 
     const [isManageRequirementsDialogOpen, setIsManageRequirementsDialogOpen] = useState(false);
 
-    // Placeholder functions for edit/delete actions
     const handleControlUpdated = () => {
-        setIsEditDialogOpen(false);
+        setIsEditDialogOpen(false); // Dialog handles its own closing on success
         router.refresh();
     };
 
     const handleControlDeleted = () => {
-        setIsDeleteDialogOpen(false);
+        setIsDeleteDialogOpen(false); // Dialog handles its own closing on success
         router.push('/controls'); // Navigate back to the controls list after deletion
-        router.refresh();
+        // router.refresh(); // Navigating away, so refresh of current page isn't primary focus
     };
 
     // --- Requirements Management Data & Handlers (will be passed to dialog) --- 
@@ -302,6 +303,27 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
                     onLinkItem={handleLinkTaskTemplate}
                     onUnlinkItem={handleUnlinkTaskTemplate}
                     renderItemDisplay={renderTaskTemplateDisplay}
+                />
+            )}
+
+            {/* Edit Control Dialog */}
+            {isEditDialogOpen && (
+                <EditControlDialog 
+                    isOpen={isEditDialogOpen} 
+                    onOpenChange={setIsEditDialogOpen} 
+                    control={controlDetails} 
+                    onControlUpdated={handleControlUpdated}
+                />
+            )}
+
+            {/* Delete Control Dialog */}
+            {isDeleteDialogOpen && (
+                <DeleteControlDialog
+                    isOpen={isDeleteDialogOpen}
+                    onOpenChange={setIsDeleteDialogOpen}
+                    controlId={controlDetails.id}
+                    controlName={controlDetails.name}
+                    onControlDeleted={handleControlDeleted}
                 />
             )}
         </PageLayout>
