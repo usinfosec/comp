@@ -24,6 +24,9 @@ export default async function Page({ params }: PageProps) {
       requirements: {
         orderBy: {
           name: 'asc'
+        },
+        include: {
+          controlTemplates: true
         }
       }
     }
@@ -33,6 +36,7 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
+  
   const { id, name, version, description, requirements } = framework;
 
   return (

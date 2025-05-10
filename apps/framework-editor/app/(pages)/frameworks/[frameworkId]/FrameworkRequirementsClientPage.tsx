@@ -92,7 +92,7 @@ export function FrameworkRequirementsClientPage({
                 { label: frameworkDetails.name, href: `/frameworks/${frameworkDetails.id}` }
             ]}
         >
-            <Card className="w-full mb-6 shadow-none">
+            <Card className="w-full shadow-none">
                 <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                         <div>
