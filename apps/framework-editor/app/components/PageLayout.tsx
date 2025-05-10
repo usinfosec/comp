@@ -6,7 +6,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@comp/ui/breadcrumb";
-import React from "react";
+import { Skeleton } from "@comp/ui/skeleton";
+import React, { Suspense } from "react";
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -14,13 +15,38 @@ interface PageLayoutProps {
         href?: string;
         label: string;
     }[];
+    isLoading?: boolean;
 }
 
-export default function PageLayout({ children, breadcrumbs }: PageLayoutProps) {
+export default function PageLayout({ children, breadcrumbs, isLoading = false }: PageLayoutProps) {
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col gap-4">
+                <div className="pt-2">
+                    <Breadcrumb>
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <Skeleton className="w-24 h-6" />
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <Skeleton className="w-32 h-6" />
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+                </div>
+                <div>
+                    <Skeleton className="w-full h-[300px]" />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col gap-4">
             {(breadcrumbs) && (
-                <div className="border-b py-2">
+                <div className="pt-2">
                     {breadcrumbs ? (
                         <Breadcrumb>
                             <BreadcrumbList>
@@ -41,7 +67,7 @@ export default function PageLayout({ children, breadcrumbs }: PageLayoutProps) {
                     ) : null}
                 </div>
             )}
-            {children}
+            {children}  
         </div>
     );
 }

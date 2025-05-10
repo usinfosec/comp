@@ -1,27 +1,47 @@
 import { db } from "@comp/db";
-import PageLayout from "@/app/components/PageLayout";
-// import { ControlsTable } from "./components/ControlsTable"; // Old import
-import { DataTable } from "@/app/components/DataTable"; // New generic table
-import { columns } from "./components/columns"; // Import the new columns
+// import PageLayout from "@/app/components/PageLayout"; // No longer needed here
+// import { DataTable } from "@/app/components/DataTable"; // No longer needed here
+// import { columns } from "./components/columns"; // No longer needed here
+import { ControlsClientPage } from "./ControlsClientPage"; // Import the new Client Component
 
 export default async function Page() {
     const controls = await db.frameworkEditorControlTemplate.findMany({
-      // Optionally include related data if you plan to display it and it's not too large
-      // include: {
-      //   policyTemplates: true,
-      //   requirements: true,
-      //   taskTemplates: true,
-      // }
+      include: {
+        policyTemplates: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        requirements: {
+          select: {
+            id: true,
+            name: true,
+            framework: {
+              select: {
+                name: true,
+              }
+            }
+          }
+        },
+        taskTemplates: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      },
+      orderBy: {
+        name: "asc",
+      },
     });
 
+    // Sort controls in a case-insensitive way
+    const sortedControls = [...controls].sort((a, b) => 
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+    );
+
     return (
-        <PageLayout breadcrumbs={[{ label: "Controls", href: "/controls" }]}>
-            {/* <ControlsTable controls={controls} /> */}
-            <DataTable 
-              data={controls} 
-              columns={columns} // Pass the columns
-              searchQueryParamName="controls-search" 
-            />
-        </PageLayout>
+        <ControlsClientPage initialControls={sortedControls} />
     );
 }

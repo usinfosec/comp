@@ -1,10 +1,18 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { FrameworkEditorRequirement } from "@prisma/client";
+import type { FrameworkEditorControlTemplate, FrameworkEditorRequirement } from "@prisma/client";
 import { Button } from "@comp/ui/button";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import { Badge } from "@comp/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@comp/ui/dialog";
 // If you need to link to individual requirement pages later, you can import Link:
 // import Link from "next/link";
 
@@ -25,13 +33,48 @@ export function getColumns(
       size: 420,
     },
     {
-      accessorKey: "_count.controls",
+      accessorKey: "controlTemplates",
       header: "Linked Controls",
       size: 150,
       cell: ({ row }) => {
-        const requirement = row.original as FrameworkEditorRequirement & { _count?: { controls?: number } };
-        const controlsCount = requirement._count?.controls ?? 0;
-        return <Badge variant="secondary">{controlsCount}</Badge>;
+        const requirement = row.original as FrameworkEditorRequirement & { controlTemplates: FrameworkEditorControlTemplate[] };
+        const controlsCount = requirement.controlTemplates.length;
+        const controlTemplates = requirement.controlTemplates;
+
+        if (controlsCount === 0) {
+          return <Badge variant="secondary">{controlsCount}</Badge>;
+        }
+
+        return (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="link" className="p-0 h-auto">
+                <Badge variant="secondary" className="cursor-pointer hover:bg-muted">
+                  {controlsCount}
+                </Badge>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Mapped Control Templates</DialogTitle>
+                <DialogDescription>
+                  Showing all control templates linked to {requirement.name}.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                {controlTemplates.length > 0 ? (
+                  <ul className="list-disc pl-5 space-y-1">
+                    {controlTemplates.map((control) => (
+                      <li key={control.id}>{control.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No control templates linked.</p>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        );
       },
     },
     {

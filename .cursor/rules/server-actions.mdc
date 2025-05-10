@@ -1,0 +1,6 @@
+---
+description: 
+globs: *.ts
+alwaysApply: false
+---
+- Never use safe server actions, always use regular simple server actions.
