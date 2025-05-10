@@ -64,17 +64,6 @@
         "data:build"
       ]
     },
-    "trust:build": {
-      "env": [
-        "DATABASE_URL"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$"
-      ],
-      "outputs": [
-        "data:build"
-      ]
-    },
     "db:generate": {
       "cache": false
     },
