@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const DOMAIN_TO_ORG_ID_MAP = {
-	"fba6-145-40-151-14.ngrok-free.app": "org_681e8e3282ad3e9eb78bc58c",
 	"security.trycomp.ai": "org_681e8e3282ad3e9eb78bc58c",
 	"trust.trycomp.ai": null,
+	"dad6-145-40-151-14.ngrok-free.app": "org_681e8e3282ad3e9eb78bc58c",
 };
 
 export async function middleware(request: NextRequest) {
@@ -23,6 +23,7 @@ export async function middleware(request: NextRequest) {
 		if (url.pathname.startsWith(`/${orgIdForCustomDomain}`)) {
 			return NextResponse.next();
 		}
+
 		url.pathname = `/${orgIdForCustomDomain}${url.pathname}`;
 		return NextResponse.rewrite(url);
 	}
