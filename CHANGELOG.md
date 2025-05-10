@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/trycompai/comp/compare/v1.5.0...v1.6.0) (2025-05-10)
+
+
+### Features
+
+* **turbo:** add trust:build configuration to manage DATABASE_URL and inputs for improved build process ([96435a5](https://github.com/trycompai/comp/commit/96435a53558b7d1dcf8faeaa79514ef1037e70f5))
+
 # [1.5.0](https://github.com/trycompai/comp/compare/v1.4.0...v1.5.0) (2025-05-10)
 
 
