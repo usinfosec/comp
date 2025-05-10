@@ -25,11 +25,11 @@ export function PolicyEditor({
 			Array.isArray(content) && content.length > 0
 				? content
 				: [
-						{
-							type: "paragraph",
-							content: [{ type: "text", text: "" }],
-						},
-					],
+					{
+						type: "paragraph",
+						content: [{ type: "text", text: "" }],
+					},
+				],
 	};
 
 	const handleUpdate = (updatedContent: JSONContent) => {
@@ -49,11 +49,13 @@ export function PolicyEditor({
 	};
 
 	return (
-		<AdvancedEditor
-			initialContent={documentContent}
-			onUpdate={handleUpdate}
-			onSave={handleSave}
-			readOnly={readOnly}
-		/>
+		<>
+			<AdvancedEditor
+				initialContent={documentContent}
+				onUpdate={handleUpdate}
+				onSave={handleSave}
+				readOnly={readOnly}
+			/>
+		</>
 	);
 }

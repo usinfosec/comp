@@ -2,8 +2,7 @@ import Image from "next/image"
 import { buttonVariants } from "@comp/ui/button"
 import type { Organization } from "@comp/db/types"
 import Link from "next/link"
-import { Globe, ExternalLink, Mail } from "lucide-react"
-import { Badge } from "@comp/ui/badge"
+import { Globe } from "lucide-react"
 
 interface ComplianceHeaderProps {
     organization: Organization

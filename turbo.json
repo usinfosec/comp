@@ -64,17 +64,6 @@
         "data:build"
       ]
     },
-    "trust:build": {
-      "env": [
-        "DATABASE_URL"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$"
-      ],
-      "outputs": [
-        "data:build"
-      ]
-    },
     "db:generate": {
       "cache": false
     },
@@ -85,6 +74,22 @@
         "BETTER_AUTH_URL",
         "AUTH_GOOGLE_ID",
         "AUTH_GOOGLE_SECRET"
+      ]
+    },
+    "data:build": {
+      "cache": false,
+      "env": [
+        "DATABASE_URL"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "outputs": [
+        "data:build"
       ]
     },
     "db:push": {
