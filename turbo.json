@@ -76,6 +76,22 @@
         "AUTH_GOOGLE_SECRET"
       ]
     },
+    "data:build": {
+      "cache": false,
+      "env": [
+        "DATABASE_URL"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "outputs": [
+        "data:build"
+      ]
+    },
     "db:push": {
       "cache": false
     },
