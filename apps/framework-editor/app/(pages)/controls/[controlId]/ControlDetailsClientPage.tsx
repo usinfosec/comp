@@ -304,33 +304,6 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
                     renderItemDisplay={renderTaskTemplateDisplay}
                 />
             )}
-
-            {/* Placeholder for Edit Control Dialog */}
-            {/* isEditDialogOpen && (
-                <EditControlDialog 
-                    isOpen={isEditDialogOpen} 
-                    onOpenChange={setIsEditDialogOpen} 
-                    control={controlDetails} // This would be the full control object
-                    onControlUpdated={handleControlUpdated}
-                />
-            ) */}
-
-            {/* Placeholder for Delete Control Dialog */}
-            {/* isDeleteDialogOpen && (
-                <DeleteControlDialog
-                    isOpen={isDeleteDialogOpen}
-                    onOpenChange={setIsDeleteDialogOpen}
-                    controlId={controlDetails.id}
-                    controlName={controlDetails.name}
-                    onControlDeleted={handleControlDeleted}
-                />
-            ) */}
-
-            {/* If controls have sub-items to list (e.g., related policies, tasks), a DataTable could go here */}
-            {/* For example: 
-            <h2 className="text-xl font-semibold mt-8 mb-4">Related Items</h2>
-            <DataTable data={relatedItems} columns={relatedItemsColumns} ... /> 
-            */}
         </PageLayout>
     );
 } 
