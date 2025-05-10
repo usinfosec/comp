@@ -1,3 +1,13 @@
+# [1.4.0](https://github.com/trycompai/comp/compare/v1.3.0...v1.4.0) (2025-05-10)
+
+
+### Features
+
+* **controls:** add Edit and Delete Control dialogs for enhanced control management; implement update and delete functionalities in actions ([c05ab4d](https://github.com/trycompai/comp/commit/c05ab4d9faf3654b1c22b479a101f2aac721df22))
+* **controls:** implement control template management features including creation, linking, and unlinking of requirements, policies, and tasks; enhance UI components for better user experience ([779e579](https://github.com/trycompai/comp/commit/779e579ddf5dd3ad86c20e97ecde735a6f7cdccb))
+* **controls:** implement linking and unlinking of policy and task templates to control templates; enhance ManageLinksDialog for improved user interaction ([05da639](https://github.com/trycompai/comp/commit/05da639ccf1cce77b79837ccea4c73bba523ed6e))
+* **loading:** add Loading component with skeleton placeholders for improved user experience; enhance PageLayout to support loading state ([166fa59](https://github.com/trycompai/comp/commit/166fa59d8f8f7ef535d86efeeb340a9aca4243fc))
+
 # [1.3.0](https://github.com/trycompai/comp/compare/v1.2.1...v1.3.0) (2025-05-09)
 
 
