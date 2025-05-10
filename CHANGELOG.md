@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/trycompai/comp/compare/v1.7.0...v1.8.0) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** update metadata generation to correctly handle async params and adjust URL format ([52b3d23](https://github.com/trycompai/comp/commit/52b3d2316077abb397bf3c108f4fae620502ceae))
+
+
+### Features
+
+* **trust:** implement middleware for domain-based organization ID mapping and enhance layout with new font and metadata generation ([6237329](https://github.com/trycompai/comp/commit/62373292c9725eb1bbf05bd81ffc789c30098d41))
+
 # [1.7.0](https://github.com/trycompai/comp/compare/v1.6.0...v1.7.0) (2025-05-10)
 
 
