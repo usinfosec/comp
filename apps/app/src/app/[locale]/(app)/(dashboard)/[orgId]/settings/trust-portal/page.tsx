@@ -10,20 +10,47 @@ import { TrustPortalSwitch } from "./components/TrustPortalSwitch";
 export default async function TrustPortalSettings({
 	params,
 }: {
-	params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string; orgId: string }>;
 }) {
-	const { locale } = await params;
+	const { locale, orgId } = await params;
 	setStaticParamsLocale(locale);
 	const t = await getI18n();
 
-	const trustPortal = await getTrustPortal();
+	const trustPortal = await getTrustPortal(orgId);
 
 	return (
 		<div className="mx-auto max-w-7xl">
-			<TrustPortalSwitch enabled={trustPortal?.enabled ?? false} slug={trustPortal?.slug ?? ""} />
+			<TrustPortalSwitch enabled={trustPortal?.enabled ?? false} slug={orgId} />
 		</div>
 	);
 }
+
+const getTrustPortal = cache(async (orgId: string) => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session?.session.activeOrganizationId) {
+		return null;
+	}
+
+	const trustPortal = await db.trust.findUnique({
+		where: {
+			organizationId: orgId,
+			status: "published",
+		},
+	});
+
+	if (!trustPortal) {
+		return {
+			enabled: false,
+		};
+	}
+
+	return {
+		enabled: true,
+	};
+});
 
 export async function generateMetadata({
 	params,
@@ -38,40 +65,3 @@ export async function generateMetadata({
 		title: "Trust Portal",
 	};
 }
-const getTrustPortal = cache(async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	if (!session?.session.activeOrganizationId) {
-		return null;
-	}
-
-	const slug = await db.organization.findUnique({
-		where: {
-			id: session.session.activeOrganizationId,
-		},
-		select: {
-			slug: true,
-		},
-	});
-
-	const trustPortal = await db.trust.findUnique({
-		where: {
-			organizationId: session.session.activeOrganizationId,
-			status: "published",
-		},
-	});
-
-	if (!trustPortal) {
-		return {
-			enabled: false,
-			slug: slug?.slug,
-		};
-	}
-
-	return {
-		enabled: true,
-		slug: slug?.slug,
-	};
-});

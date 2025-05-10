@@ -1,11 +1,13 @@
+"use server";
+
 import { db } from "@comp/db";
 
-export const findOrganization = async (subdomain: string) => {
+export const findOrganization = async (id: string) => {
 	const organization = await db.organization.findFirst({
-		where: { slug: subdomain },
+		where: { id: id },
 	});
 
-	const isPublished = await db.trust.findFirst({
+	const isPublished = await db.trust.findUnique({
 		where: { organizationId: organization?.id, status: "published" },
 	});
 
