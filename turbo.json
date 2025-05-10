@@ -64,15 +64,6 @@
         "next-env.d.ts"
       ]
     },
-    "trust:build": {
-      "cache": false,
-      "dependsOn": [
-        "^build"
-      ],
-      "env": [
-        "DATABASE_URL"
-      ]
-    },
     "db:generate": {
       "cache": false
     },
