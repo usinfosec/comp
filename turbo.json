@@ -55,6 +55,7 @@
         "^build",
         "^db:generate",
         "^auth:build",
+        "^trust:build",
         "clean-react"
       ],
       "outputs": [
@@ -63,7 +64,7 @@
         "next-env.d.ts"
       ]
     },
-    "build:trust": {
+    "trust:build": {
       "cache": false,
       "dependsOn": [
         "^build"
