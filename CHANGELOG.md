@@ -1,3 +1,20 @@
+# [1.5.0](https://github.com/trycompai/comp/compare/v1.4.0...v1.5.0) (2025-05-10)
+
+
+### Bug Fixes
+
+* **package:** add missing newline at end of file in package.json ([75c0e49](https://github.com/trycompai/comp/commit/75c0e4951c79d9a7a0cfe7c30c075082da1a915d))
+* **trust-portal:** optimize getTrustPortal function by caching session retrieval for improved performance ([4a7cbc5](https://github.com/trycompai/comp/commit/4a7cbc52fbbe593fa1d9d68c897242def373b2f3))
+
+
+### Features
+
+* **trust-portal:** add Trust Portal settings page and components, including loading state and switch functionality; update layout to include Trust Portal link ([3fc5fba](https://github.com/trycompai/comp/commit/3fc5fba9fcf21f55591624858268102698d75b05))
+* **trust-portal:** enhance Next.js configuration and add new components for improved error handling and compliance reporting; update package dependencies ([1e899a4](https://github.com/trycompai/comp/commit/1e899a442174ec78015cef5929446ea6ebcc994e))
+* **trust-portal:** implement TrustPortalSettings component with dynamic trust portal state retrieval and rendering ([4facc5c](https://github.com/trycompai/comp/commit/4facc5c6c2e30ab4afe0333a76382d3136b9c321))
+* **turbo:** add build:trust configuration to manage environment variables and dependencies for improved build process ([c7475e2](https://github.com/trycompai/comp/commit/c7475e26c41f12fab9677e3dda2765feb7881010))
+* **turbo:** rename build:trust to trust:build and add it to the build pipeline for better organization ([95569ae](https://github.com/trycompai/comp/commit/95569ae853fddbfc5f776006fe093c4b672e5c24))
+
 # [1.4.0](https://github.com/trycompai/comp/compare/v1.3.0...v1.4.0) (2025-05-10)
 
 
