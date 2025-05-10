@@ -1,48 +1,85 @@
 "use server";
 
 import { db } from "@comp/db";
+import { redirect } from "next/navigation";
+import { cache } from "react";
 
-export const findOrganization = async (id: string) => {
+export const findOrganization = cache(async (id: string) => {
 	const organization = await db.organization.findFirst({
 		where: { id: id },
+		include: {
+			trust: {
+				where: {
+					status: "published",
+				},
+			},
+		},
 	});
 
-	const isPublished = await db.trust.findUnique({
-		where: { organizationId: organization?.id, status: "published" },
-	});
-
-	if (!organization || !isPublished) {
-		return null;
+	if (!organization) {
+		return redirect("/");
 	}
 
 	return {
 		...organization,
 	};
-};
+});
 
-export const getPublishedPolicies = async (organizationId: string) => {
+export const getPublishedPolicies = cache(async (organizationId: string) => {
+	const organization = await findOrganization(organizationId);
+
+	if (!organization) {
+		return redirect("/");
+	}
+
 	const policies = await db.policy.findMany({
 		where: { organizationId, status: "published" },
+		select: {
+			id: true,
+			name: true,
+			status: true,
+		},
 	});
 
 	return policies;
-};
+});
 
-export const getPublishedPolicy = async (
-	organizationId: string,
-	policyId: string,
-) => {
-	const policy = await db.policy.findFirst({
-		where: { organizationId, status: "published", id: policyId },
-	});
+export const getPublishedPolicy = cache(
+	async (organizationId: string, policyId: string) => {
+		const organization = await findOrganization(organizationId);
 
-	return policy;
-};
+		if (!organization) {
+			return redirect("/");
+		}
 
-export const getPublishedControls = async (organizationId: string) => {
+		const policy = await db.policy.findFirst({
+			where: { organizationId, status: "published", id: policyId },
+			select: {
+				id: true,
+				name: true,
+				status: true,
+			},
+		});
+
+		return policy;
+	},
+);
+
+export const getPublishedControls = cache(async (organizationId: string) => {
+	const organization = await findOrganization(organizationId);
+
+	if (!organization) {
+		return redirect("/");
+	}
+
 	const controls = await db.task.findMany({
 		where: { organizationId, status: "done" },
+		select: {
+			id: true,
+			title: true,
+			status: true,
+		},
 	});
 
 	return controls;
-};
+});

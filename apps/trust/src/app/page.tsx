@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
-export default async function RootPage() {
-	return redirect("https://trycomp.ai/");
+export default function Page() {
+	return (
+		redirect("https://trycomp.ai")
+	);
 }

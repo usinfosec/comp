@@ -23,7 +23,7 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
                             className="object-contain"
                         />
                     ) : (
-                        <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 bg-muted-foreground rounded-md flex items-center justify-center text-white font-bold">
                             {organization.name.charAt(0)}
                         </div>
                     )}
@@ -32,12 +32,12 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
             </div>
 
             <div className="flex gap-2">
-                <Link className={buttonVariants({ variant: "outline", className: "text-xs" })} href={`${organization.website}`}>
+                <Link className={buttonVariants({ variant: "outline", className: "text-xs" })} href={`${organization.website || "https://trycomp.ai"}`}>
                     <Globe className="w-3 h-3" />
                     {organization.name}
                 </Link>
                 <Link className={buttonVariants({ variant: "outline", className: "text-xs" })} href="https://trycomp.ai">
-                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     Monitoring with Comp AI
                 </Link>
             </div>
