@@ -1,3 +1,30 @@
+# [1.8.0](https://github.com/trycompai/comp/compare/v1.7.0...v1.8.0) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** update metadata generation to correctly handle async params and adjust URL format ([52b3d23](https://github.com/trycompai/comp/commit/52b3d2316077abb397bf3c108f4fae620502ceae))
+
+
+### Features
+
+* **trust:** implement middleware for domain-based organization ID mapping and enhance layout with new font and metadata generation ([6237329](https://github.com/trycompai/comp/commit/62373292c9725eb1bbf05bd81ffc789c30098d41))
+
+# [1.7.0](https://github.com/trycompai/comp/compare/v1.6.0...v1.7.0) (2025-05-10)
+
+
+### Features
+
+* **trust:** add Trust app configuration and dependencies; refactor Trust Portal settings and remove unused components ([8834b14](https://github.com/trycompai/comp/commit/8834b144046c85670c5beecb6afbd514b7ad4006))
+* **turbo:** add data:build configuration to manage DATABASE_URL and build inputs for enhanced build process ([6f4f1c4](https://github.com/trycompai/comp/commit/6f4f1c4e195ceface8c9aac67204c90282cf377e))
+
+# [1.6.0](https://github.com/trycompai/comp/compare/v1.5.0...v1.6.0) (2025-05-10)
+
+
+### Features
+
+* **turbo:** add trust:build configuration to manage DATABASE_URL and inputs for improved build process ([96435a5](https://github.com/trycompai/comp/commit/96435a53558b7d1dcf8faeaa79514ef1037e70f5))
+
 # [1.5.0](https://github.com/trycompai/comp/compare/v1.4.0...v1.5.0) (2025-05-10)
 
 
