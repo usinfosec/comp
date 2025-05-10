@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3003",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@comp/db": "workspace:*",
+    "@comp/ui": "workspace:*",
     "typescript": "^5.8.3",
     "@types/node": "^20.17.46",
     "@types/react": "^19.1.3",

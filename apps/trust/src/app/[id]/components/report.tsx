@@ -1,7 +1,7 @@
-import ComplianceHeader from '../components/compliance-header';
-import ComplianceSummary from '../components/compliance-summary';
-import ComplianceSection from '../components/compliance-section';
-import ComplianceItem from '../components/compliance-item';
+import ComplianceHeader from './compliance-header';
+import ComplianceSummary from './compliance-summary';
+import ComplianceSection from './compliance-section';
+import ComplianceItem from './compliance-item';
 import type { Organization, Policy, Task } from '@comp/db/types';
 
 interface ComplianceReportProps {
