@@ -26,9 +26,10 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 export async function generateMetadata({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-    const organization = await findOrganization(params.id);
+    const id = (await params).id;
+    const organization = await findOrganization(id);
 
     if (!organization) {
         return {
@@ -38,7 +39,7 @@ export async function generateMetadata({
 
     const title = `${organization.name} - Trust Center`;
     const description = `${organization.name} is using Comp AI to monitor their compliance against common cybersecurity frameworks like SOC 2, ISO 27001, and more.`;
-    const url = `https://trust.trycomp.ai/${organization.id}`;
+    const url = `https://trycomp.ai/trust/${organization.id}`;
 
     return {
         title,
