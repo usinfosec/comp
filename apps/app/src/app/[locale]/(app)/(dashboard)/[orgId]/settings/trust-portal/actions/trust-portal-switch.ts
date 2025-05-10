@@ -29,15 +29,13 @@ export const trustPortalSwitchAction = authActionClient
 		}
 
 		try {
-			await db.$transaction(async () => {
-				await db.trust.upsert({
-					where: { organizationId: activeOrganizationId },
-					update: { status: enabled ? "published" : "draft" },
-					create: {
-						organizationId: activeOrganizationId,
-						status: enabled ? "published" : "draft",
-					},
-				});
+			await db.trust.upsert({
+				where: { organizationId: activeOrganizationId },
+				update: { status: enabled ? "published" : "draft" },
+				create: {
+					organizationId: activeOrganizationId,
+					status: enabled ? "published" : "draft",
+				},
 			});
 
 			revalidatePath("/settings/trust-portal");
