@@ -55,7 +55,6 @@
         "^build",
         "^db:generate",
         "^auth:build",
-        "^trust:build",
         "clean-react"
       ],
       "outputs": [
