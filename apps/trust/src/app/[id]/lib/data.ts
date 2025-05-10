@@ -1,7 +1,6 @@
 import { db } from "@comp/db";
-import { cache } from "react";
 
-export const findOrganization = cache(async (subdomain: string) => {
+export const findOrganization = async (subdomain: string) => {
 	const organization = await db.organization.findFirst({
 		where: { slug: subdomain },
 	});
@@ -17,30 +16,31 @@ export const findOrganization = cache(async (subdomain: string) => {
 	return {
 		...organization,
 	};
-});
+};
 
-export const getPublishedPolicies = cache(async (organizationId: string) => {
+export const getPublishedPolicies = async (organizationId: string) => {
 	const policies = await db.policy.findMany({
 		where: { organizationId, status: "published" },
 	});
 
 	return policies;
-});
+};
 
-export const getPublishedPolicy = cache(
-	async (organizationId: string, policyId: string) => {
-		const policy = await db.policy.findFirst({
-			where: { organizationId, status: "published", id: policyId },
-		});
+export const getPublishedPolicy = async (
+	organizationId: string,
+	policyId: string,
+) => {
+	const policy = await db.policy.findFirst({
+		where: { organizationId, status: "published", id: policyId },
+	});
 
-		return policy;
-	},
-);
+	return policy;
+};
 
-export const getPublishedControls = cache(async (organizationId: string) => {
+export const getPublishedControls = async (organizationId: string) => {
 	const controls = await db.task.findMany({
 		where: { organizationId, status: "done" },
 	});
 
 	return controls;
-});
+};
