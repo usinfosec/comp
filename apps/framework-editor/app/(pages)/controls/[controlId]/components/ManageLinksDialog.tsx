@@ -46,9 +46,7 @@ export function ManageLinksDialog({
           </DialogDescription>
         </DialogHeader>
         
-        {/* The SearchAndLinkList component will now fill the dialog content area */}
-        {/* It has its own internal scrolling for its lists */}
-        <div className="flex-grow overflow-y-auto py-4"> {/* Allow this div to scroll if SearchAndLinkList content exceeds dialog height */} 
+        <div className="flex-grow py-4"> {/* Allow this div to scroll if SearchAndLinkList content exceeds dialog height */} 
           <SearchAndLinkList 
             itemTypeLabel={itemTypeLabel}
             linkedItemIds={linkedItemIds}
@@ -59,11 +57,7 @@ export function ManageLinksDialog({
             renderItemDisplay={renderItemDisplay}
           />
         </div>
-        {/* Optional: DialogFooter if explicit close button is wanted, though clicking outside or Esc works 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-sm">Close</Button>
-        </DialogFooter> 
-        */}
+
       </DialogContent>
     </Dialog>
   );

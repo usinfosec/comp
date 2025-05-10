@@ -104,51 +104,53 @@ export async function getAllPolicyTemplates(): Promise<SearchableItemForLinking[
   }
 }
 
-/*
+/**
+ * Links a policy template to a control template.
+ */
 export async function linkPolicyTemplateToControl(controlId: string, policyTemplateId: string): Promise<void> {
   if (!controlId || !policyTemplateId) {
     throw new Error("Control ID and Policy Template ID must be provided.");
   }
   try {
-    // await db.frameworkEditorControlTemplate.update({
-    //   where: { id: controlId },
-    //   data: {
-    //     policyTemplates: { // Assuming a 'policyTemplates' relation exists on the control model
-    //       connect: { id: policyTemplateId },
-    //     },
-    //   },
-    // });
-    // revalidatePath(`/controls/${controlId}`);
-    // revalidatePath('/controls');
-    console.warn("TODO: linkPolicyTemplateToControl is not implemented.");
+    await db.frameworkEditorControlTemplate.update({
+      where: { id: controlId },
+      data: {
+        policyTemplates: { // Assuming a 'policyTemplates' relation exists on the control model
+          connect: { id: policyTemplateId },
+        },
+      },
+    });
+    revalidatePath(`/controls/${controlId}`);
+    revalidatePath('/controls');
   } catch (error) {
     console.error("Error linking policy template to control:", error);
     throw new Error("Failed to link policy template.");
   }
 }
 
+/**
+ * Unlinks a policy template from a control template.
+ */
 export async function unlinkPolicyTemplateFromControl(controlId: string, policyTemplateId: string): Promise<void> {
   if (!controlId || !policyTemplateId) {
     throw new Error("Control ID and Policy Template ID must be provided.");
   }
   try {
-    // await db.frameworkEditorControlTemplate.update({
-    //   where: { id: controlId },
-    //   data: {
-    //     policyTemplates: {
-    //       disconnect: { id: policyTemplateId },
-    //     },
-    //   },
-    // });
-    // revalidatePath(`/controls/${controlId}`);
-    // revalidatePath('/controls');
-    console.warn("TODO: unlinkPolicyTemplateFromControl is not implemented.");
+    await db.frameworkEditorControlTemplate.update({
+      where: { id: controlId },
+      data: {
+        policyTemplates: {
+          disconnect: { id: policyTemplateId },
+        },
+      },
+    });
+    revalidatePath(`/controls/${controlId}`);
+    revalidatePath('/controls');
   } catch (error) {
     console.error("Error unlinking policy template from control:", error);
     throw new Error("Failed to unlink policy template.");
   }
 }
-*/
 
 // --- Task Template Actions ---
 
@@ -174,48 +176,50 @@ export async function getAllTaskTemplates(): Promise<SearchableItemForLinking[]>
   }
 }
 
-/*
+/**
+ * Links a task template to a control template.
+ */
 export async function linkTaskTemplateToControl(controlId: string, taskTemplateId: string): Promise<void> {
   if (!controlId || !taskTemplateId) {
     throw new Error("Control ID and Task Template ID must be provided.");
   }
   try {
-    // await db.frameworkEditorControlTemplate.update({
-    //   where: { id: controlId },
-    //   data: {
-    //     taskTemplates: { // Assuming a 'taskTemplates' relation exists on the control model
-    //       connect: { id: taskTemplateId },
-    //     },
-    //   },
-    // });
-    // revalidatePath(`/controls/${controlId}`);
-    // revalidatePath('/controls');
-    console.warn("TODO: linkTaskTemplateToControl is not implemented.");
+    await db.frameworkEditorControlTemplate.update({
+      where: { id: controlId },
+      data: {
+        taskTemplates: { // Assuming a 'taskTemplates' relation exists on the control model
+          connect: { id: taskTemplateId },
+        },
+      },
+    });
+    revalidatePath(`/controls/${controlId}`);
+    revalidatePath('/controls');
   } catch (error) {
     console.error("Error linking task template to control:", error);
     throw new Error("Failed to link task template.");
   }
 }
 
+/**
+ * Unlinks a task template from a control template.
+ */
 export async function unlinkTaskTemplateFromControl(controlId: string, taskTemplateId: string): Promise<void> {
   if (!controlId || !taskTemplateId) {
     throw new Error("Control ID and Task Template ID must be provided.");
   }
   try {
-    // await db.frameworkEditorControlTemplate.update({
-    //   where: { id: controlId },
-    //   data: {
-    //     taskTemplates: {
-    //       disconnect: { id: taskTemplateId },
-    //     },
-    //   },
-    // });
-    // revalidatePath(`/controls/${controlId}`);
-    // revalidatePath('/controls');
-    console.warn("TODO: unlinkTaskTemplateFromControl is not implemented.");
+    await db.frameworkEditorControlTemplate.update({
+      where: { id: controlId },
+      data: {
+        taskTemplates: {
+          disconnect: { id: taskTemplateId },
+        },
+      },
+    });
+    revalidatePath(`/controls/${controlId}`);
+    revalidatePath('/controls');
   } catch (error) {
     console.error("Error unlinking task template from control:", error);
     throw new Error("Failed to unlink task template.");
   }
-}
-*/ 
+} 

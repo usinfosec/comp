@@ -18,7 +18,11 @@ import {
   linkRequirementToControl,
   unlinkRequirementFromControl,
   getAllPolicyTemplates,
+  linkPolicyTemplateToControl,
+  unlinkPolicyTemplateFromControl,
   getAllTaskTemplates,
+  linkTaskTemplateToControl,
+  unlinkTaskTemplateFromControl,
 } from '../actions';
 import { ManageLinksDialog } from './components/ManageLinksDialog'; // We will create this next
 
@@ -95,21 +99,20 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
     const currentPolicyTemplateDetails: SearchableItemForLinking[] = useMemo(() => controlDetails.policyTemplates?.map(pt => ({ id: pt.id, name: pt.name })) || [], [controlDetails.policyTemplates]);
     const [isManagePolicyTemplatesDialogOpen, setIsManagePolicyTemplatesDialogOpen] = useState(false);
 
-    // TODO: Create getAllPolicyTemplates, linkPolicyTemplateToControl, unlinkPolicyTemplateFromControl actions
     const handleGetAllPolicyTemplates = async (): Promise<SearchableItemForLinking[]> => {
         // console.warn("TODO: Implement getAllPolicyTemplates server action");
         // return []; // Placeholder
         return getAllPolicyTemplates();
     };
     const handleLinkPolicyTemplate = async (item: SearchableItemForLinking) => {
-        console.warn("TODO: Implement linkPolicyTemplateToControl server action for item:", item.id);
-        // try { await linkPolicyTemplateToControl(controlDetails.id, item.id); router.refresh(); }
-        // catch (error) { console.error("Failed to link policy template:", error); throw error; }
+        // console.warn("TODO: Implement linkPolicyTemplateToControl server action for item:", item.id);
+        try { await linkPolicyTemplateToControl(controlDetails.id, item.id); router.refresh(); }
+        catch (error) { console.error("Failed to link policy template:", error); throw error; }
     };
     const handleUnlinkPolicyTemplate = async (item: SearchableItemForLinking) => {
-        console.warn("TODO: Implement unlinkPolicyTemplateFromControl server action for item:", item.id);
-        // try { await unlinkPolicyTemplateFromControl(controlDetails.id, item.id); router.refresh(); }
-        // catch (error) { console.error("Failed to unlink policy template:", error); throw error; }
+        // console.warn("TODO: Implement unlinkPolicyTemplateFromControl server action for item:", item.id);
+        try { await unlinkPolicyTemplateFromControl(controlDetails.id, item.id); router.refresh(); }
+        catch (error) { console.error("Failed to unlink policy template:", error); throw error; }
     };
     const renderPolicyTemplateDisplay = (item: SearchableItemForLinking) => (
       <div className="flex items-center">
@@ -124,21 +127,20 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
     const currentTaskTemplateDetails: SearchableItemForLinking[] = useMemo(() => controlDetails.taskTemplates?.map(tt => ({ id: tt.id, name: tt.name })) || [], [controlDetails.taskTemplates]);
     const [isManageTaskTemplatesDialogOpen, setIsManageTaskTemplatesDialogOpen] = useState(false);
 
-    // TODO: Create getAllTaskTemplates, linkTaskTemplateToControl, unlinkTaskTemplateFromControl actions
     const handleGetAllTaskTemplates = async (): Promise<SearchableItemForLinking[]> => {
         // console.warn("TODO: Implement getAllTaskTemplates server action");
         // return []; // Placeholder
         return getAllTaskTemplates();
     };
     const handleLinkTaskTemplate = async (item: SearchableItemForLinking) => {
-        console.warn("TODO: Implement linkTaskTemplateToControl server action for item:", item.id);
-        // try { await linkTaskTemplateToControl(controlDetails.id, item.id); router.refresh(); }
-        // catch (error) { console.error("Failed to link task template:", error); throw error; }
+        // console.warn("TODO: Implement linkTaskTemplateToControl server action for item:", item.id);
+        try { await linkTaskTemplateToControl(controlDetails.id, item.id); router.refresh(); }
+        catch (error) { console.error("Failed to link task template:", error); throw error; }
     };
     const handleUnlinkTaskTemplate = async (item: SearchableItemForLinking) => {
-        console.warn("TODO: Implement unlinkTaskTemplateFromControl server action for item:", item.id);
-        // try { await unlinkTaskTemplateFromControl(controlDetails.id, item.id); router.refresh(); }
-        // catch (error) { console.error("Failed to unlink task template:", error); throw error; }
+        // console.warn("TODO: Implement unlinkTaskTemplateFromControl server action for item:", item.id);
+        try { await unlinkTaskTemplateFromControl(controlDetails.id, item.id); router.refresh(); }
+        catch (error) { console.error("Failed to unlink task template:", error); throw error; }
     };
     const renderTaskTemplateDisplay = (item: SearchableItemForLinking) => (
       <div className="flex items-center">
@@ -262,7 +264,7 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
                 <ManageLinksDialog
                     isOpen={isManageRequirementsDialogOpen}
                     onOpenChange={setIsManageRequirementsDialogOpen}
-                    itemTypeLabel="Requirements"
+                    itemTypeLabel="Requirement"
                     title="Link Requirements"
                     linkedItemIds={requirementIds}
                     currentLinkedItemsDetails={currentRequirementDetails}
@@ -292,7 +294,7 @@ export function ControlDetailsClientPage({ controlDetails }: ControlDetailsClien
                 <ManageLinksDialog
                     isOpen={isManageTaskTemplatesDialogOpen}
                     onOpenChange={setIsManageTaskTemplatesDialogOpen}
-                    itemTypeLabel="Tasks"
+                    itemTypeLabel="Task"
                     title="Link Tasks"
                     linkedItemIds={taskTemplateIds}
                     currentLinkedItemsDetails={currentTaskTemplateDetails}
