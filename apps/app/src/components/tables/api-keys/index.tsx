@@ -80,26 +80,28 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 	return (
 		<>
 			<Card>
-				<CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-					<div>
-						<CardTitle>
-							{t("settings.api_keys.list_title")}
-						</CardTitle>
-						<CardDescription>
-							{t("settings.api_keys.list_description")}
-						</CardDescription>
+				<CardHeader>
+					<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+						<div>
+							<CardTitle>
+								{t("settings.api_keys.list_title")}
+							</CardTitle>
+							<CardDescription className="mt-1">
+								{t("settings.api_keys.list_description")}
+							</CardDescription>
+						</div>
+						<Button
+							onClick={() => setIsCreateDialogOpen(true)}
+							className="flex items-center gap-1 self-start"
+						>
+							<Plus className="h-4 w-4" />
+							{t("settings.api_keys.create")}
+						</Button>
 					</div>
-					<Button
-						onClick={() => setIsCreateDialogOpen(true)}
-						className="flex items-center gap-1 self-start sm:self-auto"
-					>
-						<Plus className="h-4 w-4" />
-						{t("settings.api_keys.create")}
-					</Button>
 				</CardHeader>
 				<CardContent>
 					{apiKeys.length === 0 ? (
-						<div className="py-8 text-center text-muted-foreground">
+						<div className="py-8 text-center text-muted-foreground text-sm">
 							{t("settings.api_keys.no_keys")}
 						</div>
 					) : (
@@ -210,7 +212,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 					open={isCreateDialogOpen}
 					onOpenChange={setIsCreateDialogOpen}
 				/>
-			</Card>
+			</Card >
 
 			<Dialog open={isRevokeDialogOpen} onOpenChange={handleCancelRevoke}>
 				<DialogContent className="sm:max-w-md mx-4 w-[calc(100%-2rem)] sm:w-full">

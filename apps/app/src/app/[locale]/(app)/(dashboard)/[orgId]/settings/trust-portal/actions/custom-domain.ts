@@ -29,9 +29,10 @@ export const customDomainAction = authActionClient
 		}
 
 		try {
-			await db.trust.update({
+			await db.trust.upsert({
 				where: { organizationId: activeOrganizationId },
-				data: { domain, domainVerified: false },
+				update: { domain },
+				create: { organizationId: activeOrganizationId, domain },
 			});
 
 			revalidatePath("/settings/trust-portal");

@@ -60,7 +60,8 @@ export default async function RiskRegisterPage({
 						"app_onboarding.risk_management.description",
 					)}
 					cta={t("app_onboarding.risk_management.cta")}
-					imageSrc="/onboarding/risk-management.webp"
+					imageSrcLight="/onboarding/risk-light.webp"
+					imageSrcDark="/onboarding/risk-dark.webp"
 					imageAlt="Risk Management"
 					sheetName="create-risk-sheet"
 					faqs={[

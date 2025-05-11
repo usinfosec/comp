@@ -3,7 +3,6 @@ import { getOnboardingForCurrentOrganization } from "@/data/getOnboarding";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { buttonVariants } from "@comp/ui/button";
-import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Skeleton } from "@comp/ui/skeleton";
 import { headers } from "next/headers";
@@ -13,6 +12,7 @@ import { Suspense } from "react";
 import { AssistantButton } from "./ai/chat-button";
 import { MobileMenu } from "./mobile-menu";
 import { NotificationCenter } from "./notification-center";
+import { getOrganizations } from "@/data/getOrganizations";
 
 export async function Header() {
 	const t = await getI18n();
@@ -28,12 +28,14 @@ export async function Header() {
 	}
 
 	const { completedAll } = await getOnboardingForCurrentOrganization();
+	const { organizations } = await getOrganizations();
 
 	return (
 		<header className="flex justify-between items-center bg-backgroundSoft py-4 sticky top-0 z-10 px-4 border-b border-border/40">
 			<MobileMenu
 				organizationId={currentOrganizationId}
 				completedOnboarding={completedAll}
+				organizations={organizations}
 			/>
 
 			<AssistantButton />

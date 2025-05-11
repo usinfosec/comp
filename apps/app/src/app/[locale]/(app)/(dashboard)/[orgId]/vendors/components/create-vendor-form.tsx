@@ -24,7 +24,12 @@ import {
 	FormMessage,
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
+import {
+	Popover,
+	PopoverContent,
+	PopoverPrimitive,
+	PopoverTrigger,
+} from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -156,7 +161,6 @@ export function CreateVendorForm({
 													<Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
 														<PopoverTrigger asChild>
 															<FormControl>
-																{/* We use a Button as the trigger, but use CommandInput inside Popover */}
 																<Button
 																	variant="outline"
 																	role="combobox"

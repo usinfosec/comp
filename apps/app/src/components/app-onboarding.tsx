@@ -20,6 +20,7 @@ import {
 import { PlusIcon } from "lucide-react";
 import { BookOpen, Clock, HelpCircle } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useQueryState } from "nuqs";
 import Link from "next/link";
 
@@ -32,7 +33,8 @@ type Props = {
 	title: string;
 	description: string;
 	cta?: string;
-	imageSrc: string;
+	imageSrcLight: string;
+	imageSrcDark: string;
 	imageAlt: string;
 	faqs?: FAQ[];
 	sheetName?: string;
@@ -43,7 +45,8 @@ export function AppOnboarding({
 	title,
 	description,
 	cta,
-	imageSrc,
+	imageSrcLight,
+	imageSrcDark,
 	imageAlt,
 	faqs,
 	sheetName,
@@ -52,6 +55,7 @@ export function AppOnboarding({
 	const t = useI18n();
 	const [open, setOpen] = useQueryState(sheetName ?? "sheet");
 	const isOpen = Boolean(open);
+	const { theme } = useTheme();
 
 	return (
 		<Card className="w-full overflow-hidden border">
@@ -128,52 +132,48 @@ export function AppOnboarding({
 											))}
 										</Accordion>
 									)}
+
+									{cta && (
+										<div className="flex mt-4 w-full">
+											{href ? (
+												<Link href={href}>
+													<Button
+														variant="default"
+														className="flex items-center gap-2 w-full"
+													>
+														<PlusIcon className="w-4 h-4" />
+														{cta}
+													</Button>
+												</Link>
+											) : (
+												<Button
+													variant="default"
+													className="flex items-center gap-2 w-full"
+													onClick={() => setOpen("true")}
+												>
+													<PlusIcon className="w-4 h-4" />
+													{cta}
+												</Button>
+											)}
+										</div>
+									)}
 								</div>
 
-								<div className="flex flex-col items-center justify-center relative hidden lg:flex">
+								<div className="hidden flex-col items-center justify-center relative lg:flex">
 									<div className="absolute inset-0 bg-gradient-radial from-accent/20 to-transparent opacity-70 rounded-full" />
 									<Image
-										src={imageSrc}
+										src={theme === "dark" ? imageSrcDark : imageSrcLight}
 										alt={imageAlt}
-										height={350}
-										width={350}
+										height={400}
+										width={400}
 										quality={100}
-										className="relative z-10 drop-shadow-md"
+										className="relative z-10 drop-shadow-md rounded-lg"
 									/>
 								</div>
 							</div>
 						</CardContent>
 					</div>
 				</div>
-
-				{cta && (
-					<CardFooter className="py-4 bg-muted/30 border-t flex items-center justify-end sm:justify-between">
-						<div className="hidden sm:flex items-center text-sm text-muted-foreground">
-							<Clock className="h-3.5 w-3.5 mr-1.5" />
-							<span>Estimated time: ~5 minutes</span>
-						</div>
-						{href ? (
-							<Link href={href}>
-								<Button
-									variant="default"
-									className="flex items-center gap-2"
-								>
-									<PlusIcon className="w-4 h-4" />
-									{cta}
-								</Button>
-							</Link>
-						) : (
-							<Button
-								variant="default"
-								className="flex items-center gap-2"
-								onClick={() => setOpen("true")}
-							>
-								<PlusIcon className="w-4 h-4" />
-								{cta}
-							</Button>
-						)}
-					</CardFooter>
-				)}
 			</div>
 		</Card>
 	);
