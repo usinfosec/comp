@@ -137,7 +137,7 @@ export const checkDnsRecordAction = authActionClient
 			.addProjectDomain({
 				idOrName: env.TRUST_PORTAL_PROJECT_ID,
 				teamId: env.VERCEL_TEAM_ID,
-				slug: env.VERCEL_PROJECT_ID,
+				slug: env.TRUST_PORTAL_PROJECT_ID,
 				requestBody: {
 					name: domain,
 				},
