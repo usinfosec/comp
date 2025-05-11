@@ -113,13 +113,13 @@ export function DataTablePagination<TData>({
 			)}
 			{...props}
 		>
-			<div className="flex-1 flex items-center gap-2 select-none">
+			<div className="hidden sm:flex-1 sm:flex items-center gap-2 select-none">
 				<p className="text-sm text-muted-foreground">
 					{table.getCoreRowModel().rows.length} items
 				</p>
 			</div>
 			<div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8 select-none">
-				<div className="flex items-center space-x-2">
+				<div className="hidden sm:flex items-center space-x-2">
 					<p className="whitespace-nowrap text-sm">Rows per page</p>
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
@@ -144,7 +144,7 @@ export function DataTablePagination<TData>({
 						</SelectContent>
 					</Select>
 				</div>
-				<div className="flex items-center justify-center text-sm">
+				<div className="hidden sm:flex items-center justify-center text-sm">
 					Page {table.getState().pagination.pageIndex + 1} of{" "}
 					{table.getPageCount()}
 				</div>

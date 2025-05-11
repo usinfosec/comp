@@ -101,7 +101,7 @@ export function TrustPortalDomain({
                 toast.success("DNS record verified.");
             }
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("DNS record verification failed, check the records are valid or try again later.");
         },
     });
@@ -142,32 +142,34 @@ export function TrustPortalDomain({
                             <FormField
                                 control={form.control}
                                 name="domain"
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="flex items-center gap-2">
                                             Custom Domain
-                                            {domainVerified ? (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger>
-                                                            <CheckCircle className="h-4 w-4 text-green-500" />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            Domain is verified
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            ) : (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger>
-                                                            <AlertCircle className="h-4 w-4 text-amber-500" />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            Domain is not verified yet
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
+                                            {initialDomain !== "" && (
+                                                domainVerified ? (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger type="button">
+                                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                Domain is verified
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                ) : (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger type="button">
+                                                                <AlertCircle className="h-4 w-4 text-red-500" />
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                Domain is not verified yet
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )
                                             )}
                                         </FormLabel>
                                         <div className="flex flex-col md:flex-row gap-2">
@@ -182,7 +184,7 @@ export function TrustPortalDomain({
                                                     spellCheck="false"
                                                 />
                                             </FormControl>
-                                            {field.value === initialDomain && !domainVerified && (
+                                            {field.value === initialDomain && initialDomain !== "" && !domainVerified && (
                                                 <Button
                                                     type="button"
                                                     className="md:max-w-[300px]"
@@ -201,7 +203,7 @@ export function TrustPortalDomain({
                                 )}
                             />
 
-                            {form.watch("domain") === initialDomain && !domainVerified && (
+                            {form.watch("domain") === initialDomain && initialDomain !== "" && !domainVerified && (
                                 <div className="space-y-2 pt-2">
                                     <div className="rounded-md border">
                                         <div className="text-sm">
@@ -220,7 +222,7 @@ export function TrustPortalDomain({
                                                             {isCnameVerified ? (
                                                                 <CheckCircle className="h-4 w-4 text-green-500" />
                                                             ) : (
-                                                                <AlertCircle className="h-4 w-4 text-amber-500" />
+                                                                <AlertCircle className="h-4 w-4 text-red-500" />
                                                             )}
                                                         </td>
                                                         <td>CNAME</td>
@@ -265,7 +267,7 @@ export function TrustPortalDomain({
                                                             {isTxtVerified ? (
                                                                 <CheckCircle className="h-4 w-4 text-green-500" />
                                                             ) : (
-                                                                <AlertCircle className="h-4 w-4 text-amber-500" />
+                                                                <AlertCircle className="h-4 w-4 text-red-500" />
                                                             )}
                                                         </td>
                                                         <td>TXT</td>

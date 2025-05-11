@@ -112,9 +112,15 @@ export function TrustPortalSwitch({
                         />
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                        <div className="text-xs text-muted-foreground">
-                            {enabled ? `Your trust portal is live & accessible at ${domainVerified ? `https://${domain}` : `https://trust.trycomp.ai/${slug}`}` : "Share your compliance status with potential customers."}
-                        </div>
+                        {enabled ? (
+                            <Link href={domainVerified ? `https://${domain}` : `https://trust.trycomp.ai/${slug}`} target="_blank" className="text-xs text-muted-foreground hover:text-foreground">
+                                Click here to visit your trust portal.
+                            </Link>
+                        ) : (
+                            <p className="text-xs text-muted-foreground">
+                                Trust portal is currently disabled.
+                            </p>
+                        )}
                     </CardFooter>
                 </Card>
             </form>

@@ -34,7 +34,8 @@ export default async function Layout({
 								"app_onboarding.risk_management.description",
 							)}
 							cta={t("app_onboarding.risk_management.cta")}
-							imageSrc="/onboarding/risk-management.webp"
+							imageSrcDark="/onboarding/risk-management.webp"
+							imageSrcLight="/onboarding/risk-management-light.webp"
 							imageAlt="Risk Management"
 							sheetName="create-risk-sheet"
 							faqs={[
