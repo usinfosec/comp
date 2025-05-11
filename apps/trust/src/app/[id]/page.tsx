@@ -8,7 +8,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     const organization = await findOrganization(id);
 
     if (!organization) {
-        return <div>Organization not found</div>;
+        return <div>
+            <div className="pb-6 p-6">
+                <div className="flex flex-col items-center justify-center h-screen">
+                    <h1 className="text-2xl font-bold">Trust Portal Not Published</h1>
+                    <p className="text-sm text-muted-foreground">Please publish your trust portal and try again.</p>
+                </div>
+            </div>
+        </div>
     }
 
     const policies = await getPublishedPolicies(organization.id);
@@ -17,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     return (
         <div>
             <div className="pb-6 p-6">
-                <ComplianceReport organization={organization} policies={policies} controls={controls} />
+                <ComplianceReport organization={organization} policies={policies ?? []} controls={controls ?? []} />
             </div>
         </div>
     )
@@ -33,7 +40,7 @@ export async function generateMetadata({
 
     if (!organization) {
         return {
-            title: "Organization not found",
+            title: "Trust Portal Not Published",
         };
     }
 
