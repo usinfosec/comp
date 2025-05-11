@@ -102,8 +102,6 @@ export const checkDnsRecordAction = authActionClient
 			});
 		}
 
-		console.log(env.VERCEL_PROJECT_ID, env.VERCEL_TEAM_ID);
-
 		const isVerified = isCnameVerified && isTxtVerified;
 
 		if (!isVerified) {
