@@ -272,7 +272,7 @@ export function TrustPortalDomain({
                                                         <td>
                                                             <div className="flex items-center justify-between gap-2">
                                                                 <span className="min-w-0 break-words">
-                                                                    compai-domain-verification={orgId}
+                                                                    @
                                                                 </span>
                                                                 <Button
                                                                     variant="ghost"

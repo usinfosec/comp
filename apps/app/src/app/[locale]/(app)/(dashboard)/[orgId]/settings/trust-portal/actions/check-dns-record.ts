@@ -113,7 +113,7 @@ export const checkDnsRecordAction = authActionClient
 			};
 		}
 
-		if (!env.VERCEL_PROJECT_ID) {
+		if (!env.TRUST_PORTAL_PROJECT_ID) {
 			return {
 				success: false,
 				error: "Vercel project ID is not set.",
@@ -121,13 +121,13 @@ export const checkDnsRecordAction = authActionClient
 		}
 
 		const isExistingRecord = await vercel.projects.getProjectDomains({
-			idOrName: env.VERCEL_PROJECT_ID,
+			idOrName: env.TRUST_PORTAL_PROJECT_ID,
 			teamId: env.VERCEL_TEAM_ID,
 		});
 
 		if (isExistingRecord.domains.some((record) => record.name === domain)) {
 			await vercel.projects.removeProjectDomain({
-				idOrName: env.VERCEL_PROJECT_ID,
+				idOrName: env.TRUST_PORTAL_PROJECT_ID,
 				teamId: env.VERCEL_TEAM_ID,
 				domain,
 			});
@@ -135,9 +135,9 @@ export const checkDnsRecordAction = authActionClient
 
 		const addDomainToProject = await vercel.projects
 			.addProjectDomain({
-				idOrName: env.VERCEL_PROJECT_ID,
+				idOrName: env.TRUST_PORTAL_PROJECT_ID,
 				teamId: env.VERCEL_TEAM_ID,
-				slug: env.VERCEL_PROJECT_ID,
+				slug: env.TRUST_PORTAL_PROJECT_ID,
 				requestBody: {
 					name: domain,
 				},
