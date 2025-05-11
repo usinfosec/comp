@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/trycompai/comp/compare/v1.8.3...v1.9.0) (2025-05-11)
+
+
+### Features
+
+* **trust:** implement custom domain management and DNS verification for trust portal ([d34206c](https://github.com/trycompai/comp/commit/d34206cc8e0ca633d071d34e0fc95ad1994a2cf0))
+
 ## [1.8.3](https://github.com/trycompai/comp/compare/v1.8.2...v1.8.3) (2025-05-10)
 
 
