@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/trycompai/comp/compare/v1.10.0...v1.11.0) (2025-05-11)
+
+
+### Bug Fixes
+
+* **trust:** update DNS record slug to use TRUST_PORTAL_PROJECT_ID ([366f9e5](https://github.com/trycompai/comp/commit/366f9e51d7709964ea606b7dca305a7a0e91337b))
+
+
+### Features
+
+* **trust:** add TRUST_PORTAL_PROJECT_ID to environment and update DNS record actions ([a99c7bb](https://github.com/trycompai/comp/commit/a99c7bbb2fc360d16e9426f084c098a779d5d224))
+
 # [1.10.0](https://github.com/trycompai/comp/compare/v1.9.0...v1.10.0) (2025-05-11)
 
 
