@@ -1,3 +1,17 @@
+## [1.8.2](https://github.com/trycompai/comp/compare/v1.8.1...v1.8.2) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** update domain mapping in middleware to include new ngrok domain ([cb8f296](https://github.com/trycompai/comp/commit/cb8f2960eba1f9800e297734c3f6e33a17d76314))
+
+## [1.8.1](https://github.com/trycompai/comp/compare/v1.8.0...v1.8.1) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** add new domain mapping to organization ID and refine URL rewriting logic in middleware ([f8b2854](https://github.com/trycompai/comp/commit/f8b28545adcce6bc18fdf3b590d2d31b8f857ce1))
+
 # [1.8.0](https://github.com/trycompai/comp/compare/v1.7.0...v1.8.0) (2025-05-10)
 
 
