@@ -32,7 +32,7 @@ import {
     AlertCircle,
     CheckCircle,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@comp/ui/tooltip";
 
 const trustPortalDomainSchema = z.object({
@@ -57,6 +57,15 @@ export function TrustPortalDomain({
     orgId: string;
 }) {
     const t = useI18n();
+    const [isCnameVerified, setIsCnameVerified] = useState(false);
+    const [isTxtVerified, setIsTxtVerified] = useState(false);
+
+    useEffect(() => {
+        const isCnameVerified = localStorage.getItem(`${initialDomain}-isCnameVerified`);
+        const isTxtVerified = localStorage.getItem(`${initialDomain}-isTxtVerified`);
+        setIsCnameVerified(isCnameVerified === "true");
+        setIsTxtVerified(isTxtVerified === "true");
+    }, []);
 
     const updateCustomDomain = useAction(customDomainAction, {
         onSuccess: (data) => {
@@ -69,7 +78,28 @@ export function TrustPortalDomain({
 
     const checkDnsRecord = useAction(checkDnsRecordAction, {
         onSuccess: (data) => {
-            toast.success("DNS record verified.");
+            if (data?.data?.error) {
+                toast.error(data.data.error);
+
+                if (data.data?.isCnameVerified) {
+                    setIsCnameVerified(true);
+                    localStorage.setItem(`${initialDomain}-isCnameVerified`, "true");
+                }
+                if (data.data?.isTxtVerified) {
+                    setIsTxtVerified(true);
+                    localStorage.setItem(`${initialDomain}-isTxtVerified`, "true");
+                }
+            } else {
+                if (data.data?.isCnameVerified) {
+                    setIsCnameVerified(true);
+                    localStorage.removeItem(`${initialDomain}-isTxtVerified`);
+                }
+                if (data.data?.isTxtVerified) {
+                    setIsTxtVerified(true);
+                    localStorage.removeItem(`${initialDomain}-isCnameVerified`);
+                }
+                toast.success("DNS record verified.");
+            }
         },
         onError: (error) => {
             toast.error("DNS record verification failed, check the records are valid or try again later.");
@@ -174,10 +204,11 @@ export function TrustPortalDomain({
                             {form.watch("domain") === initialDomain && !domainVerified && (
                                 <div className="space-y-2 pt-2">
                                     <div className="rounded-md border">
-                                        <div className="w-full text-sm">
-                                            <table className="w-full hidden md:table">
+                                        <div className="text-sm">
+                                            <table className="hidden lg:table w-full">
                                                 <thead>
                                                     <tr className="[&_th]:px-3 [&_th]:py-2 [&_th]:text-left">
+                                                        <th>Verified</th>
                                                         <th>Type</th>
                                                         <th>Name</th>
                                                         <th>Value</th>
@@ -185,6 +216,13 @@ export function TrustPortalDomain({
                                                 </thead>
                                                 <tbody>
                                                     <tr className="border-t [&_td]:px-3 [&_td]:py-2">
+                                                        <td>
+                                                            {isCnameVerified ? (
+                                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                                            ) : (
+                                                                <AlertCircle className="h-4 w-4 text-amber-500" />
+                                                            )}
+                                                        </td>
                                                         <td>CNAME</td>
                                                         <td>
                                                             <div className="flex items-center justify-between gap-2">
@@ -223,6 +261,13 @@ export function TrustPortalDomain({
                                                         </td>
                                                     </tr>
                                                     <tr className="border-t [&_td]:px-3 [&_td]:py-2">
+                                                        <td>
+                                                            {isTxtVerified ? (
+                                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                                            ) : (
+                                                                <AlertCircle className="h-4 w-4 text-amber-500" />
+                                                            )}
+                                                        </td>
                                                         <td>TXT</td>
                                                         <td>
                                                             <div className="flex items-center justify-between gap-2">
@@ -265,7 +310,7 @@ export function TrustPortalDomain({
                                                 </tbody>
                                             </table>
 
-                                            <div className="md:hidden space-y-4 p-4">
+                                            <div className="lg:hidden space-y-4 p-4">
                                                 <div>
                                                     <div className="font-medium mb-1">Type:</div>
                                                     <div>CNAME</div>
@@ -298,6 +343,50 @@ export function TrustPortalDomain({
                                                             onClick={() =>
                                                                 handleCopy(
                                                                     "cname.vercel-dns.com.",
+                                                                    "Value",
+                                                                )
+                                                            }
+                                                            className="h-6 w-6 flex-shrink-0"
+                                                        >
+                                                            <ClipboardCopy className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                                <div className="border-b" />
+                                                <div>
+                                                    <div className="font-medium mb-1">Type:</div>
+                                                    <div>TXT</div>
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium mb-1">Name:</div>
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <span className="min-w-0 break-words">
+                                                            @
+                                                        </span>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            type="button"
+                                                            onClick={() => handleCopy(`compai-domain-verification=${orgId}`, "Name")}
+                                                            className="h-6 w-6 flex-shrink-0"
+                                                        >
+                                                            <ClipboardCopy className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium mb-1">Value:</div>
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <span className="min-w-0 break-words">
+                                                            compai-domain-verification={orgId}
+                                                        </span>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleCopy(
+                                                                    `compai-domain-verification=${orgId}`,
                                                                     "Value",
                                                                 )
                                                             }
