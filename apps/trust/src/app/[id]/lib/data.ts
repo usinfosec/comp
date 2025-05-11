@@ -1,35 +1,28 @@
 "use server";
 
 import { db } from "@comp/db";
-import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const findOrganization = cache(async (id: string) => {
 	const organization = await db.organization.findFirst({
-		where: { id: id },
+		where: { id: id, trust: { some: { status: "published" } } },
 		include: {
 			trust: {
-				where: {
-					status: "published",
+				select: {
+					status: true,
 				},
 			},
 		},
 	});
 
-	if (!organization) {
-		return redirect("/");
-	}
-
-	return {
-		...organization,
-	};
+	return organization;
 });
 
 export const getPublishedPolicies = cache(async (organizationId: string) => {
 	const organization = await findOrganization(organizationId);
 
 	if (!organization) {
-		return redirect("/");
+		return null;
 	}
 
 	const policies = await db.policy.findMany({
@@ -49,7 +42,7 @@ export const getPublishedPolicy = cache(
 		const organization = await findOrganization(organizationId);
 
 		if (!organization) {
-			return redirect("/");
+			return null;
 		}
 
 		const policy = await db.policy.findFirst({
@@ -69,7 +62,7 @@ export const getPublishedControls = cache(async (organizationId: string) => {
 	const organization = await findOrganization(organizationId);
 
 	if (!organization) {
-		return redirect("/");
+		return null;
 	}
 
 	const controls = await db.task.findMany({

@@ -1,8 +1,6 @@
+import { db } from "@comp/db";
 import { NextRequest, NextResponse } from "next/server";
-
-const DOMAIN_TO_ORG_ID_MAP = {
-	"security.trycomp.ai": "org_67f599d90e7a812d007c0c6b",
-};
+import { cache } from "react";
 
 export async function middleware(request: NextRequest) {
 	const url = request.nextUrl.clone();
@@ -14,8 +12,10 @@ export async function middleware(request: NextRequest) {
 		});
 	}
 
-	const orgIdForCustomDomain =
-		DOMAIN_TO_ORG_ID_MAP[hostname as keyof typeof DOMAIN_TO_ORG_ID_MAP];
+	const orgs = await domainToOrgMap();
+	const orgIdForCustomDomain = orgs.find(
+		(org) => org.domain === hostname,
+	)?.orgId;
 
 	if (orgIdForCustomDomain) {
 		if (url.pathname.startsWith(`/${orgIdForCustomDomain}`)) {
@@ -43,15 +43,23 @@ function isOrgId(segment: string): boolean {
 }
 
 export const config = {
-	matcher: [
-		/*
-		 * Match all request paths except for the ones starting with:
-		 * - api (API routes)
-		 * - _next/static (static files)
-		 * - _next/image (image optimization files)
-		 * - favicon.ico (favicon file)
-		 * Your other static assets or paths that should not be processed by this middleware
-		 */
-		"/((?!api|_next/static|_next/image|favicon.ico|assets/).*)",
-	],
+	runtime: "nodejs",
+	matcher: ["/((?!api|_next/static|_next/image|favicon.ico|assets/).*)"],
 };
+
+const domainToOrgMap = cache(async () => {
+	const orgs = await db.organization.findMany({
+		include: {
+			trust: {
+				select: {
+					domain: true,
+				},
+			},
+		},
+	});
+
+	return orgs.map((org) => ({
+		domain: org.trust[0]?.domain,
+		orgId: org.id,
+	}));
+});

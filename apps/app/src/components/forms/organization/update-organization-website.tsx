@@ -75,7 +75,7 @@ export function UpdateOrganizationWebsite({
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="max-w-[300px]"
+                                            className="md:max-w-[300px]"
                                             autoComplete="off"
                                             autoCapitalize="none"
                                             autoCorrect="off"

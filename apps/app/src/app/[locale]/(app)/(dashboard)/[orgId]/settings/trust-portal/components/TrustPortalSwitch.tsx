@@ -25,6 +25,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { trustPortalSwitchAction } from "../actions/trust-portal-switch";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 
 const trustPortalSwitchSchema = z.object({
     enabled: z.boolean(),
@@ -33,9 +35,15 @@ const trustPortalSwitchSchema = z.object({
 export function TrustPortalSwitch({
     enabled,
     slug,
+    domainVerified,
+    domain,
+    orgId,
 }: {
     enabled: boolean;
     slug: string;
+    domainVerified: boolean;
+    domain: string;
+    orgId: string;
 }) {
     const t = useI18n();
 
@@ -69,10 +77,14 @@ export function TrustPortalSwitch({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Trust Portal Configuration</CardTitle>
+                        <CardTitle className="flex flex-row items-center gap-2">Trust Portal
+                            <Link href={domainVerified ? `https://${domain}` : `https://trust.trycomp.ai/${slug}`} target="_blank" className="text-sm text-muted-foreground hover:text-foreground">
+                                <ExternalLink className="w-4 h-4" />
+                            </Link>
+                        </CardTitle>
                         <CardDescription className="space-y-4 flex flex-row justify-between">
                             <div className="max-w-[600px]">
-                                Enable the trust portal for your organization.
+                                Create a public trust portal for your organization.
                             </div>
                         </CardDescription>
                     </CardHeader>
@@ -83,7 +95,7 @@ export function TrustPortalSwitch({
                             render={({ field }) => (
                                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                                     <div className="space-y-0.5">
-                                        <FormLabel>Publish Trust Portal</FormLabel>
+                                        <FormLabel>Public Trust Portal</FormLabel>
                                         <FormDescription>
                                             Enable the trust portal for your organization.
                                         </FormDescription>
@@ -101,7 +113,7 @@ export function TrustPortalSwitch({
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <div className="text-xs text-muted-foreground">
-                            Your trust portal will be live & accessible at https://trust.trycomp.ai/{slug}
+                            {enabled ? `Your trust portal is live & accessible at ${domainVerified ? `https://${domain}` : `https://trust.trycomp.ai/${slug}`}` : "Share your compliance status with potential customers."}
                         </div>
                     </CardFooter>
                 </Card>
