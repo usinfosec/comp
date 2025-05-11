@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/trycompai/comp/compare/v1.9.0...v1.10.0) (2025-05-11)
+
+
+### Features
+
+* **trust:** enhance DNS verification and state management in TrustPortalDomain ([27369ea](https://github.com/trycompai/comp/commit/27369ea8f0d36c378e7ae89a14433a90dc723b93))
+
 # [1.9.0](https://github.com/trycompai/comp/compare/v1.8.3...v1.9.0) (2025-05-11)
 
 
