@@ -6,6 +6,7 @@ import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { TrustPortalSwitch } from "./components/TrustPortalSwitch";
+import { TrustPortalDomain } from "./components/TrustPortalDomain";
 
 export default async function TrustPortalSettings({
 	params,
@@ -19,8 +20,19 @@ export default async function TrustPortalSettings({
 	const trustPortal = await getTrustPortal(orgId);
 
 	return (
-		<div className="mx-auto max-w-7xl">
-			<TrustPortalSwitch enabled={trustPortal?.enabled ?? false} slug={orgId} />
+		<div className="mx-auto max-w-7xl space-y-4">
+			<TrustPortalSwitch
+				enabled={trustPortal?.enabled ?? false}
+				slug={orgId}
+				domain={trustPortal?.domain ?? ""}
+				domainVerified={trustPortal?.domainVerified ?? false}
+				orgId={orgId}
+			/>
+			<TrustPortalDomain
+				domain={trustPortal?.domain ?? ""}
+				domainVerified={trustPortal?.domainVerified ?? false}
+				orgId={orgId}
+			/>
 		</div>
 	);
 }
@@ -37,18 +49,13 @@ const getTrustPortal = cache(async (orgId: string) => {
 	const trustPortal = await db.trust.findUnique({
 		where: {
 			organizationId: orgId,
-			status: "published",
 		},
 	});
 
-	if (!trustPortal) {
-		return {
-			enabled: false,
-		};
-	}
-
 	return {
-		enabled: true,
+		enabled: trustPortal?.status === "published",
+		domain: trustPortal?.domain,
+		domainVerified: trustPortal?.domainVerified,
 	};
 });
 
