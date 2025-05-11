@@ -94,7 +94,9 @@ export const checkDnsRecordAction = authActionClient
 					Array.isArray(record.txt) &&
 					record.txt.length > 0
 				) {
-					return record.txt.includes(expectedTxtValue);
+					return record.txt.some(
+						(txt: string) => txt === expectedTxtValue,
+					);
 				}
 				return false;
 			});
@@ -103,13 +105,19 @@ export const checkDnsRecordAction = authActionClient
 		const isVerified = isCnameVerified && isTxtVerified;
 
 		if (!isVerified) {
-			throw new Error(
-				"Error verifying DNS records. Please ensure both CNAME and TXT records are correctly configured, or wait a few minutes and try again.",
-			);
+			return {
+				success: false,
+				isCnameVerified,
+				isTxtVerified,
+				error: "Error verifying DNS records. Please ensure both CNAME and TXT records are correctly configured, or wait a few minutes and try again.",
+			};
 		}
 
 		if (!env.VERCEL_PROJECT_ID) {
-			throw new Error("Vercel project ID is not set.");
+			return {
+				success: false,
+				error: "Vercel project ID is not set.",
+			};
 		}
 
 		const isExistingRecord = await vercel.projects.getProjectDomains({
@@ -157,5 +165,7 @@ export const checkDnsRecordAction = authActionClient
 
 		return {
 			success: true,
+			isCnameVerified,
+			isTxtVerified,
 		};
 	});
