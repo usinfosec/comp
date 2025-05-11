@@ -13,6 +13,12 @@ export function HotKeys() {
 		serialize: (value) => value.toString(),
 	});
 
+	const [showOrganizationSwitcher, setShowOrganizationSwitcher] = useQueryState("showOrganizationSwitcher", {
+		history: "push",
+		parse: (value) => value === "true",
+		serialize: (value) => value.toString(),
+	});
+
 	const handleSignOut = async () => {
 		await signOut();
 		router.refresh();
@@ -61,6 +67,11 @@ export function HotKeys() {
 	useHotkeys("meta+k", (evt) => {
 		evt.preventDefault();
 		setAssistantOpen(true);
+	});
+
+	useHotkeys("meta+o", (evt) => {
+		evt.preventDefault();
+		setShowOrganizationSwitcher(!showOrganizationSwitcher);
 	});
 
 	return null;

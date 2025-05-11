@@ -5,21 +5,37 @@ import { Icons } from "@comp/ui/icons";
 import { Sheet, SheetContent } from "@comp/ui/sheet";
 import { useState } from "react";
 import { MainMenu } from "./main-menu";
+import { OrganizationSwitcher } from "./organization-switcher";
+import { Organization as AuthOrganization } from "better-auth/plugins";
+import type { Organization as DbOrganization } from "@comp/db/types";
+
+interface MobileMenuProps {
+	organizations: AuthOrganization[];
+	isCollapsed?: boolean;
+	completedOnboarding: boolean;
+	organizationId: string;
+}
 
 export function MobileMenu({
 	organizationId,
-	isAdmin,
 	completedOnboarding,
-}: {
-	organizationId: string;
-	isAdmin?: boolean;
-	completedOnboarding: boolean;
-}) {
+	organizations,
+}: MobileMenuProps) {
 	const [isOpen, setOpen] = useState(false);
 
 	const handleCloseSheet = () => {
 		setOpen(false);
 	};
+
+	const adaptedOrganizations: DbOrganization[] = organizations.map(org => ({
+		...org,
+		logo: org.logo ?? null,
+		metadata: org.metadata ? String(org.metadata) : null,
+		stripeCustomerId: null,
+		website: null,
+	}));
+
+	const currentOrganization = adaptedOrganizations.find(org => org.id === organizationId) || null;
 
 	return (
 		<Sheet open={isOpen} onOpenChange={setOpen}>
@@ -37,12 +53,18 @@ export function MobileMenu({
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>
-
-				<MainMenu
-					organizationId={organizationId}
-					completedOnboarding={completedOnboarding}
-					onItemClick={handleCloseSheet}
-				/>
+				<div className="flex flex-col gap-2">
+					<OrganizationSwitcher
+						organizations={adaptedOrganizations}
+						organization={currentOrganization}
+						isCollapsed={false}
+					/>
+					<MainMenu
+						organizationId={organizationId}
+						completedOnboarding={completedOnboarding}
+						onItemClick={handleCloseSheet}
+					/>
+				</div>
 			</SheetContent>
 		</Sheet>
 	);

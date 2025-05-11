@@ -49,7 +49,8 @@ export default async function Page({
 					title={t("app_onboarding.vendors.title")}
 					description={t("app_onboarding.vendors.description")}
 					cta={t("app_onboarding.vendors.cta")}
-					imageSrc="/onboarding/vendor-management.webp"
+					imageSrcLight="/onboarding/vendor-light.webp"
+					imageSrcDark="/onboarding/vendor-dark.webp"
 					imageAlt="Vendor Management"
 					sheetName="createVendorSheet"
 					faqs={[
