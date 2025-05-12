@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/trycompai/comp/compare/v1.11.0...v1.12.0) (2025-05-12)
+
+
+### Features
+
+* **database:** add identifier column to FrameworkEditorRequirement and update migration ([c4dee39](https://github.com/trycompai/comp/commit/c4dee398a08a7c4a9d40582b71d9368d14e1a4f7))
+* **requirements:** add optional identifier field to requirement forms and schemas ([1540457](https://github.com/trycompai/comp/commit/1540457d620c1e202afcc51018aae0c017713e3b))
+
 # [1.11.0](https://github.com/trycompai/comp/compare/v1.10.0...v1.11.0) (2025-05-11)
 
 
