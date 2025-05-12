@@ -1,8 +1,8 @@
 import { db } from "@comp/db";
 import PageLayout from "@/app/components/PageLayout";
-// import { TasksTable } from "./components/TasksTable"; // Old import
-import { DataTable } from "@/app/components/DataTable"; // New generic table
-import { columns } from "./components/columns"; // Import the new columns
+import { DataTable } from "@/app/components/DataTable";
+import { getColumns } from "./components/columns";
+import { TasksClientPage } from "./TasksClientPage";
 
 export default async function Page() {
     const tasks = await db.frameworkEditorTaskTemplate.findMany({
@@ -10,14 +10,5 @@ export default async function Page() {
       // include: { controlTemplates: true }
     });
 
-    return (
-        <PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
-            {/* <TasksTable tasks={tasks} /> */}
-            <DataTable 
-              data={tasks} 
-              columns={columns} // Pass the columns
-              searchQueryParamName="tasks-search" 
-            />
-        </PageLayout>
-    );
+    return <TasksClientPage initialTasks={tasks} />;
 }

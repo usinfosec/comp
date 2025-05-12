@@ -1,46 +1,78 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
-import Link from 'next/link';
-import type { FrameworkEditorTaskTemplate } from '@prisma/client';
+import { ColumnDef } from '@tanstack/react-table';
+import { FrameworkEditorTaskTemplate } from '@prisma/client';
+import { Button } from '@comp/ui/button';
+import { PencilIcon, Trash2 } from 'lucide-react';
 
-// Helper to format enum values (can be moved to a shared utils file if used in multiple places)
-const formatEnumValue = (value: string) => {
-  if (!value) return '';
-  return value.replace(/_/g, ' ').charAt(0).toUpperCase() + value.slice(1).toLowerCase().replace(/_/g, ' ');
-};
+export interface GetColumnsProps {
+  onEditClick: (e: React.MouseEvent, task: FrameworkEditorTaskTemplate) => void;
+  onDeleteClick: (e: React.MouseEvent, task: FrameworkEditorTaskTemplate) => void;
+}
 
-export const columns: ColumnDef<FrameworkEditorTaskTemplate>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Name',
-    size: 250,
-    cell: ({ row }) => {
-      const task = row.original;
-      return (
-        <Link href={`/tasks/${task.id}`} className="hover:underline">
-          {task.name}
-        </Link>
-      );
+export function getColumns({ onEditClick, onDeleteClick }: GetColumnsProps): ColumnDef<FrameworkEditorTaskTemplate>[] {
+  return [
+    {
+      accessorKey: 'name',
+      header: 'Name',
     },
-  },
-  {
-    accessorKey: 'description',
-    header: 'Description',
-    size: 450,
-    minSize: 300,
-  },
-  {
-    accessorKey: 'frequency',
-    header: 'Frequency',
-    size: 150,
-    cell: ({ row }) => formatEnumValue(row.getValue('frequency')),
-  },
-  {
-    accessorKey: 'department',
-    header: 'Department',
-    size: 150,
-    cell: ({ row }) => formatEnumValue(row.getValue('department')),
-  },
-  // TODO: Add column for controlTemplates if needed
-]; 
+    {
+      accessorKey: 'description',
+      header: 'Description',
+    },
+    {
+      accessorKey: 'frequency',
+      header: 'Frequency',
+      cell: ({ row }) => {
+        const value = row.getValue('frequency') as string;
+        return value.charAt(0).toUpperCase() + value.slice(1);
+      },
+    },
+    {
+      accessorKey: 'department',
+      header: 'Department',
+      cell: ({ row }) => {
+        const value = row.getValue('department') as string;
+        return value.charAt(0).toUpperCase() + value.slice(1);
+      },
+    },
+    {
+      id: 'actions',
+      header: () => null,
+      cell: ({ row }) => {
+        const task = row.original;
+        return (
+          <div className="text-right pr-2 group h-full flex items-center justify-end gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-150"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEditClick(e, task);
+              }}
+              title="Edit Task"
+            >
+              <PencilIcon className="h-4 w-4" />
+              <span className="sr-only">Edit Task</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-150 text-destructive hover:text-destructive-foreground hover:bg-destructive"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteClick(e, task);
+              }}
+              title="Delete Task"
+            >
+              <Trash2 className="h-4 w-4" />
+              <span className="sr-only">Delete Task</span>
+            </Button>
+          </div>
+        );
+      },
+      size: 100,
+    },
+  ];
+} 
