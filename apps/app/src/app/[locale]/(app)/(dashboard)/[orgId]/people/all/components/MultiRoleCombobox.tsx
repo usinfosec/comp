@@ -90,7 +90,6 @@ export function MultiRoleCombobox({
 	}, [isOwner]);
 
 	const handleSelect = (roleValue: Role) => {
-		console.log("Selected role:", roleValue);
 		// Never allow owner role to be changed
 		if (roleValue === "owner") {
 			return;
@@ -176,7 +175,6 @@ export function MultiRoleCombobox({
 								)}
 								onClick={(e) => {
 									e.stopPropagation(); // Prevent popover
-									console.log("Removing role:", role);
 									handleSelect(role);
 								}}
 							>
@@ -239,10 +237,6 @@ export function MultiRoleCombobox({
 										}
 									})()} // Use label for search
 									onSelect={() => {
-										console.log(
-											"Selecting role:",
-											role.value,
-										);
 										handleSelect(role.value);
 									}}
 									disabled={
