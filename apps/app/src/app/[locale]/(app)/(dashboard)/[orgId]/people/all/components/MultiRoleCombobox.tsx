@@ -90,6 +90,7 @@ export function MultiRoleCombobox({
 	}, [isOwner]);
 
 	const handleSelect = (roleValue: Role) => {
+		console.log("Selected role:", roleValue);
 		// Never allow owner role to be changed
 		if (roleValue === "owner") {
 			return;
@@ -174,7 +175,8 @@ export function MultiRoleCombobox({
 										"border border-primary",
 								)}
 								onClick={(e) => {
-									e.stopPropagation(); // Prevent popover trigger
+									e.stopPropagation(); // Prevent popover
+									console.log("Removing role:", role);
 									handleSelect(role);
 								}}
 							>
@@ -206,7 +208,7 @@ export function MultiRoleCombobox({
 			<PopoverContent className="w-[--radix-popover-trigger-width] p-0">
 				<Command>
 					<CommandInput
-						placeholder={t("people.filters.search")}
+						placeholder="Search..."
 						value={searchTerm}
 						onValueChange={setSearchTerm}
 					/>
@@ -237,6 +239,10 @@ export function MultiRoleCombobox({
 										}
 									})()} // Use label for search
 									onSelect={() => {
+										console.log(
+											"Selecting role:",
+											role.value,
+										);
 										handleSelect(role.value);
 									}}
 									disabled={
@@ -245,7 +251,7 @@ export function MultiRoleCombobox({
 											selectedRoles.includes(role.value)) // Disable any locked roles
 									}
 									className={cn(
-										"flex flex-col items-start py-2", // Adjust padding and alignment
+										"flex flex-col items-start py-2 cursor-pointer", // Adjust padding and alignment
 										lockedRoles.includes(role.value) &&
 											selectedRoles.includes(
 												role.value,
