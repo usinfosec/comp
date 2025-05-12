@@ -21,8 +21,8 @@ import { RequirementBaseSchema } from '../../schemas'
 interface EditRequirementDialogProps {
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
-  requirement: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description'> & { frameworkId: string } 
-  onRequirementUpdated?: (updatedData: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description'>) => void
+  requirement: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description' | 'identifier'> & { frameworkId: string } 
+  onRequirementUpdated?: (updatedData: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description' | 'identifier'>) => void
 }
 
 const requirementFormSchema = RequirementBaseSchema;
@@ -40,6 +40,7 @@ export function EditRequirementDialog({
     defaultValues: {
       name: requirement.name,
       description: requirement.description ?? '',
+      identifier: requirement.identifier ?? '',
     },
     mode: 'onChange',
   })
@@ -48,6 +49,7 @@ export function EditRequirementDialog({
     form.reset({
       name: requirement.name,
       description: requirement.description ?? '',
+      identifier: requirement.identifier ?? '',
     })
   }, [requirement, form])
 
@@ -58,6 +60,9 @@ export function EditRequirementDialog({
     formData.append('name', values.name);
     if (values.description) {
       formData.append('description', values.description);
+    }
+    if (values.identifier) {
+      formData.append('identifier', values.identifier);
     }
     
     const result = await updateRequirementAction(null, formData);
@@ -91,6 +96,7 @@ export function EditRequirementDialog({
         form.reset({
             name: requirement.name,
             description: requirement.description ?? '',
+            identifier: requirement.identifier ?? '',
         });
       }
       onOpenChange(open);
@@ -112,6 +118,21 @@ export function EditRequirementDialog({
                   <FormLabel className="text-right">Name</FormLabel>
                   <FormControl className="col-span-3">
                     <Input placeholder="Enter requirement name" {...field} />
+                  </FormControl>
+                  <div className="col-start-2 col-span-3">
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-2">
+                  <FormLabel className="text-right">Identifier</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Input placeholder="e.g., cc1-1" {...field} />
                   </FormControl>
                   <div className="col-start-2 col-span-3">
                     <FormMessage />

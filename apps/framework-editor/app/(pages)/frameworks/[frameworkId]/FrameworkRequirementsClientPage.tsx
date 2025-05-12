@@ -57,7 +57,7 @@ export function FrameworkRequirementsClientPage({
       setIsEditRequirementDialogOpen(true);
     };
 
-    const handleRequirementUpdated = (updatedRequirement: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description'>) => {
+    const handleRequirementUpdated = (updatedRequirement: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description' | 'identifier'>) => {
       setRequirementsList(prevList => 
         prevList.map(req => 
           req.id === updatedRequirement.id ? { ...req, ...updatedRequirement } : req
