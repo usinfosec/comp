@@ -1,3 +1,58 @@
+## [1.13.1](https://github.com/trycompai/comp/compare/v1.13.0...v1.13.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* fix popover by adding pointer events in content ([6e7bce5](https://github.com/trycompai/comp/commit/6e7bce5392951cf1cb48ac665bafc486b577d70e))
+
+# [1.13.0](https://github.com/trycompai/comp/compare/v1.12.0...v1.13.0) (2025-05-12)
+
+
+### Features
+
+* **tasks:** implement task management UI with CRUD functionality ([f71cee1](https://github.com/trycompai/comp/commit/f71cee17d76536a373c12262ed926517075c2919))
+
+# [1.12.0](https://github.com/trycompai/comp/compare/v1.11.0...v1.12.0) (2025-05-12)
+
+
+### Features
+
+* **database:** add identifier column to FrameworkEditorRequirement and update migration ([c4dee39](https://github.com/trycompai/comp/commit/c4dee398a08a7c4a9d40582b71d9368d14e1a4f7))
+* **requirements:** add optional identifier field to requirement forms and schemas ([1540457](https://github.com/trycompai/comp/commit/1540457d620c1e202afcc51018aae0c017713e3b))
+
+# [1.11.0](https://github.com/trycompai/comp/compare/v1.10.0...v1.11.0) (2025-05-11)
+
+
+### Bug Fixes
+
+* **trust:** update DNS record slug to use TRUST_PORTAL_PROJECT_ID ([366f9e5](https://github.com/trycompai/comp/commit/366f9e51d7709964ea606b7dca305a7a0e91337b))
+
+
+### Features
+
+* **trust:** add TRUST_PORTAL_PROJECT_ID to environment and update DNS record actions ([a99c7bb](https://github.com/trycompai/comp/commit/a99c7bbb2fc360d16e9426f084c098a779d5d224))
+
+# [1.10.0](https://github.com/trycompai/comp/compare/v1.9.0...v1.10.0) (2025-05-11)
+
+
+### Features
+
+* **trust:** enhance DNS verification and state management in TrustPortalDomain ([27369ea](https://github.com/trycompai/comp/commit/27369ea8f0d36c378e7ae89a14433a90dc723b93))
+
+# [1.9.0](https://github.com/trycompai/comp/compare/v1.8.3...v1.9.0) (2025-05-11)
+
+
+### Features
+
+* **trust:** implement custom domain management and DNS verification for trust portal ([d34206c](https://github.com/trycompai/comp/commit/d34206cc8e0ca633d071d34e0fc95ad1994a2cf0))
+
+## [1.8.3](https://github.com/trycompai/comp/compare/v1.8.2...v1.8.3) (2025-05-10)
+
+
+### Bug Fixes
+
+* **trust:** update organization ID mapping for security domain in middleware ([2e690b1](https://github.com/trycompai/comp/commit/2e690b1e56da4e82e615b305927a0df9dd8d4e2c))
+
 ## [1.8.2](https://github.com/trycompai/comp/compare/v1.8.1...v1.8.2) (2025-05-10)
 
 
