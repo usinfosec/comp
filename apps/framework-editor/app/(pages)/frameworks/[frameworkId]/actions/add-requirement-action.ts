@@ -9,6 +9,7 @@ import type { FrameworkEditorRequirement } from '@prisma/client';
 const AddRequirementSchema = z.object({
   name: z.string().min(3, { message: 'Requirement name must be at least 3 characters long' }),
   description: z.string().optional(), // Description can be optional
+  identifier: z.string().optional(), // Identifier can be optional
   frameworkId: z.string().min(1, { message: 'Framework ID is required' }),
 });
 
@@ -27,6 +28,7 @@ export async function addRequirementAction(
   const rawInput = {
     name: formData.get('name'),
     description: formData.get('description'),
+    identifier: formData.get('identifier'),
     frameworkId: formData.get('frameworkId'),
   };
 
@@ -40,13 +42,14 @@ export async function addRequirementAction(
     };
   }
 
-  const { name, description, frameworkId } = validationResult.data;
+  const { name, description, identifier, frameworkId } = validationResult.data;
 
   try {
     const newRequirement = await db.frameworkEditorRequirement.create({
       data: {
         name,
         description: description || '', // Ensure description is at least an empty string if optional and not provided
+        identifier: identifier || '', // Ensure identifier is at least an empty string if optional and not provided
         framework: {
           connect: { id: frameworkId },
         },

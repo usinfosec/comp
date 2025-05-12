@@ -22,8 +22,17 @@ export function getColumns(
 ): ColumnDef<FrameworkEditorRequirement>[] {
   return [
     {
+      accessorKey: "identifier",
+      header: "Identifier",
+      size: 150,
+      cell: ({ row }) => {
+        const identifier = row.getValue("identifier") as string;
+        return identifier || "-";
+      },
+    },
+    {
       accessorKey: "name",
-      header: "Requirement ID / Name",
+      header: "Name",
       size: 250,
       cell: ({ row }) => row.getValue("name"),
     },

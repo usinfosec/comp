@@ -40,6 +40,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
   const [formState, formAction, isPending] = useActionState(addRequirementAction, initialFormState);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [identifier, setIdentifier] = useState('');
 
   useEffect(() => {
     if (formState.success && formState.data) {
@@ -50,6 +51,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
       onRequirementAdded(); // Close dialog and refresh list
       setName(''); // Reset local state
       setDescription('');
+      setIdentifier('');
       // The form itself will reset due to the key change on next open if desired, or if onOpenChange triggers a reset
     } else if (!formState.success && (formState.error || formState.issues)) {
       const issueMessages = formState.issues?.map(i => `${i.path.join('.')} : ${i.message}`).join('; ') || '';
@@ -66,6 +68,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
       // Reset form fields and formState when dialog is opened
       setName('');
       setDescription('');
+      setIdentifier('');
       setFormKey(Date.now()); // Reset form state by changing key, ensuring useFormState re-initializes
     } else {
         // If dialog is closed ensure parent knows
@@ -108,6 +111,25 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
               {formState.issues?.find(issue => issue.path.includes('name')) && (
                 <p className="col-span-4 text-sm text-destructive text-right">
                   {formState.issues.find(issue => issue.path.includes('name'))?.message}
+                </p>
+              )}
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor={`identifier-${frameworkId}`} className="text-right">
+                Identifier
+              </Label>
+              <Input 
+                id={`identifier-${frameworkId}`} 
+                name="identifier" 
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                className="col-span-3" 
+                placeholder="e.g., cc1-1"
+                disabled={isPending}
+              />
+              {formState.issues?.find(issue => issue.path.includes('identifier')) && (
+                <p className="col-span-4 text-sm text-destructive text-right">
+                  {formState.issues.find(issue => issue.path.includes('identifier'))?.message}
                 </p>
               )}
             </div>
