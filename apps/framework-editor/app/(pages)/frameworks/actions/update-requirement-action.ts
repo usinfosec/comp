@@ -13,7 +13,7 @@ const UpdateRequirementSchema = RequirementBaseSchema.extend({
 
 export interface UpdateRequirementActionState {
   success: boolean
-  data?: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description'>
+  data?: Pick<FrameworkEditorRequirement, 'id' | 'name' | 'description' | 'identifier'>
   error?: string
   issues?: z.ZodIssue[]
 }
@@ -26,6 +26,7 @@ export async function updateRequirementAction(
     id: formData.get('id'),
     name: formData.get('name'),
     description: formData.get('description'),
+    identifier: formData.get('identifier'),
     frameworkId: formData.get('frameworkId')
   }
 
@@ -39,7 +40,7 @@ export async function updateRequirementAction(
     }
   }
 
-  const { id, name, description, frameworkId } = validationResult.data
+  const { id, name, description, identifier, frameworkId } = validationResult.data
 
   try {
     const existingRequirement = await db.frameworkEditorRequirement.findUnique({
@@ -55,11 +56,13 @@ export async function updateRequirementAction(
       data: {
         name,
         description: description,
+        identifier: identifier || '',
       },
       select: {
         id: true,
         name: true,
         description: true,
+        identifier: true,
       }
     });
 
