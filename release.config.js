@@ -6,9 +6,8 @@ module.exports = {
 		[
 			"semantic-release-discord-notifier",
 			{
-				webhookUrl: "${DISCORD_WEBHOOK_URL}",
 				embedJson: {
-					title: "New Release: ${nextRelease.version}",
+					title: "New Release of Comp AI: ${nextRelease.version}",
 					description: "${nextRelease.notes}",
 					color: 5814783,
 				},
