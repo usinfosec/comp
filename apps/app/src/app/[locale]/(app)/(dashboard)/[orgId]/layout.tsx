@@ -64,13 +64,9 @@ export default async function Layout({
 		return notFound();
 	}
 
-	// Fetch onboarding status
 	const onboardingStatus = await getOnboardingStatus(currentOrganization.id);
 
-	// Handle potential error during fetching
 	if ("error" in onboardingStatus) {
-		// Decide how to handle the error - maybe log it or show a generic error message
-		// For now, we'll proceed without the checklist
 		console.error("Error fetching onboarding status:", onboardingStatus.error);
 	}
 
@@ -84,16 +80,17 @@ export default async function Layout({
 				<main className="px-4 mx-auto pb-8">{children}</main>
 				<AssistantSheet />
 			</AnimatedLayout>
-			{/* Render floating checklist only if onboarding is not complete and no fetch error */}
-			{!("error" in onboardingStatus) &&
-				onboardingStatus.completedItems < onboardingStatus.totalItems && (
-					<FloatingOnboardingChecklist
-						orgId={currentOrganization.id}
-						completedItems={onboardingStatus.completedItems}
-						totalItems={onboardingStatus.totalItems}
-						checklistItems={onboardingStatus.checklistItems}
-					/>
-				)}
+			<div className="hidden md:flex">
+				{!("error" in onboardingStatus) &&
+					onboardingStatus.completedItems < onboardingStatus.totalItems && (
+						<FloatingOnboardingChecklist
+							orgId={currentOrganization.id}
+							completedItems={onboardingStatus.completedItems}
+							totalItems={onboardingStatus.totalItems}
+							checklistItems={onboardingStatus.checklistItems}
+						/>
+					)}
+			</div>
 			<HotKeys />
 		</SidebarProvider>
 	);

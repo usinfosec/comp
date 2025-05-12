@@ -4,11 +4,7 @@ exports.db = void 0;
 const client_1 = require("@prisma/client");
 const createPrismaClient = () => {
     return new client_1.PrismaClient({
-        datasources: {
-            db: {
-                url: process.env.DATABASE_URL,
-            },
-        },
+        datasourceUrl: process.env.DATABASE_URL,
         log: ["error", "warn"],
     });
 };

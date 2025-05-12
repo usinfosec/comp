@@ -17,7 +17,8 @@ export default async function CloudTests({
 				<AppOnboarding
 					title={t("app_onboarding.cloud_tests.title")}
 					description={t("app_onboarding.cloud_tests.description")}
-					imageSrc="/onboarding/cloud-management.webp"
+					imageSrcLight="/onboarding/cloud-light.webp"
+					imageSrcDark="/onboarding/cloud-dark.webp"
 					imageAlt="Cloud Management"
 					sheetName="create-cloud-test-sheet"
 					cta="Get started"

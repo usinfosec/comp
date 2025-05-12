@@ -76,7 +76,7 @@ const AdvancedEditor = ({
 	if (!initialContent) return null;
 
 	return (
-		<div className="relative w-full max-w-screen-lg">
+		<div className="relative w-full bg-background p-4">
 			<div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
 				<div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
 					{saveStatus}
@@ -96,14 +96,14 @@ const AdvancedEditor = ({
 					immediatelyRender={false}
 					initialContent={initialContent}
 					extensions={extensions}
-					className="relative min-h-[500px] w-full max-w-screen-lg bg-background sm:mb-[calc(20vh)] p-2"
+					className="relative min-h-[500px] max-h-[500px]	 w-full bg-bakground  p-2 overflow-y-auto overflow-x-hidden"
 					editorProps={{
 						handleDOMEvents: {
 							keydown: (_view, event) =>
 								handleCommandNavigation(event),
 						},
 						attributes: {
-							class: "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+							class: "max-h-[500px] prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
 						},
 					}}
 					onUpdate={({ editor }) => {

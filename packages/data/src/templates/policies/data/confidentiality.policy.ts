@@ -4,10 +4,9 @@ export const confidentialityPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "confidentiality",
-		slug: "confidentiality",
 		name: "Confidentiality Policy",
 		description:
-			"This policy outlines the requirements for maintaining the confidentiality of sensitive and proprietary information within the organization.",
+			"This policy defines the requirements for protecting confidential information from unauthorized access, use, or disclosure.",
 		frequency: "yearly",
 		department: "gov",
 	},

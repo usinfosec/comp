@@ -4,7 +4,6 @@ export const informationSecurityPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "information_security",
-		slug: "information-security-policy",
 		name: "Information Security Policy",
 		description:
 			"This policy establishes the framework for protecting the organization's information assets by defining security objectives, roles, responsibilities, and controls.",

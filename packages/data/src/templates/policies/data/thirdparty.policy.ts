@@ -3,13 +3,12 @@ import type { TemplatePolicy } from "../types";
 export const thirdPartyPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
-		id: "thirdparty",
-		slug: "thirdparty",
-		name: "Third-Party Management Policy",
+		id: "third_party",
+		name: "Third Party Policy",
 		description:
-			"This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners.",
+			"This policy outlines the requirements for third party integrations to ensure secure, reliable, and high-quality software development practices.",
 		frequency: "yearly",
-		department: "gov",
+		department: "it",
 	},
 	content: [
 		{

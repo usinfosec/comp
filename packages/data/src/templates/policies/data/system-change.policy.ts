@@ -4,9 +4,9 @@ export const systemChangePolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "system_change",
-		slug: "system-change-policy",
 		name: "System Change Policy",
-		description: "This policy outlines the requirements for system changes.",
+		description:
+			"This policy outlines the requirements for system changes to ensure secure, reliable, and high-quality software development practices.",
 		frequency: "yearly",
 		department: "it",
 	},

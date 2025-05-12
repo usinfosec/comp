@@ -17,7 +17,7 @@ export async function Sidebar({
 
 	return (
 		<div className="h-full flex flex-col gap-0">
-			<div className="p-4 flex flex-col gap-0">
+			<div className="p-4 flex flex-col gap-2">
 				<div className="flex items-center justify-between">
 					<SidebarLogo isCollapsed={isCollapsed} />
 					{!isCollapsed && (
@@ -31,11 +31,10 @@ export async function Sidebar({
 						isCollapsed={isCollapsed}
 					/>
 					<MainMenu
-						//userIsAdmin={user?.isAdmin ?? false}
 						organizationId={organization?.id ?? ""}
 						isCollapsed={isCollapsed}
 						completedOnboarding={completedAll}
-						/>
+					/>
 				</div>
 			</div>
 			<div className="flex-1" />

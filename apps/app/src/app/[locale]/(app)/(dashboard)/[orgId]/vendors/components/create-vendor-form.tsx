@@ -24,7 +24,6 @@ import {
 	FormMessage,
 } from "@comp/ui/form";
 import { Input } from "@comp/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -92,14 +91,13 @@ export function CreateVendorForm({
 		},
 	});
 
-	// Debounced search function using the custom hook
 	const debouncedSearch = useDebouncedCallback((query: string) => {
-		if (query.trim().length > 1) { // Only search if query is longer than 1 char
+		if (query.trim().length > 1) {
 			searchVendors.execute({ name: query });
 		} else {
-			setSearchResults([]); // Clear results if query is too short
+			setSearchResults([]);
 		}
-	}, 300); // 300ms debounce delay
+	}, 300);
 
 	const form = useForm<z.infer<typeof createVendorSchema>>({
 		resolver: zodResolver(createVendorSchema),
@@ -110,6 +108,7 @@ export function CreateVendorForm({
 			category: VendorCategory.cloud,
 			status: VendorStatus.not_assessed,
 		},
+		mode: "onChange",
 	});
 
 	const onSubmit = async (data: z.infer<typeof createVendorSchema>) => {
@@ -126,9 +125,9 @@ export function CreateVendorForm({
 		form.setValue("name", vendor.company_name ?? vendor.legal_name ?? "");
 		form.setValue("website", vendor.website ?? "");
 		form.setValue("description", vendor.company_description ?? "");
-		setSearchQuery(vendor.company_name ?? vendor.legal_name ?? ""); // Update search query display
-		setSearchResults([]); // Clear results
-		setPopoverOpen(false); // Close popover
+		setSearchQuery(vendor.company_name ?? vendor.legal_name ?? "");
+		setSearchResults([]);
+		setPopoverOpen(false);
 	};
 
 	return (
@@ -147,83 +146,79 @@ export function CreateVendorForm({
 											control={form.control}
 											name="name"
 											render={({ field }) => (
-												<FormItem className="flex flex-col">
+												<FormItem className="flex flex-col relative">
 													<FormLabel>
 														{t(
 															"vendors.form.vendor_name",
 														)}
 													</FormLabel>
-													<Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-														<PopoverTrigger asChild>
-															<FormControl>
-																{/* We use a Button as the trigger, but use CommandInput inside Popover */}
-																<Button
-																	variant="outline"
-																	role="combobox"
-																	aria-expanded={popoverOpen}
-																	className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
-																>
-																	{field.value || t("vendors.form.vendor_name_placeholder")}
-																	<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-																</Button>
-															</FormControl>
-														</PopoverTrigger>
-														<PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-															<Command shouldFilter={false}> {/* Disable default filtering */}
-																<CommandInput
-																	placeholder={t("vendors.form.search_vendor_placeholder")} // Add a new translation key
-																	value={searchQuery}
-																	onValueChange={(value) => {
-																		setSearchQuery(value);
-																		// Also update the form field in real-time if user types without selecting
-																		// This allows creating a custom vendor
-																		field.onChange(value);
-																		// Trigger debounced search
-																		debouncedSearch(value);
-																	}}
-																	autoFocus
-																/>
-																<CommandList>
-																	<CommandEmpty>
-																		{isSearching ? t("common.loading") : t("vendors.form.no_vendor_found")} {/* Add new translation keys */}
-																	</CommandEmpty>
-																	<CommandGroup heading={t("vendors.form.suggestions")}> {/* Add new translation key */}
-																		{searchResults.map((vendor) => (
-																			<CommandItem
-																				key={vendor.website}
-																				value={vendor.company_name ?? vendor.website} // Use a unique value for CommandItem
-																				onSelect={() => handleSelectVendor(vendor)}
-																				className="cursor-pointer"
-																			>
-																				{/* Check icon can be used if needed, but maybe confusing here */}
-																				{/* <Check
-																					className={cn(
-																						"mr-2 h-4 w-4",
-																						(form.getValues("name") === vendor.company_name || form.getValues("name") === vendor.legal_name) ? "opacity-100" : "opacity-0",
-																					)}
-																				/> */}
-																				{vendor.company_name ?? vendor.legal_name ?? vendor.website}
-																			</CommandItem>
-																		))}
-																		{/* Option to explicitly create the custom vendor typed */}
-																		{searchQuery && !isSearching && searchResults.length === 0 && (
-																			<CommandItem
-																				key="custom"
-																				value={searchQuery}
-																				onSelect={() => {
-																					field.onChange(searchQuery); // Ensure form field has the typed value
+													<FormControl>
+														<div className="relative">
+															<Input
+																placeholder={t("vendors.form.search_vendor_placeholder")}
+																value={searchQuery}
+																onChange={(e) => {
+																	const val = e.target.value;
+																	setSearchQuery(val);
+																	field.onChange(val);
+																	debouncedSearch(val);
+																	if (val.trim().length > 1) {
+																		setPopoverOpen(true);
+																	} else {
+																		setPopoverOpen(false);
+																		setSearchResults([]);
+																	}
+																}}
+																onBlur={() => {
+																	setTimeout(() => setPopoverOpen(false), 150);
+																}}
+																onFocus={() => {
+																	if (searchQuery.trim().length > 1 && (isSearching || searchResults.length > 0 || (!isSearching && searchResults.length === 0))) {
+																		setPopoverOpen(true);
+																	}
+																}}
+																autoFocus
+															/>
+															{popoverOpen && (
+																<div className="absolute top-full z-10 w-full mt-1 bg-background border rounded-md shadow-lg">
+																	<div className="max-h-[300px] overflow-y-auto p-1">
+																		{isSearching && (
+																			<div className="p-2 text-sm text-muted-foreground">{t("common.loading")}...</div>
+																		)}
+																		{!isSearching && searchResults.length > 0 && (
+																			<>
+																				<p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{t("vendors.form.suggestions")}</p>
+																				{searchResults.map((vendor) => (
+																					<div
+																						key={vendor.website ?? vendor.company_name ?? vendor.legal_name ?? Math.random().toString()}
+																						className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm"
+																						onMouseDown={() => {
+																							handleSelectVendor(vendor);
+																							setPopoverOpen(false);
+																						}}
+																					>
+																						{vendor.company_name ?? vendor.legal_name ?? vendor.website}
+																					</div>
+																				))}
+																			</>
+																		)}
+																		{!isSearching && searchQuery.trim().length > 1 && searchResults.length === 0 && (
+																			<div
+																				className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm italic"
+																				onMouseDown={() => {
+																					field.onChange(searchQuery);
+																					setSearchResults([]);
 																					setPopoverOpen(false);
 																				}}
-																				className="cursor-pointer italic"
 																			>
-																				{t("vendors.form.create_custom_vendor", { name: searchQuery })} {/* Add new translation key */}
-																			</CommandItem>
+																				{t("vendors.form.create_custom_vendor", { name: searchQuery })}
+																			</div>
 																		)}
-																	</CommandGroup>
-																</CommandList>
-															</Command>
-														</PopoverContent>
-													</Popover>
+																	</div>
+																</div>
+															)}
+														</div>
+													</FormControl>
 													<FormMessage />
 												</FormItem>
 											)}

@@ -33,6 +33,10 @@ export default async function Layout({
 							label: t("settings.general.title"),
 						},
 						{
+							path: `/${orgId}/settings/trust-portal`,
+							label: "Trust Portal",
+						},
+						{
 							path: `/${orgId}/settings/api-keys`,
 							label: t("settings.api_keys.title"),
 						},

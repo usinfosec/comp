@@ -23,6 +23,7 @@ model Organization {
   tasks              Task[]
   comments           Comment[]
   Attachment         Attachment[]
+  trust              Trust[]
 
   @@index([slug])
 }

@@ -1,4 +1,5 @@
 import { Frequency, Departments } from '@comp/db/types';
+export { Departments, Frequency } from '@comp/db/types';
 
 /**
  * Represents a training video resource that can be used
@@ -94,7 +95,6 @@ type JSONContent = {
  */
 interface TemplatePolicyMetadata {
     id: string;
-    slug: string;
     name: string;
     description: string;
     frequency: Frequency;

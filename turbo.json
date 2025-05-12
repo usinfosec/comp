@@ -45,7 +45,8 @@
         "GROQ_API_KEY",
         "RESEND_AUDIENCE_ID",
         "FIRECRAWL_API_KEY",
-        "ZAPIER_HUBSPOT_WEBHOOK_URL"
+        "ZAPIER_HUBSPOT_WEBHOOK_URL",
+        "TRUST_PORTAL_PROJECT_ID"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
@@ -60,7 +61,8 @@
       "outputs": [
         ".next/**",
         "!.next/cache/**",
-        "next-env.d.ts"
+        "next-env.d.ts",
+        "data:build"
       ]
     },
     "db:generate": {
@@ -73,6 +75,22 @@
         "BETTER_AUTH_URL",
         "AUTH_GOOGLE_ID",
         "AUTH_GOOGLE_SECRET"
+      ]
+    },
+    "data:build": {
+      "cache": false,
+      "env": [
+        "DATABASE_URL"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "outputs": [
+        "data:build"
       ]
     },
     "db:push": {

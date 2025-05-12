@@ -4,10 +4,8 @@ export const passwordPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "password_policy",
-		slug: "password-policy",
 		name: "Password Policy",
-		description:
-			"This policy outlines the requirements for passwords used by employees.",
+		description: "This policy defines the requirements for creating and managing strong passwords.",
 		frequency: "yearly",
 		department: "it",
 	},

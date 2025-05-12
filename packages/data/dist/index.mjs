@@ -126,9 +126,8 @@ var accessControlPolicy = {
   type: "doc",
   metadata: {
     id: "access_control",
-    slug: "access-control-policy",
     name: "Access Control Policy",
-    description: "This policy defines the requirements for granting, monitoring, and revoking access to the organization's information systems and data based on the principle of least privilege.",
+    description: "This policy defines the requirements for controlling access to information systems and data based on the principle of least privilege.",
     frequency: "yearly",
     department: "it"
   },
@@ -278,7 +277,6 @@ var applicationSecurityPolicy = {
   type: "doc",
   metadata: {
     id: "application_security",
-    slug: "application-security-policy",
     name: "Application Security Policy",
     description: "This policy outlines the security framework and requirements for applications, notably web applications, within the organization's production environment.",
     frequency: "yearly",
@@ -922,9 +920,8 @@ var availabilityPolicy = {
   type: "doc",
   metadata: {
     id: "availability",
-    slug: "availability-policy",
     name: "Availability Policy",
-    description: "This policy outlines the requirements for proper controls to protect the availability of the organization's information systems.",
+    description: "This policy defines the requirements for ensuring that information systems and data are available for use when needed.",
     frequency: "yearly",
     department: "it"
   },
@@ -1624,11 +1621,10 @@ var businessContinuityPolicy = {
   type: "doc",
   metadata: {
     id: "business_continuity",
-    slug: "business-continuity-dr-policy",
-    name: "Business Continuity & Disaster Recovery Policy",
-    description: "This policy outlines the strategies and procedures for ensuring the availability of critical systems and data during and after a disruptive event.",
+    name: "Business Continuity Policy",
+    description: "This policy outlines the procedures and strategies for ensuring that essential business functions can continue during and after a disruption.",
     frequency: "yearly",
-    department: "it"
+    department: "gov"
   },
   content: [
     {
@@ -1783,9 +1779,8 @@ var changeManagementPolicy = {
   type: "doc",
   metadata: {
     id: "change_management",
-    slug: "change-management-policy",
     name: "Change Management Policy",
-    description: "This policy defines the process for requesting, reviewing, approving, and documenting changes to the organization's information systems and infrastructure.",
+    description: "This policy establishes standardized procedures for managing changes to IT systems and infrastructure to minimize risk and disruption.",
     frequency: "yearly",
     department: "it"
   },
@@ -1934,10 +1929,9 @@ var changeManagementPolicy = {
 var classificationPolicy = {
   type: "doc",
   metadata: {
-    id: "data_classification",
-    slug: "data-classification-policy",
-    name: "Data Classification Policy",
-    description: "This policy outlines the requirements for data classification.",
+    id: "classification",
+    name: "General Classification Policy",
+    description: "This policy provides a general framework for classification of assets and information.",
     frequency: "yearly",
     department: "gov"
   },
@@ -2475,9 +2469,8 @@ var codeOfConductPolicy = {
   type: "doc",
   metadata: {
     id: "code_of_conduct",
-    slug: "code-of-conduct",
     name: "Code of Conduct Policy",
-    description: "This policy outlines the expected behavior from employees towards their colleagues, supervisors, and the organization as a whole.",
+    description: "This policy outlines the expected standards of behavior and ethical conduct for all employees and representatives of the organization.",
     frequency: "yearly",
     department: "hr"
   },
@@ -2835,9 +2828,8 @@ var confidentialityPolicy = {
   type: "doc",
   metadata: {
     id: "confidentiality",
-    slug: "confidentiality",
     name: "Confidentiality Policy",
-    description: "This policy outlines the requirements for maintaining the confidentiality of sensitive and proprietary information within the organization.",
+    description: "This policy defines the requirements for protecting confidential information from unauthorized access, use, or disclosure.",
     frequency: "yearly",
     department: "gov"
   },
@@ -3182,11 +3174,10 @@ var corporateGovernancePolicy = {
   type: "doc",
   metadata: {
     id: "corporate_governance",
-    slug: "corporate-governance-policy",
     name: "Corporate Governance Policy",
-    description: "This policy defines the overall governance framework including board oversight, management responsibilities, and organizational structure to ensure effective oversight and accountability.",
+    description: "This policy outlines the structure, responsibilities, and processes that guide the organization's overall direction and management.",
     frequency: "yearly",
-    department: "admin"
+    department: "gov"
   },
   content: [
     {
@@ -3417,9 +3408,8 @@ var cyberRiskPolicy = {
   type: "doc",
   metadata: {
     id: "cyber_risk",
-    slug: "cyber-risk",
-    name: "Cyber Risk Assessment Policy",
-    description: "This policy outlines the requirements for conducting cyber risk assessments to identify, evaluate, and mitigate cybersecurity threats to the organization.",
+    name: "Cyber Risk Policy",
+    description: "This policy outlines the strategies and procedures for identifying, assessing, and mitigating cyber risks to protect organizational assets and ensure operational resilience.",
     frequency: "yearly",
     department: "it"
   },
@@ -3739,9 +3729,8 @@ var dataCenterPolicy = {
   type: "doc",
   metadata: {
     id: "data_center",
-    slug: "data-center",
     name: "Data Center Policy",
-    description: "This policy outlines the requirements for the organization's data center facilities to ensure protection, availability, and reliability of critical systems and data.",
+    description: "This policy outlines the security and operational requirements for data centers to protect physical infrastructure and ensure service availability.",
     frequency: "yearly",
     department: "it"
   },
@@ -4102,9 +4091,8 @@ var dataClassificationPolicy = {
   type: "doc",
   metadata: {
     id: "data_classification",
-    slug: "data-classification-policy",
     name: "Data Classification Policy",
-    description: "This policy establishes a framework for classifying data based on sensitivity and defines handling requirements for each classification level.",
+    description: "This policy establishes guidelines for classifying data based on its sensitivity and defining handling requirements for each classification level.",
     frequency: "yearly",
     department: "gov"
   },
@@ -4254,9 +4242,8 @@ var disasterRecoveryPolicy = {
   type: "doc",
   metadata: {
     id: "disaster_recovery",
-    slug: "disaster-recovery-policy",
     name: "Disaster Recovery Policy",
-    description: "This policy outlines the requirements for disaster recovery planning to ensure the organization can recover from disruptive events.",
+    description: "This policy outlines the procedures for recovering IT systems and data in the event of a disaster to ensure business continuity.",
     frequency: "yearly",
     department: "it"
   },
@@ -4437,9 +4424,8 @@ var humanResourcesPolicy = {
   type: "doc",
   metadata: {
     id: "human_resources",
-    slug: "human-resources-policy",
     name: "Human Resources Policy",
-    description: "This policy outlines the principles and practices for recruitment, employee management, performance evaluations, and the enforcement of internal control responsibilities.",
+    description: "This policy defines guidelines for HR practices including employee conduct, data privacy, and security awareness.",
     frequency: "yearly",
     department: "hr"
   },
@@ -4589,9 +4575,8 @@ var incidentResponsePolicy = {
   type: "doc",
   metadata: {
     id: "incident_response",
-    slug: "incident-response-policy",
     name: "Incident Response Policy",
-    description: "This policy establishes the framework and procedures for detecting, responding to, and recovering from security incidents.",
+    description: "This policy outlines the procedures for responding to and managing security incidents to minimize impact and restore normal operations quickly.",
     frequency: "yearly",
     department: "it"
   },
@@ -4741,7 +4726,6 @@ var informationSecurityPolicy = {
   type: "doc",
   metadata: {
     id: "information_security",
-    slug: "information-security-policy",
     name: "Information Security Policy",
     description: "This policy establishes the framework for protecting the organization's information assets by defining security objectives, roles, responsibilities, and controls.",
     frequency: "yearly",
@@ -4908,9 +4892,8 @@ var passwordPolicy = {
   type: "doc",
   metadata: {
     id: "password_policy",
-    slug: "password-policy",
     name: "Password Policy",
-    description: "This policy outlines the requirements for passwords used by employees.",
+    description: "This policy defines the requirements for creating and managing strong passwords.",
     frequency: "yearly",
     department: "it"
   },
@@ -4921,10 +4904,9 @@ var passwordPolicy = {
 var privacyPolicy = {
   type: "doc",
   metadata: {
-    id: "privacy",
-    slug: "privacy-policy",
+    id: "privacy_policy",
     name: "Privacy Policy",
-    description: "This policy describes how the organization collects, uses, discloses, and protects personal information in compliance with applicable privacy regulations.",
+    description: "This policy outlines the criteria and procedures for handling personal data and ensuring compliance with privacy regulations.",
     frequency: "yearly",
     department: "gov"
   },
@@ -5074,9 +5056,8 @@ var riskAssessmentPolicy = {
   type: "doc",
   metadata: {
     id: "risk_assessment",
-    slug: "risk-assessment",
     name: "Risk Assessment Policy",
-    description: "This policy outlines the requirements for conducting risk assessments to identify, evaluate, and mitigate risks associated with the organization's information systems, operations, and assets.",
+    description: "This policy defines the process and responsibilities for conducting risk assessments to identify, analyze, and evaluate potential threats and vulnerabilities.",
     frequency: "yearly",
     department: "gov"
   },
@@ -5329,9 +5310,8 @@ var riskManagementPolicy = {
   type: "doc",
   metadata: {
     id: "risk_management",
-    slug: "risk-management-policy",
     name: "Risk Management Policy",
-    description: "This policy defines the process for identifying, assessing, and mitigating risks to the organization's objectives and information assets.",
+    description: "This policy establishes the framework for identifying, assessing, treating, and monitoring risks across the organization to protect its assets and achieve its objectives.",
     frequency: "yearly",
     department: "gov"
   },
@@ -5496,7 +5476,6 @@ var softwareDevelopmentPolicy = {
   type: "doc",
   metadata: {
     id: "software_development",
-    slug: "software-development",
     name: "Software Development Lifecycle Policy",
     description: "This policy outlines the requirements for the software development lifecycle to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",
@@ -5745,9 +5724,8 @@ var systemChangePolicy = {
   type: "doc",
   metadata: {
     id: "system_change",
-    slug: "system-change-policy",
     name: "System Change Policy",
-    description: "This policy outlines the requirements for system changes.",
+    description: "This policy outlines the requirements for system changes to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",
     department: "it"
   },
@@ -5918,12 +5896,11 @@ var systemChangePolicy = {
 var thirdPartyPolicy = {
   type: "doc",
   metadata: {
-    id: "thirdparty",
-    slug: "thirdparty",
-    name: "Third-Party Management Policy",
-    description: "This policy defines the rules for relationships with the organization's Information Technology (IT) third-parties and partners.",
+    id: "third_party",
+    name: "Third Party Policy",
+    description: "This policy outlines the requirements for third party integrations to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",
-    department: "gov"
+    department: "it"
   },
   content: [
     {
@@ -6166,7 +6143,6 @@ var vendorRiskManagementPolicy = {
   type: "doc",
   metadata: {
     id: "vendor_risk_management",
-    slug: "vendor-risk-management-policy",
     name: "Vendor Risk Management Policy",
     description: "This policy outlines the criteria and procedures for evaluating, selecting, and monitoring third-party vendors to manage risks associated with external service providers.",
     frequency: "yearly",
@@ -6318,7 +6294,6 @@ var workstationPolicy = {
   type: "doc",
   metadata: {
     id: "workstation",
-    slug: "workstation",
     name: "Workstation Policy",
     description: "This policy outlines the requirements for workstations to ensure secure, reliable, and high-quality software development practices.",
     frequency: "yearly",

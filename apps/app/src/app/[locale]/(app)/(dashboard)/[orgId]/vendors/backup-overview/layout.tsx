@@ -35,7 +35,8 @@ export default async function Layout({
 								"app_onboarding.vendors.description",
 							)}
 							cta={t("app_onboarding.vendors.cta")}
-							imageSrc="/onboarding/vendor-management.webp"
+							imageSrcDark="/onboarding/vendor-management.webp"
+							imageSrcLight="/onboarding/vendor-management-light.webp"
 							imageAlt="Vendor Management"
 							sheetName="createVendorSheet"
 							faqs={[

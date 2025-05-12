@@ -4,7 +4,6 @@ export const vendorRiskManagementPolicy: TemplatePolicy = {
 	type: "doc",
 	metadata: {
 		id: "vendor_risk_management",
-		slug: "vendor-risk-management-policy",
 		name: "Vendor Risk Management Policy",
 		description:
 			"This policy outlines the criteria and procedures for evaluating, selecting, and monitoring third-party vendors to manage risks associated with external service providers.",

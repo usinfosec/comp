@@ -33,7 +33,7 @@ export function PolicyPageEditor({
 	};
 
 	return (
-		<div className="flex flex-col h-full border p-2">
+		<div className="flex flex-col h-full border">
 			<PolicyEditor
 				content={formattedContent}
 				onSave={handleSavePolicy}

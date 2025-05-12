@@ -4,13 +4,16 @@ import { sendEmail } from "@comp/email/lib/resend";
 export const sendMagicLinkEmail = async (params: {
 	url: string;
 	email: string;
+	inviteCode?: string;
 }) => {
-	const { url, email } = params;
+	const { url, email, inviteCode } = params;
 
 	const emailTemplate = MagicLinkEmail({
 		email,
 		url: url,
+		inviteCode,
 	});
+
 	try {
 		await sendEmail({
 			to: email,
