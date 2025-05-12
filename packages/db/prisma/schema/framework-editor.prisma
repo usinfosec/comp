@@ -21,12 +21,11 @@ model FrameworkEditorRequirement {
     frameworkId String
     framework   FrameworkEditorFramework @relation(fields: [frameworkId], references: [id])
 
-    name        String // Original requirement ID within that framework, e.g., "CC1.1"
+    name        String // Original requirement ID within that framework, e.g., "Privacy"
+    identifier  String @default("") // Unique identifier for the requirement, e.g., "cc1-1"
     description String
 
     controlTemplates FrameworkEditorControlTemplate[]
-
-    @@unique([frameworkId, name])
 }
 
 model FrameworkEditorPolicyTemplate {
