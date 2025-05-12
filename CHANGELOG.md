@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/trycompai/comp/compare/v1.13.0...v1.13.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* fix popover by adding pointer events in content ([6e7bce5](https://github.com/trycompai/comp/commit/6e7bce5392951cf1cb48ac665bafc486b577d70e))
+
 # [1.13.0](https://github.com/trycompai/comp/compare/v1.12.0...v1.13.0) (2025-05-12)
 
 
