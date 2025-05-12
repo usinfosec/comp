@@ -5,9 +5,9 @@ import { setStaticParamsLocale } from "next-international/server";
 export default async function CloudTests({
 	params,
 }: {
-	params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string; orgId: string }>;
 }) {
-	const { locale } = await params;
+	const { locale, orgId } = await params;
 	const t = await getI18n();
 	setStaticParamsLocale(locale);
 
@@ -20,6 +20,8 @@ export default async function CloudTests({
 					imageSrc="/onboarding/cloud-management.webp"
 					imageAlt="Cloud Management"
 					sheetName="create-cloud-test-sheet"
+					cta="Get started"
+					href={`/${orgId}/tests/dashboard`}
 					faqs={[
 						{
 							questionKey: t(
