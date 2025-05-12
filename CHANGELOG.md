@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/trycompai/comp/compare/v1.12.0...v1.13.0) (2025-05-12)
+
+
+### Features
+
+* **tasks:** implement task management UI with CRUD functionality ([f71cee1](https://github.com/trycompai/comp/commit/f71cee17d76536a373c12262ed926517075c2919))
+
 # [1.12.0](https://github.com/trycompai/comp/compare/v1.11.0...v1.12.0) (2025-05-12)
 
 
