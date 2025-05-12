@@ -76,7 +76,7 @@ const AdvancedEditor = ({
 	}
 
 	return (
-		<div className="relative w-full bg-background p-4 border rounded-sm flex flex-col gap-2">
+		<div className="relative w-full bg-background border rounded-sm flex flex-col gap-2">
 			{/* Toolbar Area */}
 			{!readOnly && (
 				<div className="flex items-center gap-1 p-2 border-b sticky top-0 bg-background z-10 flex-wrap">
@@ -101,7 +101,7 @@ const AdvancedEditor = ({
 					immediatelyRender={false}
 					initialContent={initialContent}
 					extensions={extensionsList}
-					className="relative min-h-[300px] w-full bg-background p-2 overflow-y-auto prose prose-sm sm:prose-base dark:prose-invert focus:outline-none max-w-full"
+					className="relative min-h-[300px] p-4 w-full bg-background p-2 overflow-y-auto prose prose-sm sm:prose-base dark:prose-invert focus:outline-none max-w-full"
 					editorProps={{
 						editable: () => !readOnly,
 						// attributes class is now on className prop of EditorContent directly
