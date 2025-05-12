@@ -1,3 +1,16 @@
+# [1.14.0](https://github.com/trycompai/comp/compare/v1.13.2...v1.14.0) (2025-05-12)
+
+
+### Bug Fixes
+
+* **editor:** adjust padding in AdvancedEditor component for improved layout ([bb27fba](https://github.com/trycompai/comp/commit/bb27fba9505b0ac0819fb57e1053f169c63909f9))
+
+
+### Features
+
+* **policies:** enhance policy management with update and delete functionalities ([954ec4d](https://github.com/trycompai/comp/commit/954ec4d03789225a6d8c115704551895d331c1dc))
+* **policies:** implement policy management features with CRUD functionality ([7b2d2d1](https://github.com/trycompai/comp/commit/7b2d2d1957788794b35ed565b247e9a3d81992da))
+
 ## [1.13.2](https://github.com/trycompai/comp/compare/v1.13.1...v1.13.2) (2025-05-12)
 
 
