@@ -45,7 +45,8 @@
         "GROQ_API_KEY",
         "RESEND_AUDIENCE_ID",
         "FIRECRAWL_API_KEY",
-        "ZAPIER_HUBSPOT_WEBHOOK_URL"
+        "ZAPIER_HUBSPOT_WEBHOOK_URL",
+        "TRUST_PORTAL_PROJECT_ID"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
