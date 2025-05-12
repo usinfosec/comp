@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/trycompai/comp/compare/v1.13.1...v1.13.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* fix sign in with magic link sign in when invited to an org ([c634d61](https://github.com/trycompai/comp/commit/c634d615e7b7d53376bd764dbd75cd28e1b85ed3))
+
 ## [1.13.1](https://github.com/trycompai/comp/compare/v1.13.0...v1.13.1) (2025-05-12)
 
 
