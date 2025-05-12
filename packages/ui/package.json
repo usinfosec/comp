@@ -73,6 +73,7 @@
 		"./tailwind.config": "./tailwind.config.ts",
 		"./textarea": "./src/components/textarea.tsx",
 		"./toast": "./src/components/toast.tsx",
+		"./toggle": "./src/components/toggle.tsx",
 		"./toaster": "./src/components/toaster.tsx",
 		"./tooltip": "./src/components/tooltip.tsx",
 		"./time-range-input": "./src/components/time-range-input.tsx",

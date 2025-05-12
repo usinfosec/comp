@@ -1,20 +1,12 @@
-import PageLayout from "@/app/components/PageLayout";
 import { db } from "@comp/db";
-// import { PoliciesTable } from "./components/PoliciesTable"; // Old import, commented out
-import { DataTable } from "@/app/components/DataTable"; // New generic table
-import { columns } from "./components/columns"; // Import the new columns
+import { PoliciesClientPage } from "./PoliciesClientPage"; // Import the new Client Component
 
 export default async function Page() {
-    const policies = await db.frameworkEditorPolicyTemplate.findMany();
+    const policies = await db.frameworkEditorPolicyTemplate.findMany({
+        // Add any ordering if necessary, e.g., orderBy: { name: 'asc' }
+    });
 
     return (
-        <PageLayout breadcrumbs={[{ label: "Policies", href: "/policies" }]}>
-            {/* <PoliciesTable policies={policies} /> */}
-            <DataTable 
-              data={policies} 
-              columns={columns} // Pass the columns
-              searchQueryParamName="policies-search" 
-            />
-        </PageLayout>
+        <PoliciesClientPage initialPolicies={policies} />
     );
 }
