@@ -74,10 +74,14 @@ export const auth = betterAuth({
 		}),
 		magicLink({
 			sendMagicLink: async ({ email, url }, request) => {
+				const urlWithInviteCode = `${url}`;
 				await sendEmail({
 					to: email,
 					subject: "Login to Comp AI",
-					react: MagicLinkEmail({ email, url }),
+					react: MagicLinkEmail({
+						email,
+						url: urlWithInviteCode,
+					}),
 				});
 			},
 		}),
