@@ -41,18 +41,9 @@ export function PolicyEditorClient({
 	};
 
 	return (
-		<Card className="rounded-sm mt-4">
-			<CardHeader>
-				<CardTitle>Edit Policy Content: {policyName}</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<div className="min-h-[400px]">
-					<PolicyEditor
-						initialDbContent={initialContent}
-						onSave={handleSavePolicy}
-					/>
-				</div>
-			</CardContent>
-		</Card>
+		<PolicyEditor
+			initialDbContent={initialContent}
+			onSave={handleSavePolicy}
+		/>
 	);
 } 
