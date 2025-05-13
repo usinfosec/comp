@@ -7,8 +7,7 @@ import type { GetVendorsSchema } from "./validations";
 // Define and export return types used by the functions below
 export type GetVendorsResult = {
 	data: (Vendor & { assignee: { user: User | null; id: string } | null })[];
-	totalCount: number;
-	pageSize: number;
+	pageCount: number; // Changed from totalCount and pageSize
 };
 export type GetAssigneesResult = (Member & { user: User })[];
 
@@ -19,7 +18,7 @@ export const getVendors = cache(
 	): Promise<GetVendorsResult> => {
 		const {
 			page,
-			pageSize,
+			perPage,
 			status,
 			department,
 			assigneeId,
@@ -52,15 +51,16 @@ export const getVendors = cache(
 					},
 				},
 			},
-			skip: (page - 1) * pageSize,
-			take: pageSize,
+			skip: (page - 1) * perPage,
+			take: perPage,
 			// TODO: Implement sorting based on `sort` array
 		});
 
+		const pageCount = Math.ceil(totalCount / perPage);
+
 		return {
 			data: vendors as GetVendorsResult["data"],
-			totalCount,
-			pageSize,
+			pageCount, // Return calculated pageCount
 		};
 	},
 );
