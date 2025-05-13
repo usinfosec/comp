@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/trycompai/comp/compare/v1.14.0...v1.14.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* fixed sorting and filtering on risks table ([985b4b7](https://github.com/trycompai/comp/commit/985b4b7d85a2f4090299be66bc8a4ee676f64594))
+
 # [1.14.0](https://github.com/trycompai/comp/compare/v1.13.2...v1.14.0) (2025-05-12)
 
 
