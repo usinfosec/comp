@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/trycompai/comp/compare/v1.14.1...v1.14.2) (2025-05-13)
+
+
+### Bug Fixes
+
+* fix the vendors table search and pagination ([6808ae1](https://github.com/trycompai/comp/commit/6808ae1ef2689ac6434703e83ca80fe82fa4706b))
+
 ## [1.14.1](https://github.com/trycompai/comp/compare/v1.14.0...v1.14.1) (2025-05-13)
 
 
