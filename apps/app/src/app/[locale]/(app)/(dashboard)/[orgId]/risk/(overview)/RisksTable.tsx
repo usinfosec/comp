@@ -13,58 +13,54 @@ import { useQueryState } from "nuqs";
 import { useMemo } from "react";
 import { columns as getColumns } from "./components/table/RiskColumns";
 
-// Define the expected structure of a risk with User as assignee
 export type RiskRow = Risk & { assignee: User | null };
 
 export const RisksTable = ({
 	risks,
 	assignees,
+	pageCount,
 }: {
 	risks: RiskRow[];
 	assignees: (Member & { user: User })[];
+	pageCount: number;
 }) => {
 	const t = useI18n();
 	const session = useSession();
 	const orgId = session?.data?.session?.activeOrganizationId;
-	const [_, setOpen] = useQueryState("create-risk-sheet");
+	const [_, setOpenSheet] = useQueryState("create-risk-sheet");
 
-	// Define columns for risks table
-	const columns = useMemo<ColumnDef<RiskRow>[]>(
-		() => getColumns(orgId ?? ""),
-		[orgId],
-	);
+	const columns = useMemo<ColumnDef<RiskRow>[]>(() => getColumns(orgId ?? ""), [orgId]);
 
-	// Set up the risks table
-	const table = useDataTable({
+	const { table } = useDataTable({
 		data: risks,
 		columns,
-		pageCount: Math.ceil(risks.length / 10),
+		pageCount,
 		getRowId: (row) => row.id,
 		initialState: {
 			pagination: {
 				pageSize: 10,
 				pageIndex: 0,
 			},
+			sorting: [{ id: "title", desc: true }],
+            columnPinning: { right: ["actions"] },
 		},
-	});
-
-	const [searchTerm, setSearchTerm] = useQueryState("search", {
-		defaultValue: "",
+		shallow: false,
+		clearOnDefault: true,
 	});
 
 	return (
 		<>
 			<DataTable
-				table={table.table}
+				table={table}
 				getRowId={(row) => row.id}
 				rowClickBasePath={`/${orgId}/risk`}
 			>
 				<DataTableToolbar
+					table={table}
 					sheet="create-risk-sheet"
 					action="Create Risk"
-					table={table.table}
 				>
-					<DataTableSortList table={table.table} align="end" />
+					<DataTableSortList table={table} align="end" />
 				</DataTableToolbar>
 			</DataTable>
 			<CreateRiskSheet assignees={assignees} />
