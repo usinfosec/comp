@@ -4,12 +4,17 @@ model Trust {
     domain         String?
     domainVerified Boolean      @default(false)
     status         TrustStatus  @default(draft)
+    contactEmail   String?
 
     email         String?
     privacyPolicy String?
     soc2          Boolean @default(false)
     iso27001      Boolean @default(false)
     gdpr          Boolean @default(false)
+
+    soc2_status     FrameworkStatus @default(started)
+    iso27001_status FrameworkStatus @default(started)
+    gdpr_status     FrameworkStatus @default(started)
 
     @@id([status, organizationId])
     @@unique([organizationId])
@@ -19,4 +24,10 @@ model Trust {
 enum TrustStatus {
     draft
     published
+}
+
+enum FrameworkStatus {
+    started
+    in_progress
+    compliant
 }

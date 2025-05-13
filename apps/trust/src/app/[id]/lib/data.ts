@@ -10,6 +10,8 @@ export const findOrganization = cache(async (id: string) => {
 			trust: {
 				select: {
 					status: true,
+					domain: true,
+					domainVerified: true,
 				},
 			},
 		},
@@ -75,4 +77,39 @@ export const getPublishedControls = cache(async (organizationId: string) => {
 	});
 
 	return controls;
+});
+
+export const getFrameworks = cache(async (organizationId: string) => {
+	const organization = await findOrganization(organizationId);
+
+	if (!organization) {
+		return null;
+	}
+
+	const frameworks = await db.trust.findFirst({
+		where: { organizationId },
+		select: {
+			soc2: true,
+			iso27001: true,
+			gdpr: true,
+			soc2_status: true,
+			iso27001_status: true,
+			gdpr_status: true,
+		},
+	});
+
+	return {
+		soc2: {
+			enabled: frameworks?.soc2,
+			status: frameworks?.soc2_status,
+		},
+		iso27001: {
+			enabled: frameworks?.iso27001,
+			status: frameworks?.iso27001_status,
+		},
+		gdpr: {
+			enabled: frameworks?.gdpr,
+			status: frameworks?.gdpr_status,
+		},
+	};
 });
