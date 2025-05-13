@@ -12,26 +12,32 @@ import { CreateVendorSheet } from "../../components/create-vendor-sheet";
 import type { GetAssigneesResult, GetVendorsResult } from "../data/queries";
 import { columns } from "./VendorColumns";
 
-export const VendorsTable = ({
-	promises,
-}: {
+interface VendorsTableProps {
 	promises: Promise<[GetVendorsResult, GetAssigneesResult]>;
-}) => {
+}
+
+export function VendorsTable({ promises }: VendorsTableProps) {
 	const t = useI18n();
 	const { orgId } = useParams();
 
 	// Resolve the promise data here
-	const [{ data: vendors, totalCount, pageSize }, assignees] =
-		React.use(promises);
+	const [{ data: vendors, pageCount }, assignees] = React.use(promises);
 
 	// Define columns memoized
-	const memoizedColumns = React.useMemo(() => columns, []);
+	const memoizedColumns = React.useMemo(() => columns, [orgId]);
 
 	const { table } = useDataTable({
 		data: vendors,
 		columns: memoizedColumns,
-		pageCount: Math.ceil(totalCount / pageSize),
+		pageCount: pageCount,
 		getRowId: (row) => row.id,
+		initialState: {
+			pagination: {
+				pageIndex: 0, // Corresponds to page=1 in URL
+				pageSize: 10, // Corresponds to perPage=10 in URL, aligns with validations.ts default
+			},
+			sorting: [{ id: "name", desc: true }], // Align with 'name' search param
+		},
 		shallow: false,
 		clearOnDefault: true,
 	});
@@ -54,4 +60,4 @@ export const VendorsTable = ({
 			<CreateVendorSheet assignees={assignees} />
 		</>
 	);
-};
+}
