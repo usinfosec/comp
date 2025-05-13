@@ -11,47 +11,43 @@ import { headers } from "next/headers";
 import { cache } from "react";
 import { RisksTable } from "./RisksTable";
 import { getRisks } from "./data/getRisks";
+import { searchParamsCache } from "./data/validations";
+import { getValidFilters } from "@/lib/data-table";
 
-export default async function RiskRegisterPage({
-	params,
-}: {
-	params: Promise<{
-		orgId: string;
-		locale: string;
+export default async function RiskRegisterPage(props: {
+	params: Promise<{ locale: string; orgId: string }>;
+	searchParams: Promise<{
 		search: string;
-		page: number;
-		pageSize: number;
-		status: RiskStatus | null;
-		department: Departments | null;
-		assigneeId: string | null;
+		page: string;
+		perPage: string;
+		status: string;
+		department: string;
+		assigneeId: string;
 	}>;
 }) {
-	const {
-		orgId,
-		locale,
-		search,
-		page,
-		pageSize,
-		status,
-		department,
-		assigneeId,
-	} = await params;
+	const { params } = props;
+	const { orgId, locale } = await params;
+
+	const searchParams = await props.searchParams;
+	const search = searchParamsCache.parse(searchParams);
+	const validFilters = getValidFilters(search.filters);
 
 	setStaticParamsLocale(locale);
 	const t = await getI18n();
 
-	const risks = await getRisks({
-		search: search,
-		page: page || 1,
-		pageSize: pageSize || 10,
-		status: status || null,
-		department: department || null,
-		assigneeId: assigneeId || null,
+	const risksResult = await getRisks({
+		...search,
+		filters: validFilters,
 	});
 
 	const assignees = await getAssignees();
 
-	if (risks.risks?.length === 0) {
+	if (
+		risksResult.data?.length === 0 &&
+		search.page === 1 &&
+		search.title === "" &&
+		validFilters.length === 0
+	) {
 		return (
 			<>
 				<AppOnboarding
@@ -98,9 +94,15 @@ export default async function RiskRegisterPage({
 
 	return (
 		<PageWithBreadcrumb
-			breadcrumbs={[{ label: "Risks", href: `/${orgId}/risk`, current: true }]}
+			breadcrumbs={[
+				{ label: "Risks", href: `/${orgId}/risk`, current: true },
+			]}
 		>
-			<RisksTable risks={risks?.risks || []} assignees={assignees} />
+			<RisksTable
+				risks={risksResult?.data || []}
+				pageCount={risksResult.pageCount}
+				assignees={assignees}
+			/>
 		</PageWithBreadcrumb>
 	);
 }
