@@ -300,7 +300,7 @@ export function IntegrationsCard({
 										onClick={() => {
 											deleteIntegrationConnection.executeAsync(
 												{
-													integrationId: id,
+													integrationName: id,
 												},
 											);
 										}}
