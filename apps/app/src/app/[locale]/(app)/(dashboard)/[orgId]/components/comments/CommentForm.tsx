@@ -1,20 +1,22 @@
 "use client";
 
-import { Button } from "@comp/ui/button";
-import { Textarea } from "@comp/ui/textarea";
-import { ArrowUp, Loader2, Paperclip } from "lucide-react";
 import { uploadFile } from "@/actions/files/upload-file";
 import { authClient } from "@/utils/auth-client";
-import { AttachmentEntityType } from "@comp/db/types";
+import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
+import { Button } from "@comp/ui/button";
 import { Label } from "@comp/ui/label";
+import { Textarea } from "@comp/ui/textarea";
 import clsx from "clsx";
+import { ArrowUp, Loader2, Paperclip } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useParams, useRouter } from "next/navigation";
 import { createComment } from "../../actions/createComment";
-import { AttachmentItem } from "./AttachmentItem";
+import { AttachmentItem } from "../../tasks/[taskId]/components/AttachmentItem";
 
-interface TaskCommentFormProps {
-	taskId: string;
+interface CommentFormProps {
+	entityId: string;
+	entityType: CommentEntityType;
 }
 
 interface PendingAttachment {
@@ -24,24 +26,7 @@ interface PendingAttachment {
 	signedUrl: string | null;
 }
 
-function mapFileTypeToAttachmentType(fileType: string): string {
-	const type = fileType.split("/")[0];
-	switch (type) {
-		case "image":
-			return "image";
-		case "video":
-			return "video";
-		case "audio":
-			return "audio";
-		case "application":
-			if (fileType === "application/pdf") return "document"; // Specific PDF check
-			return "document";
-		default:
-			return "other";
-	}
-}
-
-export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
+export function CommentForm({ entityId, entityType }: CommentFormProps) {
 	const session = authClient.useSession();
 	const [newComment, setNewComment] = useState("");
 	const [pendingAttachments, setPendingAttachments] = useState<
@@ -49,6 +34,20 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 	>([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const { orgId } = useParams<{ orgId: string }>();
+
+	let pathToRevalidate = "";
+	switch (entityType) {
+		case "task":
+			pathToRevalidate = `/${orgId}/tasks/${entityId}`;
+			break;
+		case "vendor":
+			pathToRevalidate = `/${orgId}/vendors/${entityId}`;
+			break;
+		case "risk":
+			pathToRevalidate = `/${orgId}/risks/${entityId}`;
+			break;
+	}
 
 	const triggerFileInput = () => {
 		fileInputRef.current?.click();
@@ -93,8 +92,9 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 							fileName: file.name,
 							fileType: file.type,
 							fileData: base64Data,
-							entityId: taskId,
-							entityType: AttachmentEntityType.comment,
+							entityId,
+							entityType: entityType as AttachmentEntityType,
+							pathToRevalidate,
 						});
 						if (error) {
 							console.error(
@@ -145,7 +145,7 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 				if (fileInputRef.current) fileInputRef.current.value = "";
 			})();
 		},
-		[taskId, pendingAttachments.length],
+		[entityId, entityType, pendingAttachments.length],
 	);
 
 	const handleRemovePendingAttachment = (attachmentIdToRemove: string) => {
@@ -194,8 +194,10 @@ export function TaskCommentForm({ taskId }: TaskCommentFormProps) {
 
 		const { success, data, error } = await createComment({
 			content: newComment,
-			taskId: taskId,
+			entityId,
+			entityType,
 			attachmentIds: pendingAttachments.map((att) => att.id),
+			pathToRevalidate,
 		});
 
 		if (success && data) {

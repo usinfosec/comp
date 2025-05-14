@@ -1,6 +1,5 @@
 "use server";
 
-import { Comments } from "@/components/comments";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
@@ -14,6 +13,15 @@ import { VendorInherentRiskChart } from "./components/VendorInherentRiskChart";
 import { VendorResidualRiskChart } from "./components/VendorResidualRiskChart";
 import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
 import { TitleAndDescription } from "./components/title-and-description/title-and-description";
+import {
+	Comments,
+	CommentWithAuthor,
+} from "../../components/comments/Comments";
+import {
+	Attachment,
+	AttachmentEntityType,
+	CommentEntityType,
+} from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{ vendorId: string; locale: string; orgId: string }>;
@@ -23,7 +31,7 @@ export default async function VendorPage({ params }: PageProps) {
 	const { vendorId, orgId } = await params;
 	const vendor = await getVendor(vendorId);
 	const assignees = await getAssignees();
-	const comments = await getComments({ vendorId });
+	const comments = await getComments(vendorId);
 
 	if (!vendor) {
 		redirect("/");
@@ -46,7 +54,7 @@ export default async function VendorPage({ params }: PageProps) {
 				<Comments
 					entityId={vendorId}
 					comments={comments}
-					entityType="vendor"
+					entityType={CommentEntityType.vendor}
 				/>
 			</div>
 		</PageWithBreadcrumb>
@@ -79,45 +87,56 @@ const getVendor = cache(async (vendorId: string) => {
 	return vendor;
 });
 
-const getComments = cache(
-	async ({
-		vendorId,
-	}: {
-		vendorId: string;
-	}) => {
-		const session = await auth.api.getSession({
-			headers: await headers(),
-		});
+const getComments = async (vendorId: string): Promise<CommentWithAuthor[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-		if (!session || !session.session.activeOrganizationId) {
-			return [];
-		}
+	const activeOrgId = session?.session.activeOrganizationId;
 
-		try {
-			const comments = await db.comment.findMany({
-				where: {
-					entityId: vendorId,
-					organizationId: session.session.activeOrganizationId,
-				},
+	if (!activeOrgId) {
+		console.warn(
+			"Could not determine active organization ID in getComments",
+		);
+		return [];
+	}
+
+	const comments = await db.comment.findMany({
+		where: {
+			organizationId: activeOrgId,
+			entityId: vendorId,
+			entityType: CommentEntityType.vendor,
+		},
+		include: {
+			author: {
 				include: {
-					author: {
-						include: {
-							user: true,
-						},
-					},
+					user: true,
 				},
-				orderBy: {
-					createdAt: "desc",
+			},
+		},
+		orderBy: {
+			createdAt: "desc",
+		},
+	});
+
+	const commentsWithAttachments = await Promise.all(
+		comments.map(async (comment) => {
+			const attachments = await db.attachment.findMany({
+				where: {
+					organizationId: activeOrgId,
+					entityId: comment.id,
+					entityType: AttachmentEntityType.comment,
 				},
 			});
+			return {
+				...comment,
+				attachments,
+			};
+		}),
+	);
 
-			return comments;
-		} catch (error) {
-			console.error(error);
-			return [];
-		}
-	},
-);
+	return commentsWithAttachments;
+};
 
 const getAssignees = cache(async () => {
 	const session = await auth.api.getSession({

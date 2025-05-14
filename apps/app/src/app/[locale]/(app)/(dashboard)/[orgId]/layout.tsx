@@ -67,7 +67,10 @@ export default async function Layout({
 	const onboardingStatus = await getOnboardingStatus(currentOrganization.id);
 
 	if ("error" in onboardingStatus) {
-		console.error("Error fetching onboarding status:", onboardingStatus.error);
+		console.error(
+			"Error fetching onboarding status:",
+			onboardingStatus.error,
+		);
 	}
 
 	return (
@@ -82,7 +85,8 @@ export default async function Layout({
 			</AnimatedLayout>
 			<div className="hidden md:flex">
 				{!("error" in onboardingStatus) &&
-					onboardingStatus.completedItems < onboardingStatus.totalItems && (
+					onboardingStatus.completedItems <
+						onboardingStatus.totalItems && (
 						<FloatingOnboardingChecklist
 							orgId={currentOrganization.id}
 							completedItems={onboardingStatus.completedItems}

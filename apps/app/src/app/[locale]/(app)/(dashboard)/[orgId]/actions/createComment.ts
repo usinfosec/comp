@@ -11,8 +11,10 @@ import { z } from "zod";
 const createCommentSchema = z
 	.object({
 		content: z.string(),
-		taskId: z.string(),
+		entityId: z.string(),
+		entityType: z.nativeEnum(CommentEntityType),
 		attachmentIds: z.array(z.string()).optional(),
+		pathToRevalidate: z.string().optional(),
 	})
 	.refine(
 		(data) =>
@@ -28,7 +30,8 @@ const createCommentSchema = z
 export const createComment = async (
 	input: z.infer<typeof createCommentSchema>,
 ) => {
-	const { content, taskId, attachmentIds } = input;
+	const { content, entityId, entityType, attachmentIds, pathToRevalidate } =
+		input;
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -42,11 +45,11 @@ export const createComment = async (
 		};
 	}
 
-	if (!taskId) {
-		console.error("Task ID missing after validation in createComment");
+	if (!entityId) {
+		console.error("Entity ID missing after validation in createComment");
 		return {
 			success: false,
-			error: "Internal error: Task ID missing.",
+			error: "Internal error: Entity ID missing.",
 			data: null,
 		};
 	}
@@ -72,11 +75,18 @@ export const createComment = async (
 		// Wrap create and update in a transaction
 		const result = await db.$transaction(async (tx) => {
 			// 1. Create the comment within the transaction
+			console.log("Creating comment:", {
+				content,
+				entityId,
+				entityType,
+				memberId: member.id,
+				organizationId: orgId,
+			});
 			const comment = await tx.comment.create({
 				data: {
 					content: content ?? "",
-					entityId: taskId, // Use validated const
-					entityType: CommentEntityType.task,
+					entityId,
+					entityType,
 					authorId: member.id,
 					organizationId: orgId,
 				},
@@ -84,12 +94,13 @@ export const createComment = async (
 
 			// 2. Link attachments if provided (using updateMany)
 			if (attachmentIds && attachmentIds.length > 0) {
+				console.log("Linking attachments to comment:", attachmentIds);
 				await tx.attachment.updateMany({
 					where: {
 						id: { in: attachmentIds },
 						organizationId: orgId,
-						entityType: AttachmentEntityType.comment,
-						entityId: taskId,
+						entityId,
+						entityType: entityType as AttachmentEntityType,
 					},
 					data: {
 						entityId: comment.id,
@@ -99,10 +110,11 @@ export const createComment = async (
 			}
 
 			return comment;
-		}); // End of transaction
+		});
 
-		// Revalidate outside the transaction
-		revalidatePath(`/${orgId}/tasks/${taskId}`);
+		if (pathToRevalidate) {
+			revalidatePath(pathToRevalidate);
+		}
 
 		return {
 			success: true,
