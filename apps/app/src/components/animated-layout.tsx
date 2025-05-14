@@ -12,7 +12,7 @@ export function AnimatedLayout({
 	isCollapsed,
 }: AnimatedLayoutProps) {
 	return (
-		<div className="flex h-screen w-full overflow-hidden">
+		<div className="flex w-full overflow-hidden">
 			<div
 				className={cn(
 					"flex-shrink-0 border-r bg-background duration-300 ease-in-out hidden md:block",

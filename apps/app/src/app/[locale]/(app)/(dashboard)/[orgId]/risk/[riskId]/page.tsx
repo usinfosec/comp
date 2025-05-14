@@ -1,19 +1,20 @@
-import { Comments } from "@/components/comments";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { InherentRiskChart } from "@/components/risks/charts/InherentRiskChart";
 import { ResidualRiskChart } from "@/components/risks/charts/ResidualRiskChart";
 import { RiskOverview } from "@/components/risks/risk-overview";
-import type { RiskTaskType } from "@/components/tables/risk-tasks/columns";
-import { getServerColumnHeaders } from "@/components/tables/risk-tasks/server-columns";
 import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import type { TaskStatus } from "@comp/db/types";
+import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import {
+	Comments,
+	CommentWithAuthor,
+} from "../../components/comments/Comments";
 
 interface PageProps {
 	searchParams: Promise<{
@@ -29,7 +30,7 @@ interface PageProps {
 export default async function RiskPage({ searchParams, params }: PageProps) {
 	const { riskId, orgId } = await params;
 	const risk = await getRisk(riskId);
-	const comments = await getComments({ riskId });
+	const comments = await getComments(riskId);
 	const assignees = await getAssignees();
 	const t = await getI18n();
 
@@ -52,7 +53,7 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 				</div>
 				<Comments
 					entityId={riskId}
-					entityType="risk"
+					entityType={CommentEntityType.risk}
 					comments={comments}
 				/>
 			</div>
@@ -86,45 +87,56 @@ const getRisk = cache(async (riskId: string) => {
 	return risk;
 });
 
-const getComments = cache(
-	async ({
-		riskId,
-	}: {
-		riskId: string;
-	}) => {
-		const session = await auth.api.getSession({
-			headers: await headers(),
-		});
+const getComments = async (riskId: string): Promise<CommentWithAuthor[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-		if (!session || !session.session.activeOrganizationId) {
-			return [];
-		}
+	const activeOrgId = session?.session.activeOrganizationId;
 
-		try {
-			const comments = await db.comment.findMany({
-				where: {
-					entityId: riskId,
-					organizationId: session.session.activeOrganizationId,
-				},
+	if (!activeOrgId) {
+		console.warn(
+			"Could not determine active organization ID in getComments",
+		);
+		return [];
+	}
+
+	const comments = await db.comment.findMany({
+		where: {
+			organizationId: activeOrgId,
+			entityId: riskId,
+			entityType: CommentEntityType.risk,
+		},
+		include: {
+			author: {
 				include: {
-					author: {
-						include: {
-							user: true,
-						},
-					},
+					user: true,
 				},
-				orderBy: {
-					createdAt: "desc",
+			},
+		},
+		orderBy: {
+			createdAt: "desc",
+		},
+	});
+
+	const commentsWithAttachments = await Promise.all(
+		comments.map(async (comment) => {
+			const attachments = await db.attachment.findMany({
+				where: {
+					organizationId: activeOrgId,
+					entityId: comment.id,
+					entityType: AttachmentEntityType.comment,
 				},
 			});
+			return {
+				...comment,
+				attachments,
+			};
+		}),
+	);
 
-			return comments;
-		} catch (error) {
-			console.error(error);
-			return [];
-		}
-	},
-);
+	return commentsWithAttachments;
+};
 
 const getAssignees = cache(async () => {
 	const session = await auth.api.getSession({

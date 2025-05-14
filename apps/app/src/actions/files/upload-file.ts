@@ -8,6 +8,7 @@ import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { revalidatePath } from "next/cache";
 
 function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
 	const type = fileType.split("/")[0];
@@ -31,12 +32,20 @@ const uploadAttachmentSchema = z.object({
 	fileData: z.string(),
 	entityId: z.string(),
 	entityType: z.nativeEnum(AttachmentEntityType),
+	pathToRevalidate: z.string().optional(),
 });
 
 export const uploadFile = async (
 	input: z.infer<typeof uploadAttachmentSchema>,
 ) => {
-	const { fileName, fileType, fileData, entityId, entityType } = input;
+	const {
+		fileName,
+		fileType,
+		fileData,
+		entityId,
+		entityType,
+		pathToRevalidate,
+	} = input;
 	const session = await auth.api.getSession({ headers: await headers() });
 	const organizationId = session?.session.activeOrganizationId;
 
@@ -74,6 +83,16 @@ export const uploadFile = async (
 
 		await s3Client.send(putCommand);
 
+		console.log("Creating attachment...");
+		console.log({
+			name: fileName,
+			url: key,
+			type: mapFileTypeToAttachmentType(fileType),
+			entityId: entityId,
+			entityType: entityType,
+			organizationId: organizationId,
+		});
+
 		const attachment = await db.attachment.create({
 			data: {
 				name: fileName,
@@ -93,6 +112,10 @@ export const uploadFile = async (
 		const signedUrl = await getSignedUrl(s3Client, getCommand, {
 			expiresIn: 900,
 		});
+
+		if (pathToRevalidate) {
+			revalidatePath(pathToRevalidate);
+		}
 
 		return {
 			success: true,
