@@ -27,7 +27,8 @@ import {
     DataSheetGrid,
     dateColumn,
     keyColumn,
-    textColumn
+    textColumn,
+    type CellProps,
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
@@ -53,9 +54,44 @@ const controlsSortConfig: SortConfig<ControlsPageSortableColumnKey> = {
   updatedAt: 'number',
 };
 
+// Helper function to format dates in a friendly way
+const formatFriendlyDate = (date: Date | string | number | null | undefined): string => {
+  if (date === null || date === undefined) return '';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return 'Invalid Date'; // Handle invalid date objects
+  return new Intl.DateTimeFormat(undefined, { // 'undefined' uses the browser's default locale
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(d);
+};
+
+// Custom base column configuration for displaying friendly dates
+const friendlyDateColumnBase: Partial<Column<Date | null, any, string>> = {
+  component: ({ rowData }: CellProps<Date | null, any>) => (
+    <div 
+        style={{ 
+            padding: '5px', 
+            whiteSpace: 'nowrap', 
+            overflow: 'hidden', 
+            textOverflow: 'ellipsis', 
+            width: '100%', 
+            height: '100%', 
+            display: 'flex', 
+            alignItems: 'center' 
+        }}
+        title={formatFriendlyDate(rowData)}
+    >
+      {formatFriendlyDate(rowData)}
+    </div>
+  ),
+  // copyValue can be added if needed: ({ rowData }) => formatFriendlyDate(rowData),
+};
+
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {
-    const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    
     const initialGridData: ControlsPageGridData[] = useMemo(() => {
       return initialControls.map(control => {
         let cDate: Date | null = null;
@@ -137,8 +173,8 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
     }, [sortedDataWithPotentialTimestamps]);
 
     const columns: Column<ControlsPageGridData>[] = [
-      { ...keyColumn('name', textColumn), title: 'Name', minWidth: 150 },
-      { ...keyColumn('description', textColumn), title: 'Description', minWidth: 250 },
+      { ...keyColumn('name', textColumn), title: 'Name', minWidth: 300 },
+      { ...keyColumn('description', textColumn), title: 'Description', minWidth: 420, grow: 1 },
       {
         ...(relationalColumn<ControlsPageGridData, 'policyTemplates'> ({
           itemsKey: 'policyTemplates',
@@ -221,8 +257,27 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
           createdRowIds: createdRowIds,
         })), 
       },
-      { ...keyColumn('createdAt', dateColumn), title: 'Created At', minWidth: 180, disabled: true },
-      { ...keyColumn('updatedAt', dateColumn), title: 'Updated At', minWidth: 180, disabled: true },
+      { 
+        ...keyColumn('createdAt', friendlyDateColumnBase), 
+        title: 'Created At', 
+        minWidth: 220, // Adjusted minWidth
+        disabled: true 
+      },
+      { 
+        ...keyColumn('updatedAt', friendlyDateColumnBase), 
+        title: 'Updated At', 
+        minWidth: 220, // Adjusted minWidth
+        disabled: true 
+      },
+      { 
+        ...keyColumn(
+          'id', 
+          textColumn as Partial<Column<string, any, string>>
+        ), 
+        title: 'ID', 
+        minWidth: 300, 
+        disabled: true 
+      },
     ];
     
     return (
@@ -239,9 +294,6 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
               isDirty={isDirty}
               onCommit={handleCommit}
               onCancel={handleCancel}
-              showCreateButton={true}
-              onCreateClick={() => setIsCreateDialogOpen(true)}
-              createButtonLabel="Create New Control"
               commitButtonDetailText={changesSummaryString}
             />
             
@@ -270,14 +322,6 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
                 createdAt: new Date(),
                 updatedAt: new Date(),
               })}
-            />
-            
-            <CreateControlDialog 
-                isOpen={isCreateDialogOpen} 
-                onOpenChange={setIsCreateDialogOpen} 
-                onControlCreated={() => {
-                  setIsCreateDialogOpen(false);
-                }}
             />
         </PageLayout>
     );

@@ -1,18 +1,18 @@
 'use client';
 
-import React from 'react';
 import { Button } from '@comp/ui/button';
 import { Input } from '@comp/ui/input';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from '@comp/ui/select';
-import { SortAsc, SortDesc, Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, SortAsc, SortDesc } from 'lucide-react';
+import React from 'react';
 // Import types from the common types definition file
-import type { SortDirection, SortableColumnOption } from '../types/common'; 
+import type { SortDirection, SortableColumnOption } from '../types/common';
 
 export interface TableToolbarProps {
   searchTerm: string;
@@ -48,9 +48,6 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   onCommit,
   onCancel,
   commitButtonDetailText = '',
-  showCreateButton = false,
-  onCreateClick,
-  createButtonLabel = 'Create New',
   children
 }) => {
   let commitButtonLabelText = 'No Changes';
@@ -119,11 +116,6 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               {commitButtonLabelText}
             </Button>
           </>
-        )}
-        {showCreateButton && (
-          <Button onClick={onCreateClick}>
-            {createButtonLabel}
-          </Button>
         )}
         {children} { /* For any additional elements passed from parent */}
       </div>

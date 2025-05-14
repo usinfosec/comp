@@ -82,7 +82,8 @@ const RelationalCellComponent = <TRowDataType extends { id?: string }, TItemsKey
           // If already fetched, just ensure filteredItems is up-to-date with current search term (e.g. if term was persisted)
           setFilteredItems(
             allSearchableItems.filter(item => 
-              item.name.toLowerCase().includes(searchTerm.toLowerCase())
+              item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              (item.sublabel && item.sublabel.toLowerCase().includes(searchTerm.toLowerCase()))
             )
           );
         }
@@ -96,7 +97,8 @@ const RelationalCellComponent = <TRowDataType extends { id?: string }, TItemsKey
       } else {
         setFilteredItems(
           allSearchableItems.filter(item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.sublabel && item.sublabel.toLowerCase().includes(searchTerm.toLowerCase()))
           )
         );
       }
