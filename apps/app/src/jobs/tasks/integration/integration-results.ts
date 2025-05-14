@@ -94,6 +94,7 @@ export const sendIntegrationResults = schemaTask({
 							status: result.status,
 							severity: result.severity,
 							resultDetails: result.resultDetails,
+							completedAt: new Date(),
 						},
 					});
 					continue;
@@ -109,12 +110,13 @@ export const sendIntegrationResults = schemaTask({
 						resultDetails: result.resultDetails,
 						integrationId: existingIntegration.id,
 						organizationId: integration.organization.id,
+						completedAt: new Date(),
 					},
 				});
 			}
 
 			logger.info(`Integration run completed for ${integration.name}`);
-			return { success: true };
+			return { success: true, totalResults: results.length, results };
 		} catch (error) {
 			logger.error(`Error running integration: ${error}`);
 
