@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/trycompai/comp/compare/v1.14.2...v1.15.0) (2025-05-14)
+
+
+### Features
+
+* **trust-portal:** enhance trust portal settings and compliance frameworks ([5ba7ba4](https://github.com/trycompai/comp/commit/5ba7ba4cd550b3c84f2b6dfca5258071a2c3016d))
+
 ## [1.14.2](https://github.com/trycompai/comp/compare/v1.14.1...v1.14.2) (2025-05-13)
 
 
