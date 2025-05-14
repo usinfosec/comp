@@ -80,7 +80,9 @@ export default async function Layout({
 				isCollapsed={isCollapsed}
 			>
 				<Header />
-				<main className="px-4 mx-auto pb-8">{children}</main>
+				<main className="px-4 mx-auto pb-8 min-h-[calc(100vh-70px)]">
+					{children}
+				</main>
 				<AssistantSheet />
 			</AnimatedLayout>
 			<div className="hidden md:flex">
