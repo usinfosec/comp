@@ -47,6 +47,7 @@ import {
 	IntegrationSettings,
 	type IntegrationSettingsItem,
 } from "./integration-settings";
+import Link from "next/link";
 
 export function IntegrationsCard({
 	id,
@@ -54,6 +55,7 @@ export function IntegrationsCard({
 	name,
 	short_description,
 	description,
+	guide_url,
 	settings,
 	images,
 	active,
@@ -68,6 +70,7 @@ export function IntegrationsCard({
 	name: string;
 	short_description: string;
 	description: string;
+	guide_url?: string;
 	settings: IntegrationSettingsItem[] | Record<string, any> | any;
 	images: any[];
 	active: boolean;
@@ -324,6 +327,32 @@ export function IntegrationsCard({
 								]}
 								className="mt-4 space-y-4"
 							>
+								{guide_url && (
+									<AccordionItem
+										value="guide"
+										className="border-0 border-b"
+									>
+										<AccordionTrigger className="py-3 hover:no-underline">
+											<div className="flex items-center gap-2">
+												<InfoIcon className="h-3.5 w-3.5 mr-1" />
+												<span className="text-sm font-medium">
+													How to get credentials
+												</span>
+											</div>
+										</AccordionTrigger>
+										<AccordionContent className="text-muted-foreground text-sm pb-4">
+											<Link
+												href={guide_url}
+												target="_blank"
+												rel="noreferrer"
+												className="text-primary underline"
+											>
+												{guide_url}
+											</Link>
+										</AccordionContent>
+									</AccordionItem>
+								)}
+
 								<AccordionItem
 									value="description"
 									className="border-0 border-b"

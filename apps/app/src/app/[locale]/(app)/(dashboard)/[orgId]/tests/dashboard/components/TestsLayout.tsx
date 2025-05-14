@@ -14,6 +14,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@comp/ui/select";
+import { Integration } from "@comp/db/types";
 
 // Define props for the reusable component
 interface TestProviderTabContentProps {
@@ -36,14 +37,30 @@ interface TestsLayoutProps {
 	awsTests: TestProviderTabContentProps["tests"];
 	gcpTests: TestProviderTabContentProps["tests"];
 	azureTests: TestProviderTabContentProps["tests"];
+	cloudProviders: Integration[];
 }
 
 export const TestsLayout = ({
 	awsTests,
 	gcpTests,
 	azureTests,
+	cloudProviders,
 }: TestsLayoutProps) => {
 	const [executing, setExecuting] = useState(false);
+
+	const hasAws = cloudProviders.some(
+		(integration) => integration.integrationId === "aws",
+	);
+	const hasGcp = cloudProviders.some(
+		(integration) => integration.integrationId === "gcp",
+	);
+	const hasAzure = cloudProviders.some(
+		(integration) => integration.integrationId === "azure",
+	);
+
+	const activeProvidersCount = [hasAws, hasGcp, hasAzure].filter(
+		Boolean,
+	).length;
 
 	const handleRunTests = async () => {
 		try {
@@ -59,6 +76,36 @@ export const TestsLayout = ({
 		}
 	};
 
+	const renderProviderContent = () => {
+		if (activeProvidersCount === 1) {
+			if (hasAws) {
+				return (
+					<TestProviderTabContent
+						tests={awsTests}
+						providerName="AWS"
+					/>
+				);
+			}
+			if (hasGcp) {
+				return (
+					<TestProviderTabContent
+						tests={gcpTests}
+						providerName="GCP"
+					/>
+				);
+			}
+			if (hasAzure) {
+				return (
+					<TestProviderTabContent
+						tests={azureTests}
+						providerName="Azure"
+					/>
+				);
+			}
+		}
+		return null; // Should not happen if activeProvidersCount is 1
+	};
+
 	return (
 		<div className="container mx-auto p-4 md:p-6 lg:p-8 flex flex-col gap-6 w-full">
 			<div className="flex items-center justify-between">
@@ -72,31 +119,52 @@ export const TestsLayout = ({
 					/>
 				</Button>
 			</div>
-			<Tabs defaultValue="AWS">
-				<TabsList className="grid w-full grid-cols-3">
-					<TabsTrigger value="AWS">AWS</TabsTrigger>
-					<TabsTrigger value="GCP">GCP</TabsTrigger>
-					<TabsTrigger value="Azure">Azure</TabsTrigger>
-				</TabsList>
-				<TabsContent value="AWS" className="mt-4">
-					<TestProviderTabContent
-						tests={awsTests}
-						providerName="AWS"
-					/>
-				</TabsContent>
-				<TabsContent value="GCP" className="mt-4">
-					<TestProviderTabContent
-						tests={gcpTests}
-						providerName="GCP"
-					/>
-				</TabsContent>
-				<TabsContent value="Azure" className="mt-4">
-					<TestProviderTabContent
-						tests={azureTests}
-						providerName="Azure"
-					/>
-				</TabsContent>
-			</Tabs>
+			{activeProvidersCount > 1 ? (
+				<Tabs defaultValue={hasAws ? "AWS" : hasGcp ? "GCP" : "Azure"}>
+					<TabsList
+						className={`grid w-full grid-cols-${activeProvidersCount}`}
+					>
+						{hasAws && <TabsTrigger value="AWS">AWS</TabsTrigger>}
+						{hasGcp && <TabsTrigger value="GCP">GCP</TabsTrigger>}
+						{hasAzure && (
+							<TabsTrigger value="Azure">Azure</TabsTrigger>
+						)}
+					</TabsList>
+					{hasAws && (
+						<TabsContent value="AWS" className="mt-4">
+							<TestProviderTabContent
+								tests={awsTests}
+								providerName="AWS"
+							/>
+						</TabsContent>
+					)}
+					{hasGcp && (
+						<TabsContent value="GCP" className="mt-4">
+							<TestProviderTabContent
+								tests={gcpTests}
+								providerName="GCP"
+							/>
+						</TabsContent>
+					)}
+					{hasAzure && (
+						<TabsContent value="Azure" className="mt-4">
+							<TestProviderTabContent
+								tests={azureTests}
+								providerName="Azure"
+							/>
+						</TabsContent>
+					)}
+				</Tabs>
+			) : activeProvidersCount === 1 ? (
+				<div className="mt-4">{renderProviderContent()}</div>
+			) : (
+				<div className="text-center text-muted-foreground p-10 border border-dashed rounded-lg mt-4">
+					<p>
+						No cloud providers configured. Please add an
+						integration.
+					</p>
+				</div>
+			)}
 		</div>
 	);
 };
@@ -164,10 +232,9 @@ function TestProviderTabContent({
 			) : (
 				<div className="text-center text-muted-foreground p-10 border border-dashed rounded-lg">
 					<p>
-						No {providerName} tests found
+						No {providerName} test results found
 						{selectedStatus !== "all" &&
 							` with status "${selectedStatus}"`}
-						.
 					</p>
 				</div>
 			)}

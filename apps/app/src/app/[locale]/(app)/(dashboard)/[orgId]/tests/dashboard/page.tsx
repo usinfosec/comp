@@ -1,24 +1,11 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
-import { notFound, redirect } from "next/navigation";
 import { TestsLayout } from "./components/TestsLayout";
 
 export default async function TestsDashboard() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	if (!session) {
-		return redirect("/");
-	}
-
-	const orgId = session.session?.activeOrganizationId;
-	if (!orgId) {
-		return notFound();
-	}
-
-	const tests = await getTests(orgId);
+	const tests = await getTests();
+	const cloudProviders = await getCloudProviders();
 
 	const awsTests = tests.filter(
 		(test) => test.integration.integrationId === "aws",
@@ -32,6 +19,7 @@ export default async function TestsDashboard() {
 
 	return (
 		<TestsLayout
+			cloudProviders={cloudProviders}
 			awsTests={awsTests}
 			gcpTests={gcpTests}
 			azureTests={azureTests}
@@ -39,7 +27,20 @@ export default async function TestsDashboard() {
 	);
 }
 
-const getTests = async (orgId: string) => {
+const getTests = async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) {
+		return [];
+	}
+
+	const orgId = session.session?.activeOrganizationId;
+	if (!orgId) {
+		return [];
+	}
+
 	const tests = await db.integrationResult.findMany({
 		where: {
 			organizationId: orgId,
@@ -66,4 +67,31 @@ const getTests = async (orgId: string) => {
 	});
 
 	return tests || [];
+};
+
+const getCloudProviders = async () => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) {
+		return [];
+	}
+
+	const orgId = session.session?.activeOrganizationId;
+
+	if (!orgId) {
+		return [];
+	}
+
+	const cloudProviders = await db.integration.findMany({
+		where: {
+			organizationId: orgId,
+			integrationId: {
+				in: ["aws", "gcp", "azure"],
+			},
+		},
+	});
+
+	return cloudProviders;
 };
