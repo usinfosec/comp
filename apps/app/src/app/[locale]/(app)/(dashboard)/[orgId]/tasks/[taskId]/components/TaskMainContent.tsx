@@ -1,14 +1,14 @@
 "use client";
 
-import type { Attachment, Task } from "@comp/db/types";
+import { CommentEntityType, type Attachment, type Task } from "@comp/db/types";
 import { Separator } from "@comp/ui/separator";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { updateTask } from "../../actions/updateTask";
-import type { CommentWithAuthor } from "../page";
 import { TaskBody } from "./TaskBody";
-import { TaskCommentForm } from "./TaskCommentForm";
-import { TaskCommentList } from "./TaskCommentList";
+import { CommentForm } from "../../../components/comments/CommentForm";
+import { CommentList } from "../../../components/comments/CommentList";
+import { CommentWithAuthor } from "../../../components/comments/Comments";
 
 interface TaskMainContentProps {
 	task: Task & { fileUrls?: string[] };
@@ -68,8 +68,11 @@ export function TaskMainContent({
 			{/* Comment Section */}
 			<div className="space-y-4">
 				<h3 className="text-lg font-medium">Comments</h3>
-				<TaskCommentForm taskId={task.id} />
-				<TaskCommentList comments={comments} />
+				<CommentForm
+					entityId={task.id}
+					entityType={CommentEntityType.task}
+				/>
+				<CommentList comments={comments} />
 			</div>
 		</div>
 	);

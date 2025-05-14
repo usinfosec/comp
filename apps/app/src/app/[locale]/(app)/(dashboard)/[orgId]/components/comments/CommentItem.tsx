@@ -1,3 +1,5 @@
+"use client";
+
 import { uploadFile } from "@/actions/files/upload-file";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Button } from "@comp/ui/button";
@@ -24,11 +26,11 @@ import { deleteComment } from "../../actions/deleteComment";
 import { deleteCommentAttachment } from "../../actions/deleteCommentAttachment";
 import { getCommentAttachmentUrl } from "../../actions/getCommentAttachmentUrl"; // Import action
 import { updateComment } from "../../actions/updateComment";
-import type { CommentWithAuthor } from "../page";
-import { AttachmentItem } from "./AttachmentItem";
-import { formatRelativeTime } from "./commentUtils"; // Revert import path
+import { AttachmentItem } from "../../tasks/[taskId]/components/AttachmentItem";
+import { formatRelativeTime } from "../../tasks/[taskId]/components/commentUtils"; // Revert import path
 import { AttachmentEntityType } from "@comp/db/types"; // Import AttachmentEntityType
 import type { AttachmentType } from "@comp/db/types";
+import { CommentWithAuthor } from "./Comments";
 
 // Local helper to map fileType to AttachmentType
 function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
@@ -41,18 +43,15 @@ function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
 		case "audio":
 			return "audio" as AttachmentType;
 		case "application":
-			if (fileType === "application/pdf") return "document" as AttachmentType;
+			if (fileType === "application/pdf")
+				return "document" as AttachmentType;
 			return "document" as AttachmentType;
 		default:
 			return "other" as AttachmentType;
 	}
 }
 
-interface TaskCommentItemProps {
-	comment: CommentWithAuthor;
-}
-
-export function TaskCommentItem({ comment }: TaskCommentItemProps) {
+export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedContent, setEditedContent] = useState(comment.content);
 	const [currentAttachments, setCurrentAttachments] = useState(
@@ -61,7 +60,7 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 	const [attachmentsToRemove, setAttachmentsToRemove] = useState<string[]>(
 		[],
 	);
-	// Minimal type for pending attachments during editing (matches TaskCommentForm)
+	// Minimal type for pending attachments during editing.
 	type PendingAttachment = {
 		id: string;
 		name: string;
@@ -76,9 +75,9 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const router = useRouter();
 
-	const [deletingAttachmentIds, setDeletingAttachmentIds] = useState<string[]>(
-		[],
-	);
+	const [deletingAttachmentIds, setDeletingAttachmentIds] = useState<
+		string[]
+	>([]);
 
 	const handleEditToggle = () => {
 		if (!isEditing) {
@@ -136,7 +135,9 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 				// Optimistically add new attachments to currentAttachments for immediate UI update
 				setCurrentAttachments((prev) => [
 					// Remove attachments marked for removal
-					...prev.filter((att) => !attachmentsToRemove.includes(att.id)),
+					...prev.filter(
+						(att) => !attachmentsToRemove.includes(att.id),
+					),
 					// Add new attachments (promote PendingAttachment to minimal Attachment shape)
 					...pendingAttachmentsToAdd.map((pending) => ({
 						id: pending.id,
@@ -468,18 +469,19 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 																...att,
 															}}
 															onDelete={() =>
-																deleteAttachmentAction({
-																	attachmentId: att.id,
-																})
+																deleteAttachmentAction(
+																	{
+																		attachmentId:
+																			att.id,
+																	},
+																)
 															}
 															onClickFilename={
 																handleDownloadClick
 															}
-															isBusy={
-																deletingAttachmentIds.includes(
-																	att.id,
-																)
-															}
+															isBusy={deletingAttachmentIds.includes(
+																att.id,
+															)}
 															canDelete={
 																isEditing
 															}
@@ -533,11 +535,9 @@ export function TaskCommentItem({ comment }: TaskCommentItemProps) {
 												onClickFilename={
 													handleDownloadClick
 												}
-												isBusy={
-													deletingAttachmentIds.includes(
-														att.id,
-													)
-												}
+												isBusy={deletingAttachmentIds.includes(
+													att.id,
+												)}
 												canDelete={isEditing}
 											/>
 										))}
