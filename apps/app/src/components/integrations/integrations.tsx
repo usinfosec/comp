@@ -122,9 +122,10 @@ export function OrganizationIntegration({
 									"short_description" in integration
 										? integration.short_description
 										: (integration as any).description ||
-										"",
+											"",
 								description:
 									(integration as any).description || "",
+								guide_url: (integration as any).guide_url || "",
 								settings:
 									"settings" in integration
 										? (integration as any).settings

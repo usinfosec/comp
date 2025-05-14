@@ -1,6 +1,6 @@
 model Integration {
   id             String              @id @default(dbgenerated("generate_prefixed_cuid('int'::text)"))
-  name           String              @unique
+  name           String
   integrationId  String
   settings       Json
   userSettings   Json
