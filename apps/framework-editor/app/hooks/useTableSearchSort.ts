@@ -39,8 +39,23 @@ export function useTableSearchSort<TData extends Record<string, any>, TKey exten
         else if (valB === null) comparison = sortDirection === 'asc' ? 1 : -1;
         else if (columnSortConfig === 'number') {
           // Ensure values are numbers or can be parsed to numbers
-          const numA = typeof valA === 'number' ? valA : parseFloat(valA as string); 
-          const numB = typeof valB === 'number' ? valB : parseFloat(valB as string);
+          let numA: number;
+          let numB: number;
+
+          // Check if valA is a Date-like object
+          if (typeof valA === 'object' && valA !== null && typeof (valA as any).getTime === 'function') {
+            numA = (valA as Date).getTime();
+          } else {
+            numA = typeof valA === 'number' ? valA : parseFloat(valA as string);
+          }
+
+          // Check if valB is a Date-like object
+          if (typeof valB === 'object' && valB !== null && typeof (valB as any).getTime === 'function') {
+            numB = (valB as Date).getTime();
+          } else {
+            numB = typeof valB === 'number' ? valB : parseFloat(valB as string);
+          }
+          
           if (isNaN(numA) && isNaN(numB)) comparison = 0;
           else if (isNaN(numA)) comparison = sortDirection === 'asc' ? 1 : -1; // Treat NaN as greater
           else if (isNaN(numB)) comparison = sortDirection === 'asc' ? -1 : 1;

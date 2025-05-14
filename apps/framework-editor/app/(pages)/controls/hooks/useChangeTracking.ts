@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 // Import types from the new types.ts file
 import type { ControlsPageGridData, DSGOperation } from '../types'; 
 import { createControl, updateControlDetails, deleteControl } from '../actions';
@@ -26,6 +26,8 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
   const [data, setData] = useState<ControlsPageGridData[]>(initialData);
   const [prevData, setPrevData] = useState<ControlsPageGridData[]>(initialData);
 
+  const isMounted = useRef(true);
+
   const createdRowIds = useMemo(() => new Set<string>(), []);
   const updatedRowIds = useMemo(() => new Set<string>(), []);
   const deletedRowIds = useMemo(() => new Set<string>(), []);
@@ -36,7 +38,14 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
     createdRowIds.clear();
     updatedRowIds.clear();
     deletedRowIds.clear();
-  }, [initialData, createdRowIds, updatedRowIds, deletedRowIds]);
+  }, [initialData]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const handleGridChange = useCallback((newValue: ControlsPageGridData[], operations: DSGOperation[]) => {
     setData(currentDataState => {
@@ -205,20 +214,28 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
         }
     });
 
-    setData(finalProcessedData);
-    setPrevData(finalProcessedData);
+    if (isMounted.current) {
+      setData(finalProcessedData);
+      setPrevData(finalProcessedData);
+    }
 
     console.log('Commit completed. Remaining dirty items:', {
       created: Array.from(createdRowIds),
       updated: Array.from(updatedRowIds),
       deleted: Array.from(deletedRowIds),
     });
-    const newData = data.filter(row => !row.id || !deletedRowIds.has(row.id));
-    setData(newData);
-    setPrevData(newData);
-    createdRowIds.clear();
-    updatedRowIds.clear();
-    deletedRowIds.clear();
+
+    if (isMounted.current) {
+        // Re-filter based on finalProcessedData if necessary for newData
+        const currentDataAfterFirstUpdate = finalProcessedData; // Assuming finalProcessedData is what we want to filter
+        const newData = currentDataAfterFirstUpdate.filter(row => !row.id || !deletedRowIds.has(row.id)); // Ensure deletedRowIds reflects committed deletions
+        
+        setData(newData);
+        setPrevData(newData);
+        createdRowIds.clear();
+        updatedRowIds.clear();
+        deletedRowIds.clear(); // These are cleared after successful commit
+    }
   }, [data, createdRowIds, updatedRowIds, deletedRowIds]);
 
   const handleCancel = useCallback(() => {
@@ -237,5 +254,6 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
     handleCommit,
     handleCancel,
     isDirty,
+    createdRowIds,
   };
 }; 

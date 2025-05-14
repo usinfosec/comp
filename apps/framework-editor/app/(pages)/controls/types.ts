@@ -22,6 +22,8 @@ export type ControlsPageGridData = {
   policyTemplatesLength: number;
   requirementsLength: number;
   taskTemplatesLength: number;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 };
 
 // react-datasheet-grid operation type
@@ -40,7 +42,9 @@ export type ControlsPageSortableColumnKey =
   // Update to use length fields for sorting
   | 'policyTemplatesLength' 
   | 'requirementsLength' 
-  | 'taskTemplatesLength';
+  | 'taskTemplatesLength'
+  | 'createdAt'
+  | 'updatedAt';
 
 // Generic type for options in the sort dropdown for the toolbar is now imported
 // export interface SortableColumnOption { // Moved to common.ts

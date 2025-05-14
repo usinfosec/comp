@@ -25,6 +25,7 @@ import {
   keyColumn,
   Column,
   CellProps,
+  dateColumn,
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
@@ -35,6 +36,8 @@ interface ControlsClientPageProps {
 const sortableColumnsOptions: SortableColumnOption[] = [
   { value: 'name', label: 'Name' },
   { value: 'description', label: 'Description' },
+  { value: 'createdAt', label: 'Created At' },
+  { value: 'updatedAt', label: 'Updated At' },
 ];
 
 const controlsSearchableKeys: ControlsPageSortableColumnKey[] = ['name', 'description'];
@@ -44,6 +47,8 @@ const controlsSortConfig: SortConfig<ControlsPageSortableColumnKey> = {
   policyTemplatesLength: 'number',
   requirementsLength: 'number',
   taskTemplatesLength: 'number',
+  createdAt: 'number',
+  updatedAt: 'number',
 };
 
 // Mock data for searchable items
@@ -93,17 +98,39 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
     const router = useRouter();
     
     const initialGridData: ControlsPageGridData[] = useMemo(() => {
-      return initialControls.map(control => ({
-        id: control.id || simpleUUID(),
-        name: control.name ?? null,
-        description: control.description ?? null,
-        policyTemplates: control.policyTemplates?.map(pt => ({ id: pt.id, name: pt.name })) ?? [],
-        requirements: control.requirements?.map(r => ({ id: r.id, name: r.name })) ?? [],
-        taskTemplates: control.taskTemplates?.map(tt => ({ id: tt.id, name: tt.name })) ?? [],
-        policyTemplatesLength: control.policyTemplates?.length ?? 0,
-        requirementsLength: control.requirements?.length ?? 0,
-        taskTemplatesLength: control.taskTemplates?.length ?? 0,
-      }));
+      return initialControls.map(control => {
+        let cDate: Date | null = null;
+        if (control.createdAt) {
+          // Handles if control.createdAt is Date obj or valid date string
+          const parsedCDate = new Date(control.createdAt);
+          if (!isNaN(parsedCDate.getTime())) { // Check if it's a valid date
+            cDate = parsedCDate;
+          }
+        }
+
+        let uDate: Date | null = null;
+        if (control.updatedAt) {
+          // Handles if control.updatedAt is Date obj or valid date string
+          const parsedUDate = new Date(control.updatedAt);
+          if (!isNaN(parsedUDate.getTime())) { // Check if it's a valid date
+            uDate = parsedUDate;
+          }
+        }
+
+        return {
+          id: control.id || simpleUUID(),
+          name: control.name ?? null,
+          description: control.description ?? null,
+          policyTemplates: control.policyTemplates?.map(pt => ({ id: pt.id, name: pt.name })) ?? [],
+          requirements: control.requirements?.map(r => ({ id: r.id, name: r.name })) ?? [],
+          taskTemplates: control.taskTemplates?.map(tt => ({ id: tt.id, name: tt.name })) ?? [],
+          policyTemplatesLength: control.policyTemplates?.length ?? 0,
+          requirementsLength: control.requirements?.length ?? 0,
+          taskTemplatesLength: control.taskTemplates?.length ?? 0,
+          createdAt: cDate,
+          updatedAt: uDate,
+        };
+      });
     }, [initialControls]);
 
     const { 
@@ -112,7 +139,8 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       getRowClassName, 
       handleCommit, 
       handleCancel, 
-      isDirty 
+      isDirty,
+      createdRowIds
     } = useChangeTracking(initialGridData);
     
     const {
@@ -122,12 +150,27 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       setSortColumnKey,
       sortDirection,
       toggleSortDirection,
-      processedData,
+      processedData: sortedDataWithPotentialTimestamps,
     } = useTableSearchSort<ControlsPageGridData, ControlsPageSortableColumnKey>(
       dataForGrid,
       controlsSearchableKeys,
       controlsSortConfig
     );
+
+    // Convert timestamps back to Date objects if useTableSearchSort changed them
+    const dataForDisplay = useMemo(() => {
+      return sortedDataWithPotentialTimestamps.map(row => {
+        const newRow = { ...row };
+        // If createdAt/updatedAt became a number (timestamp) after sorting, convert back to Date
+        if (typeof newRow.createdAt === 'number') {
+          newRow.createdAt = new Date(newRow.createdAt);
+        }
+        if (typeof newRow.updatedAt === 'number') {
+          newRow.updatedAt = new Date(newRow.updatedAt);
+        }
+        return newRow;
+      });
+    }, [sortedDataWithPotentialTimestamps]);
 
     // Handler for when an item is linked via CountListCell
     // This is mostly for logging or any side effects beyond cell data update handled by setRowData
@@ -142,32 +185,43 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       { ...keyColumn('name', textColumn), title: 'Name', minWidth: 150 },
       { ...keyColumn('description', textColumn), title: 'Description', minWidth: 250 },
       {
-        ...keyColumn('policyTemplates', countListColumn({
+        ...(countListColumn<ControlsPageGridData, 'policyTemplates'> ({
+          itemsKey: 'policyTemplates',
           getAllSearchableItems: getAllMockPolicies,
           onLinkItem: (item) => handleItemLinked(item, 'Policy'),
           itemTypeLabel: 'Policy',
-        })), 
+          createdRowIds: createdRowIds,
+        })),
+        id: 'policyTemplates',
         title: 'Linked Policies', 
         minWidth: 200 
       },
       {
-        ...keyColumn('requirements', countListColumn({
+        id: 'requirements',
+        title: 'Linked Requirements', 
+        minWidth: 200,
+        ...(countListColumn<ControlsPageGridData, 'requirements'> ({
+          itemsKey: 'requirements',
           getAllSearchableItems: getAllMockRequirements,
           onLinkItem: (item) => handleItemLinked(item, 'Requirement'),
           itemTypeLabel: 'Requirement',
+          createdRowIds: createdRowIds,
         })), 
-        title: 'Linked Requirements', 
-        minWidth: 200 
       },
       {
-        ...keyColumn('taskTemplates', countListColumn({
+        id: 'taskTemplates',
+        title: 'Linked Tasks', 
+        minWidth: 200,
+        ...(countListColumn<ControlsPageGridData, 'taskTemplates'> ({
+          itemsKey: 'taskTemplates',
           getAllSearchableItems: getAllMockTaskTemplates,
           onLinkItem: (item) => handleItemLinked(item, 'Task Template'),
           itemTypeLabel: 'Task Template',
+          createdRowIds: createdRowIds,
         })), 
-        title: 'Linked Tasks', 
-        minWidth: 200 
       },
+      { ...keyColumn('createdAt', dateColumn), title: 'Created At', minWidth: 180, disabled: true },
+      { ...keyColumn('updatedAt', dateColumn), title: 'Updated At', minWidth: 180, disabled: true },
     ];
     
     return (
@@ -190,7 +244,7 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
             />
             
             <DataSheetGrid
-              value={processedData}
+              value={dataForDisplay}
               onChange={handleGridChange}
               columns={columns}
               rowClassName={getRowClassName}
@@ -204,8 +258,15 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
                 policyTemplatesLength: 0,
                 requirementsLength: 0,
                 taskTemplatesLength: 0,
+                createdAt: new Date(),
+                updatedAt: new Date(),
               })}
-              duplicateRow={({rowData}) => ({ ...rowData, id: simpleUUID() })}
+              duplicateRow={({rowData}) => ({ 
+                ...rowData, 
+                id: simpleUUID(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              })}
             />
             
             <CreateControlDialog 

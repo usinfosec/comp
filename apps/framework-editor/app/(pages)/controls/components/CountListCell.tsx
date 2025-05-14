@@ -10,27 +10,38 @@ export interface ItemWithName {
   name: string;
 }
 
-// Define props for CountListCell including search functionalities
-interface CountListCellProps extends CellProps<ItemWithName[], any> {
+// TRowDataType is the type of the entire row object (e.g., ControlsPageGridData)
+// TItemsKey is a key of TRowDataType that points to ItemWithName[] (e.g., 'policyTemplates')
+interface CountListCellComponentProps<TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType> 
+  extends CellProps<TRowDataType, TRowDataType> { // rowData is now TRowDataType
+  itemsKey: TItemsKey; // Key to extract ItemWithName[] from TRowDataType
   getAllSearchableItems: () => Promise<ItemWithName[]>;
   onLinkItem: (item: ItemWithName) => void;
   itemTypeLabel: string;
+  createdRowIds?: Set<string>;
 }
 
 /**
- * CountListCell is a React component designed for use with react-datasheet-grid.
+ * CountListCellComponent is the inner implementation for the cell.
  * It displays items as pills. When inactive, it shows a clipped single line.
- * When active, it uses a portal to show an expanded view with all items and an Add button.
+ * When active (and not pending creation), it uses a portal for an expanded view.
  */
-export const CountListCell = React.memo(
-  ({
-    rowData,
-    active,
-    getAllSearchableItems,
-    onLinkItem,
-    itemTypeLabel,
-  }: CountListCellProps) => {
-    const items = rowData || [];
+const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
+  props: CountListCellComponentProps<TRowDataType, TItemsKey>
+) => {
+    const { 
+        rowData, // This is now the full TRowDataType object
+        active,
+        itemsKey,
+        getAllSearchableItems,
+        onLinkItem,
+        itemTypeLabel,
+        createdRowIds 
+    } = props;
+
+    // Extract ItemWithName[] from the full rowData using itemsKey
+    const items: ItemWithName[] = (rowData?.[itemsKey] as unknown as ItemWithName[]) || [];
+    
     const cellRef = useRef<HTMLDivElement>(null);
     const [popoverStyles, setPopoverStyles] = useState<React.CSSProperties>({});
     const [isPortalVisible, setIsPortalVisible] = useState(false);
@@ -42,6 +53,9 @@ export const CountListCell = React.memo(
     const [allSearchableItems, setAllSearchableItems] = useState<ItemWithName[]>([]);
     const [filteredItems, setFilteredItems] = useState<ItemWithName[]>([]);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+
+    // Access id from the full rowData object (which is props.rowData)
+    const isPendingCreation = createdRowIds?.has(rowData?.id ?? ''); 
 
     useEffect(() => {
       setMounted(true);
@@ -85,7 +99,8 @@ export const CountListCell = React.memo(
     }, [searchTerm, allSearchableItems]);
 
     useEffect(() => {
-      if (active && cellRef.current && mounted) {
+      // Only open portal if active, mounted, and NOT pending creation
+      if (active && cellRef.current && mounted && !isPendingCreation) {
         const rect = cellRef.current.getBoundingClientRect();
         setPopoverStyles({
           position: 'absolute',
@@ -109,9 +124,9 @@ export const CountListCell = React.memo(
       } else {
         setIsPortalVisible(false);
         setIsSearching(false); 
-        setSearchTerm(''); // Reset search term when cell becomes inactive
+        setSearchTerm(''); 
       }
-    }, [active, mounted]);
+    }, [active, mounted, isPendingCreation]); // Added isPendingCreation to dependencies
 
     const pillBaseStyle: React.CSSProperties = {
       backgroundColor: '#f0f0f0',
@@ -138,26 +153,27 @@ export const CountListCell = React.memo(
           overflow: 'hidden',
           gap: '4px',
           padding: '5px',
+          opacity: isPendingCreation ? 0.5 : 1, 
+          cursor: isPendingCreation ? 'not-allowed' : 'default',
+          backgroundColor: isPendingCreation ? '#f8f9fa' : 'transparent', // Optional: distinct background for pending
         }}
+        // Prevent click propagation and default grid actions if pending creation
+        onClickCapture={isPendingCreation ? (e) => { e.preventDefault(); e.stopPropagation(); } : undefined}
       >
-        {items.map((item) => (
-          <span key={item.id} style={pillBaseStyle}>
-            {item.name}
-          </span>
-        ))}
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => { 
-            // When inactive view's add is clicked, just activate the cell. 
-            // The `active` prop changing will trigger the popover and search logic if configured.
-            // This assumes react-datasheet-grid handles focusing/activating the cell on click.
-            // If not, we might need to call a focus() method from DSG if available.
-           }} 
-          style={{...addButtonStyle, marginLeft: items.length > 0 ? '4px' : '0'}}
-        >
-          <Plus className="w-4 h-4" />
-        </Button>
+        {isPendingCreation ? (
+            // If pending creation, show only specific text
+            <span style={{ fontStyle: 'italic', color: '#6c757d' }}>
+                Save row to link items
+            </span>
+        ) : (
+            // If not pending creation, show the item pills
+            items.map((item) => (
+              <span key={item.id} style={pillBaseStyle}>
+                {item.name}
+              </span>
+            ))
+            // No "Add" button here, it was removed previously for InactiveView
+        )}
       </div>
     );
 
@@ -171,8 +187,10 @@ export const CountListCell = React.memo(
 
     const ActivePortalContent = () => (
       <div 
-        style={popoverStyles} 
-        onMouseDown={(e) => e.stopPropagation()}
+        style={{...popoverStyles, opacity: isPendingCreation ? 0.5 : 1}} 
+        onMouseDown={(e) => {
+            if (isPendingCreation) e.stopPropagation(); // Prevent interaction if pending
+        }}
       >
         {isSearching ? (
           <>
@@ -230,15 +248,22 @@ export const CountListCell = React.memo(
                 ))}
               </div>
             )}
-            <Button 
-              variant="outline" 
-              className="" 
-              size="sm" 
-              onClick={() => setIsSearching(true)}
-              style={addButtonStyle}
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
+            {!isPendingCreation && ( // Conditionally render Add button
+              <Button 
+                variant="outline" 
+                className="" 
+                size="sm" 
+                onClick={() => setIsSearching(true)}
+                style={addButtonStyle}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            )}
+            {isPendingCreation && items.length === 0 && ( // Show placeholder if pending and empty in active view
+                <span style={{...pillBaseStyle, backgroundColor: '#e9ecef', color: '#6c757d', alignSelf: 'flex-start' }}>
+                    Save row to enable linking
+                </span>
+            )}
           </>
         )}
       </div>
@@ -249,23 +274,38 @@ export const CountListCell = React.memo(
         <div ref={cellRef} style={{ height: '100%', width: '100%', position: 'relative' }}>
           <InactiveView />
         </div>
-        {mounted && isPortalVisible && active && document.body &&
-          ReactDOM.createPortal(<ActivePortalContent />, document.body)}
+        {/* Portal is only rendered if conditions in useEffect (for popoverStyles) were met */}
+        {mounted && active && isPortalVisible && !isPendingCreation && ReactDOM.createPortal(
+          <ActivePortalContent />, 
+          document.body
+        )}
       </>
     );
-  }
-);
+};
+
+// Export the memoized component, letting React.memo infer types more directly
+export const CountListCell = React.memo(CountListCellComponent) as {
+    <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
+        props: CountListCellComponentProps<TRowDataType, TItemsKey>
+    ): React.ReactElement; // Use React.ReactElement for JSX
+    displayName?: string;
+};
 
 CountListCell.displayName = 'CountListCell';
 
 /**
- * countListColumn is a helper function to create a react-datasheet-grid column configuration
+ * `countListColumn` is a factory function that creates a `react-datasheet-grid` column configuration
  * for displaying a list of ItemWithName objects as pills using the CountListCell component.
  */
-export const countListColumn = (customProps: Omit<CountListCellProps, keyof CellProps<ItemWithName[], any>>) : Partial<Column<ItemWithName[], any>> => ({
-  // Wrap CountListCell to correctly pass both DSG props and custom props
-  component: (props: CellProps<ItemWithName[], any>) => (
-    <CountListCell {...props} {...customProps} />
+// TRowDataType is the full row data type, TItemsKey is the key for the items array within TRowDataType
+export const countListColumn = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
+  customProps: Omit<CountListCellComponentProps<TRowDataType, TItemsKey>, keyof CellProps<TRowDataType, TRowDataType>> & { itemsKey: TItemsKey }
+) : Partial<Column<TRowDataType, TRowDataType>> => ({ // Column now operates on TRowDataType for its cell value
+  // The `component` receives CellProps where `rowData` is TRowDataType
+  component: (dsgCellProps: CellProps<TRowDataType, TRowDataType>) => (
+    <CountListCell {...dsgCellProps} {...customProps} />
   ),
-  copyValue: ({ rowData }) => rowData?.map(item => item.name).join(', ') || null,
+  keepFocus: true,
+  // The column-level disabled prop is removed as it was causing type issues and 
+  // the CountListCell component itself handles its disabled state visually and interactively.
 }); 
