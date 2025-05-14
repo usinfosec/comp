@@ -29,17 +29,32 @@ export const customDomainAction = authActionClient
 		}
 
 		try {
-			await db.trust.upsert({
+			const currentDomain = await db.trust.findUnique({
 				where: { organizationId: activeOrganizationId },
-				update: { domain },
-				create: { organizationId: activeOrganizationId, domain },
 			});
 
-			revalidatePath("/settings/trust-portal");
+			// Always set domainVerified to false when domain changes
+			const domainVerified =
+				currentDomain?.domain === domain
+					? currentDomain.domainVerified
+					: false;
+
+			await db.trust.upsert({
+				where: { organizationId: activeOrganizationId },
+				update: { domain, domainVerified },
+				create: {
+					organizationId: activeOrganizationId,
+					domain,
+					domainVerified: false,
+				},
+			});
+
+			revalidatePath(`/${activeOrganizationId}/settings/trust-portal`);
 			revalidateTag(`organization_${activeOrganizationId}`);
 
 			return {
 				success: true,
+				needsVerification: !domainVerified,
 			};
 		} catch (error) {
 			console.error(error);

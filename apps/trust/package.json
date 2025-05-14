@@ -2,7 +2,7 @@
   "name": "@comp/trust",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3003",
+    "dev": "next dev --port 3008",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
