@@ -2,7 +2,7 @@
   "name": "@comp/trust",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3003",
+    "dev": "next dev --port 3008",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -47,7 +47,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "file-saver": "latest",
-    "input-otp": "1.4.1",
+    "input-otp": "1.4.2",
     "jszip": "latest",
     "lucide-react": "^0.454.0",
     "next": "^15.4.0-canary.31",
