@@ -1,31 +1,26 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
 import PageLayout from "@/app/components/PageLayout";
-import { CreateControlDialog } from './components/CreateControlDialog';
-import type { FrameworkEditorControlTemplate } from '@prisma/client';
-import { useRouter } from 'next/navigation';
-import type { 
-  FrameworkEditorControlTemplateWithRelatedData, 
-  ControlsPageGridData, 
-  SortDirection,
-  ControlsPageSortableColumnKey, 
-  SortableColumnOption, 
-} from './types';
-import { useChangeTracking, simpleUUID } from './hooks/useChangeTracking';
-import { ActionCell } from './components/ActionCell';
+import { useMemo, useState } from 'react';
 import { TableToolbar } from '../../components/TableToolbar';
 import { useTableSearchSort } from '../../hooks/useTableSearchSort';
 import type { SortConfig } from '../../types/common';
 import { countListColumn, type ItemWithName } from './components/CountListCell';
+import { CreateControlDialog } from './components/CreateControlDialog';
+import { simpleUUID, useChangeTracking } from './hooks/useChangeTracking';
+import type {
+    ControlsPageGridData,
+    ControlsPageSortableColumnKey,
+    FrameworkEditorControlTemplateWithRelatedData,
+    SortableColumnOption
+} from './types';
 
 import {
-  DataSheetGrid,
-  textColumn,
-  keyColumn,
-  Column,
-  CellProps,
-  dateColumn,
+    Column,
+    DataSheetGrid,
+    dateColumn,
+    keyColumn,
+    textColumn
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
@@ -95,7 +90,6 @@ const getAllMockTaskTemplates = async (): Promise<ItemWithName[]> => {
 
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const router = useRouter();
     
     const initialGridData: ControlsPageGridData[] = useMemo(() => {
       return initialControls.map(control => {
@@ -140,7 +134,10 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       handleCommit, 
       handleCancel, 
       isDirty,
-      createdRowIds
+      createdRowIds,
+      updatedRowIds,
+      deletedRowIds,
+      changesSummaryString
     } = useChangeTracking(initialGridData);
     
     const {
@@ -241,6 +238,7 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
               showCreateButton={true}
               onCreateClick={() => setIsCreateDialogOpen(true)}
               createButtonLabel="Create New Control"
+              commitButtonDetailText={changesSummaryString}
             />
             
             <DataSheetGrid
@@ -250,8 +248,8 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
               rowClassName={getRowClassName}
               createRow={() => ({
                 id: simpleUUID(),
-                name: '' /* Default to empty string */,
-                description: '' /* Default to empty string */,
+                name: 'Control Name',
+                description: 'Control Description',
                 policyTemplates: [],
                 requirements: [],
                 taskTemplates: [],
@@ -274,7 +272,6 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
                 onOpenChange={setIsCreateDialogOpen} 
                 onControlCreated={() => {
                   setIsCreateDialogOpen(false);
-                  router.refresh(); // Consider if this is still needed or if local state updates are sufficient
                 }}
             />
         </PageLayout>

@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import type { ControlsPageGridData, DSGOperation } from '../types'; 
 import { createControl, updateControlDetails, deleteControl } from '../actions';
 import type { FrameworkEditorControlTemplate } from '@prisma/client';
+import { useToast } from '@comp/ui/use-toast';
 
 // Define result types for creation operations to help with type inference
 type CreationSuccessResult = { success: true; tempId: string; newId: string; newControl: FrameworkEditorControlTemplate };
@@ -25,6 +26,7 @@ export const simpleUUID = () => crypto.randomUUID();
 export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
   const [data, setData] = useState<ControlsPageGridData[]>(initialData);
   const [prevData, setPrevData] = useState<ControlsPageGridData[]>(initialData);
+  const {toast} = useToast();
 
   const isMounted = useRef(true);
 
@@ -49,6 +51,11 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
 
   const handleGridChange = useCallback((newValue: ControlsPageGridData[], operations: DSGOperation[]) => {
     setData(currentDataState => {
+      if (!isMounted.current) {
+        // If the component has unmounted by the time this debounced/async update fires, do nothing.
+        return currentDataState; // Return the existing state to prevent updates on unmounted component
+      }
+
       let workingNewValue = [...newValue];
       const originalDataForDelete = [...currentDataState];
 
@@ -203,7 +210,9 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
                 const creationValue = res.value as CreationOperationResult;
                 if (creationValue.success && creationValue.tempId === row.id && creationValue.newId) {
                     // This row was a temp row that got created. Its data is on serverCreatedRows map.
-                    finalProcessedData.push(serverCreatedRows.get(creationValue.newId)!);                    
+                    if (serverCreatedRows.has(creationValue.newId)) {
+                        finalProcessedData.push(serverCreatedRows.get(creationValue.newId)!);                    
+                    }
                     wasSuccessfullyCreated = true;
                     break;
                 }
@@ -228,7 +237,7 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
     if (isMounted.current) {
         // Re-filter based on finalProcessedData if necessary for newData
         const currentDataAfterFirstUpdate = finalProcessedData; // Assuming finalProcessedData is what we want to filter
-        const newData = currentDataAfterFirstUpdate.filter(row => !row.id || !deletedRowIds.has(row.id)); // Ensure deletedRowIds reflects committed deletions
+        const newData = currentDataAfterFirstUpdate.filter(row => !row.id || !actuallyDeletedIds.has(row.id)); // Ensure we use actuallyDeletedIds
         
         setData(newData);
         setPrevData(newData);
@@ -236,7 +245,97 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
         updatedRowIds.clear();
         deletedRowIds.clear(); // These are cleared after successful commit
     }
-  }, [data, createdRowIds, updatedRowIds, deletedRowIds]);
+
+    // --- Display Toast Summary ---
+    const successes: string[] = [];
+    const errors: string[] = [];
+
+    creationResults.forEach(res => {
+      if (res.status === 'fulfilled') {
+        const result = res.value as CreationOperationResult;
+        if (result.success) {
+          const createdRow = serverCreatedRows.get(result.newId);
+          successes.push(`Created: ${createdRow?.name || result.newId}`);
+        } else {
+          errors.push(`Failed to create (tempId: ${result.tempId}): ${result.error?.message || 'Unknown error'}`);
+        }
+      } else {
+        // res.reason should be an Error object or contain a message
+        const reason = res.reason as any;
+        errors.push(`Creation operation failed: ${reason?.message || String(reason) || 'Unknown reason'}`);
+      }
+    });
+
+    updateResults.forEach(res => {
+      if (res.status === 'fulfilled') {
+        const result = res.value as { success: boolean; id: string; error?: any };
+        if (result.success && result.id) {
+          // Find the name from finalProcessedData as workingData might be stale for updates if ID changed (not in this case but good practice)
+          const updatedRow = finalProcessedData.find(r => r.id === result.id);
+          successes.push(`Updated: ${updatedRow?.name || result.id}`);
+        } else if (result.id) {
+          errors.push(`Failed to update (${result.id}): ${result.error?.message || 'Unknown error'}`);
+        }
+        // If result.id is undefined but it was a fulfilled promise, it implies an issue with the op function not returning id
+        else if (!result.id && !result.success) {
+             errors.push(`Failed to update item: ${result.error?.message || 'Unknown error, ID missing'}`);
+        }
+      } else {
+        const reason = res.reason as any;
+        errors.push(`Update operation failed: ${reason?.message || String(reason) || 'Unknown reason'}`);
+      }
+    });
+
+    deletionResults.forEach(res => {
+      if (res.status === 'fulfilled') {
+        const result = res.value as { success: boolean; id: string; error?: any; clientSideDelete?: boolean };
+        if (result.success && result.id) {
+          if (result.clientSideDelete) {
+            successes.push(`Client-side removal of temp item: ${result.id}`);
+          } else {
+            // Try to find the name of the deleted item from the prevData or original data if available and needed for toast
+            // For simplicity, just using ID here.
+            successes.push(`Deleted ID: ${result.id}`);
+          }
+        } else if (result.id) {
+          errors.push(`Failed to delete (${result.id}): ${result.error?.message || 'Unknown error'}`);
+        }
+        // If result.id is undefined but it was a fulfilled promise, it implies an issue with the op function not returning id
+        else if (!result.id && !result.success) {
+             errors.push(`Failed to delete item: ${result.error?.message || 'Unknown error, ID missing'}`);
+        }
+      } else {
+        const reason = res.reason as any;
+        errors.push(`Deletion operation failed: ${reason?.message || String(reason) || 'Unknown reason'}`);
+      }
+    });
+    
+    const toastTitle = errors.length > 0 ? (successes.length > 0 ? "Commit Partially Successful" : "Commit Failed") : "Commit Successful";
+    let toastDescription = "";
+
+    if (successes.length > 0) {
+      toastDescription += `Successes (${successes.length}):\n${successes.map(s => ` - ${s}`).join('\n')}`;
+    }
+    if (errors.length > 0) {
+      if (toastDescription) toastDescription += "\n\n"; // Add separator if there were successes
+      toastDescription += `Errors (${errors.length}):\n${errors.map(e => ` - ${e}`).join('\n')}`;
+    }
+    if (successes.length === 0 && errors.length === 0) {
+        // This case might occur if handleCommit was called with no pending changes, though isDirty should prevent this.
+        // Or if all operations were somehow filtered out before being processed.
+        toastDescription = "No operations were performed.";
+    }
+    
+    if (isMounted.current && (successes.length > 0 || errors.length > 0)) { // Only show toast if there's something to report
+        toast({
+          title: toastTitle,
+          description: toastDescription,
+          variant: errors.length > 0 ? "destructive" : "default",
+          duration: errors.length > 0 || successes.length > 5 ? 9000 : 5000, // Longer duration for errors or many successes
+        });
+    }
+
+  }, [data, createdRowIds, updatedRowIds, deletedRowIds, toast]);
 
   const handleCancel = useCallback(() => {
     setData(prevData);
@@ -247,6 +346,20 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
 
   const isDirty = createdRowIds.size > 0 || updatedRowIds.size > 0 || deletedRowIds.size > 0;
 
+  const changesSummaryString = useMemo(() => {
+    if (!isDirty) return '';
+
+    const totalChanges = createdRowIds.size + updatedRowIds.size + deletedRowIds.size;
+
+    if (totalChanges === 0) {
+      // This case should ideally not be hit if isDirty is true, 
+      // but as a fallback if counts are 0 but something else makes it dirty.
+      return '(Pending Changes)'; // Or simply '' if the button text itself is enough.
+    }
+    
+    return `(${totalChanges} ${totalChanges === 1 ? 'change' : 'changes'})`;
+  }, [isDirty, createdRowIds.size, updatedRowIds.size, deletedRowIds.size]);
+
   return {
     dataForGrid: data,
     handleGridChange,
@@ -255,5 +368,8 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
     handleCancel,
     isDirty,
     createdRowIds,
+    updatedRowIds,
+    deletedRowIds,
+    changesSummaryString,
   };
 }; 

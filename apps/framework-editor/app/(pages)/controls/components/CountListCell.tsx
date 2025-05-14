@@ -189,7 +189,10 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
       <div 
         style={{...popoverStyles, opacity: isPendingCreation ? 0.5 : 1}} 
         onMouseDown={(e) => {
-            if (isPendingCreation) e.stopPropagation(); // Prevent interaction if pending
+            // If pending creation, stop propagation to prevent any interaction.
+            // If not pending creation (i.e., portal is active and interactive),
+            // also stop propagation to prevent clicks inside the portal from deactivating the grid cell.
+            e.stopPropagation(); 
         }}
       >
         {isSearching ? (

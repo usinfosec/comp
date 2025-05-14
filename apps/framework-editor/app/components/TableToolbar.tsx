@@ -27,6 +27,7 @@ export interface TableToolbarProps {
   isDirty?: boolean;
   onCommit?: () => void;
   onCancel?: () => void;
+  commitButtonDetailText?: string;
 
   showCreateButton?: boolean;
   onCreateClick?: () => void;
@@ -46,11 +47,22 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   isDirty = false,
   onCommit,
   onCancel,
+  commitButtonDetailText = '',
   showCreateButton = false,
   onCreateClick,
   createButtonLabel = 'Create New',
   children
 }) => {
+  let commitButtonLabelText = 'No Changes';
+  if (isDirty) {
+    if (commitButtonDetailText && commitButtonDetailText.length > 0) {
+      commitButtonLabelText = `Commit ${commitButtonDetailText}`;
+    } else {
+      // Fallback if isDirty is true but commitButtonDetailText is empty (e.g. hook logic yields empty for some reason)
+      commitButtonLabelText = 'Commit Changes'; 
+    }
+  }
+
   return (
     <div className="mb-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
       {/* Left section: Search and Sort */}
@@ -95,19 +107,21 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
       <div className="flex gap-2 items-center mt-4 sm:mt-0">
         {showCommitCancel && (
           <>
+            {isDirty && (
+              <Button 
+                onClick={onCancel} 
+                disabled={!isDirty}
+                  variant="outline"
+                >
+                  Discard Changes
+                </Button>
+              )}
             <Button 
               onClick={onCommit} 
               disabled={!isDirty}
               variant="default"
             >
-              Commit Changes
-            </Button>
-            <Button 
-              onClick={onCancel} 
-              disabled={!isDirty}
-              variant="outline"
-            >
-              Cancel
+              {commitButtonLabelText}
             </Button>
           </>
         )}
