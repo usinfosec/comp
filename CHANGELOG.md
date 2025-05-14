@@ -1,3 +1,65 @@
+# [1.17.0](https://github.com/trycompai/comp/compare/v1.16.0...v1.17.0) (2025-05-14)
+
+
+### Features
+
+* **trust-portal:** add Vercel domain verification and enhance trust portal settings ([0f41e99](https://github.com/trycompai/comp/commit/0f41e997bcbee0ae5d9379a3d2b7f75b061766a4))
+
+# [1.16.0](https://github.com/trycompai/comp/compare/v1.15.0...v1.16.0) (2025-05-14)
+
+
+### Bug Fixes
+
+* add empty states & guides ([ba7d11d](https://github.com/trycompai/comp/commit/ba7d11d938821e7d0f9d385b9a0bdeaa8578bec5))
+* fix issues with deleting integrations ([df22563](https://github.com/trycompai/comp/commit/df22563ea69e27b75af032ec1bf438dcd279d3ba))
+* ui improvements for cloud tests ([1db40d3](https://github.com/trycompai/comp/commit/1db40d30ccd4706d6ae200e3d529a0840f777284))
+
+
+### Features
+
+* implement ui for cloud tests ([5a92613](https://github.com/trycompai/comp/commit/5a926132a0620fb558fe8400a72b4a874de21213))
+
+# [1.15.0](https://github.com/trycompai/comp/compare/v1.14.2...v1.15.0) (2025-05-14)
+
+
+### Features
+
+* **trust-portal:** enhance trust portal settings and compliance frameworks ([5ba7ba4](https://github.com/trycompai/comp/commit/5ba7ba4cd550b3c84f2b6dfca5258071a2c3016d))
+
+## [1.14.2](https://github.com/trycompai/comp/compare/v1.14.1...v1.14.2) (2025-05-13)
+
+
+### Bug Fixes
+
+* fix the vendors table search and pagination ([6808ae1](https://github.com/trycompai/comp/commit/6808ae1ef2689ac6434703e83ca80fe82fa4706b))
+
+## [1.14.1](https://github.com/trycompai/comp/compare/v1.14.0...v1.14.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* fixed sorting and filtering on risks table ([985b4b7](https://github.com/trycompai/comp/commit/985b4b7d85a2f4090299be66bc8a4ee676f64594))
+
+# [1.14.0](https://github.com/trycompai/comp/compare/v1.13.2...v1.14.0) (2025-05-12)
+
+
+### Bug Fixes
+
+* **editor:** adjust padding in AdvancedEditor component for improved layout ([bb27fba](https://github.com/trycompai/comp/commit/bb27fba9505b0ac0819fb57e1053f169c63909f9))
+
+
+### Features
+
+* **policies:** enhance policy management with update and delete functionalities ([954ec4d](https://github.com/trycompai/comp/commit/954ec4d03789225a6d8c115704551895d331c1dc))
+* **policies:** implement policy management features with CRUD functionality ([7b2d2d1](https://github.com/trycompai/comp/commit/7b2d2d1957788794b35ed565b247e9a3d81992da))
+
+## [1.13.2](https://github.com/trycompai/comp/compare/v1.13.1...v1.13.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* fix sign in with magic link sign in when invited to an org ([c634d61](https://github.com/trycompai/comp/commit/c634d615e7b7d53376bd764dbd75cd28e1b85ed3))
+
 ## [1.13.1](https://github.com/trycompai/comp/compare/v1.13.0...v1.13.1) (2025-05-12)
 
 
