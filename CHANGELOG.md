@@ -1,3 +1,19 @@
+# [1.18.0](https://github.com/trycompai/comp/compare/v1.17.0...v1.18.0) (2025-05-14)
+
+
+### Features
+
+* **editor:** add custom action cell to ControlsClientPage for navigation ([d8337ff](https://github.com/trycompai/comp/commit/d8337ff7371308e9a4473370a920fe4c8921533b))
+* **editor:** enhance ControlsClientPage with createdAt and updatedAt fields ([5f2b4d6](https://github.com/trycompai/comp/commit/5f2b4d69eaa37182e5733ca452320845d8ee8ed7))
+* **editor:** enhance ControlsClientPage with friendly date formatting and UI improvements ([960fd3c](https://github.com/trycompai/comp/commit/960fd3cd5fedde952c18e855281acd2ed155ea44))
+* **editor:** enhance ControlsClientPage with improved change tracking and UI feedback ([f680dff](https://github.com/trycompai/comp/commit/f680dff7894961c6d02df0071088d4ad02fe2d43))
+* **editor:** enhance ControlsClientPage with improved search and sorting UI ([47db2bd](https://github.com/trycompai/comp/commit/47db2bdf9a02dd78c87b788b241f8e73fd99ea61))
+* **editor:** enhance ControlsClientPage with new control creation and linking features ([8e23222](https://github.com/trycompai/comp/commit/8e23222c195364499e85dd9e5d9b6489bb47fd26))
+* **editor:** enhance ControlsClientPage with relational linking and UI improvements ([275b09e](https://github.com/trycompai/comp/commit/275b09e33d269a22f33e35061e12eaf0b0ace781))
+* **editor:** enhance ControlsClientPage with search and sorting functionality ([05efcb0](https://github.com/trycompai/comp/commit/05efcb0a3043b877cee04677261b6b1de105107b))
+* **editor:** implement change tracking and row styling in ControlsClientPage ([3908e32](https://github.com/trycompai/comp/commit/3908e32075b6eda57bafe5406880dc603b7a5fc1))
+* **editor:** integrate react-datasheet-grid for enhanced controls management ([084e861](https://github.com/trycompai/comp/commit/084e861b0b0efc06c2e34fec3ffc66ccd4eee337))
+
 # [1.17.0](https://github.com/trycompai/comp/compare/v1.16.0...v1.17.0) (2025-05-14)
 
 
