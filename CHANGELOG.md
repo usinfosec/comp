@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/trycompai/comp/compare/v1.16.0...v1.17.0) (2025-05-14)
+
+
+### Features
+
+* **trust-portal:** add Vercel domain verification and enhance trust portal settings ([0f41e99](https://github.com/trycompai/comp/commit/0f41e997bcbee0ae5d9379a3d2b7f75b061766a4))
+
 # [1.16.0](https://github.com/trycompai/comp/compare/v1.15.0...v1.16.0) (2025-05-14)
 
 
