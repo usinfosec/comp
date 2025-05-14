@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/trycompai/comp/compare/v1.18.0...v1.19.0) (2025-05-14)
+
+
+### Features
+
+* added attachments to vendors and risks, also updated the comments component to a better one ([584f01c](https://github.com/trycompai/comp/commit/584f01c09ce9da5a26fa84d400d509fecc995afa))
+
 # [1.18.0](https://github.com/trycompai/comp/compare/v1.17.0...v1.18.0) (2025-05-14)
 
 
