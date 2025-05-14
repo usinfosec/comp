@@ -5,7 +5,7 @@ import { runTests } from "../actions/run-tests";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import { RefreshCw } from "lucide-react";
 import { TestCard } from "./TestCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
 	Select,
@@ -31,6 +31,11 @@ interface TestProviderTabContentProps {
 		};
 	}[];
 	providerName: string;
+	handleRunTests?: () => Promise<void>;
+	executing?: boolean;
+	isSingleProviderView: boolean;
+	mainTitle?: string;
+	timeToNextRunInfo?: string;
 }
 
 interface TestsLayoutProps {
@@ -47,6 +52,33 @@ export const TestsLayout = ({
 	cloudProviders,
 }: TestsLayoutProps) => {
 	const [executing, setExecuting] = useState(false);
+	const [timeToNextRun, setTimeToNextRun] = useState("");
+
+	useEffect(() => {
+		const calculateTimeToNextRun = () => {
+			const now = new Date();
+			const nextRunUTC = new Date();
+			nextRunUTC.setUTCHours(5, 0, 0, 0); // Set to 5:00 AM UTC today
+
+			if (now.getTime() > nextRunUTC.getTime()) {
+				// If 5:00 AM UTC today has passed, set to 5:00 AM UTC tomorrow
+				nextRunUTC.setDate(nextRunUTC.getDate() + 1);
+			}
+
+			const diff = nextRunUTC.getTime() - now.getTime();
+			const hours = Math.floor(diff / (1000 * 60 * 60));
+			const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+			setTimeToNextRun(
+				`Next scheduled run in ${hours}h ${minutes}m (daily at 5:00 AM UTC)`,
+			);
+		};
+
+		calculateTimeToNextRun(); // Initial calculation
+		const intervalId = setInterval(calculateTimeToNextRun, 60000); // Update every minute
+
+		return () => clearInterval(intervalId); // Cleanup interval on component unmount
+	}, []);
 
 	const hasAws = cloudProviders.some(
 		(integration) => integration.integrationId === "aws",
@@ -83,6 +115,11 @@ export const TestsLayout = ({
 					<TestProviderTabContent
 						tests={awsTests}
 						providerName="AWS"
+						handleRunTests={handleRunTests}
+						executing={executing}
+						isSingleProviderView={true}
+						mainTitle="Cloud Tests Results"
+						timeToNextRunInfo={timeToNextRun}
 					/>
 				);
 			}
@@ -91,6 +128,11 @@ export const TestsLayout = ({
 					<TestProviderTabContent
 						tests={gcpTests}
 						providerName="GCP"
+						handleRunTests={handleRunTests}
+						executing={executing}
+						isSingleProviderView={true}
+						mainTitle="Cloud Tests Results"
+						timeToNextRunInfo={timeToNextRun}
 					/>
 				);
 			}
@@ -99,6 +141,11 @@ export const TestsLayout = ({
 					<TestProviderTabContent
 						tests={azureTests}
 						providerName="Azure"
+						handleRunTests={handleRunTests}
+						executing={executing}
+						isSingleProviderView={true}
+						mainTitle="Cloud Tests Results"
+						timeToNextRunInfo={timeToNextRun}
 					/>
 				);
 			}
@@ -108,17 +155,35 @@ export const TestsLayout = ({
 
 	return (
 		<div className="container mx-auto p-4 md:p-6 lg:p-8 flex flex-col gap-6 w-full">
-			<div className="flex items-center justify-between">
-				<h1 className="text-2xl font-semibold tracking-tight">
-					Cloud Tests Results
-				</h1>
-				<Button onClick={() => handleRunTests()} disabled={executing}>
-					Run Tests Again{" "}
-					<RefreshCw
-						className={`ml-2 h-4 w-4 ${executing ? "animate-spin" : ""}`}
-					/>
-				</Button>
-			</div>
+			{/* Main header: Only shown if there are multiple providers (tabs) */}
+			{activeProvidersCount > 1 && (
+				<div className="flex items-center justify-between">
+					<div>
+						<h1 className="text-2xl font-semibold tracking-tight">
+							Cloud Tests Results
+						</h1>
+						{timeToNextRun && (
+							<p className="text-xs text-muted-foreground mt-1">
+								{timeToNextRun}
+							</p>
+						)}
+					</div>
+					<div className="flex flex-col items-end">
+						<Button
+							onClick={() => handleRunTests()}
+							disabled={executing}
+						>
+							Run Tests Again{" "}
+							<RefreshCw
+								className={`ml-2 h-4 w-4 ${
+									executing ? "animate-spin" : ""
+								}`}
+							/>
+						</Button>
+					</div>
+				</div>
+			)}
+
 			{activeProvidersCount > 1 ? (
 				<Tabs defaultValue={hasAws ? "AWS" : hasGcp ? "GCP" : "Azure"}>
 					<TabsList
@@ -135,6 +200,7 @@ export const TestsLayout = ({
 							<TestProviderTabContent
 								tests={awsTests}
 								providerName="AWS"
+								isSingleProviderView={false}
 							/>
 						</TabsContent>
 					)}
@@ -143,6 +209,7 @@ export const TestsLayout = ({
 							<TestProviderTabContent
 								tests={gcpTests}
 								providerName="GCP"
+								isSingleProviderView={false}
 							/>
 						</TabsContent>
 					)}
@@ -151,6 +218,7 @@ export const TestsLayout = ({
 							<TestProviderTabContent
 								tests={azureTests}
 								providerName="Azure"
+								isSingleProviderView={false}
 							/>
 						</TabsContent>
 					)}
@@ -169,10 +237,14 @@ export const TestsLayout = ({
 	);
 };
 
-// Reusable component for tab content
 function TestProviderTabContent({
 	tests,
 	providerName,
+	handleRunTests,
+	executing,
+	isSingleProviderView,
+	mainTitle,
+	timeToNextRunInfo,
 }: TestProviderTabContentProps) {
 	const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
@@ -200,28 +272,75 @@ function TestProviderTabContent({
 		return severityA - severityB;
 	});
 
+	const showFilter = sortedTests.length > 0;
+	const showRunButton =
+		isSingleProviderView &&
+		handleRunTests &&
+		typeof executing === "boolean";
+
 	return (
 		<div className="flex flex-col gap-4">
-			{sortedTests.length > 0 ? (
-				<div className="flex justify-end">
-					<Select
-						value={selectedStatus}
-						onValueChange={setSelectedStatus}
-					>
-						<SelectTrigger className="w-[180px] bg-background">
-							<SelectValue placeholder="Filter by status" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="all">All Statuses</SelectItem>
-							{uniqueStatuses.map((status) => (
-								<SelectItem key={status} value={status}>
-									{status}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
+			{(isSingleProviderView || showFilter) && (
+				<div className="flex justify-between items-center gap-2">
+					{/* Left side: Title and Countdown (only for single provider view) */}
+					{isSingleProviderView && mainTitle && (
+						<div>
+							<h1 className="text-2xl font-semibold tracking-tight">
+								{mainTitle}
+							</h1>
+							{timeToNextRunInfo && (
+								<p className="text-xs text-muted-foreground mt-1">
+									{timeToNextRunInfo}
+								</p>
+							)}
+						</div>
+					)}
+					{/* Spacer if only filter is shown in tab view and no title from single view */}
+					{!isSingleProviderView && showFilter && <div />}
+
+					{/* Right side: Filter and/or Button */}
+					{(showFilter || showRunButton) && (
+						<div className="flex items-center gap-2">
+							{showFilter && (
+								<Select
+									value={selectedStatus}
+									onValueChange={setSelectedStatus}
+								>
+									<SelectTrigger className="w-[180px] bg-background">
+										<SelectValue placeholder="Filter by status" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="all">
+											All Statuses
+										</SelectItem>
+										{uniqueStatuses.map((status) => (
+											<SelectItem
+												key={status}
+												value={status}
+											>
+												{status}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							)}
+							{showRunButton && (
+								<Button
+									onClick={handleRunTests!}
+									disabled={executing!}
+								>
+									Run Tests Again{" "}
+									<RefreshCw
+										className={`ml-2 h-4 w-4 ${
+											executing ? "animate-spin" : ""
+										}`}
+									/>
+								</Button>
+							)}
+						</div>
+					)}
 				</div>
-			) : null}
+			)}
 
 			{sortedTests.length > 0 ? (
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
