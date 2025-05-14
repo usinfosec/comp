@@ -11,8 +11,10 @@ import {
   textColumn,
   keyColumn,
   Column,
+  CellProps,
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
+import { Button } from '@comp/ui/button';
 
 interface FrameworkEditorControlTemplateWithRelatedData extends FrameworkEditorControlTemplate {
   policyTemplates?: { id: string; name: string }[];
@@ -33,6 +35,34 @@ type GridData = {
   taskTemplatesCount: string | null;
 };
 
+// Custom Cell Component for Actions
+const ActionCell: React.FC<CellProps<GridData, any>> = ({ rowData, focus, active }) => {
+  const router = useRouter();
+
+  if (!rowData) {
+    return null;
+  }
+
+  const handleNavigate = () => {
+    router.push(`/controls/${rowData.id}`);
+  };
+
+  return (
+    <div className="flex w-full p-1">
+      <Button 
+        onClick={handleNavigate} 
+        disabled={!rowData}
+        size="sm"
+        variant="outline"
+        className='w-full'
+        title={`View details for ${rowData.name || 'control'}`}
+      >
+        View →
+      </Button>
+    </div>
+  );
+};
+
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const router = useRouter();
@@ -42,9 +72,9 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
         id: control.id,
         name: control.name ?? null,
         description: control.description ?? null,
-        policyTemplatesCount: (control.policyTemplates?.length ?? 0).toString(), // Keep as string, null won't display '0'
-        requirementsCount: (control.requirements?.length ?? 0).toString(),    // Keep as string
-        taskTemplatesCount: (control.taskTemplates?.length ?? 0).toString(),   // Keep as string
+        policyTemplatesCount: (control.policyTemplates?.length ?? 0).toString(),
+        requirementsCount: (control.requirements?.length ?? 0).toString(),
+        taskTemplatesCount: (control.taskTemplates?.length ?? 0).toString(),
       }))
     );
 
@@ -54,9 +84,13 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       { ...keyColumn('policyTemplatesCount', textColumn), title: 'Policy Templates' },
       { ...keyColumn('requirementsCount', textColumn), title: 'Requirements' },
       { ...keyColumn('taskTemplatesCount', textColumn), title: 'Task Templates' },
-      // TODO: Add columns for Policy Templates, Requirements, Task Templates
-      // These would likely require custom cell components in DataSheetGrid
-      // to replicate the badge and tooltip functionality.
+      {
+        id: 'actions',
+        title: 'Actions',
+        component: ActionCell,
+        width: 1,
+        minWidth: 100,
+      }
     ];
     
     return (
