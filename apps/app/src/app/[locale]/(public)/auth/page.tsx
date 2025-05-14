@@ -72,6 +72,10 @@ export default async function Page({
 		redirect("/setup");
 	}
 
+	if (orgId && !inviteCode) {
+		redirect("/");
+	}
+
 	return (
 		<div>
 			<header className="w-full fixed left-0 right-0">

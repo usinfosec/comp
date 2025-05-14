@@ -4,18 +4,9 @@ import { sendIntegrationResults } from "./integration-results";
 
 export const sendIntegrationSchedule = schedules.task({
 	id: "integration-schedule",
-	cron: "0 0 * * *",
+	cron: "0 5 * * *", // 12:00 AM EST (5:00 AM UTC)
 	maxDuration: 1000 * 60 * 10, // 10 minutes
 	run: async () => {
-		const now = new Date();
-		const upcomingThreshold = new Date(
-			now.getTime() + 7 * 24 * 60 * 60 * 1000,
-		);
-
-		logger.info(
-			`Sending integration runs from now: ${now} to ${upcomingThreshold}`,
-		);
-
 		const integrations = await db.integration.findMany({
 			select: {
 				id: true,
@@ -23,9 +14,9 @@ export const sendIntegrationSchedule = schedules.task({
 				integrationId: true,
 				settings: true,
 				userSettings: true,
+				organizationId: true,
 				organization: {
 					select: {
-						id: true,
 						name: true,
 					},
 				},
@@ -40,7 +31,10 @@ export const sendIntegrationSchedule = schedules.task({
 					integration_id: integration.integrationId,
 					settings: integration.settings,
 					user_settings: integration.userSettings,
-					organization: integration.organization,
+					organization: {
+						id: integration.organizationId,
+						name: integration.organization.name,
+					},
 				},
 			},
 		}));

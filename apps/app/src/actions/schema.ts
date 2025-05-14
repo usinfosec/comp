@@ -197,8 +197,8 @@ export const uploadTaskFileSchema = z.object({
 
 // Integrations
 export const deleteIntegrationConnectionSchema = z.object({
-	integrationId: z.string().min(1, {
-		message: "Integration ID is required",
+	integrationName: z.string().min(1, {
+		message: "Integration name is required",
 	}),
 });
 
