@@ -7,6 +7,7 @@ import Toolbar from './components/Toolbar';
 
 import "@comp/ui/globals.css";
 import '../styles/globals.css';
+import 'react-datasheet-grid/dist/style.css'
 
 export const metadata: Metadata = {
   title: 'Comp AI - Framework Editor',
