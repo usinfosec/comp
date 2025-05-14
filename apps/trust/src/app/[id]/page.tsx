@@ -1,4 +1,4 @@
-import { findOrganization, getPublishedControls, getPublishedPolicies } from "./lib/data";
+import { findOrganization, getFrameworks, getPublishedControls, getPublishedPolicies } from "./lib/data";
 import ComplianceReport from './components/report';
 import { Metadata } from "next";
 
@@ -20,11 +20,19 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
     const policies = await getPublishedPolicies(organization.id);
     const controls = await getPublishedControls(organization.id);
+    const frameworks = await getFrameworks(organization.id);
 
     return (
         <div>
             <div className="pb-6 p-6">
-                <ComplianceReport organization={organization} policies={policies ?? []} controls={controls ?? []} />
+                <ComplianceReport organization={organization} policies={policies ?? []} controls={controls ?? []} frameworks={{
+                    soc2: frameworks?.soc2?.enabled ?? false,
+                    iso27001: frameworks?.iso27001?.enabled ?? false,
+                    gdpr: frameworks?.gdpr?.enabled ?? false,
+                    soc2_status: frameworks?.soc2?.status ?? "started",
+                    iso27001_status: frameworks?.iso27001?.status ?? "started",
+                    gdpr_status: frameworks?.gdpr?.status ?? "started"
+                }} />
             </div>
         </div>
     )
@@ -44,9 +52,9 @@ export async function generateMetadata({
         };
     }
 
-    const title = `${organization.name} - Trust Center`;
-    const description = `${organization.name} is using Comp AI to monitor their compliance against common cybersecurity frameworks like SOC 2, ISO 27001, and more.`;
-    const url = `https://trycomp.ai/trust/${organization.id}`;
+    const title = `${organization.name} - Security Trust Center`;
+    const description = `Find out the compliance and security posture of ${organization.name} against common cybersecurity frameworks like SOC 2, ISO 27001, and more.`;
+    const url = `https://${organization.trust.find((trust) => trust.status === "published")?.domain ?? `trycomp.ai/trust/${organization.id}`}`;
 
     return {
         title,

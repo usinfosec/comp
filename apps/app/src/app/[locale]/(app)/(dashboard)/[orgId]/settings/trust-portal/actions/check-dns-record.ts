@@ -160,8 +160,8 @@ export const checkDnsRecordAction = authActionClient
 				});
 			});
 
-		revalidatePath("/settings/trust-portal");
-		revalidateTag(`organization_${ctx.session.activeOrganizationId}`);
+		revalidatePath(`/${activeOrgId}/settings/trust-portal`);
+		revalidateTag(`organization_${activeOrgId}`);
 
 		return {
 			success: true,
