@@ -1,3 +1,17 @@
+# [1.16.0](https://github.com/trycompai/comp/compare/v1.15.0...v1.16.0) (2025-05-14)
+
+
+### Bug Fixes
+
+* add empty states & guides ([ba7d11d](https://github.com/trycompai/comp/commit/ba7d11d938821e7d0f9d385b9a0bdeaa8578bec5))
+* fix issues with deleting integrations ([df22563](https://github.com/trycompai/comp/commit/df22563ea69e27b75af032ec1bf438dcd279d3ba))
+* ui improvements for cloud tests ([1db40d3](https://github.com/trycompai/comp/commit/1db40d30ccd4706d6ae200e3d529a0840f777284))
+
+
+### Features
+
+* implement ui for cloud tests ([5a92613](https://github.com/trycompai/comp/commit/5a926132a0620fb558fe8400a72b4a874de21213))
+
 # [1.15.0](https://github.com/trycompai/comp/compare/v1.14.2...v1.15.0) (2025-05-14)
 
 
