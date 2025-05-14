@@ -4,11 +4,13 @@ import type { SortDirection, SortConfig } from '../types/common';
 export function useTableSearchSort<TData extends Record<string, any>, TKey extends keyof TData & string>(
   inputData: TData[],
   searchableKeys: TKey[],
-  sortConfig?: SortConfig<TKey>
+  sortConfig?: SortConfig<TKey>,
+  defaultSortColumnKey?: TKey | null,
+  defaultSortDirection?: SortDirection
 ) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortColumnKey, setSortColumnKey] = useState<TKey | null>(null);
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [sortColumnKey, setSortColumnKey] = useState<TKey | null>(defaultSortColumnKey ?? null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(defaultSortDirection ?? 'asc');
 
   const processedData = useMemo(() => {
     let dataToProcess = [...inputData];

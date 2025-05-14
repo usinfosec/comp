@@ -241,9 +241,6 @@ export const useChangeTracking = (initialData: ControlsPageGridData[]) => {
         
         setData(newData);
         setPrevData(newData);
-        createdRowIds.clear();
-        updatedRowIds.clear();
-        deletedRowIds.clear(); // These are cleared after successful commit
     }
 
     // --- Display Toast Summary ---

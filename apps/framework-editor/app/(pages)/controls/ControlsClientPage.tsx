@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { TableToolbar } from '../../components/TableToolbar';
 import { useTableSearchSort } from '../../hooks/useTableSearchSort';
 import type { SortConfig } from '../../types/common';
-import { countListColumn, type ItemWithName } from './components/CountListCell';
+import { relationalColumn, type ItemWithName } from './components/RelationalCell';
 import { CreateControlDialog } from './components/CreateControlDialog';
 import { simpleUUID, useChangeTracking } from './hooks/useChangeTracking';
 import type {
@@ -14,6 +14,13 @@ import type {
     FrameworkEditorControlTemplateWithRelatedData,
     SortableColumnOption
 } from './types';
+import {
+  getAllPolicyTemplates, getAllRequirements, getAllTaskTemplates,
+  linkPolicyTemplateToControl, unlinkPolicyTemplateFromControl,
+  linkRequirementToControl, unlinkRequirementFromControl,
+  linkTaskTemplateToControl, unlinkTaskTemplateFromControl
+} from './actions';
+import { toast } from 'sonner';
 
 import {
     Column,
@@ -44,48 +51,6 @@ const controlsSortConfig: SortConfig<ControlsPageSortableColumnKey> = {
   taskTemplatesLength: 'number',
   createdAt: 'number',
   updatedAt: 'number',
-};
-
-// Mock data for searchable items
-const mockPoliciesDb: ItemWithName[] = [
-  { id: 'policy-001', name: 'Global Data Privacy Policy' },
-  { id: 'policy-002', name: 'Internal Security Standards' },
-  { id: 'policy-003', name: 'Remote Work Access Policy' },
-  { id: 'policy-004', name: 'Incident Response Plan' },
-  { id: 'policy-005', name: 'Acceptable Use Policy' },
-];
-
-const mockRequirementsDb: ItemWithName[] = [
-  { id: 'req-001', name: 'REQ-DATA-001: Data Encryption at Rest' },
-  { id: 'req-002', name: 'REQ-ACCESS-005: Multi-Factor Authentication' },
-  { id: 'req-003', name: 'REQ-AUDIT-002: Quarterly Log Review' },
-  { id: 'req-004', name: 'REQ-NETWORK-007: Firewall Configuration Standards' },
-];
-
-const mockTaskTemplatesDb: ItemWithName[] = [
-  { id: 'task-001', name: 'Onboarding: Security Awareness Training' },
-  { id: 'task-002', name: 'Monthly: Vulnerability Scanning' },
-  { id: 'task-003', name: 'Quarterly: User Access Review' },
-  { id: 'task-004', name: 'Annual: Disaster Recovery Test' },
-];
-
-// Mock fetch functions
-const getAllMockPolicies = async (): Promise<ItemWithName[]> => {
-  console.log('Fetching all mock policies...');
-  await new Promise(resolve => setTimeout(resolve, 400));
-  return mockPoliciesDb;
-};
-
-const getAllMockRequirements = async (): Promise<ItemWithName[]> => {
-  console.log('Fetching all mock requirements...');
-  await new Promise(resolve => setTimeout(resolve, 400));
-  return mockRequirementsDb;
-};
-
-const getAllMockTaskTemplates = async (): Promise<ItemWithName[]> => {
-  console.log('Fetching all mock task templates...');
-  await new Promise(resolve => setTimeout(resolve, 400));
-  return mockTaskTemplatesDb;
 };
 
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {
@@ -151,7 +116,9 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
     } = useTableSearchSort<ControlsPageGridData, ControlsPageSortableColumnKey>(
       dataForGrid,
       controlsSearchableKeys,
-      controlsSortConfig
+      controlsSortConfig,
+      'createdAt',
+      'asc'
     );
 
     // Convert timestamps back to Date objects if useTableSearchSort changed them
@@ -169,23 +136,30 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       });
     }, [sortedDataWithPotentialTimestamps]);
 
-    // Handler for when an item is linked via CountListCell
-    // This is mostly for logging or any side effects beyond cell data update handled by setRowData
-    const handleItemLinked = (linkedItem: ItemWithName, itemType: string) => {
-      console.log(`Item of type '${itemType}' linked:`, linkedItem.name);
-      // Potentially trigger other actions if needed. The grid data itself
-      // is updated by CountListCell calling setRowData, which then flows through
-      // DataSheetGrid's onChange -> handleGridChange.
-    };
-
     const columns: Column<ControlsPageGridData>[] = [
       { ...keyColumn('name', textColumn), title: 'Name', minWidth: 150 },
       { ...keyColumn('description', textColumn), title: 'Description', minWidth: 250 },
       {
-        ...(countListColumn<ControlsPageGridData, 'policyTemplates'> ({
+        ...(relationalColumn<ControlsPageGridData, 'policyTemplates'> ({
           itemsKey: 'policyTemplates',
-          getAllSearchableItems: getAllMockPolicies,
-          onLinkItem: (item) => handleItemLinked(item, 'Policy'),
+          getAllSearchableItems: getAllPolicyTemplates,
+          linkItemAction: async (controlId, policyTemplateId) => {
+            try {
+              await linkPolicyTemplateToControl(controlId, policyTemplateId);
+              toast.success("Policy template linked successfully.");
+            } catch (error) {
+              toast.error(`Failed to link policy template: ${error instanceof Error ? error.message : String(error)}`);
+              // Do not re-throw, error is handled with a toast
+            }
+          },
+          unlinkItemAction: async (controlId, policyTemplateId) => {
+            try {
+              await unlinkPolicyTemplateFromControl(controlId, policyTemplateId);
+              toast.success("Policy template unlinked successfully.");
+            } catch (error) {
+              toast.error(`Failed to unlink policy template: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
           itemTypeLabel: 'Policy',
           createdRowIds: createdRowIds,
         })),
@@ -197,10 +171,25 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
         id: 'requirements',
         title: 'Linked Requirements', 
         minWidth: 200,
-        ...(countListColumn<ControlsPageGridData, 'requirements'> ({
+        ...(relationalColumn<ControlsPageGridData, 'requirements'> ({
           itemsKey: 'requirements',
-          getAllSearchableItems: getAllMockRequirements,
-          onLinkItem: (item) => handleItemLinked(item, 'Requirement'),
+          getAllSearchableItems: getAllRequirements,
+          linkItemAction: async (controlId, requirementId) => {
+            try {
+              await linkRequirementToControl(controlId, requirementId);
+              toast.success("Requirement linked successfully.");
+            } catch (error) {
+              toast.error(`Failed to link requirement: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
+          unlinkItemAction: async (controlId, requirementId) => {
+            try {
+              await unlinkRequirementFromControl(controlId, requirementId);
+              toast.success("Requirement unlinked successfully.");
+            } catch (error) {
+              toast.error(`Failed to unlink requirement: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
           itemTypeLabel: 'Requirement',
           createdRowIds: createdRowIds,
         })), 
@@ -209,10 +198,25 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
         id: 'taskTemplates',
         title: 'Linked Tasks', 
         minWidth: 200,
-        ...(countListColumn<ControlsPageGridData, 'taskTemplates'> ({
+        ...(relationalColumn<ControlsPageGridData, 'taskTemplates'> ({
           itemsKey: 'taskTemplates',
-          getAllSearchableItems: getAllMockTaskTemplates,
-          onLinkItem: (item) => handleItemLinked(item, 'Task Template'),
+          getAllSearchableItems: getAllTaskTemplates,
+          linkItemAction: async (controlId, taskTemplateId) => {
+            try {
+              await linkTaskTemplateToControl(controlId, taskTemplateId);
+              toast.success("Task template linked successfully.");
+            } catch (error) {
+              toast.error(`Failed to link task template: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
+          unlinkItemAction: async (controlId, taskTemplateId) => {
+            try {
+              await unlinkTaskTemplateFromControl(controlId, taskTemplateId);
+              toast.success("Task template unlinked successfully.");
+            } catch (error) {
+              toast.error(`Failed to unlink task template: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
           itemTypeLabel: 'Task Template',
           createdRowIds: createdRowIds,
         })), 
@@ -243,6 +247,7 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
             
             <DataSheetGrid
               value={dataForDisplay}
+              height={600}
               onChange={handleGridChange}
               columns={columns}
               rowClassName={getRowClassName}

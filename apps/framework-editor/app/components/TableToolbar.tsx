@@ -64,18 +64,16 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   }
 
   return (
-    <div className="mb-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
-      {/* Left section: Search and Sort */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center flex-grow">
+    <div className="flex flex-col sm:flex-row gap-2 items-center">
         <Input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => onSearchTermChange(e.target.value)}
-          className="flex-grow sm:flex-grow-0 sm:w-auto" // Adjust based on Input component needs
+          className="flex-grow sm:flex-grow-0 sm:w-full" // Adjust based on Input component needs
           leftIcon={<SearchIcon className="h-4 w-4 text-muted-foreground" />}
         />
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center ">
           <Select 
             value={sortColumnKey ?? '__NONE__'} 
             onValueChange={(value) => onSortColumnKeyChange(value === '__NONE__' ? null : value)}
@@ -101,10 +99,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
             <span className="sr-only">Toggle sort direction</span>
           </Button>
         </div>
-      </div>
 
-      {/* Right section: Action Buttons and Custom Children */}
-      <div className="flex gap-2 items-center mt-4 sm:mt-0">
         {showCommitCancel && (
           <>
             {isDirty && (
@@ -132,6 +127,5 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
         )}
         {children} { /* For any additional elements passed from parent */}
       </div>
-    </div>
   );
 }; 

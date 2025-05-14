@@ -8,27 +8,42 @@ import { createControlTemplateSchema } from './schemas';
 import type { FrameworkEditorControlTemplate } from "@prisma/client";
 
 /**
- * Fetches all requirements, including their framework name.
+ * Fetches all requirements, including their framework name and identifier.
  */
 export async function getAllRequirements(): Promise<SearchableItemForLinking[]> {
   try {
     const requirements = await db.frameworkEditorRequirement.findMany({
       select: {
         id: true,
-        name: true,
-        framework: { // Include framework details
+        identifier: true, 
+        name: true,       // Descriptive name
+        framework: { 
           select: {
-            id: true, // Useful if you ever want to link to the framework itself
             name: true,
           }
         }
       },
       orderBy: {
+        // Consider if ordering by identifier or name is preferred. Currently descriptive name.
         name: 'asc',
       },
     });
-    // The return type is SearchableItemForLinking, which allows for extra properties like 'framework'.
-    return requirements.map(r => ({ ...r, frameworkName: r.framework?.name })); // Optionally flatten for easier access if preferred
+    return requirements.map(r => {
+      let primaryDisplayLabel = r.identifier; // Start with identifier
+      if (r.identifier && r.name) { // If both identifier and descriptive name exist
+        primaryDisplayLabel = `${r.identifier} - ${r.name}`;
+      } else if (r.name) { // Else if only descriptive name exists
+        primaryDisplayLabel = r.name;
+      } 
+      // If only identifier exists, it's already set. If neither, fallback.
+      primaryDisplayLabel = primaryDisplayLabel || 'Unnamed Requirement';
+
+      return {
+        id: r.id, 
+        name: primaryDisplayLabel,
+        sublabel: r.framework?.name ? r.framework.name : undefined,
+      };
+    });
   } catch (error) {
     console.error("Error fetching all requirements:", error);
     throw new Error("Failed to fetch all requirements.");
@@ -94,13 +109,17 @@ export async function getAllPolicyTemplates(): Promise<SearchableItemForLinking[
       select: {
         id: true,
         name: true,
-        // Add other relevant fields, e.g., category or type if needed for display
       },
       orderBy: {
         name: 'asc',
       },
     });
-    return policyTemplates.map((pt: {id: string, name: string}) => ({ id: pt.id, name: pt.name })); 
+    // Policy templates only have a name, sublabel will be undefined
+    return policyTemplates.map((pt: {id: string, name: string}) => ({ 
+      id: pt.id, 
+      name: pt.name 
+      // sublabel will be implicitly undefined
+    })); 
   } catch (error) {
     console.error("Error fetching all policy templates:", error);
     throw new Error("Failed to fetch all policy templates.");
@@ -166,13 +185,17 @@ export async function getAllTaskTemplates(): Promise<SearchableItemForLinking[]>
       select: {
         id: true,
         name: true,
-        // Add other relevant fields
       },
       orderBy: {
         name: 'asc',
       },
     });
-    return taskTemplates.map((tt: {id: string, name: string}) => ({ id: tt.id, name: tt.name }));
+    // Task templates only have a name, sublabel will be undefined
+    return taskTemplates.map((tt: {id: string, name: string}) => ({ 
+      id: tt.id, 
+      name: tt.name 
+      // sublabel will be implicitly undefined
+    }));
   } catch (error) {
     console.error("Error fetching all task templates:", error);
     throw new Error("Failed to fetch all task templates.");

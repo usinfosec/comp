@@ -2,41 +2,45 @@ import { Button } from '@comp/ui/button';
 import React, { useRef, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom'; // Import ReactDOM for createPortal
 import type { CellProps, Column } from 'react-datasheet-grid';
-import { PlugIcon, Plus } from 'lucide-react';
+import { PlugIcon, Plus, XIcon } from 'lucide-react';
 
 // Interface for items that can be displayed as pills
 export interface ItemWithName {
-  id: string; // Or any unique key per item
-  name: string;
+  id: string; 
+  name: string; // Primary display label (e.g., identifier for requirements)
+  sublabel?: string; // Optional secondary display label (e.g., framework name for requirements)
+  description?: string; // Keep for potential future use or other item types
 }
 
 // TRowDataType is the type of the entire row object (e.g., ControlsPageGridData)
 // TItemsKey is a key of TRowDataType that points to ItemWithName[] (e.g., 'policyTemplates')
-interface CountListCellComponentProps<TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType> 
-  extends CellProps<TRowDataType, TRowDataType> { // rowData is now TRowDataType
-  itemsKey: TItemsKey; // Key to extract ItemWithName[] from TRowDataType
+interface RelationalCellComponentProps<TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType> 
+  extends CellProps<TRowDataType, TRowDataType> { 
+  itemsKey: TItemsKey; 
   getAllSearchableItems: () => Promise<ItemWithName[]>;
-  onLinkItem: (item: ItemWithName) => void;
+  linkItemAction: (controlId: string, itemId: string) => Promise<void>;
+  unlinkItemAction: (controlId: string, itemId: string) => Promise<void>;
   itemTypeLabel: string;
   createdRowIds?: Set<string>;
 }
 
 /**
- * CountListCellComponent is the inner implementation for the cell.
+ * RelationalCellComponent is the inner implementation for the cell.
  * It displays items as pills. When inactive, it shows a clipped single line.
  * When active (and not pending creation), it uses a portal for an expanded view.
  */
-const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
-  props: CountListCellComponentProps<TRowDataType, TItemsKey>
+const RelationalCellComponent = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
+  props: RelationalCellComponentProps<TRowDataType, TItemsKey>
 ) => {
     const { 
         rowData, // This is now the full TRowDataType object
         active,
         itemsKey,
         getAllSearchableItems,
-        onLinkItem,
+        linkItemAction,
+        unlinkItemAction,
         itemTypeLabel,
-        createdRowIds 
+        createdRowIds,
     } = props;
 
     // Extract ItemWithName[] from the full rowData using itemsKey
@@ -177,12 +181,34 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
       </div>
     );
 
-    const handleSelectItem = (itemToLink: ItemWithName) => {
-      onLinkItem(itemToLink);
+    const handleSelectItem = async (itemToLink: ItemWithName) => {
+      if (rowData.id) {
+        try {
+          await linkItemAction(rowData.id, itemToLink.id);
+          // Success will be handled by the caller (e.g., toast in ControlsClientPage)
+        } catch (error) {
+          console.error(`RelationalCell: Error linking ${itemTypeLabel} '${itemToLink.name}':`, error);
+          // Error notification (toast) will be handled by the caller
+        }
+      } else {
+        console.warn("Link action or control ID missing for handleSelectItem. Ensure rowData.id and linkItemAction prop are provided.");
+      }
       setSearchTerm('');
       setIsSearching(false);
-      // Optional: Maybe refresh allSearchableItems or filteredItems if linking changes their status
-      // but typically the parent component updating rowData will cause a re-render.
+    };
+
+    const handleUnlinkItem = async (itemToUnlink: ItemWithName) => {
+      if (rowData.id) {
+        try {
+          await unlinkItemAction(rowData.id, itemToUnlink.id);
+          // Success will be handled by the caller
+        } catch (error) {
+          console.error(`RelationalCell: Error unlinking ${itemTypeLabel} '${itemToUnlink.name}':`, error);
+          // Error notification will be handled by the caller
+        }
+      } else {
+        console.warn("Unlink action or control ID missing for handleUnlinkItem. Ensure rowData.id and unlinkItemAction prop are provided.");
+      }
     };
 
     const ActivePortalContent = () => (
@@ -212,6 +238,7 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
                 {filteredItems.length === 0 && searchTerm !== '' && <p>No {itemTypeLabel}s found.</p>}
                 {filteredItems.map((item) => {
                   const isLinked = items.some(linkedItem => linkedItem.id === item.id);
+                  const buttonTitle = item.sublabel ? `${item.name} - ${item.sublabel}` : item.name;
                   return (
                     <Button
                       key={item.id}
@@ -219,9 +246,12 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
                       size="sm"
                       onClick={() => handleSelectItem(item)}
                       disabled={isLinked}
-                      style={{ display:'block', width: '100%', textAlign: 'left', marginBottom: '4px' }}
+                      style={{ display:'block', width: '100%', textAlign: 'left', marginBottom: '4px', height: 'auto', lineHeight: 'normal', padding: '0.3rem 0.6rem'}}
+                      title={buttonTitle}
                     >
-                      {item.name} {isLinked && "(Linked)"}
+                      <div style={{ fontWeight: 'bold' }}>{item.name}</div>
+                      {item.sublabel && <div style={{ fontSize: '0.85em', color: '#555' }}>{item.sublabel}</div>}
+                      {isLinked && <span style={{ marginTop: '0.2em', display: 'block', fontSize: '0.85em', color: '#888' }}>(Linked)</span>}
                     </Button>
                   );
                 })}
@@ -245,9 +275,21 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
                 }}
               >
                 {items.map((item) => (
-                  <span key={item.id} style={pillBaseStyle}>
-                    {item.name}
-                  </span>
+                  <div key={item.id} style={{...pillBaseStyle, display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'space-between'}}>
+                    <span style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>{item.name}</span>
+                    {!isPendingCreation && rowData.id && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-5 w-5 p-0 text-muted-foreground hover:text-destructive flex-shrink-0"
+                        onClick={() => handleUnlinkItem(item)}
+                        title={`Unlink ${item.name}`}
+                        onMouseDown={(e) => e.stopPropagation()} // Prevent DSG from stealing focus
+                      >
+                        <XIcon className="h-3 w-3" />
+                      </Button>
+                    )}
+                  </div>
                 ))}
               </div>
             )}
@@ -287,28 +329,28 @@ const CountListCellComponent = <TRowDataType extends { id?: string }, TItemsKey 
 };
 
 // Export the memoized component, letting React.memo infer types more directly
-export const CountListCell = React.memo(CountListCellComponent) as {
+export const RelationalCell = React.memo(RelationalCellComponent) as {
     <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
-        props: CountListCellComponentProps<TRowDataType, TItemsKey>
+        props: RelationalCellComponentProps<TRowDataType, TItemsKey>
     ): React.ReactElement; // Use React.ReactElement for JSX
     displayName?: string;
 };
 
-CountListCell.displayName = 'CountListCell';
+RelationalCell.displayName = 'RelationalCell';
 
 /**
- * `countListColumn` is a factory function that creates a `react-datasheet-grid` column configuration
- * for displaying a list of ItemWithName objects as pills using the CountListCell component.
+ * \`relationalColumn\` is a factory function that creates a \`react-datasheet-grid\` column configuration
+ * for displaying a list of ItemWithName objects as pills using the RelationalCell component.
  */
 // TRowDataType is the full row data type, TItemsKey is the key for the items array within TRowDataType
-export const countListColumn = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
-  customProps: Omit<CountListCellComponentProps<TRowDataType, TItemsKey>, keyof CellProps<TRowDataType, TRowDataType>> & { itemsKey: TItemsKey }
+export const relationalColumn = <TRowDataType extends { id?: string }, TItemsKey extends keyof TRowDataType>(
+  customProps: Omit<RelationalCellComponentProps<TRowDataType, TItemsKey>, keyof CellProps<TRowDataType, TRowDataType>> & { itemsKey: TItemsKey }
 ) : Partial<Column<TRowDataType, TRowDataType>> => ({ // Column now operates on TRowDataType for its cell value
-  // The `component` receives CellProps where `rowData` is TRowDataType
+  // The \`component\` receives CellProps where \`rowData\` is TRowDataType
   component: (dsgCellProps: CellProps<TRowDataType, TRowDataType>) => (
-    <CountListCell {...dsgCellProps} {...customProps} />
+    <RelationalCell {...dsgCellProps} {...customProps} />
   ),
   keepFocus: true,
   // The column-level disabled prop is removed as it was causing type issues and 
-  // the CountListCell component itself handles its disabled state visually and interactively.
+  // the RelationalCell component itself handles its disabled state visually and interactively.
 }); 
