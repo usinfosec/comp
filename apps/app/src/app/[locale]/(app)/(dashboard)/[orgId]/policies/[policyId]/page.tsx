@@ -1,4 +1,3 @@
-import { Comments } from "@/components/comments";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
@@ -10,6 +9,11 @@ import { headers } from "next/headers";
 import { JSONContent } from "novel";
 import { cache } from "react";
 import { PolicyPageEditor } from "./editor/components/PolicyDetails";
+import {
+	Comments,
+	CommentWithAuthor,
+} from "../../components/comments/Comments";
+import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 
 export default async function PolicyDetails({
 	params,
@@ -21,7 +25,7 @@ export default async function PolicyDetails({
 	setStaticParamsLocale(locale);
 	const policy = await getPolicy(policyId);
 	const assignees = await getAssignees();
-	const comments = await getComments({ policyId });
+	const comments = await getComments(policyId);
 
 	return (
 		<PageWithBreadcrumb
@@ -109,41 +113,53 @@ const getAssignees = cache(async () => {
 	return assignees;
 });
 
-const getComments = cache(
-	async ({
-		policyId,
-	}: {
-		policyId: string;
-	}) => {
-		const session = await auth.api.getSession({
-			headers: await headers(),
-		});
+const getComments = async (policyId: string): Promise<CommentWithAuthor[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-		const organizationId = session?.session.activeOrganizationId;
+	const activeOrgId = session?.session.activeOrganizationId;
 
-		if (!organizationId) {
-			return [];
-		}
+	if (!activeOrgId) {
+		console.warn(
+			"Could not determine active organization ID in getComments",
+		);
+		return [];
+	}
 
-		try {
-			const comments = await db.comment.findMany({
-				where: { entityId: policyId, organizationId },
+	const comments = await db.comment.findMany({
+		where: {
+			organizationId: activeOrgId,
+			entityId: policyId,
+			entityType: CommentEntityType.policy,
+		},
+		include: {
+			author: {
 				include: {
-					author: {
-						include: {
-							user: true,
-						},
-					},
+					user: true,
 				},
-				orderBy: {
-					createdAt: "desc",
+			},
+		},
+		orderBy: {
+			createdAt: "desc",
+		},
+	});
+
+	const commentsWithAttachments = await Promise.all(
+		comments.map(async (comment) => {
+			const attachments = await db.attachment.findMany({
+				where: {
+					organizationId: activeOrgId,
+					entityId: comment.id,
+					entityType: AttachmentEntityType.comment,
 				},
 			});
+			return {
+				...comment,
+				attachments,
+			};
+		}),
+	);
 
-			return comments;
-		} catch (error) {
-			console.error(error);
-			return [];
-		}
-	},
-);
+	return commentsWithAttachments;
+};
