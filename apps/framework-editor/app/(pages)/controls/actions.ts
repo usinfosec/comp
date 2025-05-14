@@ -3,6 +3,9 @@
 import { db } from '@comp/db';
 import { revalidatePath } from 'next/cache';
 import type { SearchableItemForLinking } from '@/app/components/SearchAndLinkList'; // Assuming this path is correct
+import { z } from "zod";
+import { createControlTemplateSchema } from './schemas';
+import type { FrameworkEditorControlTemplate } from "@prisma/client";
 
 /**
  * Fetches all requirements, including their framework name.
@@ -277,5 +280,35 @@ export async function deleteControl(controlId: string): Promise<void> {
     console.error("Error deleting control:", error);
     // Consider more specific error handling, e.g., if control not found or if relations prevent deletion
     throw new Error("Failed to delete control.");
+  }
+}
+
+/**
+ * Creates a new control template.
+ */
+export async function createControl(rawData: { name: string | null; description?: string | null }): Promise<FrameworkEditorControlTemplate> {
+  const validationResult = createControlTemplateSchema.safeParse(rawData);
+
+  if (!validationResult.success) {
+    const errorMessages = validationResult.error.issues.map((issue: z.ZodIssue) => `${issue.path.join('.')}: ${issue.message}`).join(', ');
+    throw new Error(`Invalid input for creating control: ${errorMessages}`);
+  }
+
+  const { name, description } = validationResult.data; // name is string, description is string | undefined
+
+  try {
+    const controlTemplate = await db.frameworkEditorControlTemplate.create({
+      data: {
+        name,
+        description: description || "", // Ensure description is not undefined for Prisma
+      },
+    });
+
+    revalidatePath("/controls");
+    return controlTemplate;
+  } catch (error) {
+    console.error("Failed to create control template:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to create control template in the database.";
+    throw new Error(`Database error: ${errorMessage}`);
   }
 } 
