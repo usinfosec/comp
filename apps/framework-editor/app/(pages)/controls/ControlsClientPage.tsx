@@ -6,7 +6,15 @@ import { CreateControlDialog } from './components/CreateControlDialog';
 import type { FrameworkEditorControlTemplate } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { Button } from '@comp/ui/button';
-import { SortAsc, SortDesc } from 'lucide-react';
+import { SortAsc, SortDesc, Search as SearchIcon } from 'lucide-react';
+import { Input } from '@comp/ui/input';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@comp/ui/select';
 
 import {
   DataSheetGrid,
@@ -155,26 +163,29 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
     return (
         <PageLayout breadcrumbs={[{ label: "Controls", href: "/controls" }]}>
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <input
+              <Input
                 type="text"
                 placeholder="Search controls..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="border p-2 rounded-sm flex-grow"
+                className="flex-grow"
+                leftIcon={<SearchIcon className="h-4 w-4 text-muted-foreground" />}
               />
               <div className="flex gap-2 items-center">
-                <label htmlFor="sort-column" className="text-sm whitespace-nowrap">Sort by:</label>
-                <select
-                  id="sort-column"
-                  value={sortColumn ?? ''}
-                  onChange={(e) => setSortColumn(e.target.value as SortableColumn | null || null)}
-                  className="border p-2 rounded-sm"
+                <Select 
+                  value={sortColumn ?? '__NONE__'}
+                  onValueChange={(value) => setSortColumn(value === '__NONE__' ? null : value as SortableColumn)}
                 >
-                  <option value="">None</option>
-                  {sortableColumnsOptions.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Sort by..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__NONE__">None</SelectItem>
+                    {sortableColumnsOptions.map(opt => (
+                      <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Button
                   variant="outline"
                   size="icon"
