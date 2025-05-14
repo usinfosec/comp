@@ -1875,6 +1875,7 @@
   resolved "workspace:apps/app"
   devDependencies:
     "@comp/db" "workspace:*"
+  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.15.2"
     "@types/react" "19.1.2"
@@ -1891,9 +1892,11 @@
     "@aws-sdk/client-sts" "^3.808.0"
     "@aws-sdk/s3-request-presigner" "^3.806.0"
     "@browserbasehq/sdk" "^2.5.0"
+  dependencies:
     "@comp/data" "workspace:*"
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1975,6 +1978,7 @@
   resolved "workspace:packages/data"
   devDependencies:
     "@comp/db" "workspace:*"
+  devDependencies:
     tsup "^8.4.0"
     typescript "^5.8.3"
 
@@ -1983,6 +1987,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.3"
   dependencies:
     "@prisma/client" "6.6.0"
@@ -2239,6 +2244,7 @@
     "@radix-ui/react-tabs" "^1.1.1"
     "@radix-ui/react-toast" "^1.2.2"
     "@radix-ui/react-tooltip" "^1.1.3"
+    "@radix-ui/react-use-is-hydrated" "^0.1.0"
     "@tailwindcss/typography" "^0.5.16"
     "@tiptap/extension-bold" "2.11.5"
     "@tiptap/extension-link" "^2.9.1"
@@ -5076,6 +5082,13 @@
   integrity sha512-L7vwWlR1kTTQ3oh7g1O0CBF3YCyyTj8NmhLR+phShpyA50HCfBFKVJTpshm9PzLiKmehsrQzTYTpX9HvmC9rhw==
   dependencies:
     "@radix-ui/react-use-callback-ref" "1.1.0"
+
+"@radix-ui/react-use-is-hydrated@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@radix-ui/react-use-is-hydrated/-/react-use-is-hydrated-0.1.0.tgz"
+  integrity sha512-U+UORVEq+cTnRIaostJv9AGdV3G6Y+zbVd+12e18jQ5A3c0xL03IhnHuiU4UV69wolOQp5GfR58NW/EgdQhwOA==
+  dependencies:
+    use-sync-external-store "^1.5.0"
 
 "@radix-ui/react-use-layout-effect@1.0.0":
   version "1.0.0"
@@ -18250,7 +18263,7 @@ use-sidecar@^1.1.2, use-sidecar@^1.1.3:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
-use-sync-external-store@>=1.2.0, use-sync-external-store@^1, use-sync-external-store@^1.2.2, use-sync-external-store@^1.4.0:
+use-sync-external-store@>=1.2.0, use-sync-external-store@^1, use-sync-external-store@^1.2.2, use-sync-external-store@^1.4.0, use-sync-external-store@^1.5.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.5.0.tgz"
   integrity sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==
