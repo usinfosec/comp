@@ -56,7 +56,7 @@ export const app_onboarding = {
 		},
 	},
 	cloud_tests: {
-		title: "Cloud Compliance - Coming Soon",
+		title: "Cloud Compliance",
 		description:
 			"Test and validate your cloud infrastructure security with automated tests and reports.",
 		cta: "Configure",
