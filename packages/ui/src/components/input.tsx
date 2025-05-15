@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 		const adornmentWidth = 74; // px, matches pl-[74px]
 		const iconPadding = 36; // px, for left icon padding
-		
+
 		return (
 			<div className={cn("relative w-full", className)}>
 				{isUrl && (
@@ -35,6 +35,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 				)}
 				<input
 					type={type}
+					// Add these attributes to help prevent interference from browser extensions
+					autoComplete="off"
+					data-lpignore="true"
 					className={cn(
 						"flex h-9 w-full rounded-sm border border-input bg-background py-1 text-base transition-colors",
 						"placeholder:text-muted-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
