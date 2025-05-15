@@ -14,3 +14,4 @@ model FrameworkInstance {
 }
 
 // This will need to be a relation to the FrameworkEditorFramework table; will help a lot that way.
+// TODO: Add a relation to the FrameworkEditorFramework table.

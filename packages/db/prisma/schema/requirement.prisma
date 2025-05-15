@@ -10,3 +10,6 @@ model RequirementMap {
     @@unique([controlId, frameworkInstanceId, requirementId])
     @@index([requirementId, frameworkInstanceId])
 }
+
+// This table enables us to map a control to a requirement.
+// TODO: Update the requirementId to be an actual relation to the requirement table.
