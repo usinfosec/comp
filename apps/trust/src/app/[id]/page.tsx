@@ -1,11 +1,11 @@
-import { findOrganization, getFrameworks, getPublishedControls, getPublishedPolicies } from "./lib/data";
+import { findOrganizationByAnyId, getFrameworks, getPublishedControls, getPublishedPolicies } from "./lib/data";
 import ComplianceReport from './components/report';
 import { Metadata } from "next";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const id = (await params).id;
 
-    const organization = await findOrganization(id);
+    const organization = await findOrganizationByAnyId(id);
 
     if (!organization) {
         return <div>
@@ -18,9 +18,9 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         </div>
     }
 
-    const policies = await getPublishedPolicies(organization.id);
-    const controls = await getPublishedControls(organization.id);
-    const frameworks = await getFrameworks(organization.id);
+    const policies = await getPublishedPolicies(id);
+    const controls = await getPublishedControls(id);
+    const frameworks = await getFrameworks(id);
 
     return (
         <div>
@@ -44,7 +44,7 @@ export async function generateMetadata({
     params: Promise<{ id: string }>;
 }): Promise<Metadata> {
     const id = (await params).id;
-    const organization = await findOrganization(id);
+    const organization = await findOrganizationByAnyId(id);
 
     if (!organization) {
         return {
@@ -54,7 +54,10 @@ export async function generateMetadata({
 
     const title = `${organization.name} - Security Trust Center`;
     const description = `Find out the compliance and security posture of ${organization.name} against common cybersecurity frameworks like SOC 2, ISO 27001, and more.`;
-    const url = `https://${organization.trust.find((trust) => trust.status === "published")?.domain ?? `trycomp.ai/trust/${organization.id}`}`;
+    const isCustomDomain = organization.trust.find((trust) => trust.status === "published")?.domain;
+    const isFriendlyUrl = organization.trust.find((trust) => trust.status === "published")?.friendlyUrl;
+
+    const url = `https://${isCustomDomain ?? `trust.inc/${isFriendlyUrl ?? organization.id}`}`;
 
     return {
         title,
