@@ -13,12 +13,14 @@ export async function middleware(request: NextRequest) {
 	}
 
 	const orgs = await domainToOrgMap();
+
 	const orgIdForCustomDomain = orgs.find(
 		(org) => org.domain === hostname,
 	)?.orgId;
+
 	const orgIdForFriendlyUrl = orgs.find(
 		(org) => org.friendlyUrl === hostname,
-	)?.orgId;
+	)?.friendlyUrl;
 
 	if (orgIdForCustomDomain) {
 		if (url.pathname.startsWith(`/${orgIdForCustomDomain}`)) {
@@ -40,9 +42,10 @@ export async function middleware(request: NextRequest) {
 
 	const pathSegments = url.pathname.split("/").filter(Boolean);
 	if (
-		hostname === "trust.trycomp.ai" &&
-		pathSegments.length > 0 &&
-		isOrgId(pathSegments[0])
+		hostname === "trust.trycomp.ai" ||
+		(hostname === "trust.inc" &&
+			pathSegments.length > 0 &&
+			isOrgId(pathSegments[0]))
 	) {
 		return NextResponse.next();
 	}
