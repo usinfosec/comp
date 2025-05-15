@@ -39,7 +39,7 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
                     </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="grid sm:flex gap-2">
                     <Link className={buttonVariants({ variant: "outline", className: "text-xs" })} href={`${organization.website || "https://trycomp.ai"}`}>
                         Visit {organization.name} <ExternalLink className="w-3 h-3" />
                     </Link>

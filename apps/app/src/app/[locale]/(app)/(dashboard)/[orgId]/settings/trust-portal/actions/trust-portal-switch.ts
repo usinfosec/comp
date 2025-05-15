@@ -10,6 +10,7 @@ import { z } from "zod";
 const trustPortalSwitchSchema = z.object({
 	enabled: z.boolean(),
 	contactEmail: z.string().email().optional().or(z.literal("")),
+	friendlyUrl: z.string().optional(),
 });
 
 export const trustPortalSwitchAction = authActionClient
@@ -22,7 +23,7 @@ export const trustPortalSwitchAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { enabled, contactEmail } = parsedInput;
+		const { enabled, contactEmail, friendlyUrl } = parsedInput;
 		const { activeOrganizationId } = ctx.session;
 
 		if (!activeOrganizationId) {
@@ -31,15 +32,19 @@ export const trustPortalSwitchAction = authActionClient
 
 		try {
 			await db.trust.upsert({
-				where: { organizationId: activeOrganizationId },
+				where: {
+					organizationId: activeOrganizationId,
+				},
 				update: {
 					status: enabled ? "published" : "draft",
 					contactEmail: contactEmail === "" ? null : contactEmail,
+					friendlyUrl: friendlyUrl === "" ? null : friendlyUrl,
 				},
 				create: {
 					organizationId: activeOrganizationId,
 					status: enabled ? "published" : "draft",
 					contactEmail: contactEmail === "" ? null : contactEmail,
+					friendlyUrl: friendlyUrl === "" ? null : friendlyUrl,
 				},
 			});
 
