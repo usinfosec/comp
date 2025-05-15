@@ -1,8 +1,8 @@
 model FrameworkInstance {
   // Metadata
-  id             String      @id @default(dbgenerated("generate_prefixed_cuid('frm'::text)"))
+  id             String @id @default(dbgenerated("generate_prefixed_cuid('frm'::text)"))
   organizationId String
-  frameworkId    FrameworkId
+  frameworkId    String
 
   // Relationships
   controls           Control[]
@@ -12,6 +12,4 @@ model FrameworkInstance {
   @@unique([organizationId, frameworkId])
 }
 
-enum FrameworkId {
-  soc2
-}
+// This will need to be a relation to the FrameworkEditorFramework table; will help a lot that way.

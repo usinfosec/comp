@@ -136,7 +136,7 @@ export const createOrganizationAction = authActionClient
 					// REVISIT: Consider if more granular error handling/logging is needed within the transaction
 
 					start = performance.now();
-					const relevantControls = getRelevantControls(frameworks);
+					const relevantControls = await getRelevantControls(frameworks);
 					const getRelevantControlsTime =
 						(performance.now() - start) / 1000;
 
@@ -170,34 +170,34 @@ export const createOrganizationAction = authActionClient
 
 					// Run policy and task creation in parallel
 					start = performance.now();
-					const [policiesForFrameworks, tasksCreationResult] =
-						await Promise.all([
-							createOrganizationPolicies(
-								organizationId,
-								relevantControls,
-								userId,
-								tx,
-							), // Pass tx
-							createOrganizationTasks(
-								organizationId,
-								relevantControls,
-								dbControlsMap, // Pass the map
-								userId,
-								tx,
-							),
-						]);
+					// const [policiesForFrameworks, tasksCreationResult] =
+					// 	await Promise.all([
+					// 		createOrganizationPolicies(
+					// 			organizationId,
+					// 			relevantControls,
+					// 			userId,
+					// 			tx,
+					// 		), // Pass tx
+					// 		createOrganizationTasks(
+					// 			organizationId,
+					// 			relevantControls,
+					// 			dbControlsMap, // Pass the map
+					// 			userId,
+					// 			tx,
+					// 		),
+					// 	]);
 					const createPoliciesAndTasksParallelTime =
 						(performance.now() - start) / 1000;
 
 					start = performance.now();
 					// Pass the transaction client `tx` to the helper
-					await createControlArtifacts(
-						organizationId,
-						organizationFrameworks.map((framework) => framework.id),
-						relevantControls,
-						policiesForFrameworks,
-						tx, // Pass tx
-					);
+					// await createControlArtifacts(
+					// 	organizationId,
+					// 	organizationFrameworks.map((framework) => framework.id),
+					// 	relevantControls,
+					// 	policiesForFrameworks,
+					// 	tx, // Pass tx
+					// );
 					const createControlArtifactsTime =
 						(performance.now() - start) / 1000;
 

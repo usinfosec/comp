@@ -1,18 +1,24 @@
-import type { TemplateControl, TemplateTask, TemplatePolicy } from "@comp/data";
-import { controls, tasks, frameworks, policies } from "@comp/data";
+import type {
+	TemplateControl,
+	TemplatePolicy,
+	TemplatePolicyId,
+	TemplateTask,
+	TemplateTaskId
+} from "@comp/data";
+import { controls, policies, tasks } from "@comp/data";
 import { db } from "@comp/db";
 import {
-	FrameworkId,
+	ArtifactType,
+	Departments,
 	type PolicyStatus,
+	Prisma, type PrismaClient,
 	RequirementId,
-	TaskStatus,
 	TaskEntityType,
 	TaskFrequency,
-	Departments,
-	ArtifactType,
+	TaskStatus,
 } from "@prisma/client";
-import { Prisma, type PrismaClient } from "@prisma/client";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
+import { TemplateControlNew } from "./control.types";
 
 /**
  * A type-safe wrapper for accessing policy templates by ID
@@ -36,14 +42,48 @@ export function getPolicyById(id: string): TemplatePolicy | undefined {
  * @param frameworkIds - Array of framework IDs selected by the organization
  * @returns Array of control templates relevant to the selected frameworks
  */
-export function getRelevantControls(
-	frameworkIds: FrameworkId[],
-): TemplateControl[] {
-	return controls.filter((control) =>
-		control.mappedRequirements.some((req) =>
-			frameworkIds.includes(req.frameworkId),
-		),
-	);
+export async function getRelevantControls(
+	frameworkIds: string[],
+): Promise<TemplateControlNew[]> {
+	const relevantDbControls = await db.frameworkEditorControlTemplate.findMany({
+		where: {
+			requirements: {
+				some: {
+					frameworkId: {
+						in: frameworkIds,
+					},
+				},
+			},
+		},
+		include: {
+			requirements: true,
+			policyTemplates: true,
+			taskTemplates: true,
+		},
+	});
+
+	// Map Prisma models to TemplateControl[]
+	return relevantDbControls.map((dbControl) => {
+		return {
+			id: dbControl.id,
+			name: dbControl.name,
+			description: dbControl.description,
+			mappedRequirements: dbControl.requirements.map((req) => {
+				const fwId = req.frameworkId;
+				return {
+					frameworkId: fwId,
+					requirementId: req.identifier,
+				};
+			}),
+			mappedArtifacts: dbControl.policyTemplates.map((pt) => ({
+				type: "policy" as const,
+				policyId: pt.id as TemplatePolicyId,
+			})),
+			mappedTasks: dbControl.taskTemplates.map((tt) => ({
+				taskId: tt.id as TemplateTaskId,
+			})),
+		};
+	});
 }
 
 /**
@@ -63,7 +103,7 @@ export function getRelevantControls(
  */
 export async function createFrameworkInstance(
 	organizationId: string,
-	frameworkId: FrameworkId,
+	frameworkId: string,
 	txClient?: Prisma.TransactionClient,
 ) {
 	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
@@ -80,17 +120,19 @@ export async function createFrameworkInstance(
 		throw new Error(`Organization with ID ${organizationId} not found`);
 	}
 
-	// Verify the framework exists
-	const framework = frameworks[frameworkId as FrameworkId];
+	// Verify the framework exists by fetching from the database
+	const framework = await prisma.frameworkEditorFramework.findUnique({
+		where: { id: frameworkId },
+	});
 
 	if (!framework) {
 		console.error(
-			"Framework not found when creating organization framework",
+			"Framework not found in database when creating organization framework",
 			{
-				organizationId,
-				frameworkId,
-			},
-		);
+			organizationId,
+			frameworkId,
+		},
+	);
 		throw new Error(`Framework with ID ${frameworkId} not found`);
 	}
 
@@ -100,7 +142,7 @@ export async function createFrameworkInstance(
 			where: {
 				organizationId_frameworkId: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId: frameworkId,
 				},
 			},
 		},
@@ -114,13 +156,13 @@ export async function createFrameworkInstance(
 				},
 				data: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId: frameworkId,
 				},
 			})
 		: await prisma.frameworkInstance.create({
 				data: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId: frameworkId,
 				},
 			});
 
@@ -214,7 +256,7 @@ export async function createFrameworkInstance(
  * @returns The number of requirement maps created
  */
 export async function createRequirementMaps(
-	frameworkInstance: { id: string; frameworkId: FrameworkId },
+	frameworkInstance: { id: string; frameworkId: string },
 	controls: { id: string; name: string }[],
 	templateControls: TemplateControl[],
 	txClient?: Prisma.TransactionClient,
@@ -314,7 +356,7 @@ export async function createRequirementMaps(
  */
 export async function createOrganizationPolicies(
 	organizationId: string,
-	relevantControls: TemplateControl[],
+	relevantControls: TemplateControlNew[],
 	userId: string,
 	txClient?: Prisma.TransactionClient,
 ) {
@@ -494,7 +536,7 @@ export async function createOrganizationPolicies(
  */
 export async function createOrganizationTasks(
 	organizationId: string,
-	relevantControls: TemplateControl[],
+	relevantControls: TemplateControlNew[],
 	dbControls: Map<string, { id: string }>,
 	userId: string,
 	txClient?: Prisma.TransactionClient,
@@ -591,7 +633,7 @@ export async function createOrganizationTasks(
 export async function createControlArtifacts(
 	organizationId: string,
 	frameworkInstanceIds: string[],
-	relevantControls: TemplateControl[],
+	relevantControls: TemplateControlNew[],
 	// Ensure the Map type reflects the actual structure expected/needed, including id
 	createdPolicies: Map<
 		string,
