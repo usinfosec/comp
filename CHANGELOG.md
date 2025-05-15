@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/trycompai/comp/compare/v1.19.0...v1.20.0) (2025-05-15)
+
+
+### Features
+
+* **trust-portal:** implement friendly URL functionality ([7e43c73](https://github.com/trycompai/comp/commit/7e43c73e000a3a4dd43885c8999bb95f49a75991))
+
 # [1.19.0](https://github.com/trycompai/comp/compare/v1.18.0...v1.19.0) (2025-05-14)
 
 
