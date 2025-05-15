@@ -19,6 +19,8 @@ import { Checkbox } from "@comp/ui/checkbox";
 import { markOnboardingStep } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/actions";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { useAction } from "next-safe-action/hooks";
+import { updateFloatingState } from "@/actions/floating";
 
 interface FloatingOnboardingChecklistProps {
 	orgId: string;
@@ -26,6 +28,7 @@ interface FloatingOnboardingChecklistProps {
 	totalItems: number;
 	checklistItems: ChecklistItemProps[];
 	className?: string;
+	floatingOpen: boolean;
 }
 
 export function FloatingOnboardingChecklist({
@@ -33,9 +36,10 @@ export function FloatingOnboardingChecklist({
 	completedItems: initialCompletedItems,
 	totalItems,
 	checklistItems: initialChecklistItems,
+	floatingOpen,
 	className,
 }: FloatingOnboardingChecklistProps) {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(floatingOpen);
 	const pathname = usePathname();
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
@@ -43,6 +47,12 @@ export function FloatingOnboardingChecklist({
 	// Local state for optimistic updates
 	const [checklistItems, setChecklistItems] = useState(initialChecklistItems);
 	const [completedItems, setCompletedItems] = useState(initialCompletedItems);
+
+	const { execute } = useAction(updateFloatingState, {
+		onSuccess: () => {
+			router.refresh();
+		},
+	});
 
 	const incompleteItems = checklistItems.filter((item) => !item.completed);
 	const remainingItems = totalItems - completedItems;
@@ -53,6 +63,11 @@ export function FloatingOnboardingChecklist({
 	if (remainingItems === 0 || implementationPathRegex.test(pathname)) {
 		return null;
 	}
+
+	const toggleFloating = () => {
+		setOpen(!open);
+		execute({ floatingOpen: !open });
+	};
 
 	const handleCheckedChange = (
 		step: OnboardingStep,
@@ -95,7 +110,7 @@ export function FloatingOnboardingChecklist({
 	};
 
 	return (
-		<Collapsible open={open} onOpenChange={setOpen}>
+		<Collapsible open={open} onOpenChange={toggleFloating}>
 			<div
 				className={cn(
 					"bottom-4 right-4 z-50 w-80 rounded-sm border bg-card text-card-foreground shadow-lg relative",
@@ -176,9 +191,9 @@ export function FloatingOnboardingChecklist({
 										className={cn(
 											"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
 											item.completed &&
-												"line-through text-muted-foreground hover:text-muted-foreground",
+											"line-through text-muted-foreground hover:text-muted-foreground",
 											isPending &&
-												"opacity-50 cursor-not-allowed",
+											"opacity-50 cursor-not-allowed",
 										)}
 										tabIndex={isPending ? -1 : 0}
 										aria-disabled={isPending}
