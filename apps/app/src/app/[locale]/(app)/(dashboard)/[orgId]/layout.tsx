@@ -34,6 +34,8 @@ export default async function Layout({
 
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+	const floatingOpen =
+		cookieStore.get("floating-onboarding-checklist")?.value !== "false";
 
 	if (!session?.session?.userId) {
 		return redirect("/auth");
@@ -88,12 +90,13 @@ export default async function Layout({
 			<div className="hidden md:flex">
 				{!("error" in onboardingStatus) &&
 					onboardingStatus.completedItems <
-						onboardingStatus.totalItems && (
+					onboardingStatus.totalItems && (
 						<FloatingOnboardingChecklist
 							orgId={currentOrganization.id}
 							completedItems={onboardingStatus.completedItems}
 							totalItems={onboardingStatus.totalItems}
 							checklistItems={onboardingStatus.checklistItems}
+							floatingOpen={floatingOpen}
 						/>
 					)}
 			</div>

@@ -23,7 +23,7 @@ export default async function TrustPortalSettings({
 		<div className="mx-auto max-w-7xl space-y-4">
 			<TrustPortalSwitch
 				enabled={trustPortal?.enabled ?? false}
-				slug={orgId}
+				slug={trustPortal?.friendlyUrl ?? orgId}
 				domain={trustPortal?.domain ?? ""}
 				domainVerified={trustPortal?.domainVerified ?? false}
 				contactEmail={trustPortal?.contactEmail ?? null}
@@ -34,6 +34,7 @@ export default async function TrustPortalSettings({
 				soc2Status={trustPortal?.soc2Status ?? "started"}
 				iso27001Status={trustPortal?.iso27001Status ?? "started"}
 				gdprStatus={trustPortal?.gdprStatus ?? "started"}
+				friendlyUrl={trustPortal?.friendlyUrl ?? null}
 			/>
 			<TrustPortalDomain
 				domain={trustPortal?.domain ?? ""}
@@ -74,6 +75,7 @@ const getTrustPortal = cache(async (orgId: string) => {
 		gdprStatus: trustPortal?.gdpr_status,
 		isVercelDomain: trustPortal?.isVercelDomain,
 		vercelVerification: trustPortal?.vercelVerification,
+		friendlyUrl: trustPortal?.friendlyUrl,
 	};
 });
 
