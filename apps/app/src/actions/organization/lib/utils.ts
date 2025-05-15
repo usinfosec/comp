@@ -56,11 +56,20 @@ export async function getRelevantControls(
 			},
 		},
 		include: {
+
+			/**
+			|--------------------------------------------------
+			| Because we're now supporting many to many, we shound't pull them relationally like this
+			| Or if we do, we need to flatten them into a deduped array of requirements, policies, and tasks
+			|--------------------------------------------------
+			*/
 			requirements: true,
 			policyTemplates: true,
 			taskTemplates: true,
 		},
 	});
+
+	console.log("relevantDbControls", relevantDbControls);
 
 	// Map Prisma models to TemplateControl[]
 	return relevantDbControls.map((dbControl) => {

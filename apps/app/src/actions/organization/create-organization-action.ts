@@ -106,6 +106,18 @@ export const createOrganizationAction = authActionClient
 				},
 			});
 
+			await db.frameworkEditorFramework.update({
+				where: {
+					id: session.session.activeOrganizationId,
+				},
+				data: {
+					requirements: {
+						connectOrCreate
+					}
+				}
+			});
+
+
 			const organizationId = session.session.activeOrganizationId;
 
 			// --- External API Call + Initial Org Update (Outside Transaction) ---
@@ -139,6 +151,14 @@ export const createOrganizationAction = authActionClient
 					const relevantControls = await getRelevantControls(frameworks);
 					const getRelevantControlsTime =
 						(performance.now() - start) / 1000;
+
+
+					/**
+					|--------------------------------------------------
+					| We're not actually inserting controls right now
+					| Should probably just rethink this whole process and reimplement from scratch
+					|--------------------------------------------------
+					*/
 
 					start = performance.now();
 					// Pass the transaction client `tx` to the helper
