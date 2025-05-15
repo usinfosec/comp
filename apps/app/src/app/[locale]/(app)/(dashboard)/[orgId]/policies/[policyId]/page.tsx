@@ -1,19 +1,17 @@
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { PolicyOverview } from "@/components/policies/policy-overview";
 import { getI18n } from "@/locales/server";
-import { auth } from "@/utils/auth";
-import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { headers } from "next/headers";
 import { JSONContent } from "novel";
-import { cache } from "react";
+import { Comments } from "../../components/comments/Comments";
+import { PolicyOverview } from "./components/PolicyOverview";
 import { PolicyPageEditor } from "./editor/components/PolicyDetails";
 import {
-	Comments,
-	CommentWithAuthor,
-} from "../../components/comments/Comments";
-import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
+	getArtifactsCreatedFromPolicy,
+	getAssignees,
+	getComments,
+	getPolicy,
+} from "./data";
 
 export default async function PolicyDetails({
 	params,
@@ -26,6 +24,8 @@ export default async function PolicyDetails({
 	const policy = await getPolicy(policyId);
 	const assignees = await getAssignees();
 	const comments = await getComments(policyId);
+	const { mappedControls, allControls } =
+		await getArtifactsCreatedFromPolicy(policyId);
 
 	return (
 		<PageWithBreadcrumb
@@ -34,7 +34,12 @@ export default async function PolicyDetails({
 				{ label: policy?.name ?? "Policy", current: true },
 			]}
 		>
-			<PolicyOverview policy={policy ?? null} assignees={assignees} />
+			<PolicyOverview
+				policy={policy ?? null}
+				assignees={assignees}
+				mappedControls={mappedControls}
+				allControls={allControls}
+			/>
 			<PolicyPageEditor
 				policyId={policyId}
 				policyContent={
@@ -64,102 +69,3 @@ export async function generateMetadata({
 		title: t("policies.overview.title"),
 	};
 }
-
-const getPolicy = cache(async (policyId: string) => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const organizationId = session?.session.activeOrganizationId;
-
-	if (!organizationId) {
-		return null;
-	}
-
-	const policy = await db.policy.findUnique({
-		where: { id: policyId, organizationId },
-	});
-
-	if (!policy) {
-		return null;
-	}
-
-	return policy;
-});
-
-const getAssignees = cache(async () => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const organizationId = session?.session.activeOrganizationId;
-
-	if (!organizationId) {
-		return [];
-	}
-
-	const assignees = await db.member.findMany({
-		where: {
-			organizationId,
-			role: {
-				notIn: ["employee"],
-			},
-		},
-		include: {
-			user: true,
-		},
-	});
-
-	return assignees;
-});
-
-const getComments = async (policyId: string): Promise<CommentWithAuthor[]> => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-
-	const activeOrgId = session?.session.activeOrganizationId;
-
-	if (!activeOrgId) {
-		console.warn(
-			"Could not determine active organization ID in getComments",
-		);
-		return [];
-	}
-
-	const comments = await db.comment.findMany({
-		where: {
-			organizationId: activeOrgId,
-			entityId: policyId,
-			entityType: CommentEntityType.policy,
-		},
-		include: {
-			author: {
-				include: {
-					user: true,
-				},
-			},
-		},
-		orderBy: {
-			createdAt: "desc",
-		},
-	});
-
-	const commentsWithAttachments = await Promise.all(
-		comments.map(async (comment) => {
-			const attachments = await db.attachment.findMany({
-				where: {
-					organizationId: activeOrgId,
-					entityId: comment.id,
-					entityType: AttachmentEntityType.comment,
-				},
-			});
-			return {
-				...comment,
-				attachments,
-			};
-		}),
-	);
-
-	return commentsWithAttachments;
-};
