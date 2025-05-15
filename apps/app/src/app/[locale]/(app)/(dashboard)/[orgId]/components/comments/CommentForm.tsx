@@ -8,11 +8,12 @@ import { Label } from "@comp/ui/label";
 import { Textarea } from "@comp/ui/textarea";
 import clsx from "clsx";
 import { ArrowUp, Loader2, Paperclip } from "lucide-react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { createComment } from "../../actions/createComment";
 import { AttachmentItem } from "../../tasks/[taskId]/components/AttachmentItem";
+import { Input } from "@comp/ui/input";
 
 interface CommentFormProps {
 	entityId: string;
@@ -28,24 +29,30 @@ interface PendingAttachment {
 
 export function CommentForm({ entityId, entityType }: CommentFormProps) {
 	const session = authClient.useSession();
+	const router = useRouter();
+	const params = useParams();
 	const [newComment, setNewComment] = useState("");
 	const [pendingAttachments, setPendingAttachments] = useState<
 		PendingAttachment[]
 	>([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const { orgId } = useParams<{ orgId: string }>();
+	const [hasMounted, setHasMounted] = useState(false);
+
+	useEffect(() => {
+		setHasMounted(true);
+	}, []);
 
 	let pathToRevalidate = "";
 	switch (entityType) {
 		case "task":
-			pathToRevalidate = `/${orgId}/tasks/${entityId}`;
+			pathToRevalidate = `/${params.orgId}/tasks/${entityId}`;
 			break;
 		case "vendor":
-			pathToRevalidate = `/${orgId}/vendors/${entityId}`;
+			pathToRevalidate = `/${params.orgId}/vendors/${entityId}`;
 			break;
 		case "risk":
-			pathToRevalidate = `/${orgId}/risks/${entityId}`;
+			pathToRevalidate = `/${params.orgId}/risks/${entityId}`;
 			break;
 	}
 
@@ -213,7 +220,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 
 	const isLoading = isUploading || session.isPending;
 
-	if (session.isPending) {
+	if (!hasMounted || session.isPending) {
 		return (
 			<div className="border rounded p-3 space-y-3 animate-pulse">
 				<div className="flex gap-3 items-start">
@@ -243,7 +250,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 	return (
 		<div className="border rounded p-0 bg-foreground/5">
 			<div className="flex gap-3 items-start">
-				<input
+				<Input
 					type="file"
 					multiple
 					ref={fileInputRef}
