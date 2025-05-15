@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/trycompai/comp/compare/v1.20.0...v1.21.0) (2025-05-15)
+
+
+### Features
+
+* added ability to link and unlink policies to controls from the UI ([1d9ace1](https://github.com/trycompai/comp/commit/1d9ace198edd9b4786d69378ac4af56b02782e22))
+
 # [1.20.0](https://github.com/trycompai/comp/compare/v1.19.0...v1.20.0) (2025-05-15)
 
 
