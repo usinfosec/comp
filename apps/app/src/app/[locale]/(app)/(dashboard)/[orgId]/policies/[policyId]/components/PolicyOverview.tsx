@@ -2,6 +2,7 @@
 
 import { useI18n } from "@/locales/client";
 import type { Member, Policy, User } from "@comp/db/types";
+import { Control } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -9,16 +10,21 @@ import { Icons } from "@comp/ui/icons";
 import { format } from "date-fns";
 import { ArchiveIcon, ArchiveRestoreIcon, PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { UpdatePolicyOverview } from "../forms/policies/UpdatePolicyOverview";
-import { PolicyArchiveSheet } from "./sheets/policy-archive-sheet";
-import { PolicyOverviewSheet } from "./sheets/policy-overview-sheet";
+import { PolicyArchiveSheet } from "./PolicyArchiveSheet";
+import { PolicyOverviewSheet } from "./PolicyOverviewSheet";
+import { UpdatePolicyOverview } from "./UpdatePolicyOverview";
+import { PolicyControlMappings } from "./PolicyControlMappings";
 
 export function PolicyOverview({
 	policy,
 	assignees,
+	mappedControls,
+	allControls,
 }: {
 	policy: Policy | null;
 	assignees: (Member & { user: User })[];
+	mappedControls: Control[];
+	allControls: Control[];
 }) {
 	const t = useI18n();
 	const [, setOpen] = useQueryState("policy-overview-sheet");
@@ -96,6 +102,11 @@ export function PolicyOverview({
 					{policy?.description}
 				</AlertDescription>
 			</Alert>
+
+			<PolicyControlMappings
+				mappedControls={mappedControls}
+				allControls={allControls}
+			/>
 
 			<Card>
 				<CardHeader>
