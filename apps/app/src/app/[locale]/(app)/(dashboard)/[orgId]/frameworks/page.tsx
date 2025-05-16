@@ -63,6 +63,9 @@ const getControlTasks = async () => {
 				},
 			},
 		},
+		include: {
+			controls: true,
+		},
 	});
 
 	return tasks;

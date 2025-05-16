@@ -54,6 +54,9 @@ export default async function FrameworkPage({ params }: PageProps) {
 				},
 			},
 		},
+		include: {
+			controls: true,
+		},
 	});
 
 	return (

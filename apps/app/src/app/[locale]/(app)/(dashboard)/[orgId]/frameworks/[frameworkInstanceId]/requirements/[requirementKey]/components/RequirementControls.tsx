@@ -6,13 +6,13 @@ import { FrameworkId } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
-import type { Task } from "@comp/db/types";
+import type { Control, Task } from "@comp/db/types";
 
 interface RequirementControlsProps {
 	requirement: Requirement;
 	requirementKey: string;
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
-	tasks: Task[];
+	tasks: (Task & { controls: Control[] })[];
 }
 
 export function RequirementControls({

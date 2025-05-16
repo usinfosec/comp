@@ -75,6 +75,9 @@ export default async function RequirementPage({ params }: PageProps) {
 					},
 				},
 			},
+			include: {
+				controls: true,
+			},
 		})) || [];
 
 	return (
