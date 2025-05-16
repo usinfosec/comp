@@ -6,7 +6,6 @@ import {
 	type PolicyStatus,
 	RequirementId,
 	TaskStatus,
-	TaskEntityType,
 	TaskFrequency,
 	Departments,
 	ArtifactType,

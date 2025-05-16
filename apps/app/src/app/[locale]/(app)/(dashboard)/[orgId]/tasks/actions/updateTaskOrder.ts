@@ -2,7 +2,7 @@
 
 import { db } from "@comp/db";
 import { z } from "zod";
-import { TaskStatus, TaskEntityType } from "@comp/db/types";
+import { TaskStatus } from "@comp/db/types";
 import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "@/types/actions";
 import { auth } from "@/utils/auth";

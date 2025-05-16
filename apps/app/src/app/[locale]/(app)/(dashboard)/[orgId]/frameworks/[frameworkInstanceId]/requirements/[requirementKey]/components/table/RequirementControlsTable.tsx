@@ -27,7 +27,7 @@ interface RequirementControlsTableProps {
 			policy: Policy | null;
 		})[];
 	})[];
-	tasks: Task[];
+	tasks: (Task & { controls: Control[] })[];
 }
 
 export function RequirementControlsTable({
