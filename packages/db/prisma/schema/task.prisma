@@ -1,14 +1,20 @@
 model Task {
     // Metadata
-    id          String         @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
+    id          String     @id @default(dbgenerated("generate_prefixed_cuid('tsk'::text)"))
     title       String
     description String
-    status      TaskStatus     @default(todo)
-    entityId    String
-    entityType  TaskEntityType
-    frequency   TaskFrequency?
-    department  Departments?   @default(none)
-    order       Int            @default(0)
+    status      TaskStatus @default(todo)
+
+    entityId   String
+    entityType TaskEntityType
+
+    controls Control[]
+    vendors  Vendor[]
+    risks    Risk[]
+
+    frequency  TaskFrequency?
+    department Departments?   @default(none)
+    order      Int            @default(0)
 
     // Dates
     createdAt       DateTime  @default(now())
