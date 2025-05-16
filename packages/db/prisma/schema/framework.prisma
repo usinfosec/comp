@@ -13,7 +13,3 @@ model FrameworkInstance {
 
   @@unique([organizationId, frameworkId])
 }
-
-enum FrameworkId {
-  soc2
-}

@@ -2,9 +2,7 @@ import type { TemplateControl, TemplateTask, TemplatePolicy } from "@comp/data";
 import { controls, tasks, frameworks, policies } from "@comp/data";
 import { db } from "@comp/db";
 import {
-	FrameworkId,
 	type PolicyStatus,
-	RequirementId,
 	TaskStatus,
 	TaskFrequency,
 	Departments,
@@ -36,7 +34,7 @@ export function getPolicyById(id: string): TemplatePolicy | undefined {
  * @returns Array of control templates relevant to the selected frameworks
  */
 export function getRelevantControls(
-	frameworkIds: FrameworkId[],
+	frameworkIds: string[],
 ): TemplateControl[] {
 	return controls.filter((control) =>
 		control.mappedRequirements.some((req) =>
@@ -62,7 +60,7 @@ export function getRelevantControls(
  */
 export async function createFrameworkInstance(
 	organizationId: string,
-	frameworkId: FrameworkId,
+	frameworkId: string,
 	txClient?: Prisma.TransactionClient,
 ) {
 	const prisma: Prisma.TransactionClient | PrismaClient = txClient ?? db;
@@ -80,7 +78,8 @@ export async function createFrameworkInstance(
 	}
 
 	// Verify the framework exists
-	const framework = frameworks[frameworkId as FrameworkId];
+	// @ts-expect-error
+	const framework = frameworks[frameworkId]; 
 
 	if (!framework) {
 		console.error(
@@ -99,7 +98,7 @@ export async function createFrameworkInstance(
 			where: {
 				organizationId_frameworkId: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId,
 				},
 			},
 		},
@@ -113,13 +112,13 @@ export async function createFrameworkInstance(
 				},
 				data: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId,
 				},
 			})
 		: await prisma.frameworkInstance.create({
 				data: {
 					organizationId,
-					frameworkId: frameworkId as FrameworkId,
+					frameworkId,
 				},
 			});
 
@@ -213,7 +212,7 @@ export async function createFrameworkInstance(
  * @returns The number of requirement maps created
  */
 export async function createRequirementMaps(
-	frameworkInstance: { id: string; frameworkId: FrameworkId },
+	frameworkInstance: { id: string; frameworkId: string },
 	controls: { id: string; name: string }[],
 	templateControls: TemplateControl[],
 	txClient?: Prisma.TransactionClient,
@@ -234,7 +233,7 @@ export async function createRequirementMaps(
 	const requirementMapsToCreate: {
 		controlId: string;
 		frameworkInstanceId: string;
-		requirementId: RequirementId;
+		requirementId: string;
 	}[] = [];
 
 	// For each template control
@@ -259,8 +258,7 @@ export async function createRequirementMaps(
 			requirementMapsToCreate.push({
 				controlId: control.id,
 				frameworkInstanceId: frameworkInstance.id,
-				requirementId:
-					`${frameworkInstance.frameworkId}_${requirement.requirementId}` as RequirementId,
+				requirementId: `${frameworkInstance.frameworkId}_${requirement.requirementId}`,
 			});
 		}
 	}

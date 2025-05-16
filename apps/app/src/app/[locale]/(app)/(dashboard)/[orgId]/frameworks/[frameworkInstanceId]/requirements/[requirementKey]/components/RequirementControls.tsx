@@ -2,7 +2,6 @@
 
 import { useI18n } from "@/locales/client";
 import type { Requirement } from "@comp/data";
-import { FrameworkId } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
@@ -24,8 +23,7 @@ export function RequirementControls({
 	const t = useI18n();
 
 	// Get the framework ID from the instance
-	const frameworkId =
-		frameworkInstanceWithControls.frameworkId as FrameworkId;
+	const frameworkId = frameworkInstanceWithControls.frameworkId;
 	const compositeId = `${frameworkId}_${requirementKey}`;
 
 	// Filter controls that are mapped to this requirement using the composite ID
