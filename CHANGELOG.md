@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/trycompai/comp/compare/v1.23.0...v1.24.0) (2025-05-16)
+
+
+### Features
+
+* add auth wall on frameworks tool ([1e0667d](https://github.com/trycompai/comp/commit/1e0667d09f645465f445c18db33bf36619074380))
+
 # [1.23.0](https://github.com/trycompai/comp/compare/v1.22.0...v1.23.0) (2025-05-16)
 
 
