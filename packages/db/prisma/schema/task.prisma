@@ -5,8 +5,8 @@ model Task {
     description String
     status      TaskStatus @default(todo)
 
-    entityId   String
-    entityType TaskEntityType
+    entityId   String?
+    entityType TaskEntityType?
 
     controls Control[]
     vendors  Vendor[]
