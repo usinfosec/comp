@@ -2,7 +2,6 @@
 
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { TaskEntityType } from "@comp/db/types";
 import { ArtifactType } from "@prisma/client";
 import { headers } from "next/headers";
 
@@ -110,15 +109,8 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 
 		progress.byType["control"].total++;
 
-		// Check completion based on task type
-		let isCompleted = false;
-		switch (task.entityType) {
-			case TaskEntityType.control:
-				isCompleted = task.status === "done";
-				break;
-			default:
-				isCompleted = false;
-		}
+		// Check completion based on task status (all tasks here are implicitly control-related)
+		const isCompleted = task.status === "done";
 
 		if (isCompleted) {
 			progress.completed++;
