@@ -79,7 +79,6 @@ export function StatusGroup({
 			id: task.id,
 			order: idx, // The new order is simply the index in the reordered array.
 			status: task.status as StatusId,
-			entityType: task.entityType,
 		}));
 
 		// Call the server action to persist the new order.
