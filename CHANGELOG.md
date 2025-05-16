@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/trycompai/comp/compare/v1.22.0...v1.23.0) (2025-05-16)
+
+
+### Features
+
+* **frameworks:** include controls in task retrieval across various components ([bfbad29](https://github.com/trycompai/comp/commit/bfbad293ade92a8e165c390759f7ab0eab4dfae0))
+
 # [1.22.0](https://github.com/trycompai/comp/compare/v1.21.0...v1.22.0) (2025-05-16)
 
 
