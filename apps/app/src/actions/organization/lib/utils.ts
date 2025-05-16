@@ -516,6 +516,8 @@ export async function createOrganizationTasks(
 		);
 	}
 
+	let tasksCreatedCount = 0;
+
 	for (const control of relevantControls) {
 		const dbControl = dbControls.get(control.name);
 		if (!dbControl) continue;
@@ -534,42 +536,44 @@ export async function createOrganizationTasks(
 				continue; // Skip if template doesn't exist
 			}
 
-			// Create one task per control that requires this type of task
-			tasksToCreateData.push({
-				organizationId,
-				title: taskTemplate.name, // Use template name
-				description: taskTemplate.description, // Use template desc
-				status: TaskStatus.todo,
-				entityId: dbControl.id, // Link to the Control ID
-				entityType: TaskEntityType.control,
-				frequency: taskTemplate.frequency ?? TaskFrequency.quarterly, // Use template freq
-				assigneeId: memberRecord?.id || null,
-				department: taskTemplate.department ?? Departments.none, // Use template department
-			});
+			try {
+				// Create one task per control that requires this type of task
+				await prisma.task.create({
+					data: {
+						organizationId,
+						title: taskTemplate.name, // Use template name
+						description: taskTemplate.description, // Use template desc
+						status: TaskStatus.todo,
+						// entityId: dbControl.id, // Link to the Control ID
+						// entityType: TaskEntityType.control,
+						controls: { connect: { id: dbControl.id } },
+						frequency: taskTemplate.frequency ?? TaskFrequency.quarterly, // Use template freq
+						assigneeId: memberRecord?.id || null,
+						department: taskTemplate.department ?? Departments.none, // Use template department
+					},
+				});
+				tasksCreatedCount++;
+			} catch (error) {
+				console.error(
+					`Error creating task for control ${control.name} with template ${taskTemplateId}`,
+					{ error },
+				);
+				// Continue with next task even if one fails
+				continue;
+			}
 		}
 	}
 
-	if (tasksToCreateData.length === 0) {
+	if (tasksCreatedCount === 0) {
 		console.info("No tasks required for the selected controls.");
 		return { tasksCreatedCount: 0 };
 	}
-	console.info("Tasks to be created", {
-		organizationId,
-		count: tasksToCreateData.length,
-	});
-	try {
-		await prisma.task.createMany({ data: tasksToCreateData });
-		console.info(
-			`Batch created ${tasksToCreateData.length} task records for org ${organizationId}`,
-		);
-	} catch (error) {
-		console.error(
-			`Error batch creating task records for org ${organizationId}`,
-			{ error },
-		);
-		throw new Error("Failed to create organization tasks");
-	}
-	return { tasksCreatedCount: tasksToCreateData.length };
+
+	console.info(
+		`Created ${tasksCreatedCount} task records for org ${organizationId}`,
+	);
+
+	return { tasksCreatedCount };
 }
 
 /**

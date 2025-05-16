@@ -48,6 +48,7 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 					policy: true,
 				},
 			},
+			tasks: true,
 		},
 	});
 
@@ -58,14 +59,7 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 	}
 
 	const artifacts = control.artifacts;
-	const tasks = await db.task.findMany({
-		where: {
-			organizationId: orgId,
-			entityId: controlId,
-			entityType: "control",
-		},
-	});
-
+	const tasks = control.tasks;
 	const progress: ControlProgressResponse = {
 		total: artifacts.length + tasks.length,
 		completed: 0,
@@ -107,14 +101,14 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 
 	for (const task of tasks) {
 		// Initialize type counters if not exists
-		if (!progress.byType[task.entityType]) {
-			progress.byType[task.entityType] = {
+		if (!progress.byType["control"]) {
+			progress.byType["control"] = {
 				total: 0,
 				completed: 0,
 			};
 		}
 
-		progress.byType[task.entityType].total++;
+		progress.byType["control"].total++;
 
 		// Check completion based on task type
 		let isCompleted = false;
@@ -128,7 +122,7 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 
 		if (isCompleted) {
 			progress.completed++;
-			progress.byType[task.entityType].completed++;
+			progress.byType["control"].completed++;
 		}
 	}
 
