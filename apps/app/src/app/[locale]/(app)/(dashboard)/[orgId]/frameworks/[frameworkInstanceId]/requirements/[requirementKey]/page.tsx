@@ -7,7 +7,6 @@ import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
 import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
 import { RequirementControls } from "./components/RequirementControls";
 import { db } from "@comp/db";
-import { TaskEntityType } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -70,7 +69,11 @@ export default async function RequirementPage({ params }: PageProps) {
 		(await db.task.findMany({
 			where: {
 				organizationId,
-				entityType: TaskEntityType.control,
+				controls: {
+					some: {
+						id: frameworkInstanceWithControls.id,
+					},
+				},
 			},
 		})) || [];
 

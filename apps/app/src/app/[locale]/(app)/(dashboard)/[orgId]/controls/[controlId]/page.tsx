@@ -6,7 +6,6 @@ import { SingleControl } from "./components/SingleControl";
 import { getControl } from "./data/getControl";
 import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
-import { getRelatedTasks } from "./data/getRelatedTasks";
 import { getRelatedArtifacts } from "./data/getRelatedArtifacts";
 
 interface ControlPageProps {

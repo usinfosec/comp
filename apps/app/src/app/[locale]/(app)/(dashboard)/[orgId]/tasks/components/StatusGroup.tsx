@@ -1,6 +1,6 @@
 "use client";
 
-import { Member, Task, User, TaskEntityType } from "@comp/db/types";
+import { Member, Task, User } from "@comp/db/types";
 import { useDrop } from "react-dnd";
 import { useRef } from "react";
 import { TaskCard, DragItem, ItemTypes, StatusId } from "./TaskCard";
