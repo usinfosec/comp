@@ -54,10 +54,6 @@ export default async function ControlPage({ params }: ControlPageProps) {
 		controlId: controlId,
 	});
 
-	const relatedTasks = await getRelatedTasks({
-		controlId: controlId,
-	});
-
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
@@ -69,7 +65,7 @@ export default async function ControlPage({ params }: ControlPageProps) {
 				control={control}
 				controlProgress={controlProgress}
 				relatedArtifacts={relatedArtifacts}
-				relatedTasks={relatedTasks}
+				relatedTasks={control.tasks}
 			/>
 		</PageWithBreadcrumb>
 	);
