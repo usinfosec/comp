@@ -69,16 +69,23 @@ export default async function RequirementPage({ params }: PageProps) {
 		(await db.task.findMany({
 			where: {
 				organizationId,
-				controls: {
-					some: {
-						id: frameworkInstanceWithControls.id,
-					},
-				},
 			},
 			include: {
 				controls: true,
 			},
 		})) || [];
+
+	const relatedControls = await db.requirementMap.findMany({
+		where: {
+			frameworkInstanceId,
+			requirementId: requirementKey,
+		},
+		include: {
+			control: true,
+		},
+	});
+
+	console.log("relatedControls", relatedControls);
 
 	return (
 		<PageWithBreadcrumb
@@ -98,11 +105,8 @@ export default async function RequirementPage({ params }: PageProps) {
 			<div className="flex flex-col gap-6">
 				<RequirementControls
 					requirement={requirement}
-					requirementKey={requirementKey}
-					frameworkInstanceWithControls={
-						frameworkInstanceWithControls
-					}
 					tasks={tasks}
+					relatedControls={relatedControls}
 				/>
 			</div>
 		</PageWithBreadcrumb>

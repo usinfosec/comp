@@ -42,15 +42,13 @@ export function RequirementsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const requirementId = row.original.requirementId;
-					const details = getRequirementDetails(requirementId);
-
 					const frameworkDetails = getFrameworkDetails(
 						row.original.frameworkInstance.frameworkId,
 					);
+
 					return (
 						<span>
-							{frameworkDetails?.name} - {details?.name}
+							{frameworkDetails.name}
 						</span>
 					);
 				},
@@ -79,6 +77,8 @@ export function RequirementsTable({
 				cell: ({ row }) => {
 					const requirementId = row.original.requirementId;
 					const details = getRequirementDetails(requirementId);
+
+					console.log("details", requirementId);	
 					return (
 						<span className="text-muted-foreground">
 							{details?.description}
