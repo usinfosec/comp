@@ -1,6 +1,5 @@
 import { frameworks } from "@comp/data";
-import { FrameworkId } from "@comp/db/types";
 
-export function getFrameworkDetails(frameworkId: FrameworkId) {
+export function getFrameworkDetails(frameworkId: string) {
 	return frameworks[frameworkId as keyof typeof frameworks];
 }

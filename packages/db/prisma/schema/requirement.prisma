@@ -1,6 +1,6 @@
 model RequirementMap {
-    id            String        @id @default(dbgenerated("generate_prefixed_cuid('req'::text)"))
-    requirementId RequirementId
+    id            String @id @default(dbgenerated("generate_prefixed_cuid('req'::text)"))
+    requirementId String
 
     controlId           String
     control             Control           @relation(fields: [controlId], references: [id], onDelete: Cascade)

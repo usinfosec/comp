@@ -1,8 +1,8 @@
 model FrameworkInstance {
   // Metadata
-  id             String      @id @default(dbgenerated("generate_prefixed_cuid('frm'::text)"))
+  id             String @id @default(dbgenerated("generate_prefixed_cuid('frm'::text)"))
   organizationId String
-  frameworkId    FrameworkId
+  frameworkId    String
 
   // Relationships
   controls           Control[]
