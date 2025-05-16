@@ -1,3 +1,17 @@
+# [1.22.0](https://github.com/trycompai/comp/compare/v1.21.0...v1.22.0) (2025-05-16)
+
+
+### Bug Fixes
+
+* **control-progress:** streamline task retrieval in getOrganizationControlProgress function ([c71aa91](https://github.com/trycompai/comp/commit/c71aa915796ca4249e52942fe723cd7f754aa14c))
+
+
+### Features
+
+* **migration:** add many-to-many support for tasks ([cebda99](https://github.com/trycompai/comp/commit/cebda99b6f95c000a951acfc392e5b4741b9b1d3))
+* **organization-tasks:** implement task creation with error handling ([ba19e6d](https://github.com/trycompai/comp/commit/ba19e6dae8de772fcbacd654e2a65f89bd340587))
+* **task:** make entityId and entityType optional in Task model ([ad5ecce](https://github.com/trycompai/comp/commit/ad5ecce08941563805fe55a3620e7a34a9cc794c))
+
 # [1.21.0](https://github.com/trycompai/comp/compare/v1.20.0...v1.21.0) (2025-05-15)
 
 
