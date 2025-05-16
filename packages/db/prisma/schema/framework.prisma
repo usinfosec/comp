@@ -2,7 +2,9 @@ model FrameworkInstance {
   // Metadata
   id             String @id @default(dbgenerated("generate_prefixed_cuid('frm'::text)"))
   organizationId String
-  frameworkId    String
+
+  frameworkId String
+  framework   FrameworkEditorFramework @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
 
   // Relationships
   controls           Control[]
