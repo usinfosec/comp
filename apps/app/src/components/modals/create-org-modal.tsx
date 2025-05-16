@@ -76,7 +76,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 		resolver: zodResolver(organizationSchema),
 		defaultValues: {
 			name: "",
-			frameworks: [],
+			frameworkIds: [],
 		},
 		mode: "onChange",
 	});
@@ -206,7 +206,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 
 						<FormField
 							control={form.control}
-							name="frameworks"
+							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">

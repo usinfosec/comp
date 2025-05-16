@@ -79,7 +79,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 		resolver: zodResolver(organizationSchema),
 		defaultValues: {
 			name: "",
-			frameworks: [],
+			frameworkIds: [],
 			website: "",
 		},
 		mode: "onChange",
@@ -175,7 +175,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 						/>
 						<FormField
 							control={form.control}
-							name="frameworks"
+							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">

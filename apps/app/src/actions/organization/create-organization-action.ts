@@ -1,25 +1,19 @@
 "use server";
 
-import { performance } from "node:perf_hooks";
+import { env } from "@/env.mjs";
+import type { newOrgSequence } from "@/jobs/tasks/marketing/new-org-sequence";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import { tasks } from "@trigger.dev/sdk/v3";
+import ky from "ky";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { performance } from "node:perf_hooks";
 import { Resend } from "resend";
 import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
 import { createStripeCustomer } from "./lib/create-stripe-customer";
-import {
-	createControlArtifacts,
-	createFrameworkInstance,
-	createOrganizationPolicies,
-	createOrganizationTasks,
-	getRelevantControls,
-} from "./lib/utils";
-import { env } from "@/env.mjs";
-import ky from "ky";
-import { tasks } from "@trigger.dev/sdk/v3";
-import type { newOrgSequence } from "@/jobs/tasks/marketing/new-org-sequence";
+import { initializeOrganization } from "./lib/initialize-organization";
 
 export const createOrganizationAction = authActionClient
 	.schema(organizationSchema)
@@ -31,7 +25,7 @@ export const createOrganizationAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { name, frameworks, website } = parsedInput;
+		const { name, frameworkIds, website } = parsedInput;
 		const { id: userId } = ctx.user;
 
 		if (!name) {
@@ -65,7 +59,7 @@ export const createOrganizationAction = authActionClient
 						email: session?.user.email,
 						website: website,
 						organization: name,
-						frameworks: frameworks,
+						frameworks: frameworkIds,
 						first_name: session?.user.name?.split(" ")[0] || "",
 						last_name: session?.user.name?.split(" ")[1] || "",
 					},
@@ -106,18 +100,6 @@ export const createOrganizationAction = authActionClient
 				},
 			});
 
-			await db.frameworkEditorFramework.update({
-				where: {
-					id: session.session.activeOrganizationId,
-				},
-				data: {
-					requirements: {
-						connectOrCreate
-					}
-				}
-			});
-
-
 			const organizationId = session.session.activeOrganizationId;
 
 			// --- External API Call + Initial Org Update (Outside Transaction) ---
@@ -134,117 +116,25 @@ export const createOrganizationAction = authActionClient
 			}
 
 			start = performance.now();
+
+			// Update stripe ID and website
 			await db.organization.update({
 				where: { id: organizationId },
 				data: { stripeCustomerId, website },
 			});
+
+
 			timings.updateOrganizationWithStripeId =
 				(performance.now() - start) / 1000;
 
 			// --- Main Creation Logic (Inside Transaction) ---
 			const transactionStart = performance.now();
-			const result = await db.$transaction(
-				async (tx) => {
-					// REVISIT: Consider if more granular error handling/logging is needed within the transaction
-
-					start = performance.now();
-					const relevantControls = await getRelevantControls(frameworks);
-					const getRelevantControlsTime =
-						(performance.now() - start) / 1000;
 
 
-					/**
-					|--------------------------------------------------
-					| We're not actually inserting controls right now
-					| Should probably just rethink this whole process and reimplement from scratch
-					|--------------------------------------------------
-					*/
+			// Initialize Organization
+			await initializeOrganization({frameworkIds, organizationId});
 
-					start = performance.now();
-					// Pass the transaction client `tx` to the helper
-					const organizationFrameworks = await Promise.all(
-						frameworks.map(
-							(frameworkId) =>
-								createFrameworkInstance(
-									organizationId,
-									frameworkId,
-									tx,
-								), // Pass tx
-						),
-					);
-					const createFrameworkInstancesTime =
-						(performance.now() - start) / 1000;
-
-					// Fetch DB controls needed for Task creation
-					const dbControlsList = await tx.control.findMany({
-						where: {
-							organizationId,
-							name: { in: relevantControls.map((c) => c.name) },
-						},
-						select: { id: true, name: true },
-					});
-					const dbControlsMap = new Map<string, { id: string }>();
-					for (const control of dbControlsList) {
-						dbControlsMap.set(control.name, control);
-					}
-
-					// Run policy and task creation in parallel
-					start = performance.now();
-					// const [policiesForFrameworks, tasksCreationResult] =
-					// 	await Promise.all([
-					// 		createOrganizationPolicies(
-					// 			organizationId,
-					// 			relevantControls,
-					// 			userId,
-					// 			tx,
-					// 		), // Pass tx
-					// 		createOrganizationTasks(
-					// 			organizationId,
-					// 			relevantControls,
-					// 			dbControlsMap, // Pass the map
-					// 			userId,
-					// 			tx,
-					// 		),
-					// 	]);
-					const createPoliciesAndTasksParallelTime =
-						(performance.now() - start) / 1000;
-
-					start = performance.now();
-					// Pass the transaction client `tx` to the helper
-					// await createControlArtifacts(
-					// 	organizationId,
-					// 	organizationFrameworks.map((framework) => framework.id),
-					// 	relevantControls,
-					// 	policiesForFrameworks,
-					// 	tx, // Pass tx
-					// );
-					const createControlArtifactsTime =
-						(performance.now() - start) / 1000;
-
-					// Return timings calculated inside the transaction scope
-					return {
-						getRelevantControlsTime,
-						createFrameworkInstancesTime,
-						createPoliciesAndTasksParallelTime,
-						createControlArtifactsTime,
-						organizationFrameworks, // Need this for the final return value potentially
-					};
-				},
-				{
-					maxWait: 15000,
-					timeout: 40000,
-				},
-			);
 			timings.transaction = (performance.now() - transactionStart) / 1000;
-
-			// Assign timings from the transaction result
-			timings.getRelevantControls = result.getRelevantControlsTime;
-			timings.createFrameworkInstances =
-				result.createFrameworkInstancesTime;
-			timings.createPoliciesAndTasksParallel =
-				result.createPoliciesAndTasksParallelTime;
-			timings.createControlArtifacts = result.createControlArtifactsTime;
-
 			timings.total = (performance.now() - totalStart) / 1000;
 			console.log("createOrganizationAction timings (s):", timings);
 			console.warn(

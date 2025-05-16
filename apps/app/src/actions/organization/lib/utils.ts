@@ -12,7 +12,6 @@ import {
 	Departments,
 	type PolicyStatus,
 	Prisma, type PrismaClient,
-	RequirementId,
 	TaskEntityType,
 	TaskFrequency,
 	TaskStatus,
@@ -286,7 +285,7 @@ export async function createRequirementMaps(
 	const requirementMapsToCreate: {
 		controlId: string;
 		frameworkInstanceId: string;
-		requirementId: RequirementId;
+		requirementId: string;
 	}[] = [];
 
 	// For each template control
@@ -312,7 +311,7 @@ export async function createRequirementMaps(
 				controlId: control.id,
 				frameworkInstanceId: frameworkInstance.id,
 				requirementId:
-					`${frameworkInstance.frameworkId}_${requirement.requirementId}` as RequirementId,
+					`${frameworkInstance.frameworkId}_${requirement.requirementId}`,
 			});
 		}
 	}
