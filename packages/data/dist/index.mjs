@@ -7317,8 +7317,8 @@ var accessAuthentication = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7341,8 +7341,8 @@ var accessRemoval = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7365,8 +7365,8 @@ var accessRestrictions = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7389,8 +7389,8 @@ var accessRestrictionsForConfidentialData = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "C1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514ae9bac0ace4829ae"
     }
   ]
 };
@@ -7413,8 +7413,8 @@ var accessReview = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7437,8 +7437,8 @@ var accessSecurity = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7461,8 +7461,8 @@ var accuracyAndCompleteness = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "PI1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85145df1606ef144c69c"
     }
   ]
 };
@@ -7485,8 +7485,8 @@ var boardOversight = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "A1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514b7a9c5278ada8527"
     }
   ]
 };
@@ -7509,8 +7509,8 @@ var changeManagementRisk = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC3"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514f62bb35319068677"
     }
   ]
 };
@@ -7533,8 +7533,8 @@ var choiceAndConsent = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "P1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514e2ebc08069c2c862"
     }
   ]
 };
@@ -7557,8 +7557,8 @@ var codeOfConduct = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514778fd2238a33c121"
     }
   ]
 };
@@ -7581,8 +7581,8 @@ var confidentialDataDisposal = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "C1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514ae9bac0ace4829ae"
     }
   ]
 };
@@ -7605,8 +7605,8 @@ var confidentialInformationClassification = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "C1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514ae9bac0ace4829ae"
     }
   ]
 };
@@ -7629,8 +7629,8 @@ var controlMonitoring = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC4"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514cba3ce1991f9d6c8"
     }
   ]
 };
@@ -7653,8 +7653,8 @@ var controlSelection = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC5"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140e8b698d7154d43e"
     }
   ]
 };
@@ -7677,8 +7677,8 @@ var dataRetentionAndDisposal = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "P1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514e2ebc08069c2c862"
     }
   ]
 };
@@ -7701,8 +7701,8 @@ var deficiencyManagement = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC4"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514cba3ce1991f9d6c8"
     }
   ]
 };
@@ -7725,8 +7725,8 @@ var exceptionHandling = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "PI1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85145df1606ef144c69c"
     }
   ]
 };
@@ -7749,8 +7749,8 @@ var externalCommunication = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC2"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140854c64019d53422"
     }
   ]
 };
@@ -7773,8 +7773,8 @@ var fraudRiskAssessment = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC3"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514f62bb35319068677"
     }
   ]
 };
@@ -7797,8 +7797,8 @@ var informationAssetChanges = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7821,8 +7821,8 @@ var informationQuality = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC2"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140854c64019d53422"
     }
   ]
 };
@@ -7845,8 +7845,8 @@ var infrastructureMonitoring = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC7"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e851403a5c3114dc746ba"
     }
   ]
 };
@@ -7869,8 +7869,8 @@ var inputProcessingAndOutputControls = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "PI1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85145df1606ef144c69c"
     }
   ]
 };
@@ -7893,8 +7893,8 @@ var internalCommunication = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC2"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140854c64019d53422"
     }
   ]
 };
@@ -7917,8 +7917,8 @@ var maliciousSoftwarePrevention = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -7941,8 +7941,8 @@ var managementPhilosophy = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514778fd2238a33c121"
     }
   ]
 };
@@ -7965,8 +7965,8 @@ var organizationalStructure = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514778fd2238a33c121"
     }
   ]
 };
@@ -7989,8 +7989,8 @@ var personnelPolicies = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514778fd2238a33c121"
     }
   ]
 };
@@ -8013,8 +8013,8 @@ var policyImplementation = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC5"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140e8b698d7154d43e"
     }
   ]
 };
@@ -8037,8 +8037,8 @@ var privacyNotice2 = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "P1"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514e2ebc08069c2c862"
     }
   ]
 };
@@ -8061,8 +8061,8 @@ var riskAssessmentProcess = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC3"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514f62bb35319068677"
     }
   ]
 };
@@ -8085,8 +8085,8 @@ var riskIdentification = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC3"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514f62bb35319068677"
     }
   ]
 };
@@ -8109,8 +8109,8 @@ var securityEventAnalysis = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC7"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e851403a5c3114dc746ba"
     }
   ]
 };
@@ -8133,8 +8133,8 @@ var securityEventCommunication = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC7"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e851403a5c3114dc746ba"
     }
   ]
 };
@@ -8157,8 +8157,8 @@ var securityEventRecovery = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC7"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e851403a5c3114dc746ba"
     }
   ]
 };
@@ -8181,8 +8181,8 @@ var securityEventResponse = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC7"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e851403a5c3114dc746ba"
     }
   ]
 };
@@ -8205,8 +8205,8 @@ var systemAccountManagement = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC6"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e8514753b4054f1a632e7"
     }
   ]
 };
@@ -8229,8 +8229,8 @@ var technologyControls = {
   ],
   mappedRequirements: [
     {
-      frameworkId: "soc2",
-      requirementId: "CC5"
+      frameworkId: "frk_682734f304cbbfdb3a9d4f44",
+      requirementId: "frk_rq_681e85140e8b698d7154d43e"
     }
   ]
 };

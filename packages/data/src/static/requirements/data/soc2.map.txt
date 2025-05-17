@@ -1,5 +1,6 @@
 SOC2 Requirement -> Database Id
 
+Requirement IDs:
 CC1,frk_rq_681e8514778fd2238a33c121
 CC2,frk_rq_681e85140854c64019d53422
 CC3,frk_rq_681e8514f62bb35319068677
@@ -13,3 +14,6 @@ A1,frk_rq_681e8514b7a9c5278ada8527
 PI1,frk_rq_681e85145df1606ef144c69c
 P1,frk_rq_681e8514e2ebc08069c2c862
 C1,frk_rq_681e8514ae9bac0ace4829ae
+
+Framework ID
+soc2,frk_682734f304cbbfdb3a9d4f44

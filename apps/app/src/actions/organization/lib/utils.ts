@@ -135,6 +135,8 @@ export async function createFrameworkInstance(
 		),
 	);
 
+	console.log("frameworkControls", frameworkControls);
+
 	// Prepare data for batch control creation
 	const controlsToCreate = frameworkControls.map((control) => ({
 		organizationId,
@@ -142,6 +144,8 @@ export async function createFrameworkInstance(
 		description: control.description,
 		// We connect frameworkInstances later or handle differently if createMany doesn't support relation connection easily
 	}));
+
+	console.log("controlsToCreate", controlsToCreate);
 
 	// Batch create controls if there are any to create
 	if (controlsToCreate.length > 0) {
@@ -161,6 +165,8 @@ export async function createFrameworkInstance(
 			},
 			select: { id: true, name: true }, // Select only necessary fields
 		});
+
+		console.log("createdOrFoundDbControls", createdOrFoundDbControls);
 
 		// Connect the controls to the framework instance
 		if (createdOrFoundDbControls.length > 0) {
@@ -258,7 +264,7 @@ export async function createRequirementMaps(
 			requirementMapsToCreate.push({
 				controlId: control.id,
 				frameworkInstanceId: frameworkInstance.id,
-				requirementId: `${frameworkInstance.frameworkId}_${requirement.requirementId}`,
+				requirementId: requirement.requirementId,
 			});
 		}
 	}
