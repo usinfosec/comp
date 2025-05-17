@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/trycompai/comp/compare/v1.24.0...v1.25.0) (2025-05-17)
+
+
+### Features
+
+* **migrations:** add foreign key constraints and update frameworkId for SOC2 requirements ([f42ac96](https://github.com/trycompai/comp/commit/f42ac96d12a8e364804e94f7fa2542411acdd17a))
+
 # [1.24.0](https://github.com/trycompai/comp/compare/v1.23.0...v1.24.0) (2025-05-16)
 
 
