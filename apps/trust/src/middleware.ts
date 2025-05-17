@@ -13,9 +13,14 @@ export async function middleware(request: NextRequest) {
 	}
 
 	const orgs = await domainToOrgMap();
+
 	const orgIdForCustomDomain = orgs.find(
 		(org) => org.domain === hostname,
 	)?.orgId;
+
+	const orgIdForFriendlyUrl = orgs.find(
+		(org) => org.friendlyUrl === hostname,
+	)?.friendlyUrl;
 
 	if (orgIdForCustomDomain) {
 		if (url.pathname.startsWith(`/${orgIdForCustomDomain}`)) {
@@ -26,11 +31,21 @@ export async function middleware(request: NextRequest) {
 		return NextResponse.rewrite(url);
 	}
 
+	if (orgIdForFriendlyUrl) {
+		if (url.pathname.startsWith(`/${orgIdForFriendlyUrl}`)) {
+			return NextResponse.next();
+		}
+
+		url.pathname = `/${orgIdForFriendlyUrl}${url.pathname}`;
+		return NextResponse.rewrite(url);
+	}
+
 	const pathSegments = url.pathname.split("/").filter(Boolean);
 	if (
-		hostname === "trust.trycomp.ai" &&
-		pathSegments.length > 0 &&
-		isOrgId(pathSegments[0])
+		hostname === "trust.trycomp.ai" ||
+		(hostname === "trust.inc" &&
+			pathSegments.length > 0 &&
+			isOrgId(pathSegments[0]))
 	) {
 		return NextResponse.next();
 	}
@@ -53,6 +68,7 @@ const domainToOrgMap = cache(async () => {
 			trust: {
 				select: {
 					domain: true,
+					friendlyUrl: true,
 				},
 			},
 		},
@@ -60,6 +76,7 @@ const domainToOrgMap = cache(async () => {
 
 	return orgs.map((org) => ({
 		domain: org.trust[0]?.domain,
+		friendlyUrl: org.trust[0]?.friendlyUrl,
 		orgId: org.id,
 	}));
 });

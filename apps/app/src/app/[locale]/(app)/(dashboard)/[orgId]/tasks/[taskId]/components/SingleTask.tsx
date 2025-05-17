@@ -2,10 +2,10 @@
 
 import type { Attachment, Member, Task, User } from "@comp/db/types";
 import { useMemo } from "react";
-import type { CommentWithAuthor } from "../page";
 import { TaskMainContent } from "./TaskMainContent";
 import { TaskPropertiesSidebar } from "./TaskPropertiesSidebar";
 import { updateTask } from "../../actions/updateTask";
+import { CommentWithAuthor } from "../../../components/comments/Comments";
 
 interface SingleTaskProps {
 	task: Task & { fileUrls?: string[] };

@@ -34,6 +34,8 @@ export default async function Layout({
 
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+	const floatingOpen =
+		cookieStore.get("floating-onboarding-checklist")?.value !== "false";
 
 	if (!session?.session?.userId) {
 		return redirect("/auth");
@@ -67,7 +69,10 @@ export default async function Layout({
 	const onboardingStatus = await getOnboardingStatus(currentOrganization.id);
 
 	if ("error" in onboardingStatus) {
-		console.error("Error fetching onboarding status:", onboardingStatus.error);
+		console.error(
+			"Error fetching onboarding status:",
+			onboardingStatus.error,
+		);
 	}
 
 	return (
@@ -77,17 +82,21 @@ export default async function Layout({
 				isCollapsed={isCollapsed}
 			>
 				<Header />
-				<main className="px-4 mx-auto pb-8">{children}</main>
+				<main className="px-4 mx-auto pb-8 min-h-[calc(100vh-70px)]">
+					{children}
+				</main>
 				<AssistantSheet />
 			</AnimatedLayout>
 			<div className="hidden md:flex">
 				{!("error" in onboardingStatus) &&
-					onboardingStatus.completedItems < onboardingStatus.totalItems && (
+					onboardingStatus.completedItems <
+					onboardingStatus.totalItems && (
 						<FloatingOnboardingChecklist
 							orgId={currentOrganization.id}
 							completedItems={onboardingStatus.completedItems}
 							totalItems={onboardingStatus.totalItems}
 							checklistItems={onboardingStatus.checklistItems}
+							floatingOpen={floatingOpen}
 						/>
 					)}
 			</div>

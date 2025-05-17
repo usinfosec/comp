@@ -35,6 +35,7 @@ model FrameworkEditorRequirement {
     description String
 
     controlTemplates FrameworkEditorControlTemplate[]
+    requirementMaps  RequirementMap[]
 
     // Dates
     createdAt DateTime @default(now())

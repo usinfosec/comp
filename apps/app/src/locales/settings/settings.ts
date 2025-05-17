@@ -88,4 +88,11 @@ export const settings = {
 	billing: {
 		title: "Billing",
 	},
+	trust_portal: {
+		friendly_url: {
+			available: "This URL is available!",
+			unavailable: "This URL is already taken.",
+			checking: "Checking availability...",
+		},
+	},
 } as const;

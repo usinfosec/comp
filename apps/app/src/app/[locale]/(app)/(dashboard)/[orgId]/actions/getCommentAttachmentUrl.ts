@@ -3,7 +3,7 @@
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { db } from "@comp/db";
-import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
+import { AttachmentEntityType } from "@comp/db/types";
 import { z } from "zod";
 import { s3Client, BUCKET_NAME, extractS3KeyFromUrl } from "@/app/s3";
 import { auth } from "@/utils/auth";
@@ -35,14 +35,13 @@ export const getCommentAttachmentUrl = async (
 			where: {
 				id: attachmentId,
 				organizationId: organizationId,
-				// No include needed here anymore
 			},
 		});
 
 		if (!attachment) {
 			return {
 				success: false,
-				error: "Attachment not found or access denied (1)",
+				error: "Attachment not found or access denied",
 			} as const;
 		}
 
@@ -64,10 +63,6 @@ export const getCommentAttachmentUrl = async (
 				id: attachment.entityId, // Use entityId from attachment
 				organizationId: organizationId, // Ensure comment is in the same org
 			},
-			select: {
-				entityId: true, // Parent (Task) ID
-				entityType: true, // Parent (Task) Type
-			},
 		});
 
 		if (!comment) {
@@ -82,39 +77,7 @@ export const getCommentAttachmentUrl = async (
 			} as const;
 		}
 
-		// 3. Verify parent entity is a task
-		if (comment.entityType !== CommentEntityType.task) {
-			console.error(
-				"Comment's parent entity is not a task",
-				attachmentId,
-				comment.entityType,
-			);
-			return {
-				success: false,
-				error: "Invalid attachment parent link",
-			} as const;
-		}
-
-		// 4. Verify user has access to the parent Task
-		const parentTask = await db.task.findFirst({
-			where: {
-				id: comment.entityId, // Use entityId from comment
-				organizationId: organizationId,
-			},
-			select: { id: true },
-		});
-		if (!parentTask) {
-			console.error(
-				"Parent task not found or access denied",
-				comment.entityId,
-			);
-			return {
-				success: false,
-				error: "Access denied to parent task",
-			} as const;
-		}
-
-		// 5. Extract S3 key
+		// 3. Extract S3 key
 		let key: string;
 		try {
 			key = extractS3KeyFromUrl(attachment.url);
@@ -130,7 +93,7 @@ export const getCommentAttachmentUrl = async (
 			} as const;
 		}
 
-		// 6. Generate Signed URL using shared client and bucket name
+		// 4. Generate Signed URL using shared client and bucket name
 		try {
 			const command = new GetObjectCommand({
 				Bucket: BUCKET_NAME!,

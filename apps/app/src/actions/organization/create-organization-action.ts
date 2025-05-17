@@ -53,19 +53,6 @@ export const createOrganizationAction = authActionClient
 				headers: await headers(),
 			});
 
-			if (env.ZAPIER_HUBSPOT_WEBHOOK_URL) {
-				await ky.post(env.ZAPIER_HUBSPOT_WEBHOOK_URL, {
-					json: {
-						email: session?.user.email,
-						website: website,
-						organization: name,
-						frameworks: frameworkIds,
-						first_name: session?.user.name?.split(" ")[0] || "",
-						last_name: session?.user.name?.split(" ")[1] || "",
-					},
-				});
-			}
-
 			timings.getAuthSession = (performance.now() - start) / 1000;
 
 			if (!session?.session.activeOrganizationId) {

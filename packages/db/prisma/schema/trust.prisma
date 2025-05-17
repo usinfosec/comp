@@ -1,6 +1,7 @@
 model Trust {
     organizationId     String
     organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    friendlyUrl        String?      @unique
     domain             String?
     domainVerified     Boolean      @default(false)
     isVercelDomain     Boolean      @default(false)
@@ -21,6 +22,7 @@ model Trust {
     @@id([status, organizationId])
     @@unique([organizationId])
     @@index([organizationId])
+    @@index([friendlyUrl])
 }
 
 enum TrustStatus {

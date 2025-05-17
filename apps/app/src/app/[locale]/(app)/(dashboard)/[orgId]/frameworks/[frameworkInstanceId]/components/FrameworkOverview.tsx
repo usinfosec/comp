@@ -5,11 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Progress } from "@comp/ui/progress";
 import { getControlStatus } from "../../lib/utils";
 import { FrameworkInstanceWithControls } from "../../types";
-import { Task } from "@comp/db/types";
+import { Control, Task } from "@comp/db/types";
 
 interface FrameworkOverviewProps {
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
-	tasks: Task[];
+	tasks: (Task & { controls: Control[] })[];
 }
 
 export function FrameworkOverview({
