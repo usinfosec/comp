@@ -5,7 +5,7 @@ import type { newOrgSequence } from "@/jobs/tasks/marketing/new-org-sequence";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { tasks } from "@trigger.dev/sdk/v3";
-import ky from "ky";
+import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { performance } from "node:perf_hooks";
