@@ -9,12 +9,13 @@ import {
 	CardTitle,
 } from "@comp/ui/card";
 import { Separator } from "@comp/ui/separator";
-import { ArrowRight, CheckCheck, Circle, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, CheckCheck, Circle, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateOnboardingItem } from "../actions/update-onboarding-item";
 import type { ChecklistItemProps } from "../types";
+import CalendarEmbed from "@/components/calendar-embed";
 
 export function ChecklistItem({
 	title,
@@ -27,6 +28,7 @@ export function ChecklistItem({
 	icon,
 	type,
 	wizardPath,
+	calendarPath,
 }: ChecklistItemProps) {
 	const { orgId } = useParams<{ orgId: string }>();
 	const linkWithOrgReplaced = href
@@ -34,6 +36,7 @@ export function ChecklistItem({
 		: undefined;
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [isAnimating, setIsAnimating] = useState(false);
+	const [showCalendar, setShowCalendar] = useState(false);
 	const router = useRouter();
 
 	const handleMarkAsDone = async () => {
@@ -67,6 +70,12 @@ export function ChecklistItem({
 		}
 	};
 
+	const handleCalendarRedirect = () => {
+		if (calendarPath) {
+			router.push(calendarPath.replace(":organizationId", orgId));
+		}
+	};
+
 	return (
 		<Card>
 			<div>
@@ -86,6 +95,8 @@ export function ChecklistItem({
 								onClick={() => {
 									if (type === "wizard") {
 										handleWizardRedirect();
+									} else if (type === "calendar") {
+										handleCalendarRedirect();
 									} else {
 										handleMarkAsDone();
 									}
@@ -94,9 +105,6 @@ export function ChecklistItem({
 								View again <ArrowRight className="h-4 w-4" />
 							</Button>
 						)}
-						{/* {completed && (
-							<Badge variant="marketing">Completed</Badge>
-						)} */}
 					</CardTitle>
 					{description && !completed && (
 						<CardDescription className="text-sm text-muted-foreground flex flex-col gap-4">
@@ -117,6 +125,18 @@ export function ChecklistItem({
 								{buttonLabel}
 								<ArrowRight className="ml-1 h-4 w-4" />
 							</Button>
+						) : type === "calendar" ? (
+							<>
+								<Button
+									variant={"secondary"}
+									className="w-full sm:w-fit"
+									disabled={isUpdating}
+									onClick={handleCalendarRedirect}
+								>
+									{buttonLabel}
+									<ArrowRight className="ml-1 h-4 w-4" />
+								</Button>
+							</>
 						) : (
 							<Button
 								variant={"secondary"}
