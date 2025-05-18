@@ -11,19 +11,19 @@ export function AnimatedLayout({
 	sidebar,
 	isCollapsed,
 }: AnimatedLayoutProps) {
-	return (
-		<div className="flex w-full overflow-hidden">
-			<div
-				className={cn(
-					"flex-shrink-0 border-r bg-background duration-300 ease-in-out hidden md:block",
-					isCollapsed ? "w-[80px]" : "w-[240px]",
-				)}
-			>
-				{sidebar}
-			</div>
-			<div className="flex-1 overflow-auto bg-backgroundSoft">
-				{children}
-			</div>
-		</div>
-	);
+        return (
+                <div className="flex w-full h-screen overflow-hidden">
+                        <div
+                                className={cn(
+                                        "flex-shrink-0 h-full overflow-y-auto border-r bg-background duration-300 ease-in-out hidden md:block",
+                                        isCollapsed ? "w-[80px]" : "w-[240px]",
+                                )}
+                        >
+                                {sidebar}
+                        </div>
+                        <div className="flex-1 overflow-y-auto bg-backgroundSoft">
+                                {children}
+                        </div>
+                </div>
+        );
 }
