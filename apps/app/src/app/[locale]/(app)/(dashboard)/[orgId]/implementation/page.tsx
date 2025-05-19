@@ -17,12 +17,12 @@ export default async function Page({
 	}
 
 	return (
-		<div className="space-y-6">
+		<div className="space-y-6 max-w-[600px] mx-auto">
 			<OnboardingProgress
 				completedSteps={checklistData.completedItems}
 				totalSteps={checklistData.totalItems}
 			/>
-			<Checklist items={checklistData.checklistItems} />
+			<Checklist key={checklistData.checklistItems.length} items={checklistData.checklistItems} />
 		</div>
 	);
 }
