@@ -10,22 +10,18 @@ import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { getFrameworkRequirements } from "../../lib/getFrameworkRequirements";
 import type { FrameworkInstanceWithControls } from "../../types";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 
-type RequirementItem = {
-	id: string;
-	compositeId: string;
-	name: string;
-	description: string;
+interface RequirementItem extends FrameworkEditorRequirement {
 	mappedControlsCount: number;
-};
+}
 
 export function FrameworkRequirements({
-	frameworkId,
+	requirementDefinitions,
 	frameworkInstanceWithControls,
 }: {
-	frameworkId: string;
+	requirementDefinitions: FrameworkEditorRequirement[];
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }) {
 	const t = useI18n();
@@ -35,34 +31,29 @@ export function FrameworkRequirements({
 	}>();
 	const [searchTerm, setSearchTerm] = useState("");
 
-	const requirements = useMemo(() => {
-		const reqs = getFrameworkRequirements(frameworkId);
-		return Object.entries(reqs).map(([id, requirement]) => {
-			const compositeId = `${frameworkId}_${id}`;
+	const items = useMemo(() => {
+		return requirementDefinitions.map((def) => {
 			const mappedControlsCount =
 				frameworkInstanceWithControls.controls.filter(
 					(control) =>
 						control.requirementsMapped?.some(
-							(req) => req.requirementId === compositeId,
+							(reqMap) => reqMap.requirementId === def.id,
 						) ?? false,
 				).length;
 
 			return {
-				id,
-				compositeId,
-				...requirement,
+				...def,
 				mappedControlsCount,
 			};
 		});
-	}, [frameworkId, frameworkInstanceWithControls.controls]);
+	}, [requirementDefinitions, frameworkInstanceWithControls.controls]);
 
-	// Define columns for requirements table
 	const columns = useMemo<ColumnDef<RequirementItem>[]>(
 		() => [
 			{
-				accessorKey: "id",
+				accessorKey: "name",
 				header: ({ column }) => (
-					<DataTableColumnHeader column={column} title="Name" />
+					<DataTableColumnHeader column={column} title={t("frameworks.requirements.table.name")} />
 				),
 				cell: ({ row }) => <span>{row.original.name}</span>,
 				enableSorting: true,
@@ -76,7 +67,7 @@ export function FrameworkRequirements({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title="Description"
+						title={t("frameworks.requirements.table.description")}
 					/>
 				),
 				cell: ({ row }) => (
@@ -113,21 +104,20 @@ export function FrameworkRequirements({
 		[t],
 	);
 
-	// Filter requirements data based on search term
 	const filteredRequirements = useMemo(() => {
-		if (!requirements?.length) return [];
-		if (!searchTerm.trim()) return requirements;
+		if (!items?.length) return [];
+		if (!searchTerm.trim()) return items;
 
 		const searchLower = searchTerm.toLowerCase();
-		return requirements.filter(
+		return items.filter(
 			(requirement) =>
-				requirement.id.toLowerCase().includes(searchLower) ||
-				requirement.name.toLowerCase().includes(searchLower) ||
-				requirement.description.toLowerCase().includes(searchLower),
+				(requirement.id?.toLowerCase() || "").includes(searchLower) ||
+				(requirement.name?.toLowerCase() || "").includes(searchLower) ||
+				(requirement.description?.toLowerCase() || "").includes(searchLower) ||
+				(requirement.identifier?.toLowerCase() || "").includes(searchLower)
 		);
-	}, [requirements, searchTerm]);
+	}, [items, searchTerm]);
 
-	// Set up the requirements table
 	const table = useDataTable({
 		data: filteredRequirements,
 		columns,
@@ -135,11 +125,11 @@ export function FrameworkRequirements({
 		shallow: false,
 		getRowId: (row) => row.id,
 		initialState: {
-			sorting: [{ id: "id", desc: false }],
+			sorting: [{ id: "name", desc: false }],
 		},
 	});
 
-	if (!requirements?.length) {
+	if (!items?.length) {
 		return null;
 	}
 

@@ -24,14 +24,13 @@ export async function unmapPolicyFromControl({
 
 	try {
 		console.log(`Unmapping control ${controlId} from policy ${policyId}`);
-		await db.artifact.deleteMany({
-			where: {
-				organizationId,
-				policyId,
+		
+		// Update the policy to disconnect it from the specified control
+		await db.policy.update({
+			where: { id: policyId, organizationId: organizationId }, // Ensure policy belongs to the org
+			data: {
 				controls: {
-					some: {
-						id: controlId,
-					},
+					disconnect: { id: controlId },
 				},
 			},
 		});
@@ -40,7 +39,7 @@ export async function unmapPolicyFromControl({
 		revalidatePath(`/${organizationId}/policies/${policyId}`);
 		revalidatePath(`/${organizationId}/controls/${controlId}`);
 	} catch (error) {
-		console.error(error);
+		console.error("Error unmapping control from policy:", error);
 		throw error;
 	}
 }

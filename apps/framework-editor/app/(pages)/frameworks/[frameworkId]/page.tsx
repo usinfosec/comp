@@ -31,6 +31,7 @@ export default async function Page({ params }: PageProps) {
 			name: true,
 			version: true,
 			description: true,
+			visible: true,
 			requirements: {
 				orderBy: {
 					name: "asc",
@@ -46,11 +47,11 @@ export default async function Page({ params }: PageProps) {
 		notFound();
 	}
 
-	const { id, name, version, description, requirements } = framework;
+	const { id, name, version, description, visible, requirements } = framework;
 
 	return (
 		<FrameworkRequirementsClientPage
-			frameworkDetails={{ id, name, version, description }}
+			frameworkDetails={{ id, name, version, description, visible }}
 			initialRequirements={requirements}
 		/>
 	);

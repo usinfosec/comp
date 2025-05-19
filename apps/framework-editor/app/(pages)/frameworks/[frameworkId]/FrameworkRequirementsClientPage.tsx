@@ -16,7 +16,7 @@ import { DeleteFrameworkDialog } from './components/DeleteFrameworkDialog';
 import { AddRequirementDialog } from './components/AddRequirementDialog';
 import { DeleteRequirementDialog } from './components/DeleteRequirementDialog';
 
-interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description'> {}
+interface FrameworkDetails extends Pick<FrameworkEditorFramework, 'id' | 'name' | 'version' | 'description' | 'visible'> {}
 
 interface FrameworkRequirementsClientPageProps {
   frameworkDetails: FrameworkDetails;
@@ -100,6 +100,9 @@ export function FrameworkRequirementsClientPage({
                                 {frameworkDetails.name}
                                 <Badge variant="outline" className="ml-2 text-sm font-normal">
                                     Version: {frameworkDetails.version}
+                                </Badge>
+                                <Badge variant={frameworkDetails.visible ? "default" : "secondary"} className="ml-2 text-sm font-normal">
+                                    {frameworkDetails.visible ? "Visible" : "Hidden"}
                                 </Badge>
                             </CardTitle>
                             <CardDescription className="mt-2 text-base">

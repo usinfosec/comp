@@ -3,7 +3,6 @@
 import { Badge } from "@comp/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Progress } from "@comp/ui/progress";
-import { getFrameworkDetails } from "../../lib/getFrameworkDetails";
 import { getControlStatus } from "../../lib/utils";
 import { FrameworkInstanceWithControls } from "../../types";
 import { Control, Task } from "@comp/db/types";
@@ -24,7 +23,7 @@ export function FrameworkOverview({
 	// Calculate compliant controls (all artifacts completed)
 	const compliantControls = allControls.filter(
 		(control) =>
-			getControlStatus(control.artifacts, tasks, control.id) ===
+			getControlStatus(control.policies, tasks, control.id) ===
 			"completed",
 	).length;
 
@@ -39,20 +38,13 @@ export function FrameworkOverview({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{
-							getFrameworkDetails(
-								frameworkInstanceWithControls.frameworkId,
-							).name
-						}
+						{frameworkInstanceWithControls.framework.name}
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<p className="text-sm text-muted-foreground">
-						{
-							getFrameworkDetails(
-								frameworkInstanceWithControls.frameworkId,
-							).description
-						}{" "}
+						{frameworkInstanceWithControls.framework.description}
+						{" "}
 					</p>
 					<div className="mt-4">
 						<Badge variant="outline">

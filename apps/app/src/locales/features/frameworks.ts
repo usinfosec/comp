@@ -70,7 +70,7 @@ export const frameworks = {
 		},
 	},
 	artifacts: {
-		title: "Linked Artifacts",
+		title: "Linked Policies",
 		table: {
 			id: "ID",
 			name: "Name",
@@ -82,8 +82,8 @@ export const frameworks = {
 			id_placeholder: "Search by ID...",
 			name_placeholder: "Search by name...",
 			type_placeholder: "Filter by type...",
-			universal_placeholder: "Search artifacts...",
+			universal_placeholder: "Search policies...",
 		},
-		no_artifacts: "No Linked Artifacts found",
+		no_artifacts: "No Linked Policies found",
 	},
 } as const;

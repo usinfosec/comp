@@ -31,6 +31,8 @@ export default async function DashboardPage() {
 		organizationId,
 	});
 
+	console.log(frameworksWithControls);
+
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[{ label: "Frameworks", current: true }]}

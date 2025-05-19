@@ -12,10 +12,11 @@ model FrameworkEditorVideo {
 }
 
 model FrameworkEditorFramework {
-    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
+    id          String  @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
     name        String // e.g., "soc2", "iso27001"
     version     String
     description String
+    visible     Boolean @default(true)
 
     requirements       FrameworkEditorRequirement[]
     frameworkInstances FrameworkInstance[]
@@ -55,6 +56,9 @@ model FrameworkEditorPolicyTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    policies Policy[]
 }
 
 model FrameworkEditorTaskTemplate {
@@ -69,6 +73,9 @@ model FrameworkEditorTaskTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    tasks Task[]
 }
 
 model FrameworkEditorControlTemplate {
@@ -83,4 +90,7 @@ model FrameworkEditorControlTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    controls Control[]
 }

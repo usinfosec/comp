@@ -35,6 +35,15 @@ export const columns: ColumnDef<FrameworkWithCounts>[] = [
     size: 100, // Adjusted size
   },
   {
+    accessorKey: "visible",
+    header: "Status",
+    size: 100,
+    cell: ({ row }) => {
+      const framework = row.original;
+      return <Badge variant={framework.visible ? "default" : "outline"}>{framework.visible ? "Visible" : "Hidden"}</Badge>;
+    },
+  },
+  {
     accessorKey: "requirementsCount",
     header: "Requirements",
     size: 150, // Adjusted size

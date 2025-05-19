@@ -1,5 +1,5 @@
 import { auth } from "@/utils/auth";
-import { trainingVideos as trainingVideosData } from "@comp/data";
+import { trainingVideos as trainingVideosData } from "@/lib/data/training-videos";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { EmployeeCompletionChart } from "./EmployeeCompletionChart";
