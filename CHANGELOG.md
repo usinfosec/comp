@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/trycompai/comp/compare/v1.27.0...v1.28.0) (2025-05-19)
+
+
+### Features
+
+* implement framework addition functionality in the dashboard ([073a2d4](https://github.com/trycompai/comp/commit/073a2d4146d8cc398b8a99d625809af346beeaf4))
+
 # [1.27.0](https://github.com/trycompai/comp/compare/v1.26.0...v1.27.0) (2025-05-19)
 
 
