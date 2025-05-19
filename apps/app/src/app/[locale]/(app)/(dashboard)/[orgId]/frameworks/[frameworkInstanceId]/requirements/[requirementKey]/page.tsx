@@ -3,10 +3,9 @@ import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSingleFrameworkInstanceWithControls } from "../../../data/getSingleFrameworkInstanceWithControls";
-import { getFrameworkDetails } from "../../../lib/getFrameworkDetails";
-import { getFrameworkRequirements } from "../../../lib/getFrameworkRequirements";
 import { RequirementControls } from "./components/RequirementControls";
 import { db } from "@comp/db";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -42,27 +41,34 @@ export default async function RequirementPage({ params }: PageProps) {
 		redirect("/");
 	}
 
-	const requirements = getFrameworkRequirements(
-		frameworkInstanceWithControls.frameworkId,
-	);
-	const requirement =
-		requirements[requirementKey as keyof typeof requirements];
+	const allReqDefsForFramework = await db.frameworkEditorRequirement.findMany({
+		where: {
+			frameworkId: frameworkInstanceWithControls.frameworkId,
+		},
+	});
 
-	if (!requirement) {
+	const requirementsFromDb = allReqDefsForFramework.reduce<
+		Record<string, FrameworkEditorRequirement>
+	>((acc, def) => {
+		acc[def.id] = def;
+		return acc;
+	}, {});
+
+	const currentRequirementDetails = requirementsFromDb[requirementKey];
+
+	if (!currentRequirementDetails) {
 		redirect(`/${organizationId}/frameworks/${frameworkInstanceId}`);
 	}
 
-	const frameworkName = getFrameworkDetails(
-		frameworkInstanceWithControls.frameworkId,
-	).name;
+	const frameworkName = frameworkInstanceWithControls.framework.name;
 
-	const siblingRequirements = Object.keys(requirements).filter(
-		(req) => req !== requirementKey,
+	const siblingRequirements = allReqDefsForFramework.filter(
+		(def) => def.id !== requirementKey,
 	);
 
-	const siblingRequirementsDropdown = siblingRequirements.map((req) => ({
-		label: requirements[req as keyof typeof requirements].name,
-		href: `/${organizationId}/frameworks/${frameworkInstanceId}/requirements/${req}`,
+	const siblingRequirementsDropdown = siblingRequirements.map((def) => ({
+		label: def.name,
+		href: `/${organizationId}/frameworks/${frameworkInstanceId}/requirements/${def.id}`,
 	}));
 
 	const tasks =
@@ -96,7 +102,7 @@ export default async function RequirementPage({ params }: PageProps) {
 					href: `/${organizationId}/frameworks/${frameworkInstanceId}`,
 				},
 				{
-					label: requirement.name,
+					label: currentRequirementDetails.name,
 					dropdown: siblingRequirementsDropdown,
 					current: true,
 				},
@@ -104,7 +110,7 @@ export default async function RequirementPage({ params }: PageProps) {
 		>
 			<div className="flex flex-col gap-6">
 				<RequirementControls
-					requirement={requirement}
+					requirement={currentRequirementDetails}
 					tasks={tasks}
 					relatedControls={relatedControls}
 				/>

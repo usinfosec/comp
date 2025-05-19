@@ -1,59 +1,53 @@
-import type { Artifact, Policy, PolicyStatus } from "@comp/db/types";
+import type { Policy, PolicyStatus } from "@comp/db/types";
 
-// Define the expected artifact structure explicitly, allowing null status
-type ArtifactWithRelations = Artifact & {
-	policy: (Policy & { status: PolicyStatus | null }) | null;
+// Define the expected structure for policies (typically with selected fields)
+export type SelectedPolicy = {
+	// Add other fields like id, name if they are available and used by functions here
+	status: PolicyStatus | null; // Allowing null status as per original ArtifactWithRelations
 };
 
 /**
- * Checks if a specific artifact is completed based on its type and associated data
- * @param artifact - The artifact to check
- * @returns boolean indicating if the artifact is completed
+ * Checks if a specific policy is completed (e.g., published)
+ * @param policy - The policy to check
+ * @returns boolean indicating if the policy is completed
  */
-export function isArtifactCompleted(artifact: ArtifactWithRelations): boolean {
-	if (!artifact) return false;
-
-	switch (artifact.type) {
-		case "policy":
-			return artifact.policy?.status === "published";
-		default:
-			return false;
-	}
+export function isPolicyCompleted(policy: SelectedPolicy): boolean {
+	if (!policy) return false;
+	return policy.status === "published";
 }
 
 /**
- * Determines if a control is compliant based on its artifacts
- * @param artifacts - The control's artifacts
+ * Determines if a control is compliant based on its policies
+ * @param policies - The control's policies
  * @returns boolean indicating if the control is compliant
  */
 export function isControlCompliant(
-	artifacts: ArtifactWithRelations[],
+	policies: SelectedPolicy[],
 ): boolean {
-	// If there are no artifacts, the control is not compliant
-	if (!artifacts || artifacts.length === 0) {
+	if (!policies || policies.length === 0) {
 		return false;
 	}
 
-	const totalArtifacts = artifacts.length;
-	const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
+	const totalPolicies = policies.length;
+	const completedPolicies = policies.filter(isPolicyCompleted).length;
 
-	return completedArtifacts === totalArtifacts;
+	return completedPolicies === totalPolicies;
 }
 
 /**
- * Calculate control status based on its artifacts
- * @param artifacts - The control's artifacts
- * @returns Control status as "not_started", "in_progress", or "compliant"
+ * Calculate control status based on its policies
+ * @param policies - The control's policies
+ * @returns Control status as "not_started", "in_progress", or "completed"
  */
 export function calculateControlStatus(
-	artifacts: ArtifactWithRelations[],
-): "not_started" | "in_progress" | "compliant" {
-	if (!artifacts || artifacts.length === 0) return "not_started";
+	policies: SelectedPolicy[],
+): "not_started" | "in_progress" | "completed" {
+	if (!policies || policies.length === 0) return "not_started";
 
-	const totalArtifacts = artifacts.length;
-	const completedArtifacts = artifacts.filter(isArtifactCompleted).length;
+	const totalPolicies = policies.length;
+	const completedPolicies = policies.filter(isPolicyCompleted).length;
 
-	if (completedArtifacts === 0) return "not_started";
-	if (completedArtifacts === totalArtifacts) return "compliant";
+	if (completedPolicies === 0) return "not_started";
+	if (completedPolicies === totalPolicies) return "completed";
 	return "in_progress";
 }

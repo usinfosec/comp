@@ -3,10 +3,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
-import { getFrameworkDetails } from "../lib/getFrameworkDetails";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
 import { db } from "@comp/db";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -41,9 +41,17 @@ export default async function FrameworkPage({ params }: PageProps) {
 		redirect("/");
 	}
 
-	const framework = getFrameworkDetails(
-		frameworkInstanceWithControls.frameworkId,
-	).name;
+	// Fetch requirement definitions for this framework
+	const requirementDefinitions = await db.frameworkEditorRequirement.findMany({
+		where: {
+			frameworkId: frameworkInstanceWithControls.frameworkId,
+		},
+		orderBy: {
+			name: "asc",
+		}
+	});
+
+	const frameworkName = frameworkInstanceWithControls.framework.name;
 
 	const tasks = await db.task.findMany({
 		where: {
@@ -63,7 +71,7 @@ export default async function FrameworkPage({ params }: PageProps) {
 		<PageWithBreadcrumb
 			breadcrumbs={[
 				{ label: "Frameworks", href: `/${organizationId}/frameworks` },
-				{ label: framework, current: true },
+				{ label: frameworkName, current: true },
 			]}
 		>
 			<div className="flex flex-col gap-6">
@@ -74,7 +82,7 @@ export default async function FrameworkPage({ params }: PageProps) {
 					tasks={tasks || []}
 				/>
 				<FrameworkRequirements
-					frameworkId={frameworkInstanceWithControls.frameworkId}
+					requirementDefinitions={requirementDefinitions}
 					frameworkInstanceWithControls={
 						frameworkInstanceWithControls
 					}

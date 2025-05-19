@@ -12,7 +12,7 @@ const UpdateFrameworkSchema = FrameworkBaseSchema.extend({
 
 export interface UpdateFrameworkActionState {
   success: boolean
-  data?: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>
+  data?: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version' | 'visible'>
   error?: string
   issues?: z.ZodIssue[]
 }
@@ -26,6 +26,7 @@ export async function updateFrameworkAction(
     name: formData.get('name'),
     description: formData.get('description'),
     version: formData.get('version'),
+    visible: formData.get('visible') === 'true',
   }
 
   const validationResult = UpdateFrameworkSchema.safeParse(rawInput)
@@ -38,7 +39,7 @@ export async function updateFrameworkAction(
     }
   }
 
-  const { id, name, description, version } = validationResult.data
+  const { id, name, description, version, visible } = validationResult.data
 
   try {
     const existingFramework = await db.frameworkEditorFramework.findUnique({
@@ -55,12 +56,14 @@ export async function updateFrameworkAction(
         name,
         description,
         version,
+        visible,
       },
       select: {
         id: true,
         name: true,
         description: true,
         version: true,
+        visible: true,
       }
     });
 

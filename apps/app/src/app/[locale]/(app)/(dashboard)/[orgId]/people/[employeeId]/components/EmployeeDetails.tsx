@@ -2,7 +2,7 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import { TrainingVideo } from "@comp/data";
+import { TrainingVideo } from "@/lib/data/training-videos";
 import type {
 	Departments,
 	EmployeeTrainingVideoCompletion,

@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
 import { auth } from "@/utils/auth";
-import { trainingVideos } from "@comp/data";
+import { trainingVideos } from "@/lib/data/training-videos";
 import { db } from "@comp/db";
 import type { Departments, Member, Role } from "@comp/db/types";
 import { InvitePortalEmail } from "@comp/email/emails/invite-portal";

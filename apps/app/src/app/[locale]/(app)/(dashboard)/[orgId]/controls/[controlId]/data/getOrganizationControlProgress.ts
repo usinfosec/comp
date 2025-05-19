@@ -2,7 +2,6 @@
 
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { ArtifactType } from "@prisma/client";
 import { headers } from "next/headers";
 
 export interface ControlProgressResponse {
@@ -36,17 +35,13 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 		};
 	}
 
-	// Get the control with its artifacts
+	// Get the control with its policies and tasks
 	const control = await db.control.findUnique({
 		where: {
 			id: controlId,
 		},
 		include: {
-			artifacts: {
-				include: {
-					policy: true,
-				},
-			},
+			policies: true,
 			tasks: true,
 		},
 	});
@@ -57,64 +52,55 @@ export const getOrganizationControlProgress = async (controlId: string) => {
 		};
 	}
 
-	const artifacts = control.artifacts;
-	const tasks = control.tasks;
+	const policies = control.policies || [];
+	const tasks = control.tasks || [];
 	const progress: ControlProgressResponse = {
-		total: artifacts.length + tasks.length,
+		total: policies.length + tasks.length,
 		completed: 0,
 		progress: 0,
 		byType: {},
 	};
 
-	for (const artifact of artifacts) {
+	// Process policies
+	for (const policy of policies) {
+		const policyTypeKey = "policy";
 		// Initialize type counters if not exists
-		if (!progress.byType[artifact.type]) {
-			progress.byType[artifact.type] = {
+		if (!progress.byType[policyTypeKey]) {
+			progress.byType[policyTypeKey] = {
 				total: 0,
 				completed: 0,
 			};
 		}
 
-		progress.byType[artifact.type].total++;
+		progress.byType[policyTypeKey].total++;
 
-		// Check completion based on artifact type
-		let isCompleted = false;
-		switch (artifact.type) {
-			case ArtifactType.policy:
-				isCompleted = artifact.policy?.status === "published";
-				break;
-			case ArtifactType.procedure:
-			case ArtifactType.training:
-				// These types might need special handling based on your business logic
-				isCompleted = false;
-				break;
-			default:
-				isCompleted = false;
-		}
+		// Check completion based on policy status
+		const isCompleted = policy.status === "published";
 
 		if (isCompleted) {
 			progress.completed++;
-			progress.byType[artifact.type].completed++;
+			progress.byType[policyTypeKey].completed++;
 		}
 	}
 
+	// Process tasks
 	for (const task of tasks) {
+		const taskTypeKey = "task";
 		// Initialize type counters if not exists
-		if (!progress.byType["control"]) {
-			progress.byType["control"] = {
+		if (!progress.byType[taskTypeKey]) {
+			progress.byType[taskTypeKey] = {
 				total: 0,
 				completed: 0,
 			};
 		}
 
-		progress.byType["control"].total++;
+		progress.byType[taskTypeKey].total++;
 
-		// Check completion based on task status (all tasks here are implicitly control-related)
 		const isCompleted = task.status === "done";
 
 		if (isCompleted) {
 			progress.completed++;
-			progress.byType["control"].completed++;
+			progress.byType[taskTypeKey].completed++;
 		}
 	}
 

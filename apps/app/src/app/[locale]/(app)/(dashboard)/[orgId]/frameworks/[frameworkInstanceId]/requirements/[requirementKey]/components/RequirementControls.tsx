@@ -1,14 +1,14 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import type { Requirement } from "@comp/data";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
 import type { Control, RequirementMap, Task } from "@comp/db/types";
 
 interface RequirementControlsProps {
-	requirement: Requirement;
+	requirement: FrameworkEditorRequirement;
 	tasks: (Task & { controls: Control[] })[];
 	relatedControls: (RequirementMap & { control: Control })[];
 }

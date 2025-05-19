@@ -3,7 +3,7 @@ import { auth } from "@/utils/auth";
 import {
 	TrainingVideo,
 	trainingVideos as trainingVideosData,
-} from "@comp/data";
+} from "@/lib/data/training-videos";
 import { db } from "@comp/db";
 import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import type { Metadata } from "next";

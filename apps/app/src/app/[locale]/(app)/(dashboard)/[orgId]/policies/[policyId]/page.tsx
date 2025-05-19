@@ -7,7 +7,7 @@ import { Comments } from "../../components/comments/Comments";
 import { PolicyOverview } from "./components/PolicyOverview";
 import { PolicyPageEditor } from "./editor/components/PolicyDetails";
 import {
-	getArtifactsCreatedFromPolicy,
+	getPolicyControlMappingInfo,
 	getAssignees,
 	getComments,
 	getPolicy,
@@ -25,7 +25,7 @@ export default async function PolicyDetails({
 	const assignees = await getAssignees();
 	const comments = await getComments(policyId);
 	const { mappedControls, allControls } =
-		await getArtifactsCreatedFromPolicy(policyId);
+		await getPolicyControlMappingInfo(policyId);
 
 	return (
 		<PageWithBreadcrumb

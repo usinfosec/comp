@@ -1,10 +1,9 @@
 "use client";
 
-import { isArtifactCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
+import { isPolicyCompleted } from "@/app/[locale]/(app)/(dashboard)/[orgId]/lib/utils/control-compliance";
 import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type { Control } from "@comp/db/types";
-import type { Artifact, Control as ControlType, Policy } from "@comp/db/types";
+import type { Control, Policy } from "@comp/db/types";
 import {
 	Tooltip,
 	TooltipContent,
@@ -17,10 +16,8 @@ import { useParams } from "next/navigation";
 import { getControlStatus } from "../../../../../lib/utils";
 import type { Task } from "@comp/db/types";
 
-type OrganizationControlType = Control & {
-	artifacts: (Artifact & {
-		policy: Policy | null;
-	})[];
+export type OrganizationControlType = Control & {
+	policies: Policy[];
 };
 
 export function RequirementControlsTableColumns({
@@ -53,19 +50,16 @@ export function RequirementControlsTableColumns({
 		},
 		{
 			id: "status",
-			accessorKey: "artifacts",
+			accessorKey: "policies",
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
-				const artifacts = row.original.artifacts;
-				const status = getControlStatus(
-					artifacts,
-					tasks,
-					row.original.id,
-				);
+				const controlData = row.original;
+				const policies = controlData.policies || [];
+				
+				const status = getControlStatus(policies, tasks, controlData.id);
 
-				const totalArtifacts = artifacts.length;
-				const completedArtifacts =
-					artifacts.filter(isArtifactCompleted).length;
+				const totalPolicies = policies.length;
+				const completedPolicies = policies.filter(isPolicyCompleted).length;
 
 				return (
 					<TooltipProvider>
@@ -80,15 +74,15 @@ export function RequirementControlsTableColumns({
 									<p>
 										Progress:{" "}
 										{Math.round(
-											(completedArtifacts /
-												totalArtifacts) *
+											(completedPolicies /
+												totalPolicies) *
 												100,
 										) || 0}
 										%
 									</p>
 									<p>
-										Completed: {completedArtifacts}/
-										{totalArtifacts} artifacts
+										Completed: {completedPolicies}/
+										{totalPolicies} policies
 									</p>
 								</div>
 							</TooltipContent>

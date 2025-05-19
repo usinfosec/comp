@@ -2,7 +2,7 @@
 
 import { StatusIndicator, StatusType } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
-import type { Artifact, Policy, PolicyStatus } from "@comp/db/types";
+import type { Policy, PolicyStatus } from "@comp/db/types";
 import {
 	Tooltip,
 	TooltipContent,
@@ -18,46 +18,28 @@ export type OrganizationControlType = {
 	name: string;
 	description: string | null;
 	frameworkInstanceId: string;
-	artifacts: (Artifact & {
-		policy: Policy | null;
-	})[];
+	policies: Policy[];
 };
 
-// Local helper function to check artifact completion
-type ArtifactForCompletionCheck = Artifact & {
-	policy: (Policy & { status: PolicyStatus | null }) | null;
-};
-
-export function getControlStatusForArtifacts(
-	artifacts: ArtifactForCompletionCheck[],
+export function getControlStatusForPolicies(
+	policies: Policy[],
 ): StatusType {
-	if (!artifacts || artifacts.length === 0) return "not_started";
+	if (!policies || policies.length === 0) return "not_started";
 
-	const totalArtifacts = artifacts.length;
+	const totalPolicies = policies.length;
 
-	const completedArtifacts = artifacts.filter((artifact) => {
-		switch (artifact.type) {
-			case "policy":
-				return artifact.policy?.status === "published";
-			default:
-				return false;
-		}
+	const completedPolicies = policies.filter((policy) => {
+		return policy.status === "published";
 	}).length;
 
-	if (completedArtifacts === 0) return "not_started";
-	if (completedArtifacts === totalArtifacts) return "completed";
+	if (completedPolicies === 0) return "not_started";
+	if (completedPolicies === totalPolicies) return "completed";
 	return "in_progress";
 }
 
-function isArtifactCompleted(artifact: ArtifactForCompletionCheck): boolean {
-	if (!artifact) return false;
-
-	switch (artifact.type) {
-		case "policy":
-			return artifact.policy?.status === "published";
-		default:
-			return false;
-	}
+function isPolicyCompleted(policy: Policy): boolean {
+	if (!policy) return false;
+	return policy.status === "published";
 }
 
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
@@ -96,15 +78,14 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 		},
 		{
 			id: "status",
-			accessorKey: "artifacts",
+			accessorKey: "policies",
 			header: t("frameworks.controls.table.status"),
 			cell: ({ row }) => {
-				const artifacts = row.original.artifacts;
-				const status = getControlStatusForArtifacts(artifacts);
+				const policies = row.original.policies || [];
+				const status = getControlStatusForPolicies(policies);
 
-				const totalArtifacts = artifacts.length;
-				const completedArtifacts =
-					artifacts.filter(isArtifactCompleted).length;
+				const totalPolicies = policies.length;
+				const completedPolicies = policies.filter(isPolicyCompleted).length;
 
 				return (
 					<TooltipProvider>
@@ -119,15 +100,14 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 									<p>
 										Progress:{" "}
 										{Math.round(
-											(completedArtifacts /
-												totalArtifacts) *
+											(completedPolicies /
+												totalPolicies) *
 												100,
 										) || 0}
 										%
 									</p>
 									<p>
-										Completed: {completedArtifacts}/
-										{totalArtifacts} artifacts
+										Completed: {completedPolicies}/{totalPolicies} policies
 									</p>
 								</div>
 							</TooltipContent>

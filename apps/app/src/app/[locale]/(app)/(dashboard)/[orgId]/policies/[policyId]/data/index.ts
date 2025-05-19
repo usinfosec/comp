@@ -2,12 +2,11 @@
 
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
-import { cache } from "react";
 import { CommentWithAuthor } from "../../../components/comments/Comments";
 import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 import { db } from "@comp/db";
 
-export const getArtifactsCreatedFromPolicy = cache(async (policyId: string) => {
+export const getPolicyControlMappingInfo = async (policyId: string) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -15,15 +14,15 @@ export const getArtifactsCreatedFromPolicy = cache(async (policyId: string) => {
 	const organizationId = session?.session.activeOrganizationId;
 
 	if (!organizationId) {
-		return { artifacts: [], mappedControls: [], allControls: [] };
+		return { mappedControls: [], allControls: [] };
 	}
 
 	const mappedControls = await db.control.findMany({
 		where: {
 			organizationId,
-			artifacts: {
+			policies: {
 				some: {
-					policyId,
+					id: policyId,
 				},
 			},
 		},
@@ -39,9 +38,9 @@ export const getArtifactsCreatedFromPolicy = cache(async (policyId: string) => {
 		mappedControls: mappedControls || [],
 		allControls: allControls || [],
 	};
-});
+};
 
-export const getPolicy = cache(async (policyId: string) => {
+export const getPolicy = async (policyId: string) => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -63,9 +62,9 @@ export const getPolicy = cache(async (policyId: string) => {
 	console.log({ policy });
 
 	return policy;
-});
+};
 
-export const getAssignees = cache(async () => {
+export const getAssignees = async () => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -89,7 +88,7 @@ export const getAssignees = cache(async () => {
 	});
 
 	return assignees;
-});
+};
 
 export const getComments = async (
 	policyId: string,

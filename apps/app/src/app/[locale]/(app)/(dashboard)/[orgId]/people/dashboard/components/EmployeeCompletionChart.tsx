@@ -6,7 +6,7 @@ import * as React from "react";
 import type { CSSProperties } from "react";
 
 // Use correct types from the database
-import { TrainingVideo } from "@comp/data";
+import { TrainingVideo } from "@/lib/data/training-videos";
 import {
 	EmployeeTrainingVideoCompletion,
 	Member,
