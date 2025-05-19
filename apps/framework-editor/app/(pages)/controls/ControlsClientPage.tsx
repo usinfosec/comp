@@ -32,6 +32,15 @@ import {
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@comp/ui/select";
+import { Button } from "@comp/ui/button";
+
 interface ControlsClientPageProps {
   initialControls: FrameworkEditorControlTemplateWithRelatedData[];
 }
@@ -92,6 +101,8 @@ const friendlyDateColumnBase: Partial<Column<Date | null, any, string>> = {
 };
 
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {
+    const ALL_FRAMEWORKS_OPTION_VALUE = "__ALL_FRAMEWORKS__";
+
     const initialGridData: ControlsPageGridData[] = useMemo(() => {
       return initialControls.map(control => {
         let cDate: Date | null = null;
@@ -117,7 +128,7 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
           name: control.name ?? null,
           description: control.description ?? null,
           policyTemplates: control.policyTemplates?.map(pt => ({ id: pt.id, name: pt.name })) ?? [],
-          requirements: control.requirements?.map(r => ({ id: r.id, name: r.name })) ?? [],
+          requirements: control.requirements?.map(r => ({ id: r.id, name: r.name, frameworkName: r.framework?.name })) ?? [],
           taskTemplates: control.taskTemplates?.map(tt => ({ id: tt.id, name: tt.name })) ?? [],
           policyTemplatesLength: control.policyTemplates?.length ?? 0,
           requirementsLength: control.requirements?.length ?? 0,
@@ -141,6 +152,30 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       changesSummaryString
     } = useChangeTracking(initialGridData);
     
+    const [selectedFramework, setSelectedFramework] = useState<string>("");
+    const [isCreateControlDialogOpen, setIsCreateControlDialogOpen] = useState(false);
+
+    const frameworkOptions = useMemo(() => {
+        const frameworkNames = new Set<string>();
+        initialControls.forEach(control => {
+            control.requirements?.forEach(req => {
+                if (req.framework?.name) {
+                    frameworkNames.add(req.framework.name);
+                }
+            });
+        });
+        return Array.from(frameworkNames).map(name => ({ label: name, value: name }));
+    }, [initialControls]);
+
+    const filteredDataByFramework = useMemo(() => {
+        if (selectedFramework === "" || selectedFramework === ALL_FRAMEWORKS_OPTION_VALUE) {
+            return dataForGrid;
+        }
+        return dataForGrid.filter(control =>
+            control.requirements?.some(req => req.frameworkName === selectedFramework)
+        );
+    }, [dataForGrid, selectedFramework]);
+    
     const {
       searchTerm,
       setSearchTerm,
@@ -150,7 +185,7 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       toggleSortDirection,
       processedData: sortedDataWithPotentialTimestamps,
     } = useTableSearchSort<ControlsPageGridData, ControlsPageSortableColumnKey>(
-      dataForGrid,
+      filteredDataByFramework,
       controlsSearchableKeys,
       controlsSortConfig,
       'createdAt',
@@ -281,22 +316,48 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
     ];
     
     return (
+      <>
         <PageLayout breadcrumbs={[{ label: "Controls", href: "/controls" }]}>
-            <TableToolbar
-              searchTerm={searchTerm}
-              onSearchTermChange={setSearchTerm}
-              sortColumnKey={sortColumnKey}
-              onSortColumnKeyChange={(key) => setSortColumnKey(key as ControlsPageSortableColumnKey | null)}
-              sortDirection={sortDirection}
-              onSortDirectionChange={toggleSortDirection}
-              sortableColumnOptions={sortableColumnsOptions}
-              showCommitCancel={true}
-              isDirty={isDirty}
-              onCommit={handleCommit}
-              onCancel={handleCancel}
-              commitButtonDetailText={changesSummaryString}
-            />
-            
+          {isDirty && (
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-sm text-muted-foreground">{changesSummaryString}</span>
+              <Button variant="outline" onClick={handleCancel} size="sm" className="rounded-sm">
+                Cancel
+              </Button>
+              <Button onClick={handleCommit} size="sm" className="rounded-sm">
+                Commit Changes
+              </Button>
+            </div>
+          )}
+          <TableToolbar
+            searchTerm={searchTerm}
+            onSearchTermChange={setSearchTerm}
+            sortableColumnOptions={sortableColumnsOptions}
+            sortColumnKey={sortColumnKey}
+            onSortColumnKeyChange={(key) => setSortColumnKey(key as ControlsPageSortableColumnKey | null)}
+            sortDirection={sortDirection}
+            onSortDirectionChange={toggleSortDirection}
+          >
+            <>
+              <Select value={selectedFramework} onValueChange={setSelectedFramework}>
+                <SelectTrigger className="w-[200px] ml-2 h-9 rounded-sm">
+                  <SelectValue placeholder="Filter by framework" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_FRAMEWORKS_OPTION_VALUE}>All Frameworks</SelectItem>
+                  {frameworkOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button onClick={() => setIsCreateControlDialogOpen(true)} className="ml-2 h-9 rounded-sm">
+                Create Control
+              </Button>
+            </>
+          </TableToolbar>
+          <div className="mt-4">
             <DataSheetGrid
               value={dataForDisplay}
               height={600}
@@ -323,6 +384,17 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
                 updatedAt: new Date(),
               })}
             />
+          </div>
         </PageLayout>
+        <CreateControlDialog
+            isOpen={isCreateControlDialogOpen}
+            onOpenChange={setIsCreateControlDialogOpen}
+            onControlCreated={() => {
+                setIsCreateControlDialogOpen(false);
+                toast.success("Control created successfully!");
+                // TODO: Consider data refresh logic here if needed, e.g., router.refresh()
+            }}
+        />
+      </>
     );
 } 
