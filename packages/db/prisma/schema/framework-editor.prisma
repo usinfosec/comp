@@ -55,6 +55,9 @@ model FrameworkEditorPolicyTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    policies Policy[]
 }
 
 model FrameworkEditorTaskTemplate {
@@ -69,6 +72,9 @@ model FrameworkEditorTaskTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    tasks Task[]
 }
 
 model FrameworkEditorControlTemplate {
@@ -83,4 +89,7 @@ model FrameworkEditorControlTemplate {
     // Dates
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    controls Control[]
 }

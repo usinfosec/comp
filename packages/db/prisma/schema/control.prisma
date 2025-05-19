@@ -16,5 +16,8 @@ model Control {
   requirementsMapped RequirementMap[]
   tasks              Task[]
 
+  controlTemplateId String?
+  controlTemplate   FrameworkEditorControlTemplate? @relation(fields: [controlTemplateId], references: [id])
+
   @@index([organizationId])
 }

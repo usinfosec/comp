@@ -18,11 +18,13 @@ model Policy {
   lastPublishedAt DateTime?
 
   // Relationships
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  assigneeId     String?
-  assignee       Member?      @relation(fields: [assigneeId], references: [id])
-  artifacts      Artifact[]
+  organizationId   String
+  organization     Organization                   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  assigneeId       String?
+  assignee         Member?                        @relation(fields: [assigneeId], references: [id])
+  artifacts        Artifact[]
+  policyTemplateId String?
+  policyTemplate   FrameworkEditorPolicyTemplate? @relation(fields: [policyTemplateId], references: [id])
 
   @@index([organizationId])
 }

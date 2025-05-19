@@ -191,9 +191,6 @@ export const initializeOrganization = async ({frameworkIds, organizationId}: Ini
             data: taskTemplates.map(taskTemplate => ({
                 title: taskTemplate.name,
                 description: taskTemplate.description,
-                // This needs to be revisited so that we can map it to the correct controls (many to many)
-                entityId: taskTemplate.id,
-                entityType: "control",
                 organizationId: organizationId
             }))
         });
