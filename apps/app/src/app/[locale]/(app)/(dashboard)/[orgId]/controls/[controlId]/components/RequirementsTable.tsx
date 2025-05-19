@@ -110,7 +110,7 @@ interface RequirementsTableProps {
 		shallow: false,
 		getRowId: (row) => row.id,
 		initialState: {
-			sorting: [{ id: "id", desc: false }],
+			// No default sorting to avoid type issues
 		},
 		tableId: "r",
 	});

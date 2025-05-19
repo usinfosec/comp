@@ -135,6 +135,7 @@ export function PoliciesTable({
 				<DataTable
 					table={table.table}
 					rowClickBasePath={`/${orgId}/policies/`}
+					getRowId={(row) => row.id}
 					tableId={"policiesTable"}
 				/>
 			</CardContent>

@@ -44,7 +44,7 @@ export const initializeOrganization = async ({frameworkIds, organizationId}: Ini
                     some: {
                         id: { in: requirementIds }
                     }
-                }
+                },
             },
         });
         const controlTemplateIds = controlTemplates.map(control => control.id);
@@ -90,7 +90,7 @@ export const initializeOrganization = async ({frameworkIds, organizationId}: Ini
                 requirements: {
                     where: {
                         id: { in: requirementIds }
-                    }
+                    },
                 },
                 policyTemplates: {
                     where: {
@@ -166,7 +166,7 @@ export const initializeOrganization = async ({frameworkIds, organizationId}: Ini
                     name: controlTemplate.name,
                     description: controlTemplate.description,
                     organizationId: organizationId,
-                    controlTemplateId: controlTemplate.id
+                    controlTemplateId: controlTemplate.id,
                 }))
             });
         }

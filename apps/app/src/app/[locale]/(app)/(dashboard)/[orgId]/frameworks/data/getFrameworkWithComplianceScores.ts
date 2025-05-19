@@ -68,6 +68,8 @@ export async function getFrameworkWithComplianceScores({
 			// Get all controls for this framework
 			const controls = frameworkInstance.controls;
 
+			console.log({controls});
+
 			// Calculate compliance percentage
 			const totalControls = controls.length;
 			const compliantControls = controls.filter((control) => {
