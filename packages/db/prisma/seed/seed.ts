@@ -160,4 +160,3 @@ async function main() {
 }
 
 main();
-// Resolves COMP-130
