@@ -219,6 +219,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 													"frameworks.overview.grid.title",
 												)}
 											</legend>
+											<div className="flex flex-col gap-2 overflow-y-auto max-h-[300px]">
 											{frameworks.map(
 												(framework) => {
 													const frameworkId =
@@ -285,6 +286,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 													);
 												},
 											)}
+											</div>
 										</fieldset>
 									</FormControl>
 									<FormMessage className="text-xs" />
