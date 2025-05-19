@@ -1,3 +1,31 @@
+# [1.27.0](https://github.com/trycompai/comp/compare/v1.26.0...v1.27.0) (2025-05-19)
+
+
+### Bug Fixes
+
+* add comment to seed script for clarity ([03d3bc0](https://github.com/trycompai/comp/commit/03d3bc02258f0d6adc06e8b97dabbcbb85eb3852))
+* ensure foreign key constraints are correctly defined for framework and requirement mappings ([e3c3cc2](https://github.com/trycompai/comp/commit/e3c3cc2ba59801abd97cb41bbfb9fe5f0aef7051))
+
+
+### Features
+
+* add 'visible' property to frameworks across components ([912e87d](https://github.com/trycompai/comp/commit/912e87d0727cf37d8e3af3b41631e91cc9002901))
+* add getRequirementDetails utility function for requirement retrieval ([69fac45](https://github.com/trycompai/comp/commit/69fac45bc13f184b3b0fc8707163eaef4518c484))
+* add migrations to update framework and requirement relationships ([9b97975](https://github.com/trycompai/comp/commit/9b9797507aef6998aa0e42686b321e374e4d1c3e))
+* add template references to database models and update organization initialization ([09a90cd](https://github.com/trycompai/comp/commit/09a90cde3977b1070d5d02bd0c7b6a99fdd680a8))
+* add visibility toggle to FrameworkEditorFramework model ([1a0176f](https://github.com/trycompai/comp/commit/1a0176fb5676312132f9bd13eec4e022e3128fdc))
+* drop Artifact and _ArtifactToControl tables, migrate relationships to new _ControlToPolicy table ([419fc3f](https://github.com/trycompai/comp/commit/419fc3f63fdd28d320d5b7872f3f9855951bfe1a))
+* enhance ControlsClientPage with framework filtering and control creation ([9949666](https://github.com/trycompai/comp/commit/99496667b5433228731821b21220a204b5b2b4f7))
+* enhance CreateOrgModal layout and add database seeding functionality ([0a79414](https://github.com/trycompai/comp/commit/0a794142123c3282542051973a33af4959b42252))
+* enhance FrameworkEditorFramework with visibility feature ([e8b7a8a](https://github.com/trycompai/comp/commit/e8b7a8a680ad57835e250dcb030e67ce841e88c9))
+* enhance getControl function to include nested framework details ([8c8561c](https://github.com/trycompai/comp/commit/8c8561c62eca8df052704231e8410a698b315a61))
+* **framework:** refactor framework handling and enhance organization creation ([5f53dc2](https://github.com/trycompai/comp/commit/5f53dc2327ef78626462ba02ae84963d25b3b433))
+* refactor framework requirements handling and integrate database fetching ([89b1c2c](https://github.com/trycompai/comp/commit/89b1c2c06d053216e3c053fe67c9a9572feb89cf))
+* **schema:** add TODOs for framework and requirement relations ([3982373](https://github.com/trycompai/comp/commit/398237366e23541530b140be5ba189b9531177b9))
+* **schema:** update organization schema and control types for improved validation and type safety ([f19fe92](https://github.com/trycompai/comp/commit/f19fe92c3c368a317283b84ce0b39751880227af))
+* update RequirementsTable to utilize nested requirement structure ([b0f2525](https://github.com/trycompai/comp/commit/b0f252566cdc1ea099d7b52f5bedce683f545c5f))
+* update SingleControl component to support nested framework structure ([e544f4e](https://github.com/trycompai/comp/commit/e544f4e110a2706c4c497b501beeebd179939e13))
+
 # [1.26.0](https://github.com/trycompai/comp/compare/v1.25.0...v1.26.0) (2025-05-19)
 
 
