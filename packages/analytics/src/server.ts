@@ -29,7 +29,7 @@ export async function track(distinctId: string, eventName: string, properties?: 
     event: eventName,
     properties,
   });
-  await serverInstance.shutdown();
+  await serverInstance.flush();
 }
 
 export async function identify(distinctId: string, properties?: Properties) {
@@ -39,13 +39,13 @@ export async function identify(distinctId: string, properties?: Properties) {
     distinctId,
     properties,
   });
-  await serverInstance.shutdown();
+  await serverInstance.flush();
 }
 
 export async function getFeatureFlags(distinctId: string) {
   if (!serverInstance) return {};
 
   const flags = await serverInstance.getAllFlags(distinctId);
-  await serverInstance.shutdown();
+  await serverInstance.flush();
   return flags;
 }
