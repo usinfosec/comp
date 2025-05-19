@@ -1,6 +1,13 @@
 import type { Onboarding } from "@comp/db/types";
 import { Icons } from "@comp/ui/icons";
-import { Briefcase, ListCheck, NotebookText, Store, Users } from "lucide-react";
+import {
+	Briefcase,
+	Calendar,
+	ListCheck,
+	NotebookText,
+	Store,
+	Users,
+} from "lucide-react";
 import type { ChecklistItemProps } from "./types";
 import { companyDetailsObjectSchema } from "./lib/models/CompanyDetails";
 import { z } from "zod";
@@ -10,6 +17,17 @@ export function generateChecklistItems(
 	orgId: string,
 ): ChecklistItemProps[] {
 	return [
+		{
+			title: "Optional: Get SOC 2 or ISO 27001 in just 4 weeks",
+			description: "Get SOC 2 compliant in just 4 weeks, implemented by the Comp AI team. Packages starting at $3,000/year - book a call and we'll share more..",
+			href: `/${orgId}/implementation/calendar`,
+			buttonLabel: "Get started",
+			icon: <Calendar className="h-5 w-5" />,
+			docs: "https://trycomp.ai/docs/call",
+			completed: onboarding.callBooked,
+			calendarPath: `/${orgId}/implementation/book-call`,
+			type: "calendar",
+		},
 		{
 			title: "Fill out company details",
 			description:

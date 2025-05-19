@@ -7,7 +7,7 @@ export function Checklist({ items }: { items: ChecklistItemProps[] }) {
 	return (
 		<div className="flex flex-col gap-4">
 			{items.map((item) => (
-				<ChecklistItem key={`checklist-${item.dbColumn}`} {...item} />
+				<ChecklistItem key={`checklist-${item.dbColumn}-${item?.type}`} {...item} />
 			))}
 		</div>
 	);

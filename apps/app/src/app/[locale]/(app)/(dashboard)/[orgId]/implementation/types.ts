@@ -6,6 +6,7 @@ export const onboardingSteps = [
 	"vendors",
 	"risk",
 	"tasks",
+	"callBooked",
 ] as const; // Use 'as const' for literal types
 
 export type OnboardingStep = (typeof onboardingSteps)[number];
@@ -19,8 +20,10 @@ export interface ChecklistItemProps {
 	completed?: boolean;
 	buttonLabel: string;
 	icon: React.ReactNode;
-	type?: "default" | "wizard";
+	type?: "default" | "wizard" | "calendar";
 	wizardPath?: string;
+	calendarPath?: string;
 	// For wizards, allow specifying a completion boolean directly
 	wizardCompleted?: boolean;
+	calendarCompleted?: boolean;
 }
