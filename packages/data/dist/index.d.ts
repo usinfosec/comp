@@ -66,7 +66,7 @@ interface Requirement {
  * A mapping of requirement codes to their corresponding Requirement objects.
  * Used for efficient lookup of requirements.
  */
-type SingleFrameworkRequirements<A extends string = string> = Record<A, Requirement>;
+type SingleFrameworkRequirements = Record<A, Requirement>;
 type AllRequirements = {
     [K in FrameworkId]: SingleFrameworkRequirements;
 };
