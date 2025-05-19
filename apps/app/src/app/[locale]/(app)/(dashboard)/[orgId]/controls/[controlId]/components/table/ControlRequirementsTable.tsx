@@ -6,15 +6,14 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 
-import { Requirement } from "@comp/data";
-import type { Task, Policy } from "@comp/db/types";
+import type { Task, Policy, FrameworkEditorRequirement } from "@comp/db/types";
 import { Table, TableBody, TableCell, TableRow } from "@comp/ui/table";
 import { useParams, useRouter } from "next/navigation";
 import { ControlRequirementsTableColumns } from "./ControlRequirementsTableColumns";
 import { ControlRequirementsTableHeader } from "./ControlRequirementsTableHeader";
 
 // Define the type that matches what we receive from the hook
-export type RequirementTableData = Requirement & {
+export type RequirementTableData = FrameworkEditorRequirement & {
 	policy: Policy | null;
 	task: Task | null;
 };

@@ -25,7 +25,6 @@
 		"@browserbasehq/sdk": "^2.5.0",
 		"@calcom/atoms": "^1.0.102-framer",
 		"@calcom/embed-react": "^1.5.3",
-		"@comp/data": "workspace:*",
 		"@comp/db": "workspace:*",
 		"@comp/notifications": "workspace:*",
 		"@date-fns/tz": "^1.2.0",
