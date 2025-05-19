@@ -6,6 +6,8 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
 import type {
+	FrameworkEditorFramework,
+	FrameworkEditorRequirement,
 	FrameworkInstance,
 	RequirementMap,
 } from "@comp/db/types";
@@ -13,16 +15,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { getFrameworkDetails } from "../../../frameworks/lib/getFrameworkDetails";
-import { getRequirementDetails } from "../../../frameworks/lib/getRequirementDetails";
 
 interface RequirementsTableProps {
-	requirements: (RequirementMap & { frameworkInstance: FrameworkInstance })[];
+	requirements: (RequirementMap & { frameworkInstance: FrameworkInstance & { framework: FrameworkEditorFramework },
+	requirement: FrameworkEditorRequirement })[];
 	orgId: string;
 }
 
-export function RequirementsTable({
-	requirements,
+	export function RequirementsTable({
+		requirements,
 	orgId,
 }: RequirementsTableProps) {
 	const t = useI18n();
@@ -30,11 +31,12 @@ export function RequirementsTable({
 
 	// Define columns for requirements table
 	const columns = useMemo<
-		ColumnDef<RequirementMap & { frameworkInstance: FrameworkInstance }>[]
+		ColumnDef<RequirementMap & { frameworkInstance: FrameworkInstance & { framework: FrameworkEditorFramework }, requirement: FrameworkEditorRequirement }>[]
 	>(
 		() => [
 			{
-				accessorKey: "id",
+				id: "reqName",
+				accessorKey: "requirement.name",
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
@@ -42,32 +44,23 @@ export function RequirementsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const frameworkDetails = getFrameworkDetails(
-						row.original.frameworkInstance.frameworkId,
-					);
-
 					return (
 						<span>
-							{frameworkDetails.name}
+							{row.original.requirement.name}
 						</span>
 					);
 				},
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
-					const requirementIdA = rowA.original.requirementId;
-					const requirementIdB = rowB.original.requirementId;
-
-					const detailsA = getRequirementDetails(requirementIdA);
-					const detailsB = getRequirementDetails(requirementIdB);
-
-					const nameA = detailsA?.name || "";
-					const nameB = detailsB?.name || "";
+					const nameA = rowA.original.requirement.name || "";
+					const nameB = rowB.original.requirement.name || "";
 
 					return nameA.localeCompare(nameB);
 				},
 			},
 			{
-				accessorKey: "description",
+				id: "reqDescription",
+				accessorKey: "requirement.description",
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
@@ -75,26 +68,16 @@ export function RequirementsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const requirementId = row.original.requirementId;
-					const details = getRequirementDetails(requirementId);
-
-					console.log("details", requirementId);	
 					return (
 						<span className="text-muted-foreground">
-							{details?.description}
+							{row.original.requirement.description}
 						</span>
 					);
 				},
 				enableSorting: true,
 				sortingFn: (rowA, rowB, columnId) => {
-					const requirementIdA = rowA.original.requirementId;
-					const requirementIdB = rowB.original.requirementId;
-
-					const detailsA = getRequirementDetails(requirementIdA);
-					const detailsB = getRequirementDetails(requirementIdB);
-
-					const descA = detailsA?.description || "";
-					const descB = detailsB?.description || "";
+					const descA = rowA.original.requirement.description || "";
+					const descB = rowB.original.requirement.description || "";
 
 					return descA.localeCompare(descB);
 				},
@@ -109,14 +92,12 @@ export function RequirementsTable({
 
 		const searchLower = searchTerm.toLowerCase();
 		return requirements.filter((req) => {
-			const requirementId = req.requirementId;
-			const details = getRequirementDetails(requirementId);
-
-			// Search in ID, name, and description
+			// Search in ID, name, and description from the nested requirement object
 			return (
-				requirementId.toLowerCase().includes(searchLower) ||
-				details?.name?.toLowerCase().includes(searchLower) ||
-				details?.description?.toLowerCase().includes(searchLower)
+				(req.requirement.id?.toLowerCase() || "").includes(searchLower) ||
+				(req.requirement.name?.toLowerCase() || "").includes(searchLower) ||
+				(req.requirement.description?.toLowerCase() || "").includes(searchLower) ||
+				(req.requirement.identifier?.toLowerCase() || "").includes(searchLower) // Also search identifier
 			);
 		});
 	}, [requirements, searchTerm]);
@@ -164,8 +145,10 @@ export function RequirementsTable({
 					table={table.table}
 					rowClickBasePath={`/${orgId}/frameworks`}
 					getRowId={(row) => {
-						const requirementId = row.requirementId;
-						return `${row.frameworkInstanceId}/requirements/${requirementId}`;
+						// This constructs the path to the specific requirement page
+						// row.requirementId is the FrameworkEditorRequirement.id (e.g. frk_rq_...)
+						// row.frameworkInstanceId is the ID of the FrameworkInstance
+						return `${row.frameworkInstanceId}/requirements/${row.requirementId}`;
 					}}
 					tableId={"r"}
 				/>
