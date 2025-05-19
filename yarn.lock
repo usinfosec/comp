@@ -1674,12 +1674,8 @@
     "@aws-sdk/client-sts" "^3.808.0"
     "@aws-sdk/s3-request-presigner" "^3.806.0"
     "@browserbasehq/sdk" "^2.5.0"
-<<<<<<< HEAD
-=======
     "@calcom/atoms" "^1.0.102-framer"
     "@calcom/embed-react" "^1.5.3"
->>>>>>> 75bf8d359807c2302b171863b43eecbe014f96b1
-    "@comp/data" "workspace:*"
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
     "@date-fns/tz" "^1.2.0"
@@ -1757,14 +1753,6 @@
     use-long-press "^3.3.0"
     xml2js "^0.6.2"
     zustand "^5.0.3"
-
-"@comp/data@packages/data", "@comp/data@workspace:*":
-  version "workspace:packages/data"
-  resolved "workspace:packages/data"
-  devDependencies:
-    "@comp/db" "workspace:*"
-    tsup "^8.4.0"
-    typescript "^5.8.3"
 
 "@comp/db@packages/db", "@comp/db@workspace:*":
   version "workspace:packages/db"
