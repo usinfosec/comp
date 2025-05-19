@@ -22,9 +22,9 @@ model Policy {
   organization     Organization                   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   assigneeId       String?
   assignee         Member?                        @relation(fields: [assigneeId], references: [id])
-  artifacts        Artifact[]
   policyTemplateId String?
   policyTemplate   FrameworkEditorPolicyTemplate? @relation(fields: [policyTemplateId], references: [id])
+  controls         Control[]
 
   @@index([organizationId])
 }

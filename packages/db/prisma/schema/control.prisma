@@ -10,14 +10,13 @@ model Control {
 
   // Relationships
   frameworkInstances FrameworkInstance[]
-  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization       Organization                    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId     String
-  artifacts          Artifact[]
   requirementsMapped RequirementMap[]
   tasks              Task[]
-
-  controlTemplateId String?
-  controlTemplate   FrameworkEditorControlTemplate? @relation(fields: [controlTemplateId], references: [id])
+  policies           Policy[]
+  controlTemplateId  String?
+  controlTemplate    FrameworkEditorControlTemplate? @relation(fields: [controlTemplateId], references: [id])
 
   @@index([organizationId])
 }
