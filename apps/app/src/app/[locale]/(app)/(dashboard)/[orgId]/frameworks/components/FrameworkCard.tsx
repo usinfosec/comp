@@ -19,13 +19,13 @@ import { FrameworkInstanceWithControls } from "../types";
 
 interface FrameworkCardProps {
 	frameworkInstance: FrameworkInstanceWithControls;
-	complianceScore: number;
+	complianceScore?: number;
 	tasks: (Task & { controls: Control[] })[];
 }
 
 export function FrameworkCard({
 	frameworkInstance,
-	complianceScore,
+	complianceScore = 0,
 	tasks,
 }: FrameworkCardProps) {
 	const { orgId } = useParams<{ orgId: string }>();

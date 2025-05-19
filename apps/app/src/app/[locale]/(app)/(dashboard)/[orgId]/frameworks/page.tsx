@@ -31,6 +31,12 @@ export default async function DashboardPage() {
 		organizationId,
 	});
 
+	const allFrameworks = await db.frameworkEditorFramework.findMany({
+		where: {
+			visible: true,
+		}
+	});
+
 	console.log(frameworksWithControls);
 
 	return (
@@ -40,6 +46,7 @@ export default async function DashboardPage() {
 			<FrameworksOverview
 				frameworksWithControls={frameworksWithControls}
 				tasks={tasks}
+				allFrameworks={allFrameworks}
 			/>
 		</PageWithBreadcrumb>
 	);
