@@ -6,6 +6,7 @@ import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFramewo
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
 import { db } from "@comp/db";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -40,6 +41,16 @@ export default async function FrameworkPage({ params }: PageProps) {
 		redirect("/");
 	}
 
+	// Fetch requirement definitions for this framework
+	const requirementDefinitions = await db.frameworkEditorRequirement.findMany({
+		where: {
+			frameworkId: frameworkInstanceWithControls.frameworkId,
+		},
+		orderBy: {
+			name: "asc",
+		}
+	});
+
 	const frameworkName = frameworkInstanceWithControls.framework.name;
 
 	const tasks = await db.task.findMany({
@@ -71,7 +82,7 @@ export default async function FrameworkPage({ params }: PageProps) {
 					tasks={tasks || []}
 				/>
 				<FrameworkRequirements
-					frameworkId={frameworkInstanceWithControls.frameworkId}
+					requirementDefinitions={requirementDefinitions}
 					frameworkInstanceWithControls={
 						frameworkInstanceWithControls
 					}
