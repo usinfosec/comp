@@ -1,3 +1,17 @@
+# [1.26.0](https://github.com/trycompai/comp/compare/v1.25.0...v1.26.0) (2025-05-19)
+
+
+### Bug Fixes
+
+* **analytics:** keep client active ([42ec348](https://github.com/trycompai/comp/commit/42ec348ad52d76c521d9f91607958d311b2f5bf7))
+* **layout:** make sidebar scrollable ([82eb566](https://github.com/trycompai/comp/commit/82eb56613c6c7ba28011d816018b997d4080a619))
+* use custom IDs wording ([54dcc86](https://github.com/trycompai/comp/commit/54dcc86ac2e49a6fe104b39cec73893dbb86c21c))
+
+
+### Features
+
+* integrate Calcom components and enhance onboarding checklist ([42fe663](https://github.com/trycompai/comp/commit/42fe66323a114dff3bbcf1c8bd026a83d1cd66f9))
+
 # [1.25.0](https://github.com/trycompai/comp/compare/v1.24.0...v1.25.0) (2025-05-17)
 
 
