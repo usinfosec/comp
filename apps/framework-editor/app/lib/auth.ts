@@ -23,11 +23,11 @@ export const auth = betterAuth({
 		provider: "postgresql",
 	}),
 	advanced: {
-		database: {
-			// This will enable us to fall back to DB for ID generation.
-			// It's important so we can use customs ID's specified in Prisma Schema.
-			generateId: false,
-		},
+                database: {
+                        // This will enable us to fall back to DB for ID generation.
+                        // It's important so we can use custom IDs specified in Prisma Schema.
+                        generateId: false,
+                },
 	},
 	secret: process.env.AUTH_SECRET!,
 	plugins: [nextCookies()],
