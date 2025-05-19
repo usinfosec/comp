@@ -2,25 +2,24 @@
 
 import { Control, Task } from "@comp/db/types";
 import { FrameworkCard } from "./FrameworkCard";
-import type { FrameworkInstanceWithComplianceScore } from "./types";
+import type { FrameworkInstanceWithControls } from "../types";
 
 export function FrameworkList({
-	frameworksWithControlsAndComplianceScores,
+	frameworksWithControls,
 	tasks,
 }: {
-	frameworksWithControlsAndComplianceScores: FrameworkInstanceWithComplianceScore[];
+	frameworksWithControls: FrameworkInstanceWithControls[];
 	tasks: (Task & { controls: Control[] })[];
 }) {
-	if (!frameworksWithControlsAndComplianceScores.length) return null;
+	if (!frameworksWithControls.length) return null;
 
 	return (
 		<div className="space-y-6">
-			{frameworksWithControlsAndComplianceScores.map(
-				({ frameworkInstance, complianceScore }) => (
+			{frameworksWithControls.map((frameworkInstance) => (
 					<FrameworkCard
 						key={frameworkInstance.id}
 						frameworkInstance={frameworkInstance}
-						complianceScore={complianceScore}
+						complianceScore={0}
 						tasks={tasks}
 					/>
 				),
