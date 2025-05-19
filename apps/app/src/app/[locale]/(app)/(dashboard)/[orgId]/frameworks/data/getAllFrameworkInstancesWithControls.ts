@@ -16,9 +16,11 @@ export async function getAllFrameworkInstancesWithControls({
 			framework: true,
 			controls: {
 				include: {
-					artifacts: {
-						include: {
-							policy: true,
+					policies: {
+						select: {
+							id: true,
+							name: true,
+							status: true,
 						},
 					},
 					requirementsMapped: true,

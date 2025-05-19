@@ -3,7 +3,6 @@
 import { StatusIndicator } from "@/components/status-indicator";
 import { useI18n } from "@/locales/client";
 import type {
-	Artifact,
 	Control,
 	FrameworkEditorFramework,
 	FrameworkEditorRequirement,
@@ -16,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
-import { ArtifactsTable } from "./ArtifactsTable";
+import { PoliciesTable } from "./PoliciesTable";
 import { RequirementsTable } from "./RequirementsTable";
 import { SingleControlSkeleton } from "./SingleControlSkeleton";
 import { TasksTable } from "./TasksTable";
@@ -31,16 +30,14 @@ interface SingleControlProps {
 		})[];
 	};
 	controlProgress: ControlProgressResponse;
-	relatedArtifacts: (Artifact & {
-		policy: Policy | null;
-	})[];
+	relatedPolicies: Policy[];
 	relatedTasks: Task[];
 }
 
 export const SingleControl = ({
 	control,
 	controlProgress,
-	relatedArtifacts = [],
+	relatedPolicies = [],
 	relatedTasks = [],
 }: SingleControlProps) => {
 	const t = useI18n();
@@ -54,17 +51,17 @@ export const SingleControl = ({
 			return "completed";
 		if (controlProgress.completed > 0) return "in_progress";
 
-		// Check if any task is not "todo" or any artifact is not "draft"
+		// Check if any task is not "todo" or any policy is not "draft"
 		const anyTaskInProgress = relatedTasks.some(
 			(task) => task.status !== "todo",
 		);
-		const anyArtifactInProgress = relatedArtifacts.some(
-			(artifact) => artifact.policy && artifact.policy.status !== "draft",
+		const anyPolicyInProgress = relatedPolicies.some(
+			(policy) => policy.status !== "draft",
 		);
-		if (anyTaskInProgress || anyArtifactInProgress) return "in_progress";
+		if (anyTaskInProgress || anyPolicyInProgress) return "in_progress";
 
 		return "not_started";
-	}, [controlProgress, relatedArtifacts, relatedTasks]);
+	}, [controlProgress, relatedPolicies, relatedTasks]);
 
 	if (!control || !controlProgress) {
 		return <SingleControlSkeleton />;
@@ -96,8 +93,8 @@ export const SingleControl = ({
 				requirements={control.requirementsMapped}
 				orgId={orgId}
 			/>
-			<ArtifactsTable
-				artifacts={relatedArtifacts}
+			<PoliciesTable
+				policies={relatedPolicies}
 				orgId={orgId}
 				controlId={controlId}
 			/>

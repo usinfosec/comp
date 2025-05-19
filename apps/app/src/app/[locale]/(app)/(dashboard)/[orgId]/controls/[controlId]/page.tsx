@@ -4,9 +4,9 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { SingleControl } from "./components/SingleControl";
 import { getControl } from "./data/getControl";
-import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
 import type { ControlProgressResponse } from "./data/getOrganizationControlProgress";
-import { getRelatedArtifacts } from "./data/getRelatedArtifacts";
+import { getOrganizationControlProgress } from "./data/getOrganizationControlProgress";
+import { getRelatedPolicies } from "./data/getRelatedPolicies";
 
 interface ControlPageProps {
 	params: {
@@ -48,7 +48,7 @@ export default async function ControlPage({ params }: ControlPageProps) {
 		byType: {},
 	};
 
-	const relatedArtifacts = await getRelatedArtifacts({
+	const relatedPolicies = await getRelatedPolicies({
 		organizationId: orgId,
 		controlId: controlId,
 	});
@@ -63,7 +63,7 @@ export default async function ControlPage({ params }: ControlPageProps) {
 			<SingleControl
 				control={control}
 				controlProgress={controlProgress}
-				relatedArtifacts={relatedArtifacts}
+				relatedPolicies={relatedPolicies}
 				relatedTasks={control.tasks}
 			/>
 		</PageWithBreadcrumb>

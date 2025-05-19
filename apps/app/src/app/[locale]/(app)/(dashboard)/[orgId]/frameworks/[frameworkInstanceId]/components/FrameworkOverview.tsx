@@ -23,7 +23,7 @@ export function FrameworkOverview({
 	// Calculate compliant controls (all artifacts completed)
 	const compliantControls = allControls.filter(
 		(control) =>
-			getControlStatus(control.artifacts, tasks, control.id) ===
+			getControlStatus(control.policies, tasks, control.id) ===
 			"completed",
 	).length;
 

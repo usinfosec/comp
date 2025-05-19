@@ -65,37 +65,42 @@ export const createPolicyAction = authActionClient
 							content: [{ type: "text", text: "" }],
 						},
 					],
+					...(controlIds && controlIds.length > 0 && {
+						controls: {
+							connect: controlIds.map((id) => ({ id })),
+						},
+					}),
 				},
 			});
 
 			// Create artifacts for each control
-			if (controlIds && controlIds.length > 0) {
-				// Create artifacts that link the policy to controls
-				await Promise.all(
-					controlIds.map(async (controlId) => {
-						// Create the artifact
-						const artifact = await db.artifact.create({
-							data: {
-								type: "policy",
-								policyId: policy.id,
-								organizationId: activeOrganizationId,
-							},
-						});
+			// if (controlIds && controlIds.length > 0) {
+			// 	// Create artifacts that link the policy to controls
+			// 	await Promise.all(
+			// 		controlIds.map(async (controlId) => {
+			// 			// Create the artifact
+			// 			const artifact = await db.artifact.create({
+			// 				data: {
+			// 					type: "policy",
+			// 					policyId: policy.id,
+			// 					organizationId: activeOrganizationId,
+			// 				},
+			// 			});
 
-						// Connect the artifact to the control
-						await db.control.update({
-							where: { id: controlId },
-							data: {
-								artifacts: {
-									connect: { id: artifact.id },
-								},
-							},
-						});
+			// 			// Connect the artifact to the control
+			// 			await db.control.update({
+			// 				where: { id: controlId },
+			// 				data: {
+			// 					artifacts: {
+			// 						connect: { id: artifact.id },
+			// 					},
+			// 				},
+			// 			});
 
-						return artifact;
-					}),
-				);
-			}
+			// 			return artifact;
+			// 		}),
+			// 	);
+			// }
 
 			revalidatePath(`/${activeOrganizationId}/policies/all`);
 			revalidatePath(`/${activeOrganizationId}/policies`);

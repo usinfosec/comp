@@ -24,28 +24,31 @@ export async function mapPolicyToControls({
 
 	try {
 		console.log(`Mapping controls ${controlIds} to policy ${policyId}`);
-		// 1. For each control, create a new artifact that is linked to the policy.
-		const artifacts = await db.$transaction(
-			controlIds.map((controlId) =>
-				db.artifact.create({
-					data: {
-						organizationId,
-						policyId,
-						type: "policy",
-						controls: {
-							connect: { id: controlId },
-						},
-					},
-				}),
-			),
-		);
+		
+		// Update the policy to connect it to the specified controls
+		const updatedPolicy = await db.policy.update({
+			where: { id: policyId, organizationId: organizationId }, // Ensure policy belongs to the org
+			data: {
+				controls: {
+					connect: controlIds.map((id) => ({ id })),
+				},
+			},
+			include: { // Optional: include controls to verify or log
+				controls: true,
+			}
+		});
 
-		console.log("Artifacts:", artifacts);
+		console.log("Policy updated with controls:", updatedPolicy.controls);
 		console.log(`Controls mapped successfully to policy ${policyId}`);
 
 		revalidatePath(`/${organizationId}/policies/${policyId}`);
+		// Consider revalidating paths for the affected controls as well, if necessary
+		controlIds.forEach(controlId => {
+			revalidatePath(`/${organizationId}/controls/${controlId}`);
+		});
+
 	} catch (error) {
-		console.error(error);
+		console.error("Error mapping controls to policy:", error);
 		throw error;
 	}
 }

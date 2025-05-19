@@ -6,36 +6,27 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
-import { Artifact, Policy } from "@comp/db/types";
+import { Policy } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-interface ArtifactsTableProps {
-	artifacts: (Artifact & {
-		policy: Policy | null;
-	})[];
+interface PoliciesTableProps {
+	policies: Policy[];
 	orgId: string;
 	controlId: string;
 }
 
-export function ArtifactsTable({
-	artifacts,
+export function PoliciesTable({
+	policies,
 	orgId,
 	controlId,
-}: ArtifactsTableProps) {
+}: PoliciesTableProps) {
 	const t = useI18n();
 	const [searchTerm, setSearchTerm] = useState("");
 
-	// Define columns for artifacts table
-	const columns = useMemo<
-		ColumnDef<
-			Artifact & {
-				policy: Policy | null;
-			}
-		>[]
-	>(
+	const columns = useMemo<ColumnDef<Policy>[]>(
 		() => [
 			{
 				accessorKey: "name",
@@ -46,30 +37,14 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const name = row.original.policy?.name;
+					const name = row.original.name;
 					return <span>{name}</span>;
 				},
 				enableSorting: true,
-				sortingFn: (rowA, rowB, columnId) => {
-					const nameA = rowA.original.policy?.name || "";
-					const nameB = rowB.original.policy?.name || "";
+				sortingFn: (rowA, rowB) => {
+					const nameA = rowA.original.name || "";
+					const nameB = rowB.original.name || "";
 					return nameA.localeCompare(nameB);
-				},
-			},
-			{
-				accessorKey: "type",
-				header: ({ column }) => (
-					<DataTableColumnHeader
-						column={column}
-						title={t("frameworks.artifacts.table.type")}
-					/>
-				),
-				cell: ({ row }) => (
-					<span className="capitalize">{row.original.type}</span>
-				),
-				enableSorting: true,
-				sortingFn: (rowA, rowB, columnId) => {
-					return rowA.original.type.localeCompare(rowB.original.type);
 				},
 			},
 			{
@@ -86,7 +61,7 @@ export function ArtifactsTable({
 					</span>
 				),
 				enableSorting: true,
-				sortingFn: (rowA, rowB, columnId) => {
+				sortingFn: (rowA, rowB) => {
 					const dateA = new Date(rowA.original.createdAt);
 					const dateB = new Date(rowB.original.createdAt);
 					return dateA.getTime() - dateB.getTime();
@@ -101,9 +76,7 @@ export function ArtifactsTable({
 					/>
 				),
 				cell: ({ row }) => {
-					const rawStatus = row.original.policy?.status;
-
-					// Pass the mapped status directly to StatusIndicator
+					const rawStatus = row.original.status;
 					return <StatusIndicator status={rawStatus} />;
 				},
 			},
@@ -111,22 +84,19 @@ export function ArtifactsTable({
 		[t],
 	);
 
-	// Filter artifacts data based on search term
-	const filteredArtifacts = useMemo(() => {
-		if (!searchTerm.trim()) return artifacts;
+	const filteredPolicies = useMemo(() => {
+		if (!searchTerm.trim()) return policies;
 
 		const searchLower = searchTerm.toLowerCase();
-		return artifacts.filter(
-			(artifact) =>
-				artifact.id.toLowerCase().includes(searchLower) ||
-				artifact.policy?.name?.toLowerCase().includes(searchLower) ||
-				artifact.type.toLowerCase().includes(searchLower),
+		return policies.filter(
+			(policy) =>
+				(policy.name && policy.name.toLowerCase().includes(searchLower)) ||
+				(policy.id && policy.id.toLowerCase().includes(searchLower))
 		);
-	}, [artifacts, searchTerm]);
+	}, [policies, searchTerm]);
 
-	// Set up the artifacts table
 	const table = useDataTable({
-		data: filteredArtifacts,
+		data: filteredPolicies,
 		columns,
 		pageCount: 1,
 		shallow: false,
@@ -134,15 +104,14 @@ export function ArtifactsTable({
 		initialState: {
 			sorting: [{ id: "createdAt", desc: true }],
 		},
-		tableId: "a",
+		tableId: "policiesTable",
 	});
 
 	return (
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.artifacts.title")} (
-					{filteredArtifacts.length})
+					{t("frameworks.artifacts.title")} ({filteredPolicies.length})
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
@@ -159,21 +128,14 @@ export function ArtifactsTable({
 						<DataTableSortList
 							table={table.table}
 							align="end"
-							tableId="a"
+							tableId="policiesTable"
 						/>
 					</div>
 				</div>
 				<DataTable
 					table={table.table}
-					rowClickBasePath={`/${orgId}/`}
-					getRowId={(row) => {
-						if (row.type === "policy") {
-							return `/policies/${row.policyId}`;
-						}
-
-						return `/artifacts/${row.id}`;
-					}}
-					tableId={"a"}
+					rowClickBasePath={`/${orgId}/policies/`}
+					tableId={"policiesTable"}
 				/>
 			</CardContent>
 		</Card>
