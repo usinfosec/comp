@@ -21,6 +21,7 @@ export async function Sidebar({
 			name: true,
 			description: true,
 			version: true,
+			visible: true,
 		},
 	});
 

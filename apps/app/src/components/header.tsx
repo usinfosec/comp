@@ -38,6 +38,7 @@ export async function Header() {
 			name: true,
 			description: true,
 			version: true,
+			visible: true,
 		},
 	});
 

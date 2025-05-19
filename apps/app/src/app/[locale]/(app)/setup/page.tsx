@@ -77,6 +77,7 @@ export default async function Page() {
 			name: true,
 			description: true,
 			version: true,
+			visible: true,
 		},
 	});
 

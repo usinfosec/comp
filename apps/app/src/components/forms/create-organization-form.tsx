@@ -31,7 +31,7 @@ import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
 
 interface OnboardingClientProps {
-	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version">[];
+	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version" | "visible">[];
 }
 
 export function OnboardingClient({ frameworks }: OnboardingClientProps) {
@@ -188,7 +188,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 													"frameworks.overview.grid.title",
 												)}
 											</legend>
-											{frameworks.map(
+											{frameworks.filter(framework => framework.visible).map(
 												(framework) => {
 													return (
 														<label

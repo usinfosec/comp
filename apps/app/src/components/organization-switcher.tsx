@@ -26,7 +26,7 @@ interface OrganizationSwitcherProps {
 	organizations: Organization[]
 	organization: Organization | null
 	isCollapsed?: boolean
-	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version">[];
+	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version" | "visible">[];
 }
 
 interface OrganizationInitialsAvatarProps {

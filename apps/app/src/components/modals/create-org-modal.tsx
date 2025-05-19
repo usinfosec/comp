@@ -37,7 +37,7 @@ import type { FrameworkEditorFramework } from "@comp/db/types";
 
 type Props = {
 	onOpenChange: (isOpen: boolean) => void;
-	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version">[];
+	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version" | "visible">[];
 };
 
 export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
@@ -220,7 +220,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 												)}
 											</legend>
 											<div className="flex flex-col gap-2 overflow-y-auto max-h-[300px]">
-											{frameworks.map(
+											{frameworks.filter(framework => framework.visible).map(
 												(framework) => {
 													const frameworkId =
 														framework.id;

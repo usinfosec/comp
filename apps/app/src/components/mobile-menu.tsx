@@ -14,7 +14,7 @@ interface MobileMenuProps {
 	isCollapsed?: boolean;
 	completedOnboarding: boolean;
 	organizationId: string;
-	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version">[];
+	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version" | "visible">[];
 }
 
 export function MobileMenu({
