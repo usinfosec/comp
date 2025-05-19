@@ -23,6 +23,8 @@ export const common = {
 		complete: "Complete",
 		update: "Update",
 		selectOrg: "Select Organization",
+		add: "Add",
+		close: "Close",
 	},
 	placeholders: {
 		searchOrg: "Search organization...",

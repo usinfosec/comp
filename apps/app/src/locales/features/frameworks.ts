@@ -86,4 +86,11 @@ export const frameworks = {
 		},
 		no_artifacts: "No Linked Policies found",
 	},
+	add_modal: {
+		title: "Add New Frameworks",
+		description: "Select the compliance frameworks you want to add to your organization.",
+		loading: "Adding frameworks...",
+		all_enabled_description: "There are no new frameworks available to add at this time.",
+		all_enabled_message: "All available frameworks are already enabled in your account.",
+	},
 } as const;

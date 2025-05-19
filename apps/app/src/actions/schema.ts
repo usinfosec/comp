@@ -249,6 +249,11 @@ export const updatePolicySchema = z.object({
 	content: z.any(),
 });
 
+export const addFrameworksSchema = z.object({
+	organizationId: z.string().min(1, "Organization ID is required"),
+	frameworkIds: z.array(z.string()).min(1, "Please select at least one framework to add"),
+});
+
 export const assistantSettingsSchema = z.object({
 	enabled: z.boolean().optional(),
 });
