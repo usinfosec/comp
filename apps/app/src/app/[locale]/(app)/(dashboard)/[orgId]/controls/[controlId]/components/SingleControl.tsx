@@ -5,6 +5,8 @@ import { useI18n } from "@/locales/client";
 import type {
 	Artifact,
 	Control,
+	FrameworkEditorFramework,
+	FrameworkEditorRequirement,
 	FrameworkInstance,
 	Policy,
 	RequirementMap,
@@ -22,7 +24,10 @@ import { TasksTable } from "./TasksTable";
 interface SingleControlProps {
 	control: Control & {
 		requirementsMapped: (RequirementMap & {
-			frameworkInstance: FrameworkInstance;
+			frameworkInstance: FrameworkInstance & {
+				framework: FrameworkEditorFramework;
+			};
+			requirement: FrameworkEditorRequirement;
 		})[];
 	};
 	controlProgress: ControlProgressResponse;
