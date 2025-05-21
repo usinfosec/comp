@@ -4,6 +4,8 @@ on:
 
 jobs:
   github-releases-to-discord:
+    permissions:
+        contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
