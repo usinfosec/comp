@@ -3,8 +3,56 @@
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { CommentWithAuthor } from "../../../components/comments/Comments";
-import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
+import {
+	AttachmentEntityType,
+	AuditLogEntityType,
+	CommentEntityType,
+	AuditLog,
+	User,
+	Member,
+	Organization,
+} from "@comp/db/types";
 import { db } from "@comp/db";
+
+// Define the type for AuditLog with its relations
+export type AuditLogWithRelations = AuditLog & {
+	user: User | null;
+	member: Member | null;
+	organization: Organization;
+};
+
+export const getLogsForPolicy = async (
+	policyId: string,
+): Promise<AuditLogWithRelations[]> => {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	const organizationId = session?.session.activeOrganizationId;
+
+	if (!organizationId) {
+		return [];
+	}
+
+	const logs = await db.auditLog.findMany({
+		where: {
+			organizationId,
+			entityType: AuditLogEntityType.policy,
+			entityId: policyId,
+		},
+		include: {
+			user: true,
+			member: true,
+			organization: true,
+		},
+		orderBy: {
+			timestamp: "desc",
+		},
+		take: 3,
+	});
+
+	return logs;
+};
 
 export const getPolicyControlMappingInfo = async (policyId: string) => {
 	const session = await auth.api.getSession({
@@ -53,13 +101,23 @@ export const getPolicy = async (policyId: string) => {
 
 	const policy = await db.policy.findUnique({
 		where: { id: policyId, organizationId },
+		include: {
+			approver: {
+				include: {
+					user: true,
+				},
+			},
+			assignee: {
+				include: {
+					user: true,
+				},
+			},
+		},
 	});
 
 	if (!policy) {
 		return null;
 	}
-
-	console.log({ policy });
 
 	return policy;
 };

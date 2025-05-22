@@ -66,6 +66,7 @@ export function UpdatePolicyForm({
 			title: data.title,
 			description: data.description,
 			isRequiredToSign: data.isRequiredToSign,
+			entityId: data.id,
 		});
 	};
 

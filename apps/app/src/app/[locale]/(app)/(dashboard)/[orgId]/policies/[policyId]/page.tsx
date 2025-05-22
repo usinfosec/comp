@@ -11,7 +11,10 @@ import {
 	getAssignees,
 	getComments,
 	getPolicy,
+	getLogsForPolicy,
 } from "./data";
+import { RecentAuditLogs } from "./components/RecentAuditLogs";
+import PolicyPage from "./components/PolicyPage";
 
 export default async function PolicyDetails({
 	params,
@@ -26,6 +29,9 @@ export default async function PolicyDetails({
 	const comments = await getComments(policyId);
 	const { mappedControls, allControls } =
 		await getPolicyControlMappingInfo(policyId);
+	const logs = await getLogsForPolicy(policyId);
+
+	const isPendingApproval = !!policy?.approverId;
 
 	return (
 		<PageWithBreadcrumb
@@ -34,22 +40,15 @@ export default async function PolicyDetails({
 				{ label: policy?.name ?? "Policy", current: true },
 			]}
 		>
-			<PolicyOverview
-				policy={policy ?? null}
+			<PolicyPage
+				policy={policy}
+				policyId={policyId}
 				assignees={assignees}
 				mappedControls={mappedControls}
 				allControls={allControls}
-			/>
-			<PolicyPageEditor
-				policyId={policyId}
-				policyContent={
-					policy?.content ? (policy.content as JSONContent[]) : []
-				}
-			/>
-			<Comments
-				entityId={policyId}
+				isPendingApproval={isPendingApproval}
+				logs={logs}
 				comments={comments}
-				entityType="policy"
 			/>
 		</PageWithBreadcrumb>
 	);

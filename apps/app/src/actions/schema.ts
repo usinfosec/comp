@@ -13,7 +13,9 @@ import { z } from "zod";
 
 export const organizationSchema = z.object({
 	name: z.string().min(1, "Organization name is required"),
-	frameworkIds: z.array(z.string()).min(1, "Please select at least one framework to get started with"),
+	frameworkIds: z
+		.array(z.string())
+		.min(1, "Please select at least one framework to get started with"),
 	website: z
 		.string()
 		.url({
@@ -242,16 +244,20 @@ export const createPolicySchema = z.object({
 	description: z.string(),
 	frameworkIds: z.array(z.string()),
 	controlIds: z.array(z.string()),
+	entityId: z.string(),
 });
 
 export const updatePolicySchema = z.object({
 	id: z.string(),
 	content: z.any(),
+	entityId: z.string(),
 });
 
 export const addFrameworksSchema = z.object({
 	organizationId: z.string().min(1, "Organization ID is required"),
-	frameworkIds: z.array(z.string()).min(1, "Please select at least one framework to add"),
+	frameworkIds: z
+		.array(z.string())
+		.min(1, "Please select at least one framework to add"),
 });
 
 export const assistantSettingsSchema = z.object({
@@ -273,6 +279,7 @@ export const updatePolicyOverviewSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	isRequiredToSign: z.enum(["required", "not_required"]).optional(),
+	entityId: z.string(),
 });
 
 export const updatePolicyFormSchema = z.object({
@@ -283,6 +290,8 @@ export const updatePolicyFormSchema = z.object({
 	review_frequency: z.nativeEnum(Frequency),
 	review_date: z.date(),
 	isRequiredToSign: z.enum(["required", "not_required"]),
+	approverId: z.string().optional().nullable(), // Added for selecting an approver
+	entityId: z.string(),
 });
 
 export const apiKeySchema = z.object({

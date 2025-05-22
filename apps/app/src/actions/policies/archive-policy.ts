@@ -8,6 +8,7 @@ import { authActionClient } from "../safe-action";
 const archivePolicySchema = z.object({
 	id: z.string(),
 	action: z.enum(["archive", "restore"]).optional(),
+	entityId: z.string(),
 });
 
 export const archivePolicyAction = authActionClient
@@ -16,6 +17,7 @@ export const archivePolicyAction = authActionClient
 		name: "archive-policy",
 		track: {
 			event: "archive-policy",
+			description: "Archive Policy",
 			channel: "server",
 		},
 	})
