@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
+import { authClient } from "@/utils/auth-client";
 import type { Member, Policy, User } from "@comp/db/types";
 import { Control } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
@@ -15,18 +16,18 @@ import {
 	ShieldCheck,
 	ShieldX,
 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { PolicyArchiveSheet } from "./PolicyArchiveSheet";
-import { PolicyOverviewSheet } from "./PolicyOverviewSheet";
-import { UpdatePolicyOverview } from "./UpdatePolicyOverview";
-import { PolicyControlMappings } from "./PolicyControlMappings";
-import { authClient } from "@/utils/auth-client";
-import { acceptRequestedPolicyChangesAction } from "@/actions/policies/accept-requested-policy-changes";
-import { toast } from "sonner";
-import { useAction } from "next-safe-action/hooks";
-import { denyRequestedPolicyChangesAction } from "@/actions/policies/deny-requested-policy-changes";
 import { useState } from "react";
 import { PolicyActionDialog } from "./PolicyActionDialog";
+import { PolicyArchiveSheet } from "./PolicyArchiveSheet";
+import { PolicyControlMappings } from "./PolicyControlMappings";
+import { PolicyOverviewSheet } from "./PolicyOverviewSheet";
+import { UpdatePolicyOverview } from "./UpdatePolicyOverview";
+import { useAction } from "next-safe-action/hooks";
+import { denyRequestedPolicyChangesAction } from "@/actions/policies/deny-requested-policy-changes";
+import { toast } from "sonner";
+import { acceptRequestedPolicyChangesAction } from "@/actions/policies/accept-requested-policy-changes";
 
 export function PolicyOverview({
 	policy,
@@ -47,10 +48,6 @@ export function PolicyOverview({
 	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
 	const canCurrentUserApprove = policy?.approverId === activeMember?.id;
 
-	// Dialog state for approval/denial actions
-	const [approveDialogOpen, setApproveDialogOpen] = useState(false);
-	const [denyDialogOpen, setDenyDialogOpen] = useState(false);
-
 	const denyPolicyChanges = useAction(denyRequestedPolicyChangesAction, {
 		onSuccess: () => {
 			toast.info("Policy changes denied!");
@@ -68,6 +65,10 @@ export function PolicyOverview({
 			toast.error("Failed to accept policy changes.");
 		},
 	});
+
+	// Dialog state for approval/denial actions
+	const [approveDialogOpen, setApproveDialogOpen] = useState(false);
+	const [denyDialogOpen, setDenyDialogOpen] = useState(false);
 
 	// Handle approve with optional comment
 	const handleApprove = (comment?: string) => {

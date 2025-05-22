@@ -14,6 +14,7 @@ import {
 	getLogsForPolicy,
 } from "./data";
 import { RecentAuditLogs } from "./components/RecentAuditLogs";
+import PolicyPage from "./components/PolicyPage";
 
 export default async function PolicyDetails({
 	params,
@@ -39,27 +40,15 @@ export default async function PolicyDetails({
 				{ label: policy?.name ?? "Policy", current: true },
 			]}
 		>
-			<PolicyOverview
-				policy={policy ?? null}
+			<PolicyPage
+				policy={policy}
+				policyId={policyId}
 				assignees={assignees}
 				mappedControls={mappedControls}
 				allControls={allControls}
 				isPendingApproval={isPendingApproval}
-			/>
-			<PolicyPageEditor
-				isPendingApproval={isPendingApproval}
-				policyId={policyId}
-				policyContent={
-					policy?.content ? (policy.content as JSONContent[]) : []
-				}
-			/>
-
-			<RecentAuditLogs logs={logs} />
-
-			<Comments
-				entityId={policyId}
+				logs={logs}
 				comments={comments}
-				entityType="policy"
 			/>
 		</PageWithBreadcrumb>
 	);
