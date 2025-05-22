@@ -10,6 +10,7 @@ const acceptRequestedPolicyChangesSchema = z.object({
 	id: z.string(),
 	approverId: z.string(),
 	comment: z.string().optional(),
+	entityId: z.string(),
 });
 
 export const acceptRequestedPolicyChangesAction = authActionClient
@@ -20,7 +21,6 @@ export const acceptRequestedPolicyChangesAction = authActionClient
 			event: "accept-requested-policy-changes",
 			description: "Accept Policy Changes",
 			channel: "server",
-			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

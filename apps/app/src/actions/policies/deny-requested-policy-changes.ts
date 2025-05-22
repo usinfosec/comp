@@ -10,6 +10,7 @@ const denyRequestedPolicyChangesSchema = z.object({
 	id: z.string(),
 	approverId: z.string(),
 	comment: z.string().optional(),
+	entityId: z.string(),
 });
 
 export const denyRequestedPolicyChangesAction = authActionClient
@@ -20,7 +21,6 @@ export const denyRequestedPolicyChangesAction = authActionClient
 			event: "deny-requested-policy-changes",
 			description: "Deny Policy Changes",
 			channel: "server",
-			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

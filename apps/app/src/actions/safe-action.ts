@@ -38,8 +38,6 @@ export const actionClientWithMeta = createSafeActionClient({
 			track: z
 				.object({
 					description: z.string().optional(),
-					entityId: z.string().optional(),
-					entityType: z.nativeEnum(AuditLogEntityType).optional(),
 					event: z.string(),
 					channel: z.string(),
 				})
@@ -157,6 +155,44 @@ export const authActionClient = actionClientWithMeta
 			userAgent: headersList.get("user-agent") || null,
 		};
 
+		const entityId =
+			(clientInput as { entityId: string })?.entityId || null;
+
+		let entityType = null;
+
+		const mapEntityType: Record<string, AuditLogEntityType> = {
+			pol_: AuditLogEntityType.policy,
+			ctl_: AuditLogEntityType.control,
+			tsk_: AuditLogEntityType.task,
+			vnd_: AuditLogEntityType.vendor,
+			rsk_: AuditLogEntityType.risk,
+			org_: AuditLogEntityType.organization,
+			frm_: AuditLogEntityType.framework,
+			req_: AuditLogEntityType.requirement,
+			mem_: AuditLogEntityType.people,
+			itr_: AuditLogEntityType.tests,
+			int_: AuditLogEntityType.integration,
+			frk_rq_: AuditLogEntityType.framework,
+			frk_ctrl_: AuditLogEntityType.framework,
+			frk_req_: AuditLogEntityType.framework,
+		};
+
+		if (entityId) {
+			const parts = entityId.split("_");
+			const prefix = `${parts[0]}_`;
+
+			// Handle special case prefixes with multiple parts
+			if (parts.length > 2) {
+				const complexPrefix = `${prefix}${parts[1]}_`;
+				entityType =
+					mapEntityType[complexPrefix] ||
+					mapEntityType[prefix] ||
+					null;
+			} else {
+				entityType = mapEntityType[prefix] || null;
+			}
+		}
+
 		try {
 			await db.auditLog.create({
 				data: {
@@ -165,8 +201,8 @@ export const authActionClient = actionClientWithMeta
 					userId: session.user.id,
 					description: metadata.track?.description || null,
 					organizationId: session.session.activeOrganizationId,
-					entityId: metadata?.track?.entityId || null,
-					entityType: metadata?.track?.entityType || null,
+					entityId,
+					entityType,
 				},
 			});
 		} catch (error) {

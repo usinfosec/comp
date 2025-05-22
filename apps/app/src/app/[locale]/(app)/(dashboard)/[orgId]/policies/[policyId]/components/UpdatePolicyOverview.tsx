@@ -38,7 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -63,6 +63,14 @@ export function UpdatePolicyOverview({
 	const [selectedApproverId, setSelectedApproverId] = useState<string | null>(
 		null,
 	);
+
+	// Add state for date picker
+	const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+	const [tempDate, setTempDate] = useState<Date | undefined>(undefined);
+	const popoverRef = useRef<HTMLDivElement>(null);
+
+	// State to track if form has been modified
+	const [isFormModified, setIsFormModified] = useState(false);
 
 	const fieldsDisabled = isPendingApproval;
 
@@ -93,6 +101,15 @@ export function UpdatePolicyOverview({
 
 	const reviewDate = calculateReviewDate();
 
+	// Function to handle date confirmation
+	const handleDateConfirm = (date: Date | undefined) => {
+		if (date) {
+			form.setValue("review_date", date, { shouldDirty: true });
+		}
+		setTempDate(undefined);
+		setIsDatePickerOpen(false);
+	};
+
 	const form = useForm<z.infer<typeof updatePolicyFormSchema>>({
 		resolver: zodResolver(updatePolicyFormSchema),
 		defaultValues: {
@@ -106,12 +123,23 @@ export function UpdatePolicyOverview({
 				? "required"
 				: "not_required",
 			approverId: null,
+			entityId: policy.id,
 		},
 	});
 
 	const onSubmit = (data: z.infer<typeof updatePolicyFormSchema>) => {
+		console.log("onSubmit");
 		const newStatus = data.status as PolicyStatus;
-		if (policy.status === "draft" && newStatus === "published") {
+
+		// Check if the policy is published and if there are changes
+		const isPublishedWithChanges =
+			policy.status === "published" && isFormModified;
+
+		// If policy is draft and being published OR policy is published and has changes
+		if (
+			(policy.status === "draft" && newStatus === "published") ||
+			isPublishedWithChanges
+		) {
 			setIsApprovalDialogOpen(true);
 		} else {
 			updatePolicyForm.execute({
@@ -123,6 +151,7 @@ export function UpdatePolicyOverview({
 
 	const handleConfirmApproval = () => {
 		if (!selectedApproverId) {
+			// Using hardcoded English string as fallback since the translation key is missing
 			toast.error("Approver is required.");
 			return;
 		}
@@ -136,11 +165,25 @@ export function UpdatePolicyOverview({
 		setSelectedApproverId(null);
 	};
 
+	// Watch for form changes to detect modifications
+	form.watch();
+
+	// Update isFormModified when form state changes
+	useEffect(() => {
+		const subscription = form.formState.isDirty;
+		setIsFormModified(subscription);
+		return () => {};
+	}, [form.formState.isDirty]);
+
 	const currentStatus = form.watch("status");
 	const originalStatus = policy.status;
 
 	let buttonText = t("common.actions.save");
-	if (originalStatus === "draft" && currentStatus === "published") {
+	if (
+		(originalStatus === "draft" && currentStatus === "published") ||
+		(originalStatus === "published" && isFormModified)
+	) {
+		// Using hardcoded English string as fallback since the translation key is missing
 		buttonText = "Submit for Approval";
 	}
 
@@ -328,7 +371,15 @@ export function UpdatePolicyOverview({
 									{t("policies.overview.form.review_date")}
 								</FormLabel>
 								<FormControl>
-									<Popover>
+									<Popover
+										open={isDatePickerOpen}
+										onOpenChange={(open) => {
+											setIsDatePickerOpen(open);
+											if (!open) {
+												setTempDate(undefined);
+											}
+										}}
+									>
 										<PopoverTrigger
 											asChild
 											disabled={fieldsDisabled}
@@ -339,6 +390,7 @@ export function UpdatePolicyOverview({
 										>
 											<div className="pt-1.5">
 												<Button
+													type="button" // Explicitly set type to button to prevent form submission
 													variant={"outline"}
 													disabled={fieldsDisabled}
 													className={cn(
@@ -366,16 +418,49 @@ export function UpdatePolicyOverview({
 										<PopoverContent
 											className="w-auto"
 											align="start"
+											ref={popoverRef}
 										>
-											<Calendar
-												mode="single"
-												selected={field.value}
-												onSelect={field.onChange}
-												disabled={(date) =>
-													date <= new Date()
-												}
-												initialFocus
-											/>
+											<div className="p-1">
+												<Calendar
+													mode="single"
+													selected={
+														tempDate || field.value
+													}
+													onSelect={(date) => {
+														// Store in temporary state instead of directly in form
+														setTempDate(date);
+													}}
+													disabled={(date) =>
+														date <= new Date()
+													}
+													initialFocus
+												/>
+												<div className="mt-4 flex justify-end gap-2">
+													<Button
+														type="button"
+														size="sm"
+														variant="outline"
+														onClick={() => {
+															setIsDatePickerOpen(
+																false,
+															);
+														}}
+													>
+														Cancel
+													</Button>
+													<Button
+														type="button"
+														size="sm"
+														onClick={() =>
+															handleDateConfirm(
+																tempDate,
+															)
+														}
+													>
+														Confirm Date
+													</Button>
+												</div>
+											</div>
 										</PopoverContent>
 									</Popover>
 								</FormControl>
@@ -417,7 +502,9 @@ export function UpdatePolicyOverview({
 							type="submit"
 							disabled={
 								updatePolicyForm.isExecuting ||
-								submitForApproval.isExecuting
+								submitForApproval.isExecuting ||
+								// Disable button if there are no changes from initial state
+								!isFormModified
 							}
 						>
 							{(updatePolicyForm.isExecuting ||

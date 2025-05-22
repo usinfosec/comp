@@ -14,7 +14,6 @@ export const submitPolicyForApprovalAction = authActionClient
 			event: "submit-policy-for-approval",
 			description: "Submit Policy for Approval",
 			channel: "server",
-			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

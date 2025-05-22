@@ -21,7 +21,9 @@ export type AuditLogWithRelations = AuditLog & {
 	organization: Organization;
 };
 
-export const getLogsForPolicy = async (policyId: string): Promise<AuditLogWithRelations[]> => {
+export const getLogsForPolicy = async (
+	policyId: string,
+): Promise<AuditLogWithRelations[]> => {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -36,6 +38,7 @@ export const getLogsForPolicy = async (policyId: string): Promise<AuditLogWithRe
 		where: {
 			organizationId,
 			entityType: AuditLogEntityType.policy,
+			entityId: policyId,
 		},
 		include: {
 			user: true,

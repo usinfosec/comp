@@ -14,7 +14,6 @@ export const createPolicyAction = authActionClient
 			event: "create-policy",
 			description: "Create New Policy",
 			channel: "server",
-			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

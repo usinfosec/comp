@@ -76,6 +76,7 @@ export function PolicyOverview({
 				id: policy.id,
 				approverId: policy.approverId,
 				comment,
+				entityId: policy.id,
 			});
 		}
 	};
@@ -87,6 +88,7 @@ export function PolicyOverview({
 				id: policy.id,
 				approverId: policy.approverId,
 				comment,
+				entityId: policy.id,
 			});
 		}
 	};
@@ -109,8 +111,9 @@ export function PolicyOverview({
 						<div>
 							This policy is awaiting approval from{" "}
 							<span className="font-semibold">
-								{policy?.approver?.user?.name ||
-									"the designated approver"}
+								{policy.approverId === activeMember?.id
+									? "You"
+									: `${policy?.approver?.user?.name} (${policy?.approver?.user?.email})`}
 							</span>
 							.
 						</div>
@@ -118,22 +121,27 @@ export function PolicyOverview({
 							" Please review the details and approve or deny."}
 						{!canCurrentUserApprove &&
 							" All fields are disabled until the policy is actioned."}
-						{isPendingApproval && policy.approverId && (
-							<div className="flex gap-2">
-								<Button
-									variant="outline"
-									onClick={() => setDenyDialogOpen(true)}
-								>
-									<ShieldX className="mr-2 h-4 w-4" /> Deny
-								</Button>
-								<Button
-									onClick={() => setApproveDialogOpen(true)}
-								>
-									<ShieldCheck className="mr-2 h-4 w-4" />{" "}
-									Approve
-								</Button>
-							</div>
-						)}
+						{isPendingApproval &&
+							policy.approverId &&
+							canCurrentUserApprove && (
+								<div className="flex gap-2">
+									<Button
+										variant="outline"
+										onClick={() => setDenyDialogOpen(true)}
+									>
+										<ShieldX className="mr-2 h-4 w-4" />
+										Deny
+									</Button>
+									<Button
+										onClick={() =>
+											setApproveDialogOpen(true)
+										}
+									>
+										<ShieldCheck className="mr-2 h-4 w-4" />
+										Approve
+									</Button>
+								</div>
+							)}
 					</AlertDescription>
 				</Alert>
 			)}

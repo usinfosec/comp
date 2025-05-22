@@ -61,7 +61,6 @@ export const updatePolicyAction = authActionClient
 			event: "update-policy",
 			description: "Update Policy",
 			channel: "server",
-			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

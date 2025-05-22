@@ -244,11 +244,13 @@ export const createPolicySchema = z.object({
 	description: z.string(),
 	frameworkIds: z.array(z.string()),
 	controlIds: z.array(z.string()),
+	entityId: z.string(),
 });
 
 export const updatePolicySchema = z.object({
 	id: z.string(),
 	content: z.any(),
+	entityId: z.string(),
 });
 
 export const addFrameworksSchema = z.object({
@@ -277,6 +279,7 @@ export const updatePolicyOverviewSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	isRequiredToSign: z.enum(["required", "not_required"]).optional(),
+	entityId: z.string(),
 });
 
 export const updatePolicyFormSchema = z.object({
@@ -288,6 +291,7 @@ export const updatePolicyFormSchema = z.object({
 	review_date: z.date(),
 	isRequiredToSign: z.enum(["required", "not_required"]),
 	approverId: z.string().optional().nullable(), // Added for selecting an approver
+	entityId: z.string(),
 });
 
 export const apiKeySchema = z.object({
