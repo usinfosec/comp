@@ -18982,9 +18982,9 @@ zod@3.23.8:
   integrity sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==
 
 zod@latest:
-  version "3.25.7"
-  resolved "https://registry.npmjs.org/zod/-/zod-3.25.7.tgz"
-  integrity sha512-YGdT1cVRmKkOg6Sq7vY7IkxdphySKnXhaUmFI4r4FcuFVNgpCb9tZfNwXbT6BPjD5oz0nubFsoo9pIqKrDcCvg==
+  version "3.25.15"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.25.15.tgz"
+  integrity sha512-owVzP3IRiMeT3t72f+WpDeCa1xbPXZOJCxZRsotPHBDZwiwIaFAS1Vnf2eYTZLP2Zsc/106snGkhoCmO9YI2SQ==
 
 zod-error@1.5.0:
   version "1.5.0"
