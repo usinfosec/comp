@@ -325,7 +325,6 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 								) : (
 									<Paperclip className="h-4 w-4" />
 								)}
-								<span className="sr-only">Attach file</span>
 							</Button>
 						)}
 
