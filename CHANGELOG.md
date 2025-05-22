@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/trycompai/comp/compare/v1.29.0...v1.30.0) (2025-05-22)
+
+
+### Features
+
+* add approval / denial of policy changes with audit logs and comments ([c512e1f](https://github.com/trycompai/comp/commit/c512e1f82b0e261702158672d6907f47ccaed341))
+
 # [1.29.0](https://github.com/trycompai/comp/compare/v1.28.0...v1.29.0) (2025-05-22)
 
 
