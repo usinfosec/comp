@@ -1,3 +1,10 @@
+## [1.30.1](https://github.com/trycompai/comp/compare/v1.30.0...v1.30.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* **policy:** improve pending changes alert dark mode ([7f9ac23](https://github.com/trycompai/comp/commit/7f9ac238b315c24fc72db19dc75007185a9581f3))
+
 # [1.30.0](https://github.com/trycompai/comp/compare/v1.29.0...v1.30.0) (2025-05-22)
 
 
