@@ -30,6 +30,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { SubmitApprovalDialog } from "./SubmitApprovalDialog";
+import { useRouter } from "next/navigation";
 
 interface UpdatePolicyOverviewProps {
 	policy: Policy & {
@@ -48,6 +49,12 @@ export function UpdatePolicyOverview({
 	const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false);
 	const [selectedApproverId, setSelectedApproverId] = useState<string | null>(
 		null,
+	);
+	const router = useRouter();
+
+	// Track selected status
+	const [selectedStatus, setSelectedStatus] = useState<PolicyStatus>(
+		policy.status,
 	);
 
 	// Date picker state - UI only
@@ -68,6 +75,7 @@ export function UpdatePolicyOverview({
 			toast.success("Policy updated successfully");
 			setIsSubmitting(false);
 			setFormInteracted(false); // Reset form interaction state after successful update
+			router.refresh();
 		},
 		onError: () => {
 			toast.error("Failed to update policy");
@@ -81,6 +89,8 @@ export function UpdatePolicyOverview({
 			setIsSubmitting(false);
 			setIsApprovalDialogOpen(false);
 			setFormInteracted(false); // Reset form interaction state after successful submission
+			setSelectedStatus("needs_review");
+			router.refresh();
 		},
 		onError: () => {
 			toast.error("Failed to submit policy for approval.");
@@ -163,7 +173,6 @@ export function UpdatePolicyOverview({
 		// Get form data directly from the DOM
 		const form = document.getElementById("policy-form") as HTMLFormElement;
 		const formData = new FormData(form);
-		const status = formData.get("status") as PolicyStatus;
 		const assigneeId = (formData.get("assigneeId") as string) || null;
 		const department = formData.get("department") as Departments;
 		const reviewFrequency = formData.get("review_frequency") as Frequency;
@@ -180,7 +189,7 @@ export function UpdatePolicyOverview({
 		setIsSubmitting(true);
 		submitForApproval.execute({
 			id: policy.id,
-			status: "published" as PolicyStatus,
+			status: PolicyStatus.needs_review,
 			assigneeId,
 			department,
 			review_frequency: reviewFrequency,
@@ -217,27 +226,29 @@ export function UpdatePolicyOverview({
 						<label htmlFor="status" className="text-sm font-medium">
 							Status
 						</label>
-						<Select
+						{/* Hidden input for form submission */}
+						<input
+							type="hidden"
 							name="status"
-							defaultValue={policy.status}
+							id="status"
+							value={selectedStatus}
+						/>
+						<Select
+							value={selectedStatus}
 							disabled={fieldsDisabled}
-							onValueChange={handleFormChange}
+							onValueChange={(value) => {
+								setSelectedStatus(value as PolicyStatus);
+								handleFormChange();
+							}}
 						>
-							<SelectTrigger>
+							<SelectTrigger value={selectedStatus}>
 								<SelectValue placeholder="Select status">
-									{policy.status && (
-										<StatusIndicator
-											status={policy.status}
-										/>
-									)}
+									<StatusIndicator status={selectedStatus} />
 								</SelectValue>
 							</SelectTrigger>
 							<SelectContent>
-								{Object.values(PolicyStatus)
-									.filter(
-										(status) => status !== "needs_review",
-									)
-									.map((statusOption) => (
+								{Object.values(PolicyStatus).map(
+									(statusOption) => (
 										<SelectItem
 											key={statusOption}
 											value={statusOption}
@@ -246,7 +257,8 @@ export function UpdatePolicyOverview({
 												status={statusOption}
 											/>
 										</SelectItem>
-									))}
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</div>
