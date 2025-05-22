@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/trycompai/comp/compare/v1.28.0...v1.29.0) (2025-05-22)
+
+
+### Features
+
+* add framework editor schemas and seeding functionality ([c2343fd](https://github.com/trycompai/comp/commit/c2343fda9e63a1c015c500355635428dbbb8cadc))
+
 # [1.28.0](https://github.com/trycompai/comp/compare/v1.27.0...v1.28.0) (2025-05-19)
 
 
