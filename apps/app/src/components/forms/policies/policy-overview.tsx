@@ -95,6 +95,7 @@ export function UpdatePolicyOverview({
 			review_frequency: data.review_frequency,
 			review_date: data.review_date,
 			isRequiredToSign: data.isRequiredToSign,
+			entityId: data.id,
 		});
 	};
 
@@ -255,7 +256,7 @@ export function UpdatePolicyOverview({
 													className={cn(
 														"pl-3 text-left font-normal w-full",
 														!field.value &&
-														"text-muted-foreground",
+															"text-muted-foreground",
 													)}
 												>
 													{field.value ? (
