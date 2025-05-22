@@ -47,10 +47,13 @@ export function PolicyOverview({
 	const [, setOpen] = useQueryState("policy-overview-sheet");
 	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
 	const canCurrentUserApprove = policy?.approverId === activeMember?.id;
+	const router = useRouter();
 
 	const denyPolicyChanges = useAction(denyRequestedPolicyChangesAction, {
 		onSuccess: () => {
 			toast.info("Policy changes denied!");
+			// Force a complete page reload instead of just a refresh
+			window.location.reload();
 		},
 		onError: () => {
 			toast.error("Failed to deny policy changes.");
@@ -59,7 +62,9 @@ export function PolicyOverview({
 
 	const acceptPolicyChanges = useAction(acceptRequestedPolicyChangesAction, {
 		onSuccess: () => {
-			toast.info("Policy changes accepted!");
+			toast.success("Policy changes accepted and published!");
+			// Force a complete page reload instead of just a refresh
+			window.location.reload();
 		},
 		onError: () => {
 			toast.error("Failed to accept policy changes.");
