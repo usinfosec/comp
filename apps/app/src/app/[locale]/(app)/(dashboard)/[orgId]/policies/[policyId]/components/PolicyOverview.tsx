@@ -105,9 +105,12 @@ export function PolicyOverview({
 
 	return (
 		<div className="space-y-4">
-			{isPendingApproval && (
-				<Alert className="border-red-500 bg-red-50 rounded-sm">
-					<ShieldX className="h-4 w-4" />
+                        {isPendingApproval && (
+                                <Alert
+                                        variant="destructive"
+                                        className="rounded-sm bg-destructive/10 dark:bg-destructive/20"
+                                >
+                                        <ShieldX className="h-4 w-4" />
 					<AlertTitle>
 						{canCurrentUserApprove
 							? "Action Required by You"
