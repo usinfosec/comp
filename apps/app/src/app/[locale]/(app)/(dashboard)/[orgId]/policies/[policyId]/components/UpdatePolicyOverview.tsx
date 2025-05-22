@@ -1,29 +1,20 @@
 "use client";
 
+import { submitPolicyForApprovalAction } from "@/actions/policies/submit-policy-for-approval-action";
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
-import { updatePolicyFormSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import {
 	Departments,
 	Frequency,
 	Member,
 	type Policy,
-	type PolicyStatus,
+	PolicyStatus,
 	User,
 } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
 import { cn } from "@comp/ui/cn";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@comp/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import {
 	Select,
@@ -33,337 +24,491 @@ import {
 	SelectValue,
 } from "@comp/ui/select";
 import { Switch } from "@comp/ui/switch";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
-import type { z } from "zod";
+import { SubmitApprovalDialog } from "./SubmitApprovalDialog";
 
-const policyStatuses: PolicyStatus[] = [
-	"draft",
-	"published",
-	"needs_review",
-] as const;
+interface UpdatePolicyOverviewProps {
+	policy: Policy & {
+		approver: (Member & { user: User }) | null;
+	};
+	assignees: (Member & { user: User })[];
+	isPendingApproval: boolean;
+}
 
 export function UpdatePolicyOverview({
 	policy,
 	assignees,
-}: {
-	policy: Policy;
-	assignees: (Member & { user: User })[];
-}) {
-	const t = useI18n();
+	isPendingApproval,
+}: UpdatePolicyOverviewProps) {
+	// Dialog state only - no form state
+	const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false);
+	const [selectedApproverId, setSelectedApproverId] = useState<string | null>(
+		null,
+	);
+
+	// Date picker state - UI only
+	const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+	const [tempDate, setTempDate] = useState<Date | undefined>(undefined);
+	const popoverRef = useRef<HTMLDivElement>(null);
+
+	// Loading state
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// Track form interactions to determine button text
+	const [formInteracted, setFormInteracted] = useState(false);
+
+	const fieldsDisabled = isPendingApproval;
 
 	const updatePolicyForm = useAction(updatePolicyFormAction, {
 		onSuccess: () => {
-			toast.success(t("policies.overview.form.update_policy_success"));
+			toast.success("Policy updated successfully");
+			setIsSubmitting(false);
+			setFormInteracted(false); // Reset form interaction state after successful update
 		},
 		onError: () => {
-			toast.error(t("policies.overview.form.update_policy_error"));
+			toast.error("Failed to update policy");
+			setIsSubmitting(false);
 		},
 	});
 
-	const calculateReviewDate = (): Date => {
-		if (!policy.reviewDate) {
-			return new Date();
-		}
-		return new Date(policy.reviewDate);
+	const submitForApproval = useAction(submitPolicyForApprovalAction, {
+		onSuccess: () => {
+			toast.success("Policy submitted for approval successfully!");
+			setIsSubmitting(false);
+			setIsApprovalDialogOpen(false);
+			setFormInteracted(false); // Reset form interaction state after successful submission
+		},
+		onError: () => {
+			toast.error("Failed to submit policy for approval.");
+			setIsSubmitting(false);
+		},
+	});
+
+	// Function to handle date confirmation
+	const handleDateConfirm = (date: Date | undefined) => {
+		setTempDate(date);
+		setIsDatePickerOpen(false);
 	};
 
-	const reviewDate = calculateReviewDate();
+	// Function to handle form field changes
+	const handleFormChange = () => {
+		setFormInteracted(true);
+	};
 
-	const form = useForm<z.infer<typeof updatePolicyFormSchema>>({
-		resolver: zodResolver(updatePolicyFormSchema),
-		defaultValues: {
-			id: policy.id,
-			status: policy.status,
-			assigneeId: policy.assigneeId ?? "",
-			department: policy.department ?? Departments.admin,
-			review_frequency: policy.frequency ?? Frequency.monthly,
-			review_date: reviewDate,
-			isRequiredToSign: policy.isRequiredToSign
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+
+		// Get form data directly from the form element
+		const formData = new FormData(e.currentTarget);
+		const status = formData.get("status") as PolicyStatus;
+		const assigneeId = (formData.get("assigneeId") as string) || null;
+		const department = formData.get("department") as Departments;
+		const reviewFrequency = formData.get("review_frequency") as Frequency;
+		const isRequiredToSign =
+			formData.get("isRequiredToSign") === "on"
 				? "required"
-				: "not_required",
-		},
-	});
+				: "not_required";
 
-	const onSubmit = (data: z.infer<typeof updatePolicyFormSchema>) => {
-		updatePolicyForm.execute({
-			id: data.id,
-			status: data.status as PolicyStatus,
-			assigneeId: data.assigneeId,
-			department: data.department,
-			review_frequency: data.review_frequency,
-			review_date: data.review_date,
-			isRequiredToSign: data.isRequiredToSign,
-		});
+		// Get review date from the form or use the existing one
+		const reviewDate =
+			tempDate ||
+			(policy.reviewDate ? new Date(policy.reviewDate) : new Date());
+
+		// Check if the policy is published and if there are changes
+		const isPublishedWithChanges =
+			policy.status === "published" &&
+			(status !== policy.status ||
+				assigneeId !== policy.assigneeId ||
+				department !== policy.department ||
+				reviewFrequency !== policy.frequency ||
+				(policy.isRequiredToSign ? "required" : "not_required") !==
+					isRequiredToSign ||
+				(policy.reviewDate
+					? new Date(policy.reviewDate).toDateString()
+					: "") !== reviewDate.toDateString());
+
+		// If policy is draft and being published OR policy is published and has changes
+		if (
+			(policy.status === "draft" && status === "published") ||
+			isPublishedWithChanges
+		) {
+			setIsApprovalDialogOpen(true);
+			setIsSubmitting(false);
+		} else {
+			updatePolicyForm.execute({
+				id: policy.id,
+				status,
+				assigneeId,
+				department,
+				review_frequency: reviewFrequency,
+				review_date: reviewDate,
+				isRequiredToSign,
+				approverId: null,
+				entityId: policy.id,
+			});
+		}
 	};
+
+	const handleConfirmApproval = () => {
+		if (!selectedApproverId) {
+			toast.error("Approver is required.");
+			return;
+		}
+
+		// Get form data directly from the DOM
+		const form = document.getElementById("policy-form") as HTMLFormElement;
+		const formData = new FormData(form);
+		const status = formData.get("status") as PolicyStatus;
+		const assigneeId = (formData.get("assigneeId") as string) || null;
+		const department = formData.get("department") as Departments;
+		const reviewFrequency = formData.get("review_frequency") as Frequency;
+		const isRequiredToSign =
+			formData.get("isRequiredToSign") === "on"
+				? "required"
+				: "not_required";
+
+		// Get review date from the form or use the existing one
+		const reviewDate =
+			tempDate ||
+			(policy.reviewDate ? new Date(policy.reviewDate) : new Date());
+
+		setIsSubmitting(true);
+		submitForApproval.execute({
+			id: policy.id,
+			status: "published" as PolicyStatus,
+			assigneeId,
+			department,
+			review_frequency: reviewFrequency,
+			review_date: reviewDate,
+			isRequiredToSign,
+			approverId: selectedApproverId,
+			entityId: policy.id,
+		});
+		setSelectedApproverId(null);
+	};
+
+	// Check if form has been modified to determine button state
+	const hasFormChanges = formInteracted;
+
+	// Determine button text based on status and form interaction
+	let buttonText = "Save";
+	if (
+		policy.status === "draft" ||
+		(policy.status === "published" && hasFormChanges)
+	) {
+		buttonText = "Submit for Approval";
+	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
+		<>
+			<form
+				id="policy-form"
+				onSubmit={handleSubmit}
+				className="space-y-6"
+			>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<FormField
-						control={form.control}
-						name="status"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									{t("policies.overview.form.status")}
-								</FormLabel>
-								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t(
-													"policies.overview.form.status_placeholder",
-												)}
-											>
-												{field.value && (
-													<StatusIndicator
-														status={field.value}
-													/>
-												)}
-											</SelectValue>
-										</SelectTrigger>
-										<SelectContent>
-											{policyStatuses.map((status) => (
-												<SelectItem
-													key={status}
-													value={status}
-												>
-													<StatusIndicator
-														status={status}
-													/>
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="review_frequency"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									{t(
-										"policies.overview.form.review_frequency",
-									)}
-								</FormLabel>
-								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t(
-													"policies.overview.form.review_frequency_placeholder",
-												)}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											{Object.values(Frequency).map(
-												(frequency) => (
-													<SelectItem
-														key={frequency}
-														value={frequency}
-													>
-														{t(
-															`common.frequency.${frequency}`,
-														)}
-													</SelectItem>
-												),
-											)}
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="department"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									{t(
-										"policies.overview.form.policy_department",
-									)}
-								</FormLabel>
-								<FormControl>
-									<Select
-										{...field}
-										value={field.value}
-										onValueChange={field.onChange}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={t(
-													"policies.overview.form.policy_department_placeholder",
-												)}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											{Object.values(Departments).map(
-												(department) => {
-													const formattedDepartment =
-														department.toUpperCase();
-
-													return (
-														<SelectItem
-															key={department}
-															value={department}
-														>
-															{
-																formattedDepartment
-															}
-														</SelectItem>
-													);
-												},
-											)}
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="assigneeId"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									{t(
-										"policies.overview.form.policy_assignee",
-									)}
-								</FormLabel>
-								<FormControl>
-									<SelectAssignee
-										assignees={assignees}
-										onAssigneeChange={field.onChange}
-										assigneeId={field.value ?? null}
-										disabled={
-											updatePolicyForm.status ===
-											"executing"
-										}
-										withTitle={false}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-					<FormField
-						control={form.control}
-						name="review_date"
-						render={({ field }) => (
-							<FormItem className="flex flex-col">
-								<FormLabel>
-									{t("policies.overview.form.review_date")}
-								</FormLabel>
-								<Popover>
-									<PopoverTrigger asChild>
-										<FormControl>
-											<div className="pt-1.5">
-												<Button
-													variant={"outline"}
-													className={cn(
-														"pl-3 text-left font-normal w-full",
-														!field.value &&
-														"text-muted-foreground",
-													)}
-												>
-													{field.value ? (
-														format(
-															field.value,
-															"PPP",
-														)
-													) : (
-														<span>
-															{t(
-																"policies.overview.form.review_date_placeholder",
-															)}
-														</span>
-													)}
-													<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-												</Button>
-											</div>
-										</FormControl>
-									</PopoverTrigger>
-									<PopoverContent
-										className="w-auto"
-										align="start"
-									>
-										<Calendar
-											mode="single"
-											selected={field.value}
-											onSelect={field.onChange}
-											disabled={(date) =>
-												date <= new Date()
-											}
-											initialFocus
+					{/* Status Field */}
+					<div className="space-y-2">
+						<label htmlFor="status" className="text-sm font-medium">
+							Status
+						</label>
+						<Select
+							name="status"
+							defaultValue={policy.status}
+							disabled={fieldsDisabled}
+							onValueChange={handleFormChange}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Select status">
+									{policy.status && (
+										<StatusIndicator
+											status={policy.status}
 										/>
-									</PopoverContent>
-								</Popover>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="isRequiredToSign"
-						render={({ field }) => (
-							<FormItem className="flex flex-col gap-3">
-								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
 									)}
-								</FormLabel>
-								<FormControl>
-									<Switch
-										checked={field.value === "required"}
-										onCheckedChange={(checked) => {
-											field.onChange(
-												checked
-													? "required"
-													: "not_required",
-											);
+								</SelectValue>
+							</SelectTrigger>
+							<SelectContent>
+								{Object.values(PolicyStatus)
+									.filter(
+										(status) => status !== "needs_review",
+									)
+									.map((statusOption) => (
+										<SelectItem
+											key={statusOption}
+											value={statusOption}
+										>
+											<StatusIndicator
+												status={statusOption}
+											/>
+										</SelectItem>
+									))}
+							</SelectContent>
+						</Select>
+					</div>
+
+					{/* Review Frequency Field */}
+					<div className="space-y-2">
+						<label
+							htmlFor="review_frequency"
+							className="text-sm font-medium"
+						>
+							Review Frequency
+						</label>
+						<Select
+							name="review_frequency"
+							defaultValue={policy.frequency || Frequency.monthly}
+							disabled={fieldsDisabled}
+							onValueChange={handleFormChange}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Select review frequency" />
+							</SelectTrigger>
+							<SelectContent>
+								{Object.values(Frequency).map((frequency) => (
+									<SelectItem
+										key={frequency}
+										value={frequency}
+									>
+										{frequency.charAt(0).toUpperCase() +
+											frequency.slice(1)}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
+
+					{/* Department Field */}
+					<div className="space-y-2">
+						<label
+							htmlFor="department"
+							className="text-sm font-medium"
+						>
+							Department
+						</label>
+						<Select
+							name="department"
+							defaultValue={
+								policy.department || Departments.admin
+							}
+							disabled={fieldsDisabled}
+							onValueChange={handleFormChange}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Select department" />
+							</SelectTrigger>
+							<SelectContent>
+								{Object.values(Departments).map((dept) => {
+									const formattedDepartment =
+										dept.toUpperCase();
+									return (
+										<SelectItem key={dept} value={dept}>
+											{formattedDepartment}
+										</SelectItem>
+									);
+								})}
+							</SelectContent>
+						</Select>
+					</div>
+
+					{/* Assignee Field */}
+					<div className="space-y-2">
+						<label
+							htmlFor="assigneeId"
+							className="text-sm font-medium"
+						>
+							Assignee
+						</label>
+						{/* Hidden input for form submission */}
+						<input
+							type="hidden"
+							name="assigneeId"
+							id="assigneeId"
+							value={policy.assigneeId || ""}
+						/>
+						<SelectAssignee
+							assignees={assignees}
+							onAssigneeChange={(id) => {
+								// Update the hidden input value
+								const input = document.getElementById(
+									"assigneeId",
+								) as HTMLInputElement;
+								if (input) input.value = id || "";
+								handleFormChange();
+							}}
+							assigneeId={policy.assigneeId || ""}
+							disabled={fieldsDisabled}
+							withTitle={false}
+						/>
+					</div>
+
+					{/* Review Date Field */}
+					<div className="space-y-2 mt-2">
+						<label
+							htmlFor="review_date"
+							className="text-sm font-medium"
+						>
+							Review Date
+						</label>
+						<Popover
+							open={isDatePickerOpen}
+							onOpenChange={(open) => {
+								setIsDatePickerOpen(open);
+								if (!open) {
+									setTempDate(undefined);
+								}
+							}}
+						>
+							<PopoverTrigger
+								asChild
+								disabled={fieldsDisabled}
+								className={cn(
+									fieldsDisabled &&
+										"select-none cursor-not-allowed pointer-events-none",
+								)}
+							>
+								<div className="pt-1.5">
+									<Button
+										type="button"
+										variant={"outline"}
+										disabled={fieldsDisabled}
+										className={cn(
+											"pl-3 text-left font-normal w-full",
+										)}
+									>
+										{tempDate ? (
+											format(tempDate, "PPP")
+										) : policy.reviewDate ? (
+											format(
+												new Date(policy.reviewDate),
+												"PPP",
+											)
+										) : (
+											<span>Select review date</span>
+										)}
+										<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+									</Button>
+								</div>
+							</PopoverTrigger>
+							<PopoverContent
+								className="w-auto"
+								align="start"
+								ref={popoverRef}
+							>
+								<div className="p-1">
+									<Calendar
+										mode="single"
+										selected={
+											tempDate ||
+											(policy.reviewDate
+												? new Date(policy.reviewDate)
+												: undefined)
+										}
+										onSelect={(date) => {
+											setTempDate(date);
+											handleFormChange();
 										}}
+										disabled={(date) => date <= new Date()}
+										initialFocus
 									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									<div className="mt-4 flex justify-end gap-2">
+										<Button
+											type="button"
+											size="sm"
+											variant="outline"
+											onClick={() => {
+												setIsDatePickerOpen(false);
+											}}
+										>
+											Cancel
+										</Button>
+										<Button
+											type="button"
+											size="sm"
+											onClick={() =>
+												handleDateConfirm(tempDate)
+											}
+										>
+											Confirm Date
+										</Button>
+									</div>
+								</div>
+							</PopoverContent>
+						</Popover>
+						{/* Hidden input to store the date value */}
+						<input
+							type="hidden"
+							id="review_date"
+							name="review_date"
+							value={
+								tempDate?.toISOString() ||
+								(policy.reviewDate
+									? new Date(policy.reviewDate).toISOString()
+									: new Date().toISOString())
+							}
+						/>
+					</div>
+
+					{/* Required to Sign Field */}
+					<div className="flex flex-col gap-2 mt-2">
+						<label
+							htmlFor="isRequiredToSign"
+							className="text-sm font-medium"
+						>
+							Employee Signature Requirement
+						</label>
+						<div className="flex items-center space-x-2 mt-4">
+							<Switch
+								id="isRequiredToSign"
+								name="isRequiredToSign"
+								disabled={fieldsDisabled}
+								defaultChecked={policy.isRequiredToSign}
+								onCheckedChange={handleFormChange}
+							/>
+							<span className="text-sm text-gray-500">
+								{policy.isRequiredToSign
+									? "Required"
+									: "Not Required"}
+							</span>
+						</div>
+					</div>
 				</div>
-				<div className="flex justify-end mt-4">
-					<Button
-						type="submit"
-						variant="default"
-						disabled={updatePolicyForm.status === "executing"}
-					>
-						{updatePolicyForm.status === "executing" ? (
-							<Loader2 className="h-4 w-4 animate-spin" />
-						) : (
-							t("common.actions.save")
-						)}
-					</Button>
+
+				<div className="col-span-1 md:col-span-2 flex justify-end gap-2">
+					{!isPendingApproval && (
+						<Button
+							type="submit"
+							disabled={
+								!hasFormChanges ||
+								isSubmitting ||
+								updatePolicyForm.isExecuting ||
+								submitForApproval.isExecuting
+							}
+						>
+							{(isSubmitting ||
+								updatePolicyForm.isExecuting ||
+								submitForApproval.isExecuting) && (
+								<Loader2 className="animate-spin mr-2" />
+							)}
+							{buttonText}
+						</Button>
+					)}
 				</div>
 			</form>
-		</Form>
+
+			<SubmitApprovalDialog
+				isOpen={isApprovalDialogOpen}
+				onOpenChange={setIsApprovalDialogOpen}
+				assignees={assignees}
+				selectedApproverId={selectedApproverId}
+				onSelectedApproverIdChange={setSelectedApproverId}
+				onConfirm={handleConfirmApproval}
+				isSubmitting={isSubmitting}
+			/>
+		</>
 	);
 }

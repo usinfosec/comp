@@ -21,6 +21,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { updateFloatingState } from "@/actions/floating";
+import { onboardingSteps } from "@/app/[locale]/(app)/(dashboard)/[orgId]/implementation/types";
 
 interface FloatingOnboardingChecklistProps {
 	orgId: string;
@@ -70,9 +71,16 @@ export function FloatingOnboardingChecklist({
 	};
 
 	const handleCheckedChange = (
-		step: OnboardingStep,
+		step: OnboardingStep | undefined,
 		newCompletedState: boolean,
 	) => {
+		// Validate that step is defined and is a valid OnboardingStep
+		if (!step || !onboardingSteps.includes(step as any)) {
+			console.error("Cannot update undefined or invalid step:", step);
+			toast.error("Could not update step: Invalid step");
+			return;
+		}
+
 		// Optimistic update
 		setChecklistItems((prevItems) =>
 			prevItems.map((item) =>
@@ -158,27 +166,52 @@ export function FloatingOnboardingChecklist({
 				</div>
 				<CollapsibleContent className="p-4">
 					<div className="mb-3 grid gap-2 max-h-40 overflow-y-auto">
-						{checklistItems.map((item) => {
+						{checklistItems.map((item, index) => {
 							const isWizard = item.type === "wizard";
+							const isCalendar = item.type === "calendar";
 							const href = isWizard
 								? (item.wizardPath ?? "#")
-								: (item.href ?? "#");
+								: isCalendar
+									? (item.calendarPath ?? item.href ?? "#")
+									: (item.href ?? "#");
+							// Generate a unique key using index as fallback if dbColumn is undefined
+							const itemKey = item.dbColumn
+								? `checklist-${item.dbColumn}`
+								: `checklist-item-${index}`;
 							return (
 								<div
-									key={`checklist-${item.dbColumn}`}
+									key={itemKey}
 									className="group flex items-center gap-3"
 								>
 									<Checkbox
-										id={`checklist-${item.dbColumn}`}
+										id={itemKey}
 										checked={item.completed}
 										onCheckedChange={(checked) => {
 											if (isWizard) return; // Prevent marking wizard as done/undone
-											handleCheckedChange(
-												item.dbColumn as OnboardingStep,
-												!!checked,
-											);
+
+											// For calendar items, use "callBooked" as the step if dbColumn is undefined
+											if (isCalendar && !item.dbColumn) {
+												handleCheckedChange(
+													"callBooked" as OnboardingStep,
+													!!checked,
+												);
+												return;
+											}
+
+											// For other items, only try to update if dbColumn is defined
+											if (item.dbColumn) {
+												handleCheckedChange(
+													item.dbColumn as OnboardingStep,
+													!!checked,
+												);
+											}
 										}}
-										disabled={isPending || isWizard}
+										disabled={
+											isPending ||
+											isWizard ||
+											(!item.dbColumn &&
+												item.type !== "calendar")
+										}
 										aria-label={
 											isWizard
 												? `${item.title} (complete in wizard)`
@@ -191,9 +224,9 @@ export function FloatingOnboardingChecklist({
 										className={cn(
 											"flex-1 cursor-pointer text-sm font-medium hover:text-primary",
 											item.completed &&
-											"line-through text-muted-foreground hover:text-muted-foreground",
+												"line-through text-muted-foreground hover:text-muted-foreground",
 											isPending &&
-											"opacity-50 cursor-not-allowed",
+												"opacity-50 cursor-not-allowed",
 										)}
 										tabIndex={isPending ? -1 : 0}
 										aria-disabled={isPending}

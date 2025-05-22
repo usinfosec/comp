@@ -2,6 +2,8 @@ import { track } from "@/app/posthog";
 import { env } from "@/env.mjs";
 import { auth } from "@/utils/auth";
 import { logger } from "@/utils/logger";
+import { db } from "@comp/db";
+import { AuditLogEntityType } from "@comp/db/types";
 import { client } from "@comp/kv";
 import { Ratelimit } from "@upstash/ratelimit";
 import {
@@ -35,6 +37,7 @@ export const actionClientWithMeta = createSafeActionClient({
 			userAgent: z.string().optional(),
 			track: z
 				.object({
+					description: z.string().optional(),
 					event: z.string(),
 					channel: z.string(),
 				})
@@ -118,4 +121,93 @@ export const authActionClient = actionClientWithMeta
 				user: session.user,
 			},
 		});
+	})
+	.use(async ({ next, metadata, clientInput }) => {
+		const headersList = await headers();
+		const session = await auth.api.getSession({
+			headers: headersList,
+		});
+
+		const member = await auth.api.getActiveMember({
+			headers: headersList,
+		});
+
+		if (!session) {
+			throw new Error("Unauthorized");
+		}
+
+		if (!session.session.activeOrganizationId) {
+			throw new Error("Organization not found");
+		}
+
+		if (!member) {
+			throw new Error("Member not found");
+		}
+
+		const data = {
+			userId: session.user.id,
+			email: session.user.email,
+			name: session.user.name,
+			organizationId: session.session.activeOrganizationId,
+			action: metadata.name,
+			input: clientInput,
+			ipAddress: headersList.get("x-forwarded-for") || null,
+			userAgent: headersList.get("user-agent") || null,
+		};
+
+		const entityId =
+			(clientInput as { entityId: string })?.entityId || null;
+
+		let entityType = null;
+
+		const mapEntityType: Record<string, AuditLogEntityType> = {
+			pol_: AuditLogEntityType.policy,
+			ctl_: AuditLogEntityType.control,
+			tsk_: AuditLogEntityType.task,
+			vnd_: AuditLogEntityType.vendor,
+			rsk_: AuditLogEntityType.risk,
+			org_: AuditLogEntityType.organization,
+			frm_: AuditLogEntityType.framework,
+			req_: AuditLogEntityType.requirement,
+			mem_: AuditLogEntityType.people,
+			itr_: AuditLogEntityType.tests,
+			int_: AuditLogEntityType.integration,
+			frk_rq_: AuditLogEntityType.framework,
+			frk_ctrl_: AuditLogEntityType.framework,
+			frk_req_: AuditLogEntityType.framework,
+		};
+
+		if (entityId) {
+			const parts = entityId.split("_");
+			const prefix = `${parts[0]}_`;
+
+			// Handle special case prefixes with multiple parts
+			if (parts.length > 2) {
+				const complexPrefix = `${prefix}${parts[1]}_`;
+				entityType =
+					mapEntityType[complexPrefix] ||
+					mapEntityType[prefix] ||
+					null;
+			} else {
+				entityType = mapEntityType[prefix] || null;
+			}
+		}
+
+		try {
+			await db.auditLog.create({
+				data: {
+					data: JSON.stringify(data),
+					memberId: member.id,
+					userId: session.user.id,
+					description: metadata.track?.description || null,
+					organizationId: session.session.activeOrganizationId,
+					entityId,
+					entityType,
+				},
+			});
+		} catch (error) {
+			logger("Audit log error:", error);
+		}
+
+		return next();
 	});

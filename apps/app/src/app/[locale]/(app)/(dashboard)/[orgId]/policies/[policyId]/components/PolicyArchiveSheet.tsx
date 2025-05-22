@@ -57,6 +57,7 @@ export function PolicyArchiveSheet({
 		archivePolicy.execute({
 			id: policy.id,
 			action: isArchived ? "restore" : "archive",
+			entityId: policy.id,
 		});
 	};
 

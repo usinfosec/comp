@@ -39,6 +39,7 @@ export const updatePolicyFormAction = authActionClient
 		name: "update-policy-form",
 		track: {
 			event: "update-policy-form",
+			description: "Update Policy",
 			channel: "server",
 		},
 	})
