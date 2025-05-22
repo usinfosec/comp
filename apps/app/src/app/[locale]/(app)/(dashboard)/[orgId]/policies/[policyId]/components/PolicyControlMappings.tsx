@@ -7,9 +7,11 @@ import { PolicyControlMappingModal } from "./PolicyControlMappingModal";
 export const PolicyControlMappings = ({
 	mappedControls,
 	allControls,
+	isPendingApproval,
 }: {
 	mappedControls: Control[];
 	allControls: Control[];
+	isPendingApproval: boolean;
 }) => {
 	return (
 		<Card>
@@ -27,18 +29,22 @@ export const PolicyControlMappings = ({
 						<div key={control.id} className="group">
 							<Badge variant="outline" className="select-none">
 								{control.name}
-								<div className="hidden group-hover:block">
-									<PolicyControlMappingConfirmDeleteModal
-										control={control}
-									/>
-								</div>
+								{!isPendingApproval && (
+									<div className="hidden group-hover:block">
+										<PolicyControlMappingConfirmDeleteModal
+											control={control}
+										/>
+									</div>
+								)}
 							</Badge>
 						</div>
 					))}
-					<PolicyControlMappingModal
-						allControls={allControls}
-						mappedControls={mappedControls}
-					/>
+					{!isPendingApproval && (
+						<PolicyControlMappingModal
+							allControls={allControls}
+							mappedControls={mappedControls}
+						/>
+					)}
 				</div>
 			</CardContent>
 		</Card>

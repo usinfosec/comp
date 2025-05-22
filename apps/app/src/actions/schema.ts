@@ -13,7 +13,9 @@ import { z } from "zod";
 
 export const organizationSchema = z.object({
 	name: z.string().min(1, "Organization name is required"),
-	frameworkIds: z.array(z.string()).min(1, "Please select at least one framework to get started with"),
+	frameworkIds: z
+		.array(z.string())
+		.min(1, "Please select at least one framework to get started with"),
 	website: z
 		.string()
 		.url({
@@ -251,7 +253,9 @@ export const updatePolicySchema = z.object({
 
 export const addFrameworksSchema = z.object({
 	organizationId: z.string().min(1, "Organization ID is required"),
-	frameworkIds: z.array(z.string()).min(1, "Please select at least one framework to add"),
+	frameworkIds: z
+		.array(z.string())
+		.min(1, "Please select at least one framework to add"),
 });
 
 export const assistantSettingsSchema = z.object({
@@ -283,6 +287,7 @@ export const updatePolicyFormSchema = z.object({
 	review_frequency: z.nativeEnum(Frequency),
 	review_date: z.date(),
 	isRequiredToSign: z.enum(["required", "not_required"]),
+	approverId: z.string().optional().nullable(), // Added for selecting an approver
 });
 
 export const apiKeySchema = z.object({

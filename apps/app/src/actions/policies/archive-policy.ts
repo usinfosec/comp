@@ -16,7 +16,9 @@ export const archivePolicyAction = authActionClient
 		name: "archive-policy",
 		track: {
 			event: "archive-policy",
+			description: "Archive Policy",
 			channel: "server",
+			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

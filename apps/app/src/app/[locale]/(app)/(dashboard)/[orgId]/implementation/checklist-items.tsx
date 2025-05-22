@@ -25,6 +25,7 @@ export function generateChecklistItems(
 			icon: <Calendar className="h-5 w-5" />,
 			docs: "https://trycomp.ai/docs/call",
 			completed: onboarding.callBooked,
+			dbColumn: "callBooked",
 			calendarPath: `/${orgId}/implementation/book-call`,
 			type: "calendar",
 		},

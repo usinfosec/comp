@@ -12,7 +12,9 @@ export const createPolicyAction = authActionClient
 		name: "create-policy",
 		track: {
 			event: "create-policy",
+			description: "Create New Policy",
 			channel: "server",
+			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
@@ -65,11 +67,12 @@ export const createPolicyAction = authActionClient
 							content: [{ type: "text", text: "" }],
 						},
 					],
-					...(controlIds && controlIds.length > 0 && {
-						controls: {
-							connect: controlIds.map((id) => ({ id })),
-						},
-					}),
+					...(controlIds &&
+						controlIds.length > 0 && {
+							controls: {
+								connect: controlIds.map((id) => ({ id })),
+							},
+						}),
 				},
 			});
 

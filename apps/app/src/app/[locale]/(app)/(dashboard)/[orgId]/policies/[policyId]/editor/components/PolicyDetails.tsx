@@ -7,11 +7,13 @@ import { updatePolicy } from "../actions/update-policy";
 interface PolicyDetailsProps {
 	policyId: string;
 	policyContent: JSONContent | JSONContent[];
+	isPendingApproval: boolean;
 }
 
 export function PolicyPageEditor({
 	policyId,
 	policyContent,
+	isPendingApproval,
 }: PolicyDetailsProps) {
 	const formattedContent = Array.isArray(policyContent)
 		? policyContent
@@ -37,6 +39,7 @@ export function PolicyPageEditor({
 			<PolicyEditor
 				content={formattedContent}
 				onSave={handleSavePolicy}
+				readOnly={isPendingApproval}
 			/>
 		</div>
 	);

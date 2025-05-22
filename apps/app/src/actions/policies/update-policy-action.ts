@@ -59,7 +59,9 @@ export const updatePolicyAction = authActionClient
 		name: "update-policy",
 		track: {
 			event: "update-policy",
+			description: "Update Policy",
 			channel: "server",
+			entityType: "policy",
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {

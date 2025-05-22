@@ -1,5 +1,6 @@
 "use client";
 
+import { submitPolicyForApprovalAction } from "@/actions/policies/submit-policy-for-approval-action";
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
@@ -10,7 +11,7 @@ import {
 	Frequency,
 	Member,
 	type Policy,
-	type PolicyStatus,
+	PolicyStatus,
 	User,
 } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -37,24 +38,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
+import * as z from "zod";
+import { SubmitApprovalDialog } from "./SubmitApprovalDialog";
 
-const policyStatuses: PolicyStatus[] = [
-	"draft",
-	"published",
-	"needs_review",
-] as const;
+interface UpdatePolicyOverviewProps {
+	policy: Policy & {
+		approver: (Member & { user: User }) | null;
+	};
+	assignees: (Member & { user: User })[];
+	isPendingApproval: boolean;
+}
 
 export function UpdatePolicyOverview({
 	policy,
 	assignees,
-}: {
-	policy: Policy;
-	assignees: (Member & { user: User })[];
-}) {
+	isPendingApproval,
+}: UpdatePolicyOverviewProps) {
 	const t = useI18n();
+
+	const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false);
+	const [selectedApproverId, setSelectedApproverId] = useState<string | null>(
+		null,
+	);
+
+	const fieldsDisabled = isPendingApproval;
 
 	const updatePolicyForm = useAction(updatePolicyFormAction, {
 		onSuccess: () => {
@@ -62,6 +72,15 @@ export function UpdatePolicyOverview({
 		},
 		onError: () => {
 			toast.error(t("policies.overview.form.update_policy_error"));
+		},
+	});
+
+	const submitForApproval = useAction(submitPolicyForApprovalAction, {
+		onSuccess: () => {
+			toast.success("Policy submitted for approval successfully!");
+		},
+		onError: () => {
+			toast.error("Failed to submit policy for approval.");
 		},
 	});
 
@@ -86,28 +105,53 @@ export function UpdatePolicyOverview({
 			isRequiredToSign: policy.isRequiredToSign
 				? "required"
 				: "not_required",
+			approverId: null,
 		},
 	});
 
 	const onSubmit = (data: z.infer<typeof updatePolicyFormSchema>) => {
-		updatePolicyForm.execute({
-			id: data.id,
-			status: data.status as PolicyStatus,
-			assigneeId: data.assigneeId,
-			department: data.department,
-			review_frequency: data.review_frequency,
-			review_date: data.review_date,
-			isRequiredToSign: data.isRequiredToSign,
-		});
+		const newStatus = data.status as PolicyStatus;
+		if (policy.status === "draft" && newStatus === "published") {
+			setIsApprovalDialogOpen(true);
+		} else {
+			updatePolicyForm.execute({
+				...data,
+				status: newStatus,
+			});
+		}
 	};
+
+	const handleConfirmApproval = () => {
+		if (!selectedApproverId) {
+			toast.error("Approver is required.");
+			return;
+		}
+		const formData = form.getValues();
+		submitForApproval.execute({
+			...formData,
+			status: "published" as PolicyStatus,
+			approverId: selectedApproverId,
+		});
+		setIsApprovalDialogOpen(false);
+		setSelectedApproverId(null);
+	};
+
+	const currentStatus = form.watch("status");
+	const originalStatus = policy.status;
+
+	let buttonText = t("common.actions.save");
+	if (originalStatus === "draft" && currentStatus === "published") {
+		buttonText = "Submit for Approval";
+	}
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
 						name="status"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
@@ -117,6 +161,7 @@ export function UpdatePolicyOverview({
 									<Select
 										value={field.value}
 										onValueChange={field.onChange}
+										disabled={fieldsDisabled}
 									>
 										<SelectTrigger>
 											<SelectValue
@@ -132,16 +177,22 @@ export function UpdatePolicyOverview({
 											</SelectValue>
 										</SelectTrigger>
 										<SelectContent>
-											{policyStatuses.map((status) => (
-												<SelectItem
-													key={status}
-													value={status}
-												>
-													<StatusIndicator
-														status={status}
-													/>
-												</SelectItem>
-											))}
+											{Object.values(PolicyStatus)
+												.filter(
+													(status) =>
+														status !==
+														"needs_review",
+												)
+												.map((status) => (
+													<SelectItem
+														key={status}
+														value={status}
+													>
+														<StatusIndicator
+															status={status}
+														/>
+													</SelectItem>
+												))}
 										</SelectContent>
 									</Select>
 								</FormControl>
@@ -152,6 +203,7 @@ export function UpdatePolicyOverview({
 					<FormField
 						control={form.control}
 						name="review_frequency"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
@@ -163,6 +215,7 @@ export function UpdatePolicyOverview({
 									<Select
 										value={field.value}
 										onValueChange={field.onChange}
+										disabled={fieldsDisabled}
 									>
 										<SelectTrigger>
 											<SelectValue
@@ -194,6 +247,7 @@ export function UpdatePolicyOverview({
 					<FormField
 						control={form.control}
 						name="department"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
@@ -206,6 +260,7 @@ export function UpdatePolicyOverview({
 										{...field}
 										value={field.value}
 										onValueChange={field.onChange}
+										disabled={fieldsDisabled}
 									>
 										<SelectTrigger>
 											<SelectValue
@@ -242,6 +297,7 @@ export function UpdatePolicyOverview({
 					<FormField
 						control={form.control}
 						name="assigneeId"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
@@ -254,10 +310,7 @@ export function UpdatePolicyOverview({
 										assignees={assignees}
 										onAssigneeChange={field.onChange}
 										assigneeId={field.value ?? null}
-										disabled={
-											updatePolicyForm.status ===
-											"executing"
-										}
+										disabled={fieldsDisabled}
 										withTitle={false}
 									/>
 								</FormControl>
@@ -265,26 +318,33 @@ export function UpdatePolicyOverview({
 							</FormItem>
 						)}
 					/>
-				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
 					<FormField
 						control={form.control}
 						name="review_date"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
-							<FormItem className="flex flex-col">
+							<FormItem className="flex flex-col mt-2">
 								<FormLabel>
 									{t("policies.overview.form.review_date")}
 								</FormLabel>
-								<Popover>
-									<PopoverTrigger asChild>
-										<FormControl>
+								<FormControl>
+									<Popover>
+										<PopoverTrigger
+											asChild
+											disabled={fieldsDisabled}
+											className={cn(
+												fieldsDisabled &&
+													"select-none cursor-not-allowed pointer-events-none",
+											)}
+										>
 											<div className="pt-1.5">
 												<Button
 													variant={"outline"}
+													disabled={fieldsDisabled}
 													className={cn(
 														"pl-3 text-left font-normal w-full",
 														!field.value &&
-														"text-muted-foreground",
+															"text-muted-foreground",
 													)}
 												>
 													{field.value ? (
@@ -302,23 +362,23 @@ export function UpdatePolicyOverview({
 													<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 												</Button>
 											</div>
-										</FormControl>
-									</PopoverTrigger>
-									<PopoverContent
-										className="w-auto"
-										align="start"
-									>
-										<Calendar
-											mode="single"
-											selected={field.value}
-											onSelect={field.onChange}
-											disabled={(date) =>
-												date <= new Date()
-											}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
+										</PopoverTrigger>
+										<PopoverContent
+											className="w-auto"
+											align="start"
+										>
+											<Calendar
+												mode="single"
+												selected={field.value}
+												onSelect={field.onChange}
+												disabled={(date) =>
+													date <= new Date()
+												}
+												initialFocus
+											/>
+										</PopoverContent>
+									</Popover>
+								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -326,15 +386,15 @@ export function UpdatePolicyOverview({
 					<FormField
 						control={form.control}
 						name="isRequiredToSign"
+						disabled={fieldsDisabled}
 						render={({ field }) => (
-							<FormItem className="flex flex-col gap-3">
+							<FormItem className="flex flex-col gap-2 mt-2">
 								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
-									)}
+									Employee Signature Requirement
 								</FormLabel>
 								<FormControl>
 									<Switch
+										disabled={fieldsDisabled}
 										checked={field.value === "required"}
 										onCheckedChange={(checked) => {
 											field.onChange(
@@ -350,20 +410,34 @@ export function UpdatePolicyOverview({
 						)}
 					/>
 				</div>
-				<div className="flex justify-end mt-4">
-					<Button
-						type="submit"
-						variant="default"
-						disabled={updatePolicyForm.status === "executing"}
-					>
-						{updatePolicyForm.status === "executing" ? (
-							<Loader2 className="h-4 w-4 animate-spin" />
-						) : (
-							t("common.actions.save")
-						)}
-					</Button>
+
+				<div className="col-span-1 md:col-span-2 flex justify-end gap-2">
+					{!isPendingApproval && (
+						<Button
+							type="submit"
+							disabled={
+								updatePolicyForm.isExecuting ||
+								submitForApproval.isExecuting
+							}
+						>
+							{(updatePolicyForm.isExecuting ||
+								submitForApproval.isExecuting) && (
+								<Loader2 className="animate-spin mr-2" />
+							)}
+							{buttonText}
+						</Button>
+					)}
 				</div>
 			</form>
+			<SubmitApprovalDialog
+				isOpen={isApprovalDialogOpen}
+				onOpenChange={setIsApprovalDialogOpen}
+				assignees={assignees}
+				selectedApproverId={selectedApproverId}
+				onSelectedApproverIdChange={setSelectedApproverId}
+				onConfirm={handleConfirmApproval}
+				isSubmitting={submitForApproval.isExecuting}
+			/>
 		</Form>
 	);
 }
