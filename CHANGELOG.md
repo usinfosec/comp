@@ -1,3 +1,12 @@
+## [1.30.2](https://github.com/trycompai/comp/compare/v1.30.1...v1.30.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* add ability to delete controls ([ca6c95c](https://github.com/trycompai/comp/commit/ca6c95ce9debdbd9a26651393360f1235dd3ce55))
+* added ability to delete a policy ([aaf6f53](https://github.com/trycompai/comp/commit/aaf6f53dd5156fd5223561fcf7c582612a139921))
+* allow deleting entire framework ([bc32f8d](https://github.com/trycompai/comp/commit/bc32f8d84dc7d59d03e7a4f9792d8daaaf2874e1))
+
 ## [1.30.1](https://github.com/trycompai/comp/compare/v1.30.0...v1.30.1) (2025-05-22)
 
 
