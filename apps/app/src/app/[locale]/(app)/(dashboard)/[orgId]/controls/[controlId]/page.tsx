@@ -65,8 +65,6 @@ export default async function ControlPage({ params }: ControlPageProps) {
 				controlProgress={controlProgress}
 				relatedPolicies={relatedPolicies}
 				relatedTasks={control.tasks}
-				orgId={orgId}
-				controlId={controlId}
 			/>
 		</PageWithBreadcrumb>
 	);
