@@ -53,8 +53,6 @@ export default async function ControlPage({ params }: ControlPageProps) {
 		controlId: controlId,
 	});
 
-	console.log(relatedPolicies);
-
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
@@ -67,6 +65,8 @@ export default async function ControlPage({ params }: ControlPageProps) {
 				controlProgress={controlProgress}
 				relatedPolicies={relatedPolicies}
 				relatedTasks={control.tasks}
+				orgId={orgId}
+				controlId={controlId}
 			/>
 		</PageWithBreadcrumb>
 	);
