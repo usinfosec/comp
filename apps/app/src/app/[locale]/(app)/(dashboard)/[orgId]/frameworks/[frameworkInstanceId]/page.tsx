@@ -1,12 +1,11 @@
 import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import PageWithBreadcrumb from "../../../../../../../components/pages/PageWithBreadcrumb";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";
-import { db } from "@comp/db";
-import type { FrameworkEditorRequirement } from "@comp/db/types";
 
 interface PageProps {
 	params: Promise<{
@@ -42,14 +41,16 @@ export default async function FrameworkPage({ params }: PageProps) {
 	}
 
 	// Fetch requirement definitions for this framework
-	const requirementDefinitions = await db.frameworkEditorRequirement.findMany({
-		where: {
-			frameworkId: frameworkInstanceWithControls.frameworkId,
+	const requirementDefinitions = await db.frameworkEditorRequirement.findMany(
+		{
+			where: {
+				frameworkId: frameworkInstanceWithControls.frameworkId,
+			},
+			orderBy: {
+				name: "asc",
+			},
 		},
-		orderBy: {
-			name: "asc",
-		}
-	});
+	);
 
 	const frameworkName = frameworkInstanceWithControls.framework.name;
 
