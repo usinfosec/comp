@@ -53,8 +53,6 @@ export default async function ControlPage({ params }: ControlPageProps) {
 		controlId: controlId,
 	});
 
-	console.log(relatedPolicies);
-
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[

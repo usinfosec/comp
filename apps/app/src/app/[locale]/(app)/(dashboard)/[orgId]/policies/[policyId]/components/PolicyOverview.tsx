@@ -1,5 +1,7 @@
 "use client";
 
+import { acceptRequestedPolicyChangesAction } from "@/actions/policies/accept-requested-policy-changes";
+import { denyRequestedPolicyChangesAction } from "@/actions/policies/deny-requested-policy-changes";
 import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import type { Member, Policy, User } from "@comp/db/types";
@@ -12,22 +14,29 @@ import { format } from "date-fns";
 import {
 	ArchiveIcon,
 	ArchiveRestoreIcon,
+	MoreVertical,
 	PencilIcon,
 	ShieldCheck,
 	ShieldX,
+	Trash2,
 } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@comp/ui/dropdown-menu";
+import { useAction } from "next-safe-action/hooks";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
+import { toast } from "sonner";
 import { PolicyActionDialog } from "./PolicyActionDialog";
 import { PolicyArchiveSheet } from "./PolicyArchiveSheet";
 import { PolicyControlMappings } from "./PolicyControlMappings";
+import { PolicyDeleteDialog } from "./PolicyDeleteDialog";
 import { PolicyOverviewSheet } from "./PolicyOverviewSheet";
 import { UpdatePolicyOverview } from "./UpdatePolicyOverview";
-import { useAction } from "next-safe-action/hooks";
-import { denyRequestedPolicyChangesAction } from "@/actions/policies/deny-requested-policy-changes";
-import { toast } from "sonner";
-import { acceptRequestedPolicyChangesAction } from "@/actions/policies/accept-requested-policy-changes";
+import { deletePolicyAction } from "@/actions/policies/delete-policy";
 
 export function PolicyOverview({
 	policy,
@@ -47,7 +56,6 @@ export function PolicyOverview({
 	const [, setOpen] = useQueryState("policy-overview-sheet");
 	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
 	const canCurrentUserApprove = policy?.approverId === activeMember?.id;
-	const router = useRouter();
 
 	const denyPolicyChanges = useAction(denyRequestedPolicyChangesAction, {
 		onSuccess: () => {
@@ -74,6 +82,10 @@ export function PolicyOverview({
 	// Dialog state for approval/denial actions
 	const [approveDialogOpen, setApproveDialogOpen] = useState(false);
 	const [denyDialogOpen, setDenyDialogOpen] = useState(false);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+	// Dropdown menu state
+	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	// Handle approve with optional comment
 	const handleApprove = (comment?: string) => {
@@ -105,12 +117,12 @@ export function PolicyOverview({
 
 	return (
 		<div className="space-y-4">
-                        {isPendingApproval && (
-                                <Alert
-                                        variant="destructive"
-                                        className="rounded-sm bg-destructive/10 dark:bg-destructive/20"
-                                >
-                                        <ShieldX className="h-4 w-4" />
+			{isPendingApproval && (
+				<Alert
+					variant="destructive"
+					className="rounded-sm bg-destructive/10 dark:bg-destructive/20"
+				>
+					<ShieldX className="h-4 w-4" />
 					<AlertTitle>
 						{canCurrentUserApprove
 							? "Action Required by You"
@@ -193,38 +205,62 @@ export function PolicyOverview({
 								<Icons.Policies className="h-4 w-4" />
 								{policy?.name}
 							</div>
-							<div className="flex gap-2">
-								<Button
-									size="icon"
-									variant="ghost"
-									disabled={isPendingApproval}
-									className="m-0 p-2 size-auto"
-									onClick={() => setArchiveOpen("true")}
-									title={
-										policy?.isArchived
+							<DropdownMenu
+								open={dropdownOpen}
+								onOpenChange={setDropdownOpen}
+							>
+								<DropdownMenuTrigger asChild>
+									<Button
+										size="icon"
+										variant="ghost"
+										disabled={isPendingApproval}
+										className="p-2 m-0 size-auto"
+									>
+										<MoreVertical className="h-4 w-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end">
+									<DropdownMenuItem
+										onClick={() => {
+											setDropdownOpen(false);
+											setOpen("true");
+										}}
+										disabled={isPendingApproval}
+									>
+										<PencilIcon className="h-4 w-4 mr-2" />
+										{t("policies.edit.tooltip")}
+									</DropdownMenuItem>
+									<DropdownMenuItem
+										onClick={() => {
+											setDropdownOpen(false);
+											setArchiveOpen("true");
+										}}
+										disabled={isPendingApproval}
+									>
+										{policy?.isArchived ? (
+											<ArchiveRestoreIcon className="h-4 w-4 mr-2" />
+										) : (
+											<ArchiveIcon className="h-4 w-4 mr-2" />
+										)}
+										{policy?.isArchived
 											? t(
 													"policies.archive.restore_tooltip",
 												)
-											: t("policies.archive.tooltip")
-									}
-								>
-									{policy?.isArchived ? (
-										<ArchiveRestoreIcon className="h-4 w-4" />
-									) : (
-										<ArchiveIcon className="h-4 w-4" />
-									)}
-								</Button>
-								<Button
-									size="icon"
-									variant="ghost"
-									disabled={isPendingApproval}
-									className="p-2 m-0 size-auto"
-									onClick={() => setOpen("true")}
-									title={t("policies.edit.tooltip")}
-								>
-									<PencilIcon className="h-4 w-4" />
-								</Button>
-							</div>
+											: t("policies.archive.tooltip")}
+									</DropdownMenuItem>
+									<DropdownMenuItem
+										onClick={() => {
+											setDropdownOpen(false);
+											setDeleteDialogOpen(true);
+										}}
+										disabled={isPendingApproval}
+										className="text-destructive focus:text-destructive"
+									>
+										<Trash2 className="h-4 w-4 mr-2" />
+										Delete
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</div>
 					</CardTitle>
 				</CardHeader>
@@ -286,6 +322,13 @@ export function PolicyOverview({
 						confirmText="Deny"
 						confirmIcon={<ShieldX className="h-4 w-4" />}
 						confirmVariant="destructive"
+					/>
+
+					{/* Delete Dialog */}
+					<PolicyDeleteDialog
+						isOpen={deleteDialogOpen}
+						onClose={() => setDeleteDialogOpen(false)}
+						policy={policy}
 					/>
 				</>
 			)}
