@@ -1,7 +1,7 @@
 "use client";
 
 import { createPolicyAction } from "@/actions/policies/create-new-policy";
-import { createPolicySchema } from "@/actions/schema";
+import { createPolicySchema, type CreatePolicySchema } from "@/actions/schema";
 import { useI18n } from "@/locales/client";
 import {
 	Accordion,
@@ -27,7 +27,6 @@ import { useQueryState } from "nuqs";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
 
 export function CreateNewPolicyForm() {
 	const t = useI18n();
@@ -43,19 +42,17 @@ export function CreateNewPolicyForm() {
 		},
 	});
 
-	const form = useForm<z.infer<typeof createPolicySchema>>({
-		resolver: zodResolver(createPolicySchema),
-		defaultValues: {
-			title: "",
-			description: "",
-			frameworkIds: [],
-			controlIds: [],
-		},
-	});
+       const form = useForm<CreatePolicySchema>({
+               resolver: zodResolver(createPolicySchema),
+               defaultValues: {
+                       title: "",
+                       description: "",
+               },
+       });
 
-	const onSubmit = (data: z.infer<typeof createPolicySchema>) => {
-		createPolicy.execute(data);
-	};
+       const onSubmit = (data: CreatePolicySchema) => {
+               createPolicy.execute(data);
+       };
 
 	return (
 		<Form {...form}>

@@ -240,12 +240,18 @@ export const updateResidualRiskEnumSchema = z.object({
 
 // Policies
 export const createPolicySchema = z.object({
-	title: z.string(),
-	description: z.string(),
-	frameworkIds: z.array(z.string()),
-	controlIds: z.array(z.string()),
-	entityId: z.string(),
+       title: z
+               .string({ required_error: "Title is required" })
+               .min(1, "Title is required"),
+       description: z
+               .string({ required_error: "Description is required" })
+               .min(1, "Description is required"),
+       frameworkIds: z.array(z.string()).optional(),
+       controlIds: z.array(z.string()).optional(),
+       entityId: z.string().optional(),
 });
+
+export type CreatePolicySchema = z.infer<typeof createPolicySchema>;
 
 export const updatePolicySchema = z.object({
 	id: z.string(),
