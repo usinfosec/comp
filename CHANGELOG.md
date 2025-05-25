@@ -1,3 +1,10 @@
+## [1.30.3](https://github.com/trycompai/comp/compare/v1.30.2...v1.30.3) (2025-05-25)
+
+
+### Bug Fixes
+
+* **policy:** align creation schema ([256f111](https://github.com/trycompai/comp/commit/256f1117e003ccb45b7bb7575685b0fce0b7c8f4))
+
 ## [1.30.2](https://github.com/trycompai/comp/compare/v1.30.1...v1.30.2) (2025-05-23)
 
 
