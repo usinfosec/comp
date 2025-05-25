@@ -16,10 +16,10 @@ export const createPolicyAction = authActionClient
 			channel: "server",
 		},
 	})
-	.action(async ({ parsedInput, ctx }) => {
-		const { title, description, frameworkIds, controlIds } = parsedInput;
-		const { activeOrganizationId } = ctx.session;
-		const { user } = ctx;
+        .action(async ({ parsedInput, ctx }) => {
+                const { title, description, controlIds } = parsedInput;
+                const { activeOrganizationId } = ctx.session;
+                const { user } = ctx;
 
 		if (!activeOrganizationId) {
 			return {

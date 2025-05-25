@@ -12,6 +12,16 @@ import type {
 	Task,
 } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Button } from "@comp/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@comp/ui/dropdown-menu";
+import { MoreVertical, PencilIcon, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { ControlDeleteDialog } from "./ControlDeleteDialog";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import type { ControlProgressResponse } from "../data/getOrganizationControlProgress";
@@ -34,16 +44,18 @@ interface SingleControlProps {
 	relatedTasks: Task[];
 }
 
-export const SingleControl = ({
+export function SingleControl({
 	control,
 	controlProgress,
-	relatedPolicies = [],
-	relatedTasks = [],
-}: SingleControlProps) => {
+	relatedPolicies,
+	relatedTasks,
+}: SingleControlProps) {
 	const t = useI18n();
-	const params = useParams();
-	const orgId = params.orgId as string;
-	const controlId = params.controlId as string;
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const params = useParams<{ orgId: string; controlId: string }>();
+	const orgIdFromParams = params.orgId;
+	const controlIdFromParams = params.controlId;
 
 	const progressStatus = useMemo(() => {
 		if (!controlProgress) return "not_started";
@@ -80,7 +92,32 @@ export const SingleControl = ({
 								{control.name}
 							</h1>
 						</div>
-						<StatusIndicator status={progressStatus} />
+						<div className="flex items-center gap-2">
+							<StatusIndicator status={progressStatus} />
+							<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+								<DropdownMenuTrigger asChild>
+									<Button
+										size="icon"
+										variant="ghost"
+										className="p-2 m-0 size-auto"
+									>
+										<MoreVertical className="h-4 w-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end">
+									<DropdownMenuItem
+										onClick={() => {
+											setDropdownOpen(false);
+											setDeleteDialogOpen(true);
+										}}
+										className="text-destructive focus:text-destructive"
+									>
+										<Trash2 className="h-4 w-4 mr-2" />
+										Delete
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -91,18 +128,25 @@ export const SingleControl = ({
 			</Card>
 			<RequirementsTable
 				requirements={control.requirementsMapped}
-				orgId={orgId}
+				orgId={orgIdFromParams}
 			/>
 			<PoliciesTable
 				policies={relatedPolicies}
-				orgId={orgId}
-				controlId={controlId}
+				orgId={orgIdFromParams}
+				controlId={controlIdFromParams}
 			/>
 			<TasksTable
 				tasks={relatedTasks}
-				orgId={orgId}
-				controlId={controlId}
+				orgId={orgIdFromParams}
+				controlId={controlIdFromParams}
+			/>
+
+			{/* Delete Dialog */}
+			<ControlDeleteDialog
+				isOpen={deleteDialogOpen}
+				onClose={() => setDeleteDialogOpen(false)}
+				control={control}
 			/>
 		</div>
 	);
-};
+}
