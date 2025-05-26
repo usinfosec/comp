@@ -11,7 +11,7 @@ import * as z from "zod";
 
 export const searchParamsCache = createSearchParamsCache({
 	page: parseAsInteger.withDefault(1),
-	perPage: parseAsInteger.withDefault(10),
+	perPage: parseAsInteger.withDefault(50),
 	sort: getSortingStateParser<Policy>().withDefault([
 		{ id: "createdAt", desc: true },
 	]),

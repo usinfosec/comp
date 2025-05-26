@@ -30,7 +30,7 @@ export function DataTableColumnHeader<TData, TValue>({
 	className,
 	...props
 }: DataTableColumnHeaderProps<TData, TValue>) {
-	if (!column.getCanSort() && !column.getCanHide()) {
+	if (!column.getCanSort()) {
 		return <div className={cn(className)}>{title}</div>;
 	}
 
@@ -139,7 +139,7 @@ export function DataTableColumnHeader<TData, TValue>({
 						})()}
 					</>
 				)}
-				{column.getCanHide() && (
+				{/* {column.getCanHide() && (
 					<DropdownMenuCheckboxItem
 						className="relative pr-8 pl-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto [&_svg]:text-muted-foreground"
 						checked={!column.getIsVisible()}
@@ -150,7 +150,7 @@ export function DataTableColumnHeader<TData, TValue>({
 							Hide
 						</div>
 					</DropdownMenuCheckboxItem>
-				)}
+				)} */}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

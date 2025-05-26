@@ -46,7 +46,7 @@ export function PoliciesTable({ promises }: PoliciesTableProps) {
 					sheet="create-policy-sheet"
 					action="Create Policy"
 				>
-					<DataTableSortList table={table} align="end" />
+					{/* <DataTableSortList table={table} align="end" /> */}
 				</DataTableToolbar>
 			</DataTable>
 			<CreatePolicySheet />

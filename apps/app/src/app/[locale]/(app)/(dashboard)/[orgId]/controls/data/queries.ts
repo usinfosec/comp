@@ -22,6 +22,12 @@ const controlInclude = {
 					framework: true,
 				},
 			},
+			requirement: {
+				select: {
+					name: true,
+					identifier: true,
+				},
+			},
 		},
 	},
 } satisfies Prisma.ControlInclude;

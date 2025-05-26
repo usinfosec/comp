@@ -125,7 +125,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 		perPageKey,
 		parseAsInteger
 			.withOptions(queryStateOptions)
-			.withDefault(initialState?.pagination?.pageSize ?? 10),
+			.withDefault(initialState?.pagination?.pageSize ?? 50),
 	);
 
 	const pagination: PaginationState = React.useMemo(() => {
@@ -304,7 +304,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		manualPagination: true,
 		manualSorting: pageCount !== 1,
-		manualFiltering: true,
+		manualFiltering: false,
 	});
 
 	return { table, shallow, debounceMs, throttleMs };

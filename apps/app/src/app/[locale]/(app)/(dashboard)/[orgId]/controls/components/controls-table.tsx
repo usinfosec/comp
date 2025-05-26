@@ -19,16 +19,17 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 	const [{ data, pageCount }] = React.use(promises);
 	const { orgId } = useParams();
 	const columns = React.useMemo(() => getControlColumns(), []);
+	const [filteredData, setFilteredData] = React.useState<ControlWithRelations[]>(data);
 
+	// For client-side filtering, we don't need to apply server-side filtering
 	const { table } = useDataTable({
-		data,
+		data: filteredData,
 		columns,
 		pageCount,
 		initialState: {
 			sorting: [{ id: "name", desc: true }],
-			columnPinning: { right: ["actions"] },
 		},
-		getRowId: (originalRow: ControlWithRelations) => originalRow.id,
+		getRowId: (row) => row.id,
 		shallow: false,
 		clearOnDefault: true,
 	});
@@ -41,7 +42,7 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 				rowClickBasePath={`/${orgId}/controls`}
 			>
 				<DataTableToolbar table={table}>
-					<DataTableSortList table={table} align="end" />
+					{/* <DataTableSortList table={table} align="end" /> */}
 				</DataTableToolbar>
 			</DataTable>
 			<CreatePolicySheet />

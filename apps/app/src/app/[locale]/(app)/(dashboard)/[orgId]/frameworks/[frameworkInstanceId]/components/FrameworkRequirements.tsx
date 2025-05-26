@@ -2,16 +2,15 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { FrameworkInstanceWithControls } from "../../types";
-import type { FrameworkEditorRequirement } from "@comp/db/types";
 
 interface RequirementItem extends FrameworkEditorRequirement {
 	mappedControlsCount: number;
@@ -29,7 +28,6 @@ export function FrameworkRequirements({
 		orgId: string;
 		frameworkInstanceId: string;
 	}>();
-	const [searchTerm, setSearchTerm] = useState("");
 
 	const items = useMemo(() => {
 		return requirementDefinitions.map((def) => {
@@ -60,7 +58,12 @@ export function FrameworkRequirements({
 				size: 200,
 				minSize: 150,
 				maxSize: 250,
-				enableResizing: true,
+				meta: {
+					label: "Requirement Name",
+					placeholder: "Search...",
+					variant: "text",
+				},
+				enableColumnFilter: true,
 			},
 			{
 				accessorKey: "description",
@@ -104,22 +107,8 @@ export function FrameworkRequirements({
 		[t],
 	);
 
-	const filteredRequirements = useMemo(() => {
-		if (!items?.length) return [];
-		if (!searchTerm.trim()) return items;
-
-		const searchLower = searchTerm.toLowerCase();
-		return items.filter(
-			(requirement) =>
-				(requirement.id?.toLowerCase() || "").includes(searchLower) ||
-				(requirement.name?.toLowerCase() || "").includes(searchLower) ||
-				(requirement.description?.toLowerCase() || "").includes(searchLower) ||
-				(requirement.identifier?.toLowerCase() || "").includes(searchLower)
-		);
-	}, [items, searchTerm]);
-
 	const table = useDataTable({
-		data: filteredRequirements,
+		data: items,
 		columns,
 		pageCount: 1,
 		shallow: false,
@@ -128,6 +117,7 @@ export function FrameworkRequirements({
 			sorting: [{ id: "name", desc: false }],
 		},
 	});
+
 
 	if (!items?.length) {
 		return null;
@@ -138,28 +128,19 @@ export function FrameworkRequirements({
 			<CardHeader>
 				<CardTitle>
 					{t("frameworks.requirements.requirements")} (
-					{filteredRequirements.length})
+					{table.table.getFilteredRowModel().rows.length})
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="flex items-center mb-4">
-					<Input
-						placeholder={t(
-							"frameworks.requirements.search.universal_placeholder",
-						)}
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="max-w-sm"
-					/>
-					<div className="ml-auto">
-						<DataTableSortList table={table.table} align="end" />
-					</div>
-				</div>
 				<DataTable
 					table={table.table}
 					rowClickBasePath={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/`}
 					getRowId={(row) => row.id}
-				/>
+				>
+					<DataTableToolbar table={table.table}>
+						{/* <DataTableSortList table={table.table} align="end" /> */}
+					</DataTableToolbar>
+				</DataTable>
 			</CardContent>
 		</Card>
 	);
