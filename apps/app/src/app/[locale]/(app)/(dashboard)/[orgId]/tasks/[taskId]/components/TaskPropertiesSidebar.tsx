@@ -17,6 +17,14 @@ import { TaskStatusIndicator } from "../../components/TaskStatusIndicator";
 import { Button } from "@comp/ui/button";
 import { Badge } from "@comp/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@comp/ui/dropdown-menu";
+import { MoreVertical, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface TaskPropertiesSidebarProps {
 	task: Task;
@@ -27,6 +35,7 @@ interface TaskPropertiesSidebarProps {
 			Pick<Task, "status" | "assigneeId" | "frequency" | "department">
 		>,
 	) => void;
+	onDeleteClick?: () => void;
 }
 
 export function TaskPropertiesSidebar({
@@ -34,12 +43,39 @@ export function TaskPropertiesSidebar({
 	members,
 	assignedMember,
 	handleUpdateTask,
+	onDeleteClick,
 }: TaskPropertiesSidebarProps) {
+	const [dropdownOpen, setDropdownOpen] = useState(false);
 	return (
 		<aside className="w-full md:w-64 lg:w-72 flex-shrink-0 md:border-l md:pt-8 md:pl-8 hidden lg:flex flex-col">
-			<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 flex-shrink-0">
-				Properties
-			</h2>
+			<div className="flex justify-between items-center mb-4">
+				<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex-shrink-0">
+					Properties
+				</h2>
+				<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+					<DropdownMenuTrigger asChild>
+						<Button
+							size="icon"
+							variant="ghost"
+							className="p-2 m-0 size-auto"
+						>
+							<MoreVertical className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem
+							onClick={() => {
+								setDropdownOpen(false);
+								if (onDeleteClick) onDeleteClick();
+							}}
+							className="text-destructive focus:text-destructive"
+						>
+							<Trash2 className="h-4 w-4 mr-2" />
+							Delete
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
 			<div className="space-y-4 overflow-y-auto">
 				{/* Status Selector */}
 				<div className="flex justify-between items-center text-sm group">
