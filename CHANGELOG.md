@@ -1,3 +1,10 @@
+# [1.31.0](https://github.com/trycompai/comp/compare/v1.30.3...v1.31.0) (2025-05-26)
+
+
+### Features
+
+* add ability to delete tasks ([948c78d](https://github.com/trycompai/comp/commit/948c78d9e67bdb66803bbcf621ef25543ebd09e9))
+
 ## [1.30.3](https://github.com/trycompai/comp/compare/v1.30.2...v1.30.3) (2025-05-25)
 
 
