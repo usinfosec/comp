@@ -74,6 +74,7 @@ export const columns: ColumnDef<VendorRow>[] = [
 		header: ({ column }) => {
 			return <DataTableColumnHeader column={column} title="Assignee" />;
 		},
+		enableSorting: false,
 		cell: ({ row }) => {
 			// Handle null assignee
 			if (!row.original.assignee) {

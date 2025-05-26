@@ -33,10 +33,10 @@ export function VendorsTable({ promises }: VendorsTableProps) {
 		getRowId: (row) => row.id,
 		initialState: {
 			pagination: {
-				pageIndex: 0, // Corresponds to page=1 in URL
-				pageSize: 10, // Corresponds to perPage=10 in URL, aligns with validations.ts default
+				pageIndex: 0,
+				pageSize: 50,
 			},
-			sorting: [{ id: "name", desc: true }], // Align with 'name' search param
+			sorting: [{ id: "name", desc: true }],
 		},
 		shallow: false,
 		clearOnDefault: true,

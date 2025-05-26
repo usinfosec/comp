@@ -33,7 +33,7 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 		},
 		{
 			id: "status",
-			accessorKey: "status",
+			accessorKey: "",
 			header: ({ column }) => (
 				<DataTableColumnHeader column={column} title="Status" />
 			),
@@ -46,12 +46,13 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 			meta: {
 				label: "Status",
 				placeholder: "Search status...",
-				variant: "select",
+				variant: "text",
 			},
+			enableSorting: false,
 		},
 		{
 			id: "mappedRequirements",
-			accessorKey: "mappedRequirements",
+			accessorKey: "requirementsMapped",
 			header: ({ column }) => (
 				<DataTableColumnHeader
 					column={column}
@@ -72,8 +73,7 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 										variant="secondary"
 										className="text-xs"
 									>
-										{frameworkName}:{" "}
-										{req.requirementId}
+										{req.requirement.name}
 									</Badge>
 								);
 							})
@@ -83,6 +83,7 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 					</div>
 				);
 			},
+			enableSorting: false,
 			meta: {
 				label: "Linked Requirements",
 				placeholder: "Search Linked Requirements...",

@@ -20,6 +20,8 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 	const { orgId } = useParams();
 	const columns = React.useMemo(() => getControlColumns(), []);
 
+	console.log("data", columns);
+
 	const { table } = useDataTable({
 		data,
 		columns,
