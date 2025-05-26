@@ -65,10 +65,11 @@ export const columns = (orgId: string): ColumnDef<RiskRow>[] => [
 	},
 	{
 		id: "assignee",
-		accessorKey: "assignee",
+		accessorKey: "assignee.name",
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Assignee" />
 		),
+		enableSorting: false,
 		cell: ({ row }) => {
 			if (!row.original.assignee) {
 				return (

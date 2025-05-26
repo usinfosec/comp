@@ -1,7 +1,7 @@
 "use client";
 
 import type { Column, Table } from "@tanstack/react-table";
-import { Plus, X } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@comp/ui/button";
@@ -45,7 +45,7 @@ export function DataTableToolbar<TData>({
 			role="toolbar"
 			aria-orientation="horizontal"
 			className={cn(
-				"flex w-full items-start justify-between mb-4 gap-2",
+				"flex w-full items-center justify-between gap-2",
 				className,
 			)}
 			{...props}
@@ -59,29 +59,30 @@ export function DataTableToolbar<TData>({
 						aria-label="Reset filters"
 						variant="outline"
 						size="sm"
-						className="border-dashed"
+						className="border-dashed rounded-sm"
 						onClick={onReset}
 					>
 						<div className="flex items-center gap-2">
-							<X className="size-4 md:block hidden" />
-							Reset
+							<X className="size-4" />
+							<span className="md:inline hidden">Reset</span>
 						</div>
 					</Button>
 				)}
 			</div>
-			<div className="flex items-center gap-2 overflow-x-hidden">
+			<div className="flex items-center gap-2">
 				{children}
-				<DataTableViewOptions table={table} />
+				{/* <DataTableViewOptions table={table} /> */}
 				{sheet && (
 					<Button
 						variant="default"
 						size="sm"
+						className="rounded-sm"
 						onClick={() => {
 							setOpen("true");
 						}}
 					>
-						<Plus className="size-4 md:block hidden" />
-						{action}
+						<Plus className="size-4 mr-2" />
+						<span>{action}</span>
 					</Button>
 				)}
 			</div>
@@ -105,16 +106,19 @@ function DataTableToolbarFilter<TData>({
 			switch (columnMeta.variant) {
 				case "text":
 					return (
-						<Input
-							placeholder={
-								columnMeta.placeholder ?? columnMeta.label
-							}
-							value={(column.getFilterValue() as string) ?? ""}
-							onChange={(event) =>
-								column.setFilterValue(event.target.value)
-							}
-							className="h-8 w-40 md:w-56"
-						/>
+						<div className="relative w-full max-w-xs">
+							<Input
+								leftIcon={<Search className="size-4" />}
+								placeholder={
+									columnMeta.placeholder ?? columnMeta.label
+								}
+								value={(column.getFilterValue() as string) ?? ""}
+								onChange={(event) => {
+									column.setFilterValue(event.target.value);
+								}}
+								className="h-9 w-full min-w-[14rem] md:min-w-[18rem] rounded-sm"
+							/>
+						</div>
 					);
 
 				case "number":
@@ -133,12 +137,12 @@ function DataTableToolbarFilter<TData>({
 									column.setFilterValue(event.target.value)
 								}
 								className={cn(
-									"h-8 w-[120px]",
+									"h-9 w-[120px] rounded-sm",
 									columnMeta.unit && "pr-8",
 								)}
 							/>
 							{columnMeta.unit && (
-								<span className="absolute top-0 right-0 bottom-0 flex items-center bg-accent px-2 text-muted-foreground text-sm">
+								<span className="absolute top-0 right-0 bottom-0 flex items-center bg-accent px-2 text-muted-foreground text-sm rounded-r-sm">
 									{columnMeta.unit}
 								</span>
 							)}

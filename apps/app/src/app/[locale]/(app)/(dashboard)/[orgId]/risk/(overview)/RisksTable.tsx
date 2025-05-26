@@ -38,7 +38,7 @@ export const RisksTable = ({
 		getRowId: (row) => row.id,
 		initialState: {
 			pagination: {
-				pageSize: 10,
+				pageSize: 50,
 				pageIndex: 0,
 			},
 			sorting: [{ id: "title", desc: true }],

@@ -15,7 +15,7 @@ export function Loading({ isEmpty }: { isEmpty: boolean }) {
 				<Table
 					className={cn(
 						isEmpty && "opacity-20 pointer-events-none blur-[7px]",
-					)}
+				)}
 				>
 					<DataTableHeader loading />
 

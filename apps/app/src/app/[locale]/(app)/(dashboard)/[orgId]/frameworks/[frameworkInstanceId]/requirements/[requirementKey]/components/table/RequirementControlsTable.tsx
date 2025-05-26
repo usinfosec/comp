@@ -100,9 +100,9 @@ export function RequirementControlsTable({
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="max-w-sm"
 				/>
-				<div className="ml-auto">
+				{/* <div className="ml-auto">
 					<DataTableSortList table={table.table} />
-				</div>
+				</div> */}
 			</div>
 			<DataTable
 				table={table.table}
