@@ -114,7 +114,7 @@ export function DataTablePagination<TData>({
 			{...props}
 		>
 			<div className="flex items-center gap-3 text-sm text-muted-foreground">
-				<span className="hidden sm:inline">{table.getCoreRowModel().rows.length} items</span>
+				<span className="hidden sm:inline text-xs">{table.getCoreRowModel().rows.length} items</span>
 				<div className="hidden sm:flex items-center gap-1.5">
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
