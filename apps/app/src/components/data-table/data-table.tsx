@@ -42,6 +42,9 @@ export function DataTable<TData>({
 		}
 	};
 
+	// Apply client-side filtering
+	const filteredRows = table.getFilteredRowModel().rows;
+
 	return (
 		<div
 			className={cn("flex w-full flex-col gap-2.5", className)}
@@ -82,8 +85,8 @@ export function DataTable<TData>({
 						))}
 					</TableHeader>
 					<TableBody className="[&_tr]:cursor-pointer">
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
+						{filteredRows.length ? (
+							filteredRows.map((row) => (
 								<TableRow
 									key={row.id}
 									data-state={

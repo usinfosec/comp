@@ -113,9 +113,9 @@ function DataTableToolbarFilter<TData>({
 									columnMeta.placeholder ?? columnMeta.label
 								}
 								value={(column.getFilterValue() as string) ?? ""}
-								onChange={(event) =>
-									column.setFilterValue(event.target.value)
-								}
+								onChange={(event) => {
+									column.setFilterValue(event.target.value);
+								}}
 								className="h-9 w-full min-w-[14rem] md:min-w-[18rem] rounded-sm"
 							/>
 						</div>

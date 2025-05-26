@@ -30,6 +30,13 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 				variant: "text",
 			},
 			enableColumnFilter: true,
+			filterFn: (row, id, value) => {
+				return value.length === 0 
+					? true 
+					: String(row.getValue(id))
+						.toLowerCase()
+						.includes(String(value).toLowerCase());
+			},
 		},
 		{
 			id: "status",
@@ -89,6 +96,17 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 				placeholder: "Search Linked Requirements...",
 				variant: "text",
 			},
+			filterFn: (row, id, value) => {
+				if (value.length === 0) return true;
+				
+				const requirements = row.original.requirementsMapped;
+				const searchTerm = String(value).toLowerCase();
+				
+				return requirements.some(req => 
+					req.requirement.name.toLowerCase().includes(searchTerm)
+				);
+			},
+			enableColumnFilter: true,
 		},
 	];
 }

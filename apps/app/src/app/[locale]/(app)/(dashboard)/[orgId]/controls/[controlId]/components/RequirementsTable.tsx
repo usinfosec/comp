@@ -113,6 +113,7 @@ interface RequirementsTableProps {
 			// No default sorting to avoid type issues
 		},
 		tableId: "r",
+		clearOnDefault: true,
 	});
 
 	return (

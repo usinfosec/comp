@@ -2,17 +2,15 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useI18n } from "@/locales/client";
+import type { FrameworkEditorRequirement } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import type { FrameworkInstanceWithControls } from "../../types";
-import type { FrameworkEditorRequirement } from "@comp/db/types";
-import { useQueryState } from "nuqs";
 
 interface RequirementItem extends FrameworkEditorRequirement {
 	mappedControlsCount: number;
@@ -30,11 +28,6 @@ export function FrameworkRequirements({
 		orgId: string;
 		frameworkInstanceId: string;
 	}>();
-	
-	// Use query state for search instead of local state
-	const [globalFilter, setGlobalFilter] = useQueryState("q", {
-		defaultValue: "",
-	});
 
 	const items = useMemo(() => {
 		return requirementDefinitions.map((def) => {
@@ -65,7 +58,12 @@ export function FrameworkRequirements({
 				size: 200,
 				minSize: 150,
 				maxSize: 250,
-				enableResizing: true,
+				meta: {
+					label: "Requirement Name",
+					placeholder: "Search...",
+					variant: "text",
+				},
+				enableColumnFilter: true,
 			},
 			{
 				accessorKey: "description",
@@ -120,10 +118,6 @@ export function FrameworkRequirements({
 		},
 	});
 
-	// Set up global filter through the table instance directly
-	useEffect(() => {
-		table.table.setGlobalFilter(globalFilter);
-	}, [globalFilter, table.table]);
 
 	if (!items?.length) {
 		return null;
@@ -144,7 +138,7 @@ export function FrameworkRequirements({
 					getRowId={(row) => row.id}
 				>
 					<DataTableToolbar table={table.table}>
-						<DataTableSortList table={table.table} align="end" />
+						{/* <DataTableSortList table={table.table} align="end" /> */}
 					</DataTableToolbar>
 				</DataTable>
 			</CardContent>

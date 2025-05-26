@@ -304,7 +304,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		manualPagination: true,
 		manualSorting: pageCount !== 1,
-		manualFiltering: true,
+		manualFiltering: false,
 	});
 
 	return { table, shallow, debounceMs, throttleMs };
