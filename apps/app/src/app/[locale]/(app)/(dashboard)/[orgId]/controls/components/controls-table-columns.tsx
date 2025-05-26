@@ -90,23 +90,6 @@ export function getControlColumns(): ColumnDef<ControlWithRelations>[] {
 					</div>
 				);
 			},
-			enableSorting: false,
-			meta: {
-				label: "Linked Requirements",
-				placeholder: "Search Linked Requirements...",
-				variant: "text",
-			},
-			filterFn: (row, id, value) => {
-				if (value.length === 0) return true;
-				
-				const requirements = row.original.requirementsMapped;
-				const searchTerm = String(value).toLowerCase();
-				
-				return requirements.some(req => 
-					req.requirement.name.toLowerCase().includes(searchTerm)
-				);
-			},
-			enableColumnFilter: true,
 		},
 	];
 }
