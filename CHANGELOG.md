@@ -1,3 +1,10 @@
+# [1.32.0](https://github.com/trycompai/comp/compare/v1.31.0...v1.32.0) (2025-05-26)
+
+
+### Features
+
+* implement client-side filtering in controls and frameworks tables for enhanced search functionality ([010dfe0](https://github.com/trycompai/comp/commit/010dfe022fb7693c3d87ea5cd7c8682b1f7b7ab3))
+
 # [1.31.0](https://github.com/trycompai/comp/compare/v1.30.3...v1.31.0) (2025-05-26)
 
 
