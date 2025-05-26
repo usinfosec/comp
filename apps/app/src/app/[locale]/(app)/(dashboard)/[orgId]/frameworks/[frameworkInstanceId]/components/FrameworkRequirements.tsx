@@ -151,9 +151,9 @@ export function FrameworkRequirements({
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="max-w-sm"
 					/>
-					<div className="ml-auto">
+					{/* <div className="ml-auto">
 						<DataTableSortList table={table.table} align="end" />
-					</div>
+					</div> */}
 				</div>
 				<DataTable
 					table={table.table}

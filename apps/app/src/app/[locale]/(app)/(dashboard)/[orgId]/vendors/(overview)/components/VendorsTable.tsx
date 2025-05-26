@@ -54,7 +54,7 @@ export function VendorsTable({ promises }: VendorsTableProps) {
 					sheet="createVendorSheet"
 					action="Add Vendor"
 				>
-					<DataTableSortList table={table} align="end" />
+					{/* <DataTableSortList table={table} align="end" /> */}
 				</DataTableToolbar>
 			</DataTable>
 			<CreateVendorSheet assignees={assignees} />

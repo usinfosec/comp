@@ -133,13 +133,13 @@ interface RequirementsTableProps {
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="max-w-sm"
 					/>
-					<div className="ml-auto">
+					{/* <div className="ml-auto">
 						<DataTableSortList
 							table={table.table}
 							align="end"
 							tableId="r"
 						/>
-					</div>
+					</div> */}
 				</div>
 				<DataTable
 					table={table.table}

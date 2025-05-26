@@ -41,7 +41,7 @@ export function ControlsTable({ promises }: ControlsTableProps) {
 				rowClickBasePath={`/${orgId}/controls`}
 			>
 				<DataTableToolbar table={table}>
-					<DataTableSortList table={table} align="end" />
+					{/* <DataTableSortList table={table} align="end" /> */}
 				</DataTableToolbar>
 			</DataTable>
 			<CreatePolicySheet />
