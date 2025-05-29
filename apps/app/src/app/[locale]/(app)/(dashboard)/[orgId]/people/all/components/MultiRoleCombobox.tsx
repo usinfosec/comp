@@ -148,8 +148,8 @@ export function MultiRoleCombobox({
 		return label.toLowerCase().includes(searchTerm.toLowerCase());
 	});
 
-	return (
-		<Popover open={open} onOpenChange={setOpen}>
+       return (
+               <Popover open={open} onOpenChange={setOpen} modal={false}>
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
