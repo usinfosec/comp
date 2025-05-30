@@ -1,3 +1,10 @@
+## [1.32.3](https://github.com/trycompai/comp/compare/v1.32.2...v1.32.3) (2025-05-30)
+
+
+### Bug Fixes
+
+* fix issue with scrollbar showing up when not needed ([8a2a3e7](https://github.com/trycompai/comp/commit/8a2a3e7e621ae36ce3e5e90729ef9540794d68b4))
+
 ## [1.32.2](https://github.com/trycompai/comp/compare/v1.32.1...v1.32.2) (2025-05-30)
 
 
