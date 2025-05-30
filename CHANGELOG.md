@@ -1,3 +1,10 @@
+## [1.32.2](https://github.com/trycompai/comp/compare/v1.32.1...v1.32.2) (2025-05-30)
+
+
+### Bug Fixes
+
+* issue with selecting role for inviting members on firefox ([2bd3895](https://github.com/trycompai/comp/commit/2bd3895f945ccf66672fa63c8494b80fe81b9ee9))
+
 ## [1.32.1](https://github.com/trycompai/comp/compare/v1.32.0...v1.32.1) (2025-05-30)
 
 
