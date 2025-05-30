@@ -1,3 +1,10 @@
+## [1.32.1](https://github.com/trycompai/comp/compare/v1.32.0...v1.32.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* **invite:** allow role selection in modal ([2898ffd](https://github.com/trycompai/comp/commit/2898ffde8e8d0f00bf481f20028c3a3c1279f30a))
+
 # [1.32.0](https://github.com/trycompai/comp/compare/v1.31.0...v1.32.0) (2025-05-26)
 
 
