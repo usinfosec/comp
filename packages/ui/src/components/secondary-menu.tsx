@@ -68,7 +68,7 @@ export function SecondaryMenu({
 		>
 			<ul
 				className={cn(
-					"scrollbar-hide flex overflow-auto py-2 px-4 text-sm border-b border-border flex-wrap gap-x-6 gap-y-4",
+					"scrollbar-hide flex overflow-auto py-2  text-sm border-b border-border flex-wrap gap-x-6 gap-y-4",
 				)}
 			>
 				{showBackButton && (
