@@ -12,7 +12,7 @@ import { logger, task, tasks } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
-import { risk } from "@/locales/features/risk";
+import { updatePolicies } from "./update-policies";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
@@ -198,6 +198,42 @@ export const onboardOrganization = task({
 
 			logger.info(
 				`Created risk: ${createdRisk.id} (${createdRisk.title})`,
+			);
+		}
+
+		const organizationPolicies = await db.policy.findMany({
+			where: {
+				organizationId: payload.organizationId,
+			},
+		});
+
+		const risks = await db.risk.findMany({
+			where: {
+				organizationId: payload.organizationId,
+			},
+		});
+
+		const vendors = await db.vendor.findMany({
+			where: {
+				organizationId: payload.organizationId,
+			},
+		});
+
+		for (const policy of organizationPolicies) {
+			const handle = await tasks.trigger<typeof updatePolicies>(
+				"update-policies",
+				{
+					organizationId: payload.organizationId,
+					policyId: policy.id,
+					contextHub: questionsAndAnswers
+						.map((q) => `${q.question}\n${q.answer}`)
+						.join("\n"),
+					risks,
+				},
+			);
+
+			logger.info(
+				`Updated policy: ${policy.id} (${policy.name}) with handle ${handle.id}`,
 			);
 		}
 
