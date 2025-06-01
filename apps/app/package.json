@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "bun install && bun run apply-migrations && bunx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"NODE_OPTIONS='--inspect' next dev --turbo -p 3000\" \"bun run trigger:dev\"",
 		"trigger:dev": "npx trigger.dev@latest dev",
-		"build": "next build",
+		"build": "next build --turbopack",
 		"start": "next start",
 		"lint": "biome lint ./src",
 		"apply-migrations": "cd ../../packages/db && bunx prisma migrate dev && cd ../../apps/app",
