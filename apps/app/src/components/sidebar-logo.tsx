@@ -2,7 +2,11 @@ import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import Link from "next/link";
 
-export function SidebarLogo() {
+export function SidebarLogo({
+	isCollapsed,
+}: {
+	isCollapsed: boolean;
+}) {
 	return (
 		<div className={cn("transition-all duration-300 flex items-center")}>
 			<Link href="/" suppressHydrationWarning>
