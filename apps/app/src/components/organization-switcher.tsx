@@ -236,6 +236,9 @@ export function OrganizationSwitcher({
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="p-0 sm:max-w-[400px]">
+					<DialogTitle className="sr-only">
+						{t("common.actions.selectOrg")}
+					</DialogTitle>
 					<Command>
 						<div className="flex items-center border-b px-3">
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />

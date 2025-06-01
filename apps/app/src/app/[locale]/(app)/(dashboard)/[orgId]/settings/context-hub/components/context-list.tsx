@@ -43,9 +43,7 @@ export function ContextList({
     entries: Context[];
     locale: string;
 }) {
-    // Only for add modal
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    // Track open state for each edit dialog by entry id
     const [editDialogOpen, setEditDialogOpen] = useState<Record<string, boolean>>({});
 
     const handleEditOpen = (id: string, open: boolean) => {
@@ -88,10 +86,7 @@ export function ContextList({
                 <CardContent>
                     {entries.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-16 text-center">
-                            <Plus className="h-12 w-12 text-muted-foreground mb-4" />
-                            <h3 className="font-semibold text-lg mb-2">No context entries yet</h3>
-                            <p className="text-muted-foreground mb-6">Add your first context entry to help Comp AI understand your organization.</p>
-                            <Button onClick={() => setAddDialogOpen(true)} className="rounded-sm"><Plus className="mr-2 h-4 w-4" />Add Entry</Button>
+                            <p className="text-muted-foreground mb-6">No context entries yet</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

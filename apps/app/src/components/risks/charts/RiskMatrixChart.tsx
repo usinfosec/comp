@@ -126,7 +126,7 @@ export function RiskMatrixChart({
 				</CardHeader>
 				<CardContent>
 					<div
-						className="grid w-full max-h-[350px] aspect-[1.5/1] gap-1
+						className="grid w-full max-h-[350px] aspect-[1.5/1]
                        grid-cols-1 grid-rows-1
                        md:grid-cols-[auto_auto_1fr] md:grid-rows-[1fr_auto_auto]"
 					>

@@ -61,10 +61,11 @@ export function DataTable<TData>({
 										key={header.id}
 										colSpan={header.colSpan}
 										className={cn(
+											"px-4",
 											index !== 0 &&
-												"hidden md:table-cell",
+											"hidden md:table-cell",
 											index === 0 &&
-												"max-w-[200px] md:max-w-none",
+											"max-w-[200px] md:max-w-none",
 										)}
 										style={{
 											...getCommonPinningStyles({
@@ -75,10 +76,10 @@ export function DataTable<TData>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef
-														.header,
-													header.getContext(),
-												)}
+												header.column.columnDef
+													.header,
+												header.getContext(),
+											)}
 									</TableHead>
 								))}
 							</TableRow>
@@ -101,10 +102,11 @@ export function DataTable<TData>({
 											<TableCell
 												key={cell.id}
 												className={cn(
+													"px-4",
 													index !== 0 &&
-														"hidden md:table-cell",
+													"hidden md:table-cell",
 													index === 0 &&
-														"max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50",
+													"max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50",
 												)}
 												style={{
 													...getCommonPinningStyles({

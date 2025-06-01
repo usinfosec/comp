@@ -8,7 +8,7 @@ import type { Member, Policy, User } from "@comp/db/types";
 import { Control } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { Icons } from "@comp/ui/icons";
 import { format } from "date-fns";
 import {
@@ -196,7 +196,7 @@ export function PolicyOverview({
 			)}
 
 			<Card>
-				<CardHeader className="pb-1">
+				<CardHeader>
 					<CardTitle>
 						<div className="flex items-center justify-between gap-2">
 							<div className="flex flex-row gap-2 items-center">
@@ -212,7 +212,7 @@ export function PolicyOverview({
 										size="icon"
 										variant="ghost"
 										disabled={isPendingApproval}
-										className="p-2 m-0 size-auto"
+										className="p-2 m-0 size-auto hover:bg-transparent"
 									>
 										<MoreVertical className="h-4 w-4" />
 									</Button>
@@ -261,17 +261,9 @@ export function PolicyOverview({
 							</DropdownMenu>
 						</div>
 					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					{policy?.description}
-				</CardContent>
-			</Card>
-
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						{t("policies.overview.title")}
-					</CardTitle>
+					<CardDescription>
+						{policy?.description}
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					{policy && (

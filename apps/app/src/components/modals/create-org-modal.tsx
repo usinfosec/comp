@@ -26,7 +26,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -46,6 +46,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 	const t = useI18n();
 	const [isSetup, setIsSetup] = useState(false);
 	const router = useRouter();
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const newOrganizationRef = useRef<Pick<
 		Organization,
@@ -84,6 +85,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
+		setIsSubmitting(true);
 		const randomSuffix = Math.random().toString(36).substring(2, 15);
 
 		await authClient.organization
@@ -101,17 +103,24 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 					organizationId: organization.data?.id,
 				});
 
+				router.push(`/${organization.data?.id}`);
 				onOpenChange(false);
+			})
+			.finally(() => {
+				setIsSubmitting(false);
 			});
 	};
 
-	const isExecuting = createOrganization.status === "executing";
+	const isExecuting = createOrganization.status === "executing" || isSubmitting;
 
 	// Prevent dialog from closing when executing
 	const handleOpenChange = (open: boolean) => {
 		if (isExecuting && !open) return;
 		onOpenChange(open);
 	};
+
+	// Don't render modal at all while submitting/redirecting
+	if (isSubmitting) return null;
 
 	return (
 		<DialogContent className="max-w-[455px]">

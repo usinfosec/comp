@@ -54,6 +54,7 @@ export function OnboardingChatForm() {
     const [welcomeShown, setWelcomeShown] = useState(false);
     const [isSkipping, setIsSkipping] = useState(false);
     const [isOnboarding, setIsOnboarding] = useState(false);
+    const [isFinalizing, setIsFinalizing] = useState(false);
 
 
     const form = useForm<Partial<CompanyDetails>>({
@@ -68,6 +69,7 @@ export function OnboardingChatForm() {
 
     const skipOnboardingAction = useAction(skipOnboarding, {
         onSuccess: () => {
+            setIsFinalizing(true);
             sendGTMEvent({
                 event: "conversion",
             });
@@ -84,6 +86,7 @@ export function OnboardingChatForm() {
 
     const onboardOrganizationAction = useAction(onboardOrganization, {
         onSuccess: (result) => {
+            setIsFinalizing(true);
             sendGTMEvent({
                 event: "conversion",
             });
@@ -134,7 +137,7 @@ export function OnboardingChatForm() {
             setStreamedText(bubble.text.slice(0, idx));
             idx++;
             if (idx <= bubble.text.length) {
-                timeoutRef.current = setTimeout(type, 13);
+                timeoutRef.current = setTimeout(type, 8);
             } else {
                 setIsStreaming(false);
                 setChatHistory((prev) => [...prev, bubble]);
@@ -146,6 +149,7 @@ export function OnboardingChatForm() {
     };
 
     useEffect(() => {
+        if (isFinalizing) return;
         const bubbles: ChatBubbleType[] = [];
         const queue: ChatBubbleType[] = [];
 
@@ -196,7 +200,7 @@ export function OnboardingChatForm() {
         setChatHistory(bubbles);
         setStreamQueue(queue);
         setInitialized(true);
-    }, [savedAnswers]);
+    }, [savedAnswers, isFinalizing]);
 
     useEffect(() => {
         if (initialized && streamQueue.length > 0 && !isStreaming) {
@@ -332,105 +336,114 @@ export function OnboardingChatForm() {
     const canShowSkipButton = savedAnswers.legalName && savedAnswers.website;
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4 scrollbar-hide" >
-            <Card className="w-full max-w-2xl h-[calc(100vh-100px)] flex flex-col scrollbar-hide">
-                <CardHeader />
-                <CardContent className="flex-1 overflow-hidden flex flex-col">
-                    <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
-                        <div className="flex flex-col gap-4">
-                            {renderedBubbles}
-                            <div ref={bottomRef} />
+        isFinalizing ? (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <span className="text-muted-foreground">Redirecting...</span>
+                </div>
+            </div>
+        ) : (
+            <div className="flex items-center justify-center min-h-screen p-4 scrollbar-hide" >
+                <Card className="w-full max-w-2xl h-[calc(100vh-100px)] flex flex-col scrollbar-hide">
+                    <CardHeader />
+                    <CardContent className="flex-1 overflow-hidden flex flex-col">
+                        <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
+                            <div className="flex flex-col gap-4">
+                                {renderedBubbles}
+                                <div ref={bottomRef} />
+                            </div>
                         </div>
-                    </div>
-                    {showInput && step && (
-                        <div className="mt-4 border-t pt-4 animate-in slide-in-from-bottom-4 duration-300">
-                            <Form {...form}>
-                                <form
-                                    onSubmit={form.handleSubmit(onSubmit)}
-                                    className="w-full"
-                                    autoComplete="off"
-                                >
-                                    <FormField
-                                        name={step.key}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <div className="h-4 relative ml-1">
-                                                    <FormMessage className="text-xs absolute" />
-                                                </div>
-                                                <FormControl>
-                                                    <div className="flex flex-col gap-4 w-full">
-                                                        <Textarea
-                                                            {...field}
-                                                            placeholder={step.placeholder}
-                                                            className="min-h-[100px] resize-none"
-                                                            rows={4}
-                                                            onKeyDown={(e) => {
-                                                                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                                                                    e.preventDefault();
-                                                                    form.handleSubmit(onSubmit)();
-                                                                }
-                                                            }}
-                                                        />
-                                                        <div className="flex items-center justify-end">
-                                                            <Button
-                                                                type="submit"
-                                                                size="sm"
-                                                                onClick={() => form.handleSubmit(onSubmit)()}
-                                                            >
-                                                                Send
-                                                                <span className="ml-2 text-[8px]">⌘ + Enter</span>
-                                                            </Button>
-                                                        </div>
+                        {showInput && step && (
+                            <div className="mt-4 border-t pt-4 animate-in slide-in-from-bottom-4 duration-300">
+                                <Form {...form}>
+                                    <form
+                                        onSubmit={form.handleSubmit(onSubmit)}
+                                        className="w-full"
+                                        autoComplete="off"
+                                    >
+                                        <FormField
+                                            name={step.key}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <div className="h-4 relative ml-1">
+                                                        <FormMessage className="text-xs absolute" />
                                                     </div>
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </form>
-                            </Form>
-                        </div>
-                    )}
-                </CardContent>
-                <CardFooter className="flex justify-between gap-2">
-                    {canShowSkipButton && (
-                        <Dialog open={showSkipDialog} onOpenChange={setShowSkipDialog}>
-                            <DialogTrigger asChild disabled={isSkipping || isOnboarding}>
-                                <Button variant="ghost" className="text-muted-foreground">
-                                    Skip Onboarding
+                                                    <FormControl>
+                                                        <div className="flex flex-col gap-4 w-full">
+                                                            <Textarea
+                                                                {...field}
+                                                                placeholder={step.placeholder}
+                                                                className="min-h-[100px] resize-none"
+                                                                rows={4}
+                                                                onKeyDown={(e) => {
+                                                                    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+                                                                        e.preventDefault();
+                                                                        form.handleSubmit(onSubmit)();
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <div className="flex items-center justify-end">
+                                                                <Button
+                                                                    type="submit"
+                                                                    size="sm"
+                                                                    onClick={() => form.handleSubmit(onSubmit)()}
+                                                                >
+                                                                    Send
+                                                                    <span className="ml-2 text-[8px]">⌘ + Enter</span>
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </form>
+                                </Form>
+                            </div>
+                        )}
+                    </CardContent>
+                    <CardFooter className="flex justify-between gap-2">
+                        {canShowSkipButton && (
+                            <Dialog open={showSkipDialog} onOpenChange={setShowSkipDialog}>
+                                <DialogTrigger asChild disabled={isSkipping || isOnboarding}>
+                                    <Button variant="ghost" className="text-muted-foreground">
+                                        Skip Onboarding
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Are you sure?</DialogTitle>
+                                        <DialogDescription>
+                                            If you skip the onboarding process, we won't be able to create custom policies, automatically add vendors and risks to the Comp AI platform. You will have to manually add them later.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <Button variant="ghost" onClick={() => setShowSkipDialog(false)} disabled={isSkipping}>
+                                            Cancel
+                                        </Button>
+                                        <Button variant="destructive" onClick={handleSkipOnboardingAction} disabled={isSkipping}>
+                                            <div className="flex items-center gap-2">
+                                                {isSkipping && <Loader2 className="h-4 w-4 animate-spin" />}
+                                                Confirm
+                                            </div>
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
+                        {Object.keys(savedAnswers).length === steps.length && (
+                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                                <Button className="flex items-center gap-2" onClick={handleOnboardOrganizationAction} disabled={isOnboarding}>
+                                    {isOnboarding && <Loader2 className="h-4 w-4 animate-spin" />}
+                                    Finish Onboarding
+                                    <ArrowRight className="h-4 w-4" />
                                 </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Are you sure?</DialogTitle>
-                                    <DialogDescription>
-                                        If you skip the onboarding process, we won't be able to create custom policies, automatically add vendors and risks to the Comp AI platform. You will have to manually add them later.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <DialogFooter>
-                                    <Button variant="ghost" onClick={() => setShowSkipDialog(false)} disabled={isSkipping}>
-                                        Cancel
-                                    </Button>
-                                    <Button variant="destructive" onClick={handleSkipOnboardingAction} disabled={isSkipping}>
-                                        <div className="flex items-center gap-2">
-                                            {isSkipping && <Loader2 className="h-4 w-4 animate-spin" />}
-                                            Confirm
-                                        </div>
-                                    </Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    )}
-                    {Object.keys(savedAnswers).length === steps.length && (
-                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                            <Button className="flex items-center gap-2" onClick={handleOnboardOrganizationAction} disabled={isOnboarding}>
-                                {isOnboarding && <Loader2 className="h-4 w-4 animate-spin" />}
-                                Finish Onboarding
-                                <ArrowRight className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    )}
-                </CardFooter>
-            </Card>
-        </div>
+                            </div>
+                        )}
+                    </CardFooter>
+                </Card>
+            </div>
+        )
     );
 }

@@ -261,11 +261,12 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 				<div className="flex-1 space-y-3">
 					<Textarea
 						placeholder="Leave a comment..."
-						className="border-none shadow-none p-4"
+						className="border-none shadow-none p-4 resize-none"
 						value={newComment}
 						onChange={(e) => setNewComment(e.target.value)}
 						disabled={isLoading}
 						onKeyDown={handleKeyDown}
+						rows={2}
 					/>
 
 					{pendingAttachments.length > 0 && (
