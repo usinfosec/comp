@@ -33,6 +33,7 @@ export const createOrganizationAction = authActionClient
 			await db.onboarding.create({
 				data: {
 					organizationId: session.session.activeOrganizationId,
+					completed: false,
 				},
 			});
 

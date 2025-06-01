@@ -23,7 +23,7 @@ export function OnboardingStatus({ runId }: { runId: string }) {
         <div className="flex flex-col items-center justify-center">
             {run?.status === "COMPLETED" && (
                 <div className="flex flex-col items-center justify-center">
-                    <CheckCircle className="h-10 w-10 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-green-500" />
                     <p className="text-sm text-muted-foreground">
                         Redirecting
                     </p>

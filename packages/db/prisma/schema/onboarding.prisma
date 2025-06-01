@@ -1,7 +1,7 @@
 model Onboarding {
     organizationId String       @id
     organization   Organization @relation(fields: [organizationId], references: [id])
-    completed      Boolean      @default(false)
+    completed      Boolean      @default(true)
 
     @@index([organizationId])
 }
