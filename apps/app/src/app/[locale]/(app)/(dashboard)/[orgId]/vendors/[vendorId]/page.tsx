@@ -16,7 +16,7 @@ import { TitleAndDescription } from "./components/title-and-description/title-an
 import {
 	Comments,
 	CommentWithAuthor,
-} from "../../components/comments/Comments";
+} from "../../../../../../../components/comments/Comments";
 import {
 	Attachment,
 	AttachmentEntityType,

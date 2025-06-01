@@ -20,12 +20,13 @@
 		"@comp/ui": "workspace:*",
 		"@comp/utils": "workspace:*",
 		"@react-email/components": "0.0.36",
-		"@react-email/render": "0.0.9-canary.2",
+		"@react-email/render": "^1.1.2",
 		"@react-email/tailwind": "1.0.4",
 		"date-fns": "^4.1.0",
+		"next": "^15.3.3",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
-		"react-email": "4.0.11",
+		"react-email": "^4.0.15",
 		"responsive-react-email": "^0.0.5"
 	},
 	"devDependencies": {

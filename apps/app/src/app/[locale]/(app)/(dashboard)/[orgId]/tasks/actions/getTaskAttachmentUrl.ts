@@ -67,10 +67,13 @@ export const getTaskAttachmentUrl = async (input: z.infer<typeof schema>) => {
 				Key: key,
 			});
 
-			const signedUrl = await getSignedUrl(s3Client, command, {
-				// Use imported client
-				expiresIn: 3600, // URL expires in 1 hour
-			});
+			const signedUrl = await getSignedUrl(
+				s3Client as any,
+				command as any,
+				{
+					expiresIn: 3600, // URL expires in 1 hour
+				},
+			);
 
 			if (!signedUrl) {
 				// This case is unlikely if getSignedUrl doesn't throw, but good to check

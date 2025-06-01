@@ -119,8 +119,7 @@ export function PolicyOverview({
 		<div className="space-y-4">
 			{isPendingApproval && (
 				<Alert
-					variant="destructive"
-					className="rounded-sm bg-destructive/10 dark:bg-destructive/20"
+					variant="default"
 				>
 					<ShieldX className="h-4 w-4" />
 					<AlertTitle>
@@ -133,32 +132,32 @@ export function PolicyOverview({
 							This policy is awaiting approval from{" "}
 							<span className="font-semibold">
 								{policy.approverId === activeMember?.id
-									? "You"
+									? "you"
 									: `${policy?.approver?.user?.name} (${policy?.approver?.user?.email})`}
 							</span>
 							.
 						</div>
 						{canCurrentUserApprove &&
-							" Please review the details and approve or deny."}
+							" Please review the details and either approve or reject the changes."}
 						{!canCurrentUserApprove &&
 							" All fields are disabled until the policy is actioned."}
 						{isPendingApproval &&
 							policy.approverId &&
 							canCurrentUserApprove && (
-								<div className="flex gap-2">
+								<div className="flex gap-2 items-center">
 									<Button
 										variant="outline"
 										onClick={() => setDenyDialogOpen(true)}
 									>
-										<ShieldX className="mr-2 h-4 w-4" />
-										Deny
+										<ShieldX className="h-4 w-4" />
+										Reject Changes
 									</Button>
 									<Button
 										onClick={() =>
 											setApproveDialogOpen(true)
 										}
 									>
-										<ShieldCheck className="mr-2 h-4 w-4" />
+										<ShieldCheck className="h-4 w-4" />
 										Approve
 									</Button>
 								</div>
@@ -174,7 +173,7 @@ export function PolicyOverview({
 							{t("policies.archive.status")}
 						</div>
 					</div>
-					<AlertDescription className="mt-1 mb-3 text-sm text-muted-foreground">
+					<AlertDescription>
 						{policy?.isArchived && (
 							<>
 								{t("policies.archive.archived_on")}{" "}
@@ -188,7 +187,6 @@ export function PolicyOverview({
 					<Button
 						size="sm"
 						variant="outline"
-						className="h-8 gap-1 mt-1 text-foreground border-border"
 						onClick={() => setArchiveOpen("true")}
 					>
 						<ArchiveRestoreIcon className="h-3 w-3" />
@@ -201,7 +199,7 @@ export function PolicyOverview({
 				<CardHeader className="pb-1">
 					<CardTitle>
 						<div className="flex items-center justify-between gap-2">
-							<div className="flex flex-row gap-2">
+							<div className="flex flex-row gap-2 items-center">
 								<Icons.Policies className="h-4 w-4" />
 								{policy?.name}
 							</div>
@@ -244,8 +242,8 @@ export function PolicyOverview({
 										)}
 										{policy?.isArchived
 											? t(
-													"policies.archive.restore_tooltip",
-												)
+												"policies.archive.restore_tooltip",
+											)
 											: t("policies.archive.tooltip")}
 									</DropdownMenuItem>
 									<DropdownMenuItem
@@ -265,18 +263,14 @@ export function PolicyOverview({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className="flex flex-col gap-4 text-md">
-						{policy?.description}
-					</div>
+					{policy?.description}
 				</CardContent>
 			</Card>
 
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						<div className="flex items-center justify-between gap-2">
-							{t("policies.overview.title")}
-						</div>
+						{t("policies.overview.title")}
 					</CardTitle>
 				</CardHeader>
 				<CardContent>

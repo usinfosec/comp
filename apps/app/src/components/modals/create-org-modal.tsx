@@ -23,7 +23,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
-import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -62,8 +61,8 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 			if (data.data?.organizationId) {
 				newOrganizationRef.current = {
 					id: data.data.organizationId,
-					name: formData?.name || "",
-					website: formData?.website || "",
+					name: "",
+					website: "",
 				};
 
 				router.push(`/${data.data.organizationId}`);
@@ -79,17 +78,18 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 	const form = useForm<z.infer<typeof organizationSchema>>({
 		resolver: zodResolver(organizationSchema),
 		defaultValues: {
-			name: "",
 			frameworkIds: [],
 		},
 		mode: "onChange",
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
+		const randomSuffix = Math.random().toString(36).substring(2, 15);
+
 		await authClient.organization
 			.create({
-				name: data.name,
-				slug: data.name,
+				name: "My Organization",
+				slug: `my-organization-${randomSuffix}`,
 			})
 			.then(async (organization) => {
 				setFormData(data);
@@ -157,52 +157,6 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 					>
 						<FormField
 							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.name.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.name.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="website"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.website.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.website.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
 							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
@@ -231,7 +185,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 																	field.value.includes(
 																		frameworkId,
 																	) &&
-																		"border-primary bg-primary/5",
+																	"border-primary bg-primary/5",
 																)}
 															>
 																<div className="flex items-start justify-between">
@@ -263,16 +217,16 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 																				const newValue =
 																					checked
 																						? [
-																								...field.value,
-																								frameworkId,
-																							]
+																							...field.value,
+																							frameworkId,
+																						]
 																						: field.value.filter(
-																								(
-																									name,
-																								) =>
-																									name !==
-																									frameworkId,
-																							);
+																							(
+																								name,
+																							) =>
+																								name !==
+																								frameworkId,
+																						);
 																				field.onChange(
 																					newValue,
 																				);
@@ -311,8 +265,8 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 									>
 										{createOrganization.status ===
 											"executing" && (
-											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-										)}
+												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+											)}
 										{t("onboarding.submit")}
 									</Button>
 								</div>

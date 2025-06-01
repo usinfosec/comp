@@ -33,6 +33,10 @@ export default async function Layout({
 							label: t("settings.general.title"),
 						},
 						{
+							path: `/${orgId}/settings/context-hub`,
+							label: "Context Hub",
+						},
+						{
 							path: `/${orgId}/settings/trust-portal`,
 							label: "Trust Portal",
 						},
