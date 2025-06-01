@@ -73,7 +73,6 @@
 		"marked": "^15.0.11",
 		"motion": "^12.9.2",
 		"next": "^15.4.0-canary.59",
-		"next-auth": "^5.0.0-beta.27",
 		"next-international": "^1.3.1",
 		"next-intl": "^3.26.5",
 		"next-safe-action": "^7.10.6",
