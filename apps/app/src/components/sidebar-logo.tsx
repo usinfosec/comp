@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/utils/auth-client";
+import { authClient, useSession } from "@/utils/auth-client";
 import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import Link from "next/link";
@@ -10,13 +10,11 @@ interface SidebarLogoProps {
 }
 
 export function SidebarLogo({ isCollapsed }: SidebarLogoProps) {
-	const session = authClient.useSession();
-
-	const organizationId = session?.data?.session?.activeOrganizationId;
+	const { data: session } = useSession();
 
 	return (
 		<div className={cn("transition-all duration-300 flex items-center")}>
-			<Link href={`/${organizationId}`} suppressHydrationWarning>
+			<Link href={`/${session?.session?.activeOrganizationId ?? "/"}`} suppressHydrationWarning>
 				<Icons.Logo
 					width={45}
 					height={45}

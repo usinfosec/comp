@@ -51,7 +51,25 @@ export const skipOnboarding = authActionClient
 				},
 			});
 
-			revalidatePath(`/${orgId}`);
+			await auth.api.setActiveOrganization({
+				headers: await headers(),
+				body: {
+					organizationId: orgId,
+				},
+			});
+
+			const userOrgs = await db.member.findMany({
+				where: {
+					userId: session.user.id,
+				},
+				select: {
+					organizationId: true,
+				},
+			});
+
+			for (const org of userOrgs) {
+				revalidatePath(`/${org.organizationId}`);
+			}
 
 			return {
 				success: true,

@@ -55,6 +55,13 @@ export const createOrganizationAction = authActionClient
 
 			await initializeOrganization({ frameworkIds, organizationId });
 
+			await auth.api.setActiveOrganization({
+				headers: await headers(),
+				body: {
+					organizationId,
+				},
+			});
+
 			const userOrgs = await db.member.findMany({
 				where: {
 					userId: session.user.id,
@@ -67,13 +74,6 @@ export const createOrganizationAction = authActionClient
 			for (const org of userOrgs) {
 				revalidatePath(`/${org.organizationId}`);
 			}
-
-			await auth.api.setActiveOrganization({
-				headers: await headers(),
-				body: {
-					organizationId,
-				},
-			});
 
 			return {
 				success: true,

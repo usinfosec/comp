@@ -5,8 +5,11 @@ import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { steps } from "../lib/constants";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { z } from "zod";
+import { tasks } from "@trigger.dev/sdk/v3";
+import { onboardOrganization as onboardOrganizationTask } from "@/jobs/tasks/onboarding/onboard-organization";
+import { redirect } from "next/navigation";
 
 const onboardOrganizationSchema = z.object({
 	legalName: z.string(),
@@ -49,27 +52,67 @@ export const onboardOrganization = authActionClient
 					id: orgId,
 				},
 				data: {
+					name: parsedInput.legalName,
+					website: parsedInput.website,
 					onboarding: {
 						update: {
 							completed: true,
 						},
 					},
 					context: {
-						create: steps.map((step) => ({
-							question: step.question,
-							answer: parsedInput[
-								step.key as keyof typeof parsedInput
-							],
-							tags: ["onboarding"],
-						})),
+						create: steps
+							.filter(
+								(step) =>
+									step.key !== "legalName" &&
+									step.key !== "website",
+							)
+							.map((step) => ({
+								question: step.question,
+								answer: parsedInput[
+									step.key as keyof typeof parsedInput
+								],
+								tags: ["onboarding"],
+							})),
 					},
 				},
 			});
 
-			revalidatePath(`/${orgId}`);
+			await auth.api.setActiveOrganization({
+				headers: await headers(),
+				body: {
+					organizationId: orgId,
+				},
+			});
+
+			const userOrgs = await db.member.findMany({
+				where: {
+					userId: session.user.id,
+				},
+				select: {
+					organizationId: true,
+				},
+			});
+
+			for (const org of userOrgs) {
+				revalidatePath(`/${org.organizationId}`);
+			}
+
+			const handle = await tasks.trigger<typeof onboardOrganizationTask>(
+				"onboard-organization",
+				{
+					organizationId: orgId,
+				},
+			);
+
+			(await cookies()).set(
+				"publicAccessToken",
+				handle.publicAccessToken,
+			);
 
 			return {
 				success: true,
+				handle: handle.id,
+				publicAccessToken: handle.publicAccessToken,
 			};
 		} catch (error) {
 			console.error("Error during organization creation/update:", error);

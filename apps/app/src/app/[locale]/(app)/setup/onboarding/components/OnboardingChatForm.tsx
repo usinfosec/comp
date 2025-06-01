@@ -83,19 +83,24 @@ export function OnboardingChatForm() {
     })
 
     const onboardOrganizationAction = useAction(onboardOrganization, {
-        onSuccess: () => {
+        onSuccess: (result) => {
             sendGTMEvent({
                 event: "conversion",
             });
 
-            router.push("/");
+            if (result.data?.success) {
+                router.push(`/setup/onboarding/go/${result.data.handle}`);
+                setSavedAnswers({});
+            } else {
+                toast.error("Failed to onboard organization");
+            }
         },
         onError: () => {
             toast.error("Failed to onboard organization");
         },
         onExecute: () => {
             setIsOnboarding(true);
-        }
+        },
     })
 
     const handleOnboardOrganizationAction = () => {
