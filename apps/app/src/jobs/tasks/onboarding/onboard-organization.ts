@@ -201,30 +201,6 @@ export const onboardOrganization = task({
 			);
 		}
 
-		const organizationPolicies = await db.policy.findMany({
-			where: {
-				organizationId: payload.organizationId,
-			},
-		});
-
-		await tasks.batchTrigger<typeof updatePolicies>(
-			"update-policies",
-			organizationPolicies.map((policy) => ({
-				organizationId: payload.organizationId,
-				policyId: policy.id,
-				contextHub: contextHub,
-				risks: extractRisks.object.risks,
-				payload: {
-					organizationId: payload.organizationId,
-					policyId: policy.id,
-					contextHub: contextHub
-						.map((q) => `${q.question}\n${q.answer}`)
-						.join("\n"),
-					risks: extractRisks.object.risks,
-				},
-			})),
-		);
-
 		logger.info(`Created ${extractRisks.object.risks.length} risks`);
 		logger.info(`Created ${extractVendors.object.vendors.length} vendors`);
 	},
