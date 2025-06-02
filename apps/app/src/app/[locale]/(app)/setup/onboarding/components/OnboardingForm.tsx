@@ -385,7 +385,7 @@ export function OnboardingForm() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -10 }}
                                         transition={{ duration: 0.2 }}
-                                        className="flex items-center"
+                                        className="flex items-center gap-2"
                                     >
                                         {isOnboarding && (
                                             <Loader2 className="h-4 w-4 animate-spin" />
