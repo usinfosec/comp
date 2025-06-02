@@ -371,7 +371,6 @@ export function OnboardingForm() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 20 }}
                             transition={{ duration: 0.25, delay: 0.05 }}
-                            style={{ minWidth: 120 }}
                         >
                             {isLastStep ? (
                                 <Button
