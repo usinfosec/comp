@@ -13,6 +13,34 @@
   - You are about to drop the column `vendors` on the `Onboarding` table. All the data in the column will be lost.
 
 */
+INSERT INTO "Context" (
+    id,
+    "organizationId",
+    question,
+    answer,
+    tags,
+    "createdAt",
+    "updatedAt"
+)
+SELECT
+    concat('kb_', gen_random_uuid()),
+    "organizationId",
+    key,
+    value::text,
+    ARRAY[key],
+    NOW(),
+    NOW()
+FROM (
+    SELECT
+        "organizationId",
+        jsonb_each(companyDetails::jsonb->'data') as kv
+    FROM "Onboarding"
+    WHERE companyDetails IS NOT NULL
+) t,
+LATERAL (
+    SELECT kv.key, kv.value
+) s;
+
 -- AlterTable
 ALTER TABLE "Onboarding" DROP COLUMN "callBooked",
 DROP COLUMN "companyBookingDetails",
@@ -24,3 +52,4 @@ DROP COLUMN "risk",
 DROP COLUMN "tasks",
 DROP COLUMN "team",
 DROP COLUMN "vendors";
+
