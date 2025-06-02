@@ -47,42 +47,15 @@ export const updatePolicies = schemaTask({
 			try {
 				const { object } = await generateObject({
 					model: openai("gpt-4.5-preview"),
-					schemaName: "A policy document in Tiptap formatting",
-					schemaDescription:
-						"A policy document formatted for TipTap. The document should be in the following format: {type: 'doc', content: [{type: 'paragraph', content: [{type: 'text', text: 'Your policy content here'}]}]}",
+					schemaName: "A policy document",
+					schemaDescription: "A policy document formatted for TipTap",
 					mode: "json",
 					schema: z.object({
 						content: z.array(
 							z.object({
 								type: z.string(),
 								attrs: z.record(z.any()).optional(),
-								content: z
-									.array(
-										z.object({
-											type: z.string(),
-											attrs: z.record(z.any()).optional(),
-											content: z
-												.array(
-													z.object({
-														type: z.string(),
-														text: z.string(),
-													}),
-												)
-												.optional(),
-											text: z.string().optional(),
-											marks: z
-												.array(
-													z.object({
-														type: z.string(),
-														attrs: z
-															.record(z.any())
-															.optional(),
-													}),
-												)
-												.optional(),
-										}),
-									)
-									.optional(),
+								content: z.array(z.any()).optional(),
 								text: z.string().optional(),
 								marks: z
 									.array(

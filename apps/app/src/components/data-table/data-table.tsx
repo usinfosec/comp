@@ -13,13 +13,12 @@ import {
 	TableRow,
 } from "@comp/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableSortList } from "./data-table-sort-list";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	table: TanstackTable<TData>;
 	actionBar?: React.ReactNode;
 	getRowId?: (row: TData) => string;
-	rowClickBasePath: string;
+	rowClickBasePath?: string;
 	tableId?: string;
 }
 
@@ -85,7 +84,7 @@ export function DataTable<TData>({
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody className="[&_tr]:cursor-pointer">
+					<TableBody className={cn(getRowId && "hover:[&_tr]:cursor-pointer", "select-none")}>
 						{filteredRows.length ? (
 							filteredRows.map((row) => (
 								<TableRow

@@ -5,20 +5,37 @@ import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { cache } from "react";
-import { ContextList } from "./components/context-list";
+import { ContextTable } from "./ContextTable";
+import { getContextEntries } from "./data/getContextEntries";
 
 export default async function ContextHubSettings({
     params,
+    searchParams,
 }: {
-    params: Promise<{ locale: string }>;
+    params: Promise<{ locale: string; orgId: string }>;
+    searchParams: Promise<{
+        search: string;
+        page: string;
+        perPage: string;
+    }>;
 }) {
-    const { locale } = await params;
+    const { locale, orgId } = await params;
+    const { search, page, perPage } = await searchParams;
     setStaticParamsLocale(locale);
 
-    const entries = await getContextEntries();
+    const entriesResult = await getContextEntries({
+        orgId,
+        search,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 50,
+    });
 
     return (
-        <ContextList entries={entries} locale={locale} />
+        <ContextTable
+            entries={entriesResult.data}
+            pageCount={entriesResult.pageCount}
+            locale={locale}
+        />
     );
 }
 
@@ -34,20 +51,3 @@ export async function generateMetadata({
         title: "Context Hub",
     };
 }
-
-const getContextEntries = cache(async () => {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session?.session.activeOrganizationId) {
-        return [];
-    }
-
-    const entries = await db.context.findMany({
-        where: { organizationId: session.session.activeOrganizationId },
-        orderBy: { createdAt: "desc" },
-    });
-
-    return entries;
-});

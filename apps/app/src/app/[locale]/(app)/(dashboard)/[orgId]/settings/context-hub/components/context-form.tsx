@@ -28,7 +28,6 @@ export function ContextForm({
                         id: entry.id,
                         question: formData.get("question") as string,
                         answer: formData.get("answer") as string,
-                        tags: formData.get("tags") as string,
                     });
                     if (result?.data) {
                         toast.success("Context entry updated");
@@ -38,7 +37,6 @@ export function ContextForm({
                     const result = await createContextEntryAction({
                         question: formData.get("question") as string,
                         answer: formData.get("answer") as string,
-                        tags: formData.get("tags") as string,
                     });
                     if (result?.data) {
                         toast.success("Context entry created");
@@ -52,7 +50,7 @@ export function ContextForm({
     }
 
     return (
-        <form action={onSubmit} className="space-y-4 flex flex-col gap-4">
+        <form action={onSubmit} className="space-y-4 flex flex-col gap-4 p-1">
             <input
                 type="hidden"
                 name="id"
@@ -74,15 +72,6 @@ export function ContextForm({
                     name="answer"
                     defaultValue={entry?.answer}
                     required
-                />
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma separated)</Label>
-                <Input
-                    id="tags"
-                    name="tags"
-                    defaultValue={entry?.tags.join(", ")}
-                    placeholder="tag1, tag2, tag3"
                 />
             </div>
 
