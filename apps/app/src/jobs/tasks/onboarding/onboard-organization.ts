@@ -207,7 +207,7 @@ export const onboardOrganization = task({
 			},
 		});
 
-		await tasks.batchTriggerAndWait<typeof updatePolicies>(
+		await tasks.batchTrigger<typeof updatePolicies>(
 			"update-policies",
 			organizationPolicies.map((policy) => ({
 				organizationId: payload.organizationId,

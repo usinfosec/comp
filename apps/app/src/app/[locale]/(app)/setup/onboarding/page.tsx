@@ -1,7 +1,7 @@
-import { OnboardingChatForm } from "./components/OnboardingChatForm";
+import { OnboardingForm } from "./components/OnboardingForm";
 
 export default function OnboardingPage() {
     return (
-        <OnboardingChatForm />
+        <OnboardingForm />
     );
 }

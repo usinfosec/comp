@@ -21,4 +21,5 @@ export type Step = {
 	key: keyof CompanyDetails;
 	question: string;
 	placeholder: string;
+	options?: string[];
 };

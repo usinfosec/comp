@@ -9,35 +9,31 @@ export const companyDetailsSchema = z.object({
 	identity: z
 		.string()
 		.min(
-			10,
-			"Please provide a detailed description of your company identity stack",
+			5,
+			"Tell us about your identity providers and authentication methods",
 		),
 	laptopAndMobileDevices: z
 		.string()
-		.min(
-			10,
-			"Please provide a detailed description of your laptop and mobile devices",
-		),
+		.min(5, "Describe your device management and BYOD policies"),
 	techStack: z
 		.string()
-		.min(10, "Please provide a detailed description of your tech stack"),
+		.min(
+			5,
+			"List your main technologies, frameworks, and development tools",
+		),
 	hosting: z
 		.string()
-		.min(
-			10,
-			"Please provide a detailed description of your hosting environment",
-		),
+		.min(5, "Share details about your cloud providers and infrastructure"),
 	vendors: z
 		.string()
-		.min(10, "Please provide a detailed description of your vendors"),
+		.min(5, "List your key service providers and third-party tools"),
 	team: z
 		.string()
-		.min(10, "Please provide a detailed description of your team"),
+		.min(5, "Describe your team size, structure, and work arrangements"),
 	data: z
 		.string()
-		.min(10, "Please provide a detailed description of the data you store"),
+		.min(5, "Tell us about your data types and storage practices"),
 });
-
 export const steps: Step[] = [
 	{
 		key: "legalName",
@@ -52,51 +48,79 @@ export const steps: Step[] = [
 	{
 		key: "identity",
 		question:
-			"What identity management system do you use? Do you use Single Sign-On (SSO) for your applications?",
+			"How do your employees log in to company tools? Do you use Google Workspace, Microsoft 365, or something else?",
 		placeholder:
-			"e.g., We use Google Workspace for email and JumpCloud as our SSO provider.",
+			"e.g., We use Google Workspace for email and company tools.",
+		options: [
+			"Google Workspace",
+			"Microsoft 365",
+			"Okta",
+			"Email/password",
+			"Other",
+		],
 	},
 	{
 		key: "laptopAndMobileDevices",
 		question:
-			"What operating systems do you use for company devices? Do employees access company data on mobile devices? Do you have 2FA/MFA enforced??",
+			"What devices do your employees use? Do they use company laptops, their own devices, or both? Do they access work on their phones?",
 		placeholder:
-			"e.g., We use macOS for laptops and iOS for mobile devices. Employees can access email and basic company data on their phones. We require 2FA/MFA to access JumpCloud and Google Workspace.",
+			"e.g., We provide MacBooks to everyone. Some people check email on their phones.",
+		options: [
+			"Company laptops",
+			"Personal laptops",
+			"Mobile phones",
+			"Tablets",
+			"Other",
+		],
 	},
 	{
 		key: "techStack",
 		question:
-			"If you have a web app, what technologies and frameworks does it use? This helps us create relevant security policies and risk assessments.",
+			"What tools and software do you use to build your product? This helps us understand your security needs.",
 		placeholder:
-			"e.g., Our stack includes Next.js, Prisma, Tailwind CSS, and various cloud services like Vercel and Upstash.",
+			"e.g., We use Next.js for our website, Python for our backend, and store data in PostgreSQL.",
+		options: [
+			"Next.js",
+			"React",
+			"Node.js",
+			"Python",
+			"Ruby on Rails",
+			"PostgreSQL",
+			"MongoDB",
+			"Other",
+		],
 	},
 	{
 		key: "hosting",
 		question:
-			"Where do you host your applications and data? Do you use cloud providers like AWS, GCP, or Azure?",
+			"Where is your product hosted? Do you use services like Vercel, AWS, or something else?",
 		placeholder:
-			"e.g., Our applications are hosted on Vercel, and our databases are on DigitalOcean in the EU region.",
+			"e.g., We host our website on Vercel and our database on AWS.",
+		options: ["Vercel", "AWS", "GCP", "Azure", "On-premises", "Other"],
 	},
 	{
 		key: "vendors",
 		question:
-			"Which third-party services, software and vendors does your company use? Try and add as many as possible, e.g. HR tools, payment processors, CRMs, communication tools, etc.",
+			"What tools does your company use? Think about things like payment processing, communication tools, HR software, etc.",
 		placeholder:
-			"e.g., We use Stripe for payments, Slack for communication, Google Workspace for email, and various cloud services.",
+			"e.g., We use Stripe for payments, Slack for chat, and Google Workspace for email.",
+		options: ["Stripe", "Slack", "Google Workspace", "Salesforce", "Other"],
 	},
 	{
 		key: "team",
 		question:
-			"What is your team size and work arrangement? Do you have remote, in-office, or hybrid work policies?",
+			"How big is your team and how do you work? Are you all in one office, remote, or a mix?",
 		placeholder:
-			"e.g., We have 6 team members working in a hybrid model, with our main office in NYC and remote team members in the UK and Canada.",
+			"e.g., We have 5 people working from our office in San Francisco. We have a remote team in London and a few people working from home.",
+		options: ["Office", "Remote", "Hybrid"],
 	},
 	{
 		key: "data",
 		question:
-			"What types of data does your company collect and store? Please include information about data location and sensitivity.",
+			"What kind of information do you collect from your customers? Do you store things like names, emails, or payment details?",
 		placeholder:
-			"e.g., We store user names, email addresses, and basic profile information. All data is stored in EU-based servers.",
+			"e.g., We collect names and email addresses from our customers. We don't store any payment information.",
+		options: ["Names", "Emails", "Payment details", "Addresses", "Other"],
 	},
 ];
 
