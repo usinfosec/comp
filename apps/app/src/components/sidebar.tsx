@@ -10,9 +10,10 @@ import { db } from "@comp/db";
 
 export async function Sidebar({
 	organization,
-}: { organization: Organization | null }) {
+	collapsed = false,
+}: { organization: Organization | null, collapsed?: boolean }) {
 	const cookieStore = await cookies();
-	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+	const isCollapsed = collapsed || cookieStore.get("sidebar-collapsed")?.value === "true";
 	const { organizations } = await getOrganizations();
 	const frameworks = await db.frameworkEditorFramework.findMany({
 		select: {

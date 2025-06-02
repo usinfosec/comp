@@ -6,14 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@comp/ui/input";
 import { Button } from "@comp/ui/button";
-import { Textarea } from "@comp/ui/textarea";
 import {
     Form,
     FormField,
     FormItem,
     FormControl,
     FormMessage,
-    FormLabel,
 } from "@comp/ui/form";
 import {
     Card,
@@ -22,6 +20,13 @@ import {
     CardFooter,
     CardTitle,
 } from "@comp/ui/card";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@comp/ui/select";
 import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
 import {
     Dialog,
@@ -32,7 +37,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@comp/ui/dialog";
-import { authClient } from "@/utils/auth-client";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { CompanyDetails } from "../lib/types";
 import { STORAGE_KEY, companyDetailsSchema, steps } from "../lib/constants";
@@ -44,8 +48,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogoSpinner } from "@/components/logo-spinner";
-import { Checkbox } from "@comp/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@comp/ui/radio-group";
+import { SelectPills } from "@comp/ui/select-pills";
 
 type OnboardingFormFields = Partial<CompanyDetails> & {
     [K in keyof CompanyDetails as `${K}Other`]?: string;
@@ -53,7 +56,6 @@ type OnboardingFormFields = Partial<CompanyDetails> & {
 
 export function OnboardingForm() {
     const router = useRouter();
-    const { data: session } = authClient.useSession();
     const [stepIndex, setStepIndex] = useState(0);
     const [savedAnswers, setSavedAnswers] = useLocalStorage<
         Partial<CompanyDetails>
@@ -113,13 +115,13 @@ export function OnboardingForm() {
         onboardOrganizationAction.execute({
             legalName: answers.legalName || "",
             website: answers.website || "",
-            identity: answers.identity || "",
-            laptopAndMobileDevices: answers.laptopAndMobileDevices || "",
-            techStack: answers.techStack || "",
-            hosting: answers.hosting || "",
-            vendors: answers.vendors || "",
-            team: answers.team || "",
-            data: answers.data || "",
+            industry: answers.industry || "",
+            teamSize: answers.teamSize || "",
+            devices: answers.devices || "",
+            authentication: answers.authentication || "",
+            workLocation: answers.workLocation || "",
+            infrastructure: answers.infrastructure || "",
+            dataTypes: answers.dataTypes || "",
         });
     };
 
@@ -138,20 +140,18 @@ export function OnboardingForm() {
             [key: string]: any;
         };
 
+        // Only process fields that have options (multi-select fields)
         for (const key of Object.keys(newAnswers)) {
-            if (
-                typeof newAnswers[key] === "string" &&
-                newAnswers[key].includes(",")
-            ) {
+            if (step.options && step.key === key) {
                 const customValue = newAnswers[`${key}Other`] || "";
-                const values = newAnswers[key].split(",").filter(Boolean);
+                const values = (newAnswers[key] || "").split(",").filter(Boolean);
 
                 if (customValue) {
                     values.push(customValue);
                 }
 
                 newAnswers[key] = values
-                    .filter((v, i, arr) => arr.indexOf(v) === i && v !== "")
+                    .filter((v: string, i: number, arr: string[]) => arr.indexOf(v) === i && v !== "")
                     .join(",");
                 delete newAnswers[`${key}Other`];
             }
@@ -175,89 +175,43 @@ export function OnboardingForm() {
     const isLastStep = stepIndex === steps.length - 1;
 
     function renderStepInput() {
-        if (
-            step.options &&
-            step.key !== "legalName" &&
-            step.key !== "website"
-        ) {
-            const options = step.options.filter((option) => option !== "Other");
+        if (step.options) {
+            if (step.key === "industry" || step.key === "teamSize") {
+                return (
+                    <Select
+                        onValueChange={(value) => form.setValue(step.key, value)}
+                        defaultValue={form.watch(step.key)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder={step.placeholder} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {step.options.map((option) => (
+                                <SelectItem key={option} value={option}>
+                                    {option}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                );
+            }
+
+            const options = step.options.map(option => ({
+                name: option,
+                value: option
+            }));
             const selected = (form.watch(step.key) || "")
                 .split(",")
                 .filter(Boolean);
-            const customValue = form.watch(`${step.key}Other`) || "";
 
             return (
-                <div className="flex flex-col gap-2">
-                    {options.map((option) => (
-                        <FormItem
-                            key={option}
-                            className="flex items-center gap-2 cursor-pointer"
-                        >
-                            <FormControl className="mt-[2px]">
-                                <Checkbox
-                                    checked={selected.includes(option)}
-                                    onCheckedChange={(checked) => {
-                                        let newSelected = [...selected];
-                                        if (checked) {
-                                            newSelected.push(option);
-                                        } else {
-                                            newSelected = newSelected.filter(
-                                                (v) => v !== option,
-                                            );
-                                        }
-                                        form.setValue(
-                                            step.key,
-                                            newSelected.join(","),
-                                        );
-                                    }}
-                                />
-                            </FormControl>
-                            <FormLabel className="cursor-pointer leading-none">
-                                {option}
-                            </FormLabel>
-                        </FormItem>
-                    ))}
-                    <div className="mt-2">
-                        <Input
-                            className="w-full"
-                            placeholder="Enter a custom value"
-                            value={customValue}
-                            onChange={(e) => {
-                                form.setValue(
-                                    `${step.key}Other`,
-                                    e.target.value,
-                                );
-                                const selected = (form.watch(step.key) || "").split(",").filter(Boolean);
-                                if (selected.length === 0) {
-                                    form.setValue(step.key, e.target.value);
-                                } else {
-                                    const values = [...selected];
-                                    if (e.target.value) {
-                                        values.push(e.target.value);
-                                    }
-                                    form.setValue(step.key, values.filter((v, i, arr) => arr.indexOf(v) === i && v !== "").join(","));
-                                }
-                            }}
-                        />
-                    </div>
-                </div>
-            );
-        }
-        if (
-            step.key === "identity" ||
-            step.key === "techStack" ||
-            step.key === "laptopAndMobileDevices" ||
-            step.key === "team" ||
-            step.key === "data" ||
-            step.key === "vendors" ||
-            step.key === "hosting"
-        ) {
-            return (
-                <Textarea
-                    {...form.register(step.key)}
+                <SelectPills
+                    data={options}
+                    value={selected}
+                    onValueChange={(values: string[]) => {
+                        form.setValue(step.key, values.join(","));
+                    }}
                     placeholder={step.placeholder}
-                    className="resize-none"
-                    rows={2}
                 />
             );
         }
@@ -397,6 +351,7 @@ export function OnboardingForm() {
                                     <Button
                                         type="button"
                                         variant="ghost"
+                                        className="flex items-center gap-2"
                                         onClick={handleBack}
                                         disabled={
                                             stepIndex === 0 ||
@@ -422,6 +377,7 @@ export function OnboardingForm() {
                                 <Button
                                     type="submit"
                                     form="onboarding-form"
+                                    className="flex items-center gap-2"
                                     disabled={isOnboarding || isFinalizing}
                                 >
                                     <motion.span
@@ -443,6 +399,7 @@ export function OnboardingForm() {
                                 <Button
                                     type="submit"
                                     form="onboarding-form"
+                                    className="flex items-center gap-2"
                                     disabled={isOnboarding || isFinalizing}
                                 >
                                     <motion.span

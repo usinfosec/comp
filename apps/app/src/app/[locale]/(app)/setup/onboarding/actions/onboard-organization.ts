@@ -9,22 +9,10 @@ import { cookies, headers } from "next/headers";
 import { z } from "zod";
 import { tasks } from "@trigger.dev/sdk/v3";
 import { onboardOrganization as onboardOrganizationTask } from "@/jobs/tasks/onboarding/onboard-organization";
-import { redirect } from "next/navigation";
-
-const onboardOrganizationSchema = z.object({
-	legalName: z.string(),
-	website: z.string().url(),
-	identity: z.string(),
-	laptopAndMobileDevices: z.string(),
-	techStack: z.string(),
-	hosting: z.string(),
-	vendors: z.string(),
-	team: z.string(),
-	data: z.string(),
-});
+import { companyDetailsSchema } from "../lib/constants";
 
 export const onboardOrganization = authActionClient
-	.schema(onboardOrganizationSchema)
+	.schema(companyDetailsSchema)
 	.metadata({
 		name: "onboard-organization",
 		track: {

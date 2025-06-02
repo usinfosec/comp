@@ -1,13 +1,13 @@
 export type CompanyDetails = {
 	legalName: string;
 	website: string;
-	techStack: string;
-	team: string;
-	laptopAndMobileDevices: string;
-	identity: string;
-	hosting: string;
-	vendors: string;
-	data: string;
+	industry: string;
+	teamSize: string;
+	devices: string;
+	authentication: string;
+	workLocation: string;
+	infrastructure: string;
+	dataTypes: string;
 };
 
 export type ChatBubble = {

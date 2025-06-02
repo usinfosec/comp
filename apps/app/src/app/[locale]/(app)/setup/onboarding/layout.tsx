@@ -19,7 +19,7 @@ export default async function Layout({
     return (
         <SidebarProvider>
             <AnimatedLayout
-                sidebar={<Sidebar organization={currentOrganization} />}
+                sidebar={<Sidebar organization={currentOrganization} collapsed={true} />}
                 isCollapsed={true}
                 blurred={true}
             >
