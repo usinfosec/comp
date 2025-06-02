@@ -220,7 +220,7 @@ export function OnboardingForm() {
                     <div className="mt-2">
                         <Input
                             className="w-full"
-                            placeholder="Add your own option..."
+                            placeholder="Enter a custom value"
                             value={customValue}
                             onChange={(e) => {
                                 form.setValue(
