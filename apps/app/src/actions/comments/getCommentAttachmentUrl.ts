@@ -100,13 +100,9 @@ export const getCommentAttachmentUrl = async (
 				Key: key,
 			});
 
-			const signedUrl = await getSignedUrl(
-				s3Client as any,
-				command as any,
-				{
-					expiresIn: 3600,
-				},
-			);
+			const signedUrl = await getSignedUrl(s3Client, command, {
+				expiresIn: 3600,
+			});
 
 			if (!signedUrl) {
 				console.error("getSignedUrl returned undefined for key:", key);

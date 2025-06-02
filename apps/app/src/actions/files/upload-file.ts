@@ -109,13 +109,9 @@ export const uploadFile = async (
 			Key: key,
 		});
 
-		const signedUrl = await getSignedUrl(
-			s3Client as any,
-			getCommand as any,
-			{
-				expiresIn: 900,
-			},
-		);
+		const signedUrl = await getSignedUrl(s3Client, getCommand, {
+			expiresIn: 900,
+		});
 
 		if (pathToRevalidate) {
 			revalidatePath(pathToRevalidate);
