@@ -23,7 +23,7 @@ INSERT INTO "Context" (
     "updatedAt"
 )
 SELECT
-    concat('kb_', gen_random_uuid()),
+    concat('ctx_', gen_random_uuid()),
     "organizationId",
     key,
     value::text,
