@@ -246,7 +246,7 @@ export function OnboardingForm() {
                         </CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col overflow-y-auto min-h-[300px]">
+                <CardContent className="flex-1 flex flex-col overflow-y-auto min-h-[150px]">
                     <Form {...form} key={step.key}>
                         <form
                             id="onboarding-form"
