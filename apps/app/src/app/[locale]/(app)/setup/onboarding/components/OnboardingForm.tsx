@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -64,6 +64,11 @@ export function OnboardingForm() {
     const [isSkipping, setIsSkipping] = useState(false);
     const [isOnboarding, setIsOnboarding] = useState(false);
     const [isFinalizing, setIsFinalizing] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const step = steps[stepIndex];
     const stepSchema = z.object({
@@ -271,8 +276,8 @@ export function OnboardingForm() {
                     </Form>
                 </CardContent>
                 <CardFooter>
-                    <div className="flex-1 flex items-center">
-                        {canShowSkipButton && (
+                    <div className="flex-1 flex items-center" suppressHydrationWarning>
+                        {mounted && canShowSkipButton && (
                             <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
