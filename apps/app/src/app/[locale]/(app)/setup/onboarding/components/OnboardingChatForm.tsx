@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,9 +13,10 @@ import {
     FormItem,
     FormControl,
     FormMessage,
+    FormLabel,
 } from "@comp/ui/form";
 import { Card, CardHeader, CardContent, CardFooter } from "@comp/ui/card";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import {
     Dialog,
     DialogContent,
@@ -26,54 +27,42 @@ import {
     DialogTrigger,
 } from "@comp/ui/dialog";
 import { authClient } from "@/utils/auth-client";
-import { ChatBubble } from "./ChatBubble";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { CompanyDetails, ChatBubble as ChatBubbleType } from "../lib/types";
-import { STORAGE_KEY, companyDetailsSchema, steps, welcomeText } from "../lib/constants";
+import { CompanyDetails } from "../lib/types";
+import { STORAGE_KEY, companyDetailsSchema, steps } from "../lib/constants";
 import { skipOnboarding } from "../actions/skip-onboarding";
 import { onboardOrganization } from "../actions/onboard-organization";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { toast } from "sonner";
+import { Icons } from "@comp/ui/icons";
 
 export function OnboardingChatForm() {
-    const router = useRouter()
+    const router = useRouter();
     const { data: session } = authClient.useSession();
     const [stepIndex, setStepIndex] = useState(0);
-    const [chatHistory, setChatHistory] = useState<ChatBubbleType[]>([]);
-    const [isStreaming, setIsStreaming] = useState(false);
-    const [streamedText, setStreamedText] = useState("");
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const [initialized, setInitialized] = useState(false);
-    const [streamQueue, setStreamQueue] = useState<ChatBubbleType[]>([]);
-    const [editingKey, setEditingKey] = useState<keyof CompanyDetails | null>(null);
     const [savedAnswers, setSavedAnswers] = useLocalStorage<Partial<CompanyDetails>>(STORAGE_KEY, {});
-    const bottomRef = useRef<HTMLDivElement | null>(null);
     const [showSkipDialog, setShowSkipDialog] = useState(false);
-    const [welcomeShown, setWelcomeShown] = useState(false);
     const [isSkipping, setIsSkipping] = useState(false);
     const [isOnboarding, setIsOnboarding] = useState(false);
     const [isFinalizing, setIsFinalizing] = useState(false);
 
+    const step = steps[stepIndex];
+    const stepSchema = z.object({
+        [step.key]: companyDetailsSchema.shape[step.key],
+    });
 
     const form = useForm<Partial<CompanyDetails>>({
-        resolver: zodResolver(
-            z.object({
-                [steps[stepIndex]?.key as keyof CompanyDetails]: companyDetailsSchema.shape[steps[stepIndex]?.key as keyof CompanyDetails],
-            }),
-        ),
+        resolver: zodResolver(stepSchema),
         mode: "onBlur",
-        defaultValues: { legalName: "", website: "", techStack: "", laptopAndMobileDevices: "", identity: "", hosting: "", team: "", data: "", vendors: "" },
+        defaultValues: { [step.key]: savedAnswers[step.key] || "" },
     });
 
     const skipOnboardingAction = useAction(skipOnboarding, {
         onSuccess: () => {
             setIsFinalizing(true);
-            sendGTMEvent({
-                event: "conversion",
-            });
-
+            sendGTMEvent({ event: "conversion" });
             router.push("/");
         },
         onError: () => {
@@ -81,16 +70,13 @@ export function OnboardingChatForm() {
         },
         onExecute: () => {
             setIsSkipping(true);
-        }
-    })
+        },
+    });
 
     const onboardOrganizationAction = useAction(onboardOrganization, {
         onSuccess: (result) => {
             setIsFinalizing(true);
-            sendGTMEvent({
-                event: "conversion",
-            });
-
+            sendGTMEvent({ event: "conversion" });
             if (result.data?.success) {
                 router.push(`/setup/onboarding/go/${result.data.handle}`);
                 setSavedAnswers({});
@@ -104,7 +90,7 @@ export function OnboardingChatForm() {
         onExecute: () => {
             setIsOnboarding(true);
         },
-    })
+    });
 
     const handleOnboardOrganizationAction = () => {
         onboardOrganizationAction.execute({
@@ -118,222 +104,62 @@ export function OnboardingChatForm() {
             team: savedAnswers.team || "",
             data: savedAnswers.data || "",
         });
-    }
+    };
 
     const handleSkipOnboardingAction = () => {
         skipOnboardingAction.execute({
             legalName: savedAnswers.legalName || "My Organization",
             website: savedAnswers.website || "https://my-organization.com",
         });
-
         setSavedAnswers({});
-    }
-
-    const streamBubble = (bubble: ChatBubbleType, onDone?: () => void) => {
-        setIsStreaming(true);
-        setStreamedText("");
-        let idx = 0;
-        const type = () => {
-            setStreamedText(bubble.text.slice(0, idx));
-            idx++;
-            if (idx <= bubble.text.length) {
-                timeoutRef.current = setTimeout(type, 8);
-            } else {
-                setIsStreaming(false);
-                setChatHistory((prev) => [...prev, bubble]);
-                setStreamedText("");
-                onDone?.();
-            }
-        };
-        type();
     };
-
-    useEffect(() => {
-        if (isFinalizing) return;
-        const bubbles: ChatBubbleType[] = [];
-        const queue: ChatBubbleType[] = [];
-
-        if (!savedAnswers || Object.keys(savedAnswers).length === 0) {
-            queue.push({ type: "system", text: welcomeText });
-            queue.push({
-                type: "system",
-                text: steps[0].question,
-                key: steps[0].key,
-            });
-            setStepIndex(0);
-        } else {
-            bubbles.push({ type: "system", text: welcomeText });
-            setWelcomeShown(true);
-            let firstUnansweredIdx = steps.length;
-            for (let i = 0; i < steps.length; i++) {
-                const step = steps[i];
-                if (savedAnswers[step.key]) {
-                    bubbles.push({
-                        type: "system",
-                        text: step.question,
-                        key: step.key,
-                    });
-                    bubbles.push({
-                        type: "user",
-                        text: savedAnswers[step.key] as string,
-                        key: step.key,
-                    });
-                } else {
-                    firstUnansweredIdx = i;
-                    queue.push({
-                        type: "system",
-                        text: step.question,
-                        key: step.key,
-                    });
-                    break;
-                }
-            }
-            setStepIndex(firstUnansweredIdx);
-
-            if (firstUnansweredIdx === steps.length) {
-                queue.push({
-                    type: "system",
-                    text: "Perfect. If you're happy with the answers above, click on 'Finish' and I'll create your organization in Comp AI. It may take a few minutes.",
-                });
-            }
-        }
-        setChatHistory(bubbles);
-        setStreamQueue(queue);
-        setInitialized(true);
-    }, [savedAnswers, isFinalizing]);
-
-    useEffect(() => {
-        if (initialized && streamQueue.length > 0 && !isStreaming) {
-            const [next, ...rest] = streamQueue;
-            streamBubble(next, () => {
-                setStreamQueue(rest);
-                if (next.text === welcomeText) {
-                    setWelcomeShown(true);
-                }
-            });
-        }
-    }, [initialized, streamQueue, isStreaming]);
 
     const onSubmit = (data: Partial<CompanyDetails>) => {
-        const step = steps[stepIndex];
-        if (!step) return;
-
-        const newAnswers = { ...savedAnswers, [step.key]: data[step.key] };
+        const newAnswers = { ...savedAnswers, ...data };
         setSavedAnswers(newAnswers);
-
-        setChatHistory((prev) => [
-            ...prev,
-            { type: "user", text: data[step.key] || "", key: step.key },
-        ]);
-
-        const nextStepIndex = stepIndex + 1;
-        if (nextStepIndex < steps.length) {
-            setStepIndex(nextStepIndex);
-            setStreamQueue([
-                {
-                    type: "system",
-                    text: steps[nextStepIndex].question,
-                    key: steps[nextStepIndex].key,
-                },
-            ]);
-        } else {
-            setStepIndex(nextStepIndex);
-            setStreamQueue([
-                {
-                    type: "system",
-                    text: "Perfect. If you're happy with the answers above, click on 'Finish' and I'll create your organization in Comp AI. It may take a few minutes.",
-                },
-            ]);
-        }
-
-        const nextField = steps[nextStepIndex]?.key;
-        if (nextField) {
-            form.setValue(nextField, newAnswers[nextField] || "");
+        if (stepIndex < steps.length - 1) {
+            setStepIndex(stepIndex + 1);
         }
     };
 
-    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
-    useEffect(() => {
-        if (initialized && steps[stepIndex] && inputRef.current && !isStreaming) {
-            inputRef.current.focus();
-        }
-    }, [initialized, stepIndex, isStreaming]);
-
-    const handleEdit = (stepKey: keyof CompanyDetails) => {
-        form.setValue(stepKey, savedAnswers[stepKey] || "");
-        setEditingKey(stepKey);
+    const handleBack = () => {
+        if (stepIndex > 0) setStepIndex(stepIndex - 1);
     };
 
-    const handleSaveEdit = (stepKey: keyof CompanyDetails) => {
-        const currentValue = form.getValues()[stepKey];
-        const fieldSchema = companyDetailsSchema.shape[stepKey];
-        const result = fieldSchema.safeParse(currentValue);
-        if (!result.success) {
-            const errorMsg = result.error.errors[0].message ? result.error.errors[0].message : "Invalid input";
-            form.setError(stepKey, { message: errorMsg as string });
-            return;
-        }
-        const newAnswers = { ...savedAnswers, [stepKey]: currentValue };
-        setSavedAnswers(newAnswers);
+    // Determine if skip button should be shown
+    const canShowSkipButton = Boolean(savedAnswers.legalName && savedAnswers.website);
+    // Determine if finish button should be shown
+    const isLastStep = stepIndex === steps.length - 1;
+    const allStepsComplete = Object.keys(savedAnswers).length === steps.length;
 
-        setChatHistory(prev => {
-            const newHistory = [...prev];
-            const userAnswerIndex = newHistory.findIndex(
-                msg => msg.type === "user" && msg.key === stepKey
+    // Render input based on step type (customize as needed)
+    function renderStepInput() {
+        // Example: use switch for boolean, textarea for long text, input for short text
+        // You can customize this logic based on your step definitions
+        if (step.key === "identity" || step.key === "techStack" || step.key === "laptopAndMobileDevices" || step.key === "team" || step.key === "data" || step.key === "vendors" || step.key === "hosting") {
+            return (
+                <Textarea
+                    {...form.register(step.key)}
+                    placeholder={step.placeholder}
+                    className="min-h-[100px] resize-none"
+                    rows={4}
+                />
             );
-            if (userAnswerIndex !== -1) {
-                newHistory[userAnswerIndex] = {
-                    ...newHistory[userAnswerIndex],
-                    text: currentValue || ""
-                };
-            }
-            return newHistory;
-        });
-
-        setEditingKey(null);
-    };
-
-    const renderedBubbles = [
-        ...chatHistory,
-        ...(isStreaming && streamedText ? [{ type: "system" as const, text: streamedText }] : []),
-    ].map((msg, i, arr) => {
-        let isActiveSystem = false;
-        if (msg.type === "system") {
-            if (isStreaming && i === arr.length - 1) {
-                isActiveSystem = true;
-            } else if (!isStreaming) {
-                for (let j = arr.length - 1; j >= 0; j--) {
-                    if (arr[j].type === "system") {
-                        isActiveSystem = (i === j);
-                        break;
-                    }
-                }
-            }
         }
+        // Example: if you want a switch for a boolean field, add logic here
+        // if (step.key === "someBooleanField") {
+        //     return (
+        //         <Switch {...form.register(step.key)} />
+        //     );
+        // }
+        // Default to text input
         return (
-            <ChatBubble
-                key={i}
-                msg={msg}
-                isActiveSystem={isActiveSystem}
-                session={session}
-                editingKey={editingKey}
-                form={form}
-                handleEdit={handleEdit}
-                handleSaveEdit={handleSaveEdit}
+            <Input
+                {...form.register(step.key)}
+                placeholder={step.placeholder}
             />
         );
-    });
-
-    const step = steps[stepIndex];
-    const showInput = initialized && welcomeShown;
-
-    useEffect(() => {
-        if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [chatHistory, isStreaming, streamedText, showInput]);
-
-    const canShowSkipButton = savedAnswers.legalName && savedAnswers.website;
+    }
 
     return (
         isFinalizing ? (
@@ -344,66 +170,38 @@ export function OnboardingChatForm() {
                 </div>
             </div>
         ) : (
-            <div className="flex items-center justify-center min-h-screen p-4 scrollbar-hide" >
-                <Card className="w-full max-w-2xl h-[calc(100vh-100px)] flex flex-col scrollbar-hide">
-                    <CardHeader />
-                    <CardContent className="flex-1 overflow-hidden flex flex-col">
-                        <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
-                            <div className="flex flex-col gap-4">
-                                {renderedBubbles}
-                                <div ref={bottomRef} />
-                            </div>
+            <div className="flex items-center justify-center min-h-screen p-4 scrollbar-hide">
+                <Card className="w-full max-w-2xl flex flex-col scrollbar-hide">
+                    <CardHeader>
+                        <div className="flex flex-col items-center gap-2">
+                            <Icons.Logo />
+                            <div className="text-muted-foreground text-sm">Step {stepIndex + 1} of {steps.length}</div>
                         </div>
-                        {showInput && step && (
-                            <div className="mt-4 border-t pt-4 animate-in slide-in-from-bottom-4 duration-300">
-                                <Form {...form}>
-                                    <form
-                                        onSubmit={form.handleSubmit(onSubmit)}
-                                        className="w-full"
-                                        autoComplete="off"
-                                    >
-                                        <FormField
-                                            name={step.key}
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <div className="h-4 relative ml-1">
-                                                        <FormMessage className="text-xs absolute" />
-                                                    </div>
-                                                    <FormControl>
-                                                        <div className="flex flex-col gap-4 w-full">
-                                                            <Textarea
-                                                                {...field}
-                                                                placeholder={step.placeholder}
-                                                                className="min-h-[100px] resize-none"
-                                                                rows={4}
-                                                                onKeyDown={(e) => {
-                                                                    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                                                                        e.preventDefault();
-                                                                        form.handleSubmit(onSubmit)();
-                                                                    }
-                                                                }}
-                                                            />
-                                                            <div className="flex items-center justify-end">
-                                                                <Button
-                                                                    type="submit"
-                                                                    size="sm"
-                                                                    onClick={() => form.handleSubmit(onSubmit)()}
-                                                                >
-                                                                    Send
-                                                                    <span className="ml-2 text-[8px]">⌘ + Enter</span>
-                                                                </Button>
-                                                            </div>
-                                                        </div>
-                                                    </FormControl>
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </form>
-                                </Form>
-                            </div>
-                        )}
+                    </CardHeader>
+                    <CardContent className="flex-1 flex flex-col justify-center overflow-y-auto min-h-[300px]">
+                        <Form {...form} key={step.key}>
+                            <form
+                                id="onboarding-form"
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="w-full"
+                                autoComplete="off"
+                            >
+                                <FormField
+                                    name={step.key}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>{step.question}</FormLabel>
+                                            <FormControl>
+                                                {renderStepInput()}
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </form>
+                        </Form>
                     </CardContent>
-                    <CardFooter className="flex justify-between gap-2">
+                    <CardFooter className="flex justify-between gap-2 flex-wrap">
                         {canShowSkipButton && (
                             <Dialog open={showSkipDialog} onOpenChange={setShowSkipDialog}>
                                 <DialogTrigger asChild disabled={isSkipping || isOnboarding}>
@@ -432,15 +230,23 @@ export function OnboardingChatForm() {
                                 </DialogContent>
                             </Dialog>
                         )}
-                        {Object.keys(savedAnswers).length === steps.length && (
-                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                                <Button className="flex items-center gap-2" onClick={handleOnboardOrganizationAction} disabled={isOnboarding}>
-                                    {isOnboarding && <Loader2 className="h-4 w-4 animate-spin" />}
-                                    Finish Onboarding
-                                    <ArrowRight className="h-4 w-4" />
+                        <div className="flex gap-2">
+                            <Button type="button" variant="ghost" onClick={handleBack} disabled={stepIndex === 0}>
+                                Back
+                            </Button>
+                            {!isLastStep && (
+                                <Button type="submit" form="onboarding-form">
+                                    Next
                                 </Button>
-                            </div>
-                        )}
+                            )}
+                            {isLastStep && (
+                                <Button type="button" onClick={handleOnboardOrganizationAction} disabled={isOnboarding}>
+                                    {isOnboarding && <Loader2 className="h-4 w-4 animate-spin" />}
+                                    Finish
+                                    <ArrowRight className="h-4 w-4 ml-2" />
+                                </Button>
+                            )}
+                        </div>
                     </CardFooter>
                 </Card>
             </div>
