@@ -122,6 +122,7 @@ export function OnboardingForm() {
             workLocation: answers.workLocation || "",
             infrastructure: answers.infrastructure || "",
             dataTypes: answers.dataTypes || "",
+            software: answers.software || "",
         });
     };
 

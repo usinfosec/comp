@@ -8,6 +8,7 @@ export type CompanyDetails = {
 	workLocation: string;
 	infrastructure: string;
 	dataTypes: string;
+	software: string;
 };
 
 export type ChatBubble = {
