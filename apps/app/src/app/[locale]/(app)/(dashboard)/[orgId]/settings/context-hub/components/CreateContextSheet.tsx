@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@comp/ui/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
 import { ScrollArea } from "@comp/ui/scroll-area";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@comp/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@comp/ui/sheet";
 import { X } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { ContextForm } from "./context-form";
@@ -21,16 +21,19 @@ export function CreateContextSheet() {
         return (
             <Sheet open={isOpen} onOpenChange={handleOpenChange}>
                 <SheetContent stack className="rounded-sm">
-                    <SheetHeader className="mb-8 flex justify-between items-center flex-row">
-                        <SheetTitle>Add Context Entry</SheetTitle>
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            className="p-0 m-0 size-auto hover:bg-transparent rounded-sm"
-                            onClick={() => setOpen(null)}
-                        >
-                            <X className="h-5 w-5" />
-                        </Button>
+                    <SheetHeader className="mb-8 flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                            <SheetTitle>Add Context Entry</SheetTitle>
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="p-0 m-0 size-auto hover:bg-transparent rounded-sm"
+                                onClick={() => setOpen(null)}
+                            >
+                                <X className="h-5 w-5" />
+                            </Button>
+                        </div>
+                        <SheetDescription>Provide extra context to Comp AI about your organization.</SheetDescription>
                     </SheetHeader>
                     <ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
                         <ContextForm onSuccess={() => setOpen(null)} />
@@ -41,8 +44,11 @@ export function CreateContextSheet() {
     }
     return (
         <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-            <DrawerTitle hidden>Add Context Entry</DrawerTitle>
             <DrawerContent className="p-6 rounded-sm">
+                <DrawerHeader>
+                    <DrawerTitle>Add Context Entry</DrawerTitle>
+                    <DrawerDescription>Provide extra context to Comp AI about your organization.</DrawerDescription>
+                </DrawerHeader>
                 <ContextForm onSuccess={() => setOpen(null)} />
             </DrawerContent>
         </Drawer>

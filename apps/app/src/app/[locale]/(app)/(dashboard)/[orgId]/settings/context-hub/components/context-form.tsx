@@ -61,6 +61,7 @@ export function ContextForm({
                 <Input
                     id="question"
                     name="question"
+                    placeholder="What is the company's mission?"
                     defaultValue={entry?.question}
                     required
                 />
@@ -70,6 +71,7 @@ export function ContextForm({
                 <Textarea
                     id="answer"
                     name="answer"
+                    placeholder="Our mission is to provide the best possible service to our customers."
                     defaultValue={entry?.answer}
                     required
                 />
