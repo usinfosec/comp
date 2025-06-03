@@ -229,6 +229,13 @@ export const onboardOrganization = task({
 			);
 		}
 
+		await db.onboarding.update({
+			where: {
+				organizationId: payload.organizationId,
+			},
+			data: { completed: true },
+		});
+
 		try {
 			const revalidateResponse = await ky.post(
 				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,

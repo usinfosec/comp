@@ -42,11 +42,6 @@ export const onboardOrganization = authActionClient
 				data: {
 					name: parsedInput.legalName,
 					website: parsedInput.website,
-					onboarding: {
-						update: {
-							completed: true,
-						},
-					},
 					context: {
 						create: steps
 							.filter(
