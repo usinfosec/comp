@@ -1,10 +1,9 @@
 import { openai } from "@ai-sdk/openai";
 import { db } from "@comp/db";
-import { Prisma } from "@comp/db/types";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
-import { generateObject, NoObjectGeneratedError } from "ai";
+import { generateObject, generateText, NoObjectGeneratedError } from "ai";
 import { JSONContent } from "novel";
-import { z } from "zod";
+import {  z } from "zod";
 import { generatePrompt } from "../../lib/prompts";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -16,21 +15,20 @@ export const updatePolicies = schemaTask({
 	schema: z.object({
 		organizationId: z.string(),
 		policyId: z.string(),
-		risks: z.any(),
 		contextHub: z.string(),
 	}),
-	maxDuration: 1000 * 60 * 10,
-	run: async ({ organizationId, policyId, risks, contextHub }) => {
+	run: async ({ organizationId, policyId, contextHub }) => {
 		try {
-			logger.info(
-				`Running populate policies with company details for ${organizationId}`,
-			);
-
 			const organization = await db.organization.findUnique({
 				where: {
 					id: organizationId,
 				},
 			});
+
+			if (!organization) {
+				logger.error(`Organization not found for ${organizationId}`);
+				return;
+			}
 
 			const policy = await db.policy.findUnique({
 				where: {
@@ -44,48 +42,37 @@ export const updatePolicies = schemaTask({
 				return;
 			}
 
+			const prompt = await generatePrompt({
+				existingPolicyContent: policy?.content,
+				contextHub,
+				policy,
+				companyName: organization?.name ?? "Company",
+				companyWebsite: organization?.website ?? "https://company.com",
+			});
+
 			try {
-				const { object } = await generateObject({
-					model: openai("gpt-4.5-preview"),
-					schemaName: "A policy document",
-					schemaDescription: "A policy document formatted for TipTap",
-					mode: "json",
-					schema: z.object({
-						content: z.array(
-							z.object({
-								type: z.string(),
-								attrs: z.record(z.any()).optional(),
-								content: z.array(z.any()).optional(),
-								text: z.string().optional(),
-								marks: z
-									.array(
-										z.object({
-											type: z.string(),
-											attrs: z.record(z.any()).optional(),
-										}),
-									)
-									.optional(),
-							}),
-						),
-					}),
-					system: "You are an expert at writing tiptap formatted JSON.",
-					prompt: generatePrompt({
-						existingPolicyContent: policy?.content as
-							| JSONContent
-							| JSONContent[],
-						contextHub,
-						risks,
-						policy,
-						companyName: organization?.name ?? "Company",
-						companyWebsite:
-							organization?.website ?? "https://company.com",
-					}),
+				const { text } = await generateText({
+					model: openai("o4-mini"),
+					system: `You are an expert at writing security policies in TipTap JSON.`,
+					prompt: `Update the following policy to be strictly aligned with SOC 2 standards and controls. Only include JSON content as your output.
+
+					${prompt.replace(/\\n/g, "\n")}`,
 				});
 
-				if (!object) {
+				if (!text) {
 					logger.error(`Failed generating policy for ${policyId}`);
 					return;
 				}
+
+				const { object } = await generateObject({
+					model: openai("gpt-4.1-mini"),
+					mode: "json",
+					system: `You are an expert at writing security policies in TipTap JSON.`,
+					prompt: `Convert the following text into TipTap JSON. Do not include any other text in your output: ${JSON.stringify(text)}`,
+					schema: z.object({
+						json: z.array(z.any()),
+					}),
+				});
 
 				try {
 					await db.policy.update({
@@ -93,16 +80,15 @@ export const updatePolicies = schemaTask({
 							id: policyId,
 						},
 						data: {
-							content: object.content,
+							content: object.json as JSONContent[],
 						},
 					});
 
 					return {
 						policyId,
 						contextHub,
-						risks,
 						policy,
-						updatedContent: object.content,
+						updatedContent: text,
 					};
 				} catch (dbError) {
 					logger.error(

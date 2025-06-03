@@ -13,9 +13,14 @@ import { generateObject } from "ai";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
 import ky from "ky";
+import { updatePolicies } from "./update-policies";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
+	queue: {
+		name: "onboard-organization",
+		concurrencyLimit: 5,
+	},
 	run: async (payload: {
 		organizationId: string;
 	}) => {
@@ -200,6 +205,27 @@ export const onboardOrganization = task({
 				`Created risk: ${createdRisk.id} (${createdRisk.title})`,
 			);
 		}
+
+		const policies = await db.policy.findMany({
+			where: {
+				organizationId: payload.organizationId,
+			},
+		});
+
+		const results = await updatePolicies.batchTriggerAndWait(
+			policies.map((policy) => ({
+				payload: {
+					organizationId: payload.organizationId,
+					policyId: policy.id,
+					contextHub: contextHub.map((c) => `${c.question}\n${c.answer}`).join("\n"),
+				},
+				queue: {
+					name: "update-policies",
+					concurrencyLimit: 1,
+				},
+				concurrencyKey: payload.organizationId,
+			})),
+		);
 
 		try {
 			const revalidateResponse = await ky.post(

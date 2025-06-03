@@ -25,6 +25,7 @@ interface SelectPillsProps {
     value?: string[];
     onValueChange?: (selectedValues: string[]) => void;
     placeholder?: string;
+    disabled?: boolean;
 }
 
 export const SelectPills: React.FC<SelectPillsProps> = ({
@@ -33,6 +34,7 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
     value,
     onValueChange,
     placeholder = "Type to search...",
+    disabled = false,
 }) => {
     const [inputValue, setInputValue] = useState<string>("");
     const [selectedPills, setSelectedPills] = useState<string[]>(
@@ -185,17 +187,22 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
                     <Badge
                         key={pill}
                         variant="secondary"
-                        onClick={() => handlePillRemove(pill)}
-                        className="hover:cursor-pointer gap-1 group"
+                        onClick={() => !disabled && handlePillRemove(pill)}
+                        className={cn(
+                            "hover:cursor-pointer gap-1 group",
+                            disabled && "opacity-50 cursor-not-allowed"
+                        )}
                     >
                         {pill}
-                        <button
-                            type="button"
-                            onClick={() => handlePillRemove(pill)}
-                            className="appearance-none text-muted-foreground group-hover:text-foreground transition-colors"
-                        >
-                            <X size={12} />
-                        </button>
+                        {!disabled && (
+                            <button
+                                type="button"
+                                onClick={() => handlePillRemove(pill)}
+                                className="appearance-none text-muted-foreground group-hover:text-foreground transition-colors"
+                            >
+                                <X size={12} />
+                            </button>
+                        )}
                     </Badge>
                 ))}
                 <PopoverAnchor asChild>
@@ -206,6 +213,7 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                         placeholder={placeholder}
+                        disabled={disabled}
                     />
                 </PopoverAnchor>
             </div>

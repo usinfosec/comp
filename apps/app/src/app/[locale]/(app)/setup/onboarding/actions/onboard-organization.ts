@@ -90,6 +90,13 @@ export const onboardOrganization = authActionClient
 				{
 					organizationId: orgId,
 				},
+				{
+					queue: {
+						name: "onboard-organization",
+						concurrencyLimit: 5,
+					},
+					concurrencyKey: orgId,
+				},
 			);
 
 			(await cookies()).set(

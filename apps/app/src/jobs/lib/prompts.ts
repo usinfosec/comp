@@ -3,7 +3,6 @@ import { logger } from "@trigger.dev/sdk/v3";
 import { JSONContent } from "novel";
 
 export const generatePrompt = ({
-	risks,
 	policy,
 	existingPolicyContent,
 	contextHub,
@@ -13,18 +12,18 @@ export const generatePrompt = ({
 	contextHub: string;
 	companyName: string;
 	companyWebsite: string;
-	risks: Risk[];
 	policy: Policy;
 	existingPolicyContent: JSONContent | JSONContent[];
 }) => {
 	logger.info(`Generating prompt for policy ${policy.name}`);
 	logger.info(`Company Name: ${companyName}`);
 	logger.info(`Company Website: ${companyWebsite}`);
-	logger.info(`Risks: ${risks.map((risk) => risk.title).join("\n")}`);
+	logger.info(`Context Hub: ${contextHub}`);
+	logger.info(
+		`Existing Policy Content: ${JSON.stringify(existingPolicyContent)}`,
+	);
 
 	return `
-Update this policy to be strictly aligned with SOC 2 standards and controls, in a readable tiptap (json) format.
-
 Company details:
 
 Company Name: ${companyName}
@@ -34,11 +33,9 @@ Knowledge Base for ${companyName}:
 
 ${contextHub}
 
-Top Risks:
-
-${risks.map((risk, index) => `${index + 1}. ${risk.title}`).join("\n")}
-
 Tailoring rules:
+Create or update a policy based on strict alignment with SOC 2 standards and controls.
+
 Contextualise every section with company Secure-specific systems, regions, and roles.
 Replace office-centric language with cloud and home-office equivalents.
 Build control statements that directly mitigate the listed risks; remove irrelevant clauses.
@@ -60,6 +57,6 @@ Policy: ${policy.description}
 
 Here is the initial template policy to edit:
 
-${existingPolicyContent}
+${JSON.stringify(existingPolicyContent)}
 `;
 };
