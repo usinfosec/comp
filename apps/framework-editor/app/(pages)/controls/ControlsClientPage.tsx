@@ -2,44 +2,45 @@
 
 import PageLayout from "@/app/components/PageLayout";
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { TableToolbar } from '../../components/TableToolbar';
 import { useTableSearchSort } from '../../hooks/useTableSearchSort';
 import type { SortConfig } from '../../types/common';
-import { relationalColumn, type ItemWithName } from './components/RelationalCell';
-import { CreateControlDialog } from './components/CreateControlDialog';
-import { simpleUUID, useChangeTracking } from './hooks/useChangeTracking';
-import type {
-    ControlsPageGridData,
-    ControlsPageSortableColumnKey,
-    FrameworkEditorControlTemplateWithRelatedData,
-    SortableColumnOption
-} from './types';
 import {
   getAllPolicyTemplates, getAllRequirements, getAllTaskTemplates,
-  linkPolicyTemplateToControl, unlinkPolicyTemplateFromControl,
-  linkRequirementToControl, unlinkRequirementFromControl,
-  linkTaskTemplateToControl, unlinkTaskTemplateFromControl
+  linkPolicyTemplateToControl,
+  linkRequirementToControl,
+  linkTaskTemplateToControl,
+  unlinkPolicyTemplateFromControl,
+  unlinkRequirementFromControl,
+  unlinkTaskTemplateFromControl
 } from './actions';
-import { toast } from 'sonner';
+import { relationalColumn } from './components/RelationalCell';
+import { simpleUUID, useChangeTracking } from './hooks/useChangeTracking';
+import type {
+  ControlsPageGridData,
+  ControlsPageSortableColumnKey,
+  FrameworkEditorControlTemplateWithRelatedData,
+  SortableColumnOption
+} from './types';
 
 import {
-    Column,
-    DataSheetGrid,
-    dateColumn,
-    keyColumn,
-    textColumn,
-    type CellProps,
+  Column,
+  DataSheetGrid,
+  keyColumn,
+  textColumn,
+  type CellProps
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@comp/ui/select";
 import { Button } from "@comp/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@comp/ui/select";
 
 interface ControlsClientPageProps {
   initialControls: FrameworkEditorControlTemplateWithRelatedData[];
@@ -147,13 +148,10 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
       handleCancel, 
       isDirty,
       createdRowIds,
-      updatedRowIds,
-      deletedRowIds,
       changesSummaryString
     } = useChangeTracking(initialGridData);
     
     const [selectedFramework, setSelectedFramework] = useState<string>("");
-    const [isCreateControlDialogOpen, setIsCreateControlDialogOpen] = useState(false);
 
     const frameworkOptions = useMemo(() => {
         const frameworkNames = new Set<string>();
@@ -352,9 +350,6 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
                   ))}
                 </SelectContent>
               </Select>
-              <Button onClick={() => setIsCreateControlDialogOpen(true)} className="ml-2 h-9 rounded-sm">
-                Create Control
-              </Button>
             </>
           </TableToolbar>
           <div className="mt-4">
@@ -386,15 +381,6 @@ export function ControlsClientPage({ initialControls }: ControlsClientPageProps)
             />
           </div>
         </PageLayout>
-        <CreateControlDialog
-            isOpen={isCreateControlDialogOpen}
-            onOpenChange={setIsCreateControlDialogOpen}
-            onControlCreated={() => {
-                setIsCreateControlDialogOpen(false);
-                toast.success("Control created successfully!");
-                // TODO: Consider data refresh logic here if needed, e.g., router.refresh()
-            }}
-        />
       </>
     );
 } 

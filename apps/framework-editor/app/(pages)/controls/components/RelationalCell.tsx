@@ -1,8 +1,8 @@
 import { Button } from '@comp/ui/button';
-import React, { useRef, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom'; // Import ReactDOM for createPortal
+import { Plus, XIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { CellProps, Column } from 'react-datasheet-grid';
-import { PlugIcon, Plus, XIcon } from 'lucide-react';
+import ReactDOM from 'react-dom'; // Import ReactDOM for createPortal
 
 // Interface for items that can be displayed as pills
 export interface ItemWithName {
