@@ -32,6 +32,9 @@ export const columns: ColumnDef<VendorRow>[] = [
 			placeholder: "Search for vendor name...",
 			variant: "text",
 		},
+		size: 250,
+		minSize: 200,
+		maxSize: 300,
 		enableColumnFilter: true,
 	},
 	{
