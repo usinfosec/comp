@@ -39,13 +39,7 @@ export async function middleware(request: NextRequest) {
 
 	// 1. Not authenticated
 	if (!session && newUrl.pathname !== "/auth") {
-		const encodedSearchParams = `${newUrl.pathname.substring(1)}${newUrl.search}`;
-
 		const url = new URL("/auth", request.url);
-
-		if (encodedSearchParams) {
-			url.searchParams.append("return_to", encodedSearchParams);
-		}
 
 		return NextResponse.redirect(url);
 	}
