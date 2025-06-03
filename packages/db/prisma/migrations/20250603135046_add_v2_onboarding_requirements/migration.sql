@@ -1,9 +1,15 @@
 -- AlterTable
-ALTER TABLE "Onboarding" ADD COLUMN     "completed" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "Onboarding" ADD COLUMN  "completed" BOOLEAN NOT NULL DEFAULT false;
+
+-- AlterTable
+ALTER TABLE "Onboarding" ALTER COLUMN "completed" SET DEFAULT true;
+
+-- AlterTable
+ALTER TABLE "Vendor" ADD COLUMN "website" TEXT;
 
 -- CreateTable
 CREATE TABLE "Context" (
-    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('kb'::text),
+    "id" TEXT NOT NULL DEFAULT generate_prefixed_cuid('ctx'::text),
     "organizationId" TEXT NOT NULL,
     "question" TEXT NOT NULL,
     "answer" TEXT NOT NULL,
@@ -28,3 +34,6 @@ CREATE INDEX "Context_tags_idx" ON "Context"("tags");
 
 -- AddForeignKey
 ALTER TABLE "Context" ADD CONSTRAINT "Context_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AlterTable
+ALTER TABLE "Context" ALTER COLUMN "id" SET DEFAULT generate_prefixed_cuid('ctx'::text);
