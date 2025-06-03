@@ -3,8 +3,8 @@
 import { db } from '@comp/db';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import type { FrameworkEditorTaskTemplate } from '@prisma/client';
-import { Frequency, Departments } from '@prisma/client';
+import { Frequency, Departments, type FrameworkEditorTaskTemplate } from '@prisma/client';
+import type { ItemWithName } from '../../components/grid/RelationalCell'; // Updated import path
 
 // Zod schema for validating new task template data
 const createTaskTemplateSchema = z.object({
@@ -122,4 +122,82 @@ export async function deleteTaskTemplate(id: string): Promise<void> {
 //    console.log('[Server Action] getAllTaskTemplatesForLinking called');
 //    // Replace with actual database logic
 //    return [];
-// } 
+// }
+
+// --- Task <-> Control Linking Actions ---
+
+/**
+ * Fetches all control templates for linking to tasks.
+ */
+export async function getAllControlsForLinking(): Promise<ItemWithName[]> {
+  try {
+    const controls = await db.frameworkEditorControlTemplate.findMany({
+      select: {
+        id: true,
+        name: true,
+        // Add any other relevant fields, e.g., a sublabel if needed
+        // For example, if controls have a 'domain' or 'family':
+        // domain: { select: { name: true } }
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
+    return controls.map(c => ({
+      id: c.id,
+      name: c.name || 'Unnamed Control', // Ensure name exists
+      // sublabel: c.domain?.name // Example if sublabel is needed
+    }));
+  } catch (error) {
+    console.error("Error fetching all control templates for linking:", error);
+    throw new Error("Failed to fetch control templates.");
+  }
+}
+
+/**
+ * Links a control template to a task template.
+ */
+export async function linkControlToTask(taskId: string, controlId: string): Promise<void> {
+  if (!taskId || !controlId) {
+    throw new Error("Task ID and Control ID must be provided.");
+  }
+  try {
+    await db.frameworkEditorTaskTemplate.update({
+      where: { id: taskId },
+      data: {
+        controlTemplates: {
+          connect: { id: controlId },
+        },
+      },
+    });
+    revalidatePath('/tasks'); // Revalidate tasks list
+    // Potentially revalidate a specific task page if one exists: revalidatePath(`/tasks/${taskId}`);
+  } catch (error) {
+    console.error("Error linking control to task:", error);
+    throw new Error("Failed to link control to task.");
+  }
+}
+
+/**
+ * Unlinks a control template from a task template.
+ */
+export async function unlinkControlFromTask(taskId: string, controlId: string): Promise<void> {
+  if (!taskId || !controlId) {
+    throw new Error("Task ID and Control ID must be provided.");
+  }
+  try {
+    await db.frameworkEditorTaskTemplate.update({
+      where: { id: taskId },
+      data: {
+        controlTemplates: {
+          disconnect: { id: controlId },
+        },
+      },
+    });
+    revalidatePath('/tasks');
+    // Potentially revalidate a specific task page: revalidatePath(`/tasks/${taskId}`);
+  } catch (error) {
+    console.error("Error unlinking control from task:", error);
+    throw new Error("Failed to unlink control from task.");
+  }
+} 
