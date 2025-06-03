@@ -56,7 +56,7 @@ export async function middleware(request: NextRequest) {
 		if (
 			session.session.activeOrganizationId &&
 			newUrl.pathname !== "/auth" &&
-			newUrl.pathname !== "/setup/onboarding"
+			!newUrl.pathname.startsWith("/setup/onboarding")
 		) {
 			const isOnboarded = await db.onboarding.findFirst({
 				where: {
