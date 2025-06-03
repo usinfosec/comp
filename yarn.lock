@@ -4805,7 +4805,20 @@
   dependencies:
     "@radix-ui/react-compose-refs" "1.1.2"
 
-"@radix-ui/react-switch@1.2.5", "@radix-ui/react-switch@^1.1.0", "@radix-ui/react-switch@^1.2.5":
+"@radix-ui/react-switch@^1.1.0":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@radix-ui/react-switch/-/react-switch-1.2.4.tgz"
+  integrity sha512-yZCky6XZFnR7pcGonJkr9VyNRu46KcYAbyg1v/gVVCZUr8UJ4x+RpncC27hHtiZ15jC+3WS8Yg/JSgyIHnYYsQ==
+  dependencies:
+    "@radix-ui/primitive" "1.1.2"
+    "@radix-ui/react-compose-refs" "1.1.2"
+    "@radix-ui/react-context" "1.1.2"
+    "@radix-ui/react-primitive" "2.1.2"
+    "@radix-ui/react-use-controllable-state" "1.2.2"
+    "@radix-ui/react-use-previous" "1.1.1"
+    "@radix-ui/react-use-size" "1.1.1"
+
+"@radix-ui/react-switch@1.2.5", "@radix-ui/react-switch@^1.2.5":
   version "1.2.5"
   resolved "https://registry.npmjs.org/@radix-ui/react-switch/-/react-switch-1.2.5.tgz"
   integrity sha512-5ijLkak6ZMylXsaImpZ8u4Rlf5grRmoc0p0QeX9VJtlrM4f5m3nCTX8tWga/zOA8PZYIR/t0p2Mnvd7InrJ6yQ==
@@ -18933,10 +18946,15 @@ zod@3.23.8:
   resolved "https://registry.npmjs.org/zod/-/zod-3.23.8.tgz"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@^3.24.2, zod@^3.25.46, zod@latest:
-  version "3.25.46"
-  resolved "https://registry.npmjs.org/zod/-/zod-3.25.46.tgz"
-  integrity sha512-IqRxcHEIjqLd4LNS/zKffB3Jzg3NwqJxQQ0Ns7pdrvgGkwQsEBdEQcOHaBVqvvZArShRzI39+aMST3FBGmTrLQ==
+"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@^3.24.2, zod@^3.24.4:
+  version "3.24.4"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.24.4.tgz"
+  integrity sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==
+
+zod@latest:
+  version "3.25.49"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.25.49.tgz"
+  integrity sha512-JMMPMy9ZBk3XFEdbM3iL1brx4NUSejd6xr3ELrrGEfGb355gjhiAWtG3K5o+AViV/3ZfkIrCzXsZn6SbLwTR8Q==
 
 zod-error@1.5.0:
   version "1.5.0"
