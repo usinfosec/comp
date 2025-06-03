@@ -3,6 +3,7 @@
 import PageLayout from "@/app/components/PageLayout";
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { friendlyDateColumnBase } from '../../components/gridUtils';
 import { TableToolbar } from '../../components/TableToolbar';
 import { useTableSearchSort } from '../../hooks/useTableSearchSort';
 import type { SortConfig } from '../../types/common';
@@ -15,7 +16,7 @@ import {
   unlinkRequirementFromControl,
   unlinkTaskTemplateFromControl
 } from './actions';
-import { relationalColumn } from './components/RelationalCell';
+import { relationalColumn } from '../../components/grid/RelationalCell';
 import { simpleUUID, useChangeTracking } from './hooks/useChangeTracking';
 import type {
   ControlsPageGridData,
@@ -28,8 +29,7 @@ import {
   Column,
   DataSheetGrid,
   keyColumn,
-  textColumn,
-  type CellProps
+  textColumn
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
@@ -62,43 +62,6 @@ const controlsSortConfig: SortConfig<ControlsPageSortableColumnKey> = {
   taskTemplatesLength: 'number',
   createdAt: 'number',
   updatedAt: 'number',
-};
-
-// Helper function to format dates in a friendly way
-const formatFriendlyDate = (date: Date | string | number | null | undefined): string => {
-  if (date === null || date === undefined) return '';
-  const d = new Date(date);
-  if (isNaN(d.getTime())) return 'Invalid Date'; // Handle invalid date objects
-  return new Intl.DateTimeFormat(undefined, { // 'undefined' uses the browser's default locale
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }).format(d);
-};
-
-// Custom base column configuration for displaying friendly dates
-const friendlyDateColumnBase: Partial<Column<Date | null, any, string>> = {
-  component: ({ rowData }: CellProps<Date | null, any>) => (
-    <div 
-        style={{ 
-            padding: '5px', 
-            whiteSpace: 'nowrap', 
-            overflow: 'hidden', 
-            textOverflow: 'ellipsis', 
-            width: '100%', 
-            height: '100%', 
-            display: 'flex', 
-            alignItems: 'center' 
-        }}
-        title={formatFriendlyDate(rowData)}
-    >
-      {formatFriendlyDate(rowData)}
-    </div>
-  ),
-  // copyValue can be added if needed: ({ rowData }) => formatFriendlyDate(rowData),
 };
 
 export function ControlsClientPage({ initialControls }: ControlsClientPageProps) {

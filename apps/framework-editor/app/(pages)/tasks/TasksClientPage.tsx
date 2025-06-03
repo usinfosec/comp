@@ -7,6 +7,10 @@ import { TableToolbar } from '../../components/TableToolbar'; // Adjusted path
 import { useTableSearchSort } from '../../hooks/useTableSearchSort'; // Adjusted path
 import type { SortConfig } from '../../types/common'; // Adjusted path
 import { simpleUUID, useTaskChangeTracking, type TasksPageGridData } from './hooks/useTaskChangeTracking'; // Adjusted path and added type
+import { friendlyDateColumnBase, formatFriendlyDate } from '../../components/gridUtils'; // Added import
+import { relationalColumn, type ItemWithName } from '../../components/grid/RelationalCell'; // Import relationalColumn and ItemWithName
+import { getAllControlsForLinking, linkControlToTask, unlinkControlFromTask } from './actions'; // Import actions
+import { toast } from 'sonner'; // Import toast for user feedback
 
 import {
   Column,
@@ -19,6 +23,12 @@ import 'react-datasheet-grid/dist/style.css';
 
 import { Button } from "@comp/ui/button";
 import type { FrameworkEditorTaskTemplate } from '@prisma/client'; // Keep for initial props type
+import type { FrameworkEditorControlTemplate } from '@prisma/client'; // Import ControlTemplate for related data
+
+// Define a type for tasks that includes their related control templates
+interface FrameworkEditorTaskTemplateWithRelatedControls extends FrameworkEditorTaskTemplate {
+  controlTemplates?: Pick<FrameworkEditorControlTemplate, 'id' | 'name'>[]; // Or FrameworkEditorControlTemplate[] if more fields are needed
+}
 
 // Define sortable column options for tasks
 const sortableColumnsOptions: { value: keyof TasksPageGridData; label: string }[] = [
@@ -26,6 +36,7 @@ const sortableColumnsOptions: { value: keyof TasksPageGridData; label: string }[
   { value: 'description', label: 'Description' },
   { value: 'frequency', label: 'Frequency' },
   { value: 'department', label: 'Department' },
+  { value: 'controlsLength', label: 'Linked Controls' },
   { value: 'createdAt', label: 'Created At' },
   { value: 'updatedAt', label: 'Updated At' },
 ];
@@ -39,48 +50,13 @@ const tasksSortConfig: SortConfig<keyof TasksPageGridData> = {
   description: 'string',
   frequency: 'string', // Assuming string for now, adjust if enum/specific type
   department: 'string', // Assuming string for now, adjust if enum/specific type
+  controlsLength: 'number',
   createdAt: 'number', // Dates are handled as numbers (timestamps) by useTableSearchSort
   updatedAt: 'number',
 };
 
-// Helper function to format dates (similar to ControlsClientPage)
-const formatFriendlyDate = (date: Date | string | number | null | undefined): string => {
-  if (date === null || date === undefined) return '';
-  const d = new Date(date);
-  if (isNaN(d.getTime())) return ''; // Handle invalid date objects more gracefully
-  return new Intl.DateTimeFormat(undefined, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }).format(d);
-};
-
-// Custom base column configuration for displaying friendly dates
-const friendlyDateColumnBase: Partial<Column<Date | null, any, string>> = {
-  component: ({ rowData }: CellProps<Date | null, any>) => (
-    <div 
-        style={{ 
-            padding: '5px', 
-            whiteSpace: 'nowrap', 
-            overflow: 'hidden', 
-            textOverflow: 'ellipsis', 
-            width: '100%', 
-            height: '100%', 
-            display: 'flex', 
-            alignItems: 'center' 
-        }}
-        title={formatFriendlyDate(rowData)}
-    >
-      {formatFriendlyDate(rowData)}
-    </div>
-  ),
-};
-
 interface TasksClientPageProps {
-  initialTasks: FrameworkEditorTaskTemplate[];
+  initialTasks: FrameworkEditorTaskTemplateWithRelatedControls[]; // Use the new type
 }
 
 export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
@@ -91,8 +67,10 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
         id: task.id || simpleUUID(),
         name: task.name ?? null,
         description: task.description ?? null,
-        frequency: task.frequency ?? null, // Adapt if type is not string/nullable
-        department: task.department ?? null, // Adapt if type is not string/nullable
+        frequency: task.frequency ?? null, 
+        department: task.department ?? null, 
+        controls: task.controlTemplates?.map(ct => ({ id: ct.id, name: ct.name })) || [], // Corrected: use task.controlTemplates
+        controlsLength: task.controlTemplates?.length || 0, // Corrected: use task.controlTemplates
         createdAt: task.createdAt ? new Date(task.createdAt) : null,
         updatedAt: task.updatedAt ? new Date(task.updatedAt) : null,
       }));
@@ -105,7 +83,8 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
       handleCommit, 
       handleCancel, 
       isDirty,
-      changesSummaryString
+      changesSummaryString,
+      createdRowIds
     } = useTaskChangeTracking(initialGridData);
     
     // Log isDirty value on every render of TasksClientPage
@@ -147,6 +126,35 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
       { ...keyColumn('description', textColumn), title: 'Description', minWidth: 350, grow: 1 },
       { ...keyColumn('frequency', textColumn), title: 'Frequency', minWidth: 150 }, // Adjust if using a select/enum column
       { ...keyColumn('department', textColumn), title: 'Department', minWidth: 150 }, // Adjust if using a select/enum column
+      {
+        ...(relationalColumn<TasksPageGridData, 'controls'> ({
+          itemsKey: 'controls',
+          getAllSearchableItems: getAllControlsForLinking,
+          linkItemAction: async (taskId, controlId) => {
+            try {
+              await linkControlToTask(taskId, controlId);
+              toast.success("Control linked successfully.");
+              // router.refresh(); // Consider if refresh is needed immediately
+            } catch (error) {
+              toast.error(`Failed to link control: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
+          unlinkItemAction: async (taskId, controlId) => {
+            try {
+              await unlinkControlFromTask(taskId, controlId);
+              toast.success("Control unlinked successfully.");
+              // router.refresh(); // Consider if refresh is needed immediately
+            } catch (error) {
+              toast.error(`Failed to unlink control: ${error instanceof Error ? error.message : String(error)}`);
+            }
+          },
+          itemTypeLabel: 'Control',
+          createdRowIds: createdRowIds, // Pass createdRowIds from useTaskChangeTracking
+        })),
+        id: 'controls', // Unique ID for the column
+        title: 'Linked Controls', 
+        minWidth: 200 
+      },
       { ...keyColumn('createdAt', friendlyDateColumnBase), title: 'Created At', minWidth: 220, disabled: true },
       { ...keyColumn('updatedAt', friendlyDateColumnBase), title: 'Updated At', minWidth: 220, disabled: true },
       { ...keyColumn('id', textColumn as Partial<Column<string, any, string>>), title: 'ID', minWidth: 280, disabled: true },
@@ -197,6 +205,8 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
                 description: 'Task Description',
                 frequency: null, // Or a default enum value
                 department: null, // Or a default enum value
+                controls: [],
+                controlsLength: 0,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               })}
@@ -204,6 +214,8 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
                 ...rowData, 
                 id: simpleUUID(),
                 name: rowData.name ? `Copy of ${rowData.name}` : 'Copied Task',
+                controls: rowData.controls ? [...rowData.controls] : [],
+                controlsLength: rowData.controlsLength || 0,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               })}
