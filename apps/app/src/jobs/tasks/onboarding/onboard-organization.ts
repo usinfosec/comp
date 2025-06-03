@@ -212,20 +212,22 @@ export const onboardOrganization = task({
 			},
 		});
 
-		const results = await updatePolicies.batchTriggerAndWait(
-			policies.map((policy) => ({
-				payload: {
-					organizationId: payload.organizationId,
-					policyId: policy.id,
-					contextHub: contextHub.map((c) => `${c.question}\n${c.answer}`).join("\n"),
-				},
-				queue: {
-					name: "update-policies",
-					concurrencyLimit: 1,
-				},
-				concurrencyKey: payload.organizationId,
-			})),
-		);
+		if (policies.length > 0) {
+			const results = await updatePolicies.batchTriggerAndWait(
+				policies.map((policy) => ({
+					payload: {
+						organizationId: payload.organizationId,
+						policyId: policy.id,
+						contextHub: contextHub.map((c) => `${c.question}\n${c.answer}`).join("\n"),
+					},
+					queue: {
+						name: "update-policies",
+						concurrencyLimit: 1,
+					},
+					concurrencyKey: payload.organizationId,
+				})),
+			);
+		}
 
 		try {
 			const revalidateResponse = await ky.post(
