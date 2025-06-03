@@ -34,6 +34,3 @@ CREATE INDEX "Context_tags_idx" ON "Context"("tags");
 
 -- AddForeignKey
 ALTER TABLE "Context" ADD CONSTRAINT "Context_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AlterTable
-ALTER TABLE "Context" ALTER COLUMN "id" SET DEFAULT generate_prefixed_cuid('ctx'::text);
