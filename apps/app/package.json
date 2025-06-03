@@ -84,7 +84,6 @@
 		"posthog-js": "^1.236.6",
 		"posthog-node": "^4.14.0",
 		"puppeteer-core": "^24.7.2",
-		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-email": "^4.0.15",
 		"react-hotkeys-hook": "^4.6.2",
@@ -129,8 +128,8 @@
 		"./src/lib/encryption": "./src/lib/encryption.ts"
 	},
 	"peerDependencies": {
-		"react": "^19.1.0",
-		"react-dom": "^19.1.0",
+		"react": "^19",
+		"react-dom": "^19",
 		"react-hook-form": "^7.56.3"
 	}
 }
