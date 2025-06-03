@@ -213,7 +213,7 @@ export const onboardOrganization = task({
 		});
 
 		if (policies.length > 0) {
-			const results = await updatePolicies.batchTriggerAndWait(
+			await updatePolicies.batchTriggerAndWait(
 				policies.map((policy) => ({
 					payload: {
 						organizationId: payload.organizationId,
