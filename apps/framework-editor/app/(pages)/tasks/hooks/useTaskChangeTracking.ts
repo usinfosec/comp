@@ -3,6 +3,7 @@ import type { FrameworkEditorTaskTemplate } from '@prisma/client';
 import { Frequency, Departments } from '@prisma/client'; // Added import for enums
 import { createTaskTemplate, updateTaskTemplate, deleteTaskTemplate } from '../actions'; // Task-specific actions
 import { useToast } from '@comp/ui/use-toast'; // Assuming this path is correct
+import type { ItemWithName } from '../../../components/grid/RelationalCell'; // Corrected import path again
 
 // TODO: Define this based on what's displayed in the grid and what's editable.
 // This will mirror ControlsPageGridData but for Tasks.
@@ -12,6 +13,8 @@ export interface TasksPageGridData {
   description: string | null;
   frequency: string | null; // Or your specific enum type if available
   department: string | null; // Or your specific enum type if available
+  controls: ItemWithName[]; // Added for linked controls
+  controlsLength: number; // Added for sorting/displaying count of linked controls
   createdAt: Date | null;
   updatedAt: Date | null;
   // Add any other fields that will be displayed or are part of the task entity
@@ -210,6 +213,8 @@ export const useTaskChangeTracking = (initialData: TasksPageGridData[]) => {
                 description: newTask.description,
                 frequency: newTask.frequency,
                 department: newTask.department,
+                controls: originalRow.controls,
+                controlsLength: originalRow.controlsLength,
                 createdAt: newTask.createdAt ? new Date(newTask.createdAt) : null,
                 updatedAt: newTask.updatedAt ? new Date(newTask.updatedAt) : null,
             });
