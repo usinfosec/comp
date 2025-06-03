@@ -1,23 +1,19 @@
 'use client';
 
 import PageLayout from "@/app/components/PageLayout";
-import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Added for potential refresh
+import { useMemo } from 'react';
 import { TableToolbar } from '../../components/TableToolbar'; // Adjusted path
 import { useTableSearchSort } from '../../hooks/useTableSearchSort'; // Adjusted path
 import type { SortConfig } from '../../types/common'; // Adjusted path
 import { simpleUUID, useTaskChangeTracking, type TasksPageGridData } from './hooks/useTaskChangeTracking'; // Adjusted path and added type
-import { CreateTaskDialog } from './components/CreateTaskDialog';
-import { createTaskTemplate } from './actions'; // For CreateTaskDialog
-import { toast } from 'sonner';
 
 import {
-    Column,
-    DataSheetGrid,
-    dateColumn,
-    keyColumn,
-    textColumn,
-    type CellProps,
+  Column,
+  DataSheetGrid,
+  keyColumn,
+  textColumn,
+  type CellProps
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
@@ -89,7 +85,6 @@ interface TasksClientPageProps {
 
 export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
     const router = useRouter();
-    const [isCreateTaskDialogOpen, setIsCreateTaskDialogOpen] = useState(false);
 
     const initialGridData: TasksPageGridData[] = useMemo(() => {
       return initialTasks.map(task => ({
@@ -157,21 +152,10 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
       { ...keyColumn('id', textColumn as Partial<Column<string, any, string>>), title: 'ID', minWidth: 280, disabled: true },
     ];
     
-    const handleCreateTaskSuccess = () => {
-        setIsCreateTaskDialogOpen(false);
-        toast.success("Task created successfully!");
-        // Refresh data or optimistically update. For now, router.refresh() is simplest.
-        router.refresh(); 
-    };
 
     return (
       <>
         <PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
-          {/* Simplified debug display for isDirty - To be removed */}
-          {/* <div style={{ padding: '10px', backgroundColor: isDirty ? 'lightgreen' : 'lightcoral' }}>
-            Is Dirty: {isDirty ? 'Yes' : 'No'} - Summary: {changesSummaryString}
-          </div> */}
-
           {isDirty && (
             <div className="flex items-center space-x-2 mb-4 p-2 bg-secondary/80 rounded-sm">
               <span className="text-sm text-muted-foreground">{changesSummaryString}</span>
@@ -199,11 +183,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
             onSortColumnKeyChange={(key) => setSortColumnKey(key as keyof TasksPageGridData | null)}
             sortDirection={sortDirection}
             onSortDirectionChange={toggleSortDirection}
-          >
-            <Button onClick={() => setIsCreateTaskDialogOpen(true)} className="ml-2 h-9 rounded-sm">
-              Create Task
-            </Button>
-          </TableToolbar>
+          />
           <div className="mt-4">
             <DataSheetGrid
               value={dataForDisplay} // Use the fully processed data
@@ -230,12 +210,6 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
             />
           </div>
         </PageLayout>
-        <CreateTaskDialog
-            isOpen={isCreateTaskDialogOpen}
-            onOpenChange={setIsCreateTaskDialogOpen}
-            onTaskCreated={handleCreateTaskSuccess} // Use the new handler
-            // createTaskAction={createTaskTemplate} // Pass the server action
-        />
       </>
     );
 } 
