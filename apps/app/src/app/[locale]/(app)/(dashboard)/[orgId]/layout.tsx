@@ -39,6 +39,16 @@ export default async function Layout({
 		},
 	});
 
+	const isOnboardingRunning =
+		!!onboarding?.triggerJobId && !onboarding.completed;
+	const navbarHeight = 70;
+	const pageMargin = 33;
+	const onboardingHeight = 133;
+
+	const pixelsOffset = isOnboardingRunning
+		? navbarHeight + onboardingHeight + pageMargin
+		: navbarHeight + pageMargin;
+
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
 			<AnimatedLayout
@@ -52,7 +62,10 @@ export default async function Layout({
 					/>
 				)}
 				<Header />
-				<main className="px-4 mx-auto pb-8 min-h-[calc(100vh-15vh)]">
+				<main
+					className="px-4 mx-auto pb-8"
+					style={{ minHeight: `calc(100vh - ${pixelsOffset}px)` }}
+				>
 					{children}
 				</main>
 				<AssistantSheet />
