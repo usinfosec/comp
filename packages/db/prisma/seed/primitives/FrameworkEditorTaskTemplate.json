@@ -1474,5 +1474,23 @@
     "department": "none",
     "createdAt": "2025-05-15 08:46:19.600",
     "updatedAt": "2025-05-15 08:46:19.600"
+  },
+  {
+    "id": "frk_tt_683378414cb0b89faac9b317",
+    "name": "Risk Review",
+    "description": "Review risks in Risk Register",
+    "frequency": "quarterly",
+    "department": "none",
+    "createdAt": "2025-05-25 20:06:24.825",
+    "updatedAt": "2025-05-25 20:06:24.825"
+  },
+  {
+    "id": "frk_tt_683f31e48e93acfc25a7f070",
+    "name": "SDLC Task",
+    "description": "Upload evidence of code scanning. Additional requirements for ISO 27001: library scanning and web app scanning.",
+    "frequency": "quarterly",
+    "department": "none",
+    "createdAt": "2025-06-03 17:33:24.084",
+    "updatedAt": "2025-06-03 17:33:24.084"
   }
 ]

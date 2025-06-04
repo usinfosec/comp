@@ -29,7 +29,10 @@ export const RisksTable = ({
 	const orgId = session?.data?.session?.activeOrganizationId;
 	const [_, setOpenSheet] = useQueryState("create-risk-sheet");
 
-	const columns = useMemo<ColumnDef<RiskRow>[]>(() => getColumns(orgId ?? ""), [orgId]);
+	const columns = useMemo<ColumnDef<RiskRow>[]>(
+		() => getColumns(orgId ?? ""),
+		[orgId],
+	);
 
 	const { table } = useDataTable({
 		data: risks,
@@ -42,7 +45,7 @@ export const RisksTable = ({
 				pageIndex: 0,
 			},
 			sorting: [{ id: "title", desc: true }],
-            columnPinning: { right: ["actions"] },
+			columnPinning: { right: ["actions"] },
 		},
 		shallow: false,
 		clearOnDefault: true,
@@ -59,9 +62,7 @@ export const RisksTable = ({
 					table={table}
 					sheet="create-risk-sheet"
 					action="Create Risk"
-				>
-					<DataTableSortList table={table} align="end" />
-				</DataTableToolbar>
+				/>
 			</DataTable>
 			<CreateRiskSheet assignees={assignees} />
 		</>

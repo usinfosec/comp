@@ -3,7 +3,7 @@
 import { RiskMatrixChart } from "@/components/risks/charts/RiskMatrixChart";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
-import { VendorResidualRiskSheet } from "./VendorResidualRiskSheet";
+import { updateVendorResidualRisk } from "../actions/update-vendor-residual-risk";
 
 interface ResidualRiskChartProps {
 	vendor: Vendor;
@@ -16,13 +16,11 @@ export function VendorResidualRiskChart({ vendor }: ResidualRiskChartProps) {
 		<RiskMatrixChart
 			title={t("vendors.risks.residual_risk")}
 			description={t("vendors.risks.update_residual_risk_description")}
+			riskId={vendor.id}
 			activeLikelihood={vendor.residualProbability}
 			activeImpact={vendor.residualImpact}
-			sheetQueryParam="residual-risk-sheet"
-			EditSheetComponent={VendorResidualRiskSheet}
-			editSheetProps={{
-				vendorId: vendor.id,
-				initialRisk: vendor,
+			saveAction={async ({ id, probability, impact }) => {
+				return updateVendorResidualRisk({ vendorId: id, residualProbability: probability, residualImpact: impact });
 			}}
 		/>
 	);

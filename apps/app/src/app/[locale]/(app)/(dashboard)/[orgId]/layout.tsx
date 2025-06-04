@@ -3,14 +3,11 @@ import { Header } from "@/components/header";
 import { AssistantSheet } from "@/components/sheets/assistant-sheet";
 import { Sidebar } from "@/components/sidebar";
 import { SidebarProvider } from "@/context/sidebar-context";
-import { auth } from "@/utils/auth";
-import { db } from "@comp/db";
-import type { Organization } from "@comp/db/types";
+import { getCurrentOrganization } from "@/lib/currentOrganization";
 import dynamic from "next/dynamic";
-import { cookies, headers } from "next/headers";
-import { notFound, redirect } from "next/navigation";
-import { FloatingOnboardingChecklist } from "@/components/onboarding/FloatingOnboardingChecklist";
-import { getOnboardingStatus } from "./implementation/actions";
+import { cookies } from "next/headers";
+import { OnboardingTracker } from "./components/OnboardingTracker";
+import { db } from "@comp/db";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
@@ -27,53 +24,29 @@ export default async function Layout({
 	params: Promise<{ orgId: string }>;
 }) {
 	const { orgId: requestedOrgId } = await params;
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
-	const activeOrgId = session?.session?.activeOrganizationId;
 
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
-	const floatingOpen =
-		cookieStore.get("floating-onboarding-checklist")?.value !== "false";
+	const publicAccessToken = cookieStore.get("publicAccessToken")?.value;
 
-	if (!session?.session?.userId) {
-		return redirect("/auth");
-	}
+	const currentOrganization = await getCurrentOrganization({
+		requestedOrgId,
+	});
 
-	if (!activeOrgId) {
-		return redirect("/");
-	}
+	const onboarding = await db.onboarding.findFirst({
+		where: {
+			organizationId: currentOrganization?.id,
+		},
+	});
 
-	let currentOrganization: Organization | null = null;
+	const isOnboardingRunning =
+		!!onboarding?.triggerJobId && !onboarding.completed;
+	const navbarHeight = 69 + 1; // 1 for border
+	const onboardingHeight = 132 + 1; // 1 for border
 
-	if (requestedOrgId === activeOrgId) {
-		currentOrganization = await db.organization.findUnique({
-			where: {
-				id: activeOrgId,
-			},
-		});
-	} else {
-		currentOrganization = await db.organization.findUnique({
-			where: {
-				id: requestedOrgId,
-				members: { some: { userId: session.session.userId } },
-			},
-		});
-	}
-
-	if (!currentOrganization) {
-		return notFound();
-	}
-
-	const onboardingStatus = await getOnboardingStatus(currentOrganization.id);
-
-	if ("error" in onboardingStatus) {
-		console.error(
-			"Error fetching onboarding status:",
-			onboardingStatus.error,
-		);
-	}
+	const pixelsOffset = isOnboardingRunning
+		? navbarHeight + onboardingHeight
+		: navbarHeight;
 
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
@@ -81,25 +54,21 @@ export default async function Layout({
 				sidebar={<Sidebar organization={currentOrganization} />}
 				isCollapsed={isCollapsed}
 			>
+				{onboarding?.triggerJobId && (
+					<OnboardingTracker
+						onboarding={onboarding}
+						publicAccessToken={publicAccessToken!}
+					/>
+				)}
 				<Header />
-				<main className="px-4 mx-auto pb-8 min-h-[calc(100vh-15vh)]">
+				<div
+					className="px-4 mx-auto py-4"
+					style={{ minHeight: `calc(100vh - ${pixelsOffset}px)` }}
+				>
 					{children}
-				</main>
+				</div>
 				<AssistantSheet />
 			</AnimatedLayout>
-			<div className="hidden md:flex">
-				{!("error" in onboardingStatus) &&
-					onboardingStatus.completedItems <
-						onboardingStatus.totalItems && (
-						<FloatingOnboardingChecklist
-							orgId={currentOrganization.id}
-							completedItems={onboardingStatus.completedItems}
-							totalItems={onboardingStatus.totalItems}
-							checklistItems={onboardingStatus.checklistItems}
-							floatingOpen={floatingOpen}
-						/>
-					)}
-			</div>
 			<HotKeys />
 		</SidebarProvider>
 	);
