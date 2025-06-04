@@ -63,7 +63,7 @@ export function SecondaryMenu({
 
 	return (
 		<nav
-			className={cn(isChild ? "py-0 select-none" : "pt-4 select-none")}
+			className={cn(isChild ? "py-0 select-none" : "pt-0 select-none")}
 			key={pathname}
 		>
 			<ul
