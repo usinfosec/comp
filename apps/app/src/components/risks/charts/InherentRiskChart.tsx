@@ -18,13 +18,6 @@ export function InherentRiskChart({ risk }: InherentRiskChartProps) {
 			description={t("risk.dashboard.inherent_risk_description")}
 			activeLikelihood={risk.likelihood}
 			activeImpact={risk.impact}
-			sheetQueryParam="inherent-risk-sheet"
-			EditSheetComponent={InherentRiskSheet}
-			editSheetProps={{
-				riskId: risk.id,
-				initialProbability: risk.likelihood,
-				initialImpact: risk.impact,
-			}}
 		/>
 	);
 }

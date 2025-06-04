@@ -18,13 +18,6 @@ export function ResidualRiskChart({ risk }: ResidualRiskChartProps) {
 			description={t("risk.dashboard.residual_risk_description")}
 			activeLikelihood={risk.residualLikelihood}
 			activeImpact={risk.residualImpact}
-			sheetQueryParam="residual-risk-sheet"
-			EditSheetComponent={ResidualRiskSheet}
-			editSheetProps={{
-				riskId: risk.id,
-				initialProbability: risk.residualLikelihood,
-				initialImpact: risk.residualImpact,
-			}}
 		/>
 	);
 }

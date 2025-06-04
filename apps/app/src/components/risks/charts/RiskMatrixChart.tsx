@@ -13,6 +13,9 @@ import {
 import { PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import type React from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 const LIKELIHOOD_SCORES: Record<Likelihood, number> = {
 	very_unlikely: 1,
@@ -80,22 +83,29 @@ interface RiskMatrixChartProps {
 	description: string;
 	activeLikelihood: Likelihood;
 	activeImpact: Impact;
-	sheetQueryParam: string;
-	EditSheetComponent: React.ComponentType<any>;
-	editSheetProps: Record<string, any>;
 }
 
 export function RiskMatrixChart({
 	title,
 	description,
-	activeLikelihood,
-	activeImpact,
-	sheetQueryParam,
-	EditSheetComponent,
-	editSheetProps,
+	activeLikelihood: initialLikelihoodProp,
+	activeImpact: initialImpactProp,
 }: RiskMatrixChartProps) {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState(sheetQueryParam);
+
+	const [initialLikelihood, setInitialLikelihood] = useState<Likelihood>(initialLikelihoodProp);
+	const [initialImpact, setInitialImpact] = useState<Impact>(initialImpactProp);
+	const [activeLikelihood, setActiveLikelihood] = useState<Likelihood>(initialLikelihoodProp);
+	const [activeImpact, setActiveImpact] = useState<Impact>(initialImpactProp);
+
+	useEffect(() => {
+		setInitialLikelihood(initialLikelihoodProp);
+		setActiveLikelihood(initialLikelihoodProp);
+	}, [initialLikelihoodProp]);
+	useEffect(() => {
+		setInitialImpact(initialImpactProp);
+		setActiveImpact(initialImpactProp);
+	}, [initialImpactProp]);
 
 	const activeProbability = probabilityLevels[VISUAL_LIKELIHOOD_ORDER.indexOf(activeLikelihood)];
 	const activeImpactLevel = impactLevels[VISUAL_IMPACT_ORDER.indexOf(activeImpact)];
@@ -122,6 +132,23 @@ export function RiskMatrixChart({
 		})
 	);
 
+	const handleCellClick = (probability: string, impact: string) => {
+		const likelihoodIdx = probabilityLevels.indexOf(probability);
+		const impactIdx = impactLevels.indexOf(impact);
+		const newLikelihood = VISUAL_LIKELIHOOD_ORDER[likelihoodIdx];
+		const newImpact = VISUAL_IMPACT_ORDER[impactIdx];
+		setActiveLikelihood(newLikelihood);
+		setActiveImpact(newImpact);
+	};
+
+	const hasChanges = activeLikelihood !== initialLikelihood || activeImpact !== initialImpact;
+
+	const handleSave = () => {
+		setInitialLikelihood(activeLikelihood);
+		setInitialImpact(activeImpact);
+		toast.success(t("risk.form.update_inherent_risk_success"), { duration: 1200 });
+	};
+
 	return (
 		<>
 			<Card>
@@ -131,20 +158,27 @@ export function RiskMatrixChart({
 							<CardTitle>{title}</CardTitle>
 							<CardDescription>{description}</CardDescription>
 						</div>
-						<Button
-							onClick={() => setOpen("true")}
-							size="icon"
-							variant="ghost"
-							className="p-0 m-0 size-auto"
-						>
-							<PencilIcon className="h-4 w-4" />
-						</Button>
+						{/** Save button with Framer Motion animation */}
+						<AnimatePresence>
+							{hasChanges && (
+								<motion.div
+									initial={{ opacity: 0, y: 16 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: 16 }}
+									transition={{ duration: 0.25, ease: "easeOut" }}
+								>
+									<Button onClick={handleSave} variant="default">
+										{t("common.actions.save")}
+									</Button>
+								</motion.div>
+							)}
+						</AnimatePresence>
 					</div>
 				</CardHeader>
 				<CardContent>
 					<div className="relative">
 						<div>
-							<div className="grid grid-cols-6 gap-px rounded-lg">
+							<div className="grid grid-cols-[auto,1fr,1fr,1fr,1fr,1fr] gap-px rounded-lg">
 								<div className="h-12" />
 								{impactLevels.map((impact, index) => (
 									<div key={impact} className="flex flex-col items-center justify-center">
@@ -156,7 +190,7 @@ export function RiskMatrixChart({
 								{probabilityLevels.map((probability, rowIdx) => (
 									<div key={probability} className="contents">
 										<div
-											className="flex flex-col items-center justify-center"
+											className="flex flex-col items-center justify-center mr-4"
 											title={probabilityLabels[rowIdx]}
 										>
 											<span className="text-xs">{probabilityNumbers[rowIdx]}</span>
@@ -180,8 +214,9 @@ export function RiskMatrixChart({
 														flex items-center justify-center
 														${rounding}
 													`}
+													onClick={() => handleCellClick(probability, impact)}
 												>
-													{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg" />}
+													{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg animate-pulse" />}
 												</div>
 											);
 										})}
@@ -190,14 +225,13 @@ export function RiskMatrixChart({
 							</div>
 
 							{/* X-axis label */}
-							<div className="flex justify-center mt-4">
+							<div className="flex justify-center mt-2">
 								<span className="text-xs">{t("risk.metrics.impact")}</span>
 							</div>
 						</div>
 					</div>
 				</CardContent>
 			</Card>
-			<EditSheetComponent {...editSheetProps} />
 		</>
 	);
 }
