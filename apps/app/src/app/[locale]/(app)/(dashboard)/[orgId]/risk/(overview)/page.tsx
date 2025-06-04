@@ -49,7 +49,7 @@ export default async function RiskRegisterPage(props: {
 		validFilters.length === 0
 	) {
 		return (
-			<>
+			<div className="py-4">
 				<AppOnboarding
 					title={t("app_onboarding.risk_management.title")}
 					description={t(
@@ -88,7 +88,7 @@ export default async function RiskRegisterPage(props: {
 					]}
 				/>
 				<CreateRiskSheet assignees={assignees} />
-			</>
+			</div>
 		);
 	}
 
