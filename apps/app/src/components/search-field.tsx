@@ -31,16 +31,16 @@ export function SearchField({ placeholder, shallow = false }: Props) {
 
 	return (
 		<div className="w-full md:max-w-[380px] relative">
-			<Icons.Search className="absolute pointer-events-none left-3 top-[11px]" />
 			<Input
 				placeholder={placeholder}
-				className="pl-9 w-full"
+				className="w-full"
 				value={search ?? ""}
 				onChange={handleSearch}
 				autoComplete="off"
 				autoCapitalize="none"
 				autoCorrect="off"
 				spellCheck="false"
+				leftIcon={<Icons.Search size={16} />}
 			/>
 		</div>
 	);

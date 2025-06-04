@@ -29,7 +29,10 @@ export const RisksTable = ({
 	const orgId = session?.data?.session?.activeOrganizationId;
 	const [_, setOpenSheet] = useQueryState("create-risk-sheet");
 
-	const columns = useMemo<ColumnDef<RiskRow>[]>(() => getColumns(orgId ?? ""), [orgId]);
+	const columns = useMemo<ColumnDef<RiskRow>[]>(
+		() => getColumns(orgId ?? ""),
+		[orgId],
+	);
 
 	const { table } = useDataTable({
 		data: risks,

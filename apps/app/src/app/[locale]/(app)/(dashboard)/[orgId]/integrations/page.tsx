@@ -39,7 +39,7 @@ export default async function IntegrationsPage({
 	}
 
 	return (
-		<div className="mt-4 max-w-[1200px] m-auto flex flex-col gap-4">
+		<div className="max-w-[1200px] m-auto flex flex-col gap-4">
 			<IntegrationsHeader />
 
 			<IntegrationsServer />

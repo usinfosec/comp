@@ -36,7 +36,6 @@ export default async function Layout({
 			: [member.role];
 		return roles.includes("employee");
 	});
-	
 
 	return (
 		<div className="max-w-[1200px] m-auto">
@@ -46,10 +45,14 @@ export default async function Layout({
 						path: `/${orgId}/people/all`,
 						label: t("people.title"),
 					},
-					...(employees.length > 0 ? [{
-						path: `/${orgId}/people/dashboard`,
-						label: t("people.dashboard.title"),
-					}] : []),
+					...(employees.length > 0
+						? [
+								{
+									path: `/${orgId}/people/dashboard`,
+									label: t("people.dashboard.title"),
+								},
+							]
+						: []),
 				]}
 			/>
 

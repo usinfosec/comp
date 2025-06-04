@@ -5,7 +5,7 @@ import { Skeleton } from "@comp/ui/skeleton";
 export default function Loading() {
 	return (
 		<div className="space-y-12">
-			<div className="grid gap-4 md:grid-cols-2 select-none">
+			<div className="grid gap-4 md:grid-cols-1 select-none">
 				{/* Framework Cards */}
 				{[1, 2, 3].map((index) => (
 					<Card

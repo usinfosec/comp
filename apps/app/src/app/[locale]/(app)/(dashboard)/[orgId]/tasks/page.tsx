@@ -1,7 +1,12 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Role, TaskStatus } from "@comp/db/types";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@comp/ui/breadcrumb";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+} from "@comp/ui/breadcrumb";
 import { headers } from "next/headers";
 import { TaskList } from "./components/TaskList";
 
@@ -25,7 +30,7 @@ export default async function TasksPage({
 	const members = await getMembersWithMetadata();
 
 	return (
-		<main className="mt-4">
+		<main>
 			{/* Render Breadcrumbs only if we are in the tasks section */}
 			<div className="border-b pb-4">
 				<Breadcrumb>
