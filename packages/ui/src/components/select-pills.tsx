@@ -171,13 +171,12 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
     };
 
     const handleOpenChange = (open: boolean) => {
-        // Only allow external close events (like clicking outside)
-        if (!open) {
-            setIsOpen(false);
+        setIsOpen(open);
+        if (open) {
+            requestAnimationFrame(() => {
+                inputRef.current?.focus();
+            });
         }
-        requestAnimationFrame(() => {
-            inputRef.current?.focus();
-        });
     };
 
     return (
@@ -212,6 +211,9 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
                         value={inputValue}
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
+                        onFocus={() => {
+                            if (!isOpen) setIsOpen(true);
+                        }}
                         placeholder={placeholder}
                         disabled={disabled}
                     />
@@ -219,18 +221,7 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
             </div>
 
             <PopoverContent
-                onFocusOutside={(e) => {
-                    // Prevent closing if focus is in the input
-                    if (e.target === inputRef.current) {
-                        e.preventDefault();
-                    }
-                }}
-                onInteractOutside={(e) => {
-                    // Prevent closing if interaction is with the input
-                    if (e.target === inputRef.current) {
-                        e.preventDefault();
-                    }
-                }}
+                align="start"
             >
                 <div
                     ref={radioGroupRef}

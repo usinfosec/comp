@@ -181,7 +181,7 @@ export function RiskMatrixChart({
 														${rounding}
 													`}
 												>
-													{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg"></div>}
+													{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg" />}
 												</div>
 											);
 										})}
