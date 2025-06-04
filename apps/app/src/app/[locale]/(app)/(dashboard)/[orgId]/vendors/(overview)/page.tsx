@@ -44,7 +44,7 @@ export default async function Page({
 	// Show onboarding only if the view is default/unfiltered and there's no data
 	if (vendorsResult.data.length === 0 && isDefaultView(parsedSearchParams)) {
 		return (
-			<>
+			<div className="py-4">
 				<AppOnboarding
 					title={t("app_onboarding.vendors.title")}
 					description={t("app_onboarding.vendors.description")}
@@ -81,7 +81,7 @@ export default async function Page({
 					]}
 				/>
 				<CreateVendorSheet assignees={assignees} />
-			</>
+			</div>
 		);
 	}
 
