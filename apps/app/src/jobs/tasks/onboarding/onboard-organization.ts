@@ -36,10 +36,11 @@ export const onboardOrganization = task({
 				{
 					path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
 					secret: process.env.REVALIDATION_SECRET,
+					type: "layout",
 				},
 			);
 
-			if (!revalidateResponse.data.ok) {
+			if (!revalidateResponse.data?.revalidated) {
 				logger.error(
 					`Failed to revalidate path: ${revalidateResponse.statusText}`,
 				);
