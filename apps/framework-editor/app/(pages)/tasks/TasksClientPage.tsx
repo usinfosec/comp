@@ -137,11 +137,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
     const columns: Column<TasksPageGridData>[] = [
       { ...keyColumn('name', textColumn), title: 'Name', minWidth: 250 },
       {
-        ...(textAreaColumn<TasksPageGridData, 'description'> ({
-          stringKey: 'description',
-          createdRowIds: createdRowIds,
-        })),
-        id: 'description', 
+        ...keyColumn('description', textAreaColumn),
         title: 'Description', 
         minWidth: 350, 
         grow: 1 
