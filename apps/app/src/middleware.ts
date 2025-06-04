@@ -52,14 +52,14 @@ export async function middleware(request: NextRequest) {
 			newUrl.pathname !== "/auth" &&
 			!newUrl.pathname.startsWith("/setup/onboarding")
 		) {
-			const isOnboarded = await db.onboarding.findFirst({
+			const onboarding = await db.onboarding.findFirst({
 				where: {
 					organizationId: session.session
 						.activeOrganizationId as string,
 				},
 			});
 
-			if (!isOnboarded?.completed) {
+			if (!onboarding?.completed && !onboarding?.triggerJobId) {
 				return NextResponse.redirect(
 					new URL("/setup/onboarding", request.url),
 				);

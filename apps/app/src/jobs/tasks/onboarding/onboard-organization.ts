@@ -1,22 +1,31 @@
 import { openai } from "@ai-sdk/openai";
 import { db } from "@comp/db";
 import {
-	RiskCategory,
 	Departments,
-	VendorCategory,
 	Impact,
 	Likelihood,
+	RiskCategory,
 	RiskTreatmentType,
+	VendorCategory,
 } from "@comp/db/types";
-import { logger, task, tasks } from "@trigger.dev/sdk/v3";
+import { logger, task, tasks, wait } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";
+import ky from "ky";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
-import ky from "ky";
 import { updatePolicies } from "./update-policies";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
+	cleanup: async ({ organizationId }: { organizationId: string }) => {
+		// Set triggerJobId to null to signal that the job is complete or failed.
+		await db.onboarding.update({
+			where: {
+				organizationId,
+			},
+			data: { triggerJobId: null },
+		});
+	},
 	run: async (payload: {
 		organizationId: string;
 	}) => {
