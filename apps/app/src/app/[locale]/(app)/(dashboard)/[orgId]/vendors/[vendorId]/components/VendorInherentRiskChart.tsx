@@ -3,7 +3,7 @@
 import { RiskMatrixChart } from "@/components/risks/charts/RiskMatrixChart";
 import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
-import { VendorInherentRiskSheet } from "./VendorInherentRiskSheet";
+import { updateVendorInherentRisk } from "../actions/update-vendor-inherent-risk";
 
 interface InherentRiskChartProps {
 	vendor: Vendor;
@@ -16,14 +16,11 @@ export function VendorInherentRiskChart({ vendor }: InherentRiskChartProps) {
 		<RiskMatrixChart
 			title={t("vendors.risks.inherent_risk")}
 			description={t("vendors.risks.update_inherent_risk_description")}
+			riskId={vendor.id}
 			activeLikelihood={vendor.inherentProbability}
 			activeImpact={vendor.inherentImpact}
-			sheetQueryParam="inherent-risk-sheet"
-			EditSheetComponent={VendorInherentRiskSheet}
-			editSheetProps={{
-				vendorId: vendor.id,
-				initialProbability: vendor.inherentProbability,
-				initialImpact: vendor.inherentImpact,
+			saveAction={async ({ id, probability, impact }) => {
+				return updateVendorInherentRisk({ vendorId: id, inherentProbability: probability, inherentImpact: impact });
 			}}
 		/>
 	);

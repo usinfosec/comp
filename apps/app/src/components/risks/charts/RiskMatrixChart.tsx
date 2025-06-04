@@ -10,9 +10,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
-import { PencilIcon } from "lucide-react";
+import { Loader2, PencilIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import type React from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import { Icons } from "@comp/ui/icons";
 
 const LIKELIHOOD_SCORES: Record<Likelihood, number> = {
 	very_unlikely: 1,
@@ -78,24 +82,35 @@ const impactNumbers = ["1", "2", "3", "4", "5"];
 interface RiskMatrixChartProps {
 	title: string;
 	description: string;
+	riskId: string;
 	activeLikelihood: Likelihood;
 	activeImpact: Impact;
-	sheetQueryParam: string;
-	EditSheetComponent: React.ComponentType<any>;
-	editSheetProps: Record<string, any>;
+	saveAction: (data: { id: string; probability: Likelihood; impact: Impact }) => Promise<any>;
 }
 
 export function RiskMatrixChart({
 	title,
 	description,
-	activeLikelihood,
-	activeImpact,
-	sheetQueryParam,
-	EditSheetComponent,
-	editSheetProps,
+	riskId,
+	activeLikelihood: initialLikelihoodProp,
+	activeImpact: initialImpactProp,
+	saveAction,
 }: RiskMatrixChartProps) {
 	const t = useI18n();
-	const [open, setOpen] = useQueryState(sheetQueryParam);
+	const [initialLikelihood, setInitialLikelihood] = useState<Likelihood>(initialLikelihoodProp);
+	const [initialImpact, setInitialImpact] = useState<Impact>(initialImpactProp);
+	const [activeLikelihood, setActiveLikelihood] = useState<Likelihood>(initialLikelihoodProp);
+	const [activeImpact, setActiveImpact] = useState<Impact>(initialImpactProp);
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		setInitialLikelihood(initialLikelihoodProp);
+		setActiveLikelihood(initialLikelihoodProp);
+	}, [initialLikelihoodProp]);
+	useEffect(() => {
+		setInitialImpact(initialImpactProp);
+		setActiveImpact(initialImpactProp);
+	}, [initialImpactProp]);
 
 	const activeProbability = probabilityLevels[VISUAL_LIKELIHOOD_ORDER.indexOf(activeLikelihood)];
 	const activeImpactLevel = impactLevels[VISUAL_IMPACT_ORDER.indexOf(activeImpact)];
@@ -122,82 +137,103 @@ export function RiskMatrixChart({
 		})
 	);
 
+	const handleCellClick = (probability: string, impact: string) => {
+		const likelihoodIdx = probabilityLevels.indexOf(probability);
+		const impactIdx = impactLevels.indexOf(impact);
+		const newLikelihood = VISUAL_LIKELIHOOD_ORDER[likelihoodIdx];
+		const newImpact = VISUAL_IMPACT_ORDER[impactIdx];
+		setActiveLikelihood(newLikelihood);
+		setActiveImpact(newImpact);
+	};
+
+	const hasChanges = activeLikelihood !== initialLikelihood || activeImpact !== initialImpact;
+
+	const handleSave = async () => {
+		setLoading(true);
+		try {
+			await saveAction({ id: riskId, probability: activeLikelihood, impact: activeImpact });
+			setInitialLikelihood(activeLikelihood);
+			setInitialImpact(activeImpact);
+		} catch (e) {
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
-		<>
-			<Card>
-				<CardHeader className="pb-4">
-					<div className="flex items-center justify-between">
-						<div>
-							<CardTitle>{title}</CardTitle>
-							<CardDescription>{description}</CardDescription>
-						</div>
-						<Button
-							onClick={() => setOpen("true")}
-							size="icon"
-							variant="ghost"
-							className="p-0 m-0 size-auto"
-						>
-							<PencilIcon className="h-4 w-4" />
-						</Button>
+		<Card>
+			<CardHeader className="pb-4">
+				<div className="flex items-center justify-between">
+					<div>
+						<CardTitle>{title}</CardTitle>
+						<CardDescription>{description}</CardDescription>
 					</div>
-				</CardHeader>
-				<CardContent>
-					<div className="relative">
-						<div>
-							<div className="grid grid-cols-6 gap-px rounded-lg">
-								<div className="h-12" />
-								{impactLevels.map((impact, index) => (
-									<div key={impact} className="flex flex-col items-center justify-center">
-										<span className="text-xs text-center leading-tight">{impact}</span>
+					<AnimatePresence>
+						{hasChanges && (
+							<motion.div
+								initial={{ opacity: 0, y: 16 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.15, ease: "easeOut" }}
+							>
+								<Button onClick={handleSave} variant="default" disabled={loading}>
+									{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("common.actions.save")}
+								</Button>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</div>
+			</CardHeader>
+			<CardContent>
+				<div className="relative">
+					<div>
+						<div className="grid grid-cols-[auto,1fr,1fr,1fr,1fr,1fr] gap-px rounded-lg">
+							<div className="h-12" />
+							{impactLevels.map((impact, index) => (
+								<div key={impact} className="flex flex-col items-center justify-center">
+									<span className="text-xs text-center leading-tight">{impact}</span>
+								</div>
+							))}
+							{probabilityLevels.map((probability, rowIdx) => (
+								<div key={probability} className="contents">
+									<div
+										className="flex flex-col items-center justify-center mr-4"
+										title={probabilityLabels[rowIdx]}
+									>
+										<span className="text-xs">{probabilityNumbers[rowIdx]}</span>
 									</div>
-								))}
-
-								{/* Data rows */}
-								{probabilityLevels.map((probability, rowIdx) => (
-									<div key={probability} className="contents">
-										<div
-											className="flex flex-col items-center justify-center"
-											title={probabilityLabels[rowIdx]}
-										>
-											<span className="text-xs">{probabilityNumbers[rowIdx]}</span>
-										</div>
-										{impactLevels.map((impact, colIdx) => {
-											const cell = riskData.find(
-												(item) => item.probability === probability && item.impact === impact
-											);
-											// Determine if this cell is a corner for rounding
-											let rounding = "";
-											if (rowIdx === 0 && colIdx === 0) rounding = "rounded-tl-lg";
-											if (rowIdx === 0 && colIdx === impactLevels.length - 1) rounding = "rounded-tr-lg";
-											if (rowIdx === probabilityLevels.length - 1 && colIdx === 0) rounding = "rounded-bl-lg";
-											if (rowIdx === probabilityLevels.length - 1 && colIdx === impactLevels.length - 1) rounding = "rounded-br-lg";
-											return (
-												<div
-													key={`${probability}-${impact}`}
-													className={`
-														relative h-12 border transition-all duration-200 cursor-pointer
-														${getRiskColor(cell?.level || "very-low")}
-														flex items-center justify-center
-														${rounding}
-													`}
-												>
-													{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg" />}
-												</div>
-											);
-										})}
-									</div>
-								))}
-							</div>
-
-							{/* X-axis label */}
-							<div className="flex justify-center mt-4">
-								<span className="text-xs">{t("risk.metrics.impact")}</span>
-							</div>
+									{impactLevels.map((impact, colIdx) => {
+										const cell = riskData.find(
+											(item) => item.probability === probability && item.impact === impact
+										);
+										let rounding = "";
+										if (rowIdx === 0 && colIdx === 0) rounding = "rounded-tl-lg";
+										if (rowIdx === 0 && colIdx === impactLevels.length - 1) rounding = "rounded-tr-lg";
+										if (rowIdx === probabilityLevels.length - 1 && colIdx === 0) rounding = "rounded-bl-lg";
+										if (rowIdx === probabilityLevels.length - 1 && colIdx === impactLevels.length - 1) rounding = "rounded-br-lg";
+										return (
+											<div
+												key={`${probability}-${impact}`}
+												className={`
+													relative h-12 border transition-all duration-200 cursor-pointer
+													${getRiskColor(cell?.level || "very-low")}
+													flex items-center justify-center
+													${rounding}
+												`}
+												onClick={() => handleCellClick(probability, impact)}
+											>
+												{cell?.value && <div className="w-3 h-3 bg-white rounded-full shadow-lg animate-pulse" />}
+											</div>
+										);
+									})}
+								</div>
+							))}
+						</div>
+						<div className="flex justify-center mt-2">
+							<span className="text-xs">{t("risk.metrics.impact")}</span>
 						</div>
 					</div>
-				</CardContent>
-			</Card>
-			<EditSheetComponent {...editSheetProps} />
-		</>
+				</div>
+			</CardContent>
+		</Card>
 	);
 }
