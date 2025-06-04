@@ -217,7 +217,7 @@ export function OnboardingForm() {
                     onValueChange={(values: string[]) => {
                         form.setValue(step.key, values.join(","));
                     }}
-                    placeholder={step.placeholder + ` (type and press enter)`}
+                    placeholder={`Type anything and press enter to add it, ${step.placeholder}`}
                 />
             );
         }

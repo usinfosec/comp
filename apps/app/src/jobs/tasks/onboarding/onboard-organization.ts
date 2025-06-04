@@ -17,10 +17,6 @@ import { updatePolicies } from "./update-policies";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
-	queue: {
-		name: "onboard-organization",
-		concurrencyLimit: 5,
-	},
 	run: async (payload: {
 		organizationId: string;
 	}) => {
@@ -218,11 +214,13 @@ export const onboardOrganization = task({
 					payload: {
 						organizationId: payload.organizationId,
 						policyId: policy.id,
-						contextHub: contextHub.map((c) => `${c.question}\n${c.answer}`).join("\n"),
+						contextHub: contextHub
+							.map((c) => `${c.question}\n${c.answer}`)
+							.join("\n"),
 					},
 					queue: {
 						name: "update-policies",
-						concurrencyLimit: 1,
+						concurrencyLimit: 5,
 					},
 					concurrencyKey: payload.organizationId,
 				})),

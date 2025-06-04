@@ -3,7 +3,7 @@ import { db } from "@comp/db";
 import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { generateObject, generateText, NoObjectGeneratedError } from "ai";
 import { JSONContent } from "novel";
-import {  z } from "zod";
+import { z } from "zod";
 import { generatePrompt } from "../../lib/prompts";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -53,7 +53,7 @@ export const updatePolicies = schemaTask({
 			try {
 				const { text } = await generateText({
 					model: openai("o4-mini"),
-					system: `You are an expert at writing security policies in TipTap JSON.`,
+					system: "You are an expert at writing security policies in TipTap JSON.",
 					prompt: `Update the following policy to be strictly aligned with SOC 2 standards and controls. Only include JSON content as your output.
 
 					${prompt.replace(/\\n/g, "\n")}`,
@@ -67,7 +67,7 @@ export const updatePolicies = schemaTask({
 				const { object } = await generateObject({
 					model: openai("gpt-4.1-mini"),
 					mode: "json",
-					system: `You are an expert at writing security policies in TipTap JSON.`,
+					system: "You are an expert at writing security policies in TipTap JSON.",
 					prompt: `Convert the following text into TipTap JSON. Do not include any other text in your output: ${JSON.stringify(text)}`,
 					schema: z.object({
 						json: z.array(z.any()),
