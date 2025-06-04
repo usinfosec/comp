@@ -1,3 +1,196 @@
+## [1.32.3](https://github.com/trycompai/comp/compare/v1.32.2...v1.32.3) (2025-05-30)
+
+
+### Bug Fixes
+
+* fix issue with scrollbar showing up when not needed ([8a2a3e7](https://github.com/trycompai/comp/commit/8a2a3e7e621ae36ce3e5e90729ef9540794d68b4))
+
+## [1.32.2](https://github.com/trycompai/comp/compare/v1.32.1...v1.32.2) (2025-05-30)
+
+
+### Bug Fixes
+
+* issue with selecting role for inviting members on firefox ([2bd3895](https://github.com/trycompai/comp/commit/2bd3895f945ccf66672fa63c8494b80fe81b9ee9))
+
+## [1.32.1](https://github.com/trycompai/comp/compare/v1.32.0...v1.32.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* **invite:** allow role selection in modal ([2898ffd](https://github.com/trycompai/comp/commit/2898ffde8e8d0f00bf481f20028c3a3c1279f30a))
+
+# [1.32.0](https://github.com/trycompai/comp/compare/v1.31.0...v1.32.0) (2025-05-26)
+
+
+### Features
+
+* implement client-side filtering in controls and frameworks tables for enhanced search functionality ([010dfe0](https://github.com/trycompai/comp/commit/010dfe022fb7693c3d87ea5cd7c8682b1f7b7ab3))
+
+# [1.31.0](https://github.com/trycompai/comp/compare/v1.30.3...v1.31.0) (2025-05-26)
+
+
+### Features
+
+* add ability to delete tasks ([948c78d](https://github.com/trycompai/comp/commit/948c78d9e67bdb66803bbcf621ef25543ebd09e9))
+
+## [1.30.3](https://github.com/trycompai/comp/compare/v1.30.2...v1.30.3) (2025-05-25)
+
+
+### Bug Fixes
+
+* **policy:** align creation schema ([256f111](https://github.com/trycompai/comp/commit/256f1117e003ccb45b7bb7575685b0fce0b7c8f4))
+
+## [1.30.2](https://github.com/trycompai/comp/compare/v1.30.1...v1.30.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* add ability to delete controls ([ca6c95c](https://github.com/trycompai/comp/commit/ca6c95ce9debdbd9a26651393360f1235dd3ce55))
+* added ability to delete a policy ([aaf6f53](https://github.com/trycompai/comp/commit/aaf6f53dd5156fd5223561fcf7c582612a139921))
+* allow deleting entire framework ([bc32f8d](https://github.com/trycompai/comp/commit/bc32f8d84dc7d59d03e7a4f9792d8daaaf2874e1))
+
+## [1.30.1](https://github.com/trycompai/comp/compare/v1.30.0...v1.30.1) (2025-05-22)
+
+
+### Bug Fixes
+
+* **policy:** improve pending changes alert dark mode ([7f9ac23](https://github.com/trycompai/comp/commit/7f9ac238b315c24fc72db19dc75007185a9581f3))
+
+# [1.30.0](https://github.com/trycompai/comp/compare/v1.29.0...v1.30.0) (2025-05-22)
+
+
+### Features
+
+* add approval / denial of policy changes with audit logs and comments ([c512e1f](https://github.com/trycompai/comp/commit/c512e1f82b0e261702158672d6907f47ccaed341))
+
+# [1.29.0](https://github.com/trycompai/comp/compare/v1.28.0...v1.29.0) (2025-05-22)
+
+
+### Features
+
+* add framework editor schemas and seeding functionality ([c2343fd](https://github.com/trycompai/comp/commit/c2343fda9e63a1c015c500355635428dbbb8cadc))
+
+# [1.28.0](https://github.com/trycompai/comp/compare/v1.27.0...v1.28.0) (2025-05-19)
+
+
+### Features
+
+* implement framework addition functionality in the dashboard ([073a2d4](https://github.com/trycompai/comp/commit/073a2d4146d8cc398b8a99d625809af346beeaf4))
+
+# [1.27.0](https://github.com/trycompai/comp/compare/v1.26.0...v1.27.0) (2025-05-19)
+
+
+### Bug Fixes
+
+* add comment to seed script for clarity ([03d3bc0](https://github.com/trycompai/comp/commit/03d3bc02258f0d6adc06e8b97dabbcbb85eb3852))
+* ensure foreign key constraints are correctly defined for framework and requirement mappings ([e3c3cc2](https://github.com/trycompai/comp/commit/e3c3cc2ba59801abd97cb41bbfb9fe5f0aef7051))
+
+
+### Features
+
+* add 'visible' property to frameworks across components ([912e87d](https://github.com/trycompai/comp/commit/912e87d0727cf37d8e3af3b41631e91cc9002901))
+* add getRequirementDetails utility function for requirement retrieval ([69fac45](https://github.com/trycompai/comp/commit/69fac45bc13f184b3b0fc8707163eaef4518c484))
+* add migrations to update framework and requirement relationships ([9b97975](https://github.com/trycompai/comp/commit/9b9797507aef6998aa0e42686b321e374e4d1c3e))
+* add template references to database models and update organization initialization ([09a90cd](https://github.com/trycompai/comp/commit/09a90cde3977b1070d5d02bd0c7b6a99fdd680a8))
+* add visibility toggle to FrameworkEditorFramework model ([1a0176f](https://github.com/trycompai/comp/commit/1a0176fb5676312132f9bd13eec4e022e3128fdc))
+* drop Artifact and _ArtifactToControl tables, migrate relationships to new _ControlToPolicy table ([419fc3f](https://github.com/trycompai/comp/commit/419fc3f63fdd28d320d5b7872f3f9855951bfe1a))
+* enhance ControlsClientPage with framework filtering and control creation ([9949666](https://github.com/trycompai/comp/commit/99496667b5433228731821b21220a204b5b2b4f7))
+* enhance CreateOrgModal layout and add database seeding functionality ([0a79414](https://github.com/trycompai/comp/commit/0a794142123c3282542051973a33af4959b42252))
+* enhance FrameworkEditorFramework with visibility feature ([e8b7a8a](https://github.com/trycompai/comp/commit/e8b7a8a680ad57835e250dcb030e67ce841e88c9))
+* enhance getControl function to include nested framework details ([8c8561c](https://github.com/trycompai/comp/commit/8c8561c62eca8df052704231e8410a698b315a61))
+* **framework:** refactor framework handling and enhance organization creation ([5f53dc2](https://github.com/trycompai/comp/commit/5f53dc2327ef78626462ba02ae84963d25b3b433))
+* refactor framework requirements handling and integrate database fetching ([89b1c2c](https://github.com/trycompai/comp/commit/89b1c2c06d053216e3c053fe67c9a9572feb89cf))
+* **schema:** add TODOs for framework and requirement relations ([3982373](https://github.com/trycompai/comp/commit/398237366e23541530b140be5ba189b9531177b9))
+* **schema:** update organization schema and control types for improved validation and type safety ([f19fe92](https://github.com/trycompai/comp/commit/f19fe92c3c368a317283b84ce0b39751880227af))
+* update RequirementsTable to utilize nested requirement structure ([b0f2525](https://github.com/trycompai/comp/commit/b0f252566cdc1ea099d7b52f5bedce683f545c5f))
+* update SingleControl component to support nested framework structure ([e544f4e](https://github.com/trycompai/comp/commit/e544f4e110a2706c4c497b501beeebd179939e13))
+
+# [1.26.0](https://github.com/trycompai/comp/compare/v1.25.0...v1.26.0) (2025-05-19)
+
+
+### Bug Fixes
+
+* **analytics:** keep client active ([42ec348](https://github.com/trycompai/comp/commit/42ec348ad52d76c521d9f91607958d311b2f5bf7))
+* **layout:** make sidebar scrollable ([82eb566](https://github.com/trycompai/comp/commit/82eb56613c6c7ba28011d816018b997d4080a619))
+* use custom IDs wording ([54dcc86](https://github.com/trycompai/comp/commit/54dcc86ac2e49a6fe104b39cec73893dbb86c21c))
+
+
+### Features
+
+* integrate Calcom components and enhance onboarding checklist ([42fe663](https://github.com/trycompai/comp/commit/42fe66323a114dff3bbcf1c8bd026a83d1cd66f9))
+
+# [1.25.0](https://github.com/trycompai/comp/compare/v1.24.0...v1.25.0) (2025-05-17)
+
+
+### Features
+
+* **migrations:** add foreign key constraints and update frameworkId for SOC2 requirements ([f42ac96](https://github.com/trycompai/comp/commit/f42ac96d12a8e364804e94f7fa2542411acdd17a))
+
+# [1.24.0](https://github.com/trycompai/comp/compare/v1.23.0...v1.24.0) (2025-05-16)
+
+
+### Features
+
+* add auth wall on frameworks tool ([1e0667d](https://github.com/trycompai/comp/commit/1e0667d09f645465f445c18db33bf36619074380))
+
+# [1.23.0](https://github.com/trycompai/comp/compare/v1.22.0...v1.23.0) (2025-05-16)
+
+
+### Features
+
+* **frameworks:** include controls in task retrieval across various components ([bfbad29](https://github.com/trycompai/comp/commit/bfbad293ade92a8e165c390759f7ab0eab4dfae0))
+
+# [1.22.0](https://github.com/trycompai/comp/compare/v1.21.0...v1.22.0) (2025-05-16)
+
+
+### Bug Fixes
+
+* **control-progress:** streamline task retrieval in getOrganizationControlProgress function ([c71aa91](https://github.com/trycompai/comp/commit/c71aa915796ca4249e52942fe723cd7f754aa14c))
+
+
+### Features
+
+* **migration:** add many-to-many support for tasks ([cebda99](https://github.com/trycompai/comp/commit/cebda99b6f95c000a951acfc392e5b4741b9b1d3))
+* **organization-tasks:** implement task creation with error handling ([ba19e6d](https://github.com/trycompai/comp/commit/ba19e6dae8de772fcbacd654e2a65f89bd340587))
+* **task:** make entityId and entityType optional in Task model ([ad5ecce](https://github.com/trycompai/comp/commit/ad5ecce08941563805fe55a3620e7a34a9cc794c))
+
+# [1.21.0](https://github.com/trycompai/comp/compare/v1.20.0...v1.21.0) (2025-05-15)
+
+
+### Features
+
+* added ability to link and unlink policies to controls from the UI ([1d9ace1](https://github.com/trycompai/comp/commit/1d9ace198edd9b4786d69378ac4af56b02782e22))
+
+# [1.20.0](https://github.com/trycompai/comp/compare/v1.19.0...v1.20.0) (2025-05-15)
+
+
+### Features
+
+* **trust-portal:** implement friendly URL functionality ([7e43c73](https://github.com/trycompai/comp/commit/7e43c73e000a3a4dd43885c8999bb95f49a75991))
+
+# [1.19.0](https://github.com/trycompai/comp/compare/v1.18.0...v1.19.0) (2025-05-14)
+
+
+### Features
+
+* added attachments to vendors and risks, also updated the comments component to a better one ([584f01c](https://github.com/trycompai/comp/commit/584f01c09ce9da5a26fa84d400d509fecc995afa))
+
+# [1.18.0](https://github.com/trycompai/comp/compare/v1.17.0...v1.18.0) (2025-05-14)
+
+
+### Features
+
+* **editor:** add custom action cell to ControlsClientPage for navigation ([d8337ff](https://github.com/trycompai/comp/commit/d8337ff7371308e9a4473370a920fe4c8921533b))
+* **editor:** enhance ControlsClientPage with createdAt and updatedAt fields ([5f2b4d6](https://github.com/trycompai/comp/commit/5f2b4d69eaa37182e5733ca452320845d8ee8ed7))
+* **editor:** enhance ControlsClientPage with friendly date formatting and UI improvements ([960fd3c](https://github.com/trycompai/comp/commit/960fd3cd5fedde952c18e855281acd2ed155ea44))
+* **editor:** enhance ControlsClientPage with improved change tracking and UI feedback ([f680dff](https://github.com/trycompai/comp/commit/f680dff7894961c6d02df0071088d4ad02fe2d43))
+* **editor:** enhance ControlsClientPage with improved search and sorting UI ([47db2bd](https://github.com/trycompai/comp/commit/47db2bdf9a02dd78c87b788b241f8e73fd99ea61))
+* **editor:** enhance ControlsClientPage with new control creation and linking features ([8e23222](https://github.com/trycompai/comp/commit/8e23222c195364499e85dd9e5d9b6489bb47fd26))
+* **editor:** enhance ControlsClientPage with relational linking and UI improvements ([275b09e](https://github.com/trycompai/comp/commit/275b09e33d269a22f33e35061e12eaf0b0ace781))
+* **editor:** enhance ControlsClientPage with search and sorting functionality ([05efcb0](https://github.com/trycompai/comp/commit/05efcb0a3043b877cee04677261b6b1de105107b))
+* **editor:** implement change tracking and row styling in ControlsClientPage ([3908e32](https://github.com/trycompai/comp/commit/3908e32075b6eda57bafe5406880dc603b7a5fc1))
+* **editor:** integrate react-datasheet-grid for enhanced controls management ([084e861](https://github.com/trycompai/comp/commit/084e861b0b0efc06c2e34fec3ffc66ccd4eee337))
+
 # [1.17.0](https://github.com/trycompai/comp/compare/v1.16.0...v1.17.0) (2025-05-14)
 
 
