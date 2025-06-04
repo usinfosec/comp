@@ -3,32 +3,45 @@
 import PageLayout from "@/app/components/PageLayout";
 import { useRouter } from 'next/navigation'; // Added for potential refresh
 import { useMemo } from 'react';
+import { toast } from 'sonner'; // Import toast for user feedback
+import { relationalColumn, type ItemWithName } from '../../components/grid/RelationalCell'; // Import relationalColumn and ItemWithName
+import { friendlyDateColumnBase } from '../../components/gridUtils'; // Added import
 import { TableToolbar } from '../../components/TableToolbar'; // Adjusted path
 import { useTableSearchSort } from '../../hooks/useTableSearchSort'; // Adjusted path
 import type { SortConfig } from '../../types/common'; // Adjusted path
-import { simpleUUID, useTaskChangeTracking, type TasksPageGridData } from './hooks/useTaskChangeTracking'; // Adjusted path and added type
-import { friendlyDateColumnBase, formatFriendlyDate } from '../../components/gridUtils'; // Added import
-import { relationalColumn, type ItemWithName } from '../../components/grid/RelationalCell'; // Import relationalColumn and ItemWithName
 import { getAllControlsForLinking, linkControlToTask, unlinkControlFromTask } from './actions'; // Import actions
-import { toast } from 'sonner'; // Import toast for user feedback
+import { simpleUUID, useTaskChangeTracking, type TasksPageGridData } from './hooks/useTaskChangeTracking'; // Adjusted path and added type
+import { textAreaColumn } from '../../components/grid/TextAreaCell'; // For Description column
+import { selectColumnDefinition, type Choice } from '../../components/grid/SelectCell'; // Import for SelectCell
 
 import {
   Column,
   DataSheetGrid,
   keyColumn,
-  textColumn,
-  type CellProps
+  textColumn
 } from 'react-datasheet-grid';
 import 'react-datasheet-grid/dist/style.css';
 
 import { Button } from "@comp/ui/button";
-import type { FrameworkEditorTaskTemplate } from '@prisma/client'; // Keep for initial props type
-import type { FrameworkEditorControlTemplate } from '@prisma/client'; // Import ControlTemplate for related data
+import type { FrameworkEditorControlTemplate, FrameworkEditorTaskTemplate } from '@prisma/client'; // Keep for initial props type
+import { Frequency, Departments } from '@prisma/client'; // Import Prisma enums
 
 // Define a type for tasks that includes their related control templates
 interface FrameworkEditorTaskTemplateWithRelatedControls extends FrameworkEditorTaskTemplate {
   controlTemplates?: Pick<FrameworkEditorControlTemplate, 'id' | 'name'>[]; // Or FrameworkEditorControlTemplate[] if more fields are needed
 }
+
+// Options for Frequency select
+const frequencyChoices: Choice[] = Object.values(Frequency).map(freq => ({
+    value: freq,
+    label: freq.charAt(0).toUpperCase() + freq.slice(1).replace('_', ' ') // e.g., "Monthly", "Quarterly"
+}));
+
+// Options for Departments select
+const departmentChoices: Choice[] = Object.values(Departments).map(dept => ({
+    value: dept,
+    label: dept === 'none' ? 'None' : dept.toUpperCase() // e.g., "IT", "HR", "None"
+}));
 
 // Define sortable column options for tasks
 const sortableColumnsOptions: { value: keyof TasksPageGridData; label: string }[] = [
@@ -67,8 +80,8 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
         id: task.id || simpleUUID(),
         name: task.name ?? null,
         description: task.description ?? null,
-        frequency: task.frequency ?? null, 
-        department: task.department ?? null, 
+        frequency: task.frequency ?? null, // This will be a string from the enum
+        department: task.department ?? null, // This will be a string from the enum
         controls: task.controlTemplates?.map(ct => ({ id: ct.id, name: ct.name })) || [], // Corrected: use task.controlTemplates
         controlsLength: task.controlTemplates?.length || 0, // Corrected: use task.controlTemplates
         createdAt: task.createdAt ? new Date(task.createdAt) : null,
@@ -123,9 +136,28 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
     // Define columns for DataSheetGrid
     const columns: Column<TasksPageGridData>[] = [
       { ...keyColumn('name', textColumn), title: 'Name', minWidth: 250 },
-      { ...keyColumn('description', textColumn), title: 'Description', minWidth: 350, grow: 1 },
-      { ...keyColumn('frequency', textColumn), title: 'Frequency', minWidth: 150 }, // Adjust if using a select/enum column
-      { ...keyColumn('department', textColumn), title: 'Department', minWidth: 150 }, // Adjust if using a select/enum column
+      {
+        ...keyColumn('description', textAreaColumn),
+        title: 'Description', 
+        minWidth: 350, 
+        grow: 1 
+      },
+      {
+        ...keyColumn('frequency', selectColumnDefinition({ 
+            choices: frequencyChoices,
+            placeholder: 'Select frequency...'
+        })),
+        title: 'Frequency', 
+        minWidth: 180 
+      },
+      {
+        ...keyColumn('department', selectColumnDefinition({ 
+            choices: departmentChoices,
+            placeholder: 'Select department...'
+        })),
+        title: 'Department', 
+        minWidth: 180 
+      },
       {
         ...(relationalColumn<TasksPageGridData, 'controls'> ({
           itemsKey: 'controls',
@@ -203,8 +235,8 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
                 id: simpleUUID(),
                 name: 'New Task Name',
                 description: 'Task Description',
-                frequency: null, // Or a default enum value
-                department: null, // Or a default enum value
+                frequency: null, // Initially null, user selects from dropdown
+                department: null, // Initially null, user selects from dropdown
                 controls: [],
                 controlsLength: 0,
                 createdAt: new Date(),
@@ -214,6 +246,9 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
                 ...rowData, 
                 id: simpleUUID(),
                 name: rowData.name ? `Copy of ${rowData.name}` : 'Copied Task',
+                description: rowData.description,
+                frequency: rowData.frequency, // Copied as string (enum value)
+                department: rowData.department, // Copied as string (enum value)
                 controls: rowData.controls ? [...rowData.controls] : [],
                 controlsLength: rowData.controlsLength || 0,
                 createdAt: new Date(),

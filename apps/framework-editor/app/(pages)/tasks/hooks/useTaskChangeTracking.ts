@@ -3,17 +3,17 @@ import type { FrameworkEditorTaskTemplate } from '@prisma/client';
 import { Frequency, Departments } from '@prisma/client'; // Added import for enums
 import { createTaskTemplate, updateTaskTemplate, deleteTaskTemplate } from '../actions'; // Task-specific actions
 import { useToast } from '@comp/ui/use-toast'; // Assuming this path is correct
-import type { ItemWithName } from '../../../components/grid/RelationalCell'; // Corrected import path again
+import type { ItemWithName } from '../../../components/grid/RelationalCell'; // Corrected import for ItemWithName
 
 // TODO: Define this based on what's displayed in the grid and what's editable.
 // This will mirror ControlsPageGridData but for Tasks.
 export interface TasksPageGridData {
   id: string;
   name: string | null;
-  description: string | null;
+  description: string | null; // Reverted to string | null
   frequency: string | null; // Or your specific enum type if available
   department: string | null; // Or your specific enum type if available
-  controls: ItemWithName[]; // Added for linked controls
+  controls: ItemWithName[]; // This uses ItemWithName from RelationalCell
   controlsLength: number; // Added for sorting/displaying count of linked controls
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -122,9 +122,9 @@ export const useTaskChangeTracking = (initialData: TasksPageGridData[]) => {
       if (row && row.name) { // Ensure name is present, adapt other required fields as needed
         return createTaskTemplate({ 
             name: row.name, 
-            description: row.description,
-            frequency: row.frequency as Frequency | null, // Temporary cast
-            department: row.department as Departments | null // Temporary cast
+            description: row.description, // Pass as string | null directly
+            frequency: row.frequency as Frequency | null, 
+            department: row.department as Departments | null 
         })
           .then((newTask: FrameworkEditorTaskTemplate) => ({ success: true, tempId, newId: newTask.id, newTask } as TaskCreationSuccessResult))
           .catch(error => {
@@ -146,9 +146,9 @@ export const useTaskChangeTracking = (initialData: TasksPageGridData[]) => {
       if (row && row.name) { // Ensure name is present
         return updateTaskTemplate(id, { 
             name: row.name, 
-            description: row.description,
-            frequency: row.frequency as Frequency | null, // Temporary cast
-            department: row.department as Departments | null // Temporary cast
+            description: row.description, // Pass as string | null directly
+            frequency: row.frequency as Frequency | null, 
+            department: row.department as Departments | null 
         })
           .then(() => {
             successfulCommits++;
@@ -205,16 +205,15 @@ export const useTaskChangeTracking = (initialData: TasksPageGridData[]) => {
           const { tempId, newId, newTask } = creationValue;
           const originalRow = workingData.find(r => r.id === tempId);
           if (originalRow) {
-            // Map the full newTask object from the server to TasksPageGridData
             serverCreatedRows.set(newId, { 
-                ...originalRow, // Keep any client-side optimistic updates not returned by server if needed
+                ...originalRow, 
                 id: newId,
                 name: newTask.name,
-                description: newTask.description,
+                description: newTask.description, // Expect string | null from server
                 frequency: newTask.frequency,
                 department: newTask.department,
-                controls: originalRow.controls,
-                controlsLength: originalRow.controlsLength,
+                controls: originalRow.controls, 
+                controlsLength: originalRow.controlsLength, 
                 createdAt: newTask.createdAt ? new Date(newTask.createdAt) : null,
                 updatedAt: newTask.updatedAt ? new Date(newTask.updatedAt) : null,
             });
