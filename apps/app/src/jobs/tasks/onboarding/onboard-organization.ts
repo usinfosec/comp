@@ -34,10 +34,8 @@ export const onboardOrganization = task({
 			const revalidateResponse = await axios.post(
 				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
 				{
-					json: {
-						path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
-						secret: process.env.REVALIDATION_SECRET,
-					},
+					path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
+					secret: process.env.REVALIDATION_SECRET,
 				},
 			);
 
