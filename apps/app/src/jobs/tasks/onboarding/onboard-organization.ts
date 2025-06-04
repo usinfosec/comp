@@ -14,6 +14,7 @@ import ky from "ky";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
 import { updatePolicies } from "./update-policies";
+import axios from "axios";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
@@ -25,6 +26,31 @@ export const onboardOrganization = task({
 			},
 			data: { triggerJobId: null },
 		});
+
+		try {
+			logger.info(
+				`Revalidating path ${process.env.BETTER_AUTH_URL}/${organizationId}`,
+			);
+			const revalidateResponse = await axios.post(
+				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
+				{
+					path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
+					secret: process.env.REVALIDATION_SECRET,
+					type: "layout",
+				},
+			);
+
+			if (!revalidateResponse.data?.revalidated) {
+				logger.error(
+					`Failed to revalidate path: ${revalidateResponse.statusText}`,
+				);
+				logger.error(revalidateResponse.data);
+			} else {
+				logger.info("Revalidated path successfully");
+			}
+		} catch (err) {
+			logger.error("Error revalidating path", { err });
+		}
 	},
 	run: async (payload: {
 		organizationId: string;
@@ -242,27 +268,6 @@ export const onboardOrganization = task({
 			},
 			data: { completed: true },
 		});
-
-		try {
-			const revalidateResponse = await ky.post(
-				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
-				{
-					json: {
-						path: `/${payload.organizationId}`,
-						secret: process.env.REVALIDATION_SECRET,
-					},
-				},
-			);
-
-			if (!revalidateResponse.ok) {
-				logger.error(
-					`Failed to revalidate path: ${revalidateResponse.statusText}`,
-				);
-				logger.error(await revalidateResponse.json());
-			}
-		} catch (err) {
-			logger.error("Error revalidating path", { err });
-		}
 
 		logger.info(`Created ${extractRisks.object.risks.length} risks`);
 		logger.info(`Created ${extractVendors.object.vendors.length} vendors`);

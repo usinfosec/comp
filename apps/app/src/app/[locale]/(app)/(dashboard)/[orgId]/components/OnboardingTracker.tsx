@@ -242,6 +242,10 @@ export const OnboardingTracker = ({
 		}
 	};
 
+	if (run?.status === "COMPLETED") {
+		return null;
+	}
+
 	return (
 		<Card className="w-full overflow-hidden rounded-none border-x-0 border-t-0">
 			<CardContent className="flex flex-col items-center justify-center bg-background">
