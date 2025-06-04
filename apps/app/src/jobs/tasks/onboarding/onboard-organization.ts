@@ -14,6 +14,7 @@ import ky from "ky";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
 import { updatePolicies } from "./update-policies";
+import axios from "axios";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
@@ -244,21 +245,21 @@ export const onboardOrganization = task({
 		});
 
 		try {
-			const revalidateResponse = await ky.post(
+			const revalidateResponse = await axios.post(
 				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
 				{
 					json: {
-						path: `/${payload.organizationId}`,
+						path: `${process.env.BETTER_AUTH_URL}/${payload.organizationId}`,
 						secret: process.env.REVALIDATION_SECRET,
 					},
 				},
 			);
 
-			if (!revalidateResponse.ok) {
+			if (!revalidateResponse.data.ok) {
 				logger.error(
 					`Failed to revalidate path: ${revalidateResponse.statusText}`,
 				);
-				logger.error(await revalidateResponse.json());
+				logger.error(revalidateResponse.data);
 			}
 		} catch (err) {
 			logger.error("Error revalidating path", { err });
