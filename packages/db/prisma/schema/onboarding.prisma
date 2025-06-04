@@ -12,6 +12,7 @@ model Onboarding {
     callBooked            Boolean      @default(false)
     companyBookingDetails Json?
     companyDetails        Json?
+    triggerJobId          String?
 
     @@index([organizationId])
 }

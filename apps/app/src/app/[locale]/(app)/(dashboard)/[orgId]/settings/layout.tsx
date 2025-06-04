@@ -53,7 +53,7 @@ export default async function Layout({
 				/>
 			</Suspense>
 
-			<main className="mt-8">{children}</main>
+			<div>{children}</div>
 		</div>
 	);
 }

@@ -94,6 +94,18 @@ export const onboardOrganization = authActionClient
 				},
 			);
 
+			// Set triggerJobId to signal that the job is running.
+			await db.onboarding.update({
+				where: {
+					organizationId: orgId,
+				},
+				data: { triggerJobId: handle.id },
+			});
+
+			revalidatePath("/");
+			revalidatePath(`/${orgId}`);
+			revalidatePath("/setup/onboarding");
+
 			(await cookies()).set(
 				"publicAccessToken",
 				handle.publicAccessToken,
@@ -103,6 +115,7 @@ export const onboardOrganization = authActionClient
 				success: true,
 				handle: handle.id,
 				publicAccessToken: handle.publicAccessToken,
+				organizationId: orgId,
 			};
 		} catch (error) {
 			console.error("Error during organization creation/update:", error);
