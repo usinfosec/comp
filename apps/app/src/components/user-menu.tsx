@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { Avatar, AvatarFallback, AvatarImageNext } from "@comp/ui/avatar";
 import {
@@ -16,7 +15,6 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
-	const t = await getI18n();
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -68,30 +66,30 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 						{/* <DropdownMenuGroup>
               <Link prefetch href="/account">
                 <DropdownMenuItem>
-                  {t("user_menu.account")}
+                  {"Account"}
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </Link>
 
               <Link prefetch href="/account/support">
-                <DropdownMenuItem>{t("user_menu.support")}</DropdownMenuItem>
+                <DropdownMenuItem>{"Support"}</DropdownMenuItem>
               </Link>
 
               <Link prefetch href="/account/teams">
                 <DropdownMenuItem>
-                  {t("user_menu.teams")}
+                  {"Teams"}
                   <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
 						<div className="flex flex-row justify-between items-center p-2">
-							<p className="text-sm">{t("user_menu.theme")}</p>
+							<p className="text-sm">{"Theme"}</p>
 							<ThemeSwitch />
 						</div>{" "}
 						<DropdownMenuSeparator />{" "}
 						{/* <div className="flex flex-row justify-between items-center p-2">
-              <p className="text-sm">{t("user_menu.language")}</p>
+              <p className="text-sm">{"Language"}</p>
               <LocaleSwitch />
             </div>{" "} */}
 					</>

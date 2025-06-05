@@ -3,7 +3,6 @@
 import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
-import { useI18n } from "@/locales/client";
 import type { Member, RiskStatus, User } from "@comp/db/types";
 import { Departments, RiskCategory } from "@comp/db/types";
 import {
@@ -41,8 +40,6 @@ import type { z } from "zod";
 export function CreateRisk({
 	assignees,
 }: { assignees: (Member & { user: User })[] }) {
-	const t = useI18n();
-
 	// Get the same query parameters as the table
 	const [search] = useQueryState("search");
 	const [page] = useQueryState("page", {
@@ -70,11 +67,11 @@ export function CreateRisk({
 
 	const createRisk = useAction(createRiskAction, {
 		onSuccess: async () => {
-			toast.success(t("risk.form.create_risk_success"));
+			toast.success("Risk created successfully");
 			setCreateRiskSheet(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.create_risk_error"));
+			toast.error("Failed to create risk");
 		},
 	});
 
@@ -101,7 +98,7 @@ export function CreateRisk({
 						<Accordion type="multiple" defaultValue={["risk"]}>
 							<AccordionItem value="risk">
 								<AccordionTrigger>
-									{t("risk.form.risk_details")}
+									{"Risk Details"}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
@@ -334,7 +331,7 @@ export function CreateRisk({
 							disabled={createRisk.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("common.actions.create")}
+								{"Create"}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

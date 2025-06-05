@@ -1,7 +1,6 @@
 "use client";
 
 import { InherentRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -26,7 +25,6 @@ export function VendorInherentRiskSheet({
 	initialProbability?: Likelihood;
 	initialImpact?: Impact;
 }) {
-	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [isOpen, setOpen] = useQueryState("inherent-risk-sheet");
 
@@ -40,7 +38,7 @@ export function VendorInherentRiskSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("vendors.risks.update_inherent_risk")}
+								{"Update Inherent Risk"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -76,7 +74,7 @@ export function VendorInherentRiskSheet({
 			onOpenChange={(value) => setOpen(value ? "true" : null)}
 		>
 			<DrawerTitle hidden>
-				{t("vendors.risks.update_inherent_risk")}
+				{"Update Inherent Risk"}
 			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<InherentRiskForm

@@ -1,6 +1,5 @@
 import { AppOnboarding } from "@/components/app-onboarding";
 import { getServersideSession } from "@/lib/get-session";
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
@@ -12,8 +11,6 @@ export default async function Layout({
 }: {
 	children: React.ReactNode;
 }) {
-	const t = await getI18n();
-
 	const {
 		session: { activeOrganizationId },
 	} = await getServersideSession({
@@ -30,11 +27,11 @@ export default async function Layout({
 				<Suspense fallback={<div>Loading...</div>}>
 					<div className="mt-8">
 						<AppOnboarding
-							title={t("app_onboarding.vendors.title")}
+							title={"Vendor Management"}
 							description={t(
 								"app_onboarding.vendors.description",
 							)}
-							cta={t("app_onboarding.vendors.cta")}
+							cta={"Add vendor"}
 							imageSrcDark="/onboarding/vendor-management.webp"
 							imageSrcLight="/onboarding/vendor-management-light.webp"
 							imageAlt="Vendor Management"
@@ -80,11 +77,11 @@ export default async function Layout({
 					items={[
 						{
 							path: `/${orgId}/vendors`,
-							label: t("vendors.dashboard.title"),
+							label: "Overview",
 						},
 						{
 							path: `/${orgId}/vendors/register`,
-							label: t("vendors.register.title"),
+							label: "Vendors",
 						},
 					]}
 				/>

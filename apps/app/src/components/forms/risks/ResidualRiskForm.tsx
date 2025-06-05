@@ -2,7 +2,6 @@
 
 import { updateResidualRiskEnumAction } from "@/actions/risk/update-residual-risk-enum-action";
 import { updateResidualRiskEnumSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -56,7 +55,6 @@ export function ResidualRiskForm({
 	initialProbability,
 	initialImpact,
 }: ResidualRiskFormProps) {
-	const t = useI18n();
 	const [_, setOpen] = useQueryState("residual-risk-sheet");
 
 	const form = useForm<z.infer<typeof updateResidualRiskEnumSchema>>({
@@ -70,11 +68,11 @@ export function ResidualRiskForm({
 
 	const updateResidualRisk = useAction(updateResidualRiskEnumAction, {
 		onSuccess: () => {
-			toast.success(t("risk.form.update_residual_risk_success"));
+			toast.success("Residual risk updated successfully");
 			setOpen(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.update_residual_risk_error"));
+			toast.error("Failed to update residual risk");
 		},
 	});
 
@@ -91,7 +89,7 @@ export function ResidualRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("risk.metrics.probability")}
+								{"Probability"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -128,7 +126,7 @@ export function ResidualRiskForm({
 					name="impact"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("risk.metrics.impact")}</FormLabel>
+							<FormLabel>{"Impact"}</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								value={field.value}
@@ -168,7 +166,7 @@ export function ResidualRiskForm({
 						{updateResidualRisk.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

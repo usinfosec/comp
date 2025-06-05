@@ -1,5 +1,4 @@
 import { AppOnboarding } from "@/components/app-onboarding";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { setStaticParamsLocale } from "next-international/server";
@@ -12,7 +11,6 @@ export default async function CloudTests({
 	params: Promise<{ locale: string; orgId: string }>;
 }) {
 	const { locale, orgId } = await params;
-	const t = await getI18n();
 	setStaticParamsLocale(locale);
 
 	const cloudProviders = await getCloudProviders();
@@ -24,8 +22,8 @@ export default async function CloudTests({
 	return (
 		<div className="max-w-[1200px] m-auto">
 			<AppOnboarding
-				title={t("app_onboarding.cloud_tests.title")}
-				description={t("app_onboarding.cloud_tests.description")}
+				title={"Cloud Compliance"}
+				description={"Test and validate your cloud infrastructure security with automated tests and reports."}
 				imageSrcLight="/onboarding/cloud-light.webp"
 				imageSrcDark="/onboarding/cloud-dark.webp"
 				imageAlt="Cloud Management"

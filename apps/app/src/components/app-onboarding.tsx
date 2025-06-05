@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import {
 	Accordion,
 	AccordionContent,
@@ -52,7 +51,6 @@ export function AppOnboarding({
 	sheetName,
 	href,
 }: Props) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState(sheetName ?? "sheet");
 	const isOpen = Boolean(open);
 	const { theme } = useTheme();

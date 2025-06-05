@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import {
     Card,
     CardContent,
@@ -60,7 +59,6 @@ export function TrustPortalDomain({
     vercelVerification: string | null;
     orgId: string;
 }) {
-    const t = useI18n();
     const [isCnameVerified, setIsCnameVerified] = useState(false);
     const [isTxtVerified, setIsTxtVerified] = useState(false);
     const [isVercelTxtVerified, setIsVercelTxtVerified] = useState(false);
@@ -147,7 +145,6 @@ export function TrustPortalDomain({
     const handleCheckDnsRecord = () => {
         checkDnsRecord.execute({ domain: form.watch("domain") });
     };
-
 
     return (
         <Form {...form}>
@@ -539,7 +536,7 @@ export function TrustPortalDomain({
                             {updateCustomDomain.status === "executing" ? (
                                 <Loader2 className="h-4 w-4 animate-spin mr-1" />
                             ) : null}
-                            {t("common.actions.save")}
+                            {"Save"}
                         </Button>
                     </CardFooter>
                 </Card>

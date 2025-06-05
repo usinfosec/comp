@@ -1,7 +1,6 @@
 "use server";
 
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -168,9 +167,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.vendors"),
+		title: "Vendors",
 	};
 }

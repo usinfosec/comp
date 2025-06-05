@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Member, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -16,7 +15,6 @@ export function CreateVendorSheet({
 }: {
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("createVendorSheet");
 	const isOpen = Boolean(open);
@@ -30,7 +28,7 @@ export function CreateVendorSheet({
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
-						<SheetTitle>{t("vendors.create")}</SheetTitle>
+						<SheetTitle>{"Create Vendor"}</SheetTitle>
 						<Button
 							size="icon"
 							variant="ghost"
@@ -51,7 +49,7 @@ export function CreateVendorSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("vendors.create")}</DrawerTitle>
+			<DrawerTitle hidden>{"Create Vendor"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<CreateVendorForm assignees={assignees} />
 			</DrawerContent>

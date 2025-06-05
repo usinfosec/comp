@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -11,8 +10,6 @@ import { useQueryState } from "nuqs";
 // import { CreateVendorTaskForm } from "./create-vendor-task-form";
 
 export function CreateVendorTaskSheet() {
-	const t = useI18n();
-
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("create-vendor-task-sheet");
 	const isOpen = Boolean(open);
@@ -27,7 +24,7 @@ export function CreateVendorTaskSheet() {
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
 						<SheetTitle>
-							{t("vendors.tasks.sheet.title")}
+							{"Create Vendor Task"}
 						</SheetTitle>
 						<Button
 							size="icon"
@@ -49,7 +46,7 @@ export function CreateVendorTaskSheet() {
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("vendors.tasks.sheet.title")}</DrawerTitle>
+			<DrawerTitle hidden>{"Create Vendor Task"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				{/* <CreateVendorTaskForm assignees={assignees} /> */}
 			</DrawerContent>

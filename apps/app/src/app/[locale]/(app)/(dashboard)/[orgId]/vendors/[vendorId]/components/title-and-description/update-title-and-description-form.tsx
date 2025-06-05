@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -28,17 +27,16 @@ export function UpdateTitleAndDescriptionForm({
 }: {
 	vendor: Vendor;
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("vendor-overview-sheet");
 
 	const updateVendor = useAction(updateVendorAction, {
 		onSuccess: () => {
-			toast.success(t("vendors.form.update_vendor_success"));
+			toast.success("Vendor updated successfully");
 			setOpen(null);
 		},
 		onError: (error) => {
 			console.error("Error updating vendor:", error);
-			toast.error(t("vendors.form.update_vendor_error"));
+			toast.error("Failed to update vendor");
 		},
 	});
 
@@ -74,7 +72,7 @@ export function UpdateTitleAndDescriptionForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.form.vendor_name")}
+								{"Name"}
 							</FormLabel>
 							<FormControl>
 								<Input
@@ -97,7 +95,7 @@ export function UpdateTitleAndDescriptionForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.form.vendor_description")}
+								{"Description"}
 							</FormLabel>
 							<FormControl>
 								<Textarea
@@ -121,7 +119,7 @@ export function UpdateTitleAndDescriptionForm({
 						{updateVendor.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

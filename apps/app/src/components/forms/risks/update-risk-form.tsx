@@ -2,7 +2,6 @@
 
 import { updateRiskAction } from "@/actions/risk/update-risk-action";
 import { updateRiskSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Departments, type Risk } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -28,16 +27,15 @@ export function UpdateRiskForm({
 }: {
 	risk: Risk;
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("risk-overview-sheet");
 
 	const updateRisk = useAction(updateRiskAction, {
 		onSuccess: () => {
-			toast.success(t("risk.form.update_risk_success"));
+			toast.success("Risk updated successfully");
 			setOpen(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.update_risk_error"));
+			toast.error("Failed to update risk");
 		},
 	});
 
@@ -76,7 +74,7 @@ export function UpdateRiskForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.form.risk_title")}
+									{"Risk Title"}
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -122,7 +120,7 @@ export function UpdateRiskForm({
 						{updateRisk.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

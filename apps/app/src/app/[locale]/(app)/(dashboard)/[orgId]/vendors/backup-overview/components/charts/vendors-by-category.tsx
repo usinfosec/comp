@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { VendorCategory } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -19,8 +18,6 @@ interface Props {
 }
 
 export async function VendorsByCategory({ organizationId }: Props) {
-	const t = await getI18n();
-
 	const vendors = await getVendorsByCategory(organizationId);
 
 	const data = VENDOR_CATEGORIES.map((category, index) => {
@@ -67,7 +64,7 @@ export async function VendorsByCategory({ organizationId }: Props) {
 	return (
 		<Card className="w-full h-full">
 			<CardHeader>
-				<CardTitle>{t("vendors.dashboard.by_category")}</CardTitle>
+				<CardTitle>{"Vendors by Category"}</CardTitle>
 			</CardHeader>
 			<CardContent className="w-full">
 				<VendorCategoryChart

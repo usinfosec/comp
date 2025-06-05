@@ -1,6 +1,5 @@
 import { TaskOverview } from "@/components/risks/tasks/task-overview";
 import { useUsers } from "@/hooks/use-users";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -57,9 +56,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("risk.tasks.task_overview"),
+		title: "Task Overview",
 	};
 }

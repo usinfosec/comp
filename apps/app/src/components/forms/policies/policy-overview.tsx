@@ -3,7 +3,6 @@
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import { useSession } from "@/utils/auth-client";
 import {
 	Departments,
@@ -50,15 +49,14 @@ export function UpdatePolicyOverview({
 }: {
 	policy: Policy;
 }) {
-	const t = useI18n();
 	const session = useSession();
 
 	const updatePolicyForm = useAction(updatePolicyFormAction, {
 		onSuccess: () => {
-			toast.success(t("policies.overview.form.update_policy_success"));
+			toast.success("Policy updated successfully");
 		},
 		onError: () => {
-			toast.error(t("policies.overview.form.update_policy_error"));
+			toast.error("Failed to update policy");
 		},
 	});
 
@@ -109,7 +107,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.status")}
+									{"Status"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -245,7 +243,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
 								<FormLabel>
-									{t("policies.overview.form.review_date")}
+									{"Review Date"}
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger asChild>
@@ -331,7 +329,7 @@ export function UpdatePolicyOverview({
 						{updatePolicyForm.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

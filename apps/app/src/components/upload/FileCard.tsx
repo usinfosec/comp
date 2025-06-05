@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -53,8 +52,6 @@ export function FileCard({
 	onPreviewClick,
 	onDelete,
 }: FileCardProps) {
-	const t = useI18n();
-
 	const fileName = url.split("/").pop() || url;
 	const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
 	const isPdf = /\.pdf$/i.test(fileName);
@@ -260,10 +257,10 @@ export function FileCard({
 						</AlertDialogHeader>
 						<AlertDialogFooter>
 							<AlertDialogCancel>
-								{t("common.actions.cancel")}
+								{"Cancel"}
 							</AlertDialogCancel>
 							<AlertDialogAction onClick={() => onDelete(url)}>
-								{t("common.actions.delete")}
+								{"Delete"}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

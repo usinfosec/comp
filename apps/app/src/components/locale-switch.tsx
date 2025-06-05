@@ -1,7 +1,5 @@
 "use client";
 
-import { useChangeLocale, useCurrentLocale, useI18n } from "@/locales/client";
-import { languages } from "@/locales/client";
 import {
 	Select,
 	SelectContent,
@@ -13,7 +11,6 @@ import {
 import { Globe } from "lucide-react";
 
 export const LocaleSwitch = () => {
-	const t = useI18n();
 	const locale = useCurrentLocale();
 	const changeLocale = useChangeLocale();
 
@@ -26,7 +23,7 @@ export const LocaleSwitch = () => {
 				}
 			>
 				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-none capitalize h-[32px] text-xs">
-					<SelectValue placeholder={t("language.placeholder")} />
+					<SelectValue placeholder={"Select language"} />
 				</SelectTrigger>
 				<SelectContent>
 					<SelectGroup>

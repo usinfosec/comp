@@ -1,7 +1,6 @@
 "use client";
 
 import { updateVendorInherentRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-inherent-risk";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -43,7 +42,6 @@ export function InherentRiskForm({
 	initialProbability = Likelihood.very_unlikely,
 	initialImpact = Impact.insignificant,
 }: InherentRiskFormProps) {
-	const t = useI18n();
 	const { toast } = useToast();
 	const [_, setOpen] = useQueryState("inherent-risk-sheet");
 
@@ -64,16 +62,16 @@ export function InherentRiskForm({
 			});
 
 			toast({
-				title: t("common.success"),
-				description: t("vendors.risks.inherent_risk_updated"),
+				title: "Success",
+				description: "Inherent risk updated successfully",
 			});
 
 			setOpen("false");
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({
-				title: t("common.error"),
-				description: t("common.unexpected_error"),
+				title: "Error",
+				description: "An unexpected error occurred",
 				variant: "destructive",
 			});
 		}
@@ -88,7 +86,7 @@ export function InherentRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.risks.inherent_probability")}
+								{"Inherent Probability"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -106,21 +104,21 @@ export function InherentRiskForm({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value={Likelihood.very_likely}>
-										{t("vendors.risks.very_likely")}
+										{"Very Likely"}
 									</SelectItem>
 									<SelectItem value={Likelihood.likely}>
-										{t("vendors.risks.likely")}
+										{"Likely"}
 									</SelectItem>
 									<SelectItem value={Likelihood.possible}>
-										{t("vendors.risks.possible")}
+										{"Possible"}
 									</SelectItem>
 									<SelectItem value={Likelihood.unlikely}>
-										{t("vendors.risks.unlikely")}
+										{"Unlikely"}
 									</SelectItem>
 									<SelectItem
 										value={Likelihood.very_unlikely}
 									>
-										{t("vendors.risks.very_unlikely")}
+										{"Very Unlikely"}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -135,7 +133,7 @@ export function InherentRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.risks.inherent_impact")}
+								{"Inherent Impact"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -153,19 +151,19 @@ export function InherentRiskForm({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value={Impact.insignificant}>
-										{t("vendors.risks.insignificant")}
+										{"Insignificant"}
 									</SelectItem>
 									<SelectItem value={Impact.minor}>
-										{t("vendors.risks.minor")}
+										{"Minor"}
 									</SelectItem>
 									<SelectItem value={Impact.moderate}>
-										{t("vendors.risks.moderate")}
+										{"Moderate"}
 									</SelectItem>
 									<SelectItem value={Impact.major}>
-										{t("vendors.risks.major")}
+										{"Major"}
 									</SelectItem>
 									<SelectItem value={Impact.severe}>
-										{t("vendors.risks.severe")}
+										{"Severe"}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -175,7 +173,7 @@ export function InherentRiskForm({
 				/>
 
 				<div className="flex justify-end">
-					<Button type="submit">{t("common.save")}</Button>
+					<Button type="submit">{"Save"}</Button>
 				</div>
 			</form>
 		</Form>

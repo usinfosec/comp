@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { VendorStatus } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
@@ -21,12 +20,10 @@ export interface VendorTaskType {
 }
 
 export function useColumns() {
-	const t = useI18n();
-
 	const columns: ColumnDef<VendorTaskType>[] = [
 		{
 			accessorKey: "title",
-			header: t("vendors.tasks.columns.title"),
+			header: "Title",
 			cell: ({ row }) => {
 				const title = row.getValue("title") as string;
 				return (
@@ -40,11 +37,11 @@ export function useColumns() {
 		},
 		{
 			accessorKey: "description",
-			header: t("vendors.tasks.columns.description"),
+			header: "Description",
 		},
 		{
 			accessorKey: "status",
-			header: t("vendors.tasks.columns.status"),
+			header: "Status",
 			cell: ({ row }) => {
 				const status = row.getValue("status") as VendorStatus;
 				return (
@@ -72,7 +69,7 @@ export function useColumns() {
 		},
 		{
 			accessorKey: "dueDate",
-			header: t("vendors.tasks.columns.due_date"),
+			header: "Due Date",
 			cell: ({ row }) => {
 				const date = row.getValue("dueDate") as string;
 				if (!date) return "-";
@@ -81,7 +78,7 @@ export function useColumns() {
 		},
 		{
 			accessorKey: "owner",
-			header: t("vendors.tasks.columns.owner"),
+			header: "Owner",
 			cell: ({ row }) => {
 				const owner = row.getValue("owner") as {
 					name: string;

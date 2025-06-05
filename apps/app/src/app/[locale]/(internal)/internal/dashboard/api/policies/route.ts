@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 			}),
 			// Group by day for chart data (last 30 days)
 			db.$queryRaw<DailyPolicyCount[]>`
-				SELECT 
+				SELECT
 					DATE_TRUNC('day', "createdAt") as day,
 					COUNT(*) as count
 				FROM "Policy"

@@ -2,7 +2,6 @@ import { GithubSignIn } from "@/components/github-sign-in";
 import { GoogleSignIn } from "@/components/google-sign-in";
 import { MagicLinkSignIn } from "@/components/magic-link";
 import { env } from "@/env.mjs";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import {
 	Accordion,
@@ -26,7 +25,6 @@ export default async function Page({
 }: {
 	searchParams: Promise<{ inviteCode?: string }>;
 }) {
-	const t = await getI18n();
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -94,7 +92,7 @@ export default async function Page({
 								Get Started with Comp AI
 							</h1>
 							<h2 className="font-medium text-xl pb-1">
-								{t("auth.title")}
+								{"Automate SOC 2, ISO 27001 and GDPR compliance with AI."}
 							</h2>
 						</Balancer>
 

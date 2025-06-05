@@ -1,6 +1,5 @@
 "use client"
 
-import { useI18n } from "@/locales/client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@comp/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@comp/ui/form"
 import { Switch } from "@comp/ui/switch"
@@ -61,8 +60,6 @@ export function TrustPortalSwitch({
     gdprStatus: "started" | "in_progress" | "compliant"
     friendlyUrl: string | null
 }) {
-    const t = useI18n()
-
     const trustPortalSwitch = useAction(trustPortalSwitchAction, {
         onSuccess: () => {
             toast.success("Trust portal status updated")
@@ -250,9 +247,9 @@ export function TrustPortalSwitch({
                                                         </div>
                                                         {friendlyUrlValue && (
                                                             <div className="text-xs mt-1 min-h-[18px]">
-                                                                {friendlyUrlStatus === "checking" && t("settings.trust_portal.friendly_url.checking")}
-                                                                {friendlyUrlStatus === "available" && <span className="text-green-600">{t("settings.trust_portal.friendly_url.available")}</span>}
-                                                                {friendlyUrlStatus === "unavailable" && <span className="text-red-600">{t("settings.trust_portal.friendly_url.unavailable")}</span>}
+                                                                {friendlyUrlStatus === "checking" && "Checking availability..."}
+                                                                {friendlyUrlStatus === "available" && <span className="text-green-600">{"This URL is available!"}</span>}
+                                                                {friendlyUrlStatus === "unavailable" && <span className="text-red-600">{"This URL is already taken."}</span>}
                                                             </div>
                                                         )}
                                                     </div>

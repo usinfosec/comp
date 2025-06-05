@@ -1,7 +1,6 @@
 "use client";
 
 import { UpdatePolicyForm } from "@/components/forms/policies/update-policy-form";
-import { useI18n } from "@/locales/client";
 import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -22,8 +21,6 @@ export function PolicyOverviewSheet({
 }: {
 	policy: Policy;
 }) {
-	const t = useI18n();
-
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("policy-overview-sheet");
 	const isOpen = Boolean(open);
@@ -39,7 +36,7 @@ export function PolicyOverviewSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("policies.overview.form.update_policy")}
+								{"Update Policy"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -68,7 +65,7 @@ export function PolicyOverviewSheet({
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>
-				{t("policies.overview.form.update_policy")}
+				{"Update Policy"}
 			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<UpdatePolicyForm policy={policy} />

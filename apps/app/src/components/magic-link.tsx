@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
@@ -24,7 +23,6 @@ type Props = {
 };
 
 export function MagicLinkSignIn({ className, inviteCode }: Props) {
-	const t = useI18n();
 	const [isLoading, setLoading] = useState(false);
 	const [isSent, setSent] = useState(false);
 	const [_email, setEmail] = useState<string>();
@@ -47,7 +45,7 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 		});
 
 		if (error) {
-			toast.error(t("auth.email.error"));
+			toast.error("Error sending email - try again?");
 		} else {
 			setSent(true);
 		}
@@ -62,19 +60,19 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 				)}
 			>
 				<h1 className="text-2xl font-medium">
-					{t("auth.email.magic_link_sent")}
+					{"Magic link sent"}
 				</h1>
 
 				<div className="flex flex-col">
 					<span className="text-sm text-muted-foreground">
-						{t("auth.email.magic_link_description")}
+						{"Check your inbox for a magic link."}
 					</span>
 					<button
 						onClick={() => setSent(false)}
 						type="button"
 						className="text-sm font-medium text-primary underline"
 					>
-						{t("auth.email.magic_link_try_again")}
+						{"Try again."}
 					</button>
 				</div>
 			</div>
@@ -116,7 +114,7 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 						) : (
 							<>
 								<Icons.EmailIcon />
-								<span>{t("auth.email.button")}</span>
+								<span>{"Continue with email"}</span>
 							</>
 						)}
 					</Button>

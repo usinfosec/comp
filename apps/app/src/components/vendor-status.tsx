@@ -1,4 +1,3 @@
-import { useI18n } from "@/locales/client";
 import { cn } from "@comp/ui/cn";
 
 export const VENDOR_STATUS_TYPES = [
@@ -19,8 +18,6 @@ const VENDOR_STATUS_COLORS: Record<VendorStatusType, string> = {
 } as const;
 
 export function VendorStatus({ status }: { status: VendorStatusType }) {
-	const t = useI18n();
-
 	return (
 		<div className="flex items-center gap-2">
 			<div

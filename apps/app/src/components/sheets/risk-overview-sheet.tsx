@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Risk } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -23,8 +22,6 @@ export function RiskOverviewSheet({
 }: {
 	risk: Risk;
 }) {
-	const t = useI18n();
-
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("risk-overview-sheet");
 	const isOpen = Boolean(open);
@@ -40,7 +37,7 @@ export function RiskOverviewSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("risk.form.update_risk")}
+								{"Update Risk"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -52,7 +49,7 @@ export function RiskOverviewSheet({
 							</Button>
 						</div>{" "}
 						<SheetDescription>
-							{t("risk.form.update_risk_description")}
+							{"Update risk details and metadata"}
 						</SheetDescription>
 					</SheetHeader>
 
@@ -66,7 +63,7 @@ export function RiskOverviewSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.form.update_risk")}</DrawerTitle>
+			<DrawerTitle hidden>{"Update Risk"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<UpdateRiskForm risk={risk} />
 			</DrawerContent>

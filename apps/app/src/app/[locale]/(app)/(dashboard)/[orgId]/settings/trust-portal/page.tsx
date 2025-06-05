@@ -1,7 +1,6 @@
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { cache } from "react";
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -15,8 +14,6 @@ export default async function TrustPortalSettings({
 }) {
 	const { locale, orgId } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	const trustPortal = await getTrustPortal(orgId);
 
 	return (
@@ -86,8 +83,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
 		title: "Trust Portal",
 	};

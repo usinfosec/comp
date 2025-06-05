@@ -10,7 +10,6 @@ import Dropzone, {
 import { toast } from "sonner";
 
 import { useControllableState } from "@/hooks/use-controllable-state";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { cn, formatBytes } from "@comp/ui/cn";
 import { Progress } from "@comp/ui/progress";
@@ -94,8 +93,6 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function FileUploader(props: FileUploaderProps) {
-	const t = useI18n();
-
 	const {
 		value: valueProp,
 		onValueChange,
@@ -123,7 +120,7 @@ export function FileUploader(props: FileUploaderProps) {
 		(acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
 			if (!multiple && maxFileCount === 1 && acceptedFiles.length > 1) {
 				toast.error(
-					t("common.attachments.toasts.error_uploading_files"),
+					"Cannot upload more than 1 file at a time",
 				);
 				return;
 			}
@@ -139,7 +136,7 @@ export function FileUploader(props: FileUploaderProps) {
 
 			if (acceptedFiles.length === 0) {
 				toast.error(
-					t("common.attachments.toasts.error_no_files_selected"),
+					"No files selected",
 				);
 				return;
 			}
@@ -247,7 +244,7 @@ export function FileUploader(props: FileUploaderProps) {
 									/>
 								</div>
 								<p className="font-medium text-muted-foreground">
-									{t("common.attachments.drop")}
+									{"Drop the files here"}
 								</p>
 							</div>
 						) : (
@@ -301,8 +298,6 @@ interface FileCardProps {
 }
 
 function FileCard({ file, progress, onRemove }: FileCardProps) {
-	const t = useI18n();
-
 	return (
 		<div className="relative flex items-center gap-2.5">
 			<div className="flex flex-1 gap-2.5">

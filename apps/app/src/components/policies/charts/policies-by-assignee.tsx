@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { PolicyStatus } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -30,7 +29,6 @@ const policyStatus = {
 } as const;
 
 export async function PoliciesByAssignee({ organizationId }: Props) {
-	const t = await getI18n();
 	const [userStats, policies] = await Promise.all([
 		userData(organizationId),
 		policiesByUser(organizationId),
@@ -69,7 +67,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("policies.dashboard.policies_by_assignee")}
+					{"Policies by Assignee"}
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
@@ -82,7 +80,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 								</p>
 								<span className="text-sm text-muted-foreground">
 									{stat.totalPolicies}{" "}
-									{t("policies.policies")}
+									{"policies"}
 								</span>
 							</div>
 
@@ -92,28 +90,28 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-primary" />
 									<span>
-										{t("common.status.published")} (
+										{"Published"} (
 										{stat.publishedPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-open)]" />
 									<span>
-										{t("common.status.draft")} (
+										{"Draft"} (
 										{stat.draftPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-pending)]" />
 									<span>
-										{t("common.status.archived")} (
+										{"Archived"} (
 										{stat.archivedPolicies})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[hsl(var(--destructive))]" />
 									<span>
-										{t("common.status.needs_review")} (
+										{"Needs Review"} (
 										{stat.needsReviewPolicies})
 									</span>
 								</div>
@@ -134,7 +132,7 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 					key: "published",
 					value: stat.publishedPolicies,
 					color: policyStatus.published,
-					label: t("common.status.published"),
+					label: "Published",
 				},
 			]
 			: []),
@@ -144,7 +142,7 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 					key: "draft",
 					value: stat.draftPolicies,
 					color: policyStatus.draft,
-					label: t("common.status.draft"),
+					label: "Draft",
 				},
 			]
 			: []),
@@ -154,7 +152,7 @@ function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
 					key: "archived",
 					value: stat.archivedPolicies,
 					color: policyStatus.archived,
-					label: t("common.status.archived"),
+					label: "Archived",
 				},
 			]
 			: []),

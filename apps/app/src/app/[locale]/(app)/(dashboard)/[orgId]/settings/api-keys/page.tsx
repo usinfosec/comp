@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 import { ApiKeysTable } from "./components/table/ApiKeysTable";
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -29,10 +28,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("settings.api_keys.title"),
+		title: "API",
 	};
 }
 

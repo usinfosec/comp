@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Member, User, Vendor } from "@comp/db/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { UpdateSecondaryFieldsForm } from "./update-secondary-fields-form";

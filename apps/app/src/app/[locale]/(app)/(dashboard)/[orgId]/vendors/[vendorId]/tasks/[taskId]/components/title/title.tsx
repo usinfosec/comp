@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Member, Task, User } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
@@ -24,7 +23,6 @@ interface TitleProps {
 }
 
 export default function Title({ task, assignees }: TitleProps) {
-	const t = useI18n();
 	const [isOpen, setOpen] = useQueryState("task-overview-sheet");
 	const open = isOpen === "true";
 

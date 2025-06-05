@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import type { CSSProperties } from "react";
@@ -40,7 +39,6 @@ const testStatus = {
 };
 
 export async function TestsByAssignee({ organizationId }: Props) {
-	const t = await getI18n();
 	const userStats = await userData(organizationId);
 
 	const stats: UserTestStats[] = userStats.map((user) => ({
@@ -67,7 +65,7 @@ export async function TestsByAssignee({ organizationId }: Props) {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("tests.dashboard.tests_by_assignee")}</CardTitle>
+				<CardTitle>{"Tests by Assignee"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-8">
@@ -88,14 +86,14 @@ export async function TestsByAssignee({ organizationId }: Props) {
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-success)]" />
 									<span>
-										{t("tests.dashboard.passed")} (
+										{"Passed"} (
 										{stat.passedTests})
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[hsl(var(--destructive))]" />
 									<span>
-										{t("tests.dashboard.failed")} (
+										{"Failed"} (
 										{stat.failedTests})
 									</span>
 								</div>

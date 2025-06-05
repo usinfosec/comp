@@ -3,7 +3,6 @@
 import { researchVendorAction } from "@/actions/research-vendor";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { useI18n } from "@/locales/client";
 import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
 import { GlobalVendors } from "@comp/db/types";
 import {
@@ -55,7 +54,6 @@ const createVendorSchema = z.object({
 export function CreateVendorForm({
 	assignees,
 }: { assignees: (Member & { user: User })[] }) {
-	const t = useI18n();
 	const [_, setCreateVendorSheet] = useQueryState("createVendorSheet");
 
 	const [searchQuery, setSearchQuery] = useState("");
@@ -65,11 +63,11 @@ export function CreateVendorForm({
 
 	const createVendor = useAction(createVendorAction, {
 		onSuccess: async () => {
-			toast.success(t("vendors.form.create_vendor_success"));
+			toast.success("Vendor created successfully");
 			setCreateVendorSheet(null);
 		},
 		onError: () => {
-			toast.error(t("vendors.form.create_vendor_error"));
+			toast.error("Failed to create vendor");
 		},
 	});
 
@@ -138,7 +136,7 @@ export function CreateVendorForm({
 						<Accordion type="multiple" defaultValue={["vendor"]}>
 							<AccordionItem value="vendor">
 								<AccordionTrigger>
-									{t("vendors.form.vendor_details")}
+									{"Vendor Details"}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
@@ -155,7 +153,7 @@ export function CreateVendorForm({
 													<FormControl>
 														<div className="relative">
 															<Input
-																placeholder={t("vendors.form.search_vendor_placeholder")}
+																placeholder={"Search or enter vendor name..."}
 																value={searchQuery}
 																onChange={(e) => {
 																	const val = e.target.value;
@@ -183,11 +181,11 @@ export function CreateVendorForm({
 																<div className="absolute top-full z-10 w-full mt-1 bg-background border rounded-md shadow-lg">
 																	<div className="max-h-[300px] overflow-y-auto p-1">
 																		{isSearching && (
-																			<div className="p-2 text-sm text-muted-foreground">{t("common.loading")}...</div>
+																			<div className="p-2 text-sm text-muted-foreground">{"Loading..."}...</div>
 																		)}
 																		{!isSearching && searchResults.length > 0 && (
 																			<>
-																				<p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{t("vendors.form.suggestions")}</p>
+																				<p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{"Suggestions"}</p>
 																				{searchResults.map((vendor) => (
 																					<div
 																						key={vendor.website ?? vendor.company_name ?? vendor.legal_name ?? Math.random().toString()}
@@ -465,7 +463,7 @@ export function CreateVendorForm({
 							disabled={createVendor.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("vendors.actions.create")}
+								{"Create Vendor"}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

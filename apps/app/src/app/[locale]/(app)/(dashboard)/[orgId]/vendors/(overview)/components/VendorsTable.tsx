@@ -4,7 +4,6 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import type { Member, User, Vendor } from "@comp/db/types";
 import { useParams } from "next/navigation";
 import * as React from "react";
@@ -17,7 +16,6 @@ interface VendorsTableProps {
 }
 
 export function VendorsTable({ promises }: VendorsTableProps) {
-	const t = useI18n();
 	const { orgId } = useParams();
 
 	// Resolve the promise data here

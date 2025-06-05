@@ -1,7 +1,6 @@
 "use client";
 
 import { createApiKeyAction } from "@/actions/organization/create-api-key-action";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@comp/ui/select";
 import {
@@ -31,7 +30,6 @@ export function CreateApiKeyDialog({
     onOpenChange,
     onSuccess,
 }: CreateApiKeyDialogProps) {
-    const t = useI18n();
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const [name, setName] = useState("");
     const [expiration, setExpiration] = useState<
@@ -50,7 +48,7 @@ export function CreateApiKeyDialog({
                 }
             },
             onError: (error) => {
-                toast.error(t("settings.api_keys.create_error"));
+                toast.error("Failed to create API key");
             },
         },
     );
@@ -79,14 +77,14 @@ export function CreateApiKeyDialog({
             try {
                 await navigator.clipboard.writeText(createdApiKey);
                 setCopied(true);
-                toast.success(t("settings.api_keys.copied"));
+                toast.success("API key copied to clipboard");
 
                 // Reset copied state after 2 seconds
                 setTimeout(() => {
                     setCopied(false);
                 }, 2000);
             } catch (err) {
-                toast.error(t("common.actions.error"));
+                toast.error("Error");
             }
         }
     };
@@ -99,13 +97,13 @@ export function CreateApiKeyDialog({
                     htmlFor="name"
                     className="text-sm font-medium leading-none"
                 >
-                    {t("settings.api_keys.name")}
+                    {"Name"}
                 </label>
                 <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder={t("settings.api_keys.name_placeholder")}
+                    placeholder={"Enter a name for this API key"}
                     required
                     className="w-full"
                 />
@@ -115,7 +113,7 @@ export function CreateApiKeyDialog({
                     htmlFor="expiration"
                     className="text-sm font-medium leading-none"
                 >
-                    {t("settings.api_keys.expiration")}
+                    {"Expiration"}
                 </label>
                 <Select
                     value={expiration}
@@ -134,23 +132,23 @@ export function CreateApiKeyDialog({
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="never">
-                            {t("settings.api_keys.never")}
+                            {"Never"}
                         </SelectItem>
                         <SelectItem value="30days">
-                            {t("settings.api_keys.thirty_days")}
+                            {"30 days"}
                         </SelectItem>
                         <SelectItem value="90days">
-                            {t("settings.api_keys.ninety_days")}
+                            {"90 days"}
                         </SelectItem>
                         <SelectItem value="1year">
-                            {t("settings.api_keys.one_year")}
+                            {"1 year"}
                         </SelectItem>
                     </SelectContent>
                 </Select>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 pt-2 justify-end">
                 <Button type="button" variant="outline" onClick={handleClose}>
-                    {t("common.actions.cancel")}
+                    {"Cancel"}
                 </Button>
                 <Button
                     type="submit"
@@ -160,7 +158,7 @@ export function CreateApiKeyDialog({
                     {isCreating === "executing" && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    {t("settings.api_keys.create")}
+                    {"New API Key"}
                 </Button>
             </div>
         </form>
@@ -172,7 +170,7 @@ export function CreateApiKeyDialog({
             <div className="space-y-4 py-4">
                 <div className="space-y-2">
                     <p className="text-sm font-medium">
-                        {t("settings.api_keys.api_key")}
+                        {"API Key"}
                     </p>
                     <div className="flex items-center">
                         <div className="relative w-full">
@@ -199,13 +197,13 @@ export function CreateApiKeyDialog({
                         </div>
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">
-                        {t("settings.api_keys.save_warning")}
+                        {"This key will only be shown once. Make sure to copy it now."}
                     </p>
                 </div>
             </div>
             <div className="flex justify-end">
                 <Button onClick={handleClose} className="w-full sm:w-auto">
-                    {t("settings.api_keys.done")}
+                    {"Done"}
                 </Button>
             </div>
         </>
@@ -222,7 +220,7 @@ export function CreateApiKeyDialog({
                 <SheetContent stack className="rounded-sm">
                     <SheetHeader className="mb-8 flex flex-col gap-2">
                         <div className="flex justify-between items-center">
-                            <SheetTitle>{createdApiKey ? t("settings.api_keys.created_title") : t("settings.api_keys.create_title")}</SheetTitle>
+                            <SheetTitle>{createdApiKey ? "API Key Created" : "New API Key"}</SheetTitle>
                             <Button
                                 size="icon"
                                 variant="ghost"
@@ -232,7 +230,7 @@ export function CreateApiKeyDialog({
                                 <X className="h-5 w-5" />
                             </Button>
                         </div>
-                        <SheetDescription>{createdApiKey ? t("settings.api_keys.created_description") : t("settings.api_keys.create_description")}</SheetDescription>
+                        <SheetDescription>{createdApiKey ? "Your API key has been created. Make sure to copy it now as you won't be able to see it again." : "Create a new API key for programmatic access to your organization's data."}</SheetDescription>
                     </SheetHeader>
                     <ScrollArea className="h-full p-0 pb-[100px]" hideScrollbar>
                         {createdApiKey ? (
@@ -253,8 +251,8 @@ export function CreateApiKeyDialog({
         <Drawer open={open} onOpenChange={handleClose}>
             <DrawerContent className="p-6 rounded-sm">
                 <DrawerHeader>
-                    <DrawerTitle>{createdApiKey ? t("settings.api_keys.created_title") : t("settings.api_keys.create_title")}</DrawerTitle>
-                    <DrawerDescription>{createdApiKey ? t("settings.api_keys.created_description") : t("settings.api_keys.create_description")}</DrawerDescription>
+                    <DrawerTitle>{createdApiKey ? "API Key Created" : "New API Key"}</DrawerTitle>
+                    <DrawerDescription>{createdApiKey ? "Your API key has been created. Make sure to copy it now as you won't be able to see it again." : "Create a new API key for programmatic access to your organization's data."}</DrawerDescription>
                 </DrawerHeader>
                 {createdApiKey ? (
                     <>

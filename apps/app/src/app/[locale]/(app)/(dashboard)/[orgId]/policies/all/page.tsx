@@ -1,6 +1,5 @@
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { getValidFilters } from "@/lib/data-table";
-import { getI18n } from "@/locales/server";
 import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -48,9 +47,7 @@ export async function generateMetadata({
 	const { locale } = await params;
 
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.policies"),
+		title: "Policies",
 	};
 }

@@ -1,4 +1,3 @@
-import { useI18n } from "@/locales/client";
 import { Task, TaskStatus } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
@@ -20,7 +19,6 @@ export interface VendorTaskType {
 }
 
 export function useGetColumnHeaders(): ColumnDef<Task>[] {
-	const t = useI18n();
 	const { vendorId, orgId } = useParams<{
 		vendorId: string;
 		orgId: string;
@@ -29,7 +27,7 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 	return [
 		{
 			accessorKey: "title",
-			header: t("vendors.tasks.columns.title"),
+			header: "Title",
 			cell: ({ row }) => {
 				const title = row.getValue("title") as string;
 				return (
@@ -44,11 +42,11 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 		},
 		{
 			accessorKey: "description",
-			header: t("vendors.tasks.columns.description"),
+			header: "Description",
 		},
 		{
 			accessorKey: "status",
-			header: t("vendors.tasks.columns.status"),
+			header: "Status",
 			cell: ({ row }) => {
 				const status = row.getValue("status") as TaskStatus;
 				return (
@@ -76,7 +74,7 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 		},
 		{
 			accessorKey: "dueDate",
-			header: t("vendors.tasks.columns.due_date"),
+			header: "Due Date",
 			cell: ({ row }) => {
 				const date = row.getValue("dueDate") as string;
 				if (!date) return "-";
@@ -85,7 +83,7 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 		},
 		{
 			accessorKey: "owner",
-			header: t("vendors.tasks.columns.owner"),
+			header: "Owner",
 			cell: ({ row }) => {
 				const owner = row.getValue("owner") as {
 					name: string;

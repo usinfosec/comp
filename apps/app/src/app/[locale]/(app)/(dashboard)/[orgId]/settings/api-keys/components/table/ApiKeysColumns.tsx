@@ -17,8 +17,6 @@ import {
 } from "@comp/ui/alert-dialog";
 import { Button } from "@comp/ui/button";
 import { revokeApiKeyAction } from "@/actions/organization/revoke-api-key-action";
-import { useI18n } from "@/locales/client";
-
 export const columns = (): ColumnDef<ApiKey>[] => [
     {
         id: "name",
@@ -80,7 +78,6 @@ export const columns = (): ColumnDef<ApiKey>[] => [
         id: "actions",
         header: () => <span>Actions</span>,
         cell: ({ row }) => {
-            const t = useI18n();
             const [open, setOpen] = useState(false);
             const { execute, status } = useAction(revokeApiKeyAction, {
                 onSuccess: () => {
@@ -101,19 +98,19 @@ export const columns = (): ColumnDef<ApiKey>[] => [
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>{t("settings.api_keys.revoke_title")}</AlertDialogTitle>
+                            <AlertDialogTitle>{"Revoke API Key"}</AlertDialogTitle>
                             <AlertDialogDescription>
-                                {t("settings.api_keys.revoke_confirm")}
+                                {"Are you sure you want to revoke this API key? This action cannot be undone."}
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>{t("common.actions.cancel")}</AlertDialogCancel>
+                            <AlertDialogCancel>{"Cancel"}</AlertDialogCancel>
                             <AlertDialogAction
                                 onClick={() => execute({ id: row.original.id })}
                                 disabled={status === "executing"}
                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             >
-                                {status === "executing" ? "Revoking..." : t("settings.api_keys.revoke")}
+                                {status === "executing" ? "Revoking..." : "Revoke"}
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>

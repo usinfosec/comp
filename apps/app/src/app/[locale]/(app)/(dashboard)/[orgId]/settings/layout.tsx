@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 import { headers } from "next/headers";
@@ -10,8 +9,6 @@ export default async function Layout({
 }: {
 	children: React.ReactNode;
 }) {
-	const t = await getI18n();
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -30,7 +27,7 @@ export default async function Layout({
 					items={[
 						{
 							path: `/${orgId}/settings`,
-							label: t("settings.general.title"),
+							label: "General",
 						},
 						{
 							path: `/${orgId}/settings/trust-portal`,
@@ -42,11 +39,11 @@ export default async function Layout({
 						},
 						{
 							path: `/${orgId}/settings/api-keys`,
-							label: t("settings.api_keys.title"),
+							label: "API",
 						},
 						{
 							path: `/${orgId}/settings/billing`,
-							label: t("settings.billing.title"),
+							label: "Billing",
 							enabled: false,
 						},
 					]}

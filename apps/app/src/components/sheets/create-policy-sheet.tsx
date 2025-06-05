@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -11,7 +10,6 @@ import { useQueryState } from "nuqs";
 import { CreateNewPolicyForm } from "../forms/policies/create-new-policy";
 
 export function CreatePolicySheet() {
-	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("create-policy-sheet");
 	const isOpen = Boolean(open);
@@ -25,7 +23,7 @@ export function CreatePolicySheet() {
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
-						<SheetTitle>{t("policies.create_new")}</SheetTitle>
+						<SheetTitle>{"Create New Policy"}</SheetTitle>
 						<Button
 							size="icon"
 							variant="ghost"
@@ -46,7 +44,7 @@ export function CreatePolicySheet() {
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("policies.create_new")}</DrawerTitle>
+			<DrawerTitle hidden>{"Create New Policy"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<CreateNewPolicyForm />
 			</DrawerContent>

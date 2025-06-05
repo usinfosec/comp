@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
   Dialog,
@@ -46,7 +45,6 @@ export function PolicyActionDialog({
   confirmIcon,
   confirmVariant = "default",
 }: PolicyActionDialogProps) {
-  const t = useI18n();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({

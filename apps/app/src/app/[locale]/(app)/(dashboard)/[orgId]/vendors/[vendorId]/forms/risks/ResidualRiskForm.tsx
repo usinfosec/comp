@@ -1,7 +1,6 @@
 "use client";
 
 import { updateVendorResidualRisk } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -43,7 +42,6 @@ export function ResidualRiskForm({
 	initialProbability = Likelihood.very_unlikely,
 	initialImpact = Impact.insignificant,
 }: ResidualRiskFormProps) {
-	const t = useI18n();
 	const { toast } = useToast();
 	const [_, setOpen] = useQueryState("residual-risk-sheet");
 
@@ -65,16 +63,16 @@ export function ResidualRiskForm({
 			});
 
 			toast({
-				title: t("common.success"),
-				description: t("vendors.risks.residual_risk_updated"),
+				title: "Success",
+				description: "Residual risk updated successfully",
 			});
 
 			setOpen("false");
 		} catch (error) {
 			console.error("Error submitting form:", error);
 			toast({
-				title: t("common.error"),
-				description: t("common.unexpected_error"),
+				title: "Error",
+				description: "An unexpected error occurred",
 				variant: "destructive",
 			});
 		}
@@ -89,7 +87,7 @@ export function ResidualRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.risks.residual_probability")}
+								{"Residual Probability"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -107,21 +105,21 @@ export function ResidualRiskForm({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value={Likelihood.very_likely}>
-										{t("vendors.risks.very_likely")}
+										{"Very Likely"}
 									</SelectItem>
 									<SelectItem value={Likelihood.likely}>
-										{t("vendors.risks.likely")}
+										{"Likely"}
 									</SelectItem>
 									<SelectItem value={Likelihood.possible}>
-										{t("vendors.risks.possible")}
+										{"Possible"}
 									</SelectItem>
 									<SelectItem value={Likelihood.unlikely}>
-										{t("vendors.risks.unlikely")}
+										{"Unlikely"}
 									</SelectItem>
 									<SelectItem
 										value={Likelihood.very_unlikely}
 									>
-										{t("vendors.risks.very_unlikely")}
+										{"Very Unlikely"}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -136,7 +134,7 @@ export function ResidualRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("vendors.risks.residual_impact")}
+								{"Residual Impact"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -154,19 +152,19 @@ export function ResidualRiskForm({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value={Impact.insignificant}>
-										{t("vendors.risks.insignificant")}
+										{"Insignificant"}
 									</SelectItem>
 									<SelectItem value={Impact.minor}>
-										{t("vendors.risks.minor")}
+										{"Minor"}
 									</SelectItem>
 									<SelectItem value={Impact.moderate}>
-										{t("vendors.risks.moderate")}
+										{"Moderate"}
 									</SelectItem>
 									<SelectItem value={Impact.major}>
-										{t("vendors.risks.major")}
+										{"Major"}
 									</SelectItem>
 									<SelectItem value={Impact.severe}>
-										{t("vendors.risks.severe")}
+										{"Severe"}
 									</SelectItem>
 								</SelectContent>
 							</Select>
@@ -176,7 +174,7 @@ export function ResidualRiskForm({
 				/>
 
 				<div className="flex justify-end">
-					<Button type="submit">{t("common.save")}</Button>
+					<Button type="submit">{"Save"}</Button>
 				</div>
 			</form>
 		</Form>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { TaskStatus, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Input } from "@comp/ui/input";
@@ -20,7 +19,6 @@ interface FilterToolbarProps {
 }
 
 export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
-	const t = useI18n();
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -72,7 +70,7 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 		<div className="flex flex-col gap-4 mb-4">
 			<div className="flex flex-col sm:flex-row gap-4">
 				<Input
-					placeholder={t("vendors.tasks.filters.search")}
+					placeholder={"Search tasks..."}
 					value={search}
 					onChange={(e) => handleSearch(e.target.value)}
 					className="max-w-sm"
@@ -84,21 +82,21 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 					>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue
-								placeholder={t("vendors.tasks.filters.status")}
+								placeholder={"Filter by status"}
 							/>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">
-								{t("vendors.tasks.filters.all_statuses")}
+								{"All Statuses"}
 							</SelectItem>
 							<SelectItem value="not_started">
-								{t("vendors.tasks.filters.not_started")}
+								{"Not Started"}
 							</SelectItem>
 							<SelectItem value="in_progress">
-								{t("vendors.tasks.filters.in_progress")}
+								{"In Progress"}
 							</SelectItem>
 							<SelectItem value="completed">
-								{t("vendors.tasks.filters.completed")}
+								{"Completed"}
 							</SelectItem>
 						</SelectContent>
 					</Select>
@@ -115,7 +113,7 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">
-								{t("vendors.tasks.filters.all_assignees")}
+								{"All Assignees"}
 							</SelectItem>
 							{users.map((user) => (
 								<SelectItem key={user.id} value={user.id}>
@@ -134,7 +132,7 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 						className="gap-2"
 					>
 						<XIcon className="h-4 w-4" />
-						{t("vendors.tasks.filters.clear")}
+						{"Clear filters"}
 					</Button>
 				</div>
 			)}

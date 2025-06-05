@@ -131,5 +131,3 @@ export const GDPR = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-
-

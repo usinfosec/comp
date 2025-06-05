@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 				},
 			}),
 			db.$queryRaw<DailyUserCount[]>`
-					SELECT 
+					SELECT
 						DATE_TRUNC('day', "createdAt") as day,
 						COUNT(*) as count
 					FROM "User"

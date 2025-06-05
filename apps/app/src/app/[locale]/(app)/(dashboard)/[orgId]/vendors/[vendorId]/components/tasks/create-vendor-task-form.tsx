@@ -3,7 +3,6 @@
 import { getOrganizationUsersAction } from "@/actions/organization/get-organization-users-action";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { SelectUser } from "@/components/select-user";
-import { useI18n } from "@/locales/client";
 import { Member, User } from "@comp/db/types";
 import {
 	Accordion,
@@ -42,8 +41,6 @@ export function CreateVendorTaskForm({
 }: {
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
-
 	const [_, setCreateVendorTaskSheet] = useQueryState(
 		"create-vendor-task-sheet",
 	);
@@ -51,11 +48,11 @@ export function CreateVendorTaskForm({
 
 	const createTask = useAction(createVendorTaskAction, {
 		onSuccess: () => {
-			toast.success(t("risk.tasks.form.success"));
+			toast.success("Task created successfully");
 			setCreateVendorTaskSheet(null);
 		},
 		onError: () => {
-			toast.error(t("risk.tasks.form.error"));
+			toast.error("Failed to create task");
 		},
 	});
 
@@ -82,7 +79,7 @@ export function CreateVendorTaskForm({
 						<Accordion type="multiple" defaultValue={["task"]}>
 							<AccordionItem value="task">
 								<AccordionTrigger>
-									{t("risk.tasks.form.title")}
+									{"Task Details"}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
@@ -243,7 +240,7 @@ export function CreateVendorTaskForm({
 							disabled={createTask.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("common.actions.create")}
+								{"Create"}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

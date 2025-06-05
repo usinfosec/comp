@@ -1,7 +1,6 @@
 "use client";
 
 import { ResidualRiskForm } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
-import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -24,7 +23,6 @@ export function VendorResidualRiskSheet({
 	vendorId: string;
 	initialRisk?: Vendor;
 }) {
-	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [isOpen, setOpen] = useQueryState("residual-risk-sheet");
 	const open = isOpen === "true";
@@ -39,7 +37,7 @@ export function VendorResidualRiskSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("vendors.risks.update_residual_risk")}
+								{"Update Residual Risk"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -74,7 +72,7 @@ export function VendorResidualRiskSheet({
 	return (
 		<Drawer open={open}>
 			<DrawerTitle hidden>
-				{t("vendors.risks.update_residual_risk")}
+				{"Update Residual Risk"}
 			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<ResidualRiskForm

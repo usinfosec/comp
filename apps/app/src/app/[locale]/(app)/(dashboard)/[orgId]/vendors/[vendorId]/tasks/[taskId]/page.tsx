@@ -1,6 +1,5 @@
 "use server";
 
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { setStaticParamsLocale } from "next-international/server";
@@ -20,8 +19,6 @@ interface PageProps {
 export default async function TaskPage({ params }: PageProps) {
 	const { locale, orgId, taskId } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});

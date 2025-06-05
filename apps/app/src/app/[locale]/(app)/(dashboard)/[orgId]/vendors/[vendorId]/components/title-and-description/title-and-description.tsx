@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { User, Vendor } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
@@ -14,7 +13,6 @@ export function TitleAndDescription({
 }: {
 	vendor: Vendor & { assignee: { user: User | null } | null };
 }) {
-	const t = useI18n();
 	const [_, setOpen] = useQueryState("vendor-overview-sheet");
 
 	return (

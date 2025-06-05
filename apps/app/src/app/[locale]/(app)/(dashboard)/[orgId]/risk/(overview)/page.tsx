@@ -1,7 +1,6 @@
 import { AppOnboarding } from "@/components/app-onboarding";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Departments, RiskStatus } from "@comp/db/types";
@@ -33,8 +32,6 @@ export default async function RiskRegisterPage(props: {
 	const validFilters = getValidFilters(search.filters);
 
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	const risksResult = await getRisks({
 		...search,
 		filters: validFilters,
@@ -51,11 +48,11 @@ export default async function RiskRegisterPage(props: {
 		return (
 			<div className="py-4">
 				<AppOnboarding
-					title={t("app_onboarding.risk_management.title")}
+					title={"Risk Management"}
 					description={t(
 						"app_onboarding.risk_management.description",
 					)}
-					cta={t("app_onboarding.risk_management.cta")}
+					cta={"Create risk"}
 					imageSrcLight="/onboarding/risk-light.webp"
 					imageSrcDark="/onboarding/risk-dark.webp"
 					imageAlt="Risk Management"
@@ -114,10 +111,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("risk.register.title"),
+		title: "Risks",
 	};
 }
 

@@ -1,6 +1,5 @@
 import { AppOnboarding } from "@/components/app-onboarding";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getI18n } from "@/locales/server";
 import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
@@ -17,7 +16,6 @@ export default async function Page({
 	searchParams: SearchParams;
 	params: Promise<{ orgId: string; locale: string }>;
 }) {
-	const t = await getI18n();
 	const { orgId, locale } = await params;
 	setStaticParamsLocale(locale);
 
@@ -46,9 +44,9 @@ export default async function Page({
 		return (
 			<div className="py-4">
 				<AppOnboarding
-					title={t("app_onboarding.vendors.title")}
-					description={t("app_onboarding.vendors.description")}
-					cta={t("app_onboarding.vendors.cta")}
+					title={"Vendor Management"}
+					description={"Manage your vendors and ensure your organization is protected."}
+					cta={"Add vendor"}
 					imageSrcLight="/onboarding/vendor-light.webp"
 					imageSrcDark="/onboarding/vendor-dark.webp"
 					imageAlt="Vendor Management"
@@ -108,9 +106,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("vendors.register.title"),
+		title: "Vendors",
 	};
 }

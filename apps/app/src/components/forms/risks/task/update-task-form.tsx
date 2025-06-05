@@ -4,7 +4,6 @@ import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 import { updateTaskSchema } from "@/actions/schema";
 import { SelectUser } from "@/components/select-user";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import { type Task, TaskStatus, type User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
@@ -40,8 +39,6 @@ export function UpdateTaskForm({
 	task: Task;
 	users: User[];
 }) {
-	const t = useI18n();
-
 	const updateTask = useAction(updateTaskAction, {
 		onSuccess: () => {
 			toast.success("Task updated successfully");
@@ -79,7 +76,7 @@ export function UpdateTaskForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("common.assignee.label")}
+									{"Assignee"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -118,7 +115,7 @@ export function UpdateTaskForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.tasks.form.status")}
+									{"Status"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -165,7 +162,7 @@ export function UpdateTaskForm({
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
 								<FormLabel>
-									{t("risk.tasks.form.due_date")}
+									{"Due Date"}
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger asChild>
@@ -182,7 +179,7 @@ export function UpdateTaskForm({
 													format(field.value, "PPP")
 												) : (
 													<span>
-														{t("common.date.pick")}
+														{"Pick a date"}
 													</span>
 												)}
 												<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -218,7 +215,7 @@ export function UpdateTaskForm({
 						{updateTask.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

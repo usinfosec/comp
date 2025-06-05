@@ -5,7 +5,6 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import { useSession } from "@/utils/auth-client";
 import type { Member, Risk, User } from "@comp/db/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -24,7 +23,6 @@ export const RisksTable = ({
 	assignees: (Member & { user: User })[];
 	pageCount: number;
 }) => {
-	const t = useI18n();
 	const session = useSession();
 	const orgId = session?.data?.session?.activeOrganizationId;
 	const [_, setOpenSheet] = useQueryState("create-risk-sheet");

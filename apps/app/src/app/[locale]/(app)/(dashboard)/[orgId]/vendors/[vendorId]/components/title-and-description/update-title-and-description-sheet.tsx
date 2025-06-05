@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -23,8 +22,6 @@ export function UpdateTitleAndDescriptionSheet({
 }: {
 	vendor: Vendor;
 }) {
-	const t = useI18n();
-
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("vendor-overview-sheet");
 	const isOpen = Boolean(open);
@@ -40,7 +37,7 @@ export function UpdateTitleAndDescriptionSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("vendors.form.update_vendor")}
+								{"Update Vendor"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -52,7 +49,7 @@ export function UpdateTitleAndDescriptionSheet({
 							</Button>
 						</div>{" "}
 						<SheetDescription>
-							{t("vendors.form.update_vendor_description")}
+							{"Update the details of your vendor"}
 						</SheetDescription>
 					</SheetHeader>
 
@@ -66,7 +63,7 @@ export function UpdateTitleAndDescriptionSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("vendors.form.update_vendor")}</DrawerTitle>
+			<DrawerTitle hidden>{"Update Vendor"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<UpdateTitleAndDescriptionForm vendor={vendor} />
 			</DrawerContent>

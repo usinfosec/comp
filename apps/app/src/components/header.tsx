@@ -1,5 +1,4 @@
 import { UserMenu } from "@/components/user-menu";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { buttonVariants } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
@@ -16,8 +15,6 @@ import { db } from "@comp/db";
 import type { FrameworkEditorFramework } from "@comp/db/types";
 
 export async function Header() {
-	const t = await getI18n();
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -71,7 +68,7 @@ export async function Header() {
 						target="_blank"
 					>
 						<Icons.Discord className="h-4 w-4" />
-						{t("header.discord.button")}
+						{"Ask in our Discord"}
 					</Link>
 				</div>
 

@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { StatusChart } from "./status-chart";
@@ -7,8 +6,6 @@ interface Props {
 }
 
 export async function VendorsByStatus({ organizationId }: Props) {
-	const t = await getI18n();
-
 	const vendors = await getVendorsByStatus(organizationId);
 
 	const data = vendors.map((vendor) => ({
@@ -19,7 +16,7 @@ export async function VendorsByStatus({ organizationId }: Props) {
 	return (
 		<Card className="w-full h-full">
 			<CardHeader>
-				<CardTitle>{t("vendors.dashboard.status")}</CardTitle>
+				<CardTitle>{"Vendor Status"}</CardTitle>
 			</CardHeader>
 			<CardContent className="w-full">
 				<StatusChart data={data} />

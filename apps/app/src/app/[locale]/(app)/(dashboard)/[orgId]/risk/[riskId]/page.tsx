@@ -2,7 +2,6 @@ import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { InherentRiskChart } from "@/components/risks/charts/InherentRiskChart";
 import { ResidualRiskChart } from "@/components/risks/charts/ResidualRiskChart";
 import { RiskOverview } from "@/components/risks/risk-overview";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
@@ -32,8 +31,6 @@ export default async function RiskPage({ searchParams, params }: PageProps) {
 	const risk = await getRisk(riskId);
 	const comments = await getComments(riskId);
 	const assignees = await getAssignees();
-	const t = await getI18n();
-
 	if (!risk) {
 		redirect("/");
 	}
@@ -169,9 +166,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("risk.risk_overview"),
+		title: "Risk Overview",
 	};
 }

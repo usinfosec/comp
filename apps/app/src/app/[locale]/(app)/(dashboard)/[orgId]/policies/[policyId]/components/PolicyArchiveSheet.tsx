@@ -1,7 +1,6 @@
 "use client";
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
-import { useI18n } from "@/locales/client";
 import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -24,7 +23,6 @@ export function PolicyArchiveSheet({
 }: {
 	policy: Policy;
 }) {
-	const t = useI18n();
 	const router = useRouter();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("archive-policy-sheet");
@@ -34,18 +32,18 @@ export function PolicyArchiveSheet({
 	const archivePolicy = useAction(archivePolicyAction, {
 		onSuccess: (result) => {
 			if (result) {
-				toast.success(t("policies.archive.success"));
+				toast.success("Policy archived successfully");
 				// Redirect to policies list after successful archive
 				router.push(`/${policy.organizationId}/policies/all`);
 			} else {
-				toast.success(t("policies.archive.restore_success"));
+				toast.success("Policy restored successfully");
 				// Stay on the policy page after restore
 				router.refresh();
 			}
 			handleOpenChange(false);
 		},
 		onError: () => {
-			toast.error(t("policies.archive.error"));
+			toast.error("Failed to update policy archive status");
 		},
 	});
 
@@ -65,8 +63,8 @@ export function PolicyArchiveSheet({
 		<div className="space-y-6">
 			<p className="text-sm text-muted-foreground">
 				{isArchived
-					? t("policies.archive.restore_description")
-					: t("policies.archive.description")}
+					? "Are you sure you want to restore this policy?"
+					: "Are you sure you want to archive this policy?"}
 			</p>
 			<div className="flex justify-end gap-2">
 				<Button
@@ -74,7 +72,7 @@ export function PolicyArchiveSheet({
 					onClick={() => handleOpenChange(false)}
 					disabled={archivePolicy.status === "executing"}
 				>
-					{t("policies.archive.cancel")}
+					{"Cancel"}
 				</Button>
 				<Button
 					variant={isArchived ? "default" : "destructive"}
@@ -85,20 +83,20 @@ export function PolicyArchiveSheet({
 						<span className="flex items-center gap-2">
 							<span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
 							{isArchived
-								? t("policies.archive.restore_confirm")
-								: t("policies.archive.confirm")}
+								? "Restore"
+								: "Archive"}
 						</span>
 					) : (
 						<span className="flex items-center gap-2">
 							{isArchived ? (
 								<>
 									<ArchiveRestoreIcon className="h-3 w-3" />
-									{t("policies.archive.restore_confirm")}
+									{"Restore"}
 								</>
 							) : (
 								<>
 									<ArchiveIcon className="h-3 w-3" />
-									{t("policies.archive.confirm")}
+									{"Archive"}
 								</>
 							)}
 						</span>
@@ -116,8 +114,8 @@ export function PolicyArchiveSheet({
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
 								{isArchived
-									? t("policies.archive.restore_title")
-									: t("policies.archive.title")}
+									? "Restore Policy"
+									: "Archive Policy"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -140,15 +138,15 @@ export function PolicyArchiveSheet({
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>
 				{isArchived
-					? t("policies.archive.restore_title")
-					: t("policies.archive.title")}
+					? "Restore Policy"
+					: "Archive Policy"}
 			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<div className="mb-4">
 					<h3 className="text-lg font-medium">
 						{isArchived
-							? t("policies.archive.restore_title")
-							: t("policies.archive.title")}
+							? "Restore Policy"
+							: "Archive Policy"}
 					</h3>
 					<p className="text-sm text-muted-foreground mt-1">
 						{policy.name}

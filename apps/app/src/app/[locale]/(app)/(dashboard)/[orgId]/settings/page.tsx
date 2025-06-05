@@ -1,7 +1,6 @@
 import { DeleteOrganization } from "@/components/forms/organization/delete-organization";
 import { UpdateOrganizationName } from "@/components/forms/organization/update-organization-name";
 import { UpdateOrganizationWebsite } from "@/components/forms/organization/update-organization-website";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -39,10 +38,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.settings"),
+		title: "Settings",
 	};
 }
 

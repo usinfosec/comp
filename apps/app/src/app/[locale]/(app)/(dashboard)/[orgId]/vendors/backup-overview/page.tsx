@@ -1,6 +1,5 @@
 import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/backup-overview/components/charts/vendor-overview";
 import { getServersideSession } from "@/lib/get-session";
-import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
@@ -38,9 +37,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.vendors"),
+		title: "Vendors",
 	};
 }

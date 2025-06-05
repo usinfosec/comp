@@ -2,7 +2,6 @@
 
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { VENDOR_STATUS_TYPES, VendorStatus } from "@/components/vendor-status";
-import { useI18n } from "@/locales/client";
 import { Member, type User, type Vendor, VendorCategory } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -36,14 +35,12 @@ export function UpdateSecondaryFieldsForm({
 	vendor: Vendor;
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
-
 	const updateVendor = useAction(updateVendorAction, {
 		onSuccess: () => {
-			toast.success(t("vendors.form.update_vendor_success"));
+			toast.success("Vendor updated successfully");
 		},
 		onError: () => {
-			toast.error(t("vendors.form.update_vendor_error"));
+			toast.error("Failed to update vendor");
 		},
 	});
 
@@ -83,7 +80,7 @@ export function UpdateSecondaryFieldsForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("common.assignee.label")}
+									{"Assignee"}
 								</FormLabel>
 								<FormControl>
 									<SelectAssignee
@@ -106,7 +103,7 @@ export function UpdateSecondaryFieldsForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("vendors.form.vendor_status")}
+									{"Status"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -152,7 +149,7 @@ export function UpdateSecondaryFieldsForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("vendors.form.vendor_category")}
+									{"Category"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -213,7 +210,7 @@ export function UpdateSecondaryFieldsForm({
 						{updateVendor.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

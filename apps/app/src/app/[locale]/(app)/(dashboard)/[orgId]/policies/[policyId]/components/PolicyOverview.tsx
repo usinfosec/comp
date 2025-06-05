@@ -2,7 +2,6 @@
 
 import { acceptRequestedPolicyChangesAction } from "@/actions/policies/accept-requested-policy-changes";
 import { denyRequestedPolicyChangesAction } from "@/actions/policies/deny-requested-policy-changes";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import type { Member, Policy, User } from "@comp/db/types";
 import { Control } from "@comp/db/types";
@@ -51,7 +50,6 @@ export function PolicyOverview({
 	allControls: Control[];
 	isPendingApproval: boolean;
 }) {
-	const t = useI18n();
 	const { data: activeMember } = authClient.useActiveMember();
 	const [, setOpen] = useQueryState("policy-overview-sheet");
 	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
@@ -170,13 +168,13 @@ export function PolicyOverview({
 					<div className="flex items-center gap-2">
 						<ArchiveIcon className="h-4 w-4" />
 						<div className="font-medium">
-							{t("policies.archive.status")}
+							{"This policy is archived"}
 						</div>
 					</div>
 					<AlertDescription>
 						{policy?.isArchived && (
 							<>
-								{t("policies.archive.archived_on")}{" "}
+								{"Archived on"}{" "}
 								{format(
 									new Date(policy?.updatedAt ?? new Date()),
 									"PPP",
@@ -190,7 +188,7 @@ export function PolicyOverview({
 						onClick={() => setArchiveOpen("true")}
 					>
 						<ArchiveRestoreIcon className="h-3 w-3" />
-						{t("policies.archive.restore_confirm")}
+						{"Restore"}
 					</Button>
 				</Alert>
 			)}
@@ -226,7 +224,7 @@ export function PolicyOverview({
 										disabled={isPendingApproval}
 									>
 										<PencilIcon className="h-4 w-4 mr-2" />
-										{t("policies.edit.tooltip")}
+										{"Edit policy"}
 									</DropdownMenuItem>
 									<DropdownMenuItem
 										onClick={() => {
@@ -244,7 +242,7 @@ export function PolicyOverview({
 											? t(
 												"policies.archive.restore_tooltip",
 											)
-											: t("policies.archive.tooltip")}
+											: "Archive policy"}
 									</DropdownMenuItem>
 									<DropdownMenuItem
 										onClick={() => {

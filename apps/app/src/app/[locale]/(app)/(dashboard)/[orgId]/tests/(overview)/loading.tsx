@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -11,15 +10,13 @@ import {
 import { Input } from "@comp/ui/input";
 
 export default async function Loading() {
-	const t = await getI18n();
-
 	return (
 		<div className="space-y-12 grid grid-cols-1 md:grid-cols-2 gap-4">
 			<Card>
 				<CardHeader>
-					<CardTitle>{t("settings.general.org_name")}</CardTitle>
+					<CardTitle>{"Organization name"}</CardTitle>
 					<CardDescription>
-						{t("settings.general.org_name_description")}
+						{"This is your organizations visible name. You should use the legal name of your organization."}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -30,18 +27,18 @@ export default async function Loading() {
 					/>
 				</CardContent>
 				<CardFooter className="flex justify-between">
-					<div>{t("settings.general.org_name_tip")}</div>
-					<Button disabled aria-label={t("common.actions.save")}>
-						{t("common.actions.save")}
+					<div>{"Please use 32 characters at maximum."}</div>
+					<Button disabled aria-label={"Save"}>
+						{"Save"}
 					</Button>
 				</CardFooter>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<CardTitle>{t("settings.general.org_website")}</CardTitle>
+					<CardTitle>{"Organization Website"}</CardTitle>
 					<CardDescription>
-						{t("settings.general.org_website_description")}
+						{"This is your organization's official website. Include https:// in the URL."}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -52,9 +49,9 @@ export default async function Loading() {
 					/>
 				</CardContent>
 				<CardFooter className="flex justify-between">
-					<div>{t("settings.general.org_website_tip")}</div>
-					<Button disabled aria-label={t("common.actions.save")}>
-						{t("common.actions.save")}
+					<div>{"Please enter a valid URL including https://"}</div>
+					<Button disabled aria-label={"Save"}>
+						{"Save"}
 					</Button>
 				</CardFooter>
 			</Card>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useNotifications } from "@/hooks/use-notifications";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
@@ -84,8 +83,6 @@ function NotificationItem({
 }
 
 export function NotificationCenter() {
-	const t = useI18n();
-
 	const [isOpen, setOpen] = useState(false);
 	const {
 		hasUnseenNotifications,
@@ -131,10 +128,10 @@ export function NotificationCenter() {
 				<Tabs defaultValue="inbox">
 					<TabsList className="w-full justify-start bg-transparent border-b-[1px] rounded-sm py-6">
 						<TabsTrigger value="inbox" className="font-normal">
-							{t("common.notifications.inbox")}
+							{"Inbox"}
 						</TabsTrigger>
 						<TabsTrigger value="archive" className="font-normal">
-							{t("common.notifications.archive")}
+							{"Archive"}
 						</TabsTrigger>
 					</TabsList>
 
@@ -199,7 +196,7 @@ export function NotificationCenter() {
 									className="bg-transparent"
 									onClick={markAllMessagesAsRead}
 								>
-									{t("common.notifications.archive_all")}
+									{"Archive all"}
 								</Button>
 							</div>
 						)}
