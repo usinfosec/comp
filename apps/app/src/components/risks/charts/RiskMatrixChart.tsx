@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Impact, Likelihood } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -96,7 +95,6 @@ export function RiskMatrixChart({
 	activeImpact: initialImpactProp,
 	saveAction,
 }: RiskMatrixChartProps) {
-	const t = useI18n();
 	const [initialLikelihood, setInitialLikelihood] = useState<Likelihood>(initialLikelihoodProp);
 	const [initialImpact, setInitialImpact] = useState<Impact>(initialImpactProp);
 	const [activeLikelihood, setActiveLikelihood] = useState<Likelihood>(initialLikelihoodProp);
@@ -176,7 +174,7 @@ export function RiskMatrixChart({
 								transition={{ duration: 0.15, ease: "easeOut" }}
 							>
 								<Button onClick={handleSave} variant="default" disabled={loading}>
-									{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("common.actions.save")}
+									{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
 								</Button>
 							</motion.div>
 						)}
@@ -229,7 +227,7 @@ export function RiskMatrixChart({
 							))}
 						</div>
 						<div className="flex justify-center mt-2">
-							<span className="text-xs">{t("risk.metrics.impact")}</span>
+							<span className="text-xs">{"Impact"}</span>
 						</div>
 					</div>
 				</div>

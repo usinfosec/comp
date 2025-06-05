@@ -1,20 +1,14 @@
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getI18n } from "@/locales/server";
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
-import { JSONContent } from "novel";
-import { Comments } from "../../../../../../../components/comments/Comments";
-import { PolicyOverview } from "./components/PolicyOverview";
-import { PolicyPageEditor } from "./editor/components/PolicyDetails";
+import PolicyPage from "./components/PolicyPage";
 import {
-	getPolicyControlMappingInfo,
 	getAssignees,
 	getComments,
-	getPolicy,
 	getLogsForPolicy,
+	getPolicy,
+	getPolicyControlMappingInfo,
 } from "./data";
-import { RecentAuditLogs } from "./components/RecentAuditLogs";
-import PolicyPage from "./components/PolicyPage";
 
 export default async function PolicyDetails({
 	params,
@@ -62,9 +56,7 @@ export async function generateMetadata({
 	const { locale } = await params;
 
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("policies.overview.title"),
+		title: "Policy Overview",
 	};
 }

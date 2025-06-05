@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
 
 interface LayoutProps {
@@ -7,7 +6,6 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
-	const t = await getI18n();
 	const { orgId, policyId } = await params;
 
 	return (
@@ -16,11 +14,11 @@ export default async function Layout({ children, params }: LayoutProps) {
 				items={[
 					{
 						path: `/${orgId}/policies`,
-						label: t("policies.dashboard.title"),
+						label: "Overview",
 					},
 					{
 						path: `/${orgId}/policies/all`,
-						label: t("policies.dashboard.all"),
+						label: "Policies",
 						activeOverrideIdPrefix: "pol_",
 					},
 				]}
