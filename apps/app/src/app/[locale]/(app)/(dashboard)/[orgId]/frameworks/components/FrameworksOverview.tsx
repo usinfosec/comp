@@ -6,7 +6,6 @@ import type { FrameworkInstanceWithControls } from "../types";
 import { FrameworkList } from "./FrameworkList";
 import type { FrameworkEditorFramework } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
-import { useI18n } from "@/locales/client";
 import { useState } from "react";
 import { AddFrameworkModal } from "./AddFrameworkModal";
 import { useParams } from 'next/navigation';
@@ -23,7 +22,6 @@ export function FrameworksOverview({
 	tasks,
 	allFrameworks,
 }: FrameworksOverviewProps) {
-	const t = useI18n();
 	const params = useParams<{ orgId: string }>();
 	const organizationId = params.orgId;
 	const [isAddFrameworkModalOpen, setIsAddFrameworkModalOpen] = useState(false);
@@ -34,9 +32,9 @@ export function FrameworksOverview({
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between items-center">
-				<h1 className="text-2xl font-semibold">{t("sidebar.frameworks")}</h1>
+				<h1 className="text-2xl font-semibold">{"Frameworks"}</h1>
 				<Button onClick={() => setIsAddFrameworkModalOpen(true)}>
-					{t("frameworks.overview.progress.empty.action")}
+					{"Add Framework"}
 				</Button>
 			</div>
 			<div className="grid gap-4 md:grid-cols-1 select-none w-full">

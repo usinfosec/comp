@@ -1,5 +1,4 @@
 import { LogoSpinner } from "@/components/logo-spinner";
-import { getI18n } from "@/locales/server";
 import {
 	Card,
 	CardContent,
@@ -10,17 +9,15 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 
 export default async function Loading() {
-	const t = await getI18n();
-
 	return (
 		<div className="space-y-4 sm:space-y-8">
 			<Tabs defaultValue="members">
 				<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-sm mb-1 p-0 h-auto pb-4">
 					<TabsTrigger value="members" className="p-0 m-0 mr-4">
-						{t("settings.team.tabs.members")}
+						{"Members"}
 					</TabsTrigger>
 					<TabsTrigger value="invite" className="p-0 m-0">
-						{t("settings.team.tabs.invite")}
+						{"Invite"}
 					</TabsTrigger>
 				</TabsList>
 
@@ -28,7 +25,7 @@ export default async function Loading() {
 					<Card>
 						<CardHeader>
 							<CardTitle>
-								{t("settings.team.members.title")}
+								{"Team Members"}
 							</CardTitle>
 							<CardDescription />
 						</CardHeader>
@@ -43,10 +40,10 @@ export default async function Loading() {
 						<Card>
 							<CardHeader className="blur-sm">
 								<CardTitle>
-									{t("settings.team.invite.title")}
+									{"Invite Members"}
 								</CardTitle>
 								<CardDescription>
-									{t("settings.team.invite.description")}
+									{"Invite new members to join your organization."}
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">

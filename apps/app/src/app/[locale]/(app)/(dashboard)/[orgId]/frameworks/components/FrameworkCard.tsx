@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Task, Control } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import {
@@ -29,8 +28,6 @@ export function FrameworkCard({
 	tasks,
 }: FrameworkCardProps) {
 	const { orgId } = useParams<{ orgId: string }>();
-	const t = useI18n();
-
 	const getComplianceColor = (score: number) => {
 		if (score >= 80) return "text-green-500";
 		if (score >= 50) return "text-yellow-500";
@@ -46,7 +43,7 @@ export function FrameworkCard({
 	const getStatusBadge = (score: number) => {
 		if (score >= 95)
 			return {
-				label: t("common.status.compliant"),
+				label: "Compliant",
 				color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
 			};
 		if (score >= 80)
@@ -56,7 +53,7 @@ export function FrameworkCard({
 			};
 		if (score >= 50)
 			return {
-				label: t("common.status.in_progress"),
+				label: "In Progress",
 				color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
 			};
 		return {
@@ -150,7 +147,7 @@ export function FrameworkCard({
 						<div className="space-y-1.5">
 							<div className="flex items-center justify-between text-sm">
 								<span className="text-muted-foreground">
-									{t("common.status.title")}
+									{"Status"}
 								</span>
 								<span
 									className={cn(
@@ -180,11 +177,11 @@ export function FrameworkCard({
 							<div className="flex items-center text-muted-foreground">
 								<ClipboardList className="h-3.5 w-3.5 mr-1" />
 								<span className="text-xs">
-									{t("frameworks.controls.title")}
+									{"Controls"}
 								</span>
 							</div>
 							<p className="font-medium text-sm">
-								{controlsCount} {t("tasks.items")}
+								{controlsCount} {"Tasks"}
 							</p>
 						</div>
 						<div className="flex flex-col items-start gap-1 border-r pr-3">
@@ -218,7 +215,7 @@ export function FrameworkCard({
 				<CardFooter className="text-xs text-muted-foreground flex justify-between mt-auto flex-shrink-0">
 					<div className="flex items-center">
 						<Clock className="h-3.5 w-3.5 mr-1.5" />
-						{t("common.last_updated")}: {lastActivityDate}
+						{"Last Updated"}: {lastActivityDate}
 					</div>
 				</CardFooter>
 			</Card>

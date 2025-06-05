@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { useRouter } from "next/navigation";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Checkbox } from "@comp/ui/checkbox";
 import { cn } from "@comp/ui/cn";
@@ -45,7 +44,6 @@ export function AddFrameworkModal({
 	availableFrameworks,
 	organizationId,
 }: Props) {
-	const t = useI18n();
 	const router = useRouter();
 	const [isExecuting, setIsExecuting] = useState(false);
 
@@ -63,14 +61,14 @@ export function AddFrameworkModal({
 		try {
 			const result = await addFrameworksToOrganizationAction(data);
 			if (result.success) {
-				toast.success(t("common.actions.success")); // Assuming a generic success message
+				toast.success("Success"); // Assuming a generic success message
 				onOpenChange(false);
 				router.refresh(); // Refresh page to show new frameworks
 			} else {
-				toast.error(result.error || t("common.actions.error"));
+				toast.error(result.error || "Error");
 			}
 		} catch (error) {
-			toast.error(t("common.actions.error"));
+			toast.error("Error");
 		} finally {
 			setIsExecuting(false);
 		}
@@ -84,11 +82,11 @@ export function AddFrameworkModal({
 	return (
 		<DialogContent className="max-w-[455px]">
 			<DialogHeader className="my-4">
-				<DialogTitle>{t("frameworks.add_modal.title")}</DialogTitle>
+				<DialogTitle>{"Add New Frameworks"}</DialogTitle>
 				<DialogDescription>
 					{availableFrameworks.length > 0
-						? t("frameworks.add_modal.description")
-						: t("frameworks.add_modal.all_enabled_description")}
+						? "Select the compliance frameworks you want to add to your organization."
+						: "There are no new frameworks available to add at this time."}
 				</DialogDescription>
 			</DialogHeader>
 
@@ -105,7 +103,7 @@ export function AddFrameworkModal({
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">
-										{t("frameworks.overview.grid.title")}
+										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
@@ -145,7 +143,7 @@ export function AddFrameworkModal({
 																			}
 																		</p>
 																		<p className="text-xs text-muted-foreground/75 mt-2">
-																			{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+																			{`${"Version"}: ${framework.version}`}
 																		</p>
 																	</div>
 																	<div>
@@ -196,7 +194,7 @@ export function AddFrameworkModal({
 									onClick={() => handleOpenChange(false)}
 									disabled={isExecuting}
 								>
-									{t("common.actions.cancel")}
+									{"Cancel"}
 								</Button>
 								<Button
 									type="submit"
@@ -211,7 +209,7 @@ export function AddFrameworkModal({
 									{isExecuting && (
 										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 									)}
-									{t("common.actions.add")}
+									{"Add"}
 								</Button>
 							</div>
 						</DialogFooter>
@@ -222,7 +220,7 @@ export function AddFrameworkModal({
 			{!isExecuting && availableFrameworks.length === 0 && (
 				<div className="py-8 text-center">
 					<p className="text-md text-foreground">
-						{t("frameworks.add_modal.all_enabled_message")}
+						{"All available frameworks are already enabled in your account."}
 					</p>
 					<DialogFooter className="mt-8">
 						<Button
@@ -230,7 +228,7 @@ export function AddFrameworkModal({
 							variant="outline"
 							onClick={() => handleOpenChange(false)}
 						>
-							{t("common.actions.close")}
+							{"Close"}
 						</Button>
 					</DialogFooter>
 				</div>
@@ -240,7 +238,7 @@ export function AddFrameworkModal({
 				<div className="flex items-center justify-center p-8">
 					<Loader2 className="h-12 w-12 animate-spin text-primary" />
 					<p className="ml-4 text-muted-foreground">
-						{t("frameworks.add_modal.loading")}
+						{"Adding frameworks..."}
 					</p>
 				</div>
 			)}

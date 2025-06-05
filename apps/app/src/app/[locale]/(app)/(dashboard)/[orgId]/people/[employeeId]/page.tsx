@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import {
 	TrainingVideo,
@@ -57,10 +56,8 @@ export async function generateMetadata({
 	const { locale } = await params;
 
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("people.details.title"),
+		title: "Employee Details",
 	};
 }
 

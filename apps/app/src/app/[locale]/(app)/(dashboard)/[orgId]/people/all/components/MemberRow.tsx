@@ -5,7 +5,6 @@ import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { useI18n } from "@/locales/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
@@ -63,7 +62,6 @@ function getInitials(name?: string | null, email?: string | null): string {
 }
 
 export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
-	const t = useI18n();
 	const params = useParams<{ locale: string; orgId: string }>();
 	const { locale, orgId } = params;
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
@@ -136,7 +134,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 									href={`/${locale}/${orgId}/people/${memberId}`}
 									className="text-xs text-blue-600 hover:underline"
 								>
-									({t("people.member_actions.view_profile")})
+									({"View Profile"})
 								</Link>
 							)}
 						</div>
@@ -156,13 +154,13 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								{(() => {
 									switch (role) {
 										case "owner":
-											return t("people.roles.owner");
+											return "Owner";
 										case "admin":
-											return t("people.roles.admin");
+											return "Admin";
 										case "auditor":
-											return t("people.roles.auditor");
+											return "Auditor";
 										case "employee":
-											return t("people.roles.employee");
+											return "Employee";
 										default:
 											return "???";
 									}
@@ -189,7 +187,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								>
 									<Edit className="mr-2 h-4 w-4" />
 									<span>
-										{t("people.member_actions.edit_roles")}
+										{"Edit Roles"}
 									</span>
 								</DropdownMenuItem>
 							)}
@@ -215,7 +213,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>
-							{t("people.member_actions.role_dialog.title_edit")}
+							{"Edit Member Roles"}
 						</DialogTitle>
 						<DialogDescription>
 							{t(
@@ -258,13 +256,13 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							variant="outline"
 							onClick={() => setIsRoleDialogOpen(false)}
 						>
-							{t("common.actions.cancel")}
+							{"Cancel"}
 						</Button>
 						<Button
 							onClick={handleUpdateRolesClick}
 							disabled={isUpdating || selectedRoles.length === 0}
 						>
-							{t("common.actions.update")}
+							{"Update"}
 						</Button>
 					</DialogFooter>
 				</DialogContent>
@@ -277,7 +275,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
-							{t("people.member_actions.remove_confirm.title")}
+							{"Remove Team Member"}
 						</AlertDialogTitle>
 						<AlertDialogDescription>
 							{t(
@@ -291,13 +289,13 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>
-							{t("common.actions.cancel")}
+							{"Cancel"}
 						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleRemoveClick}
 							disabled={isRemoving}
 						>
-							{t("common.actions.remove")}
+							{"Remove"}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

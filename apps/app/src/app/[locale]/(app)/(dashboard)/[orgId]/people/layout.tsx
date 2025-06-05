@@ -1,5 +1,4 @@
 import { AppOnboarding } from "@/components/app-onboarding";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { SecondaryMenu } from "@comp/ui/secondary-menu";
@@ -12,8 +11,6 @@ export default async function Layout({
 }: {
 	children: React.ReactNode;
 }) {
-	const t = await getI18n();
-
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -43,13 +40,13 @@ export default async function Layout({
 				items={[
 					{
 						path: `/${orgId}/people/all`,
-						label: t("people.title"),
+						label: "People",
 					},
 					...(employees.length > 0
 						? [
 								{
 									path: `/${orgId}/people/dashboard`,
-									label: t("people.dashboard.title"),
+									label: "Employee Tasks",
 								},
 							]
 						: []),

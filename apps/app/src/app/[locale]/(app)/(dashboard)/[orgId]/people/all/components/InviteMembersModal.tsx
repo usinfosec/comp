@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 
 import { bulkInviteMembers } from "../actions/bulkInviteMembers";
 import type { ActionResponse } from "@/actions/types";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Dialog,
@@ -99,7 +98,6 @@ export function InviteMembersModal({
 	onOpenChange,
 	organizationId,
 }: InviteMembersModalProps) {
-	const t = useI18n();
 	const router = useRouter();
 	const [mode, setMode] = useState<"manual" | "csv">("manual");
 	const [isLoading, setIsLoading] = useState(false);
@@ -448,9 +446,9 @@ export function InviteMembersModal({
 				}}
 			>
 				<DialogHeader>
-					<DialogTitle>{t("people.invite.title")}</DialogTitle>
+					<DialogTitle>{"Add User"}</DialogTitle>
 					<DialogDescription>
-						{t("people.invite.description")}
+						{"Add an employee to your organization."}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -567,7 +565,7 @@ export function InviteMembersModal({
 									Add Another
 								</Button>
 								<FormDescription>
-									{t("people.invite.description")}
+									{"Add an employee to your organization."}
 								</FormDescription>
 							</TabsContent>
 
@@ -584,7 +582,7 @@ export function InviteMembersModal({
 									}) => (
 										<FormItem>
 											<FormLabel>
-												{t("people.invite.csv.label")}
+												{"CSV File"}
 											</FormLabel>
 											<div className="flex items-center gap-2">
 												<Button
@@ -652,7 +650,7 @@ export function InviteMembersModal({
 								disabled={isLoading}
 								className="w-full sm:w-auto"
 							>
-								{t("common.actions.cancel")}
+								{"Cancel"}
 							</Button>
 							<Button
 								type="submit"
@@ -663,8 +661,8 @@ export function InviteMembersModal({
 									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 								)}
 								{isLoading
-									? t("people.invite.submitting")
-									: t("people.invite.submit")}
+									? "Adding Employee..."
+									: "Invite"}
 							</Button>
 						</DialogFooter>
 					</form>

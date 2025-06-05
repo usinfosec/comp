@@ -1,7 +1,6 @@
 import { IntegrationsHeader } from "@/components/integrations/integrations-header";
 import { IntegrationsServer } from "@/components/integrations/integrations.server";
 import { SkeletonLoader } from "@/components/skeleton-loader";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
@@ -54,9 +53,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { locale } = await params;
 	setStaticParamsLocale(locale);
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.integrations"),
+		title: "Integrations",
 	};
 }

@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { db } from "@comp/db";
 import {
 	Breadcrumb,
@@ -17,8 +16,6 @@ export default async function Layout({
 	params: { employeeId: string; orgId: string };
 }) {
 	const { employeeId, orgId } = params;
-	const t = await getI18n();
-
 	const member = await db.member.findUnique({
 		where: {
 			id: employeeId,
@@ -39,7 +36,7 @@ export default async function Layout({
 							<BreadcrumbList>
 								<BreadcrumbItem>
 									<BreadcrumbLink href={`/${orgId}/people`}>
-										{t("people.title")}
+										{"People"}
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator />
