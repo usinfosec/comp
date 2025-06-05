@@ -116,9 +116,7 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.status_placeholder",
-												)}
+												placeholder={"Select a status"}
 											>
 												{field.value && (
 													<StatusIndicator
@@ -151,9 +149,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.review_frequency",
-									)}
+									{"Review Frequency"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -162,23 +158,22 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.review_frequency_placeholder",
-												)}
+												placeholder={"Select a frequency"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
 											{Object.values(Frequency).map(
-												(frequency) => (
-													<SelectItem
-														key={frequency}
-														value={frequency}
-													>
-														{t(
-															`common.frequency.${frequency}`,
-														)}
-													</SelectItem>
-												),
+												(frequency) => {
+													const formattedFrequency = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+													return (
+														<SelectItem
+															key={frequency}
+															value={frequency}
+														>
+															{formattedFrequency}
+														</SelectItem>
+													);
+												},
 											)}
 										</SelectContent>
 									</Select>
@@ -193,9 +188,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.policy_department",
-									)}
+									{"Department"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -205,9 +198,7 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.policy_department_placeholder",
-												)}
+												placeholder={"Select a department"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -264,9 +255,7 @@ export function UpdatePolicyOverview({
 														)
 													) : (
 														<span>
-															{t(
-																"policies.overview.form.review_date_placeholder",
-															)}
+															{"Pick a date"}
 														</span>
 													)}
 													<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -299,9 +288,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem className="flex flex-col gap-3">
 								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
-									)}
+									{"Signature Requirement"}
 								</FormLabel>
 								<FormControl>
 									<Switch
