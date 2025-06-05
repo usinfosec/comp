@@ -1,3 +1,10 @@
+## [1.33.1](https://github.com/trycompai/comp/compare/v1.33.0...v1.33.1) (2025-06-05)
+
+
+### Bug Fixes
+
+* enable organization search ([88a8b71](https://github.com/trycompai/comp/commit/88a8b71dd2d84bf49175f6ecbcc3454d7271f2e4))
+
 # [1.33.0](https://github.com/trycompai/comp/compare/v1.32.3...v1.33.0) (2025-06-05)
 
 
