@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { parseAsString, useQueryState } from "nuqs";
 import { useRouter } from "next/navigation";
 
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { Card, CardContent } from "@comp/ui/card";
@@ -60,7 +59,6 @@ export function TeamMembersClient({
 	removeMemberAction,
 	revokeInvitationAction,
 }: TeamMembersClientProps) {
-	const t = useI18n();
 	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useQueryState(
 		"search",
@@ -152,7 +150,7 @@ export function TeamMembersClient({
 		} else {
 			// Error case
 			const errorMessage =
-				result?.serverError || t("people.invite.error");
+				result?.serverError || "Failed to add user";
 			console.error("Cancel Invitation Error:", errorMessage);
 		}
 	};
@@ -161,13 +159,13 @@ export function TeamMembersClient({
 		const result = await removeMemberAction({ memberId });
 		if (result?.data) {
 			// Success case
-			toast.success(t("people.member_actions.toast.remove_success"));
+			toast.success("has been removed from the organization");
 			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
 			const errorMessage =
 				result?.serverError ||
-				t("people.member_actions.toast.remove_error");
+				"Failed to remove member";
 			console.error("Remove Member Error:", errorMessage);
 			toast.error(errorMessage);
 		}
@@ -185,14 +183,14 @@ export function TeamMembersClient({
 			!rolesArray.includes("owner")
 		) {
 			// Show toast error directly, no need to return an error object
-			toast.error(t("people.member_actions.toast.cannot_remove_owner"));
+			toast.error("The Owner role cannot be removed.");
 			return;
 		}
 
 		// Ensure at least one role is selected
 		if (rolesArray.length === 0) {
 			toast.warning(
-				t("people.member_actions.toast.select_at_least_one_role"),
+				"Please select at least one role.",
 			);
 			return;
 		}
@@ -203,14 +201,14 @@ export function TeamMembersClient({
 				memberId: memberId,
 				role: rolesArray, // Pass the array of roles
 			});
-			toast.success(t("people.member_actions.toast.update_role_success"));
+			toast.success("Member roles updated successfully.");
 			router.refresh(); // Revalidate data
 		} catch (error: any) {
 			console.error("Update Role Error:", error);
 			// Attempt to get a meaningful error message from the caught error
 			const errorMessage =
 				error?.message || // Try to get message from error object
-				t("people.member_actions.toast.update_role_error");
+				"Failed to update member roles";
 			toast.error(errorMessage);
 			// Consider more specific error handling based on errors authClient might throw
 		}
@@ -228,7 +226,7 @@ export function TeamMembersClient({
 			<div className="flex items-center justify-between mb-4 gap-4">
 				<div className="relative flex-1">
 					<Input
-						placeholder={t("people.filters.search")}
+						placeholder={"Search people..."}
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value || null)}
 						leftIcon={<Search size={14} />}
@@ -253,28 +251,28 @@ export function TeamMembersClient({
 				>
 					<SelectTrigger className="w-[180px] hidden sm:flex">
 						<SelectValue
-							placeholder={t("people.filters.all_roles")}
+							placeholder={"All Roles"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all">{t("people.all")}</SelectItem>
+						<SelectItem value="all">{"All Roles"}</SelectItem>
 						<SelectItem value="owner">
-							{t("people.roles.owner")}
+							{"Owner"}
 						</SelectItem>
 						<SelectItem value="admin">
-							{t("people.roles.admin")}
+							{"Admin"}
 						</SelectItem>
 						<SelectItem value="auditor">
-							{t("people.roles.auditor")}
+							{"Auditor"}
 						</SelectItem>
 						<SelectItem value="employee">
-							{t("people.roles.employee")}
+							{"Employee"}
 						</SelectItem>
 					</SelectContent>
 				</Select>
 				<Button onClick={() => setIsInviteModalOpen(true)}>
 					<UserPlus className="h-4 w-4" />
-					{t("people.actions.invite")}
+					{"Add User"}
 				</Button>
 			</div>
 			<Card className="border">
@@ -312,17 +310,17 @@ export function TeamMembersClient({
 							<div className="flex flex-col items-center justify-center py-12 text-center">
 								<Mail className="h-12 w-12 text-muted-foreground/30" />
 								<h3 className="mt-4 text-lg font-medium">
-									{t("people.empty.no_employees.title")}
+									{"No employees yet"}
 								</h3>
 								<p className="mt-2 text-sm text-muted-foreground max-w-xs">
-									{t("people.empty.no_employees.description")}
+									{"Get started by inviting your first team member."}
 								</p>
 								<Button
 									className="mt-4"
 									onClick={() => setIsInviteModalOpen(true)}
 								>
 									<UserPlus className="mr-2 h-4 w-4" />
-									{t("people.actions.invite")}
+									{"Add User"}
 								</Button>
 							</div>
 						)}

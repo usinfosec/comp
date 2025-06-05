@@ -21,7 +21,6 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@comp/ui/alert-dialog";
-import { useI18n } from "@/locales/client";
 import type { Invitation } from "@prisma/client";
 
 interface PendingInvitationRowProps {
@@ -33,7 +32,6 @@ export function PendingInvitationRow({
 	invitation,
 	onCancel,
 }: PendingInvitationRowProps) {
-	const t = useI18n();
 	const [isCancelling, setIsCancelling] = useState(false);
 	const [isCancelAlertOpen, setIsCancelAlertOpen] = useState(false);
 
@@ -86,13 +84,13 @@ export function PendingInvitationRow({
 								{(() => {
 									switch (role) {
 										case "owner":
-											return t("people.roles.owner");
+											return "Owner";
 										case "admin":
-											return t("people.roles.admin");
+											return "Admin";
 										case "auditor":
-											return t("people.roles.auditor");
+											return "Auditor";
 										case "employee":
-											return t("people.roles.employee");
+											return "Employee";
 										default:
 											return role;
 									}

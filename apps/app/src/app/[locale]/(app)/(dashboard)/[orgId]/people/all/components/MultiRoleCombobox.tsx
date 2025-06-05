@@ -3,7 +3,6 @@
 import type { Role } from "@prisma/client";
 import * as React from "react";
 
-import { useI18n } from "@/locales/client";
 import { Dialog, DialogContent } from "@comp/ui/dialog";
 import { MultiRoleComboboxContent } from "./MultiRoleComboboxContent";
 import { MultiRoleComboboxTrigger } from "./MultiRoleComboboxTrigger";
@@ -51,7 +50,6 @@ export function MultiRoleCombobox({
 	disabled = false,
 	lockedRoles = [],
 }: MultiRoleComboboxProps) {
-	const t = useI18n();
 	const [open, setOpen] = React.useState(false);
 	const [searchTerm, setSearchTerm] = React.useState("");
 
@@ -97,13 +95,13 @@ export function MultiRoleCombobox({
 	const getRoleLabel = (roleValue: Role) => {
 		switch (roleValue) {
 			case "owner":
-				return t("people.roles.owner");
+				return "Owner";
 			case "admin":
-				return t("people.roles.admin");
+				return "Admin";
 			case "auditor":
-				return t("people.roles.auditor");
+				return "Auditor";
 			case "employee":
-				return t("people.roles.employee");
+				return "Employee";
 			default:
 				return roleValue;
 		}
@@ -112,19 +110,19 @@ export function MultiRoleCombobox({
 	const triggerText =
 		selectedRoles.length > 0
 			? `${selectedRoles.length} selected`
-			: placeholder || t("people.invite.role.placeholder");
+			: placeholder || "Select role(s)";
 
 	const filteredRoles = availableRoles.filter((role) => {
 		const label = (() => {
 			switch (role.value) {
 				case "admin":
-					return t("people.roles.admin");
+					return "Admin";
 				case "auditor":
-					return t("people.roles.auditor");
+					return "Auditor";
 				case "employee":
-					return t("people.roles.employee");
+					return "Employee";
 				case "owner":
-					return t("people.roles.owner");
+					return "Owner";
 				default:
 					return role.value;
 			}

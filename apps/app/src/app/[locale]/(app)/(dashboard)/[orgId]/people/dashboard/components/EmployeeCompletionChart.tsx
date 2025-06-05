@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import * as React from "react";
 import type { CSSProperties } from "react";
@@ -49,8 +48,6 @@ export function EmployeeCompletionChart({
 	policies,
 	trainingVideos,
 }: EmployeeCompletionChartProps) {
-	const t = useI18n();
-
 	// Calculate completion data for each employee
 	const employeeStats: EmployeeTaskStats[] = React.useMemo(() => {
 		return employees.map((employee) => {
@@ -116,12 +113,12 @@ export function EmployeeCompletionChart({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("people.dashboard.employee_task_completion")}
+						{"Employee Task Completion"}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex items-center justify-center h-[300px]">
 					<p className="text-center text-sm text-muted-foreground">
-						{t("people.dashboard.no_data")}
+						{"No employee data available"}
 					</p>
 				</CardContent>
 			</Card>
@@ -134,12 +131,12 @@ export function EmployeeCompletionChart({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("people.dashboard.employee_task_completion")}
+						{"Employee Task Completion"}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex items-center justify-center h-[300px]">
 					<p className="text-center text-sm text-muted-foreground">
-						{t("people.dashboard.no_tasks_available")}
+						{"No tasks available to complete"}
 					</p>
 				</CardContent>
 			</Card>
@@ -155,7 +152,7 @@ export function EmployeeCompletionChart({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("people.dashboard.employee_task_completion")}
+					{"Employee Task Completion"}
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
@@ -167,7 +164,7 @@ export function EmployeeCompletionChart({
 								<span className="text-muted-foreground">
 									{stat.policiesCompleted +
 										stat.trainingsCompleted}{" "}
-									/ {stat.totalTasks} {t("common.tasks")}
+									/ {stat.totalTasks} {"tasks"}
 								</span>
 							</div>
 
@@ -177,13 +174,13 @@ export function EmployeeCompletionChart({
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-primary" />
 									<span>
-										{t("people.dashboard.completed")}
+										{"Completed"}
 									</span>
 								</div>
 								<div className="flex items-center gap-1">
 									<div className="size-2 bg-[var(--chart-open)]" />
 									<span>
-										{t("people.dashboard.not_completed")}
+										{"Not Completed"}
 									</span>
 								</div>
 							</div>

@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Label, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-import { useI18n } from "@/locales/client";
 import { Badge } from "@comp/ui/badge";
 import {
 	Card,
@@ -60,16 +59,13 @@ const StatusTooltip = ({ active, payload }: any) => {
 };
 
 export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
-	const t = useI18n();
-
 	if (!data) {
 		return (
 			<Card className="flex flex-col border overflow-hidden">
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<CardTitle className="flex items-center gap-2">
-							{t("policies.dashboard.policy_status") ||
-								"Policy Status"}
+							{"Policy by Status"}
 						</CardTitle>
 						<Badge variant="outline" className="text-xs">
 							Overview
@@ -96,22 +92,22 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 	const chartData = React.useMemo(() => {
 		const items = [
 			{
-				name: t("policies.status.published"),
+				name: "Published",
 				value: data.publishedPolicies,
 				fill: CHART_COLORS.published,
 			},
 			{
-				name: t("policies.status.draft"),
+				name: "Draft",
 				value: data.draftPolicies,
 				fill: CHART_COLORS.draft,
 			},
 			{
-				name: t("policies.status.archived"),
+				name: "Archived",
 				value: data.archivedPolicies,
 				fill: CHART_COLORS.archived,
 			},
 			{
-				name: t("policies.status.needs_review"),
+				name: "Needs Review",
 				value: data.needsReviewPolicies,
 				fill: CHART_COLORS.needs_review,
 			},
@@ -139,8 +135,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
-						{t("policies.dashboard.policy_status") ||
-							"Policy Status"}
+						{"Policy by Status"}
 					</CardTitle>
 
 					{data.totalPolicies > 0 && mostCommonStatus && (

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { useI18n } from "@/locales/client";
 import { Badge } from "@comp/ui/badge";
 import {
 	Card,
@@ -50,16 +49,13 @@ const CHART_COLORS = {
 };
 
 export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
-	const t = useI18n();
-
 	if (!data || data.length === 0) {
 		return (
 			<Card className="flex flex-col border overflow-hidden">
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between">
 						<CardTitle className="flex items-center gap-2">
-							{t("policies.dashboard.policies_by_assignee") ||
-								"Policies by Assignee"}
+							{"Policies by Assignee"}
 						</CardTitle>
 
 						<Badge variant="outline" className="text-xs">
@@ -102,19 +98,19 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 
 	const chartConfig = {
 		published: {
-			label: t("policies.status.published"),
+			label: "Published",
 			color: CHART_COLORS.published,
 		},
 		draft: {
-			label: t("policies.status.draft"),
+			label: "Draft",
 			color: CHART_COLORS.draft,
 		},
 		archived: {
-			label: t("policies.status.archived"),
+			label: "Archived",
 			color: CHART_COLORS.archived,
 		},
 		needs_review: {
-			label: t("policies.status.needs_review"),
+			label: "Needs Review",
 			color: CHART_COLORS.needs_review,
 		},
 	} satisfies ChartConfig;
@@ -137,8 +133,7 @@ export function PolicyAssigneeChart({ data }: PolicyAssigneeChartProps) {
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
-						{t("policies.dashboard.policies_by_assignee") ||
-							"Policies by Assignee"}
+						{"Policies by Assignee"}
 					</CardTitle>
 					{topAssignee && (
 						<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-xs">

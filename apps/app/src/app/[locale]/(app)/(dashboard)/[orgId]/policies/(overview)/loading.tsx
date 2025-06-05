@@ -1,17 +1,14 @@
 import { LogoSpinner } from "@/components/logo-spinner";
-import { getI18n } from "@/locales/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 
 export default async function Loading() {
-	const t = await getI18n();
-
 	return (
 		<div className="space-y-4 sm:space-y-8">
 			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 				<Card>
 					<CardHeader>
 						<CardTitle>
-							{t("policies.dashboard.policy_status")}
+							{"Policy by Status"}
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="flex items-center justify-center h-[300px]">
@@ -22,7 +19,7 @@ export default async function Loading() {
 				<Card>
 					<CardHeader>
 						<CardTitle>
-							{t("policies.dashboard.policies_by_assignee")}
+							{"Policies by Assignee"}
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="flex items-center justify-center h-[300px]">

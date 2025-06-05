@@ -38,13 +38,13 @@ export function MultiRoleComboboxContent({
 	const getRoleDisplayLabel = (roleValue: Role) => {
 		switch (roleValue) {
 			case "owner":
-				return t("people.roles.owner");
+				return "Owner";
 			case "admin":
-				return t("people.roles.admin");
+				return "Admin";
 			case "auditor":
-				return t("people.roles.auditor");
+				return "Auditor";
 			case "employee":
-				return t("people.roles.employee");
+				return "Employee";
 			default:
 				return roleValue;
 		}
@@ -53,13 +53,13 @@ export function MultiRoleComboboxContent({
 	const getRoleDescription = (roleValue: Role) => {
 		switch (roleValue) {
 			case "owner":
-				return t("people.roles.owner_description");
+				return "Can manage users, policies, tasks, and settings, and delete organization.";
 			case "admin":
-				return t("people.roles.admin_description");
+				return "Can manage users, policies, tasks, and settings.";
 			case "auditor":
-				return t("people.roles.auditor_description");
+				return "Read-only access for compliance checks.";
 			case "employee":
-				return t("people.roles.employee_description");
+				return "Can sign policies and complete training.";
 			default:
 				return "";
 		}
@@ -74,7 +74,7 @@ export function MultiRoleComboboxContent({
 			/>
 			<CommandList>
 				<CommandEmpty>
-					{t("people.empty.no_results.title")}
+					{"No results found"}
 				</CommandEmpty>
 				<CommandGroup>
 					{filteredRoles.map((role) => (
