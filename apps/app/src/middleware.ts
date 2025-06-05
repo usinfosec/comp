@@ -1,6 +1,5 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { createI18nMiddleware } from "next-international/middleware";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,18 +11,12 @@ export const config = {
 	],
 };
 
-const I18nMiddleware = createI18nMiddleware({
-	locales: ["en"],
-	defaultLocale: "en",
-	urlMappingStrategy: "rewrite",
-});
-
 export async function middleware(request: NextRequest) {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
-	const response = I18nMiddleware(request as any);
+	const response = NextResponse.next();
 	const nextUrl = request.nextUrl;
 
 	const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];

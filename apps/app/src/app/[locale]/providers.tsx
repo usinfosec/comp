@@ -1,6 +1,5 @@
 "use client";
 
-import { I18nProviderClient } from "@/locales/client";
 import { AnalyticsProvider } from "@comp/analytics";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Session, User } from "better-auth";
@@ -9,14 +8,13 @@ import type { ReactNode } from "react";
 
 type ProviderProps = {
 	children: ReactNode;
-	locale: string;
 	session: {
 		session: Session | null;
 		user: User | null;
 	} | null;
 };
 
-export function Providers({ children, locale, session }: ProviderProps) {
+export function Providers({ children, session }: ProviderProps) {
 	return (
 		<ThemeProvider
 			attribute="class"
@@ -42,9 +40,7 @@ export function Providers({ children, locale, session }: ProviderProps) {
 				userId={session?.user?.id ?? undefined}
 				userEmail={session?.user?.email ?? undefined}
 			>
-				<I18nProviderClient locale={locale}>
-					{children}
-				</I18nProviderClient>
+				{children}
 			</AnalyticsProvider>
 		</ThemeProvider>
 	);
