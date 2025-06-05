@@ -198,9 +198,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								>
 									<Trash2 className="mr-2 h-4 w-4" />
 									<span>
-										{t(
-											"people.member_actions.remove_member",
-										)}
+										{"Remove Member"}
 									</span>
 								</DropdownMenuItem>
 							)}
@@ -216,38 +214,28 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							{"Edit Member Roles"}
 						</DialogTitle>
 						<DialogDescription>
-							{t(
-								"people.member_actions.role_dialog.description_prefix",
-							)}{" "}
+							{"Change roles for"}{" "}
 							{memberName}
 						</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4 py-4">
 						<div className="space-y-2">
 							<Label htmlFor={`role-${memberId}`}>
-								{t(
-									"people.member_actions.role_dialog.role_label",
-								)}
+								{"Roles"}
 							</Label>
 							<MultiRoleCombobox
 								selectedRoles={selectedRoles}
 								onSelectedRolesChange={setSelectedRoles}
-								placeholder={t(
-									"people.invite.role.placeholder",
-								)}
+								placeholder={"Select a role"}
 								lockedRoles={isOwner ? ["owner"] : []}
 							/>
 							{isOwner && (
 								<p className="text-xs text-muted-foreground mt-1">
-									{t(
-										"people.member_actions.role_dialog.owner_note",
-									)}
+									{"The owner role cannot be removed."}
 								</p>
 							)}
 							<p className="text-xs text-muted-foreground mt-1">
-								{t(
-									"people.member_actions.role_dialog.at_least_one_role_note",
-								)}
+								{"Members must have at least one role."}
 							</p>
 						</div>
 					</div>
@@ -278,13 +266,9 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							{"Remove Team Member"}
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							{t(
-								"people.member_actions.remove_confirm.description_prefix",
-							)}{" "}
+							{"Are you sure you want to remove"}{" "}
 							{memberName}?{" "}
-							{t(
-								"people.member_actions.remove_confirm.description_suffix",
-							)}
+							{"They will no longer have access to this organization."}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
