@@ -16,7 +16,7 @@ model FrameworkEditorFramework {
     name        String // e.g., "soc2", "iso27001"
     version     String
     description String
-    visible     Boolean @default(true)
+    visible     Boolean @default(false)
 
     requirements       FrameworkEditorRequirement[]
     frameworkInstances FrameworkInstance[]
