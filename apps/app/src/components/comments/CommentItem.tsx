@@ -26,8 +26,8 @@ import { deleteComment } from "@/actions/comments/deleteComment";
 import { deleteCommentAttachment } from "@/actions/comments/deleteCommentAttachment";
 import { getCommentAttachmentUrl } from "@/actions/comments/getCommentAttachmentUrl"; // Import action
 import { updateComment } from "@/actions/comments/updateComment";
-import { AttachmentItem } from "../../app/[locale]/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/AttachmentItem";
-import { formatRelativeTime } from "../../app/[locale]/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/commentUtils"; // Revert import path
+import { AttachmentItem } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/AttachmentItem";
+import { formatRelativeTime } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/commentUtils"; // Revert import path
 import { AttachmentEntityType } from "@comp/db/types"; // Import AttachmentEntityType
 import type { AttachmentType } from "@comp/db/types";
 import { CommentWithAuthor } from "./Comments";

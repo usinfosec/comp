@@ -1,4 +1,4 @@
-import { EMPLOYEE_STATUS_HEX_COLORS } from "@/app/[locale]/(app)/(dashboard)/[orgId]/people/[employeeId]/components/EmployeeDetails";
+import { EMPLOYEE_STATUS_HEX_COLORS } from "@/app/(app)/(dashboard)/[orgId]/people/[employeeId]/components/EmployeeDetails";
 import { cn } from "@comp/ui/cn";
 
 // Define employee status types
