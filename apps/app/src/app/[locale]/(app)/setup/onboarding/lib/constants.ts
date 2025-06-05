@@ -6,6 +6,13 @@ export const STORAGE_KEY = "onboarding_answers";
 export const companyDetailsSchema = z.object({
 	legalName: z.string().min(2, "Company name must be at least 2 characters"),
 	website: z.string().url("Please enter a valid URL"),
+	describe: z
+		.string()
+		.min(
+			1,
+			"Please provide a brief overview and description of what your company does",
+		)
+		.max(300, "Description must be less than 300 characters"),
 	industry: z.string().min(1, "Please select your industry"),
 	teamSize: z.string().min(1, "Please select your team size"),
 	software: z.string().min(1, "Please select software you use"),
@@ -26,6 +33,12 @@ export const steps: Step[] = [
 		key: "website",
 		question: "What's your company website?",
 		placeholder: "e.g., https://www.acme.com",
+	},
+	{
+		key: "describe",
+		question: "Describe your company in a few sentences",
+		placeholder:
+			"e.g., We are a software company that builds tools for businesses to manage their employees.",
 	},
 	{
 		key: "industry",

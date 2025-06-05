@@ -49,6 +49,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogoSpinner } from "@/components/logo-spinner";
 import { SelectPills } from "@comp/ui/select-pills";
+import { Textarea } from "@comp/ui/textarea";
 
 type OnboardingFormFields = Partial<CompanyDetails> & {
 	[K in keyof CompanyDetails as `${K}Other`]?: string;
@@ -122,6 +123,7 @@ export function OnboardingForm() {
 		onboardOrganizationAction.execute({
 			legalName: answers.legalName || "",
 			website: answers.website || "",
+			describe: answers.describe || "",
 			industry: answers.industry || "",
 			teamSize: answers.teamSize || "",
 			devices: answers.devices || "",
@@ -188,6 +190,18 @@ export function OnboardingForm() {
 	const isLastStep = stepIndex === steps.length - 1;
 
 	function renderStepInput() {
+		if (step.key === "describe") {
+			return (
+				<Textarea
+					{...form.register(step.key)}
+					placeholder={`${savedAnswers.legalName || ""} is a company that...`}
+					rows={2}
+					maxLength={300}
+					className="resize-none"
+				/>
+			);
+		}
+
 		if (step.options) {
 			if (step.key === "industry" || step.key === "teamSize") {
 				return (
@@ -230,6 +244,7 @@ export function OnboardingForm() {
 				/>
 			);
 		}
+
 		return (
 			<Input
 				{...form.register(step.key)}
