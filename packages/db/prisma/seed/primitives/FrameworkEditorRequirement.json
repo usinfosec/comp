@@ -1,5 +1,14 @@
 [
   {
+    "id": "frk_rq_683f83a86dd03eded4fbc480",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity securely disposes of personal information to meet the entity‚Entity objectives related to privacy.",
+    "description": "The organization maintains a documented Privacy Policy, published on the company website, that meets all regulatory requirements and includes guidelines for the disposal and retention of information. It compiles and annually reviews a Record of Processing Activities—an inventory of the categories of personal information collected, their sources, usage, and specific purposes—and requires that every form collecting personal data include a Privacy Act statement, either on the form itself or via a separate notice for individuals to retain. The organization also ensures that all subject access requests are honored promptly and in accordance with its Privacy Policy, thereby guaranteeing transparency, compliance, and secure handling of personal data throughout its lifecycle.",
+    "identifier": "P4.3",
+    "createdAt": "2025-06-03 23:22:15.695",
+    "updatedAt": "2025-06-04 21:41:09.189"
+  },
+  {
     "id": "frk_rq_681ec1a899a2a887571df4aa",
     "frameworkId": "frk_681ebae2f29f0ab08eb802ec",
     "name": "PI1.1 Processing Integrity",
@@ -1845,6 +1854,15 @@
     "updatedAt": "2025-05-14 19:20:44.920"
   },
   {
+    "id": "frk_rq_683f8435fe070a53cd9784dd",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity corrects, amends, or appends personal information based on information provided by data subjects and communicates such information to third parties, as committed or required, to meet the entity‚ objectives related to privacy. If a request for correction is denied, data subjects are informed of the denial and reason for such denial to meet the entity‚objectives related to privacy.",
+    "description": "The organization has a documented Privacy Policy that meets all regulatory requirements and is published on the company’s website. This Policy mandates that all forms collecting personal information include a Privacy Act statement—either directly on the form or via a separate notice for individuals to retain—and requires that subject access requests be honored promptly and in full accordance with the Policy. Moreover, whenever personal data is shared with third-party vendors as part of processing activities, the organization implements appropriate remediation measures—including contractual safeguards, vendor assessments, and incident response procedures—to ensure ongoing protection, transparency, and compliance throughout the data lifecycle.",
+    "identifier": "P5.2",
+    "createdAt": "2025-06-03 23:24:37.378",
+    "updatedAt": "2025-06-04 21:44:53.687"
+  },
+  {
     "id": "frk_rq_681ef78d507099efe7aff812",
     "frameworkId": "frk_681ef4bb8eeb2b60d2d9d187",
     "name": "1.4.2 Network connections between trusted and untrusted networks are controlled.",
@@ -2187,6 +2205,15 @@
     "updatedAt": "2025-05-14 19:20:44.920"
   },
   {
+    "id": "frk_rq_683f84cffe92068d1ed9c723",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity obtains privacy commitments from vendors and other third parties who have access to personal information to meet the entity‚objectives related to privacy. The entity assesses those parties‚Äô compliance on a periodic and as-needed basis and takes corrective action, if necessary.",
+    "description": "The organization has documented policies and procedures governing vendor and third-party management that provide staff with clear guidance on conducting risk assessments and require appropriate remediation measures—such as contractual data protection clauses, security control reviews, and incident response protocols—whenever personal data is shared. These same policies establish procedures to ensure compliance with all regulatory requirements for transferring personal data outside the region in which it was collected, mandating that cross-border data flows be authorized, secured, and monitored in accordance with applicable laws.",
+    "identifier": "P6.4",
+    "createdAt": "2025-06-03 23:27:11.134",
+    "updatedAt": "2025-06-04 21:49:08.151"
+  },
+  {
     "id": "frk_rq_681f8ef5d93571d7cecb629b",
     "frameworkId": "frk_681ef4bb8eeb2b60d2d9d187",
     "name": "3.7.2 Where cryptography is used to protect stored account data, key management processes and procedures covering all aspects of the key lifecycle are defined and implemented.",
@@ -2383,6 +2410,15 @@
     "identifier": "",
     "createdAt": "2025-05-14 19:20:44.920",
     "updatedAt": "2025-05-14 19:20:44.920"
+  },
+  {
+    "id": "frk_rq_683f850f11a550572b3bd0bf",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity obtains commitments from vendors and other third parties with access to personal information to notify the entity in the event of actual or suspected unauthorized disclosures of personal information. Such notifications are reported to appropriate personnel and acted on in accordance with established incident response procedures to meet the entity‚objectives related to privacy.",
+    "description": "The organization has documented policies and procedures governing personal data protection, including requirements to obtain user consent prior to any processing and to follow documented vendor management guidelines—complete with staff guidance on performing vendor risk assessments and mandated remediation measures whenever personal data is shared. These procedures also enforce compliance with all regulatory obligations for cross-border data transfers. In the event of suspected data breaches, the organization conducts risk assessments and, for any significant breach, notifies all affected parties without unreasonable delay. Employees are provided with clear Information Security policies and procedures detailing how to report operational failures, security incidents, concerns, or complaints related to the organization’s services or systems, ensuring accountability and ongoing protection of personal data.",
+    "identifier": "P6.5",
+    "createdAt": "2025-06-03 23:28:15.428",
+    "updatedAt": "2025-06-04 21:50:49.364"
   },
   {
     "id": "frk_rq_681f9413f598932f058b541d",
@@ -3121,6 +3157,15 @@
     "identifier": "",
     "createdAt": "2025-05-14 19:20:44.920",
     "updatedAt": "2025-05-14 19:20:44.920"
+  },
+  {
+    "id": "frk_rq_6840c1981a48b83f9a3661be",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 1: The entity demonstrates a commitment to integrity and ethical values.",
+    "description": "",
+    "identifier": "CC1.1",
+    "createdAt": "2025-06-04 21:58:47.712",
+    "updatedAt": "2025-06-04 21:58:47.712"
   },
   {
     "id": "frk_rq_681fba0ed03d7fe3f7ed0414",
@@ -5985,6 +6030,15 @@
     "updatedAt": "2025-05-14 19:20:44.920"
   },
   {
+    "id": "frk_rq_683f316954a237019ca60e26",
+    "frameworkId": "frk_683f3102f9ae801df35d47b4",
+    "name": "CC1",
+    "description": "CC1 SOC 2",
+    "identifier": "CC1",
+    "createdAt": "2025-06-03 17:31:21.379",
+    "updatedAt": "2025-06-03 17:31:21.379"
+  },
+  {
     "id": "frk_rq_6820cd0c33c6d0b792d7ad32",
     "frameworkId": "frk_6820c8b318a6d88bf2c4586d",
     "name": "3.5.1 Incident handling\t",
@@ -6786,6 +6840,15 @@
     "updatedAt": "2025-05-14 19:20:44.920"
   },
   {
+    "id": "frk_rq_683f3179d3ba9393821ad7a4",
+    "frameworkId": "frk_683f31582b71fc8d9253ad89",
+    "name": "A.1",
+    "description": "A1 ISO 27001",
+    "identifier": "A1",
+    "createdAt": "2025-06-03 17:31:36.578",
+    "updatedAt": "2025-06-03 17:31:36.578"
+  },
+  {
     "id": "frk_rq_6820cf48a00e4423470a1c44",
     "frameworkId": "frk_6820c8b318a6d88bf2c4586d",
     "name": "11.2.2 HR security, access control & asset management\t",
@@ -7252,5 +7315,527 @@
     "identifier": "",
     "createdAt": "2025-05-14 19:20:44.920",
     "updatedAt": "2025-05-14 19:20:44.920"
+  },
+  {
+    "id": "frk_rq_683f56e9693dbfc43020b888",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 2: The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control.",
+    "description": "The organization has documented a comprehensive suite of policies and procedures that define expected behavior with regard to the Company, including guidelines for information disposal and retention. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services by enforcing systematic governance oversight, which comprises annual reviews and approvals of all company policies, risk assessment reports (including vendor assessments), and the organizational chart for all employees, as well as planned interval reviews of the Information Security program—covering its policies, standards, and procedures—whenever significant changes occur, thereby ensuring their continuing suitability, adequacy, and effectiveness in protecting and supporting customer service delivery.",
+    "identifier": "CC1.2",
+    "createdAt": "2025-06-03 20:11:20.589",
+    "updatedAt": "2025-06-04 21:27:13.886"
+  },
+  {
+    "id": "frk_rq_683f5b8241dbd32ac2c6ad2b",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 5: The entity holds individuals accountable for their internal control responsibilities in the pursuit of objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through comprehensive personnel development and oversight programs, including: providing job-function-relevant information security and privacy training to all staff; requiring new staff to complete security and privacy literacy training during onboarding; establishing procedures for periodic acknowledgment of applicable company policies; conducting periodic evaluations of employees in client serving, IT, Engineering, and Information Security roles regarding their job responsibilities; and documenting, monitoring, and retaining individual training activities and records to ensure ongoing competency and compliance in protecting customer service delivery",
+    "identifier": "CC1.5",
+    "createdAt": "2025-06-03 20:30:58.109",
+    "updatedAt": "2025-06-04 20:16:53.332"
+  },
+  {
+    "id": "frk_rq_683f5c2de17c4c845303afa7",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 13: The entity obtains or generates and uses relevant, quality information to support the functioning of internal control.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies for data classification through physical and logical labeling, and guidelines for information disposal and retention. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through systematic information management and transparency controls, including: generating and reviewing system information to evaluate impacts on internal control functioning; making all policies and procedures available to staff members for reference and compliance; maintaining current service information on the company website for customer accessibility; and implementing data classification and retention procedures to ensure proper information handling that protects customer service delivery and regulatory compliance",
+    "identifier": "CC2.1",
+    "createdAt": "2025-06-03 20:33:49.325",
+    "updatedAt": "2025-06-04 20:18:44.176"
+  },
+  {
+    "id": "frk_rq_683f5f4d18de5fee7df6f15a",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 6: The entity specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
+    "description": "The organization performs a formal risk assessment exercise annually, as per documented guidelines and procedures, to identify threats that could impair systems' security commitments and requirements.",
+    "identifier": "CC3.1",
+    "createdAt": "2025-06-03 20:47:09.217",
+    "updatedAt": "2025-06-03 20:47:09.217"
+  },
+  {
+    "id": "frk_rq_683f6001b56cab9a3247d87b",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 8: The entity considers the potential for fraud in assessing risks to the achievement of objectives.",
+    "description": "The organization considers the potential for fraud when assessing risks. This is an entry in the risk matrix.",
+    "identifier": "CC3.3",
+    "createdAt": "2025-06-03 20:50:08.709",
+    "updatedAt": "2025-06-03 20:50:08.709"
+  },
+  {
+    "id": "frk_rq_683f60819f8e5af7b509af44",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 9: The entity identifies and assesses changes that could significantly impact the system of internal control.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented guidelines and procedures for formal risk assessment exercises. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through comprehensive annual risk management activities, including: performing formal risk assessment exercises to identify threats that could impair systems' security commitments and requirements; conducting formal vendor risk assessments to identify vendors critical to systems' security commitments; and assessing each identified risk with scoring based on likelihood of occurrence and potential impact on security, availability, and confidentiality of the Company platform, with risks mapped to mitigating factors that address some or all of the identified risk to ensure protection of customer service delivery",
+    "identifier": "CC3.4",
+    "createdAt": "2025-06-03 20:52:16.656",
+    "updatedAt": "2025-06-04 20:28:50.111"
+  },
+  {
+    "id": "frk_rq_683f6118bf597bc269ad5d22",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 16: The entity selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through comprehensive governance and oversight mechanisms, including: assigning an Information Security Officer to centrally manage, coordinate, develop, implement, and maintain the enterprise-wide cybersecurity and privacy program; conducting annual reviews and approvals of all company policies, Risk Assessment Reports, Vendor Risk Assessment Reports, and organizational charts for all employees; performing planned interval reviews of the Information Security program including policies, standards, and procedures, or when significant changes occur, to ensure continuing suitability, adequacy, and effectiveness; establishing mechanisms to assign and manage asset ownership responsibilities with common understanding of asset protection requirements; periodically updating and reviewing system inventories as part of installations, removals, and system updates; periodically evaluating all subservice organizations to ensure customer commitments can be met; and implementing continuous monitoring systems to track and report information security program health to stakeholders, ensuring systematic protection of customer service delivery.",
+    "identifier": "CC4.1",
+    "createdAt": "2025-06-03 20:54:48.139",
+    "updatedAt": "2025-06-04 20:32:21.343"
+  },
+  {
+    "id": "frk_rq_683f679780b75c3b865095c9",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "Prior to issuing system credentials and granting system access, the entity registers and authorizes new internal and external users whose access is administered by the entity. For those users whose access is administered by the entity, user system credentials are removed when user access is no longer authorized.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including Access Control policies and procedures with an accompanying process to register and authorize users for issuing system credentials that grant access to critical systems. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through structured access management controls, including: ensuring logical access provisioning to critical systems requires approval from authorized personnel on an individual need or predefined role basis; and ensuring that logical access is made inaccessible in a timely manner when no longer required due to termination, thereby maintaining systematic protection of customer service delivery through proper access governance and lifecycle management.",
+    "identifier": "CC6.2",
+    "createdAt": "2025-06-03 21:22:30.667",
+    "updatedAt": "2025-06-04 20:42:38.921"
+  },
+  {
+    "id": "frk_rq_683f6827c11ca1796928001c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including Access Control policies and procedures with an accompanying process to register and authorize users for issuing system credentials that grant access to critical systems. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive access management controls, including: ensuring logical access provisioning to critical systems requires approval from authorized personnel on an individual need or predefined role basis; restricting access to production databases and critical systems to only those individuals who require such access to perform their job functions; requiring Senior Management or the Information Security Officer to periodically review and ensure that both general and administrative access to critical systems is restricted to authorized individuals based on job function requirements; and ensuring that logical access is made inaccessible in a timely manner when no longer required due to termination, thereby maintaining systematic protection of customer service delivery through proper access governance, lifecycle management, and ongoing oversight.",
+    "identifier": "CC6.3",
+    "createdAt": "2025-06-03 21:24:54.802",
+    "updatedAt": "2025-06-04 20:45:40.628"
+  },
+  {
+    "id": "frk_rq_683f728e5b99238031db8c10",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity restricts physical access to facilities and protected information assets (for example, data center facilities, back-up media storage, and other sensitive locations) to authorized personnel to meet the entity’s objectives. ",
+    "description": "",
+    "identifier": "CC6.4",
+    "createdAt": "2025-06-03 22:09:18.065",
+    "updatedAt": "2025-06-03 22:09:18.065"
+  },
+  {
+    "id": "frk_rq_683f72b90ef35d871333a776",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity discontinues logical and physical protections over physical assets only after the ability to read or recover data and software from those assets has been diminished and is no longer required to meet the entity‚Äôs objectives.",
+    "description": "The organization has a documented policy that provides guidance on decommissioning of information assets that contain classified information.",
+    "identifier": "CC6.5",
+    "createdAt": "2025-06-03 22:10:01.362",
+    "updatedAt": "2025-06-03 22:10:01.362"
+  },
+  {
+    "id": "frk_rq_683f76c4fcd357257a5e58cb",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software to meet the entity objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through systematic infrastructure protection and compliance controls, including: ensuring every production host is protected by a firewall with deny-by-default rules leveraging cloud provider security defaults; and implementing measures to perform security and privacy compliance checks on software versions and patches of remote devices prior to establishing internal connections, thereby maintaining comprehensive network security governance to protect customer service delivery through controlled access and validated device compliance.",
+    "identifier": "CC6.8",
+    "createdAt": "2025-06-03 22:27:15.507",
+    "updatedAt": "2025-06-04 20:54:19.726"
+  },
+  {
+    "id": "frk_rq_683f781a00e52dcf0143af5d",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies and procedures to establish guidelines for managing technical vulnerabilities. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive vulnerability management and monitoring controls, including: identifying vulnerabilities on the Company platform through regular vulnerability scan execution; tracking all vulnerabilities and remediating them according to defined vulnerability management policies and procedures; configuring infrastructure to generate audit events for security-related actions of interest on all critical systems and to review and analyze audit events to detect anomalous or suspicious activity and threats; and implementing methods to continuously monitor critical assets to generate capacity alerts ensuring optimal performance, meeting future capacity requirements, and protecting against denial-of-service attacks, thereby maintaining systematic vulnerability and threat management governance to ensure comprehensive protection of customer service delivery through proactive detection, monitoring, and remediation capabilities.",
+    "identifier": "CC7.2",
+    "createdAt": "2025-06-03 22:32:58.026",
+    "updatedAt": "2025-06-04 21:01:33.327"
+  },
+  {
+    "id": "frk_rq_683f78ea0fa2580304e11a1e",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity evaluates security events to determine whether they could or have resulted in a failure of the entity to meet its objectives (security incidents) and, if so, takes actions to prevent or address such failures.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies and procedures to establish guidelines for managing technical vulnerabilities, documented guidelines on notifying customers and other stakeholders in case of a breach, and policies for reporting and managing incidents. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive security monitoring, vulnerability management, and incident response controls, including: configuring infrastructure to generate audit events for security-related actions of interest on all critical systems and to review and analyze audit events to detect anomalous or suspicious activity and threats; implementing methods to continuously monitor critical assets to generate capacity alerts ensuring optimal performance, meeting future capacity requirements, and protecting against denial-of-service attacks; identifying vulnerabilities on the Company platform through regular vulnerability scans and annual penetration testing exercises conducted by qualified third-party service providers; tracking all vulnerabilities and remediating them according to defined vulnerability management policies and procedures; performing security and privacy compliance checks on software versions and patches of remote devices prior to establishing internal connections; maintaining records of information security incidents, investigations, and response plan executions; and utilizing continuous monitoring systems to track and report information security program health to stakeholders, thereby maintaining systematic security governance to ensure comprehensive protection of customer service delivery through proactive monitoring, vulnerability management, and incident response capabilities",
+    "identifier": "CC7.3",
+    "createdAt": "2025-06-03 22:36:25.879",
+    "updatedAt": "2025-06-04 21:03:53.576"
+  },
+  {
+    "id": "frk_rq_683f7d89ddcefa3b73fb2a0c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies and procedures to manage changes to its operating environment. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through structured change management controls, including: establishing procedures to govern changes to the operating environment; implementing approval procedures when making changes to the operating environment; and developing, documenting, and maintaining an inventory of organizational infrastructure systems with all necessary information to achieve accountability, thereby maintaining systematic change governance to ensure comprehensive protection of customer service delivery through controlled and documented operational modifications.",
+    "identifier": "CC8.1",
+    "createdAt": "2025-06-03 22:56:08.792",
+    "updatedAt": "2025-06-04 21:10:36.304"
+  },
+  {
+    "id": "frk_rq_683f80e6ec8d4803595647a9",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity identifies, selects, and develops risk mitigation activities for risks arising from potential business disruptions.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies and procedures that describe how to identify risks to business objectives and how those risks are assessed and mitigated, with objectives incorporating the organization's service commitments and system requirements. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through systematic risk management processes, including: performing annual formal risk assessment exercises according to documented guidelines and procedures to identify threats that could impair systems' security commitments and requirements; assessing each risk and assigning risk scores based on the likelihood of occurrence and potential impact on the security, availability, and confidentiality of the Company platform; and mapping risks to mitigating factors that address some or all of the identified risk, thereby maintaining comprehensive risk governance to ensure systematic protection of customer service delivery through proactive risk identification, assessment, and mitigation capabilities.",
+    "identifier": "CC9.1",
+    "createdAt": "2025-06-03 23:10:30.356",
+    "updatedAt": "2025-06-04 21:12:43.611"
+  },
+  {
+    "id": "frk_rq_683f80f8a30b8d35d65617d3",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity assesses and manages risks associated with vendors and business partners.",
+    "description": "The organization has established documented policies and procedures that define expected behavior, including vendor and third-party management guidelines instructing staff on how to perform risk assessments, and a risk management framework for identifying, assessing, and mitigating risks to business objectives—fully aligned with the organization’s service commitments and system requirements. Senior Management segregates responsibilities and duties across the organization to ensure effective oversight, including a formal annual vendor risk assessment to identify and address the security-critical suppliers whose performance could impact the delivery of customer services.",
+    "identifier": "CC9.2",
+    "createdAt": "2025-06-03 23:10:47.630",
+    "updatedAt": "2025-06-04 21:17:51.243"
+  },
+  {
+    "id": "frk_rq_683f810113cc5e7ecf329428",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity maintains, monitors, and evaluates current processing capacity and use of system components (infrastructure, data, and software) to manage capacity demand and to enable the implementation of additional capacity to help meet its objectives.",
+    "description": "The organization has set up methods to continuously monitor critical assets to generate capacity alerts to ensure optimal performance, meet future capacity requirements, and protect against denial-of-service attacks.",
+    "identifier": "A1.1",
+    "createdAt": "2025-06-03 23:10:57.131",
+    "updatedAt": "2025-06-03 23:10:57.131"
+  },
+  {
+    "id": "frk_rq_683f8141c8854481f15006a2",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity authorizes, designs, develops or acquires, implements, operates, approves, maintains, and monitors environmental protections, software, data back-up processes, and recovery infrastructure to meet its objectives.",
+    "description": "The organization has documented policies and procedures that establish guidelines for managing data backups, contingency planning, and disaster recovery, including a data-backup policy accessible to all relevant staff via the company portal, contingency-planning controls to sustain operations, and disaster-recovery procedures for restoring services after a disruption or security incident. The organization regularly backs up all relevant user and system data to meet defined recovery-time and recovery-point objectives, periodically verifies backup integrity, and tests backup media for reliability, thereby ensuring timely restoration of operations and uninterrupted delivery of customer services under adverse conditions.",
+    "identifier": "A1.2",
+    "createdAt": "2025-06-03 23:12:01.487",
+    "updatedAt": "2025-06-04 21:20:32.339"
+  },
+  {
+    "id": "frk_rq_683f81a18cfc6660bdb1acea",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity tests recovery plan procedures supporting system recovery to meet its objectives.",
+    "description": "The organization has documented policies and procedures establishing guidelines for continuing business operations, contingency planning, and disaster recovery, including regular backups of all relevant user and system data to meet defined recovery-time and recovery-point objectives with periodic verification of backup media reliability and data integrity; comprehensive disaster-recovery guidelines that define roles, responsibilities, and procedures to sustain operations during disruptions or security incidents; and scheduled tests and exercises of the contingency plan to assess its effectiveness and the organization’s readiness to execute recovery processes. Together, these integrated controls ensure that customer-facing services can be restored promptly and reliably following any interruption.",
+    "identifier": "A1.3",
+    "createdAt": "2025-06-03 23:13:36.901",
+    "updatedAt": "2025-06-04 21:24:07.041"
+  },
+  {
+    "id": "frk_rq_683f81d974beae08683f7c65",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity identifies and maintains confidential information to meet the entity‚Äôs objectives related to confidentiality.",
+    "description": "The organization has documented a comprehensive suite of policies and procedures that define expected behavior with regard to the Company, including behavioral standards, acceptable business conduct, cybersecurity responsibilities, and an Information Security Policy governing the confidentiality, integrity, and availability of its systems. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services by enforcing structured policy governance, which requires new staff to acknowledge applicable policies during onboarding and mandates periodic policy acknowledgment by all personnel to ensure ongoing compliance and awareness. In addition, the organization labels information systems physically and/or logically in accordance with its data classification policy, employs cryptographic mechanisms to encrypt all production databases that store customer data at rest, and ensures that endpoints with access to critical servers or data are encrypted to protect against unauthorized access, thereby integrating controls across people, processes, and technology to safeguard service delivery.",
+    "identifier": "C1.1",
+    "createdAt": "2025-06-03 23:14:32.887",
+    "updatedAt": "2025-06-04 21:26:07.833"
+  },
+  {
+    "id": "frk_rq_683f8206ed8b866232b554dd",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity obtains or generates, uses, and communicates relevant, quality information regarding the objectives related to processing, including definitions of data processed and product and service specifications, to support the use of products and services.",
+    "description": "The organization has documented a comprehensive data classification policy requiring physical and logical labeling of all information systems to reflect sensitivity levels, data definitions, and product/service specifications. In support of this policy, its software applications enforce data quality controls by requiring all mandatory fields to be completed before a record can be created or modified, and by validating that input values fall within predefined acceptable ranges, thereby ensuring the accuracy, completeness, and consistency of critical system data.",
+    "identifier": "PI1.1",
+    "createdAt": "2025-06-03 23:15:17.949",
+    "updatedAt": "2025-06-04 22:05:55.514"
+  },
+  {
+    "id": "frk_rq_683f82394fcb1c573b1fdc2a",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements policies and procedures over system processing to result in products, services, and reporting to meet the entity‚Äôs objectives.",
+    "description": "The organization has established procedures for approval when implementing changes to the operating environment.",
+    "identifier": "PI1.3",
+    "createdAt": "2025-06-03 23:16:08.820",
+    "updatedAt": "2025-06-03 23:16:08.820"
+  },
+  {
+    "id": "frk_rq_683f8345a76125f5c3a71d5c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "For information requiring explicit consent, the entity communicates the need for such consent, as well as the consequences of a failure to provide consent for the request for personal information, and obtains the consent prior to the collection of the information to meet the entity‚Äôs objectives related to privacy.",
+    "description": "The organization has a documented Privacy Policy which meets all the regulatory requirements and is published on the company's website.",
+    "identifier": "P3.2",
+    "createdAt": "2025-06-03 23:20:36.920",
+    "updatedAt": "2025-06-03 23:20:36.920"
+  },
+  {
+    "id": "frk_rq_683f821f87cfa79d2b494f7c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to result in products, services, and reporting to meet the entity‚Äôs objectives.",
+    "description": " The organization's software application ensures input values are limited to acceptable ranges.\r\nThe organization performs physical and/or logical labeling of information systems as per the guidelines documented policy defined for data classification\r\n",
+    "identifier": "PI1.2",
+    "createdAt": "2025-06-03 23:15:42.578",
+    "updatedAt": "2025-06-04 21:32:18.383"
+  },
+  {
+    "id": "frk_rq_683f826c9b47fcf6bf49538c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements policies and procedures to make available or deliver output completely, accurately, and timely in accordance with specifications to meet the entity‚Äôs objectives.",
+    "description": "The organization ensures that logical access provisioning to critical systems requires approval from authorized personnel on an individual need or for a predefined role.\r\nCompany does application regression testing to validate key processing for the application during the change management process.\r\nThe organization has established procedures for approval when implementing changes to the operating environment.",
+    "identifier": "PI1.4",
+    "createdAt": "2025-06-03 23:16:59.707",
+    "updatedAt": "2025-06-04 21:33:17.884"
+  },
+  {
+    "id": "frk_rq_683f82884d08489da196f990",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements policies and procedures to store inputs, items in processing, and outputs completely, accurately, and timely in accordance with system specifications to meet the entity‚Äôs objectives.",
+    "description": "The organization has documented policies and procedures to manage Access Control and an accompanying process to register and authorize users for issuing system credentials which grant the ability to access the critical systems.\r\nThe organization has set up cryptographic mechanisms to encrypt all production database[s] that store customer data at rest.",
+    "identifier": "PI1.5",
+    "createdAt": "2025-06-03 23:17:28.011",
+    "updatedAt": "2025-06-04 21:33:42.555"
+  },
+  {
+    "id": "frk_rq_683f83098dfd2e4ed385afd4",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "For information requiring explicit consent, the entity communicates the need for such consent, as well as the consequences of a failure to provide consent for the request for personal information, and obtains the consent prior to the collection of the information to meet the entity‚Äôs objectives related to privacy.",
+    "description": "The organization maintains an inventory of categories of personal information collected along with its usage, sources and specific purposes for collection as per regulatory requirements (\"Record of Processing Activities\") and reviews it on an annual basis",
+    "identifier": "P3.2",
+    "createdAt": "2025-06-03 23:19:37.327",
+    "updatedAt": "2025-06-03 23:19:37.327"
+  },
+  {
+    "id": "frk_rq_683f833cb9cd7f024ff9535f",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "For information requiring explicit consent, the entity communicates the need for such consent, as well as the consequences of a failure to provide consent for the request for personal information, and obtains the consent prior to the collection of the information to meet the entity‚Äôs objectives related to privacy.",
+    "description": "The organization ensures regulatory requirements regarding user consent are met prior to processing personal data",
+    "identifier": "P3.2",
+    "createdAt": "2025-06-03 23:20:28.009",
+    "updatedAt": "2025-06-03 23:20:28.009"
+  },
+  {
+    "id": "frk_rq_683f82f1c18e04fda2404acd",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "Personal information is collected consistent with the entity‚Entity objectives related to privacy.",
+    "description": "The organization has documented policies and procedures providing guidance on Data Protection and Privacy, including a Privacy Policy published on the company website that meets all regulatory requirements and defines staff responsibilities for handling personal data. It maintains a Record of Processing Activities—a comprehensive inventory of the categories of personal information collected, their sources, specific purposes, and usage—which is reviewed annually to ensure ongoing compliance. All forms that collect personal information include Privacy Act statements, either directly on the form or via a separate notice that individuals can retain, thereby ensuring transparency, informed consent, and adherence to regulatory obligations throughout the data lifecycle.",
+    "identifier": "P3.1",
+    "createdAt": "2025-06-03 23:19:12.956",
+    "updatedAt": "2025-06-04 21:37:02.911"
+  },
+  {
+    "id": "frk_rq_683f834daeb15e457c90c0ee",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "For information requiring explicit consent, the entity communicates the need for such consent, as well as the consequences of a failure to provide consent for the request for personal information, and obtains the consent prior to the collection of the information to meet the entity‚Äôs objectives related to privacy.",
+    "description": "The organization includes Privacy Act statements on forms that collect information that will be maintained in a Privacy Act system of records, or provide Privacy Act statements on separate forms that can be retained by individuals.",
+    "identifier": "P3.2",
+    "createdAt": "2025-06-03 23:20:45.451",
+    "updatedAt": "2025-06-03 23:20:45.451"
+  },
+  {
+    "id": "frk_rq_683f8371847f5409c2e72347",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity limits the use of personal information to the purposes identified in the entity‚Entity objectives related to privacy.",
+    "description": "The organization has documented a Privacy Policy and supporting procedures that establish expected behavior with regard to the Company, meet all regulatory requirements, and are published on the company website. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers by maintaining an annually reviewed Record of Processing Activities—an inventory of personal information categories collected, their sources, specific purposes, and usage—ensuring that all forms collecting personal data include a Privacy Act statement either on the form itself or via a separate notice for individuals, and enforcing logical access provisioning to critical systems only upon approval by authorized personnel based on individual need or predefined roles.",
+    "identifier": "P4.1",
+    "createdAt": "2025-06-03 23:21:20.968",
+    "updatedAt": "2025-06-04 21:38:42.939"
+  },
+  {
+    "id": "frk_rq_683f83834e536ba24d2f3bf1",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity retains personal information consistent with the entity‚Entity objectives related to privacy.",
+    "description": "The organization’s documented Privacy Policy meets all applicable regulatory requirements and is published on the company website. It also maintains a documented policy outlining guidelines for the disposal and retention of information. To ensure accountability and transparency, the organization compiles and annually reviews a Record of Processing Activities—a comprehensive inventory of personal information categories collected, their sources, usage, and specific purposes—and requires that every form collecting personal data include a Privacy Act statement, either directly on the form or via a separate notice that individuals can retain.",
+    "identifier": "P4.2",
+    "createdAt": "2025-06-03 23:21:38.685",
+    "updatedAt": "2025-06-04 21:39:54.273"
+  },
+  {
+    "id": "frk_rq_683f83dea64e10cea3af908c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity grants identified and authenticated data subjects the ability to access their stored personal information for review and, upon request, provides physical or electronic copies of that information to data subjects to meet the entity‚If access is denied, data subjects are informed of the denial and reason for such denial, as required, to meet the entity.",
+    "description": "The organization has a documented Privacy Policy that meets all regulatory requirements and is published on the company website. This Privacy Policy requires that every form collecting personal information include a Privacy Act statement—either directly on the form or via a separate notice for individuals to retain—and mandates that all subject access requests be honored promptly and in accordance with the Policy, thereby ensuring transparency, informed consent, and full compliance throughout the data lifecycle.",
+    "identifier": "P5.1",
+    "createdAt": "2025-06-03 23:23:09.676",
+    "updatedAt": "2025-06-04 21:43:35.950"
+  },
+  {
+    "id": "frk_rq_683f845ba4f5e3210df1a723",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity discloses personal information to third parties with the explicit consent of data subjects, and such consent is obtained prior to disclosure to meet the entity‚ objectives related to privacy.",
+    "description": "The organization has documented policies and procedures that establish guidelines for vendor management and personal data protection, requiring an annual formal vendor risk assessment to identify suppliers critical to its security commitments and mandating appropriate remediation measures—such as contractual safeguards and incident response protocols—whenever personal data is shared with third parties. It ensures all regulatory consent requirements are fulfilled before processing personal data and conducts periodic Data Protection Impact Assessments to evaluate and mitigate privacy and regulatory risks across its processing activities, thereby maintaining comprehensive oversight and compliance throughout the data lifecycle.",
+    "identifier": "P6.1",
+    "createdAt": "2025-06-03 23:25:14.675",
+    "updatedAt": "2025-06-04 21:46:06.793"
+  },
+  {
+    "id": "frk_rq_683f847a3a8a886dc17fb349",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity creates and retains a complete, accurate, and timely record of authorized disclosures of personal information to meet the entity‚ objectives related to privacy.",
+    "description": "The organization has documented privacy policies and procedures that establish guidelines for the collection, processing, and protection of personal information. Senior Management appoints a Privacy Officer responsible for assessing and facilitating the organization’s compliance with all applicable privacy regulations. The organization maintains a Record of Processing Activities—a comprehensive inventory of the categories of personal information collected, their sources, usage, and specific purposes—which is reviewed and updated annually to ensure accuracy and regulatory alignment. In accordance with its Privacy Policy, the organization ensures that all Subject Access Requests are honored promptly and fully, thereby safeguarding individual rights and maintaining transparency across its data processing operations.",
+    "identifier": "P6.2",
+    "createdAt": "2025-06-03 23:25:46.170",
+    "updatedAt": "2025-06-04 21:46:59.315"
+  },
+  {
+    "id": "frk_rq_683f84c464d2ea4f6e977429",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity creates and retains a complete, accurate, and timely record of detected or reported unauthorized disclosures (including breaches) of personal information to meet the entity‚objectives related to privacy.",
+    "description": "The organization has documented policies and procedures that define guidelines for notifying customers and other stakeholders—specifically addressing PII breaches—in the event of any information security incident. Senior Management appoints a Privacy Officer to assess and facilitate compliance with all relevant privacy regulations. The organization conducts risk assessments of suspected data breaches and, when a breach is deemed significant, notifies all affected parties without unreasonable delay. All security incidents are recorded along with their investigations and the response plans executed, in accordance with the incident reporting and management procedures.",
+    "identifier": "P6.3",
+    "createdAt": "2025-06-03 23:27:00.377",
+    "updatedAt": "2025-06-04 21:48:04.155"
+  },
+  {
+    "id": "frk_rq_683f8546f29167cd7f16a8ed",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity provides notification of breaches and incidents to affected data subjects, regulators, and others to meet the entity‚objectives related to privacy.",
+    "description": "The organization has documented policies and procedures that establish expected behavior with regard to the Company, including guidelines for incident detection, reporting, notification, and remediation. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services by enforcing comprehensive incident management protocols. All employees receive Information Security policies and procedures detailing how to report operational failures, security incidents, concerns, or complaints related to services or systems. The organization conducts risk assessments of suspected data breaches, maintains a complete record of all security incidents, investigations, and executed response plans in accordance with its policies, and notifies customers and other stakeholders—particularly in the event of PII breaches—without unreasonable delay, thereby ensuring transparent communication and effective resolution.",
+    "identifier": "P6.6",
+    "createdAt": "2025-06-03 23:29:10.341",
+    "updatedAt": "2025-06-04 21:52:23.052"
+  },
+  {
+    "id": "frk_rq_683f857249f025f86fcfcbcf",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity provides data subjects with an accounting of the personal information held and disclosure of the data subjects‚Äô personal information, upon the data subjects‚Äô request, to meet the entity‚Äôs objectives related to privacy.",
+    "description": "The organization ensures regulatory requirements regarding user consent are met prior to processing personal data.\r\nThe organization ensures that Subject Access Requests are being honored in accordance with the Privacy Policy",
+    "identifier": "P6.7",
+    "createdAt": "2025-06-03 23:29:53.607",
+    "updatedAt": "2025-06-04 21:52:36.984"
+  },
+  {
+    "id": "frk_rq_683f85a54f4d8eb689efb5a3",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity collects and maintains accurate, up-to-date, complete, and relevant personal information to meet the entity‚objectives related to privacy.",
+    "description": "The organization has documented policies and procedures that establish expected behavior with regard to personal data, including a Privacy Policy published on the company website that meets all regulatory requirements and assigns a Privacy Officer to assess and facilitate compliance. It maintains a Record of Processing Activities—an annually reviewed inventory of the categories of personal information collected, their sources, specific purposes, and usage—and requires all forms that collect personal data to include a Privacy Act statement, either on the form itself or via a separate notice. In accordance with its Privacy Policy, the organization honors all Subject Access Requests promptly and fully, ensuring transparency, accountability, and protection of individual data rights.",
+    "identifier": "P7.1",
+    "createdAt": "2025-06-03 23:30:45.215",
+    "updatedAt": "2025-06-04 21:54:31.214"
+  },
+  {
+    "id": "frk_rq_683f85dea375f4073836d53c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements a process for receiving, addressing, resolving, and communicating the resolution of inquiries, complaints, and disputes from data subjects and others and periodically monitors compliance to meet the entity‚objectives related to privacy. Corrections and other necessary actions related to identified deficiencies are made or taken in a timely manner.",
+    "description": "The organization maintains a documented Privacy Policy that meets all applicable regulatory requirements and is published on the company website.  This Policy mandates that valid user consent be obtained before any personal data processing and clearly informs individuals of their rights.  In accordance with both the Policy and regulatory obligations, the organization promptly and fully honors all Subject Access Requests, ensuring transparency, accountability, and respect for individual privacy throughout the data lifecycle.",
+    "identifier": "P8.1",
+    "createdAt": "2025-06-03 23:31:41.573",
+    "updatedAt": "2025-06-04 21:56:04.771"
+  },
+  {
+    "id": "frk_rq_683f5daecd5e3f57e3f2733c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 14: The entity internally communicates information, including objectives and responsibilities for internal control, necessary to support the functioning of internal control.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including behavioral standards, acceptable business conduct policies, and Information Security policies that provide guidance on reporting failures, incidents, concerns, and complaints related to organizational services and systems. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through comprehensive personnel governance and awareness programs, including: establishing procedures for new staff to acknowledge applicable company policies and complete security and privacy literacy training during onboarding; requiring periodic policy acknowledgment by all staff; making all policies and procedures available to staff members for reference; and documenting, monitoring, and retaining individual training activities and records to ensure ongoing compliance and competency in protecting customer service delivery.",
+    "identifier": "CC2.2",
+    "createdAt": "2025-06-03 20:40:14.186",
+    "updatedAt": "2025-06-04 20:21:13.905"
+  },
+  {
+    "id": "frk_rq_683f5ed1fb039b11269212c8",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 15: The entity communicates with external parties regarding matters affecting the functioning of internal control.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through transparent customer communication controls, including: displaying current information about services on the company website for customer accessibility; and providing customers with information on how to report failures, incidents, concerns, or other complaints related to organizational services and systems to ensure prompt issue resolution and continuous service improvement",
+    "identifier": "CC2.3",
+    "createdAt": "2025-06-03 20:45:04.736",
+    "updatedAt": "2025-06-04 20:24:23.191"
+  },
+  {
+    "id": "frk_rq_6840a68d409f43b4d0efd3c1",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 11: The entity also selects and develops general control activities over technology to support the achievement of objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management maintains segregated responsibilities and duties across the organization to mitigate risks to customer services through systematic oversight, including annual reviews and approvals of company policies, risk assessments, vendor assessments, and organizational structures. The organization conducts periodic evaluations of subservice organizations to ensure customer commitments are met, while the Information Security program undergoes planned reviews to ensure continuing effectiveness. Responsibilities are further segregated through the Information Security Officer's independent oversight of production access controls, supported by continuous monitoring systems that provide program health reporting to stakeholders",
+    "identifier": "CC5.2",
+    "createdAt": "2025-06-04 20:03:24.528",
+    "updatedAt": "2025-06-04 20:03:24.528"
+  },
+  {
+    "id": "frk_rq_683f598fc18a528adfcdd561",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 3: Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through structured organizational governance, including: maintaining an organizational structure that defines authorities, facilitates information flow, and establishes clear responsibilities; appointing a People Operations Officer to develop personnel-related security strategies; assigning an Information Security Officer to centrally manage the enterprise-wide cybersecurity and privacy program; establishing procedures to communicate staff roles and responsibilities; and implementing mechanisms to assign asset ownership responsibilities with common understanding of protection requirements. Senior Management conducts planned interval reviews of the Information Security program, including policies, standards, and procedures, or when significant changes occur, to ensure continuing suitability, adequacy, and effectiveness in protecting customer services",
+    "identifier": "CC1.3",
+    "createdAt": "2025-06-03 20:22:39.029",
+    "updatedAt": "2025-06-04 20:12:56.746"
+  },
+  {
+    "id": "frk_rq_683f5a7da5c95341a76298e5",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 4: The entity demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through structured personnel security controls, including established procedures to perform security risk screening of individuals before authorizing access and ensuring that all security-related positions are staffed by qualified individuals with the necessary skill sets to protect customer service delivery",
+    "identifier": "CC1.4",
+    "createdAt": "2025-06-03 20:26:36.583",
+    "updatedAt": "2025-06-04 20:14:57.733"
+  },
+  {
+    "id": "frk_rq_683f5fbd7ac16777b257da6b",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 7: The entity identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented guidelines and procedures for formal risk assessment exercises. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through systematic risk management practices, including: establishing procedures for new staff to acknowledge applicable company policies during onboarding; performing annual formal risk assessment exercises to identify threats that could impair systems' security commitments and requirements; conducting annual vendor risk assessments to identify vendors critical to systems' security commitments; and assessing each identified risk with scoring based on likelihood of occurrence and potential impact on security, availability, and confidentiality of the Company platform, with risks mapped to mitigating factors that address some or all of the identified risk to protect customer service delivery",
+    "identifier": "CC3.2",
+    "createdAt": "2025-06-03 20:49:01.092",
+    "updatedAt": "2025-06-04 20:26:42.272"
+  },
+  {
+    "id": "frk_rq_683f62e98eedc19fdd008d99",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 17: The entity evaluates and communicates internal control deficiencies in a timely manner to those parties responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including Information Security policies that provide employees with guidance on reporting failures, incidents, concerns, or other complaints related to organizational services and systems. Senior Management segregates responsibilities and duties across the organization to mitigate risks to customer services through systematic program oversight, including: conducting annual reviews and approvals of all company policies; performing planned interval reviews of the Information Security program including policies, standards, and procedures, or when significant changes occur, to ensure their continuing suitability, adequacy, and effectiveness; and implementing continuous monitoring systems to track and report the health of the information security program to the Information Security Officer and other stakeholders, ensuring comprehensive protection of customer service delivery",
+    "identifier": "CC4.2",
+    "createdAt": "2025-06-03 21:02:32.708",
+    "updatedAt": "2025-06-04 20:33:35.624"
+  },
+  {
+    "id": "frk_rq_683f63eb915fb5c5e9666793",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 10: The entity selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including guidelines for acceptable and unacceptable technology usage behaviors with outlined consequences for unacceptable actions. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through structured governance and behavioral standards that ensure proper technology usage and overall organizational conduct to protect customer service delivery",
+    "identifier": "CC5.1",
+    "createdAt": "2025-06-03 21:06:50.715",
+    "updatedAt": "2025-06-04 20:36:09.752"
+  },
+  {
+    "id": "frk_rq_683f65a946002d573103c9de",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "COSO Principle 12: The entity deploys control activities through policies that establish what is expected and in procedures that put policies into action.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through structured policy governance, including: making all policies and procedures available to all staff members for reference; establishing procedures for new staff to acknowledge applicable company policies during onboarding; and requiring periodic acknowledgment of applicable company policies by all staff to ensure ongoing awareness and compliance in protecting customer service delivery.",
+    "identifier": "CC5.3",
+    "createdAt": "2025-06-03 21:14:16.735",
+    "updatedAt": "2025-06-04 20:38:16.743"
+  },
+  {
+    "id": "frk_rq_683f66cebc1688607d297b48",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events to meet the entity's objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including Access Control policies and procedures for user registration and authorization, physical and environmental security policies, and password and secure login mechanism guidelines made available to all staff members. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive access management controls, including: ensuring production databases and Secure Shell access to infrastructure entities are protected from public internet access; requiring Senior Management or the Information Security Officer to periodically review and ensure that administrative and critical system access is restricted to only those individuals who require such access to perform their job functions; implementing logical access provisioning to critical systems that requires approval from authorized personnel on an individual need or predefined role basis; and utilizing continuous monitoring systems to alert security teams to update access levels of team members whose roles have changed, ensuring systematic protection of customer service delivery through proper access governance",
+    "identifier": "CC6.1",
+    "createdAt": "2025-06-03 21:19:09.801",
+    "updatedAt": "2025-06-04 20:40:54.041"
+  },
+  {
+    "id": "frk_rq_683f759f885e5b093b3c36d6",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity implements logical access security measures to protect against threats from sources outside its system boundaries.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including endpoint security policies and procedures, guidelines for communications protections and network security of critical systems, and documented procedures for endpoint security and related controls. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive endpoint and network security controls, including: developing, documenting, and maintaining an inventory of organizational endpoint systems with necessary accountability information; ensuring endpoints with access to critical servers or data are configured to auto-screen-lock after 15 minutes of inactivity and are encrypted to protect from unauthorized access; requiring malware protection software on endpoints accessing critical servers or data; protecting production databases and Secure Shell access to infrastructure entities from public internet access; implementing firewall protection on every production host with deny-by-default rules; performing security and privacy compliance checks on software versions and patches of remote devices prior to establishing internal connections; requiring multifactor authentication for all staff members with access to critical systems; and maintaining systematic endpoint security governance to ensure comprehensive protection of customer service delivery.",
+    "identifier": "CC6.6",
+    "createdAt": "2025-06-03 22:22:23.193",
+    "updatedAt": "2025-06-04 20:49:37.100"
+  },
+  {
+    "id": "frk_rq_683f76a572050393764a447d",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity‚Äôs objectives.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including a documented policy to manage encryption and cryptographic protection controls. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive encryption and data protection controls, including: developing, documenting, and maintaining an inventory of organizational infrastructure systems with necessary accountability information; utilizing standard encryption methods including HTTPS with TLS algorithm to keep transmitted data confidential; implementing cryptographic mechanisms to encrypt all production databases that store customer data at rest; ensuring that endpoints and critical endpoints with access to critical servers or data are encrypted to protect from unauthorized access; and requiring that customer data used in non-production environments receives the same level of protection as the production environment, thereby maintaining systematic encryption governance to ensure comprehensive protection of customer service delivery through cryptographic controls.",
+    "identifier": "CC6.7",
+    "createdAt": "2025-06-03 22:26:45.409",
+    "updatedAt": "2025-06-04 20:51:47.026"
+  },
+  {
+    "id": "frk_rq_683f778c138349f90d26fee2",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "To meet its objectives, the entity uses detection and monitoring procedures to identify (1) changes to configurations that result in the introduction of new vulnerabilities, and (2) susceptibilities to newly discovered vulnerabilities.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including policies and procedures for vulnerability management. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive monitoring and threat detection controls, including: implementing methods to continuously monitor critical assets to generate capacity alerts ensuring optimal performance, meeting future capacity requirements, and protecting against denial-of-service attacks; identifying vulnerabilities on the Company platform through regular vulnerability scan execution; configuring infrastructure to generate audit events for security-related actions of interest on all critical systems and to review and analyze audit events to detect anomalous or suspicious activity and threats; and tracking all vulnerabilities with remediation according to defined vulnerability management policies and procedures, thereby maintaining systematic security monitoring governance to ensure comprehensive protection of customer service delivery through proactive threat detection and response capabilities.",
+    "identifier": "CC7.1",
+    "createdAt": "2025-06-03 22:30:36.377",
+    "updatedAt": "2025-06-04 20:59:55.401"
+  },
+  {
+    "id": "frk_rq_683f7a455a617028f7cd888f",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity responds to identified security incidents by executing a defined incident response program to understand, contain, remediate, and communicate security incidents, as appropriate.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including established policies and procedures with guidelines to be undertaken in response to information security incidents and policies and procedures to report and manage incidents. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive incident management controls, including: maintaining records of information security incidents, their investigations, and the response plans executed in accordance with defined incident reporting and management policies and procedures; and utilizing continuous monitoring systems to track and report the health of the information security program to the Information Security Officer and other stakeholders, thereby maintaining systematic incident response governance to ensure comprehensive protection of customer service delivery through structured incident detection, response, and documentation capabilities",
+    "identifier": "CC7.4",
+    "createdAt": "2025-06-03 22:42:12.507",
+    "updatedAt": "2025-06-04 21:05:11.565"
+  },
+  {
+    "id": "frk_rq_683f804dde7ce3212d036b3e",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity identifies, develops, and implements activities to recover from identified security incidents.",
+    "description": "The organization has documented a set of policies and procedures that establish expected behavior with regard to the Company, including documented policies and procedures that establish guidelines for continuing business operations and facilitate the application of contingency planning controls, a documented policy on managing Data Backups made available to all relevant staff, and documented guidelines to manage Disaster Recovery. Senior Management segregates responsibilities and duties across the organization to mitigate risks to the services provided to its customers through comprehensive business continuity and disaster recovery controls, including: establishing guidelines and procedures for continuing business operations in case of a disruption or security incident; implementing data backup management policies accessible to relevant staff through the company employee portal; and maintaining disaster recovery guidelines that ensure business operations continuity during disruptive events, thereby maintaining systematic business continuity governance to ensure comprehensive protection and uninterrupted delivery of customer services through proactive contingency planning and recovery capabilities.",
+    "identifier": "CC7.5",
+    "createdAt": "2025-06-03 23:07:56.828",
+    "updatedAt": "2025-06-04 21:06:47.396"
+  },
+  {
+    "id": "frk_rq_683f82b7e3624d113096e13c",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity provides notice to data subjects about its privacy practices to meet the entity‚entity objectives related to privacy. The notice is updated and communicated to data subjects in a timely manner for changes to the entity‚entity privacy practices, including changes in the use of personal information, to meet the entity,entity objectives related to privacy.",
+    "description": "The organization has documented a comprehensive Privacy Policy and supporting procedures that embed privacy-by-design principles into all systems and processes to ensure ongoing compliance with applicable privacy regulations. This Privacy Policy meets all regulatory requirements and is published on the company website. In addition, every form that collects personal information—whether part of a Privacy Act system of records or not—carries a Privacy Act statement, either directly on the form or on a separate notice provided to individuals, thereby ensuring transparency, informed consent, and full regulatory compliance across the data lifecycle.",
+    "identifier": "P1.1",
+    "createdAt": "2025-06-03 23:18:14.833",
+    "updatedAt": "2025-06-04 21:29:10.974"
+  },
+  {
+    "id": "frk_rq_683f82c47ddda8414a018a93",
+    "frameworkId": "frk_683f377429b8408d1c85f9bd",
+    "name": "The entity communicates choices available regarding the collection, use, retention, disclosure, and disposal of personal information to the data subjects and the consequences, if any, of each choice. Explicit consent for the collection, use, retention, disclosure, and disposal of personal information is obtained from data subjects or other authorized persons, if required. Such consent is obtained only for the intended purpose of the information to meet the entity‚Äôs objectives related to privacy. The entity‚Äôs basis for determining implicit consent for the collection, use, retention, disclosure, and disposal of personal information is documented.",
+    "description": "The organization maintains an inventory of categories of personal information collected along with its usage, sources and specific purposes for collection as per regulatory requirements (\"Record of Processing Activities\") and reviews it on an annual basis\r\nThe organization maintains a list of all contractual obligations based on customer contracts.\r\nThe organization ensures regulatory requirements regarding user consent are met prior to processing personal data\r\n",
+    "identifier": "P2.1",
+    "createdAt": "2025-06-03 23:18:27.903",
+    "updatedAt": "2025-06-04 21:34:40.204"
   }
 ]

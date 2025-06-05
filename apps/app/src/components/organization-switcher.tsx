@@ -1,7 +1,6 @@
 "use client";
 
 import { changeOrganizationAction } from "@/actions/change-organization";
-import { useI18n } from "@/locales/client";
 import type { Organization, FrameworkEditorFramework } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
@@ -20,10 +19,10 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@comp/ui/command";
-import { Check, ChevronsUpDown, Plus, Search } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, Search, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CreateOrgModal } from "./modals/create-org-modal";
 import { useQueryState } from "nuqs";
 
@@ -146,16 +145,25 @@ function OrganizationInitialsAvatar({
 	);
 }
 
+// Helper to get display name with unique identifier for duplicates
+function getDisplayName(org: Organization) {
+	if (org.name) {
+		return `${org.name}`;
+	}
+	return org.name;
+}
+
 export function OrganizationSwitcher({
 	organizations,
 	organization,
 	isCollapsed = false,
 	frameworks,
 }: OrganizationSwitcherProps) {
-	const t = useI18n();
 	const router = useRouter();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [showCreateOrg, setShowCreateOrg] = useState(false);
+	const [pendingOrgId, setPendingOrgId] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [showOrganizationSwitcher, setShowOrganizationSwitcher] =
 		useQueryState("showOrganizationSwitcher", {
@@ -172,11 +180,18 @@ export function OrganizationSwitcher({
 				setIsDialogOpen(false);
 			}
 		},
+		onExecute: () => {
+			setIsLoading(true);
+		},
+		onError: () => {
+			setIsLoading(false);
+		},
 	});
 
 	const currentOrganization = organization;
 
 	const handleOrgChange = async (org: Organization) => {
+		setPendingOrgId(org.id);
 		execute({ organizationId: org.id });
 	};
 
@@ -193,7 +208,7 @@ export function OrganizationSwitcher({
 					<Button
 						variant="outline"
 						role="combobox"
-						aria-label={t("common.actions.selectOrg")}
+						aria-label={"Select Organization"}
 						className={cn(
 							"flex justify-between mx-auto rounded-md",
 							isCollapsed ? "h-min w-min p-0" : "h-10 w-full p-0",
@@ -219,26 +234,29 @@ export function OrganizationSwitcher({
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="p-0 sm:max-w-[400px]">
+					<DialogTitle className="sr-only">
+						{"Select Organization"}
+					</DialogTitle>
 					<Command>
 						<div className="flex items-center border-b px-3">
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
 							<CommandInput
-								placeholder={t("common.placeholders.searchOrg")}
+								placeholder={"Search organization..."}
 								className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
 							/>
 						</div>
 						<CommandList>
 							<CommandEmpty>
-								{t("common.table.no_results")}
+								{"No results found"}
 							</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
-								{organizations.map((org) => (
-									<CommandItem
-										key={org.id}
-										value={org.name ?? org.id}
-										onSelect={() => {
-											if (
-												org.id !==
+                                                                {organizations.map((org) => (
+                                                                        <CommandItem
+                                                                                key={org.id}
+                                                                                value={getDisplayName(org) || org.id}
+                                                                                onSelect={() => {
+                                                                                        if (
+                                                                                                org.id !==
 												currentOrganization?.id
 											) {
 												handleOrgChange(org);
@@ -246,24 +264,29 @@ export function OrganizationSwitcher({
 												setIsDialogOpen(false);
 											}
 										}}
-										disabled={status === "executing"}
+										disabled={isLoading}
 									>
-										<Check
-											className={cn(
-												"mr-2 h-4 w-4",
-												currentOrganization?.id ===
-													org.id
-													? "opacity-100"
-													: "opacity-0",
-											)}
-										/>
+										{isLoading && pendingOrgId === org.id ? (
+											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+										) : (
+											!isLoading && currentOrganization?.id === org.id ? (
+												<Check
+													className={cn(
+														"mr-2 h-4 w-4",
+														"opacity-100"
+													)}
+												/>
+											) : (
+												<span className="mr-2 h-4 w-4" />
+											)
+										)}
 										<OrganizationInitialsAvatar
 											name={org.name}
 											isCollapsed={false}
 											className="mr-2 h-6 w-6"
 										/>
 										<span className="truncate">
-											{org.name}
+											{getDisplayName(org)}
 										</span>
 									</CommandItem>
 								))}
@@ -279,7 +302,7 @@ export function OrganizationSwitcher({
 									disabled={status === "executing"}
 								>
 									<Plus className="mr-2 h-4 w-4" />
-									{t("common.actions.createOrg")}
+									{"Create Organization"}
 								</CommandItem>
 							</CommandGroup>
 						</CommandList>

@@ -2,7 +2,6 @@
 
 import { updateInherentRiskAction } from "@/actions/risk/update-inherent-risk-action";
 import { updateInherentRiskSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -57,15 +56,13 @@ export function InherentRiskForm({
 	initialImpact,
 }: InherentRiskFormProps) {
 	const [_, setOpen] = useQueryState("inherent-risk-sheet");
-	const t = useI18n();
-
 	const updateInherentRisk = useAction(updateInherentRiskAction, {
 		onSuccess: () => {
-			toast.success(t("risk.form.update_inherent_risk_success"));
+			toast.success("Inherent risk updated successfully");
 			setOpen(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.update_inherent_risk_error"));
+			toast.error("Failed to update inherent risk");
 		},
 	});
 
@@ -91,7 +88,7 @@ export function InherentRiskForm({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								{t("risk.metrics.probability")}
+								{"Probability"}
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
@@ -100,9 +97,7 @@ export function InherentRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t(
-												"vendors.risks.select_probability",
-											)}
+											placeholder={"Select a probability"}
 										/>
 									</SelectTrigger>
 								</FormControl>
@@ -128,7 +123,7 @@ export function InherentRiskForm({
 					name="impact"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>{t("risk.metrics.impact")}</FormLabel>
+							<FormLabel>{"Impact"}</FormLabel>
 							<Select
 								onValueChange={field.onChange}
 								value={field.value}
@@ -136,9 +131,7 @@ export function InherentRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t(
-												"vendors.risks.select_impact",
-											)}
+											placeholder={"Select an impact"}
 										/>
 									</SelectTrigger>
 								</FormControl>
@@ -168,7 +161,7 @@ export function InherentRiskForm({
 						{updateInherentRisk.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

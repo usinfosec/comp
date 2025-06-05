@@ -1,926 +1,296 @@
 [
   {
-    "id": "frk_ct_681e851466129df67f4481ec",
-    "name": "Board Oversight",
-    "description": "The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
+    "id": "frk_ct_68406fc94e08f884cc085ded",
+    "name": "Secure Data Transfer",
+    "description": "Protect Information in Transit",
+    "createdAt": "2025-06-04 16:09:44.637",
+    "updatedAt": "2025-06-04 19:41:05.066"
   },
   {
-    "id": "frk_ct_681e8514da133b59ed163e38",
-    "name": "Management Philosophy",
-    "description": "Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851496e2129f1e601aeb",
-    "name": "Organizational Structure",
-    "description": "The organization demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514a7b04dc9afb04450",
-    "name": "Personnel Policies",
-    "description": "The organization holds individuals accountable for their internal control responsibilities in the pursuit of objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85147e23e534c2e14497",
-    "name": "Code of Conduct",
-    "description": "The organization demonstrates a commitment to integrity and ethical values.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851437b51ff9d2530a93",
-    "name": "Information Quality",
-    "description": "The organization obtains or generates and uses relevant, quality information to support the functioning of internal control.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85145da70d329ead9847",
-    "name": "Internal Communication",
-    "description": "The organization internally communicates information, including objectives and responsibilities for internal control.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851430aafd56ca35b17e",
-    "name": "External Communication",
-    "description": "The organization communicates with external parties regarding matters affecting the functioning of internal control.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514fa7c5b1be482ea51",
-    "name": "Risk Assessment Process",
-    "description": "The organization specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514c174835611412d50",
-    "name": "Risk Identification",
-    "description": "The organization identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514f6b0535abf7e7d44",
-    "name": "Fraud Risk Assessment",
-    "description": "The organization considers the potential for fraud in assessing risks to the achievement of objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514bffbbb8e9c4f6fda",
-    "name": "Change Management Risk",
-    "description": "The organization identifies and assesses changes that could significantly impact the system of internal control.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85142aac5b23b3091fa5",
-    "name": "Control Monitoring",
-    "description": "The organization selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851408bb32ca1c2da5ea",
-    "name": "Deficiency Management",
-    "description": "The organization evaluates and communicates internal control deficiencies in a timely manner to those responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514e2439f12eafde3a2",
-    "name": "Control Selection",
-    "description": "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85145a1d98ea616c4416",
-    "name": "Technology Controls",
-    "description": "The organization selects and develops general control activities over technology to support the achievement of objectives.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851476e511b965e59e0f",
-    "name": "Policy Implementation",
-    "description": "The organization selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85142c97b81474dc630c",
-    "name": "Access Security",
-    "description": "The organization implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514bc4bb3ff18c84494",
-    "name": "Access Authentication",
-    "description": "Prior to issuing system credentials and granting system access, the organization registers and authorizes new internal and external users.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85144bc39c5a684c95e0",
-    "name": "Access Removal",
-    "description": "The organization removes access to protected information assets when appropriate.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514a373bb4d6ffdd8bd",
-    "name": "Access Review",
-    "description": "The organization evaluates and manages access to protected information assets on a periodic basis.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514799c91072234149a",
-    "name": "System Account Management",
-    "description": "The organization identifies and authenticates system users, devices, and other systems before allowing access.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514c3d2d7dbdf65c35c",
-    "name": "Access Restrictions",
-    "description": "The organization restricts physical access to facilities and protected information assets.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514f0cedff5d5c6d6fe",
-    "name": "Information Asset Changes",
-    "description": "The organization manages changes to system components to minimize the risk of unauthorized changes.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514f4f781c28a94d38d",
-    "name": "Malicious Software Prevention",
-    "description": "The organization implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85148a9aa81d180fbcb7",
-    "name": "Infrastructure Monitoring",
-    "description": "To detect and act upon security events in a timely manner, the organization monitors system capacity, security threats, and vulnerabilities.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851422534191fa248b63",
-    "name": "Security Event Response",
-    "description": "The organization designs, develops, and implements policies and procedures to respond to security incidents and breaches.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e851469d12bf0ee92a7d3",
-    "name": "Security Event Recovery",
-    "description": "The organization implements recovery procedures to ensure timely restoration of systems or assets affected by security incidents.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514abc48665a93d48f2",
-    "name": "Security Event Analysis",
-    "description": "The organization implements incident response activities to identify root causes of security incidents and develop remediation plans.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85144d8b8603133c0716",
-    "name": "Security Event Communication",
-    "description": "The organization identifies, develops, and implements activities to communicate security incidents to affected parties.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85140a71eafd9d02b25c",
-    "name": "Confidential Information Classification",
-    "description": "The entity classifies information to identify and protect confidential information.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514f36c111cd881ae0e",
-    "name": "Access Restrictions for Confidential Data",
-    "description": "The entity restricts access to confidential information on a need-to-know basis.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85145ecc47d27590ec9c",
-    "name": "Confidential Data Disposal",
-    "description": "The entity securely disposes of confidential information when no longer needed.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514e701e9552fd8d47b",
-    "name": "Accuracy and Completeness",
-    "description": "The entity ensures data is processed accurately and completely.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85147213fe34d0f8610c",
-    "name": "Input, Processing, and Output Controls",
-    "description": "The entity validates the completeness and accuracy of data throughout processing.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85147ea2be07c072b766",
-    "name": "Exception Handling",
-    "description": "The entity identifies and resolves processing exceptions in a timely manner.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514580b64dea8512c50",
-    "name": "Privacy Notice",
-    "description": "The entity provides notice about the collection, use, and disclosure of personal information.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e85142e0ecc2db0148239",
-    "name": "Choice and Consent",
-    "description": "The entity obtains consent for personal information where required by policy or law.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_681e8514b92fc9083b53e382",
-    "name": "Data Retention and Disposal",
-    "description": "The entity retains personal information for only as long as needed and disposes of it securely.",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920"
-  },
-  {
-    "id": "frk_ct_68257895edfaca1cae34a7c2",
-    "name": "Acceptable use of information and other associated assets",
-    "description": "Establish an Acceptable Use Policy for Information and Assets",
-    "createdAt": "2025-05-15 05:16:04.742",
-    "updatedAt": "2025-05-16 05:59:32.826"
-  },
-  {
-    "id": "frk_ct_6825768ee6fd1e6272a9946e",
-    "name": "Threat intelligence",
-    "description": "Implement a Threat Intelligence Program",
-    "createdAt": "2025-05-15 05:07:26.133",
-    "updatedAt": "2025-05-16 05:53:17.510"
-  },
-  {
-    "id": "frk_ct_682578588017390bf8d08c95",
-    "name": "Information security in project management",
-    "description": "Integrate Information Security into Project Management",
-    "createdAt": "2025-05-15 05:15:04.098",
-    "updatedAt": "2025-05-16 05:53:17.678"
-  },
-  {
-    "id": "frk_ct_68257a1bbbb14da3e91c6f7d",
-    "name": "Addressing information security within supplier agreements",
-    "description": "Include Security Requirements in Supplier Agreements",
-    "createdAt": "2025-05-15 05:22:35.371",
-    "updatedAt": "2025-05-16 05:59:34.520"
-  },
-  {
-    "id": "frk_ct_68257a1c39f66a3ad98b6478",
-    "name": "Monitoring, review and change management of supplier services",
-    "description": "Monitor and Manage Supplier Service Changes",
-    "createdAt": "2025-05-15 05:22:35.683",
-    "updatedAt": "2025-05-16 06:10:10.317"
-  },
-  {
-    "id": "frk_ct_68257a1cb27eeefba4e726f1",
-    "name": "Information security for use of cloud services",
-    "description": "Ensure Security for Cloud Services Use",
-    "createdAt": "2025-05-15 05:22:35.854",
-    "updatedAt": "2025-05-16 06:10:10.534"
-  },
-  {
-    "id": "frk_ct_68257a1c6f95e597e8de389d",
-    "name": "Information security incident management responsibilities and procedures",
-    "description": "Establish an Incident Management Policy and Procedures",
-    "createdAt": "2025-05-15 05:22:36.040",
-    "updatedAt": "2025-05-16 06:10:10.716"
-  },
-  {
-    "id": "frk_ct_68257a91ec53ef3d17957782",
-    "name": "ICT readiness for business continuity",
-    "description": "Ensure ICT Readiness for Business Continuity",
-    "createdAt": "2025-05-15 05:24:33.234",
-    "updatedAt": "2025-05-16 06:12:13.215"
-  },
-  {
-    "id": "frk_ct_68257a921c9496ee45a290e5",
-    "name": "Intellectual property rights",
-    "description": "Protect Intellectual Property Rights",
-    "createdAt": "2025-05-15 05:24:33.577",
-    "updatedAt": "2025-05-16 06:12:13.570"
-  },
-  {
-    "id": "frk_ct_68257a928f88817150a5f53d",
-    "name": "Protection of records",
-    "description": "Protect and Retain Records",
-    "createdAt": "2025-05-15 05:24:33.733",
-    "updatedAt": "2025-05-16 06:12:13.757"
-  },
-  {
-    "id": "frk_ct_68257a92901f419b109e5ce6",
-    "name": "Privacy and protection of personally identifiable information (PII)",
+    "id": "frk_ct_684071e280c4e0f777b957f7",
+    "name": "Data Privacy",
     "description": "Protect Privacy and Personal Data (PII)",
-    "createdAt": "2025-05-15 05:24:33.907",
-    "updatedAt": "2025-05-16 06:12:13.945"
+    "createdAt": "2025-06-04 16:18:42.339",
+    "updatedAt": "2025-06-04 19:41:05.908"
   },
   {
-    "id": "frk_ct_68257a92c75b0c04afc66fc1",
-    "name": "Independent review of information security",
-    "description": "Conduct Independent Review of the ISMS",
-    "createdAt": "2025-05-15 05:24:34.071",
-    "updatedAt": "2025-05-16 06:12:14.100"
+    "id": "frk_ct_684073617d0706858cceb8c7",
+    "name": "Asset Return",
+    "description": "Ensure Return of Assets Upon Termination",
+    "createdAt": "2025-06-04 16:25:04.708",
+    "updatedAt": "2025-06-04 19:41:06.360"
   },
   {
-    "id": "frk_ct_68257a92051ac16b6f2206e4",
-    "name": "Compliance with policies, rules and standards for information security",
-    "description": "Ensure Compliance with Security Policies and Standards",
-    "createdAt": "2025-05-15 05:24:34.244",
-    "updatedAt": "2025-05-16 06:12:14.255"
+    "id": "frk_ct_68407429371f33886d8ab80d",
+    "name": "Encryption Key Management",
+    "description": "Implement Cryptographic Key Lifecycle Management",
+    "createdAt": "2025-06-04 16:28:25.083",
+    "updatedAt": "2025-06-04 19:41:06.998"
   },
   {
-    "id": "frk_ct_68257a9220efb5df901a3929",
-    "name": "Documented operating procedures",
-    "description": "Document Operational Procedures",
-    "createdAt": "2025-05-15 05:24:34.403",
-    "updatedAt": "2025-05-16 06:14:06.312"
+    "id": "frk_ct_6840705b6dcee0506dabacfb",
+    "name": "Regulatory Compliance",
+    "description": "Identify and Comply with Legal and Contractual Requirements",
+    "createdAt": "2025-06-04 16:12:11.272",
+    "updatedAt": "2025-06-04 19:41:05.205"
   },
   {
-    "id": "frk_ct_68257b4042dbb83b90c1d7b4",
-    "name": "Screening",
-    "description": "Screen Employees and Contractors",
-    "createdAt": "2025-05-15 05:27:28.091",
-    "updatedAt": "2025-05-16 06:14:06.499"
+    "id": "frk_ct_684072e06f4a49ee669076cc",
+    "name": "Malware Protection",
+    "description": "Protect Systems Against Malware",
+    "createdAt": "2025-06-04 16:22:56.279",
+    "updatedAt": "2025-06-04 19:41:06.033"
   },
   {
-    "id": "frk_ct_6825756149eb59b2b58fa856",
-    "name": "Information security roles and responsibilities",
-    "description": "Define Security Roles and Responsibilities",
-    "createdAt": "2025-05-15 05:02:25.102",
-    "updatedAt": "2025-05-16 05:53:16.646"
+    "id": "frk_ct_6840738800f98fa3c0f3a3ae",
+    "name": "Configuration & Patch Management",
+    "description": "Harden baselines; patch swiftly",
+    "createdAt": "2025-06-04 16:25:43.882",
+    "updatedAt": "2025-06-04 19:41:06.507"
   },
   {
-    "id": "frk_ct_6825762fad109b79022e8b41",
+    "id": "frk_ct_684075c692439e38c753c95d",
+    "name": "Physical Access Control",
+    "description": "Control Physical Entry to Facilities",
+    "createdAt": "2025-06-04 16:35:17.828",
+    "updatedAt": "2025-06-04 19:41:07.120"
+  },
+  {
+    "id": "frk_ct_684070831cc83c4ab4c2c4d8",
+    "name": "Security Logging",
+    "description": "Enable Logging of Security Events",
+    "createdAt": "2025-06-04 16:12:50.757",
+    "updatedAt": "2025-06-04 19:41:05.344"
+  },
+  {
+    "id": "frk_ct_6840731ae0b857152b35ca8f",
+    "name": "Remote-Work Security",
+    "description": "Implement Secure Remote Working Practices",
+    "createdAt": "2025-06-04 16:23:54.000",
+    "updatedAt": "2025-06-04 19:41:06.238"
+  },
+  {
+    "id": "frk_ct_684073ba24475a83ba048022",
     "name": "Segregation of duties",
     "description": "Implement Segregation of Duties",
-    "createdAt": "2025-05-15 05:05:50.803",
-    "updatedAt": "2025-05-16 05:53:16.831"
+    "createdAt": "2025-06-04 16:26:33.778",
+    "updatedAt": "2025-06-04 19:41:06.631"
   },
   {
-    "id": "frk_ct_6825768e443b998bb7d8aa66",
-    "name": "Management responsibilities",
-    "description": "Ensure Management Addresses Security Responsibilities",
-    "createdAt": "2025-05-15 05:07:25.644",
-    "updatedAt": "2025-05-16 05:53:17.034"
+    "id": "frk_ct_684073d541bfb8b8b777e529",
+    "name": "Threat intelligence",
+    "description": "Implement a Threat Intelligence Program",
+    "createdAt": "2025-06-04 16:27:01.369",
+    "updatedAt": "2025-06-04 19:41:06.752"
   },
   {
-    "id": "frk_ct_6825768ee413fe50e00d4965",
-    "name": "Contact with authorities",
-    "description": "Maintain Contact with Authorities",
-    "createdAt": "2025-05-15 05:07:25.807",
-    "updatedAt": "2025-05-16 05:53:17.182"
+    "id": "frk_ct_68407c9513000617776104c7",
+    "name": "Acceptable Use",
+    "description": "Establish an Acceptable Use Policy for Information and Assets",
+    "createdAt": "2025-06-04 17:04:20.799",
+    "updatedAt": "2025-06-04 19:41:07.258"
   },
   {
-    "id": "frk_ct_6825768e84effc0e1b08dc17",
-    "name": "Contact with special interest groups",
-    "description": "Engage with Security Special Interest Groups",
-    "createdAt": "2025-05-15 05:07:25.964",
-    "updatedAt": "2025-05-16 05:53:17.343"
-  },
-  {
-    "id": "frk_ct_6825785885a5e65dd48a940d",
-    "name": "Inventory of information and other associated assets",
-    "description": "Maintain an Inventory of Information Assets",
-    "createdAt": "2025-05-15 05:15:04.365",
-    "updatedAt": "2025-05-16 05:59:32.600"
-  },
-  {
-    "id": "frk_ct_682578959c5e0c6a1e92728d",
-    "name": "Return of assets",
-    "description": "Ensure Return of Assets Upon Termination",
-    "createdAt": "2025-05-15 05:16:04.922",
-    "updatedAt": "2025-05-16 05:59:32.988"
-  },
-  {
-    "id": "frk_ct_682578c1a2732658c259c33d",
-    "name": "Classification of information",
-    "description": "Classify Information by Sensitivity",
-    "createdAt": "2025-05-15 05:16:49.198",
-    "updatedAt": "2025-05-16 05:59:33.162"
-  },
-  {
-    "id": "frk_ct_682578c13517578300ab86c6",
-    "name": "Labelling of information",
-    "description": "Label Information According to Classification",
-    "createdAt": "2025-05-15 05:16:49.377",
-    "updatedAt": "2025-05-16 05:59:33.335"
-  },
-  {
-    "id": "frk_ct_6825790ac77f9110f7f7bda3",
-    "name": "Information transfer",
-    "description": "Protect Information in Transit",
-    "createdAt": "2025-05-15 05:18:01.828",
-    "updatedAt": "2025-05-16 05:59:33.485"
-  },
-  {
-    "id": "frk_ct_6825790ab98dc177efb6cb3d",
-    "name": "Access control",
-    "description": "Establish an Access Control Policy",
-    "createdAt": "2025-05-15 05:18:02.023",
-    "updatedAt": "2025-05-16 05:59:33.649"
-  },
-  {
-    "id": "frk_ct_6825790aa95036379a57f580",
-    "name": "Identity management",
-    "description": "Implement Identity Management Processes",
-    "createdAt": "2025-05-15 05:18:02.188",
-    "updatedAt": "2025-05-16 05:59:33.840"
-  },
-  {
-    "id": "frk_ct_6825790a77268ca155ee76c7",
-    "name": "Authentication information",
-    "description": "Protect Authentication Information",
-    "createdAt": "2025-05-15 05:18:02.341",
-    "updatedAt": "2025-05-16 05:59:34.009"
-  },
-  {
-    "id": "frk_ct_68257a1bb4433e0a9a268b30",
-    "name": "Access rights",
+    "id": "frk_ct_683f4a410cf5bf6d40bf3583",
+    "name": "Access Rights",
     "description": "Manage User Access Rights Lifecycle",
-    "createdAt": "2025-05-15 05:22:35.013",
-    "updatedAt": "2025-05-16 05:59:34.192"
+    "createdAt": "2025-06-03 19:17:20.504",
+    "updatedAt": "2025-06-04 19:41:03.426"
   },
   {
-    "id": "frk_ct_68257a1ba4e5ef9da219c322",
-    "name": "Information security in supplier relationships",
-    "description": "Ensure Security in Supplier Relationships",
-    "createdAt": "2025-05-15 05:22:35.234",
-    "updatedAt": "2025-05-16 05:59:34.342"
+    "id": "frk_ct_683f4ae4acbd63d0e558a6f5",
+    "name": "Credential Management",
+    "description": "Protect Authentication Information",
+    "createdAt": "2025-06-03 19:20:04.055",
+    "updatedAt": "2025-06-04 19:41:03.601"
   },
   {
-    "id": "frk_ct_68257a1c1dc57ad73c143841",
-    "name": "Assessment and decision on information security events",
-    "description": "Assess and Decide on Security Events",
-    "createdAt": "2025-05-15 05:22:36.201",
-    "updatedAt": "2025-05-16 06:11:00.558"
-  },
-  {
-    "id": "frk_ct_68257a1c480068bdb0e616e7",
-    "name": "Response to information security incidents",
-    "description": "Respond to Information Security Incidents",
-    "createdAt": "2025-05-15 05:22:36.403",
-    "updatedAt": "2025-05-16 06:11:00.744"
-  },
-  {
-    "id": "frk_ct_68257a1d3fb5e8d0604dfbb4",
-    "name": "Learning from information security incidents",
-    "description": "Learn from Information Security Incidents",
-    "createdAt": "2025-05-15 05:22:36.559",
-    "updatedAt": "2025-05-16 06:11:00.921"
-  },
-  {
-    "id": "frk_ct_68257a1d57962f8da93b415f",
-    "name": "Collection of evidence",
-    "description": "Collect and Preserve Evidence of Incidents",
-    "createdAt": "2025-05-15 05:22:36.718",
-    "updatedAt": "2025-05-16 06:11:01.089"
-  },
-  {
-    "id": "frk_ct_68257a1db9ff4c891fa87264",
-    "name": "Information security during disruption",
-    "description": "Maintain Security During Disruptions",
-    "createdAt": "2025-05-15 05:22:36.877",
-    "updatedAt": "2025-05-16 06:11:01.274"
-  },
-  {
-    "id": "frk_ct_68257b416a92884774d39139",
-    "name": "Disciplinary process",
-    "description": "Establish a Disciplinary Process for Security Violations",
-    "createdAt": "2025-05-15 05:27:28.632",
-    "updatedAt": "2025-05-16 06:14:06.985"
-  },
-  {
-    "id": "frk_ct_68257b414291d08ae512724d",
-    "name": "Confidentiality or nondisclosure agreements",
-    "description": "Use Confidentiality and Non-Disclosure Agreements",
-    "createdAt": "2025-05-15 05:27:28.963",
-    "updatedAt": "2025-05-16 06:14:07.292"
-  },
-  {
-    "id": "frk_ct_68257b41f0a2fbb9d620aa64",
-    "name": "Remote working",
-    "description": "Implement Secure Remote Working Practices",
-    "createdAt": "2025-05-15 05:27:29.122",
-    "updatedAt": "2025-05-16 06:14:07.463"
-  },
-  {
-    "id": "frk_ct_68257b4155976970e8c51279",
-    "name": "Information security event reporting",
-    "description": "Enable Security Event Reporting by Personnel",
-    "createdAt": "2025-05-15 05:27:29.283",
-    "updatedAt": "2025-05-16 06:14:07.620"
-  },
-  {
-    "id": "frk_ct_68257b4196a28f5afe9cd387",
-    "name": "Physical security perimeters",
-    "description": "Establish Physical Security Perimeters",
-    "createdAt": "2025-05-15 05:27:29.437",
-    "updatedAt": "2025-05-16 06:14:07.772"
-  },
-  {
-    "id": "frk_ct_68257b42ba09c901c6ac1671",
-    "name": "Physical entry",
-    "description": "Control Physical Entry to Facilities",
-    "createdAt": "2025-05-15 05:27:29.601",
-    "updatedAt": "2025-05-16 06:14:07.928"
-  },
-  {
-    "id": "frk_ct_68257b42917c238c02fba2f6",
-    "name": "Securing offices, rooms and facilities",
-    "description": "Secure Offices, Rooms and Facilities",
-    "createdAt": "2025-05-15 05:27:29.760",
-    "updatedAt": "2025-05-16 06:14:08.087"
-  },
-  {
-    "id": "frk_ct_68257b42723da9e329282499",
-    "name": "Physical security monitoring",
-    "description": "Monitor Physical Security",
-    "createdAt": "2025-05-15 05:27:29.905",
-    "updatedAt": "2025-05-16 06:14:08.242"
-  },
-  {
-    "id": "frk_ct_68257b42ac201a974487d069",
-    "name": "Protecting against physical and environmental threats",
-    "description": "Protect Against Environmental and Physical Threats",
-    "createdAt": "2025-05-15 05:27:30.061",
-    "updatedAt": "2025-05-16 06:14:08.408"
-  },
-  {
-    "id": "frk_ct_68257b4289478514ffb16b82",
-    "name": "Working in secure areas",
-    "description": "Secure Work in Sensitive Areas",
-    "createdAt": "2025-05-15 05:27:30.216",
-    "updatedAt": "2025-05-16 06:14:08.567"
-  },
-  {
-    "id": "frk_ct_68257b79f55f03b23a05d978",
-    "name": "Clear desk and clear screen",
-    "description": "Implement a Clear Desk and Clear Screen Policy",
-    "createdAt": "2025-05-15 05:28:24.891",
-    "updatedAt": "2025-05-16 06:14:08.723"
-  },
-  {
-    "id": "frk_ct_68257b7999c5acaee8d923bd",
-    "name": "Equipment siting and protection",
-    "description": "Protect Equipment Through Secure Siting",
-    "createdAt": "2025-05-15 05:28:25.111",
-    "updatedAt": "2025-05-16 06:14:08.872"
-  },
-  {
-    "id": "frk_ct_68257b79b9b4d6e65b0e79f0",
-    "name": "Security of assets off-premises",
-    "description": "Secure Off-Premises Assets",
-    "createdAt": "2025-05-15 05:28:25.261",
-    "updatedAt": "2025-05-16 06:33:46.320"
-  },
-  {
-    "id": "frk_ct_68257b79a261d4cc28a016c4",
-    "name": "Storage media",
-    "description": "Protect and Manage Removable Media",
-    "createdAt": "2025-05-15 05:28:25.420",
-    "updatedAt": "2025-05-16 06:33:46.541"
-  },
-  {
-    "id": "frk_ct_68257c823279785197bfa39c",
-    "name": "Supporting utilities",
-    "description": "Ensure Security of Utilities",
-    "createdAt": "2025-05-15 05:32:50.356",
-    "updatedAt": "2025-05-16 06:33:46.728"
-  },
-  {
-    "id": "frk_ct_68257c83bc2103d487f9cb07",
-    "name": "Cabling security",
-    "description": "Protect Cables from Interception or Damage",
-    "createdAt": "2025-05-15 05:32:50.594",
-    "updatedAt": "2025-05-16 06:33:46.926"
-  },
-  {
-    "id": "frk_ct_68257c832d300691420aa693",
-    "name": "Equipment maintenance",
-    "description": "Maintain Equipment Securely",
-    "createdAt": "2025-05-15 05:32:50.789",
-    "updatedAt": "2025-05-16 06:33:47.157"
-  },
-  {
-    "id": "frk_ct_68257c832c83f97420cb2397",
-    "name": "User endpoint devices",
-    "description": "Secure User Endpoint Devices",
-    "createdAt": "2025-05-15 05:32:51.108",
-    "updatedAt": "2025-05-16 06:33:47.578"
-  },
-  {
-    "id": "frk_ct_68257c83ce6c664bb55a5eaa",
-    "name": "Privileged access rights",
-    "description": "Manage Privileged Access Rights",
-    "createdAt": "2025-05-15 05:32:51.266",
-    "updatedAt": "2025-05-16 06:33:47.805"
-  },
-  {
-    "id": "frk_ct_68257c83575a9e4cd0609e57",
-    "name": "Information access restriction",
-    "description": "Restrict Access to Information",
-    "createdAt": "2025-05-15 05:32:51.437",
-    "updatedAt": "2025-05-16 06:33:48.033"
-  },
-  {
-    "id": "frk_ct_68257c84b9312c2a755e9856",
-    "name": "Access to source code",
-    "description": "Control Access to Source Code",
-    "createdAt": "2025-05-15 05:32:51.588",
-    "updatedAt": "2025-05-16 06:33:48.191"
-  },
-  {
-    "id": "frk_ct_68257c843eb14ca0fd67c607",
-    "name": "Secure authentication",
-    "description": "Implement Secure Authentication",
-    "createdAt": "2025-05-15 05:32:51.742",
-    "updatedAt": "2025-05-16 06:33:48.354"
-  },
-  {
-    "id": "frk_ct_68257c84c5f7dde7ca228077",
-    "name": "Capacity management",
+    "id": "frk_ct_683f4b7614d209f8b6ffd477",
+    "name": "Resource Capacity Management",
     "description": "Perform Capacity Management for Resources",
-    "createdAt": "2025-05-15 05:32:51.897",
-    "updatedAt": "2025-05-16 06:33:48.679"
+    "createdAt": "2025-06-03 19:22:30.199",
+    "updatedAt": "2025-06-04 19:41:03.729"
   },
   {
-    "id": "frk_ct_68257c84882e85fdec96c586",
-    "name": "Protection against malware",
-    "description": "Protect Systems Against Malware",
-    "createdAt": "2025-05-15 05:32:52.054",
-    "updatedAt": "2025-05-16 06:37:11.815"
-  },
-  {
-    "id": "frk_ct_68257c846d813b307758bbde",
-    "name": "Management of technical vulnerabilities",
-    "description": "Manage Technical Vulnerabilities and Patches",
-    "createdAt": "2025-05-15 05:32:52.209",
-    "updatedAt": "2025-05-16 06:37:12.056"
-  },
-  {
-    "id": "frk_ct_68257c84ddf1e2b8f0d8e748",
-    "name": "Configuration management",
-    "description": "Implement Secure Configuration Management",
-    "createdAt": "2025-05-15 05:32:52.362",
-    "updatedAt": "2025-05-16 06:37:12.210"
-  },
-  {
-    "id": "frk_ct_68257c854a920c4f48efaec1",
-    "name": "Information deletion",
-    "description": "Ensure Secure Deletion of Data",
-    "createdAt": "2025-05-15 05:32:52.510",
-    "updatedAt": "2025-05-16 06:37:12.389"
-  },
-  {
-    "id": "frk_ct_68257c85630ac98cafc8ffe7",
-    "name": "Data masking",
-    "description": "Implement Data Masking for Sensitive Data",
-    "createdAt": "2025-05-15 05:32:52.660",
-    "updatedAt": "2025-05-16 06:37:12.568"
-  },
-  {
-    "id": "frk_ct_68257c85254d22991b9359ad",
-    "name": "Data leakage prevention",
-    "description": "Prevent Data Leakage",
-    "createdAt": "2025-05-15 05:32:52.813",
-    "updatedAt": "2025-05-16 06:37:12.788"
-  },
-  {
-    "id": "frk_ct_68257c8579b8506457ba5792",
-    "name": "Information backup",
-    "description": "Back Up Information Regularly",
-    "createdAt": "2025-05-15 05:32:52.962",
-    "updatedAt": "2025-05-16 06:37:12.956"
-  },
-  {
-    "id": "frk_ct_68257c8522174d14596e4f02",
-    "name": "Logging",
-    "description": "Enable Logging of Security Events",
-    "createdAt": "2025-05-15 05:32:53.278",
-    "updatedAt": "2025-05-16 06:37:13.263"
-  },
-  {
-    "id": "frk_ct_68257c85125fbb0cd22580df",
-    "name": "Monitoring activities",
-    "description": "Monitor Systems for Security Events",
-    "createdAt": "2025-05-15 05:32:53.445",
-    "updatedAt": "2025-05-16 06:37:13.417"
-  },
-  {
-    "id": "frk_ct_68257d3deaa6d3b47bdf4581",
-    "name": "Clock synchronization",
-    "description": "Synchronize System Clocks",
-    "createdAt": "2025-05-15 05:35:57.081",
-    "updatedAt": "2025-05-16 06:37:13.572"
-  },
-  {
-    "id": "frk_ct_68257d3d1cf492b6b94c23c0",
-    "name": "Use of privileged utility programs",
-    "description": "Control Use of Privileged Utilities",
-    "createdAt": "2025-05-15 05:35:57.377",
-    "updatedAt": "2025-05-16 06:37:13.737"
-  },
-  {
-    "id": "frk_ct_68257d3eac14828df9620637",
-    "name": "Installation of software on operational systems",
-    "description": "Control Software Installation on Systems",
-    "createdAt": "2025-05-15 05:35:57.552",
-    "updatedAt": "2025-05-16 06:37:13.895"
-  },
-  {
-    "id": "frk_ct_68257d3e78de01a147544960",
-    "name": "Networks security",
-    "description": "Implement Network Security Controls",
-    "createdAt": "2025-05-15 05:35:57.705",
-    "updatedAt": "2025-05-16 06:37:14.055"
-  },
-  {
-    "id": "frk_ct_68257d3ed093e55a2dd23b78",
-    "name": "Security of network services",
-    "description": "Ensure Security of Network Services",
-    "createdAt": "2025-05-15 05:35:57.867",
-    "updatedAt": "2025-05-16 06:37:14.214"
-  },
-  {
-    "id": "frk_ct_68257d3ea6662c7087f59ad0",
-    "name": "Segregation of networks",
-    "description": "Segregate Networks",
-    "createdAt": "2025-05-15 05:35:58.031",
-    "updatedAt": "2025-05-16 06:37:14.365"
-  },
-  {
-    "id": "frk_ct_68257d3e450af8736b49e858",
-    "name": "Web filtering",
-    "description": "Implement Web Content Filtering",
-    "createdAt": "2025-05-15 05:35:58.188",
-    "updatedAt": "2025-05-16 06:37:14.532"
-  },
-  {
-    "id": "frk_ct_68257d3e66e2445f216f0622",
-    "name": "Use of cryptography",
-    "description": "Use Appropriate Cryptographic Controls",
-    "createdAt": "2025-05-15 05:35:58.350",
-    "updatedAt": "2025-05-16 06:37:14.730"
-  },
-  {
-    "id": "frk_ct_68257d3ffa46ae099f302d7c",
-    "name": "Secure development life cycle",
-    "description": "Adopt a Secure Development Life Cycle",
-    "createdAt": "2025-05-15 05:35:58.508",
-    "updatedAt": "2025-05-16 06:37:14.915"
-  },
-  {
-    "id": "frk_ct_68257d3f503d4f4ff6104c0d",
-    "name": "Secure system architecture and engineering principles",
-    "description": "Apply Secure Architecture and Engineering Principles",
-    "createdAt": "2025-05-15 05:35:58.814",
-    "updatedAt": "2025-05-16 06:37:15.224"
-  },
-  {
-    "id": "frk_ct_68257d3fcdb52d79e5eae03c",
-    "name": "Secure coding",
-    "description": "Adopt Secure Coding Practices",
-    "createdAt": "2025-05-15 05:35:58.963",
-    "updatedAt": "2025-05-16 06:37:15.476"
-  },
-  {
-    "id": "frk_ct_68257d3f826abe8ce6f97aa9",
-    "name": "Security testing in development and acceptance",
-    "description": "Perform Security Testing in Development and Acceptance",
-    "createdAt": "2025-05-15 05:35:59.124",
-    "updatedAt": "2025-05-16 06:37:15.659"
-  },
-  {
-    "id": "frk_ct_68257d3fdc7108cc189ba8b9",
-    "name": "Outsourced development",
-    "description": "Manage Security in Outsourced Development",
-    "createdAt": "2025-05-15 05:35:59.279",
-    "updatedAt": "2025-05-16 06:37:15.812"
-  },
-  {
-    "id": "frk_ct_68257d3fc71567322c285ed9",
-    "name": "Separation of development, test and production environments",
-    "description": "Separate Development, Test, and Production Environments",
-    "createdAt": "2025-05-15 05:35:59.441",
-    "updatedAt": "2025-05-16 06:37:15.958"
-  },
-  {
-    "id": "frk_ct_68257d40cc4edb6308b9e6e6",
+    "id": "frk_ct_683f4c30e2d3f1117fa58e13",
     "name": "Change management",
     "description": "Apply Change Management for Information Systems",
-    "createdAt": "2025-05-15 05:35:59.590",
-    "updatedAt": "2025-05-16 06:37:16.113"
+    "createdAt": "2025-06-03 19:25:36.373",
+    "updatedAt": "2025-06-04 19:41:03.850"
   },
   {
-    "id": "frk_ct_68257d40fcac4d36fddb6e7a",
-    "name": "Test information",
-    "description": "Protect Sensitive Test Data",
-    "createdAt": "2025-05-15 05:35:59.762",
-    "updatedAt": "2025-05-16 06:37:16.375"
+    "id": "frk_ct_683f4c9db20e7cf4a303af1f",
+    "name": "Compliance Register",
+    "description": "Maintain compliance register exceptions",
+    "createdAt": "2025-06-03 19:27:24.623",
+    "updatedAt": "2025-06-04 19:41:03.972"
   },
   {
-    "id": "frk_ct_68257d40d8112e98abab1d21",
-    "name": "Protection of information systems during audit and testing",
-    "description": "Protect Systems During Audits and Testing",
-    "createdAt": "2025-05-15 05:35:59.914",
-    "updatedAt": "2025-05-16 06:37:16.565"
+    "id": "frk_ct_683f4cf6afd7a19be2d4432c",
+    "name": "Configuration management",
+    "description": "Implement Secure Configuration Management",
+    "createdAt": "2025-06-03 19:28:54.395",
+    "updatedAt": "2025-06-04 19:41:04.126"
   },
   {
-    "id": "frk_ct_68257b40873b0900545905b2",
-    "name": "Information security awareness, education and training",
-    "description": "Provide Information Security Awareness and Training",
-    "createdAt": "2025-05-15 05:27:28.421",
-    "updatedAt": "2025-05-16 06:14:06.830"
+    "id": "frk_ct_683f4d7360a876b972aba39a",
+    "name": "Vulnerability Disclosure",
+    "description": "Public CVD channel; triage",
+    "createdAt": "2025-06-03 19:30:59.173",
+    "updatedAt": "2025-06-04 19:41:04.258"
   },
   {
-    "id": "frk_ct_68257a1cbbb440415393e176",
-    "name": "Managing information security in the ICT supply chain",
-    "description": "Manage Security in the ICT Supply Chain",
-    "createdAt": "2025-05-15 05:22:35.519",
-    "updatedAt": "2025-05-16 05:59:34.684"
+    "id": "frk_ct_683f4dd564057a97ae323c9f",
+    "name": "Disaster Recovery Planning",
+    "description": "Test DR; meet RTO/RPO",
+    "createdAt": "2025-06-03 19:32:37.325",
+    "updatedAt": "2025-06-04 19:41:04.410"
   },
   {
-    "id": "frk_ct_6826d559729899533d6448ad",
-    "name": "Risk Management Program",
-    "description": "Maintain a Risk Management program",
-    "createdAt": "2025-05-16 06:04:09.095",
-    "updatedAt": "2025-05-16 06:04:09.095"
+    "id": "frk_ct_683f4ef6c6a5481a377be413",
+    "name": "Standard Operating Procedures (SOPs)",
+    "description": "Document Operational Procedures",
+    "createdAt": "2025-06-03 19:37:26.001",
+    "updatedAt": "2025-06-04 19:41:04.534"
   },
   {
-    "id": "frk_ct_68257a912373223d5eb6da0f",
-    "name": "Legal, statutory, regulatory and contractual requirements",
-    "description": "Identify and Comply with Legal and Contractual Requirements",
-    "createdAt": "2025-05-15 05:24:33.422",
-    "updatedAt": "2025-05-16 06:12:13.402"
+    "id": "frk_ct_683f4f59dea367ca96145e14",
+    "name": "Independent ISMS Review",
+    "description": "Conduct Independent Review of the ISMS",
+    "createdAt": "2025-06-03 19:39:04.628",
+    "updatedAt": "2025-06-04 19:41:04.669"
   },
   {
-    "id": "frk_ct_68257b4096e29810708e8f47",
-    "name": "Terms and conditions of employment",
-    "description": "Include Security in Employment Terms and Conditions",
-    "createdAt": "2025-05-15 05:27:28.258",
-    "updatedAt": "2025-05-16 06:14:06.655"
+    "id": "frk_ct_683f50556124040dc15d62cb",
+    "name": "Continuity-Time Security",
+    "description": "Maintain Security During Disruptions",
+    "createdAt": "2025-06-03 19:43:16.530",
+    "updatedAt": "2025-06-04 19:41:04.806"
   },
   {
-    "id": "frk_ct_68257b41bffad919f3ac218a",
-    "name": "Responsibilities after termination or change of employment",
-    "description": "Address Security Responsibilities After Termination",
-    "createdAt": "2025-05-15 05:27:28.801",
-    "updatedAt": "2025-05-16 06:14:07.142"
+    "id": "frk_ct_683f50aae46f5e4e096e6bb3",
+    "name": "Secure SDLC Integration",
+    "description": "Integrate Information Security into Project Management",
+    "createdAt": "2025-06-03 19:44:41.732",
+    "updatedAt": "2025-06-04 19:41:04.941"
   },
   {
-    "id": "frk_ct_68257c8391427752506791b8",
-    "name": "Secure disposal or reuse of equipment",
-    "description": "Ensure Secure Disposal of Equipment",
-    "createdAt": "2025-05-15 05:32:50.943",
-    "updatedAt": "2025-05-16 06:33:47.323"
+    "id": "frk_ct_684070c1f0091d850df02e59",
+    "name": "Mobile Security",
+    "description": "Enforce MDM on mobile",
+    "createdAt": "2025-06-04 16:13:52.979",
+    "updatedAt": "2025-06-04 19:41:05.484"
   },
   {
-    "id": "frk_ct_68257c85e28246dc477a2f9d",
-    "name": "Redundancy of information-processing facilities",
-    "description": "Implement Redundancy for Critical Systems",
-    "createdAt": "2025-05-15 05:32:53.117",
-    "updatedAt": "2025-05-16 06:37:13.107"
+    "id": "frk_ct_684070f0b4f6c2036306e23c",
+    "name": "Network Security",
+    "description": "Enforce segmentation and firewalls",
+    "createdAt": "2025-06-04 16:14:40.321",
+    "updatedAt": "2025-06-04 19:41:05.635"
   },
   {
-    "id": "frk_ct_68257d3f9c52019e6454d2f7",
-    "name": "Application security requirements",
-    "description": "Define Security Requirements for Applications",
-    "createdAt": "2025-05-15 05:35:58.657",
-    "updatedAt": "2025-05-16 06:37:15.068"
+    "id": "frk_ct_68407122565b1968676d93db",
+    "name": "Physical Access Control",
+    "description": "Control Physical Entry to Facilities",
+    "createdAt": "2025-06-04 16:15:29.760",
+    "updatedAt": "2025-06-04 19:41:05.759"
+  },
+  {
+    "id": "frk_ct_68407406644c56d42eac3295",
+    "name": "Endpoint Security",
+    "description": "Secure User Endpoint Devices",
+    "createdAt": "2025-06-04 16:27:49.808",
+    "updatedAt": "2025-06-04 19:41:06.874"
+  },
+  {
+    "id": "frk_ct_683f3ecd42e62fde624c59c1",
+    "name": "Policy Compliance",
+    "description": "Ensure Compliance with Security Policies and Standards",
+    "createdAt": "2025-06-03 18:28:29.154",
+    "updatedAt": "2025-06-04 19:41:01.555"
+  },
+  {
+    "id": "frk_ct_683f4036b541126388e2989a",
+    "name": "Security Governance Roles",
+    "description": "Define Security Roles and Responsibilities",
+    "createdAt": "2025-06-03 18:34:29.668",
+    "updatedAt": "2025-06-04 19:41:01.679"
+  },
+  {
+    "id": "frk_ct_683f41e775f4ca03d8f6bae2",
+    "name": "Management Security Accountability",
+    "description": "Ensure Management Addresses Security Responsibilities",
+    "createdAt": "2025-06-03 18:41:43.467",
+    "updatedAt": "2025-06-04 19:41:01.801"
+  },
+  {
+    "id": "frk_ct_683f42c71eea99f22f9df060",
+    "name": "Asset Inventory",
+    "description": "Maintain an Inventory of Information Assets",
+    "createdAt": "2025-06-03 18:45:27.396",
+    "updatedAt": "2025-06-04 19:41:01.922"
+  },
+  {
+    "id": "frk_ct_683f43a65de3b6044e63220f",
+    "name": "Personnel Security",
+    "description": "Screen onboard offboard securely",
+    "createdAt": "2025-06-03 18:49:09.819",
+    "updatedAt": "2025-06-04 19:41:02.105"
+  },
+  {
+    "id": "frk_ct_683f4457b14856e700c8c25b",
+    "name": "Disciplinary process",
+    "description": "Establish a Disciplinary Process for Security Violations",
+    "createdAt": "2025-06-03 18:52:06.698",
+    "updatedAt": "2025-06-04 19:41:02.231"
+  },
+  {
+    "id": "frk_ct_683f44c8074680be528353c1",
+    "name": "Data Retention & Destruction",
+    "description": "Follow retention; securely dispose",
+    "createdAt": "2025-06-03 18:54:00.325",
+    "updatedAt": "2025-06-04 19:41:02.378"
+  },
+  {
+    "id": "frk_ct_683f45c5058c486f3fa5b7bc",
+    "name": "Regulatory Liaison",
+    "description": "Maintain Contact with Authorities",
+    "createdAt": "2025-06-03 18:58:13.372",
+    "updatedAt": "2025-06-04 19:41:02.510"
+  },
+  {
+    "id": "frk_ct_683f464bec8bea67de7b9c31",
+    "name": "Information Classification",
+    "description": "Classify Information by Sensitivity",
+    "createdAt": "2025-06-03 19:00:26.503",
+    "updatedAt": "2025-06-04 19:41:02.645"
+  },
+  {
+    "id": "frk_ct_683f46f3f181af3f93773c1d",
+    "name": "Security Monitoring & Detection",
+    "description": "Central SIEM with alerting",
+    "createdAt": "2025-06-03 19:03:14.483",
+    "updatedAt": "2025-06-04 19:41:02.777"
+  },
+  {
+    "id": "frk_ct_683f47cc2faa426603d6bee8",
+    "name": "Security Incident Management",
+    "description": "Establish an Incident Management Policy and Procedures",
+    "createdAt": "2025-06-03 19:06:52.138",
+    "updatedAt": "2025-06-04 19:41:03.035"
+  },
+  {
+    "id": "frk_ct_683f484fc7b5506ab97c26af",
+    "name": "Risk Management",
+    "description": "Maintain a Risk Management Program",
+    "createdAt": "2025-06-03 19:09:02.849",
+    "updatedAt": "2025-06-04 19:41:03.156"
+  },
+  {
+    "id": "frk_ct_683f48ee9534e1e0a088e922",
+    "name": "Supplier Security",
+    "description": "Ensure Security in Supplier Relationships",
+    "createdAt": "2025-06-03 19:11:41.449",
+    "updatedAt": "2025-06-04 19:41:03.278"
   }
 ]

@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -23,8 +22,6 @@ export function TaskOverviewSheet({
 }: {
 	task: Task;
 }) {
-	const t = useI18n();
-
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("task-overview-sheet");
 	const isOpen = Boolean(open);
@@ -40,7 +37,7 @@ export function TaskOverviewSheet({
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{t("risk.tasks.sheet.update")}
+								{"Update Task"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -52,7 +49,7 @@ export function TaskOverviewSheet({
 							</Button>
 						</div>{" "}
 						<SheetDescription>
-							{t("risk.tasks.sheet.update_description")}
+							{"Update task details and metadata"}
 						</SheetDescription>
 					</SheetHeader>
 
@@ -66,7 +63,7 @@ export function TaskOverviewSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.form.update_risk")}</DrawerTitle>
+			<DrawerTitle hidden>{"Update Risk"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<UpdateTaskOverviewForm task={task} />
 			</DrawerContent>

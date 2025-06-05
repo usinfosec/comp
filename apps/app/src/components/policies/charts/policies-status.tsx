@@ -1,7 +1,6 @@
 "use client";
 
 import { PieChart } from "@/components/ui/pie-chart";
-import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { cn } from "@comp/ui/cn";
 
@@ -20,8 +19,6 @@ export function PoliciesStatus({
 	archivedPolicies,
 	needsReviewPolicies,
 }: Props) {
-	const t = useI18n();
-
 	const statusCounts = {
 		published: publishedPolicies,
 		draft: draftPolicies,
@@ -31,25 +28,25 @@ export function PoliciesStatus({
 
 	const data = [
 		{
-			name: t("policies.status.published"),
+			name: "Published",
 			value: statusCounts.published,
 			color: "var(--chart-closed)",
 			colorClass: "bg-[var(--chart-closed)]",
 		},
 		{
-			name: t("policies.status.draft"),
+			name: "Draft",
 			value: statusCounts.draft,
 			color: "var(--chart-open)",
 			colorClass: "bg-[var(--chart-open)]",
 		},
 		{
-			name: t("policies.status.archived"),
+			name: "Archived",
 			value: statusCounts.archived,
 			color: "var(--chart-pending)",
 			colorClass: "bg-[var(--chart-pending)]",
 		},
 		{
-			name: t("policies.status.needs_review"),
+			name: "Needs Review",
 			value: statusCounts.needs_review,
 			color: "hsl(var(--destructive))",
 			colorClass: "bg-[hsl(var(--destructive))]",
@@ -59,7 +56,7 @@ export function PoliciesStatus({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("policies.dashboard.policy_status")}</CardTitle>
+				<CardTitle>{"Policy by Status"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<PieChart data={data} />

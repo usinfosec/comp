@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -53,8 +52,6 @@ export function FileCard({
 	onPreviewClick,
 	onDelete,
 }: FileCardProps) {
-	const t = useI18n();
-
 	const fileName = url.split("/").pop() || url;
 	const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
 	const isPdf = /\.pdf$/i.test(fileName);
@@ -129,7 +126,7 @@ export function FileCard({
 										variant="ghost"
 										className="text-xs text-muted-foreground hover:text-foreground"
 									>
-										{t("common.upload.fileCard.preview")}
+										{"Preview"}
 									</Button>
 								</DialogTrigger>
 							</div>
@@ -152,9 +149,7 @@ export function FileCard({
 					<DialogContent className="max-w-4xl w-full">
 						<DialogTitle className="flex items-center justify-between mb-4">
 							<span>
-								{t("common.upload.fileCard.filePreview", {
-									fileName,
-								})}
+								{`File Preview: ${fileName}`}
 							</span>
 						</DialogTitle>
 
@@ -179,9 +174,7 @@ export function FileCard({
 								) : (
 									<div className="flex items-center justify-center h-full">
 										<p className="text-muted-foreground">
-											{t(
-												"common.upload.fileCard.previewNotAvailable",
-											)}
+											{"Preview not available for this file type"}
 										</p>
 									</div>
 								)}
@@ -221,7 +214,7 @@ export function FileCard({
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent>
-							<p>{t("common.upload.fileCard.openFile")}</p>
+							<p>{"Open File"}</p>
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
@@ -241,29 +234,25 @@ export function FileCard({
 								</AlertDialogTrigger>
 							</TooltipTrigger>
 							<TooltipContent>
-								<p>{t("common.upload.fileCard.deleteFile")}</p>
+								<p>{"Delete File"}</p>
 							</TooltipContent>
 						</Tooltip>
 					</TooltipProvider>
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
-								{t(
-									"common.upload.fileCard.deleteFileConfirmTitle",
-								)}
+								{"Delete File"}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t(
-									"common.upload.fileCard.deleteFileConfirmDescription",
-								)}
+								{"This action cannot be undone. The file will be permanently deleted."}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
 							<AlertDialogCancel>
-								{t("common.actions.cancel")}
+								{"Cancel"}
 							</AlertDialogCancel>
 							<AlertDialogAction onClick={() => onDelete(url)}>
-								{t("common.actions.delete")}
+								{"Delete"}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

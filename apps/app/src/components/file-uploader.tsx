@@ -10,7 +10,6 @@ import Dropzone, {
 import { toast } from "sonner";
 
 import { useControllableState } from "@/hooks/use-controllable-state";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { cn, formatBytes } from "@comp/ui/cn";
 import { Progress } from "@comp/ui/progress";
@@ -94,8 +93,6 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function FileUploader(props: FileUploaderProps) {
-	const t = useI18n();
-
 	const {
 		value: valueProp,
 		onValueChange,
@@ -123,23 +120,21 @@ export function FileUploader(props: FileUploaderProps) {
 		(acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
 			if (!multiple && maxFileCount === 1 && acceptedFiles.length > 1) {
 				toast.error(
-					t("common.attachments.toasts.error_uploading_files"),
+					"Cannot upload more than 1 file at a time",
 				);
 				return;
 			}
 
 			if ((files?.length ?? 0) + acceptedFiles.length > maxFileCount) {
 				toast.error(
-					t(
-						"common.attachments.toasts.error_uploading_files_multiple",
-					),
+					"Cannot upload more files than the maximum allowed",
 				);
 				return;
 			}
 
 			if (acceptedFiles.length === 0) {
 				toast.error(
-					t("common.attachments.toasts.error_no_files_selected"),
+					"No files selected",
 				);
 				return;
 			}
@@ -157,9 +152,7 @@ export function FileUploader(props: FileUploaderProps) {
 			if (rejectedFiles.length > 0) {
 				for (const { file } of rejectedFiles) {
 					toast.error(
-						t("common.attachments.toasts.error_file_rejected", {
-							file: file.name,
-						}),
+						`File ${file.name} was rejected`,
 					);
 				}
 			}
@@ -175,18 +168,12 @@ export function FileUploader(props: FileUploaderProps) {
 						: "a file";
 
 				toast.promise(onUpload(updatedFiles), {
-					loading: t("common.attachments.toasts.uploading_files", {
-						target,
-					}),
+					loading: `Uploading ${target}...`,
 					success: () => {
 						setFiles([]);
-						return t(
-							"common.attachments.toasts.success_uploading_files_target",
-						);
+						return "Files uploaded";
 					},
-					error: t(
-						"common.attachments.toasts.error_failed_to_upload_files",
-					),
+					error: "Failed to upload files",
 				});
 			}
 		},
@@ -227,7 +214,7 @@ export function FileUploader(props: FileUploaderProps) {
 			>
 				{({ getRootProps, getInputProps, isDragActive }) => (
 					<div
-						{...getRootProps()}
+						{...(getRootProps() as React.HTMLProps<HTMLDivElement>)}
 						className={cn(
 							"group relative grid h-52 w-full cursor-pointer place-items-center border-2 border-dashed border-muted-foreground/25 px-5 py-2.5 text-center transition hover:bg-muted/25",
 							"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -247,7 +234,7 @@ export function FileUploader(props: FileUploaderProps) {
 									/>
 								</div>
 								<p className="font-medium text-muted-foreground">
-									{t("common.attachments.drop")}
+									{"Drop the files here"}
 								</p>
 							</div>
 						) : (
@@ -260,14 +247,10 @@ export function FileUploader(props: FileUploaderProps) {
 								</div>
 								<div className="flex flex-col gap-px">
 									<p className="font-medium text-muted-foreground">
-										{t(
-											"common.attachments.drop_description",
-										)}
+										{"Drop files here or click to choose files from your device."}
 									</p>
 									<p className="text-sm text-muted-foreground/70">
-										{t(
-											"common.attachments.drop_files_description",
-										)}{" "}
+										{"Files can be up to "}{" "}
 										{formatBytes(maxSize)}.
 									</p>
 								</div>
@@ -301,8 +284,6 @@ interface FileCardProps {
 }
 
 function FileCard({ file, progress, onRemove }: FileCardProps) {
-	const t = useI18n();
-
 	return (
 		<div className="relative flex items-center gap-2.5">
 			<div className="flex flex-1 gap-2.5">

@@ -17,6 +17,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+      issues: write
     steps:
       - name: Add permissions
         run: git config --global --add safe.directory /github/workspace
@@ -33,6 +34,3 @@ jobs:
           pr_body: |
             This is an automated pull request to merge ${{ github.ref_name }} into dev.
             It was created by the [Auto Pull Request] action.
-            Note: This should only be merged after the following checklist is complete:
-            - [ ] Tested in local environment
-            - [ ] Created relevant migrations (if any)

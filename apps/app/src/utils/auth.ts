@@ -41,11 +41,11 @@ export const auth = betterAuth({
 		"https://dev.trycomp.ai",
 	],
 	advanced: {
-                database: {
-                        // This will enable us to fall back to DB for ID generation.
-                        // It's important so we can use custom IDs specified in Prisma Schema.
-                        generateId: false,
-                },
+		database: {
+			// This will enable us to fall back to DB for ID generation.
+			// It's important so we can use custom IDs specified in Prisma Schema.
+			generateId: false,
+		},
 	},
 	secret: process.env.AUTH_SECRET!,
 	plugins: [
@@ -53,9 +53,16 @@ export const auth = betterAuth({
 			async sendInvitationEmail(data) {
 				const isLocalhost = process.env.NODE_ENV === "development";
 				const protocol = isLocalhost ? "http" : "https";
-				const domain = isLocalhost
-					? "localhost:3000"
-					: "app.trycomp.ai";
+
+				const betterAuthUrl = process.env.BETTER_AUTH_URL;
+				const isDevEnv = betterAuthUrl?.includes("dev.trycomp.ai");
+				const isProdEnv = betterAuthUrl?.includes("app.trycomp.ai");
+
+				const domain = isDevEnv
+					? "dev.trycomp.ai"
+					: isProdEnv
+						? "app.trycomp.ai"
+						: "localhost:3000";
 				const inviteLink = `${protocol}://${domain}/auth?inviteCode=${data.invitation.id}`;
 
 				await sendInviteMemberEmail({

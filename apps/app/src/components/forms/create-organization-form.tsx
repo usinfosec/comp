@@ -2,7 +2,6 @@
 
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import type { FrameworkEditorFramework } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -17,7 +16,6 @@ import {
 	FormMessage,
 } from "@comp/ui/form";
 import { Icons } from "@comp/ui/icons";
-import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Loader2 } from "lucide-react";
@@ -40,8 +38,6 @@ interface OnboardingClientProps {
 export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
 	const router = useRouter();
-	const t = useI18n();
-
 	const createOrganization = useAction(createOrganizationAction, {
 		onSuccess: async () => {
 			sendGTMEvent({
@@ -51,7 +47,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 			router.push("/");
 		},
 		onError: () => {
-			toast.error(t("common.actions.error"));
+			toast.error("Error");
 		},
 		onExecute: () => {
 			setIsCreatingOrganization(true);
@@ -62,15 +58,10 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 		const randomSuffix = Math.floor(
 			100000 + Math.random() * 900000,
 		).toString();
-		const slug = `${data.name
-			.toLowerCase()
-			.trim()
-			.replace(/[^\w\s-]/g, "")
-			.replace(/[\s_-]+/g, "-")}-${randomSuffix}`;
 
 		await authClient.organization.create({
-			name: data.name,
-			slug,
+			name: "My Organization",
+			slug: `my-organization-${randomSuffix}`,
 		});
 
 		createOrganization.execute({
@@ -81,9 +72,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 	const form = useForm<z.infer<typeof organizationSchema>>({
 		resolver: zodResolver(organizationSchema),
 		defaultValues: {
-			name: "",
 			frameworkIds: [],
-			website: "",
 		},
 		mode: "onChange",
 	});
@@ -96,10 +85,10 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 						<div className="flex flex-col gap-2 justify-center">
 							<LogoSpinner />
 							<h2 className="text-xl font-semibold text-center tracking-tight">
-								{t("onboarding.trigger.title")}
+								{"Hold tight, we're creating your organization"}
 							</h2>
 							<p className="text-center text-sm text-muted-foreground">
-								{t("onboarding.trigger.creating")}
+								{"This may take a minute or two..."}
 							</p>
 						</div>
 					</div>
@@ -119,10 +108,10 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 
 				<div className="mb-8 space-y-2">
 					<h1 className="text-2xl font-semibold tracking-tight">
-						{t("onboarding.setup")}
+						Welcome to Comp AI
 					</h1>
 					<p className="text-sm text-muted-foreground">
-						{t("onboarding.description")}
+						Select the frameworks you use to get started. You can add more later.
 					</p>
 				</div>
 
@@ -134,55 +123,11 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 					>
 						<FormField
 							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.name.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.name.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="website"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.website.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.website.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
 							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">
-										{t("frameworks.overview.grid.title")}
+										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
@@ -201,7 +146,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																field.value.includes(
 																	framework.id,
 																) &&
-																	"border-primary bg-primary/5",
+																"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
@@ -217,7 +162,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																		}
 																	</p>
 																	<p className="text-xs text-muted-foreground/75 mt-2">
-																		{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+																		{`${"Version"}: ${framework.version}`}
 																	</p>
 																</div>
 																<div>
@@ -233,16 +178,16 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																			const newValue =
 																				checked
 																					? [
-																							...field.value,
-																							framework.id,
-																						]
+																						...field.value,
+																						framework.id,
+																					]
 																					: field.value.filter(
-																							(
-																								currentFrameworkId,
-																							) =>
-																								currentFrameworkId !==
-																								framework.id,
-																						);
+																						(
+																							currentFrameworkId,
+																						) =>
+																							currentFrameworkId !==
+																							framework.id,
+																					);
 																			field.onChange(
 																				newValue,
 																			);
@@ -269,7 +214,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 							{createOrganization.status === "executing" && (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							)}
-							{t("onboarding.submit")}
+							{"Finish setup"}
 						</Button>
 					</form>
 				</Form>

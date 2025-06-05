@@ -26,6 +26,7 @@ export const FrameworkEditorFrameworkSchema = z.object({
   name: z.string(),
   version: z.string(),
   description: z.string(),
+  visible: z.boolean().optional(), // @default(true)
   // requirements: FrameworkEditorRequirement[] - relational, omitted
   // frameworkInstances: FrameworkInstance[] - relational, omitted
   createdAt: z.preprocess(datePreprocess, z.string().datetime({ message: "Invalid datetime string for createdAt. Expected ISO 8601 format." })).optional(), // @default(now())

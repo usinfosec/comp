@@ -1,7 +1,6 @@
 "use client";
 
 import { CreateRiskSheet } from "@/components/sheets/create-risk-sheet";
-import { useI18n } from "@/locales/client";
 import { Departments, Member, RiskStatus, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
@@ -36,7 +35,6 @@ const statusTranslationKeys = {
 } as const;
 
 export function FilterToolbar({ isEmpty, users }: Props) {
-	const t = useI18n();
 	const [isPending, startTransition] = useTransition();
 	const [open, setOpen] = useQueryState("create-risk-sheet");
 
@@ -123,7 +121,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				<div className="relative flex-1 md:max-w-sm">
 					<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
 					<Input
-						placeholder={t("common.filters.search")}
+						placeholder={"Search..."}
 						className="pl-8"
 						value={search || ""}
 						onChange={(e) => setSearch(e.target.value || null)}
@@ -133,7 +131,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				<div className="md:hidden">
 					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
-						{t("common.actions.addNew")}
+						{"Add New"}
 					</Button>
 				</div>
 			</div>
@@ -144,16 +142,12 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 					onValueChange={(value) => setStatus(value || null)}
 				>
 					<SelectTrigger className="w-auto min-w-[100px]">
-						<SelectValue placeholder={t("common.filters.status")} />
+						<SelectValue placeholder={"Status"} />
 					</SelectTrigger>
 					<SelectContent>
 						{riskStatuses.map((stat) => (
 							<SelectItem key={stat} value={stat}>
-								{t(
-									statusTranslationKeys[
-									stat.toLowerCase() as keyof typeof statusTranslationKeys
-									],
-								)}
+								{stat.charAt(0).toUpperCase() + stat.slice(1).replace(/_/g, " ")}
 							</SelectItem>
 						))}
 					</SelectContent>
@@ -165,7 +159,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				>
 					<SelectTrigger className="w-[150px] min-w-[150px]">
 						<SelectValue
-							placeholder={t("common.filters.department")}
+							placeholder={"Department"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
@@ -183,9 +177,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				>
 					<SelectTrigger className="w-[200px] min-w-[200px]">
 						<SelectValue
-							placeholder={t(
-								"common.filters.assignee.placeholder",
-							)}
+							placeholder={"Filter by assignee"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
@@ -205,13 +197,13 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 						disabled={isPending}
 					>
 						<X className="h-4 w-4 mr-2" />
-						{t("common.actions.clear")}
+						{"Clear"}
 					</Button>
 				)}
 
 				<Button onClick={() => setOpen("true")} variant="default">
 					<Plus className="h-4 w-4" />
-					{t("common.actions.addNew")}
+					{"Add New"}
 				</Button>
 			</div>
 

@@ -100,7 +100,7 @@ export function OrganizationIntegration({
 	}
 
 	return (
-		<div className="space-y-8">
+		<div className="space-y-4">
 			{Object.entries(integrationsByCategory).map(([category, items]) => (
 				<div key={category}>
 					<h2 className="text-lg font-medium mb-4">{category}</h2>
