@@ -5,7 +5,6 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import { Policy } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
@@ -23,7 +22,6 @@ export function PoliciesTable({
 	orgId,
 	controlId,
 }: PoliciesTableProps) {
-	const t = useI18n();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const columns = useMemo<ColumnDef<Policy>[]>(
@@ -33,7 +31,7 @@ export function PoliciesTable({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.artifacts.table.name")}
+						title={"Name"}
 					/>
 				),
 				cell: ({ row }) => {
@@ -52,7 +50,7 @@ export function PoliciesTable({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.artifacts.table.created_at")}
+						title={"Created At"}
 					/>
 				),
 				cell: ({ row }) => (
@@ -72,7 +70,7 @@ export function PoliciesTable({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.artifacts.table.status")}
+						title={"Status"}
 					/>
 				),
 				cell: ({ row }) => {
@@ -111,7 +109,7 @@ export function PoliciesTable({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.artifacts.title")} ({filteredPolicies.length})
+					{"Linked Policies"} ({filteredPolicies.length})
 				</CardTitle>
 			</CardHeader>
 			<CardContent>

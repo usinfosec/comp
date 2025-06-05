@@ -1,26 +1,23 @@
-import { getI18n } from "@/locales/server";
 import { Button } from "@comp/ui/button";
 import { Card } from "@comp/ui/card";
 import Link from "next/link";
 
 export default async function UnauthorizedPage() {
-	const t = await getI18n();
-
 	return (
 		<div className="min-h-screen flex items-center justify-center">
 			<Card className="w-full max-w-lg p-8 space-y-6">
 				<div className="space-y-2 text-center">
 					<h1 className="text-2xl font-semibold tracking-tight">
-						{t("errors.unauthorized.title")}
+						{"Unauthorized Access"}
 					</h1>
 					<p className="text-muted-foreground">
-						{t("errors.unauthorized.description")}
+						{"You don't have permission to access this resource. Please contact your administrator if you believe this is a mistake."}
 					</p>
 				</div>
 
 				<div className="flex justify-center">
 					<Button asChild>
-						<Link href="/">{t("errors.unauthorized.back")}</Link>
+						<Link href="/">{"Return to Home"}</Link>
 					</Button>
 				</div>
 			</Card>
