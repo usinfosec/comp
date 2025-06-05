@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Member, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
@@ -16,7 +15,6 @@ export function CreateRiskSheet({
 }: {
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [open, setOpen] = useQueryState("create-risk-sheet");
 	const isOpen = Boolean(open);
@@ -30,7 +28,7 @@ export function CreateRiskSheet({
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
 				<SheetContent stack>
 					<SheetHeader className="mb-8 flex justify-between items-center flex-row">
-						<SheetTitle>{t("risk.create")}</SheetTitle>
+						<SheetTitle>{"Create New Risk"}</SheetTitle>
 						<Button
 							size="icon"
 							variant="ghost"
@@ -51,7 +49,7 @@ export function CreateRiskSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>{t("risk.create")}</DrawerTitle>
+			<DrawerTitle hidden>{"Create New Risk"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<CreateRisk assignees={assignees} />
 			</DrawerContent>

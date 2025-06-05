@@ -1,8 +1,8 @@
 branch_name=$(git symbolic-ref --short HEAD)
-pattern="^[a-zA-Z]+/comp-.*$"
+pattern="^[a-zA-Z-]+/.+$"
 
 if [[ ! $branch_name =~ $pattern ]]; then
   echo "Branch name '$branch_name' does not follow the naming convention."
-  echo "Branch names should follow the pattern: firstname/comp-*"
+  echo "Branch names should follow the pattern: category/branch-name (e.g. feature/add-button)"
   exit 1
 fi

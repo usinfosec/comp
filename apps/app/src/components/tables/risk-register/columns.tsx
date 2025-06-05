@@ -1,7 +1,6 @@
 "use client";
 import { AssignedUser } from "@/components/assigned-user";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import type { Departments, RiskStatus } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
@@ -24,14 +23,13 @@ export type RiskRegisterType = {
 };
 
 export function columns(): ColumnDef<RiskRegisterType>[] {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
 			id: "name",
 			accessorKey: "name",
-			header: t("risk.register.table.risk"),
+			header: "Risk",
 			cell: ({ row }) => {
 				const status = row.original.status;
 
@@ -60,7 +58,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			accessorKey: "status",
 			header: () => (
 				<span className="hidden md:table-cell">
-					{t("common.table.status")}
+					{"Status"}
 				</span>
 			),
 			cell: ({ row }) => {
@@ -78,7 +76,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			accessorKey: "department",
 			header: () => (
 				<span className="hidden md:table-cell">
-					{t("common.filters.department")}
+					{"Department"}
 				</span>
 			),
 			cell: ({ row }) => {
@@ -102,7 +100,7 @@ export function columns(): ColumnDef<RiskRegisterType>[] {
 			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden md:table-cell">
-					{t("common.assignee.label")}
+					{"Assignee"}
 				</span>
 			),
 			cell: ({ row }) => {

@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import {
 	Accordion,
 	AccordionContent,
@@ -52,7 +51,6 @@ export function AppOnboarding({
 	sheetName,
 	href,
 }: Props) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState(sheetName ?? "sheet");
 	const isOpen = Boolean(open);
 	const { theme } = useTheme();
@@ -97,9 +95,7 @@ export function AppOnboarding({
 									<div className="flex items-center gap-2 mb-4">
 										<BookOpen className="h-4 w-4 text-primary" />
 										<p className="font-medium text-md">
-											{t(
-												"app_onboarding.risk_management.learn_more",
-											)}
+											{"Learn More"}
 										</p>
 									</div>
 

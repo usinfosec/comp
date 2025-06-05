@@ -4,7 +4,6 @@ import { updateRiskAction } from "@/actions/risk/update-risk-action";
 import { updateRiskSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import {
 	Departments,
 	Member,
@@ -44,14 +43,12 @@ export function UpdateRiskOverview({
 	risk: Risk;
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
-
 	const updateRisk = useAction(updateRiskAction, {
 		onSuccess: () => {
-			toast.success(t("risk.form.update_risk_success"));
+			toast.success("Risk updated successfully");
 		},
 		onError: () => {
-			toast.error(t("risk.form.update_risk_error"));
+			toast.error("Failed to update risk");
 		},
 	});
 
@@ -90,7 +87,7 @@ export function UpdateRiskOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("common.assignee.label")}
+									{"Assignee"}
 								</FormLabel>
 								<FormControl>
 									<SelectAssignee
@@ -113,7 +110,7 @@ export function UpdateRiskOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.form.risk_status")}
+									{"Status"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -122,9 +119,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_status_placeholder",
-												)}
+												placeholder={"Select a status"}
 											>
 												{field.value && (
 													<StatusIndicator
@@ -161,7 +156,7 @@ export function UpdateRiskOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.form.risk_category")}
+									{"Category"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -171,9 +166,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_category_placeholder",
-												)}
+												placeholder={"Select a category"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -218,7 +211,7 @@ export function UpdateRiskOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.form.risk_department")}
+									{"Department"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -228,9 +221,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_department_placeholder",
-												)}
+												placeholder={"Select a department"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -268,7 +259,7 @@ export function UpdateRiskOverview({
 						{updateRisk.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

@@ -2,7 +2,6 @@
 
 import { UpdateTaskForm } from "@/components/forms/risks/task/update-task-form";
 import { TaskOverviewSheet } from "@/components/sheets/task-overview-sheet";
-import { useI18n } from "@/locales/client";
 import type { Task, User } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
@@ -18,7 +17,6 @@ export function TaskOverview({
 	task: Task;
 	users: User[];
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("task-overview-sheet");
 
 	return (
@@ -47,7 +45,7 @@ export function TaskOverview({
 				<CardHeader>
 					<CardTitle>
 						<div className="flex items-center justify-between gap-2">
-							{t("risk.tasks.overview")}
+							{"Overview"}
 						</div>
 					</CardTitle>
 				</CardHeader>

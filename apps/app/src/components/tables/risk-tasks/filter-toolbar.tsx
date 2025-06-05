@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Member, User } from "@comp/db/types";
 import { cn } from "@comp/ui/cn";
 import { Input } from "@comp/ui/input";
@@ -15,7 +14,6 @@ type Props = {
 };
 
 export function FilterToolbar({ isEmpty, assignees }: Props) {
-	const t = useI18n();
 	const [isPending, startTransition] = useTransition();
 	const [open, setOpen] = useQueryState("create-task-sheet");
 
@@ -81,7 +79,7 @@ export function FilterToolbar({ isEmpty, assignees }: Props) {
 			<div className="relative flex-1 sm:max-w-sm">
 				<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
 				<Input
-					placeholder={t("common.filters.search")}
+					placeholder={"Search..."}
 					className="pl-8"
 					value={search || ""}
 					onChange={(e) => setSearch(e.target.value || null)}

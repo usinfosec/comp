@@ -2,7 +2,6 @@
 
 import { updatePolicyOverviewAction } from "@/actions/policies/update-policy-overview-action";
 import { updatePolicyOverviewSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -35,16 +34,15 @@ export function UpdatePolicyForm({
 }: {
 	policy: Policy;
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("policy-overview-sheet");
 
 	const updatePolicy = useAction(updatePolicyOverviewAction, {
 		onSuccess: () => {
-			toast.success(t("policies.overview.form.update_policy_success"));
+			toast.success("Policy updated successfully");
 			setOpen(null);
 		},
 		onError: () => {
-			toast.error(t("policies.overview.form.update_policy_error"));
+			toast.error("Failed to update policy");
 		},
 	});
 
@@ -80,18 +78,14 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.update_policy_title",
-									)}
+									{"Policy Title"}
 								</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t(
-											"policies.overview.form.update_policy_title",
-										)}
+										placeholder={"Policy Title"}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -109,9 +103,7 @@ export function UpdatePolicyForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t(
-											"policies.overview.form.description_placeholder",
-										)}
+										placeholder={"A brief summary of the policy's purpose."}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -124,9 +116,7 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
-									)}
+									{"Signature Requirement"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -135,21 +125,15 @@ export function UpdatePolicyForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.signature_requirement_placeholder",
-												)}
+												placeholder={"Select signature requirement"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="required">
-												{t(
-													"policies.overview.form.signature_required",
-												)}
+												{"Required"}
 											</SelectItem>
 											<SelectItem value="not_required">
-												{t(
-													"policies.overview.form.signature_not_required",
-												)}
+												{"Not Required"}
 											</SelectItem>
 										</SelectContent>
 									</Select>
@@ -167,7 +151,7 @@ export function UpdatePolicyForm({
 						{updatePolicy.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>
