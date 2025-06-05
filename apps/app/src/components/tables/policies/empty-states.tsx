@@ -36,11 +36,7 @@ export function NoResults({ hasFilters }: { hasFilters: boolean }) {
 					{"No results found"}
 				</h3>
 				<p className="text-muted-foreground">
-					{hasFilters
-						? t(
-								"common.empty_states.no_results.description_filters",
-							)
-						: "Try another search, or adjusting the filters"}
+					{"Try another search, or adjusting the filters"}
 				</p>
 			</CardContent>
 		</Card>

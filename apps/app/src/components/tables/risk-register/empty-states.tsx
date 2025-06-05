@@ -24,11 +24,7 @@ export function NoResults({ hasFilters }: Props) {
 						{"No results found"}
 					</h2>
 					<p className="text-muted-foreground text-sm">
-						{hasFilters
-							? t(
-									"common.empty_states.no_results.description_filters",
-								)
-							: "Try another search, or adjusting the filters"}
+						{"Try another search, or adjusting the filters"}
 					</p>
 				</div>
 

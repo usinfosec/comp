@@ -147,11 +147,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 					<SelectContent>
 						{riskStatuses.map((stat) => (
 							<SelectItem key={stat} value={stat}>
-								{t(
-									statusTranslationKeys[
-									stat.toLowerCase() as keyof typeof statusTranslationKeys
-									],
-								)}
+								{stat.charAt(0).toUpperCase() + stat.slice(1).replace(/_/g, " ")}
 							</SelectItem>
 						))}
 					</SelectContent>
@@ -181,9 +177,7 @@ export function FilterToolbar({ isEmpty, users }: Props) {
 				>
 					<SelectTrigger className="w-[200px] min-w-[200px]">
 						<SelectValue
-							placeholder={t(
-								"common.filters.assignee.placeholder",
-							)}
+							placeholder={"Filter by assignee"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
