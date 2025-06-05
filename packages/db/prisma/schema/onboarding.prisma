@@ -1,6 +1,6 @@
 model Onboarding {
     organizationId        String       @id
-    organization          Organization @relation(fields: [organizationId], references: [id])
+    organization          Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     completed             Boolean      @default(true)
     policies              Boolean      @default(false)
     employees             Boolean      @default(false)
