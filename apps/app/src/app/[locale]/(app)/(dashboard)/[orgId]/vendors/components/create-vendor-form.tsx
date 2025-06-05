@@ -146,9 +146,7 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem className="flex flex-col relative">
 													<FormLabel>
-														{t(
-															"vendors.form.vendor_name",
-														)}
+														{"Vendor Name"}
 													</FormLabel>
 													<FormControl>
 														<div className="relative">
@@ -209,7 +207,7 @@ export function CreateVendorForm({
 																					setPopoverOpen(false);
 																				}}
 																			>
-																				{t("vendors.form.create_custom_vendor", { name: searchQuery })}
+																				{`Create "${searchQuery}"`}
 																			</div>
 																		)}
 																	</div>
@@ -227,17 +225,13 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"vendors.form.vendor_website",
-														)}
+														{"Website"}
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															className="mt-3"
-															placeholder={t(
-																"vendors.form.vendor_website_placeholder",
-															)}
+															placeholder={"https://example.com"}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -250,17 +244,13 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"vendors.form.vendor_description",
-														)}
+														{"Description"}
 													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"vendors.form.vendor_description_placeholder",
-															)}
+															placeholder={"Enter a description for the vendor..."}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -273,9 +263,7 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"vendors.form.vendor_category",
-														)}
+														{"Category"}
 													</FormLabel>
 													<FormControl>
 														<Select
@@ -287,9 +275,7 @@ export function CreateVendorForm({
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"vendors.form.vendor_category_placeholder",
-																	)}
+																	placeholder={"Select a category..."}
 																/>
 															</SelectTrigger>
 															<SelectContent>
@@ -350,9 +336,7 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"vendors.form.vendor_status",
-														)}
+														{"Status"}
 													</FormLabel>
 													<FormControl>
 														<Select
@@ -364,9 +348,7 @@ export function CreateVendorForm({
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"vendors.form.vendor_status_placeholder",
-																	)}
+																	placeholder={"Select a status..."}
 																/>
 															</SelectTrigger>
 															<SelectContent>
@@ -427,9 +409,7 @@ export function CreateVendorForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"common.assignee.label",
-														)}
+														{"Assignee"}
 													</FormLabel>
 													<FormControl>
 														<SelectAssignee
