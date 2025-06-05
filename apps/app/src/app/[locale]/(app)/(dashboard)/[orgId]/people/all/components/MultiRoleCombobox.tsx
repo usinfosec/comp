@@ -139,7 +139,6 @@ export function MultiRoleCombobox({
 				disabled={disabled}
 				handleSelect={handleSelect} // For badge clicks
 				getRoleLabel={getRoleLabel}
-				t={t}
 				onClick={() => setOpen(true)}
 				ariaExpanded={open}
 			/>
@@ -148,7 +147,6 @@ export function MultiRoleCombobox({
 					<MultiRoleComboboxContent
 						searchTerm={searchTerm}
 						setSearchTerm={setSearchTerm}
-						t={t}
 						filteredRoles={filteredRoles}
 						handleSelect={handleSelect} // For item selection
 						lockedRoles={lockedRoles}

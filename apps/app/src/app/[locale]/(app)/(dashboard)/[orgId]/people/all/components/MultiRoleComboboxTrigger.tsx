@@ -20,7 +20,6 @@ interface MultiRoleComboboxTriggerProps {
 	disabled?: boolean;
 	handleSelect: (role: Role) => void; // For badge click to deselect/select
 	getRoleLabel: (role: Role) => string;
-	t: (key: string, options?: any) => string;
 	onClick?: () => void;
 	ariaExpanded?: boolean;
 }
@@ -32,7 +31,6 @@ export function MultiRoleComboboxTrigger({
 	disabled,
 	handleSelect,
 	getRoleLabel,
-	t,
 	onClick,
 	ariaExpanded,
 }: MultiRoleComboboxTriggerProps) {
@@ -76,9 +74,7 @@ export function MultiRoleComboboxTrigger({
 									</TooltipTrigger>
 									<TooltipContent>
 										<p>
-											{t(
-												"people.member_actions.role_dialog.owner_note",
-											)}
+											{"The owner role cannot be removed."}
 										</p>
 									</TooltipContent>
 								</Tooltip>

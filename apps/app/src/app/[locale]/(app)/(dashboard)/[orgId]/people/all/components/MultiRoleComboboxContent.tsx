@@ -17,7 +17,6 @@ import { cn } from "@comp/ui/cn";
 interface MultiRoleComboboxContentProps {
 	searchTerm: string;
 	setSearchTerm: (value: string) => void;
-	t: (key: string, options?: any) => string;
 	filteredRoles: Array<{ value: Role }>; // Role objects, labels derived via t()
 	handleSelect: (roleValue: Role) => void;
 	lockedRoles: Role[];
@@ -28,7 +27,6 @@ interface MultiRoleComboboxContentProps {
 export function MultiRoleComboboxContent({
 	searchTerm,
 	setSearchTerm,
-	t,
 	filteredRoles,
 	handleSelect,
 	lockedRoles,
