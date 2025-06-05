@@ -188,9 +188,7 @@ export function FrameworkCard({
 							<div className="flex items-center text-muted-foreground">
 								<ClipboardCheck className="h-3.5 w-3.5 mr-1" />
 								<span className="text-xs">
-									{t(
-										"frameworks.controls.statuses.completed",
-									)}
+									{"Completed"}
 								</span>
 							</div>
 							<p className="font-medium text-sm">
@@ -201,9 +199,7 @@ export function FrameworkCard({
 							<div className="flex items-center text-muted-foreground">
 								<Clock className="h-3.5 w-3.5 mr-1" />
 								<span className="text-xs">
-									{t(
-										"frameworks.controls.statuses.in_progress",
-									)}
+									{"In Progress"}
 								</span>
 							</div>
 							<p className="font-medium text-sm">
