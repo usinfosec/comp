@@ -70,18 +70,14 @@ export function CreateNewPolicyForm() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"policies.new.title",
-														)}
+														{"Title"}
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t(
-																"policies.new.title",
-															)}
+															placeholder={"Title"}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -95,17 +91,13 @@ export function CreateNewPolicyForm() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"policies.new.description",
-														)}
+														{"Description"}
 													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"policies.new.description",
-															)}
+															placeholder={"Description"}
 														/>
 													</FormControl>
 													<FormMessage />
