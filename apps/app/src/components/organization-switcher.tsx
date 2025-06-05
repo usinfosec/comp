@@ -252,13 +252,13 @@ export function OrganizationSwitcher({
 								{t("common.table.no_results")}
 							</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
-								{organizations.map((org) => (
-									<CommandItem
-										key={org.id}
-										value={org.id}
-										onSelect={() => {
-											if (
-												org.id !==
+                                                                {organizations.map((org) => (
+                                                                        <CommandItem
+                                                                                key={org.id}
+                                                                                value={getDisplayName(org) || org.id}
+                                                                                onSelect={() => {
+                                                                                        if (
+                                                                                                org.id !==
 												currentOrganization?.id
 											) {
 												handleOrgChange(org);
