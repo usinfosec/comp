@@ -1746,6 +1746,7 @@
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.3"
   dependencies:
     "@prisma/client" "6.9.0"
@@ -2017,7 +2018,7 @@
     "@radix-ui/react-tooltip" "^1.1.3"
     "@radix-ui/react-use-is-hydrated" "^0.1.0"
     "@tailwindcss/typography" "^0.5.16"
-    "@tiptap/extension-bold" "2.11.5"
+    "@tiptap/extension-bold" "2.13.0"
     "@tiptap/extension-link" "^2.9.1"
     "@tiptap/extension-placeholder" "^2.9.1"
     "@tiptap/extension-underline" "^2.9.1"
@@ -4026,9 +4027,9 @@
   integrity sha512-im0X0bwDLA0244CDf8fuvnLuCQcBBdAGgr+ByvGfQY9wWl6EA+kRGwVk8ZIpG65rnlOwtaWIr/ZcEU5pNVvq9g==
   dependencies:
     "@prisma/debug" "6.9.0"
+    "@prisma/engines-version" "6.9.0-10.81e4af48011447c3cc503a190e86995b66d2a28e"
     "@prisma/fetch-engine" "6.9.0"
     "@prisma/get-platform" "6.9.0"
-    "@prisma/engines-version" "6.9.0-10.81e4af48011447c3cc503a190e86995b66d2a28e"
 
 "@prisma/engines-version@6.9.0-10.81e4af48011447c3cc503a190e86995b66d2a28e":
   version "6.9.0-10.81e4af48011447c3cc503a190e86995b66d2a28e"
@@ -4041,8 +4042,8 @@
   integrity sha512-PMKhJdl4fOdeE3J3NkcWZ+tf3W6rx3ht/rLU8w4SXFRcLhd5+3VcqY4Kslpdm8osca4ej3gTfB3+cSk5pGxgFg==
   dependencies:
     "@prisma/debug" "6.9.0"
-    "@prisma/get-platform" "6.9.0"
     "@prisma/engines-version" "6.9.0-10.81e4af48011447c3cc503a190e86995b66d2a28e"
+    "@prisma/get-platform" "6.9.0"
 
 "@prisma/get-platform@6.9.0":
   version "6.9.0"
@@ -6352,15 +6353,15 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-blockquote/-/extension-blockquote-2.12.0.tgz"
   integrity sha512-XUC2A77YAPMJS2SqZ2S62IGcUH8gZ7cdhoWlYQb1pR4ZzXFByeKDJPxfYeAePSiuI01YGrlzgY2c6Ncx/DtO0A==
 
-"@tiptap/extension-bold@2.11.5":
-  version "2.11.5"
-  resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.11.5.tgz"
-  integrity sha512-OAq03MHEbl7MtYCUzGuwb0VpOPnM0k5ekMbEaRILFU5ZC7cEAQ36XmPIw1dQayrcuE8GZL35BKub2qtRxyC9iA==
-
 "@tiptap/extension-bold@^2.12.0":
   version "2.12.0"
   resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.12.0.tgz"
   integrity sha512-lAUtoLDLRc5ofD2I9MFY6MQ7d1qBLLqS1rvpwaPjOaoQb/GPVnaHj9qXYG0SY9K3erMtto48bMFpAcscjZHzZQ==
+
+"@tiptap/extension-bold@2.13.0":
+  version "2.13.0"
+  resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.13.0.tgz"
+  integrity sha512-q/Kqo1HXas+dUevP/Qice+nbxXue8ZpmYBniw9zt/JHbgwH1b6Rw7lIjLxYerdaPWj305h9ZHxLqmzDOEcQRPw==
 
 "@tiptap/extension-bubble-menu@^2.12.0":
   version "2.12.0"
@@ -15238,7 +15239,7 @@ pretty-ms@^9.2.0:
   dependencies:
     parse-ms "^4.0.0"
 
-prisma@^6.9.0:
+prisma@*, prisma@^6.9.0:
   version "6.9.0"
   resolved "https://registry.npmjs.org/prisma/-/prisma-6.9.0.tgz"
   integrity sha512-resJAwMyZREC/I40LF6FZ6rZTnlrlrYrb63oW37Gq+U+9xHwbyMSPJjKtM7VZf3gTO86t/Oyz+YeSXr3CmAY1Q==
@@ -18174,7 +18175,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@*, typescript@>=2.7, typescript@>=4.5.0, typescript@>=4.9.5, typescript@>=5, typescript@>=5.4.5, typescript@>=5.7.2, typescript@^5, typescript@^5.8.2, typescript@^5.8.3:
+typescript@*, typescript@>=2.7, typescript@>=4.5.0, typescript@>=4.9.5, typescript@>=5, typescript@>=5.1.0, typescript@>=5.4.5, typescript@>=5.7.2, typescript@^5, typescript@^5.8.2, typescript@^5.8.3:
   version "5.8.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.8.3.tgz"
   integrity sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==
