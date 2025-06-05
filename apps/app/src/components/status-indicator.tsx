@@ -51,7 +51,6 @@ export const STATUS_COLORS: Record<StatusType, string> = {
 // Updated status translation mapping
 export const getStatusTranslation = (
 	status: StatusType,
-	t: ReturnType<typeof useI18n>,
 ) => {
 	switch (status) {
 		case "draft":
@@ -113,7 +112,7 @@ export function StatusIndicator({
 
 	// Proceed with valid status
 	const color = STATUS_COLORS[status] ?? "#808080";
-	const label = getStatusTranslation(status, t);
+	const label = getStatusTranslation(status);
 
 	return (
 		<div className={cn("flex items-center text-sm gap-2", className)}>
