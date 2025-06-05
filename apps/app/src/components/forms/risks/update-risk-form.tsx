@@ -81,9 +81,7 @@ export function UpdateRiskForm({
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t(
-											"risk.form.risk_title_description",
-										)}
+										placeholder={"A short, descriptive title for the risk."}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -101,9 +99,7 @@ export function UpdateRiskForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t(
-											"risk.form.risk_description_description",
-										)}
+										placeholder={"A detailed description of the risk, its potential impact, and its causes."}
 									/>
 								</FormControl>
 								<FormMessage />
