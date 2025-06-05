@@ -6,7 +6,6 @@ import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -23,7 +22,7 @@ interface PageProps {
 		page?: string;
 		per_page?: string;
 	}>;
-	params: Promise<{ riskId: string; locale: string; orgId: string }>;
+	params: Promise<{ riskId: string; orgId: string }>;
 }
 
 export default async function RiskPage({ searchParams, params }: PageProps) {
@@ -159,13 +158,7 @@ const getAssignees = cache(async () => {
 	return assignees;
 });
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Risk Overview",
 	};

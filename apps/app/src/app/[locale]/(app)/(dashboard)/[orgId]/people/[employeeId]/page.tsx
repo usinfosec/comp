@@ -6,18 +6,12 @@ import {
 import { db } from "@comp/db";
 import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { EmployeeDetails } from "./components/EmployeeDetails";
 
-export default async function EmployeeDetailsPage({
-	params,
-}: {
-	params: Promise<{ locale: string; employeeId: string }>;
-}) {
-	const { locale, employeeId } = await params;
-	setStaticParamsLocale(locale);
+export default async function EmployeeDetailsPage({ params }: { params: Promise<{ employeeId: string }> }) {
+	const { employeeId } = await params;
 
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -48,14 +42,7 @@ export default async function EmployeeDetailsPage({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string; employeeId: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Employee Details",
 	};

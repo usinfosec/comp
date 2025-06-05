@@ -2,7 +2,6 @@
 
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import SecondaryFields from "./components/secondary-fields/secondary-fields";
@@ -10,15 +9,13 @@ import Title from "./components/title/title";
 
 interface PageProps {
 	params: Promise<{
-		locale: string;
 		orgId: string;
 		taskId: string;
 	}>;
 }
 
 export default async function TaskPage({ params }: PageProps) {
-	const { locale, orgId, taskId } = await params;
-	setStaticParamsLocale(locale);
+	const { orgId, taskId } = await params;
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
