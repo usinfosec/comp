@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { TeamMembers } from "./components/TeamMembers";
 
-export default async function Members({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-
+export default async function Members() {
 	return (
 		<div className="space-y-4 sm:space-y-4">
 			<TeamMembers />
@@ -17,13 +9,7 @@ export default async function Members({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "People",
 	};

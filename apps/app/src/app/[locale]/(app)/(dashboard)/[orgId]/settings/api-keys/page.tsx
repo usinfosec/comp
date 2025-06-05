@@ -5,15 +5,8 @@ import { cache } from "react";
 import { ApiKeysTable } from "./components/table/ApiKeysTable";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 
-export default async function ApiKeysPage({
-	params,
-}: {
-	params: Promise<{ locale: string; orgId: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export default async function ApiKeysPage() {
 	const apiKeys = await getApiKeys();
 
 	return (
@@ -21,13 +14,7 @@ export default async function ApiKeysPage({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "API",
 	};

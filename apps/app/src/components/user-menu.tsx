@@ -63,35 +63,11 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 							</div>
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
-						{/* <DropdownMenuGroup>
-              <Link prefetch href="/account">
-                <DropdownMenuItem>
-                  {"Account"}
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </Link>
-
-              <Link prefetch href="/account/support">
-                <DropdownMenuItem>{"Support"}</DropdownMenuItem>
-              </Link>
-
-              <Link prefetch href="/account/teams">
-                <DropdownMenuItem>
-                  {"Teams"}
-                  <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </Link>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
 						<div className="flex flex-row justify-between items-center p-2">
 							<p className="text-sm">{"Theme"}</p>
 							<ThemeSwitch />
-						</div>{" "}
-						<DropdownMenuSeparator />{" "}
-						{/* <div className="flex flex-row justify-between items-center p-2">
-              <p className="text-sm">{"Language"}</p>
-              <LocaleSwitch />
-            </div>{" "} */}
+						</div>
+						<DropdownMenuSeparator />
 					</>
 				)}
 

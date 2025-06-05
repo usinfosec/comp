@@ -2,26 +2,18 @@ import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { getValidFilters } from "@/lib/data-table";
 import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { PoliciesTable } from "./components/policies-table";
 import { getPolicies } from "./data/queries";
 import { searchParamsCache } from "./data/validations";
 
 interface PolicyTableProps {
-	params: Promise<{ locale: string }>;
 	searchParams: Promise<SearchParams>;
 }
 
-export default async function PoliciesPage({
-	params,
-	...props
-}: PolicyTableProps) {
-	const { locale } = await params;
+export default async function PoliciesPage({ ...props }: PolicyTableProps) {
 	const searchParams = await props.searchParams;
 	const search = searchParamsCache.parse(searchParams);
 	const validFilters = getValidFilters(search.filters);
-
-	setStaticParamsLocale(locale);
 
 	const promises = Promise.all([
 		getPolicies({
@@ -39,14 +31,7 @@ export default async function PoliciesPage({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Policies",
 	};

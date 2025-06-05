@@ -1,18 +1,10 @@
 import { VendorOverview } from "@/app/[locale]/(app)/(dashboard)/[orgId]/vendors/backup-overview/components/charts/vendor-overview";
 import { getServersideSession } from "@/lib/get-session";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function VendorManagement({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-
+export default async function VendorManagement() {
 	const {
 		session: { activeOrganizationId },
 	} = await getServersideSession({
@@ -30,13 +22,7 @@ export default async function VendorManagement({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Vendors",
 	};

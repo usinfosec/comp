@@ -72,20 +72,13 @@ const font = localFont({
 
 export const preferredRegion = ["auto"];
 
-export default async function Layout(props: {
-	children: React.ReactNode;
-	params: Promise<{ locale: string }>;
-}) {
-	const params = await props.params;
-	const { locale } = params;
-	const { children } = props;
-
+export default async function Layout({ children }: { children: React.ReactNode }) {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
 	return (
-		<html lang={locale} suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={cn(
 					`${GeistMono.variable} ${font.variable}`,
@@ -93,7 +86,7 @@ export default async function Layout(props: {
 				)}
 			>
 				<NuqsAdapter>
-					<Providers locale={locale} session={session}>
+					<Providers session={session}>
 						<main>{children}</main>
 					</Providers>
 				</NuqsAdapter>

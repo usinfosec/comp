@@ -1,21 +1,13 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import { PolicyAssigneeChart } from "./components/policy-assignee-chart";
 import { PolicyStatusChart } from "./components/policy-status-chart";
 import Loading from "./loading";
 
-export default async function PoliciesOverview({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-
+export default async function PoliciesOverview() {
 	const overview = await getPoliciesOverview();
 
 	return (
@@ -163,13 +155,7 @@ const getPoliciesOverview = async () => {
 	});
 };
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Policies",
 	};

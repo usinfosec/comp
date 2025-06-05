@@ -5,7 +5,6 @@ import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Departments, RiskStatus } from "@comp/db/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { cache } from "react";
 import { RisksTable } from "./RisksTable";
@@ -14,7 +13,7 @@ import { searchParamsCache } from "./data/validations";
 import { getValidFilters } from "@/lib/data-table";
 
 export default async function RiskRegisterPage(props: {
-	params: Promise<{ locale: string; orgId: string }>;
+	params: Promise<{ orgId: string }>;
 	searchParams: Promise<{
 		search: string;
 		page: string;
@@ -25,13 +24,12 @@ export default async function RiskRegisterPage(props: {
 	}>;
 }) {
 	const { params } = props;
-	const { orgId, locale } = await params;
+	const { orgId } = await params;
 
 	const searchParams = await props.searchParams;
 	const search = searchParamsCache.parse(searchParams);
 	const validFilters = getValidFilters(search.filters);
 
-	setStaticParamsLocale(locale);
 	const risksResult = await getRisks({
 		...search,
 		filters: validFilters,
@@ -90,13 +88,7 @@ export default async function RiskRegisterPage(props: {
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Risks",
 	};

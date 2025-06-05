@@ -3,7 +3,6 @@ import { useUsers } from "@/hooks/use-users";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -49,13 +48,7 @@ const getTask = cache(async (riskId: string, taskId: string) => {
 	return task;
 });
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Task Overview",
 	};

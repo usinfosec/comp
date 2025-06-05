@@ -4,18 +4,10 @@ import { UpdateOrganizationWebsite } from "@/components/forms/organization/updat
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { cache } from "react";
 
-export default async function OrganizationSettings({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-
+export default async function OrganizationSettings() {
 	const organization = await organizationDetails();
 
 	return (
@@ -31,13 +23,7 @@ export default async function OrganizationSettings({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Settings",
 	};
