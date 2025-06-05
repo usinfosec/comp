@@ -114,7 +114,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 		];
 
 		return items.filter((item) => item.value);
-	}, [data, t]);
+	}, [data]);
 
 	const chartConfig = {
 		value: {

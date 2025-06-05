@@ -48,9 +48,7 @@ export function PolicyOverviewSheet({
 							</Button>
 						</div>{" "}
 						<SheetDescription>
-							{t(
-								"policies.overview.form.update_policy_description",
-							)}
+							{"Update policy details, content and metadata."}
 						</SheetDescription>
 					</SheetHeader>
 

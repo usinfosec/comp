@@ -239,9 +239,7 @@ export function PolicyOverview({
 											<ArchiveIcon className="h-4 w-4 mr-2" />
 										)}
 										{policy?.isArchived
-											? t(
-												"policies.archive.restore_tooltip",
-											)
+											? "Restore policy"
 											: "Archive policy"}
 									</DropdownMenuItem>
 									<DropdownMenuItem
