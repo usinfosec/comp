@@ -53,28 +53,19 @@ export default async function Page({
 					sheetName="createVendorSheet"
 					faqs={[
 						{
-							questionKey: t(
-								"app_onboarding.vendors.faqs.question_1",
-							),
-							answerKey: t(
-								"app_onboarding.vendors.faqs.answer_1",
-							),
+							questionKey: "What is vendor management?",
+							answerKey:
+								"Vendor management is the process of managing, and controlling relationships and agreements with third-party suppliers of goods and services.",
 						},
 						{
-							questionKey: t(
-								"app_onboarding.vendors.faqs.question_2",
-							),
-							answerKey: t(
-								"app_onboarding.vendors.faqs.answer_2",
-							),
+							questionKey: "Why is vendor management important?",
+							answerKey:
+								"It helps to ensure that you are getting the most value from your vendors, while also minimizing risks and maintaining compliance.",
 						},
 						{
-							questionKey: t(
-								"app_onboarding.vendors.faqs.question_3",
-							),
-							answerKey: t(
-								"app_onboarding.vendors.faqs.answer_3",
-							),
+							questionKey: "What are the key steps in vendor management?",
+							answerKey:
+								"The key steps include vendor selection, contract negotiation, performance monitoring, risk management, and relationship management.",
 						},
 					]}
 				/>
