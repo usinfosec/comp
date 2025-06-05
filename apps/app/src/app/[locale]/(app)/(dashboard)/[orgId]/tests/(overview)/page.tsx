@@ -32,28 +32,19 @@ export default async function CloudTests({
 				href={`/${orgId}/integrations`}
 				faqs={[
 					{
-						questionKey: t(
-							"app_onboarding.cloud_tests.faqs.question_1",
-						),
-						answerKey: t(
-							"app_onboarding.cloud_tests.faqs.answer_1",
-						),
+						questionKey: "What are cloud compliance tests?",
+						answerKey:
+							"Cloud compliance tests are automated checks that verify your cloud environment against security best practices and compliance standards.",
 					},
 					{
-						questionKey: t(
-							"app_onboarding.cloud_tests.faqs.question_2",
-						),
-						answerKey: t(
-							"app_onboarding.cloud_tests.faqs.answer_2",
-						),
+						questionKey: "Why are they important?",
+						answerKey:
+							"They help ensure your cloud infrastructure is secure, identify misconfigurations, and provide evidence for audits like SOC 2 and ISO 27001.",
 					},
 					{
-						questionKey: t(
-							"app_onboarding.cloud_tests.faqs.question_3",
-						),
-						answerKey: t(
-							"app_onboarding.cloud_tests.faqs.answer_3",
-						),
+						questionKey: "How do I get started?",
+						answerKey:
+							"Connect your cloud provider (AWS, GCP, Azure) in the Integrations page, and we'll automatically start running tests and generating reports.",
 					},
 				]}
 			/>
