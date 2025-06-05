@@ -97,9 +97,7 @@ export function ResidualRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t(
-												"vendors.risks.select_probability",
-											)}
+											placeholder={"Select a probability"}
 										/>
 									</SelectTrigger>
 								</FormControl>
@@ -144,9 +142,7 @@ export function ResidualRiskForm({
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue
-											placeholder={t(
-												"vendors.risks.select_impact",
-											)}
+											placeholder={"Select an impact"}
 										/>
 									</SelectTrigger>
 								</FormControl>
