@@ -24,7 +24,7 @@ export default async function Layout({
 	});
 
 	return (
-		<main className="mt-4">
+		<div>
 			{/* Render Breadcrumbs only if we are in the tasks section */}
 			{task?.id && (
 				<div className="border-b pb-4">
@@ -51,6 +51,6 @@ export default async function Layout({
 				</div>
 			)}
 			{children}
-		</main>
+		</div>
 	);
 }

@@ -6,6 +6,8 @@ import { SidebarProvider } from "@/context/sidebar-context";
 import { getCurrentOrganization } from "@/lib/currentOrganization";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
+import { OnboardingTracker } from "./components/OnboardingTracker";
+import { db } from "@comp/db";
 
 const HotKeys = dynamic(
 	() => import("@/components/hot-keys").then((mod) => mod.HotKeys),
@@ -25,10 +27,26 @@ export default async function Layout({
 
 	const cookieStore = await cookies();
 	const isCollapsed = cookieStore.get("sidebar-collapsed")?.value === "true";
+	const publicAccessToken = cookieStore.get("publicAccessToken")?.value;
 
 	const currentOrganization = await getCurrentOrganization({
 		requestedOrgId,
 	});
+
+	const onboarding = await db.onboarding.findFirst({
+		where: {
+			organizationId: currentOrganization?.id,
+		},
+	});
+
+	const isOnboardingRunning =
+		!!onboarding?.triggerJobId && !onboarding.completed;
+	const navbarHeight = 69 + 1; // 1 for border
+	const onboardingHeight = 132 + 1; // 1 for border
+
+	const pixelsOffset = isOnboardingRunning
+		? navbarHeight + onboardingHeight
+		: navbarHeight;
 
 	return (
 		<SidebarProvider initialIsCollapsed={isCollapsed}>
@@ -36,10 +54,19 @@ export default async function Layout({
 				sidebar={<Sidebar organization={currentOrganization} />}
 				isCollapsed={isCollapsed}
 			>
+				{onboarding?.triggerJobId && (
+					<OnboardingTracker
+						onboarding={onboarding}
+						publicAccessToken={publicAccessToken!}
+					/>
+				)}
 				<Header />
-				<main className="px-4 mx-auto pb-8 min-h-[calc(100vh-15vh)]">
+				<div
+					className="px-4 mx-auto py-4"
+					style={{ minHeight: `calc(100vh - ${pixelsOffset}px)` }}
+				>
 					{children}
-				</main>
+				</div>
 				<AssistantSheet />
 			</AnimatedLayout>
 			<HotKeys />

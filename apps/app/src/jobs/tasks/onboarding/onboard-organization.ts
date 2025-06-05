@@ -1,22 +1,57 @@
 import { openai } from "@ai-sdk/openai";
 import { db } from "@comp/db";
 import {
-	RiskCategory,
 	Departments,
-	VendorCategory,
 	Impact,
 	Likelihood,
+	RiskCategory,
 	RiskTreatmentType,
+	VendorCategory,
 } from "@comp/db/types";
-import { logger, task, tasks } from "@trigger.dev/sdk/v3";
+import { logger, task, tasks, wait } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";
+import ky from "ky";
 import z from "zod";
 import { researchVendor } from "../scrape/research";
-import ky from "ky";
 import { updatePolicies } from "./update-policies";
+import axios from "axios";
 
 export const onboardOrganization = task({
 	id: "onboard-organization",
+	cleanup: async ({ organizationId }: { organizationId: string }) => {
+		// Set triggerJobId to null to signal that the job is complete or failed.
+		await db.onboarding.update({
+			where: {
+				organizationId,
+			},
+			data: { triggerJobId: null },
+		});
+
+		try {
+			logger.info(
+				`Revalidating path ${process.env.BETTER_AUTH_URL}/${organizationId}`,
+			);
+			const revalidateResponse = await axios.post(
+				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
+				{
+					path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
+					secret: process.env.REVALIDATION_SECRET,
+					type: "layout",
+				},
+			);
+
+			if (!revalidateResponse.data?.revalidated) {
+				logger.error(
+					`Failed to revalidate path: ${revalidateResponse.statusText}`,
+				);
+				logger.error(revalidateResponse.data);
+			} else {
+				logger.info("Revalidated path successfully");
+			}
+		} catch (err) {
+			logger.error("Error revalidating path", { err });
+		}
+	},
 	run: async (payload: {
 		organizationId: string;
 	}) => {
@@ -233,27 +268,6 @@ export const onboardOrganization = task({
 			},
 			data: { completed: true },
 		});
-
-		try {
-			const revalidateResponse = await ky.post(
-				`${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
-				{
-					json: {
-						path: `/${payload.organizationId}`,
-						secret: process.env.REVALIDATION_SECRET,
-					},
-				},
-			);
-
-			if (!revalidateResponse.ok) {
-				logger.error(
-					`Failed to revalidate path: ${revalidateResponse.statusText}`,
-				);
-				logger.error(await revalidateResponse.json());
-			}
-		} catch (err) {
-			logger.error("Error revalidating path", { err });
-		}
 
 		logger.info(`Created ${extractRisks.object.risks.length} risks`);
 		logger.info(`Created ${extractVendors.object.vendors.length} vendors`);

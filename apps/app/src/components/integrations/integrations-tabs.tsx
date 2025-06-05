@@ -21,7 +21,7 @@ export function AppsTabs() {
 	});
 
 	return (
-		<div className="flex border-b mb-6">
+		<div className="flex border-b">
 			{tabs.map((tab) => (
 				<button
 					onClick={() => setTab(tab.value)}

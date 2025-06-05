@@ -35,7 +35,7 @@ export default async function DashboardPage() {
 	const allFrameworks = await db.frameworkEditorFramework.findMany({
 		where: {
 			visible: true,
-		}
+		},
 	});
 
 	return (
@@ -67,7 +67,7 @@ const getControlTasks = cache(async () => {
 			organizationId,
 			controls: {
 				some: {
-					organizationId
+					organizationId,
 				},
 			},
 		},

@@ -225,14 +225,13 @@ export function TeamMembersClient({
 				organizationId={organizationId}
 			/>
 
-			<div className="flex items-center justify-between mb-6 gap-4">
+			<div className="flex items-center justify-between mb-4 gap-4">
 				<div className="relative flex-1">
-					<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 					<Input
 						placeholder={t("people.filters.search")}
-						className="pl-8"
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value || null)}
+						leftIcon={<Search size={14} />}
 					/>
 					{searchQuery && (
 						<Button
