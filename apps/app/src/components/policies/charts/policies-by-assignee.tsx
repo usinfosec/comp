@@ -84,7 +84,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 								</span>
 							</div>
 
-							<RiskBarChart stat={stat} t={t} />
+							<RiskBarChart stat={stat} />
 
 							<div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
 								<div className="flex items-center gap-1">
@@ -124,7 +124,7 @@ export async function PoliciesByAssignee({ organizationId }: Props) {
 	);
 }
 
-function RiskBarChart({ stat, t }: { stat: UserPolicyStats; t: any }) {
+function RiskBarChart({ stat }: { stat: UserPolicyStats }) {
 	const data = [
 		...(stat.publishedPolicies && stat.publishedPolicies > 0
 			? [
