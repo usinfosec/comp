@@ -79,9 +79,7 @@ export function UpdateTitleAndDescriptionForm({
 									{...field}
 									autoFocus
 									className="mt-3"
-									placeholder={t(
-										"vendors.form.vendor_name_description",
-									)}
+									placeholder={"A short, descriptive name for the vendor."}
 									autoCorrect="off"
 								/>
 							</FormControl>
@@ -101,9 +99,7 @@ export function UpdateTitleAndDescriptionForm({
 								<Textarea
 									{...field}
 									className="mt-3 min-h-[80px]"
-									placeholder={t(
-										"vendors.form.vendor_description_description",
-									)}
+									placeholder={"A detailed description of the vendor and its services."}
 								/>
 							</FormControl>
 							<FormMessage />
