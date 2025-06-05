@@ -1,133 +1,161 @@
+console.log("[TOP] Script execution started - V3"); // Earliest possible log
+
 import * as fs from "fs";
 import * as path from "path";
 import { glob } from "glob";
-import * as ts from "typescript";
 
-interface TranslationMap {
-  [key: string]: string | TranslationMap;
-}
+// Manually build the translation map by reading files
+function buildTranslationMap(): Record<string, string> {
+  console.log("  [buildTranslationMap] Starting...");
+  const translations: Record<string, string> = {};
+  
+  const translationFiles = [
+    { prefix: "common", file: "core/common.ts" },
+    { prefix: "errors", file: "core/errors.ts" },
+    { prefix: "language", file: "core/language.ts" },
+    { prefix: "auth", file: "auth/auth.ts" },
+    { prefix: "onboarding", file: "auth/onboarding.ts" },
+    { prefix: "header", file: "layout/header.ts" },
+    { prefix: "not_found", file: "layout/not-found.ts" },
+    { prefix: "sidebar", file: "layout/sidebar.ts" },
+    { prefix: "theme", file: "layout/theme.ts" },
+    { prefix: "user_menu", file: "layout/user-menu.ts" },
+    { prefix: "controls", file: "features/controls.ts" },
+    { prefix: "frameworks", file: "features/frameworks.ts" },
+    { prefix: "overview", file: "features/overview.ts" },
+    { prefix: "people", file: "features/people.ts" },
+    { prefix: "policies", file: "features/policies.ts" },
+    { prefix: "risk", file: "features/risk.ts" },
+    { prefix: "tests", file: "features/tests.ts" },
+    { prefix: "vendors", file: "features/vendors.ts" },
+    { prefix: "app_onboarding", file: "onboarding/app-onboarding.ts" },
+    { prefix: "settings", file: "settings/settings.ts" },
+    { prefix: "tasks", file: "features/tasks.ts" },
+  ];
+  
+  // Base path for locales, assuming script is run from apps/app
+  const baseLocalePath = path.join(process.cwd(), "src", "locales");
 
-// Parse TypeScript file and extract the exported const object
-function parseTranslationFile(filePath: string): any {
-  const content = fs.readFileSync(filePath, "utf-8");
-  
-  // Create a TypeScript source file
-  const sourceFile = ts.createSourceFile(
-    filePath,
-    content,
-    ts.ScriptTarget.Latest,
-    true
-  );
-  
-  let result: any = null;
-  
-  // Visit all nodes in the AST
-  function visit(node: ts.Node) {
-    // Look for export const declarations
-    if (ts.isVariableStatement(node) && 
-        node.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)) {
-      const declaration = node.declarationList.declarations[0];
-      if (ts.isVariableDeclaration(declaration) && 
-          declaration.initializer && 
-          ts.isObjectLiteralExpression(declaration.initializer)) {
-        result = parseObjectLiteral(declaration.initializer);
-      }
-    }
-    
-    ts.forEachChild(node, visit);
-  }
-  
-  // Parse object literal expression
-  function parseObjectLiteral(node: ts.ObjectLiteralExpression): any {
-    const obj: any = {};
-    
-    for (const prop of node.properties) {
-      if (ts.isPropertyAssignment(prop)) {
-        const key = prop.name?.getText(sourceFile).replace(/['"]/g, '');
-        
-        if (prop.initializer) {
-          if (ts.isStringLiteral(prop.initializer) || 
-              ts.isNoSubstitutionTemplateLiteral(prop.initializer)) {
-            obj[key] = prop.initializer.text;
-          } else if (ts.isObjectLiteralExpression(prop.initializer)) {
-            obj[key] = parseObjectLiteral(prop.initializer);
-          }
-        }
-      }
-    }
-    
-    return obj;
-  }
-  
-  visit(sourceFile);
-  return result;
-}
-
-// Build complete translation map from all files
-async function buildCompleteTranslationMap(): Promise<TranslationMap> {
-  const translationMap: TranslationMap = {};
-  
-  // Read the main en.ts file to get the structure
-  const enPath = "apps/app/src/locales/en.ts";
-  const enContent = fs.readFileSync(enPath, "utf-8");
-  
-  // Extract imports from en.ts
-  const importRegex = /import\s*{\s*(\w+)\s*}\s*from\s*["']\.\/([^"']+)["']/g;
-  let match;
-  
-  while ((match = importRegex.exec(enContent)) !== null) {
-    const [_, importName, importPath] = match;
-    const fullPath = path.join("apps/app/src/locales", importPath + ".ts");
-    
-    if (fs.existsSync(fullPath)) {
-      try {
-        const parsed = parseTranslationFile(fullPath);
-        if (parsed) {
-          translationMap[importName] = parsed;
-        }
-      } catch (error) {
-        console.warn(`Failed to parse ${fullPath}:`, error);
-      }
-    }
-  }
-  
-  return translationMap;
-}
-
-// Helper function to get nested value from object using dot notation
-function getNestedValue(obj: any, path: string): string | undefined {
-  const keys = path.split('.');
-  let current = obj;
-  
-  for (const key of keys) {
-    if (current && typeof current === 'object' && key in current) {
-      current = current[key];
+  for (const { prefix, file } of translationFiles) {
+    const filePath = path.join(baseLocalePath, file);
+    console.log(`    [buildTranslationMap] Processing translation file: ${filePath}`);
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, "utf-8");
+      parseTranslationFile(content, prefix, translations);
+      console.log(`      [buildTranslationMap] Finished processing: ${file}`);
     } else {
-      return undefined;
+      console.warn(`      [buildTranslationMap] WARN: File not found - ${filePath} (CWD: ${process.cwd()})`);
     }
   }
   
-  return typeof current === 'string' ? current : undefined;
+  console.log("  [buildTranslationMap] Finished.");
+  return translations;
+}
+
+// Parse a translation file and extract key-value pairs
+function parseTranslationFile(content: string, prefix: string, translations: Record<string, string>) {
+  const lines = content.split('\n');
+  let currentPath: string[] = [prefix];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line || line.startsWith('//')) continue;
+
+    const simpleMatch = line.match(/^(\w+)\s*:\s*"([^"]*)"\s*,?$/);
+    if (simpleMatch) {
+      const [, key, value] = simpleMatch;
+      const fullKey = [...currentPath, key].join('.');
+      translations[fullKey] = value.replace(/\\"/g, '"'); // Handle escaped quotes
+      continue;
+    }
+    
+    const objectMatch = line.match(/^(\w+)\s*:\s*{\s*$/);
+    if (objectMatch) {
+      currentPath.push(objectMatch[1]);
+      continue;
+    }
+    
+    if (line.includes('}')) {
+      const braceCount = (line.match(/}/g) || []).length;
+      for (let j = 0; j < braceCount; j++) {
+        if (currentPath.length > 1) {
+          currentPath.pop();
+        }
+      }
+    }
+    
+    const multilineStart = line.match(/^(\w+)\s*:\s*$/);
+    if (multilineStart && i + 1 < lines.length && lines[i + 1].trim().startsWith('"')) {
+      const key = multilineStart[1];
+      let value = '';
+      i++; 
+      
+      while (i < lines.length) {
+        const valueLine = lines[i].trim();
+        const valueMatch = valueLine.match(/^"([^"]*)"\s*,?$/);
+        if (valueMatch) {
+          value = valueMatch[1].replace(/\\"/g, '"'); // Handle escaped quotes
+          break;
+        }
+        const partialValueMatch = valueLine.match(/^"([^"]*)/); // part of multiline
+        if(partialValueMatch){
+            value += partialValueMatch[1].replace(/\\"/g, '"');
+        } else if (valueLine.endsWith('"')) { // end of multiline
+            value += valueLine.substring(0, valueLine.length -1).replace(/\\"/g, '"');
+            break;
+        } else { // middle of multiline
+             value += valueLine.replace(/\\"/g, '"');
+        }
+        i++;
+      }
+      
+      if (value) {
+        const fullKey = [...currentPath, key].join('.');
+        translations[fullKey] = value;
+      }
+    }
+  }
 }
 
 // Process a single file
-async function processFile(filePath: string, translations: TranslationMap): Promise<boolean> {
+function processFile(filePath: string, translations: Record<string, string>): boolean {
+  // filePath is now relative to CWD (apps/app) from glob
+  const fullFilePath = path.join(process.cwd(), filePath);
   try {
-    let content = fs.readFileSync(filePath, "utf-8");
-    let hasChanges = false;
-    const changes: string[] = [];
-
-    // Pattern to match t("key") or t('key') or t(`key`)
-    // Also handles multiline and spaces
-    const tCallPattern = /t\s*\(\s*(["'`])([^"'`]+?)\1\s*\)/g;
+    let content = fs.readFileSync(fullFilePath, "utf-8");
+    let originalContent = content;
     
-    // Replace all t() calls with hardcoded strings
+    const importPatterns = [
+      /import\s*{\s*useI18n\s*}\s*from\s*["']@\/locales\/client["'][\s;]*\n?/g,
+      /import\s*{\s*getI18n\s*}\s*from\s*["']@\/locales\/server["'][\s;]*\n?/g,
+      /import\s*{\s*getScopedI18n\s*}\s*from\s*["']@\/locales\/server["'][\s;]*\n?/g,
+      /import\s*{\s*useScopedI18n\s*}\s*from\s*["']@\/locales\/client["'][\s;]*\n?/g,
+       // Generic catch for all imports from locales/client or locales/server
+      /import\s*{[^}]*}\s*from\s*["']@\/locales\/(client|server)["'][\s;]*\n?/g,
+    ];
+    
+    for (const pattern of importPatterns) {
+      content = content.replace(pattern, '');
+    }
+    
+    const declarationPatterns = [
+      /const\s+t\s*=\s*useI18n\s*\(\s*\)[\s;]*\n?/g,
+      /const\s+t\s*=\s*await\s+getI18n\s*\(\s*\)[\s;]*\n?/g,
+      /const\s+t\s*=\s*useScopedI18n\s*\([^)]*\)[\s;]*\n?/g,
+      /const\s+t\s*=\s*await\s+getScopedI18n\s*\([^)]*\)[\s;]*\n?/g,
+    ];
+    
+    for (const pattern of declarationPatterns) {
+      content = content.replace(pattern, '');
+    }
+    
+    const tCallPattern = /t\s*\(\s*(["'`])((?:\\\1|(?!\1).)+?)\1\s*\)/g;
+    const changes: string[] = [];
+    
     content = content.replace(tCallPattern, (match, quote, key) => {
-      const value = getNestedValue(translations, key);
-      if (value) {
-        hasChanges = true;
-        changes.push(`  ${key} → "${value}"`);
-        // Escape the value for JavaScript string
+      const value = translations[key];
+      if (value !== undefined) {
+        changes.push(`  ${key} → "${value.length > 50 ? value.substring(0, 47) + '...' : value}"`);
         const escapedValue = value
           .replace(/\\/g, '\\\\')
           .replace(/"/g, '\\"')
@@ -136,134 +164,100 @@ async function processFile(filePath: string, translations: TranslationMap): Prom
           .replace(/\t/g, '\\t');
         return `"${escapedValue}"`;
       }
-      console.warn(`⚠️  Translation key not found: "${key}" in ${filePath}`);
+      console.warn(`  ⚠️  WARN: Translation not found: "${key}" in ${filePath}`);
       return match;
     });
-
-    // Remove i18n imports (handle various formats)
-    const importPatterns = [
-      /import\s*{\s*useI18n\s*}\s*from\s*["']@\/locales\/client["'][\s;]*\n?/g,
-      /import\s*{\s*getI18n\s*}\s*from\s*["']@\/locales\/server["'][\s;]*\n?/g,
-      /import\s*{\s*getScopedI18n\s*}\s*from\s*["']@\/locales\/server["'][\s;]*\n?/g,
-      /import\s*{\s*useScopedI18n\s*}\s*from\s*["']@\/locales\/client["'][\s;]*\n?/g,
-      // Also handle multiple imports
-      /import\s*{\s*[^}]*(?:useI18n|getI18n|getScopedI18n|useScopedI18n)[^}]*}\s*from\s*["']@\/locales\/(?:client|server)["'][\s;]*\n?/g,
-    ];
-
-    for (const pattern of importPatterns) {
-      const matches = content.match(pattern);
-      if (matches) {
-        hasChanges = true;
-        content = content.replace(pattern, '');
-      }
-    }
-
-    // Remove useI18n/getI18n/getScopedI18n/useScopedI18n declarations
-    const declarationPatterns = [
-      /const\s+t\s*=\s*useI18n\s*\(\s*\)[\s;]*\n?/g,
-      /const\s+t\s*=\s*await\s+getI18n\s*\(\s*\)[\s;]*\n?/g,
-      /const\s+t\s*=\s*useScopedI18n\s*\([^)]*\)[\s;]*\n?/g,
-      /const\s+t\s*=\s*await\s+getScopedI18n\s*\([^)]*\)[\s;]*\n?/g,
-    ];
-
-    for (const pattern of declarationPatterns) {
-      if (pattern.test(content)) {
-        hasChanges = true;
-        content = content.replace(pattern, '');
-      }
-    }
-
-    // Clean up extra newlines (max 2 consecutive)
-    content = content.replace(/\n{3,}/g, '\n\n');
     
-    // Remove trailing whitespace
+    content = content.replace(/\n{3,}/g, '\n\n');
     content = content.split('\n').map(line => line.trimEnd()).join('\n');
+    if (content.startsWith('\n\n')) {
+      content = content.substring(2);
+    }
+
+    const hasChanges = content !== originalContent;
 
     if (hasChanges) {
-      fs.writeFileSync(filePath, content, "utf-8");
-      console.log(`✅ ${path.relative(process.cwd(), filePath)}`);
-      if (changes.length > 0) {
+      fs.writeFileSync(fullFilePath, content, "utf-8");
+      console.log(`✅ Modified: ${filePath}`); // Log the relative path
+      if (changes.length > 0 && changes.length <= 5) {
         console.log(changes.join('\n'));
+      } else if (changes.length > 5) {
+        console.log(`   ${changes.length} translations replaced`);
       }
       return true;
     }
     
     return false;
   } catch (error) {
-    console.error(`❌ Error processing ${filePath}:`, error);
+    console.error(`❌ Error processing ${fullFilePath}:`, error);
     return false;
   }
 }
 
 async function main() {
-  console.log("🚀 Starting localization removal...\n");
+  console.log(`[main] Script CWD: ${process.cwd()}`);
+  console.log("🚀 Starting localization removal...");
   
-  // Check if TypeScript is available
-  try {
-    require.resolve("typescript");
-  } catch {
-    console.error("❌ TypeScript is required. Please install it:");
-    console.error("   npm install --save-dev typescript");
-    process.exit(1);
-  }
+  console.log("\n📖 Building translation map...");
+  const startTime = Date.now();
+  const translations = buildTranslationMap();
+  const buildTime = Date.now() - startTime;
+  console.log(`✅ Loaded ${Object.keys(translations).length} translation keys in ${buildTime}ms\n`);
   
-  // Build translation map
-  console.log("📖 Loading translation files...");
-  const translations = await buildCompleteTranslationMap();
-  
-  const totalKeys = countKeys(translations);
-  console.log(`✅ Loaded ${totalKeys} translation keys\n`);
-  
-  // Find all .ts and .tsx files in apps/app
   console.log("🔍 Finding files to process...");
-  const files = await glob("apps/app/src/**/*.{ts,tsx}", {
+  const globStartTime = Date.now();
+  // Ensure glob runs from the project root (apps/app) for consistency
+  const files = await glob("src/**/*.{ts,tsx}", {
+    cwd: process.cwd(), 
     ignore: [
       "**/node_modules/**",
-      "**/locales/**", // Skip the locales directory itself
+      "**/locales/**",
       "**/*.test.{ts,tsx}",
       "**/*.spec.{ts,tsx}",
       "**/*.d.ts",
+      "**/scripts/**", // ignore this script itself
     ],
+    absolute: false, // Get relative paths from CWD
   });
-
-  console.log(`📁 Found ${files.length} files to process\n`);
+  const globTime = Date.now() - globStartTime;
+  console.log(`📁 Found ${files.length} files to process in ${globTime}ms (e.g., ${files[0]})\n`);
   
-  // Process all files
   let processedCount = 0;
-  for (const file of files) {
-    const wasProcessed = await processFile(file, translations);
-    if (wasProcessed) processedCount++;
-  }
+  const batchSize = 20; 
+  const totalBatches = Math.ceil(files.length / batchSize);
 
-  console.log(`\n✅ Localization removal complete!`);
-  console.log(`📊 Processed ${processedCount} out of ${files.length} files`);
-  
-  console.log("\n📋 Next steps:");
-  console.log("1. Review the changes (use 'git diff' to see all modifications)");
-  console.log("2. Test your application to ensure everything works");
-  console.log("3. Remove [locale] segments from your routes");
-  console.log("4. Delete the locales directory when ready");
-  console.log("5. Update middleware.ts to remove locale handling");
-  console.log("6. Remove next-international from package.json");
-}
+  console.log(`⚙️  Processing files in ${totalBatches} batches of ${batchSize}...`);
+  const processingStartTime = Date.now();
 
-// Helper to count total keys in nested object
-function countKeys(obj: any): number {
-  let count = 0;
-  for (const key in obj) {
-    if (typeof obj[key] === 'string') {
-      count++;
-    } else if (typeof obj[key] === 'object') {
-      count += countKeys(obj[key]);
+  for (let i = 0; i < files.length; i += batchSize) {
+    const batch = files.slice(i, i + batchSize);
+    const batchNum = i / batchSize + 1;
+    console.log(`  Batch ${batchNum}/${totalBatches} processing ${batch.length} files...`);
+    
+    for (const file of batch) {
+      // processFile expects path relative to CWD
+      const wasProcessed = processFile(file, translations);
+      if (wasProcessed) processedCount++;
+    }
+    
+    if (i + batchSize < files.length) {
+      await new Promise(resolve => setTimeout(resolve, 50)); 
     }
   }
-  return count;
+  const processingTime = Date.now() - processingStartTime;
+  console.log(`
+✅ Localization removal complete! Processed ${processedCount} out of ${files.length} files in ${processingTime / 1000}s.`);
+  
+  console.log("\n📋 Next steps:");
+  console.log("1. Review changes carefully (e.g., with 'git diff')");
+  console.log("2. Test your application thoroughly");
+  console.log("3. Manually remove [locale] segments from your routes");
+  console.log("4. Delete the 'src/locales' directory when confident");
+  console.log("5. Update 'middleware.ts' to remove any locale handling logic");
+  console.log("6. Remove 'next-international' from your 'package.json' dependencies");
 }
 
-// Run the script
-if (require.main === module) {
-  main().catch(error => {
-    console.error("\n❌ Script failed:", error);
-    process.exit(1);
-  });
-} 
+main().catch(error => {
+  console.error("\n❌ Script failed unexpectedly:", error);
+  process.exit(1);
+}); 
