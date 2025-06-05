@@ -125,9 +125,7 @@ export function CreateApiKeyDialog({
                 >
                     <SelectTrigger id="expiration" className="w-full">
                         <SelectValue
-                            placeholder={t(
-                                "settings.api_keys.expiration_placeholder",
-                            )}
+                            placeholder={"Select expiration"}
                         />
                     </SelectTrigger>
                     <SelectContent>

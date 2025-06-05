@@ -49,9 +49,7 @@ export default async function RiskRegisterPage(props: {
 			<div className="py-4">
 				<AppOnboarding
 					title={"Risk Management"}
-					description={t(
-						"app_onboarding.risk_management.description",
-					)}
+					description={"Identify, assess, and mitigate risks to protect your organization's assets and ensure compliance."}
 					cta={"Create risk"}
 					imageSrcLight="/onboarding/risk-light.webp"
 					imageSrcDark="/onboarding/risk-dark.webp"
@@ -59,28 +57,16 @@ export default async function RiskRegisterPage(props: {
 					sheetName="create-risk-sheet"
 					faqs={[
 						{
-							questionKey: t(
-								"app_onboarding.risk_management.faqs.question_1",
-							),
-							answerKey: t(
-								"app_onboarding.risk_management.faqs.answer_1",
-							),
+							questionKey: "What is risk management?",
+							answerKey: "Risk management is the process of identifying, assessing, and controlling threats to an organization's capital and earnings.",
 						},
 						{
-							questionKey: t(
-								"app_onboarding.risk_management.faqs.question_2",
-							),
-							answerKey: t(
-								"app_onboarding.risk_management.faqs.answer_2",
-							),
+							questionKey: "Why is risk management important?",
+							answerKey: "It helps organizations protect their assets, ensure stability, and achieve their objectives by minimizing potential disruptions.",
 						},
 						{
-							questionKey: t(
-								"app_onboarding.risk_management.faqs.question_3",
-							),
-							answerKey: t(
-								"app_onboarding.risk_management.faqs.answer_3",
-							),
+							questionKey: "What are the key steps in risk management?",
+							answerKey: "The key steps are risk identification, risk analysis, risk evaluation, risk treatment, and risk monitoring and review.",
 						},
 					]}
 				/>
