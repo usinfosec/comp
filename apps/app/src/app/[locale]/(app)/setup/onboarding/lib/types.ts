@@ -1,6 +1,7 @@
 export type CompanyDetails = {
 	legalName: string;
 	website: string;
+	describe: string;
 	industry: string;
 	teamSize: string;
 	devices: string;
