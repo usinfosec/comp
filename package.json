@@ -48,7 +48,10 @@
 		"node": ">=18"
 	},
 	"packageManager": "bun@1.1.36",
-	"workspaces": ["apps/*", "packages/*"],
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
 	"dependencies": {
 		"@azure/core-http": "^3.0.5",
 		"@azure/identity": "^4.10.0",
@@ -77,5 +80,5 @@
 		"use-debounce": "^10.0.4",
 		"zod": "^3.25.49"
 	},
-	"version": "1.32.3"
+	"version": "1.33.0"
 }

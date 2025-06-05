@@ -1,3 +1,41 @@
+# [1.33.0](https://github.com/trycompai/comp/compare/v1.32.3...v1.33.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* enable nodeMiddleware in Next.js configuration for app and trust ([f4ab998](https://github.com/trycompai/comp/commit/f4ab9982c570bc17bf0361d6d52753e8c15bc01e))
+* enhance hydration handling in OnboardingForm component ([94aabef](https://github.com/trycompai/comp/commit/94aabef6e939689f62613ac7f1eae8c07bdface5))
+* **middleware:** remove unnecessary URL encoding for redirect in authentication check ([33edd96](https://github.com/trycompai/comp/commit/33edd965774b7574d831477a13e3b15dbf8dffc6))
+* **migration:** correct foreign key constraint addition in Context table ([552dc2c](https://github.com/trycompai/comp/commit/552dc2cd6c13fc461b1b8b64e96b79dcc4e48c33))
+* **onboarding:** add conditional check for policies before batch processing ([a7d53ad](https://github.com/trycompai/comp/commit/a7d53ade77260989a4241aa2e9ea166162216bfd))
+* **onboarding:** simplify onboarding path checks in middleware ([864de65](https://github.com/trycompai/comp/commit/864de65a2c1951caae1acbd06ce047392ab02985))
+* **onboarding:** update onboarding completion logic ([1a9c875](https://github.com/trycompai/comp/commit/1a9c87580ae591e7df37ee2cbcd386fcad9d7588))
+* remove minWidth style from OnboardingForm component ([a784166](https://github.com/trycompai/comp/commit/a784166016354f33e9cdcf0f7047806c88ac8acf))
+* update placeholder text in OnboardingForm for clarity ([760f7b5](https://github.com/trycompai/comp/commit/760f7b53b07d6434b645870e09946657d8ee936c))
+* **vendor:** map vendor categories to user-friendly labels in VendorColumns component ([8b6600a](https://github.com/trycompai/comp/commit/8b6600a60177f95639787c413fdba62c4a345f60))
+
+
+### Features
+
+* add company description field to onboarding form ([92a0535](https://github.com/trycompai/comp/commit/92a05356358b095811fbc709230c7af49c4144d2))
+* add conditional migration for onboarding data transfer ([06e6ef5](https://github.com/trycompai/comp/commit/06e6ef593423b4f0e691a6c7266fecdfb0fa990f))
+* add context hub settings and onboarding components ([cf97f8d](https://github.com/trycompai/comp/commit/cf97f8d0d1bdd7e398397831fbac2cc9e1dcd7fa))
+* add isCollapsed prop to SidebarLogo component ([90d1ceb](https://github.com/trycompai/comp/commit/90d1ceb07cff15b17ef45df869e2b5109eb65fcd))
+* add migration to transfer onboarding data to context table ([7a441ad](https://github.com/trycompai/comp/commit/7a441adb4c3342366b24537bfaaa00c2899dbf02))
+* add software selection to onboarding form ([9298666](https://github.com/trycompai/comp/commit/9298666b97225fcfb0f98d98df0d15f9d5bcf28f))
+* check for existing vendor before research task execution ([81c174e](https://github.com/trycompai/comp/commit/81c174e847b69043d91781412dc38471d82fd207))
+* enhance context entry forms with placeholders and descriptions ([6bc4ac1](https://github.com/trycompai/comp/commit/6bc4ac1ee162f1e9a0505ce94a7d44bd4a406d22))
+* enhance framework templates and relationships ([05f671b](https://github.com/trycompai/comp/commit/05f671bbf3abb68056320114d7829bb7d8aeec6a))
+* enhance onboarding form with additional software options ([e9727d9](https://github.com/trycompai/comp/commit/e9727d992331c8150075e33592f637904dd150ae))
+* enhance settings layout and API key management ([570837b](https://github.com/trycompai/comp/commit/570837b5044c16ba42075d6c3065aa9d929a2fe6))
+* implement policy update functionality with AI-generated prompts ([c70db73](https://github.com/trycompai/comp/commit/c70db73e3003d3615ebef5b09865dca3fc69a9fe))
+* move onboarding loading to layout ([bd8f0e3](https://github.com/trycompai/comp/commit/bd8f0e3f0a9115fb80d6e71714c479bcba798f5d))
+* **new:** trigger.dev job to onboard new users, added trigger.dev loading screen for onboarding ([1684fa6](https://github.com/trycompai/comp/commit/1684fa6a249ed53983a4dce8529c083ecc5f479c))
+* **tasks:** enhance task management with control linking functionality ([44678bf](https://github.com/trycompai/comp/commit/44678bf2ac004bb2bd1394df4420e1674ecaccdc))
+* **tasks:** implement task management actions and UI enhancements ([be12434](https://github.com/trycompai/comp/commit/be124345da0595440ae57fc7258807d62dfe9911))
+* update dependencies and enhance task management features ([61b48e9](https://github.com/trycompai/comp/commit/61b48e95482310085f3251704ff54ee5b8727d84))
+* update onboarding process to set default completion status ([a231c23](https://github.com/trycompai/comp/commit/a231c23f92ee1003b1171d1889a799fe3fe6a2ae))
+
 ## [1.32.3](https://github.com/trycompai/comp/compare/v1.32.2...v1.32.3) (2025-05-30)
 
 
