@@ -77,9 +77,7 @@ export function UpdateTaskOverviewForm({
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t(
-											"risk.tasks.form.task_title_description",
-										)}
+										placeholder={"A short, descriptive title for the task."}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -97,9 +95,7 @@ export function UpdateTaskOverviewForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t(
-											"risk.tasks.form.description_description",
-										)}
+										placeholder={"Provide a detailed description of what needs to be done."}
 									/>
 								</FormControl>
 								<FormMessage />
