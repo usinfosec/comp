@@ -1,3 +1,17 @@
+# [1.34.0](https://github.com/trycompai/comp/compare/v1.33.1...v1.34.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* update organization ID reference in OrganizationSwitcher component ([a930de6](https://github.com/trycompai/comp/commit/a930de64f48e12e03ed361f51597b16b3a979fe3))
+
+
+### Features
+
+* add cascading delete constraints for organization relationships ([1b7fbb6](https://github.com/trycompai/comp/commit/1b7fbb6694e0104eebaa35226be0cdcd5ed3213a))
+* add script to remove localization from the codebase ([54e36c4](https://github.com/trycompai/comp/commit/54e36c43d2ae3e6c1808a644ad62bf29c953aaab))
+* implement localization removal script and TypeScript configuration ([90d944b](https://github.com/trycompai/comp/commit/90d944bfb85d8a7d8b53ab8789c6eeff290e6431))
+
 ## [1.33.1](https://github.com/trycompai/comp/compare/v1.33.0...v1.33.1) (2025-06-05)
 
 
