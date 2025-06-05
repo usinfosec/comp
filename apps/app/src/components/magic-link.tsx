@@ -90,9 +90,7 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 							<FormItem>
 								<FormControl>
 									<Input
-										placeholder={t(
-											"auth.email.placeholder",
-										)}
+										placeholder={"example@acme.com"}
 										{...field}
 										autoFocus
 										className="h-[40px]"
