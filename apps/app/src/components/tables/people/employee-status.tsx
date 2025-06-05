@@ -10,13 +10,14 @@ export type EmployeeStatusType = (typeof EMPLOYEE_STATUS_TYPES)[number];
  * but uses active/inactive states specific to employees
  */
 export function EmployeeStatus({ status }: { status: EmployeeStatusType }) {
+	const statusLabel = status === "active" ? "Active" : "Inactive";
 	return (
 		<div className="flex items-center gap-2">
 			<div
 				className={cn("size-2.5")}
 				style={{ backgroundColor: EMPLOYEE_STATUS_HEX_COLORS[status] }}
 			/>
-			{t(`people.status.${status}`)}
+			{statusLabel}
 		</div>
 	);
 }
