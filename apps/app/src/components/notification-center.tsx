@@ -205,9 +205,7 @@ export function NotificationCenter() {
 					<TabsContent value="archive" className="mt-0">
 						{!archivedNotifications.length && (
 							<EmptyState
-								description={t(
-									"common.notifications.no_notifications",
-								)}
+								description={"No new notifications"}
 							/>
 						)}
 
