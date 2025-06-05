@@ -49,9 +49,7 @@ export function VendorResidualRiskSheet({
 							</Button>
 						</div>
 						<SheetDescription>
-							{t(
-								"vendors.risks.update_residual_risk_description",
-							)}
+							{"Select the residual risk level for this vendor"}
 						</SheetDescription>
 					</SheetHeader>
 
