@@ -106,9 +106,7 @@ export function FilterToolbar({ isEmpty, users }: FilterToolbarProps) {
 					>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue
-								placeholder={t(
-									"vendors.tasks.filters.assignee",
-								)}
+								placeholder={"Filter by assignee"}
 							/>
 						</SelectTrigger>
 						<SelectContent>

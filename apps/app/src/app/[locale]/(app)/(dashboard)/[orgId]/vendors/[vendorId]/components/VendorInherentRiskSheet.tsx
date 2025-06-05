@@ -50,9 +50,7 @@ export function VendorInherentRiskSheet({
 							</Button>
 						</div>
 						<SheetDescription>
-							{t(
-								"vendors.risks.update_inherent_risk_description",
-							)}
+							{"Select the inherent risk level for this vendor"}
 						</SheetDescription>
 					</SheetHeader>
 
