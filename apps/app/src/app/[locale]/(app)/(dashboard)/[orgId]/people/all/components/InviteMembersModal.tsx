@@ -479,17 +479,13 @@ export function InviteMembersModal({
 												<FormItem className="flex-1">
 													{index === 0 && (
 														<FormLabel>
-															{t(
-																"people.invite.email.label",
-															)}
+															{"Email"}
 														</FormLabel>
 													)}
 													<FormControl>
 														<Input
 															className="h-10"
-															placeholder={t(
-																"people.invite.email.placeholder",
-															)}
+															placeholder={"Enter email address"}
 															{...field}
 															value={
 																field.value ||
@@ -511,9 +507,7 @@ export function InviteMembersModal({
 												<FormItem className="w-[200px]">
 													{index === 0 && (
 														<FormLabel>
-															{t(
-																"people.invite.role.label",
-															)}
+															{"Role"}
 														</FormLabel>
 													)}
 													<MultiRoleCombobox
@@ -523,9 +517,7 @@ export function InviteMembersModal({
 														onSelectedRolesChange={
 															onChange
 														}
-														placeholder={t(
-															"people.invite.role.placeholder",
-														)}
+														placeholder={"Select a role"}
 													/>
 													<FormMessage>
 														{error?.message}
@@ -622,18 +614,14 @@ export function InviteMembersModal({
 												/>
 											</FormControl>
 											<FormDescription>
-												{t(
-													"people.invite.csv.description",
-												)}
+												{"Upload a CSV file with columns for 'email' and 'role'."}
 											</FormDescription>
 											<a
 												href={csvTemplateDataUri}
 												download="comp_invite_template.csv"
 												className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
 											>
-												{t(
-													"people.invite.csv.download_template",
-												)}
+												{"Download CSV template"}
 											</a>
 											<FormMessage />
 										</FormItem>
