@@ -22,7 +22,7 @@ import {
 import { Check, ChevronsUpDown, Plus, Search, Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CreateOrgModal } from "./modals/create-org-modal";
 import { useQueryState } from "nuqs";
 
@@ -145,14 +145,6 @@ function OrganizationInitialsAvatar({
 	);
 }
 
-// Helper to get display name with unique identifier for duplicates
-function getDisplayName(org: Organization) {
-	if (org.name) {
-		return `${org.name}`;
-	}
-	return org.name;
-}
-
 export function OrganizationSwitcher({
 	organizations,
 	organization,
@@ -163,7 +155,6 @@ export function OrganizationSwitcher({
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [showCreateOrg, setShowCreateOrg] = useState(false);
 	const [pendingOrgId, setPendingOrgId] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
 
 	const [showOrganizationSwitcher, setShowOrganizationSwitcher] =
 		useQueryState("showOrganizationSwitcher", {
@@ -177,32 +168,52 @@ export function OrganizationSwitcher({
 			const orgId = result.data?.data?.id;
 			if (orgId) {
 				router.push(`/${orgId}/`);
-				setIsDialogOpen(false);
 			}
+			setIsDialogOpen(false);
+			setPendingOrgId(null);
 		},
-		onExecute: () => {
-			setIsLoading(true);
+		onExecute: (args) => {
+			setPendingOrgId(args.organizationId);
 		},
 		onError: () => {
-			setIsLoading(false);
+			setPendingOrgId(null);
 		},
 	});
 
+	const orgNameCounts = organizations.reduce(
+		(acc, org) => {
+			if (org.name) {
+				acc[org.name] = (acc[org.name] || 0) + 1;
+			}
+			return acc;
+		},
+		{} as Record<string, number>,
+	);
+
+	const getDisplayName = (org: Organization) => {
+		if (!org.name) return `Org (${org.id.substring(0, 4)})`;
+		if (orgNameCounts[org.name] > 1) {
+			return `${org.name} (${org.id.substring(0, 4)})`;
+		}
+		return org.name;
+	};
+
 	const currentOrganization = organization;
 
-	const handleOrgChange = async (org: Organization) => {
-		setPendingOrgId(org.id);
+	const handleOrgChange = (org: Organization) => {
 		execute({ organizationId: org.id });
+	};
+
+	const handleOpenChange = (open: boolean) => {
+		setShowOrganizationSwitcher(open);
+		setIsDialogOpen(open);
 	};
 
 	return (
 		<div className="w-full">
 			<Dialog
 				open={showOrganizationSwitcher ?? isDialogOpen}
-				onOpenChange={(open) => {
-					setShowOrganizationSwitcher(open);
-					setIsDialogOpen(open);
-				}}
+				onOpenChange={handleOpenChange}
 			>
 				<DialogTrigger asChild>
 					<Button
@@ -250,35 +261,26 @@ export function OrganizationSwitcher({
 								{"No results found"}
 							</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
-                                                                {organizations.map((org) => (
-                                                                        <CommandItem
-                                                                                key={org.id}
-                                                                                value={getDisplayName(org) || org.id}
-                                                                                onSelect={() => {
-                                                                                        if (
-                                                                                                org.id !==
-												currentOrganization?.id
-											) {
+								{organizations.map((org) => (
+									<CommandItem
+										key={org.id}
+										value={org.id}
+										onSelect={() => {
+											if (org.id !== currentOrganization?.id) {
 												handleOrgChange(org);
 											} else {
-												setIsDialogOpen(false);
+												handleOpenChange(false);
 											}
 										}}
-										disabled={isLoading}
+										disabled={status === "executing"}
 									>
-										{isLoading && pendingOrgId === org.id ? (
+										{status === "executing" &&
+										pendingOrgId === org.id ? (
 											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+										) : currentOrganization?.id === org.id ? (
+											<Check className="mr-2 h-4 w-4" />
 										) : (
-											!isLoading && currentOrganization?.id === org.id ? (
-												<Check
-													className={cn(
-														"mr-2 h-4 w-4",
-														"opacity-100"
-													)}
-												/>
-											) : (
-												<span className="mr-2 h-4 w-4" />
-											)
+											<span className="mr-2 h-4 w-4" />
 										)}
 										<OrganizationInitialsAvatar
 											name={org.name}
