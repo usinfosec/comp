@@ -89,18 +89,14 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.tasks.form.task_title",
-														)}
+														{"Task Title"}
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t(
-																"risk.tasks.form.task_title_description",
-															)}
+															placeholder={"A short, descriptive title for the task."}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -115,17 +111,13 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.tasks.form.description",
-														)}
+														{"Description"}
 													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"risk.tasks.form.description_description",
-															)}
+															placeholder={"Provide a detailed description of what needs to be done."}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -139,9 +131,7 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem className="flex flex-col">
 													<FormLabel>
-														{t(
-															"risk.tasks.form.due_date",
-														)}
+														{"Due Date"}
 													</FormLabel>
 													<Popover>
 														<PopoverTrigger asChild>
@@ -163,9 +153,7 @@ export function CreateVendorTaskForm({
 																		)
 																	) : (
 																		<span>
-																			{t(
-																				"common.date.pick",
-																			)}
+																			{"Pick a date"}
 																		</span>
 																	)}
 																	<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -205,9 +193,7 @@ export function CreateVendorTaskForm({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"common.assignee.label",
-														)}
+														{"Assignee"}
 													</FormLabel>
 													<FormControl>
 														<SelectAssignee

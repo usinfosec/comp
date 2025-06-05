@@ -78,18 +78,14 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.update_policy_title",
-									)}
+									{"Policy Title"}
 								</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t(
-											"policies.overview.form.update_policy_title",
-										)}
+										placeholder={"Policy Title"}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -107,9 +103,7 @@ export function UpdatePolicyForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t(
-											"policies.overview.form.description_placeholder",
-										)}
+										placeholder={"A brief summary of the policy's purpose."}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -122,9 +116,7 @@ export function UpdatePolicyForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
-									)}
+									{"Signature Requirement"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -133,21 +125,15 @@ export function UpdatePolicyForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.signature_requirement_placeholder",
-												)}
+												placeholder={"Select signature requirement"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="required">
-												{t(
-													"policies.overview.form.signature_required",
-												)}
+												{"Required"}
 											</SelectItem>
 											<SelectItem value="not_required">
-												{t(
-													"policies.overview.form.signature_not_required",
-												)}
+												{"Not Required"}
 											</SelectItem>
 										</SelectContent>
 									</Select>
