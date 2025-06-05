@@ -53,7 +53,7 @@ export function RequirementControlsTable({
 				enableResizing: true,
 			},
 		],
-		[t, orgId],
+		[orgId],
 	);
 
 	// Filter controls data based on search term
