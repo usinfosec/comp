@@ -1,10 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@comp/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
@@ -20,25 +30,13 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from "@comp/ui/dropdown-menu";
 import { Label } from "@comp/ui/label";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@comp/ui/alert-dialog";
 import type { Role } from "@prisma/client";
 
-import type { MemberWithUser } from "./TeamMembers";
 import { MultiRoleCombobox } from "./MultiRoleCombobox";
+import type { MemberWithUser } from "./TeamMembers";
 
 interface MemberRowProps {
 	member: MemberWithUser;
@@ -62,8 +60,8 @@ function getInitials(name?: string | null, email?: string | null): string {
 }
 
 export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
-	const params = useParams<{ locale: string; orgId: string }>();
-	const { locale, orgId } = params;
+	const params = useParams<{ orgId: string }>();
+	const { orgId } = params;
 	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
 	const [isRemoveAlertOpen, setIsRemoveAlertOpen] = useState(false);
 	const [selectedRoles, setSelectedRoles] = useState<Role[]>(
@@ -131,7 +129,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 							<span>{memberName}</span>
 							{isEmployee && (
 								<Link
-									href={`/${locale}/${orgId}/people/${memberId}`}
+									href={`/${orgId}/people/${memberId}`}
 									className="text-xs text-blue-600 hover:underline"
 								>
 									({"View Profile"})
