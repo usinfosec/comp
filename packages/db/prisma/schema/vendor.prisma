@@ -33,7 +33,7 @@ model VendorContact {
   phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Vendor    Vendor   @relation(fields: [vendorId], references: [id])
+  Vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
   @@index([vendorId])
 }
