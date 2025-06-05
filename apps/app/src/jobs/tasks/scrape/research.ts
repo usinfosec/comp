@@ -40,6 +40,28 @@ export const researchVendor = schemaTask({
 	}),
 	maxDuration: 1000 * 60 * 10, // 10 minutes total task duration
 	run: async (payload, { ctx }) => {
+		// Check if vendor already exists
+		const existingVendor = await db.globalVendors.findFirst({
+			where: {
+				OR: [
+					{ website: payload.website },
+					{
+						company_name: {
+							equals: payload.website,
+							mode: "insensitive",
+						},
+					},
+				],
+			},
+		});
+
+		if (existingVendor) {
+			return {
+				message: "Vendor already exists in database",
+				existingVendor,
+			};
+		}
+
 		return researchJobCore({
 			website: payload.website,
 			prompt: "You're a cyber security researcher, researching a vendor.",
