@@ -24,7 +24,7 @@ export function useApiKeys() {
 			return result.data;
 		}
 		throw new Error("Failed to fetch API keys");
-	}, [t]);
+	}, []);
 
 	// Use SWR for data fetching with caching and revalidation
 	const {

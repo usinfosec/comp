@@ -79,7 +79,7 @@ export function PoliciesTable({
 				},
 			},
 		],
-		[t],
+		[],
 	);
 
 	const filteredPolicies = useMemo(() => {
@@ -115,9 +115,7 @@ export function PoliciesTable({
 			<CardContent>
 				<div className="flex items-center mb-4">
 					<Input
-						placeholder={t(
-							"frameworks.artifacts.search.universal_placeholder",
-						)}
+						placeholder={"Search..."}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="max-w-sm"
