@@ -173,7 +173,7 @@ export function OrganizationSwitcher({
 			setPendingOrgId(null);
 		},
 		onExecute: (args) => {
-			setPendingOrgId(args.organizationId);
+			setPendingOrgId(args.input.organizationId);
 		},
 		onError: () => {
 			setPendingOrgId(null);
