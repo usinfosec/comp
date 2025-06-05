@@ -1,14 +1,5 @@
 [
   {
-    "id": "frk_681ecc34e85064efdbb76993",
-    "name": "ISO 27001",
-    "description": "ISO 27001",
-    "version": "2022",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-14 19:20:44.920",
-    "visible": true
-  },
-  {
     "id": "frk_6820c8b318a6d88bf2c4586d",
     "name": "NIS 2",
     "description": "NIS 2",
@@ -63,15 +54,6 @@
     "visible": false
   },
   {
-    "id": "frk_681ebae2f29f0ab08eb802ec",
-    "name": "SOC 2",
-    "description": "SOC 2",
-    "version": "1.0.0",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-19 21:42:04.147",
-    "visible": true
-  },
-  {
     "id": "frk_683f3102f9ae801df35d47b4",
     "name": "Test",
     "description": "Test",
@@ -90,12 +72,30 @@
     "visible": false
   },
   {
-    "id": "frk_683f377429b8408d1c85f9bd",
-    "name": "SOC 2 A",
-    "description": "Accorp",
+    "id": "frk_681ebae2f29f0ab08eb802ec",
+    "name": "SOC 2",
+    "description": "SOC 2",
     "version": "1.0.0",
+    "createdAt": "2025-05-14 19:20:44.920",
+    "updatedAt": "2025-06-04 19:22:37.620",
+    "visible": false
+  },
+  {
+    "id": "frk_683f377429b8408d1c85f9bd",
+    "name": "SOC 2",
+    "description": "SOC 2 Type I & II",
+    "version": "1",
     "createdAt": "2025-06-03 17:57:07.496",
-    "updatedAt": "2025-06-03 17:57:14.945",
+    "updatedAt": "2025-06-04 21:53:53.548",
+    "visible": true
+  },
+  {
+    "id": "frk_681ecc34e85064efdbb76993",
+    "name": "ISO 27001",
+    "description": "ISO 27001",
+    "version": "2022",
+    "createdAt": "2025-05-14 19:20:44.920",
+    "updatedAt": "2025-06-05 10:38:33.912",
     "visible": false
   }
 ]

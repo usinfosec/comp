@@ -1,1496 +1,308 @@
 [
   {
-    "id": "frk_tt_681e8514d7af582ead600966",
-    "name": "Old_Access Control Records",
-    "description": "Access control configurations, firewall logs, and system access review reports. Provide Access Management Procedures document that outlines granting, monitoring, and revoking system access including access logging and periodic reviews.",
-    "frequency": "quarterly",
+    "id": "frk_tt_6840672484e8bf8f9cf8f2fe",
+    "name": "Security Policy Acknowledgment and Availability",
+    "description": "Develop procedures for all staff to periodically acknowledge and review the company’s security policies, including as part of onboarding. Ensure all security policies are accessible to staff at any time. Document and maintain an Information Security Policy that defines the organization’s approach to ensuring the confidentiality, integrity, and availability of its information systems.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:12.691"
+    "createdAt": "2025-06-04 15:32:52.138",
+    "updatedAt": "2025-06-05 00:20:39.062"
   },
   {
-    "id": "frk_tt_681e85141b853e39a571bfd1",
-    "name": "Old_Access Logs",
-    "description": "System and application access logs showing user authentication and authorization activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:18.507"
+    "id": "frk_tt_68406951bd282273ebe286cc",
+    "name": "Secure Staff Screening and Training",
+    "description": "Implement security risk screening of all individuals before granting access to company systems or sensitive information. Ensure that staff in security-related roles have the appropriate qualifications and skills. Provide information security and privacy training relevant to job functions, including onboarding training for new hires. Maintain accurate documentation and monitoring of individual training activities and records to ensure compliance and readiness.",
+    "frequency": "yearly",
+    "department": "hr",
+    "createdAt": "2025-06-04 15:42:08.603",
+    "updatedAt": "2025-06-05 00:20:39.762"
   },
   {
-    "id": "frk_tt_681e8514048b68c1ba899bdd",
-    "name": "Old_Access Removal Records",
-    "description": "Documentation of access removal for terminated employees or role changes.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:25.531"
+    "id": "frk_tt_684069a3a0dd8322b2ac3f03",
+    "name": "Security Responsibility Evaluations",
+    "description": "Periodically evaluate all employees in client-serving, IT Engineering, and Information Security roles to ensure they understand and fulfill their job responsibilities, including adherence to security policies and procedures. Incorporate these evaluations into the overall disciplinary process for managing security violations.",
+    "frequency": "yearly",
+    "department": "hr",
+    "createdAt": "2025-06-04 15:43:30.893",
+    "updatedAt": "2025-06-05 00:20:39.920"
   },
   {
-    "id": "frk_tt_681e8514479897345cc0ba4c",
-    "name": "Old_Access Review Records",
-    "description": "Documentation of periodic access reviews and approvals.",
-    "frequency": "quarterly",
+    "id": "frk_tt_684069f039a8802920361d55",
+    "name": "Information Retention and Secure Disposal",
+    "description": "Develop and document policies for the retention and secure disposal of information, including processes for decommissioning information assets containing classified or confidential data. Ensure these policies meet confidentiality objectives and are applied consistently to protect sensitive information throughout its lifecycle.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:32.843"
+    "createdAt": "2025-06-04 15:44:48.172",
+    "updatedAt": "2025-06-05 00:20:40.144"
   },
   {
-    "id": "frk_tt_681e85140fbc89846e51815c",
-    "name": "Old_Account Management Records",
-    "description": "Records of account creation, modification, and deletion activities.",
-    "frequency": "monthly",
+    "id": "frk_tt_68406a514e90bb6e32e0b107",
+    "name": "Contact Information and Incident Reporting",
+    "description": "Maintain and display up-to-date information on your website about the services offered, and provide clear guidance for customers on how to report failures, incidents, concerns, or complaints. Ensure that these processes facilitate ongoing communication and transparency with customers.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:40.055"
+    "createdAt": "2025-06-04 15:46:24.989",
+    "updatedAt": "2025-06-05 00:20:40.314"
   },
   {
-    "id": "frk_tt_681e8514cae7734e136f689c",
-    "name": "Old_Authentication Records",
-    "description": "Authentication system logs and configuration documentation.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:44.554"
-  },
-  {
-    "id": "frk_tt_681e8514e8bdffe08194931f",
-    "name": "Old_Board Meeting Documentation",
-    "description": "Minutes and documentation from board meetings discussing security and compliance matters.",
-    "frequency": "quarterly",
+    "id": "frk_tt_68406a9d44fc335ab8a26554",
+    "name": "Information Classification and Labeling",
+    "description": "Develop and implement a policy and procedures for classifying information by sensitivity, including confidential and critical information. Apply appropriate physical and/or logical labels to information systems to support confidentiality, data integrity, and processing integrity. Ensure system inputs are properly labeled to meet processing integrity objectives and data definitions.",
+    "frequency": "yearly",
     "department": "gov",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:48.419"
+    "createdAt": "2025-06-04 15:47:40.857",
+    "updatedAt": "2025-06-05 00:20:40.539"
   },
   {
-    "id": "frk_tt_681e85149594483ba3e98a58",
-    "name": "Old_Business Continuity and Disaster Recovery Testing Records",
-    "description": "Documentation of BCDR testing activities and results.",
+    "id": "frk_tt_68406af04a4acb93083413b9",
+    "name": "Centralized SIEM and Continuous Monitoring",
+    "description": "Implement and maintain a centralized Security Information and Event Management (SIEM) system with alerting capabilities to monitor and evaluate information system events. Use this system to identify and communicate internal control deficiencies, track security incidents, and report the health of the information security program to stakeholders. Establish general control activities through continuous monitoring to support technology and security objectives.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 15:49:03.955",
+    "updatedAt": "2025-06-05 00:20:40.711"
+  },
+  {
+    "id": "frk_tt_68406b4f40c87c12ae0479ce",
+    "name": "Incident Management Policy and Procedures",
+    "description": "Develop and document an incident management policy and supporting procedures that include guidance on reporting failures, incidents, concerns, or complaints; employee reporting mechanisms for internal control deficiencies; and notifying customers and other stakeholders in the event of a breach. Maintain records of security incidents, investigations, and response plans to ensure effective management and resolution.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 15:50:38.678",
+    "updatedAt": "2025-06-05 00:20:40.908"
+  },
+  {
+    "id": "frk_tt_6840681b6dfa62a119d6dca3",
+    "name": "Define and Communicate Security Roles",
+    "description": "Define and document the cybersecurity responsibilities for all personnel. Establish a process to clearly communicate these roles and responsibilities to staff. Maintain an organizational structure that clarifies authority, facilitates information flow, and establishes accountability. Appoint key roles, including a Compliance Program Manager to oversee internal controls, an Information Security Officer to lead the enterprise-wide security and privacy program, and a People Operations Officer to manage personnel-related security strategies.",
+    "frequency": "yearly",
+    "department": "gov",
+    "createdAt": "2025-06-04 15:36:59.274",
+    "updatedAt": "2025-06-05 00:20:39.237"
+  },
+  {
+    "id": "frk_tt_68406903839203801ac8041a",
+    "name": "Manage and Maintain Asset Inventory",
+    "description": "Develop, document, and maintain an inventory of all organizational infrastructure and information systems. Assign asset ownership responsibilities to ensure accountability and establish common asset protection requirements. Periodically update and review the inventory as part of ongoing evaluations to ensure accurate asset tracking and compliance with security standards.",
+    "frequency": "yearly",
+    "department": "admin",
+    "createdAt": "2025-06-04 15:40:51.392",
+    "updatedAt": "2025-06-05 00:20:39.601"
+  },
+  {
+    "id": "frk_tt_68406cd9dde2d8cd4c463fe0",
+    "name": "Secure Authentication Management",
+    "description": "Document and share guidelines for managing passwords and secure login mechanisms with all staff. Require all users with access to critical systems to use secure login mechanisms, including multi-factor authentication, to protect authentication information.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 15:57:13.287",
+    "updatedAt": "2025-06-05 00:20:41.703"
+  },
+  {
+    "id": "frk_tt_68406d2e86acc048d1774ea6",
+    "name": "Capacity Monitoring and Alerts",
+    "description": "Implement continuous monitoring of critical assets to detect vulnerabilities, anomalies, and security events. Generate capacity alerts to protect against denial-of-service attacks and ensure optimal performance, enabling the organization to meet current and future capacity requirements.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:36:54.780"
+    "createdAt": "2025-06-04 15:58:37.662",
+    "updatedAt": "2025-06-05 00:20:41.871"
   },
   {
-    "id": "frk_tt_681e851485b83055bf0a685f",
-    "name": "Old_Business Continuity Plans",
-    "description": "Documentation of business continuity and disaster recovery plans.",
+    "id": "frk_tt_68406d64f09f13271c14dd01",
+    "name": "Change Management for Information Systems",
+    "description": "Document and implement policies and procedures to govern changes to the operating environment, including approval processes. Conduct application regression testing to ensure key processing and output delivery remain accurate and timely, supporting processing integrity.",
+    "frequency": "yearly",
+    "department": "gov",
+    "createdAt": "2025-06-04 15:59:31.795",
+    "updatedAt": "2025-06-05 00:20:42.021"
+  },
+  {
+    "id": "frk_tt_68406df8fe190156f79afc5f",
+    "name": "Secure Configuration Management",
+    "description": "Document and implement policies and procedures to manage and govern configuration changes to the operating environment. Ensure all configuration changes receive proper approval before implementation to maintain a secure and controlled environment.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:03.214"
+    "createdAt": "2025-06-04 16:01:59.882",
+    "updatedAt": "2025-06-05 00:20:42.177"
   },
   {
-    "id": "frk_tt_681e85142bcb74942ee95994",
-    "name": "Old_Capacity Reports",
-    "description": "System capacity planning and monitoring reports.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:08.354"
+    "id": "frk_tt_68406e353df3bc002994acef",
+    "name": "Vulnerability Management and Triage",
+    "description": "Establish policies and procedures to identify, track, and remediate technical vulnerabilities through regular vulnerability scans, system component monitoring, and annual penetration testing. Maintain guidelines for managing vulnerabilities, evaluating security events, and preventing incidents.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:03:00.858",
+    "updatedAt": "2025-06-05 00:20:42.330"
   },
   {
-    "id": "frk_tt_681e8514f1aa978fa0df1bcd",
-    "name": "Old_Change Management Records",
-    "description": "Documentation of system changes and approvals.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:12.123"
-  },
-  {
-    "id": "frk_tt_681e8514d9bd9d9da3cd6d80",
-    "name": "Old_Change Request Logs",
-    "description": "Logs of system change requests and their status.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:18.645"
-  },
-  {
-    "id": "frk_tt_681e85147fd8009762a6f0e0",
-    "name": "Old_Change Risk Documentation",
-    "description": "Risk assessment documentation for system changes.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:28.942"
-  },
-  {
-    "id": "frk_tt_681e8514b19250f7726e0ea2",
-    "name": "Old_Communication Records",
-    "description": "Documentation of internal and external security communications.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:34.551"
-  },
-  {
-    "id": "frk_tt_681e8514f2a015c698b3d458",
-    "name": "Old_Consent Records",
-    "description": "Records of user consent for data processing activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:40.200"
-  },
-  {
-    "id": "frk_tt_681e8514498999a1f315a415",
-    "name": "Old_Control Implementation Records",
-    "description": "Documentation of control implementation and effectiveness.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:45.788"
-  },
-  {
-    "id": "frk_tt_681e85146dd689eb3de04af3",
-    "name": "Old_Control Testing Documentation",
-    "description": "Documentation of control testing activities and results.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:49.780"
-  },
-  {
-    "id": "frk_tt_681e85149022de8376a6d103",
-    "name": "Old_Data Classification Records",
-    "description": "Documentation of data classification and handling procedures.",
+    "id": "frk_tt_68406eedf0f0ddd220ea19c2",
+    "name": "Secure Application Input Controls",
+    "description": "Implement software application controls to ensure that input values are limited to acceptable ranges and that mandatory fields are completed before records are accepted. These controls help maintain processing integrity and ensure system input requirements are met.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:37:56.399"
+    "createdAt": "2025-06-04 16:06:05.042",
+    "updatedAt": "2025-06-05 00:20:42.670"
   },
   {
-    "id": "frk_tt_681e851476a3ebe8aa77b2d5",
-    "name": "Old_Data Processing Logs",
-    "description": "Logs of data processing activities and transactions.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:38:01.216"
+    "id": "frk_tt_68406f411fe27e47a0d6d5f3",
+    "name": "Secure Data Encryption",
+    "description": "Implement cryptographic controls to encrypt all production databases storing customer data at rest and ensure consistent protection in non-production environments. Use standard encryption protocols, such as HTTPS with TLS, to secure data in transit and maintain confidentiality across all stages of data processing, including inputs, items in processing, and outputs.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:07:28.979",
+    "updatedAt": "2025-06-05 00:20:42.825"
   },
   {
-    "id": "frk_tt_681e85143c1a4bd85c70d365",
-    "name": "Old_Data Quality Documentation",
-    "description": "Documentation of data quality controls and monitoring.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:38:07.006"
+    "id": "frk_tt_68406c5fff783844f31941e2",
+    "name": "Vendor Risk Management Program",
+    "description": "Conduct a formal vendor risk assessment annually to identify and evaluate vendors critical to meeting security commitments and system requirements. Regularly review and assess all subservice organizations to ensure they meet customer commitments. Develop and maintain documented policies and procedures to manage vendor relationships, including risk assessment, mitigation, and alignment with service commitments and system requirements.",
+    "frequency": "yearly",
+    "department": "gov",
+    "createdAt": "2025-06-04 15:55:11.286",
+    "updatedAt": "2025-06-05 00:20:41.327"
   },
   {
-    "id": "frk_tt_681e8514ca48b77ef7fc7d83",
-    "name": "Old_Data Validation Records",
-    "description": "Records of data validation and verification activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:38:16.085"
+    "id": "frk_tt_68407759cc3a434f9f0e7ced",
+    "name": "Security Event Logging and Monitoring",
+    "description": "Implement procedures to detect and monitor system configurations and vulnerabilities, identify anomalies, and evaluate security events to determine their potential impact on organizational objectives.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:42:00.668",
+    "updatedAt": "2025-06-05 00:20:43.172"
   },
   {
-    "id": "frk_tt_681e8514d1c939616c3e0951",
-    "name": "Old_Deficiency Management Records",
-    "description": "Documentation of control deficiencies and remediation activities.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:38:28.928"
-  },
-  {
-    "id": "frk_tt_681e8514c64ee74e19ebf5e4",
-    "name": "Old_Disposal Records",
-    "description": "Documentation of secure data and asset disposal activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:38:34.048"
-  },
-  {
-    "id": "frk_tt_681e85144fc85e074719756d",
-    "name": "Old_Ethics Compliance Documentation",
-    "description": "Documentation of ethics training and compliance activities.",
+    "id": "frk_tt_684077bdcc601f30e0a1640c",
+    "name": "Network Segmentation and Firewall Protection",
+    "description": "Restrict public internet access to production databases and secure infrastructure entities. Protect every production host with a firewall configured with a deny-by-default rule. Document guidelines for managing communication protections and network security for critical systems.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:01.606"
+    "createdAt": "2025-06-04 16:43:41.481",
+    "updatedAt": "2025-06-05 00:20:43.333"
   },
   {
-    "id": "frk_tt_681e851485f28df39db0cf99",
-    "name": "Old_Exception Logs",
-    "description": "Logs of security control exceptions and approvals.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:05.423"
-  },
-  {
-    "id": "frk_tt_681e8514d362ed5f66e72fde",
-    "name": "Old_Fraud Risk Documentation",
-    "description": "Documentation of fraud risk assessment and mitigation activities.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:16.256"
-  },
-  {
-    "id": "frk_tt_681e8514fc009ceb3c693964",
-    "name": "Old_HR Documentation",
-    "description": "Documentation of HR security policies and procedures.",
+    "id": "frk_tt_6840780693a81cc2f8071ca9",
+    "name": "Physical and Environmental Security",
+    "description": "Document policies and procedures to manage physical and environmental security, ensuring that access to facilities is properly controlled and monitored.",
     "frequency": "yearly",
-    "department": "hr",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:22.621"
+    "department": "gov",
+    "createdAt": "2025-06-04 16:44:53.895",
+    "updatedAt": "2025-06-05 00:20:44.282"
   },
   {
-    "id": "frk_tt_681e8514a931d9d0ce6a4168",
-    "name": "Old_Incident Analysis Records",
-    "description": "Documentation of security incident analysis and findings.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:28.801"
-  },
-  {
-    "id": "frk_tt_681e851467074fc0123938fb",
-    "name": "Old_Incident Communication Records",
-    "description": "Documentation of incident-related communications.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:47.306"
-  },
-  {
-    "id": "frk_tt_681e8514c09859731d925893",
-    "name": "Old_Incident Recovery Records",
-    "description": "Documentation of incident recovery activities and lessons learned.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:00.122"
-  },
-  {
-    "id": "frk_tt_681e851456a5d73e6ba55a0a",
-    "name": "Old_Incident Response Records",
-    "description": "Documentation of security incident response activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:09.598"
-  },
-  {
-    "id": "frk_tt_681e85143332324f91416be7",
-    "name": "Old_Infrastructure Monitoring Records",
-    "description": "Documentation of infrastructure monitoring and alerting activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:13.749"
-  },
-  {
-    "id": "frk_tt_681e851453c84dda25ce83b5",
-    "name": "Old_Management Structure Documentation",
-    "description": "Documentation of organizational structure and reporting relationships.",
-    "frequency": "yearly",
-    "department": "hr",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:22.989"
-  },
-  {
-    "id": "frk_tt_681e851406b67dee8b177b18",
-    "name": "Old_Personnel Compliance Documentation",
-    "description": "Documentation of personnel compliance with security policies.",
-    "frequency": "quarterly",
-    "department": "hr",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:27.114"
-  },
-  {
-    "id": "frk_tt_681e85149d8cd93986494190",
-    "name": "Old_Physical Access Records",
-    "description": "Documentation of physical access control activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:32.741"
-  },
-  {
-    "id": "frk_tt_681e8514c263729c554d7a7e",
-    "name": "Old_Policy Implementation Records",
-    "description": "Documentation of security policy implementation activities.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:39.886"
-  },
-  {
-    "id": "frk_tt_681e8514cf759d2af506ba5a",
-    "name": "Old_Privacy Notice",
-    "description": "Current privacy notice and related documentation.",
+    "id": "frk_tt_6840791cac0a7b780dbaf932",
+    "name": "Privacy and Data Protection",
+    "description": "Develop and implement a comprehensive privacy and data protection program. Document and maintain policies, procedures, and guidelines for integrating privacy principles into system design, ensuring regulatory compliance, managing consent, safeguarding personal information, and handling privacy incidents. Appoint a Privacy Officer, maintain an inventory of personal data, and establish processes for data subject access, vendor management, breach notification, and compliance monitoring.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:43.819"
+    "createdAt": "2025-06-04 16:49:31.599",
+    "updatedAt": "2025-06-05 00:20:44.838"
   },
   {
-    "id": "frk_tt_681e8514196ef04c487a619c",
-    "name": "Old_Recovery Records",
-    "description": "Documentation of system recovery activities and testing.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:47.370"
+    "id": "frk_tt_68407a449efc782c44549c91",
+    "name": "Segregation of Duties",
+    "description": "Establish and enforce segregation of responsibilities across the organization to reduce risks and protect the services provided to customers",
+    "frequency": "yearly",
+    "department": "admin",
+    "createdAt": "2025-06-04 16:54:28.427",
+    "updatedAt": "2025-06-05 00:20:45.602"
   },
   {
-    "id": "frk_tt_681e85145177e1b436e5e678",
-    "name": "Old_Retention Schedules",
-    "description": "Documentation of data retention policies and schedules.",
+    "id": "frk_tt_68407a881a0cffa5d779fa46",
+    "name": "Secure Endpoints and Data Transfers",
+    "description": "Implement logical access security measures on endpoint devices to protect against external threats. Restrict the transmission, movement, and removal of information to authorized users, ensuring that data is protected during transmission.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:55:36.308",
+    "updatedAt": "2025-06-05 00:20:45.771"
+  },
+  {
+    "id": "frk_tt_68407ae5274a64092c305104",
+    "name": "Cryptographic Key Management",
+    "description": "Document and implement a policy to manage encryption and cryptographic protection controls, ensuring secure handling of cryptographic keys throughout their lifecycle.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:57:08.693",
+    "updatedAt": "2025-06-05 00:20:45.944"
+  },
+  {
+    "id": "frk_tt_68403fe29097e661ba06a035",
+    "name": "Acceptable Use Policy Implementation",
+    "description": "Create and document a policy outlining acceptable use of company technology, setting clear behavioral standards and expected conduct for all users. Define what is considered acceptable and unacceptable technology usage, including consequences for misuse. Establish a process for staff to acknowledge these policies periodically (to support confidentiality), and ensure new hires acknowledge them during onboarding.",
     "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:51.080"
+    "createdAt": "2025-06-04 12:45:21.910",
+    "updatedAt": "2025-06-05 00:20:38.906"
   },
   {
-    "id": "frk_tt_681e851425166ba986da0b88",
-    "name": "Old_Risk Assessment Documentation",
-    "description": "Documentation of risk assessment activities and findings.",
-    "frequency": "quarterly",
+    "id": "frk_tt_68406bae3b18802df42e4965",
+    "name": "Risk Management Program",
+    "description": "Conduct a formal risk assessment annually to identify threats that may impact security, availability, and confidentiality. Assess each risk, assign a risk score based on likelihood and impact, and map risks to mitigating factors. Consider the potential for fraud in the risk matrix. Develop and maintain documented policies and procedures to identify, assess, and mitigate risks, ensuring alignment with service commitments and system requirements.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:55.361"
+    "createdAt": "2025-06-04 15:52:14.245",
+    "updatedAt": "2025-06-05 00:20:41.149"
   },
   {
-    "id": "frk_tt_681e8514807768436251ddb1",
-    "name": "Old_Technology Control Records",
-    "description": "Documentation of technology control implementation and monitoring.",
-    "frequency": "monthly",
+    "id": "frk_tt_68406ca292d9fffb264991b9",
+    "name": "User Access Management",
+    "description": "Maintain an access management program that includes annual reviews of who has access to production consoles, critical systems, and databases. Require authorized approvals for access based on roles, and remove access promptly when no longer needed. Use continuous monitoring to update access levels as roles change, and document policies governing user registration, credentialing, and management of system inputs, items in process, and outputs.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:41:04.144"
+    "createdAt": "2025-06-04 15:56:18.236",
+    "updatedAt": "2025-06-05 00:20:41.537"
   },
   {
-    "id": "frk_tt_681e851451a09ed772b67358",
-    "name": "Old_Uptime Reports",
-    "description": "System uptime and availability reports.",
-    "frequency": "monthly",
+    "id": "frk_tt_684076a02261faf3d331289d",
+    "name": "Operational Procedures Documentation",
+    "description": "Develop and document policies and procedures that define expected behavior for the control environment. Ensure these documents support general control activities over technology and enable consistent deployment of control activities across the organization.",
+    "frequency": "yearly",
+    "department": "gov",
+    "createdAt": "2025-06-04 16:38:56.293",
+    "updatedAt": "2025-06-05 00:20:42.980"
+  },
+  {
+    "id": "frk_tt_6840796f77d8a0dff53f947a",
+    "name": "Endpoint Malware Protection",
+    "description": "Ensure that all endpoints accessing critical servers or data are protected by up-to-date malware protection software.",
+    "frequency": "yearly",
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:50:54.671",
+    "updatedAt": "2025-06-05 00:20:45.022"
+  },
+  {
+    "id": "frk_tt_68407a05d2b9cc29a0c57b12",
+    "name": "System Hardening and Patching",
+    "description": "Conduct security and privacy compliance checks on software versions and patches for all remote devices before they connect internally. Perform regular checks to support security event evaluation and prevent incidents.",
+    "frequency": "yearly",
     "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:41:08.079"
+    "createdAt": "2025-06-04 16:53:24.991",
+    "updatedAt": "2025-06-05 00:20:45.431"
   },
   {
-    "id": "frk_tt_681e851458d9791786ea6e67",
-    "name": "Old_Vendor Risk Assessment Records",
-    "description": "Documentation of vendor risk assessment activities.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:41:13.867"
-  },
-  {
-    "id": "frk_tt_681e8514b471bb89952116c0",
-    "name": "Old_External Communication Records",
-    "description": "Documentation of external security communications and notifications.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:39:09.540"
-  },
-  {
-    "id": "frk_tt_681e8514a9ab8c08054f6657",
-    "name": "Old_Malware Prevention Records",
-    "description": "Documentation of malware prevention and detection activities.",
-    "frequency": "monthly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:40:18.304"
-  },
-  {
-    "id": "frk_tt_681e85146dfc52a06b6069d1",
-    "name": "Old_Risk Identification Records",
-    "description": "Documentation of risk identification activities.",
-    "frequency": "quarterly",
-    "department": "it",
-    "createdAt": "2025-05-14 19:20:44.920",
-    "updatedAt": "2025-05-15 06:41:00.165"
-  },
-  {
-    "id": "frk_tt_68259a74a644e1e362069d36",
-    "name": "Fill ISMS scope field",
-    "description": "Fill ISMS scope field; export scope PDF.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:40:35.761",
-    "updatedAt": "2025-05-15 07:40:35.761"
-  },
-  {
-    "id": "frk_tt_68259a7c61351ccd0145eb7f",
-    "name": "Publish ISMS policy",
-    "description": "Publish ISMS policy; export signed copy with approval log.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:40:43.900",
-    "updatedAt": "2025-05-15 07:40:43.900"
-  },
-  {
-    "id": "frk_tt_68259a8610a52d9eb1523b37",
-    "name": "Board-approved policy uploaded",
-    "description": "Board-approved policy uploaded; export PDF.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:40:53.807",
-    "updatedAt": "2025-05-15 07:40:53.807"
-  },
-  {
-    "id": "frk_tt_68259a92538962de57d13169",
-    "name": "Employee attestations auto-logged",
-    "description": "Employee attestations auto-logged; export attestation report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:41:05.793",
-    "updatedAt": "2025-05-15 07:41:05.793"
-  },
-  {
-    "id": "frk_tt_68259aa7fe2e2dd041eab2ac",
-    "name": "Maintain RACI",
-    "description": "Maintain RACI; export CSV of role–responsibility map.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:41:26.912",
-    "updatedAt": "2025-05-15 07:41:26.912"
-  },
-  {
-    "id": "frk_tt_68259aafda60c2d81f7dc7de",
-    "name": "Record actions to address risk/opportunity",
-    "description": "Record actions to address risk/opportunity; export treatment plan.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:41:34.988",
-    "updatedAt": "2025-05-15 07:41:34.988"
-  },
-  {
-    "id": "frk_tt_68259ab98292fc335ff15442",
-    "name": "Run assessment wizard",
-    "description": "Run assessment wizard; export ISO-formatted report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:41:44.837",
-    "updatedAt": "2025-05-15 07:41:44.837"
-  },
-  {
-    "id": "frk_tt_68259ac26d4c50c3479b4aa5",
-    "name": "Generate treatment tasks",
-    "description": "Generate treatment tasks; export approval record.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:41:54.150",
-    "updatedAt": "2025-05-15 07:41:54.150"
-  },
-  {
-    "id": "frk_tt_68259acb7a97a24e7aa1586f",
-    "name": "Set measurable IS objectives",
-    "description": "Set measurable IS objectives; export KPI dashboard.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:03.006",
-    "updatedAt": "2025-05-15 07:42:03.006"
-  },
-  {
-    "id": "frk_tt_68259ad3f3100f4080245512",
-    "name": "Attach budget sheet",
-    "description": "Attach budget sheet; export version-controlled file.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:11.109",
-    "updatedAt": "2025-05-15 07:42:11.109"
-  },
-  {
-    "id": "frk_tt_68259ade566f513a3efce677",
-    "name": "Store certs/training logs",
-    "description": "Store certs/training logs; export CSV.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:21.674",
-    "updatedAt": "2025-05-15 07:42:21.674"
-  },
-  {
-    "id": "frk_tt_68259ae8b8e41d0a19a6b865",
-    "name": "Export training‑completion logs (annual summary)",
-    "description": "Export training‑completion logs (annual summary).\r\n",
+    "id": "frk_tt_6840688c2faba1517eee62e7",
+    "name": "Senior Management Security Oversight",
+    "description": "Ensure that senior management annually reviews and approves key documents and processes, including company policies, the organizational chart, risk assessments, the Information Security program, and vendor risk assessments. Develop and implement general control activities through these reviews, and conduct ongoing evaluations of policy compliance and the overall security program. Communicate the status of the Information Security program and policy compliance to senior management, and facilitate corrective actions as needed.",
     "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:31.819",
-    "updatedAt": "2025-05-15 07:42:31.819"
+    "department": "gov",
+    "createdAt": "2025-06-04 15:38:51.705",
+    "updatedAt": "2025-06-05 00:20:39.397"
   },
   {
-    "id": "frk_tt_68259af33831f5a08f50f179",
-    "name": "Export incident response or continuity plan and broadcast logs (Slack/email)",
-    "description": "Export incident response or continuity plan and broadcast logs (Slack/email).\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:42.744",
-    "updatedAt": "2025-05-15 07:42:42.744"
-  },
-  {
-    "id": "frk_tt_68259b02124ba8f3cf7e6175",
-    "name": "Export document inventory",
-    "description": "Export document inventory.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:42:57.776",
-    "updatedAt": "2025-05-15 07:42:57.776"
-  },
-  {
-    "id": "frk_tt_68259b0afde095e3e14778cf",
-    "name": "Version history auto-stored",
-    "description": "Version history auto-stored; export diff log.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:05.989",
-    "updatedAt": "2025-05-15 07:43:05.989"
-  },
-  {
-    "id": "frk_tt_68259b14a6da7fd507acced0",
-    "name": "Export controlled-document list with permission audit",
-    "description": "Export controlled-document list with permission audit.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:15.855",
-    "updatedAt": "2025-05-15 07:43:15.855"
-  },
-  {
-    "id": "frk_tt_68259b23619ef41c9cbdb00f",
-    "name": "Run assessment",
-    "description": "Run assessment; export report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:30.537",
-    "updatedAt": "2025-05-15 07:43:30.537"
-  },
-  {
-    "id": "frk_tt_68259b2c77a5c1fc26da9255",
-    "name": "Export mitigation-status report",
-    "description": "Export mitigation-status report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:39.751",
-    "updatedAt": "2025-05-15 07:43:39.751"
-  },
-  {
-    "id": "frk_tt_68259b3546c6f743ee25eb47",
-    "name": "Export monitoring dashboard PDF",
-    "description": "Export monitoring dashboard PDF.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:48.562",
-    "updatedAt": "2025-05-15 07:43:48.562"
-  },
-  {
-    "id": "frk_tt_68259b3f2b9751f53148d84a",
-    "name": "Export compliance-coverage report",
-    "description": "Export compliance-coverage report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:43:58.958",
-    "updatedAt": "2025-05-15 07:43:58.958"
-  },
-  {
-    "id": "frk_tt_68259b48a77d342a7a46b3a5",
-    "name": "Upload audit results",
-    "description": "Upload audit results; export signed report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:08.010",
-    "updatedAt": "2025-05-15 07:44:08.010"
-  },
-  {
-    "id": "frk_tt_68259b514f833c945b0f661d",
-    "name": "Store minutes",
-    "description": "Store minutes; export review pack.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:17.349",
-    "updatedAt": "2025-05-15 07:44:17.349"
-  },
-  {
-    "id": "frk_tt_68259b5986e28b036c26f4b9",
-    "name": "Export non-conformity list with status",
-    "description": "Export non-conformity list with status.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:25.060",
-    "updatedAt": "2025-05-15 07:44:25.060"
-  },
-  {
-    "id": "frk_tt_68259b60b258c452036a5408",
-    "name": "Export continuous-improvement backlog",
-    "description": "Export continuous-improvement backlog.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:32.485",
-    "updatedAt": "2025-05-15 07:44:32.485"
-  },
-  {
-    "id": "frk_tt_68259b6975353ae6ff7ae62f",
-    "name": "A.5.1 Publish master policy",
-    "description": "Publish master policy; export signed copy.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:40.822",
-    "updatedAt": "2025-05-15 07:48:03.448"
-  },
-  {
-    "id": "frk_tt_6825a32fc2118282f9ea7a92",
-    "name": "A.5.8 Export security checklist evidence",
-    "description": "Provide the completed security checklist from a recent project.\r\n",
+    "id": "frk_tt_68406e7abae2a9b16c2cc197",
+    "name": "Disaster Recovery and Business Continuity",
+    "description": "Document and implement policies and procedures for data backups, disaster recovery, and business continuity to ensure ongoing operations during security incidents and environmental disruptions. Establish processes for regular backups, periodic integrity tests, and consistent recovery plan testing to meet recovery time and point objectives (RTO/RPO). Include guidelines to manage environmental protection and support contingency planning, ensuring readiness to execute recovery plans when needed.",
     "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:17:50.615",
-    "updatedAt": "2025-05-15 08:17:50.615"
+    "department": "gov",
+    "createdAt": "2025-06-04 16:04:09.896",
+    "updatedAt": "2025-06-05 00:20:42.497"
   },
   {
-    "id": "frk_tt_68259b74534fbfee74689262",
-    "name": "A.5.2 Export matrix of control owners",
-    "description": "Export matrix of control owners.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:44:52.466",
-    "updatedAt": "2025-05-15 07:52:35.983"
-  },
-  {
-    "id": "frk_tt_68259b80789a2e3db2e53abf",
-    "name": "A.5.3 Run SoD review",
-    "description": "Run SoD review; export results.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:45:04.266",
-    "updatedAt": "2025-05-15 07:52:50.003"
-  },
-  {
-    "id": "frk_tt_68259b8e24d87df277d47344",
-    "name": "A.5.4 Upload accountability statement",
-    "description": "Upload accountability statement; export.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:45:17.848",
-    "updatedAt": "2025-05-15 07:53:06.821"
-  },
-  {
-    "id": "frk_tt_6825a33e64a58b0ad1a99cf5",
-    "name": "A.5.9 Export asset register",
-    "description": "Export the full asset register with owners and classifications.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:18:05.890",
-    "updatedAt": "2025-05-15 08:18:05.890"
-  },
-  {
-    "id": "frk_tt_68259bb937eb6db1e0e80633",
-    "name": "A.5.6 Record memberships",
-    "description": "Record memberships; export register.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:46:00.693",
-    "updatedAt": "2025-05-15 07:53:45.334"
-  },
-  {
-    "id": "frk_tt_68259baca7a9cfffe11835f4",
-    "name": "A.5.5 Upload list",
-    "description": "Export the up-to-date list of regulatory and law-enforcement contacts.\r\n",
+    "id": "frk_tt_684079ba137c4e7727ae8859",
+    "name": "Secure Remote Working",
+    "description": "Establish measures to perform security and privacy compliance checks on software versions and patches of remote devices before they connect internally. Ensure all remote endpoints with access to critical systems auto-lock after 15 minutes of inactivity, and conduct ongoing compliance checks to support security event evaluation.",
     "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 07:45:48.321",
-    "updatedAt": "2025-05-15 08:16:26.680"
-  },
-  {
-    "id": "frk_tt_6825a2f990a2bc3e3b96e116",
-    "name": "A.5.6 Record memberships",
-    "description": "Export the register of all threat-intel or industry-group memberships.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:16:56.653",
-    "updatedAt": "2025-05-15 08:16:56.653"
-  },
-  {
-    "id": "frk_tt_6825a30c4082d5fa13f2d51f",
-    "name": "A.5.7 Export review log",
-    "description": "Export the last year’s threat-intel review activity log.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:17:16.258",
-    "updatedAt": "2025-05-15 08:17:16.258"
-  },
-  {
-    "id": "frk_tt_6825a34e51503f05847ec2bb",
-    "name": "A.5.10 Publish acceptable-use policy",
-    "description": "Export the employee attestation report for the acceptable-use policy.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:18:21.596",
-    "updatedAt": "2025-05-15 08:18:21.596"
-  },
-  {
-    "id": "frk_tt_6825a3622983c9c134ddac9e",
-    "name": "A.5.11 Export termination checklist",
-    "description": "Provide a completed off-boarding checklist for a recent exit.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:18:42.222",
-    "updatedAt": "2025-05-15 08:18:42.222"
-  },
-  {
-    "id": "frk_tt_6825a37262f35b049b21eb91",
-    "name": "A.5.12 Export data-classification policy",
-    "description": "Export the signed data-classification and handling standard.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:18:57.548",
-    "updatedAt": "2025-05-15 08:18:57.548"
-  },
-  {
-    "id": "frk_tt_6825a381ccf90148f9216830",
-    "name": "A.5.13 Export labelling examples",
-    "description": "Provide sample documents or screens that show applied labels.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:19:13.485",
-    "updatedAt": "2025-05-15 08:19:13.485"
-  },
-  {
-    "id": "frk_tt_6825a3b038b48f58938303fe",
-    "name": "A.5.14 Export secure-transfer config",
-    "description": "Export a summary of current secure-transfer / encrypted-channel settings.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:19:59.870",
-    "updatedAt": "2025-05-15 08:19:59.870"
-  },
-  {
-    "id": "frk_tt_6825a3be25da491ba7f20837",
-    "name": "A.5.15 Export policy and sample encrypted-mail header",
-    "description": "Provide the email-encryption policy and one encrypted-mail header sample.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:20:14.086",
-    "updatedAt": "2025-05-15 08:20:14.086"
-  },
-  {
-    "id": "frk_tt_6825a3d0707be41e0aacf7e9",
-    "name": "A.5.16 Export IAM logs",
-    "description": "Export recent provisioning and de-provisioning logs.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:20:32.296",
-    "updatedAt": "2025-05-15 08:20:32.296"
-  },
-  {
-    "id": "frk_tt_6825a3e0d1fb49af731ef234",
-    "name": "A.5.17 Export MFA configuration",
-    "description": "Export a summary of multi-factor-authentication enforcement settings.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:20:48.373",
-    "updatedAt": "2025-05-15 08:20:48.373"
-  },
-  {
-    "id": "frk_tt_6825a3f1c8954bab19bd69f7",
-    "name": "A.5.18 Export quarterly access-review report",
-    "description": "Provide the most recent access-review summary.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:21:05.272",
-    "updatedAt": "2025-05-15 08:21:05.272"
-  },
-  {
-    "id": "frk_tt_6825a4081918b88502cd53b7",
-    "name": "A.5.19 Export vendor assessment PDFs",
-    "description": "Export completed security questionnaires for all critical vendors.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:21:28.380",
-    "updatedAt": "2025-05-15 08:21:28.380"
-  },
-  {
-    "id": "frk_tt_6825a417eeaaeb09f90a8834",
-    "name": "A.5.20 Export signed contracts",
-    "description": "Provide executed supplier contracts that include security clauses.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:21:43.041",
-    "updatedAt": "2025-05-15 08:21:43.041"
-  },
-  {
-    "id": "frk_tt_6825a42d75f4aed8bf7c734d",
-    "name": "A.5.21 Export supply-chain monitoring log",
-    "description": "Export the ongoing supply-chain security monitoring log.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:22:04.845",
-    "updatedAt": "2025-05-15 08:22:04.845"
-  },
-  {
-    "id": "frk_tt_6825a44f0d157113db678c81",
-    "name": "A.5.22 Export vendor-performance review minutes",
-    "description": "Provide minutes from the latest vendor-performance review.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:22:38.606",
-    "updatedAt": "2025-05-15 08:22:38.606"
-  },
-  {
-    "id": "frk_tt_6825a45f3167dc6bd84b59b8",
-    "name": "A.5.23 Export cloud CIS-benchmark report",
-    "description": "Export the latest cloud-configuration benchmark report.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:22:55.015",
-    "updatedAt": "2025-05-15 08:22:55.015"
-  },
-  {
-    "id": "frk_tt_6825a472fb2b4aa84664a5f7",
-    "name": "A.5.24 Export signed incident-response plan",
-    "description": "Export the current signed incident-response plan.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:23:14.374",
-    "updatedAt": "2025-05-15 08:23:14.374"
-  },
-  {
-    "id": "frk_tt_6825a484226862c4edaa475c",
-    "name": "A.5.25 Export SIEM ticket examples",
-    "description": "Provide two recent high-severity security-event tickets with notes.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:23:31.502",
-    "updatedAt": "2025-05-15 08:23:31.502"
-  },
-  {
-    "id": "frk_tt_6825a4980736d070c655d4d5",
-    "name": "A.5.26 Export executed runbook",
-    "description": "Provide evidence that an incident-response runbook was executed.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:23:51.715",
-    "updatedAt": "2025-05-15 08:23:51.715"
-  },
-  {
-    "id": "frk_tt_6825a4a84fcec21fb2476842",
-    "name": "A.5.27 Export RCA document",
-    "description": "Export the most recent root-cause-analysis document.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:24:07.786",
-    "updatedAt": "2025-05-15 08:24:07.786"
-  },
-  {
-    "id": "frk_tt_6825a4bbf183fc47fc05ebcc",
-    "name": "A.5.28 Export chain-of-custody form",
-    "description": "Provide a completed chain-of-custody form from a forensic case.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:24:27.401",
-    "updatedAt": "2025-05-15 08:24:27.401"
-  },
-  {
-    "id": "frk_tt_6825a4ceb8a0aaba82205824",
-    "name": "A.5.29 Export BCP & last test results",
-    "description": "Export the business-continuity plan and latest test results.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:24:45.933",
-    "updatedAt": "2025-05-15 08:24:45.933"
-  },
-  {
-    "id": "frk_tt_6825a4e318e3a8ff90cab144",
-    "name": "A.5.30 Export DR test evidence",
-    "description": "Provide evidence from the most recent disaster-recovery test.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:25:07.052",
-    "updatedAt": "2025-05-15 08:25:07.052"
-  },
-  {
-    "id": "frk_tt_6825a4f70069723b83789d2b",
-    "name": "A.5.31 Export compliance matrix",
-    "description": "Export the legal- and regulatory-compliance matrix.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:25:27.014",
-    "updatedAt": "2025-05-15 08:25:27.014"
-  },
-  {
-    "id": "frk_tt_6825a5692d628e27d5a550ec",
-    "name": "A.5.32 Export NDA samples",
-    "description": "Provide several signed non-disclosure agreements as examples.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:27:21.123",
-    "updatedAt": "2025-05-15 08:27:21.123"
-  },
-  {
-    "id": "frk_tt_6825a579280cfed6caee39c2",
-    "name": "A.5.33 Export log-retention config",
-    "description": "Export settings that show current log-retention period/location.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:27:36.829",
-    "updatedAt": "2025-05-15 08:27:36.829"
-  },
-  {
-    "id": "frk_tt_6825a5898fccd361bcf0741e",
-    "name": "A.5.34 Export privacy-policy PDF",
-    "description": "Export the current published privacy policy.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:27:53.285",
-    "updatedAt": "2025-05-15 08:27:53.285"
-  },
-  {
-    "id": "frk_tt_6825a59694c520ccb4982909",
-    "name": "A.5.35 Export internal-audit report",
-    "description": "Provide the latest internal ISMS audit report.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:28:06.401",
-    "updatedAt": "2025-05-15 08:28:06.401"
-  },
-  {
-    "id": "frk_tt_6825a5b3aa8d8bcdc24bca39",
-    "name": "A.5.36 Export compliance dashboard",
-    "description": "Export a snapshot of the control-status dashboard.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:28:35.366",
-    "updatedAt": "2025-05-15 08:28:35.366"
-  },
-  {
-    "id": "frk_tt_6825a5c49645fecc94498b24",
-    "name": "A.5.37 Export SOP list",
-    "description": "Export the index of standard operating procedures.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:28:51.796",
-    "updatedAt": "2025-05-15 08:28:51.796"
-  },
-  {
-    "id": "frk_tt_6825a5d871291aca8800df9d",
-    "name": "A.6.1 Export screening certificates",
-    "description": "Provide background-check confirmations for recent hires.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:29:11.893",
-    "updatedAt": "2025-05-15 08:29:11.893"
-  },
-  {
-    "id": "frk_tt_6825a5eff52854e030459810",
-    "name": "A.6.2 Export signed contracts",
-    "description": "Export an employment contract template showing security terms.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:29:35.284",
-    "updatedAt": "2025-05-15 08:29:35.284"
-  },
-  {
-    "id": "frk_tt_6825a60719c56d22937b938b",
-    "name": "A.6.3 Export training completion report",
-    "description": "Export completion data for the security-awareness course.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:29:58.699",
-    "updatedAt": "2025-05-15 08:29:58.699"
-  },
-  {
-    "id": "frk_tt_6825a614d82335e90afc6bd9",
-    "name": "A.6.4 Export disciplinary log",
-    "description": "Provide the log of security-related disciplinary actions.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:30:11.803",
-    "updatedAt": "2025-05-15 08:30:11.803"
-  },
-  {
-    "id": "frk_tt_6825a6336a04a18a84b9c350",
-    "name": "A.6.5 Export off-boarding record",
-    "description": "Export a recent off-boarding record that shows access removal.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:30:42.795",
-    "updatedAt": "2025-05-15 08:30:42.795"
-  },
-  {
-    "id": "frk_tt_6825a641fdf43ebc8f23f879",
-    "name": "A.6.6 Export signed NDA archive",
-    "description": "Export a set of recently signed employee NDAs.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:30:56.618",
-    "updatedAt": "2025-05-15 08:30:56.618"
-  },
-  {
-    "id": "frk_tt_6825a64fe4d9716d9afa93b5",
-    "name": "A.6.7 Export VPN & MDM logs",
-    "description": "Provide remote-access and device-compliance logs.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:31:11.346",
-    "updatedAt": "2025-05-15 08:31:11.346"
-  },
-  {
-    "id": "frk_tt_6825a65d5ac875e308d86a68",
-    "name": "A.6.8 Export incident-ticket samples",
-    "description": "Provide examples of employee-reported security incidents.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:31:24.580",
-    "updatedAt": "2025-05-15 08:31:24.580"
-  },
-  {
-    "id": "frk_tt_6825a66ced55990a1a85ead0",
-    "name": "A.7.1 Export site-plan photos",
-    "description": "Provide photos or diagrams showing physical security perimeters.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:31:40.362",
-    "updatedAt": "2025-05-15 08:31:40.362"
-  },
-  {
-    "id": "frk_tt_6825a67de8e27262c84c1d72",
-    "name": "A.7.2 Export badge logs",
-    "description": "Export entry and exit badge logs for the last 30 days.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:31:57.256",
-    "updatedAt": "2025-05-15 08:31:57.256"
-  },
-  {
-    "id": "frk_tt_6825a68e7c9681d83f689e12",
-    "name": "A.7.3 Export lock-audit report",
-    "description": "Provide the latest audit trail from electronic door locks.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:32:13.568",
-    "updatedAt": "2025-05-15 08:32:13.568"
-  },
-  {
-    "id": "frk_tt_6825a6aa0ce543e8d938239b",
-    "name": "A.7.4 Export CCTV review log",
-    "description": "Export the log confirming periodic CCTV footage reviews.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:32:42.446",
-    "updatedAt": "2025-05-15 08:32:42.446"
-  },
-  {
-    "id": "frk_tt_6825a6cb8e3442ae37dc1ab6",
-    "name": "A.7.5 Export test certificates",
-    "description": "Provide inspection certificates for fire, power, or HVAC systems.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:33:14.569",
-    "updatedAt": "2025-05-15 08:33:14.569"
-  },
-  {
-    "id": "frk_tt_6825a6d892202b9d1dbb7cbd",
-    "name": "A.7.6 Export visitor-escort log",
-    "description": "Export the visitor register that shows escort information.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:33:27.720",
-    "updatedAt": "2025-05-15 08:33:27.720"
-  },
-  {
-    "id": "frk_tt_6825a6fa9cec386b8bbbb76f",
-    "name": "A.7.7 Export spot-check report",
-    "description": "Provide the latest clear-desk / clear-screen spot-check results.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:34:02.052",
-    "updatedAt": "2025-05-15 08:34:02.052"
-  },
-  {
-    "id": "frk_tt_6825a7164431946c19f43114",
-    "name": "A.7.8 Export rack-layout photos",
-    "description": "Provide photos or diagrams showing secure equipment placement.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:34:30.188",
-    "updatedAt": "2025-05-15 08:34:30.188"
-  },
-  {
-    "id": "frk_tt_6825a76518f0fbf4e3844bff",
-    "name": "A.7.9 Export asset-tracking report",
-    "description": "Export the off-site asset-tracking report (e.g., laptops).\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:35:48.841",
-    "updatedAt": "2025-05-15 08:35:48.841"
-  },
-  {
-    "id": "frk_tt_6825a7740ac4e1c13d7dc080",
-    "name": "A.7.10 Export destruction certificates",
-    "description": "Provide certificates for recent media or device destruction.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:36:03.996",
-    "updatedAt": "2025-05-15 08:36:03.996"
-  },
-  {
-    "id": "frk_tt_6825a781477d7861f9edc038",
-    "name": "A.7.11 Export maintenance log",
-    "description": "Export maintenance records for UPS, generators, or HVAC.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:36:16.673",
-    "updatedAt": "2025-05-15 08:36:16.673"
-  },
-  {
-    "id": "frk_tt_6825a794eef9643387890f35",
-    "name": "A.7.12 Export cabling photos",
-    "description": "Provide photos showing protected or concealed network cabling.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:36:36.478",
-    "updatedAt": "2025-05-15 08:36:36.478"
-  },
-  {
-    "id": "frk_tt_6825a7a6e06101f458060d52",
-    "name": "A.7.13 Export maintenance tickets",
-    "description": "Export recent equipment-maintenance work orders.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:36:53.736",
-    "updatedAt": "2025-05-15 08:36:53.736"
-  },
-  {
-    "id": "frk_tt_6825a7bd96163185eee070b5",
-    "name": "A.7.14 Export wipe logs",
-    "description": "Provide logs confirming secure wiping of retired equipment.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:37:17.004",
-    "updatedAt": "2025-05-15 08:37:17.004"
-  },
-  {
-    "id": "frk_tt_6825a7cec19d730962dc0260",
-    "name": "A.8.1 Export MDM compliance report",
-    "description": "Export the device-compliance summary from the MDM system.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:37:34.226",
-    "updatedAt": "2025-05-15 08:37:34.226"
-  },
-  {
-    "id": "frk_tt_6825a7e17f16562b90d38b4b",
-    "name": "A.8.2 Export admin-audit logs",
-    "description": "Provide privileged-activity audit logs for the last month.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:37:52.732",
-    "updatedAt": "2025-05-15 08:37:52.732"
-  },
-  {
-    "id": "frk_tt_6825a7fe800c9eae973b67d9",
-    "name": "A.8.3 Export ACL screenshots",
-    "description": "Provide screenshots or exports of key application ACLs.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:38:21.970",
-    "updatedAt": "2025-05-15 08:38:21.970"
-  },
-  {
-    "id": "frk_tt_6825a80ca27c555bced9de21",
-    "name": "A.8.4 Export repo-permissions CSV",
-    "description": "Export current user-permission lists for source-code repositories.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:38:36.443",
-    "updatedAt": "2025-05-15 08:38:36.443"
-  },
-  {
-    "id": "frk_tt_6825a82186c5cd9ee055d4e6",
-    "name": "A.8.5 Export MFA report",
-    "description": "Export a summary showing multi-factor authentication coverage.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:38:56.782",
-    "updatedAt": "2025-05-15 08:38:56.782"
-  },
-  {
-    "id": "frk_tt_6825a82d6f64b0c8f3a03644",
-    "name": "A.8.6 Export capacity dashboard",
-    "description": "Provide a capacity or utilization report for critical systems.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:39:08.685",
-    "updatedAt": "2025-05-15 08:39:08.685"
-  },
-  {
-    "id": "frk_tt_6825a83af8be7e7ce785c2d6",
-    "name": "A.8.7 Export anti-malware scan report",
-    "description": "Export results of the most recent anti-malware scan.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:39:21.952",
-    "updatedAt": "2025-05-15 08:39:21.952"
-  },
-  {
-    "id": "frk_tt_6825a84aae33ff9bb18cb6f8",
-    "name": "A.8.8 Export patch report",
-    "description": "Export the latest patch-compliance report.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:39:37.698",
-    "updatedAt": "2025-05-15 08:39:37.698"
-  },
-  {
-    "id": "frk_tt_6825a857f5382677b6f7e514",
-    "name": "A.8.9 Export baseline check",
-    "description": "Provide results of the latest secure-configuration benchmark scan.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:39:51.242",
-    "updatedAt": "2025-05-15 08:39:51.242"
-  },
-  {
-    "id": "frk_tt_6825a864377e06a7880ac368",
-    "name": "A.8.10 Export deletion logs",
-    "description": "Export logs confirming secure data deletion or sanitization.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:40:03.658",
-    "updatedAt": "2025-05-15 08:40:03.658"
-  },
-  {
-    "id": "frk_tt_6825a8730065637a784689be",
-    "name": "A.8.11 Export masking evidence",
-    "description": "Provide evidence that sensitive data is masked or tokenized in reports or test environments.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:40:18.605",
-    "updatedAt": "2025-05-15 08:40:18.605"
-  },
-  {
-    "id": "frk_tt_6825a882a170a86880b1c9cb",
-    "name": "A.8.12 Export DLP incident log",
-    "description": "Export the last 30 days of data-loss-prevention incidents.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:40:33.502",
-    "updatedAt": "2025-05-15 08:40:33.502"
-  },
-  {
-    "id": "frk_tt_6825a88fda9c1a6285a10dcf",
-    "name": "A.8.13 Export backup logs",
-    "description": "Provide backup job logs showing successful daily backups.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:40:46.795",
-    "updatedAt": "2025-05-15 08:40:46.795"
-  },
-  {
-    "id": "frk_tt_6825a89c4de529327c536f96",
-    "name": "A.8.14 Export HA test results",
-    "description": "Export the most recent high-availability or failover test report.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:41:00.124",
-    "updatedAt": "2025-05-15 08:41:00.124"
-  },
-  {
-    "id": "frk_tt_6825a8a98515f934ac31d76d",
-    "name": "A.8.15 Export 30-day log sample",
-    "description": "Provide a 30-day sample of centrally aggregated security logs.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:41:12.586",
-    "updatedAt": "2025-05-15 08:41:12.586"
-  },
-  {
-    "id": "frk_tt_6825a8bf9d584986e557df30",
-    "name": "A.8.16 Export alert log",
-    "description": "Export a summary of security alerts and dispositions for the past month.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:41:34.875",
-    "updatedAt": "2025-05-15 08:41:34.875"
-  },
-  {
-    "id": "frk_tt_6825a8cc2438f55dd3f2a3bf",
-    "name": "A.8.17 Export config and sync check",
-    "description": "Provide evidence systems are synchronized to an authoritative time source.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:41:48.089",
-    "updatedAt": "2025-05-15 08:41:48.089"
-  },
-  {
-    "id": "frk_tt_6825a8d93a85c4562c411f03",
-    "name": "A.8.18 Export whitelist & access logs",
-    "description": "Export the current application-whitelist policy and related execution logs.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:42:01.132",
-    "updatedAt": "2025-05-15 08:42:01.132"
-  },
-  {
-    "id": "frk_tt_6825a8e85e216004a70edd05",
-    "name": "A.8.19 Export deployment ticket sample",
-    "description": "Provide an approved change or deployment ticket that went to production.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:42:16.305",
-    "updatedAt": "2025-05-15 08:42:16.305"
-  },
-  {
-    "id": "frk_tt_6825a8f65e867a536f4ae094",
-    "name": "A.8.20 Export findings report",
-    "description": "Export the most recent vulnerability-scan findings report.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:42:30.022",
-    "updatedAt": "2025-05-15 08:42:30.022"
-  },
-  {
-    "id": "frk_tt_6825a9123e200270616530e7",
-    "name": "A.8.21 Export provider-assessment PDF",
-    "description": "Provide the latest security assessment for a network-service provider.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:42:57.906",
-    "updatedAt": "2025-05-15 08:42:57.906"
-  },
-  {
-    "id": "frk_tt_6825a920a187c4d3227df2fc",
-    "name": "A.8.22 Export VLAN diagram",
-    "description": "Export a diagram that shows network segmentation or VLAN separations.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:43:11.922",
-    "updatedAt": "2025-05-15 08:43:11.922"
-  },
-  {
-    "id": "frk_tt_6825a932cbae556a003b4826",
-    "name": "A.8.23 Export proxy logs",
-    "description": "Provide a recent web-proxy or URL-filtering activity log.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:43:29.711",
-    "updatedAt": "2025-05-15 08:43:29.711"
-  },
-  {
-    "id": "frk_tt_6825a9456a4d64fc4219ab67",
-    "name": "A.8.24 Export KMS rotation log",
-    "description": "Export key-management logs showing regular key rotation.\r\n",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:43:48.615",
-    "updatedAt": "2025-05-15 08:43:48.615"
-  },
-  {
-    "id": "frk_tt_6825a957a4f9edc3f612aa7e",
-    "name": "A.8.25 Export design-review sample",
-    "description": "Provide a completed security design-review checklist or record.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:44:07.281",
-    "updatedAt": "2025-05-15 08:44:07.281"
-  },
-  {
-    "id": "frk_tt_6825a9651f44eb570ff40d83",
-    "name": "A.8.26 Export requirements doc",
-    "description": "Export documented security requirements for a recent application or project.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:44:21.107",
-    "updatedAt": "2025-05-15 08:44:21.107"
-  },
-  {
-    "id": "frk_tt_6825a977b4c7092933439624",
-    "name": "A.8.27 Export architecture diagram",
-    "description": "Provide the approved security or system architecture diagram.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:44:38.560",
-    "updatedAt": "2025-05-15 08:44:38.560"
-  },
-  {
-    "id": "frk_tt_6825a98464e17ef26b4a7fac",
-    "name": "A.8.28 Export developer-training roster",
-    "description": "Export attendance records for secure-coding or developer security training.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:44:52.030",
-    "updatedAt": "2025-05-15 08:44:52.030"
-  },
-  {
-    "id": "frk_tt_6825a991bf6c915a22de2043",
-    "name": "A.8.29 Export pen-test report",
-    "description": "Provide the latest penetration-test report.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:45:05.207",
-    "updatedAt": "2025-05-15 08:45:05.207"
-  },
-  {
-    "id": "frk_tt_6825a9a18305ba445c68b3dc",
-    "name": "A.8.30 Export contract with security clauses",
-    "description": "Export the outsourcing or development contract that includes security obligations.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:45:21.442",
-    "updatedAt": "2025-05-15 08:45:21.442"
-  },
-  {
-    "id": "frk_tt_6825a9b305ab7a8ac3d98128",
-    "name": "A.8.31 Export Terraform/VPC evidence",
-    "description": "Provide evidence showing separation of development, test, and production environments.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:45:39.097",
-    "updatedAt": "2025-05-15 08:45:39.097"
-  },
-  {
-    "id": "frk_tt_6825a9c1f2a1974c4478ae35",
-    "name": "A.8.32 Export approval log",
-    "description": "Export the change-approval log for recent production changes.\r\n",
-    "frequency": "monthly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:45:53.399",
-    "updatedAt": "2025-05-15 08:45:53.399"
-  },
-  {
-    "id": "frk_tt_6825a9cf8e50a9f35f6d3d7d",
-    "name": "A.8.33 Export masking evidence",
-    "description": "Provide proof that test data is masked or anonymized.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:46:06.975",
-    "updatedAt": "2025-05-15 08:46:06.975"
-  },
-  {
-    "id": "frk_tt_6825a9dc5ef6496a16ab1c51",
-    "name": "A.8.34 Export read-only audit config screenshots",
-    "description": "Provide screenshots showing auditors have read-only access to production systems.\r\n",
-    "frequency": "yearly",
-    "department": "none",
-    "createdAt": "2025-05-15 08:46:19.600",
-    "updatedAt": "2025-05-15 08:46:19.600"
-  },
-  {
-    "id": "frk_tt_683378414cb0b89faac9b317",
-    "name": "Risk Review",
-    "description": "Review risks in Risk Register",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-05-25 20:06:24.825",
-    "updatedAt": "2025-05-25 20:06:24.825"
-  },
-  {
-    "id": "frk_tt_683f31e48e93acfc25a7f070",
-    "name": "SDLC Task",
-    "description": "Upload evidence of code scanning. Additional requirements for ISO 27001: library scanning and web app scanning.",
-    "frequency": "quarterly",
-    "department": "none",
-    "createdAt": "2025-06-03 17:33:24.084",
-    "updatedAt": "2025-06-03 17:33:24.084"
+    "department": "itsm",
+    "createdAt": "2025-06-04 16:52:10.234",
+    "updatedAt": "2025-06-05 00:20:45.227"
   }
 ]
