@@ -49,9 +49,7 @@ export const ThemeSwitch = () => {
 								value={theme}
 								className="capitalize"
 							>
-								{t(
-									`theme.options.${theme.toLowerCase() as "dark" | "system" | "light"}`,
-								)}
+								{theme.charAt(0).toUpperCase() + theme.slice(1)}
 							</SelectItem>
 						))}
 					</SelectGroup>

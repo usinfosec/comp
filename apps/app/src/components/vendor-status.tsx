@@ -26,7 +26,7 @@ export function VendorStatus({ status }: { status: VendorStatusType }) {
 					backgroundColor: VENDOR_STATUS_COLORS[status] ?? "  ",
 				}}
 			/>
-			{t(`common.status.${status}`)}
+			{status.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase())}
 		</div>
 	);
 }
