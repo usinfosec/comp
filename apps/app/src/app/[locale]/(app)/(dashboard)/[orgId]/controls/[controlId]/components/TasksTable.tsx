@@ -5,7 +5,6 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import { Task, Policy } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
@@ -19,7 +18,6 @@ interface TasksTableProps {
 }
 
 export function TasksTable({ tasks, orgId, controlId }: TasksTableProps) {
-	const t = useI18n();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Define columns for tasks table
@@ -71,7 +69,7 @@ export function TasksTable({ tasks, orgId, controlId }: TasksTableProps) {
 				},
 			},
 		],
-		[t],
+		[],
 	);
 
 	// Filter tasks data based on search term

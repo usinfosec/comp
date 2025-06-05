@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { FrameworkEditorRequirement } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { FrameworkInstanceWithControls } from "../../../../types";
@@ -18,9 +17,6 @@ export function RequirementControls({
 	tasks,
 	relatedControls,
 }: RequirementControlsProps) {
-	const t = useI18n();
-
-
 	return (
 		<div className="space-y-6">
 			<Card>
@@ -28,7 +24,7 @@ export function RequirementControls({
 					<CardTitle className="flex items-center justify-between">
 						<div>
 							<span className="text-sm text-muted-foreground">
-								{t("frameworks.requirements.requirement")}
+								{"Requirement"}
 							</span>
 							<h1 className="text-2xl font-semibold">
 								{requirement.name}
@@ -46,7 +42,7 @@ export function RequirementControls({
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("frameworks.controls.title")} (
+						{"Controls"} (
 						{relatedControls.length})
 					</CardTitle>
 				</CardHeader>

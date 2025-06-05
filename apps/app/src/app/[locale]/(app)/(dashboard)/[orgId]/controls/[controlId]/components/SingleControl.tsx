@@ -1,7 +1,6 @@
 "use client";
 
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import type {
 	Control,
 	FrameworkEditorFramework,
@@ -50,7 +49,6 @@ export function SingleControl({
 	relatedPolicies,
 	relatedTasks,
 }: SingleControlProps) {
-	const t = useI18n();
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const params = useParams<{ orgId: string; controlId: string }>();

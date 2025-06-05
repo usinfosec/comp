@@ -3,7 +3,6 @@
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import type { Control, Task } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
@@ -20,7 +19,6 @@ export function RequirementControlsTable({
 	controls,
 	tasks,
 }: RequirementControlsTableProps) {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -33,7 +31,7 @@ export function RequirementControlsTable({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.controls.table.control")}
+						title={"Control"}
 					/>
 				),
 				cell: ({ row }) => (
@@ -85,7 +83,7 @@ export function RequirementControlsTable({
 		<div className="space-y-4">
 			<div className="flex items-center">
 				<Input
-					placeholder={t("frameworks.controls.search.placeholder")}
+					placeholder={"Search controls..."}
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="max-w-sm"

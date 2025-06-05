@@ -1,6 +1,5 @@
 import { cache } from "react";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -9,10 +8,8 @@ import { getAllFrameworkInstancesWithControls } from "./data/getAllFrameworkInst
 import { db } from "@comp/db";
 
 export async function generateMetadata() {
-	const t = await getI18n();
-
 	return {
-		title: t("sidebar.frameworks"),
+		title: "Frameworks",
 	};
 }
 

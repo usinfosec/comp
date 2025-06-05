@@ -2,7 +2,6 @@
 
 import { isPolicyCompleted } from "@/lib/control-compliance";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import type { Control, Policy } from "@comp/db/types";
 import {
 	Tooltip,
@@ -25,14 +24,13 @@ export function RequirementControlsTableColumns({
 }: {
 	tasks: (Task & { controls: Control[] })[];
 }): ColumnDef<OrganizationControlType>[] {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
 			id: "name",
 			accessorKey: "name",
-			header: t("frameworks.controls.table.control"),
+			header: "Control",
 			cell: ({ row }) => {
 				return (
 					<div className="flex flex-col w-[300px]">
@@ -51,7 +49,7 @@ export function RequirementControlsTableColumns({
 		{
 			id: "status",
 			accessorKey: "policies",
-			header: t("frameworks.controls.table.status"),
+			header: "Status",
 			cell: ({ row }) => {
 				const controlData = row.original;
 				const policies = controlData.policies || [];

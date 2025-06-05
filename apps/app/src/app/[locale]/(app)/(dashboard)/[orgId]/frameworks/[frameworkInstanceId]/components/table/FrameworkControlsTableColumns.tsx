@@ -1,7 +1,6 @@
 "use client";
 
 import { StatusIndicator, StatusType } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import type { Policy, PolicyStatus } from "@comp/db/types";
 import {
 	Tooltip,
@@ -43,14 +42,13 @@ function isPolicyCompleted(policy: Policy): boolean {
 }
 
 export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlType>[] {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
 			id: "name",
 			accessorKey: "name",
-			header: t("frameworks.controls.table.control"),
+			header: "Control",
 			cell: ({ row }) => {
 				return (
 					<div className="flex flex-col w-[300px]">
@@ -69,7 +67,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 		{
 			id: "category",
 			accessorKey: "name",
-			header: t("risk.vendor.table.category"),
+			header: "Category",
 			cell: ({ row }) => (
 				<div className="w-[200px]">
 					<span className="text-sm">{row.original.name}</span>
@@ -79,7 +77,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 		{
 			id: "status",
 			accessorKey: "policies",
-			header: t("frameworks.controls.table.status"),
+			header: "Status",
 			cell: ({ row }) => {
 				const policies = row.original.policies || [];
 				const status = getControlStatusForPolicies(policies);

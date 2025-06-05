@@ -4,7 +4,6 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import type { FrameworkEditorRequirement } from "@comp/db/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
@@ -23,7 +22,6 @@ export function FrameworkRequirements({
 	requirementDefinitions: FrameworkEditorRequirement[];
 	frameworkInstanceWithControls: FrameworkInstanceWithControls;
 }) {
-	const t = useI18n();
 	const { orgId, frameworkInstanceId } = useParams<{
 		orgId: string;
 		frameworkInstanceId: string;
@@ -51,7 +49,7 @@ export function FrameworkRequirements({
 			{
 				accessorKey: "name",
 				header: ({ column }) => (
-					<DataTableColumnHeader column={column} title={t("frameworks.requirements.table.name")} />
+					<DataTableColumnHeader column={column} title={"Name"} />
 				),
 				cell: ({ row }) => (
 					<span className="capitalize line-clamp-1">
@@ -74,7 +72,7 @@ export function FrameworkRequirements({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.requirements.table.description")}
+						title={"Description"}
 					/>
 				),
 				cell: ({ row }) => (
@@ -93,7 +91,7 @@ export function FrameworkRequirements({
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.controls.title")}
+						title={"Controls"}
 					/>
 				),
 				cell: ({ row }) => (
@@ -122,7 +120,6 @@ export function FrameworkRequirements({
 		},
 	});
 
-
 	if (!items?.length) {
 		return null;
 	}
@@ -131,7 +128,7 @@ export function FrameworkRequirements({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.requirements.requirements")} (
+					{"Requirements"} (
 					{table.table.getFilteredRowModel().rows.length})
 				</CardTitle>
 			</CardHeader>
