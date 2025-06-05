@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import type { Member, Risk, User } from "@comp/db/types";
 import { Alert, AlertDescription, AlertTitle } from "@comp/ui/alert";
 import { Button } from "@comp/ui/button";
@@ -18,11 +17,9 @@ export function RiskOverview({
 	risk: Risk & { assignee: { user: User } | null };
 	assignees: (Member & { user: User })[];
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("risk-overview-sheet");
 
 	return (
-
 
 		<Card>
 			<CardHeader>

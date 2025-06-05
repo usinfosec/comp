@@ -1,7 +1,6 @@
 "use client";
 
 import { ButtonIcon } from "@/components/ui/button-icon";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
@@ -13,7 +12,6 @@ export function GithubSignIn({
 }: {
 	inviteCode?: string;
 }) {
-	const t = useI18n();
 	const [isLoading, setLoading] = useState(false);
 
 	const handleSignIn = async () => {
@@ -40,7 +38,7 @@ export function GithubSignIn({
 					<ButtonIcon isLoading={isLoading}>
 						<Icons.Github />
 					</ButtonIcon>
-					<span>{t("auth.github")}</span>
+					<span>{"Continue with GitHub"}</span>
 				</>
 			)}
 		</Button>

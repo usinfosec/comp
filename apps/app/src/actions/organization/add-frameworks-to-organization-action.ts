@@ -1,11 +1,11 @@
 "use server";
 
+import { addFrameworksSchema } from "@/actions/schema";
 import { db } from "@comp/db";
 import { Prisma } from "@comp/db/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { addFrameworksSchema } from "@/actions/schema";
-import { _upsertOrgFrameworkStructureCore, UpsertOrgFrameworkStructureCoreInput } from "./lib/initialize-organization";
+import { _upsertOrgFrameworkStructureCore } from "./lib/initialize-organization";
 
 // Duplicating the InitializeOrganizationInput type for clarity, can be shared if preferred
 export type AddFrameworksInput = z.infer<typeof addFrameworksSchema>;
@@ -27,7 +27,7 @@ export const addFrameworksToOrganizationAction = async (
 			const frameworksAndRequirements = await tx.frameworkEditorFramework.findMany({
 				where: {
 					id: { in: frameworkIds },
-					visible: true, 
+					visible: true,
 				},
 				include: {
 					requirements: true,
@@ -63,4 +63,4 @@ export const addFrameworksToOrganizationAction = async (
 		}
 		return { success: false, error: "An unexpected error occurred." };
 	}
-}; 
+};

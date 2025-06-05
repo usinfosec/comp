@@ -1,7 +1,6 @@
 "use client";
 
 import { CreatePolicySheet } from "@/components/sheets/create-policy-sheet";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Input } from "@comp/ui/input";
@@ -29,7 +28,6 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("create-policy-sheet");
 	const [isPending, startTransition] = useTransition();
 	const [searchInput, setSearchInput] = useState<string>("");
@@ -128,7 +126,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 				<div className="relative flex-1 md:max-w-sm">
 					<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
 					<Input
-						placeholder={t("policies.search_placeholder")}
+						placeholder={"Search policies..."}
 						className="pl-8"
 						value={searchInput}
 						onChange={(e) => setSearchInput(e.target.value)}
@@ -138,7 +136,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 				<div className="md:hidden">
 					<Button onClick={() => setOpen("true")} variant="default">
 						<Plus className="h-4 w-4" />
-						{t("common.actions.addNew")}
+						{"Add New"}
 					</Button>
 				</div>
 			</div>
@@ -150,24 +148,24 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 				>
 					<SelectTrigger className="w-auto min-w-[100px]">
 						<SelectValue
-							placeholder={t("policies.status_filter")}
+							placeholder={"Filter by status"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
 						<SelectItem value="all">
-							{t("policies.all_statuses")}
+							{"All statuses"}
 						</SelectItem>
 						<SelectItem value="draft">
-							{t("common.status.draft")}
+							{"Draft"}
 						</SelectItem>
 						<SelectItem value="published">
-							{t("common.status.published")}
+							{"Published"}
 						</SelectItem>
 						<SelectItem value="needs_review">
-							{t("common.status.needs_review")}
+							{"Needs Review"}
 						</SelectItem>
 						<SelectItem value="archived">
-							{t("common.status.archived")}
+							{"Archived"}
 						</SelectItem>
 					</SelectContent>
 				</Select>
@@ -178,7 +176,7 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 				>
 					<SelectTrigger className="w-[200px] min-w-[200px]">
 						<SelectValue
-							placeholder={t("common.filters.assignee.label")}
+							placeholder={"Assignee"}
 						/>
 					</SelectTrigger>
 					<SelectContent>
@@ -198,13 +196,13 @@ export function FilterToolbar({ isEmpty = false, users }: FilterToolbarProps) {
 						disabled={isPending}
 					>
 						<X className="h-4 w-4 mr-2" />
-						{t("common.actions.clear")}
+						{"Clear"}
 					</Button>
 				)}
 
 				<Button variant="default" onClick={() => setOpen("true")}>
 					<Plus className="h-4 w-4" />
-					{t("policies.create_new")}
+					{"Create New Policy"}
 				</Button>
 			</div>
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import {
 	type ChartConfig,
@@ -20,19 +19,17 @@ interface PolicyOverviewProps {
 }
 
 export function PolicyOverview({ data }: PolicyOverviewProps) {
-	const t = useI18n();
-
 	const config: ChartConfig = {
 		draft: {
-			label: t("policies.status.draft"),
+			label: "Draft",
 			color: "hsl(var(--chart-1))",
 		},
 		published: {
-			label: t("policies.status.published"),
+			label: "Published",
 			color: "hsl(var(--chart-2))",
 		},
 		review: {
-			label: t("policies.status.needs_review"),
+			label: "Needs Review",
 			color: "hsl(var(--chart-3))",
 		},
 	};
@@ -60,7 +57,7 @@ export function PolicyOverview({ data }: PolicyOverviewProps) {
 			<Card>
 				<CardHeader>
 					<CardTitle>
-						{t("policies.dashboard.policy_status")}
+						{"Policy by Status"}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex h-[300px] items-center justify-center text-muted-foreground">
@@ -73,7 +70,7 @@ export function PolicyOverview({ data }: PolicyOverviewProps) {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("policies.dashboard.policy_status")}</CardTitle>
+				<CardTitle>{"Policy by Status"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<ChartContainer config={config}>

@@ -1,7 +1,6 @@
 "use client";
 
 import { deleteOrganizationAction } from "@/actions/organization/delete-organization-action";
-import { useI18n } from "@/locales/client";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -35,15 +34,14 @@ export function DeleteOrganization({
 }: {
 	organizationId: string;
 }) {
-	const t = useI18n();
 	const [value, setValue] = useState("");
 	const deleteOrganization = useAction(deleteOrganizationAction, {
 		onSuccess: () => {
-			toast.success(t("settings.general.org_delete_success"));
+			toast.success("Organization deleted");
 			redirect("/");
 		},
 		onError: () => {
-			toast.error(t("settings.general.org_delete_error"));
+			toast.error("Error deleting organization");
 		},
 	});
 
@@ -51,11 +49,11 @@ export function DeleteOrganization({
 		<Card className="border border-destructive">
 			<CardHeader>
 				<div className="flex items-center gap-2">
-					<CardTitle>{t("settings.general.org_delete")}</CardTitle>
+					<CardTitle>{"Delete organization"}</CardTitle>
 				</div>
 				<CardDescription>
 					<div className="max-w-[600px]">
-						{t("settings.general.org_delete_description")}
+						{"Permanently remove your organization and all of its contents from the Comp AI platform. This action is not reversible - please continue with caution."}
 					</div>
 				</CardDescription>
 			</CardHeader>
@@ -70,24 +68,22 @@ export function DeleteOrganization({
 							size="sm"
 							className="hover:bg-destructive/90"
 						>
-							{t("common.actions.delete")}
+							{"Delete"}
 						</Button>
 					</AlertDialogTrigger>
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
-								{t("settings.general.org_delete_alert_title")}
+								{"Are you absolutely sure?"}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t(
-									"settings.general.org_delete_alert_description",
-								)}
+								{"This action cannot be undone. This will permanently delete your organization and remove your data from our servers."}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 
 						<div className="mt-2 flex flex-col gap-2">
 							<Label htmlFor="confirm-delete">
-								{t("settings.general.delete_confirm_tip")}
+								{"Type 'delete' to confirm"}
 							</Label>
 							<Input
 								id="confirm-delete"
@@ -98,7 +94,7 @@ export function DeleteOrganization({
 
 						<AlertDialogFooter className="mt-4">
 							<AlertDialogCancel>
-								{t("common.actions.cancel")}
+								{"Cancel"}
 							</AlertDialogCancel>
 							<AlertDialogAction
 								onClick={() =>
@@ -109,14 +105,14 @@ export function DeleteOrganization({
 								}
 								disabled={
 									value !==
-									t("settings.general.delete_confirm")
+									"delete"
 								}
 								className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
 							>
 								{deleteOrganization.status === "executing" ? (
 									<Loader2 className="h-4 w-4 animate-spin mr-1" />
 								) : null}
-								{t("common.actions.delete")}
+								{"Delete"}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>

@@ -1,6 +1,5 @@
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { createI18nMiddleware } from "next-international/middleware";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,33 +11,19 @@ export const config = {
 	],
 };
 
-const I18nMiddleware = createI18nMiddleware({
-	locales: ["en"],
-	defaultLocale: "en",
-	urlMappingStrategy: "rewrite",
-});
-
 export async function middleware(request: NextRequest) {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 
-	const response = I18nMiddleware(request as any);
+	const response = NextResponse.next();
 	const nextUrl = request.nextUrl;
 
-	const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
-
-	const pathnameWithoutLocale = pathnameLocale
-		? nextUrl.pathname.slice(pathnameLocale.length + 1)
-		: nextUrl.pathname;
-
-	const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
-
 	// Add x-path-name
-	response.headers.set("x-pathname", newUrl.pathname);
+	response.headers.set("x-pathname", nextUrl.pathname);
 
 	// 1. Not authenticated
-	if (!session && newUrl.pathname !== "/auth") {
+	if (!session && nextUrl.pathname !== "/auth") {
 		const url = new URL("/auth", request.url);
 
 		return NextResponse.redirect(url);
@@ -49,8 +34,8 @@ export async function middleware(request: NextRequest) {
 		// 2.1. If the user has an active organization, redirect to implementation
 		if (
 			session.session.activeOrganizationId &&
-			newUrl.pathname !== "/auth" &&
-			!newUrl.pathname.startsWith("/setup/onboarding")
+			nextUrl.pathname !== "/auth" &&
+			!nextUrl.pathname.startsWith("/setup/onboarding")
 		) {
 			const onboarding = await db.onboarding.findFirst({
 				where: {
