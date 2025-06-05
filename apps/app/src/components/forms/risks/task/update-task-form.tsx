@@ -88,9 +88,7 @@ export function UpdateTaskForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"common.assignee.placeholder",
-												)}
+												placeholder={"Select assignee"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -124,9 +122,7 @@ export function UpdateTaskForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.tasks.form.status_placeholder",
-												)}
+												placeholder={"Select a status"}
 											>
 												{field.value && (
 													<StatusIndicator
