@@ -4,7 +4,6 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useI18n } from "@/locales/client";
 import type {
 	FrameworkEditorFramework,
 	FrameworkEditorRequirement,
@@ -26,7 +25,6 @@ interface RequirementsTableProps {
 		requirements,
 	orgId,
 }: RequirementsTableProps) {
-	const t = useI18n();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Define columns for requirements table
@@ -40,7 +38,7 @@ interface RequirementsTableProps {
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.requirements.table.name")}
+						title={"Name"}
 					/>
 				),
 				cell: ({ row }) => {
@@ -64,7 +62,7 @@ interface RequirementsTableProps {
 				header: ({ column }) => (
 					<DataTableColumnHeader
 						column={column}
-						title={t("frameworks.requirements.table.description")}
+						title={"Description"}
 					/>
 				),
 				cell: ({ row }) => {
@@ -120,7 +118,7 @@ interface RequirementsTableProps {
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("frameworks.requirements.title")} (
+					{"Linked Requirements"} (
 					{filteredRequirements.length})
 				</CardTitle>
 			</CardHeader>
