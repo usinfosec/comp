@@ -1,5 +1,7 @@
 import { UserMenu } from "@/components/user-menu";
+import { getOrganizations } from "@/data/getOrganizations";
 import { auth } from "@/utils/auth";
+import { db } from "@comp/db";
 import { buttonVariants } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
 import { Skeleton } from "@comp/ui/skeleton";
@@ -9,10 +11,6 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AssistantButton } from "./ai/chat-button";
 import { MobileMenu } from "./mobile-menu";
-import { NotificationCenter } from "./notification-center";
-import { getOrganizations } from "@/data/getOrganizations";
-import { db } from "@comp/db";
-import type { FrameworkEditorFramework } from "@comp/db/types";
 
 export async function Header() {
 	const session = await auth.api.getSession({
@@ -71,8 +69,6 @@ export async function Header() {
 						{"Ask in our Discord"}
 					</Link>
 				</div>
-
-				<NotificationCenter />
 
 				<Suspense
 					fallback={<Skeleton className="h-8 w-8 rounded-full" />}
