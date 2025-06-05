@@ -1,17 +1,15 @@
 import { AppOnboarding } from "@/components/app-onboarding";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function CloudTests({
 	params,
 }: {
-	params: Promise<{ locale: string; orgId: string }>;
+	params: Promise<{ orgId: string }>;
 }) {
-	const { locale, orgId } = await params;
-	setStaticParamsLocale(locale);
+	const { orgId } = await params;
 
 	const cloudProviders = await getCloudProviders();
 

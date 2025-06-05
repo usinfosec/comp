@@ -1,23 +1,21 @@
 "use client";
 import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useMemo } from "react";
-import { columns as getColumns } from "./components/table/ContextColumns";
-import type { Context } from "@prisma/client";
 import { Button } from "@comp/ui/button";
+import type { Context } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { useMemo } from "react";
 import { CreateContextSheet } from "./components/CreateContextSheet";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+import { columns as getColumns } from "./components/table/ContextColumns";
 
 export const ContextTable = ({
     entries,
     pageCount,
-    locale,
 }: {
     entries: Context[];
     pageCount: number;
-    locale: string;
 }) => {
     const columns = useMemo(() => getColumns(), []);
     const { table } = useDataTable({

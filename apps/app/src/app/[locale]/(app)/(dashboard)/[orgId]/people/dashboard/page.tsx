@@ -1,26 +1,11 @@
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { EmployeesOverview } from "./components/EmployeesOverview";
 
-export default async function PeopleOverviewPage({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}) {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
-
+export default async function PeopleOverviewPage() {
 	return <EmployeesOverview />;
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "People",
 	};

@@ -2,7 +2,6 @@ import { AppOnboarding } from "@/components/app-onboarding";
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import type { SearchParams } from "@/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { CreateVendorSheet } from "../components/create-vendor-sheet";
 import { VendorsTable } from "./components/VendorsTable";
 import { getAssignees, getVendors } from "./data/queries";
@@ -14,10 +13,9 @@ export default async function Page({
 	params,
 }: {
 	searchParams: SearchParams;
-	params: Promise<{ orgId: string; locale: string }>;
+	params: Promise<{ orgId: string }>;
 }) {
-	const { orgId, locale } = await params;
-	setStaticParamsLocale(locale);
+	const { orgId } = await params;
 
 	const parsedSearchParams =
 		await vendorsSearchParamsCache.parse(searchParams);
@@ -90,13 +88,7 @@ export default async function Page({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Vendors",
 	};

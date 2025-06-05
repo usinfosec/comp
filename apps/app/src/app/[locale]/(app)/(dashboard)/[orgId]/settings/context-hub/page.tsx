@@ -1,9 +1,4 @@
-import { auth } from "@/utils/auth";
-import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
-import { headers } from "next/headers";
-import { cache } from "react";
 import { ContextTable } from "./ContextTable";
 import { getContextEntries } from "./data/getContextEntries";
 
@@ -11,16 +6,15 @@ export default async function ContextHubSettings({
     params,
     searchParams,
 }: {
-    params: Promise<{ locale: string; orgId: string }>;
+    params: Promise<{ orgId: string }>;
     searchParams: Promise<{
         search: string;
         page: string;
         perPage: string;
     }>;
 }) {
-    const { locale, orgId } = await params;
+    const { orgId } = await params;
     const { search, page, perPage } = await searchParams;
-    setStaticParamsLocale(locale);
 
     const entriesResult = await getContextEntries({
         orgId,
@@ -33,18 +27,11 @@ export default async function ContextHubSettings({
         <ContextTable
             entries={entriesResult.data}
             pageCount={entriesResult.pageCount}
-            locale={locale}
         />
     );
 }
 
-export async function generateMetadata({
-    params,
-}: {
-    params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-    const { locale } = await params;
-    setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 
     return {
         title: "Context Hub",

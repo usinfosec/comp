@@ -1,6 +1,5 @@
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import PolicyPage from "./components/PolicyPage";
 import {
 	getAssignees,
@@ -10,14 +9,9 @@ import {
 	getPolicyControlMappingInfo,
 } from "./data";
 
-export default async function PolicyDetails({
-	params,
-}: {
-	params: Promise<{ locale: string; policyId: string; orgId: string }>;
-}) {
-	const { locale, policyId, orgId } = await params;
+export default async function PolicyDetails({ params }: { params: Promise<{ policyId: string; orgId: string }> }) {
+	const { policyId, orgId } = await params;
 
-	setStaticParamsLocale(locale);
 	const policy = await getPolicy(policyId);
 	const assignees = await getAssignees();
 	const comments = await getComments(policyId);
@@ -48,14 +42,7 @@ export default async function PolicyDetails({
 	);
 }
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string; policyId: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Policy Overview",
 	};

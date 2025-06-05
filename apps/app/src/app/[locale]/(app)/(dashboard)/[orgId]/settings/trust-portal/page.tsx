@@ -3,17 +3,11 @@ import { headers } from "next/headers";
 import { cache } from "react";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { TrustPortalSwitch } from "./components/TrustPortalSwitch";
 import { TrustPortalDomain } from "./components/TrustPortalDomain";
 
-export default async function TrustPortalSettings({
-	params,
-}: {
-	params: Promise<{ locale: string; orgId: string }>;
-}) {
-	const { locale, orgId } = await params;
-	setStaticParamsLocale(locale);
+export default async function TrustPortalSettings({ params }: { params: Promise<{ orgId: string }> }) {
+	const { orgId } = await params;
 	const trustPortal = await getTrustPortal(orgId);
 
 	return (
@@ -81,8 +75,6 @@ export async function generateMetadata({
 }: {
 	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
 	return {
 		title: "Trust Portal",
 	};

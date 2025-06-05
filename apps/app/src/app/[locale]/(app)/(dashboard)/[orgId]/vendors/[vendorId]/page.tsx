@@ -3,24 +3,21 @@
 import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
+import {
+	AttachmentEntityType,
+	CommentEntityType
+} from "@comp/db/types";
 import type { Metadata } from "next";
-import { setStaticParamsLocale } from "next-international/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { VendorInherentRiskChart } from "./components/VendorInherentRiskChart";
-import { VendorResidualRiskChart } from "./components/VendorResidualRiskChart";
-import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
-import { TitleAndDescription } from "./components/title-and-description/title-and-description";
 import {
 	Comments,
 	CommentWithAuthor,
 } from "../../../../../../../components/comments/Comments";
-import {
-	Attachment,
-	AttachmentEntityType,
-	CommentEntityType,
-} from "@comp/db/types";
+import { VendorInherentRiskChart } from "./components/VendorInherentRiskChart";
+import { VendorResidualRiskChart } from "./components/VendorResidualRiskChart";
+import { SecondaryFields } from "./components/secondary-fields/secondary-fields";
 
 interface PageProps {
 	params: Promise<{ vendorId: string; locale: string; orgId: string }>;
@@ -160,13 +157,7 @@ const getAssignees = cache(async () => {
 	return assignees;
 });
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-	const { locale } = await params;
-	setStaticParamsLocale(locale);
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Vendors",
 	};
