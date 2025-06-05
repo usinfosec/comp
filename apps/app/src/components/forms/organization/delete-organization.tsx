@@ -77,9 +77,7 @@ export function DeleteOrganization({
 								{"Are you absolutely sure?"}
 							</AlertDialogTitle>
 							<AlertDialogDescription>
-								{t(
-									"settings.general.org_delete_alert_description",
-								)}
+								{"This action cannot be undone. This will permanently delete your organization and remove your data from our servers."}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 
