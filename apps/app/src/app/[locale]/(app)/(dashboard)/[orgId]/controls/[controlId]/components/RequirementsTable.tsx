@@ -81,7 +81,7 @@ interface RequirementsTableProps {
 				},
 			},
 		],
-		[t],
+		[],
 	);
 
 	// Filter requirements data based on search term
@@ -125,9 +125,7 @@ interface RequirementsTableProps {
 			<CardContent>
 				<div className="flex items-center mb-4">
 					<Input
-						placeholder={t(
-							"frameworks.requirements.search.universal_placeholder",
-						)}
+						placeholder={"Search..."}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="max-w-sm"

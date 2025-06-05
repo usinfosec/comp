@@ -106,7 +106,7 @@ export function FrameworkRequirements({
 				enableResizing: true,
 			},
 		],
-		[t],
+		[],
 	);
 
 	const table = useDataTable({
