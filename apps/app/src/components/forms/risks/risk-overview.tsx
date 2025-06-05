@@ -119,9 +119,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_status_placeholder",
-												)}
+												placeholder={"Select a status"}
 											>
 												{field.value && (
 													<StatusIndicator
@@ -168,9 +166,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_category_placeholder",
-												)}
+												placeholder={"Select a category"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -225,9 +221,7 @@ export function UpdateRiskOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"risk.form.risk_department_placeholder",
-												)}
+												placeholder={"Select a department"}
 											/>
 										</SelectTrigger>
 										<SelectContent>

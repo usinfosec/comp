@@ -112,9 +112,7 @@ export function UpdateSecondaryFieldsForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"vendors.form.vendor_status_placeholder",
-												)}
+												placeholder={"Select a status..."}
 											>
 												{field.value && (
 													<VendorStatus
@@ -159,9 +157,7 @@ export function UpdateSecondaryFieldsForm({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"vendors.form.vendor_category_placeholder",
-												)}
+												placeholder={"Select a category..."}
 											/>
 										</SelectTrigger>
 										<SelectContent>

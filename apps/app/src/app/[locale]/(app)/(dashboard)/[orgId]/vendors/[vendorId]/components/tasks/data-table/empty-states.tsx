@@ -28,12 +28,8 @@ export function NoResults({ hasFilters }: Props) {
 					</h2>
 					<p className="text-muted-foreground text-sm">
 						{hasFilters
-							? t(
-									"common.empty_states.no_results.description_filters",
-								)
-							: t(
-									"common.empty_states.no_results.description_no_tasks",
-								)}
+							? "Try another search, or adjusting the filters"
+							: "Create a task to get started"}
 					</p>
 				</div>
 

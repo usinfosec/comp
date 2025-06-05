@@ -150,9 +150,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.open}`}
 													/>
 													<span>
-														{t(
-															"common.status.open",
-														)}{" "}
+														{"Open"}{" "}
 														({stat.openRisks})
 													</span>
 												</div>
@@ -163,9 +161,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.pending}`}
 													/>
 													<span>
-														{t(
-															"common.status.pending",
-														)}{" "}
+														{"Pending"}{" "}
 														({stat.pendingRisks})
 													</span>
 												</div>
@@ -176,9 +172,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.closed}`}
 													/>
 													<span>
-														{t(
-															"common.status.closed",
-														)}{" "}
+														{"Closed"}{" "}
 														({stat.closedRisks})
 													</span>
 												</div>
@@ -189,9 +183,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.archived}`}
 													/>
 													<span>
-														{t(
-															"common.status.archived",
-														)}{" "}
+														{"Archived"}{" "}
 														({stat.archivedRisks})
 													</span>
 												</div>
