@@ -2,7 +2,6 @@
 
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -43,7 +42,6 @@ type Props = {
 };
 
 export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
-	const t = useI18n();
 	const [isSetup, setIsSetup] = useState(false);
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,7 +70,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 			}
 		},
 		onError: () => {
-			toast.error(t("common.actions.error"), { duration: 5000 });
+			toast.error("Error", { duration: 5000 });
 		},
 	});
 
@@ -127,9 +125,9 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 			<DialogHeader className="my-4">
 				{!isExecuting ? (
 					<>
-						<DialogTitle>{t("onboarding.title")}</DialogTitle>
+						<DialogTitle>{"Create an organization"}</DialogTitle>
 						<DialogDescription>
-							{t("onboarding.description")}
+							{"Tell us a bit about your organization and what framework(s) you want to get started with."}
 						</DialogDescription>
 					</>
 				) : (
@@ -145,10 +143,10 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 								<div className="flex flex-col gap-2 justify-center">
 									<LogoSpinner />
 									<h2 className="text-xl font-semibold text-center tracking-tight">
-										{t("onboarding.trigger.title")}
+										{"Hold tight, we're creating your organization"}
 									</h2>
 									<p className="text-center text-sm text-muted-foreground">
-										{t("onboarding.trigger.creating")}
+										{"This may take a minute or two..."}
 									</p>
 								</div>
 							</div>
@@ -170,7 +168,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">
-										{t("frameworks.overview.grid.title")}
+										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
@@ -210,7 +208,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 																			}
 																		</p>
 																		<p className="text-xs text-muted-foreground/75 mt-2">
-																			{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+																			{`${"Version"}: ${framework.version}`}
 																		</p>
 																	</div>
 																	<div>
@@ -262,7 +260,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 										onClick={() => onOpenChange(false)}
 										disabled={isExecuting}
 									>
-										{t("common.actions.cancel")}
+										{"Cancel"}
 									</Button>
 									<Button
 										type="submit"
@@ -276,7 +274,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 											"executing" && (
 												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 											)}
-										{t("onboarding.submit")}
+										{"Finish setup"}
 									</Button>
 								</div>
 							</DialogFooter>

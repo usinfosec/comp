@@ -2,7 +2,6 @@
 
 import { addCommentAction } from "@/actions/add-comment";
 import { addCommentSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { CommentEntityType } from "@comp/db/types";
 import {
 	Accordion,
@@ -62,8 +61,6 @@ export function CreateCommentForm({
 		mode: "onChange",
 	});
 
-	const t = useI18n();
-
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
@@ -97,7 +94,7 @@ export function CreateCommentForm({
 											}
 										>
 											<div className="flex items-center justify-center">
-												{t("common.actions.create")}
+												{"Create"}
 												<ArrowRightIcon className="ml-2 h-4 w-4" />
 											</div>
 										</Button>

@@ -2,7 +2,6 @@
 
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import type { FrameworkEditorFramework } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
@@ -39,8 +38,6 @@ interface OnboardingClientProps {
 export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 	const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
 	const router = useRouter();
-	const t = useI18n();
-
 	const createOrganization = useAction(createOrganizationAction, {
 		onSuccess: async () => {
 			sendGTMEvent({
@@ -50,7 +47,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 			router.push("/");
 		},
 		onError: () => {
-			toast.error(t("common.actions.error"));
+			toast.error("Error");
 		},
 		onExecute: () => {
 			setIsCreatingOrganization(true);
@@ -88,10 +85,10 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 						<div className="flex flex-col gap-2 justify-center">
 							<LogoSpinner />
 							<h2 className="text-xl font-semibold text-center tracking-tight">
-								{t("onboarding.trigger.title")}
+								{"Hold tight, we're creating your organization"}
 							</h2>
 							<p className="text-center text-sm text-muted-foreground">
-								{t("onboarding.trigger.creating")}
+								{"This may take a minute or two..."}
 							</p>
 						</div>
 					</div>
@@ -130,7 +127,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">
-										{t("frameworks.overview.grid.title")}
+										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
@@ -165,7 +162,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																		}
 																	</p>
 																	<p className="text-xs text-muted-foreground/75 mt-2">
-																		{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
+																		{`${"Version"}: ${framework.version}`}
 																	</p>
 																</div>
 																<div>
@@ -217,7 +214,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 							{createOrganization.status === "executing" && (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							)}
-							{t("onboarding.submit")}
+							{"Finish setup"}
 						</Button>
 					</form>
 				</Form>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { TableHead, TableHeader, TableRow } from "@comp/ui/table";
 import { ArrowDown, ArrowUp } from "lucide-react";
@@ -25,8 +24,6 @@ export function DataTableHeader({ table, loading }: Props) {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const router = useRouter();
-	const t = useI18n();
-
 	const sortParam = searchParams.get("sort");
 	const [column, value] = sortParam ? sortParam.split(":") : [];
 
@@ -65,7 +62,7 @@ export function DataTableHeader({ table, loading }: Props) {
 							variant="ghost"
 							onClick={() => createSortQuery("name")}
 						>
-							<span>{t("policies.table.name")}</span>
+							<span>{"Policy Name"}</span>
 							{"name" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
@@ -83,7 +80,7 @@ export function DataTableHeader({ table, loading }: Props) {
 							variant="ghost"
 							onClick={() => createSortQuery("status")}
 						>
-							<span>{t("common.status.title")}</span>
+							<span>{"Status"}</span>
 							{"status" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}
@@ -101,7 +98,7 @@ export function DataTableHeader({ table, loading }: Props) {
 							variant="ghost"
 							onClick={() => createSortQuery("updatedAt")}
 						>
-							<span>{t("common.last_updated")}</span>
+							<span>{"Last Updated"}</span>
 							{"updatedAt" === column && value === "asc" && (
 								<ArrowDown size={16} />
 							)}

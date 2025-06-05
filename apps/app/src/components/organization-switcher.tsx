@@ -1,7 +1,6 @@
 "use client";
 
 import { changeOrganizationAction } from "@/actions/change-organization";
-import { useI18n } from "@/locales/client";
 import type { Organization, FrameworkEditorFramework } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
@@ -160,7 +159,6 @@ export function OrganizationSwitcher({
 	isCollapsed = false,
 	frameworks,
 }: OrganizationSwitcherProps) {
-	const t = useI18n();
 	const router = useRouter();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [showCreateOrg, setShowCreateOrg] = useState(false);
@@ -210,7 +208,7 @@ export function OrganizationSwitcher({
 					<Button
 						variant="outline"
 						role="combobox"
-						aria-label={t("common.actions.selectOrg")}
+						aria-label={"Select Organization"}
 						className={cn(
 							"flex justify-between mx-auto rounded-md",
 							isCollapsed ? "h-min w-min p-0" : "h-10 w-full p-0",
@@ -237,19 +235,19 @@ export function OrganizationSwitcher({
 				</DialogTrigger>
 				<DialogContent className="p-0 sm:max-w-[400px]">
 					<DialogTitle className="sr-only">
-						{t("common.actions.selectOrg")}
+						{"Select Organization"}
 					</DialogTitle>
 					<Command>
 						<div className="flex items-center border-b px-3">
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
 							<CommandInput
-								placeholder={t("common.placeholders.searchOrg")}
+								placeholder={"Search organization..."}
 								className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
 							/>
 						</div>
 						<CommandList>
 							<CommandEmpty>
-								{t("common.table.no_results")}
+								{"No results found"}
 							</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
                                                                 {organizations.map((org) => (
@@ -304,7 +302,7 @@ export function OrganizationSwitcher({
 									disabled={status === "executing"}
 								>
 									<Plus className="mr-2 h-4 w-4" />
-									{t("common.actions.createOrg")}
+									{"Create Organization"}
 								</CommandItem>
 							</CommandGroup>
 						</CommandList>
