@@ -95,9 +95,7 @@ export function AppOnboarding({
 									<div className="flex items-center gap-2 mb-4">
 										<BookOpen className="h-4 w-4 text-primary" />
 										<p className="font-medium text-md">
-											{t(
-												"app_onboarding.risk_management.learn_more",
-											)}
+											{"Learn More"}
 										</p>
 									</div>
 
