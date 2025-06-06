@@ -15,3 +15,4 @@ $$ LANGUAGE plpgsql;
 -- AlterTable
 ALTER TABLE "Organization" ADD COLUMN     "fleetDmSecret" TEXT NOT NULL DEFAULT generate_random_secret(32);
 ALTER TABLE "Organization" ADD COLUMN     "fleetDmLabelId" INT;
+ALTER TABLE "Organization" ADD COLUMN     "osqueryAgentDownloadUrl" TEXT;
