@@ -43,7 +43,7 @@ export function OrganizationsCard() {
 
 	if (isOrgsError) {
 		return (
-			<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-sm">
+			<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-xs">
 				<div className="p-6">
 					<h3 className="text-lg font-semibold">Organizations</h3>
 					<p className="text-sm text-muted-foreground">
@@ -51,26 +51,22 @@ export function OrganizationsCard() {
 					</p>
 				</div>
 				<div className="px-6 pb-6">
-					<p className="text-sm text-destructive">
-						Error loading data.
-					</p>
+					<p className="text-sm text-destructive">Error loading data.</p>
 				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-sm">
+		<div className="bg-card text-card-foreground border border-border overflow-hidden rounded-xs">
 			{/* Header */}
 			<div className="p-6 pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-primary/10 rounded-sm">
+					<div className="p-1.5 bg-primary/10 rounded-xs">
 						<BarChart2 className="h-8 w-8 text-primary" />
 					</div>
 					<div>
-						<h3 className="text-lg font-semibold mb-0">
-							Organizations
-						</h3>
+						<h3 className="text-lg font-semibold mb-0">Organizations</h3>
 						<p className="text-sm text-muted-foreground">
 							Daily trend over the last 30 days
 						</p>
@@ -87,10 +83,7 @@ export function OrganizationsCard() {
 						<Skeleton className="h-4 w-[150px]" />
 					</div>
 				) : (
-					<ChartContainer
-						config={chartConfig}
-						className="h-[200px] w-full"
-					>
+					<ChartContainer config={chartConfig} className="h-[200px] w-full">
 						<AreaChart
 							accessibilityLayer
 							data={chartData}
@@ -157,13 +150,11 @@ export function OrganizationsCard() {
 							{formattedTotalCount}
 						</div>
 						<div className="flex flex-col gap-1">
-							<div className="text-sm text-muted-foreground">
-								{dateRange}
-							</div>
+							<div className="text-sm text-muted-foreground">{dateRange}</div>
 							{trendPercentage !== undefined && (
 								<Badge
 									variant="outline"
-									className="bg-transparent border-primary text-primary px-2 py-0.5 rounded-sm"
+									className="bg-transparent border-primary text-primary px-2 py-0.5 rounded-xs"
 								>
 									<TrendingUp className="mr-1 h-3.5 w-3.5" />
 									<span>

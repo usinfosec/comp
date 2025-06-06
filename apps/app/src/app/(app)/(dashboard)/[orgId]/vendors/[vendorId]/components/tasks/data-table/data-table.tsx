@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@comp/db/types";
+import type { Task } from "@comp/db/types";
 import {
 	Table,
 	TableBody,
@@ -46,7 +46,7 @@ export function DataTable({ data, pageCount, currentPage }: DataTableProps) {
 
 	return (
 		<div className="space-y-4">
-			<div className="rounded-sm border">
+			<div className="rounded-xs border">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -57,8 +57,7 @@ export function DataTable({ data, pageCount, currentPage }: DataTableProps) {
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef
-															.header,
+														header.column.columnDef.header,
 														header.getContext(),
 													)}
 										</TableHead>
@@ -72,9 +71,7 @@ export function DataTable({ data, pageCount, currentPage }: DataTableProps) {
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={
-										row.getIsSelected() && "selected"
-									}
+									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>

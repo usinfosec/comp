@@ -52,17 +52,14 @@ export function OrganizationList({
 }: OrganizationListProps) {
 	if (isLoading) {
 		return (
-			<Card className="shadow-sm border border-border/40 rounded-xl overflow-hidden">
+			<Card className="shadow-xs border border-border/40 rounded-xl overflow-hidden">
 				<CardHeader className="pb-0">
 					<CardTitle>Organizations</CardTitle>
 				</CardHeader>
 				<CardContent className="pt-6">
 					<div className="space-y-2">
 						{Array.from({ length: 5 }).map((_, i) => (
-							<Skeleton
-								key={i}
-								className="h-12 w-full rounded-lg"
-							/>
+							<Skeleton key={i} className="h-12 w-full rounded-lg" />
 						))}
 					</div>
 				</CardContent>
@@ -72,7 +69,7 @@ export function OrganizationList({
 
 	if (organizations.length === 0) {
 		return (
-			<Card className="shadow-sm border border-border/40 rounded-xl overflow-hidden">
+			<Card className="shadow-xs border border-border/40 rounded-xl overflow-hidden">
 				<CardHeader className="pb-0">
 					<CardTitle>Organizations</CardTitle>
 				</CardHeader>
@@ -87,7 +84,7 @@ export function OrganizationList({
 
 	return (
 		<TooltipProvider>
-			<Card className="shadow-sm border border-border/40 rounded-xl overflow-hidden">
+			<Card className="shadow-xs border border-border/40 rounded-xl overflow-hidden">
 				<CardHeader className="pb-0">
 					<CardTitle>Organizations ({organizations.length})</CardTitle>
 				</CardHeader>
@@ -110,7 +107,7 @@ export function OrganizationList({
 										const actingUserMember = actingAsUserId
 											? organization.members.find(
 													(m) => m.userId === actingAsUserId,
-											  )
+												)
 											: null;
 
 										const isMember = !!actingUserMember;
@@ -118,7 +115,10 @@ export function OrganizationList({
 										const isOwner = actingUserMember?.role === "owner";
 
 										return (
-											<TableRow key={organization.id} className="hover:bg-muted/30 transition-colors">
+											<TableRow
+												key={organization.id}
+												className="hover:bg-muted/30 transition-colors"
+											>
 												<TableCell className="font-medium">
 													{organization.name}
 													{isMember && (
@@ -141,7 +141,9 @@ export function OrganizationList({
 																variant="ghost"
 																size="icon"
 																className="h-8 w-8 rounded-full"
-																onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+																onClick={(
+																	e: React.MouseEvent<HTMLButtonElement>,
+																) => {
 																	e.stopPropagation();
 																	onViewMembers(organization);
 																}}
@@ -168,7 +170,9 @@ export function OrganizationList({
 																		variant="outline"
 																		// Disable if loading, if the acting user is the owner, or if not a member
 																		disabled={isLoading || isOwner || !isMember}
-																		onClick={() => onRemoveSelf(organization.id)}
+																		onClick={() =>
+																			onRemoveSelf(organization.id)
+																		}
 																		style={{
 																			pointerEvents: isOwner ? "none" : "auto",
 																		}}
@@ -193,7 +197,9 @@ export function OrganizationList({
 															variant="default"
 															size="sm"
 															className="rounded-full"
-															onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+															onClick={(
+																e: React.MouseEvent<HTMLButtonElement>,
+															) => {
 																e.stopPropagation();
 																onAddSelf(organization.id);
 															}}

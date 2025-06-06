@@ -1,6 +1,6 @@
 "use client";
 
-import { Task, Control } from "@comp/db/types";
+import type { Task, Control } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import {
 	Card,
@@ -14,7 +14,7 @@ import { cn } from "@comp/ui/cn";
 import { ClipboardCheck, ClipboardList, Clock } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FrameworkInstanceWithControls } from "../types";
+import type { FrameworkInstanceWithControls } from "../types";
 
 interface FrameworkCardProps {
 	frameworkInstance: FrameworkInstanceWithControls;
@@ -44,17 +44,20 @@ export function FrameworkCard({
 		if (score >= 95)
 			return {
 				label: "Compliant",
-				color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+				color:
+					"bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
 			};
 		if (score >= 80)
 			return {
 				label: "Nearly Compliant",
-				color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+				color:
+					"bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
 			};
 		if (score >= 50)
 			return {
 				label: "In Progress",
-				color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+				color:
+					"bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
 			};
 		return {
 			label: "Needs Attention",
@@ -116,13 +119,10 @@ export function FrameworkCard({
 			className="block"
 		>
 			<Card className="select-none hover:bg-muted/40 transition-colors duration-200 overflow-hidden h-full flex flex-col">
-				<CardHeader className="flex-shrink-0">
+				<CardHeader className="shrink-0">
 					<CardTitle className="flex items-center">
 						{frameworkDetails.name}
-						<Badge
-							variant="outline"
-							className="ml-2 text-xs font-normal"
-						>
+						<Badge variant="outline" className="ml-2 text-xs font-normal">
 							{frameworkDetails.version}
 						</Badge>
 					</CardTitle>
@@ -131,12 +131,7 @@ export function FrameworkCard({
 							<p className="text-sm text-muted-foreground line-clamp-2">
 								{frameworkDetails.description}
 							</p>
-							<Badge
-								className={cn(
-									"hidden md:block",
-									statusBadge.color,
-								)}
-							>
+							<Badge className={cn("hidden md:block", statusBadge.color)}>
 								{statusBadge.label}
 							</Badge>
 						</div>
@@ -146,9 +141,7 @@ export function FrameworkCard({
 					<div className="flex flex-col gap-3">
 						<div className="space-y-1.5">
 							<div className="flex items-center justify-between text-sm">
-								<span className="text-muted-foreground">
-									{"Status"}
-								</span>
+								<span className="text-muted-foreground">{"Status"}</span>
 								<span
 									className={cn(
 										"font-medium",
@@ -162,9 +155,7 @@ export function FrameworkCard({
 								<div
 									className={cn(
 										"h-full transition-all",
-										getComplianceProgressColor(
-											complianceScore,
-										),
+										getComplianceProgressColor(complianceScore),
 									)}
 									style={{ width: `${complianceScore}%` }}
 								/>
@@ -176,9 +167,7 @@ export function FrameworkCard({
 						<div className="flex flex-col items-start gap-1 border-r pr-3">
 							<div className="flex items-center text-muted-foreground">
 								<ClipboardList className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">
-									{"Controls"}
-								</span>
+								<span className="text-xs">{"Controls"}</span>
 							</div>
 							<p className="font-medium text-sm">
 								{controlsCount} {"Tasks"}
@@ -187,9 +176,7 @@ export function FrameworkCard({
 						<div className="flex flex-col items-start gap-1 border-r pr-3">
 							<div className="flex items-center text-muted-foreground">
 								<ClipboardCheck className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">
-									{"Completed"}
-								</span>
+								<span className="text-xs">{"Completed"}</span>
 							</div>
 							<p className="font-medium text-sm">
 								{compliantControlsCount} / {controlsCount}
@@ -198,9 +185,7 @@ export function FrameworkCard({
 						<div className="flex flex-col items-start gap-1">
 							<div className="flex items-center text-muted-foreground">
 								<Clock className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">
-									{"In Progress"}
-								</span>
+								<span className="text-xs">{"In Progress"}</span>
 							</div>
 							<p className="font-medium text-sm">
 								{inProgressCount} / {controlsCount}
@@ -208,7 +193,7 @@ export function FrameworkCard({
 						</div>
 					</div>
 				</CardContent>
-				<CardFooter className="text-xs text-muted-foreground flex justify-between mt-auto flex-shrink-0">
+				<CardFooter className="text-xs text-muted-foreground flex justify-between mt-auto shrink-0">
 					<div className="flex items-center">
 						<Clock className="h-3.5 w-3.5 mr-1.5" />
 						{"Last Updated"}: {lastActivityDate}

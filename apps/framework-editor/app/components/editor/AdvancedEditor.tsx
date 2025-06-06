@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
 	EditorContent,
@@ -15,8 +15,8 @@ import {
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions"; // Correct path (same directory)
-import type { Extensions } from '@tiptap/core';
-import { Editor } from "@tiptap/core";
+import type { Extensions } from "@tiptap/core";
+import type { Editor } from "@tiptap/core";
 import { Separator } from "@comp/ui/separator"; // Assuming Separator exists
 
 // Import the new selector components
@@ -41,7 +41,9 @@ const AdvancedEditor = ({
 	readOnly = false,
 	saveDebounceMs = 1000,
 }: AdvancedEditorProps) => {
-	const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving" | "Unsaved">("Saved");
+	const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving" | "Unsaved">(
+		"Saved",
+	);
 	const [charsCount, setCharsCount] = useState<number>(0);
 	const [editor, setEditor] = useState<Editor | null>(null); // Store editor instance
 
@@ -76,21 +78,29 @@ const AdvancedEditor = ({
 	}
 
 	return (
-		<div className="relative w-full bg-background border rounded-sm flex flex-col gap-2">
+		<div className="relative w-full bg-background border rounded-xs flex flex-col gap-2">
 			{/* Toolbar Area */}
 			{!readOnly && (
 				<div className="flex items-center gap-1 p-2 border-b sticky top-0 bg-background z-10 flex-wrap">
-					<NodeSelector editor={editor} isOpen={isNodeSelectorOpen} onOpenChange={setIsNodeSelectorOpen} />
+					<NodeSelector
+						editor={editor}
+						isOpen={isNodeSelectorOpen}
+						onOpenChange={setIsNodeSelectorOpen}
+					/>
 					<Separator orientation="vertical" className="h-6" />
-					<LinkSelector editor={editor} isOpen={isLinkSelectorOpen} onOpenChange={setIsLinkSelectorOpen} />
+					<LinkSelector
+						editor={editor}
+						isOpen={isLinkSelectorOpen}
+						onOpenChange={setIsLinkSelectorOpen}
+					/>
 					<Separator orientation="vertical" className="h-6" />
 					<TextButtons editor={editor} />
 					{/* Add other selectors/buttons here */}
 					<div className="ml-auto flex items-center gap-2">
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
+						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-xs">
 							{saveStatus}
 						</div>
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
+						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-xs">
 							{charsCount} Words
 						</div>
 					</div>
@@ -101,7 +111,7 @@ const AdvancedEditor = ({
 					immediatelyRender={false}
 					initialContent={initialContent}
 					extensions={extensionsList}
-					className="relative min-h-[300px] p-4 w-full bg-background p-2 overflow-y-auto prose prose-sm sm:prose-base dark:prose-invert focus:outline-none max-w-full"
+					className="relative min-h-[300px] p-4 w-full bg-background p-2 overflow-y-auto prose prose-sm sm:prose-base dark:prose-invert focus:outline-hidden max-w-full"
 					editorProps={{
 						editable: () => !readOnly,
 						// attributes class is now on className prop of EditorContent directly
@@ -111,7 +121,8 @@ const AdvancedEditor = ({
 					onUpdate={({ editor: currentEditor }) => {
 						setEditor(currentEditor);
 						const content = currentEditor.getJSON();
-						const wordCount = currentEditor.storage.characterCount?.words() ?? 0;
+						const wordCount =
+							currentEditor.storage.characterCount?.words() ?? 0;
 						setCharsCount(wordCount);
 
 						if (onSave) {
@@ -121,7 +132,8 @@ const AdvancedEditor = ({
 					}}
 					onSelectionUpdate={({ editor: currentEditor }) => {
 						setEditor(currentEditor);
-						const wordCount = currentEditor.storage.characterCount?.words() ?? 0;
+						const wordCount =
+							currentEditor.storage.characterCount?.words() ?? 0;
 						setCharsCount(wordCount);
 					}}
 				>
@@ -161,4 +173,4 @@ const AdvancedEditor = ({
 	);
 };
 
-export default AdvancedEditor; 
+export default AdvancedEditor;

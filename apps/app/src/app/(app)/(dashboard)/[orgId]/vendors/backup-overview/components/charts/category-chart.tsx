@@ -112,16 +112,13 @@ export function VendorCategoryChart({
 				>
 					{sortedData.map((d, index) => {
 						const barWidth = d.value === 0 ? 3 : xScale(d.value);
-						const fixedBarHeightPercentage =
-							(barHeight / chartHeight) * 100;
+						const fixedBarHeightPercentage = (barHeight / chartHeight) * 100;
 
 						// Calculate exact position to align with labels
 						// Get center point of the band for this item
-						const bandCenter =
-							yScale(d.name)! + yScale.bandwidth() / 2;
+						const bandCenter = yScale(d.name)! + yScale.bandwidth() / 2;
 						// Position bar so its center aligns with the band center
-						const barTopPosition =
-							bandCenter - fixedBarHeightPercentage / 2;
+						const barTopPosition = bandCenter - fixedBarHeightPercentage / 2;
 
 						return (
 							<div
@@ -132,7 +129,7 @@ export function VendorCategoryChart({
 									width: `${barWidth}%`,
 									height: `${fixedBarHeightPercentage}%`,
 								}}
-								className={`absolute bg-primary ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-sm`}
+								className={`absolute bg-primary ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-xs`}
 								data-tip={`${d.name}: ${allZeros ? 0 : d.value}`}
 							/>
 						);
@@ -172,9 +169,7 @@ export function VendorCategoryChart({
 							}}
 							className="absolute text-xs -translate-x-1/2 tabular-nums text-muted-foreground"
 						>
-							{Number.isInteger(value)
-								? format(",")(value)
-								: value.toFixed(2)}
+							{Number.isInteger(value) ? format(",")(value) : value.toFixed(2)}
 						</div>
 					))}
 				</div>

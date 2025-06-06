@@ -132,7 +132,7 @@ function OrganizationInitialsAvatar({
 	return (
 		<div
 			className={cn(
-				"shrink-0 flex items-center justify-center rounded-sm",
+				"shrink-0 flex items-center justify-center rounded-xs",
 				sizeClasses,
 				selectedColorPair.bg,
 				className,
@@ -252,7 +252,7 @@ export function OrganizationSwitcher({
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
 							<CommandInput
 								placeholder={"Search organization..."}
-								className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+								className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
 							/>
 						</div>
 						<CommandList>

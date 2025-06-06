@@ -47,7 +47,7 @@ const StatusTooltip = ({ active, payload }: any) => {
 	if (active && payload && payload.length) {
 		const data = payload[0].payload;
 		return (
-			<div className="rounded-sm border bg-background p-2 shadow-md">
+			<div className="rounded-xs border bg-background p-2 shadow-md">
 				<p className="text-xs font-medium">{data.name}</p>
 				<p className="text-xs">
 					Count: <span className="font-medium">{data.value}</span>
@@ -175,10 +175,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 							left: 16,
 						}}
 					>
-						<ChartTooltip
-							cursor={false}
-							content={<ChartTooltipContent />}
-						/>
+						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 						<Pie
 							data={chartData}
 							dataKey="value"
@@ -194,11 +191,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 						>
 							<Label
 								content={({ viewBox }) => {
-									if (
-										viewBox &&
-										"cx" in viewBox &&
-										"cy" in viewBox
-									) {
+									if (viewBox && "cx" in viewBox && "cy" in viewBox) {
 										return (
 											<g>
 												<text
@@ -216,10 +209,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 													</tspan>
 													<tspan
 														x={viewBox.cx}
-														y={
-															(viewBox.cy || 0) +
-															26
-														}
+														y={(viewBox.cy || 0) + 26}
 														className="fill-muted-foreground text-xs"
 													>
 														Policies
@@ -247,10 +237,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 			<CardFooter className="bg-muted/30 border-t py-3">
 				<div className="flex flex-wrap gap-4 justify-center w-full py-1">
 					{chartData.map((entry) => (
-						<div
-							key={entry.name}
-							className="flex items-center gap-2"
-						>
+						<div key={entry.name} className="flex items-center gap-2">
 							<div
 								className="h-3 w-3"
 								style={{ backgroundColor: entry.fill }}

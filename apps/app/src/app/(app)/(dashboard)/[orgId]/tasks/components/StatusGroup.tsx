@@ -1,9 +1,9 @@
 "use client";
 
-import { Member, Task, User } from "@comp/db/types";
+import type { Member, Task, User } from "@comp/db/types";
 import { useDrop } from "react-dnd";
 import { useRef } from "react";
-import { TaskCard, DragItem, ItemTypes, StatusId } from "./TaskCard";
+import { TaskCard, type DragItem, ItemTypes, type StatusId } from "./TaskCard";
 import { updateTaskOrder } from "../actions/updateTaskOrder";
 import clsx from "clsx";
 
@@ -87,7 +87,7 @@ export function StatusGroup({
 
 	return (
 		// Attach group drop ref here
-		<div ref={groupContainerRef} key={status.id} className="rounded">
+		<div ref={groupContainerRef} key={status.id} className="rounded-sm">
 			{/* Status Group Header */}
 			<div className="flex items-center pr-2 pl-6 py-2 bg-muted/50">
 				<h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
@@ -126,14 +126,11 @@ export function StatusGroup({
 					))}
 
 				{/* Placeholder ONLY when empty AND dragging over */}
-				{shouldRenderTasks &&
-					tasks.length === 0 &&
-					isOver &&
-					canDrop && (
-						<div className="p-4 text-center text-sm text-muted-foreground border-dashed border m-2 rounded">
-							Drop task here
-						</div>
-					)}
+				{shouldRenderTasks && tasks.length === 0 && isOver && canDrop && (
+					<div className="p-4 text-center text-sm text-muted-foreground border-dashed border m-2 rounded-sm">
+						Drop task here
+					</div>
+				)}
 			</div>
 		</div>
 	);

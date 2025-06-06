@@ -38,10 +38,7 @@ export function TaskCard() {
 		}
 		// Ensure data is sorted chronologically if not already guaranteed by API
 		return [...taskData.last30DaysTotalByDay]
-			.sort(
-				(a, b) =>
-					new Date(a.date).getTime() - new Date(b.date).getTime(),
-			)
+			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 			.map((item) => ({
 				date: item.date,
 				value: item.count,
@@ -55,10 +52,7 @@ export function TaskCard() {
 			taskData?.allTimeTotal != null &&
 			taskData.allTimeTotal > 0
 		) {
-			return (
-				(taskData.allTimeDone / taskData.allTimeTotal) *
-				100
-			).toFixed(1);
+			return ((taskData.allTimeDone / taskData.allTimeTotal) * 100).toFixed(1);
 		}
 		return "0.0";
 	}, [taskData?.allTimeDone, taskData?.allTimeTotal]);
@@ -78,36 +72,32 @@ export function TaskCard() {
 
 	if (isTaskError) {
 		return (
-			<Card className="overflow-hidden rounded-sm">
+			<Card className="overflow-hidden rounded-xs">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-purple-500/10 rounded-sm">
+						<div className="p-1.5 bg-purple-500/10 rounded-xs">
 							<FileText className="h-5 w-5 text-purple-500" />
 						</div>
 						<CardTitle className="text-lg">Task</CardTitle>
 					</div>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-destructive">
-						Error loading data.
-					</p>
+					<p className="text-sm text-destructive">Error loading data.</p>
 				</CardContent>
 			</Card>
 		);
 	}
 
 	return (
-		<Card className="overflow-hidden rounded-sm">
+		<Card className="overflow-hidden rounded-xs">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-purple-500/10 rounded-sm">
+					<div className="p-1.5 bg-purple-500/10 rounded-xs">
 						<FileText className="h-5 w-5 text-purple-500" />
 					</div>
 					<CardTitle className="text-lg">Task</CardTitle>
 				</div>
-				<div
-					className={`flex items-center text-xs ${growthColor} font-medium`}
-				>
+				<div className={`flex items-center text-xs ${growthColor} font-medium`}>
 					<TrendingUp className="h-3.5 w-3.5 mr-1" />
 					{isTaskLoading ? (
 						<Skeleton className="h-3 w-10" />
@@ -119,10 +109,9 @@ export function TaskCard() {
 			<CardContent>
 				{isTaskLoading ? (
 					<div className="space-y-4 mt-2">
-						<Skeleton className="h-10 w-full" />{" "}
-						{/* Chart Placeholder */}
+						<Skeleton className="h-10 w-full" /> {/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
-						<div className="bg-muted p-3 space-y-2 rounded-sm">
+						<div className="bg-muted p-3 space-y-2 rounded-xs">
 							<Skeleton className="h-4 w-1/3" />
 							<Skeleton className="h-4 w-full" />
 							<Skeleton className="h-4 w-full" />
@@ -185,7 +174,7 @@ export function TaskCard() {
 						</div>
 
 						{/* Last 30 Days Section */}
-						<div className="bg-muted p-3 mb-4 rounded-sm">
+						<div className="bg-muted p-3 mb-4 rounded-xs">
 							<div className="flex items-center gap-2 mb-2">
 								<Clock className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -193,9 +182,7 @@ export function TaskCard() {
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-muted-foreground text-sm">
-									New
-								</span>
+								<span className="text-muted-foreground text-sm">New</span>
 								<span className="text-sm font-medium">
 									{formatNumber(taskData?.last30DaysTotal)}
 								</span>
@@ -203,7 +190,7 @@ export function TaskCard() {
 						</div>
 
 						{/* All Time Section */}
-						<div className="bg-muted p-3 mb-4 rounded-sm">
+						<div className="bg-muted p-3 mb-4 rounded-xs">
 							<div className="flex items-center gap-2 mb-2">
 								<Calendar className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -212,32 +199,23 @@ export function TaskCard() {
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-muted-foreground text-sm">
-										Total
-									</span>
+									<span className="text-muted-foreground text-sm">Total</span>
 									<span className="text-xl font-bold">
-										{formatNumber(taskData?.allTimeTotal) ??
-											"N/A"}
+										{formatNumber(taskData?.allTimeTotal) ?? "N/A"}
 									</span>
 								</div>
 							</div>
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-muted-foreground text-sm">
-										Done
-									</span>
+									<span className="text-muted-foreground text-sm">Done</span>
 									<span className="text-sm font-medium">
-										{formatNumber(
-											taskData?.allTimeDone,
-										) ?? "N/A"}
+										{formatNumber(taskData?.allTimeDone) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
-									value={Number.parseFloat(
-										taskDonePercent,
-									)}
-									className="h-1.5 bg-muted rounded-sm [&>div]:bg-purple-500"
+									value={Number.parseFloat(taskDonePercent)}
+									className="h-1.5 bg-muted rounded-xs [&>div]:bg-purple-500"
 								/>
 								<div className="text-xs text-muted-foreground mt-1">
 									{taskDonePercent}% of total

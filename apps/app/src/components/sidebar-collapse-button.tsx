@@ -36,10 +36,10 @@ export function SidebarCollapseButton({
 			<Button
 				variant="ghost"
 				size="sm"
-				className="h-8 w-8 rounded-sm shadow-md bg-background"
+				className="h-8 w-8 rounded-xs shadow-md bg-background"
 				onClick={handleToggle}
 			>
-				<Icons.ChevronRight className="h-4 w-4 flex-shrink-0" />
+				<Icons.ChevronRight className="h-4 w-4 shrink-0" />
 			</Button>
 		);
 	}

@@ -107,20 +107,19 @@ export function DataTablePagination<TData>({
 
 	return (
 		<div
-			className={cn(
-				"flex items-center justify-between py-2 px-1",
-				className,
-			)}
+			className={cn("flex items-center justify-between py-2 px-1", className)}
 			{...props}
 		>
 			<div className="flex items-center gap-3 text-sm text-muted-foreground">
-				<span className="hidden sm:inline text-xs">{table.getCoreRowModel().rows.length} items</span>
+				<span className="hidden sm:inline text-xs">
+					{table.getCoreRowModel().rows.length} items
+				</span>
 				<div className="hidden sm:flex items-center gap-1.5">
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
 						onValueChange={handlePageSizeChange}
 					>
-						<SelectTrigger className="h-7 w-24 text-xs border-muted bg-transparent rounded-sm">
+						<SelectTrigger className="h-7 w-24 text-xs border-muted bg-transparent rounded-xs">
 							<SelectValue placeholder={table.getState().pagination.pageSize} />
 						</SelectTrigger>
 						<SelectContent side="bottom">

@@ -35,10 +35,7 @@ export function UsersCard() {
 		}
 		// Ensure data is sorted chronologically
 		return [...usersData.last30DaysByDay]
-			.sort(
-				(a, b) =>
-					new Date(a.date).getTime() - new Date(b.date).getTime(),
-			)
+			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 			.map((item) => ({
 				date: item.date,
 				value: item.count,
@@ -75,36 +72,32 @@ export function UsersCard() {
 
 	if (isUsersError) {
 		return (
-			<Card className="overflow-hidden rounded-sm">
+			<Card className="overflow-hidden rounded-xs">
 				<CardHeader className="pb-2 flex flex-row items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className="p-1.5 bg-emerald-500/10 rounded-sm">
+						<div className="p-1.5 bg-emerald-500/10 rounded-xs">
 							<Users className="h-5 w-5 text-emerald-500" />
 						</div>
 						<CardTitle className="text-lg">Users</CardTitle>
 					</div>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-destructive">
-						Error loading data.
-					</p>
+					<p className="text-sm text-destructive">Error loading data.</p>
 				</CardContent>
 			</Card>
 		);
 	}
 
 	return (
-		<Card className="overflow-hidden rounded-sm">
+		<Card className="overflow-hidden rounded-xs">
 			<CardHeader className="pb-2 flex flex-row items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="p-1.5 bg-emerald-500/10 rounded-sm">
+					<div className="p-1.5 bg-emerald-500/10 rounded-xs">
 						<Users className="h-5 w-5 text-emerald-500" />
 					</div>
 					<CardTitle className="text-lg">Users</CardTitle>
 				</div>
-				<div
-					className={`flex items-center text-xs ${growthColor} font-medium`}
-				>
+				<div className={`flex items-center text-xs ${growthColor} font-medium`}>
 					{usersData?.percentageChangeLast30Days == null ||
 					usersData.percentageChangeLast30Days >= 0 ? (
 						<TrendingUp className="h-3.5 w-3.5 mr-1" />
@@ -121,10 +114,9 @@ export function UsersCard() {
 			<CardContent>
 				{isUsersLoading ? (
 					<div className="space-y-4 mt-2">
-						<Skeleton className="h-10 w-full" />{" "}
-						{/* Chart Placeholder */}
+						<Skeleton className="h-10 w-full" /> {/* Chart Placeholder */}
 						{/* Last 30 days Placeholder */}
-						<div className="bg-muted p-3 space-y-2 rounded-sm">
+						<div className="bg-muted p-3 space-y-2 rounded-xs">
 							<Skeleton className="h-4 w-1/3" />
 							<Skeleton className="h-4 w-full" />
 						</div>
@@ -185,7 +177,7 @@ export function UsersCard() {
 						</div>
 
 						{/* Last 30 Days Section */}
-						<div className="bg-muted p-3 mb-4 rounded-sm">
+						<div className="bg-muted p-3 mb-4 rounded-xs">
 							<div className="flex items-center gap-2 mb-2">
 								<Clock className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -193,9 +185,7 @@ export function UsersCard() {
 								</span>
 							</div>
 							<div className="flex justify-between mb-1">
-								<span className="text-muted-foreground text-sm">
-									New
-								</span>
+								<span className="text-muted-foreground text-sm">New</span>
 								<span className="text-sm font-medium">
 									{formatNumber(usersData?.last30DaysTotal)}
 								</span>
@@ -208,7 +198,7 @@ export function UsersCard() {
 						</div>
 
 						{/* All Time Section */}
-						<div className="bg-muted p-3 mb-4 rounded-sm">
+						<div className="bg-muted p-3 mb-4 rounded-xs">
 							<div className="flex items-center gap-2 mb-2">
 								<Calendar className="h-4 w-4 text-muted-foreground" />
 								<span className="text-sm font-medium text-foreground">
@@ -217,33 +207,23 @@ export function UsersCard() {
 							</div>
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-muted-foreground text-sm">
-										Total
-									</span>
+									<span className="text-muted-foreground text-sm">Total</span>
 									<span className="text-xl font-bold">
-										{formatNumber(
-											usersData?.allTimeTotal,
-										) ?? "N/A"}
+										{formatNumber(usersData?.allTimeTotal) ?? "N/A"}
 									</span>
 								</div>
 							</div>
 
 							<div>
 								<div className="flex justify-between mb-1">
-									<span className="text-muted-foreground text-sm">
-										Active
-									</span>
+									<span className="text-muted-foreground text-sm">Active</span>
 									<span className="text-sm font-medium">
-										{formatNumber(
-											usersData?.activeSessionTotal,
-										) ?? "N/A"}
+										{formatNumber(usersData?.activeSessionTotal) ?? "N/A"}
 									</span>
 								</div>
 								<Progress
-									value={Number.parseFloat(
-										usersActivePercent,
-									)}
-									className="h-1.5 bg-muted rounded-sm [&>div]:bg-emerald-500"
+									value={Number.parseFloat(usersActivePercent)}
+									className="h-1.5 bg-muted rounded-xs [&>div]:bg-emerald-500"
 								/>
 								<div className="text-xs text-muted-foreground mt-1">
 									{usersActivePercent}% of total

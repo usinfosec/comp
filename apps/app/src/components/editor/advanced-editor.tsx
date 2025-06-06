@@ -18,7 +18,7 @@ import { LinkSelector } from "./selectors/link-selector";
 import { MathSelector } from "./selectors/math-selector";
 import { NodeSelector } from "./selectors/node-selector";
 
-import { Extensions } from "@tiptap/core";
+import type { Extensions } from "@tiptap/core";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { TextButtons } from "./selectors/text-buttons";
 import { suggestionItems } from "./slash-command";
@@ -44,9 +44,9 @@ const AdvancedEditor = ({
 	className,
 	saveDebounceMs = 500,
 }: AdvancedEditorProps) => {
-	const [saveStatus, setSaveStatus] = useState<
-		"Saved" | "Saving" | "Unsaved"
-	>("Saved");
+	const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving" | "Unsaved">(
+		"Saved",
+	);
 	const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 	const [charsCount, setCharsCount] = useState();
 
@@ -100,11 +100,11 @@ const AdvancedEditor = ({
 					editable={!readOnly}
 					editorProps={{
 						handleDOMEvents: {
-							keydown: (_view, event) =>
-								handleCommandNavigation(event),
+							keydown: (_view, event) => handleCommandNavigation(event),
 						},
 						attributes: {
-							class: "max-h-[500px] prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+							class:
+								"max-h-[500px] prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-hidden max-w-full",
 						},
 					}}
 					onUpdate={({ editor }) => {
@@ -133,9 +133,7 @@ const AdvancedEditor = ({
 									{suggestionItems.map((item: any) => (
 										<EditorCommandItem
 											value={item.title}
-											onCommand={(val) =>
-												item.command(val)
-											}
+											onCommand={(val) => item.command(val)}
 											className="flex w-full items-center space-x-2 px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
 											key={item.title}
 										>
@@ -143,9 +141,7 @@ const AdvancedEditor = ({
 												{item.icon}
 											</div>
 											<div>
-												<p className="font-medium">
-													{item.title}
-												</p>
+												<p className="font-medium">{item.title}</p>
 												<p className="text-xs text-muted-foreground">
 													{item.description}
 												</p>
@@ -155,21 +151,12 @@ const AdvancedEditor = ({
 								</EditorCommandList>
 							</EditorCommand>
 
-							<GenerativeMenuSwitch
-								open={openAI}
-								onOpenChange={setOpenAI}
-							>
+							<GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
 								<Separator orientation="vertical" />
-								<NodeSelector
-									open={openNode}
-									onOpenChange={setOpenNode}
-								/>
+								<NodeSelector open={openNode} onOpenChange={setOpenNode} />
 								<Separator orientation="vertical" />
 
-								<LinkSelector
-									open={openLink}
-									onOpenChange={setOpenLink}
-								/>
+								<LinkSelector open={openLink} onOpenChange={setOpenLink} />
 								<Separator orientation="vertical" />
 								<MathSelector />
 								<Separator orientation="vertical" />
