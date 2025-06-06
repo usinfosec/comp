@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/trycompai/comp/compare/v1.34.0...v1.35.0) (2025-06-06)
+
+
+### Features
+
+* add readonly role with SELECT permissions for all non-system schemas ([b7ba0f9](https://github.com/trycompai/comp/commit/b7ba0f940d7edaaf9e12d66f11f160b29fd067f6))
+
 # [1.34.0](https://github.com/trycompai/comp/compare/v1.33.1...v1.34.0) (2025-06-05)
 
 
