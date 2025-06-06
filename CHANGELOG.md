@@ -1,3 +1,11 @@
+# [1.36.0](https://github.com/trycompai/comp/compare/v1.35.1...v1.36.0) (2025-06-06)
+
+
+### Features
+
+* add materialized view for organization statistics ([f44f375](https://github.com/trycompai/comp/commit/f44f375b38853137ed1bdbe0bd07a5e9f3873d10))
+* add scheduled task to refresh OrganizationStats materialized view ([b04baf4](https://github.com/trycompai/comp/commit/b04baf497bc79ea1520f6ada8a11a1f8132d81fe))
+
 ## [1.35.1](https://github.com/trycompai/comp/compare/v1.35.0...v1.35.1) (2025-06-06)
 
 
