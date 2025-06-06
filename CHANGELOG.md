@@ -1,3 +1,10 @@
+## [1.35.1](https://github.com/trycompai/comp/compare/v1.35.0...v1.35.1) (2025-06-06)
+
+
+### Bug Fixes
+
+* fix issue with redirect to onboarding ([f9d3e4d](https://github.com/trycompai/comp/commit/f9d3e4de5576812b45c1da5df8f03b12f086ad6f))
+
 # [1.35.0](https://github.com/trycompai/comp/compare/v1.34.0...v1.35.0) (2025-06-06)
 
 
