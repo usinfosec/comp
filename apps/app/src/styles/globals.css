@@ -1,18 +1,22 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@config "../../tailwind.config.ts";
+
 html,
 body {
-	height: 100%;
+  height: 100%;
 }
 
 *:focus {
-	outline: none;
+  outline: none;
 }
 
 .tiptap {
-	font-size: 11px !important;
-	line-height: 18px !important;
+  font-size: 11px !important;
+  line-height: 18px !important;
 }
 
 * {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

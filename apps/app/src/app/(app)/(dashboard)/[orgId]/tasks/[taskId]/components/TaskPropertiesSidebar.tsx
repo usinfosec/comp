@@ -1,4 +1,4 @@
-import {
+import type {
 	Departments,
 	Member,
 	Task,
@@ -47,18 +47,14 @@ export function TaskPropertiesSidebar({
 }: TaskPropertiesSidebarProps) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	return (
-		<aside className="w-full md:w-64 lg:w-72 flex-shrink-0 md:border-l md:pt-8 md:pl-8 hidden lg:flex flex-col">
+		<aside className="w-full md:w-64 lg:w-72 shrink-0 md:border-l md:pt-8 md:pl-8 hidden lg:flex flex-col">
 			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex-shrink-0">
+				<h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider shrink-0">
 					Properties
 				</h2>
 				<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
 					<DropdownMenuTrigger asChild>
-						<Button
-							size="icon"
-							variant="ghost"
-							className="p-2 m-0 size-auto"
-						>
+						<Button size="icon" variant="ghost" className="p-2 m-0 size-auto">
 							<MoreVertical className="h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>
@@ -87,9 +83,7 @@ export function TaskPropertiesSidebar({
 						renderOption={(status) => (
 							<div className="flex items-center gap-2">
 								<TaskStatusIndicator status={status} />
-								<span className="capitalize">
-									{status.replace("_", " ")}
-								</span>
+								<span className="capitalize">{status.replace("_", " ")}</span>
 							</div>
 						)}
 						onSelect={(selectedStatus) => {
@@ -137,7 +131,8 @@ export function TaskPropertiesSidebar({
 						)}
 						onSelect={(selectedAssigneeId) => {
 							handleUpdateTask({
-								assigneeId: selectedAssigneeId === null ? null : selectedAssigneeId,
+								assigneeId:
+									selectedAssigneeId === null ? null : selectedAssigneeId,
 							});
 						}}
 						trigger={
@@ -151,20 +146,12 @@ export function TaskPropertiesSidebar({
 										<Avatar className="w-4 h-4">
 											{assignedMember.user?.image && (
 												<AvatarImage
-													src={
-														assignedMember.user
-															.image
-													}
-													alt={
-														assignedMember.user
-															.name ?? ""
-													}
+													src={assignedMember.user.image}
+													alt={assignedMember.user.name ?? ""}
 												/>
 											)}
 											<AvatarFallback className="text-[10px]">
-												{assignedMember.user?.name?.charAt(
-													0,
-												) ?? "?"}
+												{assignedMember.user?.name?.charAt(0) ?? "?"}
 											</AvatarFallback>
 										</Avatar>
 										<span className="text-foreground font-medium">
@@ -172,9 +159,7 @@ export function TaskPropertiesSidebar({
 										</span>
 									</>
 								) : (
-									<span className="text-muted-foreground">
-										Unassigned
-									</span>
+									<span className="text-muted-foreground">Unassigned</span>
 								)}
 							</Button>
 						}
@@ -194,9 +179,7 @@ export function TaskPropertiesSidebar({
 						options={taskFrequencies}
 						getKey={(freq) => freq}
 						renderOption={(freq) => (
-							<span className="capitalize">
-								{freq.replace("_", " ")}
-							</span>
+							<span className="capitalize">{freq.replace("_", " ")}</span>
 						)}
 						onSelect={(selectedFreq) => {
 							// Pass null directly if 'None' (unassign) was selected
@@ -212,9 +195,7 @@ export function TaskPropertiesSidebar({
 								variant="ghost"
 								className="w-auto h-auto py-0.5 px-2 font-medium capitalize hover:bg-muted data-[state=open]:bg-muted"
 							>
-								{task.frequency
-									? task.frequency.replace("_", " ")
-									: "None"}
+								{task.frequency ? task.frequency.replace("_", " ") : "None"}
 							</Button>
 						}
 						searchPlaceholder="Change frequency..."
@@ -235,16 +216,11 @@ export function TaskPropertiesSidebar({
 						renderOption={(dept) => {
 							if (dept === "none") {
 								// Render 'none' as plain text
-								return (
-									<span className="text-muted-foreground">
-										None
-									</span>
-								);
+								return <span className="text-muted-foreground">None</span>;
 							}
 							// Render other departments as colored badges
 							const mainColor =
-								DEPARTMENT_COLORS[dept] ??
-								DEPARTMENT_COLORS.none;
+								DEPARTMENT_COLORS[dept] ?? DEPARTMENT_COLORS.none;
 							const lightBgColor = `${mainColor}1A`; // Add opacity for lighter background
 							return (
 								<Badge
@@ -271,20 +247,16 @@ export function TaskPropertiesSidebar({
 								className="w-auto h-auto p-0 px-1 hover:bg-transparent data-[state=open]:bg-transparent flex items-center justify-end"
 							>
 								{(() => {
-									const currentDept =
-										task.department ?? "none";
+									const currentDept = task.department ?? "none";
 									if (currentDept === "none") {
 										// Render 'None' as plain text for the trigger
 										return (
-											<span className="text-muted-foreground px-1">
-												None
-											</span>
+											<span className="text-muted-foreground px-1">None</span>
 										);
 									}
 									// Render other departments as colored badges
 									const mainColor =
-										DEPARTMENT_COLORS[currentDept] ??
-										DEPARTMENT_COLORS.none; // Fallback
+										DEPARTMENT_COLORS[currentDept] ?? DEPARTMENT_COLORS.none; // Fallback
 									const lightBgColor = `${mainColor}1A`; // Add opacity
 									return (
 										<Badge

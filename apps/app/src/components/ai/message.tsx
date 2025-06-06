@@ -69,10 +69,7 @@ export function ReasoningMessagePart({
 			{isReasoning ? (
 				<div className="group relative flex items-start py-2">
 					<div className="flex size-[25px] shrink-0 select-none items-center justify-center">
-						<ChatAvatar
-							participantType="assistant"
-							aria-label="Assistant"
-						/>
+						<ChatAvatar participantType="assistant" aria-label="Assistant" />
 					</div>
 					<div className="ml-4 flex-1 overflow-hidden pl-2 text-xs">
 						<div className="font-medium">Reasoning</div>
@@ -84,23 +81,17 @@ export function ReasoningMessagePart({
 			) : (
 				<div className="group relative flex items-start py-2">
 					<div className="flex size-[25px] shrink-0 select-none items-center justify-center">
-						<ChatAvatar
-							participantType="assistant"
-							aria-label="Assistant"
-						/>
+						<ChatAvatar participantType="assistant" aria-label="Assistant" />
 					</div>
 					<div className="ml-4 flex-1 overflow-hidden pl-2 text-xs">
 						<div className="flex items-center gap-2">
-							<div className="font-medium">
-								Reasoned for a few seconds
-							</div>
+							<div className="font-medium">Reasoned for a few seconds</div>
 							<button
 								type="button"
 								className={cn(
 									"cursor-pointer rounded-full dark:hover:bg-accent hover:bg-zinc-200 p-1",
 									{
-										"dark:bg-accent bg-zinc-200":
-											isExpanded,
+										"dark:bg-accent bg-zinc-200": isExpanded,
 									},
 								)}
 								onClick={() => {
@@ -131,10 +122,7 @@ export function ReasoningMessagePart({
 					>
 						{part.details.map((detail) =>
 							detail.type === "text" ? (
-								<StreamableMarkdown
-									key={detail.text}
-									text={detail.text}
-								/>
+								<StreamableMarkdown key={detail.text} text={detail.text} />
 							) : (
 								"<redacted>"
 							),
@@ -208,18 +196,12 @@ const PurePreviewMessage = ({
 											className="flex flex-row gap-2 items-start w-full pb-2"
 										>
 											<div
-												className={cn(
-													"flex flex-col gap-2",
-													{
-														"bg-secondary text-secondary-foreground px-3 py-2 rounded-sm":
-															message.role ===
-															"user",
-													},
-												)}
+												className={cn("flex flex-col gap-2", {
+													"bg-secondary text-secondary-foreground px-3 py-2 rounded-xs":
+														message.role === "user",
+												})}
 											>
-												<StreamableMarkdown
-													text={part.text}
-												/>
+												<StreamableMarkdown text={part.text} />
 											</div>
 										</motion.div>
 									) : (
@@ -229,12 +211,8 @@ const PurePreviewMessage = ({
 											key={`message-${message.id}-part-${i}`}
 											className="flex flex-row gap-2 items-start w-full pb-2"
 										>
-											<BotCard
-												key={`message-${message.id}-part-${i}`}
-											>
-												<StreamableMarkdown
-													text={part.text}
-												/>
+											<BotCard key={`message-${message.id}-part-${i}`}>
+												<StreamableMarkdown text={part.text} />
 											</BotCard>
 										</motion.div>
 									);
@@ -248,9 +226,7 @@ const PurePreviewMessage = ({
 											isReasoning={
 												(message.parts &&
 													status === "streaming" &&
-													i ===
-														message.parts.length -
-															1) ??
+													i === message.parts.length - 1) ??
 												false
 											}
 										/>

@@ -59,7 +59,7 @@ export function DataTableToolbar<TData>({
 						aria-label="Reset filters"
 						variant="outline"
 						size="sm"
-						className="border-dashed rounded-sm"
+						className="border-dashed rounded-xs"
 						onClick={onReset}
 					>
 						<div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export function DataTableToolbar<TData>({
 					<Button
 						variant="default"
 						size="sm"
-						className="rounded-sm"
+						className="rounded-xs"
 						onClick={() => {
 							setOpen("true");
 						}}
@@ -108,14 +108,12 @@ function DataTableToolbarFilter<TData>({
 						<div className="relative w-full max-w-xs">
 							<Input
 								leftIcon={<Search className="size-4" />}
-								placeholder={
-									columnMeta.placeholder ?? columnMeta.label
-								}
+								placeholder={columnMeta.placeholder ?? columnMeta.label}
 								value={(column.getFilterValue() as string) ?? ""}
 								onChange={(event) => {
 									column.setFilterValue(event.target.value);
 								}}
-								className="h-9 w-full min-w-[14rem] md:min-w-[18rem] rounded-sm"
+								className="h-9 w-full min-w-[14rem] md:min-w-[18rem] rounded-xs"
 							/>
 						</div>
 					);
@@ -126,17 +124,11 @@ function DataTableToolbarFilter<TData>({
 							<Input
 								type="number"
 								inputMode="numeric"
-								placeholder={
-									columnMeta.placeholder ?? columnMeta.label
-								}
-								value={
-									(column.getFilterValue() as string) ?? ""
-								}
-								onChange={(event) =>
-									column.setFilterValue(event.target.value)
-								}
+								placeholder={columnMeta.placeholder ?? columnMeta.label}
+								value={(column.getFilterValue() as string) ?? ""}
+								onChange={(event) => column.setFilterValue(event.target.value)}
 								className={cn(
-									"h-9 w-[120px] rounded-sm",
+									"h-9 w-[120px] rounded-xs",
 									columnMeta.unit && "pr-8",
 								)}
 							/>

@@ -119,23 +119,17 @@ export function FileUploader(props: FileUploaderProps) {
 	const onDrop = React.useCallback(
 		(acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
 			if (!multiple && maxFileCount === 1 && acceptedFiles.length > 1) {
-				toast.error(
-					"Cannot upload more than 1 file at a time",
-				);
+				toast.error("Cannot upload more than 1 file at a time");
 				return;
 			}
 
 			if ((files?.length ?? 0) + acceptedFiles.length > maxFileCount) {
-				toast.error(
-					"Cannot upload more files than the maximum allowed",
-				);
+				toast.error("Cannot upload more files than the maximum allowed");
 				return;
 			}
 
 			if (acceptedFiles.length === 0) {
-				toast.error(
-					"No files selected",
-				);
+				toast.error("No files selected");
 				return;
 			}
 
@@ -151,9 +145,7 @@ export function FileUploader(props: FileUploaderProps) {
 
 			if (rejectedFiles.length > 0) {
 				for (const { file } of rejectedFiles) {
-					toast.error(
-						`File ${file.name} was rejected`,
-					);
+					toast.error(`File ${file.name} was rejected`);
 				}
 			}
 
@@ -163,9 +155,7 @@ export function FileUploader(props: FileUploaderProps) {
 				updatedFiles.length <= maxFileCount
 			) {
 				const target =
-					updatedFiles.length > 0
-						? `${updatedFiles.length} files`
-						: "a file";
+					updatedFiles.length > 0 ? `${updatedFiles.length} files` : "a file";
 
 				toast.promise(onUpload(updatedFiles), {
 					loading: `Uploading ${target}...`,
@@ -217,7 +207,7 @@ export function FileUploader(props: FileUploaderProps) {
 						{...(getRootProps() as React.HTMLProps<HTMLDivElement>)}
 						className={cn(
 							"group relative grid h-52 w-full cursor-pointer place-items-center border-2 border-dashed border-muted-foreground/25 px-5 py-2.5 text-center transition hover:bg-muted/25",
-							"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+							"ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 							isDragActive && "border-muted-foreground/50",
 							isDisabled && "pointer-events-none opacity-60",
 							className,
@@ -247,11 +237,12 @@ export function FileUploader(props: FileUploaderProps) {
 								</div>
 								<div className="flex flex-col gap-px">
 									<p className="font-medium text-muted-foreground">
-										{"Drop files here or click to choose files from your device."}
+										{
+											"Drop files here or click to choose files from your device."
+										}
 									</p>
 									<p className="text-sm text-muted-foreground/70">
-										{"Files can be up to "}{" "}
-										{formatBytes(maxSize)}.
+										{"Files can be up to "} {formatBytes(maxSize)}.
 									</p>
 								</div>
 							</div>
@@ -332,15 +323,12 @@ function FilePreview({ file }: FilePreviewProps) {
 				width={48}
 				height={48}
 				loading="lazy"
-				className="aspect-square shrink-0 rounded-sm object-cover"
+				className="aspect-square shrink-0 rounded-xs object-cover"
 			/>
 		);
 	}
 
 	return (
-		<FileText
-			className="size-10 text-muted-foreground"
-			aria-hidden="true"
-		/>
+		<FileText className="size-10 text-muted-foreground" aria-hidden="true" />
 	);
 }

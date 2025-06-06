@@ -1,4 +1,4 @@
-import { TaskStatus } from "@comp/db/types";
+import type { TaskStatus } from "@comp/db/types";
 import { cn } from "@comp/ui/cn";
 import { Check, Circle, Loader2 } from "lucide-react";
 import { STATUS_COLORS } from "@/components/status-indicator";
@@ -39,7 +39,7 @@ export function TaskStatusIndicator({
 	const colorClasses = getStatusColorClasses(status);
 
 	return (
-		<div className={cn("flex-shrink-0", className)}>
+		<div className={cn("shrink-0", className)}>
 			{status === "todo" && (
 				<Circle className="size-4 text-[#6b7280]" strokeWidth={1.5} />
 			)}

@@ -139,7 +139,7 @@ export function FullScreenNumberAnimation({
 
 	// Render the full-screen animation overlay
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm animate-in fade-in-0 duration-300 overflow-hidden">
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-xs animate-in fade-in-0 duration-300 overflow-hidden">
 			{showEffects && <PulseEffect />}
 
 			<div className="text-9xl font-bold text-primary font-variant-numeric-tabular relative z-10">
@@ -159,10 +159,7 @@ export function FullScreenNumberAnimation({
 					respectMotionPreference={true}
 					onAnimationsFinish={(e) => {
 						// Mark animation as complete
-						if (
-							isTransitioning &&
-							animationValue === debouncedTotal
-						) {
+						if (isTransitioning && animationValue === debouncedTotal) {
 							animationCompleteRef.current = true;
 
 							// If we're past the hide timer duration, hide now

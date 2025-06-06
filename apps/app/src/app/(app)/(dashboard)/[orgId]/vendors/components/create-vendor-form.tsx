@@ -3,8 +3,13 @@
 import { researchVendorAction } from "@/actions/research-vendor";
 import { SelectAssignee } from "@/components/SelectAssignee";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { Member, User, VendorCategory, VendorStatus } from "@comp/db/types";
-import { GlobalVendors } from "@comp/db/types";
+import {
+	type Member,
+	type User,
+	VendorCategory,
+	VendorStatus,
+} from "@comp/db/types";
+import type { GlobalVendors } from "@comp/db/types";
 import {
 	Accordion,
 	AccordionContent,
@@ -13,7 +18,14 @@ import {
 } from "@comp/ui/accordion";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@comp/ui/command";
+import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@comp/ui/command";
 import {
 	Form,
 	FormControl,
@@ -44,7 +56,10 @@ import { searchGlobalVendorsAction } from "../actions/search-global-vendors-acti
 
 const createVendorSchema = z.object({
 	name: z.string().min(1, "Name is required"),
-	website: z.string().url("URL must be valid and start with https://").optional(),
+	website: z
+		.string()
+		.url("URL must be valid and start with https://")
+		.optional(),
 	description: z.string().optional(),
 	category: z.nativeEnum(VendorCategory),
 	status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
@@ -135,9 +150,7 @@ export function CreateVendorForm({
 					<div>
 						<Accordion type="multiple" defaultValue={["vendor"]}>
 							<AccordionItem value="vendor">
-								<AccordionTrigger>
-									{"Vendor Details"}
-								</AccordionTrigger>
+								<AccordionTrigger>{"Vendor Details"}</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
 										<FormField
@@ -145,9 +158,7 @@ export function CreateVendorForm({
 											name="name"
 											render={({ field }) => (
 												<FormItem className="flex flex-col relative">
-													<FormLabel>
-														{"Vendor Name"}
-													</FormLabel>
+													<FormLabel>{"Vendor Name"}</FormLabel>
 													<FormControl>
 														<div className="relative">
 															<Input
@@ -169,7 +180,13 @@ export function CreateVendorForm({
 																	setTimeout(() => setPopoverOpen(false), 150);
 																}}
 																onFocus={() => {
-																	if (searchQuery.trim().length > 1 && (isSearching || searchResults.length > 0 || (!isSearching && searchResults.length === 0))) {
+																	if (
+																		searchQuery.trim().length > 1 &&
+																		(isSearching ||
+																			searchResults.length > 0 ||
+																			(!isSearching &&
+																				searchResults.length === 0))
+																	) {
 																		setPopoverOpen(true);
 																	}
 																}}
@@ -179,37 +196,51 @@ export function CreateVendorForm({
 																<div className="absolute top-full z-10 w-full mt-1 bg-background border rounded-md shadow-lg">
 																	<div className="max-h-[300px] overflow-y-auto p-1">
 																		{isSearching && (
-																			<div className="p-2 text-sm text-muted-foreground">{"Loading..."}...</div>
-																		)}
-																		{!isSearching && searchResults.length > 0 && (
-																			<>
-																				<p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{"Suggestions"}</p>
-																				{searchResults.map((vendor) => (
-																					<div
-																						key={vendor.website ?? vendor.company_name ?? vendor.legal_name ?? Math.random().toString()}
-																						className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm"
-																						onMouseDown={() => {
-																							handleSelectVendor(vendor);
-																							setPopoverOpen(false);
-																						}}
-																					>
-																						{vendor.company_name ?? vendor.legal_name ?? vendor.website}
-																					</div>
-																				))}
-																			</>
-																		)}
-																		{!isSearching && searchQuery.trim().length > 1 && searchResults.length === 0 && (
-																			<div
-																				className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm italic"
-																				onMouseDown={() => {
-																					field.onChange(searchQuery);
-																					setSearchResults([]);
-																					setPopoverOpen(false);
-																				}}
-																			>
-																				{`Create "${searchQuery}"`}
+																			<div className="p-2 text-sm text-muted-foreground">
+																				{"Loading..."}...
 																			</div>
 																		)}
+																		{!isSearching &&
+																			searchResults.length > 0 && (
+																				<>
+																					<p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+																						{"Suggestions"}
+																					</p>
+																					{searchResults.map((vendor) => (
+																						<div
+																							key={
+																								vendor.website ??
+																								vendor.company_name ??
+																								vendor.legal_name ??
+																								Math.random().toString()
+																							}
+																							className="cursor-pointer p-2 hover:bg-accent rounded-xs text-sm"
+																							onMouseDown={() => {
+																								handleSelectVendor(vendor);
+																								setPopoverOpen(false);
+																							}}
+																						>
+																							{vendor.company_name ??
+																								vendor.legal_name ??
+																								vendor.website}
+																						</div>
+																					))}
+																				</>
+																			)}
+																		{!isSearching &&
+																			searchQuery.trim().length > 1 &&
+																			searchResults.length === 0 && (
+																				<div
+																					className="cursor-pointer p-2 hover:bg-accent rounded-xs text-sm italic"
+																					onMouseDown={() => {
+																						field.onChange(searchQuery);
+																						setSearchResults([]);
+																						setPopoverOpen(false);
+																					}}
+																				>
+																					{`Create "${searchQuery}"`}
+																				</div>
+																			)}
 																	</div>
 																</div>
 															)}
@@ -224,9 +255,7 @@ export function CreateVendorForm({
 											name="website"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{"Website"}
-													</FormLabel>
+													<FormLabel>{"Website"}</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -243,14 +272,14 @@ export function CreateVendorForm({
 											name="description"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{"Description"}
-													</FormLabel>
+													<FormLabel>{"Description"}</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={"Enter a description for the vendor..."}
+															placeholder={
+																"Enter a description for the vendor..."
+															}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -262,16 +291,12 @@ export function CreateVendorForm({
 											name="category"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{"Category"}
-													</FormLabel>
+													<FormLabel>{"Category"}</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={
-																field.onChange
-															}
+															onValueChange={field.onChange}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -279,46 +304,23 @@ export function CreateVendorForm({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(
-																	VendorCategory,
-																).map(
-																	(
-																		category,
-																	) => {
-																		const formattedCategory =
-																			category
-																				.toLowerCase()
-																				.split(
-																					"_",
-																				)
-																				.map(
-																					(
-																						word,
-																					) =>
-																						word
-																							.charAt(
-																								0,
-																							)
-																							.toUpperCase() +
-																						word.slice(
-																							1,
-																						),
-																				)
-																				.join(
-																					" ",
-																				);
+																{Object.values(VendorCategory).map(
+																	(category) => {
+																		const formattedCategory = category
+																			.toLowerCase()
+																			.split("_")
+																			.map(
+																				(word) =>
+																					word.charAt(0).toUpperCase() +
+																					word.slice(1),
+																			)
+																			.join(" ");
 																		return (
 																			<SelectItem
-																				key={
-																					category
-																				}
-																				value={
-																					category
-																				}
+																				key={category}
+																				value={category}
 																			>
-																				{
-																					formattedCategory
-																				}
+																				{formattedCategory}
 																			</SelectItem>
 																		);
 																	},
@@ -335,16 +337,12 @@ export function CreateVendorForm({
 											name="status"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{"Status"}
-													</FormLabel>
+													<FormLabel>{"Status"}</FormLabel>
 													<FormControl>
 														<Select
 															{...field}
 															value={field.value}
-															onValueChange={
-																field.onChange
-															}
+															onValueChange={field.onChange}
 														>
 															<SelectTrigger>
 																<SelectValue
@@ -352,50 +350,22 @@ export function CreateVendorForm({
 																/>
 															</SelectTrigger>
 															<SelectContent>
-																{Object.values(
-																	VendorStatus,
-																).map(
-																	(
-																		status,
-																	) => {
-																		const formattedStatus =
-																			status
-																				.toLowerCase()
-																				.split(
-																					"_",
-																				)
-																				.map(
-																					(
-																						word,
-																					) =>
-																						word
-																							.charAt(
-																								0,
-																							)
-																							.toUpperCase() +
-																						word.slice(
-																							1,
-																						),
-																				)
-																				.join(
-																					" ",
-																				);
-																		return (
-																			<SelectItem
-																				key={
-																					status
-																				}
-																				value={
-																					status
-																				}
-																			>
-																				{
-																					formattedStatus
-																				}
-																			</SelectItem>
-																		);
-																	},
-																)}
+																{Object.values(VendorStatus).map((status) => {
+																	const formattedStatus = status
+																		.toLowerCase()
+																		.split("_")
+																		.map(
+																			(word) =>
+																				word.charAt(0).toUpperCase() +
+																				word.slice(1),
+																		)
+																		.join(" ");
+																	return (
+																		<SelectItem key={status} value={status}>
+																			{formattedStatus}
+																		</SelectItem>
+																	);
+																})}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -408,22 +378,13 @@ export function CreateVendorForm({
 											name="assigneeId"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>
-														{"Assignee"}
-													</FormLabel>
+													<FormLabel>{"Assignee"}</FormLabel>
 													<FormControl>
 														<SelectAssignee
-															assignees={
-																assignees
-															}
-															assigneeId={
-																field.value ??
-																null
-															}
+															assignees={assignees}
+															assigneeId={field.value ?? null}
 															withTitle={false}
-															onAssigneeChange={
-																field.onChange
-															}
+															onAssigneeChange={field.onChange}
 														/>
 													</FormControl>
 													<FormMessage />

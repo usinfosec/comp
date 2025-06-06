@@ -19,7 +19,7 @@ import {
 	NotebookText,
 	ShieldEllipsis,
 	Store,
-	Users
+	Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -156,8 +156,7 @@ export function MainMenu({
 
 		// Extract the base path from the menu item (first two segments after normalization)
 		const itemPathParts = normalizedItemPath.split("/").filter(Boolean);
-		const itemBaseSegment =
-			itemPathParts.length > 1 ? itemPathParts[1] : "";
+		const itemBaseSegment = itemPathParts.length > 1 ? itemPathParts[1] : "";
 
 		// Extract the current path parts
 		const currentPathParts = pathname.split("/").filter(Boolean);
@@ -221,8 +220,7 @@ const Item = ({
 	// Badge variants mapping
 	const badgeVariants = {
 		default: "bg-primary/80 text-primary-foreground hover:bg-primary/90",
-		secondary:
-			"bg-secondary text-secondary-foreground hover:bg-secondary/80",
+		secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
 		outline:
 			"border-border bg-background hover:bg-accent hover:text-accent-foreground",
 		new: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
@@ -249,7 +247,7 @@ const Item = ({
 									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",
 									"transition-all duration-300",
 									isActive &&
-									"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
+										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
 								)}
 							>
 								<div
@@ -259,10 +257,8 @@ const Item = ({
 									)}
 								>
 									{Icon && (
-										<div className="flex-shrink-0">
-											<Icon
-												size={isCollapsed ? 16 : 14}
-											/>
+										<div className="shrink-0">
+											<Icon size={isCollapsed ? 16 : 14} />
 										</div>
 									)}
 									{!isCollapsed && (
@@ -281,10 +277,7 @@ const Item = ({
 														variant="outline"
 														className={cn(
 															"ml-1.5 text-[9px] px-1 py-0 h-auto",
-															badgeVariants[
-															item.badge
-																.variant
-															],
+															badgeVariants[item.badge.variant],
 														)}
 													>
 														{item.badge.text}

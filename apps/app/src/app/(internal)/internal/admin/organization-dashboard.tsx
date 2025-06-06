@@ -48,9 +48,9 @@ export function OrganizationDashboard({
 	// --- State Management ---
 
 	// Organization Data & Filtering
-	const [organizations, setOrganizations] = useState<
-		OrganizationWithMembers[]
-	>([]);
+	const [organizations, setOrganizations] = useState<OrganizationWithMembers[]>(
+		[],
+	);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredOrganizations, setFilteredOrganizations] = useState<
 		OrganizationWithMembers[]
@@ -97,8 +97,7 @@ export function OrganizationDashboard({
 					filterOrgs(searchQuery, result.data);
 				}
 			} else {
-				const errorMsg =
-					result.error || "Failed to fetch organizations.";
+				const errorMsg = result.error || "Failed to fetch organizations.";
 				setFetchOrgsError(errorMsg);
 				toast.error(errorMsg);
 				setOrganizations([]); // Clear lists on error
@@ -153,10 +152,7 @@ export function OrganizationDashboard({
 							image: null,
 							lastLogin: null,
 						};
-						setAdminUsers((prev) => [
-							minimalLoggedInUserRep,
-							...prev,
-						]);
+						setAdminUsers((prev) => [minimalLoggedInUserRep, ...prev]);
 					}
 					// Keep actingAsUser null until a valid selection is made
 					setActingAsUser(null);
@@ -179,9 +175,7 @@ export function OrganizationDashboard({
 			}
 		} catch (error) {
 			console.error("Fetch admin users error:", error);
-			toast.error(
-				"An unexpected error occurred while fetching admin users.",
-			);
+			toast.error("An unexpected error occurred while fetching admin users.");
 			// Add minimal representation for dropdown fallback
 			const minimalLoggedInUserRep: User = {
 				id: loggedInUserId,
@@ -365,7 +359,7 @@ export function OrganizationDashboard({
 	return (
 		<div className="space-y-6">
 			{/* Controls Card */}
-			<Card className="shadow-sm border border-border/40 rounded-xl overflow-hidden">
+			<Card className="shadow-xs border border-border/40 rounded-xl overflow-hidden">
 				<CardHeader className="pb-0">
 					<CardTitle>Controls</CardTitle>
 					<CardDescription>
@@ -374,7 +368,7 @@ export function OrganizationDashboard({
 				</CardHeader>
 				<CardContent className="pt-6">
 					<div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-						{/* Search Input with rounded corners */}
+						{/* Search Input with rounded-sm corners */}
 						<div className="relative flex-1 max-w-full md:max-w-[60%]">
 							<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 							<Input
@@ -386,9 +380,11 @@ export function OrganizationDashboard({
 							/>
 						</div>
 
-						{/* Acting As Dropdown with rounded corners */}
+						{/* Acting As Dropdown with rounded-sm corners */}
 						<div className="flex items-center gap-2 w-full md:w-auto">
-							<span className="text-sm font-medium whitespace-nowrap">Acting As:</span>
+							<span className="text-sm font-medium whitespace-nowrap">
+								Acting As:
+							</span>
 							<div className="flex-1 min-w-[200px]">
 								{isFetchingAdmins ? (
 									<Skeleton className="h-9 w-full rounded-lg" />
@@ -404,10 +400,7 @@ export function OrganizationDashboard({
 										</SelectTrigger>
 										<SelectContent className="rounded-lg">
 											{adminUsers.map((user) => (
-												<SelectItem
-													key={user.id}
-													value={user.id}
-												>
+												<SelectItem key={user.id} value={user.id}>
 													{/* Display name and email for clarity */}
 													{user.name ?? "N/A"} ({user.email})
 												</SelectItem>
@@ -423,7 +416,7 @@ export function OrganizationDashboard({
 
 			{/* Loading State */}
 			{isFetchingOrgs && (
-				<Card className="shadow-sm border border-border/40 rounded-xl overflow-hidden">
+				<Card className="shadow-xs border border-border/40 rounded-xl overflow-hidden">
 					<CardHeader className="pb-0">
 						<CardTitle>Organizations</CardTitle>
 					</CardHeader>
@@ -439,7 +432,7 @@ export function OrganizationDashboard({
 
 			{/* Error State */}
 			{fetchOrgsError && (
-				<Card className="shadow-sm border-red-200 rounded-xl overflow-hidden bg-red-50">
+				<Card className="shadow-xs border-red-200 rounded-xl overflow-hidden bg-red-50">
 					<CardHeader className="pb-0">
 						<CardTitle className="text-red-700">Error</CardTitle>
 					</CardHeader>

@@ -7,10 +7,10 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import type { EditorState, Transaction } from "@tiptap/pm/state"; // Import types for InputRule
 // Import Table extensions
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
-import TableHeader from '@tiptap/extension-table-header'
-import TableCell from '@tiptap/extension-table-cell'
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
 import { slashCommand } from "./slash-command"; // Import the configured slash command
 
 // Basic Tiptap extensions - Simplified
@@ -38,12 +38,14 @@ export const defaultExtensions = [
     },
     codeBlock: {
       HTMLAttributes: {
-        class: "rounded-sm bg-muted p-5 font-mono font-medium text-muted-foreground",
+        class:
+          "rounded-xs bg-muted p-5 font-mono font-medium text-muted-foreground",
       },
     },
     code: {
       HTMLAttributes: {
-        class: "rounded-md bg-muted  px-1.5 py-1 font-mono font-medium text-muted-foreground",
+        class:
+          "rounded-md bg-muted  px-1.5 py-1 font-mono font-medium text-muted-foreground",
         spellcheck: "false",
       },
     },
@@ -60,8 +62,8 @@ export const defaultExtensions = [
   //   find: /\/-\s$/,
   //   handler: ({ state, range }: { state: EditorState; range: { from: number; to: number }, match: RegExpMatchArray }) => {
   //     const { tr }: { tr: Transaction } = state;
-  //     const emDashNode = state.schema.text('— '); 
-  //     tr.deleteRange(range.from, range.to).insert(range.from, emDashNode); 
+  //     const emDashNode = state.schema.text('— ');
+  //     tr.deleteRange(range.from, range.to).insert(range.from, emDashNode);
   //   },
   // }),
 
@@ -73,9 +75,9 @@ export const defaultExtensions = [
   }),
 
   TiptapImage.configure({
-      HTMLAttributes: {
-        class: "rounded-lg border border-muted",
-      },
+    HTMLAttributes: {
+      class: "rounded-lg border border-muted",
+    },
   }),
 
   Placeholder.configure({
@@ -91,11 +93,11 @@ export const defaultExtensions = [
   // Removed SlashCommand
   TaskList,
   TaskItem.configure({
-      nested: true,
-      HTMLAttributes: {
-        class: "flex items-start my-4",
-      },
-    }),
+    nested: true,
+    HTMLAttributes: {
+      class: "flex items-start my-4",
+    },
+  }),
 
   // Removed Math Extensions
 
@@ -103,21 +105,21 @@ export const defaultExtensions = [
   Table.configure({
     resizable: true,
     HTMLAttributes: {
-      class: 'table-fixed border-collapse border border-muted',
+      class: "table-fixed border-collapse border border-muted",
     },
   }),
   TableRow,
   TableHeader.configure({
     HTMLAttributes: {
-      class: 'border border-muted bg-muted p-2 text-left font-medium',
+      class: "border border-muted bg-muted p-2 text-left font-medium",
     },
   }),
   TableCell.configure({
     HTMLAttributes: {
-      class: 'border border-muted p-2 align-top',
+      class: "border border-muted p-2 align-top",
     },
   }),
 
   // Add the configured slash command extension
-  slashCommand
-]; 
+  slashCommand,
+];

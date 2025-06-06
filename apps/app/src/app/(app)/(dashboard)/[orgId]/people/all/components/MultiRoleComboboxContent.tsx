@@ -71,16 +71,14 @@ export function MultiRoleComboboxContent({
 				onValueChange={setSearchTerm}
 			/>
 			<CommandList>
-				<CommandEmpty>
-					{"No results found"}
-				</CommandEmpty>
+				<CommandEmpty>{"No results found"}</CommandEmpty>
 				<CommandGroup>
 					{filteredRoles.map((role) => (
 						<CommandItem
 							key={role.value}
 							value={getRoleDisplayLabel(role.value)} // Use translated label for search/value
 							onPointerDown={(e) => e.preventDefault()}
-								onClick={(e) => e.stopPropagation()}
+							onClick={(e) => e.stopPropagation()}
 							onSelect={() => {
 								handleSelect(role.value);
 								onCloseDialog();
@@ -100,7 +98,7 @@ export function MultiRoleComboboxContent({
 							<div className="flex w-full items-center">
 								<Check
 									className={cn(
-										"mr-2 h-4 w-4 flex-shrink-0",
+										"mr-2 h-4 w-4 shrink-0",
 										selectedRoles.includes(role.value)
 											? "opacity-100"
 											: "opacity-0",
@@ -111,7 +109,7 @@ export function MultiRoleComboboxContent({
 								</span>
 								{lockedRoles.includes(role.value) &&
 									selectedRoles.includes(role.value) && (
-										<span className="ml-auto text-xs text-muted-foreground pl-2 flex-shrink-0">
+										<span className="ml-auto text-xs text-muted-foreground pl-2 shrink-0">
 											(Locked)
 										</span>
 									)}

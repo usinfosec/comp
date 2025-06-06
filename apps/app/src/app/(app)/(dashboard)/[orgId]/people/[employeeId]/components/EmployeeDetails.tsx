@@ -2,7 +2,7 @@
 
 import type { EmployeeStatusType } from "@/components/tables/people/employee-status";
 import { formatDate } from "@/utils/format";
-import { TrainingVideo } from "@/lib/data/training-videos";
+import type { TrainingVideo } from "@/lib/data/training-videos";
 import type {
 	Departments,
 	EmployeeTrainingVideoCompletion,
@@ -142,8 +142,7 @@ export function EmployeeDetails({
 		},
 		onError: (error) => {
 			toast.error(
-				error?.error?.serverError ||
-					"Failed to update employee details",
+				error?.error?.serverError || "Failed to update employee details",
 			);
 		},
 	});
@@ -274,10 +273,7 @@ export function EmployeeDetails({
 												</FormControl>
 												<SelectContent>
 													{DEPARTMENTS.map((dept) => (
-														<SelectItem
-															key={dept.value}
-															value={dept.value}
-														>
+														<SelectItem key={dept.value} value={dept.value}>
 															{dept.label}
 														</SelectItem>
 													))}
@@ -307,41 +303,22 @@ export function EmployeeDetails({
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													{STATUS_OPTIONS.map(
-														(option) => (
-															<SelectItem
-																key={
-																	option.value
-																}
-																value={
-																	option.value
-																}
-															>
+													{STATUS_OPTIONS.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															<div className={cn("flex items-center gap-2")}>
 																<div
-																	className={cn(
-																		"flex items-center gap-2",
-																	)}
-																>
-																	<div
-																		className={cn(
-																			"size-2.5",
-																		)}
-																		style={{
-																			backgroundColor:
-																				EMPLOYEE_STATUS_HEX_COLORS[
-																					option
-																						.value
-																				] ??
-																				"",
-																		}}
-																	/>
-																	{
-																		option.label
-																	}
-																</div>
-															</SelectItem>
-														),
-													)}
+																	className={cn("size-2.5")}
+																	style={{
+																		backgroundColor:
+																			EMPLOYEE_STATUS_HEX_COLORS[
+																				option.value
+																			] ?? "",
+																	}}
+																/>
+																{option.label}
+															</div>
+														</SelectItem>
+													))}
 												</SelectContent>
 											</Select>
 											<FormMessage />
@@ -363,38 +340,25 @@ export function EmployeeDetails({
 															variant={"outline"}
 															className={cn(
 																"h-10 pl-3 text-left font-normal", // Use h-10 for consistency
-																!field.value &&
-																	"text-muted-foreground",
+																!field.value && "text-muted-foreground",
 															)}
 														>
 															{field.value ? (
-																format(
-																	field.value,
-																	"PPP",
-																)
+																format(field.value, "PPP")
 															) : (
-																<span>
-																	Pick a date
-																</span>
+																<span>Pick a date</span>
 															)}
 															<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 														</Button>
 													</FormControl>
 												</PopoverTrigger>
-												<PopoverContent
-													className="w-auto p-0"
-													align="start"
-												>
+												<PopoverContent className="w-auto p-0" align="start">
 													<Calendar
 														mode="single"
 														selected={field.value}
-														onSelect={
-															field.onChange
-														}
+														onSelect={field.onChange}
 														disabled={
-															(date: Date) =>
-																date >
-																new Date() // Explicitly type the date argument
+															(date: Date) => date > new Date() // Explicitly type the date argument
 														}
 														initialFocus
 													/>
@@ -406,7 +370,7 @@ export function EmployeeDetails({
 								/>
 							</div>
 						</CardContent>
-						<CardFooter className="px-0 py-0 flex justify-end outline-none border-none bg-transparent">
+						<CardFooter className="px-0 py-0 flex justify-end outline-hidden border-none bg-transparent">
 							<Button
 								type="submit"
 								disabled={
@@ -416,11 +380,9 @@ export function EmployeeDetails({
 								}
 							>
 								{!(
-									form.formState.isSubmitting ||
-									actionStatus === "executing"
+									form.formState.isSubmitting || actionStatus === "executing"
 								) && <Save className="h-4 w-4" />}
-								{form.formState.isSubmitting ||
-								actionStatus === "executing"
+								{form.formState.isSubmitting || actionStatus === "executing"
 									? "Saving..."
 									: "Save"}
 							</Button>
@@ -434,9 +396,7 @@ export function EmployeeDetails({
 				<CardHeader>
 					<CardTitle className="text-base flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 						<div>
-							<h2 className="text-lg font-medium">
-								Employee Tasks
-							</h2>
+							<h2 className="text-lg font-medium">Employee Tasks</h2>
 							<h3 className="text-sm text-muted-foreground">
 								View and manage employee tasks and their status
 							</h3>
@@ -447,9 +407,7 @@ export function EmployeeDetails({
 					<Tabs defaultValue="policies">
 						<TabsList className="mb-4">
 							<TabsTrigger value="policies">Policies</TabsTrigger>
-							<TabsTrigger value="training">
-								Training Videos
-							</TabsTrigger>
+							<TabsTrigger value="training">Training Videos</TabsTrigger>
 						</TabsList>
 
 						<TabsContent value="policies">
@@ -460,10 +418,7 @@ export function EmployeeDetails({
 									</div>
 								) : (
 									policies.map((policy) => {
-										const isCompleted =
-											policy.signedBy.includes(
-												employee.id,
-											);
+										const isCompleted = policy.signedBy.includes(employee.id);
 
 										return (
 											<div
@@ -489,15 +444,11 @@ export function EmployeeDetails({
 							<div className="flex flex-col gap-2">
 								{trainingVideos.length === 0 ? (
 									<div className="text-center py-6 text-muted-foreground">
-										<p>
-											No training videos required to
-											watch.
-										</p>
+										<p>No training videos required to watch.</p>
 									</div>
 								) : (
 									trainingVideos.map((video) => {
-										const isCompleted =
-											video.completedAt !== null;
+										const isCompleted = video.completedAt !== null;
 
 										return (
 											<div

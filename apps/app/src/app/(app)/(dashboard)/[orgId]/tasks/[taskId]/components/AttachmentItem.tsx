@@ -47,8 +47,7 @@ function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
 		case "audio":
 			return "audio" as AttachmentType;
 		case "application":
-			if (fileType === "application/pdf")
-				return "document" as AttachmentType;
+			if (fileType === "application/pdf") return "document" as AttachmentType;
 			return "document" as AttachmentType;
 		default:
 			return "other" as AttachmentType;
@@ -99,13 +98,10 @@ export function AttachmentItem({
 			<div className="flex items-center gap-2 flex-1 min-w-0">
 				{isBusy ? (
 					<Loader2
-						className={cn(
-							"h-4 w-4 animate-spin flex-shrink-0",
-							colorClass,
-						)}
+						className={cn("h-4 w-4 animate-spin shrink-0", colorClass)}
 					/>
 				) : (
-					<Icon className={cn("h-4 w-4 flex-shrink-0", colorClass)} />
+					<Icon className={cn("h-4 w-4 shrink-0", colorClass)} />
 				)}
 
 				{onClickFilename ? (
@@ -132,7 +128,7 @@ export function AttachmentItem({
 						<Button
 							variant="ghost"
 							size="icon"
-							className="h-7 w-7 text-muted-foreground hover:text-destructive flex-shrink-0 disabled:opacity-50"
+							className="h-7 w-7 text-muted-foreground hover:text-destructive shrink-0 disabled:opacity-50"
 							disabled={isDisabled}
 							aria-label={`Remove attachment ${name}`}
 						>
@@ -153,13 +149,8 @@ export function AttachmentItem({
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
-							<AlertDialogCancel disabled={isBusy}>
-								Cancel
-							</AlertDialogCancel>
-							<AlertDialogAction
-								onClick={handleDelete}
-								disabled={isBusy}
-							>
+							<AlertDialogCancel disabled={isBusy}>Cancel</AlertDialogCancel>
+							<AlertDialogAction onClick={handleDelete} disabled={isBusy}>
 								{isBusy ? (
 									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 								) : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Member, Task, User } from "@comp/db/types";
+import type { Member, Task, User } from "@comp/db/types";
 import { useAction } from "next-safe-action/hooks";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useCallback, useMemo } from "react";
@@ -79,10 +79,7 @@ export function TaskList({
 				targetStatus,
 				hoverIndex,
 			});
-			if (
-				item.status !== targetStatus &&
-				updateTaskStatus !== "executing"
-			) {
+			if (item.status !== targetStatus && updateTaskStatus !== "executing") {
 				// Find the target group tasks and calculate new order
 				const targetGroup = tasksByStatus[targetStatus] || [];
 				// Find the order of the task we are hovering over (if any)
@@ -124,7 +121,7 @@ export function TaskList({
 			<TaskFilterHeader />
 			{/* Provides the drag-and-drop context for the task list. */}
 			<DndProvider backend={HTML5Backend}>
-				<div className="w-full border rounded-sm">
+				<div className="w-full border rounded-xs">
 					{/* Render a StatusGroup for each defined status. */}
 					{statuses.map((status) => (
 						<StatusGroup
@@ -139,5 +136,5 @@ export function TaskList({
 				</div>
 			</DndProvider>
 		</div>
-	)
+	);
 }
