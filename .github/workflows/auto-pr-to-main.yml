@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - feature/*
+      - feat/*
+      - chore/*
+      - patch/*
+      - fix/*
       - bug/*
       - task/*
       - story/*

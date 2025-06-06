@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import { useState, useRef, type FC } from "react";
 
 import { cn } from "@comp/ui/cn";
 
@@ -28,7 +28,7 @@ interface SelectPillsProps {
     disabled?: boolean;
 }
 
-export const SelectPills: React.FC<SelectPillsProps> = ({
+export const SelectPills: FC<SelectPillsProps> = ({
     data,
     defaultValue = [],
     value,
@@ -136,11 +136,15 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
                     setHighlightedIndex(-1);
                 }
                 break;
-            case "Enter":
+            case "Enter": {
                 e.preventDefault();
-                handleItemSelect(filteredItems[index]!);
+                const itemToSelect = filteredItems[index];
+                if (itemToSelect) {
+                    handleItemSelect(itemToSelect);
+                }
                 inputRef.current?.focus();
                 break;
+            }
             case "Escape":
                 e.preventDefault();
                 setIsOpen(false);
@@ -222,6 +226,8 @@ export const SelectPills: React.FC<SelectPillsProps> = ({
 
             <PopoverContent
                 align="start"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+                className="w-[--radix-popover-trigger-width] p-0"
             >
                 <div
                     ref={radioGroupRef}
