@@ -156,12 +156,14 @@ export function OrganizationSwitcher({
 	const [showCreateOrg, setShowCreateOrg] = useState(false);
 	const [pendingOrgId, setPendingOrgId] = useState<string | null>(null);
 
-	const [showOrganizationSwitcher, setShowOrganizationSwitcher] =
-		useQueryState("showOrganizationSwitcher", {
+	const [showOrganizationSwitcher, setShowOrganizationSwitcher] = useQueryState(
+		"showOrganizationSwitcher",
+		{
 			history: "push",
 			parse: (value) => value === "true",
 			serialize: (value) => value.toString(),
-		});
+		},
+	);
 
 	const { execute, status } = useAction(changeOrganizationAction, {
 		onSuccess: (result) => {
@@ -218,14 +220,13 @@ export function OrganizationSwitcher({
 				<DialogTrigger asChild>
 					<Button
 						variant="outline"
+						// biome-ignore lint/a11y/useSemanticElements: <explanation>
 						role="combobox"
 						aria-label={"Select Organization"}
 						className={cn(
 							"flex justify-between mx-auto rounded-md",
 							isCollapsed ? "h-min w-min p-0" : "h-10 w-full p-0",
-							status === "executing"
-								? "opacity-50 cursor-not-allowed"
-								: "",
+							status === "executing" ? "opacity-50 cursor-not-allowed" : "",
 						)}
 						disabled={status === "executing"}
 					>
@@ -245,9 +246,7 @@ export function OrganizationSwitcher({
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="p-0 sm:max-w-[400px]">
-					<DialogTitle className="sr-only">
-						{"Select Organization"}
-					</DialogTitle>
+					<DialogTitle className="sr-only">{"Select Organization"}</DialogTitle>
 					<Command>
 						<div className="flex items-center border-b px-3">
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -257,9 +256,7 @@ export function OrganizationSwitcher({
 							/>
 						</div>
 						<CommandList>
-							<CommandEmpty>
-								{"No results found"}
-							</CommandEmpty>
+							<CommandEmpty>{"No results found"}</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
 								{organizations.map((org) => (
 									<CommandItem
@@ -274,8 +271,7 @@ export function OrganizationSwitcher({
 										}}
 										disabled={status === "executing"}
 									>
-										{status === "executing" &&
-										pendingOrgId === org.id ? (
+										{status === "executing" && pendingOrgId === org.id ? (
 											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 										) : currentOrganization?.id === org.id ? (
 											<Check className="mr-2 h-4 w-4" />
@@ -287,9 +283,7 @@ export function OrganizationSwitcher({
 											isCollapsed={false}
 											className="mr-2 h-6 w-6"
 										/>
-										<span className="truncate">
-											{getDisplayName(org)}
-										</span>
+										<span className="truncate">{getDisplayName(org)}</span>
 									</CommandItem>
 								))}
 							</CommandGroup>

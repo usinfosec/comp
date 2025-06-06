@@ -57,7 +57,7 @@ export default async function Layout({
 				{onboarding?.triggerJobId && (
 					<OnboardingTracker
 						onboarding={onboarding}
-						publicAccessToken={publicAccessToken!}
+						publicAccessToken={publicAccessToken ?? ""}
 					/>
 				)}
 				<Header />
