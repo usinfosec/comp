@@ -1,30 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
-import { Clock, MoreHorizontal, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@comp/ui/avatar";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+	DialogClose,
+} from "@comp/ui/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from "@comp/ui/alert-dialog";
 import type { Invitation } from "@prisma/client";
+import { formatDistanceToNowStrict } from "date-fns";
+import { Clock, MoreHorizontal, Trash2 } from "lucide-react";
+import { useMemo, useRef, useState, useEffect } from "react";
 
 interface PendingInvitationRowProps {
-	invitation: Invitation;
+	invitation: Invitation & {
+		role: string;
+		createdAt?: Date;
+	};
 	onCancel: (invitationId: string) => Promise<void>;
 }
 
@@ -32,119 +36,161 @@ export function PendingInvitationRow({
 	invitation,
 	onCancel,
 }: PendingInvitationRowProps) {
+	const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
 	const [isCancelling, setIsCancelling] = useState(false);
-	const [isCancelAlertOpen, setIsCancelAlertOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
+	const focusRef = useRef<HTMLButtonElement | null>(null);
 
-	const handleCancelClick = async () => {
-		setIsCancelling(true);
-		await onCancel(invitation.id);
-		setIsCancelling(false);
-		setIsCancelAlertOpen(false);
+	const handleDialogItemSelect = () => {
+		focusRef.current = dropdownTriggerRef.current;
 	};
 
-	// Process the role to handle comma-separated values
-	const roles =
-		typeof invitation.role === "string" && invitation.role.includes(",")
-			? invitation.role.split(",")
-			: Array.isArray(invitation.role)
-				? invitation.role
-				: [invitation.role];
+	const [pendingRemove, setPendingRemove] = useState(false);
 
-	// Get the email initials for the avatar
-	const emailInitials = invitation.email.substring(0, 2).toUpperCase();
+	const handleDialogOpenChange = (open: boolean) => {
+		setIsCancelDialogOpen(open);
+		if (!open) {
+			setDropdownOpen(false);
+			setTimeout(() => {
+				dropdownTriggerRef.current?.focus();
+			}, 0);
+		}
+	};
+
+	const handleCancelClick = () => {
+		setPendingRemove(true);
+		setIsCancelDialogOpen(false);
+	};
+
+	useEffect(() => {
+		if (pendingRemove && !isCancelDialogOpen) {
+			(async () => {
+				setIsCancelling(true);
+				await onCancel(invitation.id);
+				setIsCancelling(false);
+				setPendingRemove(false);
+			})();
+		}
+	}, [pendingRemove, isCancelDialogOpen, onCancel, invitation.id]);
+
+	const roleDisplay = useMemo(() => {
+		return invitation.role;
+	}, [invitation.role]);
 
 	return (
 		<>
 			<div className="flex items-center justify-between p-4 hover:bg-muted/50">
 				<div className="flex items-center gap-3">
 					<Avatar>
-						<AvatarFallback className="bg-amber-50 text-amber-700">
-							{emailInitials}
+						<AvatarFallback>
+							{invitation.email.charAt(0).toUpperCase()}
 						</AvatarFallback>
 					</Avatar>
 					<div>
-						<div className="font-medium flex items-center gap-2">
-							{invitation.email}
-							<Badge variant="outline" className="text-xs">
+						<div className="flex items-center gap-2 font-medium">
+							<span>{invitation.email}</span>
+							<Badge
+								variant="outline"
+								className="text-xs flex items-center gap-1"
+							>
 								<Clock className="h-3 w-3 mr-1" />
 								Pending
 							</Badge>
 						</div>
+						{/* No secondary email line for invitations */}
 					</div>
 				</div>
-
 				<div className="flex items-center gap-2">
 					<div className="flex flex-wrap gap-1 justify-end max-w-[150px]">
-						{roles.map((role) => (
-							<Badge
-								key={role}
-								variant="secondary"
-								className="text-xs"
-							>
-								{(() => {
-									switch (role) {
-										case "owner":
-											return "Owner";
-										case "admin":
-											return "Admin";
-										case "auditor":
-											return "Auditor";
-										case "employee":
-											return "Employee";
-										default:
-											return role;
-									}
-								})()}
+						{(Array.isArray(invitation.role)
+							? invitation.role
+							: typeof invitation.role === "string" &&
+									invitation.role.includes(",")
+								? invitation.role.split(",")
+								: [invitation.role]
+						).map((role: string) => (
+							<Badge key={role} variant="secondary" className="text-xs">
+								{role.charAt(0).toUpperCase() + role.slice(1)}
 							</Badge>
 						))}
 					</div>
-
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
+					<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+						<DropdownMenuTrigger
+							ref={dropdownTriggerRef}
+							asChild
+							disabled={isCancelling}
+						>
 							<Button
 								variant="ghost"
-								size="sm"
-								className="h-8 w-8 p-0"
+								className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
 							>
 								<MoreHorizontal className="h-4 w-4" />
+								<span className="sr-only">Open menu</span>
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							<DropdownMenuItem
-								className="text-destructive focus:text-destructive focus:bg-destructive/10"
-								onSelect={() => setIsCancelAlertOpen(true)}
+						<DropdownMenuContent
+							align="end"
+							hidden={isCancelDialogOpen}
+							onCloseAutoFocus={(event) => {
+								if (focusRef.current) {
+									focusRef.current.focus();
+									focusRef.current = null;
+									event.preventDefault();
+								}
+							}}
+						>
+							<Dialog
+								open={isCancelDialogOpen}
+								onOpenChange={handleDialogOpenChange}
 							>
-								<Trash2 className="mr-2 h-4 w-4" />
-								<span>Cancel Invitation</span>
-							</DropdownMenuItem>
+								<DialogTrigger asChild>
+									<DropdownMenuItem
+										className="text-destructive focus:text-destructive focus:bg-destructive/10"
+										onSelect={(event) => {
+											event.preventDefault();
+										}}
+									>
+										<Trash2 className="mr-2 h-4 w-4" />
+										<span>Cancel Invitation</span>
+									</DropdownMenuItem>
+								</DialogTrigger>
+								<DialogContent
+									className="space-y-4 py-4"
+									onInteractOutside={(e) => e.preventDefault()}
+									showCloseButton={false}
+								>
+									<DialogHeader>
+										<DialogTitle>Cancel Invitation</DialogTitle>
+										<DialogDescription>
+											Are you sure you want to cancel the invitation for{" "}
+											{invitation.email}?
+										</DialogDescription>
+									</DialogHeader>
+									<p className="text-xs text-muted-foreground mt-1">
+										This action cannot be undone.
+									</p>
+									<DialogFooter>
+										<Button
+											variant="outline"
+											onClick={() => setIsCancelDialogOpen(false)}
+										>
+											Cancel
+										</Button>
+										<Button
+											variant="destructive"
+											onClick={handleCancelClick}
+											disabled={isCancelling}
+										>
+											Confirm
+										</Button>
+									</DialogFooter>
+								</DialogContent>
+							</Dialog>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
 			</div>
-
-			<AlertDialog
-				open={isCancelAlertOpen}
-				onOpenChange={setIsCancelAlertOpen}
-			>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>Cancel Invitation</AlertDialogTitle>
-						<AlertDialogDescription>
-							Are you sure you want to cancel the invitation for{" "}
-							{invitation.email}?
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>Back</AlertDialogCancel>
-						<AlertDialogAction
-							onClick={handleCancelClick}
-							disabled={isCancelling}
-						>
-							Cancel Invitation
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
 		</>
 	);
 }

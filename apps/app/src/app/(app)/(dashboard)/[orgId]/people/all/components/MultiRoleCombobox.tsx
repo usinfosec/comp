@@ -66,9 +66,7 @@ export function MultiRoleCombobox({
 
 	// Filter out owner role for non-owners
 	const availableRoles = React.useMemo(() => {
-		return selectableRoles.filter(
-			(role) => role.value !== "owner" || isOwner,
-		);
+		return selectableRoles.filter((role) => role.value !== "owner" || isOwner);
 	}, [isOwner]);
 
 	const handleSelect = (roleValue: Role) => {
@@ -78,10 +76,7 @@ export function MultiRoleCombobox({
 		}
 
 		// If the role is locked, don't allow deselection
-		if (
-			lockedRoles.includes(roleValue) &&
-			selectedRoles.includes(roleValue)
-		) {
+		if (lockedRoles.includes(roleValue) && selectedRoles.includes(roleValue)) {
 			return; // Don't allow deselection of locked roles
 		}
 

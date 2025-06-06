@@ -1,11 +1,10 @@
 "use client";
 
 import { Mail, Search, UserPlus, X } from "lucide-react";
-import type React from "react";
+import { useRouter } from "next/navigation";
+import { parseAsString, useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
-import { parseAsString, useQueryState } from "nuqs";
-import { useRouter } from "next/navigation";
 
 import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
@@ -26,11 +25,8 @@ import { PendingInvitationRow } from "./PendingInvitationRow";
 import type { MemberWithUser, TeamMembersData } from "./TeamMembers";
 
 // Import the server actions themselves to get their types
-import { bulkInviteMembers } from "../actions/bulkInviteMembers";
-import { removeMember } from "../actions/removeMember";
-import { revokeInvitation } from "../actions/revokeInvitation";
-import { updateMemberRole } from "../actions/updateMemberRole";
-import { invalidateMembers } from "../actions/invalidateMembers";
+import type { removeMember } from "../actions/removeMember";
+import type { revokeInvitation } from "../actions/revokeInvitation";
 
 import { InviteMembersModal } from "./InviteMembersModal";
 
@@ -98,8 +94,7 @@ export function TeamMembersClient({
 		...data.pendingInvitations.map((invitation) => {
 			// Process the role to handle comma-separated values
 			const roles =
-				typeof invitation.role === "string" &&
-				invitation.role.includes(",")
+				typeof invitation.role === "string" && invitation.role.includes(",")
 					? (invitation.role.split(",") as Role[])
 					: Array.isArray(invitation.role)
 						? invitation.role
@@ -121,9 +116,7 @@ export function TeamMembersClient({
 
 	const filteredItems = allItems.filter((item) => {
 		const matchesSearch =
-			item.displayName
-				.toLowerCase()
-				.includes(searchQuery.toLowerCase()) ||
+			item.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			item.displayEmail.toLowerCase().includes(searchQuery.toLowerCase());
 
 		const matchesRole =
@@ -134,9 +127,7 @@ export function TeamMembersClient({
 		return matchesSearch && matchesRole;
 	});
 
-	const activeMembers = filteredItems.filter(
-		(item) => item.type === "member",
-	);
+	const activeMembers = filteredItems.filter((item) => item.type === "member");
 	const pendingInvites = filteredItems.filter(
 		(item) => item.type === "invitation",
 	);
@@ -149,8 +140,7 @@ export function TeamMembersClient({
 			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
-			const errorMessage =
-				result?.serverError || "Failed to add user";
+			const errorMessage = result?.serverError || "Failed to add user";
 			console.error("Cancel Invitation Error:", errorMessage);
 		}
 	};
@@ -163,9 +153,7 @@ export function TeamMembersClient({
 			router.refresh(); // Add client-side refresh as well
 		} else {
 			// Error case
-			const errorMessage =
-				result?.serverError ||
-				"Failed to remove member";
+			const errorMessage = result?.serverError || "Failed to remove member";
 			console.error("Remove Member Error:", errorMessage);
 			toast.error(errorMessage);
 		}
@@ -177,11 +165,7 @@ export function TeamMembersClient({
 		const member = data.members.find((m) => m.id === memberId);
 
 		// Client-side check (optional, robust check should be server-side in authClient)
-		if (
-			member &&
-			member.role === "owner" &&
-			!rolesArray.includes("owner")
-		) {
+		if (member && member.role === "owner" && !rolesArray.includes("owner")) {
 			// Show toast error directly, no need to return an error object
 			toast.error("The Owner role cannot be removed.");
 			return;
@@ -189,9 +173,7 @@ export function TeamMembersClient({
 
 		// Ensure at least one role is selected
 		if (rolesArray.length === 0) {
-			toast.warning(
-				"Please select at least one role.",
-			);
+			toast.warning("Please select at least one role.");
 			return;
 		}
 
@@ -203,14 +185,15 @@ export function TeamMembersClient({
 			});
 			toast.success("Member roles updated successfully.");
 			router.refresh(); // Revalidate data
-		} catch (error: any) {
+		} catch (error) {
 			console.error("Update Role Error:", error);
 			// Attempt to get a meaningful error message from the caught error
-			const errorMessage =
-				error?.message || // Try to get message from error object
-				"Failed to update member roles";
-			toast.error(errorMessage);
-			// Consider more specific error handling based on errors authClient might throw
+
+			if (error instanceof Error) {
+				toast.error(error.message);
+				return;
+			}
+			toast.error("Failed to update member roles");
 		}
 	};
 
@@ -250,24 +233,14 @@ export function TeamMembersClient({
 					}
 				>
 					<SelectTrigger className="w-[180px] hidden sm:flex">
-						<SelectValue
-							placeholder={"All Roles"}
-						/>
+						<SelectValue placeholder={"All Roles"} />
 					</SelectTrigger>
 					<SelectContent>
 						<SelectItem value="all">{"All Roles"}</SelectItem>
-						<SelectItem value="owner">
-							{"Owner"}
-						</SelectItem>
-						<SelectItem value="admin">
-							{"Admin"}
-						</SelectItem>
-						<SelectItem value="auditor">
-							{"Auditor"}
-						</SelectItem>
-						<SelectItem value="employee">
-							{"Employee"}
-						</SelectItem>
+						<SelectItem value="owner">{"Owner"}</SelectItem>
+						<SelectItem value="admin">{"Admin"}</SelectItem>
+						<SelectItem value="auditor">{"Auditor"}</SelectItem>
+						<SelectItem value="employee">{"Employee"}</SelectItem>
 					</SelectContent>
 				</Select>
 				<Button onClick={() => setIsInviteModalOpen(true)}>
@@ -305,25 +278,22 @@ export function TeamMembersClient({
 						</div>
 					)}
 
-					{activeMembers.length === 0 &&
-						pendingInvites.length === 0 && (
-							<div className="flex flex-col items-center justify-center py-12 text-center">
-								<Mail className="h-12 w-12 text-muted-foreground/30" />
-								<h3 className="mt-4 text-lg font-medium">
-									{"No employees yet"}
-								</h3>
-								<p className="mt-2 text-sm text-muted-foreground max-w-xs">
-									{"Get started by inviting your first team member."}
-								</p>
-								<Button
-									className="mt-4"
-									onClick={() => setIsInviteModalOpen(true)}
-								>
-									<UserPlus className="mr-2 h-4 w-4" />
-									{"Add User"}
-								</Button>
-							</div>
-						)}
+					{activeMembers.length === 0 && pendingInvites.length === 0 && (
+						<div className="flex flex-col items-center justify-center py-12 text-center">
+							<Mail className="h-12 w-12 text-muted-foreground/30" />
+							<h3 className="mt-4 text-lg font-medium">{"No employees yet"}</h3>
+							<p className="mt-2 text-sm text-muted-foreground max-w-xs">
+								{"Get started by inviting your first team member."}
+							</p>
+							<Button
+								className="mt-4"
+								onClick={() => setIsInviteModalOpen(true)}
+							>
+								<UserPlus className="mr-2 h-4 w-4" />
+								{"Add User"}
+							</Button>
+						</div>
+					)}
 				</CardContent>
 			</Card>
 		</div>

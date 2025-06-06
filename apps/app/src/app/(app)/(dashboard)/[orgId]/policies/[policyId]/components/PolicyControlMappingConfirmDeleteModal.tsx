@@ -1,4 +1,4 @@
-import { Control } from "@comp/db/types";
+import type { Control } from "@comp/db/types";
 import { useState } from "react";
 import {
 	Dialog,
@@ -55,9 +55,7 @@ export const PolicyControlMappingConfirmDeleteModal = ({
 				</DialogHeader>
 				<DialogDescription>
 					Are you sure you want to unlink{" "}
-					<span className="font-semibold text-foreground">
-						{control.name}
-					</span>{" "}
+					<span className="font-semibold text-foreground">{control.name}</span>{" "}
 					from this policy? {"\n"} You can link it back again later.
 				</DialogDescription>
 				<DialogFooter>

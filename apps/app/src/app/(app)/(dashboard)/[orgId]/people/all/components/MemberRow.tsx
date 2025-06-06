@@ -3,7 +3,7 @@
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import {
 	AlertDialog,
@@ -20,17 +20,19 @@ import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
+	DialogTrigger,
 } from "@comp/ui/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger
+	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
 import { Label } from "@comp/ui/label";
 import type { Role } from "@prisma/client";
@@ -62,13 +64,17 @@ function getInitials(name?: string | null, email?: string | null): string {
 export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 	const params = useParams<{ orgId: string }>();
 	const { orgId } = params;
-	const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
+
 	const [isRemoveAlertOpen, setIsRemoveAlertOpen] = useState(false);
+	const [isUpdateRolesOpen, setIsUpdateRolesOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [selectedRoles, setSelectedRoles] = useState<Role[]>(
 		Array.isArray(member.role) ? member.role : ([member.role] as Role[]),
 	);
 	const [isUpdating, setIsUpdating] = useState(false);
 	const [isRemoving, setIsRemoving] = useState(false);
+	const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
+	const focusRef = useRef<HTMLButtonElement | null>(null);
 	const currentUserIsOwner = member.role === "owner";
 
 	const memberName = member.user.name || member.user.email || "Member";
@@ -89,7 +95,19 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 
 	const isEmployee = currentRoles.includes("employee");
 
+	const handleDialogItemSelect = () => {
+		focusRef.current = dropdownTriggerRef.current;
+	};
+
+	const handleDialogOpenChange = (open: boolean) => {
+		setIsUpdateRolesOpen(open);
+		if (open === false) {
+			setDropdownOpen(false);
+		}
+	};
+
 	const handleUpdateRolesClick = async () => {
+		console.log("handleUpdateRolesClick");
 		let rolesToUpdate = selectedRoles;
 		if (isOwner && !rolesToUpdate.includes("owner")) {
 			rolesToUpdate = [...rolesToUpdate, "owner"];
@@ -103,7 +121,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 		setIsUpdating(true);
 		await onUpdateRole(memberId, rolesToUpdate);
 		setIsUpdating(false);
-		setIsRoleDialogOpen(false);
+		setIsUpdateRolesOpen(false); // Close dialog after update
 	};
 
 	const handleRemoveClick = async () => {
@@ -136,19 +154,13 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								</Link>
 							)}
 						</div>
-						<div className="text-sm text-muted-foreground">
-							{memberEmail}
-						</div>
+						<div className="text-sm text-muted-foreground">{memberEmail}</div>
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
 					<div className="flex flex-wrap gap-1 justify-end max-w-[150px]">
 						{currentRoles.map((role) => (
-							<Badge
-								key={role}
-								variant="secondary"
-								className="text-xs"
-							>
+							<Badge key={role} variant="secondary" className="text-xs">
 								{(() => {
 									switch (role) {
 										case "owner":
@@ -167,9 +179,10 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 						))}
 					</div>
 
-					<DropdownMenu>
+					<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
 						<DropdownMenuTrigger asChild>
 							<Button
+								ref={dropdownTriggerRef}
 								variant="ghost"
 								size="sm"
 								className="h-8 w-8 p-0"
@@ -178,16 +191,75 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								<MoreHorizontal className="h-4 w-4" />
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
+						<DropdownMenuContent
+							align="end"
+							hidden={isUpdateRolesOpen}
+							onCloseAutoFocus={(event) => {
+								if (focusRef.current) {
+									focusRef.current.focus();
+									focusRef.current = null;
+									event.preventDefault();
+								}
+							}}
+						>
 							{canEditRoles && (
-								<DropdownMenuItem
-									onSelect={() => setIsRoleDialogOpen(true)}
+								<Dialog
+									open={isUpdateRolesOpen}
+									onOpenChange={handleDialogOpenChange}
 								>
-									<Edit className="mr-2 h-4 w-4" />
-									<span>
-										{"Edit Roles"}
-									</span>
-								</DropdownMenuItem>
+									<DialogTrigger asChild>
+										<DropdownMenuItem
+											onSelect={(event) => {
+												event.preventDefault();
+												handleDialogItemSelect();
+											}}
+										>
+											<Edit className="mr-2 h-4 w-4" />
+											<span>{"Edit Roles"}</span>
+										</DropdownMenuItem>
+									</DialogTrigger>
+									<DialogContent>
+										<DialogHeader>
+											<DialogTitle>{"Edit Member Roles"}</DialogTitle>
+											<DialogDescription>
+												{"Change roles for"} {memberName}
+											</DialogDescription>
+										</DialogHeader>
+										<div className="space-y-4 py-4">
+											<div className="space-y-2">
+												<Label htmlFor={`role-${memberId}`}>{"Roles"}</Label>
+												<MultiRoleCombobox
+													selectedRoles={selectedRoles}
+													onSelectedRolesChange={setSelectedRoles}
+													placeholder={"Select a role"}
+													lockedRoles={isOwner ? ["owner"] : []}
+												/>
+												{isOwner && (
+													<p className="text-xs text-muted-foreground mt-1">
+														{"The owner role cannot be removed."}
+													</p>
+												)}
+												<p className="text-xs text-muted-foreground mt-1">
+													{"Members must have at least one role."}
+												</p>
+											</div>
+										</div>
+										<DialogFooter>
+											<Button
+												variant="outline"
+												onClick={() => setIsUpdateRolesOpen(false)}
+											>
+												Cancel
+											</Button>
+											<Button
+												onClick={handleUpdateRolesClick}
+												disabled={isUpdating || selectedRoles.length === 0}
+											>
+												{"Update"}
+											</Button>
+										</DialogFooter>
+									</DialogContent>
+								</Dialog>
 							)}
 							{canRemove && (
 								<DropdownMenuItem
@@ -195,9 +267,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 									onSelect={() => setIsRemoveAlertOpen(true)}
 								>
 									<Trash2 className="mr-2 h-4 w-4" />
-									<span>
-										{"Remove Member"}
-									</span>
+									<span>{"Remove Member"}</span>
 								</DropdownMenuItem>
 							)}
 						</DropdownMenuContent>
@@ -205,74 +275,17 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 				</div>
 			</div>
 
-			<Dialog open={isRoleDialogOpen} onOpenChange={setIsRoleDialogOpen}>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>
-							{"Edit Member Roles"}
-						</DialogTitle>
-						<DialogDescription>
-							{"Change roles for"}{" "}
-							{memberName}
-						</DialogDescription>
-					</DialogHeader>
-					<div className="space-y-4 py-4">
-						<div className="space-y-2">
-							<Label htmlFor={`role-${memberId}`}>
-								{"Roles"}
-							</Label>
-							<MultiRoleCombobox
-								selectedRoles={selectedRoles}
-								onSelectedRolesChange={setSelectedRoles}
-								placeholder={"Select a role"}
-								lockedRoles={isOwner ? ["owner"] : []}
-							/>
-							{isOwner && (
-								<p className="text-xs text-muted-foreground mt-1">
-									{"The owner role cannot be removed."}
-								</p>
-							)}
-							<p className="text-xs text-muted-foreground mt-1">
-								{"Members must have at least one role."}
-							</p>
-						</div>
-					</div>
-					<DialogFooter>
-						<Button
-							variant="outline"
-							onClick={() => setIsRoleDialogOpen(false)}
-						>
-							{"Cancel"}
-						</Button>
-						<Button
-							onClick={handleUpdateRolesClick}
-							disabled={isUpdating || selectedRoles.length === 0}
-						>
-							{"Update"}
-						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
-
-			<AlertDialog
-				open={isRemoveAlertOpen}
-				onOpenChange={setIsRemoveAlertOpen}
-			>
+			<AlertDialog open={isRemoveAlertOpen} onOpenChange={setIsRemoveAlertOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>
-							{"Remove Team Member"}
-						</AlertDialogTitle>
+						<AlertDialogTitle>{"Remove Team Member"}</AlertDialogTitle>
 						<AlertDialogDescription>
-							{"Are you sure you want to remove"}{" "}
-							{memberName}?{" "}
+							{"Are you sure you want to remove"} {memberName}?{" "}
 							{"They will no longer have access to this organization."}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel>
-							{"Cancel"}
-						</AlertDialogCancel>
+						<AlertDialogCancel>{"Cancel"}</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleRemoveClick}
 							disabled={isRemoving}
