@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import { Badge } from "@comp/ui/badge";
 import { cn } from "@comp/ui/cn";
@@ -55,14 +54,13 @@ export function MainMenu({
 	isCollapsed = false,
 	onItemClick,
 }: Props) {
-	const t = useI18n();
 	const pathname = usePathname();
 
 	const items: MenuItem[] = [
 		{
 			id: "frameworks",
 			path: "/:organizationId/frameworks",
-			name: t("sidebar.frameworks"),
+			name: "Frameworks",
 			disabled: false,
 			icon: Gauge,
 			protected: false,
@@ -70,7 +68,7 @@ export function MainMenu({
 		{
 			id: "controls",
 			path: "/:organizationId/controls",
-			name: t("sidebar.controls"),
+			name: "Controls",
 			disabled: false,
 			icon: ShieldEllipsis,
 			protected: false,
@@ -78,7 +76,7 @@ export function MainMenu({
 		{
 			id: "policies",
 			path: "/:organizationId/policies",
-			name: t("sidebar.policies"),
+			name: "Policies",
 			disabled: false,
 			icon: NotebookText,
 			protected: false,
@@ -86,7 +84,7 @@ export function MainMenu({
 		{
 			id: "tasks",
 			path: "/:organizationId/tasks",
-			name: t("sidebar.tasks"),
+			name: "Tasks",
 			disabled: false,
 			icon: ListCheck,
 			protected: false,
@@ -94,7 +92,7 @@ export function MainMenu({
 		{
 			id: "people",
 			path: "/:organizationId/people/all",
-			name: t("sidebar.people"),
+			name: "People",
 			disabled: false,
 			icon: Users,
 			protected: false,
@@ -102,7 +100,7 @@ export function MainMenu({
 		{
 			id: "risk",
 			path: "/:organizationId/risk",
-			name: t("sidebar.risk"),
+			name: "Risks",
 			disabled: false,
 			icon: Icons.Risk,
 			protected: false,
@@ -114,7 +112,7 @@ export function MainMenu({
 		{
 			id: "vendors",
 			path: "/:organizationId/vendors",
-			name: t("sidebar.vendors"),
+			name: "Vendors",
 			disabled: false,
 			icon: Store,
 			protected: false,
@@ -122,7 +120,7 @@ export function MainMenu({
 		{
 			id: "tests",
 			path: "/:organizationId/tests",
-			name: t("sidebar.tests"),
+			name: "Cloud Tests",
 			disabled: false,
 			icon: FlaskConical,
 			protected: false,
@@ -130,7 +128,7 @@ export function MainMenu({
 		{
 			id: "integrations",
 			path: "/:organizationId/integrations",
-			name: t("sidebar.integrations"),
+			name: "Integrations",
 			disabled: false,
 			icon: Blocks,
 			protected: true,
@@ -142,7 +140,7 @@ export function MainMenu({
 		{
 			id: "settings",
 			path: "/:organizationId/settings",
-			name: t("sidebar.settings"),
+			name: "Settings",
 			disabled: false,
 			icon: Icons.Settings,
 			protected: true,
@@ -217,8 +215,6 @@ const Item = ({
 }: ItemProps) => {
 	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
-	const t = useI18n();
-
 	// Replace the organizationId placeholder in the path
 	const itemPath = item.path.replace(":organizationId", organizationId);
 

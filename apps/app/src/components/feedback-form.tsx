@@ -1,7 +1,6 @@
 "use client";
 
 import { sendFeebackAction } from "@/actions/send-feedback-action";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@comp/ui/popover";
 import { Textarea } from "@comp/ui/textarea";
@@ -12,15 +11,13 @@ import { toast } from "sonner";
 
 export function FeedbackForm() {
 	const [value, setValue] = useState("");
-	const t = useI18n();
-
 	const action = useAction(sendFeebackAction, {
 		onSuccess: () => {
-			toast.success(t("header.feedback.success"));
+			toast.success("Thank you for your feedback!");
 			setValue("");
 		},
 		onError: () => {
-			toast.error(t("header.feedback.error"));
+			toast.error("Error sending feedback - try again?");
 		},
 	});
 
@@ -31,7 +28,7 @@ export function FeedbackForm() {
 					variant="outline"
 					className="rounded-full font-normal h-[32px] p-0 px-3 text-xs text-muted-foreground"
 				>
-					{t("header.feedback.button")}
+					{"Feedback"}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent
@@ -42,10 +39,10 @@ export function FeedbackForm() {
 				{action.status === "hasSucceeded" ? (
 					<div className="flex items-center justify-center flex-col space-y-1 mt-10 text-center">
 						<p className="font-medium text-sm">
-							{t("header.feedback.title")}
+							{"Thank you for your feedback!"}
 						</p>
 						<p className="text-sm text-muted-foreground">
-							{t("header.feedback.description")}
+							{"We will be back with you as soon as possible"}
 						</p>
 					</div>
 				) : (
@@ -55,7 +52,7 @@ export function FeedbackForm() {
 							value={value}
 							required
 							autoFocus
-							placeholder={t("header.feedback.placeholder")}
+							placeholder={"Ideas to improve this page or issues you are experiencing."}
 							className="resize-none h-[120px]"
 							onChange={(evt) => setValue(evt.target.value)}
 						/>
@@ -74,7 +71,7 @@ export function FeedbackForm() {
 								{action.status === "executing" ? (
 									<Loader2 className="h-4 w-4 animate-spin" />
 								) : (
-									t("header.feedback.send")
+									"Send Feedback"
 								)}
 							</Button>
 						</div>

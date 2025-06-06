@@ -21,7 +21,7 @@ model Organization {
   vendors            Vendor[]
   tasks              Task[]
   comments           Comment[]
-  Attachment         Attachment[]
+  attachments        Attachment[]
   trust              Trust[]
   context            Context[]
 

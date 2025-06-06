@@ -91,10 +91,14 @@ async function seedJsonFiles(subDirectory: string) {
 					`Seeding ${processedData.length} records from ${jsonFile} into ${prismaModelKey}...`,
 				);
 
-				await prismaAny[prismaModelKey].createMany({
-					data: processedData,
-					skipDuplicates: true,
-				});
+				// Use upsert to update existing records instead of skipping them
+				for (const record of processedData) {
+					await prismaAny[prismaModelKey].upsert({
+						where: { id: record.id },
+						create: record,
+						update: record,
+					});
+				}
 
 				console.log(`Finished seeding ${jsonFile} from primitives.`);
 			} else if (subDirectory === "relations") {
