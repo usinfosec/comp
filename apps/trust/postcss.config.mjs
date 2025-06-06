@@ -1,3 +1,5 @@
-import uiConfig from "@comp/ui/postcss";
-
-export default uiConfig;
+module.exports = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};

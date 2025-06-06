@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 			<div className={cn("relative w-full", className)}>
 				{isPrefix && props.prefix && (
 					<span
-						className="absolute left-0 top-0 h-full flex items-center px-4 text-muted-foreground select-none text-sm  border-r-1 border-input bg-foreground/5 cursor-default font-medium"
+						className="absolute left-0 top-0 h-full flex items-center px-4 text-muted-foreground select-none text-sm  border-r border-input bg-foreground/5 cursor-default font-medium"
 						style={{
 							width: adornmentWidth,
 							zIndex: 2,

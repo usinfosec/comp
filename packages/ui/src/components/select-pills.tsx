@@ -223,7 +223,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 			<PopoverContent
 				align="start"
 				onOpenAutoFocus={(e) => e.preventDefault()}
-				className="w-[--radix-popover-trigger-width] p-0"
+				className="w-(--radix-popover-trigger-width) p-0"
 			>
 				<div
 					ref={radioGroupRef}
@@ -236,7 +236,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 						<div
 							key={item.id || item.value || item.name}
 							className={cn(
-								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
+								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
 								highlightedIndex === index && "bg-accent",
 							)}
 						>
