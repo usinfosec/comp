@@ -1,6 +1,6 @@
 "use client";
 
-import { Member, Task, TaskStatus, User } from "@comp/db/types";
+import type { Member, Task, TaskStatus, User } from "@comp/db/types";
 import { Badge } from "@comp/ui/badge";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -123,11 +123,7 @@ export function TaskCard({
 				}
 			} else {
 				// Moving to a different status group
-				handleDropTaskInternal(
-					item,
-					task.status as StatusId,
-					hoverIndex,
-				);
+				handleDropTaskInternal(item, task.status as StatusId, hoverIndex);
 			}
 		},
 		// Collect dragging state information.
@@ -162,7 +158,9 @@ export function TaskCard({
 	}, [task.assigneeId, members]);
 
 	// Helper to get Tailwind class for the entity type indicator dot.
-	const getEntityTypeDotClass = (entityType: "control" | "risk" | "vendor"): string => {
+	const getEntityTypeDotClass = (
+		entityType: "control" | "risk" | "vendor",
+	): string => {
 		switch (entityType) {
 			case "control":
 				return "bg-blue-500";
@@ -195,10 +193,9 @@ export function TaskCard({
 			{indicator?.type === "reorder" && indicator.position === "top" && (
 				<div className="absolute top-0 left-0 right-0 h-0.5 bg-primary z-10" />
 			)}
-			{indicator?.type === "reorder" &&
-				indicator.position === "bottom" && (
-					<div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary z-10" />
-				)}
+			{indicator?.type === "reorder" && indicator.position === "bottom" && (
+				<div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary z-10" />
+			)}
 
 			{/* Move Indicator (Dashed Line) */}
 			{indicator?.type === "move" && indicator.position === "top" && (
@@ -213,16 +210,16 @@ export function TaskCard({
 			)}
 
 			{/* Main Task Card Content Area */}
-			<div className="flex items-center justify-center w-6 h-8 text-muted-foreground/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab flex-shrink-0">
+			<div className="flex items-center justify-center w-6 h-8 text-muted-foreground/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0">
 				<span className="text-xs">::</span>
 			</div>
-			<div className="flex items-center justify-center w-6 h-8 mr-2 flex-shrink-0">
+			<div className="flex items-center justify-center w-6 h-8 mr-2 shrink-0">
 				<TaskStatusIndicator status={task.status as TaskStatus} />
 			</div>
 			<span className="flex-grow py-2 truncate text-sm min-w-0">
 				{task.title}
 			</span>
-			<div className="flex items-center ml-auto space-x-3 pl-2 flex-shrink-0">
+			<div className="flex items-center ml-auto space-x-3 pl-2 shrink-0">
 				<span className="text-xs text-muted-foreground whitespace-nowrap">
 					Apr 15
 				</span>

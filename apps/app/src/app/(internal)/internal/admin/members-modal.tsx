@@ -65,8 +65,7 @@ export function MembersModal({
 					if (result.success && result.data) {
 						setMembers(result.data);
 					} else {
-						const errorMsg =
-							result.error || "Failed to load members.";
+						const errorMsg = result.error || "Failed to load members.";
 						setError(errorMsg);
 						toast.error(errorMsg);
 					}
@@ -167,7 +166,7 @@ export function MembersModal({
 											<Skeleton className="h-4 w-40" />
 										</TableCell>
 										<TableCell>
-											<Skeleton className="h-6 w-16 rounded" />
+											<Skeleton className="h-6 w-16 rounded-sm" />
 										</TableCell>
 										<TableCell>
 											<Skeleton className="h-4 w-32" />
@@ -206,9 +205,7 @@ export function MembersModal({
 										<TableCell className="font-medium">
 											{member.user.name || "N/A"}
 										</TableCell>
-										<TableCell>
-											{member.user.email}
-										</TableCell>
+										<TableCell>{member.user.email}</TableCell>
 										<TableCell>
 											<Badge
 												variant="outline"
@@ -233,11 +230,7 @@ export function MembersModal({
 				</div>
 
 				<DialogFooter className="mt-4">
-					<Button
-						variant="outline"
-						onClick={onClose}
-						className="rounded-full"
-					>
+					<Button variant="outline" onClick={onClose} className="rounded-full">
 						Close
 					</Button>
 				</DialogFooter>

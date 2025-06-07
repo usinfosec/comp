@@ -139,9 +139,7 @@ function removePickedOption(groupOption: GroupOption, picked: Option[]) {
 function isOptionsExist(groupOption: GroupOption, targetOption: Option[]) {
 	for (const [, value] of Object.entries(groupOption)) {
 		if (
-			value.some((option) =>
-				targetOption.find((p) => p.value === option.value),
-			)
+			value.some((option) => targetOption.find((p) => p.value === option.value))
 		) {
 			return true;
 		}
@@ -248,9 +246,7 @@ const MultipleSelector = React.forwardRef<
 
 		const handleUnselect = React.useCallback(
 			(option: Option) => {
-				const newOptions = selected.filter(
-					(s) => s.value !== option.value,
-				);
+				const newOptions = selected.filter((s) => s.value !== option.value);
 				setSelected(newOptions);
 				onChange?.(newOptions);
 			},
@@ -263,8 +259,7 @@ const MultipleSelector = React.forwardRef<
 				if (input) {
 					if (e.key === "Delete" || e.key === "Backspace") {
 						if (input.value === "" && selected.length > 0) {
-							const lastSelectOption =
-								selected[selected.length - 1];
+							const lastSelectOption = selected[selected.length - 1];
 							// If last item is fixed, we should not remove it.
 							if (!lastSelectOption.fixed) {
 								handleUnselect(selected[selected.length - 1]);
@@ -365,9 +360,7 @@ const MultipleSelector = React.forwardRef<
 		const CreatableItem = () => {
 			if (!creatable) return undefined;
 			if (
-				isOptionsExist(options, [
-					{ value: inputValue, label: inputValue },
-				]) ||
+				isOptionsExist(options, [{ value: inputValue, label: inputValue }]) ||
 				selected.find((s) => s.value === inputValue)
 			) {
 				return undefined;
@@ -443,9 +436,7 @@ const MultipleSelector = React.forwardRef<
 
 			if (creatable) {
 				return (value: string, search: string) => {
-					return value.toLowerCase().includes(search.toLowerCase())
-						? 1
-						: -1;
+					return value.toLowerCase().includes(search.toLowerCase()) ? 1 : -1;
 				};
 			}
 			// Using default filter in `cmdk`. We don't have to provide it.
@@ -491,8 +482,8 @@ const MultipleSelector = React.forwardRef<
 								<Badge
 									key={option.value}
 									className={cn(
-										"data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
-										"data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground",
+										"data-disabled:bg-muted-foreground data-disabled:text-muted data-disabled:hover:bg-muted-foreground",
+										"data-fixed:bg-muted-foreground data-fixed:text-muted data-fixed:hover:bg-muted-foreground",
 										badgeClassName,
 									)}
 									data-fixed={option.fixed}
@@ -503,9 +494,8 @@ const MultipleSelector = React.forwardRef<
 									<button
 										type="button"
 										className={cn(
-											"ml-1 rounded-full outline-none",
-											(disabled || option.fixed) &&
-												"hidden",
+											"ml-1 rounded-full outline-hidden",
+											(disabled || option.fixed) && "hidden",
 										)}
 										onKeyDown={(e) => {
 											if (e.key === "Enter") {
@@ -541,18 +531,16 @@ const MultipleSelector = React.forwardRef<
 							}}
 							onFocus={(event) => {
 								setOpen(true);
-								triggerSearchOnFocus &&
-									onSearch?.(debouncedSearchTerm);
+								triggerSearchOnFocus && onSearch?.(debouncedSearchTerm);
 								inputProps?.onFocus?.(event);
 							}}
 							placeholder={
-								hidePlaceholderWhenSelected &&
-								selected.length !== 0
+								hidePlaceholderWhenSelected && selected.length !== 0
 									? ""
 									: placeholder
 							}
 							className={cn(
-								"flex-1 bg-transparent outline-none placeholder:text-muted-foreground",
+								"flex-1 bg-transparent outline-hidden placeholder:text-muted-foreground",
 								{
 									"w-full": hidePlaceholderWhenSelected,
 									"px-3 py-2": selected.length === 0,
@@ -572,8 +560,7 @@ const MultipleSelector = React.forwardRef<
 								(hideClearAllButton ||
 									disabled ||
 									selected.length < 1 ||
-									selected.filter((s) => s.fixed).length ===
-										selected.length) &&
+									selected.filter((s) => s.fixed).length === selected.length) &&
 									"hidden",
 							)}
 						>
@@ -584,7 +571,7 @@ const MultipleSelector = React.forwardRef<
 				<div className="relative">
 					{open && (
 						<CommandList
-							className="absolute top-1 z-10 w-full bg-popover text-popover-foreground shadow-md border border-border outline-none animate-in max-h-[200px] overflow-auto"
+							className="absolute top-1 z-10 w-full bg-popover text-popover-foreground shadow-md border border-border outline-hidden animate-in max-h-[200px] overflow-auto"
 							onMouseLeave={() => {
 								setOnScrollbar(false);
 							}}
@@ -602,74 +589,46 @@ const MultipleSelector = React.forwardRef<
 									{EmptyItem()}
 									{CreatableItem()}
 									{!selectFirstItem && (
-										<CommandItem
-											value="-"
-											className="hidden"
-										/>
+										<CommandItem value="-" className="hidden" />
 									)}
-									{Object.entries(selectables).map(
-										([key, dropdowns]) => (
-											<CommandGroup
-												key={key}
-												heading={key}
-												className="h-full overflow-auto"
-											>
-												{dropdowns.map((option) => {
-													return (
-														<CommandItem
-															key={option.value}
-															value={option.value}
-															disabled={
-																option.disable
+									{Object.entries(selectables).map(([key, dropdowns]) => (
+										<CommandGroup
+											key={key}
+											heading={key}
+											className="h-full overflow-auto"
+										>
+											{dropdowns.map((option) => {
+												return (
+													<CommandItem
+														key={option.value}
+														value={option.value}
+														disabled={option.disable}
+														onMouseDown={(e) => {
+															e.preventDefault();
+															e.stopPropagation();
+														}}
+														onSelect={() => {
+															if (selected.length >= maxSelected) {
+																onMaxSelected?.(selected.length);
+																return;
 															}
-															onMouseDown={(
-																e,
-															) => {
-																e.preventDefault();
-																e.stopPropagation();
-															}}
-															onSelect={() => {
-																if (
-																	selected.length >=
-																	maxSelected
-																) {
-																	onMaxSelected?.(
-																		selected.length,
-																	);
-																	return;
-																}
-																setInputValue(
-																	"",
-																);
-																const newOptions =
-																	[
-																		...selected,
-																		option,
-																	];
-																setSelected(
-																	newOptions,
-																);
-																onChange?.(
-																	newOptions,
-																);
-															}}
-															className={cn(
-																"cursor-pointer w-full",
-																option.disable &&
-																	"cursor-default text-muted-foreground",
-															)}
-														>
-															{renderOption
-																? renderOption(
-																		option,
-																	)
-																: option.label}
-														</CommandItem>
-													);
-												})}
-											</CommandGroup>
-										),
-									)}
+															setInputValue("");
+															const newOptions = [...selected, option];
+															setSelected(newOptions);
+															onChange?.(newOptions);
+														}}
+														className={cn(
+															"cursor-pointer w-full",
+															option.disable &&
+																"cursor-default text-muted-foreground",
+														)}
+													>
+														{renderOption ? renderOption(option) : option.label}
+													</CommandItem>
+												);
+											})}
+										</CommandGroup>
+									))}
 								</>
 							)}
 						</CommandList>

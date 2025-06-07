@@ -78,9 +78,7 @@ function Faceted<Multiple extends boolean = false>(
 			if (!onValueChange) return;
 
 			if (multiple) {
-				const currentValue = (
-					Array.isArray(value) ? value : []
-				) as string[];
+				const currentValue = (Array.isArray(value) ? value : []) as string[];
 				const newValue = currentValue.includes(selectedValue)
 					? currentValue.filter((v) => v !== selectedValue)
 					: [...currentValue, selectedValue];
@@ -175,10 +173,7 @@ function FacetedBadgeList(props: FacetedBadgeListProps) {
 			{values.length > max ? (
 				<Badge
 					variant="secondary"
-					className={cn(
-						"rounded-sm px-1 font-normal",
-						badgeClassName,
-					)}
+					className={cn("rounded-xs px-1 font-normal", badgeClassName)}
 				>
 					{values.length} selected
 				</Badge>
@@ -187,10 +182,7 @@ function FacetedBadgeList(props: FacetedBadgeListProps) {
 					<Badge
 						key={value}
 						variant="secondary"
-						className={cn(
-							"rounded-sm px-1 font-normal",
-							badgeClassName,
-						)}
+						className={cn("rounded-xs px-1 font-normal", badgeClassName)}
 					>
 						<span className="truncate">{getLabel(value)}</span>
 					</Badge>
@@ -258,7 +250,7 @@ function FacetedItem(props: FacetedItemProps) {
 		>
 			<span
 				className={cn(
-					"flex size-4 items-center justify-center rounded-sm border border-primary",
+					"flex size-4 items-center justify-center rounded-xs border border-primary",
 					isSelected
 						? "bg-primary text-primary-foreground"
 						: "opacity-50 [&_svg]:invisible",

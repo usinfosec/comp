@@ -19,22 +19,16 @@ export function formatRelativeTime(date: Date): string {
 export function getIconForAttachmentType(type: AttachmentType) {
 	switch (type) {
 		case AttachmentType.document:
-			return (
-				<FileText className="h-8 w-8 flex-shrink-0 text-muted-foreground" />
-			);
+			return <FileText className="h-8 w-8 shrink-0 text-muted-foreground" />;
 		case AttachmentType.video:
-			return (
-				<FileVideo className="h-8 w-8 flex-shrink-0 text-muted-foreground" />
-			);
+			return <FileVideo className="h-8 w-8 shrink-0 text-muted-foreground" />;
 		case AttachmentType.audio:
-			return (
-				<FileAudio className="h-8 w-8 flex-shrink-0 text-muted-foreground" />
-			);
+			return <FileAudio className="h-8 w-8 shrink-0 text-muted-foreground" />;
 		case AttachmentType.image:
 			return null;
 		default:
 			return (
-				<FileQuestion className="h-8 w-8 flex-shrink-0 text-muted-foreground" />
+				<FileQuestion className="h-8 w-8 shrink-0 text-muted-foreground" />
 			);
 	}
 }

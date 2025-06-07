@@ -62,10 +62,8 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
-									onClick={() =>
-										handleOpenUrl("https://x.com/compai")
-									}
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-xs transition-colors w-full p-1"
+									onClick={() => handleOpenUrl("https://x.com/compai")}
 								>
 									<Icons.X className="w-[16px] h-[16px]" />
 									<span>Follow Comp AI</span>
@@ -74,12 +72,8 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
-									onClick={() =>
-										handleOpenUrl(
-											"https://discord.gg/compai",
-										)
-									}
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-xs transition-colors w-full p-1"
+									onClick={() => handleOpenUrl("https://discord.gg/compai")}
 								>
 									<Icons.Discord className="w-[16px] h-[16px]" />
 									<span>Join our Discord</span>
@@ -89,10 +83,8 @@ export const ChatTextarea = ({
 							<li>
 								<button
 									type="button"
-									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-sm transition-colors w-full p-1"
-									onClick={() =>
-										handleOpenUrl("https://git.new/compai")
-									}
+									className="flex space-x-2 items-center text-xs hover:bg-[#F2F1EF] dark:hover:bg-[#2b2b2b] rounded-xs transition-colors w-full p-1"
+									onClick={() => handleOpenUrl("https://git.new/compai")}
 								>
 									<Icons.GithubOutline className="w-[16px] h-[16px]" />
 									<span>GitHub</span>
@@ -103,12 +95,9 @@ export const ChatTextarea = ({
 				</Popover>
 
 				<div className="ml-auto flex space-x-4">
-					<button
-						className="flex space-x-2 items-center text-xs"
-						type="submit"
-					>
+					<button className="flex space-x-2 items-center text-xs" type="submit">
 						<span>Submit</span>
-						<kbd className="rounded-sm pointer-events-none h-5 select-none items-center gap-1 border bg-accent px-1.5 font-mono text-[10px] font-medium">
+						<kbd className="rounded-xs pointer-events-none h-5 select-none items-center gap-1 border bg-accent px-1.5 font-mono text-[10px] font-medium">
 							<span>↵</span>
 						</kbd>
 					</button>

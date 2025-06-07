@@ -9,10 +9,10 @@ export const SingleControlSkeleton = () => {
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<Card>
 						<CardHeader>
-							<div className="h-6 w-3/4 bg-muted animate-pulse rounded" />
+							<div className="h-6 w-3/4 bg-muted animate-pulse rounded-sm" />
 						</CardHeader>
 						<CardContent>
-							<div className="h-16 bg-muted animate-pulse rounded" />
+							<div className="h-16 bg-muted animate-pulse rounded-sm" />
 						</CardContent>
 					</Card>
 					<Card>
@@ -20,7 +20,7 @@ export const SingleControlSkeleton = () => {
 							<CardTitle>Domain</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="h-4 w-1/2 bg-muted animate-pulse rounded" />
+							<div className="h-4 w-1/2 bg-muted animate-pulse rounded-sm" />
 						</CardContent>
 					</Card>
 				</div>

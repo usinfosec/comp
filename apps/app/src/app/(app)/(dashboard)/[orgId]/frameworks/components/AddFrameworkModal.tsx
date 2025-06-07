@@ -109,38 +109,26 @@ export function AddFrameworkModal({
 										<fieldset className="flex flex-col gap-2 select-none">
 											<div className="flex flex-col gap-2 overflow-y-auto max-h-[300px]">
 												{availableFrameworks
-													.filter(
-														(framework) =>
-															framework.visible,
-													)
+													.filter((framework) => framework.visible)
 													.map((framework) => {
-														const frameworkId =
-															framework.id;
+														const frameworkId = framework.id;
 														return (
 															<label
-																key={
-																	frameworkId
-																}
+																key={frameworkId}
 																htmlFor={`add-framework-${frameworkId}`}
 																className={cn(
-																	"relative flex flex-col p-4 border rounded-sm cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
-																	field.value.includes(
-																		frameworkId,
-																	) &&
+																	"relative flex flex-col p-4 border rounded-xs cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																	field.value.includes(frameworkId) &&
 																		"border-primary bg-primary/5",
 																)}
 															>
 																<div className="flex items-start justify-between">
 																	<div>
 																		<h3 className="font-semibold">
-																			{
-																				framework.name
-																			}
+																			{framework.name}
 																		</h3>
 																		<p className="text-sm text-muted-foreground mt-1">
-																			{
-																				framework.description
-																			}
+																			{framework.description}
 																		</p>
 																		<p className="text-xs text-muted-foreground/75 mt-2">
 																			{`${"Version"}: ${framework.version}`}
@@ -153,25 +141,13 @@ export function AddFrameworkModal({
 																				frameworkId,
 																			)}
 																			className="mt-1"
-																			onCheckedChange={(
-																				checked,
-																			) => {
-																				const newValue =
-																					checked
-																						? [
-																								...field.value,
-																								frameworkId,
-																							]
-																						: field.value.filter(
-																								(
-																									id,
-																								) =>
-																									id !==
-																									frameworkId,
-																							);
-																				field.onChange(
-																					newValue,
-																				);
+																			onCheckedChange={(checked) => {
+																				const newValue = checked
+																					? [...field.value, frameworkId]
+																					: field.value.filter(
+																							(id) => id !== frameworkId,
+																						);
+																				field.onChange(newValue);
 																			}}
 																		/>
 																	</div>
@@ -200,8 +176,7 @@ export function AddFrameworkModal({
 									type="submit"
 									disabled={
 										isExecuting ||
-										form.getValues("frameworkIds")
-											.length === 0 ||
+										form.getValues("frameworkIds").length === 0 ||
 										availableFrameworks.length === 0
 									}
 									suppressHydrationWarning
@@ -237,9 +212,7 @@ export function AddFrameworkModal({
 			{isExecuting && (
 				<div className="flex items-center justify-center p-8">
 					<Loader2 className="h-12 w-12 animate-spin text-primary" />
-					<p className="ml-4 text-muted-foreground">
-						{"Adding frameworks..."}
-					</p>
+					<p className="ml-4 text-muted-foreground">{"Adding frameworks..."}</p>
 				</div>
 			)}
 		</DialogContent>

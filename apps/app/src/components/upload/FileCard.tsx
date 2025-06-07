@@ -117,7 +117,7 @@ export function FileCard({
 							</div>
 						) : (
 							<div className="flex flex-col items-center justify-center">
-								<div className="flex items-center justify-center h-20 w-20 bg-accent/20 rounded-sm overflow-hidden mb-2">
+								<div className="flex items-center justify-center h-20 w-20 bg-accent/20 rounded-xs overflow-hidden mb-2">
 									<FileIcon fileName={fileName} />
 								</div>
 								<DialogTrigger asChild>
@@ -148,9 +148,7 @@ export function FileCard({
 
 					<DialogContent className="max-w-4xl w-full">
 						<DialogTitle className="flex items-center justify-between mb-4">
-							<span>
-								{`File Preview: ${fileName}`}
-							</span>
+							<span>{`File Preview: ${fileName}`}</span>
 						</DialogTitle>
 
 						{previewState.url ? (
@@ -240,17 +238,15 @@ export function FileCard({
 					</TooltipProvider>
 					<AlertDialogContent>
 						<AlertDialogHeader>
-							<AlertDialogTitle>
-								{"Delete File"}
-							</AlertDialogTitle>
+							<AlertDialogTitle>{"Delete File"}</AlertDialogTitle>
 							<AlertDialogDescription>
-								{"This action cannot be undone. The file will be permanently deleted."}
+								{
+									"This action cannot be undone. The file will be permanently deleted."
+								}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
-							<AlertDialogCancel>
-								{"Cancel"}
-							</AlertDialogCancel>
+							<AlertDialogCancel>{"Cancel"}</AlertDialogCancel>
 							<AlertDialogAction onClick={() => onDelete(url)}>
 								{"Delete"}
 							</AlertDialogAction>

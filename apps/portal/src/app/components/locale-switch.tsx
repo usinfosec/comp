@@ -27,7 +27,7 @@ export const LocaleSwitch = () => {
 				defaultValue={locale}
 				onValueChange={(value: keyof typeof languages) => changeLocale(value)}
 			>
-				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-none capitalize h-[32px] text-xs">
+				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-hidden capitalize h-[32px] text-xs">
 					<SelectValue placeholder={t("language.placeholder")} />
 				</SelectTrigger>
 				<SelectContent>

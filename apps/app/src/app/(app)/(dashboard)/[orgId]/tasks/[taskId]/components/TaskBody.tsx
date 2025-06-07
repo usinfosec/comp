@@ -9,7 +9,8 @@ import { Label } from "@comp/ui/label";
 import { Textarea } from "@comp/ui/textarea";
 import { Loader2, Paperclip, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useRef, useState } from "react";
+import type React from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { deleteTaskAttachment } from "../../actions/deleteTaskAttachment";
 import { getTaskAttachmentUrl } from "../../actions/getTaskAttachmentUrl";
@@ -21,9 +22,7 @@ interface TaskBodyProps {
 	description: string;
 	attachments: Attachment[];
 	onTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	onDescriptionChange: (
-		event: React.ChangeEvent<HTMLTextAreaElement>,
-	) => void;
+	onDescriptionChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	disabled?: boolean;
 	onAttachmentsChange?: () => void;
 }
@@ -40,9 +39,7 @@ export function TaskBody({
 }: TaskBodyProps) {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [isUploading, setIsUploading] = useState(false);
-	const [busyAttachmentId, setBusyAttachmentId] = useState<string | null>(
-		null,
-	);
+	const [busyAttachmentId, setBusyAttachmentId] = useState<string | null>(null);
 	const router = useRouter();
 
 	const resetState = () => {
@@ -71,9 +68,7 @@ export function TaskBody({
 
 					const reader = new FileReader();
 					reader.onloadend = async () => {
-						const base64Data = (reader.result as string)?.split(
-							",",
-						)[1];
+						const base64Data = (reader.result as string)?.split(",")[1];
 						if (!base64Data) {
 							toast.error("Failed to read file data.");
 							resetState();
@@ -91,8 +86,7 @@ export function TaskBody({
 							uploadedAttachments.push(data);
 						} else {
 							const errorMessage =
-								error ||
-								"Failed to process attachment after upload.";
+								error || "Failed to process attachment after upload.";
 							toast.error(String(errorMessage));
 						}
 					};
@@ -163,7 +157,7 @@ export function TaskBody({
 			<Input
 				value={title}
 				onChange={onTitleChange}
-				className="text-2xl font-semibold tracking-tight bg-transparent flex-shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"
+				className="text-2xl font-semibold tracking-tight bg-transparent shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"
 				placeholder="Task Title"
 				disabled={disabled || isUploadingFile || !!busyAttachmentId}
 			/>
@@ -184,9 +178,7 @@ export function TaskBody({
 			/>
 			<div className="space-y-3">
 				<div className="flex items-center justify-between">
-					<Label className="text-sm font-medium flex-1">
-						Attachments
-					</Label>
+					<Label className="text-sm font-medium flex-1">Attachments</Label>
 					{attachments.length === 0 && (
 						<Button
 							variant="ghost"
@@ -225,8 +217,7 @@ export function TaskBody({
 					!isUploadingFile && (
 						<p className="text-sm text-muted-foreground italic pt-1">
 							No attachments yet. Click the{" "}
-							<Paperclip className="inline h-4 w-4" /> icon above
-							to add one.
+							<Paperclip className="inline h-4 w-4" /> icon above to add one.
 						</p>
 					)
 				)}

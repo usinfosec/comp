@@ -176,7 +176,7 @@ export function DataTableDateFilter<TData>({
 						<div
 							aria-label={`Clear ${title} filter`}
 							onClick={onReset}
-							className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+							className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
 						>
 							<XCircle />
 						</div>
@@ -203,9 +203,7 @@ export function DataTableDateFilter<TData>({
 						initialFocus
 						mode="single"
 						selected={
-							!getIsDateRange(selectedDates)
-								? selectedDates[0]
-								: undefined
+							!getIsDateRange(selectedDates) ? selectedDates[0] : undefined
 						}
 						onSelect={onSelect}
 					/>

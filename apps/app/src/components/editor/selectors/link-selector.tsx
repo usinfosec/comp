@@ -44,16 +44,13 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
 				<Button
 					size="sm"
 					variant="ghost"
-					className="gap-2 rounded-sm border-none"
+					className="gap-2 rounded-xs border-none"
 				>
 					<p className="text-base">↗</p>
 					<p
-						className={cn(
-							"underline decoration-stone-400 underline-offset-4",
-							{
-								"text-blue-500": editor.isActive("link"),
-							},
-						)}
+						className={cn("underline decoration-stone-400 underline-offset-4", {
+							"text-blue-500": editor.isActive("link"),
+						})}
 					>
 						Link
 					</p>
@@ -76,7 +73,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
 						ref={inputRef}
 						type="text"
 						placeholder="Paste a link"
-						className="flex-1 bg-background p-1 text-sm outline-none"
+						className="flex-1 bg-background p-1 text-sm outline-hidden"
 						defaultValue={editor.getAttributes("link").href || ""}
 					/>
 					{editor.getAttributes("link").href ? (
@@ -84,7 +81,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
 							size="icon"
 							variant="outline"
 							type="button"
-							className="flex h-8 items-center rounded-sm p-1 text-red-600 transition-all hover:bg-red-100 dark:hover:bg-red-800"
+							className="flex h-8 items-center rounded-xs p-1 text-red-600 transition-all hover:bg-red-100 dark:hover:bg-red-800"
 							onClick={() => {
 								if (inputRef.current) {
 									inputRef.current.value = "";

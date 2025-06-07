@@ -60,7 +60,7 @@ export function YoutubeEmbed({
 			</div>
 			<div className="relative aspect-video w-full">
 				{isCompleted && !isRewatching && (
-					<div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center">
+					<div className="absolute inset-0 bg-background/80 backdrop-blur-xs z-10 flex items-center justify-center">
 						<div className="text-center space-y-4">
 							<Check className="h-12 w-12 text-primary mx-auto" />
 							<h3 className="text-xl font-semibold">Video Completed</h3>

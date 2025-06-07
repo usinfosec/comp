@@ -40,7 +40,7 @@ export const ThemeSwitch = () => {
 				defaultValue={theme}
 				onValueChange={(value: Theme) => setTheme(value)}
 			>
-				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-none capitalize h-[32px] text-xs">
+				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-hidden capitalize h-[32px] text-xs">
 					<SelectValue placeholder={t("user_menu.theme")} />
 				</SelectTrigger>
 				<SelectContent>
