@@ -1,3 +1,10 @@
+## [1.36.2](https://github.com/trycompai/comp/compare/v1.36.1...v1.36.2) (2025-06-07)
+
+
+### Bug Fixes
+
+* fix layout issue with risk matrix chart layout ([55e2985](https://github.com/trycompai/comp/commit/55e298503fd1eb3e2d07c792b7292052985a4c8e))
+
 ## [1.36.1](https://github.com/trycompai/comp/compare/v1.36.0...v1.36.1) (2025-06-07)
 
 
