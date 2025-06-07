@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/trycompai/comp/compare/v1.36.0...v1.36.1) (2025-06-07)
+
+
+### Bug Fixes
+
+* fix both edit role and cancel invitation issues with dialog ([37f783b](https://github.com/trycompai/comp/commit/37f783baa04ee4395d19ebaee026988e5833bc24))
+
 # [1.36.0](https://github.com/trycompai/comp/compare/v1.35.1...v1.36.0) (2025-06-06)
 
 
