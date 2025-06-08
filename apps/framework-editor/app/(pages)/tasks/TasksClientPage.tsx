@@ -294,9 +294,9 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 						value={dataForDisplay} // Use the fully processed data
 						height={600} // Adjust as needed
 						onChange={handleGridChange}
-                                                columns={columns}
-                                                rowKey="id"
-                                                rowClassName={getRowClassName}
+						columns={columns}
+						rowKey="id"
+						rowClassName={getRowClassName}
 						createRow={() => ({
 							// Default structure for new rows created directly in grid
 							id: simpleUUID(),
