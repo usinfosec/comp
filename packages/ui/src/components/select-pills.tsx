@@ -181,7 +181,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 
 	return (
 		<Popover open={isOpen} onOpenChange={handleOpenChange}>
-			<div className="flex flex-wrap gap-2 min-h-12">
+			<div className="flex flex-wrap gap-2 min-h-12 w-full">
 				{(value || selectedPills).map((pill) => (
 					<Badge
 						key={pill}
@@ -223,20 +223,21 @@ export const SelectPills: FC<SelectPillsProps> = ({
 			<PopoverContent
 				align="start"
 				onOpenAutoFocus={(e) => e.preventDefault()}
-				className="w-(--radix-popover-trigger-width) p-0"
+				className="p-0"
+				style={{ width: 'var(--radix-popover-trigger-width)' }}
 			>
 				<div
 					ref={radioGroupRef}
 					role="radiogroup"
 					aria-label="Pill options"
 					onKeyDown={(e) => handleRadioKeyDown(e, highlightedIndex)}
-					className="max-h-[200px] overflow-y-auto"
+					className="max-h-[200px] overflow-y-auto w-full min-w-0"
 				>
 					{filteredItems.map((item, index) => (
 						<div
 							key={item.id || item.value || item.name}
 							className={cn(
-								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
+								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 grow min-w-0 w-full",
 								highlightedIndex === index && "bg-accent",
 							)}
 						>
@@ -245,7 +246,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 								id={`pill-${item.name}`}
 								name="pill-selection"
 								value={item.name}
-								className="sr-only"
+								className="hidden"
 								checked={highlightedIndex === index}
 								onChange={() => handleItemSelect(item)}
 							/>
