@@ -1,3 +1,13 @@
+## [1.36.3](https://github.com/trycompai/comp/compare/v1.36.2...v1.36.3) (2025-06-08)
+
+
+### Bug Fixes
+
+* fix length of onboarding popover options ([8441015](https://github.com/trycompai/comp/commit/8441015439f2a1c8a442661927ff41321b2b8e77))
+* fix updating title and description of a policy ([44c2fe8](https://github.com/trycompai/comp/commit/44c2fe8075f602617868ef749335efbdcf37e12f))
+* make whole row clickable for select-pills ([7bb85f4](https://github.com/trycompai/comp/commit/7bb85f4d213184697bfbf0f5f592fd450ff0ab04))
+* **tasks:** ensure grid row selection stable ([b10e8b8](https://github.com/trycompai/comp/commit/b10e8b8ad773bfd183f7b005fe3473618d16e147))
+
 ## [1.36.2](https://github.com/trycompai/comp/compare/v1.36.1...v1.36.2) (2025-06-07)
 
 
