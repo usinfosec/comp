@@ -1,7 +1,7 @@
 "use client";
 
 import PageLayout from "@/app/components/PageLayout";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { friendlyDateColumnBase } from "../../components/gridUtils";
 import { TableToolbar } from "../../components/TableToolbar";
@@ -132,6 +132,7 @@ export function ControlsClientPage({
 		isDirty,
 		createdRowIds,
 		changesSummaryString,
+		setDisplayedData,
 	} = useChangeTracking(initialGridData);
 
 	const [selectedFramework, setSelectedFramework] = useState<string>("");
@@ -195,6 +196,10 @@ export function ControlsClientPage({
 			return newRow;
 		});
 	}, [sortedDataWithPotentialTimestamps]);
+
+	useEffect(() => {
+		setDisplayedData(dataForDisplay);
+	}, [dataForDisplay, setDisplayedData]);
 
 	const columns: Column<ControlsPageGridData>[] = [
 		{ ...keyColumn("name", textColumn), title: "Name", minWidth: 300 },
@@ -377,7 +382,8 @@ export function ControlsClientPage({
 						height={600}
 						onChange={handleGridChange}
 						columns={columns}
-						rowClassName={getRowClassName}
+                        rowKey="id"
+                        rowClassName={getRowClassName}
 						createRow={() => ({
 							id: simpleUUID(),
 							name: "Control Name",
