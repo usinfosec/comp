@@ -1,7 +1,7 @@
 "use client";
 
 import { deletePolicyAction } from "@/actions/policies/delete-policy";
-import type { Policy } from "@comp/db/types";
+import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Dialog,
@@ -73,8 +73,8 @@ export function PolicyDeleteDialog({
 				<DialogHeader>
 					<DialogTitle>Delete Policy</DialogTitle>
 					<DialogDescription>
-						Are you sure you want to delete this policy? This action cannot be
-						undone.
+						Are you sure you want to delete this policy? This action
+						cannot be undone.
 					</DialogDescription>
 				</DialogHeader>
 				<Form {...form}>

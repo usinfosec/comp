@@ -41,11 +41,10 @@ export const SelectPills: FC<SelectPillsProps> = ({
 	const inputRef = useRef<HTMLInputElement | null>(null);
 	const radioGroupRef = useRef<HTMLDivElement>(null);
 
-	const selectedValues = value ?? selectedPills;
 	const filteredItems = data.filter(
 		(item) =>
 			item.name.toLowerCase().includes(inputValue.toLowerCase()) &&
-			!selectedValues.includes(item.name),
+			!selectedPills.includes(item.name),
 	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +181,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 
 	return (
 		<Popover open={isOpen} onOpenChange={handleOpenChange}>
-			<div className="flex flex-wrap gap-2 min-h-12 w-full">
+			<div className="flex flex-wrap gap-2 min-h-12">
 				{(value || selectedPills).map((pill) => (
 					<Badge
 						key={pill}
@@ -224,38 +223,29 @@ export const SelectPills: FC<SelectPillsProps> = ({
 			<PopoverContent
 				align="start"
 				onOpenAutoFocus={(e) => e.preventDefault()}
-				className="p-0"
-				style={{ width: "var(--radix-popover-trigger-width)" }}
+				className="w-(--radix-popover-trigger-width) p-0"
 			>
 				<div
 					ref={radioGroupRef}
 					role="radiogroup"
 					aria-label="Pill options"
 					onKeyDown={(e) => handleRadioKeyDown(e, highlightedIndex)}
-					className="max-h-[200px] overflow-y-auto w-full min-w-0"
+					className="max-h-[200px] overflow-y-auto"
 				>
 					{filteredItems.map((item, index) => (
-						<option
+						<div
 							key={item.id || item.value || item.name}
 							className={cn(
-								"relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 grow min-w-0 w-full",
+								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
 								highlightedIndex === index && "bg-accent",
 							)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter" || e.key === " ") {
-									e.preventDefault();
-									handleItemSelect(item);
-								}
-							}}
-							tabIndex={0}
-							aria-selected={highlightedIndex === index}
 						>
 							<input
 								type="radio"
 								id={`pill-${item.name}`}
 								name="pill-selection"
 								value={item.name}
-								className="hidden"
+								className="sr-only"
 								checked={highlightedIndex === index}
 								onChange={() => handleItemSelect(item)}
 							/>
@@ -265,7 +255,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 							>
 								{item.name}
 							</label>
-						</option>
+						</div>
 					))}
 				</div>
 			</PopoverContent>
