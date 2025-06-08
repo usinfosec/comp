@@ -1,7 +1,7 @@
 "use client";
 
 import { SelectAssignee } from "@/components/SelectAssignee";
-import type { Member, User } from "@comp/db/types";
+import { Member, User } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Dialog,
@@ -48,14 +48,19 @@ export const SubmitApprovalDialog = ({
 					withTitle={false}
 				/>
 				<DialogFooter>
-					<Button variant="outline" onClick={() => onOpenChange(false)}>
+					<Button
+						variant="outline"
+						onClick={() => onOpenChange(false)}
+					>
 						Cancel
 					</Button>
 					<Button
 						onClick={onConfirm}
 						disabled={isSubmitting || !selectedApproverId}
 					>
-						{isSubmitting ? <Loader2 className="animate-spin mr-2" /> : null}
+						{isSubmitting ? (
+							<Loader2 className="animate-spin mr-2" />
+						) : null}
 						Confirm & Submit
 					</Button>
 				</DialogFooter>

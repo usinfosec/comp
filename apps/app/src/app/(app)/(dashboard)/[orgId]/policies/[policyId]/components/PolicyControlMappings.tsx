@@ -1,15 +1,9 @@
-import type { Control } from "@comp/db/types";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@comp/ui/card";
+import { Control } from "@comp/db/types";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { SelectPills } from "@comp/ui/select-pills";
 import { toast } from "sonner";
-import { mapPolicyToControls } from "../../actions/mapPolicyToControls";
-import { unmapPolicyFromControl } from "../../actions/unmapPolicyFromControl";
+import { mapPolicyToControls } from "../actions/mapPolicyToControls";
+import { unmapPolicyFromControl } from "../actions/unmapPolicyFromControl";
 import { useParams } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
@@ -53,9 +47,7 @@ export const PolicyControlMappings = ({
 		if (isPendingApproval || loading) return;
 		setLoading(true);
 		const prevIds = mappedControls.map((c) => c.id);
-		const nextControls = allControls.filter((c) =>
-			selectedNames.includes(c.name),
-		);
+		const nextControls = allControls.filter((c) => selectedNames.includes(c.name));
 		const nextIds = nextControls.map((c) => c.id);
 
 		const added = nextControls.filter((c) => !prevIds.includes(c.id));
@@ -63,16 +55,10 @@ export const PolicyControlMappings = ({
 
 		try {
 			if (added.length > 0) {
-				await mapControlsAction.execute({
-					policyId,
-					controlIds: added.map((c) => c.id),
-				});
+				await mapControlsAction.execute({ policyId, controlIds: added.map((c) => c.id) });
 			}
 			if (removed.length > 0) {
-				await unmapControlAction.execute({
-					policyId,
-					controlId: removed[0].id,
-				});
+				await unmapControlAction.execute({ policyId, controlId: removed[0].id });
 			}
 		} catch (err) {
 			toast.error("Failed to update controls");
@@ -84,7 +70,9 @@ export const PolicyControlMappings = ({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Map Controls</CardTitle>
+				<CardTitle>
+					Map Controls
+				</CardTitle>
 				<CardDescription>
 					Map controls that are relevant to this policy.
 				</CardDescription>

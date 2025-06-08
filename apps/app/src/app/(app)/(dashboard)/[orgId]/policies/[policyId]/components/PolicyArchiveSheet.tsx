@@ -1,7 +1,7 @@
 "use client";
 
 import { archivePolicyAction } from "@/actions/policies/archive-policy";
-import type { Policy } from "@comp/db/types";
+import { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -82,7 +82,9 @@ export function PolicyArchiveSheet({
 					{archivePolicy.status === "executing" ? (
 						<span className="flex items-center gap-2">
 							<span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
-							{isArchived ? "Restore" : "Archive"}
+							{isArchived
+								? "Restore"
+								: "Archive"}
 						</span>
 					) : (
 						<span className="flex items-center gap-2">
@@ -111,7 +113,9 @@ export function PolicyArchiveSheet({
 					<SheetHeader className="mb-6">
 						<div className="flex justify-between items-center flex-row">
 							<SheetTitle>
-								{isArchived ? "Restore Policy" : "Archive Policy"}
+								{isArchived
+									? "Restore Policy"
+									: "Archive Policy"}
 							</SheetTitle>
 							<Button
 								size="icon"
@@ -133,14 +137,20 @@ export function PolicyArchiveSheet({
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
 			<DrawerTitle hidden>
-				{isArchived ? "Restore Policy" : "Archive Policy"}
+				{isArchived
+					? "Restore Policy"
+					: "Archive Policy"}
 			</DrawerTitle>
 			<DrawerContent className="p-6">
 				<div className="mb-4">
 					<h3 className="text-lg font-medium">
-						{isArchived ? "Restore Policy" : "Archive Policy"}
+						{isArchived
+							? "Restore Policy"
+							: "Archive Policy"}
 					</h3>
-					<p className="text-sm text-muted-foreground mt-1">{policy.name}</p>
+					<p className="text-sm text-muted-foreground mt-1">
+						{policy.name}
+					</p>
 				</div>
 				{content}
 			</DrawerContent>

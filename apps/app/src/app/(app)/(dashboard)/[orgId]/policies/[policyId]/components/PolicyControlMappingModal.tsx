@@ -1,4 +1,4 @@
-import type { Control } from "@comp/db/types";
+import { Control } from "@comp/db/types";
 import { useEffect, useState } from "react";
 import {
 	Dialog,
@@ -11,9 +11,9 @@ import {
 } from "@comp/ui/dialog";
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
-import MultipleSelector, { type Option } from "@comp/ui/multiple-selector";
+import MultipleSelector, { Option } from "@comp/ui/multiple-selector";
 import { PlusIcon } from "lucide-react";
-import { mapPolicyToControls } from "../../actions/mapPolicyToControls";
+import { mapPolicyToControls } from "../actions/mapPolicyToControls";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -59,7 +59,6 @@ export const PolicyControlMappingModal = ({
 		}
 	};
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		return () => {
 			setSelectedControls([]);
@@ -94,11 +93,15 @@ export const PolicyControlMappingModal = ({
 						// Custom filter function to match by label (name) instead of value
 						filter: (value, search) => {
 							// Find the option with this value
-							const option = preparedOptions.find((opt) => opt.value === value);
+							const option = preparedOptions.find(
+								(opt) => opt.value === value,
+							);
 							if (!option) return 0;
 
 							// Check if the option label contains the search string
-							return option.label.toLowerCase().includes(search.toLowerCase())
+							return option.label
+								.toLowerCase()
+								.includes(search.toLowerCase())
 								? 1
 								: 0;
 						},
