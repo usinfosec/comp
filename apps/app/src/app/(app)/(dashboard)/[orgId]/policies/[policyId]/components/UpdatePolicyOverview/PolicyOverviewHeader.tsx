@@ -8,8 +8,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
-import { Icons } from "@comp/ui/icons";
-import { Textarea } from "@comp/ui/textarea";
 import {
 	ArchiveIcon,
 	ArchiveRestoreIcon,
@@ -17,13 +15,11 @@ import {
 	PencilIcon,
 	Trash2,
 } from "lucide-react";
+import { useRef } from "react";
+import type { PolicyFieldsGroupValue } from "./fields/PolicyFieldsGroup";
 
 interface PolicyOverviewHeaderProps {
 	policy: (Policy & { approver: (Member & { user: User }) | null }) | null;
-	name: string;
-	description: string;
-	onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onDescriptionChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	fieldsDisabled: boolean;
 	isPendingApproval: boolean;
 	dropdownOpen: boolean;
@@ -31,16 +27,12 @@ interface PolicyOverviewHeaderProps {
 	setOpen: (val: string) => void;
 	setArchiveOpen: (val: string) => void;
 	setDeleteDialogOpen: (open: boolean) => void;
+	handleFieldsChange: (newFields: PolicyFieldsGroupValue) => void;
+	fields: PolicyFieldsGroupValue;
 }
-
-import { useRef } from "react";
 
 export function PolicyOverviewHeader({
 	policy,
-	name,
-	description,
-	onNameChange,
-	onDescriptionChange,
 	fieldsDisabled,
 	isPendingApproval,
 	dropdownOpen,
@@ -48,6 +40,8 @@ export function PolicyOverviewHeader({
 	setOpen,
 	setArchiveOpen,
 	setDeleteDialogOpen,
+	handleFieldsChange,
+	fields,
 }: PolicyOverviewHeaderProps) {
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
@@ -58,7 +52,7 @@ export function PolicyOverviewHeader({
 			descriptionRef.current.style.height = "auto";
 			descriptionRef.current.style.height = `${descriptionRef.current.scrollHeight}px`;
 		}
-		onDescriptionChange(e);
+		handleFieldsChange({ ...fields, description: e.target.value });
 	};
 
 	return (
@@ -68,8 +62,10 @@ export function PolicyOverviewHeader({
 					<input
 						type="text"
 						className="text-2xl font-bold bg-transparent border-none outline-none w-full m-0"
-						value={name}
-						onChange={onNameChange}
+						value={fields.name}
+						onChange={(e) =>
+							handleFieldsChange({ ...fields, name: e.target.value })
+						}
 						placeholder="Policy Title"
 						disabled={fieldsDisabled}
 						aria-label="Policy Title"
@@ -128,7 +124,7 @@ export function PolicyOverviewHeader({
 			<textarea
 				ref={descriptionRef}
 				className="text-muted-foreground bg-transparent border-none outline-none w-full resize-none m-0"
-				value={description}
+				value={fields.description}
 				onChange={handleDescriptionChange}
 				placeholder="Add a description..."
 				disabled={fieldsDisabled}

@@ -4,8 +4,14 @@ import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { submitPolicyForApprovalAction } from "@/actions/policies/submit-policy-for-approval-action";
-import { Frequency, PolicyStatus, type Policy, type Member, type User } from "@comp/db/types";
-import type { PolicyFieldsGroupValue } from "../components/fields/PolicyFieldsGroup";
+import {
+  Frequency,
+  PolicyStatus,
+  type Policy,
+  type Member,
+  type User,
+} from "@comp/db/types";
+import type { PolicyFieldsGroupValue } from "../components/UpdatePolicyOverview/fields/PolicyFieldsGroup";
 
 interface UsePolicyOverviewFormArgs {
   policy: Policy & { approver: (Member & { user: User }) | null };
@@ -13,10 +19,14 @@ interface UsePolicyOverviewFormArgs {
   isPendingApproval: boolean;
 }
 
-export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: UsePolicyOverviewFormArgs) {
-  const [name, setName] = useState(policy.name || "");
-  const [description, setDescription] = useState(policy.description || "");
+export function usePolicyOverviewForm({
+  policy,
+  assignees,
+  isPendingApproval,
+}: UsePolicyOverviewFormArgs) {
   const [fields, setFields] = useState<PolicyFieldsGroupValue>({
+    name: policy.name,
+    description: policy.description || "",
     status: policy.status,
     frequency: policy.frequency ?? Frequency.monthly,
     department: policy.department,
@@ -27,7 +37,9 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formInteracted, setFormInteracted] = useState(false);
   const [isApprovalDialogOpen, setIsApprovalDialogOpen] = useState(false);
-  const [selectedApproverId, setSelectedApproverId] = useState<string | null>(null);
+  const [selectedApproverId, setSelectedApproverId] = useState<string | null>(
+    null
+  );
   const router = useRouter();
 
   const fieldsDisabled = isPendingApproval;
@@ -35,17 +47,10 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
   const handleFormChange = () => setFormInteracted(true);
 
   const handleFieldsChange = (newFields: PolicyFieldsGroupValue) => {
-    setFields({ ...newFields, frequency: newFields.frequency ?? Frequency.monthly });
-    handleFormChange();
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    handleFormChange();
-  };
-
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
+    setFields({
+      ...newFields,
+      frequency: newFields.frequency ?? Frequency.monthly,
+    });
     handleFormChange();
   };
 
@@ -79,11 +84,16 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    const name = fields.name.trim();
+    const description = fields.description.trim();
     const status = fields.status;
     const assigneeId = fields.assigneeId || null;
     const department = fields.department ?? "none";
     const reviewFrequency = fields.frequency ?? Frequency.monthly;
-    const isRequiredToSign = fields.isRequiredToSign ? "required" : "not_required";
+    const isRequiredToSign = fields.isRequiredToSign
+      ? "required"
+      : "not_required";
     const reviewDate = fields.reviewDate || new Date();
     const isPublishedWithChanges =
       policy.status === "published" &&
@@ -91,7 +101,8 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
         assigneeId !== policy.assigneeId ||
         department !== policy.department ||
         reviewFrequency !== policy.frequency ||
-        (policy.isRequiredToSign ? "required" : "not_required") !== isRequiredToSign ||
+        (policy.isRequiredToSign ? "required" : "not_required") !==
+          isRequiredToSign ||
         (policy.reviewDate
           ? new Date(policy.reviewDate).toDateString()
           : "") !== reviewDate.toDateString());
@@ -123,11 +134,15 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
       toast.error("Approver is required.");
       return;
     }
+    const name = fields.name.trim();
+    const description = fields.description.trim();
     const status = PolicyStatus.needs_review;
     const assigneeId = fields.assigneeId || null;
     const department = fields.department ?? "none";
     const reviewFrequency = fields.frequency ?? Frequency.monthly;
-    const isRequiredToSign = fields.isRequiredToSign ? "required" : "not_required";
+    const isRequiredToSign = fields.isRequiredToSign
+      ? "required"
+      : "not_required";
     const reviewDate = fields.reviewDate || new Date();
     setIsSubmitting(true);
     submitForApproval.execute({
@@ -148,18 +163,18 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
 
   const hasFormChanges = formInteracted;
   let buttonText = "Save";
-  if (
-    policy.status === "draft" ||
-    (policy.status === "published" && hasFormChanges)
-  ) {
+
+  // If the user intends to publish the policy.
+  if (policy.status === "draft" && fields.status === "published") {
+    buttonText = "Submit for Approval";
+  }
+
+  // If the user intends to update a published policy.
+  if (policy.status === "published" && hasFormChanges) {
     buttonText = "Submit for Approval";
   }
 
   return {
-    name,
-    setName,
-    description,
-    setDescription,
     fields,
     setFields,
     isSubmitting,
@@ -169,8 +184,6 @@ export function usePolicyOverviewForm({ policy, assignees, isPendingApproval }: 
     selectedApproverId,
     setSelectedApproverId,
     handleFieldsChange,
-    handleNameChange,
-    handleDescriptionChange,
     handleSubmit,
     handleConfirmApproval,
     buttonText,

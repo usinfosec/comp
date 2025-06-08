@@ -8,6 +8,8 @@ import { SignatureRequirementField } from "./SignatureRequirementField";
 import { StatusField } from "./StatusField";
 
 export interface PolicyFieldsGroupValue {
+	name: string;
+	description: string;
 	status: Policy["status"];
 	frequency: Policy["frequency"];
 	department: Policy["department"];

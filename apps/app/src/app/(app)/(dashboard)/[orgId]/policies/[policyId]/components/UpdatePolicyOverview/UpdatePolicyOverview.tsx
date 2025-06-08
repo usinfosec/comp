@@ -22,8 +22,6 @@ export function UpdatePolicyOverview({
 	isPendingApproval,
 }: UpdatePolicyOverviewProps) {
 	const {
-		name,
-		description,
 		fields,
 		isSubmitting,
 		isApprovalDialogOpen,
@@ -31,8 +29,6 @@ export function UpdatePolicyOverview({
 		selectedApproverId,
 		setSelectedApproverId,
 		handleFieldsChange,
-		handleNameChange,
-		handleDescriptionChange,
 		handleSubmit,
 		handleConfirmApproval,
 		buttonText,
@@ -47,11 +43,9 @@ export function UpdatePolicyOverview({
 			<form id="policy-form" onSubmit={handleSubmit}>
 				<div className="space-y-4">
 					<PolicyOverviewHeader
+						handleFieldsChange={handleFieldsChange}
+						fields={fields}
 						policy={policy}
-						name={name}
-						description={description}
-						onNameChange={handleNameChange}
-						onDescriptionChange={handleDescriptionChange}
 						fieldsDisabled={fieldsDisabled}
 						isPendingApproval={isPendingApproval}
 						dropdownOpen={false}
