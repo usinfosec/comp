@@ -2,7 +2,7 @@
 
 import PageLayout from "@/app/components/PageLayout";
 import { useRouter } from "next/navigation"; // Added for potential refresh
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { toast } from "sonner"; // Import toast for user feedback
 import {
 	relationalColumn,
@@ -126,6 +126,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 		isDirty,
 		changesSummaryString,
 		createdRowIds,
+		setDisplayedData,
 	} = useTaskChangeTracking(initialGridData);
 
 	// Log isDirty value on every render of TasksClientPage
@@ -160,6 +161,10 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 			return newRow;
 		});
 	}, [sortedDataWithPotentialTimestamps]);
+
+	useEffect(() => {
+		setDisplayedData(dataForDisplay);
+	}, [dataForDisplay, setDisplayedData]);
 
 	// Define columns for DataSheetGrid
 	const columns: Column<TasksPageGridData>[] = [
@@ -292,10 +297,10 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 				<div className="mt-4">
 					<DataSheetGrid
 						value={dataForDisplay} // Use the fully processed data
+						rowKey="id"
 						height={600} // Adjust as needed
 						onChange={handleGridChange}
 						columns={columns}
-						rowKey="id"
 						rowClassName={getRowClassName}
 						createRow={() => ({
 							// Default structure for new rows created directly in grid
