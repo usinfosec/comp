@@ -58,17 +58,7 @@ export function PolicyOverview({
 			<PolicyStatusAlerts policy={policy} setArchiveOpen={setArchiveOpen} />
 
 			<Card>
-				<CardHeader>
-					<PolicyOverviewHeader
-						policy={policy}
-						isPendingApproval={isPendingApproval}
-						dropdownOpen={dropdownOpen}
-						setDropdownOpen={setDropdownOpen}
-						setOpen={setOpen}
-						setArchiveOpen={setArchiveOpen}
-						setDeleteDialogOpen={setDeleteDialogOpen}
-					/>
-				</CardHeader>
+				<CardHeader />
 				<CardContent>
 					<UpdatePolicyOverview
 						isPendingApproval={isPendingApproval}
