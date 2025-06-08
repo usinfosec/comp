@@ -8,8 +8,11 @@ import {
 	getPolicy,
 	getPolicyControlMappingInfo,
 } from "./data";
+import { notFound } from "next/navigation";
 
-export default async function PolicyDetails({ params }: { params: Promise<{ policyId: string; orgId: string }> }) {
+export default async function PolicyDetails({
+	params,
+}: { params: Promise<{ policyId: string; orgId: string }> }) {
 	const { policyId, orgId } = await params;
 
 	const policy = await getPolicy(policyId);
@@ -20,6 +23,10 @@ export default async function PolicyDetails({ params }: { params: Promise<{ poli
 	const logs = await getLogsForPolicy(policyId);
 
 	const isPendingApproval = !!policy?.approverId;
+
+	if (!policy) {
+		return notFound();
+	}
 
 	return (
 		<PageWithBreadcrumb

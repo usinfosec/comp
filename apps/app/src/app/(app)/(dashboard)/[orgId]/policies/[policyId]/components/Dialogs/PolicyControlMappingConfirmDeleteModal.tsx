@@ -11,7 +11,7 @@ import {
 } from "@comp/ui/dialog";
 import { Button } from "@comp/ui/button";
 import { X } from "lucide-react";
-import { unmapPolicyFromControl } from "../actions/unmapPolicyFromControl";
+import { unmapPolicyFromControl } from "../../actions/unmapPolicyFromControl";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
 

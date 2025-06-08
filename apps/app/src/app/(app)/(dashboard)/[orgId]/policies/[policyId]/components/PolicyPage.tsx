@@ -1,12 +1,14 @@
-import { Control, Member, Policy, User } from "@comp/db/types";
-import { JSONContent } from "novel";
+import type { Control, Member, Policy, User } from "@comp/db/types";
+import type { JSONContent } from "novel";
+// biome-ignore lint/style/useImportType: <explanation>
 import {
 	Comments,
 	CommentWithAuthor,
 } from "../../../../../../../components/comments/Comments";
+// biome-ignore lint/style/useImportType: <explanation>
 import { AuditLogWithRelations } from "../data";
 import { PolicyPageEditor } from "../editor/components/PolicyDetails";
-import { PolicyOverview } from "./PolicyOverview";
+import { PolicyOverview } from "./PolicyOverview/PolicyOverview";
 import { RecentAuditLogs } from "./RecentAuditLogs";
 
 export default function PolicyPage({
@@ -19,7 +21,7 @@ export default function PolicyPage({
 	logs,
 	comments,
 }: {
-	policy: (Policy & { approver: (Member & { user: User }) | null }) | null;
+	policy: Policy & { approver: (Member & { user: User }) | null };
 	assignees: (Member & { user: User })[];
 	mappedControls: Control[];
 	allControls: Control[];
@@ -31,7 +33,7 @@ export default function PolicyPage({
 	return (
 		<>
 			<PolicyOverview
-				policy={policy ?? null}
+				policy={policy}
 				assignees={assignees}
 				mappedControls={mappedControls}
 				allControls={allControls}
@@ -40,18 +42,12 @@ export default function PolicyPage({
 			<PolicyPageEditor
 				isPendingApproval={isPendingApproval}
 				policyId={policyId}
-				policyContent={
-					policy?.content ? (policy.content as JSONContent[]) : []
-				}
+				policyContent={policy?.content ? (policy.content as JSONContent[]) : []}
 			/>
 
 			<RecentAuditLogs logs={logs} />
 
-			<Comments
-				entityId={policyId}
-				comments={comments}
-				entityType="policy"
-			/>
+			<Comments entityId={policyId} comments={comments} entityType="policy" />
 		</>
 	);
 }
