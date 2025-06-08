@@ -2,7 +2,7 @@
 
 import { updatePolicyOverviewAction } from "@/actions/policies/update-policy-overview-action";
 import { updatePolicyOverviewSchema } from "@/actions/schema";
-import { Policy } from "@comp/db/types";
+import type { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
 	Form,
@@ -34,7 +34,7 @@ export function UpdatePolicyForm({
 }: {
 	policy: Policy;
 }) {
-	const [open, setOpen] = useQueryState("policy-overview-sheet");
+	const [, setOpen] = useQueryState("policy-overview-sheet");
 
 	const updatePolicy = useAction(updatePolicyOverviewAction, {
 		onSuccess: () => {
@@ -52,9 +52,6 @@ export function UpdatePolicyForm({
 			id: policy.id,
 			title: policy.name,
 			description: policy.description ?? "",
-			isRequiredToSign: policy.isRequiredToSign
-				? "required"
-				: "not_required",
 		},
 	});
 
@@ -63,7 +60,6 @@ export function UpdatePolicyForm({
 			id: data.id,
 			title: data.title,
 			description: data.description,
-			isRequiredToSign: data.isRequiredToSign,
 			entityId: data.id,
 		});
 	};
@@ -77,9 +73,7 @@ export function UpdatePolicyForm({
 						name="title"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>
-									{"Policy Title"}
-								</FormLabel>
+								<FormLabel>{"Policy Title"}</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
@@ -102,42 +96,12 @@ export function UpdatePolicyForm({
 								<FormControl>
 									<Textarea
 										{...field}
+										rows={6}
 										className="mt-3 min-h-[80px]"
 										placeholder={"A brief summary of the policy's purpose."}
 									/>
 								</FormControl>
 								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="isRequiredToSign"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									{"Signature Requirement"}
-								</FormLabel>
-								<FormControl>
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-									>
-										<SelectTrigger>
-											<SelectValue
-												placeholder={"Select signature requirement"}
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="required">
-												{"Required"}
-											</SelectItem>
-											<SelectItem value="not_required">
-												{"Not Required"}
-											</SelectItem>
-										</SelectContent>
-									</Select>
-								</FormControl>
 							</FormItem>
 						)}
 					/>

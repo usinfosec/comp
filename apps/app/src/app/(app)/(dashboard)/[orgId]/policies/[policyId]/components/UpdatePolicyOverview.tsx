@@ -7,10 +7,10 @@ import { StatusIndicator } from "@/components/status-indicator";
 import {
 	Departments,
 	Frequency,
-	Member,
+	type Member,
 	type Policy,
 	PolicyStatus,
-	User,
+	type User,
 } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Calendar } from "@comp/ui/calendar";
@@ -120,9 +120,7 @@ export function UpdatePolicyOverview({
 		const department = formData.get("department") as Departments;
 		const reviewFrequency = formData.get("review_frequency") as Frequency;
 		const isRequiredToSign =
-			formData.get("isRequiredToSign") === "on"
-				? "required"
-				: "not_required";
+			formData.get("isRequiredToSign") === "on" ? "required" : "not_required";
 
 		// Get review date from the form or use the existing one
 		const reviewDate =
@@ -177,9 +175,7 @@ export function UpdatePolicyOverview({
 		const department = formData.get("department") as Departments;
 		const reviewFrequency = formData.get("review_frequency") as Frequency;
 		const isRequiredToSign =
-			formData.get("isRequiredToSign") === "on"
-				? "required"
-				: "not_required";
+			formData.get("isRequiredToSign") === "on" ? "required" : "not_required";
 
 		// Get review date from the form or use the existing one
 		const reviewDate =
@@ -215,11 +211,7 @@ export function UpdatePolicyOverview({
 
 	return (
 		<>
-			<form
-				id="policy-form"
-				onSubmit={handleSubmit}
-				className="space-y-6"
-			>
+			<form id="policy-form" onSubmit={handleSubmit} className="space-y-6">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					{/* Status Field */}
 					<div className="space-y-2">
@@ -247,28 +239,18 @@ export function UpdatePolicyOverview({
 								</SelectValue>
 							</SelectTrigger>
 							<SelectContent>
-								{Object.values(PolicyStatus).map(
-									(statusOption) => (
-										<SelectItem
-											key={statusOption}
-											value={statusOption}
-										>
-											<StatusIndicator
-												status={statusOption}
-											/>
-										</SelectItem>
-									),
-								)}
+								{Object.values(PolicyStatus).map((statusOption) => (
+									<SelectItem key={statusOption} value={statusOption}>
+										<StatusIndicator status={statusOption} />
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
 					</div>
 
 					{/* Review Frequency Field */}
 					<div className="space-y-2">
-						<label
-							htmlFor="review_frequency"
-							className="text-sm font-medium"
-						>
+						<label htmlFor="review_frequency" className="text-sm font-medium">
 							Review Frequency
 						</label>
 						<Select
@@ -282,12 +264,8 @@ export function UpdatePolicyOverview({
 							</SelectTrigger>
 							<SelectContent>
 								{Object.values(Frequency).map((frequency) => (
-									<SelectItem
-										key={frequency}
-										value={frequency}
-									>
-										{frequency.charAt(0).toUpperCase() +
-											frequency.slice(1)}
+									<SelectItem key={frequency} value={frequency}>
+										{frequency.charAt(0).toUpperCase() + frequency.slice(1)}
 									</SelectItem>
 								))}
 							</SelectContent>
@@ -296,17 +274,12 @@ export function UpdatePolicyOverview({
 
 					{/* Department Field */}
 					<div className="space-y-2">
-						<label
-							htmlFor="department"
-							className="text-sm font-medium"
-						>
+						<label htmlFor="department" className="text-sm font-medium">
 							Department
 						</label>
 						<Select
 							name="department"
-							defaultValue={
-								policy.department || Departments.admin
-							}
+							defaultValue={policy.department || Departments.admin}
 							disabled={fieldsDisabled}
 							onValueChange={handleFormChange}
 						>
@@ -315,8 +288,7 @@ export function UpdatePolicyOverview({
 							</SelectTrigger>
 							<SelectContent>
 								{Object.values(Departments).map((dept) => {
-									const formattedDepartment =
-										dept.toUpperCase();
+									const formattedDepartment = dept.toUpperCase();
 									return (
 										<SelectItem key={dept} value={dept}>
 											{formattedDepartment}
@@ -329,10 +301,7 @@ export function UpdatePolicyOverview({
 
 					{/* Assignee Field */}
 					<div className="space-y-2">
-						<label
-							htmlFor="assigneeId"
-							className="text-sm font-medium"
-						>
+						<label htmlFor="assigneeId" className="text-sm font-medium">
 							Assignee
 						</label>
 						{/* Hidden input for form submission */}
@@ -360,10 +329,7 @@ export function UpdatePolicyOverview({
 
 					{/* Review Date Field */}
 					<div className="space-y-2 mt-2">
-						<label
-							htmlFor="review_date"
-							className="text-sm font-medium"
-						>
+						<label htmlFor="review_date" className="text-sm font-medium">
 							Review Date
 						</label>
 						<Popover
@@ -388,17 +354,12 @@ export function UpdatePolicyOverview({
 										type="button"
 										variant={"outline"}
 										disabled={fieldsDisabled}
-										className={cn(
-											"pl-3 text-left font-normal w-full",
-										)}
+										className={cn("pl-3 text-left font-normal w-full")}
 									>
 										{tempDate ? (
 											format(tempDate, "PPP")
 										) : policy.reviewDate ? (
-											format(
-												new Date(policy.reviewDate),
-												"PPP",
-											)
+											format(new Date(policy.reviewDate), "PPP")
 										) : (
 											<span>Select review date</span>
 										)}
@@ -406,11 +367,7 @@ export function UpdatePolicyOverview({
 									</Button>
 								</div>
 							</PopoverTrigger>
-							<PopoverContent
-								className="w-auto"
-								align="start"
-								ref={popoverRef}
-							>
+							<PopoverContent className="w-auto" align="start" ref={popoverRef}>
 								<div className="p-1">
 									<Calendar
 										mode="single"
@@ -441,9 +398,7 @@ export function UpdatePolicyOverview({
 										<Button
 											type="button"
 											size="sm"
-											onClick={() =>
-												handleDateConfirm(tempDate)
-											}
+											onClick={() => handleDateConfirm(tempDate)}
 										>
 											Confirm Date
 										</Button>
@@ -467,10 +422,7 @@ export function UpdatePolicyOverview({
 
 					{/* Required to Sign Field */}
 					<div className="flex flex-col gap-2 mt-2">
-						<label
-							htmlFor="isRequiredToSign"
-							className="text-sm font-medium"
-						>
+						<label htmlFor="isRequiredToSign" className="text-sm font-medium">
 							Employee Signature Requirement
 						</label>
 						<div className="flex items-center space-x-2 mt-4">
@@ -482,9 +434,7 @@ export function UpdatePolicyOverview({
 								onCheckedChange={handleFormChange}
 							/>
 							<span className="text-sm text-gray-500">
-								{policy.isRequiredToSign
-									? "Required"
-									: "Not Required"}
+								{policy.isRequiredToSign ? "Required" : "Not Required"}
 							</span>
 						</div>
 					</div>

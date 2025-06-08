@@ -1,7 +1,7 @@
 "use client";
 
 import { UpdatePolicyForm } from "@/components/forms/policies/update-policy-form";
-import { Policy } from "@comp/db/types";
+import type { Policy } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";
@@ -35,9 +35,7 @@ export function PolicyOverviewSheet({
 				<SheetContent stack>
 					<SheetHeader className="mb-8">
 						<div className="flex justify-between items-center flex-row">
-							<SheetTitle>
-								{"Update Policy"}
-							</SheetTitle>
+							<SheetTitle>{"Update Policy"}</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
@@ -62,9 +60,7 @@ export function PolicyOverviewSheet({
 
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerTitle hidden>
-				{"Update Policy"}
-			</DrawerTitle>
+			<DrawerTitle hidden>{"Update Policy"}</DrawerTitle>
 			<DrawerContent className="p-6">
 				<UpdatePolicyForm policy={policy} />
 			</DrawerContent>
