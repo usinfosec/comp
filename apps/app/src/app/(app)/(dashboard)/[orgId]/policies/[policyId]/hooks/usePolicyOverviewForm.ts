@@ -12,11 +12,37 @@ import {
   type User,
 } from "@comp/db/types";
 import type { PolicyFieldsGroupValue } from "../components/UpdatePolicyOverview/fields/PolicyFieldsGroup";
+import { Departments } from "@comp/db/types";
+
+// Type for signature requirement field in payloads
+export type SignatureRequirement = "required" | "not_required";
 
 interface UsePolicyOverviewFormArgs {
   policy: Policy & { approver: (Member & { user: User }) | null };
   assignees: (Member & { user: User })[];
   isPendingApproval: boolean;
+}
+
+function getPreparedFields(fields: PolicyFieldsGroupValue): {
+  name: string;
+  description: string;
+  status: PolicyFieldsGroupValue["status"];
+  assigneeId: string | null;
+  department: Departments | "none";
+  reviewFrequency: Frequency;
+  isRequiredToSign: SignatureRequirement;
+  reviewDate: Date;
+} {
+  return {
+    name: fields.name.trim(),
+    description: fields.description.trim(),
+    status: fields.status,
+    assigneeId: fields.assigneeId || null,
+    department: fields.department ?? Departments.none,
+    reviewFrequency: fields.frequency ?? Frequency.yearly,
+    isRequiredToSign: fields.isRequiredToSign ? "required" : "not_required",
+    reviewDate: fields.reviewDate || new Date(),
+  };
 }
 
 export function usePolicyOverviewForm({
@@ -28,7 +54,7 @@ export function usePolicyOverviewForm({
     name: policy.name,
     description: policy.description || "",
     status: policy.status,
-    frequency: policy.frequency ?? Frequency.monthly,
+    frequency: policy.frequency ?? Frequency.yearly,
     department: policy.department,
     assigneeId: policy.assigneeId || "",
     reviewDate: policy.reviewDate ? new Date(policy.reviewDate) : null,
@@ -49,7 +75,7 @@ export function usePolicyOverviewForm({
   const handleFieldsChange = (newFields: PolicyFieldsGroupValue) => {
     setFields({
       ...newFields,
-      frequency: newFields.frequency ?? Frequency.monthly,
+      frequency: newFields.frequency ?? Frequency.yearly,
     });
     handleFormChange();
   };
@@ -85,16 +111,17 @@ export function usePolicyOverviewForm({
     e.preventDefault();
     setIsSubmitting(true);
 
-    const name = fields.name.trim();
-    const description = fields.description.trim();
-    const status = fields.status;
-    const assigneeId = fields.assigneeId || null;
-    const department = fields.department ?? "none";
-    const reviewFrequency = fields.frequency ?? Frequency.monthly;
-    const isRequiredToSign = fields.isRequiredToSign
-      ? "required"
-      : "not_required";
-    const reviewDate = fields.reviewDate || new Date();
+    const {
+      name,
+      description,
+      status,
+      assigneeId,
+      department,
+      reviewFrequency,
+      isRequiredToSign,
+      reviewDate,
+    } = getPreparedFields(fields);
+
     const isPublishedWithChanges =
       policy.status === "published" &&
       (status !== policy.status ||
@@ -134,17 +161,17 @@ export function usePolicyOverviewForm({
       toast.error("Approver is required.");
       return;
     }
-    const name = fields.name.trim();
-    const description = fields.description.trim();
-    const status = PolicyStatus.needs_review;
-    const assigneeId = fields.assigneeId || null;
-    const department = fields.department ?? "none";
-    const reviewFrequency = fields.frequency ?? Frequency.monthly;
-    const isRequiredToSign = fields.isRequiredToSign
-      ? "required"
-      : "not_required";
-    const reviewDate = fields.reviewDate || new Date();
     setIsSubmitting(true);
+    const {
+      name,
+      description,
+      status,
+      assigneeId,
+      department,
+      reviewFrequency,
+      isRequiredToSign,
+      reviewDate,
+    } = getPreparedFields({ ...fields, status: PolicyStatus.needs_review });
     submitForApproval.execute({
       id: policy.id,
       name,
@@ -162,17 +189,11 @@ export function usePolicyOverviewForm({
   };
 
   const hasFormChanges = formInteracted;
-  let buttonText = "Save";
-
-  // If the user intends to publish the policy.
-  if (policy.status === "draft" && fields.status === "published") {
-    buttonText = "Submit for Approval";
-  }
-
-  // If the user intends to update a published policy.
-  if (policy.status === "published" && hasFormChanges) {
-    buttonText = "Submit for Approval";
-  }
+  const isPublishingDraft =
+    policy.status === "draft" && fields.status === "published";
+  const isUpdatingPublished = policy.status === "published" && hasFormChanges;
+  const buttonText =
+    isPublishingDraft || isUpdatingPublished ? "Submit for Approval" : "Save";
 
   return {
     fields,
