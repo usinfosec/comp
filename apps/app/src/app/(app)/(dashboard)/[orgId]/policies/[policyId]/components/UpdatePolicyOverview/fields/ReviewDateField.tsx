@@ -19,7 +19,7 @@ export function ReviewDateField({
 	const popoverRef = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className="space-y-2 mt-2">
+		<div className="flex flex-col gap-2">
 			<label htmlFor="review_date" className="text-sm font-medium">
 				Review Date
 			</label>

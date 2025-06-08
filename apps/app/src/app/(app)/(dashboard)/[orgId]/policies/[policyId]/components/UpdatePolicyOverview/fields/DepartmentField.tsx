@@ -20,7 +20,7 @@ export function DepartmentField({
 	disabled,
 }: DepartmentFieldProps) {
 	return (
-		<div className="space-y-2">
+		<div className="flex flex-col gap-2">
 			<label htmlFor="department" className="text-sm font-medium">
 				Department
 			</label>

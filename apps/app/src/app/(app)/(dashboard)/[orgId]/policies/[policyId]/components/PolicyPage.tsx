@@ -8,7 +8,7 @@ import {
 // biome-ignore lint/style/useImportType: <explanation>
 import { AuditLogWithRelations } from "../data";
 import { PolicyPageEditor } from "../editor/components/PolicyDetails";
-import { PolicyOverview } from "./PolicyOverview";
+import { PolicyOverview } from "./PolicyOverview/PolicyOverview";
 import { RecentAuditLogs } from "./RecentAuditLogs";
 
 export default function PolicyPage({

@@ -4,15 +4,13 @@ import { authClient } from "@/utils/auth-client";
 import type { Control, Member, Policy, User } from "@comp/db/types";
 import { Card, CardContent, CardHeader } from "@comp/ui/card";
 import { useQueryState } from "nuqs";
-import { usePolicyOverview } from "../hooks/usePolicyOverview";
-import { PolicyActionDialogs } from "./PolicyActionDialogs";
+import { usePolicyOverview } from "../../hooks/usePolicyOverview";
 import { PolicyArchiveSheet } from "./PolicyArchiveSheet";
 import { PolicyControlMappings } from "./PolicyControlMappings";
-import { PolicyOverviewHeader } from "./PolicyOverviewHeader";
-import { PolicyOverviewSheet } from "./PolicyOverviewSheet";
 import { PolicyPendingApprovalAlert } from "./PolicyPendingApprovalAlert";
 import { PolicyStatusAlerts } from "./PolicyStatusAlerts";
-import { UpdatePolicyOverview } from "./UpdatePolicyOverview";
+import { UpdatePolicyOverview } from "../UpdatePolicyOverview/UpdatePolicyOverview";
+import { PolicyActionDialogs } from "../Dialogs/PolicyActionDialogs";
 
 export function PolicyOverview({
 	policy,
@@ -28,7 +26,6 @@ export function PolicyOverview({
 	isPendingApproval: boolean;
 }) {
 	const { data: activeMember } = authClient.useActiveMember();
-	const [, setOpen] = useQueryState("policy-overview-sheet");
 	const [, setArchiveOpen] = useQueryState("archive-policy-sheet");
 	const canCurrentUserApprove = policy?.approverId === activeMember?.id;
 
@@ -39,8 +36,6 @@ export function PolicyOverview({
 		setDenyDialogOpen,
 		deleteDialogOpen,
 		setDeleteDialogOpen,
-		dropdownOpen,
-		setDropdownOpen,
 		handleApprove,
 		handleDeny,
 	} = usePolicyOverview(policy);
@@ -58,8 +53,7 @@ export function PolicyOverview({
 			<PolicyStatusAlerts policy={policy} setArchiveOpen={setArchiveOpen} />
 
 			<Card>
-				<CardHeader />
-				<CardContent>
+				<CardContent className="py-4">
 					<UpdatePolicyOverview
 						isPendingApproval={isPendingApproval}
 						policy={policy}
@@ -74,7 +68,6 @@ export function PolicyOverview({
 				isPendingApproval={isPendingApproval}
 			/>
 
-			<PolicyOverviewSheet policy={policy} />
 			<PolicyArchiveSheet policy={policy} />
 			<PolicyActionDialogs
 				policy={policy}
