@@ -376,9 +376,9 @@ export function ControlsClientPage({
 						value={dataForDisplay}
 						height={600}
 						onChange={handleGridChange}
-                                                columns={columns}
-                                                rowKey="id"
-                                                rowClassName={getRowClassName}
+						columns={columns}
+                        rowKey="id"
+                        rowClassName={getRowClassName}
 						createRow={() => ({
 							id: simpleUUID(),
 							name: "Control Name",
