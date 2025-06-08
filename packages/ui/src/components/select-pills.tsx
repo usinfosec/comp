@@ -41,10 +41,11 @@ export const SelectPills: FC<SelectPillsProps> = ({
 	const inputRef = useRef<HTMLInputElement | null>(null);
 	const radioGroupRef = useRef<HTMLDivElement>(null);
 
+	const selectedValues = value ?? selectedPills;
 	const filteredItems = data.filter(
 		(item) =>
 			item.name.toLowerCase().includes(inputValue.toLowerCase()) &&
-			!selectedPills.includes(item.name),
+			!selectedValues.includes(item.name),
 	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,7 +225,7 @@ export const SelectPills: FC<SelectPillsProps> = ({
 				align="start"
 				onOpenAutoFocus={(e) => e.preventDefault()}
 				className="p-0"
-				style={{ width: 'var(--radix-popover-trigger-width)' }}
+				style={{ width: "var(--radix-popover-trigger-width)" }}
 			>
 				<div
 					ref={radioGroupRef}
@@ -237,9 +238,18 @@ export const SelectPills: FC<SelectPillsProps> = ({
 						<div
 							key={item.id || item.value || item.name}
 							className={cn(
-								"relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 grow min-w-0 w-full",
+								"relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors hover:bg-accent/70 focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 grow min-w-0 w-full",
 								highlightedIndex === index && "bg-accent",
 							)}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									handleItemSelect(item);
+								}
+							}}
+							tabIndex={0}
+							role="option"
+							aria-selected={highlightedIndex === index}
 						>
 							<input
 								type="radio"
