@@ -86,11 +86,11 @@ model Member {
 
     assignedPolicies Policy[]   @relation("PolicyAssignee") // Policies where this member is an assignee
     approvedPolicies Policy[]   @relation("PolicyApprover") // Policies where this member is an approver
-    Risk             Risk[]
-    Task             Task[]
-    Vendor           Vendor[]
+    risks            Risk[]
+    tasks            Task[]
+    vendors          Vendor[]
     comments         Comment[]
-    auditLog         AuditLog[]
+    auditLogs        AuditLog[]
 }
 
 model Invitation {
