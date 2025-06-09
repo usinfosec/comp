@@ -65,13 +65,10 @@ export function AppOnboarding({
 								<div>
 									<CardTitle className="text-2xl font-bold flex items-center gap-2">
 										{title}
-										<Badge
-											variant="outline"
-											className="text-xs"
-										>
+										<Badge variant="outline" className="text-xs">
 											New
 										</Badge>
-										<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 self-start sm:self-auto hidden sm:flex sm:flex-shrink-0">
+										<Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 self-start sm:self-auto hidden sm:flex sm:shrink-0">
 											Recommended
 										</Badge>
 									</CardTitle>
@@ -94,9 +91,7 @@ export function AppOnboarding({
 								<div className="flex flex-col">
 									<div className="flex items-center gap-2 mb-4">
 										<BookOpen className="h-4 w-4 text-primary" />
-										<p className="font-medium text-md">
-											{"Learn More"}
-										</p>
+										<p className="font-medium text-md">{"Learn More"}</p>
 									</div>
 
 									{faqs && faqs.length > 0 && (
@@ -113,12 +108,8 @@ export function AppOnboarding({
 												>
 													<AccordionTrigger className="py-3 hover:bg-muted/30 px-2">
 														<div className="flex items-center gap-2 text-left">
-															<HelpCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-															<span>
-																{
-																	faq.questionKey
-																}
-															</span>
+															<HelpCircle className="h-4 w-4 text-muted-foreground shrink-0" />
+															<span>{faq.questionKey}</span>
 														</div>
 													</AccordionTrigger>
 													<AccordionContent className="px-2 ml-6 border-l-2 my-2 border-muted">

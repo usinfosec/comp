@@ -7,7 +7,7 @@ const meta: Meta<typeof Calendar> = {
 			mode="single"
 			selected={new Date("2024-01-01")}
 			onSelect={() => {}}
-			className="rounded-sm border"
+			className="rounded-xs border"
 		/>
 	),
 };

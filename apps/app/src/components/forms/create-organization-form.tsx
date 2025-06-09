@@ -55,9 +55,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
-		const randomSuffix = Math.floor(
-			100000 + Math.random() * 900000,
-		).toString();
+		const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
 
 		await authClient.organization.create({
 			name: "My Organization",
@@ -99,7 +97,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
-			<div className="relative w-full max-w-[440px] border bg-card rounded-sm p-8 shadow-lg">
+			<div className="relative w-full max-w-[440px] border bg-card rounded-xs p-8 shadow-lg">
 				<div className="mb-8 flex justify-between">
 					<Link href="/">
 						<Icons.Logo />
@@ -111,7 +109,8 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 						Welcome to Comp AI
 					</h1>
 					<p className="text-sm text-muted-foreground">
-						Select the frameworks you use to get started. You can add more later.
+						Select the frameworks you use to get started. You can add more
+						later.
 					</p>
 				</div>
 
@@ -132,34 +131,25 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
 											{frameworks
-												.filter(
-													(framework) =>
-														framework.visible,
-												)
+												.filter((framework) => framework.visible)
 												.map((framework) => {
 													return (
 														<label
 															key={framework.id}
 															htmlFor={`framework-${framework.id}`}
 															className={cn(
-																"relative flex flex-col p-4 border rounded-sm cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
-																field.value.includes(
-																	framework.id,
-																) &&
-																"border-primary bg-primary/5",
+																"relative flex flex-col p-4 border rounded-xs cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																field.value.includes(framework.id) &&
+																	"border-primary bg-primary/5",
 															)}
 														>
 															<div className="flex items-start justify-between">
 																<div>
 																	<h3 className="font-semibold">
-																		{
-																			framework.name
-																		}
+																		{framework.name}
 																	</h3>
 																	<p className="text-sm text-muted-foreground mt-1">
-																		{
-																			framework.description
-																		}
+																		{framework.description}
 																	</p>
 																	<p className="text-xs text-muted-foreground/75 mt-2">
 																		{`${"Version"}: ${framework.version}`}
@@ -168,29 +158,17 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																<div>
 																	<Checkbox
 																		id={`framework-${framework.id}`}
-																		checked={field.value.includes(
-																			framework.id,
-																		)}
+																		checked={field.value.includes(framework.id)}
 																		className="mt-1"
-																		onCheckedChange={(
-																			checked,
-																		) => {
-																			const newValue =
-																				checked
-																					? [
-																						...field.value,
-																						framework.id,
-																					]
-																					: field.value.filter(
-																						(
-																							currentFrameworkId,
-																						) =>
+																		onCheckedChange={(checked) => {
+																			const newValue = checked
+																				? [...field.value, framework.id]
+																				: field.value.filter(
+																						(currentFrameworkId) =>
 																							currentFrameworkId !==
 																							framework.id,
 																					);
-																			field.onChange(
-																				newValue,
-																			);
+																			field.onChange(newValue);
 																		}}
 																	/>
 																</div>

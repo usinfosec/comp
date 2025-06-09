@@ -29,6 +29,7 @@ enum TaskStatus {
     todo
     in_progress
     done
+    not_relevant
 }
 
 enum TaskFrequency {

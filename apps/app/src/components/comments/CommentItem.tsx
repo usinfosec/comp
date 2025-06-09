@@ -20,17 +20,18 @@ import {
 	Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useRef, useState } from "react";
+import type React from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { deleteComment } from "@/actions/comments/deleteComment";
 import { deleteCommentAttachment } from "@/actions/comments/deleteCommentAttachment";
 import { getCommentAttachmentUrl } from "@/actions/comments/getCommentAttachmentUrl"; // Import action
 import { updateComment } from "@/actions/comments/updateComment";
-import { AttachmentItem } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/AttachmentItem";
-import { formatRelativeTime } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/commentUtils"; // Revert import path
+import { AttachmentItem } from "../../app/(app)/[orgId]/tasks/[taskId]/components/AttachmentItem";
+import { formatRelativeTime } from "../../app/(app)/[orgId]/tasks/[taskId]/components/commentUtils"; // Revert import path
 import { AttachmentEntityType } from "@comp/db/types"; // Import AttachmentEntityType
 import type { AttachmentType } from "@comp/db/types";
-import { CommentWithAuthor } from "./Comments";
+import type { CommentWithAuthor } from "./Comments";
 
 // Local helper to map fileType to AttachmentType
 function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
@@ -43,8 +44,7 @@ function mapFileTypeToAttachmentType(fileType: string): AttachmentType {
 		case "audio":
 			return "audio" as AttachmentType;
 		case "application":
-			if (fileType === "application/pdf")
-				return "document" as AttachmentType;
+			if (fileType === "application/pdf") return "document" as AttachmentType;
 			return "document" as AttachmentType;
 		default:
 			return "other" as AttachmentType;
@@ -57,9 +57,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 	const [currentAttachments, setCurrentAttachments] = useState(
 		[...comment.attachments], // Create a mutable copy
 	);
-	const [attachmentsToRemove, setAttachmentsToRemove] = useState<string[]>(
-		[],
-	);
+	const [attachmentsToRemove, setAttachmentsToRemove] = useState<string[]>([]);
 	// Minimal type for pending attachments during editing.
 	type PendingAttachment = {
 		id: string;
@@ -75,9 +73,9 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const router = useRouter();
 
-	const [deletingAttachmentIds, setDeletingAttachmentIds] = useState<
-		string[]
-	>([]);
+	const [deletingAttachmentIds, setDeletingAttachmentIds] = useState<string[]>(
+		[],
+	);
 
 	const handleEditToggle = () => {
 		if (!isEditing) {
@@ -135,9 +133,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 				// Optimistically add new attachments to currentAttachments for immediate UI update
 				setCurrentAttachments((prev) => [
 					// Remove attachments marked for removal
-					...prev.filter(
-						(att) => !attachmentsToRemove.includes(att.id),
-					),
+					...prev.filter((att) => !attachmentsToRemove.includes(att.id)),
 					// Add new attachments (promote PendingAttachment to minimal Attachment shape)
 					...pendingAttachmentsToAdd.map((pending) => ({
 						id: pending.id,
@@ -154,9 +150,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 					})),
 				]);
 
-				setEditedContent(
-					contentChanged ? editedContent : comment.content,
-				);
+				setEditedContent(contentChanged ? editedContent : comment.content);
 				setPendingAttachmentsToAdd([]);
 				setAttachmentsToRemove([]);
 				router.refresh();
@@ -226,18 +220,14 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 					}
 
 					if (!file.type.startsWith("image/")) {
-						toast.info(
-							"Only image previews are shown before submitting.",
-						);
+						toast.info("Only image previews are shown before submitting.");
 					}
 					const reader = new FileReader();
 					reader.onloadend = async () => {
 						const dataUrlResult = reader.result as string;
 						const base64Data = dataUrlResult?.split(",")[1];
 						if (!base64Data) {
-							toast.error(
-								`Failed to read file data for ${file.name}`,
-							);
+							toast.error(`Failed to read file data for ${file.name}`);
 							return resolve();
 						}
 						const { success, data, error } = await uploadFile({
@@ -248,13 +238,8 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 							entityType: "comment",
 						});
 						if (error) {
-							console.error(
-								"Upload file action error occurred:",
-								error,
-							);
-							toast.error(
-								`Failed to upload "${file.name}": ${error}`,
-							);
+							console.error("Upload file action error occurred:", error);
+							toast.error(`Failed to upload "${file.name}": ${error}`);
 						} else if (success && data?.id && data.signedUrl) {
 							setPendingAttachmentsToAdd((prev) => [
 								...prev,
@@ -269,13 +254,8 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 								`File "${data?.name ?? "unknown"}" ready for attachment.`,
 							);
 						} else {
-							console.error(
-								"Upload succeeded but missing data:",
-								data,
-							);
-							toast.error(
-								`Failed to process "${file.name}" after upload.`,
-							);
+							console.error("Upload succeeded but missing data:", data);
+							toast.error(`Failed to process "${file.name}" after upload.`);
 						}
 						resolve();
 					};
@@ -301,9 +281,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 
 	const isProcessing = isUploading;
 
-	const [busyAttachmentId, setBusyAttachmentId] = useState<string | null>(
-		null,
-	);
+	const [busyAttachmentId, setBusyAttachmentId] = useState<string | null>(null);
 
 	const handleDownloadClick = async (attachmentId: string) => {
 		setBusyAttachmentId(attachmentId);
@@ -335,9 +313,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 			// Use signedUrl
 			window.open(pendingAttachment.signedUrl, "_blank"); // Use signedUrl
 		} else {
-			toast.error(
-				"Preview URL not available for this pending attachment.",
-			);
+			toast.error("Preview URL not available for this pending attachment.");
 			console.warn(
 				"Could not find pending attachment or signedUrl for ID:",
 				attachmentId,
@@ -361,8 +337,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 						alt={comment.author.user?.name ?? "User"}
 					/>
 					<AvatarFallback>
-						{comment.author.user?.name?.charAt(0).toUpperCase() ??
-							"?"}
+						{comment.author.user?.name?.charAt(0).toUpperCase() ?? "?"}
 					</AvatarFallback>
 				</Avatar>
 				<div className="flex-1 text-sm space-y-2 items-start">
@@ -370,8 +345,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 						<div className="flex items-center justify-between gap-2 mb-1">
 							<div className="flex items-center gap-2">
 								<span className="font-medium leading-none">
-									{comment.author.user?.name ??
-										"Unknown User"}
+									{comment.author.user?.name ?? "Unknown User"}
 								</span>
 								<span className="text-xs text-muted-foreground">
 									{!isEditing
@@ -385,16 +359,14 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 										<Button
 											variant="ghost"
 											size="icon"
-											className="h-6 w-6 flex-shrink-0"
+											className="h-6 w-6 shrink-0"
 											aria-label="Comment options"
 										>
 											<MoreHorizontal className="h-4 w-4" />
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end">
-										<DropdownMenuItem
-											onSelect={handleEditToggle}
-										>
+										<DropdownMenuItem onSelect={handleEditToggle}>
 											<Pencil className="mr-2 h-3.5 w-3.5" />
 											Edit
 										</DropdownMenuItem>
@@ -411,15 +383,11 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 						</div>
 
 						{!isEditing ? (
-							<p className="whitespace-pre-wrap">
-								{comment.content}
-							</p>
+							<p className="whitespace-pre-wrap">{comment.content}</p>
 						) : (
 							<Textarea
 								value={editedContent}
-								onChange={(e) =>
-									setEditedContent(e.target.value)
-								}
+								onChange={(e) => setEditedContent(e.target.value)}
 								className="min-h-[60px] text-sm bg-background/50"
 								placeholder="Edit comment..."
 							/>
@@ -428,123 +396,98 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 						{(currentAttachments.length > 0 ||
 							pendingAttachmentsToAdd.length > 0 ||
 							isEditing) && (
-								<div className="pt-6">
-									{isEditing ? (
+							<div className="pt-6">
+								{isEditing ? (
+									<div className="flex flex-col gap-2">
+										<Label className="text-xs font-medium block">
+											Attachments
+										</Label>
 										<div className="flex flex-col gap-2">
-											<Label className="text-xs font-medium block">
-												Attachments
-											</Label>
-											<div className="flex flex-col gap-2">
-												{/* Combined attachments row */}
-												<div className="flex flex-wrap gap-2">
-													{/* Pending attachments first */}
-													{pendingAttachmentsToAdd.map(
-														(
-															att: PendingAttachment,
-														) => (
-															<AttachmentItem
-																key={att.id}
-																pendingAttachment={
-																	att
-																}
-																onClickFilename={
-																	handlePendingAttachmentClick
-																}
-																onDelete={
-																	handleRemovePendingAttachment
-																}
-																isParentBusy={
-																	isProcessing
-																}
-																canDelete={true}
-															/>
-														),
-													)}
-													{/* Existing attachments second */}
-													{currentAttachments.map(
-														(att) => (
-															<AttachmentItem
-																key={att.id}
-																attachment={{
-																	...att,
-																}}
-																onDelete={() =>
-																	deleteAttachmentAction(
-																		{
-																			attachmentId:
-																				att.id,
-																		},
-																	)
-																}
-																onClickFilename={
-																	handleDownloadClick
-																}
-																isBusy={deletingAttachmentIds.includes(
-																	att.id,
-																)}
-																canDelete={
-																	isEditing
-																}
-															/>
-														),
-													)}
-												</div>
-												<div>
-													<input
-														type="file"
-														multiple
-														ref={fileInputRef}
-														onChange={handleFileSelect}
-														style={{ display: "none" }}
-														disabled={isUploading}
+											{/* Combined attachments row */}
+											<div className="flex flex-wrap gap-2">
+												{/* Pending attachments first */}
+												{pendingAttachmentsToAdd.map(
+													(att: PendingAttachment) => (
+														<AttachmentItem
+															key={att.id}
+															pendingAttachment={att}
+															onClickFilename={handlePendingAttachmentClick}
+															onDelete={handleRemovePendingAttachment}
+															isParentBusy={isProcessing}
+															canDelete={true}
+														/>
+													),
+												)}
+												{/* Existing attachments second */}
+												{currentAttachments.map((att) => (
+													<AttachmentItem
+														key={att.id}
+														attachment={{
+															...att,
+														}}
+														onDelete={() =>
+															deleteAttachmentAction({
+																attachmentId: att.id,
+															})
+														}
+														onClickFilename={handleDownloadClick}
+														isBusy={deletingAttachmentIds.includes(att.id)}
+														canDelete={isEditing}
 													/>
-													<Button
-														variant="outline"
-														size="sm"
-														onClick={triggerFileInput}
-														disabled={isUploading}
-														className="flex items-center gap-1 bg-foreground/5"
-													>
-														{isUploading ? (
-															<>
-																<Loader2 className="h-4 w-4 animate-spin" />
-																Uploading...
-															</>
-														) : (
-															<>
-																<Plus className="h-4 w-4" />
-																Add Attachment
-															</>
-														)}
-													</Button>
-												</div>
+												))}
+											</div>
+											<div>
+												<input
+													type="file"
+													multiple
+													ref={fileInputRef}
+													onChange={handleFileSelect}
+													style={{ display: "none" }}
+													disabled={isUploading}
+												/>
+												<Button
+													variant="outline"
+													size="sm"
+													onClick={triggerFileInput}
+													disabled={isUploading}
+													className="flex items-center gap-1 bg-foreground/5"
+												>
+													{isUploading ? (
+														<>
+															<Loader2 className="h-4 w-4 animate-spin" />
+															Uploading...
+														</>
+													) : (
+														<>
+															<Plus className="h-4 w-4" />
+															Add Attachment
+														</>
+													)}
+												</Button>
 											</div>
 										</div>
-									) : (
-										// Display mode: only show attachments if not editing
-										<div className="flex flex-wrap gap-2">
-											{currentAttachments.map((att) => (
-												<AttachmentItem
-													key={att.id}
-													attachment={att}
-													onDelete={() =>
-														deleteAttachmentAction({
-															attachmentId: att.id,
-														})
-													}
-													onClickFilename={
-														handleDownloadClick
-													}
-													isBusy={deletingAttachmentIds.includes(
-														att.id,
-													)}
-													canDelete={isEditing}
-												/>
-											))}
-										</div>
-									)}
-								</div>
-							)}
+									</div>
+								) : (
+									// Display mode: only show attachments if not editing
+									<div className="flex flex-wrap gap-2">
+										{currentAttachments.map((att) => (
+											<AttachmentItem
+												key={att.id}
+												attachment={att}
+												onDelete={() =>
+													deleteAttachmentAction({
+														attachmentId: att.id,
+													})
+												}
+												onClickFilename={handleDownloadClick}
+												isBusy={deletingAttachmentIds.includes(att.id)}
+												canDelete={isEditing}
+											/>
+										))}
+									</div>
+								)}
+							</div>
+						)}
 
 						{/* Edit Mode Buttons */}
 						{isEditing && (
@@ -562,9 +505,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 									onClick={handleSaveEdit}
 									disabled={isProcessing}
 								>
-									{isProcessing
-										? "Saving..."
-										: "Save Changes"}
+									{isProcessing ? "Saving..." : "Save Changes"}
 								</Button>
 							</div>
 						)}

@@ -38,40 +38,22 @@ const items: SelectorItem[] = [
 		name: "Heading 1",
 		icon: Heading1,
 		command: (editor) =>
-			editor
-				?.chain()
-				.focus()
-				.clearNodes()
-				.toggleHeading({ level: 1 })
-				.run(),
-		isActive: (editor) =>
-			editor?.isActive("heading", { level: 1 }) ?? false,
+			editor?.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
+		isActive: (editor) => editor?.isActive("heading", { level: 1 }) ?? false,
 	},
 	{
 		name: "Heading 2",
 		icon: Heading2,
 		command: (editor) =>
-			editor
-				?.chain()
-				.focus()
-				.clearNodes()
-				.toggleHeading({ level: 2 })
-				.run(),
-		isActive: (editor) =>
-			editor?.isActive("heading", { level: 2 }) ?? false,
+			editor?.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
+		isActive: (editor) => editor?.isActive("heading", { level: 2 }) ?? false,
 	},
 	{
 		name: "Heading 3",
 		icon: Heading3,
 		command: (editor) =>
-			editor
-				?.chain()
-				.focus()
-				.clearNodes()
-				.toggleHeading({ level: 3 })
-				.run(),
-		isActive: (editor) =>
-			editor?.isActive("heading", { level: 3 }) ?? false,
+			editor?.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
+		isActive: (editor) => editor?.isActive("heading", { level: 3 }) ?? false,
 	},
 	{
 		name: "Bullet List",
@@ -118,12 +100,10 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
 		<Popover modal={true} open={open} onOpenChange={onOpenChange}>
 			<PopoverTrigger
 				asChild
-				className="gap-2 rounded-sm border-none hover:bg-accent focus:ring-0"
+				className="gap-2 rounded-xs border-none hover:bg-accent focus:ring-0"
 			>
 				<Button size="sm" variant="ghost" className="gap-2">
-					<span className="whitespace-nowrap text-sm">
-						{activeItem.name}
-					</span>
+					<span className="whitespace-nowrap text-sm">{activeItem.name}</span>
 					<ChevronDown className="h-4 w-4" />
 				</Button>
 			</PopoverTrigger>
@@ -135,17 +115,15 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
 							item.command(editor);
 							onOpenChange(false);
 						}}
-						className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-accent"
+						className="flex cursor-pointer items-center justify-between rounded-xs px-2 py-1 text-sm hover:bg-accent"
 					>
 						<div className="flex items-center space-x-2">
-							<div className="rounded-sm border p-1">
+							<div className="rounded-xs border p-1">
 								<item.icon className="h-3 w-3" />
 							</div>
 							<span>{item.name}</span>
 						</div>
-						{activeItem.name === item.name && (
-							<Check className="h-4 w-4" />
-						)}
+						{activeItem.name === item.name && <Check className="h-4 w-4" />}
 					</EditorBubbleItem>
 				))}
 			</PopoverContent>

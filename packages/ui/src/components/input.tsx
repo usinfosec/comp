@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 			<div className={cn("relative w-full", className)}>
 				{isPrefix && props.prefix && (
 					<span
-						className="absolute left-0 top-0 h-full flex items-center px-4 text-muted-foreground select-none text-sm  border-r-1 border-input bg-foreground/5 cursor-default font-medium"
+						className="absolute left-0 top-0 h-full flex items-center px-4 text-muted-foreground select-none text-sm  border-r border-input bg-foreground/5 cursor-default font-medium"
 						style={{
 							width: adornmentWidth,
 							zIndex: 2,
@@ -39,9 +39,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 					autoComplete="off"
 					data-lpignore="true"
 					className={cn(
-						"flex h-9 w-full rounded-sm border border-input bg-background py-1 text-sm transition-colors",
+						"flex h-9 w-full rounded-xs border border-input bg-background py-1 text-sm transition-colors",
 						"placeholder:text-muted-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
-						"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
+						"focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
 						"disabled:cursor-not-allowed disabled:opacity-50 text-sm",
 						isPrefix ? "pl-[90px]" : leftIcon ? "pl-[36px]" : "px-3",
 					)}

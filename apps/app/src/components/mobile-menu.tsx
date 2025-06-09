@@ -6,20 +6,26 @@ import { Sheet, SheetContent } from "@comp/ui/sheet";
 import { useState } from "react";
 import { MainMenu } from "./main-menu";
 import { OrganizationSwitcher } from "./organization-switcher";
-import { Organization as AuthOrganization } from "better-auth/plugins";
-import type { Organization as DbOrganization, FrameworkEditorFramework } from "@comp/db/types";
+import type { Organization as AuthOrganization } from "better-auth/plugins";
+import type {
+	Organization as DbOrganization,
+	FrameworkEditorFramework,
+} from "@comp/db/types";
 
 interface MobileMenuProps {
 	organizations: AuthOrganization[];
 	isCollapsed?: boolean;
 	organizationId: string;
-	frameworks: Pick<FrameworkEditorFramework, "id" | "name" | "description" | "version" | "visible">[];
+	frameworks: Pick<
+		FrameworkEditorFramework,
+		"id" | "name" | "description" | "version" | "visible"
+	>[];
 }
 
 export function MobileMenu({
 	organizationId,
 	organizations,
-	frameworks
+	frameworks,
 }: MobileMenuProps) {
 	const [isOpen, setOpen] = useState(false);
 
@@ -27,7 +33,7 @@ export function MobileMenu({
 		setOpen(false);
 	};
 
-	const adaptedOrganizations: DbOrganization[] = organizations.map(org => ({
+	const adaptedOrganizations: DbOrganization[] = organizations.map((org) => ({
 		...org,
 		logo: org.logo ?? null,
 		metadata: org.metadata ? String(org.metadata) : null,
@@ -35,7 +41,8 @@ export function MobileMenu({
 		website: null,
 	}));
 
-	const currentOrganization = adaptedOrganizations.find(org => org.id === organizationId) || null;
+	const currentOrganization =
+		adaptedOrganizations.find((org) => org.id === organizationId) || null;
 
 	return (
 		<Sheet open={isOpen} onOpenChange={setOpen}>
@@ -49,7 +56,7 @@ export function MobileMenu({
 					<Icons.Menu size={16} />
 				</Button>
 			</div>
-			<SheetContent side="left" className="border-none rounded-sm -ml-2">
+			<SheetContent side="left" className="border-none rounded-xs -ml-2">
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>

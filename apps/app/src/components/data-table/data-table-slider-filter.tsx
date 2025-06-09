@@ -88,11 +88,7 @@ export function DataTableSliderFilter<TData>({
 	const onFromInputChange = React.useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const numValue = Number(event.target.value);
-			if (
-				!Number.isNaN(numValue) &&
-				numValue >= min &&
-				numValue <= range[1]
-			) {
+			if (!Number.isNaN(numValue) && numValue >= min && numValue <= range[1]) {
 				column.setFilterValue([numValue, range[1]]);
 			}
 		},
@@ -102,11 +98,7 @@ export function DataTableSliderFilter<TData>({
 	const onToInputChange = React.useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const numValue = Number(event.target.value);
-			if (
-				!Number.isNaN(numValue) &&
-				numValue <= max &&
-				numValue >= range[0]
-			) {
+			if (!Number.isNaN(numValue) && numValue <= max && numValue >= range[0]) {
 				column.setFilterValue([range[0], numValue]);
 			}
 		},
@@ -139,7 +131,7 @@ export function DataTableSliderFilter<TData>({
 					{columnFilterValue ? (
 						<div
 							aria-label={`Clear ${title} filter`}
-							className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+							className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
 							onClick={onReset}
 						>
 							<XCircle />
@@ -161,10 +153,7 @@ export function DataTableSliderFilter<TData>({
 					) : null}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent
-				align="start"
-				className="flex w-auto flex-col gap-4"
-			>
+			<PopoverContent align="start" className="flex w-auto flex-col gap-4">
 				<div className="flex flex-col gap-3">
 					<p className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
 						{title}

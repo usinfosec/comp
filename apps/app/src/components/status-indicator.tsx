@@ -23,6 +23,7 @@ export const STATUS_TYPES = [
 	// Task
 	"todo",
 	"done",
+	"not_relevant",
 ] as const;
 
 export type StatusType = (typeof STATUS_TYPES)[number];
@@ -46,6 +47,7 @@ export const STATUS_COLORS: Record<StatusType, string> = {
 	// Warning / Needs Attention
 	needs_review: "#ff0000", // Red
 	not_started: "#ff0000", // Red
+	not_relevant: "#ff0000", // Red
 } as const;
 
 // Updated status translation mapping

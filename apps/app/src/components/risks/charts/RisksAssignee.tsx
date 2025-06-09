@@ -45,13 +45,12 @@ export async function RisksAssignee() {
 			email: member.user.email,
 			image: member.user.image,
 		},
-		totalRisks: member.Risk.length,
-		openRisks: member.Risk.filter((risk) => risk.status === "open").length,
-		pendingRisks: member.Risk.filter((risk) => risk.status === "pending")
+		totalRisks: member.risks.length,
+		openRisks: member.risks.filter((risk) => risk.status === "open").length,
+		pendingRisks: member.risks.filter((risk) => risk.status === "pending")
 			.length,
-		closedRisks: member.Risk.filter((risk) => risk.status === "closed")
-			.length,
-		archivedRisks: member.Risk.filter((risk) => risk.status === "archived")
+		closedRisks: member.risks.filter((risk) => risk.status === "closed").length,
+		archivedRisks: member.risks.filter((risk) => risk.status === "archived")
 			.length,
 	}));
 
@@ -72,14 +71,10 @@ export async function RisksAssignee() {
 							>
 								<div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50">
 									<Avatar>
-										<AvatarImage
-											src={stat.user.image || undefined}
-										/>
+										<AvatarImage src={stat.user.image || undefined} />
 										<AvatarFallback>
 											{getInitials(
-												stat.user.name ||
-												stat.user.email ||
-												"Unknown User",
+												stat.user.name || stat.user.email || "Unknown User",
 											)}
 										</AvatarFallback>
 									</Avatar>
@@ -87,13 +82,10 @@ export async function RisksAssignee() {
 									<div className="flex-1 min-w-0">
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-medium leading-none truncate">
-												{stat.user.name ||
-													stat.user.email ||
-													"Unknown User"}
+												{stat.user.name || stat.user.email || "Unknown User"}
 											</p>
 											<span className="text-sm text-muted-foreground">
-												{stat.totalRisks}{" "}
-												{"risks"}
+												{stat.totalRisks} {"risks"}
 											</span>
 										</div>
 
@@ -113,10 +105,9 @@ export async function RisksAssignee() {
 														<div
 															className={`${riskStatusColors.pending} h-full`}
 															style={{
-																width: `${(stat.pendingRisks /
-																	stat.totalRisks) *
-																	100
-																	}%`,
+																width: `${
+																	(stat.pendingRisks / stat.totalRisks) * 100
+																}%`,
 															}}
 															title={`${"Pending"}: ${stat.pendingRisks}`}
 														/>
@@ -150,8 +141,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.open}`}
 													/>
 													<span>
-														{"Open"}{" "}
-														({stat.openRisks})
+														{"Open"} ({stat.openRisks})
 													</span>
 												</div>
 											)}
@@ -161,8 +151,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.pending}`}
 													/>
 													<span>
-														{"Pending"}{" "}
-														({stat.pendingRisks})
+														{"Pending"} ({stat.pendingRisks})
 													</span>
 												</div>
 											)}
@@ -172,8 +161,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.closed}`}
 													/>
 													<span>
-														{"Closed"}{" "}
-														({stat.closedRisks})
+														{"Closed"} ({stat.closedRisks})
 													</span>
 												</div>
 											)}
@@ -183,8 +171,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.archived}`}
 													/>
 													<span>
-														{"Archived"}{" "}
-														({stat.archivedRisks})
+														{"Archived"} ({stat.archivedRisks})
 													</span>
 												</div>
 											)}
@@ -215,7 +202,7 @@ const userData = cache(async () => {
 		},
 		select: {
 			id: true,
-			Risk: {
+			risks: {
 				where: {
 					organizationId: session.session.activeOrganizationId,
 				},

@@ -1,20 +1,20 @@
 {
-	"name": "@comp/notifications",
-	"version": "1.0.0",
-	"private": true,
-	"main": "src/index.ts",
-	"type": "module",
-	"scripts": {
-		"clean": "rm -rf .turbo node_modules",
-		"lint": "biome check .",
-		"format": "biome format --write .",
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"@novu/node": "^2.0.1",
-		"nanoid": "5.1.5"
-	},
-	"devDependencies": {
-		"typescript": "^5.8.3"
-	}
+  "name": "@comp/notifications",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@novu/node": "^2.0.1",
+    "nanoid": "5.1.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }

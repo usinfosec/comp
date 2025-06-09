@@ -2,17 +2,18 @@
 
 import { uploadFile } from "@/actions/files/upload-file";
 import { authClient } from "@/utils/auth-client";
-import { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
+import type { AttachmentEntityType, CommentEntityType } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Label } from "@comp/ui/label";
 import { Textarea } from "@comp/ui/textarea";
 import clsx from "clsx";
 import { ArrowUp, Loader2, Paperclip } from "lucide-react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { createComment } from "@/actions/comments/createComment";
-import { AttachmentItem } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/AttachmentItem";
+import { AttachmentItem } from "../../app/(app)/[orgId]/tasks/[taskId]/components/AttachmentItem";
 import { Input } from "@comp/ui/input";
 
 interface CommentFormProps {
@@ -81,18 +82,14 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 					}
 
 					if (!file.type.startsWith("image/")) {
-						toast.info(
-							"Only image previews are shown before submitting.",
-						);
+						toast.info("Only image previews are shown before submitting.");
 					}
 					const reader = new FileReader();
 					reader.onloadend = async () => {
 						const dataUrlResult = reader.result as string;
 						const base64Data = dataUrlResult?.split(",")[1];
 						if (!base64Data) {
-							toast.error(
-								`Failed to read file data for ${file.name}`,
-							);
+							toast.error(`Failed to read file data for ${file.name}`);
 							return resolve();
 						}
 						const { success, data, error } = await uploadFile({
@@ -104,13 +101,8 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 							pathToRevalidate,
 						});
 						if (error) {
-							console.error(
-								"Upload file action error occurred:",
-								error,
-							);
-							toast.error(
-								`Failed to upload "${file.name}": ${error}`,
-							);
+							console.error("Upload file action error occurred:", error);
+							toast.error(`Failed to upload "${file.name}": ${error}`);
 						} else if (success && data?.id && data.signedUrl) {
 							setPendingAttachments((prev) => [
 								...prev,
@@ -125,13 +117,8 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 								`File "${data?.name ?? "unknown"}" ready for attachment.`,
 							);
 						} else {
-							console.error(
-								"Upload succeeded but missing data:",
-								data,
-							);
-							toast.error(
-								`Failed to process "${file.name}" after upload.`,
-							);
+							console.error("Upload succeeded but missing data:", data);
+							toast.error(`Failed to process "${file.name}" after upload.`);
 						}
 						resolve();
 					};
@@ -167,10 +154,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 			(att) => att.id === attachmentId,
 		);
 		if (!pendingAttachment) {
-			console.error(
-				"Could not find pending attachment for ID:",
-				attachmentId,
-			);
+			console.error("Could not find pending attachment for ID:", attachmentId);
 			toast.error("Could not find attachment data.");
 			return;
 		}
@@ -222,15 +206,15 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 
 	if (!hasMounted || session.isPending) {
 		return (
-			<div className="border rounded p-3 space-y-3 animate-pulse">
+			<div className="border rounded-sm p-3 space-y-3 animate-pulse">
 				<div className="flex gap-3 items-start">
-					<div className="h-8 w-8 rounded-full bg-muted flex-shrink-0" />
+					<div className="h-8 w-8 rounded-full bg-muted shrink-0" />
 					<div className="flex-1 space-y-2">
-						<div className="h-4 w-1/4 rounded bg-muted" />
-						<div className="h-20 w-full rounded bg-muted" />
+						<div className="h-4 w-1/4 rounded-sm bg-muted" />
+						<div className="h-20 w-full rounded-sm bg-muted" />
 					</div>
 				</div>
-				<div className="h-8 w-full rounded bg-muted" />
+				<div className="h-8 w-full rounded-sm bg-muted" />
 			</div>
 		);
 	}
@@ -248,7 +232,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 	};
 
 	return (
-		<div className="border rounded p-0 bg-foreground/5">
+		<div className="border rounded-sm p-0 bg-foreground/5">
 			<div className="flex gap-3 items-start">
 				<Input
 					type="file"
@@ -278,9 +262,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 								<AttachmentItem
 									key={pendingAttachment.id}
 									pendingAttachment={pendingAttachment}
-									onClickFilename={
-										handlePendingAttachmentClick
-									} // Pass the correct handler
+									onClickFilename={handlePendingAttachmentClick} // Pass the correct handler
 									onDelete={handleRemovePendingAttachment}
 									isParentBusy={isLoading} // Disable if form is loading/uploading
 								/>
@@ -336,8 +318,7 @@ export function CommentForm({ entityId, entityType }: CommentFormProps) {
 							onClick={handleCommentSubmit}
 							disabled={
 								isLoading ||
-								(!newComment.trim() &&
-									pendingAttachments.length === 0)
+								(!newComment.trim() && pendingAttachments.length === 0)
 							}
 							aria-label="Submit comment"
 						>

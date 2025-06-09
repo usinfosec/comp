@@ -10,7 +10,7 @@ import {
 	SelectValue,
 } from "@comp/ui/select";
 import { Search as SearchIcon, SortAsc, SortDesc } from "lucide-react";
-import React from "react";
+import type React from "react";
 // Import types from the common types definition file
 import type { SortDirection, SortableColumnOption } from "../types/common";
 
@@ -67,18 +67,14 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
 				placeholder="Search..."
 				value={searchTerm}
 				onChange={(e) => onSearchTermChange(e.target.value)}
-				className="flex-grow sm:flex-grow-0 sm:w-full" // Adjust based on Input component needs
-				leftIcon={
-					<SearchIcon className="h-4 w-4 text-muted-foreground" />
-				}
+				className="flex-grow sm:grow-0 sm:w-full" // Adjust based on Input component needs
+				leftIcon={<SearchIcon className="h-4 w-4 text-muted-foreground" />}
 			/>
 			<div className="flex gap-2 items-center ">
 				<Select
 					value={sortColumnKey ?? "__NONE__"}
 					onValueChange={(value) =>
-						onSortColumnKeyChange(
-							value === "__NONE__" ? null : value,
-						)
+						onSortColumnKeyChange(value === "__NONE__" ? null : value)
 					}
 				>
 					<SelectTrigger className="w-full sm:w-[180px]">
@@ -110,19 +106,11 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
 			{showCommitCancel && (
 				<>
 					{isDirty && (
-						<Button
-							onClick={onCancel}
-							disabled={!isDirty}
-							variant="outline"
-						>
+						<Button onClick={onCancel} disabled={!isDirty} variant="outline">
 							Discard Changes
 						</Button>
 					)}
-					<Button
-						onClick={onCommit}
-						disabled={!isDirty}
-						variant="default"
-					>
+					<Button onClick={onCommit} disabled={!isDirty} variant="default">
 						{commitButtonLabelText}
 					</Button>
 				</>
