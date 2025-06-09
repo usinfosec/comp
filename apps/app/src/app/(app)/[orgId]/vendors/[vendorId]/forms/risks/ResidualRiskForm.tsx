@@ -1,6 +1,6 @@
 "use client";
 
-import { updateVendorResidualRisk } from "@/app/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
+import { updateVendorResidualRisk } from "@/app/(app)/[orgId]/vendors/[vendorId]/actions/update-vendor-residual-risk";
 import { Button } from "@comp/ui/button";
 import {
 	Form,

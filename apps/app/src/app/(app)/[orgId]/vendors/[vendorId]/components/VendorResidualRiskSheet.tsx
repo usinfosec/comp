@@ -1,6 +1,6 @@
 "use client";
 
-import { ResidualRiskForm } from "@/app/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
+import { ResidualRiskForm } from "@/app/(app)/[orgId]/vendors/[vendorId]/forms/risks/ResidualRiskForm";
 import type { Vendor } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";

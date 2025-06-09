@@ -2,7 +2,7 @@ import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import PageWithBreadcrumb from "../../../../../../components/pages/PageWithBreadcrumb";
+import PageWithBreadcrumb from "../../../../../components/pages/PageWithBreadcrumb";
 import { getSingleFrameworkInstanceWithControls } from "../data/getSingleFrameworkInstanceWithControls";
 import { FrameworkOverview } from "./components/FrameworkOverview";
 import { FrameworkRequirements } from "./components/FrameworkRequirements";

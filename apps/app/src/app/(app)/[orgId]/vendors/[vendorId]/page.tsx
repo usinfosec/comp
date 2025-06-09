@@ -14,7 +14,7 @@ import { cache } from "react";
 import {
 	Comments,
 	CommentWithAuthor,
-} from "../../../../../../components/comments/Comments";
+} from "../../../../../components/comments/Comments";
 import { VendorInherentRiskChart } from "./components/VendorInherentRiskChart";
 import { VendorResidualRiskChart } from "./components/VendorResidualRiskChart";
 import { SecondaryFields } from "./components/secondary-fields/secondary-fields";

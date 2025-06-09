@@ -1,4 +1,4 @@
-import { VendorOverview } from "@/app/(app)/(dashboard)/[orgId]/vendors/backup-overview/components/charts/vendor-overview";
+import { VendorOverview } from "@/app/(app)/[orgId]/vendors/backup-overview/components/charts/vendor-overview";
 import { getServersideSession } from "@/lib/get-session";
 import type { Metadata } from "next";
 import { headers } from "next/headers";

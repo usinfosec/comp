@@ -1,6 +1,6 @@
 "use client";
 
-import { updateVendorInherentRisk } from "@/app/(app)/(dashboard)/[orgId]/vendors/[vendorId]/actions/update-vendor-inherent-risk";
+import { updateVendorInherentRisk } from "@/app/(app)/[orgId]/vendors/[vendorId]/actions/update-vendor-inherent-risk";
 import { Button } from "@comp/ui/button";
 import {
 	Form,

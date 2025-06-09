@@ -1,6 +1,6 @@
 "use client";
 
-import { InherentRiskForm } from "@/app/(app)/(dashboard)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
+import { InherentRiskForm } from "@/app/(app)/[orgId]/vendors/[vendorId]/forms/risks/InherentRiskForm";
 import { Button } from "@comp/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@comp/ui/drawer";
 import { useMediaQuery } from "@comp/ui/hooks";

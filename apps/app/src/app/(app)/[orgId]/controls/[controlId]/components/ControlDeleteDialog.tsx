@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteControlAction } from "@/app/(app)/(dashboard)/[orgId]/controls/[controlId]/actions/delete-control";
+import { deleteControlAction } from "@/app/(app)/[orgId]/controls/[controlId]/actions/delete-control";
 import { Control } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
