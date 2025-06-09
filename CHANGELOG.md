@@ -1,3 +1,10 @@
+# [1.39.0](https://github.com/trycompai/comp/compare/v1.38.0...v1.39.0) (2025-06-09)
+
+
+### Features
+
+* **api:** reset onboarding status during org reset ([5b7e531](https://github.com/trycompai/comp/commit/5b7e531e6115eb4c9ef02e70e9e2044c28ad7a41))
+
 # [1.38.0](https://github.com/trycompai/comp/compare/v1.37.0...v1.38.0) (2025-06-09)
 
 
