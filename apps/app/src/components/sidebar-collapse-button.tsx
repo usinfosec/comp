@@ -3,10 +3,8 @@
 import { updateSidebarState } from "@/actions/sidebar";
 import { useSidebar } from "@/context/sidebar-context";
 import { Button } from "@comp/ui/button";
-import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
 
 interface SidebarCollapseButtonProps {
 	isCollapsed: boolean;
@@ -15,19 +13,19 @@ interface SidebarCollapseButtonProps {
 export function SidebarCollapseButton({
 	isCollapsed,
 }: SidebarCollapseButtonProps) {
-	const router = useRouter();
 	const { setIsCollapsed } = useSidebar();
 
 	const { execute } = useAction(updateSidebarState, {
-		onSuccess: () => {
-			router.refresh();
+		onError: () => {
+			// Revert the optimistic update if the server action fails
+			setIsCollapsed(isCollapsed);
 		},
 	});
 
 	const handleToggle = () => {
 		// Update local state immediately for responsive UI
 		setIsCollapsed(!isCollapsed);
-		// Update server state (cookie)
+		// Update server state (cookie) in the background
 		execute({ isCollapsed: !isCollapsed });
 	};
 
