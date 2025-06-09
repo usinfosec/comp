@@ -1,3 +1,10 @@
+# [1.38.0](https://github.com/trycompai/comp/compare/v1.37.0...v1.38.0) (2025-06-09)
+
+
+### Features
+
+* **api:** add reset organization endpoint ([9a118d1](https://github.com/trycompai/comp/commit/9a118d1d1985c6e4b1055af97412f597eb365dfe))
+
 # [1.37.0](https://github.com/trycompai/comp/compare/v1.36.3...v1.37.0) (2025-06-09)
 
 
