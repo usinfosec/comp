@@ -79,6 +79,12 @@ export async function POST(request: NextRequest) {
       db.frameworkInstance.deleteMany({
         where: { organizationId },
       }),
+      db.onboarding.update({
+        where: { organizationId },
+        data: {
+          completed: false,
+        },
+      }),
     ]);
 
     return NextResponse.json({
