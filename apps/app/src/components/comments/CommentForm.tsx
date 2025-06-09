@@ -13,7 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { createComment } from "@/actions/comments/createComment";
-import { AttachmentItem } from "../../app/(app)/(dashboard)/[orgId]/tasks/[taskId]/components/AttachmentItem";
+import { AttachmentItem } from "../../app/(app)/[orgId]/tasks/[taskId]/components/AttachmentItem";
 import { Input } from "@comp/ui/input";
 
 interface CommentFormProps {
