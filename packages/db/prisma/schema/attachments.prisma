@@ -13,7 +13,7 @@ model Attachment {
     // Relationships
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-    Comment        Comment?     @relation(fields: [commentId], references: [id])
+    comment        Comment?     @relation(fields: [commentId], references: [id])
     commentId      String?
 
     @@index([entityId, entityType])
