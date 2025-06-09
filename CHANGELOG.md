@@ -1,3 +1,11 @@
+# [1.37.0](https://github.com/trycompai/comp/compare/v1.36.3...v1.37.0) (2025-06-09)
+
+
+### Features
+
+* **status:** add 'not_relevant' status and update related components ([e1b6597](https://github.com/trycompai/comp/commit/e1b6597d9f2e3566ccd61bbe0391397f7960b2e5))
+* **TaskStatusIndicator:** add 'not_relevant' status indicator ([ca2d9e0](https://github.com/trycompai/comp/commit/ca2d9e0cb2c2d80ab2b089ae5e7ce6fae3d9c187))
+
 ## [1.36.3](https://github.com/trycompai/comp/compare/v1.36.2...v1.36.3) (2025-06-08)
 
 
