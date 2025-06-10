@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@comp/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -62,73 +63,59 @@ export function SecondaryMenu({
 	}
 
 	return (
-		<nav
-			className={cn(isChild ? "py-0 select-none" : "pt-0 select-none")}
-			key={pathname}
-		>
-			<ul
-				className={cn(
-					"scrollbar-hide flex overflow-auto py-2  text-sm border-b border-border flex-wrap gap-x-6 gap-y-4",
-				)}
-			>
+		<nav className={cn(isChild ? "py-0" : "pt-0")} key={pathname}>
+			<div className="flex items-center gap-2 overflow-auto py-2 border-b border-border">
 				{showBackButton && (
-					<li>
-						<Link
-							href={backButtonHref}
-							className="flex items-center gap-1 hover:text-foreground/80 transition-colors"
-						>
+					<Button variant="ghost" size="sm" asChild>
+						<Link href={backButtonHref}>
 							<ArrowLeft className="h-4 w-4" />
-							<span>{backButtonLabel}</span>
+							<span className="ml-1">{backButtonLabel}</span>
 						</Link>
-					</li>
+					</Button>
 				)}
 				{items.map((item) => {
 					const isDisabled = item.enabled === false;
+					const isActive = isActiveLink(item.path, item.activeOverrideIdPrefix);
 
-					const itemContent = (
-						<span
-							className={cn(
-								"hover:bg-secondary p-2 border-b-2 font-medium rounded-t-sm break-words text-center mb-1",
-								isActiveLink(
-									item.path,
-									item.activeOverrideIdPrefix,
-								)
-									? "border-primary"
-									: "border-transparent",
-								isDisabled && "opacity-50 cursor-not-allowed",
-							)}
-						>
-							{item.label}
-						</span>
-					);
+					if (isDisabled) {
+						return (
+							<TooltipProvider key={item.path}>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Button
+											variant="ghost"
+											size="sm"
+											className="opacity-50 cursor-not-allowed"
+											disabled
+										>
+											{item.label}
+										</Button>
+									</TooltipTrigger>
+									<TooltipContent>
+										Coming soon
+									</TooltipContent>
+								</Tooltip>
+							</TooltipProvider>
+						);
+					}
 
 					return (
-						<li key={item.path}>
-							{isDisabled ? (
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											{itemContent}
-										</TooltipTrigger>
-										<TooltipContent>
-											<p>Coming soon</p>
-										</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							) : (
-								<Link
-									prefetch
-									href={{
-										pathname: item.path,
-									}}
-								>
-									{itemContent}
-								</Link>
+						<Button
+							key={item.path}
+							variant={isActive ? "secondary" : "ghost"}
+							size="sm"
+							className={cn(
+								isActive && "bg-accent font-medium"
 							)}
-						</li>
+							asChild
+						>
+							<Link href={{ pathname: item.path }}>
+								{item.label}
+							</Link>
+						</Button>
 					);
 				})}
-			</ul>
+			</div>
 		</nav>
 	);
 }
