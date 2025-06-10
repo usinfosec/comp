@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Employee } from "./components/Employee";
+import { fleet } from "@/lib/fleet";
 
 export default async function EmployeeDetailsPage({
 	params,
@@ -35,11 +36,19 @@ export default async function EmployeeDetailsPage({
 		notFound();
 	}
 
+	const deviceLabelId = employee.fleetDmLabelId;
+	const deviceResponse = await fleet.get(`/labels/${deviceLabelId}/hosts`);
+	const device = deviceResponse.data.hosts[0]; // There should only be one device per label.
+	const deviceWithPolicies = await fleet.get(`/hosts/${device.id}`);
+	const fleetPolicies = deviceWithPolicies.data.host.policies;
+
 	return (
 		<Employee
 			employee={employee}
 			policies={policies}
 			trainingVideos={employeeTrainingVideos}
+			fleetPolicies={fleetPolicies}
+			host={device}
 		/>
 	);
 }

@@ -40,9 +40,5 @@ export const getEmployeeDevices: () => Promise<Host[] | null> = async () => {
     allIds.map((id: number) => fleet.get(`/hosts/${id}`))
   );
 
-  console.log({
-    host: devices[0].data.host.policies,
-  });
-
   return devices.map((device: { data: { host: Host } }) => device.data.host);
 };

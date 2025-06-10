@@ -1,6 +1,4 @@
-import { fleet } from "@/lib/fleet";
 import { openai } from "@ai-sdk/openai";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { db } from "@comp/db";
 import {
   Departments,
@@ -13,20 +11,10 @@ import {
 import { logger, task, tasks } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";
 import axios from "axios";
-import { exec as callbackExec } from "node:child_process";
-import {
-  createReadStream,
-  mkdirSync,
-  mkdtempSync,
-  writeFileSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
-import path from "node:path";
-import { promisify } from "node:util";
 import z from "zod";
-import { BUCKET_NAME, s3Client } from "../../../app/s3";
 import type { researchVendor } from "../scrape/research";
 import { updatePolicies } from "./update-policies";
+import { generateAgentFile } from "./generate-agent-file";
 
 export const onboardOrganization = task({
   id: "onboard-organization",
@@ -62,154 +50,6 @@ export const onboardOrganization = task({
       }
     } catch (err) {
       logger.error("Error revalidating path", { err });
-    }
-  },
-  onSuccess: async ({ organizationId }) => {
-    const organization = await db.organization.findUnique({
-      where: {
-        id: organizationId,
-      },
-    });
-
-    if (!organization) {
-      logger.error(`Organization ${organizationId} not found`);
-      return;
-    }
-
-    // Create a manual label that we can assign to hosts.
-    const response = await fleet.post("/labels", {
-      name: organization.id,
-      query: `SELECT 1 FROM file WHERE path = '/Users/Shared/.fleet/${organizationId}' LIMIT 1;`,
-    });
-
-    const enrollSecret = organization.fleetDmSecret;
-
-    const secretsResponse = await fleet.get("/spec/enroll_secret");
-    const existingSecrets = secretsResponse.data.spec.secrets;
-
-    await fleet.post("/spec/enroll_secret", {
-      spec: {
-        secrets: [
-          ...existingSecrets,
-          {
-            secret: enrollSecret,
-            name: organization.id,
-          },
-        ],
-      },
-    });
-
-    if (!response.data) {
-      logger.error(`Failed to create label for organization ${organizationId}`);
-      return;
-    }
-
-    // Store label ID in organization.
-    await db.organization.update({
-      where: {
-        id: organizationId,
-      },
-      data: {
-        fleetDmLabelId: response.data.label.id,
-      },
-    });
-
-    // Create osquery agent file.
-    const execAsync = promisify(callbackExec);
-    const fleetUrl = process.env.FLEET_URL;
-
-    if (!enrollSecret) {
-      logger.error(
-        "FLEET_ENROLL_SECRET is not set. Cannot create osquery agent."
-      );
-      return;
-    }
-
-    if (!BUCKET_NAME) {
-      logger.error(
-        "AWS_BUCKET_NAME is not configured (via apps/app/src/app/s3.ts). Cannot upload osquery agent."
-      );
-      return;
-    }
-
-    try {
-      const workDir = mkdtempSync(
-        path.join(tmpdir(), `pkg-${organizationId}-`)
-      );
-
-      logger.info(`Building .pkg in ${workDir}`);
-
-      const commandMac = `fleetctl package \
-			  --type=pkg \
-			  --fleet-url ${fleetUrl} \
-			  --enable-scripts \
-			  --fleet-desktop \
-			  --verbose \
-			  --enroll-secret "${enrollSecret}"`;
-
-      logger.info(`Executing; command: ${commandMac}`);
-
-      await execAsync(commandMac, {
-        cwd: workDir,
-      });
-
-      const pkgPath = path.join(workDir, "fleet-osquery.pkg");
-      const installScriptContent = `#!/bin/bash
-# Create org marker for Fleet policies/labels
-set -euo pipefail
-
-ORG_ID="${organizationId}"
-ORG_DIR="/Users/Shared/.fleet"
-
-mkdir -p "$ORG_DIR"
-echo "$ORG_ID" > "$ORG_DIR/${organizationId}"
-chmod 755 "$ORG_DIR"
-chmod 644 "$ORG_DIR/${organizationId}"
-
-echo "Org marker written to $ORG_DIR/${organizationId}"
-exit 0`;
-
-      const scriptPath = path.join(workDir, "run_me_first.command");
-      writeFileSync(scriptPath, installScriptContent, { mode: 0o755 });
-
-      logger.info(`Created run_me_first.command in ${scriptPath}`);
-
-      // Zip both files before uploading
-      const zipName = "compai-device-agent.zip";
-      const zipPath = path.join(workDir, zipName);
-      const zipCommand = `zip -j ${zipPath} ${pkgPath} ${scriptPath}`;
-      logger.info(`Zipping files with: ${zipCommand}`);
-      await execAsync(zipCommand);
-
-      const s3KeyZip = `${organizationId}/macos/${zipName}`;
-
-      // Upload the zip to S3
-      const putObjectCommandZip = new PutObjectCommand({
-        Bucket: "compai-fleet-packages",
-        Key: s3KeyZip,
-        Body: createReadStream(zipPath),
-        ContentType: "application/zip",
-      });
-
-      logger.info(`Uploading onboarding bundle to S3: ${s3KeyZip}`);
-      await s3Client.send(putObjectCommandZip);
-
-      const s3Region = await s3Client.config.region();
-      const s3ObjectUrlZip = `https://compai-fleet-packages.s3.${s3Region}.amazonaws.com/${s3KeyZip}`;
-
-      logger.info("S3 Upload successful.", {
-        fileUrlZip: s3ObjectUrlZip,
-      });
-
-      await db.organization.update({
-        where: { id: organizationId },
-        data: { osqueryAgentDownloadUrl: s3ObjectUrlZip },
-      });
-      logger.info(`Stored S3 bundle URL for organization ${organizationId}`);
-    } catch (error) {
-      logger.error("Error in fleetctl packaging or S3 upload process", {
-        error,
-      });
     }
   },
   run: async (payload: { organizationId: string }) => {
@@ -416,5 +256,12 @@ exit 0`;
 
     logger.info(`Created ${extractRisks.object.risks.length} risks`);
     logger.info(`Created ${extractVendors.object.vendors.length} vendors`);
+
+    logger.info(
+      `Generating agent file for organization ${payload.organizationId}`
+    );
+    await generateAgentFile.trigger({
+      organizationId: payload.organizationId,
+    });
   },
 });
