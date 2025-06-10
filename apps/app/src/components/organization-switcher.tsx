@@ -82,7 +82,7 @@ function OrganizationInitialsAvatar({
 	return (
 		<div 
 			className={cn(
-				"flex items-center justify-center rounded-xs font-medium",
+				"flex items-center justify-center rounded-sm font-medium",
 				size === "sm" ? "h-6 w-6 text-xs" : "h-8 w-8 text-sm",
 				selectedColorClass,
 				className

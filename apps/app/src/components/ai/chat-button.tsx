@@ -28,7 +28,7 @@ export function AssistantButton() {
 			onClick={() => setAssistantOpen(true)}
 		>
 			<span className="truncate">Ask Comp AI a question...</span>
-			<kbd className="ml-auto flex h-5 items-center gap-1 rounded-xs border bg-muted px-1.5 font-mono text-[10px] font-medium">
+			<kbd className="ml-auto flex h-5 items-center gap-1 rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-medium">
 				<span className="text-xs">⌘</span>K
 			</kbd>
 		</Button>

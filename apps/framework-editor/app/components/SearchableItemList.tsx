@@ -39,13 +39,13 @@ export function SearchableItemList({
 	}, [items, searchTerm]);
 
 	const defaultRenderItem = (item: SearchableItem) => (
-		<li key={item.id} className="text-sm p-2 border rounded-xs bg-muted/20">
+		<li key={item.id} className="text-sm p-2 border rounded-sm bg-muted/20">
 			{item.name}
 		</li>
 	);
 
 	return (
-		<Card className="w-full shadow-none rounded-xs">
+		<Card className="w-full shadow-none rounded-sm">
 			<CardHeader>
 				<CardTitle className="text-xl font-semibold">{title}</CardTitle>
 			</CardHeader>
@@ -57,7 +57,7 @@ export function SearchableItemList({
 							placeholder={searchPlaceholder}
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
-							className="mb-4 rounded-xs"
+							className="mb-4 rounded-sm"
 						/>
 						{filteredItems.length > 0 ? (
 							<ul className="space-y-2">

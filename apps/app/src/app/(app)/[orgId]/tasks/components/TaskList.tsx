@@ -121,7 +121,7 @@ export function TaskList({
 			<TaskFilterHeader />
 			{/* Provides the drag-and-drop context for the task list. */}
 			<DndProvider backend={HTML5Backend}>
-				<div className="w-full border rounded-xs">
+				<div className="w-full border rounded-sm">
 					{/* Render a StatusGroup for each defined status. */}
 					{statuses.map((status) => (
 						<StatusGroup

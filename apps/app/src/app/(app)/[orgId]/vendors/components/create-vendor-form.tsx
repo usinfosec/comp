@@ -214,7 +214,7 @@ export function CreateVendorForm({
 																								vendor.legal_name ??
 																								Math.random().toString()
 																							}
-																							className="cursor-pointer p-2 hover:bg-accent rounded-xs text-sm"
+																							className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm"
 																							onMouseDown={() => {
 																								handleSelectVendor(vendor);
 																								setPopoverOpen(false);
@@ -231,7 +231,7 @@ export function CreateVendorForm({
 																			searchQuery.trim().length > 1 &&
 																			searchResults.length === 0 && (
 																				<div
-																					className="cursor-pointer p-2 hover:bg-accent rounded-xs text-sm italic"
+																					className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm italic"
 																					onMouseDown={() => {
 																						field.onChange(searchQuery);
 																						setSearchResults([]);

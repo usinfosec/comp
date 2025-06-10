@@ -71,7 +71,7 @@ export function DataTableToolbar<TData>({
 						onClick={() => setOpen("true")}
 					>
 						<Plus className="h-4 w-4" />
-						<span className="ml-2">{action}</span>
+						<span>{action}</span>
 					</Button>
 				)}
 			</div>

@@ -254,7 +254,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 		<>
 			<PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
 				{isDirty && (
-					<div className="flex items-center space-x-2 mb-4 p-2 bg-secondary/80 rounded-xs">
+					<div className="flex items-center space-x-2 mb-4 p-2 bg-secondary/80 rounded-sm">
 						<span className="text-sm text-muted-foreground">
 							{changesSummaryString}
 						</span>
@@ -265,7 +265,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 								// Potentially add router.refresh() if canceling discards optimistic UI updates from creations via dialog
 							}}
 							size="sm"
-							className="rounded-xs"
+							className="rounded-sm"
 						>
 							Cancel
 						</Button>
@@ -277,7 +277,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 								}
 							}}
 							size="sm"
-							className="rounded-xs"
+							className="rounded-sm"
 						>
 							Commit Changes
 						</Button>

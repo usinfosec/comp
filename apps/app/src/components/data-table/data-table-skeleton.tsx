@@ -49,7 +49,7 @@ export function DataTableSkeleton({
 					<Skeleton className="ml-auto hidden h-7 w-[4.5rem] lg:flex" />
 				) : null}
 			</div>
-			<div className="rounded-xs border">
+			<div className="rounded-sm border">
 				<Table>
 					<TableHeader>
 						{Array.from({ length: 1 }).map((_, i) => (
