@@ -38,86 +38,36 @@ interface OrganizationSwitcherProps {
 
 interface OrganizationInitialsAvatarProps {
 	name: string | null | undefined;
-	isCollapsed?: boolean;
+	size?: "sm" | "default";
 	className?: string;
 }
 
 const COLOR_PAIRS = [
-	{
-		bg: "bg-sky-100 dark:bg-sky-900/70",
-		text: "text-sky-700 dark:text-sky-200",
-	},
-	{
-		bg: "bg-blue-100 dark:bg-blue-900/70",
-		text: "text-blue-700 dark:text-blue-200",
-	},
-	{
-		bg: "bg-indigo-100 dark:bg-indigo-900/70",
-		text: "text-indigo-700 dark:text-indigo-200",
-	},
-	{
-		bg: "bg-purple-100 dark:bg-purple-900/70",
-		text: "text-purple-700 dark:text-purple-200",
-	},
-	{
-		bg: "bg-fuchsia-100 dark:bg-fuchsia-900/70",
-		text: "text-fuchsia-700 dark:text-fuchsia-200",
-	},
-	{
-		bg: "bg-pink-100 dark:bg-pink-900/70",
-		text: "text-pink-700 dark:text-pink-200",
-	},
-	{
-		bg: "bg-rose-100 dark:bg-rose-900/70",
-		text: "text-rose-700 dark:text-rose-200",
-	},
-	{
-		bg: "bg-red-100 dark:bg-red-900/70",
-		text: "text-red-700 dark:text-red-200",
-	},
-	{
-		bg: "bg-orange-100 dark:bg-orange-900/70",
-		text: "text-orange-700 dark:text-orange-200",
-	},
-	{
-		bg: "bg-amber-100 dark:bg-amber-900/70",
-		text: "text-amber-700 dark:text-amber-200",
-	},
-	{
-		bg: "bg-yellow-100 dark:bg-yellow-900/70",
-		text: "text-yellow-700 dark:text-yellow-200",
-	},
-	{
-		bg: "bg-lime-100 dark:bg-lime-900/70",
-		text: "text-lime-700 dark:text-lime-200",
-	},
-	{
-		bg: "bg-green-100 dark:bg-green-900/70",
-		text: "text-green-700 dark:text-green-200",
-	},
-	{
-		bg: "bg-emerald-100 dark:bg-emerald-900/70",
-		text: "text-emerald-700 dark:text-emerald-200",
-	},
-	{
-		bg: "bg-teal-100 dark:bg-teal-900/70",
-		text: "text-teal-700 dark:text-teal-200",
-	},
-	{
-		bg: "bg-cyan-100 dark:bg-cyan-900/70",
-		text: "text-cyan-700 dark:text-cyan-200",
-	},
+	"bg-sky-100 text-sky-700 dark:bg-sky-900/70 dark:text-sky-200",
+	"bg-blue-100 text-blue-700 dark:bg-blue-900/70 dark:text-blue-200",
+	"bg-indigo-100 text-indigo-700 dark:bg-indigo-900/70 dark:text-indigo-200",
+	"bg-purple-100 text-purple-700 dark:bg-purple-900/70 dark:text-purple-200",
+	"bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/70 dark:text-fuchsia-200",
+	"bg-pink-100 text-pink-700 dark:bg-pink-900/70 dark:text-pink-200",
+	"bg-rose-100 text-rose-700 dark:bg-rose-900/70 dark:text-rose-200",
+	"bg-red-100 text-red-700 dark:bg-red-900/70 dark:text-red-200",
+	"bg-orange-100 text-orange-700 dark:bg-orange-900/70 dark:text-orange-200",
+	"bg-amber-100 text-amber-700 dark:bg-amber-900/70 dark:text-amber-200",
+	"bg-yellow-100 text-yellow-700 dark:bg-yellow-900/70 dark:text-yellow-200",
+	"bg-lime-100 text-lime-700 dark:bg-lime-900/70 dark:text-lime-200",
+	"bg-green-100 text-green-700 dark:bg-green-900/70 dark:text-green-200",
+	"bg-emerald-100 text-emerald-700 dark:bg-emerald-900/70 dark:text-emerald-200",
+	"bg-teal-100 text-teal-700 dark:bg-teal-900/70 dark:text-teal-200",
+	"bg-cyan-100 text-cyan-700 dark:bg-cyan-900/70 dark:text-cyan-200",
 ];
 
 function OrganizationInitialsAvatar({
 	name,
-	isCollapsed,
+	size = "default",
 	className,
 }: OrganizationInitialsAvatarProps) {
 	const initials = name?.slice(0, 2).toUpperCase() || "";
-	const sizeClasses = isCollapsed ? "h-8 w-8" : "h-8 w-8";
-	const textSizeClass = isCollapsed ? "text-sm font-medium" : "text-xs";
-
+	
 	let colorIndex = 0;
 	if (initials.length > 0) {
 		const charCodeSum = Array.from(initials).reduce(
@@ -127,20 +77,18 @@ function OrganizationInitialsAvatar({
 		colorIndex = charCodeSum % COLOR_PAIRS.length;
 	}
 
-	const selectedColorPair = COLOR_PAIRS[colorIndex] || COLOR_PAIRS[0];
+	const selectedColorClass = COLOR_PAIRS[colorIndex] || COLOR_PAIRS[0];
 
 	return (
-		<div
+		<div 
 			className={cn(
-				"shrink-0 flex items-center justify-center rounded-xs",
-				sizeClasses,
-				selectedColorPair.bg,
-				className,
+				"flex items-center justify-center rounded-xs font-medium",
+				size === "sm" ? "h-6 w-6 text-xs" : "h-8 w-8 text-sm",
+				selectedColorClass,
+				className
 			)}
 		>
-			<span className={cn(textSizeClass, selectedColorPair.text)}>
-				{initials}
-			</span>
+			{initials}
 		</div>
 	);
 }
@@ -220,43 +168,37 @@ export function OrganizationSwitcher({
 				<DialogTrigger asChild>
 					<Button
 						variant="outline"
-						// biome-ignore lint/a11y/useSemanticElements: <explanation>
-						role="combobox"
-						aria-label={"Select Organization"}
+						size={isCollapsed ? "icon" : "default"}
 						className={cn(
-							"flex justify-between mx-auto rounded-md",
-							isCollapsed ? "h-min w-min p-0" : "h-10 w-full p-0",
-							status === "executing" ? "opacity-50 cursor-not-allowed" : "",
+							"w-full pl-[1px] pr-2",
+							isCollapsed ? "justify-center" : "justify-start",
+							status === "executing" && "opacity-50 cursor-not-allowed"
 						)}
 						disabled={status === "executing"}
 					>
-						<OrganizationInitialsAvatar
-							name={currentOrganization?.name}
-							isCollapsed={isCollapsed}
-							className={isCollapsed ? "" : "ml-1"}
-						/>
+						<OrganizationInitialsAvatar name={currentOrganization?.name} />
 						{!isCollapsed && (
-							<span className="text-sm truncate mr-auto ml-2 relative flex items-center">
-								{currentOrganization?.name}
-							</span>
-						)}
-						{!isCollapsed && (
-							<ChevronsUpDown className="ml-auto mr-2 h-4 w-4 shrink-0 opacity-50" />
+							<>
+								<span className="ml-2 truncate flex-1 text-left">
+									{currentOrganization?.name}
+								</span>
+								<ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+							</>
 						)}
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="p-0 sm:max-w-[400px]">
-					<DialogTitle className="sr-only">{"Select Organization"}</DialogTitle>
+					<DialogTitle className="sr-only">Select Organization</DialogTitle>
 					<Command>
 						<div className="flex items-center border-b px-3">
 							<Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
 							<CommandInput
-								placeholder={"Search organization..."}
+								placeholder="Search organization..."
 								className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
 							/>
 						</div>
 						<CommandList>
-							<CommandEmpty>{"No results found"}</CommandEmpty>
+							<CommandEmpty>No results found</CommandEmpty>
 							<CommandGroup className="max-h-[300px] overflow-y-auto">
 								{organizations.map((org) => (
 									<CommandItem
@@ -270,18 +212,18 @@ export function OrganizationSwitcher({
 											}
 										}}
 										disabled={status === "executing"}
+										className="flex items-center gap-2"
 									>
 										{status === "executing" && pendingOrgId === org.id ? (
-											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+											<Loader2 className="h-4 w-4 animate-spin" />
 										) : currentOrganization?.id === org.id ? (
-											<Check className="mr-2 h-4 w-4" />
+											<Check className="h-4 w-4" />
 										) : (
-											<span className="mr-2 h-4 w-4" />
+											<div className="h-4 w-4" />
 										)}
 										<OrganizationInitialsAvatar
 											name={org.name}
-											isCollapsed={false}
-											className="mr-2 h-6 w-6"
+											size="sm"
 										/>
 										<span className="truncate">{getDisplayName(org)}</span>
 									</CommandItem>
@@ -294,11 +236,11 @@ export function OrganizationSwitcher({
 										setShowCreateOrg(true);
 										setIsDialogOpen(false);
 									}}
-									className="cursor-pointer"
 									disabled={status === "executing"}
+									className="flex items-center gap-2"
 								>
-									<Plus className="mr-2 h-4 w-4" />
-									{"Create Organization"}
+									<Plus className="h-4 w-4" />
+									Create Organization
 								</CommandItem>
 							</CommandGroup>
 						</CommandList>
