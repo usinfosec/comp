@@ -2,6 +2,7 @@
 
 import { authClient } from "@/utils/auth-client";
 import { Badge } from "@comp/ui/badge";
+import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
 import { Icons } from "@comp/ui/icons";
 import {
@@ -34,7 +35,7 @@ type MenuItem = {
 	protected: boolean;
 	badge?: {
 		text: string;
-		variant: "default" | "secondary" | "outline" | "new" | "beta";
+		variant: "default" | "secondary" | "outline" | "destructive";
 	};
 	hidden?: boolean;
 };
@@ -49,7 +50,6 @@ interface ItemProps {
 }
 
 export function MainMenu({
-	//userIsAdmin,
 	organizationId,
 	isCollapsed = false,
 	onItemClick,
@@ -104,10 +104,6 @@ export function MainMenu({
 			disabled: false,
 			icon: Icons.Risk,
 			protected: false,
-			// badge: {
-			// 	text: "New",
-			// 	variant: "new",
-			// },
 		},
 		{
 			id: "vendors",
@@ -134,7 +130,7 @@ export function MainMenu({
 			protected: true,
 			badge: {
 				text: "Beta",
-				variant: "beta",
+				variant: "secondary",
 			},
 		},
 		{
@@ -178,29 +174,24 @@ export function MainMenu({
 	};
 
 	return (
-		<div>
-			<nav>
-				<div className="flex flex-col gap-1.5 py-1">
-					{items
-						.filter((item) => !item.disabled)
-						.filter((item) => !item.hidden)
-						.map((item) => {
-							const isActive = isPathActive(item.path);
-							return (
-								<Item
-									key={`${item.id}-${Math.random()}`}
-									organizationId={organizationId ?? ""}
-									item={item}
-									isActive={isActive}
-									disabled={item.disabled}
-									isCollapsed={isCollapsed}
-									onItemClick={onItemClick}
-								/>
-							);
-						})}
-				</div>
-			</nav>
-		</div>
+		<nav className="space-y-1 p-2">
+			{items
+				.filter((item) => !item.disabled && !item.hidden)
+				.map((item) => {
+					const isActive = isPathActive(item.path);
+					return (
+						<Item
+							key={item.id}
+							organizationId={organizationId ?? ""}
+							item={item}
+							isActive={isActive}
+							disabled={item.disabled}
+							isCollapsed={isCollapsed}
+							onItemClick={onItemClick}
+						/>
+					);
+				})}
+		</nav>
 	);
 }
 
@@ -214,114 +205,87 @@ const Item = ({
 }: ItemProps) => {
 	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
-	// Replace the organizationId placeholder in the path
 	const itemPath = item.path.replace(":organizationId", organizationId);
 
-	// Badge variants mapping
-	const badgeVariants = {
-		default: "bg-primary/80 text-primary-foreground hover:bg-primary/90",
-		secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-		outline:
-			"border-border bg-background hover:bg-accent hover:text-accent-foreground",
-		new: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-		beta: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-	};
+	if (linkDisabled) {
+		return (
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Button
+							variant="ghost"
+							size={isCollapsed ? "icon" : "default"}
+							className="w-full justify-start opacity-50 cursor-not-allowed"
+							disabled
+						>
+							<Icon size={16} />
+							{!isCollapsed && (
+								<span className="ml-2 truncate">Coming Soon</span>
+							)}
+						</Button>
+					</TooltipTrigger>
+					<TooltipContent side="right" className={isCollapsed ? "block" : "hidden"}>
+						Coming Soon
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		);
+	}
 
 	return (
-		<TooltipProvider delayDuration={70}>
-			{linkDisabled ? (
-				<div className="w-full md:w-[45px] h-[45px] flex items-center justify-start md:justify-center px-3 md:px-0 text-xs text-muted-foreground">
-					Coming Soon
-				</div>
-			) : (
-				<Link prefetch href={itemPath} onClick={onItemClick}>
-					<Tooltip>
-						<TooltipTrigger className="w-full">
-							<div
-								className={cn(
-									"relative flex items-center",
-									isCollapsed
-										? "md:w-[45px] md:justify-center rounded-l-sm"
-										: "md:px-3 rounded-l-sm",
-									"w-full px-3 md:w-auto h-[40px]",
-									"hover:bg-accent hover:border-r-2 hover:border-r-primary/40",
-									"transition-all duration-300",
-									isActive &&
-										"bg-accent dark:bg-secondary border-border border-r-2 border-r-primary hover:border-r-primary",
-								)}
-							>
-								<div
-									className={cn(
-										"flex items-center gap-2",
-										"transition-all duration-300",
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						variant={isActive ? "secondary" : "ghost"}
+						size={isCollapsed ? "icon" : "default"}
+						className={cn(
+							"w-full justify-start",
+							isActive && "bg-accent font-medium"
+						)}
+						asChild
+					>
+						<Link href={itemPath} onClick={onItemClick}>
+							<Icon size={16} />
+							{!isCollapsed && (
+								<>
+									<span className="ml-2 truncate flex-1 text-left">
+										{item.name}
+									</span>
+									{item.badge && (
+										<Badge
+											variant={item.badge.variant}
+											className="ml-auto text-xs"
+										>
+											{item.badge.text}
+										</Badge>
 									)}
-								>
-									{Icon && (
-										<div className="shrink-0">
-											<Icon size={isCollapsed ? 16 : 14} />
-										</div>
-									)}
-									{!isCollapsed && (
-										<div className="flex items-center justify-between w-full">
-											<span
-												className={cn(
-													"text-sm truncate max-w-full",
-													isActive && "font-medium",
-												)}
-											>
-												{item.name}
-											</span>
-											<div className="flex items-center gap-1.5">
-												{item.badge && (
-													<Badge
-														variant="outline"
-														className={cn(
-															"ml-1.5 text-[9px] px-1 py-0 h-auto",
-															badgeVariants[item.badge.variant],
-														)}
-													>
-														{item.badge.text}
-													</Badge>
-												)}
-											</div>
-										</div>
-									)}
-								</div>
-							</div>
-						</TooltipTrigger>
-						<TooltipContent
-							side="right"
-							className={cn(
-								"px-3 py-1.5 text-xs",
-								isCollapsed ? "flex" : "hidden",
+								</>
 							)}
-							sideOffset={8}
-						>
-							<div className="flex items-center gap-1.5">
-								{item.name}
-								{item.badge && (
-									<Badge
-										variant="outline"
-										className={cn(
-											"text-[9px] px-1 py-0 h-auto",
-											badgeVariants[item.badge.variant],
-										)}
-									>
-										{item.badge.text}
-									</Badge>
-								)}
-							</div>
-						</TooltipContent>
-					</Tooltip>
-				</Link>
-			)}
+						</Link>
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent 
+					side="right" 
+					className={isCollapsed ? "block" : "hidden"}
+					sideOffset={8}
+				>
+					<div className="flex items-center gap-2">
+						{item.name}
+						{item.badge && (
+							<Badge variant={item.badge.variant} className="text-xs">
+								{item.badge.text}
+							</Badge>
+						)}
+					</div>
+				</TooltipContent>
+			</Tooltip>
 		</TooltipProvider>
 	);
 };
 
 type Props = {
 	organizationId: string;
-	//userIsAdmin: boolean;
 	isCollapsed?: boolean;
 	onItemClick?: () => void;
 };
