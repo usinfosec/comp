@@ -115,7 +115,7 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 					config={chartConfig}
 					className="mx-auto aspect-square max-h-[300px]"
 				>
-					<PieChart margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
+					<PieChart margin={{ top: 0, right: 20, bottom: 0, left: 20 }}>
 						<ChartTooltip
 							cursor={false}
 							content={<ChartTooltipContent hideLabel />}
@@ -150,7 +150,7 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 											>
 												<tspan
 													x={viewBox.cx}
-													y={viewBox.cy}
+													y={(viewBox.cy || 0) - 10}
 													className="text-3xl font-bold"
 												>
 													{totalDevices.toLocaleString()}
