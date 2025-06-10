@@ -4,7 +4,7 @@ import { updateSidebarState } from "@/actions/sidebar";
 import { useSidebar } from "@/context/sidebar-context";
 import { Button } from "@comp/ui/button";
 import { cn } from "@comp/ui/cn";
-import { Icons } from "@comp/ui/icons";
+import { ArrowLeftFromLine, ChevronLeft } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 
@@ -31,27 +31,23 @@ export function SidebarCollapseButton({
 		execute({ isCollapsed: !isCollapsed });
 	};
 
-	if (isCollapsed) {
-		return (
-			<Button
-				variant="ghost"
-				size="sm"
-				className="h-8 w-8 rounded-sm shadow-md bg-background"
-				onClick={handleToggle}
-			>
-				<Icons.ChevronRight className="h-4 w-4 shrink-0" />
-			</Button>
-		);
-	}
-
 	return (
 		<Button
 			variant="ghost"
 			size="icon"
-			className="h-8 w-8"
+			className={cn(
+				"h-8 w-8 rounded-xs",
+				isCollapsed && "shadow-md bg-background ",
+				!isCollapsed && "ml-auto mr-4"
+			)}
 			onClick={handleToggle}
 		>
-			<Icons.ChevronLeft className="h-4 w-4" />
+			<ArrowLeftFromLine 
+				className={cn(
+					"h-4 w-4 shrink-0 transition-transform duration-400 ease-in-out",
+					isCollapsed && "rotate-180"
+				)} 
+			/>
 		</Button>
 	);
 }

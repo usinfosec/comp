@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 // Define menu item types with icon component
 type MenuItem = {
@@ -47,6 +48,7 @@ interface ItemProps {
 	disabled: boolean;
 	isCollapsed?: boolean;
 	onItemClick?: () => void;
+	itemRef: (el: HTMLDivElement | null) => void;
 }
 
 export function MainMenu({
@@ -55,6 +57,8 @@ export function MainMenu({
 	onItemClick,
 }: Props) {
 	const pathname = usePathname();
+	const [activeStyle, setActiveStyle] = useState({ top: "0px", height: "0px" });
+	const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
 	const items: MenuItem[] = [
 		{
@@ -173,24 +177,69 @@ export function MainMenu({
 		return itemBaseSegment === currentBaseSegment;
 	};
 
+	const visibleItems = items.filter((item) => !item.disabled && !item.hidden);
+	const activeIndex = visibleItems.findIndex((item) => isPathActive(item.path));
+
+	// Update active indicator position
+	useEffect(() => {
+		if (activeIndex >= 0) {
+			const activeElement = itemRefs.current[activeIndex];
+			if (activeElement) {
+				const { offsetTop, offsetHeight } = activeElement;
+				setActiveStyle({
+					top: `${offsetTop}px`,
+					height: `${offsetHeight}px`,
+				});
+			}
+		}
+	}, [activeIndex, pathname]);
+
+	// Handle window resize to recalculate positions
+	useEffect(() => {
+		const handleResize = () => {
+			if (activeIndex >= 0) {
+				requestAnimationFrame(() => {
+					const activeElement = itemRefs.current[activeIndex];
+					if (activeElement) {
+						const { offsetTop, offsetHeight } = activeElement;
+						setActiveStyle({
+							top: `${offsetTop}px`,
+							height: `${offsetHeight}px`,
+						});
+					}
+				});
+			}
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, [activeIndex]);
+
 	return (
-		<nav className="space-y-1">
-			{items
-				.filter((item) => !item.disabled && !item.hidden)
-				.map((item) => {
-					const isActive = isPathActive(item.path);
-					return (
-						<Item
-							key={item.id}
-							organizationId={organizationId ?? ""}
-							item={item}
-							isActive={isActive}
-							disabled={item.disabled}
-							isCollapsed={isCollapsed}
-							onItemClick={onItemClick}
-						/>
-					);
-				})}
+		<nav className="relative space-y-1">
+			{/* Active Indicator */}
+			<div
+				className="absolute -right-4 w-0.5 bg-primary transition-all duration-300 ease-out rounded-l-xs"
+				style={activeStyle}
+			/>
+			
+			{visibleItems.map((item, index) => {
+				const isActive = isPathActive(item.path);
+				return (
+					<Item
+						key={item.id}
+						organizationId={organizationId ?? ""}
+						item={item}
+						isActive={isActive}
+						disabled={item.disabled}
+						isCollapsed={isCollapsed}
+						onItemClick={onItemClick}
+						itemRef={(el) => {
+							itemRefs.current[index] = el;
+						}}
+					/>
+				);
+			})}
 		</nav>
 	);
 }
@@ -202,6 +251,7 @@ const Item = ({
 	disabled,
 	isCollapsed = false,
 	onItemClick,
+	itemRef,
 }: ItemProps) => {
 	const Icon = item.icon;
 	const linkDisabled = disabled || item.disabled;
@@ -209,82 +259,86 @@ const Item = ({
 
 	if (linkDisabled) {
 		return (
-			<TooltipProvider>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button
-							variant="ghost"
-							size={isCollapsed ? "icon" : "default"}
-							className={cn(
-								"w-full opacity-50 cursor-not-allowed",
-								isCollapsed ? "justify-center" : "justify-start"
-							)}
-							disabled
-						>
-							<Icon size={16} />
-							{!isCollapsed && (
-								<span className="ml-2 truncate">Coming Soon</span>
-							)}
-						</Button>
-					</TooltipTrigger>
-					{isCollapsed && (
-						<TooltipContent side="right">
-							Coming Soon
-						</TooltipContent>
-					)}
-				</Tooltip>
-			</TooltipProvider>
+			<div ref={itemRef}>
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								variant="ghost"
+								size={isCollapsed ? "icon" : "default"}
+								className={cn(
+									"w-full opacity-50 cursor-not-allowed",
+									isCollapsed ? "justify-center" : "justify-start"
+								)}
+								disabled
+							>
+								<Icon size={16} />
+								{!isCollapsed && (
+									<span className="ml-2 truncate">Coming Soon</span>
+								)}
+							</Button>
+						</TooltipTrigger>
+						{isCollapsed && (
+							<TooltipContent side="right">
+								Coming Soon
+							</TooltipContent>
+						)}
+					</Tooltip>
+				</TooltipProvider>
+			</div>
 		);
 	}
 
 	return (
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						variant={isActive ? "secondary" : "ghost"}
-						size={isCollapsed ? "icon" : "default"}
-						className={cn(
-							"w-full",
-							isCollapsed ? "justify-center" : "justify-start",
-							isActive && "bg-accent font-medium"
-						)}
-						asChild
-					>
-						<Link href={itemPath} onClick={onItemClick}>
-							<Icon size={16} />
-							{!isCollapsed && (
-								<>
-									<span className="ml-2 truncate flex-1 text-left">
-										{item.name}
-									</span>
-									{item.badge && (
-										<Badge
-											variant={item.badge.variant}
-											className="ml-auto text-xs"
-										>
-											{item.badge.text}
-										</Badge>
-									)}
-								</>
+		<div ref={itemRef}>
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Button
+							variant={isActive ? "secondary" : "ghost"}
+							size={isCollapsed ? "icon" : "default"}
+							className={cn(
+								"w-full",
+								isCollapsed ? "justify-center" : "justify-start",
+								isActive && "bg-accent font-medium"
 							)}
-						</Link>
-					</Button>
-				</TooltipTrigger>
-				{isCollapsed && (
-					<TooltipContent side="right" sideOffset={8}>
-						<div className="flex items-center gap-2">
-							{item.name}
-							{item.badge && (
-								<Badge variant={item.badge.variant} className="text-xs">
-									{item.badge.text}
-								</Badge>
-							)}
-						</div>
-					</TooltipContent>
-				)}
-			</Tooltip>
-		</TooltipProvider>
+							asChild
+						>
+							<Link href={itemPath} onClick={onItemClick}>
+								<Icon size={16} />
+								{!isCollapsed && (
+									<>
+										<span className="ml-2 truncate flex-1 text-left">
+											{item.name}
+										</span>
+										{item.badge && (
+											<Badge
+												variant={item.badge.variant}
+												className="ml-auto text-xs"
+											>
+												{item.badge.text}
+											</Badge>
+										)}
+									</>
+								)}
+							</Link>
+						</Button>
+					</TooltipTrigger>
+					{isCollapsed && (
+						<TooltipContent side="right" sideOffset={8}>
+							<div className="flex items-center gap-2">
+								{item.name}
+								{item.badge && (
+									<Badge variant={item.badge.variant} className="text-xs">
+										{item.badge.text}
+									</Badge>
+								)}
+							</div>
+						</TooltipContent>
+					)}
+				</Tooltip>
+			</TooltipProvider>
+		</div>
 	);
 };
 

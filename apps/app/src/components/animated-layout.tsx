@@ -24,7 +24,7 @@ export function AnimatedLayout({
 			>
 				{sidebar}
 			</div>
-			<div className="flex-1 overflow-y-auto bg-backgroundSoft">{children}</div>
+			<div className="flex-1 overflow-y-auto bg-secondary ">{children}</div>
 		</div>
 	);
 }

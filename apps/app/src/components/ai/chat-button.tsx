@@ -21,10 +21,10 @@ export function AssistantButton() {
 		<Button
 			variant="ghost"
 			size="default"
-			className={cn(
-				"relative w-full max-w-sm justify-start text-muted-foreground",
-				"hover:bg-accent hover:text-accent-foreground"
-			)}
+			// className={cn(
+			// 	"relative w-full max-w-sm justify-start text-muted-foreground",
+			// 	"hover:bg-accent hover:text-accent-foreground"
+			// )}
 			onClick={() => setAssistantOpen(true)}
 		>
 			<span className="truncate">Ask Comp AI a question...</span>

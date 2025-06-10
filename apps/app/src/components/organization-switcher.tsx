@@ -171,7 +171,7 @@ export function OrganizationSwitcher({
 						size={isCollapsed ? "icon" : "default"}
 						className={cn(
 							"w-full ",
-							isCollapsed ? "justify-center" : " border justify-start pl-[1px] pr-2",
+							isCollapsed ? "justify-center" : "justify-start p-1 pr-2 h-10",
 							status === "executing" && "opacity-50 cursor-not-allowed"
 						)}
 						disabled={status === "executing"}
