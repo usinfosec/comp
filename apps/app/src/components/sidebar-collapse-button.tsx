@@ -37,7 +37,6 @@ export function SidebarCollapseButton({
 			size="icon"
 			className={cn(
 				"h-8 w-8 rounded-xs",
-				isCollapsed && "shadow-md bg-background ",
 				!isCollapsed && "ml-auto mr-4"
 			)}
 			onClick={handleToggle}

@@ -27,7 +27,7 @@ export async function Sidebar({
 	});
 
 	return (
-		<div className="h-full flex flex-col gap-0 overflow-x-clip">
+		<div className="h-full flex flex-col gap-0 overflow-x-clip bg-secondary/30">
 			<div className="p-4 flex flex-col gap-2">
 				<div className={cn("flex items-center justify-start", isCollapsed && "justify-center")}>
 					<SidebarLogo isCollapsed={isCollapsed} />

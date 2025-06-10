@@ -264,7 +264,7 @@ const Item = ({
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Button
-								variant="ghost"
+								variant="default"
 								size={isCollapsed ? "icon" : "default"}
 								className={cn(
 									"w-full opacity-50 cursor-not-allowed",
@@ -300,7 +300,6 @@ const Item = ({
 							className={cn(
 								"w-full",
 								isCollapsed ? "justify-center" : "justify-start",
-								isActive && "bg-accent font-medium"
 							)}
 							asChild
 						>
