@@ -1,4 +1,5 @@
 import { EmployeeDevicesList } from "./components/EmployeeDevicesList";
+import { DeviceComplianceChart } from "./components/DeviceComplianceChart";
 import { getEmployeeDevices } from "./data";
 
 export default async function EmployeeDevicesPage() {
@@ -6,6 +7,7 @@ export default async function EmployeeDevicesPage() {
 
 	return (
 		<div>
+			<DeviceComplianceChart devices={devices} />
 			<EmployeeDevicesList devices={devices} />
 		</div>
 	);
