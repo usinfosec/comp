@@ -167,11 +167,11 @@ export function OrganizationSwitcher({
 			>
 				<DialogTrigger asChild>
 					<Button
-						variant="outline"
+						variant="ghost"
 						size={isCollapsed ? "icon" : "default"}
 						className={cn(
-							"w-full pl-[1px] pr-2",
-							isCollapsed ? "justify-center" : "justify-start",
+							"w-full ",
+							isCollapsed ? "justify-center" : " border justify-start pl-[1px] pr-2",
 							status === "executing" && "opacity-50 cursor-not-allowed"
 						)}
 						disabled={status === "executing"}
