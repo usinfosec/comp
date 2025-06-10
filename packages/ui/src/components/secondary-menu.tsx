@@ -153,7 +153,7 @@ export function SecondaryMenu({
 				<div className="relative pb-2 border-b border-border mb-0 w-full">
 					{/* Hover Highlight */}
 					<div
-						className="absolute h-8 transition-all duration-300 ease-out bg-muted rounded-xs"
+						className="absolute h-9 transition-all duration-300 ease-out bg-muted rounded-xs"
 						style={{
 							...hoverStyle,
 							opacity: hoveredIndex !== null ? 1 : 0,
@@ -208,8 +208,8 @@ export function SecondaryMenu({
 											tabRefs.current[currentEnabledIndex] = el;
 										}}
 										className={cn(
-											"px-3 py-2 text-sm transition-colors duration-300 h-8 select-none rounded-xs",
-											isActive ? "text-foreground font-medium" : "text-muted-foreground"
+											"px-3 py-2 text-sm transition-colors duration-300 select-none rounded-xs",
+											isActive ? "text-foreground" : "text-muted-foreground"
 										)}
 										onMouseEnter={() => setHoveredIndex(currentEnabledIndex)}
 										onMouseLeave={() => setHoveredIndex(null)}
