@@ -41,9 +41,10 @@ interface RequirementsTableProps {
 						title={"Name"}
 					/>
 				),
+
 				cell: ({ row }) => {
 					return (
-						<span>
+						<span className="line-clamp-2 truncate max-w-[600px] h-10 text-wrap">
 							{row.original.requirement.name}
 						</span>
 					);
@@ -67,7 +68,7 @@ interface RequirementsTableProps {
 				),
 				cell: ({ row }) => {
 					return (
-						<span className="text-muted-foreground">
+						<span className="line-clamp-2 truncate max-w-[600px] h-10 text-wrap">
 							{row.original.requirement.description}
 						</span>
 					);
