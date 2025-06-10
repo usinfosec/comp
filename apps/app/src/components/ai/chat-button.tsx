@@ -17,13 +17,9 @@ export function AssistantButton() {
 		<Button
 			variant="ghost"
 			size="default"
-			// className={cn(
-			// 	"relative w-full max-w-sm justify-start text-muted-foreground",
-			// 	"hover:bg-accent hover:text-accent-foreground"
-			// )}
 			onClick={() => setAssistantOpen(true)}
 		>
-			<span className="truncate">Ask Comp AI a question...</span>
+			<span className="truncate">Ask a question...</span>
 			<kbd className="ml-auto flex h-5 items-center gap-1 rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-medium">
 				<span className="text-xs">⌘</span>K
 			</kbd>
