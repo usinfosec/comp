@@ -215,7 +215,10 @@ const Item = ({
 						<Button
 							variant="ghost"
 							size={isCollapsed ? "icon" : "default"}
-							className="w-full justify-start opacity-50 cursor-not-allowed"
+							className={cn(
+								"w-full opacity-50 cursor-not-allowed",
+								isCollapsed ? "justify-center" : "justify-start"
+							)}
 							disabled
 						>
 							<Icon size={16} />
@@ -224,9 +227,11 @@ const Item = ({
 							)}
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent side="right" className={isCollapsed ? "block" : "hidden"}>
-						Coming Soon
-					</TooltipContent>
+					{isCollapsed && (
+						<TooltipContent side="right">
+							Coming Soon
+						</TooltipContent>
+					)}
 				</Tooltip>
 			</TooltipProvider>
 		);
@@ -240,7 +245,8 @@ const Item = ({
 						variant={isActive ? "secondary" : "ghost"}
 						size={isCollapsed ? "icon" : "default"}
 						className={cn(
-							"w-full justify-start",
+							"w-full",
+							isCollapsed ? "justify-center" : "justify-start",
 							isActive && "bg-accent font-medium"
 						)}
 						asChild
@@ -265,20 +271,18 @@ const Item = ({
 						</Link>
 					</Button>
 				</TooltipTrigger>
-				<TooltipContent 
-					side="right" 
-					className={isCollapsed ? "block" : "hidden"}
-					sideOffset={8}
-				>
-					<div className="flex items-center gap-2">
-						{item.name}
-						{item.badge && (
-							<Badge variant={item.badge.variant} className="text-xs">
-								{item.badge.text}
-							</Badge>
-						)}
-					</div>
-				</TooltipContent>
+				{isCollapsed && (
+					<TooltipContent side="right" sideOffset={8}>
+						<div className="flex items-center gap-2">
+							{item.name}
+							{item.badge && (
+								<Badge variant={item.badge.variant} className="text-xs">
+									{item.badge.text}
+								</Badge>
+							)}
+						</div>
+					</TooltipContent>
+				)}
 			</Tooltip>
 		</TooltipProvider>
 	);
