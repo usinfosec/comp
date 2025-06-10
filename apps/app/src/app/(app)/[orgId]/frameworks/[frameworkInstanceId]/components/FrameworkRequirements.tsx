@@ -52,7 +52,7 @@ export function FrameworkRequirements({
 					<DataTableColumnHeader column={column} title={"Name"} />
 				),
 				cell: ({ row }) => (
-					<span className="capitalize line-clamp-1">
+					<span className="line-clamp-2 truncate max-w-[300px]">
 						{row.original.name}
 					</span>
 				),
@@ -76,7 +76,7 @@ export function FrameworkRequirements({
 					/>
 				),
 				cell: ({ row }) => (
-					<span className="capitalize line-clamp-1">
+					<span className="line-clamp-2 truncate max-w-[300px]">
 						{row.original.description}
 					</span>
 				),

@@ -93,6 +93,8 @@ export default async function RequirementPage({ params }: PageProps) {
 
 	console.log("relatedControls", relatedControls);
 
+	const maxLabelLength = 40;
+
 	return (
 		<PageWithBreadcrumb
 			breadcrumbs={[
@@ -102,7 +104,7 @@ export default async function RequirementPage({ params }: PageProps) {
 					href: `/${organizationId}/frameworks/${frameworkInstanceId}`,
 				},
 				{
-					label: currentRequirementDetails.name,
+					label: currentRequirementDetails.name.length > maxLabelLength ? `${currentRequirementDetails.name.slice(0, maxLabelLength)}...` : currentRequirementDetails.name,
 					dropdown: siblingRequirementsDropdown,
 					current: true,
 				},

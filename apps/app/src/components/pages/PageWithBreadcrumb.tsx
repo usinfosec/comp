@@ -38,12 +38,14 @@ interface PageLayoutProps {
 	 * @default 3
 	 */
 	maxItems?: number;
+	maxLabelLength?: number;
 }
 
 export default function PageWithBreadcrumb({
 	children,
 	breadcrumbs,
 	maxItems = 3,
+	maxLabelLength = 40,
 }: PageLayoutProps) {
 	const totalItems = breadcrumbs.length;
 	const shouldCollapse = totalItems > maxItems;
@@ -75,17 +77,17 @@ export default function PageWithBreadcrumb({
 											>
 												{item.current ? (
 													<BreadcrumbPage className="inline-flex items-center gap-1">
-														{item.label}
+														{item.label.length > maxLabelLength ? `${item.label.slice(0, maxLabelLength)}...` : item.label}
 														<ChevronDown className="h-4 w-4" />
 													</BreadcrumbPage>
 												) : (
 													<>
-														{item.label}
+														{item.label.length > maxLabelLength ? `${item.label.slice(0, maxLabelLength)}...` : item.label}
 														<ChevronDown className="h-4 w-4" />
 													</>
 												)}
 											</DropdownMenuTrigger>
-											<DropdownMenuContent align="start">
+											<DropdownMenuContent align="start" className="max-h-[300px]">
 												{item.dropdown.map(
 													(dropdownItem) => (
 														<DropdownMenuItem
@@ -100,7 +102,7 @@ export default function PageWithBreadcrumb({
 																}
 															>
 																{
-																	dropdownItem.label
+																	dropdownItem.label.length > maxLabelLength ? `${dropdownItem.label.slice(0, maxLabelLength)}...` : dropdownItem.label
 																}
 															</Link>
 														</DropdownMenuItem>
