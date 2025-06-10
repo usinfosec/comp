@@ -174,7 +174,7 @@ export function MainMenu({
 	};
 
 	return (
-		<nav className="space-y-1 p-2">
+		<nav className="space-y-1">
 			{items
 				.filter((item) => !item.disabled && !item.hidden)
 				.map((item) => {
