@@ -97,7 +97,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
-			<div className="relative w-full max-w-[440px] border bg-card rounded-xs p-8 shadow-lg">
+			<div className="relative w-full max-w-[440px] border bg-card rounded-sm p-8 shadow-lg">
 				<div className="mb-8 flex justify-between">
 					<Link href="/">
 						<Icons.Logo />
@@ -138,7 +138,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 															key={framework.id}
 															htmlFor={`framework-${framework.id}`}
 															className={cn(
-																"relative flex flex-col p-4 border rounded-xs cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																"relative flex flex-col p-4 border rounded-sm cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
 																field.value.includes(framework.id) &&
 																	"border-primary bg-primary/5",
 															)}

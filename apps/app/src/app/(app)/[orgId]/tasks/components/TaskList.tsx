@@ -14,6 +14,7 @@ import { StatusGroup } from "./StatusGroup";
 import type { DragItem, StatusId } from "./TaskCard";
 import { TaskFilterHeader } from "./TaskFilterHeader";
 import { updateTaskAction } from "@/actions/risk/task/update-task-action";
+import { Card } from "@comp/ui/card";
 
 // Defines the standard task statuses and their display order.
 const statuses = [
@@ -117,11 +118,11 @@ export function TaskList({
 	);
 
 	return (
-		<div>
+		<Card className="p-2 flex flex-col gap-2">
 			<TaskFilterHeader />
 			{/* Provides the drag-and-drop context for the task list. */}
 			<DndProvider backend={HTML5Backend}>
-				<div className="w-full border rounded-xs">
+				<div className="w-full border rounded-sm">
 					{/* Render a StatusGroup for each defined status. */}
 					{statuses.map((status) => (
 						<StatusGroup
@@ -135,6 +136,6 @@ export function TaskList({
 					))}
 				</div>
 			</DndProvider>
-		</div>
+		</Card>
 	);
 }

@@ -109,12 +109,12 @@ export function SearchAndLinkList({
 					Currently Linked {itemTypeLabel}s ({currentLinkedItemsDetails.length})
 				</h3>
 				{currentLinkedItemsDetails.length > 0 ? (
-					<ScrollArea className="h-[150px] pr-3 border rounded-xs shrink-0">
+					<ScrollArea className="h-[150px] pr-3 border rounded-sm shrink-0">
 						<ul className="space-y-1 p-2">
 							{currentLinkedItemsDetails.map((item) => (
 								<li
 									key={item.id}
-									className="text-sm p-1.5 flex justify-between items-center rounded-xs hover:bg-muted/50"
+									className="text-sm p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
 								>
 									{renderItemDisplay
 										? renderItemDisplay(item)
@@ -124,7 +124,7 @@ export function SearchAndLinkList({
 										size="sm"
 										onClick={() => handleUnlink(item)}
 										disabled={isLoadingAction === item.id}
-										className="text-destructive hover:text-destructive hover:bg-destructive/10 gap-1 px-2 h-auto py-1 rounded-xs ml-2 shrink-0 flex items-center"
+										className="text-destructive hover:text-destructive hover:bg-destructive/10 gap-1 px-2 h-auto py-1 rounded-sm ml-2 shrink-0 flex items-center"
 									>
 										<span className="flex items-center justify-center h-4 w-4">
 											{isLoadingAction === item.id ? (
@@ -140,7 +140,7 @@ export function SearchAndLinkList({
 						</ul>
 					</ScrollArea>
 				) : (
-					<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-xs bg-muted/20">
+					<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm bg-muted/20">
 						No {itemTypeLabel}s are currently linked.
 					</p>
 				)}
@@ -159,35 +159,35 @@ export function SearchAndLinkList({
 						placeholder={`Search ${availableItems.length} ${itemTypeLabel.toLowerCase()}s by name or framework...`}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						className="mb-3 rounded-xs shrink-0"
+						className="mb-3 rounded-sm shrink-0"
 					/>
 					{unlinkedItemsToDisplay.length === 0 && searchTerm.trim() && (
-						<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-xs shrink-0">
+						<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 							No unlinked {itemTypeLabel}s found matching "{searchTerm}".
 						</p>
 					)}
 					{unlinkedItemsToDisplay.length === 0 &&
 						!searchTerm.trim() &&
 						availableItems.length === 0 && (
-							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-xs shrink-0">
+							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 								No available {itemTypeLabel}s found in the database.
 							</p>
 						)}
 					{unlinkedItemsToDisplay.length === 0 &&
 						!searchTerm.trim() &&
 						availableItems.length > 0 && (
-							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-xs shrink-0">
+							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 								All available {itemTypeLabel}s are already linked.
 							</p>
 						)}
 
 					{unlinkedItemsToDisplay.length > 0 && (
-						<ScrollArea className="h-[150px] pr-3 border rounded-xs shrink-0">
+						<ScrollArea className="h-[150px] pr-3 border rounded-sm shrink-0">
 							<ul className="space-y-1 p-2">
 								{unlinkedItemsToDisplay.map((item) => (
 									<li
 										key={item.id}
-										className="text-sm p-1.5 flex justify-between items-center rounded-xs hover:bg-muted/50"
+										className="text-sm p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
 									>
 										{renderItemDisplay
 											? renderItemDisplay(item)
@@ -200,7 +200,7 @@ export function SearchAndLinkList({
 												isLoadingAction === item.id ||
 												linkedItemIds.has(item.id)
 											}
-											className="text-primary hover:text-primary hover:bg-primary/10 gap-1 px-2 h-auto py-1 rounded-xs ml-2 shrink-0 flex items-center"
+											className="text-primary hover:text-primary hover:bg-primary/10 gap-1 px-2 h-auto py-1 rounded-sm ml-2 shrink-0 flex items-center"
 										>
 											<span className="flex items-center justify-center h-4 w-4">
 												{isLoadingAction === item.id ? (

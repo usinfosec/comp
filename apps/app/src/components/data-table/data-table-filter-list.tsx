@@ -308,12 +308,12 @@ export function DataTableFilterList<TData>({
 			</Popover>
 			<SortableOverlay>
 				<div className="flex items-center gap-2">
-					<div className="h-8 min-w-[72px] rounded-xs bg-primary/10" />
-					<div className="h-8 w-32 rounded-xs bg-primary/10" />
-					<div className="h-8 w-32 rounded-xs bg-primary/10" />
-					<div className="h-8 min-w-36 flex-1 rounded-xs bg-primary/10" />
-					<div className="size-8 shrink-0 rounded-xs bg-primary/10" />
-					<div className="size-8 shrink-0 rounded-xs bg-primary/10" />
+					<div className="h-8 min-w-[72px] rounded-sm bg-primary/10" />
+					<div className="h-8 w-32 rounded-sm bg-primary/10" />
+					<div className="h-8 w-32 rounded-sm bg-primary/10" />
+					<div className="h-8 min-w-36 flex-1 rounded-sm bg-primary/10" />
+					<div className="size-8 shrink-0 rounded-sm bg-primary/10" />
+					<div className="size-8 shrink-0 rounded-sm bg-primary/10" />
 				</div>
 			</SortableOverlay>
 		</Sortable>

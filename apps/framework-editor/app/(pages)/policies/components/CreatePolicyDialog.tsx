@@ -113,7 +113,7 @@ export function CreatePolicyDialog({
 										<Input
 											placeholder="e.g., Access Control Policy"
 											{...field}
-											className="rounded-xs"
+											className="rounded-sm"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -137,7 +137,7 @@ export function CreatePolicyDialog({
 										<Input
 											placeholder="Describe the policy..."
 											{...field}
-											className="rounded-xs"
+											className="rounded-sm"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -162,7 +162,7 @@ export function CreatePolicyDialog({
 										defaultValue={field.value}
 									>
 										<FormControl>
-											<SelectTrigger className="rounded-xs">
+											<SelectTrigger className="rounded-sm">
 												<SelectValue placeholder="Select frequency" />
 											</SelectTrigger>
 										</FormControl>
@@ -171,7 +171,7 @@ export function CreatePolicyDialog({
 												<SelectItem
 													key={key}
 													value={key}
-													className="rounded-xs"
+													className="rounded-sm"
 												>
 													{key}
 												</SelectItem>
@@ -200,7 +200,7 @@ export function CreatePolicyDialog({
 										defaultValue={field.value}
 									>
 										<FormControl>
-											<SelectTrigger className="rounded-xs">
+											<SelectTrigger className="rounded-sm">
 												<SelectValue placeholder="Select department" />
 											</SelectTrigger>
 										</FormControl>
@@ -209,7 +209,7 @@ export function CreatePolicyDialog({
 												<SelectItem
 													key={key}
 													value={key}
-													className="rounded-xs"
+													className="rounded-sm"
 												>
 													{key}
 												</SelectItem>
@@ -225,11 +225,11 @@ export function CreatePolicyDialog({
 								type="button"
 								variant="ghost"
 								onClick={() => onOpenChange(false)}
-								className="rounded-xs"
+								className="rounded-sm"
 							>
 								Cancel
 							</Button>
-							<Button type="submit" disabled={isPending} className="rounded-xs">
+							<Button type="submit" disabled={isPending} className="rounded-sm">
 								{isPending ? "Creating..." : "Create Policy"}
 							</Button>
 						</DialogFooter>

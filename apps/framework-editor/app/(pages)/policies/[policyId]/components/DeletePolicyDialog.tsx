@@ -52,7 +52,7 @@ export function DeletePolicyDialog({
 
 	return (
 		<AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<AlertDialogContent className="rounded-xs">
+			<AlertDialogContent className="rounded-sm">
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
@@ -62,13 +62,13 @@ export function DeletePolicyDialog({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel onClick={onClose} className="rounded-xs">
+					<AlertDialogCancel onClick={onClose} className="rounded-sm">
 						Cancel
 					</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={handleDelete}
 						disabled={isPending}
-						className="rounded-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+						className="rounded-sm bg-destructive text-destructive-foreground hover:bg-destructive/90"
 					>
 						{isPending ? "Deleting..." : "Delete Policy"}
 					</AlertDialogAction>

@@ -22,7 +22,7 @@ export const EmployeeTasksList = ({
 }: EmployeeTasksListProps) => {
 	return (
 		<Tabs defaultValue="policies">
-			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-xs mb-1 p-0 h-auto pb-4">
+			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-sm mb-1 p-0 h-auto pb-4">
 				<TabsTrigger value="policies">Policies</TabsTrigger>
 				<TabsTrigger value="training">Training</TabsTrigger>
 			</TabsList>

@@ -107,80 +107,70 @@ export function DataTablePagination<TData>({
 
 	return (
 		<div
-			className={cn("flex items-center justify-between py-2 px-1", className)}
+			className={cn("flex items-center justify-between px-2 py-4", className)}
 			{...props}
 		>
-			<div className="flex items-center gap-3 text-sm text-muted-foreground">
-				<span className="hidden sm:inline text-xs">
+			<div className="flex items-center gap-4 text-sm text-muted-foreground">
+				<span className="hidden sm:inline">
 					{table.getCoreRowModel().rows.length} items
 				</span>
-				<div className="hidden sm:flex items-center gap-1.5">
+				<div className="hidden sm:flex items-center gap-2">
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
 						onValueChange={handlePageSizeChange}
 					>
-						<SelectTrigger className="h-7 w-24 text-xs border-muted bg-transparent rounded-xs">
+						<SelectTrigger className="h-8 w-20">
 							<SelectValue placeholder={table.getState().pagination.pageSize} />
 						</SelectTrigger>
 						<SelectContent side="bottom">
 							{pageSizeOptions.map((pageSize) => (
-								<SelectItem
-									key={pageSize}
-									value={`${pageSize}`}
-									className="text-xs"
-								>
-									{pageSize} rows
+								<SelectItem key={pageSize} value={`${pageSize}`}>
+									{pageSize}
 								</SelectItem>
 							))}
 						</SelectContent>
 					</Select>
-					<span className="text-xs">per page</span>
+					<span>per page</span>
 				</div>
 			</div>
 
-			<div className="flex items-center space-x-1">
-				<span className="text-xs text-muted-foreground mr-1 hidden sm:inline">
-					{table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+			<div className="flex items-center gap-1">
+				<span className="text-sm text-muted-foreground mr-2 hidden sm:inline">
+					Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
 				</span>
 				<Button
-					aria-label="Go to first page"
-					variant="ghost"
-					size="icon"
-					className="hidden h-7 w-7 sm:flex"
+					variant="outline"
+					size="sm"
+					className="hidden sm:flex"
 					onClick={() => handlePageChange(0)}
 					disabled={!table.getCanPreviousPage()}
 				>
-					<ChevronsLeft className="h-3.5 w-3.5" />
+					<ChevronsLeft className="h-4 w-4" />
 				</Button>
 				<Button
-					aria-label="Go to previous page"
-					variant="ghost"
-					size="icon"
-					className="h-7 w-7"
+					variant="outline"
+					size="sm"
 					onClick={() => handlePageChange(pageIndex - 1)}
 					disabled={!table.getCanPreviousPage()}
 				>
-					<ChevronLeft className="h-3.5 w-3.5" />
+					<ChevronLeft className="h-4 w-4" />
 				</Button>
 				<Button
-					aria-label="Go to next page"
-					variant="ghost"
-					size="icon"
-					className="h-7 w-7"
+					variant="outline"
+					size="sm"
 					onClick={() => handlePageChange(pageIndex + 1)}
 					disabled={!table.getCanNextPage()}
 				>
-					<ChevronRight className="h-3.5 w-3.5" />
+					<ChevronRight className="h-4 w-4" />
 				</Button>
 				<Button
-					aria-label="Go to last page"
-					variant="ghost"
-					size="icon"
-					className="hidden h-7 w-7 sm:flex"
+					variant="outline"
+					size="sm"
+					className="hidden sm:flex"
 					onClick={() => handlePageChange(table.getPageCount() - 1)}
 					disabled={!table.getCanNextPage()}
 				>
-					<ChevronsRight className="h-3.5 w-3.5" />
+					<ChevronsRight className="h-4 w-4" />
 				</Button>
 			</div>
 		</div>

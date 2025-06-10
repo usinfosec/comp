@@ -11,8 +11,8 @@ export function SidebarLogo({
 		<div className={cn("transition-all duration-300 flex items-center")}>
 			<Link href="/" suppressHydrationWarning>
 				<Icons.Logo
-					width={45}
-					height={45}
+					width={40}
+					height={40}
 					className={cn("transition-transform duration-300")}
 				/>
 			</Link>

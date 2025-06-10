@@ -2,6 +2,7 @@
 
 import { Button } from "@comp/ui/button";
 import { useMediaQuery } from "@comp/ui/hooks";
+import { cn } from "@comp/ui/cn";
 import { useQueryState } from "nuqs";
 
 export function AssistantButton() {
@@ -19,11 +20,15 @@ export function AssistantButton() {
 	return (
 		<Button
 			variant="ghost"
-			className="relative min-w-[250px] w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 border-0 p-0 hover:bg-transparent font-normal no-drag"
+			size="default"
+			// className={cn(
+			// 	"relative w-full max-w-sm justify-start text-muted-foreground",
+			// 	"hover:bg-accent hover:text-accent-foreground"
+			// )}
 			onClick={() => setAssistantOpen(true)}
 		>
-			<span className="ml-4 md:ml-0">Ask Comp AI a question...</span>
-			<kbd className="rounded-xs pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 border bg-accent px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+			<span className="truncate">Ask Comp AI a question...</span>
+			<kbd className="ml-auto flex h-5 items-center gap-1 rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-medium">
 				<span className="text-xs">⌘</span>K
 			</kbd>
 		</Button>
