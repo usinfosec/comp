@@ -16,6 +16,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import PageCore from "./PageCore.tsx";
 
 interface BreadcrumbDropdownItem {
 	label: string;
@@ -56,7 +57,7 @@ export default function PageWithBreadcrumb({
 		: [];
 
 	return (
-		<div className="flex flex-col gap-4">
+		<PageCore>
 			<Breadcrumb>
 				<BreadcrumbList>
 					{visibleItems.map((item, index) => {
@@ -161,6 +162,6 @@ export default function PageWithBreadcrumb({
 				</BreadcrumbList>
 			</Breadcrumb>
 			{children}
-		</div>
+		</PageCore>
 	);
 }

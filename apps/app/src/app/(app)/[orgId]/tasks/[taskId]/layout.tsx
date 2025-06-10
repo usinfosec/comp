@@ -1,3 +1,4 @@
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 import { db } from "@comp/db";
 import {
 	Breadcrumb,
@@ -24,33 +25,8 @@ export default async function Layout({
 	});
 
 	return (
-		<div>
-			{/* Render Breadcrumbs only if we are in the tasks section */}
-			{task?.id && (
-				<div className="border-b pb-4">
-					<Breadcrumb>
-						<BreadcrumbList>
-							<BreadcrumbItem>
-								<BreadcrumbLink href={`/${orgId}/tasks`}>
-									Tasks
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-							{taskId && (
-								<>
-									<BreadcrumbSeparator />
-									<BreadcrumbItem>
-										{/* Render taskId as BreadcrumbPage since it's the current page */}
-										<BreadcrumbPage>
-											{task?.title}
-										</BreadcrumbPage>
-									</BreadcrumbItem>
-								</>
-							)}
-						</BreadcrumbList>
-					</Breadcrumb>
-				</div>
-			)}
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Tasks", href: `/${orgId}/tasks` }, { label: task?.title ?? "", href: `/${orgId}/tasks/${taskId}` }]}>
 			{children}
-		</div>
+		</PageWithBreadcrumb>
 	);
 }

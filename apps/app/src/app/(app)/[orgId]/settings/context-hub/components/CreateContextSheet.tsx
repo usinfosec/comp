@@ -32,14 +32,14 @@ export function CreateContextSheet() {
 	if (isDesktop) {
 		return (
 			<Sheet open={isOpen} onOpenChange={handleOpenChange}>
-				<SheetContent stack className="rounded-xs">
+				<SheetContent stack className="rounded-sm">
 					<SheetHeader className="mb-8 flex flex-col gap-2">
 						<div className="flex justify-between items-center">
 							<SheetTitle>Add Context Entry</SheetTitle>
 							<Button
 								size="icon"
 								variant="ghost"
-								className="p-0 m-0 size-auto hover:bg-transparent rounded-xs"
+								className="p-0 m-0 size-auto hover:bg-transparent rounded-sm"
 								onClick={() => setOpen(null)}
 							>
 								<X className="h-5 w-5" />
@@ -58,7 +58,7 @@ export function CreateContextSheet() {
 	}
 	return (
 		<Drawer open={isOpen} onOpenChange={handleOpenChange}>
-			<DrawerContent className="p-6 rounded-xs">
+			<DrawerContent className="p-6 rounded-sm">
 				<DrawerHeader>
 					<DrawerTitle>Add Context Entry</DrawerTitle>
 					<DrawerDescription>

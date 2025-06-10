@@ -109,7 +109,7 @@ export function ContextList({
 													<Button
 														size="icon"
 														variant="ghost"
-														className="rounded-xs"
+														className="rounded-sm"
 														aria-label="Edit"
 														onClick={() => handleEditOpen(entry.id, true)}
 													>
@@ -140,7 +140,7 @@ export function ContextList({
 										<div className="flex justify-end w-full">
 											<AlertDialog>
 												<AlertDialogTrigger asChild>
-													<Button variant="destructive" className="rounded-xs">
+													<Button variant="destructive" className="rounded-sm">
 														Delete
 													</Button>
 												</AlertDialogTrigger>

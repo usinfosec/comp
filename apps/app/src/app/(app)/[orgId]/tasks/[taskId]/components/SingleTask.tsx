@@ -7,6 +7,7 @@ import { updateTask } from "../../actions/updateTask";
 import { TaskDeleteDialog } from "./TaskDeleteDialog";
 import { TaskMainContent } from "./TaskMainContent";
 import { TaskPropertiesSidebar } from "./TaskPropertiesSidebar";
+import { Card, CardDescription } from "@comp/ui/card";
 
 interface SingleTaskProps {
 	task: Task & { fileUrls?: string[] };
@@ -56,7 +57,7 @@ export function SingleTask({
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row overflow-hidden px-4 py-6 lg:p-0 h-full lg:gap-16">
+		<Card className="flex flex-col lg:flex-row overflow-hidden p-4 h-full lg:gap-16">
 			<TaskMainContent
 				task={task}
 				comments={comments}
@@ -76,6 +77,6 @@ export function SingleTask({
 				onClose={() => setDeleteDialogOpen(false)}
 				task={task}
 			/>
-		</div>
+		</Card>
 	);
 }

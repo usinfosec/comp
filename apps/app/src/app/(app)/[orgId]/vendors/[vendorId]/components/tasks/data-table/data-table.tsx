@@ -46,7 +46,7 @@ export function DataTable({ data, pageCount, currentPage }: DataTableProps) {
 
 	return (
 		<div className="space-y-4">
-			<div className="rounded-xs border">
+			<div className="rounded-sm border">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

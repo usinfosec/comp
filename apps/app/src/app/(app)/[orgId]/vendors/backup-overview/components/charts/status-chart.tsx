@@ -165,7 +165,7 @@ export function StatusChart({ data }: StatusChartProps) {
 									width: `${barWidth}%`,
 									height: `${fixedBarHeightPercentage}%`,
 								}}
-								className={`absolute ${getStatusColor(d.name)} ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-xs`}
+								className={`absolute ${getStatusColor(d.name)} ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-sm`}
 								data-tip={`${d.name}: ${allZeros ? 0 : d.value}`}
 							/>
 						);

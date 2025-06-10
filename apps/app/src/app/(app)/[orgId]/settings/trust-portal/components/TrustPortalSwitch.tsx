@@ -502,19 +502,19 @@ function ComplianceFramework({
 									<SelectContent>
 										<SelectItem value="started">
 											<span className="flex items-center gap-2">
-												<span className="inline-block w-4 h-4 rounded-xs bg-gray-300" />
+												<span className="inline-block w-4 h-4 rounded-sm bg-gray-300" />
 												Started
 											</span>
 										</SelectItem>
 										<SelectItem value="in_progress">
 											<span className="flex items-center gap-2">
-												<span className="inline-block w-4 h-4 rounded-xs bg-yellow-400" />
+												<span className="inline-block w-4 h-4 rounded-sm bg-yellow-400" />
 												In Progress
 											</span>
 										</SelectItem>
 										<SelectItem value="compliant">
 											<span className="flex items-center gap-2">
-												<span className="inline-block w-4 h-4 rounded-xs bg-green-500" />
+												<span className="inline-block w-4 h-4 rounded-sm bg-green-500" />
 												Compliant
 											</span>
 										</SelectItem>
