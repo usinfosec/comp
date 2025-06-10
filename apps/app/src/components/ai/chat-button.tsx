@@ -6,16 +6,12 @@ import { cn } from "@comp/ui/cn";
 import { useQueryState } from "nuqs";
 
 export function AssistantButton() {
-	const isDesktop = useMediaQuery("(min-width: 768px)");
+
 	const [, setAssistantOpen] = useQueryState("assistant", {
 		history: "push",
 		parse: (value) => value === "true",
 		serialize: (value) => value.toString(),
 	});
-
-	if (!isDesktop) {
-		return null;
-	}
 
 	return (
 		<Button
