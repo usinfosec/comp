@@ -47,7 +47,7 @@ export function DataTable<TData>({
 	return (
 		<div className={cn("space-y-4", className)} {...props}>
 			{children}
-			<div className="rounded-md border">
+			<div className="rounded-md">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
