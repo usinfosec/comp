@@ -33,7 +33,7 @@ export function ApiKeysTable({ apiKeys }: { apiKeys: ApiKey[] }) {
 			<DataTable table={table}>
 				<DataTableToolbar table={table}>
 					<Button
-						className="flex items-center gap-1 rounded-xs"
+						className="flex items-center gap-1 rounded-sm"
 						onClick={() => setOpenSheet("true")}
 					>
 						<Plus className="h-4 w-4" />

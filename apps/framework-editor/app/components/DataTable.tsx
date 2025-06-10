@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
 	if (!data || (data.length === 0 && !searchTerm)) {
 		return (
 			<div
-				className="bg-card p-4 rounded-xs flex flex-col items-center justify-center py-16 text-center space-y-4"
+				className="bg-card p-4 rounded-sm flex flex-col items-center justify-center py-16 text-center space-y-4"
 				id="no-data-available"
 			>
 				<div className="rounded-full bg-muted p-3 w-12 h-12 flex items-center justify-center mx-auto">

@@ -78,7 +78,7 @@ const AdvancedEditor = ({
 	}
 
 	return (
-		<div className="relative w-full bg-background border rounded-xs flex flex-col gap-2">
+		<div className="relative w-full bg-background border rounded-sm flex flex-col gap-2">
 			{/* Toolbar Area */}
 			{!readOnly && (
 				<div className="flex items-center gap-1 p-2 border-b sticky top-0 bg-background z-10 flex-wrap">
@@ -97,10 +97,10 @@ const AdvancedEditor = ({
 					<TextButtons editor={editor} />
 					{/* Add other selectors/buttons here */}
 					<div className="ml-auto flex items-center gap-2">
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-xs">
+						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
 							{saveStatus}
 						</div>
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-xs">
+						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
 							{charsCount} Words
 						</div>
 					</div>

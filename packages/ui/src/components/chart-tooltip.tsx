@@ -173,7 +173,7 @@ const TooltipContent = React.forwardRef<
 						ref.current = node;
 					}
 				}}
-				className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3.5 py-2 rounded-xs fixed z-30"
+				className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3.5 py-2 rounded-sm fixed z-30"
 				style={getTooltipPosition()}
 			>
 				{children}

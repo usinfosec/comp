@@ -7,6 +7,7 @@ import { OrganizationSwitcher } from "./organization-switcher";
 import { SidebarCollapseButton } from "./sidebar-collapse-button";
 import { SidebarLogo } from "./sidebar-logo";
 import { db } from "@comp/db";
+import { cn } from "@comp/ui/cn";
 
 export async function Sidebar({
 	organization,
@@ -26,14 +27,11 @@ export async function Sidebar({
 	});
 
 	return (
-		<div className="h-full flex flex-col gap-0">
+		<div className="h-full flex flex-col gap-0 overflow-x-clip bg-secondary/30">
 			<div className="p-4 flex flex-col gap-2">
-				<div className="flex items-center justify-between">
+				<div className={cn("flex items-center justify-start", isCollapsed && "justify-center")}>
 					<SidebarLogo isCollapsed={isCollapsed} />
-					{!isCollapsed && (
-						<SidebarCollapseButton isCollapsed={isCollapsed} />
-					)}
-				</div>
+				</div>	
 				<div className="flex flex-col gap-2 mt-2">
 					<OrganizationSwitcher
 						organizations={organizations}
@@ -48,11 +46,11 @@ export async function Sidebar({
 				</div>
 			</div>
 			<div className="flex-1" />
-			{isCollapsed && (
+		
 				<div className="flex justify-center border-b border-border py-2">
 					<SidebarCollapseButton isCollapsed={isCollapsed} />
 				</div>
-			)}
+	
 
 		</div>
 	);
