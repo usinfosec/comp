@@ -1,6 +1,7 @@
 import { auth } from "@/utils/auth";
+
 import {
-	TrainingVideo,
+	type TrainingVideo,
 	trainingVideos as trainingVideosData,
 } from "@/lib/data/training-videos";
 import { db } from "@comp/db";
@@ -8,9 +9,11 @@ import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { EmployeeDetails } from "./components/EmployeeDetails";
+import { Employee } from "./components/Employee";
 
-export default async function EmployeeDetailsPage({ params }: { params: Promise<{ employeeId: string }> }) {
+export default async function EmployeeDetailsPage({
+	params,
+}: { params: Promise<{ employeeId: string }> }) {
 	const { employeeId } = await params;
 
 	const session = await auth.api.getSession({
@@ -33,8 +36,7 @@ export default async function EmployeeDetailsPage({ params }: { params: Promise<
 	}
 
 	return (
-		<EmployeeDetails
-			employeeId={employeeId}
+		<Employee
 			employee={employee}
 			policies={policies}
 			trainingVideos={employeeTrainingVideos}
