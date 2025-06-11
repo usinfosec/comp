@@ -3,7 +3,7 @@ FROM oven/bun:1 as base
 
 # The fleetctl package command requires 'cpio' to be installed.
 # This command updates the package list and installs cpio.
-RUN apt-get update && apt-get install -y cpio ca-certificates
+RUN apt-get update && apt-get install -y cpio ca-certificates docker.io git libxml2-utils xz-utils
 
 # Set the working directory inside the container.
 WORKDIR /usr/src/app
