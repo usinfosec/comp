@@ -100,7 +100,7 @@ export const generateAgentFile = task({
 
       logger.info(`Building .pkg in ${workDir}`);
 
-      const commandMac = `npx fleetctl package \
+      const commandMac = `fleetctl package \
 --type=pkg \
 --fleet-url ${fleetUrl} \
 --enable-scripts \
