@@ -5,14 +5,12 @@ import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
 import { Progress } from "@comp/ui/progress";
 import { cn } from "@comp/ui/cn";
-import { ClipboardCheck, ClipboardList, Clock } from "lucide-react";
+import { BarChart3, Clock } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import type { FrameworkInstanceWithControls } from "../types";
@@ -50,6 +48,12 @@ export function FrameworkCard({
 			label: "Needs Attention",
 			variant: "destructive" as const,
 		};
+	};
+
+	const getComplianceColor = (score: number) => {
+		if (score >= 80) return "text-green-600 dark:text-green-400";
+		if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
+		return "text-red-600 dark:text-red-400";
 	};
 
 	const controlsCount = frameworkInstance.controls?.length || 0;
@@ -98,80 +102,58 @@ export function FrameworkCard({
 	const statusBadge = getStatusBadge(complianceScore);
 
 	// Calculate last activity date - use current date as fallback
-	const lastActivityDate = new Date().toISOString().slice(0, 10);
+	const lastActivityDate = new Date().toLocaleDateString();
 
 	return (
 		<Link
 			href={`/${orgId}/frameworks/${frameworkInstance.id}`}
-			className="block"
+			className="block group"
 		>
-			<Card className="h-full flex flex-col hover:bg-accent/50 transition-colors">
-				<CardHeader>
-					<CardTitle className="flex items-center justify-between">
-						<span className="truncate">{frameworkDetails.name}</span>
-						<Badge 
-							variant={statusBadge.variant}
-							className="hidden md:block shrink-0"
-						>
-							{statusBadge.label}
+			<Card className="h-full flex flex-col hover:shadow-sm transition-shadow">
+				<CardHeader className="pb-3">
+					<div className="flex items-start justify-between gap-3">
+						<div className="flex-1 min-w-0">
+							<CardTitle className="text-base font-medium truncate mb-1">
+								{frameworkDetails.name}
+							</CardTitle>
+							<p className="text-xs text-muted-foreground line-clamp-2">
+								{frameworkDetails.description}
+							</p>
+						</div>
+						<Badge variant={statusBadge.variant} className="text-xs shrink-0">
+							{complianceScore}%
 						</Badge>
-					</CardTitle>
-					<CardDescription className="flex items-start justify-between gap-4">
-						<p className="line-clamp-2 flex-1">
-							{frameworkDetails.description}
-						</p>
-				
-					</CardDescription>
+					</div>
 				</CardHeader>
 				
-				<CardContent className="flex-1 space-y-4">
+				<CardContent className="flex-1 space-y-4 pt-0">
+					{/* Progress Section */}
 					<div className="space-y-2">
-						<div className="flex items-center justify-between text-sm">
-							<span className="text-muted-foreground">Status</span>
-							<span className="font-medium">
+						<div className="flex items-center justify-between text-xs">
+							<div className="flex items-center gap-1">
+								<BarChart3 className="h-3 w-3 text-muted-foreground" />
+								<span className="text-muted-foreground">Progress</span>
+							</div>
+							<span className={cn("font-medium tabular-nums", getComplianceColor(complianceScore))}>
 								{complianceScore}%
 							</span>
 						</div>
-						<Progress value={complianceScore} className="h-2" />
+						<Progress value={complianceScore} className="h-1" />
 					</div>
 
-					<div className="grid grid-cols-3 gap-4">
-						<div className="space-y-1">
-							<div className="flex items-center text-muted-foreground">
-								<ClipboardList className="h-4 w-4 mr-1" />
-								<span className="text-xs">Controls</span>
-							</div>
-							<p className="font-medium text-sm">
-								{controlsCount}
-							</p>
-						</div>
-						<div className="space-y-1">
-							<div className="flex items-center text-muted-foreground">
-								<ClipboardCheck className="h-4 w-4 mr-1" />
-								<span className="text-xs">Completed</span>
-							</div>
-							<p className="font-medium text-sm">
-								{compliantControlsCount} / {controlsCount}
-							</p>
-						</div>
-						<div className="space-y-1">
-							<div className="flex items-center text-muted-foreground">
-								<Clock className="h-4 w-4 mr-1" />
-								<span className="text-xs">In Progress</span>
-							</div>
-							<p className="font-medium text-sm">
-								{inProgressCount} / {controlsCount}
-							</p>
-						</div>
+					{/* Stats */}
+					<div className="flex items-center justify-between text-xs text-muted-foreground">
+						<span>{compliantControlsCount} complete</span>
+						<span>{inProgressCount} active</span>
+						<span>{controlsCount} total</span>
+					</div>
+
+					{/* Footer */}
+					<div className="flex items-center text-xs text-muted-foreground pt-2 border-t">
+						<Clock className="h-3 w-3 mr-1" />
+						<span>Updated {lastActivityDate}</span>
 					</div>
 				</CardContent>
-				
-				<CardFooter className="text-xs text-muted-foreground">
-					<div className="flex items-center">
-						<Clock className="h-4 w-4 mr-2" />
-						Last Updated: {lastActivityDate}
-					</div>
-				</CardFooter>
 			</Card>
 		</Link>
 	);

@@ -10,7 +10,6 @@ import type {
 	RequirementMap,
 	Task,
 } from "@comp/db/types";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { Button } from "@comp/ui/button";
 import {
 	DropdownMenu,
@@ -18,7 +17,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@comp/ui/dropdown-menu";
-import { MoreVertical, PencilIcon, Trash2 } from "lucide-react";
+import { MoreVertical, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { ControlDeleteDialog } from "./ControlDeleteDialog";
 import { useParams } from "next/navigation";
@@ -79,60 +78,63 @@ export function SingleControl({
 
 	return (
 		<div className="space-y-6">
-			<Card>
-				<CardHeader>
-					<CardTitle>
-						<div className="flex items-center justify-between gap-2">
-							<div className="flex items-center gap-2">
-								{control.name}
-							</div>
-							<div className="flex items-center gap-2">
-								<StatusIndicator status={progressStatus} />
-								<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-									<DropdownMenuTrigger asChild>
-										<Button
-											size="icon"
-											variant="ghost"
-											className="p-2 m-0 size-auto"
-										>
-											<MoreVertical className="h-4 w-4" />
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end">
-										<DropdownMenuItem
-											onClick={() => {
-												setDropdownOpen(false);
-												setDeleteDialogOpen(true);
-											}}
-											className="text-destructive focus:text-destructive"
-										>
-											<Trash2 className="h-4 w-4 mr-2" />
-											Delete
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</div>
+			{/* Control Header */}
+			<div className="space-y-3">
+				<div className="flex items-start justify-between gap-4">
+					<div className="min-w-0 flex-1">
+						<div className="flex items-center gap-2 mb-2">
+							<h1 className="text-xl font-semibold truncate">{control.name}</h1>
+							<StatusIndicator status={progressStatus} />
 						</div>
-					</CardTitle>
-					<CardDescription>
-						{control.description}
-					</CardDescription>
-				</CardHeader>
-			</Card>
-			<RequirementsTable
-				requirements={control.requirementsMapped}
-				orgId={orgIdFromParams}
-			/>
-			<PoliciesTable
-				policies={relatedPolicies}
-				orgId={orgIdFromParams}
-				controlId={controlIdFromParams}
-			/>
-			<TasksTable
-				tasks={relatedTasks}
-				orgId={orgIdFromParams}
-				controlId={controlIdFromParams}
-			/>
+						{control.description && (
+							<p className="text-sm text-muted-foreground leading-relaxed">
+								{control.description}
+							</p>
+						)}
+					</div>
+					<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+						<DropdownMenuTrigger asChild>
+							<Button
+								size="sm"
+								variant="ghost"
+								className="shrink-0"
+							>
+								<MoreVertical className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem
+								onClick={() => {
+									setDropdownOpen(false);
+									setDeleteDialogOpen(true);
+								}}
+								className="text-destructive focus:text-destructive"
+							>
+								<Trash2 className="h-4 w-4 mr-2" />
+								Delete
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			</div>
+
+			{/* Content Sections */}
+			<div className="space-y-6">
+				<RequirementsTable
+					requirements={control.requirementsMapped}
+					orgId={orgIdFromParams}
+				/>
+				<PoliciesTable
+					policies={relatedPolicies}
+					orgId={orgIdFromParams}
+					controlId={controlIdFromParams}
+				/>
+				<TasksTable
+					tasks={relatedTasks}
+					orgId={orgIdFromParams}
+					controlId={controlIdFromParams}
+				/>
+			</div>
 
 			{/* Delete Dialog */}
 			<ControlDeleteDialog
@@ -140,6 +142,6 @@ export function SingleControl({
 				onClose={() => setDeleteDialogOpen(false)}
 				control={control}
 			/>
-		</div >
+		</div>
 	);
 }

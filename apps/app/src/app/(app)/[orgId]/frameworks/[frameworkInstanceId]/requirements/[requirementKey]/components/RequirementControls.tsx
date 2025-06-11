@@ -1,7 +1,6 @@
 "use client";
 
 import type { FrameworkEditorRequirement } from "@comp/db/types";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
 import type { Control, RequirementMap, Task } from "@comp/db/types";
 
@@ -18,24 +17,32 @@ export function RequirementControls({
 }: RequirementControlsProps) {
 	return (
 		<div className="space-y-6">
-			<Card>
-				<CardHeader>
-					<CardTitle>{requirement.name}</CardTitle>
-					<CardDescription>{requirement.description}</CardDescription>
-				</CardHeader>
-			</Card>
+			{/* Requirement Header */}
+			<div className="space-y-2">
+				<h1 className="text-xl font-semibold">{requirement.name}</h1>
+				{requirement.description && (
+					<p className="text-sm text-muted-foreground leading-relaxed">
+						{requirement.description}
+					</p>
+				)}
+			</div>
 
-			<Card>
-				<CardHeader>
-					<CardTitle>Controls ({relatedControls.length})</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<RequirementControlsTable
-						controls={relatedControls.map((control) => control.control)}
-						tasks={tasks}
-					/>
-				</CardContent>
-			</Card>
+			{/* Controls Section */}
+			<div className="space-y-4">
+				<div className="flex items-center justify-between border-b border-muted pb-3">
+					<div className="flex items-center gap-2">
+						<h2 className="text-base font-medium">Controls</h2>
+						<span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-xs tabular-nums">
+							{relatedControls.length}
+						</span>
+					</div>
+				</div>
+				
+				<RequirementControlsTable
+					controls={relatedControls.map((control) => control.control)}
+					tasks={tasks}
+				/>
+			</div>
 		</div>
 	);
 }
