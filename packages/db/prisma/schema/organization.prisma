@@ -9,6 +9,12 @@ model Organization {
   onboarding       Onboarding?
   website          String?
 
+  // FleetDM
+  fleetDmSecret           String  @default(dbgenerated("generate_random_secret(32)"))
+  fleetDmLabelId          Int?
+  osqueryAgentDownloadUrl String?
+  isFleetSetupCompleted   Boolean @default(false)
+
   apiKeys            ApiKey[]
   auditLog           AuditLog[]
   controls           Control[]
