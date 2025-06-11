@@ -1,8 +1,7 @@
 "use client";
 
 import type { FrameworkEditorRequirement } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { FrameworkInstanceWithControls } from "../../../../types";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp/ui/card";
 import { RequirementControlsTable } from "./table/RequirementControlsTable";
 import type { Control, RequirementMap, Task } from "@comp/db/types";
 
@@ -21,30 +20,14 @@ export function RequirementControls({
 		<div className="space-y-6">
 			<Card>
 				<CardHeader>
-					<CardTitle className="flex items-center justify-between">
-						<div>
-							<span className="text-sm text-muted-foreground">
-								{"Requirement"}
-							</span>
-							<h1 className="text-2xl font-semibold">
-								{requirement.name}
-							</h1>
-						</div>
-					</CardTitle>
+					<CardTitle>{requirement.name}</CardTitle>
+					<CardDescription>{requirement.description}</CardDescription>
 				</CardHeader>
-				<CardContent>
-					<p className="text-sm text-muted-foreground">
-						{requirement.description}
-					</p>
-				</CardContent>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<CardTitle>
-						{"Controls"} (
-						{relatedControls.length})
-					</CardTitle>
+					<CardTitle>Controls ({relatedControls.length})</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<RequirementControlsTable

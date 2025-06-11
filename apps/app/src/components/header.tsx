@@ -36,7 +36,7 @@ export async function Header() {
 	});
 
 	return (
-		<header className="flex justify-between items-center bg-backgroundSoft py-2 top-0 z-10 px-4 sticky backdrop-blur-sm border-b border-border/40">
+		<header className="flex justify-between items-center py-2 top-0 z-10 px-4 sticky backdrop-blur-sm border-b border-border/40">
 			<MobileMenu
 				organizationId={currentOrganizationId}
 				organizations={organizations}
