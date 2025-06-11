@@ -1,3 +1,10 @@
+# [1.41.0](https://github.com/trycompai/comp/compare/v1.40.0...v1.41.0) (2025-06-11)
+
+
+### Features
+
+* **api:** add organization initialization after reset ([89b2d2e](https://github.com/trycompai/comp/commit/89b2d2e97bc9b3f8394e940f5d1ef09552048b90))
+
 # [1.40.0](https://github.com/trycompai/comp/compare/v1.39.0...v1.40.0) (2025-06-11)
 
 
