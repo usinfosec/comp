@@ -255,9 +255,5 @@ export const onboardOrganization = task({
 
     logger.info(`Created ${extractRisks.object.risks.length} risks`);
     logger.info(`Created ${extractVendors.object.vendors.length} vendors`);
-
-    await generateAgentFile.trigger({
-      organizationId: payload.organizationId,
-    });
   },
 });
