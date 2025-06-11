@@ -2,12 +2,11 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
-import { Task, Policy } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Task } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
+import { Icons } from "@comp/ui/icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
@@ -99,33 +98,23 @@ export function TasksTable({ tasks, orgId, controlId }: TasksTableProps) {
 	});
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Tasks ({filteredTasks.length})</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<div className="flex items-center mb-4">
-					<Input
-						placeholder={"Search tasks..."}
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="max-w-sm"
-					/>
-					{/* <div className="ml-auto">
-						<DataTableSortList
-							table={table.table}
-							align="end"
-							tableId="t"
-						/>
-					</div> */}
-				</div>
-				<DataTable
-					table={table.table}
-					rowClickBasePath={`/${orgId}/`}
-					getRowId={(row) => `/tasks/${row.id}`}
-					tableId={"t"}
+		<div className="space-y-4">
+			<div className="flex items-center">
+				<Input
+					placeholder="Search tasks..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="max-w-sm"
+					leftIcon={<Icons.Search size={16} />}
 				/>
-			</CardContent>
-		</Card>
+			</div>
+			
+			<DataTable
+				table={table.table}
+				rowClickBasePath={`/${orgId}/`}
+				getRowId={(row) => `/tasks/${row.id}`}
+				tableId={"t"}
+			/>
+		</div>
 	);
 }
