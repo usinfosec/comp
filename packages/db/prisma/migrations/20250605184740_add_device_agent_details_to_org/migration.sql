@@ -11,11 +11,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- AlterTable
-ALTER TABLE "Organization" ADD COLUMN     "fleetDmLabelId" INTEGER,
-ADD COLUMN     "fleetDmSecret" TEXT NOT NULL DEFAULT generate_random_secret(32),
-ADD COLUMN     "isFleetSetupCompleted" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "osqueryAgentDownloadUrl" TEXT;
 
 -- AlterTable
-ALTER TABLE "Member" ADD COLUMN     "fleetDmLabelId" INTEGER;
+ALTER TABLE "Organization" ADD COLUMN     "fleetDmSecret" TEXT NOT NULL DEFAULT generate_random_secret(32);
+ALTER TABLE "Organization" ADD COLUMN     "fleetDmLabelId" INT;
+ALTER TABLE "Organization" ADD COLUMN     "osqueryAgentDownloadUrl" TEXT;
