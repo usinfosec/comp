@@ -1,3 +1,23 @@
+# [1.40.0](https://github.com/trycompai/comp/compare/v1.39.0...v1.40.0) (2025-06-11)
+
+
+### Bug Fixes
+
+* **SidebarCollapseButton:** handle optimistic update rollback on error ([bf6298d](https://github.com/trycompai/comp/commit/bf6298d581c1926f12458ddc815307b874d1712a))
+
+
+### Features
+
+* add Fleet integration for endpoint monitoring and management ([748af0e](https://github.com/trycompai/comp/commit/748af0e191f4ad934fd86f3c373c7f48e5854a64))
+* add support for fleet in db ([44f6ee2](https://github.com/trycompai/comp/commit/44f6ee2ad8e82337ed5b9a8734a2d720d7cef2fe))
+* **components:** introduce CardLiquidGlass component and update PageCore layout ([4345ff1](https://github.com/trycompai/comp/commit/4345ff16c6151e575ea7ddfa03447d1a0ed4896d))
+* **design-system:** add new design system rules ([966d8d8](https://github.com/trycompai/comp/commit/966d8d8cd1515219d97ff62d673ba7954182c3d6))
+* employee devices showing in app and portal ([5a71b5b](https://github.com/trycompai/comp/commit/5a71b5bed2f2f19a2f8dbbc05fbecb52a1fa24bc))
+* **header:** add inbox icon to feedback link ([ed32c23](https://github.com/trycompai/comp/commit/ed32c23a80d5a388f58ce5003706ebab5c0bcd57))
+* list out employee devices and overview chart ([7c2f8bb](https://github.com/trycompai/comp/commit/7c2f8bb7f1a616d3aa0af32df9ac8ee1b647700e))
+* **policies:** introduce new layout component for policies overview ([87d25a0](https://github.com/trycompai/comp/commit/87d25a05376c628555d75bd52002d44ddc1d921d))
+* **ui:** add search icon to input components ([44ea88c](https://github.com/trycompai/comp/commit/44ea88c41c1c06216788680f68fd6a30dd4ab7cf))
+
 # [1.39.0](https://github.com/trycompai/comp/compare/v1.38.0...v1.39.0) (2025-06-09)
 
 
