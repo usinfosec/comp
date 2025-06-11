@@ -6,6 +6,7 @@ import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
 import { Task } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
+import { Icons } from "@comp/ui/icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
@@ -98,21 +99,13 @@ export function TasksTable({ tasks, orgId, controlId }: TasksTableProps) {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center justify-between border-b border-muted pb-3">
-				<div className="flex items-center gap-2">
-					<h2 className="text-base font-medium">Tasks</h2>
-					<span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-xs tabular-nums">
-						{filteredTasks.length}
-					</span>
-				</div>
-			</div>
-			
 			<div className="flex items-center">
 				<Input
 					placeholder="Search tasks..."
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="max-w-sm"
+					leftIcon={<Icons.Search size={16} />}
 				/>
 			</div>
 			

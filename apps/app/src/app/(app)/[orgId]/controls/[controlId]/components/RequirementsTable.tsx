@@ -10,6 +10,7 @@ import type {
 	RequirementMap,
 } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
+import { Icons } from "@comp/ui/icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
@@ -121,6 +122,7 @@ export function RequirementsTable({
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="max-w-sm"
+					leftIcon={<Icons.Search size={16} />}
 				/>
 			</div>
 			
