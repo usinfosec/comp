@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y cpio
 WORKDIR /usr/src/app
 
 # Copy package.json and bun.lockb to leverage Docker cache.
-COPY package.json bun.lockb*
+COPY package.json bun.lockb* ./
 
 # Install application dependencies.
 RUN bun install --frozen-lockfile
