@@ -12,13 +12,13 @@ import { logger, task, tasks } from "@trigger.dev/sdk/v3";
 import { generateObject } from "ai";
 import axios from "axios";
 import z from "zod";
+import { generateAgentFile } from "../device/generate-agent-file";
 import type { researchVendor } from "../scrape/research";
 import { updatePolicies } from "./update-policies";
-import { generateAgentFile } from "../device/generate-agent-file";
 
 export const onboardOrganization = task({
   id: "onboard-organization",
-  cleanup: async ({ organizationId }: { organizationId: string }, ctx) => {
+  cleanup: async ({ organizationId }: { organizationId: string }) => {
     // Set triggerJobId to null to signal that the job is complete or failed.
     await db.onboarding.update({
       where: {
@@ -257,9 +257,6 @@ export const onboardOrganization = task({
     logger.info(`Created ${extractRisks.object.risks.length} risks`);
     logger.info(`Created ${extractVendors.object.vendors.length} vendors`);
 
-    logger.info(
-      `Generating agent file for organization ${payload.organizationId}`
-    );
     await generateAgentFile.trigger({
       organizationId: payload.organizationId,
     });

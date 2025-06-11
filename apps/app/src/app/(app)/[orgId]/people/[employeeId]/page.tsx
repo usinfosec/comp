@@ -1,7 +1,6 @@
 import { auth } from "@/utils/auth";
-
 import {
-	type TrainingVideo,
+	TrainingVideo,
 	trainingVideos as trainingVideosData,
 } from "@/lib/data/training-videos";
 import { db } from "@comp/db";
@@ -9,12 +8,9 @@ import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { Employee } from "./components/Employee";
-import { fleet } from "@/lib/fleet";
+import { EmployeeDetails } from "./components/EmployeeDetails";
 
-export default async function EmployeeDetailsPage({
-	params,
-}: { params: Promise<{ employeeId: string }> }) {
+export default async function EmployeeDetailsPage({ params }: { params: Promise<{ employeeId: string }> }) {
 	const { employeeId } = await params;
 
 	const session = await auth.api.getSession({
@@ -36,19 +32,12 @@ export default async function EmployeeDetailsPage({
 		notFound();
 	}
 
-	const deviceLabelId = employee.fleetDmLabelId;
-	const deviceResponse = await fleet.get(`/labels/${deviceLabelId}/hosts`);
-	const device = deviceResponse.data.hosts[0]; // There should only be one device per label.
-	const deviceWithPolicies = await fleet.get(`/hosts/${device.id}`);
-	const fleetPolicies = deviceWithPolicies.data.host.policies;
-
 	return (
-		<Employee
+		<EmployeeDetails
+			employeeId={employeeId}
 			employee={employee}
 			policies={policies}
 			trainingVideos={employeeTrainingVideos}
-			fleetPolicies={fleetPolicies}
-			host={device}
 		/>
 	);
 }

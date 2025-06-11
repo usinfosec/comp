@@ -6,10 +6,10 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
-	const { orgId, policyId } = await params;
+	const { orgId } = await params;
 
 	return (
-		<div className="max-w-[1200px] m-auto flex flex-col gap-6">
+		<div className="max-w-[1200px] m-auto flex flex-col">
 			<SecondaryMenu
 				items={[
 					{

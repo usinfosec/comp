@@ -1,6 +1,7 @@
 import { UserMenu } from "@/components/user-menu";
 import { getOrganizations } from "@/data/getOrganizations";
 import { auth } from "@/utils/auth";
+import { Inbox } from "lucide-react";
 import { db } from "@comp/db";
 import { buttonVariants } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
@@ -36,7 +37,7 @@ export async function Header() {
 	});
 
 	return (
-		<header className="flex justify-between items-center bg-backgroundSoft py-2 top-0 z-10 px-4 sticky backdrop-blur-sm border-b border-border/40">
+		<header className="flex justify-between items-center py-2 top-0 z-10 px-4 sticky backdrop-blur-sm border-b border-border/40">
 			<MobileMenu
 				organizationId={currentOrganizationId}
 				organizations={organizations}
@@ -49,17 +50,18 @@ export async function Header() {
 				<div className="hidden md:flex gap-2">
 					<Link
 						className={buttonVariants({
-							variant: "outline",
+							variant: "ghost",
 							size: "sm",
 						})}
 						href="https://roadmap.trycomp.ai"
 						target="_blank"
 					>
+						<Inbox className="h-4 w-4" />
 						Feedback
 					</Link>
 					<Link
 						className={buttonVariants({
-							variant: "outline",
+							variant: "ghost",
 							size: "sm",
 						})}
 						href="https://discord.gg/compai"

@@ -2,7 +2,6 @@ import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import type * as React from "react";
 
-import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@comp/ui/cn";
 import {
 	Table,
@@ -20,7 +19,6 @@ interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	getRowId?: (row: TData) => string;
 	rowClickBasePath?: string;
 	tableId?: string;
-	onRowClick?: (row: TData) => void;
 }
 
 export function DataTable<TData>({
@@ -31,15 +29,11 @@ export function DataTable<TData>({
 	getRowId,
 	rowClickBasePath,
 	tableId,
-	onRowClick,
 	...props
 }: DataTableProps<TData>) {
 	const router = useRouter();
 
 	const handleRowClick = (row: TData) => {
-		if (onRowClick) {
-			onRowClick(row);
-		}
 		if (getRowId) {
 			const id = getRowId(row);
 			router.push(`${rowClickBasePath}/${id}`);
@@ -63,20 +57,15 @@ export function DataTable<TData>({
 										colSpan={header.colSpan}
 										className={cn(
 											index !== 0 && "hidden md:table-cell",
-											index === 0 && "w-full md:w-auto",
+											index === 0 && "w-full md:w-auto"
 										)}
-										style={{
-											...getCommonPinningStyles({
-												column: header.column,
-											}),
-										}}
 									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+												header.column.columnDef.header,
+												header.getContext(),
+											)}
 									</TableHead>
 								))}
 							</TableRow>
@@ -89,8 +78,7 @@ export function DataTable<TData>({
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
 									className={cn(
-										(getRowId || onRowClick) &&
-											"cursor-pointer hover:bg-muted/50",
+										getRowId && "cursor-pointer hover:bg-muted/50"
 									)}
 									onClick={() => handleRowClick(row.original)}
 								>
@@ -99,13 +87,8 @@ export function DataTable<TData>({
 											key={cell.id}
 											className={cn(
 												index !== 0 && "hidden md:table-cell",
-												index === 0 && "truncate",
+												index === 0 && "truncate"
 											)}
-											style={{
-												...getCommonPinningStyles({
-													column: cell.column,
-												}),
-											}}
 										>
 											{flexRender(
 												cell.column.columnDef.cell,

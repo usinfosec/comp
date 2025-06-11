@@ -62,7 +62,7 @@ export default async function Layout({
 				)}
 				<Header />
 				<div
-					className="px-4 mx-auto py-4"
+					className="px-4 mx-auto py-4 textured-background"
 					style={{ minHeight: `calc(100vh - ${pixelsOffset}px)` }}
 				>
 					{children}

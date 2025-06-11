@@ -54,6 +54,8 @@ export async function EmployeesOverview() {
 			return roles.includes("employee");
 		});
 
+		console.log(employees);
+
 		// Fetch required policies
 		policies = await db.policy.findMany({
 			where: {
@@ -79,12 +81,14 @@ export async function EmployeesOverview() {
 				);
 
 				if (videoMetadata) {
+					// Push the object matching the updated ProcessedTrainingVideo interface
 					processedTrainingVideos.push({
 						id: dbVideo.id,
 						memberId: dbVideo.memberId,
 						videoId: dbVideo.videoId,
 						completedAt: dbVideo.completedAt,
-						metadata: videoMetadata as ProcessedTrainingVideo["metadata"],
+						metadata:
+							videoMetadata as ProcessedTrainingVideo["metadata"],
 					});
 				}
 			}
@@ -96,7 +100,8 @@ export async function EmployeesOverview() {
 			<EmployeeCompletionChart
 				employees={employees}
 				policies={policies}
-				trainingVideos={processedTrainingVideos}
+				// Use the correctly typed array, potentially casting if EmployeeCompletionChart expects a slightly different type
+				trainingVideos={processedTrainingVideos as any}
 			/>
 		</div>
 	);

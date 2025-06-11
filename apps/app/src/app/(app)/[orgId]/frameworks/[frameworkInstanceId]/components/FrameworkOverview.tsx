@@ -2,7 +2,12 @@
 
 import { Badge } from "@comp/ui/badge";
 import { Button } from "@comp/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@comp/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,8 +16,9 @@ import {
 } from "@comp/ui/dropdown-menu";
 import { Progress } from "@comp/ui/progress";
 import { Control, Task } from "@comp/db/types";
-import { MoreVertical, Trash2 } from "lucide-react";
+import { MoreVertical, Trash2, CheckCircle2, Clock, BarChart3, Target } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@comp/ui/cn";
 import { getControlStatus } from "../../lib/utils";
 import { FrameworkInstanceWithControls } from "../../types";
 import { FrameworkDeleteDialog } from "./FrameworkDeleteDialog";
@@ -28,6 +34,7 @@ export function FrameworkOverview({
 }: FrameworkOverviewProps) {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+	
 	// Get all controls from all requirements
 	const allControls = frameworkInstanceWithControls.controls;
 	const totalControls = allControls.length;
@@ -45,65 +52,118 @@ export function FrameworkOverview({
 			? Math.round((compliantControls / totalControls) * 100)
 			: 0;
 
+	const getComplianceColor = (score: number) => {
+		if (score >= 80) return "text-green-600 dark:text-green-400";
+		if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
+		return "text-red-600 dark:text-red-400";
+	};
+
+	const getComplianceBadgeVariant = () => {
+		if (compliancePercentage >= 80) return "default";
+		if (compliancePercentage >= 60) return "secondary";
+		return "destructive";
+	};
+
+	const inProgressControls = totalControls - compliantControls;
+
 	return (
-		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-			<Card>
-				<CardHeader>
-					<CardTitle className="flex items-center justify-between">
-						<div>{frameworkInstanceWithControls.framework.name}</div>
-						<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-							<DropdownMenuTrigger asChild>
-								<Button
-									size="icon"
-									variant="ghost"
-									className="p-2 m-0 size-auto"
-								>
-									<MoreVertical className="h-4 w-4" />
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end">
-								<DropdownMenuItem
-									onClick={() => {
-										setDropdownOpen(false);
-										setDeleteDialogOpen(true);
-									}}
-									className="text-destructive focus:text-destructive"
-								>
-									<Trash2 className="h-4 w-4 mr-2" />
-									Delete
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<p className="text-sm text-muted-foreground">
-						{frameworkInstanceWithControls.framework.description}
-						{" "}
-					</p>
-					<div className="mt-4">
-						<Badge variant="outline">
-							Framework ID:{" "}
-							{frameworkInstanceWithControls.frameworkId}
+		<div className="space-y-6">
+			{/* Framework Header */}
+			<div className="flex items-start justify-between">
+				<div className="space-y-2">
+					<div className="flex items-center gap-3">
+						<h1 className="text-2xl font-semibold tracking-tight">
+							{frameworkInstanceWithControls.framework.name}
+						</h1>
+						<Badge variant={getComplianceBadgeVariant()}>
+							{compliancePercentage}%
 						</Badge>
 					</div>
-				</CardContent>
-			</Card>
+					<p className="text-muted-foreground text-sm max-w-2xl">
+						{frameworkInstanceWithControls.framework.description}
+					</p>
+				</div>
+				<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+					<DropdownMenuTrigger asChild>
+						<Button size="sm" variant="ghost">
+							<MoreVertical className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem
+							onClick={() => {
+								setDropdownOpen(false);
+								setDeleteDialogOpen(true);
+							}}
+							className="text-destructive focus:text-destructive"
+						>
+							<Trash2 className="h-4 w-4 mr-2" />
+							Delete Framework
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
 
-			<Card>
-				<CardHeader>
-					<CardTitle>Compliance Progress</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="flex flex-col gap-2">
-						<Progress value={compliancePercentage} />
-						<p className="text-sm text-muted-foreground">
-							{compliantControls} of {totalControls} controls
-							compliant
-						</p>
-					</div>
-				</CardContent>
-			</Card>
+			{/* Compliance Dashboard */}
+			<div className="grid gap-6 lg:grid-cols-3">
+				{/* Progress Card */}
+				<Card className="lg:col-span-2">
+					<CardHeader>
+						<CardTitle className="flex items-center gap-2 text-base">
+							<BarChart3 className="h-4 w-4" />
+							Compliance Progress
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="space-y-4">
+						<div className="flex items-end gap-4">
+							<div className="flex-1">
+								<div className="flex items-baseline gap-2 mb-2">
+									<span className={cn("text-3xl font-bold tabular-nums", getComplianceColor(compliancePercentage))}>
+										{compliancePercentage}
+									</span>
+									<span className="text-sm text-muted-foreground">% complete</span>
+								</div>
+								<Progress value={compliancePercentage} className="h-2" />
+							</div>
+						</div>
+						<div className="flex items-center gap-6 text-sm text-muted-foreground">
+							<span>{compliantControls} completed</span>
+							<span>{inProgressControls} remaining</span>
+							<span>{totalControls} total</span>
+						</div>
+					</CardContent>
+				</Card>
+
+				{/* Stats Card */}
+				<Card>
+					<CardHeader>
+						<CardTitle className="flex items-center gap-2 text-base">
+							<Target className="h-4 w-4" />
+							Control Status
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="space-y-3">
+						<div className="flex items-center justify-between py-2">
+							<div className="flex items-center gap-2">
+								<div className="w-2 h-2 rounded-full bg-green-500"></div>
+								<span className="text-sm">Complete</span>
+							</div>
+							<span className="font-medium tabular-nums">{compliantControls}</span>
+						</div>
+						<div className="flex items-center justify-between py-2">
+							<div className="flex items-center gap-2">
+								<div className="w-2 h-2 rounded-full bg-blue-500"></div>
+								<span className="text-sm">In Progress</span>
+							</div>
+							<span className="font-medium tabular-nums">{inProgressControls}</span>
+						</div>
+						<div className="flex items-center justify-between py-2 border-t pt-3">
+							<span className="text-sm font-medium">Total</span>
+							<span className="font-semibold tabular-nums">{totalControls}</span>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
 
 			{/* Delete Dialog */}
 			<FrameworkDeleteDialog

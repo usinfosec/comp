@@ -154,7 +154,7 @@ export function TaskBody({
 
 	return (
 		<div className="flex flex-col gap-4">
-			<Input
+			<input
 				value={title}
 				onChange={onTitleChange}
 				className="text-2xl font-semibold tracking-tight bg-transparent shrink-0 h-auto p-0 border-none focus-visible:ring-0 shadow-none"

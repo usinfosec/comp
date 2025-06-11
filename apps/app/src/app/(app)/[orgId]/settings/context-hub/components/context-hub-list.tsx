@@ -16,7 +16,7 @@ export async function ContextHubList({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Context Hub</CardTitle>
+				<CardTitle>Context</CardTitle>
 				<CardDescription>
 					You can add context to the Comp AI platform to help it better
 					understand your organization/processes.

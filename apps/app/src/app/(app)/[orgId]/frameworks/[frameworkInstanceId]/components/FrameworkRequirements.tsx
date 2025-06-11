@@ -52,7 +52,7 @@ export function FrameworkRequirements({
 					<DataTableColumnHeader column={column} title={"Name"} />
 				),
 				cell: ({ row }) => (
-					<span className="capitalize line-clamp-1">
+					<span className="line-clamp-2 truncate max-w-[300px]">
 						{row.original.name}
 					</span>
 				),
@@ -76,7 +76,7 @@ export function FrameworkRequirements({
 					/>
 				),
 				cell: ({ row }) => (
-					<span className="capitalize line-clamp-1">
+					<span className="line-clamp-2 truncate max-w-[300px]">
 						{row.original.description}
 					</span>
 				),
@@ -125,14 +125,8 @@ export function FrameworkRequirements({
 	}
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>
-					{"Requirements"} (
-					{table.table.getFilteredRowModel().rows.length})
-				</CardTitle>
-			</CardHeader>
-			<CardContent>
+		<div className="space-y-4">
+			<h2 className="text-lg font-bold">Requirements ({table.table.getFilteredRowModel().rows.length})</h2>
 				<DataTable
 					table={table.table}
 					rowClickBasePath={`/${orgId}/frameworks/${frameworkInstanceId}/requirements/`}
@@ -142,7 +136,6 @@ export function FrameworkRequirements({
 						{/* <DataTableSortList table={table.table} align="end" /> */}
 					</DataTableToolbar>
 				</DataTable>
-			</CardContent>
-		</Card>
+		</div>
 	);
 }
