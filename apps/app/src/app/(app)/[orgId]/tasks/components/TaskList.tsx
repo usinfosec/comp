@@ -118,11 +118,11 @@ export function TaskList({
 	);
 
 	return (
-		<Card className="p-2 flex flex-col gap-2">
+		<div className="flex flex-col gap-2">
 			<TaskFilterHeader />
 			{/* Provides the drag-and-drop context for the task list. */}
 			<DndProvider backend={HTML5Backend}>
-				<div className="w-full border rounded-sm">
+				<div className="w-full rounded-sm border">
 					{/* Render a StatusGroup for each defined status. */}
 					{statuses.map((status) => (
 						<StatusGroup
@@ -136,6 +136,6 @@ export function TaskList({
 					))}
 				</div>
 			</DndProvider>
-		</Card>
+		</div>
 	);
 }
