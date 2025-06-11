@@ -1,3 +1,4 @@
+import { initializeOrganization } from "@/actions/organization/lib/initialize-organization";
 import { db } from "@comp/db";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -86,6 +87,11 @@ export async function POST(request: NextRequest) {
         },
       }),
     ]);
+
+    await initializeOrganization({
+      frameworkIds: ["frk_683f377429b8408d1c85f9bd"],
+      organizationId,
+    });
 
     return NextResponse.json({
       success: true,
