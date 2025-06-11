@@ -1,16 +1,13 @@
 model Organization {
-  id                      String      @id @default(dbgenerated("generate_prefixed_cuid('org'::text)"))
-  name                    String
-  slug                    String      @unique
-  logo                    String?
-  createdAt               DateTime
-  metadata                String?
-  stripeCustomerId        String?
-  onboarding              Onboarding?
-  website                 String?
-  fleetDmSecret           String      @default(dbgenerated("generate_random_secret(32)"))
-  fleetDmLabelId          Int?
-  osqueryAgentDownloadUrl String?
+  id               String      @id @default(dbgenerated("generate_prefixed_cuid('org'::text)"))
+  name             String
+  slug             String      @unique
+  logo             String?
+  createdAt        DateTime
+  metadata         String?
+  stripeCustomerId String?
+  onboarding       Onboarding?
+  website          String?
 
   apiKeys            ApiKey[]
   auditLog           AuditLog[]

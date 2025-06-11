@@ -39,9 +39,6 @@ export function MobileMenu({
 		metadata: org.metadata ? String(org.metadata) : null,
 		stripeCustomerId: null,
 		website: null,
-		fleetDmSecret: "",
-		fleetDmLabelId: null,
-		osqueryAgentDownloadUrl: null,
 	}));
 
 	const currentOrganization =
