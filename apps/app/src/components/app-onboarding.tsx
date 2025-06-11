@@ -59,7 +59,7 @@ export function AppOnboarding({
 		<Card className="w-full overflow-hidden border">
 			<div className="flex flex-col lg:min-h-[600px]">
 				<div className="p-6 flex-1">
-					<div className="flex flex-col max-h-[500px]">
+					<div className="flex flex-col">
 						<CardHeader className="px-0 flex-none space-y-3">
 							<div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-0">
 								<div>
