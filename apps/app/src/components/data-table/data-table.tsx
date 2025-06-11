@@ -2,7 +2,6 @@ import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import type * as React from "react";
 
-import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@comp/ui/cn";
 import {
 	Table,
@@ -60,11 +59,6 @@ export function DataTable<TData>({
 											index !== 0 && "hidden md:table-cell",
 											index === 0 && "w-full md:w-auto"
 										)}
-										style={{
-											...getCommonPinningStyles({
-												column: header.column,
-											}),
-										}}
 									>
 										{header.isPlaceholder
 											? null
@@ -95,11 +89,6 @@ export function DataTable<TData>({
 												index !== 0 && "hidden md:table-cell",
 												index === 0 && "truncate"
 											)}
-											style={{
-												...getCommonPinningStyles({
-													column: cell.column,
-												}),
-											}}
 										>
 											{flexRender(
 												cell.column.columnDef.cell,
