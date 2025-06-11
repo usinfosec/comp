@@ -1,13 +1,7 @@
-import { logger, task } from "@trigger.dev/sdk/v3";
-import { db } from "@comp/db";
-import { promisify } from "node:util";
-import { exec as callbackExec } from "node:child_process";
-import { createReadStream, existsSync, mkdtempSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import path from "node:path";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { s3Client } from "@/app/s3";
 import { fleet } from "@/lib/fleet";
+import { db } from "@comp/db";
+import { logger, task } from "@trigger.dev/sdk/v3";
+import axios from "axios";
 
 export const generateAgentFile = task({
   id: "generate-agent-file",
@@ -76,7 +70,6 @@ export const generateAgentFile = task({
     });
 
     // Create osquery agent file.
-    const execAsync = promisify(callbackExec);
     const fleetUrl = process.env.FLEET_URL;
 
     if (!enrollSecret) {
@@ -86,62 +79,37 @@ export const generateAgentFile = task({
       return;
     }
 
+    const fleetServiceUrl = process.env.FLEET_SERVICE_URL;
+
+    if (!fleetServiceUrl) {
+      logger.error(
+        "FLEET_SERVICE_URL is not set. Cannot create osquery agent."
+      );
+      return;
+    }
+
     try {
-      const workDir = mkdtempSync(
-        path.join(tmpdir(), `pkg-${organizationId}-`)
+      const response = await axios.post(
+        `${fleetServiceUrl}/generate-agent-file`,
+        {
+          organizationId,
+          fleetUrl,
+          enrollSecret,
+        }
       );
 
-      logger.info(`Building .pkg in ${workDir}`);
-
-      const commandMac = `npx fleetctl package \
---type=pkg \
---fleet-url ${fleetUrl} \
---enable-scripts \
---fleet-desktop \
---verbose \
---enroll-secret "${enrollSecret}"`;
-
-      logger.info(`Executing; command: ${commandMac}`);
-
-      await execAsync(commandMac, {
-        cwd: workDir,
-      });
-
-      const pkgPath = path.join(workDir, "fleet-osquery.pkg");
-
-      logger.info(`Created fleet-osquery.pkg in ${pkgPath}`);
-
-      const s3KeyPkg = `${organizationId}/macos/fleet-osquery.pkg`;
-
-      // Upload the zip to S3
-      const putObjectCommandPkg = new PutObjectCommand({
-        Bucket: "compai-fleet-packages",
-        Key: s3KeyPkg,
-        Body: createReadStream(pkgPath),
-        ContentType: "application/octet-stream",
-      });
-
-      logger.info(`Uploading fleet-osquery.pkg to S3: ${s3KeyPkg}`);
-      await s3Client.send(putObjectCommandPkg);
-
-      const s3Region = await s3Client.config.region();
-      const s3ObjectUrlPkg = `https://compai-fleet-packages.s3.${s3Region}.amazonaws.com/${s3KeyPkg}`;
-
       logger.info("S3 Upload successful.", {
-        fileUrlPkg: s3ObjectUrlPkg,
+        fileUrlPkg: response.data.fileUrlPkg,
       });
 
       await db.organization.update({
         where: { id: organizationId },
         data: {
-          osqueryAgentDownloadUrl: s3ObjectUrlPkg,
+          osqueryAgentDownloadUrl: response.data.fileUrlPkg,
           isFleetSetupCompleted: true,
         },
       });
       logger.info(`Stored S3 bundle URL for organization ${organizationId}`);
-
-      logger.info(`Removing tmp dir ${workDir}`);
-      rmSync(workDir, { recursive: true });
     } catch (error) {
       logger.error("Error in fleetctl packaging or S3 upload process", {
         error,

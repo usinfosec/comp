@@ -1,7 +1,6 @@
 import { PrismaInstrumentation } from "@prisma/instrumentation";
 import {
   additionalPackages,
-  aptGet,
   syncVercelEnvVars,
 } from "@trigger.dev/build/extensions/core";
 
@@ -24,9 +23,6 @@ export default defineConfig({
       }),
       puppeteer(),
       syncVercelEnvVars(),
-      additionalPackages({
-        packages: ["fleetctl"],
-      }),
     ],
   },
   retries: {
