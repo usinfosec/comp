@@ -115,15 +115,6 @@ export function RequirementsTable({
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center justify-between border-b border-muted pb-3">
-				<div className="flex items-center gap-2">
-					<h2 className="text-base font-medium">Linked Requirements</h2>
-					<span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-xs tabular-nums">
-						{filteredRequirements.length}
-					</span>
-				</div>
-			</div>
-			
 			<div className="flex items-center">
 				<Input
 					placeholder="Search requirements..."

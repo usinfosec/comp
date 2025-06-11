@@ -2,11 +2,9 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { StatusIndicator } from "@/components/status-indicator";
 import { useDataTable } from "@/hooks/use-data-table";
-import { Task, Policy } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
+import { Task } from "@comp/db/types";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -99,33 +97,31 @@ export function TasksTable({ tasks, orgId, controlId }: TasksTableProps) {
 	});
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Tasks ({filteredTasks.length})</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<div className="flex items-center mb-4">
-					<Input
-						placeholder={"Search tasks..."}
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="max-w-sm"
-					/>
-					{/* <div className="ml-auto">
-						<DataTableSortList
-							table={table.table}
-							align="end"
-							tableId="t"
-						/>
-					</div> */}
+		<div className="space-y-4">
+			<div className="flex items-center justify-between border-b border-muted pb-3">
+				<div className="flex items-center gap-2">
+					<h2 className="text-base font-medium">Tasks</h2>
+					<span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-xs tabular-nums">
+						{filteredTasks.length}
+					</span>
 				</div>
-				<DataTable
-					table={table.table}
-					rowClickBasePath={`/${orgId}/`}
-					getRowId={(row) => `/tasks/${row.id}`}
-					tableId={"t"}
+			</div>
+			
+			<div className="flex items-center">
+				<Input
+					placeholder="Search tasks..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="max-w-sm"
 				/>
-			</CardContent>
-		</Card>
+			</div>
+			
+			<DataTable
+				table={table.table}
+				rowClickBasePath={`/${orgId}/`}
+				getRowId={(row) => `/tasks/${row.id}`}
+				tableId={"t"}
+			/>
+		</div>
 	);
 }

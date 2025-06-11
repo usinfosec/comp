@@ -11,6 +11,7 @@ import type {
 	Task,
 } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -118,23 +119,52 @@ export function SingleControl({
 				</div>
 			</div>
 
-			{/* Content Sections */}
-			<div className="space-y-6">
-				<RequirementsTable
-					requirements={control.requirementsMapped}
-					orgId={orgIdFromParams}
-				/>
-				<PoliciesTable
-					policies={relatedPolicies}
-					orgId={orgIdFromParams}
-					controlId={controlIdFromParams}
-				/>
-				<TasksTable
-					tasks={relatedTasks}
-					orgId={orgIdFromParams}
-					controlId={controlIdFromParams}
-				/>
-			</div>
+			{/* Tabbed Content */}
+			<Tabs defaultValue="requirements" className="space-y-4">
+				<TabsList className="grid w-full grid-cols-3">
+					<TabsTrigger value="requirements" className="flex items-center gap-2">
+						<span>Requirements</span>
+						<span className="text-xs bg-muted/50 px-1.5 py-0.5 rounded-xs tabular-nums">
+							{control.requirementsMapped.length}
+						</span>
+					</TabsTrigger>
+					<TabsTrigger value="policies" className="flex items-center gap-2">
+						<span>Policies</span>
+						<span className="text-xs bg-muted/50 px-1.5 py-0.5 rounded-xs tabular-nums">
+							{relatedPolicies.length}
+						</span>
+					</TabsTrigger>
+					<TabsTrigger value="tasks" className="flex items-center gap-2">
+						<span>Tasks</span>
+						<span className="text-xs bg-muted/50 px-1.5 py-0.5 rounded-xs tabular-nums">
+							{relatedTasks.length}
+						</span>
+					</TabsTrigger>
+				</TabsList>
+				
+				<TabsContent value="requirements" className="space-y-0">
+					<RequirementsTable
+						requirements={control.requirementsMapped}
+						orgId={orgIdFromParams}
+					/>
+				</TabsContent>
+				
+				<TabsContent value="policies" className="space-y-0">
+					<PoliciesTable
+						policies={relatedPolicies}
+						orgId={orgIdFromParams}
+						controlId={controlIdFromParams}
+					/>
+				</TabsContent>
+				
+				<TabsContent value="tasks" className="space-y-0">
+					<TasksTable
+						tasks={relatedTasks}
+						orgId={orgIdFromParams}
+						controlId={controlIdFromParams}
+					/>
+				</TabsContent>
+			</Tabs>
 
 			{/* Delete Dialog */}
 			<ControlDeleteDialog
