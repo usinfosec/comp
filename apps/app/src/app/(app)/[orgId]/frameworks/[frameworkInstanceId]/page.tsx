@@ -83,7 +83,6 @@ export default async function FrameworkPage({ params }: PageProps) {
 					}
 					tasks={tasks || []}
 				/>
-				<Separator />
 				<FrameworkRequirements
 					requirementDefinitions={requirementDefinitions}
 					frameworkInstanceWithControls={

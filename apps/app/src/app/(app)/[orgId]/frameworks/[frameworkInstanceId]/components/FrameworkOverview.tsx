@@ -72,9 +72,9 @@ export function FrameworkOverview({
 					<h1 className="text-4xl font-bold tracking-tight">
 						{frameworkInstanceWithControls.framework.name}
 					</h1>
-					<Badge variant={getComplianceBadgeVariant()} className="text-xs">
-						{compliancePercentage}% Complete
-					</Badge>
+					<p className="text-muted-foreground text-sm max-w-2xl">
+						{frameworkInstanceWithControls.framework.description}
+					</p>
 				</div>
 				<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
 					<DropdownMenuTrigger asChild>
@@ -101,71 +101,65 @@ export function FrameworkOverview({
 				</DropdownMenu>
 			</div>
 
-			{/* Main Content Grid */}
-			<div className="grid gap-6 lg:grid-cols-3">
-				{/* Framework Details - Takes up 2 columns on large screens */}
-				<Card className="lg:col-span-2">
-					<CardHeader>
-						<CardTitle className="text-xl">About This Framework</CardTitle>
-						<CardDescription>
-							Framework details and implementation guidance
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed">
-							{frameworkInstanceWithControls.framework.description}
-						</div>
-					</CardContent>
-				</Card>
-
-				{/* Compliance Progress - Takes up 1 column */}
-				<Card>
-					<CardHeader className="pb-4">
-						<CardTitle className="text-xl flex items-center gap-2">
-							<CheckCircle2 className="h-5 w-5" />
-							Compliance Status
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-6">
-						{/* Progress Circle/Bar */}
-						<div className="space-y-3">
-							<div className="flex items-center justify-between">
-								<span className="text-sm font-medium">Overall Progress</span>
-								<span className={`text-2xl font-bold ${getComplianceColor()}`}>
-									{compliancePercentage}%
-								</span>
-							</div>
-							<Progress value={compliancePercentage} className="h-3" />
-						</div>
-
-						{/* Stats */}
+			{/* Compliance Status - Full Width Focus */}
+			<Card>
+				<CardHeader className="pb-4">
+					<CardTitle className="text-2xl flex items-center gap-2">
+						<CheckCircle2 className="h-6 w-6" />
+						Compliance Status
+					</CardTitle>
+					<CardDescription>
+						Track your progress across all framework controls
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div className="grid gap-8 md:grid-cols-2">
+						{/* Progress Section */}
 						<div className="space-y-4">
-							<div className="flex items-center justify-between py-2 border-b">
-								<div className="flex items-center gap-2">
-									<CheckCircle2 className="h-4 w-4 text-green-600" />
-									<span className="text-sm">Completed</span>
+							<div className="space-y-3">
+								<div className="flex items-center justify-between">
+									<span className="text-sm font-medium">Overall Progress</span>
+									<span className={`text-3xl font-bold ${getComplianceColor()}`}>
+										{compliancePercentage}%
+									</span>
 								</div>
-								<span className="font-semibold text-green-600">
-									{compliantControls}
-								</span>
-							</div>
-							<div className="flex items-center justify-between py-2 border-b">
-								<div className="flex items-center gap-2">
-									<Clock className="h-4 w-4 text-muted-foreground" />
-									<span className="text-sm">Remaining</span>
-								</div>
-								<span className="font-semibold text-muted-foreground">
-									{totalControls - compliantControls}
-								</span>
-							</div>
-							<div className="flex items-center justify-between py-2">
-								<span className="text-sm font-medium">Total Controls</span>
-								<span className="font-bold">{totalControls}</span>
+								<Progress value={compliancePercentage} className="h-4" />
+								<Badge variant={getComplianceBadgeVariant()} className="w-fit">
+									{compliancePercentage >= 80 ? 'Excellent' : compliancePercentage >= 60 ? 'Good Progress' : 'Needs Attention'}
+								</Badge>
 							</div>
 						</div>
-					</CardContent>
-				</Card>
-			</div>
+
+						{/* Stats Section */}
+						<div className="space-y-4">
+							<div className="grid gap-4">
+								<div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+									<div className="flex items-center gap-2">
+										<CheckCircle2 className="h-4 w-4 text-green-600" />
+										<span className="text-sm font-medium">Completed</span>
+									</div>
+									<span className="text-lg font-bold text-green-600">
+										{compliantControls}
+									</span>
+								</div>
+								<div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+									<div className="flex items-center gap-2">
+										<Clock className="h-4 w-4 text-muted-foreground" />
+										<span className="text-sm font-medium">Remaining</span>
+									</div>
+									<span className="text-lg font-bold text-muted-foreground">
+										{totalControls - compliantControls}
+									</span>
+								</div>
+								<div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+									<span className="text-sm font-medium">Total Controls</span>
+									<span className="text-lg font-bold text-blue-600">{totalControls}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
 
 			{/* Delete Dialog */}
 			<FrameworkDeleteDialog
