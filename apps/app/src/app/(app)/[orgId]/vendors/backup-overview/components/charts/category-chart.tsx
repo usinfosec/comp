@@ -129,7 +129,7 @@ export function VendorCategoryChart({
 									width: `${barWidth}%`,
 									height: `${fixedBarHeightPercentage}%`,
 								}}
-								className={`absolute bg-primary ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-xs`}
+								className={`absolute bg-primary ${d.value === 0 ? "opacity-40" : ""} dark:opacity-90 rounded-sm`}
 								data-tip={`${d.name}: ${allZeros ? 0 : d.value}`}
 							/>
 						);

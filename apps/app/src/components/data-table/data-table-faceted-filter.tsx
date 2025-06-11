@@ -77,7 +77,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 						<div
 							aria-label={`Clear ${title} filter`}
 							onClick={onReset}
-							className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
+							className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
 						>
 							<XCircle />
 						</div>
@@ -93,7 +93,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 							/>
 							<Badge
 								variant="secondary"
-								className="rounded-xs px-1 font-normal lg:hidden"
+								className="rounded-sm px-1 font-normal lg:hidden"
 							>
 								{selectedValues.size}
 							</Badge>
@@ -101,7 +101,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 								{selectedValues.size > 2 ? (
 									<Badge
 										variant="secondary"
-										className="rounded-xs px-1 font-normal"
+										className="rounded-sm px-1 font-normal"
 									>
 										{selectedValues.size} selected
 									</Badge>
@@ -112,7 +112,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 											<Badge
 												variant="secondary"
 												key={option.value}
-												className="rounded-xs px-1 font-normal"
+												className="rounded-sm px-1 font-normal"
 											>
 												{option.label}
 											</Badge>
@@ -139,7 +139,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 									>
 										<div
 											className={cn(
-												"flex size-4 items-center justify-center rounded-xs border border-primary",
+												"flex size-4 items-center justify-center rounded-sm border border-primary",
 												isSelected
 													? "bg-primary"
 													: "opacity-50 [&_svg]:invisible",

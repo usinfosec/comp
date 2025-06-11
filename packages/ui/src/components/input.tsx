@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 					autoComplete="off"
 					data-lpignore="true"
 					className={cn(
-						"flex h-9 w-full rounded-xs border border-input bg-background py-1 text-sm transition-colors",
+						"flex h-9 w-full rounded-sm border border-input bg-background py-1 text-sm transition-colors",
 						"placeholder:text-muted-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
 						"focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
 						"disabled:cursor-not-allowed disabled:opacity-50 text-sm",

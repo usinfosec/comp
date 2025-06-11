@@ -117,7 +117,7 @@ export function AddFrameworkModal({
 																key={frameworkId}
 																htmlFor={`add-framework-${frameworkId}`}
 																className={cn(
-																	"relative flex flex-col p-4 border rounded-xs cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																	"relative flex flex-col p-4 border rounded-sm cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
 																	field.value.includes(frameworkId) &&
 																		"border-primary bg-primary/5",
 																)}

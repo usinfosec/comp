@@ -44,10 +44,7 @@ export function DataTableToolbar<TData>({
 		<div
 			role="toolbar"
 			aria-orientation="horizontal"
-			className={cn(
-				"flex w-full items-center justify-between gap-2",
-				className,
-			)}
+			className={cn("flex w-full items-center justify-between gap-2", className)}
 			{...props}
 		>
 			<div className="flex flex-1 flex-wrap items-center gap-2">
@@ -56,16 +53,12 @@ export function DataTableToolbar<TData>({
 				))}
 				{isFiltered && (
 					<Button
-						aria-label="Reset filters"
 						variant="outline"
 						size="sm"
-						className="border-dashed rounded-xs"
 						onClick={onReset}
 					>
-						<div className="flex items-center gap-2">
-							<X className="size-4" />
-							<span className="md:inline hidden">Reset</span>
-						</div>
+						<X className="h-4 w-4" />
+						<span className="ml-2 hidden md:inline">Reset</span>
 					</Button>
 				)}
 			</div>
@@ -75,12 +68,9 @@ export function DataTableToolbar<TData>({
 					<Button
 						variant="default"
 						size="sm"
-						className="rounded-xs"
-						onClick={() => {
-							setOpen("true");
-						}}
+						onClick={() => setOpen("true")}
 					>
-						<Plus className="size-4 mr-2" />
+						<Plus className="h-4 w-4" />
 						<span>{action}</span>
 					</Button>
 				)}
@@ -96,84 +86,79 @@ interface DataTableToolbarFilterProps<TData> {
 function DataTableToolbarFilter<TData>({
 	column,
 }: DataTableToolbarFilterProps<TData>) {
-	{
-		const columnMeta = column.columnDef.meta;
+	const columnMeta = column.columnDef.meta;
 
-		const onFilterRender = React.useCallback(() => {
-			if (!columnMeta?.variant) return null;
+	const onFilterRender = React.useCallback(() => {
+		if (!columnMeta?.variant) return null;
 
-			switch (columnMeta.variant) {
-				case "text":
-					return (
-						<div className="relative w-full max-w-xs">
-							<Input
-								leftIcon={<Search className="size-4" />}
-								placeholder={columnMeta.placeholder ?? columnMeta.label}
-								value={(column.getFilterValue() as string) ?? ""}
-								onChange={(event) => {
-									column.setFilterValue(event.target.value);
-								}}
-								className="h-9 w-full min-w-[14rem] md:min-w-[18rem] rounded-xs"
-							/>
-						</div>
-					);
-
-				case "number":
-					return (
-						<div className="relative">
-							<Input
-								type="number"
-								inputMode="numeric"
-								placeholder={columnMeta.placeholder ?? columnMeta.label}
-								value={(column.getFilterValue() as string) ?? ""}
-								onChange={(event) => column.setFilterValue(event.target.value)}
-								className={cn(
-									"h-9 w-[120px] rounded-xs",
-									columnMeta.unit && "pr-8",
-								)}
-							/>
-							{columnMeta.unit && (
-								<span className="absolute top-0 right-0 bottom-0 flex items-center bg-accent px-2 text-muted-foreground text-sm rounded-r-sm">
-									{columnMeta.unit}
-								</span>
-							)}
-						</div>
-					);
-
-				case "range":
-					return (
-						<DataTableSliderFilter
-							column={column}
-							title={columnMeta.label ?? column.id}
+		switch (columnMeta.variant) {
+			case "text":
+				return (
+					<div className="relative w-full max-w-xs">
+						<Input
+							leftIcon={<Search className="h-4 w-4" />}
+							placeholder={columnMeta.placeholder ?? columnMeta.label}
+							value={(column.getFilterValue() as string) ?? ""}
+							onChange={(event) => {
+								column.setFilterValue(event.target.value);
+							}}
+							className="w-full min-w-56"
 						/>
-					);
+					</div>
+				);
 
-				case "date":
-				case "dateRange":
-					return (
-						<DataTableDateFilter
-							column={column}
-							title={columnMeta.label ?? column.id}
-							multiple={columnMeta.variant === "dateRange"}
+			case "number":
+				return (
+					<div className="relative">
+						<Input
+							type="number"
+							inputMode="numeric"
+							placeholder={columnMeta.placeholder ?? columnMeta.label}
+							value={(column.getFilterValue() as string) ?? ""}
+							onChange={(event) => column.setFilterValue(event.target.value)}
+							className={cn("w-32", columnMeta.unit && "pr-8")}
 						/>
-					);
+						{columnMeta.unit && (
+							<span className="absolute inset-y-0 right-0 flex items-center bg-muted px-2 text-muted-foreground text-sm rounded-r-md">
+								{columnMeta.unit}
+							</span>
+						)}
+					</div>
+				);
 
-				case "select":
-				case "multiSelect":
-					return (
-						<DataTableFacetedFilter
-							column={column}
-							title={columnMeta.label ?? column.id}
-							options={columnMeta.options ?? []}
-							multiple={columnMeta.variant === "multiSelect"}
-						/>
-					);
+			case "range":
+				return (
+					<DataTableSliderFilter
+						column={column}
+						title={columnMeta.label ?? column.id}
+					/>
+				);
 
-				default:
-					return null;
-			}
-		}, [column, columnMeta]);
+			case "date":
+			case "dateRange":
+				return (
+					<DataTableDateFilter
+						column={column}
+						title={columnMeta.label ?? column.id}
+						multiple={columnMeta.variant === "dateRange"}
+					/>
+				);
 
-		return onFilterRender();
-	}
+			case "select":
+			case "multiSelect":
+				return (
+					<DataTableFacetedFilter
+						column={column}
+						title={columnMeta.label ?? column.id}
+						options={columnMeta.options ?? []}
+						multiple={columnMeta.variant === "multiSelect"}
+					/>
+				);
+
+			default:
+				return null;
+		}
+	}, [column, columnMeta]);
+
+	return onFilterRender();
 }

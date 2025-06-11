@@ -40,7 +40,7 @@ export function PolicyDetailsClientPage({
 
 	return (
 		<>
-			<Card className="w-full shadow-none rounded-xs">
+			<Card className="w-full shadow-none rounded-sm">
 				<CardHeader className="pb-2">
 					<div className="flex justify-between items-start">
 						<div>
@@ -58,7 +58,7 @@ export function PolicyDetailsClientPage({
 								variant="outline"
 								size="sm"
 								onClick={() => setIsEditDialogOpen(true)}
-								className="gap-1 rounded-xs"
+								className="gap-1 rounded-sm"
 							>
 								<PencilIcon className="h-4 w-4" />
 								Edit Details
@@ -67,7 +67,7 @@ export function PolicyDetailsClientPage({
 								variant="destructive"
 								size="sm"
 								onClick={() => setIsDeleteDialogOpen(true)}
-								className="gap-1 rounded-xs"
+								className="gap-1 rounded-sm"
 							>
 								<Trash2 className="h-4 w-4" />
 								Delete Policy

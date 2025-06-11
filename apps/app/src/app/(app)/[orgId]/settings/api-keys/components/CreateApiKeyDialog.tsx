@@ -167,7 +167,7 @@ export function CreateApiKeyDialog({
 					<p className="text-sm font-medium">{"API Key"}</p>
 					<div className="flex items-center">
 						<div className="relative w-full">
-							<div className="rounded-xs bg-muted p-3 pr-10 overflow-hidden">
+							<div className="rounded-sm bg-muted p-3 pr-10 overflow-hidden">
 								<div className="overflow-x-auto">
 									<code className="text-sm break-all">{createdApiKey}</code>
 								</div>
@@ -207,7 +207,7 @@ export function CreateApiKeyDialog({
 	if (isDesktop) {
 		return (
 			<Sheet open={open} onOpenChange={handleClose}>
-				<SheetContent stack className="rounded-xs">
+				<SheetContent stack className="rounded-sm">
 					<SheetHeader className="mb-8 flex flex-col gap-2">
 						<div className="flex justify-between items-center">
 							<SheetTitle>
@@ -216,7 +216,7 @@ export function CreateApiKeyDialog({
 							<Button
 								size="icon"
 								variant="ghost"
-								className="p-0 m-0 size-auto hover:bg-transparent rounded-xs"
+								className="p-0 m-0 size-auto hover:bg-transparent rounded-sm"
 								onClick={handleClose}
 							>
 								<X className="h-5 w-5" />
@@ -241,7 +241,7 @@ export function CreateApiKeyDialog({
 	}
 	return (
 		<Drawer open={open} onOpenChange={handleClose}>
-			<DrawerContent className="p-6 rounded-xs">
+			<DrawerContent className="p-6 rounded-sm">
 				<DrawerHeader>
 					<DrawerTitle>
 						{createdApiKey ? "API Key Created" : "New API Key"}

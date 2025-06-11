@@ -26,7 +26,7 @@ export function AcceptInvite({
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background p-6 md:p-8">
-			<div className="relative w-full max-w-[440px] border bg-card rounded-xs p-8 shadow-lg">
+			<div className="relative w-full max-w-[440px] border bg-card rounded-sm p-8 shadow-lg">
 				<div className="mb-8 flex justify-between">
 					<Link href="/">
 						<Icons.Logo />

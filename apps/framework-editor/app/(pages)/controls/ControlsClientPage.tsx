@@ -335,11 +335,11 @@ export function ControlsClientPage({
 							variant="outline"
 							onClick={handleCancel}
 							size="sm"
-							className="rounded-xs"
+							className="rounded-sm"
 						>
 							Cancel
 						</Button>
-						<Button onClick={handleCommit} size="sm" className="rounded-xs">
+						<Button onClick={handleCommit} size="sm" className="rounded-sm">
 							Commit Changes
 						</Button>
 					</div>
@@ -360,7 +360,7 @@ export function ControlsClientPage({
 							value={selectedFramework}
 							onValueChange={setSelectedFramework}
 						>
-							<SelectTrigger className="w-[200px] ml-2 h-9 rounded-xs">
+							<SelectTrigger className="w-[200px] ml-2 h-9 rounded-sm">
 								<SelectValue placeholder="Filter by framework" />
 							</SelectTrigger>
 							<SelectContent>

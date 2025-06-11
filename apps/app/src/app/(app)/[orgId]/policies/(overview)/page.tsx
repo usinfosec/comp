@@ -12,7 +12,7 @@ export default async function PoliciesOverview() {
 
 	return (
 		<Suspense fallback={<Loading />}>
-			<div className="space-y-4 sm:space-y-8">
+			<div className="space-y-4 sm:space-y-8 py-4">
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
 					<PolicyStatusChart data={overview} />
 					<PolicyAssigneeChart data={overview?.assigneeData} />

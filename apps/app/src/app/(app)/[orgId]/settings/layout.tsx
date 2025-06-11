@@ -35,22 +35,22 @@ export default async function Layout({
 						},
 						{
 							path: `/${orgId}/settings/context-hub`,
-							label: "Context Hub",
+							label: "Context",
 						},
 						{
 							path: `/${orgId}/settings/api-keys`,
 							label: "API",
 						},
-						{
-							path: `/${orgId}/settings/billing`,
-							label: "Billing",
-							enabled: false,
-						},
+						// {
+						// 	path: `/${orgId}/settings/billing`,
+						// 	label: "Billing",
+						// 	enabled: false,
+						// },
 					]}
 				/>
 			</Suspense>
 
-			<div className="py-4">{children}</div>
+			<div>{children}</div>
 		</div>
 	);
 }

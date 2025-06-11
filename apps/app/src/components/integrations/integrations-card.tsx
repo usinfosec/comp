@@ -200,7 +200,7 @@ export function IntegrationsCard({
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
-							<div className="w-12 h-12 bg-muted flex items-center justify-center p-2 rounded-xs">
+							<div className="w-12 h-12 bg-muted flex items-center justify-center p-2 rounded-sm">
 								<Logo />
 							</div>
 							<div className="flex flex-col gap-1">
@@ -453,7 +453,7 @@ export function IntegrationsCard({
 												</div>
 											</div>
 
-											<div className="text-xs border p-3 rounded-xs mt-3">
+											<div className="text-xs border p-3 rounded-sm mt-3">
 												<p>
 													This integration syncs automatically every day at
 													midnight UTC (00:00).

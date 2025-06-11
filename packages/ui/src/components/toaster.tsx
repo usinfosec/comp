@@ -66,7 +66,7 @@ export function Toaster() {
 									{props.variant === "progress" && (
 										<Progress
 											value={progress}
-											className="w-full rounded-xs h-[3px] bg-border"
+											className="w-full rounded-sm h-[3px] bg-border"
 										/>
 									)}
 

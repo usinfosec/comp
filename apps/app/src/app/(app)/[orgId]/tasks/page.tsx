@@ -9,6 +9,8 @@ import {
 } from "@comp/ui/breadcrumb";
 import { headers } from "next/headers";
 import { TaskList } from "./components/TaskList";
+import PageCore from "@/components/pages/PageCore.tsx";
+import PageWithBreadcrumb from "@/components/pages/PageWithBreadcrumb";
 
 // Force dynamic rendering to ensure searchParams are always fresh
 export const dynamic = "force-dynamic";
@@ -30,21 +32,9 @@ export default async function TasksPage({
 	const members = await getMembersWithMetadata();
 
 	return (
-		<main>
-			{/* Render Breadcrumbs only if we are in the tasks section */}
-			<div className="border-b pb-4">
-				<Breadcrumb>
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink href={`/${orgId}/tasks`}>
-								Tasks
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb>
-			</div>
+		<PageWithBreadcrumb breadcrumbs={[{ label: "Tasks", href: `/${orgId}/tasks` }]}>
 			<TaskList tasks={tasks} members={members} />
-		</main>
+		</PageWithBreadcrumb>
 	);
 }
 

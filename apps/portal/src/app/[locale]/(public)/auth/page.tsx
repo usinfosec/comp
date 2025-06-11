@@ -42,7 +42,7 @@ export default async function Page() {
 						</div>
 					</div>
 
-					<div className="mt-8 rounded-xs bg-gradient-to-r from-primary/10 via-primary/5 to-primary/5 p-4">
+					<div className="mt-8 rounded-sm bg-gradient-to-r from-primary/10 via-primary/5 to-primary/5 p-4">
 						<h3 className="text-sm font-medium">{t("powered_by.title")}</h3>
 						<p className="mt-1 text-xs text-muted-foreground">
 							{t("powered_by.description")}
