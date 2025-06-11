@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { useDataTable } from "@/hooks/use-data-table";
 import type {
 	FrameworkEditorFramework,
@@ -10,7 +9,6 @@ import type {
 	FrameworkInstance,
 	RequirementMap,
 } from "@comp/db/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { Input } from "@comp/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -21,8 +19,8 @@ interface RequirementsTableProps {
 	orgId: string;
 }
 
-	export function RequirementsTable({
-		requirements,
+export function RequirementsTable({
+	requirements,
 	orgId,
 }: RequirementsTableProps) {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -116,41 +114,36 @@ interface RequirementsTableProps {
 	});
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>
-					{"Linked Requirements"} (
-					{filteredRequirements.length})
-				</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<div className="flex items-center mb-4">
-					<Input
-						placeholder={"Search..."}
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="max-w-sm"
-					/>
-					{/* <div className="ml-auto">
-						<DataTableSortList
-							table={table.table}
-							align="end"
-							tableId="r"
-						/>
-					</div> */}
+		<div className="space-y-4">
+			<div className="flex items-center justify-between border-b border-muted pb-3">
+				<div className="flex items-center gap-2">
+					<h2 className="text-base font-medium">Linked Requirements</h2>
+					<span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-xs tabular-nums">
+						{filteredRequirements.length}
+					</span>
 				</div>
-				<DataTable
-					table={table.table}
-					rowClickBasePath={`/${orgId}/frameworks`}
-					getRowId={(row) => {
-						// This constructs the path to the specific requirement page
-						// row.requirementId is the FrameworkEditorRequirement.id (e.g. frk_rq_...)
-						// row.frameworkInstanceId is the ID of the FrameworkInstance
-						return `${row.frameworkInstanceId}/requirements/${row.requirementId}`;
-					}}
-					tableId={"r"}
+			</div>
+			
+			<div className="flex items-center">
+				<Input
+					placeholder="Search requirements..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="max-w-sm"
 				/>
-			</CardContent>
-		</Card>
+			</div>
+			
+			<DataTable
+				table={table.table}
+				rowClickBasePath={`/${orgId}/frameworks`}
+				getRowId={(row) => {
+					// This constructs the path to the specific requirement page
+					// row.requirementId is the FrameworkEditorRequirement.id (e.g. frk_rq_...)
+					// row.frameworkInstanceId is the ID of the FrameworkInstance
+					return `${row.frameworkInstanceId}/requirements/${row.requirementId}`;
+				}}
+				tableId={"r"}
+			/>
+		</div>
 	);
 }
