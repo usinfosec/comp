@@ -19,7 +19,6 @@ import { updatePolicies } from "./update-policies";
 export const onboardOrganization = task({
   id: "onboard-organization",
   cleanup: async ({ organizationId }: { organizationId: string }) => {
-    // Set triggerJobId to null to signal that the job is complete or failed.
     await db.onboarding.update({
       where: {
         organizationId,
