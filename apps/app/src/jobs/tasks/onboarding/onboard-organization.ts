@@ -14,7 +14,7 @@ import axios from "axios";
 import z from "zod";
 import type { researchVendor } from "../scrape/research";
 import { updatePolicies } from "./update-policies";
-import { generateAgentFile } from "./generate-agent-file";
+import { generateAgentFile } from "../device/generate-agent-file";
 
 export const onboardOrganization = task({
   id: "onboard-organization",

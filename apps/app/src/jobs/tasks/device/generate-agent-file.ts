@@ -3,7 +3,7 @@ import { db } from "@comp/db";
 import { fleet } from "@/lib/fleet";
 import { promisify } from "node:util";
 import { exec as callbackExec } from "node:child_process";
-import { createReadStream, mkdtempSync } from "node:fs";
+import { createReadStream, existsSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -11,6 +11,16 @@ import { s3Client } from "@/app/s3";
 
 export const generateAgentFile = task({
   id: "generate-agent-file",
+  retry: {
+    maxAttempts: 3,
+  },
+  cleanup: async ({ organizationId }: { organizationId: string }) => {
+    // Delete the tmp dir.
+    const tmpDir = path.join(tmpdir(), `pkg-${organizationId}-`);
+    if (existsSync(tmpDir)) {
+      rmSync(tmpDir, { recursive: true });
+    }
+  },
   run: async ({ organizationId }: { organizationId: string }) => {
     const organization = await db.organization.findUnique({
       where: {
@@ -20,6 +30,11 @@ export const generateAgentFile = task({
 
     if (!organization) {
       logger.error(`Organization ${organizationId} not found`);
+      return;
+    }
+
+    if (organization.isFleetSetupCompleted) {
+      logger.info(`Organization ${organizationId} already has fleet set up`);
       return;
     }
 
@@ -86,12 +101,12 @@ export const generateAgentFile = task({
       logger.info(`Building .pkg in ${workDir}`);
 
       const commandMac = `fleetctl package \
-                  --type=pkg \
-                  --fleet-url ${fleetUrl} \
-                  --enable-scripts \
-                  --fleet-desktop \
-                  --verbose \
-                  --enroll-secret "${enrollSecret}"`;
+--type=pkg \
+--fleet-url ${fleetUrl} \
+--enable-scripts \
+--fleet-desktop \
+--verbose \
+--enroll-secret "${enrollSecret}"`;
 
       logger.info(`Executing; command: ${commandMac}`);
 
@@ -125,7 +140,10 @@ export const generateAgentFile = task({
 
       await db.organization.update({
         where: { id: organizationId },
-        data: { osqueryAgentDownloadUrl: s3ObjectUrlPkg },
+        data: {
+          osqueryAgentDownloadUrl: s3ObjectUrlPkg,
+          isFleetSetupCompleted: true,
+        },
       });
       logger.info(`Stored S3 bundle URL for organization ${organizationId}`);
     } catch (error) {
