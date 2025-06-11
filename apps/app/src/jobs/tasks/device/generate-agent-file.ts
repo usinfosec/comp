@@ -1,6 +1,5 @@
 import { logger, task } from "@trigger.dev/sdk/v3";
 import { db } from "@comp/db";
-import { fleet } from "@/lib/fleet";
 import { promisify } from "node:util";
 import { exec as callbackExec } from "node:child_process";
 import { createReadStream, existsSync, mkdtempSync, rmSync } from "node:fs";
@@ -8,6 +7,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "@/app/s3";
+import { fleet } from "@/lib/fleet";
 
 export const generateAgentFile = task({
   id: "generate-agent-file",
