@@ -50,7 +50,7 @@ export function FrameworkOverview({
 			<Card>
 				<CardHeader>
 					<CardTitle className="flex items-center justify-between">
-						<div>{frameworkInstanceWithControls.framework.name}</div>
+						<h1 className="text-2xl font-bold">{frameworkInstanceWithControls.framework.name}</h1>
 						<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
 							<DropdownMenuTrigger asChild>
 								<Button
@@ -77,16 +77,7 @@ export function FrameworkOverview({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-muted-foreground">
 						{frameworkInstanceWithControls.framework.description}
-						{" "}
-					</p>
-					<div className="mt-4">
-						<Badge variant="outline">
-							Framework ID:{" "}
-							{frameworkInstanceWithControls.frameworkId}
-						</Badge>
-					</div>
 				</CardContent>
 			</Card>
 
