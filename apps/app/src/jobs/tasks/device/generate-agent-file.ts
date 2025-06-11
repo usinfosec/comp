@@ -14,13 +14,6 @@ export const generateAgentFile = task({
   retry: {
     maxAttempts: 3,
   },
-  cleanup: async ({ organizationId }: { organizationId: string }) => {
-    // Delete the tmp dir.
-    const tmpDir = path.join(tmpdir(), `pkg-${organizationId}-`);
-    if (existsSync(tmpDir)) {
-      rmSync(tmpDir, { recursive: true });
-    }
-  },
   run: async ({ organizationId }: { organizationId: string }) => {
     const organization = await db.organization.findUnique({
       where: {
@@ -146,6 +139,9 @@ export const generateAgentFile = task({
         },
       });
       logger.info(`Stored S3 bundle URL for organization ${organizationId}`);
+
+      logger.info(`Removing tmp dir ${workDir}`);
+      rmSync(workDir, { recursive: true });
     } catch (error) {
       logger.error("Error in fleetctl packaging or S3 upload process", {
         error,
