@@ -1,4 +1,4 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
@@ -29,9 +29,12 @@ if (
 // Create a single S3 client instance
 // Add null checks or assertions if the checks above don't guarantee non-null values
 export const s3Client = new S3Client({
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   region: AWS_REGION!,
   credentials: {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     accessKeyId: AWS_ACCESS_KEY_ID!,
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     secretAccessKey: AWS_SECRET_ACCESS_KEY!,
   },
 });
@@ -51,4 +54,31 @@ export function extractS3KeyFromUrl(url: string): string {
   }
   console.error("Invalid S3 URL format for deletion:", url);
   throw new Error("Invalid S3 URL format");
+}
+
+export async function getFleetAgent({
+  os,
+}: {
+  os: "macos" | "windows" | "linux";
+}) {
+  const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
+
+  if (!fleetBucketName) {
+    throw new Error("FLEET_AGENT_BUCKET_NAME is not defined.");
+  }
+
+  console.log("Getting fleet agent for os: ", {
+    Bucket: fleetBucketName,
+    Key: `/${os}/fleet-osquery.pkg`,
+  });
+
+  const getFleetAgentCommand = new GetObjectCommand({
+    Bucket: fleetBucketName,
+    Key: `${os}/fleet-osquery.pkg`,
+  });
+
+  const response = await s3Client.send(getFleetAgentCommand);
+
+  console.log("Fleet agent downloaded for os: ", os);
+  return response.Body;
 }
