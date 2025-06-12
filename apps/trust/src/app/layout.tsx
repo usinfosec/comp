@@ -16,7 +16,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="h-full">
             <body>
-                <div className="flex flex-col container gap-2 h-full">
+                <div className="flex flex-col container gap-2 h-full mx-auto">
                     {children}
                     <Toaster />
                 </div>
