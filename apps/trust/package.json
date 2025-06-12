@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "react": "^19.1.0",
     "@comp/db": "workspace:*",
     "@comp/ui": "workspace:*",
     "@hookform/resolvers": "^3.9.1",
