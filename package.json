@@ -58,7 +58,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@manypkg/cli": "^0.23.0",
     "@number-flow/react": "^0.5.9",
-    "@prisma/adapter-pg": "6.5.0",
+    "@prisma/adapter-pg": "6.9.0",
     "@react-email/components": "^0.0.41",
     "@react-email/render": "^1.1.2",
     "@types/d3": "^7.4.3",
