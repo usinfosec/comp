@@ -39,31 +39,19 @@ export function Toaster() {
 													{props.variant === "ai" && (
 														<Icons.AI className="text-[#0064D9]" />
 													)}
-													{props?.variant ===
-														"success" && (
-														<Icons.Check />
-													)}
-													{props?.variant ===
-														"error" && (
+													{props?.variant === "success" && <Icons.Check />}
+													{props?.variant === "error" && (
 														<Icons.Error className="text-[#FF3638]" />
 													)}
-													{props?.variant ===
-														"progress" && (
+													{props?.variant === "progress" && (
 														<Loader2 className="h-4 w-4 animate-spin" />
 													)}
-													{props?.variant ===
-														"spinner" && (
+													{props?.variant === "spinner" && (
 														<Loader2 className="h-4 w-4 animate-spin" />
 													)}
 												</div>
 											)}
-											<div>
-												{title && (
-													<ToastTitle>
-														{title}
-													</ToastTitle>
-												)}
-											</div>
+											<div>{title && <ToastTitle>{title}</ToastTitle>}</div>
 										</div>
 
 										<div>
@@ -83,18 +71,14 @@ export function Toaster() {
 									)}
 
 									{description && (
-										<ToastDescription>
-											{description}
-										</ToastDescription>
+										<ToastDescription>{description}</ToastDescription>
 									)}
 								</div>
 								{action}
 								<ToastClose />
 							</div>
 
-							<div className="w-full flex justify-end">
-								{footer}
-							</div>
+							<div className="w-full flex justify-end">{footer}</div>
 						</Toast>
 					);
 				},

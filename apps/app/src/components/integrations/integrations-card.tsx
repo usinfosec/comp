@@ -47,6 +47,7 @@ import {
 	IntegrationSettings,
 	type IntegrationSettingsItem,
 } from "./integration-settings";
+import Link from "next/link";
 
 export function IntegrationsCard({
 	id,
@@ -54,6 +55,7 @@ export function IntegrationsCard({
 	name,
 	short_description,
 	description,
+	guide_url,
 	settings,
 	images,
 	active,
@@ -68,6 +70,7 @@ export function IntegrationsCard({
 	name: string;
 	short_description: string;
 	description: string;
+	guide_url?: string;
 	settings: IntegrationSettingsItem[] | Record<string, any> | any;
 	images: any[];
 	active: boolean;
@@ -104,18 +107,15 @@ export function IntegrationsCard({
 		},
 	);
 
-	const updateIntegrationSettings = useAction(
-		updateIntegrationSettingsAction,
-		{
-			onSuccess: () => {
-				toast.success("Settings updated successfully");
-				setIsEditingApiKey(false); // Exit edit mode on success
-			},
-			onError: () => {
-				toast.error("Failed to update settings");
-			},
+	const updateIntegrationSettings = useAction(updateIntegrationSettingsAction, {
+		onSuccess: () => {
+			toast.success("Settings updated successfully");
+			setIsEditingApiKey(false); // Exit edit mode on success
 		},
-	);
+		onError: () => {
+			toast.error("Failed to update settings");
+		},
+	});
 
 	const [isLoading, setLoading] = useState(false);
 	const [apiKeyInput, setApiKeyInput] = useState("");
@@ -196,10 +196,7 @@ export function IntegrationsCard({
 
 	return (
 		<Card key={id} className="w-full flex flex-col overflow-hidden">
-			<Sheet
-				open={params.app === id}
-				onOpenChange={() => setParams(null)}
-			>
+			<Sheet open={params.app === id} onOpenChange={() => setParams(null)}>
 				<CardHeader className="pb-2">
 					<div className="flex items-center justify-between mb-2">
 						<div className="flex items-center gap-3">
@@ -208,9 +205,7 @@ export function IntegrationsCard({
 							</div>
 							<div className="flex flex-col gap-1">
 								<CardTitle className="flex items-center gap-2 mb-0">
-									<p className="text-md font-medium leading-none">
-										{name}
-									</p>
+									<p className="text-md font-medium leading-none">{name}</p>
 									{installed ? (
 										<Badge
 											variant="outline"
@@ -219,17 +214,12 @@ export function IntegrationsCard({
 											Connected
 										</Badge>
 									) : !active ? (
-										<Badge
-											variant="outline"
-											className="text-[10px] px-2 py-0"
-										>
+										<Badge variant="outline" className="text-[10px] px-2 py-0">
 											Coming Soon
 										</Badge>
 									) : null}
 								</CardTitle>
-								<p className="text-xs text-muted-foreground">
-									{category}
-								</p>
+								<p className="text-xs text-muted-foreground">{category}</p>
 							</div>
 						</div>
 					</div>
@@ -243,9 +233,7 @@ export function IntegrationsCard({
 				</CardHeader>
 
 				<CardContent className="pb-4">
-					<p className="text-xs text-muted-foreground">
-						{short_description}
-					</p>
+					<p className="text-xs text-muted-foreground">{short_description}</p>
 				</CardContent>
 
 				<CardFooter className="py-2 border-t flex justify-between">
@@ -269,9 +257,7 @@ export function IntegrationsCard({
 								</div>
 								<div>
 									<div className="flex items-center gap-2">
-										<h3 className="text-lg font-medium leading-none">
-											{name}
-										</h3>
+										<h3 className="text-lg font-medium leading-none">{name}</h3>
 										{installed && (
 											<Badge
 												variant="outline"
@@ -295,15 +281,12 @@ export function IntegrationsCard({
 										size="sm"
 										className="text-xs"
 										onClick={() => {
-											deleteIntegrationConnection.executeAsync(
-												{
-													integrationId: id,
-												},
-											);
+											deleteIntegrationConnection.executeAsync({
+												integrationName: id,
+											});
 										}}
 									>
-										{deleteIntegrationConnection.status ===
-										"executing"
+										{deleteIntegrationConnection.status === "executing"
 											? "Disconnecting..."
 											: "Disconnect"}
 									</Button>
@@ -317,13 +300,32 @@ export function IntegrationsCard({
 						<ScrollArea className="flex-1 px-6">
 							<Accordion
 								type="multiple"
-								defaultValue={[
-									"description",
-									"settings",
-									"sync-status",
-								]}
+								defaultValue={["description", "settings", "sync-status"]}
 								className="mt-4 space-y-4"
 							>
+								{guide_url && (
+									<AccordionItem value="guide" className="border-0 border-b">
+										<AccordionTrigger className="py-3 hover:no-underline">
+											<div className="flex items-center gap-2">
+												<InfoIcon className="h-3.5 w-3.5 mr-1" />
+												<span className="text-sm font-medium">
+													How to get credentials
+												</span>
+											</div>
+										</AccordionTrigger>
+										<AccordionContent className="text-muted-foreground text-sm pb-4">
+											<Link
+												href={guide_url}
+												target="_blank"
+												rel="noreferrer"
+												className="text-primary underline"
+											>
+												{guide_url}
+											</Link>
+										</AccordionContent>
+									</AccordionItem>
+								)}
+
 								<AccordionItem
 									value="description"
 									className="border-0 border-b"
@@ -331,9 +333,7 @@ export function IntegrationsCard({
 									<AccordionTrigger className="py-3 hover:no-underline">
 										<div className="flex items-center gap-2">
 											<InfoIcon className="h-3.5 w-3.5 mr-1" />
-											<span className="text-sm font-medium">
-												Information
-											</span>
+											<span className="text-sm font-medium">Information</span>
 										</div>
 									</AccordionTrigger>
 									<AccordionContent className="text-muted-foreground text-sm pb-4">
@@ -349,9 +349,7 @@ export function IntegrationsCard({
 										<AccordionTrigger className="py-3 hover:no-underline">
 											<div className="flex items-center gap-2">
 												<Clock className="h-3.5 w-3.5 mr-1" />
-												<span className="text-sm font-medium">
-													Sync Status
-												</span>
+												<span className="text-sm font-medium">Sync Status</span>
 											</div>
 										</AccordionTrigger>
 										<AccordionContent className="text-muted-foreground text-sm pb-4">
@@ -365,20 +363,12 @@ export function IntegrationsCard({
 															</p>
 															<TooltipProvider>
 																<Tooltip>
-																	<TooltipTrigger
-																		asChild
-																	>
+																	<TooltipTrigger asChild>
 																		<Globe className="h-3 w-3 text-muted-foreground cursor-help" />
 																	</TooltipTrigger>
 																	<TooltipContent>
 																		<p>
-																			Dates
-																			are
-																			shown
-																			in
-																			your
-																			local
-																			timezone
+																			Dates are shown in your local timezone
 																		</p>
 																	</TooltipContent>
 																</Tooltip>
@@ -386,22 +376,12 @@ export function IntegrationsCard({
 														</div>
 														{lastRunAt ? (
 															<p className="text-xs text-muted-foreground">
-																{format(
-																	new Date(
-																		lastRunAt,
-																	),
-																	"PPP 'at' p",
-																)}
+																{format(new Date(lastRunAt), "PPP 'at' p")}
 																<span className="text-xs text-muted-foreground ml-1">
 																	(
-																	{formatDistanceToNow(
-																		new Date(
-																			lastRunAt,
-																		),
-																		{
-																			addSuffix: true,
-																		},
-																	)}
+																	{formatDistanceToNow(new Date(lastRunAt), {
+																		addSuffix: true,
+																	})}
 																	)
 																</span>
 															</p>
@@ -428,9 +408,7 @@ export function IntegrationsCard({
 															</Badge>
 															<TooltipProvider>
 																<Tooltip>
-																	<TooltipTrigger
-																		asChild
-																	>
+																	<TooltipTrigger asChild>
 																		<Globe className="h-3 w-3 text-muted-foreground cursor-help" />
 																	</TooltipTrigger>
 																	<TooltipContent
@@ -439,22 +417,9 @@ export function IntegrationsCard({
 																		className="max-w-[250px]"
 																	>
 																		<p>
-																			This
-																			integration
-																			runs
-																			at
-																			midnight
-																			UTC
-																			(00:00).
-																			Times
-																			are
-																			converted
-																			to
-																			your
-																			local
-																			timezone
-																			for
-																			display.
+																			This integration runs at midnight UTC
+																			(00:00). Times are converted to your local
+																			timezone for display.
 																		</p>
 																	</TooltipContent>
 																</Tooltip>
@@ -463,30 +428,18 @@ export function IntegrationsCard({
 														{nextRunAt ? (
 															<div className="space-y-0.5">
 																<p className="text-xs text-muted-foreground">
-																	{format(
-																		new Date(
-																			nextRunAt,
-																		),
-																		"PPP 'at' p",
-																	)}
+																	{format(new Date(nextRunAt), "PPP 'at' p")}
 																	<span className="text-xs text-muted-foreground ml-1">
 																		(
-																		{formatDistanceToNow(
-																			new Date(
-																				nextRunAt,
-																			),
-																			{
-																				addSuffix: true,
-																			},
-																		)}
+																		{formatDistanceToNow(new Date(nextRunAt), {
+																			addSuffix: true,
+																		})}
 																		)
 																	</span>
 																</p>
 																<p className="text-xs text-muted-foreground flex items-center gap-1">
 																	<span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
-																	{getUTCMidnightMessage(
-																		nextRunAt,
-																	)}
+																	{getUTCMidnightMessage(nextRunAt)}
 																</p>
 															</div>
 														) : (
@@ -502,8 +455,7 @@ export function IntegrationsCard({
 
 											<div className="text-xs border p-3 rounded-sm mt-3">
 												<p>
-													This integration syncs
-													automatically every day at
+													This integration syncs automatically every day at
 													midnight UTC (00:00).
 												</p>
 											</div>
@@ -511,16 +463,11 @@ export function IntegrationsCard({
 									</AccordionItem>
 								)}
 
-								<AccordionItem
-									value="settings"
-									className="border-0 border-b"
-								>
+								<AccordionItem value="settings" className="border-0 border-b">
 									<AccordionTrigger className="py-3 hover:no-underline">
 										<div className="flex items-center gap-2">
 											<Settings className="h-3.5 w-3.5 mr-1" />
-											<span className="text-sm font-medium">
-												Settings
-											</span>
+											<span className="text-sm font-medium">Settings</span>
 										</div>
 									</AccordionTrigger>
 									<AccordionContent className="text-muted-foreground text-sm pb-4">
@@ -538,16 +485,11 @@ export function IntegrationsCard({
 													</div>
 
 													{/* Show update button when key is set and not in edit mode */}
-													{installedSettings?.api_key &&
-													!isEditingApiKey ? (
+													{installedSettings?.api_key && !isEditingApiKey ? (
 														<Button
 															variant="outline"
 															size="sm"
-															onClick={() =>
-																setIsEditingApiKey(
-																	true,
-																)
-															}
+															onClick={() => setIsEditingApiKey(true)}
 														>
 															Update
 														</Button>
@@ -557,8 +499,7 @@ export function IntegrationsCard({
 												{/* Show input field either when:
 													1. No API key is set yet, or
 													2. User clicked the update button */}
-												{(!installedSettings?.api_key ||
-													isEditingApiKey) && (
+												{(!installedSettings?.api_key || isEditingApiKey) && (
 													<div className="space-y-4">
 														<div className="space-y-2">
 															<label
@@ -573,21 +514,11 @@ export function IntegrationsCard({
 																id={`${id}-api-key`}
 																type="password"
 																placeholder="Enter your Deel API key"
-																value={
-																	apiKeyInput
-																}
-																onChange={(e) =>
-																	setApiKeyInput(
-																		e.target
-																			.value,
-																	)
-																}
+																value={apiKeyInput}
+																onChange={(e) => setApiKeyInput(e.target.value)}
 															/>
 															<p className="text-xs text-muted-foreground">
-																You can find
-																your API key in
-																your Deel
-																account
+																You can find your API key in your Deel account
 																settings.
 															</p>
 														</div>
@@ -597,11 +528,7 @@ export function IntegrationsCard({
 																	type="button"
 																	variant="outline"
 																	className="flex-1"
-																	onClick={() =>
-																		setIsEditingApiKey(
-																			false,
-																		)
-																	}
+																	onClick={() => setIsEditingApiKey(false)}
 																>
 																	Cancel
 																</Button>
@@ -609,12 +536,8 @@ export function IntegrationsCard({
 															<Button
 																type="button"
 																className="flex-1"
-																onClick={
-																	handleConnect
-																}
-																disabled={
-																	isSaving
-																}
+																onClick={handleConnect}
+																disabled={isSaving}
 															>
 																{isSaving ? (
 																	<>
@@ -631,16 +554,11 @@ export function IntegrationsCard({
 													</div>
 												)}
 											</div>
-										) : Array.isArray(settings) &&
-											settings.length > 0 ? (
+										) : Array.isArray(settings) && settings.length > 0 ? (
 											<IntegrationSettings
 												integrationId={id}
-												settings={
-													settings as IntegrationSettingsItem[]
-												}
-												installedSettings={
-													installedSettings
-												}
+												settings={settings as IntegrationSettingsItem[]}
+												installedSettings={installedSettings}
 											/>
 										) : (
 											<div className="p-4 border">
@@ -662,8 +580,8 @@ export function IntegrationsCard({
 					<div className="p-6 mt-auto border-t border-border bg-muted/30">
 						<div className="flex justify-between items-center">
 							<p className="text-[10px] text-muted-foreground">
-								All integrations on the Comp AI store are
-								open-source and peer-reviewed.
+								All integrations on the Comp AI store are open-source and
+								peer-reviewed.
 							</p>
 
 							<a

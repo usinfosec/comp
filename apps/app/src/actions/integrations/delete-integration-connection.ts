@@ -17,7 +17,7 @@ export const deleteIntegrationConnectionAction = authActionClient
 		},
 	})
 	.action(async ({ parsedInput, ctx }) => {
-		const { integrationId } = parsedInput;
+		const { integrationName } = parsedInput;
 		const { session } = ctx;
 
 		if (!session.activeOrganizationId) {
@@ -27,9 +27,9 @@ export const deleteIntegrationConnectionAction = authActionClient
 			};
 		}
 
-		const integration = await db.integration.findUnique({
+		const integration = await db.integration.findFirst({
 			where: {
-				name: integrationId.toLowerCase(),
+				name: integrationName,
 				organizationId: session.activeOrganizationId,
 			},
 		});

@@ -2,7 +2,6 @@
 import { AssignedUser } from "@/components/assigned-user";
 import { StatusDate } from "@/components/status-date";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import type { RiskStatus } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -23,14 +22,13 @@ export type RiskTaskType = {
 };
 
 export function columns(): ColumnDef<RiskTaskType>[] {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return [
 		{
 			id: "title",
 			accessorKey: "title",
-			header: t("risk.tasks.title"),
+			header: "Tasks",
 			cell: ({ row }) => {
 				return (
 					<span className="truncate">
@@ -48,7 +46,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 		{
 			id: "status",
 			accessorKey: "status",
-			header: t("common.table.status"),
+			header: "Status",
 			cell: ({ row }) => {
 				const status = row.original.status;
 
@@ -64,7 +62,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 			accessorKey: "dueDate",
 			header: () => (
 				<span className="hidden sm:table-cell">
-					{t("common.table.due_date")}
+					{"Due Date"}
 				</span>
 			),
 			cell: ({ row }) => {
@@ -85,7 +83,7 @@ export function columns(): ColumnDef<RiskTaskType>[] {
 			accessorKey: "assigneeId",
 			header: () => (
 				<span className="hidden sm:table-cell">
-					{t("common.table.assigned_to")}
+					{"Assigned To"}
 				</span>
 			),
 			cell: ({ row }) => {

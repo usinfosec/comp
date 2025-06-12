@@ -18,17 +18,15 @@ model Policy {
   lastPublishedAt DateTime?
 
   // Relationships
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  assigneeId     String?
-  assignee       Member?      @relation(fields: [assigneeId], references: [id])
-  artifacts      Artifact[]
+  organizationId   String
+  organization     Organization                   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  assigneeId       String?
+  assignee         Member?                        @relation("PolicyAssignee", fields: [assigneeId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  approverId       String?
+  approver         Member?                        @relation("PolicyApprover", fields: [approverId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  policyTemplateId String?
+  policyTemplate   FrameworkEditorPolicyTemplate? @relation(fields: [policyTemplateId], references: [id])
+  controls         Control[]
 
   @@index([organizationId])
-}
-
-enum PolicyStatus {
-  draft
-  published
-  needs_review
 }

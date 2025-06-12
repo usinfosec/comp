@@ -16,7 +16,7 @@ const config: NextConfig = {
 			},
 		],
 	},
-	transpilePackages: ["@comp/ui", "@comp/data"],
+	transpilePackages: ["@comp/ui"],
 	logging: {
 		fetches: {
 			fullUrl: process.env.LOG_FETCHES === "true",
@@ -27,6 +27,7 @@ const config: NextConfig = {
 			bodySizeLimit: "15mb",
 		},
 		authInterrupts: true,
+		nodeMiddleware: true,
 	},
 	async rewrites() {
 		return [

@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -7,8 +6,6 @@ import { cache } from "react";
 import { StatusChart } from "./status-chart";
 
 export async function RisksByStatus() {
-	const t = await getI18n();
-
 	const risks = await getRisksByStatus();
 
 	const data = risks.map((risk) => ({
@@ -19,7 +16,7 @@ export async function RisksByStatus() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("risk.dashboard.status")}</CardTitle>
+				<CardTitle>{"Risks by Status"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<StatusChart data={data} />

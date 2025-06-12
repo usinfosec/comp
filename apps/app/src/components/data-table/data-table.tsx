@@ -2,7 +2,6 @@ import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import type * as React from "react";
 
-import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@comp/ui/cn";
 import {
 	Table,
@@ -13,13 +12,12 @@ import {
 	TableRow,
 } from "@comp/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableSortList } from "./data-table-sort-list";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
 	table: TanstackTable<TData>;
 	actionBar?: React.ReactNode;
 	getRowId?: (row: TData) => string;
-	rowClickBasePath: string;
+	rowClickBasePath?: string;
 	tableId?: string;
 }
 
@@ -42,13 +40,13 @@ export function DataTable<TData>({
 		}
 	};
 
+	// Apply client-side filtering
+	const filteredRows = table.getFilteredRowModel().rows;
+
 	return (
-		<div
-			className={cn("flex w-full flex-col gap-2.5", className)}
-			{...props}
-		>
+		<div className={cn("space-y-4", className)} {...props}>
 			{children}
-			<div>
+			<div className="rounded-md">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -58,70 +56,53 @@ export function DataTable<TData>({
 										key={header.id}
 										colSpan={header.colSpan}
 										className={cn(
-											index !== 0 &&
-												"hidden md:table-cell",
-											index === 0 &&
-												"max-w-[200px] md:max-w-none",
+											index !== 0 && "hidden md:table-cell",
+											index === 0 && "w-full md:w-auto"
 										)}
-										style={{
-											...getCommonPinningStyles({
-												column: header.column,
-											}),
-										}}
 									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef
-														.header,
-													header.getContext(),
-												)}
+												header.column.columnDef.header,
+												header.getContext(),
+											)}
 									</TableHead>
 								))}
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody className="[&_tr]:cursor-pointer">
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
+					<TableBody>
+						{filteredRows.length ? (
+							filteredRows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={
-										row.getIsSelected() && "selected"
-									}
-									className={cn(getRowId)}
+									data-state={row.getIsSelected() && "selected"}
+									className={cn(
+										getRowId && "cursor-pointer hover:bg-muted/50"
+									)}
 									onClick={() => handleRowClick(row.original)}
 								>
-									{row
-										.getVisibleCells()
-										.map((cell, index) => (
-											<TableCell
-												key={cell.id}
-												className={cn(
-													index !== 0 &&
-														"hidden md:table-cell",
-													index === 0 &&
-														"max-w-[200px] truncate md:max-w-none md:whitespace-normal [&_td]:hover:bg-accent/50",
-												)}
-												style={{
-													...getCommonPinningStyles({
-														column: cell.column,
-													}),
-												}}
-											>
-												{flexRender(
-													cell.column.columnDef.cell,
-													cell.getContext(),
-												)}
-											</TableCell>
-										))}
+									{row.getVisibleCells().map((cell, index) => (
+										<TableCell
+											key={cell.id}
+											className={cn(
+												index !== 0 && "hidden md:table-cell",
+												index === 0 && "truncate"
+											)}
+										>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
+											)}
+										</TableCell>
+									))}
 								</TableRow>
 							))
 						) : (
 							<TableRow>
 								<TableCell
 									colSpan={table.getAllColumns().length}
-									className="h-24 text-center"
+									className="h-24 text-center text-muted-foreground"
 								>
 									No results.
 								</TableCell>
@@ -130,7 +111,7 @@ export function DataTable<TData>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex flex-col gap-2.5">
+			<div className="space-y-4">
 				<DataTablePagination table={table} tableId={tableId} />
 				{actionBar &&
 					table.getFilteredSelectedRowModel().rows.length > 0 &&

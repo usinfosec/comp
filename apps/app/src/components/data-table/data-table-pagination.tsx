@@ -26,7 +26,7 @@ interface DataTablePaginationProps<TData> extends React.ComponentProps<"div"> {
 
 export function DataTablePagination<TData>({
 	table,
-	pageSizeOptions = [10, 20, 30, 40, 50],
+	pageSizeOptions = [50, 100, 200],
 	tableId,
 	className,
 	...props
@@ -107,91 +107,71 @@ export function DataTablePagination<TData>({
 
 	return (
 		<div
-			className={cn(
-				"flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8",
-				className,
-			)}
+			className={cn("flex items-center justify-between px-2 py-4", className)}
 			{...props}
 		>
-			<div className="flex-1 flex items-center gap-2 select-none">
-				<p className="text-sm text-muted-foreground">
+			<div className="flex items-center gap-4 text-sm text-muted-foreground">
+				<span className="hidden sm:inline">
 					{table.getCoreRowModel().rows.length} items
-				</p>
-			</div>
-			<div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8 select-none">
-				<div className="flex items-center space-x-2">
-					<p className="whitespace-nowrap text-sm">Rows per page</p>
+				</span>
+				<div className="hidden sm:flex items-center gap-2">
 					<Select
 						value={`${table.getState().pagination.pageSize}`}
 						onValueChange={handlePageSizeChange}
 					>
-						<SelectTrigger className="h-8 w-[4.5rem] [&[data-size]]:h-8">
-							<SelectValue
-								placeholder={
-									table.getState().pagination.pageSize
-								}
-							/>
+						<SelectTrigger className="h-8 w-20">
+							<SelectValue placeholder={table.getState().pagination.pageSize} />
 						</SelectTrigger>
 						<SelectContent side="bottom">
 							{pageSizeOptions.map((pageSize) => (
-								<SelectItem
-									key={pageSize}
-									value={`${pageSize}`}
-								>
+								<SelectItem key={pageSize} value={`${pageSize}`}>
 									{pageSize}
 								</SelectItem>
 							))}
 						</SelectContent>
 					</Select>
+					<span>per page</span>
 				</div>
-				<div className="flex items-center justify-center text-sm">
-					Page {table.getState().pagination.pageIndex + 1} of{" "}
-					{table.getPageCount()}
-				</div>
-				<div className="flex items-center space-x-2">
-					<Button
-						aria-label="Go to first page"
-						variant="outline"
-						size="icon"
-						className="hidden size-8 lg:flex"
-						onClick={() => handlePageChange(0)}
-						disabled={!table.getCanPreviousPage()}
-					>
-						<ChevronsLeft className="size-4" />
-					</Button>
-					<Button
-						aria-label="Go to previous page"
-						variant="outline"
-						size="icon"
-						className="size-8"
-						onClick={() => handlePageChange(pageIndex - 1)}
-						disabled={!table.getCanPreviousPage()}
-					>
-						<ChevronLeft className="size-4" />
-					</Button>
-					<Button
-						aria-label="Go to next page"
-						variant="outline"
-						size="icon"
-						className="size-8"
-						onClick={() => handlePageChange(pageIndex + 1)}
-						disabled={!table.getCanNextPage()}
-					>
-						<ChevronRight className="size-4" />
-					</Button>
-					<Button
-						aria-label="Go to last page"
-						variant="outline"
-						size="icon"
-						className="hidden size-8 lg:flex"
-						onClick={() =>
-							handlePageChange(table.getPageCount() - 1)
-						}
-						disabled={!table.getCanNextPage()}
-					>
-						<ChevronsRight className="size-4" />
-					</Button>
-				</div>
+			</div>
+
+			<div className="flex items-center gap-1">
+				<span className="text-sm text-muted-foreground mr-2 hidden sm:inline">
+					Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+				</span>
+				<Button
+					variant="outline"
+					size="sm"
+					className="hidden sm:flex"
+					onClick={() => handlePageChange(0)}
+					disabled={!table.getCanPreviousPage()}
+				>
+					<ChevronsLeft className="h-4 w-4" />
+				</Button>
+				<Button
+					variant="outline"
+					size="sm"
+					onClick={() => handlePageChange(pageIndex - 1)}
+					disabled={!table.getCanPreviousPage()}
+				>
+					<ChevronLeft className="h-4 w-4" />
+				</Button>
+				<Button
+					variant="outline"
+					size="sm"
+					onClick={() => handlePageChange(pageIndex + 1)}
+					disabled={!table.getCanNextPage()}
+				>
+					<ChevronRight className="h-4 w-4" />
+				</Button>
+				<Button
+					variant="outline"
+					size="sm"
+					className="hidden sm:flex"
+					onClick={() => handlePageChange(table.getPageCount() - 1)}
+					disabled={!table.getCanNextPage()}
+				>
+					<ChevronsRight className="h-4 w-4" />
+				</Button>
 			</div>
 		</div>
 	);

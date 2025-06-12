@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -31,7 +30,6 @@ const ThemeIcon = ({ currentTheme }: Props) => {
 };
 
 export const ThemeSwitch = () => {
-	const t = useI18n();
 	const { theme, setTheme, themes } = useTheme();
 
 	return (
@@ -40,20 +38,14 @@ export const ThemeSwitch = () => {
 				defaultValue={theme}
 				onValueChange={(value: Theme) => setTheme(value)}
 			>
-				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-none capitalize h-[32px] text-xs">
-					<SelectValue placeholder={t("user_menu.theme")} />
+				<SelectTrigger className="w-full pl-6 pr-3 py-1.5 bg-transparent outline-hidden capitalize h-[32px] text-xs">
+					<SelectValue placeholder={"Theme"} />
 				</SelectTrigger>
 				<SelectContent>
 					<SelectGroup>
 						{themes.map((theme) => (
-							<SelectItem
-								key={theme}
-								value={theme}
-								className="capitalize"
-							>
-								{t(
-									`theme.options.${theme.toLowerCase() as "dark" | "system" | "light"}`,
-								)}
+							<SelectItem key={theme} value={theme} className="capitalize">
+								{theme.charAt(0).toUpperCase() + theme.slice(1)}
 							</SelectItem>
 						))}
 					</SelectGroup>

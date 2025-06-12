@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -13,10 +12,11 @@ export function HotKeys() {
 		serialize: (value) => value.toString(),
 	});
 
-	const handleSignOut = async () => {
-		await signOut();
-		router.refresh();
-	};
+	const [showOrganizationSwitcher, setShowOrganizationSwitcher] = useQueryState("showOrganizationSwitcher", {
+		history: "push",
+		parse: (value) => value === "true",
+		serialize: (value) => value.toString(),
+	});
 
 	useHotkeys("ctrl+m", (evt) => {
 		evt.preventDefault();
@@ -48,19 +48,14 @@ export function HotKeys() {
 		router.push("/account");
 	});
 
-	useHotkeys("ctrl+meta+q", (evt) => {
-		evt.preventDefault();
-		handleSignOut();
-	});
-
-	useHotkeys("shift+meta+q", (evt) => {
-		evt.preventDefault();
-		handleSignOut();
-	});
-
 	useHotkeys("meta+k", (evt) => {
 		evt.preventDefault();
 		setAssistantOpen(true);
+	});
+
+	useHotkeys("meta+o", (evt) => {
+		evt.preventDefault();
+		setShowOrganizationSwitcher(!showOrganizationSwitcher);
 	});
 
 	return null;

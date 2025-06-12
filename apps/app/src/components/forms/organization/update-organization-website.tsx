@@ -2,7 +2,6 @@
 
 import { updateOrganizationWebsiteAction } from "@/actions/organization/update-organization-website-action";
 import { organizationWebsiteSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
     Card,
@@ -32,13 +31,12 @@ export function UpdateOrganizationWebsite({
 }: {
     organizationWebsite: string;
 }) {
-    const t = useI18n();
     const updateOrganizationWebsite = useAction(updateOrganizationWebsiteAction, {
         onSuccess: () => {
-            toast.success(t("settings.general.org_website_updated"));
+            toast.success("Organization website updated");
         },
         onError: () => {
-            toast.error(t("settings.general.org_website_error"));
+            toast.error("Error updating organization website");
         },
     });
 
@@ -58,11 +56,11 @@ export function UpdateOrganizationWebsite({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>{t("settings.general.org_website")}</CardTitle>
+                        <CardTitle>{"Organization Website"}</CardTitle>
 
                         <CardDescription>
                             <div className="max-w-[600px]">
-                                {t("settings.general.org_website_description")}
+                                {"This is your organization's official website. Include https:// in the URL."}
                             </div>
                         </CardDescription>
                     </CardHeader>
@@ -75,7 +73,7 @@ export function UpdateOrganizationWebsite({
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="max-w-[300px]"
+                                            className="md:max-w-[300px]"
                                             autoComplete="off"
                                             autoCapitalize="none"
                                             autoCorrect="off"
@@ -91,7 +89,7 @@ export function UpdateOrganizationWebsite({
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <div className="text-xs text-muted-foreground">
-                            {t("settings.general.org_website_tip")}
+                            {"Please enter a valid URL including https://"}
                         </div>
                         <Button
                             type="submit"
@@ -102,7 +100,7 @@ export function UpdateOrganizationWebsite({
                             {updateOrganizationWebsite.status === "executing" ? (
                                 <Loader2 className="h-4 w-4 animate-spin mr-1" />
                             ) : null}
-                            {t("common.actions.save")}
+                            {"Save"}
                         </Button>
                     </CardFooter>
                 </Card>

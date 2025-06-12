@@ -1,7 +1,6 @@
 "use client";
 
 import { PieChart } from "@/components/ui/pie-chart";
-import { useI18n } from "@/locales/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { cn } from "@comp/ui/cn";
 
@@ -22,8 +21,6 @@ export function TestsSeverity({
 	highSeverityTests,
 	criticalSeverityTests,
 }: Props) {
-	const t = useI18n();
-
 	const severityCounts = {
 		low: lowSeverityTests,
 		medium: mediumSeverityTests,
@@ -33,31 +30,31 @@ export function TestsSeverity({
 
 	const data = [
 		{
-			name: t("tests.severity.info"),
+			name: "Info",
 			value: infoSeverityTests,
 			color: "var(--chart-closed)",
 			colorClass: "bg-[var(--chart-closed)]",
 		},
 		{
-			name: t("tests.severity.low"),
+			name: "Low",
 			value: severityCounts.low,
 			color: "var(--chart-archived)",
 			colorClass: "bg-[var(--chart-archived)]",
 		},
 		{
-			name: t("tests.severity.medium"),
+			name: "Medium",
 			value: severityCounts.medium,
 			color: "var(--chart-pending)",
 			colorClass: "bg-[var(--chart-pending)]",
 		},
 		{
-			name: t("tests.severity.high"),
+			name: "High",
 			value: severityCounts.high,
 			color: "var(--chart-open)",
 			colorClass: "bg-[var(--chart-open)]",
 		},
 		{
-			name: t("tests.severity.critical"),
+			name: "Critical",
 			value: severityCounts.critical,
 			color: "hsl(var(--destructive))",
 			colorClass: "bg-[hsl(var(--destructive))]",
@@ -68,7 +65,7 @@ export function TestsSeverity({
 		<Card>
 			<CardHeader>
 				<CardTitle>
-					{t("tests.dashboard.severity_distribution")}
+					{"Test Severity Distribution"}
 				</CardTitle>
 			</CardHeader>
 			<CardContent>

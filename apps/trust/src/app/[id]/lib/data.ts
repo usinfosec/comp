@@ -1,46 +1,139 @@
+"use server";
+
 import { db } from "@comp/db";
+import { cache } from "react";
 
-export const findOrganization = async (subdomain: string) => {
+export const findOrganizationByAnyId = cache(async (id: string) => {
+	const trust = await db.trust.findFirst({
+		where: {
+			OR: [{ organizationId: id }, { friendlyUrl: id }, { domain: id }],
+			status: "published",
+		},
+		select: {
+			organizationId: true,
+		},
+	});
+
+	if (!trust) return null;
+
 	const organization = await db.organization.findFirst({
-		where: { slug: subdomain },
+		where: {
+			id: trust.organizationId,
+			trust: {
+				some: {
+					status: "published",
+				},
+			},
+		},
+		include: {
+			trust: {
+				select: {
+					status: true,
+					domain: true,
+					domainVerified: true,
+					friendlyUrl: true,
+				},
+			},
+		},
 	});
 
-	const isPublished = await db.trust.findFirst({
-		where: { organizationId: organization?.id, status: "published" },
-	});
+	return organization;
+});
 
-	if (!organization || !isPublished) {
+export const getPublishedPolicies = cache(async (id: string) => {
+	const organization = await findOrganizationByAnyId(id);
+
+	if (!organization) {
 		return null;
 	}
 
-	return {
-		...organization,
-	};
-};
-
-export const getPublishedPolicies = async (organizationId: string) => {
 	const policies = await db.policy.findMany({
-		where: { organizationId, status: "published" },
+		where: { organizationId: organization.id, status: "published" },
+		select: {
+			id: true,
+			name: true,
+			status: true,
+		},
 	});
 
 	return policies;
-};
+});
 
-export const getPublishedPolicy = async (
-	organizationId: string,
-	policyId: string,
-) => {
-	const policy = await db.policy.findFirst({
-		where: { organizationId, status: "published", id: policyId },
-	});
+export const getPublishedPolicy = cache(
+	async (id: string, policyId: string) => {
+		const organization = await findOrganizationByAnyId(id);
 
-	return policy;
-};
+		if (!organization) {
+			return null;
+		}
 
-export const getPublishedControls = async (organizationId: string) => {
+		const policy = await db.policy.findFirst({
+			where: {
+				organizationId: organization.id,
+				status: "published",
+				id: policyId,
+			},
+			select: {
+				id: true,
+				name: true,
+				status: true,
+			},
+		});
+
+		return policy;
+	},
+);
+
+export const getPublishedControls = cache(async (id: string) => {
+	const organization = await findOrganizationByAnyId(id);
+
+	if (!organization) {
+		return null;
+	}
+
 	const controls = await db.task.findMany({
-		where: { organizationId, status: "done" },
+		where: { organizationId: organization.id, status: "done" },
+		select: {
+			id: true,
+			title: true,
+			status: true,
+		},
 	});
 
 	return controls;
-};
+});
+
+export const getFrameworks = cache(async (id: string) => {
+	const organization = await findOrganizationByAnyId(id);
+
+	if (!organization) {
+		return null;
+	}
+
+	const frameworks = await db.trust.findFirst({
+		where: { organizationId: organization.id },
+		select: {
+			soc2: true,
+			iso27001: true,
+			gdpr: true,
+			soc2_status: true,
+			iso27001_status: true,
+			gdpr_status: true,
+		},
+	});
+
+	return {
+		soc2: {
+			enabled: frameworks?.soc2,
+			status: frameworks?.soc2_status,
+		},
+		iso27001: {
+			enabled: frameworks?.iso27001,
+			status: frameworks?.iso27001_status,
+		},
+		gdpr: {
+			enabled: frameworks?.gdpr,
+			status: frameworks?.gdpr_status,
+		},
+	};
+});

@@ -4,26 +4,27 @@ interface AnimatedLayoutProps {
 	children: React.ReactNode;
 	sidebar: React.ReactNode;
 	isCollapsed: boolean;
+	blurred?: boolean;
 }
 
 export function AnimatedLayout({
 	children,
 	sidebar,
 	isCollapsed,
+	blurred,
 }: AnimatedLayoutProps) {
 	return (
-		<div className="flex h-screen w-full overflow-hidden">
+		<div className="flex w-full h-screen overflow-hidden">
 			<div
 				className={cn(
-					"flex-shrink-0 border-r bg-background duration-300 ease-in-out hidden md:block",
+					"shrink-0 h-full overflow-y-auto border-r bg-background duration-300 ease-in-out hidden md:block",
 					isCollapsed ? "w-[80px]" : "w-[240px]",
+					blurred ? "blur-xs select-none pointer-events-none" : "",
 				)}
 			>
 				{sidebar}
 			</div>
-			<div className="flex-1 overflow-auto bg-backgroundSoft">
-				{children}
-			</div>
+			<div className="flex-1 overflow-y-auto bg-background">{children}</div>
 		</div>
 	);
 }

@@ -1,20 +1,18 @@
-import PageLayout from "@/app/components/PageLayout";
 import { db } from "@comp/db";
-// import { PoliciesTable } from "./components/PoliciesTable"; // Old import, commented out
-import { DataTable } from "@/app/components/DataTable"; // New generic table
-import { columns } from "./components/columns"; // Import the new columns
+import { PoliciesClientPage } from "./PoliciesClientPage"; // Import the new Client Component
+import { isAuthorized } from "@/app/lib/utils";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
-    const policies = await db.frameworkEditorPolicyTemplate.findMany();
+	const isAllowed = await isAuthorized();
 
-    return (
-        <PageLayout breadcrumbs={[{ label: "Policies", href: "/policies" }]}>
-            {/* <PoliciesTable policies={policies} /> */}
-            <DataTable 
-              data={policies} 
-              columns={columns} // Pass the columns
-              searchQueryParamName="policies-search" 
-            />
-        </PageLayout>
-    );
+	if (!isAllowed) {
+		redirect("/auth");
+	}
+
+	const policies = await db.frameworkEditorPolicyTemplate.findMany({
+		// Add any ordering if necessary, e.g., orderBy: { name: 'asc' }
+	});
+
+	return <PoliciesClientPage initialPolicies={policies} />;
 }

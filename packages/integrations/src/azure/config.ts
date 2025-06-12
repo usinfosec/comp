@@ -11,6 +11,7 @@ const config: {
 	active: boolean;
 	logo: React.ComponentType;
 	short_description: string;
+	guide_url: string;
 	description: string;
 	images: unknown[];
 	settings: {
@@ -31,6 +32,7 @@ const config: {
 	logo: Logo,
 	short_description:
 		"Connect with Microsoft Azure to show your cloud infrastructure is compliant.",
+	guide_url: "https://trycomp.ai/docs/integrations/azure",
 	description:
 		"Comp AI can automatically collect evidence from your Microsoft Azure account to show your cloud infrastructure is compliant with different compliance frameworks.",
 	images: [],

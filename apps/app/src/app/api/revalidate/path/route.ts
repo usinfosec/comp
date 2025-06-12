@@ -6,6 +6,8 @@ export async function POST(request: NextRequest) {
 	try {
 		const { path, type, secret } = await request.json();
 
+		console.log("Revalidating path from API: ", path);
+
 		if (secret !== env.REVALIDATION_SECRET) {
 			return NextResponse.json(
 				{ message: "Invalid secret" },

@@ -50,7 +50,7 @@ const AdvancedEditor = ({ initialContent }: AdvancedEditorProps) => {
 						},
 						attributes: {
 							class:
-								"prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+								"prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-hidden max-w-full",
 						},
 					}}
 				/>

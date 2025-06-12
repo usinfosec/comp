@@ -10,7 +10,6 @@ model Organization {
   website          String?
 
   apiKeys            ApiKey[]
-  artifacts          Artifact[]
   auditLog           AuditLog[]
   controls           Control[]
   frameworkInstances FrameworkInstance[]
@@ -22,8 +21,9 @@ model Organization {
   vendors            Vendor[]
   tasks              Task[]
   comments           Comment[]
-  Attachment         Attachment[]
+  attachments        Attachment[]
   trust              Trust[]
+  context            Context[]
 
   @@index([slug])
 }

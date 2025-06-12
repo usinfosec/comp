@@ -1,4 +1,3 @@
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
@@ -9,8 +8,6 @@ import { DepartmentChart } from "./department-chart";
 const ALL_DEPARTMENTS = ["none", "admin", "gov", "hr", "it", "itsm", "qms"];
 
 export async function RisksByDepartment() {
-	const t = await getI18n();
-
 	const risks = await getRisksByDepartment();
 
 	const data = ALL_DEPARTMENTS.map((dept) => {
@@ -47,7 +44,7 @@ export async function RisksByDepartment() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("risk.dashboard.by_department")}</CardTitle>
+				<CardTitle>{"Risks by Department"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<DepartmentChart

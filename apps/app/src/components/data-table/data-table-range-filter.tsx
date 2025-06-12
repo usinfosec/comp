@@ -69,10 +69,8 @@ export function DataTableRangeFilter<TData>({
 				value === "" ||
 				(!Number.isNaN(numValue) &&
 					(isMin
-						? numValue >= min &&
-							numValue <= (Number(otherValue) || max)
-						: numValue <= max &&
-							numValue >= (Number(otherValue) || min)))
+						? numValue >= min && numValue <= (Number(otherValue) || max)
+						: numValue <= max && numValue >= (Number(otherValue) || min)))
 			) {
 				onFilterUpdate(filter.filterId, {
 					value: isMin ? [value, otherValue] : [otherValue, value],
@@ -99,13 +97,10 @@ export function DataTableRangeFilter<TData>({
 				placeholder={min.toString()}
 				min={min}
 				max={max}
-				className="h-8 w-full rounded"
+				className="h-8 w-full rounded-sm"
 				defaultValue={value[0]}
-				onChange={(event) =>
-					onRangeValueChange(event.target.value, true)
-				}
+				onChange={(event) => onRangeValueChange(event.target.value, true)}
 			/>
-			<span className="sr-only shrink-0 text-muted-foreground">to</span>
 			<Input
 				id={`${inputId}-max`}
 				type="number"
@@ -117,7 +112,7 @@ export function DataTableRangeFilter<TData>({
 				placeholder={max.toString()}
 				min={min}
 				max={max}
-				className="h-8 w-full rounded"
+				className="h-8 w-full rounded-sm"
 				defaultValue={value[1]}
 				onChange={(event) => onRangeValueChange(event.target.value)}
 			/>

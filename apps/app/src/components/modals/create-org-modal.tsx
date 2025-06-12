@@ -2,9 +2,7 @@
 
 import { createOrganizationAction } from "@/actions/organization/create-organization-action";
 import { organizationSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
-import { FrameworkId, frameworks } from "@comp/data";
 import type { Organization } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import { Checkbox } from "@comp/ui/checkbox";
@@ -24,29 +22,34 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@comp/ui/form";
-import { Input } from "@comp/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { LogoSpinner } from "../logo-spinner";
 import { useRouter } from "next/navigation";
+import type { FrameworkEditorFramework } from "@comp/db/types";
 
 type Props = {
 	onOpenChange: (isOpen: boolean) => void;
+	frameworks: Pick<
+		FrameworkEditorFramework,
+		"id" | "name" | "description" | "version" | "visible"
+	>[];
 };
 
-export function CreateOrgModal({ onOpenChange }: Props) {
-	const t = useI18n();
+export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 	const [isSetup, setIsSetup] = useState(false);
 	const router = useRouter();
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const newOrganizationRef = useRef<
-		Pick<Organization, "id" | "name" | "website"> | null
-	>(null);
+	const newOrganizationRef = useRef<Pick<
+		Organization,
+		"id" | "name" | "website"
+	> | null>(null);
 
 	const [formData, setFormData] = useState<z.infer<
 		typeof organizationSchema
@@ -57,8 +60,8 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 			if (data.data?.organizationId) {
 				newOrganizationRef.current = {
 					id: data.data.organizationId,
-					name: formData?.name || "",
-					website: formData?.website || "",
+					name: "",
+					website: "",
 				};
 
 				router.push(`/${data.data.organizationId}`);
@@ -67,24 +70,26 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 			}
 		},
 		onError: () => {
-			toast.error(t("common.actions.error"), { duration: 5000 });
+			toast.error("Error", { duration: 5000 });
 		},
 	});
 
 	const form = useForm<z.infer<typeof organizationSchema>>({
 		resolver: zodResolver(organizationSchema),
 		defaultValues: {
-			name: "",
-			frameworks: [],
+			frameworkIds: [],
 		},
 		mode: "onChange",
 	});
 
 	const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
+		setIsSubmitting(true);
+		const randomSuffix = Math.random().toString(36).substring(2, 15);
+
 		await authClient.organization
 			.create({
-				name: data.name,
-				slug: data.name,
+				name: "My Organization",
+				slug: `my-organization-${randomSuffix}`,
 			})
 			.then(async (organization) => {
 				setFormData(data);
@@ -96,11 +101,15 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 					organizationId: organization.data?.id,
 				});
 
+				router.push(`/${organization.data?.id}`);
 				onOpenChange(false);
+			})
+			.finally(() => {
+				setIsSubmitting(false);
 			});
 	};
 
-	const isExecuting = createOrganization.status === "executing";
+	const isExecuting = createOrganization.status === "executing" || isSubmitting;
 
 	// Prevent dialog from closing when executing
 	const handleOpenChange = (open: boolean) => {
@@ -108,25 +117,21 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 		onOpenChange(open);
 	};
 
+	// Don't render modal at all while submitting/redirecting
+	if (isSubmitting) return null;
+
 	return (
 		<DialogContent className="max-w-[455px]">
 			<DialogHeader className="my-4">
 				{!isExecuting ? (
 					<>
-						<DialogTitle>{t("onboarding.title")}</DialogTitle>
+						<DialogTitle>{"Create an organization"}</DialogTitle>
 						<DialogDescription>
-							{t("onboarding.description")}
+							{"Tell us a bit about your organization and what framework(s) you want to get started with."}
 						</DialogDescription>
 					</>
 				) : (
-					<>
-						<DialogTitle className="sr-only">
-							{t("onboarding.title")}
-						</DialogTitle>
-						<DialogDescription className="sr-only">
-							{t("onboarding.description")}
-						</DialogDescription>
-					</>
+					<></>
 				)}
 			</DialogHeader>
 
@@ -138,10 +143,10 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 								<div className="flex flex-col gap-2 justify-center">
 									<LogoSpinner />
 									<h2 className="text-xl font-semibold text-center tracking-tight">
-										{t("onboarding.trigger.title")}
+										{"Hold tight, we're creating your organization"}
 									</h2>
 									<p className="text-center text-sm text-muted-foreground">
-										{t("onboarding.trigger.creating")}
+										{"This may take a minute or two..."}
 									</p>
 								</div>
 							</div>
@@ -159,131 +164,87 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 					>
 						<FormField
 							control={form.control}
-							name="name"
+							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
 									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.name.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.name.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="website"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("onboarding.fields.website.label")}
-									</FormLabel>
-									<FormControl>
-										<Input
-											autoCorrect="off"
-											placeholder={t(
-												"onboarding.fields.website.placeholder",
-											)}
-											suppressHydrationWarning
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage className="text-xs" />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="frameworks"
-							render={({ field }) => (
-								<FormItem className="space-y-2">
-									<FormLabel className="text-sm font-medium">
-										{t("frameworks.overview.grid.title")}
+										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
 										<fieldset className="flex flex-col gap-2 select-none">
-											<legend className="sr-only">
-												{t(
-													"frameworks.overview.grid.title",
-												)}
-											</legend>
-											{Object.entries(frameworks).map(
-												([id, framework]) => {
-													const frameworkId =
-														id as FrameworkId;
-													return (
-														<label
-															key={frameworkId}
-															htmlFor={`framework-${frameworkId}`}
-															className={cn(
-																"relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
-																field.value.includes(
-																	frameworkId,
-																) &&
-																"border-primary bg-primary/5",
-															)}
-														>
-															<div className="flex items-start justify-between">
-																<div>
-																	<h3 className="font-semibold">
-																		{
-																			framework.name
-																		}
-																	</h3>
-																	<p className="text-sm text-muted-foreground mt-1">
-																		{
-																			framework.description
-																		}
-																	</p>
-																	<p className="text-xs text-muted-foreground/75 mt-2">
-																		{`${t("frameworks.overview.grid.version")}: ${framework.version}`}
-																	</p>
-																</div>
-																<div>
-																	<Checkbox
-																		id={`framework-${frameworkId}`}
-																		checked={field.value.includes(
-																			frameworkId,
-																		)}
-																		className="mt-1"
-																		onCheckedChange={(
-																			checked,
-																		) => {
-																			const newValue =
-																				checked
-																					? [
-																						...field.value,
-																						frameworkId,
-																					]
-																					: field.value.filter(
-																						(
-																							name,
-																						) =>
-																							name !==
+											<div className="flex flex-col gap-2 overflow-y-auto max-h-[300px]">
+												{frameworks
+													.filter(
+														(framework) =>
+															framework.visible,
+													)
+													.map((framework) => {
+														const frameworkId =
+															framework.id;
+														return (
+															<label
+																key={
+																	frameworkId
+																}
+																htmlFor={`framework-${frameworkId}`}
+																className={cn(
+																	"relative flex flex-col p-4 border cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-full text-left",
+																	field.value.includes(
+																		frameworkId,
+																	) &&
+																	"border-primary bg-primary/5",
+																)}
+															>
+																<div className="flex items-start justify-between">
+																	<div>
+																		<h3 className="font-semibold">
+																			{
+																				framework.name
+																			}
+																		</h3>
+																		<p className="text-sm text-muted-foreground mt-1">
+																			{
+																				framework.description
+																			}
+																		</p>
+																		<p className="text-xs text-muted-foreground/75 mt-2">
+																			{`${"Version"}: ${framework.version}`}
+																		</p>
+																	</div>
+																	<div>
+																		<Checkbox
+																			id={`framework-${frameworkId}`}
+																			checked={field.value.includes(
+																				frameworkId,
+																			)}
+																			className="mt-1"
+																			onCheckedChange={(
+																				checked,
+																			) => {
+																				const newValue =
+																					checked
+																						? [
+																							...field.value,
 																							frameworkId,
-																					);
-																			field.onChange(
-																				newValue,
-																			);
-																		}}
-																	/>
+																						]
+																						: field.value.filter(
+																							(
+																								name,
+																							) =>
+																								name !==
+																								frameworkId,
+																						);
+																				field.onChange(
+																					newValue,
+																				);
+																			}}
+																		/>
+																	</div>
 																</div>
-															</div>
-														</label>
-													);
-												},
-											)}
+															</label>
+														);
+													})}
+											</div>
 										</fieldset>
 									</FormControl>
 									<FormMessage className="text-xs" />
@@ -299,7 +260,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 										onClick={() => onOpenChange(false)}
 										disabled={isExecuting}
 									>
-										{t("common.actions.cancel")}
+										{"Cancel"}
 									</Button>
 									<Button
 										type="submit"
@@ -313,7 +274,7 @@ export function CreateOrgModal({ onOpenChange }: Props) {
 											"executing" && (
 												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 											)}
-										{t("onboarding.submit")}
+										{"Finish setup"}
 									</Button>
 								</div>
 							</DialogFooter>

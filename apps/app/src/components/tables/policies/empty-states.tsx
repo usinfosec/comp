@@ -1,6 +1,5 @@
 "use client";
 
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import { Card, CardContent } from "@comp/ui/card";
 import { FileText } from "lucide-react";
@@ -8,7 +7,6 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export function NoPolicies() {
-	const t = useI18n();
 	const { orgId } = useParams<{ orgId: string }>();
 
 	return (
@@ -16,13 +14,13 @@ export function NoPolicies() {
 			<CardContent className="flex flex-col items-center justify-center p-6 text-center">
 				<FileText className="h-12 w-12 text-muted-foreground mb-4" />
 				<h3 className="font-semibold text-lg mb-2">
-					{t("policies.no_policies_title")}
+					{"No policies yet"}
 				</h3>
 				<p className="text-muted-foreground mb-6">
-					{t("policies.no_policies_description")}
+					{"Get started by creating your first policy"}
 				</p>
 				<Link href={`/${orgId}/policies/new`}>
-					<Button>{t("policies.create_first")}</Button>
+					<Button>{"Create first policy"}</Button>
 				</Link>
 			</CardContent>
 		</Card>
@@ -30,21 +28,15 @@ export function NoPolicies() {
 }
 
 export function NoResults({ hasFilters }: { hasFilters: boolean }) {
-	const t = useI18n();
-
 	return (
 		<Card className="w-full">
 			<CardContent className="flex flex-col items-center justify-center p-6 text-center">
 				<FileText className="h-12 w-12 text-muted-foreground mb-4" />
 				<h3 className="font-semibold text-lg mb-2">
-					{t("common.empty_states.no_results.title")}
+					{"No results found"}
 				</h3>
 				<p className="text-muted-foreground">
-					{hasFilters
-						? t(
-								"common.empty_states.no_results.description_filters",
-							)
-						: t("common.empty_states.no_results.description")}
+					{"Try another search, or adjusting the filters"}
 				</p>
 			</CardContent>
 		</Card>

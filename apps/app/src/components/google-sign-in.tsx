@@ -1,7 +1,6 @@
 "use client";
 
 import { ButtonIcon } from "@/components/ui/button-icon";
-import { useI18n } from "@/locales/client";
 import { authClient } from "@/utils/auth-client";
 import { Button } from "@comp/ui/button";
 import { Icons } from "@comp/ui/icons";
@@ -13,7 +12,6 @@ export function GoogleSignIn({
 }: {
 	inviteCode?: string;
 }) {
-	const t = useI18n();
 	const [isLoading, setLoading] = useState(false);
 
 	const handleSignIn = async () => {
@@ -41,7 +39,7 @@ export function GoogleSignIn({
 					<ButtonIcon isLoading={isLoading}>
 						<Icons.Google />
 					</ButtonIcon>
-					<span>{t("auth.google")}</span>
+					<span>{"Continue with Google"}</span>
 				</>
 			)}
 		</Button>

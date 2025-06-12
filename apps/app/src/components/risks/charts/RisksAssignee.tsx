@@ -1,5 +1,4 @@
 import { getInitials } from "@/lib/utils";
-import { getI18n } from "@/locales/server";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import type { RiskStatus } from "@comp/db/types";
@@ -32,7 +31,6 @@ const riskStatusColors = {
 };
 
 export async function RisksAssignee() {
-	const t = await getI18n();
 	const userStats = await userData();
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -47,13 +45,12 @@ export async function RisksAssignee() {
 			email: member.user.email,
 			image: member.user.image,
 		},
-		totalRisks: member.Risk.length,
-		openRisks: member.Risk.filter((risk) => risk.status === "open").length,
-		pendingRisks: member.Risk.filter((risk) => risk.status === "pending")
+		totalRisks: member.risks.length,
+		openRisks: member.risks.filter((risk) => risk.status === "open").length,
+		pendingRisks: member.risks.filter((risk) => risk.status === "pending")
 			.length,
-		closedRisks: member.Risk.filter((risk) => risk.status === "closed")
-			.length,
-		archivedRisks: member.Risk.filter((risk) => risk.status === "archived")
+		closedRisks: member.risks.filter((risk) => risk.status === "closed").length,
+		archivedRisks: member.risks.filter((risk) => risk.status === "archived")
 			.length,
 	}));
 
@@ -62,7 +59,7 @@ export async function RisksAssignee() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{t("risk.dashboard.risks_by_assignee")}</CardTitle>
+				<CardTitle>{"Risks by Assignee"}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<ScrollArea>
@@ -74,14 +71,10 @@ export async function RisksAssignee() {
 							>
 								<div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50">
 									<Avatar>
-										<AvatarImage
-											src={stat.user.image || undefined}
-										/>
+										<AvatarImage src={stat.user.image || undefined} />
 										<AvatarFallback>
 											{getInitials(
-												stat.user.name ||
-												stat.user.email ||
-												"Unknown User",
+												stat.user.name || stat.user.email || "Unknown User",
 											)}
 										</AvatarFallback>
 									</Avatar>
@@ -89,13 +82,10 @@ export async function RisksAssignee() {
 									<div className="flex-1 min-w-0">
 										<div className="flex items-center justify-between">
 											<p className="text-sm font-medium leading-none truncate">
-												{stat.user.name ||
-													stat.user.email ||
-													"Unknown User"}
+												{stat.user.name || stat.user.email || "Unknown User"}
 											</p>
 											<span className="text-sm text-muted-foreground">
-												{stat.totalRisks}{" "}
-												{t("risk.risks")}
+												{stat.totalRisks} {"risks"}
 											</span>
 										</div>
 
@@ -108,19 +98,18 @@ export async function RisksAssignee() {
 															style={{
 																width: `${(stat.openRisks / stat.totalRisks) * 100}%`,
 															}}
-															title={`${t("common.status.open")}: ${stat.openRisks}`}
+															title={`${"Open"}: ${stat.openRisks}`}
 														/>
 													)}
 													{stat.pendingRisks > 0 && (
 														<div
 															className={`${riskStatusColors.pending} h-full`}
 															style={{
-																width: `${(stat.pendingRisks /
-																	stat.totalRisks) *
-																	100
-																	}%`,
+																width: `${
+																	(stat.pendingRisks / stat.totalRisks) * 100
+																}%`,
 															}}
-															title={`${t("common.status.pending")}: ${stat.pendingRisks}`}
+															title={`${"Pending"}: ${stat.pendingRisks}`}
 														/>
 													)}
 													{stat.closedRisks > 0 && (
@@ -129,7 +118,7 @@ export async function RisksAssignee() {
 															style={{
 																width: `${(stat.closedRisks / stat.totalRisks) * 100}%`,
 															}}
-															title={`${t("common.status.closed")}: ${stat.closedRisks}`}
+															title={`${"Closed"}: ${stat.closedRisks}`}
 														/>
 													)}
 													{stat.archivedRisks > 0 && (
@@ -138,7 +127,7 @@ export async function RisksAssignee() {
 															style={{
 																width: `${(stat.archivedRisks / stat.totalRisks) * 100}%`,
 															}}
-															title={`${t("common.status.archived")}: ${stat.archivedRisks}`}
+															title={`${"Archived"}: ${stat.archivedRisks}`}
 														/>
 													)}
 												</div>
@@ -152,10 +141,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.open}`}
 													/>
 													<span>
-														{t(
-															"common.status.open",
-														)}{" "}
-														({stat.openRisks})
+														{"Open"} ({stat.openRisks})
 													</span>
 												</div>
 											)}
@@ -165,10 +151,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.pending}`}
 													/>
 													<span>
-														{t(
-															"common.status.pending",
-														)}{" "}
-														({stat.pendingRisks})
+														{"Pending"} ({stat.pendingRisks})
 													</span>
 												</div>
 											)}
@@ -178,10 +161,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.closed}`}
 													/>
 													<span>
-														{t(
-															"common.status.closed",
-														)}{" "}
-														({stat.closedRisks})
+														{"Closed"} ({stat.closedRisks})
 													</span>
 												</div>
 											)}
@@ -191,10 +171,7 @@ export async function RisksAssignee() {
 														className={`size-2 rounded-full ${riskStatusColors.archived}`}
 													/>
 													<span>
-														{t(
-															"common.status.archived",
-														)}{" "}
-														({stat.archivedRisks})
+														{"Archived"} ({stat.archivedRisks})
 													</span>
 												</div>
 											)}
@@ -225,7 +202,7 @@ const userData = cache(async () => {
 		},
 		select: {
 			id: true,
-			Risk: {
+			risks: {
 				where: {
 					organizationId: session.session.activeOrganizationId,
 				},

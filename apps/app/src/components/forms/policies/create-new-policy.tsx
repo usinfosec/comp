@@ -1,8 +1,7 @@
 "use client";
 
 import { createPolicyAction } from "@/actions/policies/create-new-policy";
-import { createPolicySchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
+import { createPolicySchema, type CreatePolicySchema } from "@/actions/schema";
 import {
 	Accordion,
 	AccordionContent,
@@ -27,35 +26,31 @@ import { useQueryState } from "nuqs";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { z } from "zod";
 
 export function CreateNewPolicyForm() {
-	const t = useI18n();
 	const [_, setCreatePolicySheet] = useQueryState("create-policy-sheet");
 
 	const createPolicy = useAction(createPolicyAction, {
 		onSuccess: () => {
-			toast.success(t("policies.new.success"));
+			toast.success("Policy successfully created");
 			setCreatePolicySheet(null);
 		},
 		onError: () => {
-			toast.error(t("policies.new.error"));
+			toast.error("Failed to create policy");
 		},
 	});
 
-	const form = useForm<z.infer<typeof createPolicySchema>>({
-		resolver: zodResolver(createPolicySchema),
-		defaultValues: {
-			title: "",
-			description: "",
-			frameworkIds: [],
-			controlIds: [],
-		},
-	});
+       const form = useForm<CreatePolicySchema>({
+               resolver: zodResolver(createPolicySchema),
+               defaultValues: {
+                       title: "",
+                       description: "",
+               },
+       });
 
-	const onSubmit = (data: z.infer<typeof createPolicySchema>) => {
-		createPolicy.execute(data);
-	};
+       const onSubmit = (data: CreatePolicySchema) => {
+               createPolicy.execute(data);
+       };
 
 	return (
 		<Form {...form}>
@@ -65,7 +60,7 @@ export function CreateNewPolicyForm() {
 						<Accordion type="multiple" defaultValue={["policy"]}>
 							<AccordionItem value="policy">
 								<AccordionTrigger>
-									{t("policies.new.details")}
+									{"Policy Details"}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
@@ -75,18 +70,14 @@ export function CreateNewPolicyForm() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"policies.new.title",
-														)}
+														{"Title"}
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t(
-																"policies.new.title",
-															)}
+															placeholder={"Title"}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -100,17 +91,13 @@ export function CreateNewPolicyForm() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"policies.new.description",
-														)}
+														{"Description"}
 													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"policies.new.description",
-															)}
+															placeholder={"Description"}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -129,7 +116,7 @@ export function CreateNewPolicyForm() {
 							disabled={createPolicy.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("common.actions.create")}
+								{"Create"}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

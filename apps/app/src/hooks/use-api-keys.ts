@@ -1,7 +1,6 @@
 "use client";
 
 import { getApiKeysAction } from "@/actions/organization/get-api-keys-action";
-import { useI18n } from "@/locales/client";
 import { useCallback } from "react";
 import useSWR from "swr";
 
@@ -18,16 +17,14 @@ export interface ApiKey {
  * Custom hook for fetching API keys
  */
 export function useApiKeys() {
-	const t = useI18n();
-
 	// Fetcher function that calls the server action
 	const fetcher = useCallback(async () => {
 		const result = await getApiKeysAction();
 		if (result.success && result.data) {
 			return result.data;
 		}
-		throw new Error(t("settings.api_keys.fetch_error"));
-	}, [t]);
+		throw new Error("Failed to fetch API keys");
+	}, []);
 
 	// Use SWR for data fetching with caching and revalidation
 	const {

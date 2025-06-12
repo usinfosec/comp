@@ -5,15 +5,25 @@ model FrameworkEditorVideo {
     description String
     youtubeId   String
     url         String
+
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FrameworkEditorFramework {
-    id          String @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
+    id          String  @id @default(dbgenerated("generate_prefixed_cuid('frk'::text)"))
     name        String // e.g., "soc2", "iso27001"
     version     String
     description String
+    visible     Boolean @default(false)
 
-    requirements FrameworkEditorRequirement[]
+    requirements       FrameworkEditorRequirement[]
+    frameworkInstances FrameworkInstance[]
+
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FrameworkEditorRequirement {
@@ -21,12 +31,16 @@ model FrameworkEditorRequirement {
     frameworkId String
     framework   FrameworkEditorFramework @relation(fields: [frameworkId], references: [id])
 
-    name        String // Original requirement ID within that framework, e.g., "CC1.1"
+    name        String // Original requirement ID within that framework, e.g., "Privacy"
+    identifier  String @default("") // Unique identifier for the requirement, e.g., "cc1-1"
     description String
 
     controlTemplates FrameworkEditorControlTemplate[]
+    requirementMaps  RequirementMap[]
 
-    @@unique([frameworkId, name])
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FrameworkEditorPolicyTemplate {
@@ -38,6 +52,13 @@ model FrameworkEditorPolicyTemplate {
     content     Json
 
     controlTemplates FrameworkEditorControlTemplate[]
+
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    policies Policy[]
 }
 
 model FrameworkEditorTaskTemplate {
@@ -48,6 +69,13 @@ model FrameworkEditorTaskTemplate {
     department  Departments // Using the enum from shared.prisma
 
     controlTemplates FrameworkEditorControlTemplate[]
+
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    tasks Task[]
 }
 
 model FrameworkEditorControlTemplate {
@@ -58,4 +86,11 @@ model FrameworkEditorControlTemplate {
     policyTemplates FrameworkEditorPolicyTemplate[]
     requirements    FrameworkEditorRequirement[]
     taskTemplates   FrameworkEditorTaskTemplate[]
+
+    // Dates
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    // Instances
+    controls Control[]
 }

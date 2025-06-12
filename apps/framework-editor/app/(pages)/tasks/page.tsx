@@ -1,23 +1,26 @@
+import { isAuthorized } from "@/app/lib/utils";
 import { db } from "@comp/db";
-import PageLayout from "@/app/components/PageLayout";
-// import { TasksTable } from "./components/TasksTable"; // Old import
-import { DataTable } from "@/app/components/DataTable"; // New generic table
-import { columns } from "./components/columns"; // Import the new columns
+import { redirect } from "next/navigation";
+import { TasksClientPage } from "./TasksClientPage";
 
 export default async function Page() {
-    const tasks = await db.frameworkEditorTaskTemplate.findMany({
-      // Optionally include related data if needed
-      // include: { controlTemplates: true }
-    });
+	const isAllowed = await isAuthorized();
 
-    return (
-        <PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
-            {/* <TasksTable tasks={tasks} /> */}
-            <DataTable 
-              data={tasks} 
-              columns={columns} // Pass the columns
-              searchQueryParamName="tasks-search" 
-            />
-        </PageLayout>
-    );
+	if (!isAllowed) {
+		redirect("/auth");
+	}
+
+	const tasks = await db.frameworkEditorTaskTemplate.findMany({
+		// Optionally include related data if needed
+		include: { 
+			controlTemplates: {
+				select: {
+					id: true,
+					name: true,
+				}
+			}
+		} 
+	});
+
+	return <TasksClientPage initialTasks={tasks} />;
 }

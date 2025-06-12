@@ -9,6 +9,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+      issues: write
     steps:
       - name: Add permissions
         run: git config --global --add safe.directory /github/workspace

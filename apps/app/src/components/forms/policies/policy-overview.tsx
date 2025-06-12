@@ -3,7 +3,6 @@
 import { updatePolicyFormAction } from "@/actions/policies/update-policy-form-action";
 import { updatePolicyFormSchema } from "@/actions/schema";
 import { StatusIndicator } from "@/components/status-indicator";
-import { useI18n } from "@/locales/client";
 import { useSession } from "@/utils/auth-client";
 import {
 	Departments,
@@ -50,15 +49,14 @@ export function UpdatePolicyOverview({
 }: {
 	policy: Policy;
 }) {
-	const t = useI18n();
 	const session = useSession();
 
 	const updatePolicyForm = useAction(updatePolicyFormAction, {
 		onSuccess: () => {
-			toast.success(t("policies.overview.form.update_policy_success"));
+			toast.success("Policy updated successfully");
 		},
 		onError: () => {
-			toast.error(t("policies.overview.form.update_policy_error"));
+			toast.error("Failed to update policy");
 		},
 	});
 
@@ -95,6 +93,7 @@ export function UpdatePolicyOverview({
 			review_frequency: data.review_frequency,
 			review_date: data.review_date,
 			isRequiredToSign: data.isRequiredToSign,
+			entityId: data.id,
 		});
 	};
 
@@ -108,7 +107,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("policies.overview.form.status")}
+									{"Status"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -117,9 +116,7 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.status_placeholder",
-												)}
+												placeholder={"Select a status"}
 											>
 												{field.value && (
 													<StatusIndicator
@@ -152,9 +149,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.review_frequency",
-									)}
+									{"Review Frequency"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -163,23 +158,22 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.review_frequency_placeholder",
-												)}
+												placeholder={"Select a frequency"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
 											{Object.values(Frequency).map(
-												(frequency) => (
-													<SelectItem
-														key={frequency}
-														value={frequency}
-													>
-														{t(
-															`common.frequency.${frequency}`,
-														)}
-													</SelectItem>
-												),
+												(frequency) => {
+													const formattedFrequency = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+													return (
+														<SelectItem
+															key={frequency}
+															value={frequency}
+														>
+															{formattedFrequency}
+														</SelectItem>
+													);
+												},
 											)}
 										</SelectContent>
 									</Select>
@@ -194,9 +188,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t(
-										"policies.overview.form.policy_department",
-									)}
+									{"Department"}
 								</FormLabel>
 								<FormControl>
 									<Select
@@ -206,9 +198,7 @@ export function UpdatePolicyOverview({
 									>
 										<SelectTrigger>
 											<SelectValue
-												placeholder={t(
-													"policies.overview.form.policy_department_placeholder",
-												)}
+												placeholder={"Select a department"}
 											/>
 										</SelectTrigger>
 										<SelectContent>
@@ -244,7 +234,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
 								<FormLabel>
-									{t("policies.overview.form.review_date")}
+									{"Review Date"}
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger asChild>
@@ -255,7 +245,7 @@ export function UpdatePolicyOverview({
 													className={cn(
 														"pl-3 text-left font-normal w-full",
 														!field.value &&
-														"text-muted-foreground",
+															"text-muted-foreground",
 													)}
 												>
 													{field.value ? (
@@ -265,9 +255,7 @@ export function UpdatePolicyOverview({
 														)
 													) : (
 														<span>
-															{t(
-																"policies.overview.form.review_date_placeholder",
-															)}
+															{"Pick a date"}
 														</span>
 													)}
 													<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -300,9 +288,7 @@ export function UpdatePolicyOverview({
 						render={({ field }) => (
 							<FormItem className="flex flex-col gap-3">
 								<FormLabel>
-									{t(
-										"policies.overview.form.signature_requirement",
-									)}
+									{"Signature Requirement"}
 								</FormLabel>
 								<FormControl>
 									<Switch
@@ -330,7 +316,7 @@ export function UpdatePolicyOverview({
 						{updatePolicyForm.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>

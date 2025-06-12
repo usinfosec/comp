@@ -2,7 +2,6 @@
 
 import { updateOrganizationNameAction } from "@/actions/organization/update-organization-name-action";
 import { organizationNameSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import { Button } from "@comp/ui/button";
 import {
 	Card,
@@ -32,13 +31,12 @@ export function UpdateOrganizationName({
 }: {
 	organizationName: string;
 }) {
-	const t = useI18n();
 	const updateOrganizationName = useAction(updateOrganizationNameAction, {
 		onSuccess: () => {
-			toast.success(t("settings.general.org_name_updated"));
+			toast.success("Organization name updated");
 		},
 		onError: () => {
-			toast.error(t("settings.general.org_name_error"));
+			toast.error("Error updating organization name");
 		},
 	});
 
@@ -58,11 +56,11 @@ export function UpdateOrganizationName({
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 				<Card>
 					<CardHeader>
-						<CardTitle>{t("settings.general.org_name")}</CardTitle>
+						<CardTitle>{"Organization name"}</CardTitle>
 
 						<CardDescription>
 							<div className="max-w-[600px]">
-								{t("settings.general.org_name_description")}
+								{"This is your organizations visible name. You should use the legal name of your organization."}
 							</div>
 						</CardDescription>
 					</CardHeader>
@@ -75,7 +73,7 @@ export function UpdateOrganizationName({
 									<FormControl>
 										<Input
 											{...field}
-											className="max-w-[300px]"
+											className="md:max-w-[300px]"
 											autoComplete="off"
 											autoCapitalize="none"
 											autoCorrect="off"
@@ -90,7 +88,7 @@ export function UpdateOrganizationName({
 					</CardContent>
 					<CardFooter className="flex justify-between">
 						<div className="text-xs text-muted-foreground">
-							{t("settings.general.org_name_tip")}
+							{"Please use 32 characters at maximum."}
 						</div>
 						<Button
 							type="submit"
@@ -101,7 +99,7 @@ export function UpdateOrganizationName({
 							{updateOrganizationName.status === "executing" ? (
 								<Loader2 className="h-4 w-4 animate-spin mr-1" />
 							) : null}
-							{t("common.actions.save")}
+							{"Save"}
 						</Button>
 					</CardFooter>
 				</Card>

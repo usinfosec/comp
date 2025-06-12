@@ -20,6 +20,7 @@ import {
 } from '@comp/ui/form'
 import { Input } from '@comp/ui/input'
 import { Textarea } from '@comp/ui/textarea'
+import { Switch } from '@comp/ui/switch'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { FrameworkEditorFramework } from '@prisma/client'
 import { useEffect } from 'react'
@@ -32,8 +33,8 @@ import { FrameworkBaseSchema } from '../../schemas'; // Import shared schema
 interface EditFrameworkDialogProps {
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
-  framework: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>
-  onFrameworkUpdated?: (updatedData: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version'>) => void
+  framework: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version' | 'visible'>
+  onFrameworkUpdated?: (updatedData: Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version' | 'visible'>) => void
 }
 
 const frameworkFormSchema = FrameworkBaseSchema; // Use shared schema
@@ -47,6 +48,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
       name: framework.name,
       description: framework.description,
       version: framework.version,
+      visible: framework.visible,
     },
     mode: 'onChange',
   })
@@ -57,6 +59,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
         name: framework.name,
         description: framework.description,
         version: framework.version,
+        visible: framework.visible,
     })
   }, [framework, form])
 
@@ -66,6 +69,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
     formData.append('name', values.name);
     formData.append('description', values.description);
     formData.append('version', values.version);
+    formData.append('visible', String(values.visible));
     
     const result = await updateFrameworkAction(null, formData);
 
@@ -78,7 +82,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
     } else if (result.error) {
         if (result.issues) {
             result.issues.forEach((issue: z.ZodIssue) => {
-                if (issue.path && issue.path.length > 0 && (issue.path[0] === 'name' || issue.path[0] === 'description' || issue.path[0] === 'version')) {
+                if (issue.path && issue.path.length > 0 && (issue.path[0] === 'name' || issue.path[0] === 'description' || issue.path[0] === 'version' || issue.path[0] === 'visible')) {
                     form.setError(issue.path[0] as keyof FrameworkFormValues, { type: 'server', message: issue.message });
                 } else {
                     toast.error(issue.message); // General validation error not tied to a field
@@ -101,6 +105,7 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
             name: framework.name,
             description: framework.description,
             version: framework.version,
+            visible: framework.visible,
         });
       }
       onOpenChange(open);
@@ -152,6 +157,24 @@ export function EditFrameworkDialog({ isOpen, onOpenChange, framework, onFramewo
                   <FormLabel className="text-right">Version</FormLabel>
                   <FormControl className="col-span-3">
                     <Input placeholder="e.g., 1.0.0" {...field} />
+                  </FormControl>
+                  <div className="col-start-2 col-span-3">
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-2">
+                  <FormLabel className="text-right">Visible</FormLabel>
+                  <FormControl className="col-span-3">
+                    <Switch
+                      checked={Boolean(field.value)}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <div className="col-start-2 col-span-3">
                     <FormMessage />

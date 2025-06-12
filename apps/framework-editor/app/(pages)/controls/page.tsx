@@ -1,47 +1,50 @@
 import { db } from "@comp/db";
-// import PageLayout from "@/app/components/PageLayout"; // No longer needed here
-// import { DataTable } from "@/app/components/DataTable"; // No longer needed here
-// import { columns } from "./components/columns"; // No longer needed here
-import { ControlsClientPage } from "./ControlsClientPage"; // Import the new Client Component
+import { isAuthorized } from "@/app/lib/utils";
+import { redirect } from "next/navigation";
+import { ControlsClientPage } from "./ControlsClientPage";
 
 export default async function Page() {
-    const controls = await db.frameworkEditorControlTemplate.findMany({
-      include: {
-        policyTemplates: {
-          select: {
-            id: true,
-            name: true,
-          }
-        },
-        requirements: {
-          select: {
-            id: true,
-            name: true,
-            framework: {
-              select: {
-                name: true,
-              }
-            }
-          }
-        },
-        taskTemplates: {
-          select: {
-            id: true,
-            name: true,
-          }
-        }
-      },
-      orderBy: {
-        name: "asc",
-      },
-    });
+	const isAllowed = await isAuthorized();
 
-    // Sort controls in a case-insensitive way
-    const sortedControls = [...controls].sort((a, b) => 
-      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-    );
+	if (!isAllowed) {
+		redirect("/auth");
+	}
 
-    return (
-        <ControlsClientPage initialControls={sortedControls} />
-    );
+	const controls = await db.frameworkEditorControlTemplate.findMany({
+		select: {
+			id: true,
+			name: true,
+			description: true,
+			createdAt: true,
+			updatedAt: true,
+			policyTemplates: {
+				select: {
+					id: true,
+					name: true,
+				},
+			},
+			requirements: {
+				select: {
+					id: true,
+					name: true,
+					framework: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
+			taskTemplates: {
+				select: {
+					id: true,
+					name: true,
+				},
+			},
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+	});
+
+	return <ControlsClientPage initialControls={controls} />;
 }

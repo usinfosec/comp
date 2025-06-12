@@ -3,7 +3,6 @@
 import { createRiskAction } from "@/actions/risk/create-risk-action";
 import { createRiskSchema } from "@/actions/schema";
 import { SelectAssignee } from "@/components/SelectAssignee";
-import { useI18n } from "@/locales/client";
 import type { Member, RiskStatus, User } from "@comp/db/types";
 import { Departments, RiskCategory } from "@comp/db/types";
 import {
@@ -41,8 +40,6 @@ import type { z } from "zod";
 export function CreateRisk({
 	assignees,
 }: { assignees: (Member & { user: User })[] }) {
-	const t = useI18n();
-
 	// Get the same query parameters as the table
 	const [search] = useQueryState("search");
 	const [page] = useQueryState("page", {
@@ -70,11 +67,11 @@ export function CreateRisk({
 
 	const createRisk = useAction(createRiskAction, {
 		onSuccess: async () => {
-			toast.success(t("risk.form.create_risk_success"));
+			toast.success("Risk created successfully");
 			setCreateRiskSheet(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.create_risk_error"));
+			toast.error("Failed to create risk");
 		},
 	});
 
@@ -101,7 +98,7 @@ export function CreateRisk({
 						<Accordion type="multiple" defaultValue={["risk"]}>
 							<AccordionItem value="risk">
 								<AccordionTrigger>
-									{t("risk.form.risk_details")}
+									{"Risk Details"}
 								</AccordionTrigger>
 								<AccordionContent>
 									<div className="space-y-4">
@@ -111,18 +108,14 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.form.risk_title",
-														)}
+														{"Risk Title"}
 													</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															autoFocus
 															className="mt-3"
-															placeholder={t(
-																"risk.form.risk_title_description",
-															)}
+															placeholder={"A short, descriptive title for the risk."}
 															autoCorrect="off"
 														/>
 													</FormControl>
@@ -136,17 +129,13 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.form.risk_description",
-														)}
+														{"Description"}
 													</FormLabel>
 													<FormControl>
 														<Textarea
 															{...field}
 															className="mt-3 min-h-[80px]"
-															placeholder={t(
-																"risk.form.risk_description_description",
-															)}
+															placeholder={"A detailed description of the risk, its potential impact, and its causes."}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -159,9 +148,7 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.form.risk_category",
-														)}
+														{"Category"}
 													</FormLabel>
 													<FormControl>
 														<Select
@@ -173,9 +160,7 @@ export function CreateRisk({
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"risk.form.risk_category_placeholder",
-																	)}
+																	placeholder={"Select a category"}
 																/>
 															</SelectTrigger>
 															<SelectContent>
@@ -236,9 +221,7 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"risk.form.risk_department",
-														)}
+														{"Department"}
 													</FormLabel>
 													<FormControl>
 														<Select
@@ -250,9 +233,7 @@ export function CreateRisk({
 														>
 															<SelectTrigger>
 																<SelectValue
-																	placeholder={t(
-																		"risk.form.risk_department_placeholder",
-																	)}
+																	placeholder={"Select a department"}
 																/>
 															</SelectTrigger>
 															<SelectContent>
@@ -294,9 +275,7 @@ export function CreateRisk({
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>
-														{t(
-															"common.assignee.label",
-														)}
+														{"Assignee"}
 													</FormLabel>
 													<FormControl>
 														<SelectAssignee
@@ -334,7 +313,7 @@ export function CreateRisk({
 							disabled={createRisk.status === "executing"}
 						>
 							<div className="flex items-center justify-center">
-								{t("common.actions.create")}
+								{"Create"}
 								<ArrowRightIcon className="ml-2 h-4 w-4" />
 							</div>
 						</Button>

@@ -4,8 +4,6 @@ model Task {
     title       String
     description String
     status      TaskStatus     @default(todo)
-    entityId    String
-    entityType  TaskEntityType
     frequency   TaskFrequency?
     department  Departments?   @default(none)
     order       Int            @default(0)
@@ -16,19 +14,22 @@ model Task {
     lastCompletedAt DateTime?
 
     // Relationships
+    controls       Control[]
+    vendors        Vendor[]
+    risks          Risk[]
     assigneeId     String?
-    assignee       Member?      @relation(fields: [assigneeId], references: [id])
+    assignee       Member?                      @relation(fields: [assigneeId], references: [id])
     organizationId String
-    organization   Organization @relation(fields: [organizationId], references: [id])
-
-    @@index([entityId])
-    @@index([entityId, organizationId])
+    organization   Organization                 @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    taskTemplateId String?
+    taskTemplate   FrameworkEditorTaskTemplate? @relation(fields: [taskTemplateId], references: [id])
 }
 
 enum TaskStatus {
     todo
     in_progress
     done
+    not_relevant
 }
 
 enum TaskFrequency {
@@ -37,10 +38,4 @@ enum TaskFrequency {
     monthly
     quarterly
     yearly
-}
-
-enum TaskEntityType {
-    control
-    vendor
-    risk
 }

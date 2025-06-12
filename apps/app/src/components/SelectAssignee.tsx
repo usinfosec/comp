@@ -1,3 +1,4 @@
+import { authClient } from "@/utils/auth-client";
 import { db } from "@comp/db";
 import { Member, User } from "@comp/db/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@comp/ui/avatar";
@@ -7,7 +8,7 @@ import {
 	SelectItem,
 	SelectTrigger,
 } from "@comp/ui/select";
-import { UserIcon } from "lucide-react";
+import { Badge, UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface SelectAssigneeProps {
@@ -25,6 +26,7 @@ export const SelectAssignee = ({
 	onAssigneeChange,
 	withTitle = true,
 }: SelectAssigneeProps) => {
+	const { data: activeMember } = authClient.useActiveMember();
 	const [selectedAssignee, setSelectedAssignee] = useState<
 		(Member & { user: User }) | null
 	>(null);
@@ -96,14 +98,24 @@ export const SelectAssignee = ({
 									src={getImageUrl(
 										selectedAssignee.user.image,
 									)}
-									alt={selectedAssignee.user.name || selectedAssignee.user.email || "User"}
+									alt={
+										selectedAssignee.user.name ||
+										selectedAssignee.user.email ||
+										"User"
+									}
 								/>
 								<AvatarFallback>
-									{selectedAssignee.user.name?.charAt(0) || selectedAssignee.user.email?.charAt(0).toUpperCase() || "?"}
+									{selectedAssignee.user.name?.charAt(0) ||
+										selectedAssignee.user.email
+											?.charAt(0)
+											.toUpperCase() ||
+										"?"}
 								</AvatarFallback>
 							</Avatar>
 							<span className="truncate">
-								{selectedAssignee.user.name || selectedAssignee.user.email || "Unknown User"}
+								{selectedAssignee.user.name ||
+									selectedAssignee.user.email ||
+									"Unknown User"}
 							</span>
 						</div>
 					) : (
@@ -121,7 +133,7 @@ export const SelectAssignee = ({
 				>
 					<SelectItem
 						value="none"
-						className="w-full p-0 overflow-hidden"
+						className="w-full p-0 overflow-hidden hover:bg-accent"
 					>
 						<div className="flex items-center gap-2 py-1.5 px-3 w-full">
 							{renderNoneAvatar()}
@@ -132,20 +144,32 @@ export const SelectAssignee = ({
 						<SelectItem
 							key={assignee.id}
 							value={assignee.id}
-							className="w-full p-0 overflow-hidden"
+							className="w-full p-0 overflow-hidden hover:bg-accent"
 						>
 							<div className="flex items-center gap-2 py-1.5 px-3 w-full">
 								<Avatar className="h-5 w-5 shrink-0">
 									<AvatarImage
 										src={getImageUrl(assignee.user.image)}
-										alt={assignee.user.name || assignee.user.email || "User"}
+										alt={
+											assignee.user.name ||
+											assignee.user.email ||
+											"User"
+										}
 									/>
 									<AvatarFallback>
-										{assignee.user.name?.charAt(0) || assignee.user.email?.charAt(0).toUpperCase() || "?"}
+										{assignee.user.name?.charAt(0) ||
+											assignee.user.email
+												?.charAt(0)
+												.toUpperCase() ||
+											"?"}
 									</AvatarFallback>
 								</Avatar>
 								<span className="truncate">
-									{assignee.user.name || assignee.user.email || "Unknown User"}
+									{assignee.user.name ||
+										assignee.user.email ||
+										"Unknown User"}{" "}
+									{assignee.id === activeMember?.id &&
+										"(You)"}
 								</span>
 							</div>
 						</SelectItem>

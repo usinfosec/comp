@@ -100,7 +100,7 @@ export function OrganizationIntegration({
 	}
 
 	return (
-		<div className="space-y-8">
+		<div className="space-y-4">
 			{Object.entries(integrationsByCategory).map(([category, items]) => (
 				<div key={category}>
 					<h2 className="text-lg font-medium mb-4">{category}</h2>
@@ -122,9 +122,10 @@ export function OrganizationIntegration({
 									"short_description" in integration
 										? integration.short_description
 										: (integration as any).description ||
-										"",
+											"",
 								description:
 									(integration as any).description || "",
+								guide_url: (integration as any).guide_url || "",
 								settings:
 									"settings" in integration
 										? (integration as any).settings

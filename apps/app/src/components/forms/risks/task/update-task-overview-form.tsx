@@ -2,7 +2,6 @@
 
 import { updateTaskAction } from "@/actions/risk/task/update-task-action";
 import { updateTaskSchema } from "@/actions/schema";
-import { useI18n } from "@/locales/client";
 import type { Task } from "@comp/db/types";
 import { Button } from "@comp/ui/button";
 import {
@@ -28,16 +27,15 @@ export function UpdateTaskOverviewForm({
 }: {
 	task: Task;
 }) {
-	const t = useI18n();
 	const [open, setOpen] = useQueryState("task-update-overview-sheet");
 
 	const updateTask = useAction(updateTaskAction, {
 		onSuccess: () => {
-			toast.success(t("risk.form.update_risk_success"));
+			toast.success("Risk updated successfully");
 			setOpen(null);
 		},
 		onError: () => {
-			toast.error(t("risk.form.update_risk_error"));
+			toast.error("Failed to update risk");
 		},
 	});
 
@@ -72,16 +70,14 @@ export function UpdateTaskOverviewForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									{t("risk.tasks.form.task_title")}
+									{"Task Title"}
 								</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
 										autoFocus
 										className="mt-3"
-										placeholder={t(
-											"risk.tasks.form.task_title_description",
-										)}
+										placeholder={"A short, descriptive title for the task."}
 										autoCorrect="off"
 									/>
 								</FormControl>
@@ -99,9 +95,7 @@ export function UpdateTaskOverviewForm({
 									<Textarea
 										{...field}
 										className="mt-3 min-h-[80px]"
-										placeholder={t(
-											"risk.tasks.form.description_description",
-										)}
+										placeholder={"Provide a detailed description of what needs to be done."}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -118,7 +112,7 @@ export function UpdateTaskOverviewForm({
 						{updateTask.status === "executing" ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							t("common.actions.save")
+							"Save"
 						)}
 					</Button>
 				</div>
