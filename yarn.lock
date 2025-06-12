@@ -1582,19 +1582,18 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
-"@comp/analytics@^workspace:packages/analytics":
+"@comp/analytics@packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@comp/app@^workspace:apps/app", "@comp/app@workspace:*":
+"@comp/app@apps/app", "@comp/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
     "@comp/db" "workspace:*"
-  devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/node" "^22.15.2"
     "@types/react" "19.1.2"
@@ -1614,10 +1613,8 @@
     "@browserbasehq/sdk" "^2.5.0"
     "@calcom/atoms" "^1.0.102-framer"
     "@calcom/embed-react" "^1.5.3"
-  dependencies:
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
-  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1648,6 +1645,7 @@
     "@types/d3" "^7.4.3"
     "@uploadthing/react" "^7.3.0"
     "@upstash/ratelimit" "^2.0.5"
+    "@vercel/functions" "^2.1.0"
     "@vercel/sdk" "^1.7.1"
     ai "^4.3.10"
     argon2 "^0.43.0"
@@ -1697,19 +1695,18 @@
     xml2js "^0.6.2"
     zustand "^5.0.3"
 
-"@comp/db@^workspace:packages/db", "@comp/db@workspace:*":
+"@comp/db@packages/db", "@comp/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
-  devDependencies:
     typescript "^5.8.3"
   dependencies:
     "@prisma/client" "6.9.0"
     prisma "^6.9.0"
     ts-node "^10.9.2"
 
-"@comp/email@^workspace:packages/email":
+"@comp/email@packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1731,7 +1728,7 @@
     react-email "^4.0.15"
     responsive-react-email "^0.0.5"
 
-"@comp/framework-editor@^workspace:apps/framework-editor":
+"@comp/framework-editor@apps/framework-editor":
   version "workspace:apps/framework-editor"
   resolved "workspace:apps/framework-editor"
   devDependencies:
@@ -1804,7 +1801,7 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/integrations@^workspace:packages/integrations":
+"@comp/integrations@packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1827,14 +1824,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@comp/kv@^workspace:packages/kv":
+"@comp/kv@packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@comp/notifications@^workspace:packages/notifications", "@comp/notifications@workspace:*":
+"@comp/notifications@packages/notifications", "@comp/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1843,7 +1840,7 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.5"
 
-"@comp/portal@^workspace:apps/portal":
+"@comp/portal@apps/portal":
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -1867,7 +1864,7 @@
     react-email "^4.0.15"
     react-otp-input "^3.1.1"
 
-"@comp/trust@^workspace:apps/trust":
+"@comp/trust@apps/trust":
   version "workspace:apps/trust"
   resolved "workspace:apps/trust"
   devDependencies:
@@ -1936,11 +1933,11 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/tsconfig@^workspace:packages/tsconfig", "@comp/tsconfig@workspace:*":
+"@comp/tsconfig@packages/tsconfig", "@comp/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@comp/ui@^workspace:packages/ui", "@comp/ui@workspace:*":
+"@comp/ui@packages/ui", "@comp/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -2005,7 +2002,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@comp/utils@^workspace:packages/utils", "@comp/utils@workspace:*":
+"@comp/utils@packages/utils", "@comp/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -7450,6 +7447,11 @@
   integrity sha512-WUm0Jz1xN4DBDGeJIi2Y0kVsolWRB2tsVds4SExaiLg4wBdHFMB+8IfZtBWr+BP0FvhuBr5G1/VLrJ9xzIWHsg==
   dependencies:
     uncrypto "^0.1.3"
+
+"@vercel/functions@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@vercel/functions/-/functions-2.1.0.tgz"
+  integrity sha512-1gSbK9zfrbJxk1JTBVERDhLi01mK3fz+gw4GjOjZwHnqs0zsBhQA70HGVtXQX/Z3BTRMfbpAEMVDfhecRw0lDA==
 
 "@vercel/sdk@^1.7.1":
   version "1.7.7"

@@ -97,6 +97,7 @@
         "@types/d3": "^7.4.3",
         "@uploadthing/react": "^7.3.0",
         "@upstash/ratelimit": "^2.0.5",
+        "@vercel/functions": "^2.1.0",
         "@vercel/sdk": "^1.7.1",
         "ai": "^4.3.10",
         "argon2": "^0.43.0",
@@ -1971,6 +1972,8 @@
     "@upstash/ratelimit": ["@upstash/ratelimit@2.0.5", "", { "dependencies": { "@upstash/core-analytics": "^0.0.10" }, "peerDependencies": { "@upstash/redis": "^1.34.3" } }, "sha512-1FRv0cs3ZlBjCNOCpCmKYmt9BYGIJf0J0R3pucOPE88R21rL7jNjXG+I+rN/BVOvYJhI9niRAS/JaSNjiSICxA=="],
 
     "@upstash/redis": ["@upstash/redis@1.35.0", "", { "dependencies": { "uncrypto": "^0.1.3" } }, "sha512-WUm0Jz1xN4DBDGeJIi2Y0kVsolWRB2tsVds4SExaiLg4wBdHFMB+8IfZtBWr+BP0FvhuBr5G1/VLrJ9xzIWHsg=="],
+
+    "@vercel/functions": ["@vercel/functions@2.1.0", "", { "peerDependencies": { "@aws-sdk/credential-provider-web-identity": "*" }, "optionalPeers": ["@aws-sdk/credential-provider-web-identity"] }, "sha512-1gSbK9zfrbJxk1JTBVERDhLi01mK3fz+gw4GjOjZwHnqs0zsBhQA70HGVtXQX/Z3BTRMfbpAEMVDfhecRw0lDA=="],
 
     "@vercel/sdk": ["@vercel/sdk@1.7.7", "", { "peerDependencies": { "@modelcontextprotocol/sdk": ">=1.5.0 <1.10.0", "zod": ">= 3" }, "optionalPeers": ["@modelcontextprotocol/sdk"], "bin": { "mcp": "bin/mcp-server.js" } }, "sha512-1qtW7eMUza7WPxuYFzZvR3ajj4v+QBqXa2e9whK8hlOYpCrvBdezYq2oseBtIO0numkIY2974RTHyKmLZQ1pSg=="],
 
