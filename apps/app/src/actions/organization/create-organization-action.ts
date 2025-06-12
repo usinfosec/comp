@@ -8,7 +8,7 @@ import { authActionClient } from "../safe-action";
 import { organizationSchema } from "../schema";
 import { createStripeCustomer } from "./lib/create-stripe-customer";
 import { initializeOrganization } from "./lib/initialize-organization";
-import { generateAgentFile } from "@/jobs/tasks/device/generate-agent-file";
+import { createFleetLabelForOrg } from "@/jobs/tasks/device/create-fleet-label-for-org";
 
 export const createOrganizationAction = authActionClient
   .schema(organizationSchema)
@@ -77,7 +77,7 @@ export const createOrganizationAction = authActionClient
         revalidatePath(`/${org.organizationId}`);
       }
 
-      await generateAgentFile.trigger({
+      await createFleetLabelForOrg.trigger({
         organizationId,
       });
 

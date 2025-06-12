@@ -1,9 +1,9 @@
 import { db } from "@comp/db";
 import { logger, task } from "@trigger.dev/sdk/v3";
-import { generateAgentFile } from "./generate-agent-file";
+import { createFleetLabelForOrg } from "./create-fleet-label-for-org";
 
-export const generateAgentForAllOrgs = task({
-  id: "generate-agent-for-all-orgs",
+export const createFleetLabelForAllOrgs = task({
+  id: "create-fleet-label-for-all-orgs",
   run: async () => {
     const organizations = await db.organization.findMany({
       where: {
@@ -12,7 +12,7 @@ export const generateAgentForAllOrgs = task({
     });
 
     logger.info(
-      `Found ${organizations.length} organizations to generate agent for`
+      `Found ${organizations.length} organizations to create fleet label for`
     );
 
     const batchItems = organizations.map((organization) => ({
@@ -22,6 +22,6 @@ export const generateAgentForAllOrgs = task({
     }));
 
     logger.info(`Triggering batch job for ${batchItems.length} organizations`);
-    await generateAgentFile.batchTrigger(batchItems);
+    await createFleetLabelForOrg.batchTrigger(batchItems);
   },
 });
