@@ -1,3 +1,10 @@
+## [1.41.1](https://github.com/trycompai/comp/compare/v1.41.0...v1.41.1) (2025-06-12)
+
+
+### Bug Fixes
+
+* **layout:** center content in RootLayout by adding mx-auto class to the container div ([eece9f6](https://github.com/trycompai/comp/commit/eece9f61d26b34a6e8c51ac88a70e78786847433))
+
 # [1.41.0](https://github.com/trycompai/comp/compare/v1.40.0...v1.41.0) (2025-06-11)
 
 

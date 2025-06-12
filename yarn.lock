@@ -1578,14 +1578,14 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
-"@comp/analytics@^workspace:packages/analytics":
+"@comp/analytics@packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.215.3"
     posthog-node "^4.4.1"
 
-"@comp/app@^workspace:apps/app", "@comp/app@workspace:*":
+"@comp/app@apps/app", "@comp/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
@@ -1694,7 +1694,7 @@
     xml2js "^0.6.2"
     zustand "^5.0.3"
 
-"@comp/db@^workspace:packages/db", "@comp/db@workspace:*":
+"@comp/db@packages/db", "@comp/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
@@ -1706,7 +1706,7 @@
     prisma "^6.9.0"
     ts-node "^10.9.2"
 
-"@comp/email@^workspace:packages/email":
+"@comp/email@packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1728,7 +1728,7 @@
     react-email "^4.0.15"
     responsive-react-email "^0.0.5"
 
-"@comp/framework-editor@^workspace:apps/framework-editor":
+"@comp/framework-editor@apps/framework-editor":
   version "workspace:apps/framework-editor"
   resolved "workspace:apps/framework-editor"
   devDependencies:
@@ -1801,7 +1801,7 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/integrations@^workspace:packages/integrations":
+"@comp/integrations@packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1824,14 +1824,14 @@
     sharp "^0.33.5"
     zod "^3.24.2"
 
-"@comp/kv@^workspace:packages/kv":
+"@comp/kv@packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@comp/notifications@^workspace:packages/notifications", "@comp/notifications@workspace:*":
+"@comp/notifications@packages/notifications", "@comp/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1840,7 +1840,7 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.5"
 
-"@comp/portal@^workspace:apps/portal":
+"@comp/portal@apps/portal":
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -1866,7 +1866,7 @@
     react-email "^4.0.15"
     react-otp-input "^3.1.1"
 
-"@comp/trust@^workspace:apps/trust":
+"@comp/trust@apps/trust":
   version "workspace:apps/trust"
   resolved "workspace:apps/trust"
   devDependencies:
@@ -1935,11 +1935,11 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/tsconfig@^workspace:packages/tsconfig", "@comp/tsconfig@workspace:*":
+"@comp/tsconfig@packages/tsconfig", "@comp/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@comp/ui@^workspace:packages/ui", "@comp/ui@workspace:*":
+"@comp/ui@packages/ui", "@comp/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -2004,7 +2004,7 @@
     use-callback-ref "^1.3.3"
     vaul "^1.0.0"
 
-"@comp/utils@^workspace:packages/utils", "@comp/utils@workspace:*":
+"@comp/utils@packages/utils", "@comp/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -2547,7 +2547,7 @@
   resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-3.10.0.tgz"
   integrity sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==
 
-"@hookform/resolvers@^5.1.1":
+"@hookform/resolvers@^5.0.1":
   version "5.1.1"
   resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.1.1.tgz"
   integrity sha512-J/NVING3LMAEvexJkyTLjruSm7aOFx7QX21pzkiJfMoNG0wl5aFEjLTl7ay7IQb9EWY6AkrBy7tHL2Alijpdcg==
@@ -3421,7 +3421,7 @@
     proc-log "^5.0.0"
     which "^5.0.0"
 
-"@number-flow/react@^0.5.10", "@number-flow/react@^0.5.9":
+"@number-flow/react@^0.5.9":
   version "0.5.10"
   resolved "https://registry.npmjs.org/@number-flow/react/-/react-0.5.10.tgz"
   integrity sha512-a8Wh5eNITn7Km4xbddAH7QH8eNmnduR6k34ER1hkHSGO4H2yU1DDnuAWLQM99vciGInFODemSc0tdxrXkJEpbA==
@@ -3888,8 +3888,8 @@
   resolved "https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-6.5.0.tgz"
   integrity sha512-ta1EhwAmIWnFjw0bTVdRe3rw5h40YDZ59i2Ko2FGVt4EDvAt4Po5aAN8eCj2Eq46wKJccEDwQ3qBXUQTKUbM8Q==
   dependencies:
-    "@prisma/driver-adapter-utils" "6.5.0"
     postgres-array "3.0.3"
+    "@prisma/driver-adapter-utils" "6.5.0"
 
 "@prisma/client@6.9.0":
   version "6.9.0"
@@ -6818,7 +6818,7 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/bun@^1.2.16":
+"@types/bun@^1.2.15":
   version "1.2.16"
   resolved "https://registry.npmjs.org/@types/bun/-/bun-1.2.16.tgz"
   integrity sha512-1aCZJ/6nSiViw339RsaNhkNoEloLaPzZhxMOYEa7OzRzO41IGg5n/7I43/ZIAW/c+Q6cT12Vf7fOZOoVIzb5BQ==
@@ -7278,7 +7278,7 @@
   dependencies:
     csstype "^3.0.2"
 
-"@types/react@*", "@types/react@>= 16", "@types/react@>=16.8", "@types/react@>=17.0.0", "@types/react@>=18", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^19", "@types/react@^19.1.2", "@types/react@^19.1.3", "@types/react@^19.1.8":
+"@types/react@*", "@types/react@>= 16", "@types/react@>=16.8", "@types/react@>=17.0.0", "@types/react@>=18", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^19", "@types/react@^19.1.2", "@types/react@^19.1.3", "@types/react@^19.1.6":
   version "19.1.8"
   resolved "https://registry.npmjs.org/@types/react/-/react-19.1.8.tgz"
   integrity sha512-AwAfQ2Wa5bCx9WP8nZL2uMZWod7J7/JSplxbTmBQ5ms6QpqNYm672H0Vu9ZVKVngQ+ii4R/byguVEUZQyeg44g==
@@ -14109,7 +14109,7 @@ netmask@^2.0.2:
     postcss "8.4.31"
     styled-jsx "5.1.6"
 
-next@*, "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", "next@^13.0.0 || ^14.0.0 || ^15.0.0", next@^15.3.1, next@^15.4.0, "next@^15.4.0-canary.62":
+next@*, "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", "next@^13.0.0 || ^14.0.0 || ^15.0.0", next@^15.3.1, "next@^15.4.0-canary.62":
   version "15.4.0"
   resolved "https://registry.npmjs.org/next/-/next-15.4.0.tgz"
   integrity sha512-9JfEyg23carbb/AxUylRQh4zVN4dt1af9aJ+L3CFl/LKQIQkWUWN44YhB9M5JhxMjleF6rkfNOD7IqDcsb6zyQ==
@@ -15983,7 +15983,7 @@ react-dropzone@^14.3.5:
     file-selector "^2.1.0"
     prop-types "^15.8.1"
 
-react-email@1.x, react-email@^4.0.15, react-email@^4.0.16:
+react-email@1.x, react-email@^4.0.15:
   version "4.0.16"
   resolved "https://registry.npmjs.org/react-email/-/react-email-4.0.16.tgz"
   integrity sha512-auhFU+nQxAkKkP6lQhPyGsa9exwfUEzp2BwZnjHokCwphZlg30tu4t1LgdKRwGPYsi7XNGy6asbVLAUhOVpzzg==
@@ -18633,7 +18633,7 @@ use-composed-ref@^1.3.0:
   resolved "https://registry.npmjs.org/use-composed-ref/-/use-composed-ref-1.4.0.tgz"
   integrity sha512-djviaxuOOh7wkj0paeO1Q/4wMZ8Zrnag5H6yBvzN7AKKe8beOaED9SF5/ByLqsku8NP4zQqsvM2u3ew/tJK8/w==
 
-use-debounce@^10.0.4, use-debounce@^10.0.5:
+use-debounce@^10.0.4:
   version "10.0.5"
   resolved "https://registry.npmjs.org/use-debounce/-/use-debounce-10.0.5.tgz"
   integrity sha512-Q76E3lnIV+4YT9AHcrHEHYmAd9LKwUAbPXDm7FlqVGDHiSOhX3RDjT8dm0AxbJup6WgOb1YEcKyCr11kBJR5KQ==
@@ -19261,7 +19261,7 @@ zod@3.23.8:
   resolved "https://registry.npmjs.org/zod/-/zod-3.23.8.tgz"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@^3.24.2, zod@^3.25.63, zod@latest:
+"zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@^3.24.2, zod@^3.25.49, zod@latest:
   version "3.25.63"
   resolved "https://registry.npmjs.org/zod/-/zod-3.25.63.tgz"
   integrity sha512-3ttCkqhtpncYXfP0f6dsyabbYV/nEUW+Xlu89jiXbTBifUfjaSqXOG6JnQPLtqt87n7KAmnMqcjay6c0Wq0Vbw==
