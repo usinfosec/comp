@@ -25,14 +25,16 @@
 		"@comp/ui": "workspace:*",
 		"@comp/db": "workspace:*",
 		"@types/node": "^22.13.2",
-		"@types/react": "^19.1.2",
+		"@types/react": "^19.1.6",
 		"@types/react-dom": "^19.1.1",
 		"postcss": "^8.5.4",
 		"tailwindcss": "^4.1.8",
 		"typescript": "^5.8.3"
 	},
 	"peerDependencies": {
-		"react": "^19",
-		"react-dom": "^19"
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"@types/react": "^19.1.6",
+		"@types/react-dom": "^19.1.1"
 	}
 }

@@ -111,16 +111,16 @@
 		"@comp/db": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.15.2",
-		"@types/react": "19.1.2",
-		"@types/react-dom": "19.1.1",
+		"@types/react": "^19.1.6",
+		"@types/react-dom": "^19.1.1",
 		"postcss": "^8.5.4",
 		"tailwindcss": "^4.1.8",
 		"typescript": "^5.8.3",
 		"fleetctl": "^4.68.1"
 	},
 	"resolutions": {
-		"@types/react": "19.1.2",
-		"@types/react-dom": "19.1.1"
+		"@types/react": "^19.1.6",
+		"@types/react-dom": "^19.1.1"
 	},
 	"pnpm": {
 		"overrides": {
@@ -131,8 +131,10 @@
 		"./src/lib/encryption": "./src/lib/encryption.ts"
 	},
 	"peerDependencies": {
-		"react": "^19",
-		"react-dom": "^19",
+		"react": "^19.1.0",
+		"@types/react": "^19.1.6",
+		"react-dom": "^19.1.0",
+		"@types/react-dom": "^19.1.1",
 		"react-hook-form": "^7.56.3"
 	}
 }
