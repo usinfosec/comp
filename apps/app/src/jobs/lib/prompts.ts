@@ -3,27 +3,27 @@ import { logger } from "@trigger.dev/sdk/v3";
 import { JSONContent } from "novel";
 
 export const generatePrompt = ({
-	policy,
-	existingPolicyContent,
-	contextHub,
-	companyName,
-	companyWebsite,
+  policy,
+  existingPolicyContent,
+  contextHub,
+  companyName,
+  companyWebsite,
 }: {
-	contextHub: string;
-	companyName: string;
-	companyWebsite: string;
-	policy: Policy;
-	existingPolicyContent: JSONContent | JSONContent[];
+  contextHub: string;
+  companyName: string;
+  companyWebsite: string;
+  policy: Policy;
+  existingPolicyContent: JSONContent | JSONContent[];
 }) => {
-	logger.info(`Generating prompt for policy ${policy.name}`);
-	logger.info(`Company Name: ${companyName}`);
-	logger.info(`Company Website: ${companyWebsite}`);
-	logger.info(`Context Hub: ${contextHub}`);
-	logger.info(
-		`Existing Policy Content: ${JSON.stringify(existingPolicyContent)}`,
-	);
+  logger.info(`Generating prompt for policy ${policy.name}`);
+  logger.info(`Company Name: ${companyName}`);
+  logger.info(`Company Website: ${companyWebsite}`);
+  logger.info(`Context: ${contextHub}`);
+  logger.info(
+    `Existing Policy Content: ${JSON.stringify(existingPolicyContent)}`
+  );
 
-	return `
+  return `
 Company details:
 
 Company Name: ${companyName}

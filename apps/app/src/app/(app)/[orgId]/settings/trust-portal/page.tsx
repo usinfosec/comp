@@ -11,7 +11,7 @@ export default async function TrustPortalSettings({ params }: { params: Promise<
 	const trustPortal = await getTrustPortal(orgId);
 
 	return (
-		<div className="mx-auto max-w-7xl space-y-4">
+		<div className="mx-auto max-w-7xl space-y-4 py-4">
 			<TrustPortalSwitch
 				enabled={trustPortal?.enabled ?? false}
 				slug={trustPortal?.friendlyUrl ?? orgId}

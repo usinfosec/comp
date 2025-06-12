@@ -39,6 +39,10 @@ export function MobileMenu({
 		metadata: org.metadata ? String(org.metadata) : null,
 		stripeCustomerId: null,
 		website: null,
+		fleetDmSecret: "",
+		fleetDmLabelId: null,
+		osqueryAgentDownloadUrl: null,
+		isFleetSetupCompleted: false,
 	}));
 
 	const currentOrganization =
@@ -56,7 +60,7 @@ export function MobileMenu({
 					<Icons.Menu size={16} />
 				</Button>
 			</div>
-			<SheetContent side="left" className="border-none rounded-xs -ml-2">
+			<SheetContent side="left" className="border-none rounded-sm -ml-2">
 				<div className="ml-2 mb-8">
 					<Icons.Logo />
 				</div>

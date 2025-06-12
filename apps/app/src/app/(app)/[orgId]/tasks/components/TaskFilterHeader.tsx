@@ -47,9 +47,9 @@ export function TaskFilterHeader() {
 	};
 
 	return (
-		<div className=" border-b-0">
+		<div className=" border-b-0 flex flex-col">
 			{/* Status Filter Buttons */}
-			<div className="flex items-center space-x-1 py-2 border-b">
+			<div className="flex items-center space-x-1">
 				<Button
 					variant={statusFilter === null ? "secondary" : "ghost"}
 					size="sm"
@@ -75,12 +75,8 @@ export function TaskFilterHeader() {
 						</Button>
 					);
 				})}
-			</div>
-
-			{/* Action Filters (Clear) */}
-			<div className="flex items-center py-2 space-x-2">
-				{/* Conditionally render the 'Clear filters' button only when filters are active. */}
-				{filtersActive && (
+					{/* Conditionally render the 'Clear filters' button only when filters are active. */}
+					{filtersActive && (
 					<Button
 						variant="ghost"
 						size="sm"

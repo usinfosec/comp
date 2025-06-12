@@ -5,12 +5,15 @@ import { cache } from "react";
 import { ApiKeysTable } from "./components/table/ApiKeysTable";
 import { db } from "@comp/db";
 import type { Metadata } from "next";
+import PageCore from "@/components/pages/PageCore.tsx";
 
 export default async function ApiKeysPage() {
 	const apiKeys = await getApiKeys();
 
 	return (
-		<ApiKeysTable apiKeys={apiKeys} />
+		<PageCore>
+			<ApiKeysTable apiKeys={apiKeys} />
+		</PageCore>
 	);
 }
 

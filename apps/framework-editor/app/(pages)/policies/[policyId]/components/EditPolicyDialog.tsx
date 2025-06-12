@@ -106,7 +106,7 @@ export function EditPolicyDialog({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent className="sm:max-w-[525px] rounded-xs">
+			<DialogContent className="sm:max-w-[525px] rounded-sm">
 				<DialogHeader>
 					<DialogTitle>Edit Policy Details</DialogTitle>
 					<DialogDescription>
@@ -122,7 +122,7 @@ export function EditPolicyDialog({
 								<FormItem>
 									<FormLabel>Name</FormLabel>
 									<FormControl>
-										<Input {...field} className="rounded-xs" />
+										<Input {...field} className="rounded-sm" />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -138,7 +138,7 @@ export function EditPolicyDialog({
 										<Textarea
 											{...field}
 											value={field.value ?? ""}
-											className="rounded-xs"
+											className="rounded-sm"
 										/>
 									</FormControl>
 									<FormMessage />
@@ -156,7 +156,7 @@ export function EditPolicyDialog({
 										defaultValue={field.value}
 									>
 										<FormControl>
-											<SelectTrigger className="rounded-xs">
+											<SelectTrigger className="rounded-sm">
 												<SelectValue placeholder="Select frequency" />
 											</SelectTrigger>
 										</FormControl>
@@ -165,7 +165,7 @@ export function EditPolicyDialog({
 												<SelectItem
 													key={freq}
 													value={freq}
-													className="rounded-xs"
+													className="rounded-sm"
 												>
 													{freq.charAt(0).toUpperCase() +
 														freq.slice(1).toLowerCase().replace("_", " ")}
@@ -188,7 +188,7 @@ export function EditPolicyDialog({
 										defaultValue={field.value}
 									>
 										<FormControl>
-											<SelectTrigger className="rounded-xs">
+											<SelectTrigger className="rounded-sm">
 												<SelectValue placeholder="Select department" />
 											</SelectTrigger>
 										</FormControl>
@@ -197,7 +197,7 @@ export function EditPolicyDialog({
 												<SelectItem
 													key={dept}
 													value={dept}
-													className="rounded-xs"
+													className="rounded-sm"
 												>
 													{dept.charAt(0).toUpperCase() +
 														dept.slice(1).toLowerCase().replace("_", " ")}
@@ -211,11 +211,11 @@ export function EditPolicyDialog({
 						/>
 						<DialogFooter>
 							<DialogClose asChild>
-								<Button type="button" variant="outline" className="rounded-xs">
+								<Button type="button" variant="outline" className="rounded-sm">
 									Cancel
 								</Button>
 							</DialogClose>
-							<Button type="submit" disabled={isPending} className="rounded-xs">
+							<Button type="submit" disabled={isPending} className="rounded-sm">
 								{isPending ? "Saving..." : "Save Changes"}
 							</Button>
 						</DialogFooter>

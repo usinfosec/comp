@@ -16,7 +16,7 @@ export async function ContextHubList({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Context Hub</CardTitle>
+				<CardTitle>Context</CardTitle>
 				<CardDescription>
 					You can add context to the Comp AI platform to help it better
 					understand your organization/processes.
@@ -24,12 +24,12 @@ export async function ContextHubList({
 			</CardHeader>
 			<CardContent className="space-y-4">
 				{entries.map((entry) => (
-					<div key={entry.id} className="rounded-xs border p-4 space-y-2">
+					<div key={entry.id} className="rounded-sm border p-4 space-y-2">
 						<h3 className="font-medium">{entry.question}</h3>
 						<p className="text-sm text-muted-foreground">{entry.answer}</p>
 						<div className="flex gap-2">
 							{entry.tags.map((tag: string) => (
-								<Badge key={tag} variant="secondary" className="rounded-xs">
+								<Badge key={tag} variant="secondary" className="rounded-sm">
 									{tag}
 								</Badge>
 							))}

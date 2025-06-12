@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AddFrameworkModal } from "./AddFrameworkModal";
 import { useParams } from 'next/navigation';
 import { Dialog } from "@comp/ui/dialog";
+import { PlusIcon } from "lucide-react";
 
 export interface FrameworksOverviewProps {
 	frameworksWithControls: FrameworkInstanceWithControls[];
@@ -31,17 +32,17 @@ export function FrameworksOverview({
 
 	return (
 		<div className="space-y-4">
-			<div className="flex justify-between items-center">
-				<h1 className="text-2xl font-semibold">{"Frameworks"}</h1>
-				<Button onClick={() => setIsAddFrameworkModalOpen(true)}>
-					{"Add Framework"}
-				</Button>
-			</div>
+
 			<div className="grid gap-4 md:grid-cols-1 select-none w-full">
 				<FrameworkList
 					frameworksWithControls={frameworksWithControls}
 					tasks={tasks}
 				/>
+				<div className="flex justify-center items-center">
+				<Button onClick={() => setIsAddFrameworkModalOpen(true)} variant="outline">
+					{"Add Framework"} <PlusIcon className="w-4 h-4" />
+				</Button>
+			</div>
 			</div>
 			<Dialog open={isAddFrameworkModalOpen} onOpenChange={setIsAddFrameworkModalOpen}>
 				{isAddFrameworkModalOpen && (

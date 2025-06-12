@@ -5,13 +5,12 @@ import { Badge } from "@comp/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@comp/ui/card";
+import { Progress } from "@comp/ui/progress";
 import { cn } from "@comp/ui/cn";
-import { ClipboardCheck, ClipboardList, Clock } from "lucide-react";
+import { BarChart3, Clock } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import type { FrameworkInstanceWithControls } from "../types";
@@ -28,41 +27,33 @@ export function FrameworkCard({
 	tasks,
 }: FrameworkCardProps) {
 	const { orgId } = useParams<{ orgId: string }>();
-	const getComplianceColor = (score: number) => {
-		if (score >= 80) return "text-green-500";
-		if (score >= 50) return "text-yellow-500";
-		return "text-red-500";
-	};
-
-	const getComplianceProgressColor = (score: number) => {
-		if (score >= 80) return "bg-green-500";
-		if (score >= 50) return "bg-yellow-500";
-		return "bg-red-500";
-	};
 
 	const getStatusBadge = (score: number) => {
 		if (score >= 95)
 			return {
 				label: "Compliant",
-				color:
-					"bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+				variant: "default" as const,
 			};
 		if (score >= 80)
 			return {
 				label: "Nearly Compliant",
-				color:
-					"bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+				variant: "secondary" as const,
 			};
 		if (score >= 50)
 			return {
 				label: "In Progress",
-				color:
-					"bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+				variant: "outline" as const,
 			};
 		return {
 			label: "Needs Attention",
-			color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+			variant: "destructive" as const,
 		};
+	};
+
+	const getComplianceColor = (score: number) => {
+		if (score >= 80) return "text-green-600 dark:text-green-400";
+		if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
+		return "text-red-600 dark:text-red-400";
 	};
 
 	const controlsCount = frameworkInstance.controls?.length || 0;
@@ -111,94 +102,58 @@ export function FrameworkCard({
 	const statusBadge = getStatusBadge(complianceScore);
 
 	// Calculate last activity date - use current date as fallback
-	const lastActivityDate = new Date().toISOString().slice(0, 10);
+	const lastActivityDate = new Date().toLocaleDateString();
 
 	return (
 		<Link
 			href={`/${orgId}/frameworks/${frameworkInstance.id}`}
-			className="block"
+			className="block group"
 		>
-			<Card className="select-none hover:bg-muted/40 transition-colors duration-200 overflow-hidden h-full flex flex-col">
-				<CardHeader className="shrink-0">
-					<CardTitle className="flex items-center">
-						{frameworkDetails.name}
-						<Badge variant="outline" className="ml-2 text-xs font-normal">
-							{frameworkDetails.version}
-						</Badge>
-					</CardTitle>
-					<CardDescription>
-						<div className="flex items-start justify-between gap-2">
-							<p className="text-sm text-muted-foreground line-clamp-2">
+			<Card className="h-full flex flex-col hover:shadow-sm transition-shadow">
+				<CardHeader className="pb-3">
+					<div className="flex items-start justify-between gap-3">
+						<div className="flex-1 min-w-0">
+							<CardTitle className="text-base font-medium truncate mb-1">
+								{frameworkDetails.name}
+							</CardTitle>
+							<p className="text-xs text-muted-foreground line-clamp-2">
 								{frameworkDetails.description}
 							</p>
-							<Badge className={cn("hidden md:block", statusBadge.color)}>
-								{statusBadge.label}
-							</Badge>
 						</div>
-					</CardDescription>
+						<Badge variant={statusBadge.variant} className="text-xs shrink-0">
+							{complianceScore}%
+						</Badge>
+					</div>
 				</CardHeader>
-				<CardContent className="flex-grow flex flex-col gap-4">
-					<div className="flex flex-col gap-3">
-						<div className="space-y-1.5">
-							<div className="flex items-center justify-between text-sm">
-								<span className="text-muted-foreground">{"Status"}</span>
-								<span
-									className={cn(
-										"font-medium",
-										getComplianceColor(complianceScore),
-									)}
-								>
-									{complianceScore}%
-								</span>
+				
+				<CardContent className="flex-1 space-y-4 pt-0">
+					{/* Progress Section */}
+					<div className="space-y-2">
+						<div className="flex items-center justify-between text-xs">
+							<div className="flex items-center gap-1">
+								<BarChart3 className="h-3 w-3 text-muted-foreground" />
+								<span className="text-muted-foreground">Progress</span>
 							</div>
-							<div className="relative h-2 w-full bg-secondary overflow-hidden">
-								<div
-									className={cn(
-										"h-full transition-all",
-										getComplianceProgressColor(complianceScore),
-									)}
-									style={{ width: `${complianceScore}%` }}
-								/>
-							</div>
+							<span className={cn("font-medium tabular-nums", getComplianceColor(complianceScore))}>
+								{complianceScore}%
+							</span>
 						</div>
+						<Progress value={complianceScore} className="h-1" />
 					</div>
 
-					<div className="grid grid-cols-3 gap-4 mt-1">
-						<div className="flex flex-col items-start gap-1 border-r pr-3">
-							<div className="flex items-center text-muted-foreground">
-								<ClipboardList className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">{"Controls"}</span>
-							</div>
-							<p className="font-medium text-sm">
-								{controlsCount} {"Tasks"}
-							</p>
-						</div>
-						<div className="flex flex-col items-start gap-1 border-r pr-3">
-							<div className="flex items-center text-muted-foreground">
-								<ClipboardCheck className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">{"Completed"}</span>
-							</div>
-							<p className="font-medium text-sm">
-								{compliantControlsCount} / {controlsCount}
-							</p>
-						</div>
-						<div className="flex flex-col items-start gap-1">
-							<div className="flex items-center text-muted-foreground">
-								<Clock className="h-3.5 w-3.5 mr-1" />
-								<span className="text-xs">{"In Progress"}</span>
-							</div>
-							<p className="font-medium text-sm">
-								{inProgressCount} / {controlsCount}
-							</p>
-						</div>
+					{/* Stats */}
+					<div className="flex items-center justify-between text-xs text-muted-foreground">
+						<span>{compliantControlsCount} complete</span>
+						<span>{inProgressCount} active</span>
+						<span>{controlsCount} total</span>
+					</div>
+
+					{/* Footer */}
+					<div className="flex items-center text-xs text-muted-foreground pt-2 border-t">
+						<Clock className="h-3 w-3 mr-1" />
+						<span>Updated {lastActivityDate}</span>
 					</div>
 				</CardContent>
-				<CardFooter className="text-xs text-muted-foreground flex justify-between mt-auto shrink-0">
-					<div className="flex items-center">
-						<Clock className="h-3.5 w-3.5 mr-1.5" />
-						{"Last Updated"}: {lastActivityDate}
-					</div>
-				</CardFooter>
 			</Card>
 		</Link>
 	);
