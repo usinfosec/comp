@@ -86,8 +86,6 @@
 		"posthog-js": "^1.236.6",
 		"posthog-node": "^4.14.0",
 		"puppeteer-core": "^24.7.2",
-		"react": "^19.1.0",
-		"react-dom": "^19.1.0",
 		"react-email": "^4.0.15",
 		"react-hook-form": "^7.56.3",
 		"react-hotkeys-hook": "^4.6.2",
@@ -113,16 +111,10 @@
 		"@comp/db": "workspace:*",
 		"@trigger.dev/build": "3.3.17",
 		"@types/node": "^22.15.2",
-		"@types/react": "^19.1.6",
-		"@types/react-dom": "^19.1.1",
 		"postcss": "^8.5.4",
 		"tailwindcss": "^4.1.8",
 		"typescript": "^5.8.3",
 		"fleetctl": "^4.68.1"
-	},
-	"resolutions": {
-		"@types/react": "^19.1.6",
-		"@types/react-dom": "^19.1.1"
 	},
 	"pnpm": {
 		"overrides": {
