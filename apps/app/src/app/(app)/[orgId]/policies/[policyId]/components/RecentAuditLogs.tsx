@@ -153,7 +153,7 @@ const LogItem = ({ log }: { log: AuditLogWithRelations }) => {
 							</Badge>
 						</div>
 
-						<CardDescription className="text-base">
+						<CardDescription className="text-sm">
 							{log.description || "No description available"}
 						</CardDescription>
 
@@ -243,7 +243,7 @@ export const RecentAuditLogs = ({
 					) : (
 						<div className="flex flex-col items-center justify-center p-6 text-center">
 							<ActivityIcon className="mb-2 h-8 w-8 text-muted-foreground" />
-							<p className="text-base font-medium">
+							<p className="text-sm font-medium">
 								No recent activity
 							</p>
 							<p className="text-xs text-muted-foreground">

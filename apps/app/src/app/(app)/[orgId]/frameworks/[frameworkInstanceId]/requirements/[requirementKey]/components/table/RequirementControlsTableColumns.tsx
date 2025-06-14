@@ -68,7 +68,7 @@ export function RequirementControlsTableColumns({
 								</div>
 							</TooltipTrigger>
 							<TooltipContent>
-								<div className="text-base">
+								<div className="text-sm">
 									<p>
 										Progress:{" "}
 										{Math.round(

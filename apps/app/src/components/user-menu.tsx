@@ -64,7 +64,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<div className="flex flex-row justify-between items-center p-2">
-							<p className="text-base">{"Theme"}</p>
+							<p className="text-sm">{"Theme"}</p>
 							<ThemeSwitch />
 						</div>
 						<DropdownMenuSeparator />

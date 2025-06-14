@@ -113,7 +113,7 @@ export function ReasoningMessagePart({
 				{isExpanded && (
 					<motion.div
 						key="reasoning"
-						className="text-base dark:text-zinc-400 text-zinc-600 flex flex-col gap-4 ml-[41px]"
+						className="text-sm dark:text-zinc-400 text-zinc-600 flex flex-col gap-4 ml-[41px]"
 						initial="collapsed"
 						animate="expanded"
 						exit="collapsed"

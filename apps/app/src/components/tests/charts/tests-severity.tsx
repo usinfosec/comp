@@ -70,7 +70,7 @@ export function TestsSeverity({
 			</CardHeader>
 			<CardContent>
 				<PieChart data={data} />
-				<div className="mt-4 gap-2 text-base">
+				<div className="mt-4 gap-2 text-sm">
 					{data.map((item) => (
 						<div
 							key={item.name}

@@ -110,7 +110,7 @@ export function PolicyCarousel({
 				>
 					<ChevronLeft className="h-4 w-4" />
 				</Button>
-				<span className="text-base text-muted-foreground">
+				<span className="text-sm text-muted-foreground">
 					Policy {currentIndex + 1} of {policies.length}
 				</span>
 				<Button

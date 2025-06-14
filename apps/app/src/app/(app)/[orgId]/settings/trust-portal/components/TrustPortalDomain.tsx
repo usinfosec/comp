@@ -243,7 +243,7 @@ export function TrustPortalDomain({
 								!domainVerified && (
 									<div className="space-y-2 pt-2">
 										<div className="rounded-md border">
-											<div className="text-base">
+											<div className="text-sm">
 												<table className="hidden lg:table w-full">
 													<thead>
 														<tr className="[&_th]:px-3 [&_th]:py-2 [&_th]:text-left">

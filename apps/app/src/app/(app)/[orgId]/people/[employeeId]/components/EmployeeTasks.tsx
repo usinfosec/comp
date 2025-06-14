@@ -35,7 +35,7 @@ export const EmployeeTasks = ({
 				<CardTitle className="text-base flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 					<div>
 						<h2 className="text-lg font-medium">Employee Tasks</h2>
-						<h3 className="text-base text-muted-foreground">
+						<h3 className="text-sm text-muted-foreground">
 							View and manage employee tasks and their status
 						</h3>
 					</div>

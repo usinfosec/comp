@@ -128,7 +128,7 @@ export function TestCard({
 				</div>
 				<CardTitle>{test.title || "Untitled Test"}</CardTitle>
 			</CardHeader>
-			<CardContent className="flex flex-col gap-3 text-base text-muted-foreground h-full">
+			<CardContent className="flex flex-col gap-3 text-sm text-muted-foreground h-full">
 				{test.description && <p>{test.description}</p>}
 				<span className="flex-grow" />
 			</CardContent>

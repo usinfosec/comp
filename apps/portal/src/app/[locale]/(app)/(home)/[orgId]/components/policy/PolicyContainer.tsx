@@ -42,7 +42,7 @@ export function PolicyContainer({ policies, member }: PolicyContainerProps) {
 						<ArrowLeft className="h-4 w-4" />
 						Back to Policies
 					</Button>
-					<p className="text-base text-muted-foreground">
+					<p className="text-sm text-muted-foreground">
 						Policy {selectedPolicyIndex + 1} of {policies.length}
 					</p>
 				</div>

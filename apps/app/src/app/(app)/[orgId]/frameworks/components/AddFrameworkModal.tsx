@@ -102,7 +102,7 @@ export function AddFrameworkModal({
 							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
-									<FormLabel className="text-base font-medium">
+									<FormLabel className="text-sm font-medium">
 										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
@@ -127,7 +127,7 @@ export function AddFrameworkModal({
 																		<h3 className="font-semibold">
 																			{framework.name}
 																		</h3>
-																		<p className="text-base text-muted-foreground mt-1">
+																		<p className="text-sm text-muted-foreground mt-1">
 																			{framework.description}
 																		</p>
 																		<p className="text-xs text-muted-foreground/75 mt-2">

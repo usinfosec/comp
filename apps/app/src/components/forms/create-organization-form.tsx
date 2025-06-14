@@ -85,7 +85,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 							<h2 className="text-xl font-semibold text-center tracking-tight">
 								{"Hold tight, we're creating your organization"}
 							</h2>
-							<p className="text-center text-base text-muted-foreground">
+							<p className="text-center text-sm text-muted-foreground">
 								{"This may take a minute or two..."}
 							</p>
 						</div>
@@ -108,7 +108,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 					<h1 className="text-2xl font-semibold tracking-tight">
 						Welcome to Comp AI
 					</h1>
-					<p className="text-base text-muted-foreground">
+					<p className="text-sm text-muted-foreground">
 						Select the frameworks you use to get started. You can add more
 						later.
 					</p>
@@ -125,7 +125,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
-									<FormLabel className="text-base font-medium">
+									<FormLabel className="text-sm font-medium">
 										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
@@ -148,7 +148,7 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
 																	<h3 className="font-semibold">
 																		{framework.name}
 																	</h3>
-																	<p className="text-base text-muted-foreground mt-1">
+																	<p className="text-sm text-muted-foreground mt-1">
 																		{framework.description}
 																	</p>
 																	<p className="text-xs text-muted-foreground/75 mt-2">

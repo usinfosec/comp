@@ -35,7 +35,7 @@ export default async function Loading() {
 				<CardContent>
 					<LogoSpinner />
 				</CardContent>
-				<CardFooter className="text-base text-muted-foreground">
+				<CardFooter className="text-sm text-muted-foreground">
 					{"API keys provide full access to your organization's data. Keep them secure and rotate them regularly."}
 				</CardFooter>
 			</Card>

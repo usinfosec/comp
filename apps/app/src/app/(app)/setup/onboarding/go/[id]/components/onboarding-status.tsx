@@ -24,7 +24,7 @@ export function OnboardingStatus({ runId }: { runId: string }) {
 			{run?.status === "COMPLETED" && (
 				<div className="flex flex-col items-center justify-center">
 					<CheckCircle className="h-4 w-4 text-green-500" />
-					<p className="text-base text-muted-foreground">Redirecting</p>
+					<p className="text-sm text-muted-foreground">Redirecting</p>
 				</div>
 			)}
 		</div>

@@ -216,7 +216,7 @@ export function TaskCard({
 			<div className="flex items-center justify-center w-6 h-8 mr-2 shrink-0">
 				<TaskStatusIndicator status={task.status as TaskStatus} />
 			</div>
-			<span className="flex-grow py-2 truncate text-base min-w-0">
+			<span className="flex-grow py-2 truncate text-sm min-w-0">
 				{task.title}
 			</span>
 			<div className="flex items-center ml-auto space-x-3 pl-2 shrink-0">

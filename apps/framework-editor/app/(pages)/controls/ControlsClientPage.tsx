@@ -328,7 +328,7 @@ export function ControlsClientPage({
 			<PageLayout breadcrumbs={[{ label: "Controls", href: "/controls" }]}>
 				{isDirty && (
 					<div className="flex items-center space-x-2 mb-4">
-						<span className="text-base text-muted-foreground">
+						<span className="text-sm text-muted-foreground">
 							{changesSummaryString}
 						</span>
 						<Button

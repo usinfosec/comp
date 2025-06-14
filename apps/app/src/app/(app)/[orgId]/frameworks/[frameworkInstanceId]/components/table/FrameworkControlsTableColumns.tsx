@@ -70,7 +70,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 			header: "Category",
 			cell: ({ row }) => (
 				<div className="w-[200px]">
-					<span className="text-base">{row.original.name}</span>
+					<span className="text-sm">{row.original.name}</span>
 				</div>
 			),
 		},
@@ -94,7 +94,7 @@ export function FrameworkControlsTableColumns(): ColumnDef<OrganizationControlTy
 								</div>
 							</TooltipTrigger>
 							<TooltipContent>
-								<div className="text-base">
+								<div className="text-sm">
 									<p>
 										Progress:{" "}
 										{Math.round(

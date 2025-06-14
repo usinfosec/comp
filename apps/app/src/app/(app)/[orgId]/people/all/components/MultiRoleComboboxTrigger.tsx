@@ -46,7 +46,7 @@ export function MultiRoleComboboxTrigger({
 		>
 			<div className="flex flex-wrap gap-1 items-center">
 				{selectedRoles.length === 0 && (
-					<span className="text-muted-foreground text-base">
+					<span className="text-muted-foreground text-sm">
 						{triggerText}
 					</span>
 				)}

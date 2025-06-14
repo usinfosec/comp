@@ -69,7 +69,7 @@ export function OrganizationIntegration({
 				<h3 className="text-lg font-semibold text-foreground">
 					No integrations found
 				</h3>
-				<p className="mt-2 text-base text-muted-foreground text-center max-w-md">
+				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
 					No integrations found for your search, let us know if you
 					want to see a specific integration.
 				</p>
@@ -91,7 +91,7 @@ export function OrganizationIntegration({
 				<h3 className="text-lg font-semibold text-foreground">
 					No integrations installed
 				</h3>
-				<p className="mt-2 text-base text-muted-foreground text-center max-w-md">
+				<p className="mt-2 text-sm text-muted-foreground text-center max-w-md">
 					You haven't installed any integrations yet. Go to the 'All
 					Integrations' tab to browse available integrations.
 				</p>

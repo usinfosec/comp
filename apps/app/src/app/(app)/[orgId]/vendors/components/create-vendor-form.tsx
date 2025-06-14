@@ -196,7 +196,7 @@ export function CreateVendorForm({
 																<div className="absolute top-full z-10 w-full mt-1 bg-background border rounded-md shadow-lg">
 																	<div className="max-h-[300px] overflow-y-auto p-1">
 																		{isSearching && (
-																			<div className="p-2 text-base text-muted-foreground">
+																			<div className="p-2 text-sm text-muted-foreground">
 																				{"Loading..."}...
 																			</div>
 																		)}
@@ -214,7 +214,7 @@ export function CreateVendorForm({
 																								vendor.legal_name ??
 																								Math.random().toString()
 																							}
-																							className="cursor-pointer p-2 hover:bg-accent rounded-sm text-base"
+																							className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm"
 																							onMouseDown={() => {
 																								handleSelectVendor(vendor);
 																								setPopoverOpen(false);
@@ -231,7 +231,7 @@ export function CreateVendorForm({
 																			searchQuery.trim().length > 1 &&
 																			searchResults.length === 0 && (
 																				<div
-																					className="cursor-pointer p-2 hover:bg-accent rounded-sm text-base italic"
+																					className="cursor-pointer p-2 hover:bg-accent rounded-sm text-sm italic"
 																					onMouseDown={() => {
 																						field.onChange(searchQuery);
 																						setSearchResults([]);

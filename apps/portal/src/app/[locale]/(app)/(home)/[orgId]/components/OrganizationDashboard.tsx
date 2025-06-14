@@ -60,11 +60,11 @@ export async function OrganizationDashboard({
 		<div className="space-y-6">
 			<div className="flex flex-col gap-1">
 				{/* Use organization name if available and needed */}
-				<p className="text-base text-muted-foreground">
+				<p className="text-sm text-muted-foreground">
 					Organization: {member.organization.name}
 				</p>
 				<h1 className="text-2xl font-bold">Welcome back, {member.user.name}</h1>
-				<p className="text-base">
+				<p className="text-sm">
 					Please complete the following tasks for {member.organization.name}:
 				</p>
 			</div>

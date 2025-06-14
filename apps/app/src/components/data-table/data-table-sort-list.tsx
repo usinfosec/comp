@@ -307,7 +307,7 @@ export function DataTableSortList<TData>({
 						<p
 							id={descriptionId}
 							className={cn(
-								"text-muted-foreground text-base",
+								"text-muted-foreground text-sm",
 								sorting.length > 0 && "sr-only",
 							)}
 						>

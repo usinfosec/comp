@@ -105,7 +105,7 @@ export function CreateApiKeyDialog({
 	const renderFormContent = () => (
 		<form onSubmit={handleSubmit} className="space-y-4 p-1">
 			<div className="space-y-2">
-				<label htmlFor="name" className="text-base font-medium leading-none">
+				<label htmlFor="name" className="text-sm font-medium leading-none">
 					{"Name"}
 				</label>
 				<Input
@@ -120,7 +120,7 @@ export function CreateApiKeyDialog({
 			<div className="space-y-2">
 				<label
 					htmlFor="expiration"
-					className="text-base font-medium leading-none"
+					className="text-sm font-medium leading-none"
 				>
 					{"Expiration"}
 				</label>
@@ -164,12 +164,12 @@ export function CreateApiKeyDialog({
 		<>
 			<div className="space-y-4 py-4">
 				<div className="space-y-2">
-					<p className="text-base font-medium">{"API Key"}</p>
+					<p className="text-sm font-medium">{"API Key"}</p>
 					<div className="flex items-center">
 						<div className="relative w-full">
 							<div className="rounded-sm bg-muted p-3 pr-10 overflow-hidden">
 								<div className="overflow-x-auto">
-									<code className="text-base break-all">{createdApiKey}</code>
+									<code className="text-sm break-all">{createdApiKey}</code>
 								</div>
 							</div>
 							<Button

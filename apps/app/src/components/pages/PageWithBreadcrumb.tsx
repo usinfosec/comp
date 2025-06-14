@@ -73,7 +73,7 @@ export default function PageWithBreadcrumb({
 									{item.dropdown ? (
 										<DropdownMenu>
 											<DropdownMenuTrigger
-												className={`flex items-center gap-1 text-base ${item.current ? "font-medium" : ""}`}
+												className={`flex items-center gap-1 text-sm ${item.current ? "font-medium" : ""}`}
 											>
 												{item.current ? (
 													<BreadcrumbPage className="inline-flex items-center gap-1">

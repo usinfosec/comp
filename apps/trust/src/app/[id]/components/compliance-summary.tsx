@@ -8,7 +8,7 @@ interface ComplianceSummaryProps {
 export default function ComplianceSummary({ text }: ComplianceSummaryProps) {
     return (
         <div>
-            <p className="text-base">{text}</p>
+            <p className="text-sm">{text}</p>
         </div>
     )
 }

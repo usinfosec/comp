@@ -136,7 +136,7 @@ export function FileCard({
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<h4 className="text-base font-medium truncate text-center max-w-full px-2">
+								<h4 className="text-sm font-medium truncate text-center max-w-full px-2">
 									{fileName}
 								</h4>
 							</TooltipTrigger>

@@ -114,7 +114,7 @@ export function SearchAndLinkList({
 							{currentLinkedItemsDetails.map((item) => (
 								<li
 									key={item.id}
-									className="text-base p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
+									className="text-sm p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
 								>
 									{renderItemDisplay
 										? renderItemDisplay(item)
@@ -140,7 +140,7 @@ export function SearchAndLinkList({
 						</ul>
 					</ScrollArea>
 				) : (
-					<p className="h-[150px] flex items-center justify-center text-base text-muted-foreground text-center p-2 border rounded-sm bg-muted/20">
+					<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm bg-muted/20">
 						No {itemTypeLabel}s are currently linked.
 					</p>
 				)}
@@ -162,21 +162,21 @@ export function SearchAndLinkList({
 						className="mb-3 rounded-sm shrink-0"
 					/>
 					{unlinkedItemsToDisplay.length === 0 && searchTerm.trim() && (
-						<p className="h-[150px] flex items-center justify-center text-base text-muted-foreground text-center p-2 border rounded-sm shrink-0">
+						<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 							No unlinked {itemTypeLabel}s found matching "{searchTerm}".
 						</p>
 					)}
 					{unlinkedItemsToDisplay.length === 0 &&
 						!searchTerm.trim() &&
 						availableItems.length === 0 && (
-							<p className="h-[150px] flex items-center justify-center text-base text-muted-foreground text-center p-2 border rounded-sm shrink-0">
+							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 								No available {itemTypeLabel}s found in the database.
 							</p>
 						)}
 					{unlinkedItemsToDisplay.length === 0 &&
 						!searchTerm.trim() &&
 						availableItems.length > 0 && (
-							<p className="h-[150px] flex items-center justify-center text-base text-muted-foreground text-center p-2 border rounded-sm shrink-0">
+							<p className="h-[150px] flex items-center justify-center text-sm text-muted-foreground text-center p-2 border rounded-sm shrink-0">
 								All available {itemTypeLabel}s are already linked.
 							</p>
 						)}
@@ -187,7 +187,7 @@ export function SearchAndLinkList({
 								{unlinkedItemsToDisplay.map((item) => (
 									<li
 										key={item.id}
-										className="text-base p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
+										className="text-sm p-1.5 flex justify-between items-center rounded-sm hover:bg-muted/50"
 									>
 										{renderItemDisplay
 											? renderItemDisplay(item)

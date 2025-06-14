@@ -17,7 +17,7 @@ interface RiskDisplayProps {
 export function RiskDisplay({ risks }: RiskDisplayProps) {
 	if (!risks?.length) {
 		return (
-			<div className="text-base text-muted-foreground">
+			<div className="text-sm text-muted-foreground">
 				No risks found for this organization.
 			</div>
 		);
@@ -34,7 +34,7 @@ export function RiskDisplay({ risks }: RiskDisplayProps) {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<p className="text-base text-muted-foreground">
+						<p className="text-sm text-muted-foreground">
 							{risk.description}
 						</p>
 					</CardContent>

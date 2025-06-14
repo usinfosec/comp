@@ -55,7 +55,7 @@ export function OnboardingForm() {
 				<CardHeader className="min-h-[140px] flex flex-col items-center justify-center pb-0">
 					<div className="flex flex-col items-center gap-2">
 						<LogoSpinner />
-						<div className="text-muted-foreground text-base">
+						<div className="text-muted-foreground text-sm">
 							Step {stepIndex + 1} of {steps.length}
 						</div>
 						<CardTitle className="text-center min-h-[56px] flex items-center justify-center">

@@ -253,7 +253,7 @@ export function DataTable<TData>({
 										<Button
 											variant="ghost"
 											size="sm"
-											className="w-full justify-start text-base font-normal mt-2"
+											className="w-full justify-start text-sm font-normal mt-2"
 											onClick={filters.onClearFilters}
 										>
 											Clear all filters

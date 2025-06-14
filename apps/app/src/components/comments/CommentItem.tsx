@@ -340,7 +340,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 						{comment.author.user?.name?.charAt(0).toUpperCase() ?? "?"}
 					</AvatarFallback>
 				</Avatar>
-				<div className="flex-1 text-base space-y-2 items-start">
+				<div className="flex-1 text-sm space-y-2 items-start">
 					<div>
 						<div className="flex items-center justify-between gap-2 mb-1">
 							<div className="flex items-center gap-2">
@@ -388,7 +388,7 @@ export function CommentItem({ comment }: { comment: CommentWithAuthor }) {
 							<Textarea
 								value={editedContent}
 								onChange={(e) => setEditedContent(e.target.value)}
-								className="min-h-[60px] text-base bg-background/50"
+								className="min-h-[60px] text-sm bg-background/50"
 								placeholder="Edit comment..."
 							/>
 						)}

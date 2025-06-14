@@ -28,7 +28,7 @@ export function AppsTabs() {
 					key={tab.value}
 					type="button"
 					className={cn(
-						"text-base transition-colors px-4 py-2.5 font-medium relative",
+						"text-sm transition-colors px-4 py-2.5 font-medium relative",
 						"hover:text-foreground/80",
 						currentTab === tab.value
 							? "text-foreground"

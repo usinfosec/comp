@@ -26,7 +26,7 @@ export function NoResults({ hasFilters }: Props) {
 					<h2 className="font-medium text-lg">
 						{"No results found"}
 					</h2>
-					<p className="text-muted-foreground text-base">
+					<p className="text-muted-foreground text-sm">
 						{hasFilters
 							? "Try another search, or adjusting the filters"
 							: "Create a task to get started"}
@@ -57,7 +57,7 @@ export function NoTasks({ isEmpty }: { isEmpty: boolean }) {
 				<h2 className="text-xl font-medium mb-2">
 					{"No tasks found"}
 				</h2>
-				<p className="text-base text-muted-foreground mb-6">
+				<p className="text-sm text-muted-foreground mb-6">
 					{"Create a task to get started"}
 				</p>
 				<Button onClick={() => setOpen("true")}>

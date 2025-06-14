@@ -38,7 +38,7 @@ export function AcceptInvite({
 						You have been invited to join{" "}
 						{organizationName || "an organization"}.
 					</h1>
-					<p className="text-base text-muted-foreground">
+					<p className="text-sm text-muted-foreground">
 						Please accept the invitation to join the organization.
 					</p>
 				</div>

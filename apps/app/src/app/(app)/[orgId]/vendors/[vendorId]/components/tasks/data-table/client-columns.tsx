@@ -101,7 +101,7 @@ export function useGetColumnHeaders(): ColumnDef<Task>[] {
 									.join("")}
 							</AvatarFallback>
 						</Avatar>
-						<span className="text-base">{owner.name}</span>
+						<span className="text-sm">{owner.name}</span>
 					</div>
 				);
 			},

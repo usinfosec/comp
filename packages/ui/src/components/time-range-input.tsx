@@ -44,7 +44,7 @@ export function TimeRangeInput({
 						setStartTime(e.target.value);
 						onChange({ ...value, start: e.target.value });
 					}}
-					className="bg-transparent focus:outline-hidden text-base"
+					className="bg-transparent focus:outline-hidden text-sm"
 				/>
 			</div>
 			<div className="flex items-center justify-center shrink-0 mx-4">
@@ -58,9 +58,9 @@ export function TimeRangeInput({
 						setEndTime(e.target.value);
 						onChange({ ...value, end: e.target.value });
 					}}
-					className="bg-transparent focus:outline-hidden text-base"
+					className="bg-transparent focus:outline-hidden text-sm"
 				/>
-				<span className="text-[#878787] text-base">{duration}</span>
+				<span className="text-[#878787] text-sm">{duration}</span>
 			</div>
 		</div>
 	);

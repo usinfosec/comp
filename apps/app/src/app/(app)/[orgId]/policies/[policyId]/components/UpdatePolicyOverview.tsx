@@ -223,7 +223,7 @@ export function UpdatePolicyOverview({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					{/* Status Field */}
 					<div className="space-y-2">
-						<label htmlFor="status" className="text-base font-medium">
+						<label htmlFor="status" className="text-sm font-medium">
 							Status
 						</label>
 						{/* Hidden input for form submission */}
@@ -267,7 +267,7 @@ export function UpdatePolicyOverview({
 					<div className="space-y-2">
 						<label
 							htmlFor="review_frequency"
-							className="text-base font-medium"
+							className="text-sm font-medium"
 						>
 							Review Frequency
 						</label>
@@ -298,7 +298,7 @@ export function UpdatePolicyOverview({
 					<div className="space-y-2">
 						<label
 							htmlFor="department"
-							className="text-base font-medium"
+							className="text-sm font-medium"
 						>
 							Department
 						</label>
@@ -331,7 +331,7 @@ export function UpdatePolicyOverview({
 					<div className="space-y-2">
 						<label
 							htmlFor="assigneeId"
-							className="text-base font-medium"
+							className="text-sm font-medium"
 						>
 							Assignee
 						</label>
@@ -362,7 +362,7 @@ export function UpdatePolicyOverview({
 					<div className="space-y-2 mt-2">
 						<label
 							htmlFor="review_date"
-							className="text-base font-medium"
+							className="text-sm font-medium"
 						>
 							Review Date
 						</label>
@@ -469,7 +469,7 @@ export function UpdatePolicyOverview({
 					<div className="flex flex-col gap-2 mt-2">
 						<label
 							htmlFor="isRequiredToSign"
-							className="text-base font-medium"
+							className="text-sm font-medium"
 						>
 							Employee Signature Requirement
 						</label>
@@ -481,7 +481,7 @@ export function UpdatePolicyOverview({
 								defaultChecked={policy.isRequiredToSign}
 								onCheckedChange={handleFormChange}
 							/>
-							<span className="text-base text-gray-500">
+							<span className="text-sm text-gray-500">
 								{policy.isRequiredToSign
 									? "Required"
 									: "Not Required"}

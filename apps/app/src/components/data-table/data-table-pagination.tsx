@@ -110,7 +110,7 @@ export function DataTablePagination<TData>({
 			className={cn("flex items-center justify-between px-2 py-4", className)}
 			{...props}
 		>
-			<div className="flex items-center gap-4 text-base text-muted-foreground">
+			<div className="flex items-center gap-4 text-sm text-muted-foreground">
 				<span className="hidden sm:inline">
 					{table.getCoreRowModel().rows.length} items
 				</span>
@@ -135,7 +135,7 @@ export function DataTablePagination<TData>({
 			</div>
 
 			<div className="flex items-center gap-1">
-				<span className="text-base text-muted-foreground mr-2 hidden sm:inline">
+				<span className="text-sm text-muted-foreground mr-2 hidden sm:inline">
 					Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
 				</span>
 				<Button

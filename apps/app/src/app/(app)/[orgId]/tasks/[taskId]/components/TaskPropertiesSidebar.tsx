@@ -74,7 +74,7 @@ export function TaskPropertiesSidebar({
 			</div>
 			<div className="space-y-4 overflow-y-auto">
 				{/* Status Selector */}
-				<div className="flex justify-between items-center text-base group">
+				<div className="flex justify-between items-center text-sm group">
 					<span className="text-muted-foreground">Status</span>
 					<PropertySelector<TaskStatus>
 						value={task.status}
@@ -107,7 +107,7 @@ export function TaskPropertiesSidebar({
 				</div>
 
 				{/* Assignee Selector */}
-				<div className="flex justify-between items-center text-base group">
+				<div className="flex justify-between items-center text-sm group">
 					<span className="text-muted-foreground">Assignee</span>
 					<PropertySelector<Member & { user: User }>
 						value={task.assigneeId}
@@ -172,7 +172,7 @@ export function TaskPropertiesSidebar({
 				</div>
 
 				{/* Frequency Selector */}
-				<div className="flex justify-between items-center text-base group">
+				<div className="flex justify-between items-center text-sm group">
 					<span className="text-muted-foreground">Frequency</span>
 					<PropertySelector<TaskFrequency>
 						value={task.frequency}
@@ -207,7 +207,7 @@ export function TaskPropertiesSidebar({
 				</div>
 
 				{/* Department Selector */}
-				<div className="flex justify-between items-center text-base group">
+				<div className="flex justify-between items-center text-sm group">
 					<span className="text-muted-foreground">Department</span>
 					<PropertySelector<Departments>
 						value={task.department ?? "none"}

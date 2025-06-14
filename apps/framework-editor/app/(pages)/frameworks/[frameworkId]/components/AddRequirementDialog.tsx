@@ -109,7 +109,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
                 disabled={isPending}
               />
               {formState.issues?.find(issue => issue.path.includes('name')) && (
-                <p className="col-span-4 text-base text-destructive text-right">
+                <p className="col-span-4 text-sm text-destructive text-right">
                   {formState.issues.find(issue => issue.path.includes('name'))?.message}
                 </p>
               )}
@@ -128,7 +128,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
                 disabled={isPending}
               />
               {formState.issues?.find(issue => issue.path.includes('identifier')) && (
-                <p className="col-span-4 text-base text-destructive text-right">
+                <p className="col-span-4 text-sm text-destructive text-right">
                   {formState.issues.find(issue => issue.path.includes('identifier'))?.message}
                 </p>
               )}
@@ -148,7 +148,7 @@ export function AddRequirementDialog({ isOpen, onOpenChange, frameworkId, onRequ
                 disabled={isPending}
               />
                {formState.issues?.find(issue => issue.path.includes('description')) && (
-                <p className="col-span-4 text-base text-destructive text-right">
+                <p className="col-span-4 text-sm text-destructive text-right">
                   {formState.issues.find(issue => issue.path.includes('description'))?.message}
                 </p>
               )}

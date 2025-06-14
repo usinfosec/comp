@@ -38,7 +38,7 @@ export function DataTablePagination({
 
 	return (
 		<div className="flex items-center justify-between">
-			<div className="text-base text-muted-foreground">
+			<div className="text-sm text-muted-foreground">
 				{totalCount} {totalCount === 1 ? "item" : "items"}
 			</div>
 			<div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export function DataTablePagination({
 					>
 						<ChevronLeft className="h-4 w-4" />
 					</Button>
-					<div className="text-base font-medium">
+					<div className="text-sm font-medium">
 						Page {page} of {totalPages}
 					</div>
 					<Button

@@ -78,13 +78,13 @@ const AdvancedEditor = ({
 	return (
 		<div className="relative w-full bg-background p-4">
 			<div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-				<div className="bg-accent px-2 py-1 text-base text-muted-foreground">
+				<div className="bg-accent px-2 py-1 text-sm text-muted-foreground">
 					{saveStatus}
 				</div>
 				<div
 					className={
 						charsCount
-							? "bg-accent px-2 py-1 text-base text-muted-foreground"
+							? "bg-accent px-2 py-1 text-sm text-muted-foreground"
 							: "hidden"
 					}
 				>
@@ -134,7 +134,7 @@ const AdvancedEditor = ({
 										<EditorCommandItem
 											value={item.title}
 											onCommand={(val) => item.command(val)}
-											className="flex w-full items-center space-x-2 px-2 py-1 text-left text-base hover:bg-accent aria-selected:bg-accent"
+											className="flex w-full items-center space-x-2 px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
 											key={item.title}
 										>
 											<div className="flex h-10 w-10 items-center justify-center border border-muted bg-background">

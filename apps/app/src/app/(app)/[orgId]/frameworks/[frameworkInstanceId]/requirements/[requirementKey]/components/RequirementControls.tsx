@@ -21,7 +21,7 @@ export function RequirementControls({
 			<div className="space-y-2">
 				<h1 className="text-xl font-semibold">{requirement.name}</h1>
 				{requirement.description && (
-					<p className="text-base text-muted-foreground leading-relaxed">
+					<p className="text-sm text-muted-foreground leading-relaxed">
 						{requirement.description}
 					</p>
 				)}

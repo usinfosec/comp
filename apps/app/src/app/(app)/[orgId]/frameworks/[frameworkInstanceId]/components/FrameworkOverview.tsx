@@ -79,7 +79,7 @@ export function FrameworkOverview({
 							{compliancePercentage}%
 						</Badge>
 					</div>
-					<p className="text-muted-foreground text-base max-w-2xl">
+					<p className="text-muted-foreground text-sm max-w-2xl">
 						{frameworkInstanceWithControls.framework.description}
 					</p>
 				</div>
@@ -121,12 +121,12 @@ export function FrameworkOverview({
 									<span className={cn("text-3xl font-bold tabular-nums", getComplianceColor(compliancePercentage))}>
 										{compliancePercentage}
 									</span>
-									<span className="text-base text-muted-foreground">% complete</span>
+									<span className="text-sm text-muted-foreground">% complete</span>
 								</div>
 								<Progress value={compliancePercentage} className="h-2" />
 							</div>
 						</div>
-						<div className="flex items-center gap-6 text-base text-muted-foreground">
+						<div className="flex items-center gap-6 text-sm text-muted-foreground">
 							<span>{compliantControls} completed</span>
 							<span>{inProgressControls} remaining</span>
 							<span>{totalControls} total</span>
@@ -146,19 +146,19 @@ export function FrameworkOverview({
 						<div className="flex items-center justify-between py-2">
 							<div className="flex items-center gap-2">
 								<div className="w-2 h-2 rounded-full bg-green-500"></div>
-								<span className="text-base">Complete</span>
+								<span className="text-sm">Complete</span>
 							</div>
 							<span className="font-medium tabular-nums">{compliantControls}</span>
 						</div>
 						<div className="flex items-center justify-between py-2">
 							<div className="flex items-center gap-2">
 								<div className="w-2 h-2 rounded-full bg-blue-500"></div>
-								<span className="text-base">In Progress</span>
+								<span className="text-sm">In Progress</span>
 							</div>
 							<span className="font-medium tabular-nums">{inProgressControls}</span>
 						</div>
 						<div className="flex items-center justify-between py-2 border-t pt-3">
-							<span className="text-base font-medium">Total</span>
+							<span className="text-sm font-medium">Total</span>
 							<span className="font-semibold tabular-nums">{totalControls}</span>
 						</div>
 					</CardContent>

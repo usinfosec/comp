@@ -145,7 +145,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 									<h2 className="text-xl font-semibold text-center tracking-tight">
 										{"Hold tight, we're creating your organization"}
 									</h2>
-									<p className="text-center text-base text-muted-foreground">
+									<p className="text-center text-sm text-muted-foreground">
 										{"This may take a minute or two..."}
 									</p>
 								</div>
@@ -167,7 +167,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 							name="frameworkIds"
 							render={({ field }) => (
 								<FormItem className="space-y-2">
-									<FormLabel className="text-base font-medium">
+									<FormLabel className="text-sm font-medium">
 										{"Select Frameworks"}
 									</FormLabel>
 									<FormControl>
@@ -202,7 +202,7 @@ export function CreateOrgModal({ onOpenChange, frameworks }: Props) {
 																				framework.name
 																			}
 																		</h3>
-																		<p className="text-base text-muted-foreground mt-1">
+																		<p className="text-sm text-muted-foreground mt-1">
 																			{
 																				framework.description
 																			}

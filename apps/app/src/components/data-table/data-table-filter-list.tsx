@@ -256,7 +256,7 @@ export function DataTableFilterList<TData>({
 						<p
 							id={descriptionId}
 							className={cn(
-								"text-muted-foreground text-base",
+								"text-muted-foreground text-sm",
 								filters.length > 0 && "sr-only",
 							)}
 						>
@@ -396,7 +396,7 @@ function DataTableFilterItem<TData>({
 			>
 				<div className="min-w-[72px] text-center">
 					{index === 0 ? (
-						<span className="text-muted-foreground text-base">Where</span>
+						<span className="text-muted-foreground text-sm">Where</span>
 					) : index === 1 ? (
 						<Select
 							value={joinOperator}
@@ -422,7 +422,7 @@ function DataTableFilterItem<TData>({
 							</SelectContent>
 						</Select>
 					) : (
-						<span className="text-muted-foreground text-base">
+						<span className="text-muted-foreground text-sm">
 							{joinOperator}
 						</span>
 					)}
