@@ -55,7 +55,6 @@
 		"@trigger.dev/react-hooks": "3.3.17",
 		"@trigger.dev/sdk": "3.3.17",
 		"@types/d3": "^7.4.3",
-		"@types/react": "19",
 		"@uploadthing/react": "^7.3.0",
 		"@upstash/ratelimit": "^2.0.5",
 		"@vercel/sdk": "^1.7.1",
@@ -87,7 +86,6 @@
 		"posthog-js": "^1.236.6",
 		"posthog-node": "^4.14.0",
 		"puppeteer-core": "^24.7.2",
-		"react": "19",
 		"react-email": "^4.0.15",
 		"react-hook-form": "^7.56.3",
 		"react-hotkeys-hook": "^4.6.2",
@@ -107,6 +105,10 @@
 		"use-long-press": "^3.3.0",
 		"xml2js": "^0.6.2",
 		"zustand": "^5.0.3"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
 		"next": "15.4.0-canary.62",
