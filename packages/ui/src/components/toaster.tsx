@@ -56,7 +56,7 @@ export function Toaster() {
 
 										<div>
 											{props?.variant === "progress" && (
-												<span className="text-sm text-[#878787]">
+												<span className="text-base text-[#878787]">
 													{progress}%
 												</span>
 											)}

@@ -92,7 +92,7 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 						<div className="flex justify-center text-muted-foreground">
 							<Info className="h-10 w-10 opacity-30" />
 						</div>
-						<p className="text-center text-sm text-muted-foreground">
+						<p className="text-center text-base text-muted-foreground">
 							No device data available to display compliance.
 						</p>
 					</div>
@@ -158,7 +158,7 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 												<tspan
 													x={viewBox.cx}
 													y={(viewBox.cy || 0) + 20}
-													className="text-sm text-muted-foreground"
+													className="text-base text-muted-foreground"
 												>
 													Devices
 												</tspan>
@@ -172,7 +172,7 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 					</PieChart>
 				</ChartContainer>
 			</CardContent>
-			<CardFooter className="bg-muted/30 border-t p-4 text-sm">
+			<CardFooter className="bg-muted/30 border-t p-4 text-base">
 				<div className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2">
 					{legendDisplayData.map(
 						(item: { name: string; value: number; fill: string }) => (

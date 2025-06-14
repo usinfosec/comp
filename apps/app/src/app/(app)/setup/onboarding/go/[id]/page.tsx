@@ -22,7 +22,7 @@ export default async function RunPage({ params }: PageProps) {
                             <h2 className="text-xl font-semibold text-center tracking-tight">
                                 Onboarding in progress
                             </h2>
-                            <p className="text-center text-sm text-muted-foreground">
+                            <p className="text-center text-base text-muted-foreground">
                                 This may take a few minutes.
                             </p>
                             <div className="flex flex-col items-center justify-center">

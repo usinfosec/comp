@@ -75,7 +75,7 @@ export function DeleteRequirementDialog({
           <AlertDialogDescription>
             Are you sure you want to delete the requirement: <strong>{requirementName}</strong>?
             This action cannot be undone.
-            {actionError && <p className="mt-2 text-sm font-medium text-destructive">Error: {actionError}</p>}
+            {actionError && <p className="mt-2 text-base font-medium text-destructive">Error: {actionError}</p>}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

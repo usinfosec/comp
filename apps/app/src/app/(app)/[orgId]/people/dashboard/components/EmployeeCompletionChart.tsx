@@ -117,7 +117,7 @@ export function EmployeeCompletionChart({
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex items-center justify-center h-[300px]">
-					<p className="text-center text-sm text-muted-foreground">
+					<p className="text-center text-base text-muted-foreground">
 						{"No employee data available"}
 					</p>
 				</CardContent>
@@ -135,7 +135,7 @@ export function EmployeeCompletionChart({
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex items-center justify-center h-[300px]">
-					<p className="text-center text-sm text-muted-foreground">
+					<p className="text-center text-base text-muted-foreground">
 						{"No tasks available to complete"}
 					</p>
 				</CardContent>
@@ -159,7 +159,7 @@ export function EmployeeCompletionChart({
 				<div className="space-y-8">
 					{sortedStats.map((stat) => (
 						<div key={stat.id} className="space-y-2">
-							<div className="flex justify-between items-center text-sm">
+							<div className="flex justify-between items-center text-base">
 								<p>{stat.name}</p>
 								<span className="text-muted-foreground">
 									{stat.policiesCompleted +

@@ -97,7 +97,7 @@ export const columns: ColumnDef<VendorRow>[] = [
 						<div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
 							<UserIcon className="h-4 w-4 text-muted-foreground" />
 						</div>
-						<p className="text-sm font-medium text-muted-foreground">
+						<p className="text-base font-medium text-muted-foreground">
 							None
 						</p>
 					</div>
@@ -115,7 +115,7 @@ export const columns: ColumnDef<VendorRow>[] = [
 							{row.original.assignee.user?.name?.charAt(0) || row.original.assignee.user?.email?.charAt(0).toUpperCase() || "?"}
 						</AvatarFallback>
 					</Avatar>
-					<p className="text-sm font-medium">
+					<p className="text-base font-medium">
 						{row.original.assignee.user?.name || row.original.assignee.user?.email || "Unknown User"}
 					</p>
 				</div>

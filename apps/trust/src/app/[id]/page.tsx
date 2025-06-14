@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             <div className="pb-6 p-6">
                 <div className="flex flex-col items-center justify-center h-screen">
                     <h1 className="text-2xl font-bold">Trust Portal Not Published</h1>
-                    <p className="text-sm text-muted-foreground">Please publish your trust portal and try again.</p>
+                    <p className="text-base text-muted-foreground">Please publish your trust portal and try again.</p>
                 </div>
             </div>
         </div>

@@ -282,7 +282,7 @@ export function TeamMembersClient({
 						<div className="flex flex-col items-center justify-center py-12 text-center">
 							<Mail className="h-12 w-12 text-muted-foreground/30" />
 							<h3 className="mt-4 text-lg font-medium">{"No employees yet"}</h3>
-							<p className="mt-2 text-sm text-muted-foreground max-w-xs">
+							<p className="mt-2 text-base text-muted-foreground max-w-xs">
 								{"Get started by inviting your first team member."}
 							</p>
 							<Button

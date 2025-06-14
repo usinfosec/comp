@@ -72,10 +72,10 @@ export async function TestsByAssignee({ organizationId }: Props) {
 					{stats.map((stat) => (
 						<div key={stat.user.id} className="space-y-2">
 							<div className="flex justify-between items-center">
-								<p className="text-sm">
+								<p className="text-base">
 									{stat.user.name || stat.user.email || "Unknown User"}
 								</p>
-								<span className="text-sm text-muted-foreground">
+								<span className="text-base text-muted-foreground">
 									{stat.totalTests} Tests
 								</span>
 							</div>

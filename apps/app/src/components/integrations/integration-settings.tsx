@@ -144,7 +144,7 @@ export function IntegrationSettings({
 	return (
 		<div className="flex flex-col gap-2">
 			{localSettings.length === 0 ? (
-				<p className="text-sm text-muted-foreground">
+				<p className="text-base text-muted-foreground">
 					No settings available
 				</p>
 			) : (

@@ -16,7 +16,7 @@ export function StatusDate({ date, isClosed }: StatusDateProps) {
 	return (
 		<span
 			className={cn(
-				"text-sm",
+				"text-base",
 				isOverdue && "text-destructive",
 				isClosed && "text-muted-foreground line-through",
 			)}

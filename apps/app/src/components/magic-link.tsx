@@ -64,13 +64,13 @@ export function MagicLinkSignIn({ className, inviteCode }: Props) {
 				</h1>
 
 				<div className="flex flex-col">
-					<span className="text-sm text-muted-foreground">
+					<span className="text-base text-muted-foreground">
 						{"Check your inbox for a magic link."}
 					</span>
 					<button
 						onClick={() => setSent(false)}
 						type="button"
-						className="text-sm font-medium text-primary underline"
+						className="text-base font-medium text-primary underline"
 					>
 						{"Try again."}
 					</button>

@@ -9,7 +9,7 @@ interface InnerMenuProps {
 export function InnerMenu({ title, previous }: InnerMenuProps) {
   return (
     <nav className="py-4">
-      <ul className="scrollbar-hide flex overflow-auto text-sm space-x-3 items-center">
+      <ul className="scrollbar-hide flex overflow-auto text-base space-x-3 items-center">
         <li>
           <Link href={previous}>
             <ArrowLeftIcon className="h-4 w-4" />

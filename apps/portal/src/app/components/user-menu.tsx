@@ -80,12 +80,12 @@ export async function UserMenu() {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<div className="flex flex-row justify-between items-center p-2">
-					<p className="text-sm">{t("user_menu.theme")}</p>
+					<p className="text-base">{t("user_menu.theme")}</p>
 					<ThemeSwitch />
 				</div>{" "}
 				<DropdownMenuSeparator />{" "}
 				<div className="flex flex-row justify-between items-center p-2">
-					<p className="text-sm">{t("user_menu.language")}</p>
+					<p className="text-base">{t("user_menu.language")}</p>
 					<LocaleSwitch />
 				</div>{" "}
 				<DropdownMenuSeparator />

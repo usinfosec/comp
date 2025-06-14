@@ -91,7 +91,7 @@ export function AttachmentItem({
 		<div
 			key={id}
 			className={cn(
-				"flex items-center justify-between gap-2 rounded-md border p-2 text-sm bg-background",
+				"flex items-center justify-between gap-2 rounded-md border p-2 text-base bg-background",
 				className,
 			)}
 		>

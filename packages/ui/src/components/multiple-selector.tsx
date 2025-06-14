@@ -164,7 +164,7 @@ const CommandEmpty = forwardRef<
 	return (
 		<div
 			ref={forwardedRef}
-			className={cn("py-6 text-center text-sm", className)}
+			className={cn("py-6 text-center text-base", className)}
 			cmdk-empty=""
 			role="presentation"
 			{...props}
@@ -464,7 +464,7 @@ const MultipleSelector = React.forwardRef<
 			>
 				<div
 					className={cn(
-						"min-h-10 border border-border text-sm",
+						"min-h-10 border border-border text-base",
 						{
 							"px-3 py-2": selected.length !== 0,
 							"cursor-text": !disabled && selected.length !== 0,

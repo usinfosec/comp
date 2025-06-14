@@ -208,7 +208,7 @@ export function SecondaryMenu({
 											tabRefs.current[currentEnabledIndex] = el;
 										}}
 										className={cn(
-											"px-3 py-2 text-sm transition-colors duration-300 select-none rounded-xs",
+											"px-3 py-2 text-base transition-colors duration-300 select-none rounded-xs",
 											isActive ? "text-foreground" : "text-muted-foreground"
 										)}
 										onMouseEnter={() => setHoveredIndex(currentEnabledIndex)}

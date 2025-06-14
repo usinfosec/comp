@@ -219,12 +219,12 @@ export function TrustPortalSwitch({
 									<Link
 										href={portalUrl}
 										target="_blank"
-										className="text-sm text-muted-foreground hover:text-foreground"
+										className="text-base text-muted-foreground hover:text-foreground"
 									>
 										<ExternalLink className="w-4 h-4" />
 									</Link>
 								</CardTitle>
-								<p className="text-sm text-muted-foreground">
+								<p className="text-base text-muted-foreground">
 									Create a public trust portal for your organization.
 								</p>
 							</div>
@@ -248,7 +248,7 @@ export function TrustPortalSwitch({
 					<CardContent className="space-y-6 pt-0">
 						{form.watch("enabled") && (
 							<div className="pt-2">
-								<h3 className="text-sm font-medium mb-4">
+								<h3 className="text-base font-medium mb-4">
 									Trust Portal Settings
 								</h3>
 								<div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4">
@@ -331,10 +331,10 @@ export function TrustPortalSwitch({
 							<div className="">
 								{/* Compliance Frameworks Section */}
 								<div>
-									<h3 className="text-sm font-medium mb-2">
+									<h3 className="text-base font-medium mb-2">
 										Compliance Frameworks
 									</h3>
-									<p className="text-sm text-muted-foreground mb-4">
+									<p className="text-base text-muted-foreground mb-4">
 										Share the frameworks your organization is compliant with or
 										working towards.
 									</p>
@@ -481,7 +481,7 @@ function ComplianceFramework({
 							<CardTitle className="text-lg font-semibold leading-tight">
 								{title}
 							</CardTitle>
-							<CardDescription className="mt-1 text-sm text-muted-foreground line-clamp-3">
+							<CardDescription className="mt-1 text-base text-muted-foreground line-clamp-3">
 								{description}
 							</CardDescription>
 						</div>
@@ -522,7 +522,7 @@ function ComplianceFramework({
 								</Select>
 							) : (
 								<div className="flex items-center gap-2">
-									<span className="text-sm font-medium">Disabled</span>
+									<span className="text-base font-medium">Disabled</span>
 								</div>
 							)}
 						</div>

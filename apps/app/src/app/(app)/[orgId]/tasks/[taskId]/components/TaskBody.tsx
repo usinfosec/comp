@@ -178,7 +178,7 @@ export function TaskBody({
 			/>
 			<div className="space-y-3">
 				<div className="flex items-center justify-between">
-					<Label className="text-sm font-medium flex-1">Attachments</Label>
+					<Label className="text-base font-medium flex-1">Attachments</Label>
 					{attachments.length === 0 && (
 						<Button
 							variant="ghost"
@@ -215,7 +215,7 @@ export function TaskBody({
 					</div>
 				) : (
 					!isUploadingFile && (
-						<p className="text-sm text-muted-foreground italic pt-1">
+						<p className="text-base text-muted-foreground italic pt-1">
 							No attachments yet. Click the{" "}
 							<Paperclip className="inline h-4 w-4" /> icon above to add one.
 						</p>

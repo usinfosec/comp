@@ -308,12 +308,12 @@ export function IntegrationsCard({
 										<AccordionTrigger className="py-3 hover:no-underline">
 											<div className="flex items-center gap-2">
 												<InfoIcon className="h-3.5 w-3.5 mr-1" />
-												<span className="text-sm font-medium">
+												<span className="text-base font-medium">
 													How to get credentials
 												</span>
 											</div>
 										</AccordionTrigger>
-										<AccordionContent className="text-muted-foreground text-sm pb-4">
+										<AccordionContent className="text-muted-foreground text-base pb-4">
 											<Link
 												href={guide_url}
 												target="_blank"
@@ -333,10 +333,10 @@ export function IntegrationsCard({
 									<AccordionTrigger className="py-3 hover:no-underline">
 										<div className="flex items-center gap-2">
 											<InfoIcon className="h-3.5 w-3.5 mr-1" />
-											<span className="text-sm font-medium">Information</span>
+											<span className="text-base font-medium">Information</span>
 										</div>
 									</AccordionTrigger>
-									<AccordionContent className="text-muted-foreground text-sm pb-4">
+									<AccordionContent className="text-muted-foreground text-base pb-4">
 										{description}
 									</AccordionContent>
 								</AccordionItem>
@@ -349,16 +349,16 @@ export function IntegrationsCard({
 										<AccordionTrigger className="py-3 hover:no-underline">
 											<div className="flex items-center gap-2">
 												<Clock className="h-3.5 w-3.5 mr-1" />
-												<span className="text-sm font-medium">Sync Status</span>
+												<span className="text-base font-medium">Sync Status</span>
 											</div>
 										</AccordionTrigger>
-										<AccordionContent className="text-muted-foreground text-sm pb-4">
+										<AccordionContent className="text-muted-foreground text-base pb-4">
 											<div className="space-y-4 p-4 border">
 												<div className="flex items-start gap-2">
 													<Calendar className="h-3.5 w-3.5 mt-0.5 text-muted-foreground" />
 													<div>
 														<div className="flex items-center gap-1">
-															<p className="text-sm font-medium text-foreground">
+															<p className="text-base font-medium text-foreground">
 																Last Sync
 															</p>
 															<TooltipProvider>
@@ -397,7 +397,7 @@ export function IntegrationsCard({
 													<Clock className="h-3.5 w-3.5 mt-0.5 text-muted-foreground" />
 													<div>
 														<div className="flex items-center gap-1.5">
-															<p className="text-sm font-medium text-foreground">
+															<p className="text-base font-medium text-foreground">
 																Next Sync
 															</p>
 															<Badge
@@ -467,10 +467,10 @@ export function IntegrationsCard({
 									<AccordionTrigger className="py-3 hover:no-underline">
 										<div className="flex items-center gap-2">
 											<Settings className="h-3.5 w-3.5 mr-1" />
-											<span className="text-sm font-medium">Settings</span>
+											<span className="text-base font-medium">Settings</span>
 										</div>
 									</AccordionTrigger>
-									<AccordionContent className="text-muted-foreground text-sm pb-4">
+									<AccordionContent className="text-muted-foreground text-base pb-4">
 										{/* For Deel, always show the API key input */}
 										{id === "deel" ? (
 											<div className="space-y-4">
@@ -504,7 +504,7 @@ export function IntegrationsCard({
 														<div className="space-y-2">
 															<label
 																htmlFor={`${id}-api-key`}
-																className="text-sm font-medium leading-none"
+																className="text-base font-medium leading-none"
 															>
 																{isEditingApiKey
 																	? "Update API Key"
@@ -562,7 +562,7 @@ export function IntegrationsCard({
 											/>
 										) : (
 											<div className="p-4 border">
-												<p className="text-sm text-muted-foreground">
+												<p className="text-base text-muted-foreground">
 													No settings available
 												</p>
 											</div>

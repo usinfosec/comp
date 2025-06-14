@@ -75,7 +75,7 @@ export function DataTablePagination({
 				>
 					<ChevronLeft className="h-4 w-4" />
 				</Button>
-				<div className="flex w-[60px] items-center justify-center text-sm font-medium">
+				<div className="flex w-[60px] items-center justify-center text-base font-medium">
 					{currentPage} of {pageCount}
 				</div>
 				<Button

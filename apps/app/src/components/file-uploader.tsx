@@ -241,7 +241,7 @@ export function FileUploader(props: FileUploaderProps) {
 											"Drop files here or click to choose files from your device."
 										}
 									</p>
-									<p className="text-sm text-muted-foreground/70">
+									<p className="text-base text-muted-foreground/70">
 										{"Files can be up to "} {formatBytes(maxSize)}.
 									</p>
 								</div>
@@ -281,7 +281,7 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
 				{isFileWithPreview(file) ? <FilePreview file={file} /> : null}
 				<div className="flex w-full flex-col gap-2">
 					<div className="flex flex-col gap-px">
-						<p className="line-clamp-1 text-sm font-medium text-foreground/80">
+						<p className="line-clamp-1 text-base font-medium text-foreground/80">
 							{file.name}
 						</p>
 						<p className="text-xs text-muted-foreground">

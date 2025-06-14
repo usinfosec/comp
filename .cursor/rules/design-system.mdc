@@ -22,7 +22,7 @@ Design System & Component Guidelines
 
 ## Typography & Sizing
 
-- **Moderate Text Sizes**: Avoid overly large text - prefer `text-base`, `text-sm`, `text-xs` over `text-xl+`
+- **Moderate Text Sizes**: Avoid overly large text - prefer `text-base`, `text-base`, `text-xs` over `text-xl+`
 - **Consistent Hierarchy**: Use `font-medium`, `font-semibold` sparingly, prefer `font-normal` with size differentiation
 - **Tabular Numbers**: Use `tabular-nums` class for numeric data to ensure proper alignment
 

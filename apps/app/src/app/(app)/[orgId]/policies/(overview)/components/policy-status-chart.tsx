@@ -77,7 +77,7 @@ export function PolicyStatusChart({ data }: PolicyStatusChartProps) {
 						<div className="flex justify-center text-muted-foreground">
 							<Info className="h-10 w-10 opacity-30" />
 						</div>
-						<p className="text-center text-sm text-muted-foreground">
+						<p className="text-center text-base text-muted-foreground">
 							No policy data available
 						</p>
 					</div>

@@ -8,7 +8,7 @@ interface ComplianceItemProps {
 export default function ComplianceItem({ text, isCompliant }: ComplianceItemProps) {
     return (
         <div className="flex items-center justify-between py-1">
-            <span className="text-sm">{text}</span>
+            <span className="text-base">{text}</span>
             {isCompliant ? (
                 <div className="w-2 h-2 bg-green-500 rounded-full" />
             ) : (

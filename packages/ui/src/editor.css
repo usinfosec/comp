@@ -66,7 +66,7 @@ pre {
 
 /* Base editor styles */
 .ProseMirror {
-  @apply w-full text-sm leading-normal;
+  @apply w-full text-base leading-normal;
   height: 100%;
   min-height: 350px;
 }
@@ -89,11 +89,11 @@ pre {
 }
 
 .ProseMirror h4 {
-  @apply text-sm font-semibold text-foreground;
+  @apply text-base font-semibold text-foreground;
 }
 
 .ProseMirror p {
-  @apply text-sm;
+  @apply text-base;
 }
 
 /* Lists */
@@ -103,7 +103,7 @@ pre {
 }
 
 .ProseMirror li {
-  @apply text-sm leading-6;
+  @apply text-base leading-6;
   margin: 0 !important;
 }
 
@@ -144,7 +144,7 @@ pre {
 }
 
 .ProseMirror code {
-  @apply font-mono text-sm;
+  @apply font-mono text-base;
 }
 
 /* Blockquotes */
@@ -175,5 +175,5 @@ pre {
 }
 
 .ProseMirror th {
-  @apply text-sm font-medium;
+  @apply text-base font-medium;
 }

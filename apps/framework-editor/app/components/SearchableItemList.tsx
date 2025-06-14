@@ -39,7 +39,7 @@ export function SearchableItemList({
 	}, [items, searchTerm]);
 
 	const defaultRenderItem = (item: SearchableItem) => (
-		<li key={item.id} className="text-sm p-2 border rounded-sm bg-muted/20">
+		<li key={item.id} className="text-base p-2 border rounded-sm bg-muted/20">
 			{item.name}
 		</li>
 	);
@@ -66,13 +66,13 @@ export function SearchableItemList({
 								)}
 							</ul>
 						) : (
-							<p className="text-sm text-muted-foreground">
+							<p className="text-base text-muted-foreground">
 								No {itemTypeLabel}s found matching your search.
 							</p>
 						)}
 					</>
 				) : (
-					<p className="text-sm text-muted-foreground">
+					<p className="text-base text-muted-foreground">
 						No {itemTypeLabel}s associated.
 					</p>
 				)}

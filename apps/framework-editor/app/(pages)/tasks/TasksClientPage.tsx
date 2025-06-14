@@ -255,7 +255,7 @@ export function TasksClientPage({ initialTasks }: TasksClientPageProps) {
 			<PageLayout breadcrumbs={[{ label: "Tasks", href: "/tasks" }]}>
 				{isDirty && (
 					<div className="flex items-center space-x-2 mb-4 p-2 bg-secondary/80 rounded-sm">
-						<span className="text-sm text-muted-foreground">
+						<span className="text-base text-muted-foreground">
 							{changesSummaryString}
 						</span>
 						<Button

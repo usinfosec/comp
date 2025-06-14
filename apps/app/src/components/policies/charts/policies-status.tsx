@@ -60,7 +60,7 @@ export function PoliciesStatus({
 			</CardHeader>
 			<CardContent>
 				<PieChart data={data} />
-				<div className="mt-4 gap-2 text-sm">
+				<div className="mt-4 gap-2 text-base">
 					{data.map((item) => (
 						<div
 							key={item.name}

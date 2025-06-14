@@ -127,7 +127,7 @@ export function StatusGroup({
 
 				{/* Placeholder ONLY when empty AND dragging over */}
 				{shouldRenderTasks && tasks.length === 0 && isOver && canDrop && (
-					<div className="p-4 text-center text-sm text-muted-foreground border-dashed border m-2 rounded-sm">
+					<div className="p-4 text-center text-base text-muted-foreground border-dashed border m-2 rounded-sm">
 						Drop task here
 					</div>
 				)}

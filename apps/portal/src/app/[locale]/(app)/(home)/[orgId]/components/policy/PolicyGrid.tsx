@@ -61,7 +61,7 @@ export function PolicyGrid({
                     {policy.description}
                   </p>
                   <div className="absolute bottom-6 left-6 right-6">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-base text-muted-foreground">
                       Status: {policy.status}
                       {policy.updatedAt && (
                         <span className="ml-2">

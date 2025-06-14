@@ -88,7 +88,7 @@ export function SingleControl({
 							<StatusIndicator status={progressStatus} />
 						</div>
 						{control.description && (
-							<p className="text-sm text-muted-foreground leading-relaxed">
+							<p className="text-base text-muted-foreground leading-relaxed">
 								{control.description}
 							</p>
 						)}

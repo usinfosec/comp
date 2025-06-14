@@ -28,7 +28,7 @@ export function CarouselControls({
 				<ChevronLeft className="h-4 w-4" />
 			</Button>
 
-			<div className="text-sm text-muted-foreground">
+			<div className="text-base text-muted-foreground">
 				{currentIndex + 1} of {total}
 			</div>
 

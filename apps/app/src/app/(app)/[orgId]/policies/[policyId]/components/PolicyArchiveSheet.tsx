@@ -61,7 +61,7 @@ export function PolicyArchiveSheet({
 
 	const content = (
 		<div className="space-y-6">
-			<p className="text-sm text-muted-foreground">
+			<p className="text-base text-muted-foreground">
 				{isArchived
 					? "Are you sure you want to restore this policy?"
 					: "Are you sure you want to archive this policy?"}
@@ -148,7 +148,7 @@ export function PolicyArchiveSheet({
 							? "Restore Policy"
 							: "Archive Policy"}
 					</h3>
-					<p className="text-sm text-muted-foreground mt-1">
+					<p className="text-base text-muted-foreground mt-1">
 						{policy.name}
 					</p>
 				</div>

@@ -81,10 +81,10 @@ export async function RisksAssignee() {
 
 									<div className="flex-1 min-w-0">
 										<div className="flex items-center justify-between">
-											<p className="text-sm font-medium leading-none truncate">
+											<p className="text-base font-medium leading-none truncate">
 												{stat.user.name || stat.user.email || "Unknown User"}
 											</p>
-											<span className="text-sm text-muted-foreground">
+											<span className="text-base text-muted-foreground">
 												{stat.totalRisks} {"risks"}
 											</span>
 										</div>

@@ -26,7 +26,7 @@ export default function ComplianceSection({ title, description, children, isLive
                         </div>
                     </div>
                 </CardTitle>
-                <CardDescription className="text-sm">{description}</CardDescription>
+                <CardDescription className="text-base">{description}</CardDescription>
             </CardHeader>
             <CardContent className="pt-4 pb-4">
                 {children}

@@ -98,10 +98,10 @@ export function FrameworkRequirementsClientPage({
                         <div>
                             <CardTitle className="text-2xl font-bold flex items-center gap-2">
                                 {frameworkDetails.name}
-                                <Badge variant="outline" className="ml-2 text-sm font-normal">
+                                <Badge variant="outline" className="ml-2 text-base font-normal">
                                     Version: {frameworkDetails.version}
                                 </Badge>
-                                <Badge variant={frameworkDetails.visible ? "default" : "secondary"} className="ml-2 text-sm font-normal">
+                                <Badge variant={frameworkDetails.visible ? "default" : "secondary"} className="ml-2 text-base font-normal">
                                     {frameworkDetails.visible ? "Visible" : "Hidden"}
                                 </Badge>
                             </CardTitle>
@@ -122,7 +122,7 @@ export function FrameworkRequirementsClientPage({
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2 text-base text-muted-foreground">
                         <FileText className="h-4 w-4" />
                         <span className="font-medium">ID:</span> {frameworkDetails.id}
                     </div>

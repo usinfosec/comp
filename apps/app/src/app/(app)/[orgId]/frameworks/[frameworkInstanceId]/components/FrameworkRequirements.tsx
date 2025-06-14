@@ -95,7 +95,7 @@ export function FrameworkRequirements({
 					/>
 				),
 				cell: ({ row }) => (
-					<span className="text-sm text-muted-foreground">
+					<span className="text-base text-muted-foreground">
 						{row.original.mappedControlsCount}
 					</span>
 				),

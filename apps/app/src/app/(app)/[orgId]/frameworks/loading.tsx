@@ -29,7 +29,7 @@ export default function Loading() {
 									</div>
 								</div>
 
-								<div className="grid grid-cols-2 gap-4 text-sm">
+								<div className="grid grid-cols-2 gap-4 text-base">
 									<div className="space-y-1">
 										<Skeleton className="h-4 w-24" />{" "}
 										{/* Controls label */}

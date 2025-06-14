@@ -132,7 +132,7 @@ export function ContextList({
 										</div>
 									</CardHeader>
 									<CardContent>
-										<CardDescription className="line-clamp-2 text-sm mt-1">
+										<CardDescription className="line-clamp-2 text-base mt-1">
 											{entry.answer}
 										</CardDescription>
 									</CardContent>

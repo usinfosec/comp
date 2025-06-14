@@ -97,10 +97,10 @@ const AdvancedEditor = ({
 					<TextButtons editor={editor} />
 					{/* Add other selectors/buttons here */}
 					<div className="ml-auto flex items-center gap-2">
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
+						<div className="bg-accent px-2 py-1 text-base text-muted-foreground rounded-sm">
 							{saveStatus}
 						</div>
-						<div className="bg-accent px-2 py-1 text-sm text-muted-foreground rounded-sm">
+						<div className="bg-accent px-2 py-1 text-base text-muted-foreground rounded-sm">
 							{charsCount} Words
 						</div>
 					</div>
@@ -151,7 +151,7 @@ const AdvancedEditor = ({
 											item.command(value as any);
 										}
 									}}
-									className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
+									className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-base hover:bg-accent aria-selected:bg-accent"
 									key={item.title}
 								>
 									<div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">

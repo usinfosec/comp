@@ -38,10 +38,10 @@ export function FeedbackForm() {
 			>
 				{action.status === "hasSucceeded" ? (
 					<div className="flex items-center justify-center flex-col space-y-1 mt-10 text-center">
-						<p className="font-medium text-sm">
+						<p className="font-medium text-base">
 							{"Thank you for your feedback!"}
 						</p>
-						<p className="text-sm text-muted-foreground">
+						<p className="text-base text-muted-foreground">
 							{"We will be back with you as soon as possible"}
 						</p>
 					</div>

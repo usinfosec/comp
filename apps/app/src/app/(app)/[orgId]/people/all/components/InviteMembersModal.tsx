@@ -590,7 +590,7 @@ export function InviteMembersModal({
 												>
 													Choose File
 												</Button>
-												<span className="text-sm text-muted-foreground truncate">
+												<span className="text-base text-muted-foreground truncate">
 													{csvFileName ||
 														"No file chosen"}
 												</span>

@@ -109,7 +109,7 @@ export default async function Page({
 										value="item-1"
 										className="border-0"
 									>
-										<AccordionTrigger className="justify-center space-x-2 flex text-sm">
+										<AccordionTrigger className="justify-center space-x-2 flex text-base">
 											<span>More options</span>
 										</AccordionTrigger>
 										<AccordionContent className="mt-4">

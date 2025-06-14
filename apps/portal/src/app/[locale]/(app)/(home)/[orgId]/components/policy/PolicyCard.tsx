@@ -80,7 +80,7 @@ export function PolicyCard({
 					<div className="max-w-none">
 						<PolicyEditor content={policy.content as JSONContent[]} />
 					</div>
-					<p className="text-sm text-muted-foreground mt-4">
+					<p className="text-base text-muted-foreground mt-4">
 						Status: {policy.status}{" "}
 						{policy.updatedAt && (
 							<span>
@@ -94,7 +94,7 @@ export function PolicyCard({
 			<CardFooter className="flex justify-between items-center">
 				<div className="flex items-center gap-2">
 					{policy.updatedAt && (
-						<p className="text-sm text-muted-foreground">
+						<p className="text-base text-muted-foreground">
 							Last updated: {new Date(policy.updatedAt).toLocaleDateString()}
 						</p>
 					)}

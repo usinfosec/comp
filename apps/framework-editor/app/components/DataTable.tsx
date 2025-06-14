@@ -98,7 +98,7 @@ export function DataTable<TData, TValue>({
 				</div>
 				<div>
 					<h3 className="text-lg font-medium">No data available</h3>
-					<p className="text-sm text-muted-foreground mt-1">
+					<p className="text-base text-muted-foreground mt-1">
 						Get started by creating your first entry.
 					</p>
 				</div>

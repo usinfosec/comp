@@ -50,7 +50,7 @@ export function NodeSelector({ editor, isOpen, onOpenChange }: NodeSelectorProps
                       onOpenChange(false);
                     }
                   }}
-                  className="flex items-center justify-between px-2 py-1 text-sm"
+                  className="flex items-center justify-between px-2 py-1 text-base"
                 >
                   <span>{type.name}</span>
                   {activeType === type.name && <Check className="h-4 w-4" />}

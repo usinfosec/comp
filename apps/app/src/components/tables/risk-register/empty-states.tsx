@@ -23,7 +23,7 @@ export function NoResults({ hasFilters }: Props) {
 					<h2 className="font-medium text-lg">
 						{"No results found"}
 					</h2>
-					<p className="text-muted-foreground text-sm">
+					<p className="text-muted-foreground text-base">
 						{"Try another search, or adjusting the filters"}
 					</p>
 				</div>
@@ -50,7 +50,7 @@ export function NoRisks() {
 				<h2 className="text-xl font-medium mb-2">
 					{"No risks yet"}
 				</h2>
-				<p className="text-sm text-muted-foreground mb-6">
+				<p className="text-base text-muted-foreground mb-6">
 					{"Get started by creating your first risk"}
 				</p>
 				<Button onClick={() => setOpen("true")} className="flex">

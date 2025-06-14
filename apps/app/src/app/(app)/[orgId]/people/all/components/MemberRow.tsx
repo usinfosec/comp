@@ -154,7 +154,7 @@ export function MemberRow({ member, onRemove, onUpdateRole }: MemberRowProps) {
 								</Link>
 							)}
 						</div>
-						<div className="text-sm text-muted-foreground">{memberEmail}</div>
+						<div className="text-base text-muted-foreground">{memberEmail}</div>
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
