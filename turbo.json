@@ -5,9 +5,6 @@
   ],
   "ui": "stream",
   "tasks": {
-    "clean-react": {
-      "cache": false
-    },
     "build": {
       "env": [
         "AUTH_GOOGLE_ID",
@@ -55,8 +52,7 @@
       "dependsOn": [
         "^build",
         "^db:generate",
-        "^auth:build",
-        "clean-react"
+        "^auth:build"
       ],
       "outputs": [
         ".next/**",

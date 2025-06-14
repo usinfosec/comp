@@ -53,6 +53,8 @@
 	"workspaces": ["apps/*", "packages/*"],
 	"dependencies": {
 		"@azure/core-http": "^3.0.5",
+		"@azure/core-rest-pipeline": "^1.21.0",
+		"@azure/core-tracing": "^1.2.0",
 		"@azure/identity": "^4.10.0",
 		"@hookform/resolvers": "^5.0.1",
 		"@manypkg/cli": "^0.23.0",
