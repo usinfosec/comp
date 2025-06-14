@@ -98,26 +98,26 @@
 
   @layer components {
     .border-grid {
-      @apply border-border;
+      @reference border-border;
     }
 
     .container-wrapper {
-      @apply w-full;
+      @reference w-full;
     }
 
     .container {
-      @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+      @reference mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
     }
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @reference border-border;
   }
   body {
     font-family: var(--font-sans), system-ui, sans-serif;
-    @apply bg-background text-foreground;
+    @reference bg-background text-foreground;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -139,7 +139,7 @@
         transparent 1px
       );
     background-size: 14% 14%;
-    @apply opacity-100;
+    @reference opacity-100;
   }
 
   .grid-fade-mask {
