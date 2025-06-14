@@ -39,9 +39,7 @@
 		"semantic-release-discord": "^1.2.0",
 		"turbo": "^2.5.4",
 		"typescript": "^5.8.3",
-		"prettier": "^3.5.3",
-		"@types/react": "^19.1.6",
-		"@types/react-dom": "^19.1.1"
+		"prettier": "^3.5.3"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx,json,md}": "prettier --write"
@@ -67,7 +65,6 @@
 		"gitmoji": "^1.1.1",
 		"gray-matter": "^4.0.3",
 		"next": "^15.4.0-canary.62",
-		"react": "^19.1.0",
 		"react-dnd": "^16.0.1",
 		"react-dnd-html5-backend": "^16.0.1",
 		"react-dom": "^19.1.0",
