@@ -5,7 +5,7 @@ import {
 	trainingVideos as trainingVideosData,
 } from "@/lib/data/training-videos";
 import { db } from "@comp/db";
-import type { EmployeeTrainingVideoCompletion } from "@comp/db/types";
+import type { EmployeeTrainingVideoCompletion, Member } from "@comp/db/types";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
@@ -36,11 +36,7 @@ export default async function EmployeeDetailsPage({
 		notFound();
 	}
 
-	const deviceLabelId = employee.fleetDmLabelId;
-	const deviceResponse = await fleet.get(`/labels/${deviceLabelId}/hosts`);
-	const device = deviceResponse.data.hosts[0]; // There should only be one device per label.
-	const deviceWithPolicies = await fleet.get(`/hosts/${device.id}`);
-	const fleetPolicies = deviceWithPolicies.data.host.policies;
+	const { fleetPolicies, device } = await getFleetPolicies(employee);
 
 	return (
 		<Employee
@@ -152,4 +148,34 @@ const getTrainingVideos = async (employeeId: string) => {
 				metadata: TrainingVideo;
 			} => video !== null,
 		);
+};
+
+const getFleetPolicies = async (member: Member) => {
+	const deviceLabelId = member.fleetDmLabelId;
+
+	if (!deviceLabelId) {
+		return { fleetPolicies: [], device: null };
+	}
+
+	try {
+		const deviceResponse = await fleet.get(`/labels/${deviceLabelId}/hosts`);
+		const device = deviceResponse.data.hosts?.[0]; // There should only be one device per label.
+
+		if (!device) {
+			console.log(
+				`No host found for device label id: ${deviceLabelId} - member: ${member.id}`,
+			);
+			return { fleetPolicies: [], device: null };
+		}
+
+		const deviceWithPolicies = await fleet.get(`/hosts/${device.id}`);
+		const fleetPolicies = deviceWithPolicies.data.host.policies;
+		return { fleetPolicies, device };
+	} catch (error) {
+		console.error(
+			`Failed to get fleet policies for member: ${member.id}`,
+			error,
+		);
+		return { fleetPolicies: [], device: null };
+	}
 };

@@ -89,11 +89,8 @@ export function DeviceComplianceChart({ devices }: DeviceComplianceChartProps) {
 				</CardHeader>
 				<CardContent className="flex-1 flex items-center justify-center py-10">
 					<div className="text-center space-y-2">
-						<div className="flex justify-center text-muted-foreground">
-							<Info className="h-10 w-10 opacity-30" />
-						</div>
 						<p className="text-center text-sm text-muted-foreground">
-							No device data available to display compliance.
+							No device data available. Please make sure your employees access the portal and install the device agent.
 						</p>
 					</div>
 				</CardContent>
