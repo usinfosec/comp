@@ -34,6 +34,8 @@ export default async function Layout({
 		return roles.includes("employee");
 	});
 
+	const isFleetEnabled = process.env.NEXT_PUBLIC_FLEET_ENABLED === "true";
+
 	return (
 		<div className="max-w-[1200px] m-auto">
 			<SecondaryMenu
@@ -50,11 +52,15 @@ export default async function Layout({
 								},
 							]
 						: []),
-					{
-						path: `/${orgId}/people/devices`,
-						label: "Employee Devices",
-					},
-				]}
+					...(isFleetEnabled
+						? [
+								{
+									path: `/${orgId}/people/devices`,
+									label: "Employee Devices",
+								},
+							]
+						: []),
+						]}
 			/>
 
 			<main className="mt-4">{children}</main>

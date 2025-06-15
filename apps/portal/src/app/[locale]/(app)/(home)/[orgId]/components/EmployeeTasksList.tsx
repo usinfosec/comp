@@ -70,13 +70,14 @@ export const EmployeeTasksList = ({
 	};
 
 	const hasPolicies = fleetPolicies.length;
+	const fleetEnabled = process.env.NEXT_PUBLIC_FLEET_ENABLED === "true";
 
 	return (
 		<Tabs defaultValue="policies">
 			<TabsList className="bg-transparent border-b-[1px] w-full justify-start rounded-sm mb-1 p-0 h-auto pb-4">
 				<TabsTrigger value="policies">Policies</TabsTrigger>
 				<TabsTrigger value="training">Training</TabsTrigger>
-				<TabsTrigger value="device">Device</TabsTrigger>
+				{fleetEnabled && <TabsTrigger value="device">Device</TabsTrigger>}
 			</TabsList>
 			<TabsContent value="policies" className="py-2">
 				<PolicyList policies={policies} member={member} />
@@ -85,7 +86,7 @@ export const EmployeeTasksList = ({
 				<VideoCarousel videos={trainingVideos} member={member} />
 			</TabsContent>
 			<TabsContent value="device" className="py-2">
-				{hasPolicies ? (
+				{fleetEnabled && hasPolicies ? (
 					<Card>
 						<CardHeader>
 							<CardTitle>{host.computer_name}'s Policies</CardTitle>
