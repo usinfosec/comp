@@ -27,7 +27,7 @@ export const onboardOrganization = task({
 
     try {
       logger.info(
-        `Revalidating path ${process.env.BETTER_AUTH_URL}/${organizationId}`
+        `Revalidating path ${process.env.BETTER_AUTH_URL}/${organizationId}`,
       );
       const revalidateResponse = await axios.post(
         `${process.env.BETTER_AUTH_URL}/api/revalidate/path`,
@@ -35,12 +35,12 @@ export const onboardOrganization = task({
           path: `${process.env.BETTER_AUTH_URL}/${organizationId}`,
           secret: process.env.REVALIDATION_SECRET,
           type: "layout",
-        }
+        },
       );
 
       if (!revalidateResponse.data?.revalidated) {
         logger.error(
-          `Failed to revalidate path: ${revalidateResponse.statusText}`
+          `Failed to revalidate path: ${revalidateResponse.statusText}`,
         );
         logger.error(revalidateResponse.data);
       } else {
@@ -84,21 +84,21 @@ export const onboardOrganization = task({
             vendor_website: z.string(),
             vendor_description: z.string(),
             category: z.enum(
-              Object.values(VendorCategory) as [string, ...string[]]
+              Object.values(VendorCategory) as [string, ...string[]],
             ),
             inherent_probability: z.enum(
-              Object.values(Likelihood) as [string, ...string[]]
+              Object.values(Likelihood) as [string, ...string[]],
             ),
             inherent_impact: z.enum(
-              Object.values(Impact) as [string, ...string[]]
+              Object.values(Impact) as [string, ...string[]],
             ),
             residual_probability: z.enum(
-              Object.values(Likelihood) as [string, ...string[]]
+              Object.values(Likelihood) as [string, ...string[]],
             ),
             residual_impact: z.enum(
-              Object.values(Impact) as [string, ...string[]]
+              Object.values(Impact) as [string, ...string[]],
             ),
-          })
+          }),
         ),
       }),
       system:
@@ -141,11 +141,11 @@ export const onboardOrganization = task({
         "research-vendor",
         {
           website: createdVendor.website ?? "",
-        }
+        },
       );
 
       logger.info(
-        `Created vendor: ${createdVendor.id} (${createdVendor.name}) with handle ${handle.id}`
+        `Created vendor: ${createdVendor.id} (${createdVendor.name}) with handle ${handle.id}`,
       );
     }
 
@@ -167,22 +167,22 @@ export const onboardOrganization = task({
             risk_name: z.string(),
             risk_description: z.string(),
             risk_treatment_strategy: z.enum(
-              Object.values(RiskTreatmentType) as [string, ...string[]]
+              Object.values(RiskTreatmentType) as [string, ...string[]],
             ),
             risk_treatment_strategy_description: z.string(),
             risk_residual_probability: z.enum(
-              Object.values(Likelihood) as [string, ...string[]]
+              Object.values(Likelihood) as [string, ...string[]],
             ),
             risk_residual_impact: z.enum(
-              Object.values(Impact) as [string, ...string[]]
+              Object.values(Impact) as [string, ...string[]],
             ),
             category: z.enum(
-              Object.values(RiskCategory) as [string, ...string[]]
+              Object.values(RiskCategory) as [string, ...string[]],
             ),
             department: z.enum(
-              Object.values(Departments) as [string, ...string[]]
+              Object.values(Departments) as [string, ...string[]],
             ),
-          })
+          }),
         ),
       }),
       system: `Create a list of 8-12 risks that are relevant to the organization. Use action-oriented language, assume reviewers understand basic termilology - skip definitions.
@@ -241,7 +241,7 @@ export const onboardOrganization = task({
             concurrencyLimit: 5,
           },
           concurrencyKey: payload.organizationId,
-        }))
+        })),
       );
     }
 

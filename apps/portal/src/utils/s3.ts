@@ -14,12 +14,12 @@ if (
   // Log the error in production environments
   if (process.env.NODE_ENV === "production") {
     console.error(
-      "AWS S3 credentials or configuration missing in environment variables."
+      "AWS S3 credentials or configuration missing in environment variables.",
     );
   } else {
     // Throw in development for immediate feedback
     throw new Error(
-      "AWS S3 credentials or configuration missing. Check environment variables."
+      "AWS S3 credentials or configuration missing. Check environment variables.",
     );
   }
   // Optionally, you could export a dummy/error client or null here

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     logger("FLEET_DEVICE_PATH_MAC not configured in environment variables");
     return new NextResponse(
       "Server configuration error: FLEET_DEVICE_PATH_MAC is missing.",
-      { status: 500 }
+      { status: 500 },
     );
   }
 
