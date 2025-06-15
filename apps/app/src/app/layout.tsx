@@ -1,3 +1,4 @@
+import "@/styles/globals.css";
 import "@comp/ui/globals.css";
 
 import { auth } from "@/utils/auth";
