@@ -9,7 +9,6 @@
     "start": "next start",
     "lint": "prettier --check .",
     "apply-migrations": "cd ../../packages/db && bunx prisma migrate dev && cd ../../apps/app",
-    "clean-react": "rm -rf node_modules/react; rm -rf node_modules/react-dom",
     "deploy:trigger-prod": "npx trigger.dev@latest deploy",
     "analyze-locale-usage": "bunx tsx src/locales/analyze-locale-usage.ts",
     "typecheck": "tsc --noEmit"
@@ -22,6 +21,7 @@
     "@aws-sdk/client-s3": "^3.806.0",
     "@aws-sdk/client-sts": "^3.808.0",
     "@aws-sdk/s3-request-presigner": "^3.806.0",
+    "@azure/core-rest-pipeline": "^1.21.0",
     "@browserbasehq/sdk": "^2.5.0",
     "@calcom/atoms": "^1.0.102-framer",
     "@calcom/embed-react": "^1.5.3",
@@ -57,7 +57,6 @@
     "@types/d3": "^7.4.3",
     "@uploadthing/react": "^7.3.0",
     "@upstash/ratelimit": "^2.0.5",
-    "@vercel/functions": "^2.1.0",
     "@vercel/sdk": "^1.7.1",
     "ai": "^4.3.10",
     "argon2": "^0.43.0",
@@ -87,8 +86,8 @@
     "posthog-js": "^1.236.6",
     "posthog-node": "^4.14.0",
     "puppeteer-core": "^24.7.2",
-    "react-dom": "^19.1.0",
     "react-email": "^4.0.15",
+    "react-hook-form": "^7.56.3",
     "react-hotkeys-hook": "^4.6.2",
     "react-intersection-observer": "^9.16.0",
     "react-markdown": "^9.1.0",
@@ -107,20 +106,19 @@
     "xml2js": "^0.6.2",
     "zustand": "^5.0.3"
   },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "devDependencies": {
     "next": "15.4.0-canary.62",
     "@comp/db": "workspace:*",
     "@trigger.dev/build": "3.3.17",
     "@types/node": "^22.15.2",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.1",
     "postcss": "^8.5.4",
     "tailwindcss": "^4.1.8",
-    "typescript": "^5.8.3"
-  },
-  "resolutions": {
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.1"
+    "typescript": "^5.8.3",
+    "fleetctl": "^4.68.1"
   },
   "pnpm": {
     "overrides": {
@@ -129,10 +127,5 @@
   },
   "exports": {
     "./src/lib/encryption": "./src/lib/encryption.ts"
-  },
-  "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19",
-    "react-hook-form": "^7.56.3"
   }
 }
