@@ -12,7 +12,7 @@ export const createFleetLabelForAllOrgs = task({
     });
 
     logger.info(
-      `Found ${organizations.length} organizations to create fleet label for`
+      `Found ${organizations.length} organizations to create fleet label for`,
     );
 
     const batchItems = organizations.map((organization) => ({

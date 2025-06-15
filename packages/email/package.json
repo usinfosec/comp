@@ -1,21 +1,6 @@
 {
   "name": "@comp/email",
   "version": "1.0.0",
-  "private": true,
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
-  "scripts": {
-    "build": "tsup index.ts --format cjs,esm --dts",
-    "dev": "tsup index.ts --format cjs,esm --watch --dts",
-    "clean": "rm -rf .turbo node_modules dist",
-    "lint": "prettier --check .",
-    "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
-  },
   "dependencies": {
     "@comp/ui": "workspace:*",
     "@comp/utils": "workspace:*",
@@ -33,8 +18,23 @@
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   },
+  "files": [
+    "dist/**"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "peerDependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "clean": "rm -rf .turbo node_modules dist",
+    "dev": "tsup index.ts --format cjs,esm --watch --dts",
+    "format": "prettier --write .",
+    "lint": "prettier --check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "types": "./dist/index.d.ts"
 }

@@ -38,7 +38,7 @@ async function processEvent(event: Stripe.Event) {
   // This helps make it typesafe and also lets me know if my assumption is wrong
   if (typeof customerId !== "string") {
     throw new Error(
-      `[STRIPE HOOK][CANCER] ID isn't string.\nEvent type: ${event.type}`
+      `[STRIPE HOOK][CANCER] ID isn't string.\nEvent type: ${event.type}`,
     );
   }
 
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET!,
     );
 
     // Use after() to process the event without blocking the response
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       } catch (error) {
         console.error(
           "[STRIPE HOOK] Error processing event in background",
-          error
+          error,
         );
       }
     });
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
     console.error("[STRIPE HOOK] Error constructing event", error);
     return NextResponse.json(
       { error: "Invalid webhook signature" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 }

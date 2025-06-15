@@ -1,13 +1,5 @@
 {
   "name": "@comp/framework-editor",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --port 3004",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint && prettier --check .",
-    "typecheck": "tsc --noEmit"
-  },
   "dependencies": {
     "@comp/db": "workspace:*",
     "@comp/ui": "workspace:*",
@@ -68,11 +60,6 @@
     "vaul": "^0.9.6",
     "zod": "latest"
   },
-  "peerDependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-hook-form": "^7.57.0"
-  },
   "devDependencies": {
     "@types/node": "^22.13.2",
     "eslint": "^9",
@@ -83,5 +70,18 @@
     "react-hook-form": "^7.57.0",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0"
+  },
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --port 3004",
+    "lint": "next lint && prettier --check .",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   }
 }

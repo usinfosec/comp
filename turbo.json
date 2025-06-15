@@ -82,7 +82,7 @@
       "cache": false
     },
     "lint": {
-      "dependsOn": ["^topo"]
+      "dependsOn": []
     },
     "typecheck": {
       "outputs": ["node_modules/.cache/tsbuildinfo.json"]

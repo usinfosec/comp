@@ -1,33 +1,6 @@
 {
   "name": "comp",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo clean",
-    "test": "turbo test --parallel",
-    "dev": "turbo dev --parallel",
-    "lint": "turbo lint && manypkg check && syncpack lint",
-    "format": "prettier --write .",
-    "typecheck": "turbo typecheck",
-    "typecheck:ci": "turbo typecheck --filter={apps/**} --filter={packages/**} --filter=!@comp/integrations --filter=!@comp/ui",
-    "deploy:trigger-prod": "npx trigger.dev@latest deploy",
-    "docker:up": "bun run -F @comp/db docker:up",
-    "docker:down": "bun run -F @comp/db docker:down",
-    "docker:clean": "bun run -F @comp/db docker:clean",
-    "db:generate": "bun run -F @comp/db db:generate",
-    "db:push": "bun run -F @comp/db db:push",
-    "db:migrate": "bun run -F @comp/db db:migrate",
-    "db:studio": "bun run -F @comp/db db:studio",
-    "db:seed": "bun run -F @comp/db db:seed",
-    "prepare": "husky",
-    "deps:check": "syncpack list-mismatches",
-    "deps:fix": "syncpack fix-mismatches",
-    "deps:update": "syncpack update",
-    "deps:lint": "syncpack lint",
-    "deps:dedupe": "syncpack fix-mismatches && bun install",
-    "deps:upgrade": "syncpack update && bun install"
-  },
+  "version": "1.41.1",
   "devDependencies": {
     "@azure/core-http": "^3.0.5",
     "@azure/core-rest-pipeline": "^1.21.0",
@@ -36,7 +9,6 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@hookform/resolvers": "^3.9.1",
-    "@manypkg/cli": "^0.23.0",
     "@number-flow/react": "^0.5.9",
     "@prisma/adapter-pg": "6.5.0",
     "@react-email/components": "^0.0.41",
@@ -63,6 +35,7 @@
     "husky": "^9.1.7",
     "next": "^15.4.0-canary.62",
     "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.0",
     "react": "^19.1.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -79,16 +52,43 @@
     "use-debounce": "^10.0.4",
     "zod": "*"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,md}": "prettier --write"
-  },
   "engines": {
     "node": ">=18"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md}": "prettier --write"
+  },
   "packageManager": "bun@1.1.36",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "db:generate": "bun run -F @comp/db db:generate",
+    "db:migrate": "bun run -F @comp/db db:migrate",
+    "db:push": "bun run -F @comp/db db:push",
+    "db:seed": "bun run -F @comp/db db:seed",
+    "db:studio": "bun run -F @comp/db db:studio",
+    "deploy:trigger-prod": "npx trigger.dev@latest deploy",
+    "deps:check": "syncpack list-mismatches",
+    "deps:dedupe": "syncpack fix-mismatches && bun install",
+    "deps:fix": "syncpack fix-mismatches",
+    "deps:lint": "syncpack lint",
+    "deps:update": "syncpack update",
+    "deps:upgrade": "syncpack update && bun install",
+    "dev": "turbo dev --parallel",
+    "docker:clean": "bun run -F @comp/db docker:clean",
+    "docker:down": "bun run -F @comp/db docker:down",
+    "docker:up": "bun run -F @comp/db docker:up",
+    "format": "prettier --write .",
+    "lint": "turbo lint && syncpack lint",
+    "prepare": "husky",
+    "test": "turbo test --parallel",
+    "typecheck": "turbo typecheck",
+    "typecheck:ci": "turbo typecheck --filter={apps/**} --filter={packages/**} --filter=!@comp/integrations --filter=!@comp/ui"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "version": "1.41.1"
+  ]
 }
