@@ -19,7 +19,7 @@
   "dependencies": {
     "@comp/ui": "workspace:*",
     "@comp/utils": "workspace:*",
-    "@react-email/components": "0.0.42",
+    "@react-email/components": "^0.0.41",
     "@react-email/render": "^1.1.2",
     "@react-email/tailwind": "1.0.4",
     "date-fns": "^4.1.0",
@@ -28,11 +28,13 @@
     "responsive-react-email": "^0.0.5"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "tsup": "^8.4.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

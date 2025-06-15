@@ -5,7 +5,7 @@
     "dev": "next dev --port 3008",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && prettier --check .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -47,7 +47,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "date-fns": "4.1.0",
+    "date-fns": "^4.1.0",
     "embla-carousel-react": "8.5.1",
     "file-saver": "latest",
     "input-otp": "1.4.2",
@@ -66,15 +66,17 @@
     "zod": "latest"
   },
   "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.3"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0"
   },
   "devDependencies": {
-    "next": "15.4.0-canary.62",
-    "@types/node": "^22",
+    "@types/node": "^22.13.2",
     "postcss": "^8.5.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0",
     "tailwindcss": "^4.1.8",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   }
 }
