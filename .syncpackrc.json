@@ -50,6 +50,12 @@
       "packages": ["**"],
       "dependencies": ["@types/node", "prettier", "turbo"],
       "isIgnored": false
+    },
+    {
+      "label": "Ensure ESLint is consistent",
+      "packages": ["**"],
+      "dependencies": ["eslint", "eslint-config-next"],
+      "isIgnored": false
     }
   ],
   "lintRules": {
