@@ -1,8 +1,8 @@
-import { stripe } from "@/actions/organization/lib/stripe";
-import { getServersideSession } from "@/lib/get-session";
-import { auth } from "@/utils/auth";
-import { client } from "@comp/kv";
-import { NextResponse } from "next/server";
+import { stripe } from '@/actions/organization/lib/stripe';
+import { getServersideSession } from '@/lib/get-session';
+import { auth } from '@/utils/auth';
+import { client } from '@comp/kv';
+import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   const { user, session } = await getServersideSession(req);
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   // ALWAYS create a checkout with a stripeCustomerId. They should enforce this.
   const checkout = await stripe.checkout.sessions.create({
     customer: stripeCustomerId as string,
-    success_url: "https://t3.chat/success",
+    success_url: 'https://t3.chat/success',
     // Add additional checkout session parameters here
   });
 

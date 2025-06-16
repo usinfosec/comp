@@ -1,12 +1,6 @@
-import { LogoSpinner } from "@/components/logo-spinner";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@comp/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@comp/ui/tabs";
+import { LogoSpinner } from '@/components/logo-spinner';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@comp/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@comp/ui/tabs';
 
 export default async function Loading() {
   return (
@@ -14,17 +8,17 @@ export default async function Loading() {
       <Tabs defaultValue="members">
         <TabsList className="mb-1 h-auto w-full justify-start rounded-sm border-b-[1px] bg-transparent p-0 pb-4">
           <TabsTrigger value="members" className="m-0 mr-4 p-0">
-            {"Members"}
+            {'Members'}
           </TabsTrigger>
           <TabsTrigger value="invite" className="m-0 p-0">
-            {"Invite"}
+            {'Invite'}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="members">
           <Card>
             <CardHeader>
-              <CardTitle>{"Team Members"}</CardTitle>
+              <CardTitle>{'Team Members'}</CardTitle>
               <CardDescription />
             </CardHeader>
             <CardContent>
@@ -37,10 +31,8 @@ export default async function Loading() {
           <div className="flex flex-col gap-4">
             <Card>
               <CardHeader className="blur-xs">
-                <CardTitle>{"Invite Members"}</CardTitle>
-                <CardDescription>
-                  {"Invite new members to join your organization."}
-                </CardDescription>
+                <CardTitle>{'Invite Members'}</CardTitle>
+                <CardDescription>{'Invite new members to join your organization.'}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <LogoSpinner />

@@ -1,4 +1,4 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
@@ -6,22 +6,13 @@ const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 export const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
-if (
-  !AWS_ACCESS_KEY_ID ||
-  !AWS_SECRET_ACCESS_KEY ||
-  !BUCKET_NAME ||
-  !AWS_REGION
-) {
+if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY || !BUCKET_NAME || !AWS_REGION) {
   // Log the error in production environments
-  if (process.env.NODE_ENV === "production") {
-    console.error(
-      "AWS S3 credentials or configuration missing in environment variables.",
-    );
+  if (process.env.NODE_ENV === 'production') {
+    console.error('AWS S3 credentials or configuration missing in environment variables.');
   } else {
     // Throw in development for immediate feedback
-    throw new Error(
-      "AWS S3 credentials or configuration missing. Check environment variables.",
-    );
+    throw new Error('AWS S3 credentials or configuration missing. Check environment variables.');
   }
   // Optionally, you could export a dummy/error client or null here
   // depending on how you want consuming code to handle the missing config.
@@ -41,8 +32,8 @@ export const s3Client = new S3Client({
 });
 
 // Ensure BUCKET_NAME is exported and non-null checked if needed elsewhere explicitly
-if (!BUCKET_NAME && process.env.NODE_ENV === "production") {
-  console.error("AWS_BUCKET_NAME is not defined.");
+if (!BUCKET_NAME && process.env.NODE_ENV === 'production') {
+  console.error('AWS_BUCKET_NAME is not defined.');
 }
 
 export function extractS3KeyFromUrl(url: string): string {
@@ -51,7 +42,7 @@ export function extractS3KeyFromUrl(url: string): string {
     const parsedUrl = new URL(url);
 
     // Validate that the host ends with amazonaws.com
-    if (parsedUrl.host.endsWith(".amazonaws.com")) {
+    if (parsedUrl.host.endsWith('.amazonaws.com')) {
       // Extract the pathname (everything after the domain)
       // Remove the leading slash and decode
       const key = parsedUrl.pathname.substring(1);
@@ -59,29 +50,25 @@ export function extractS3KeyFromUrl(url: string): string {
     }
 
     // If it's not an amazonaws.com URL, throw an error
-    console.error("URL host does not end with .amazonaws.com:", url);
-    throw new Error("Invalid S3 URL format - not an AWS S3 URL");
+    console.error('URL host does not end with .amazonaws.com:', url);
+    throw new Error('Invalid S3 URL format - not an AWS S3 URL');
   } catch (error) {
     // If URL parsing fails, it might be a relative path/key
     // Only accept it if it doesn't look like it's trying to be an amazonaws URL
-    if (!url.includes("amazonaws.com") && url.split("/").length > 1) {
+    if (!url.includes('amazonaws.com') && url.split('/').length > 1) {
       return url;
     }
 
-    console.error("Invalid S3 URL format for deletion:", url);
-    throw new Error("Invalid S3 URL format");
+    console.error('Invalid S3 URL format for deletion:', url);
+    throw new Error('Invalid S3 URL format');
   }
 }
 
-export async function getFleetAgent({
-  os,
-}: {
-  os: "macos" | "windows" | "linux";
-}) {
+export async function getFleetAgent({ os }: { os: 'macos' | 'windows' | 'linux' }) {
   const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
 
   if (!fleetBucketName) {
-    throw new Error("FLEET_AGENT_BUCKET_NAME is not defined.");
+    throw new Error('FLEET_AGENT_BUCKET_NAME is not defined.');
   }
 
   const getFleetAgentCommand = new GetObjectCommand({

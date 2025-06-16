@@ -1,4 +1,4 @@
-import { Spinner } from "@comp/ui/spinner";
+import { Spinner } from '@comp/ui/spinner';
 
 export default function TasksLoading() {
   return (

@@ -1,5 +1,5 @@
-import { LogoSpinner } from "@/components/logo-spinner";
-import { Button } from "@comp/ui/button";
+import { LogoSpinner } from '@/components/logo-spinner';
+import { Button } from '@comp/ui/button';
 import {
   Card,
   CardContent,
@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@comp/ui/card";
-import { Plus } from "lucide-react";
+} from '@comp/ui/card';
+import { Plus } from 'lucide-react';
 
 export default async function Loading() {
   return (
@@ -16,20 +16,18 @@ export default async function Loading() {
       <Card>
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <CardTitle>{"API Keys"}</CardTitle>
+            <CardTitle>{'API Keys'}</CardTitle>
             <CardDescription>
-              {
-                "API keys allow secure access to your organization's data via our API."
-              }
+              {"API keys allow secure access to your organization's data via our API."}
             </CardDescription>
           </div>
           <Button
             className="flex items-center gap-1 self-start sm:self-auto"
             disabled
-            aria-label={"New API Key"}
+            aria-label={'New API Key'}
           >
             <Plus className="h-4 w-4" />
-            {"New API Key"}
+            {'New API Key'}
           </Button>
         </CardHeader>
         <CardContent>
