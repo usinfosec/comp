@@ -1,3 +1,4 @@
+import { getPostHogClient } from "@/app/posthog";
 import { AppOnboarding } from "@/components/app-onboarding";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
@@ -34,7 +35,7 @@ export default async function Layout({
     return roles.includes("employee");
   });
 
-  const isFleetEnabled = process.env.NEXT_PUBLIC_FLEET_ENABLED === "true";
+  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled('is-fleet-enabled', session?.session.userId);
 
   return (
     <div className="m-auto max-w-[1200px]">
