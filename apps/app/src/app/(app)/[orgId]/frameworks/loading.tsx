@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@comp/ui/card";
-import { Progress } from "@comp/ui/progress";
-import { Skeleton } from "@comp/ui/skeleton";
+import { Card, CardContent } from '@comp/ui/card';
+import { Progress } from '@comp/ui/progress';
+import { Skeleton } from '@comp/ui/skeleton';
 
 export default function Loading() {
   return (
@@ -18,8 +18,7 @@ export default function Loading() {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <Skeleton className="h-8 w-48" /> {/* Framework name */}
-                      <Skeleton className="h-5 w-24" />{" "}
-                      {/* Compliance percentage */}
+                      <Skeleton className="h-5 w-24" /> {/* Compliance percentage */}
                     </div>
                     <Progress value={0} className="bg-secondary mt-2 h-2" />
                   </div>

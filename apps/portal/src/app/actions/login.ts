@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { auth } from "@/app/lib/auth";
-import { createSafeActionClient } from "next-safe-action";
-import { z } from "zod";
+import { auth } from '@/app/lib/auth';
+import { createSafeActionClient } from 'next-safe-action';
+import { z } from 'zod';
 
 export const login = createSafeActionClient()
   .schema(

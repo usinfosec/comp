@@ -1,13 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Skeleton } from "@comp/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@comp/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from '@comp/ui/card';
+import { Skeleton } from '@comp/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@comp/ui/table';
 
 export default function Loading() {
   return (
@@ -61,27 +54,15 @@ export default function Loading() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {["type", "description", "status"].map((requirementType) => (
-                    <TableRow
-                      key={`row-${requirementType}`}
-                      className="h-[73px]"
-                    >
-                      <TableCell
-                        key={`cell-${requirementType}-type`}
-                        className="w-[91px]"
-                      >
+                  {['type', 'description', 'status'].map((requirementType) => (
+                    <TableRow key={`row-${requirementType}`} className="h-[73px]">
+                      <TableCell key={`cell-${requirementType}-type`} className="w-[91px]">
                         <Skeleton className="h-4 w-full" />
                       </TableCell>
-                      <TableCell
-                        key={`cell-${requirementType}-description`}
-                        className="p-4"
-                      >
+                      <TableCell key={`cell-${requirementType}-description`} className="p-4">
                         <Skeleton className="h-4 w-full" />
                       </TableCell>
-                      <TableCell
-                        key={`cell-${requirementType}-status`}
-                        className="w-[91px]"
-                      >
+                      <TableCell key={`cell-${requirementType}-status`} className="w-[91px]">
                         <Skeleton className="h-4 w-full" />
                       </TableCell>
                     </TableRow>

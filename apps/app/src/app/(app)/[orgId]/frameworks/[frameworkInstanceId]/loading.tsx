@@ -1,13 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
-import { Skeleton } from "@comp/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@comp/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from '@comp/ui/card';
+import { Skeleton } from '@comp/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@comp/ui/table';
 
 export default function Loading() {
   return (
@@ -70,7 +63,7 @@ export default function Loading() {
         <Table>
           <TableHeader>
             <TableRow className="h-[53px]">
-              {["code", "name", "status"].map((column) => (
+              {['code', 'name', 'status'].map((column) => (
                 <TableHead key={`header-${column}`} className="h-[53px]">
                   <Skeleton className="h-5 w-20" />
                 </TableHead>
@@ -79,33 +72,33 @@ export default function Loading() {
           </TableHeader>
           <TableBody>
             {[
-              "control1",
-              "control2",
-              "control3",
-              "control4",
-              "control5",
-              "control6",
-              "control7",
-              "control8",
-              "control9",
-              "control10",
-              "control11",
-              "control12",
-              "control13",
-              "control14",
-              "control15",
-              "control16",
-              "control17",
-              "control18",
+              'control1',
+              'control2',
+              'control3',
+              'control4',
+              'control5',
+              'control6',
+              'control7',
+              'control8',
+              'control9',
+              'control10',
+              'control11',
+              'control12',
+              'control13',
+              'control14',
+              'control15',
+              'control16',
+              'control17',
+              'control18',
             ].map((control) => (
               <TableRow key={`row-${control}`} className="h-[57px]">
-                {["code", "name", "status"].map((column) => (
+                {['code', 'name', 'status'].map((column) => (
                   <TableCell
                     key={`cell-${control}-${column}`}
                     className="h-[53px] px-3 py-2 md:px-4"
                   >
                     <Skeleton
-                      className={`h-4 w-${column === "name" ? "30" : column === "code" ? "32" : "30"}`}
+                      className={`h-4 w-${column === 'name' ? '30' : column === 'code' ? '32' : '30'}`}
                     />
                   </TableCell>
                 ))}

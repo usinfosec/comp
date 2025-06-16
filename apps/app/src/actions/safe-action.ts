@@ -1,23 +1,20 @@
-import { track } from "@/app/posthog";
-import { env } from "@/env.mjs";
-import { auth } from "@/utils/auth";
-import { logger } from "@/utils/logger";
-import { db } from "@comp/db";
-import { AuditLogEntityType } from "@comp/db/types";
-import { client } from "@comp/kv";
-import { Ratelimit } from "@upstash/ratelimit";
-import {
-  DEFAULT_SERVER_ERROR_MESSAGE,
-  createSafeActionClient,
-} from "next-safe-action";
-import { headers } from "next/headers";
-import { z } from "zod";
+import { track } from '@/app/posthog';
+import { env } from '@/env.mjs';
+import { auth } from '@/utils/auth';
+import { logger } from '@/utils/logger';
+import { db } from '@comp/db';
+import { AuditLogEntityType } from '@comp/db/types';
+import { client } from '@comp/kv';
+import { Ratelimit } from '@upstash/ratelimit';
+import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-action';
+import { headers } from 'next/headers';
+import { z } from 'zod';
 
 let ratelimit: Ratelimit | undefined;
 
 if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
   ratelimit = new Ratelimit({
-    limiter: Ratelimit.fixedWindow(10, "10s"),
+    limiter: Ratelimit.fixedWindow(10, '10s'),
     redis: client,
   });
 }
@@ -55,7 +52,7 @@ export const authActionClient = actionClientWithMeta
     const { session, user } = response ?? {};
 
     if (!session) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     const result = await next({
@@ -65,9 +62,9 @@ export const authActionClient = actionClientWithMeta
       },
     });
 
-    if (process.env.NODE_ENV === "development") {
-      logger("Input ->", clientInput as string);
-      logger("Result ->", result.data as string);
+    if (process.env.NODE_ENV === 'development') {
+      logger('Input ->', clientInput as string);
+      logger('Result ->', result.data as string);
 
       return result;
     }
@@ -80,18 +77,18 @@ export const authActionClient = actionClientWithMeta
 
     if (ratelimit) {
       const { success, remaining } = await ratelimit.limit(
-        `${headersList.get("x-forwarded-for")}-${metadata.name}`,
+        `${headersList.get('x-forwarded-for')}-${metadata.name}`,
       );
 
       if (!success) {
-        throw new Error("Too many requests");
+        throw new Error('Too many requests');
       }
     }
 
     return next({
       ctx: {
-        ip: headersList.get("x-forwarded-for"),
-        userAgent: headersList.get("user-agent"),
+        ip: headersList.get('x-forwarded-for'),
+        userAgent: headersList.get('user-agent'),
         ratelimit: {
           remaining: remaining ?? 0,
         },
@@ -104,7 +101,7 @@ export const authActionClient = actionClientWithMeta
     });
 
     if (!session) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     if (metadata.track) {
@@ -133,15 +130,15 @@ export const authActionClient = actionClientWithMeta
     });
 
     if (!session) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     if (!session.session.activeOrganizationId) {
-      throw new Error("Organization not found");
+      throw new Error('Organization not found');
     }
 
     if (!member) {
-      throw new Error("Member not found");
+      throw new Error('Member not found');
     }
 
     const data = {
@@ -151,8 +148,8 @@ export const authActionClient = actionClientWithMeta
       organizationId: session.session.activeOrganizationId,
       action: metadata.name,
       input: clientInput,
-      ipAddress: headersList.get("x-forwarded-for") || null,
-      userAgent: headersList.get("user-agent") || null,
+      ipAddress: headersList.get('x-forwarded-for') || null,
+      userAgent: headersList.get('user-agent') || null,
     };
 
     const entityId = (clientInput as { entityId: string })?.entityId || null;
@@ -177,14 +174,13 @@ export const authActionClient = actionClientWithMeta
     };
 
     if (entityId) {
-      const parts = entityId.split("_");
+      const parts = entityId.split('_');
       const prefix = `${parts[0]}_`;
 
       // Handle special case prefixes with multiple parts
       if (parts.length > 2) {
         const complexPrefix = `${prefix}${parts[1]}_`;
-        entityType =
-          mapEntityType[complexPrefix] || mapEntityType[prefix] || null;
+        entityType = mapEntityType[complexPrefix] || mapEntityType[prefix] || null;
       } else {
         entityType = mapEntityType[prefix] || null;
       }
@@ -203,7 +199,7 @@ export const authActionClient = actionClientWithMeta
         },
       });
     } catch (error) {
-      logger("Audit log error:", error);
+      logger('Audit log error:', error);
     }
 
     return next();
