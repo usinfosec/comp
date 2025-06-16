@@ -131,6 +131,18 @@ export const createRiskCommentSchema = z.object({
     })
     .max(1000, {
       message: "Comment content should be at most 1000 characters",
+    })
+    .transform((val) => {
+      // Remove any HTML tags by applying the replacement repeatedly until no changes occur
+      let sanitized = val;
+      let previousValue;
+
+      do {
+        previousValue = sanitized;
+        sanitized = sanitized.replace(/<[^>]*>/g, "");
+      } while (sanitized !== previousValue);
+
+      return sanitized;
     }),
 });
 
@@ -175,6 +187,18 @@ export const createTaskCommentSchema = z.object({
     })
     .max(1000, {
       message: "Comment content should be at most 1000 characters",
+    })
+    .transform((val) => {
+      // Remove any HTML tags by applying the replacement repeatedly until no changes occur
+      let sanitized = val;
+      let previousValue;
+
+      do {
+        previousValue = sanitized;
+        sanitized = sanitized.replace(/<[^>]*>/g, "");
+      } while (sanitized !== previousValue);
+
+      return sanitized;
     }),
 });
 
@@ -312,6 +336,18 @@ export const createPolicyCommentSchema = z.object({
     })
     .max(1000, {
       message: "Comment content should be at most 1000 characters",
+    })
+    .transform((val) => {
+      // Remove any HTML tags by applying the replacement repeatedly until no changes occur
+      let sanitized = val;
+      let previousValue;
+
+      do {
+        previousValue = sanitized;
+        sanitized = sanitized.replace(/<[^>]*>/g, "");
+      } while (sanitized !== previousValue);
+
+      return sanitized;
     }),
 });
 
@@ -321,8 +357,16 @@ export const addCommentSchema = z.object({
     .min(1, "Comment content is required")
     .max(1000, "Comment content should be at most 1000 characters")
     .transform((val) => {
-      // Remove any HTML tags
-      return val.replace(/<[^>]*>/g, "");
+      // Remove any HTML tags by applying the replacement repeatedly until no changes occur
+      let sanitized = val;
+      let previousValue;
+
+      do {
+        previousValue = sanitized;
+        sanitized = sanitized.replace(/<[^>]*>/g, "");
+      } while (sanitized !== previousValue);
+
+      return sanitized;
     }),
   entityId: z.string().min(1, "Entity ID is required"),
   entityType: z.nativeEnum(CommentEntityType),
