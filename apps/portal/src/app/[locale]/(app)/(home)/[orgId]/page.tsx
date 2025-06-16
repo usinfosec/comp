@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { fleet } from "@/utils/fleet";
 import type { Member } from "@comp/db/types";
+import { getPostHogClient } from "@/app/posthog";
 
 export default async function OrganizationPage({
   params,
@@ -37,6 +38,10 @@ export default async function OrganizationPage({
   }
 
   const { fleetPolicies, device } = await getFleetPolicies(member);
+  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled(
+    "is-fleet-enabled",
+    session?.user.id,
+  );
 
   return (
     <OrganizationDashboard
@@ -45,6 +50,7 @@ export default async function OrganizationPage({
       member={member}
       fleetPolicies={fleetPolicies}
       host={device}
+      isFleetEnabled={isFleetEnabled ?? false}
     />
   );
 }

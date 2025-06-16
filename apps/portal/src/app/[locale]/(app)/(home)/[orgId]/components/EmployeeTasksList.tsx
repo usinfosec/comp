@@ -22,6 +22,7 @@ interface EmployeeTasksListProps {
   member: Member;
   fleetPolicies: FleetPolicy[];
   host: Host;
+  isFleetEnabled: boolean;
 }
 
 export const EmployeeTasksList = ({
@@ -30,6 +31,7 @@ export const EmployeeTasksList = ({
   member,
   fleetPolicies,
   host,
+  isFleetEnabled,
 }: EmployeeTasksListProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -70,14 +72,13 @@ export const EmployeeTasksList = ({
   };
 
   const hasPolicies = fleetPolicies.length;
-  const fleetEnabled = process.env.NEXT_PUBLIC_FLEET_ENABLED === "true";
 
   return (
     <Tabs defaultValue="policies">
       <TabsList className="mb-1 h-auto w-full justify-start rounded-sm border-b-[1px] bg-transparent p-0 pb-4">
         <TabsTrigger value="policies">Policies</TabsTrigger>
         <TabsTrigger value="training">Training</TabsTrigger>
-        {fleetEnabled && <TabsTrigger value="device">Device</TabsTrigger>}
+        {isFleetEnabled && <TabsTrigger value="device">Device</TabsTrigger>}
       </TabsList>
       <TabsContent value="policies" className="py-2">
         <PolicyList policies={policies} member={member} />
@@ -86,7 +87,7 @@ export const EmployeeTasksList = ({
         <VideoCarousel videos={trainingVideos} member={member} />
       </TabsContent>
       <TabsContent value="device" className="py-2">
-        {fleetEnabled && hasPolicies ? (
+        {isFleetEnabled && hasPolicies ? (
           <Card>
             <CardHeader>
               <CardTitle>{host.computer_name}'s Policies</CardTitle>

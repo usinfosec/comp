@@ -36,7 +36,7 @@
     "docker:clean": "docker-compose down -v",
     "docker:down": "docker-compose down",
     "docker:up": "docker-compose up -d",
-    "lint": "prettier --check . && tsc --noEmit",
+    "lint": "prettier --check 'src/**/*.{ts,tsx,js,jsx,json}' 'prisma/**/*.prisma' && tsc --noEmit",
     "typecheck": "tsc --noEmit"
   },
   "types": "./src/index.ts"
