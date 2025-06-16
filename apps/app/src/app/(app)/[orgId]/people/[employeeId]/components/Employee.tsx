@@ -21,6 +21,7 @@ interface EmployeeDetailsProps {
   })[];
   fleetPolicies: FleetPolicy[];
   host: Host;
+  isFleetEnabled: boolean;
 }
 
 export function Employee({
@@ -29,6 +30,7 @@ export function Employee({
   trainingVideos,
   fleetPolicies,
   host,
+  isFleetEnabled,
 }: EmployeeDetailsProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -39,6 +41,7 @@ export function Employee({
         trainingVideos={trainingVideos}
         fleetPolicies={fleetPolicies}
         host={host}
+        isFleetEnabled={isFleetEnabled}
       />
     </div>
   );

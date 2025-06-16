@@ -11,6 +11,7 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Employee } from "./components/Employee";
 import { fleet } from "@/lib/fleet";
+import { getPostHogClient } from "@/app/posthog";
 
 export default async function EmployeeDetailsPage({
   params,
@@ -39,6 +40,10 @@ export default async function EmployeeDetailsPage({
   }
 
   const { fleetPolicies, device } = await getFleetPolicies(employee);
+  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled(
+    "is-fleet-enabled",
+    session?.session.userId,
+  );
 
   return (
     <Employee
@@ -47,6 +52,7 @@ export default async function EmployeeDetailsPage({
       trainingVideos={employeeTrainingVideos}
       fleetPolicies={fleetPolicies}
       host={device}
+      isFleetEnabled={isFleetEnabled ?? false}
     />
   );
 }
