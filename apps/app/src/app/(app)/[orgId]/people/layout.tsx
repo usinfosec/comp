@@ -35,7 +35,10 @@ export default async function Layout({
     return roles.includes("employee");
   });
 
-  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled('is-fleet-enabled', session?.session.userId);
+  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled(
+    "is-fleet-enabled",
+    session?.session.userId,
+  );
 
   return (
     <div className="m-auto max-w-[1200px]">
