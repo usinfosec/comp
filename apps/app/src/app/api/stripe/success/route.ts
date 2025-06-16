@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     return redirect('/');
   }
 
-  const stripeCustomerId = await client.get(`stripe:user:${user.id}`);
+  const stripeCustomerId = await client.get(`stripe:organization:${organizationId}`);
   if (!stripeCustomerId) {
     return redirect('/');
   }
