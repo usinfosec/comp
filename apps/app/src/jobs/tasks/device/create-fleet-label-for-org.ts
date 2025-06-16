@@ -1,4 +1,4 @@
-import { fleet } from "@/lib/fleet";
+import { getFleetInstance } from "@/lib/fleet";
 import { db } from "@comp/db";
 import { logger, task } from "@trigger.dev/sdk/v3";
 
@@ -34,6 +34,8 @@ export const createFleetLabelForOrg = task({
       name: organization.id,
       query: `SELECT 1 FROM file WHERE path = '${fleetDevicePathMac}/${organizationId}' LIMIT 1;`,
     });
+
+    const fleet = await getFleetInstance();
 
     // Create a manual label that we can assign to hosts.
     const response = await fleet.post("/labels", {

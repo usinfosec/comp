@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Employee } from "./components/Employee";
-import { fleet } from "@/lib/fleet";
+import { getFleetInstance } from "@/lib/fleet";
 import { getPostHogClient } from "@/app/posthog";
 
 export default async function EmployeeDetailsPage({
@@ -160,6 +160,7 @@ const getTrainingVideos = async (employeeId: string) => {
 
 const getFleetPolicies = async (member: Member) => {
   const deviceLabelId = member.fleetDmLabelId;
+  const fleet = await getFleetInstance();
 
   if (!deviceLabelId) {
     return { fleetPolicies: [], device: null };
