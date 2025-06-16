@@ -4,12 +4,14 @@ import type { Host } from "../types";
 import { auth } from "@/utils/auth";
 import { db } from "@comp/db";
 import { headers } from "next/headers";
-import { fleet } from "@/lib/fleet";
+import { getFleetInstance } from "@/lib/fleet";
 
 export const getEmployeeDevices: () => Promise<Host[] | null> = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  const fleet = await getFleetInstance();
 
   const organizationId = session?.session.activeOrganizationId;
 

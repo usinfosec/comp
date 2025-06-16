@@ -1,5 +1,5 @@
 import { auth } from "@/app/lib/auth";
-import { fleet } from "@/utils/fleet";
+import { getFleetInstance } from "@/utils/fleet";
 import { logger } from "@/utils/logger";
 import { getFleetAgent } from "@/utils/s3";
 import { db } from "@comp/db";
@@ -93,6 +93,8 @@ exit 0`;
   const filename = "compai-device-agent.zip";
 
   try {
+    const fleet = await getFleetInstance();
+
     const response = await fleet.post("/labels", {
       name: employeeId,
       query: `SELECT 1 FROM file WHERE path = '${fleetDevicePathMac}/${employeeId}' LIMIT 1;`,

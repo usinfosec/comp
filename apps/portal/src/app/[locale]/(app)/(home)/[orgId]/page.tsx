@@ -3,7 +3,7 @@ import { OrganizationDashboard } from "./components/OrganizationDashboard";
 import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { fleet } from "@/utils/fleet";
+import { getFleetInstance } from "@/utils/fleet";
 import type { Member } from "@comp/db/types";
 import { getPostHogClient } from "@/app/posthog";
 
@@ -57,6 +57,7 @@ export default async function OrganizationPage({
 
 const getFleetPolicies = async (member: Member) => {
   const deviceLabelId = member.fleetDmLabelId;
+  const fleet = await getFleetInstance();
 
   try {
     const deviceResponse = await fleet.get(`/labels/${deviceLabelId}/hosts`);
