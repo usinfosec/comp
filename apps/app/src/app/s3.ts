@@ -46,15 +46,31 @@ if (!BUCKET_NAME && process.env.NODE_ENV === "production") {
 }
 
 export function extractS3KeyFromUrl(url: string): string {
-  const fullUrlMatch = url.match(/amazonaws\.com\/(.+)$/);
-  if (fullUrlMatch?.[1]) {
-    return decodeURIComponent(fullUrlMatch[1]);
+  try {
+    // Try to parse as a full URL
+    const parsedUrl = new URL(url);
+
+    // Validate that the host ends with amazonaws.com
+    if (parsedUrl.host.endsWith(".amazonaws.com")) {
+      // Extract the pathname (everything after the domain)
+      // Remove the leading slash and decode
+      const key = parsedUrl.pathname.substring(1);
+      return decodeURIComponent(key);
+    }
+
+    // If it's not an amazonaws.com URL, throw an error
+    console.error("URL host does not end with .amazonaws.com:", url);
+    throw new Error("Invalid S3 URL format - not an AWS S3 URL");
+  } catch (error) {
+    // If URL parsing fails, it might be a relative path/key
+    // Only accept it if it doesn't look like it's trying to be an amazonaws URL
+    if (!url.includes("amazonaws.com") && url.split("/").length > 1) {
+      return url;
+    }
+
+    console.error("Invalid S3 URL format for deletion:", url);
+    throw new Error("Invalid S3 URL format");
   }
-  if (!url.includes("amazonaws.com") && url.split("/").length > 1) {
-    return url;
-  }
-  console.error("Invalid S3 URL format for deletion:", url);
-  throw new Error("Invalid S3 URL format");
 }
 
 export async function getFleetAgent({
