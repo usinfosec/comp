@@ -54,8 +54,15 @@ export function extractS3KeyFromUrl(url: string): string {
   } catch (error) {
     // If URL parsing fails, it might be a relative path/key
     // Only accept it if it doesn't look like it's trying to be an amazonaws URL
-    if (!url.includes('amazonaws.com') && url.split('/').length > 1) {
-      return url;
+    try {
+      const fallbackParsedUrl = new URL(url, 'http://example.com'); // Use a base URL for relative paths
+      if (!fallbackParsedUrl.host.endsWith('.amazonaws.com')) {
+        return url;
+      }
+    } catch {
+      if (url.split('/').length > 1) {
+        return url;
+      }
     }
 
     console.error('Invalid S3 URL format for deletion:', url, error);
