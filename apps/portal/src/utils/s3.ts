@@ -50,7 +50,7 @@ export function extractS3KeyFromUrl(url: string): string {
 
     // If it's not an amazonaws.com URL, throw an error
     console.error('URL host does not end with .amazonaws.com:', url);
-    throw new Error('Invalid S3 URL format - not an AWS S3 URL');
+    throw new Error('Invalid S3 URL format: not an AWS S3 URL');
   } catch (error) {
     // If URL parsing fails, it might be a relative path/key
     // Only accept it if it doesn't look like it's trying to be an amazonaws URL
