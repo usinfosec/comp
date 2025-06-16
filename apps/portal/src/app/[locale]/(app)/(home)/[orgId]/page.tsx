@@ -38,7 +38,10 @@ export default async function OrganizationPage({
   }
 
   const { fleetPolicies, device } = await getFleetPolicies(member);
-  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled('is-fleet-enabled', session?.user.id);
+  const isFleetEnabled = await getPostHogClient()?.isFeatureEnabled(
+    "is-fleet-enabled",
+    session?.user.id,
+  );
 
   return (
     <OrganizationDashboard

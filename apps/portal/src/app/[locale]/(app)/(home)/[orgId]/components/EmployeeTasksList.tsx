@@ -15,7 +15,6 @@ import type { FleetPolicy, Host } from "../types";
 import { Card, CardContent, CardHeader, CardTitle } from "@comp/ui/card";
 import { cn } from "@comp/ui/cn";
 import { CheckCircle2, XCircle } from "lucide-react";
-import { useFeatureFlagEnabled } from 'posthog-js/react'
 
 interface EmployeeTasksListProps {
   policies: Policy[];
