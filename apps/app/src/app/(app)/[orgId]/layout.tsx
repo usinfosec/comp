@@ -37,7 +37,7 @@ export default async function Layout({
   });
 
   const isOnboardingRunning = !!onboarding?.triggerJobId && !onboarding.completed;
-  const navbarHeight = 69 + 1; // 1 for border
+  const navbarHeight = 53 + 1; // 1 for border
   const onboardingHeight = 132 + 1; // 1 for border
 
   const pixelsOffset = isOnboardingRunning ? navbarHeight + onboardingHeight : navbarHeight;
