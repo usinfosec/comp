@@ -3,6 +3,13 @@ import { auth } from '@/utils/auth';
 import { db } from '@comp/db';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Cloud Compliance',
+  };
+}
 
 export default async function CloudTests({ params }: { params: Promise<{ orgId: string }> }) {
   const { orgId } = await params;
