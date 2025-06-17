@@ -1489,7 +1489,7 @@
     "@dnd-kit/modifiers" "^9.0.0"
     "@dnd-kit/sortable" "^10.0.0"
     "@dnd-kit/utilities" "^3.2.2"
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@mendable/firecrawl-js" "^1.24.0"
     "@nangohq/frontend" "^0.53.2"
     "@next/third-parties" "^15.3.1"
@@ -1606,8 +1606,7 @@
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
-  dependencies:
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
     "@radix-ui/react-aspect-ratio" "1.1.1"
@@ -1747,8 +1746,7 @@
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
-  dependencies:
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
     "@radix-ui/react-aspect-ratio" "1.1.1"
@@ -2491,10 +2489,12 @@
   resolved "https://registry.npmjs.org/@hexagon/base64/-/base64-1.1.28.tgz"
   integrity sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==
 
-"@hookform/resolvers@^3.9.1":
-  version "3.10.0"
-  resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-3.10.0.tgz"
-  integrity sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==
+"@hookform/resolvers@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.1.1.tgz"
+  integrity sha512-J/NVING3LMAEvexJkyTLjruSm7aOFx7QX21pzkiJfMoNG0wl5aFEjLTl7ay7IQb9EWY6AkrBy7tHL2Alijpdcg==
+  dependencies:
+    "@standard-schema/utils" "^0.3.0"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -5987,6 +5987,11 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@standard-schema/spec/-/spec-1.0.0.tgz"
   integrity sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==
+
+"@standard-schema/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@standard-schema/utils/-/utils-0.3.0.tgz"
+  integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
 "@swc/helpers@0.5.15", "@swc/helpers@^0.5.3":
   version "0.5.15"
@@ -16383,7 +16388,7 @@ react-email@1.x, react-email@^4.0.15:
     ora "^8.0.0"
     socket.io "^4.8.1"
 
-react-hook-form@^7.0.0, react-hook-form@^7.57.0:
+react-hook-form@^7.55.0, react-hook-form@^7.57.0:
   version "7.58.0"
   resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.0.tgz"
   integrity sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA==
@@ -19701,10 +19706,15 @@ zod@3.23.8:
   resolved "https://registry.npmjs.org/zod/-/zod-3.23.8.tgz"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zod@*, "zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@latest:
+zod@*, "zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1:
   version "3.25.64"
   resolved "https://registry.npmjs.org/zod/-/zod-3.25.64.tgz"
   integrity sha512-hbP9FpSZf7pkS7hRVUrOjhwKJNyampPgtXKc3AN6DsWtoHsg2Sb4SQaS4Tcay380zSwd2VPo9G9180emBACp5g==
+
+zod@latest:
+  version "3.25.67"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.25.67.tgz"
+  integrity sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==
 
 zod-error@1.5.0:
   version "1.5.0"
