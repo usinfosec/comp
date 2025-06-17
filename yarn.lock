@@ -1448,14 +1448,14 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
-"@comp/analytics@^workspace:packages/analytics":
+"@comp/analytics@packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.236.6"
     posthog-node "^4.14.0"
 
-"@comp/app@^workspace:apps/app", "@comp/app@workspace:*":
+"@comp/app@apps/app", "@comp/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
@@ -1560,7 +1560,7 @@
     xml2js "^0.6.2"
     zustand "^5.0.3"
 
-"@comp/db@^workspace:packages/db", "@comp/db@workspace:*":
+"@comp/db@packages/db", "@comp/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
@@ -1572,7 +1572,7 @@
     prisma "^6.9.0"
     ts-node "^10.9.2"
 
-"@comp/email@^workspace:packages/email":
+"@comp/email@packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1593,7 +1593,7 @@
     react-email "^4.0.15"
     responsive-react-email "^0.0.5"
 
-"@comp/framework-editor@^workspace:apps/framework-editor":
+"@comp/framework-editor@apps/framework-editor":
   version "workspace:apps/framework-editor"
   resolved "workspace:apps/framework-editor"
   devDependencies:
@@ -1667,7 +1667,7 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/integrations@^workspace:packages/integrations":
+"@comp/integrations@packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1690,14 +1690,14 @@
     stoppable "^1.1.0"
     zod "*"
 
-"@comp/kv@^workspace:packages/kv":
+"@comp/kv@packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@comp/notifications@^workspace:packages/notifications", "@comp/notifications@workspace:*":
+"@comp/notifications@packages/notifications", "@comp/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1706,7 +1706,7 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.5"
 
-"@comp/portal@^workspace:apps/portal":
+"@comp/portal@apps/portal":
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -1733,7 +1733,7 @@
     react-email "^4.0.15"
     react-otp-input "^3.1.1"
 
-"@comp/trust@^workspace:apps/trust":
+"@comp/trust@apps/trust":
   version "workspace:apps/trust"
   resolved "workspace:apps/trust"
   devDependencies:
@@ -1804,11 +1804,11 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/tsconfig@^workspace:packages/tsconfig", "@comp/tsconfig@workspace:*":
+"@comp/tsconfig@packages/tsconfig", "@comp/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@comp/ui@^workspace:packages/ui", "@comp/ui@workspace:*":
+"@comp/ui@packages/ui", "@comp/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -1874,7 +1874,7 @@
     use-callback-ref "^1.3.3"
     vaul "^0.9.6"
 
-"@comp/utils@^workspace:packages/utils", "@comp/utils@workspace:*":
+"@comp/utils@packages/utils", "@comp/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -15509,10 +15509,15 @@ prelude-ls@^1.2.1:
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prettier@^3.0, prettier@^3.5.3:
+prettier@>=2.0, prettier@^3.0, prettier@^3.5.3:
   version "3.5.3"
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.5.3.tgz"
   integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
+
+prettier-plugin-organize-imports@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-4.1.0.tgz"
+  integrity sha512-5aWRdCgv645xaa58X8lOxzZoiHAldAPChljr/MT0crXVOWTZ+Svl4hIWlz+niYSlO6ikE5UXkN1JrRvIP2ut0A==
 
 prettier-plugin-tailwindcss@^0.6.0:
   version "0.6.12"
@@ -18470,7 +18475,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@>=2.7, typescript@>=3.3.1, typescript@>=4.5.0, typescript@>=4.8.4, "typescript@>=4.8.4 <5.9.0", typescript@>=4.9.5, typescript@>=5, typescript@>=5.1.0, typescript@>=5.4.5, typescript@>=5.7.2, typescript@^5.0.0, typescript@^5.8.2, typescript@^5.8.3:
+typescript@>=2.7, typescript@>=2.9, typescript@>=3.3.1, typescript@>=4.5.0, typescript@>=4.8.4, "typescript@>=4.8.4 <5.9.0", typescript@>=4.9.5, typescript@>=5, typescript@>=5.1.0, typescript@>=5.4.5, typescript@>=5.7.2, typescript@^5.0.0, typescript@^5.8.2, typescript@^5.8.3:
   version "5.8.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.8.3.tgz"
   integrity sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==

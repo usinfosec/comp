@@ -89,5 +89,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "prettier-plugin-organize-imports": "^4.1.0"
+  }
 }
