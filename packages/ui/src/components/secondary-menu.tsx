@@ -131,7 +131,7 @@ export function SecondaryMenu({
   }, [activeIndex]);
 
   return (
-    <nav className={cn(isChild ? 'py-0' : 'pt-0')} key={pathname}>
+    <nav className={'pb-4'} key={pathname}>
       <div className="flex items-center gap-2 overflow-auto p-[1px]">
         {showBackButton && (
           <Button variant="ghost" size="sm" asChild>
