@@ -1,3 +1,5 @@
+'use server';
+
 import { stripe } from '@/actions/organization/lib/stripe';
 import { db } from '@comp/db';
 import { client } from '@comp/kv';
