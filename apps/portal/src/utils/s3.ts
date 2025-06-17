@@ -111,16 +111,28 @@ export function extractS3KeyFromUrl(url: string): string {
   return key;
 }
 
-export async function getFleetAgent({ os }: { os: 'macos' | 'windows' | 'linux' }) {
+export async function getFleetAgent({ os }: { os: 'macos' | 'windows' }) {
   const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
 
   if (!fleetBucketName) {
     throw new Error('FLEET_AGENT_BUCKET_NAME is not defined.');
   }
 
+  let extension: string;
+  switch (os) {
+    case 'macos':
+      extension = 'pkg';
+      break;
+    case 'windows':
+      extension = 'msi';
+      break;
+    default:
+      throw new Error(`Unsupported OS: ${os}`);
+  }
+
   const getFleetAgentCommand = new GetObjectCommand({
     Bucket: fleetBucketName,
-    Key: `${os}/fleet-osquery.pkg`,
+    Key: `${os}/fleet-osquery.${extension}`,
   });
 
   const response = await s3Client.send(getFleetAgentCommand);
