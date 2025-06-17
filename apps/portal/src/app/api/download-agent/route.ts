@@ -1,6 +1,5 @@
 import { auth } from '@/app/lib/auth';
 import { logger } from '@/utils/logger';
-import { db } from '@comp/db';
 import { type NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -8,7 +7,8 @@ import path from 'node:path';
 import { createAgentArchive } from './archive';
 import { createFleetLabel } from './fleet-label';
 import { generateMacScript, generateWindowsScript } from './scripts';
-import type { SupportedOS, DownloadAgentRequest } from './types';
+import type { DownloadAgentRequest, SupportedOS } from './types';
+import { detectOSFromUserAgent, validateMemberAndOrg } from './utils';
 
 export async function POST(req: NextRequest) {
   // Authentication
@@ -21,15 +21,25 @@ export async function POST(req: NextRequest) {
   }
 
   // Validate request body
-  const { orgId, employeeId, os = 'macos' }: DownloadAgentRequest = await req.json();
+  const { orgId, employeeId }: DownloadAgentRequest = await req.json();
 
   if (!orgId || !employeeId) {
     return new NextResponse('Missing orgId or employeeId', { status: 400 });
   }
 
-  if (!['macos', 'windows'].includes(os)) {
-    return new NextResponse('Invalid OS. Must be "macos" or "windows"', { status: 400 });
+  // Auto-detect OS from User-Agent
+  const userAgent = req.headers.get('user-agent');
+  const detectedOS = detectOSFromUserAgent(userAgent);
+
+  if (!detectedOS) {
+    return new NextResponse(
+      'Could not detect OS from User-Agent. Please use a standard browser on macOS or Windows.',
+      { status: 400 },
+    );
   }
+
+  const os = detectedOS;
+  logger('Auto-detected OS from User-Agent', { os, userAgent });
 
   // Check environment configuration
   const fleetDevicePathMac = process.env.FLEET_DEVICE_PATH_MAC;
@@ -97,31 +107,4 @@ export async function POST(req: NextRequest) {
       logger('Failed to clean up temp directory', { error: cleanupError, tempDir });
     }
   }
-}
-
-async function validateMemberAndOrg(userId: string, orgId: string) {
-  const member = await db.member.findFirst({
-    where: {
-      userId,
-      organizationId: orgId,
-    },
-  });
-
-  if (!member) {
-    logger('Member not found', { userId, orgId });
-    return null;
-  }
-
-  const org = await db.organization.findUnique({
-    where: {
-      id: orgId,
-    },
-  });
-
-  if (!org) {
-    logger('Organization not found', { orgId });
-    return null;
-  }
-
-  return member;
 }
