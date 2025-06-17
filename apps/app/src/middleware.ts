@@ -29,8 +29,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // 2. Authenticated; redirect to onboarding if not completed
+  // 2. Authenticated; handle different scenarios
   if (session) {
+    // Allow access to /setup when user intentionally wants to create additional org
+    const isIntentionalSetup =
+      nextUrl.pathname === '/setup' && nextUrl.searchParams.get('intent') === 'create-additional';
+
+    if (isIntentionalSetup) {
+      return response;
+    }
+
     // 2.1. If the user has an active organization, redirect to implementation
     if (
       session.session.activeOrganizationId &&

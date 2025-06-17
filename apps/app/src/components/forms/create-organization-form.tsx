@@ -29,17 +29,28 @@ interface OnboardingClientProps {
 
 export function OnboardingClient({ frameworks }: OnboardingClientProps) {
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
+  const [newOrgId, setNewOrgId] = useState<string | null>(null);
   const router = useRouter();
+
   const createOrganization = useAction(createOrganizationAction, {
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       sendGTMEvent({
         event: 'conversion',
       });
 
-      router.push('/');
+      if (data.data?.organizationId) {
+        // Set the new organization as active
+        await authClient.organization.setActive({
+          organizationId: data.data.organizationId,
+        });
+
+        // Redirect to the new organization
+        router.push(`/${data.data.organizationId}/frameworks`);
+      }
     },
     onError: () => {
       toast.error('Failed to create organization');
+      setIsCreatingOrganization(false);
     },
     onExecute: () => {
       setIsCreatingOrganization(true);
@@ -49,10 +60,14 @@ export function OnboardingClient({ frameworks }: OnboardingClientProps) {
   const onSubmit = async (data: z.infer<typeof organizationSchema>) => {
     const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await authClient.organization.create({
+    const org = await authClient.organization.create({
       name: 'My Organization',
       slug: `my-organization-${randomSuffix}`,
     });
+
+    if (org.data?.id) {
+      setNewOrgId(org.data.id);
+    }
 
     createOrganization.execute({
       ...data,

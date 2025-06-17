@@ -10,7 +10,11 @@ export const metadata: Metadata = {
   title: 'Organization Setup | Comp AI',
 };
 
-export default async function Page() {
+interface SearchParams {
+  intent?: string;
+}
+
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const headersList = await headers();
 
   const session = await auth.api.getSession({
@@ -20,6 +24,9 @@ export default async function Page() {
   if (!session || !session.session) {
     return redirect('/');
   }
+
+  // Check if user is intentionally creating additional organization
+  const isCreatingAdditional = searchParams.intent === 'create-additional';
 
   const organization = await db.organization.findFirst({
     where: {
@@ -41,7 +48,8 @@ export default async function Page() {
     },
   });
 
-  if (organization?.id && !hasInvite) {
+  // If user has an organization and is not intentionally creating a new one, redirect
+  if (organization?.id && !hasInvite && !isCreatingAdditional) {
     await auth.api.setActiveOrganization({
       headers: headersList,
       body: {
@@ -52,7 +60,8 @@ export default async function Page() {
     return redirect(`/${organization.id}/frameworks`);
   }
 
-  if (hasInvite) {
+  // Handle pending invitations
+  if (hasInvite && !isCreatingAdditional) {
     const organization = await db.organization.findUnique({
       where: {
         id: hasInvite.organizationId,
