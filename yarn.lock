@@ -1448,14 +1448,14 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
-"@comp/analytics@packages/analytics":
+"@comp/analytics@^workspace:packages/analytics":
   version "workspace:packages/analytics"
   resolved "workspace:packages/analytics"
   dependencies:
     posthog-js "^1.236.6"
     posthog-node "^4.14.0"
 
-"@comp/app@apps/app", "@comp/app@workspace:*":
+"@comp/app@^workspace:apps/app", "@comp/app@workspace:*":
   version "workspace:apps/app"
   resolved "workspace:apps/app"
   devDependencies:
@@ -1482,8 +1482,10 @@
     "@browserbasehq/sdk" "^2.5.0"
     "@calcom/atoms" "^1.0.102-framer"
     "@calcom/embed-react" "^1.5.3"
+  dependencies:
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
+  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1539,7 +1541,7 @@
     posthog-node "^4.14.0"
     puppeteer-core "^24.7.2"
     react-email "^4.0.15"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     react-hotkeys-hook "^4.6.2"
     react-intersection-observer "^9.16.0"
     react-markdown "^9.1.0"
@@ -1558,18 +1560,19 @@
     xml2js "^0.6.2"
     zustand "^5.0.3"
 
-"@comp/db@packages/db", "@comp/db@workspace:*":
+"@comp/db@^workspace:packages/db", "@comp/db@workspace:*":
   version "workspace:packages/db"
   resolved "workspace:packages/db"
   devDependencies:
     "@comp/tsconfig" "workspace:*"
+  devDependencies:
     typescript "^5.8.3"
   dependencies:
     "@prisma/client" "6.9.0"
     prisma "^6.9.0"
     ts-node "^10.9.2"
 
-"@comp/email@packages/email":
+"@comp/email@^workspace:packages/email":
   version "workspace:packages/email"
   resolved "workspace:packages/email"
   devDependencies:
@@ -1590,7 +1593,7 @@
     react-email "^4.0.15"
     responsive-react-email "^0.0.5"
 
-"@comp/framework-editor@apps/framework-editor":
+"@comp/framework-editor@^workspace:apps/framework-editor":
   version "workspace:apps/framework-editor"
   resolved "workspace:apps/framework-editor"
   devDependencies:
@@ -1600,12 +1603,13 @@
     postcss "^8.5.4"
     react "^19.1.0"
     react-dom "^19.1.0"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     tailwindcss "^4.1.8"
     typescript "^5.8.3"
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
+  dependencies:
     "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
@@ -1663,7 +1667,7 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/integrations@packages/integrations":
+"@comp/integrations@^workspace:packages/integrations":
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
@@ -1687,14 +1691,14 @@
     stoppable "^1.1.0"
     zod "*"
 
-"@comp/kv@packages/kv":
+"@comp/kv@^workspace:packages/kv":
   version "workspace:packages/kv"
   resolved "workspace:packages/kv"
   dependencies:
     "@upstash/redis" "^1.34.2"
     server-only "0.0.1"
 
-"@comp/notifications@packages/notifications", "@comp/notifications@workspace:*":
+"@comp/notifications@^workspace:packages/notifications", "@comp/notifications@workspace:*":
   version "workspace:packages/notifications"
   resolved "workspace:packages/notifications"
   devDependencies:
@@ -1703,7 +1707,7 @@
     "@novu/node" "^2.0.1"
     nanoid "5.1.5"
 
-"@comp/portal@apps/portal":
+"@comp/portal@^workspace:apps/portal":
   version "workspace:apps/portal"
   resolved "workspace:apps/portal"
   devDependencies:
@@ -1730,7 +1734,7 @@
     react-email "^4.0.15"
     react-otp-input "^3.1.1"
 
-"@comp/trust@apps/trust":
+"@comp/trust@^workspace:apps/trust":
   version "workspace:apps/trust"
   resolved "workspace:apps/trust"
   devDependencies:
@@ -1740,12 +1744,13 @@
     postcss "^8.5.4"
     react "^19.1.0"
     react-dom "^19.1.0"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     tailwindcss "^4.1.8"
     typescript "^5.8.3"
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
+  dependencies:
     "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
@@ -1800,11 +1805,11 @@
     vaul "^0.9.6"
     zod "latest"
 
-"@comp/tsconfig@packages/tsconfig", "@comp/tsconfig@workspace:*":
+"@comp/tsconfig@^workspace:packages/tsconfig", "@comp/tsconfig@workspace:*":
   version "workspace:packages/tsconfig"
   resolved "workspace:packages/tsconfig"
 
-"@comp/ui@packages/ui", "@comp/ui@workspace:*":
+"@comp/ui@^workspace:packages/ui", "@comp/ui@workspace:*":
   version "workspace:packages/ui"
   resolved "workspace:packages/ui"
   devDependencies:
@@ -1870,7 +1875,7 @@
     use-callback-ref "^1.3.3"
     vaul "^0.9.6"
 
-"@comp/utils@packages/utils", "@comp/utils@workspace:*":
+"@comp/utils@^workspace:packages/utils", "@comp/utils@workspace:*":
   version "workspace:packages/utils"
   resolved "workspace:packages/utils"
   devDependencies:
@@ -16388,10 +16393,10 @@ react-email@1.x, react-email@^4.0.15:
     ora "^8.0.0"
     socket.io "^4.8.1"
 
-react-hook-form@^7.55.0, react-hook-form@^7.57.0:
-  version "7.58.0"
-  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.0.tgz"
-  integrity sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA==
+react-hook-form@^7.55.0, react-hook-form@^7.58.1:
+  version "7.58.1"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.1.tgz"
+  integrity sha512-Lml/KZYEEFfPhUVgE0RdCVpnC4yhW+PndRhbiTtdvSlQTL8IfVR+iQkBjLIvmmc6+GGoVeM11z37ktKFPAb0FA==
 
 react-hotkeys-hook@^4.6.2:
   version "4.6.2"

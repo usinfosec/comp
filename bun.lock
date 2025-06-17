@@ -42,7 +42,7 @@
         "react-dnd-html5-backend": "^16.0.1",
         "react-dom": "^19.1.0",
         "react-email": "^4.0.15",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
         "semantic-release": "^24.2.5",
         "semantic-release-discord": "^1.2.0",
         "semantic-release-discord-notifier": "^1.0.11",
@@ -126,7 +126,7 @@
         "posthog-node": "^4.14.0",
         "puppeteer-core": "^24.7.2",
         "react-email": "^4.0.15",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
         "react-hotkeys-hook": "^4.6.2",
         "react-intersection-observer": "^9.16.0",
         "react-markdown": "^9.1.0",
@@ -232,14 +232,14 @@
         "postcss": "^8.5.4",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
         "tailwindcss": "^4.1.8",
         "typescript": "^5.8.3",
       },
       "peerDependencies": {
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
       },
     },
     "apps/portal": {
@@ -340,14 +340,14 @@
         "postcss": "^8.5.4",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
         "tailwindcss": "^4.1.8",
         "typescript": "^5.8.3",
       },
       "peerDependencies": {
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
-        "react-hook-form": "^7.57.0",
+        "react-hook-form": "^7.58.1",
       },
     },
     "packages/analytics": {
@@ -3987,7 +3987,7 @@
 
     "react-email": ["react-email@4.0.16", "", { "dependencies": { "@babel/parser": "^7.27.0", "@babel/traverse": "^7.27.0", "chalk": "^5.0.0", "chokidar": "^4.0.3", "commander": "^13.0.0", "debounce": "^2.0.0", "esbuild": "^0.25.0", "glob": "^11.0.0", "log-symbols": "^7.0.0", "mime-types": "^3.0.0", "next": "^15.3.1", "normalize-path": "^3.0.0", "ora": "^8.0.0", "socket.io": "^4.8.1" }, "bin": { "email": "dist/cli/index.mjs" } }, "sha512-auhFU+nQxAkKkP6lQhPyGsa9exwfUEzp2BwZnjHokCwphZlg30tu4t1LgdKRwGPYsi7XNGy6asbVLAUhOVpzzg=="],
 
-    "react-hook-form": ["react-hook-form@7.58.0", "", { "peerDependencies": { "react": "^16.8.0 || ^17 || ^18 || ^19" } }, "sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA=="],
+    "react-hook-form": ["react-hook-form@7.58.1", "", { "peerDependencies": { "react": "^16.8.0 || ^17 || ^18 || ^19" } }, "sha512-Lml/KZYEEFfPhUVgE0RdCVpnC4yhW+PndRhbiTtdvSlQTL8IfVR+iQkBjLIvmmc6+GGoVeM11z37ktKFPAb0FA=="],
 
     "react-hotkeys-hook": ["react-hotkeys-hook@4.6.2", "", { "peerDependencies": { "react": ">=16.8.1", "react-dom": ">=16.8.1" } }, "sha512-FmP+ZriY3EG59Ug/lxNfrObCnW9xQShgk7Nb83+CkpfkcCpfS95ydv+E9JuXA5cp8KtskU7LGlIARpkc92X22Q=="],
 
