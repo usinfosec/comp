@@ -6,17 +6,44 @@ import { client } from '@comp/kv';
 import { authWithOrgAccessClient } from '@/actions/safe-action';
 import { z } from 'zod';
 
-const generateCheckoutSessionSchema = z.object({
-  organizationId: z.string(),
-  successUrl: z.string().url().optional(),
-  cancelUrl: z.string().url().optional(),
-  mode: z.enum(['payment', 'setup', 'subscription']).default('subscription'),
-  priceId: z.string().optional(),
-  quantity: z.number().int().positive().optional(),
-  allowPromotionCodes: z.boolean().optional(),
-  trialPeriodDays: z.number().int().positive().optional(),
-  metadata: z.record(z.string()).optional(),
-});
+/**
+ * Zod schema for Stripe checkout session generation.
+ *
+ * Important: According to Stripe's API:
+ * - success_url is REQUIRED for standard checkout sessions
+ * - cancel_url is OPTIONAL (Stripe will use success_url if not provided)
+ * - line_items with recurring price is REQUIRED for subscription mode
+ *
+ * We provide sensible defaults to ensure the action always works.
+ */
+const generateCheckoutSessionSchema = z
+  .object({
+    organizationId: z.string(),
+    mode: z.enum(['payment', 'setup', 'subscription']).default('subscription'),
+    // URLs for redirect after checkout
+    successUrl: z.string().url().optional(),
+    cancelUrl: z.string().url().optional(),
+    // Price and quantity for line items
+    priceId: z.string().optional(),
+    quantity: z.number().int().positive().optional().default(1),
+    // Other optional parameters
+    allowPromotionCodes: z.boolean().optional().default(false),
+    trialPeriodDays: z.number().int().positive().optional(),
+    metadata: z.record(z.string()).optional(),
+  })
+  .refine(
+    // Ensure priceId is provided for subscription mode
+    (data) => {
+      if (data.mode === 'subscription' && !data.priceId) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "priceId is required when mode is 'subscription'",
+      path: ['priceId'],
+    },
+  );
 
 export const generateCheckoutSessionAction = authWithOrgAccessClient
   .inputSchema(generateCheckoutSessionSchema)
@@ -35,8 +62,8 @@ export const generateCheckoutSessionAction = authWithOrgAccessClient
       cancelUrl,
       mode,
       priceId,
-      quantity,
-      allowPromotionCodes,
+      quantity = 1,
+      allowPromotionCodes = false,
       trialPeriodDays,
       metadata,
     } = parsedInput;
@@ -104,13 +131,14 @@ export const generateCheckoutSessionAction = authWithOrgAccessClient
           }
         : undefined;
 
+    // Ensure we have a valid base URL
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
     // ALWAYS create a checkout with a stripeCustomerId. They should enforce this.
     const checkout = await stripe.checkout.sessions.create({
       customer: stripeCustomerId as string,
-      success_url:
-        successUrl ||
-        `${process.env.NEXT_PUBLIC_APP_URL}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: cancelUrl || `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
+      success_url: successUrl || `${appUrl}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${appUrl}/billing`,
       mode,
       line_items: lineItems,
       allow_promotion_codes: allowPromotionCodes,
@@ -132,5 +160,3 @@ export const generateCheckoutSessionAction = authWithOrgAccessClient
       sessionId: checkout.id,
     };
   });
-
-//https://github.com/t3dotgg/stripe-recommendations

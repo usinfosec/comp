@@ -70,8 +70,13 @@ export const authActionClient = actionClientWithMeta
     });
 
     if (process.env.NODE_ENV === 'development') {
-      logger('Input ->', clientInput as string);
-      logger('Result ->', result.data as string);
+      logger('Input ->', JSON.stringify(clientInput, null, 2));
+      logger('Result ->', JSON.stringify(result.data, null, 2));
+
+      // Also log validation errors if they exist
+      if (result.validationErrors) {
+        logger('Validation Errors ->', JSON.stringify(result.validationErrors, null, 2));
+      }
 
       return result;
     }

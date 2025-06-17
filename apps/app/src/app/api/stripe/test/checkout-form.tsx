@@ -20,6 +20,12 @@ export function CheckoutForm({ organizationId }: { organizationId: string }) {
     },
   });
 
+  // Construct the base URL for success and cancel URLs
+  const baseUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.protocol}//${window.location.host}`
+      : 'http://localhost:3000';
+
   return (
     <div className="space-y-4">
       {/* Show validation errors */}
@@ -42,6 +48,8 @@ export function CheckoutForm({ organizationId }: { organizationId: string }) {
           execute({
             organizationId,
             mode: 'subscription',
+            successUrl: `${baseUrl}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancelUrl: `${baseUrl}/billing`,
             allowPromotionCodes: true,
           })
         }
