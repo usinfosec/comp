@@ -61,7 +61,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         ]}
       />
 
-      <main className="mt-4">{children}</main>
+      <main>{children}</main>
     </div>
   );
 }
