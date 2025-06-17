@@ -12,7 +12,7 @@ import { onboardOrganization as onboardOrganizationTask } from '@/jobs/tasks/onb
 import { companyDetailsSchema } from '../lib/constants';
 
 export const onboardOrganization = authActionClient
-  .schema(companyDetailsSchema)
+  .inputSchema(companyDetailsSchema)
   .metadata({
     name: 'onboard-organization',
     track: {

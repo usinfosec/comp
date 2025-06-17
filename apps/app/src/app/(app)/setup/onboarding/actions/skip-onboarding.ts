@@ -13,7 +13,7 @@ const skipOnboardingSchema = z.object({
 });
 
 export const skipOnboarding = authActionClient
-  .schema(skipOnboardingSchema)
+  .inputSchema(skipOnboardingSchema)
   .metadata({
     name: 'skip-onboarding',
     track: {

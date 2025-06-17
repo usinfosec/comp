@@ -39,7 +39,7 @@ export const completeInvitation = authActionClient
       channel: 'organization',
     },
   })
-  .schema(completeInvitationSchema)
+  .inputSchema(completeInvitationSchema)
   .action(
     async ({
       parsedInput,

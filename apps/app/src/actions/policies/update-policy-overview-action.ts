@@ -8,7 +8,7 @@ import { authActionClient } from '../safe-action';
 import { updatePolicyOverviewSchema } from '../schema';
 
 export const updatePolicyOverviewAction = authActionClient
-  .schema(updatePolicyOverviewSchema)
+  .inputSchema(updatePolicyOverviewSchema)
   .metadata({
     name: 'update-policy-overview',
     track: {

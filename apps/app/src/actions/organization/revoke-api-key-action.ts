@@ -10,7 +10,7 @@ const revokeApiKeySchema = z.object({
 });
 
 export const revokeApiKeyAction = authActionClient
-  .schema(revokeApiKeySchema)
+  .inputSchema(revokeApiKeySchema)
   .metadata({
     name: 'revokeApiKey',
     track: {

@@ -6,7 +6,7 @@ import { authActionClient } from '../safe-action';
 import { updateInherentRiskSchema } from '../schema';
 
 export const updateInherentRiskAction = authActionClient
-  .schema(updateInherentRiskSchema)
+  .inputSchema(updateInherentRiskSchema)
   .metadata({
     name: 'update-inherent-risk',
     track: {

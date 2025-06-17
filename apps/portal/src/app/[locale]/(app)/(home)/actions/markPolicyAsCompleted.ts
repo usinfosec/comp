@@ -7,7 +7,7 @@ import { logger } from '@/utils/logger';
 import { revalidatePath } from 'next/cache';
 
 export const markPolicyAsCompleted = authActionClient
-  .schema(z.object({ policyId: z.string() }))
+  .inputSchema(z.object({ policyId: z.string() }))
   .metadata({
     name: 'markPolicyAsCompleted',
     track: {

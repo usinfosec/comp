@@ -1491,7 +1491,7 @@
     "@dnd-kit/modifiers" "^9.0.0"
     "@dnd-kit/sortable" "^10.0.0"
     "@dnd-kit/utilities" "^3.2.2"
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@mendable/firecrawl-js" "^1.24.0"
     "@nangohq/frontend" "^0.53.2"
     "@next/third-parties" "^15.3.1"
@@ -1521,7 +1521,6 @@
     axios "^1.9.0"
     better-auth "^1.2.8"
     d3 "^7.9.0"
-    dub "^0.46.29"
     framer-motion "^12.9.2"
     geist "^1.3.1"
     highlight.js "^11.11.1"
@@ -1532,7 +1531,7 @@
     next "15.4.0-canary.83"
     next-international "^1.3.1"
     next-intl "^3.26.5"
-    next-safe-action "^7.10.6"
+    next-safe-action "^8.0.3"
     next-themes "^0.4.4"
     novel "^1.0.2"
     novu "^2.6.6"
@@ -1542,7 +1541,7 @@
     posthog-node "^4.14.0"
     puppeteer-core "^24.7.2"
     react-email "^4.0.15"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     react-hotkeys-hook "^4.6.2"
     react-intersection-observer "^9.16.0"
     react-markdown "^9.1.0"
@@ -1604,14 +1603,14 @@
     postcss "^8.5.4"
     react "^19.1.0"
     react-dom "^19.1.0"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     tailwindcss "^4.1.8"
     typescript "^5.8.3"
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
   dependencies:
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
     "@radix-ui/react-aspect-ratio" "1.1.1"
@@ -1745,14 +1744,14 @@
     postcss "^8.5.4"
     react "^19.1.0"
     react-dom "^19.1.0"
-    react-hook-form "^7.57.0"
+    react-hook-form "^7.58.1"
     tailwindcss "^4.1.8"
     typescript "^5.8.3"
   dependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
   dependencies:
-    "@hookform/resolvers" "^3.9.1"
+    "@hookform/resolvers" "^5.1.1"
     "@radix-ui/react-accordion" "1.2.2"
     "@radix-ui/react-alert-dialog" "1.1.4"
     "@radix-ui/react-aspect-ratio" "1.1.1"
@@ -2495,10 +2494,12 @@
   resolved "https://registry.npmjs.org/@hexagon/base64/-/base64-1.1.28.tgz"
   integrity sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==
 
-"@hookform/resolvers@^3.9.1":
-  version "3.10.0"
-  resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-3.10.0.tgz"
-  integrity sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==
+"@hookform/resolvers@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.1.1.tgz"
+  integrity sha512-J/NVING3LMAEvexJkyTLjruSm7aOFx7QX21pzkiJfMoNG0wl5aFEjLTl7ay7IQb9EWY6AkrBy7tHL2Alijpdcg==
+  dependencies:
+    "@standard-schema/utils" "^0.3.0"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -5991,6 +5992,11 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@standard-schema/spec/-/spec-1.0.0.tgz"
   integrity sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==
+
+"@standard-schema/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@standard-schema/utils/-/utils-0.3.0.tgz"
+  integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
 "@swc/helpers@0.5.15", "@swc/helpers@^0.5.3":
   version "0.5.15"
@@ -9742,11 +9748,6 @@ dset@^3.1.2:
   version "3.1.4"
   resolved "https://registry.npmjs.org/dset/-/dset-3.1.4.tgz"
   integrity sha512-2QF/g9/zTaPDc3BjNcVTGoBbXBgYfMTTceLaYcFJ/W9kggFUkhxD/hMEeuLKbugyef9SqAx8cpgwlIP/jinUTA==
-
-dub@^0.46.29:
-  version "0.46.29"
-  resolved "https://registry.npmjs.org/dub/-/dub-0.46.29.tgz"
-  integrity sha512-6RSOkdSRMS268rsK8xtmkSXlLMWpocbGKqKfumZlr8SbCHLzpB36APV2M4pwqNybjk43yUR2yr2+3l++Jrqu6w==
 
 dunder-proto@^1.0.0, dunder-proto@^1.0.1:
   version "1.0.1"
@@ -14412,7 +14413,7 @@ netmask@^2.0.2:
   resolved "https://registry.npmjs.org/netmask/-/netmask-2.0.2.tgz"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-next@*, "next@15.4.0-canary.83", "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", "next@^13.0.0 || ^14.0.0 || ^15.0.0":
+next@*, "next@15.4.0-canary.83", next@>=13.2.0, next@>=14.2.0, "next@^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", "next@^13.0.0 || ^14.0.0 || ^15.0.0":
   version "15.4.0-canary.83"
   resolved "https://registry.npmjs.org/next/-/next-15.4.0-canary.83.tgz"
   integrity sha512-WF2fV6X/GZ66GacAagNNSr3mmTaExfTafXLa62xu0JYuo+NlUQOGBqxqdG/N3uvFV+4ZFSxCNlXG7G64IQQazA==
@@ -14433,7 +14434,7 @@ next@*, "next@15.4.0-canary.83", "next@>= 14.0.0", next@>=13.2.0, next@>=14.2.0,
     postcss "8.4.31"
     styled-jsx "5.1.6"
 
-next@^15.3.1:
+"next@>= 14.0.0", next@^15.3.1:
   version "15.4.0"
   resolved "https://registry.npmjs.org/next/-/next-15.4.0.tgz"
   integrity sha512-9JfEyg23carbb/AxUylRQh4zVN4dt1af9aJ+L3CFl/LKQIQkWUWN44YhB9M5JhxMjleF6rkfNOD7IqDcsb6zyQ==
@@ -14472,10 +14473,10 @@ next-intl@^3.26.5:
     negotiator "^1.0.0"
     use-intl "^3.26.5"
 
-next-safe-action@^7.10.6:
-  version "7.10.8"
-  resolved "https://registry.npmjs.org/next-safe-action/-/next-safe-action-7.10.8.tgz"
-  integrity sha512-cTBoPWtvQ0t83N0a5zaveOh9vP2g3//d0hgzPJ4ch1EXCyt9+bavbVNgyOYbzWUwFerppHeFXPYsg7pbRulLQw==
+next-safe-action@^8.0.3:
+  version "8.0.3"
+  resolved "https://registry.npmjs.org/next-safe-action/-/next-safe-action-8.0.3.tgz"
+  integrity sha512-h95JkSvOGQuTQrrnL3MzitEXizyjLyx72mmb4GOJVF8aD0SNkDQPtjPQ/Z6NH9OnbErduyAZQYo7+b0HVpcXKg==
 
 next-themes@^0.4.4:
   version "0.4.6"
@@ -16392,10 +16393,10 @@ react-email@1.x, react-email@^4.0.15:
     ora "^8.0.0"
     socket.io "^4.8.1"
 
-react-hook-form@^7.0.0, react-hook-form@^7.57.0:
-  version "7.58.0"
-  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.0.tgz"
-  integrity sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA==
+react-hook-form@^7.55.0, react-hook-form@^7.58.1:
+  version "7.58.1"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.1.tgz"
+  integrity sha512-Lml/KZYEEFfPhUVgE0RdCVpnC4yhW+PndRhbiTtdvSlQTL8IfVR+iQkBjLIvmmc6+GGoVeM11z37ktKFPAb0FA==
 
 react-hotkeys-hook@^4.6.2:
   version "4.6.2"
@@ -19710,10 +19711,15 @@ zod@3.23.8:
   resolved "https://registry.npmjs.org/zod/-/zod-3.23.8.tgz"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
 
-zod@*, "zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1, zod@latest:
+zod@*, "zod@>= 3", zod@^3.0.0, zod@^3.18.0, zod@^3.20.2, zod@^3.23.8, zod@^3.24.0, zod@^3.24.1:
   version "3.25.64"
   resolved "https://registry.npmjs.org/zod/-/zod-3.25.64.tgz"
   integrity sha512-hbP9FpSZf7pkS7hRVUrOjhwKJNyampPgtXKc3AN6DsWtoHsg2Sb4SQaS4Tcay380zSwd2VPo9G9180emBACp5g==
+
+zod@latest:
+  version "3.25.67"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.25.67.tgz"
+  integrity sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==
 
 zod-error@1.5.0:
   version "1.5.0"

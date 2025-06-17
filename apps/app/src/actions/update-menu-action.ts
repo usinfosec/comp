@@ -7,7 +7,7 @@ import { authActionClient } from './safe-action';
 import { updaterMenuSchema } from './schema';
 
 export const updateMenuAction = authActionClient
-  .schema(updaterMenuSchema)
+  .inputSchema(updaterMenuSchema)
   .metadata({
     name: 'update-menu',
   })

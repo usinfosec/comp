@@ -13,7 +13,7 @@ const schema = z.object({
 });
 
 export const deleteCommentAttachment = authActionClient
-  .schema(schema)
+  .inputSchema(schema)
   .metadata({
     name: 'deleteCommentAttachment',
     track: { event: 'delete-comment-attachment', channel: 'server' },

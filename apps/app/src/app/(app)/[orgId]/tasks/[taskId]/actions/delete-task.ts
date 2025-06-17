@@ -11,7 +11,7 @@ const deleteTaskSchema = z.object({
 });
 
 export const deleteTaskAction = authActionClient
-  .schema(deleteTaskSchema)
+  .inputSchema(deleteTaskSchema)
   .metadata({
     name: 'delete-task',
     track: {

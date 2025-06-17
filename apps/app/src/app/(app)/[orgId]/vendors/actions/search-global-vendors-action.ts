@@ -9,7 +9,7 @@ const schema = z.object({
 });
 
 export const searchGlobalVendorsAction = authActionClient
-  .schema(schema)
+  .inputSchema(schema)
   .metadata({
     name: 'search-global-vendors',
     track: {

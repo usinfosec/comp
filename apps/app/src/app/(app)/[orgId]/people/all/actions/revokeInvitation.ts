@@ -21,7 +21,7 @@ export const revokeInvitation = authActionClient
       channel: 'organization',
     },
   })
-  .schema(revokeInvitationSchema)
+  .inputSchema(revokeInvitationSchema)
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse<{ revoked: boolean }>> => {
     if (!ctx.session.activeOrganizationId) {
       return {

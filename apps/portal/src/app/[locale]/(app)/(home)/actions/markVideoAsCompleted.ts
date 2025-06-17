@@ -7,7 +7,7 @@ import { logger } from '@/utils/logger';
 import { revalidatePath } from 'next/cache';
 
 export const markVideoAsCompleted = authActionClient
-  .schema(z.object({ videoId: z.string() }))
+  .inputSchema(z.object({ videoId: z.string() }))
   .metadata({
     name: 'markVideoAsCompleted',
     track: {

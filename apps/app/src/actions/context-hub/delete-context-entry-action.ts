@@ -7,7 +7,7 @@ import { deleteContextEntrySchema } from '../schema';
 import { db } from '@comp/db';
 
 export const deleteContextEntryAction = authActionClient
-  .schema(deleteContextEntrySchema)
+  .inputSchema(deleteContextEntrySchema)
   .metadata({ name: 'delete-context-entry' })
   .action(async ({ parsedInput, ctx }) => {
     const { id } = parsedInput;

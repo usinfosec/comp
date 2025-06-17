@@ -19,7 +19,7 @@ const schema = z.object({
 });
 
 export const createVendorAction = createSafeActionClient()
-  .schema(schema)
+  .inputSchema(schema)
   .action(async (input): Promise<ActionResponse<Vendor>> => {
     try {
       const session = await auth.api.getSession({

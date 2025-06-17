@@ -36,7 +36,7 @@ const createVendorSchema = z.object({
   website: z.string().url('URL must be valid and start with https://').optional(),
   description: z.string().optional(),
   category: z.nativeEnum(VendorCategory),
-  status: z.nativeEnum(VendorStatus).default(VendorStatus.not_assessed),
+  status: z.nativeEnum(VendorStatus),
   assigneeId: z.string().optional(),
 });
 

@@ -7,7 +7,7 @@ import { authActionClient } from '../safe-action';
 import { updatePolicyFormSchema } from '../schema';
 
 export const submitPolicyForApprovalAction = authActionClient
-  .schema(updatePolicyFormSchema)
+  .inputSchema(updatePolicyFormSchema)
   .metadata({
     name: 'submit-policy-for-approval',
     track: {

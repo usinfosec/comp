@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { revalidateTag } from 'next/cache';
 
 export const revalidateUpload = authActionClient
-  .schema(uploadTaskFileSchema)
+  .inputSchema(uploadTaskFileSchema)
   .metadata({
     name: 'upload-task-file',
     track: {

@@ -14,7 +14,7 @@ const trustPortalSwitchSchema = z.object({
 });
 
 export const trustPortalSwitchAction = authActionClient
-  .schema(trustPortalSwitchSchema)
+  .inputSchema(trustPortalSwitchSchema)
   .metadata({
     name: 'trust-portal-switch',
     track: {

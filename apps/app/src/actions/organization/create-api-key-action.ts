@@ -7,7 +7,7 @@ import { db } from '@comp/db';
 import { revalidatePath } from 'next/cache';
 
 export const createApiKeyAction = authActionClient
-  .schema(apiKeySchema)
+  .inputSchema(apiKeySchema)
   .metadata({
     name: 'createApiKey',
     track: {

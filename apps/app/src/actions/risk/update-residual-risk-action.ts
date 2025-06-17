@@ -23,7 +23,7 @@ function mapNumericToLikelihood(value: number): Likelihood {
 }
 
 export const updateResidualRiskAction = authActionClient
-  .schema(updateResidualRiskSchema)
+  .inputSchema(updateResidualRiskSchema)
   .metadata({
     name: 'update-residual-risk',
     track: {

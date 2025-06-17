@@ -24,7 +24,7 @@ const vercel = new Vercel({
 });
 
 export const checkDnsRecordAction = authActionClient
-  .schema(checkDnsSchema)
+  .inputSchema(checkDnsSchema)
   .metadata({
     name: 'check-dns-record',
     track: {

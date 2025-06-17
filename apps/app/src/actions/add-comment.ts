@@ -9,7 +9,7 @@ import { authActionClient } from './safe-action';
 import { CommentEntityType } from '@comp/db/types';
 
 export const addCommentAction = authActionClient
-  .schema(
+  .inputSchema(
     z.object({
       content: z.string(),
       entityId: z.string(),

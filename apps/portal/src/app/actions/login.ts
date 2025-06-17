@@ -5,7 +5,7 @@ import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
 
 export const login = createSafeActionClient()
-  .schema(
+  .inputSchema(
     z.object({
       otp: z.string(),
       email: z.string().email(),

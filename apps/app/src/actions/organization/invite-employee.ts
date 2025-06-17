@@ -21,7 +21,7 @@ export const inviteEmployee = authActionClient
       channel: 'organization',
     },
   })
-  .schema(inviteEmployeeSchema)
+  .inputSchema(inviteEmployeeSchema)
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse<{ invited: boolean }>> => {
     const organizationId = ctx.session.activeOrganizationId;
 

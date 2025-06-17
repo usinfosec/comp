@@ -6,7 +6,7 @@ import { authActionClient } from '../safe-action';
 import { updateResidualRiskEnumSchema } from '../schema'; // Use the new enum schema
 
 export const updateResidualRiskEnumAction = authActionClient
-  .schema(updateResidualRiskEnumSchema) // Use the new enum schema
+  .inputSchema(updateResidualRiskEnumSchema) // Use the new enum schema
   .metadata({
     name: 'update-residual-risk-enum', // New name
     track: {

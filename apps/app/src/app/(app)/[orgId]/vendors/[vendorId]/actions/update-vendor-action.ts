@@ -8,7 +8,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 import { updateVendorSchema } from './schema';
 
 export const updateVendorAction = authActionClient
-  .schema(updateVendorSchema)
+  .inputSchema(updateVendorSchema)
   .metadata({
     name: 'update-vendor',
     track: {

@@ -31,7 +31,7 @@ function calculateNextReviewDate(frequency: string, baseDate: Date = new Date())
 }
 
 export const updatePolicyFormAction = authActionClient
-  .schema(updatePolicyFormSchema)
+  .inputSchema(updatePolicyFormSchema)
   .metadata({
     name: 'update-policy-form',
     track: {

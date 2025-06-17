@@ -15,7 +15,7 @@ const schema = z.object({
 });
 
 export const updateVendorResidualRisk = createSafeActionClient()
-  .schema(schema)
+  .inputSchema(schema)
   .action(async ({ parsedInput }): Promise<ActionResponse> => {
     try {
       await db.vendor.update({

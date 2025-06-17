@@ -50,7 +50,7 @@ export const updateMemberRole = authActionClient
       channel: 'organization',
     },
   })
-  .schema(updateMemberRoleSchema)
+  .inputSchema(updateMemberRoleSchema)
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse<{ updated: boolean }>> => {
     if (!ctx.session.activeOrganizationId) {
       return {

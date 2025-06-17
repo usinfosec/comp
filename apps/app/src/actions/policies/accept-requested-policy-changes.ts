@@ -14,7 +14,7 @@ const acceptRequestedPolicyChangesSchema = z.object({
 });
 
 export const acceptRequestedPolicyChangesAction = authActionClient
-  .schema(acceptRequestedPolicyChangesSchema)
+  .inputSchema(acceptRequestedPolicyChangesSchema)
   .metadata({
     name: 'accept-requested-policy-changes',
     track: {

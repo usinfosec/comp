@@ -1,4 +1,4 @@
-import { cn } from '@comp/lib/utils';
+import { cn } from '../utils/cn';
 import { motion } from 'framer-motion';
 
 export const ButtonIcon = ({

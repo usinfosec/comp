@@ -50,6 +50,7 @@ export function CreateFrameworkDialog({
       name: '',
       description: '',
       version: '1.0.0',
+      visible: true,
     },
     mode: 'onChange',
   });
@@ -93,6 +94,7 @@ export function CreateFrameworkDialog({
     serverActionFormData.append('name', values.name);
     serverActionFormData.append('description', values.description);
     serverActionFormData.append('version', values.version);
+    serverActionFormData.append('visible', String(values.visible));
 
     const result = await createFrameworkAction(null, serverActionFormData);
     setActionState(result);

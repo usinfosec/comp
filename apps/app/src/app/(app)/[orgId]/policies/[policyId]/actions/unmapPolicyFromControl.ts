@@ -12,7 +12,7 @@ const unmapPolicyFromControlSchema = z.object({
 });
 
 export const unmapPolicyFromControl = authActionClient
-  .schema(unmapPolicyFromControlSchema)
+  .inputSchema(unmapPolicyFromControlSchema)
   .metadata({
     name: 'unmap-policy-from-control',
     track: {

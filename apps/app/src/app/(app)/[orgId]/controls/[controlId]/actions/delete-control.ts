@@ -11,7 +11,7 @@ const deleteControlSchema = z.object({
 });
 
 export const deleteControlAction = authActionClient
-  .schema(deleteControlSchema)
+  .inputSchema(deleteControlSchema)
   .metadata({
     name: 'delete-control',
     track: {

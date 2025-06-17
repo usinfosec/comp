@@ -10,7 +10,7 @@ const schema = z.object({
 });
 
 export const updateFloatingState = createSafeActionClient()
-  .schema(schema)
+  .inputSchema(schema)
   .action(async ({ parsedInput }) => {
     const cookieStore = await cookies();
 
