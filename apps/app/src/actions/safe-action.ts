@@ -7,6 +7,7 @@ import { AuditLogEntityType } from '@comp/db/types';
 import { client } from '@comp/kv';
 import { Ratelimit } from '@upstash/ratelimit';
 import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-action';
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { z } from 'zod';
 
@@ -21,12 +22,18 @@ if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
 
 export const actionClientWithMeta = createSafeActionClient({
   handleServerError(e) {
+    // Log the error for debugging
+    logger('Server error:', e);
+
+    // Throw the error instead of returning it
     if (e instanceof Error) {
-      return e.message;
+      throw e;
     }
 
-    return DEFAULT_SERVER_ERROR_MESSAGE;
+    throw new Error(DEFAULT_SERVER_ERROR_MESSAGE);
   },
+  // Add this to throw validation errors
+  throwValidationErrors: true,
   defineMetadataSchema() {
     return z.object({
       name: z.string(),
@@ -76,13 +83,15 @@ export const authActionClient = actionClientWithMeta
     let remaining: number | undefined;
 
     if (ratelimit) {
-      const { success, remaining } = await ratelimit.limit(
+      const { success, remaining: rateLimitRemaining } = await ratelimit.limit(
         `${headersList.get('x-forwarded-for')}-${metadata.name}`,
       );
 
       if (!success) {
         throw new Error('Too many requests');
       }
+
+      remaining = rateLimitRemaining;
     }
 
     return next({
@@ -202,5 +211,40 @@ export const authActionClient = actionClientWithMeta
       logger('Audit log error:', error);
     }
 
+    // Add revalidation logic based on the cursor rules
+    let path = headersList.get('x-pathname') || headersList.get('referer') || '';
+    path = path.replace(/\/[a-z]{2}\//, '/');
+
+    revalidatePath(path);
+
     return next();
   });
+
+// New action client that includes organization access check
+export const authWithOrgAccessClient = authActionClient.use(async ({ next, clientInput, ctx }) => {
+  // Extract organizationId from the input
+  const organizationId = (clientInput as { organizationId?: string })?.organizationId;
+
+  if (!organizationId) {
+    throw new Error('Organization ID is required');
+  }
+
+  // Check if user is a member of the organization
+  const member = await db.member.findFirst({
+    where: {
+      userId: ctx.user.id,
+      organizationId,
+    },
+  });
+
+  if (!member) {
+    throw new Error('You do not have access to this organization');
+  }
+
+  return next({
+    ctx: {
+      member,
+      organizationId,
+    },
+  });
+});

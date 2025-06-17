@@ -13,7 +13,7 @@ export type ActionResponse<T = any> = Promise<
 >;
 
 export const updateEmployeeDepartment = authActionClient
-  .schema(updateEmployeeDepartmentSchema)
+  .inputSchema(updateEmployeeDepartmentSchema)
   .metadata({
     name: 'update-employee-department',
     track: {

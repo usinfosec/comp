@@ -11,7 +11,7 @@ const deletePolicySchema = z.object({
 });
 
 export const deletePolicyAction = authActionClient
-  .schema(deletePolicySchema)
+  .inputSchema(deletePolicySchema)
   .metadata({
     name: 'delete-policy',
     track: {

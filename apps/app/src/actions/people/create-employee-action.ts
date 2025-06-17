@@ -7,7 +7,7 @@ import { createEmployeeSchema } from '../schema';
 import type { ActionResponse } from '../types';
 
 export const createEmployeeAction = authActionClient
-  .schema(createEmployeeSchema)
+  .inputSchema(createEmployeeSchema)
   .metadata({
     name: 'create-employee',
     track: {

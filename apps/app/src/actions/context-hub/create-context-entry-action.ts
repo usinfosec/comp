@@ -7,7 +7,7 @@ import { createContextEntrySchema } from '../schema';
 import { db } from '@comp/db';
 
 export const createContextEntryAction = authActionClient
-  .schema(createContextEntrySchema)
+  .inputSchema(createContextEntrySchema)
   .metadata({ name: 'create-context-entry' })
   .action(async ({ parsedInput, ctx }) => {
     const { question, answer, tags } = parsedInput;

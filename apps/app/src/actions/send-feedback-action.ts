@@ -6,7 +6,7 @@ import { authActionClient } from './safe-action';
 import { sendFeedbackSchema } from './schema';
 
 export const sendFeebackAction = authActionClient
-  .schema(sendFeedbackSchema)
+  .inputSchema(sendFeedbackSchema)
   .metadata({
     name: 'send-feedback',
   })

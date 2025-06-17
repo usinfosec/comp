@@ -6,7 +6,7 @@ import { authActionClient } from '../safe-action';
 import { createIntegrationSchema } from '../schema';
 
 export const retrieveIntegrationSessionTokenAction = authActionClient
-  .schema(createIntegrationSchema)
+  .inputSchema(createIntegrationSchema)
   .metadata({
     name: 'retrieve-integration-session-token',
     track: {

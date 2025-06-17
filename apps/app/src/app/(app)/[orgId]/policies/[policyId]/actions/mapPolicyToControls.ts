@@ -12,7 +12,7 @@ const mapPolicyToControlsSchema = z.object({
 });
 
 export const mapPolicyToControls = authActionClient
-  .schema(mapPolicyToControlsSchema)
+  .inputSchema(mapPolicyToControlsSchema)
   .metadata({
     name: 'map-policy-to-controls',
     track: {

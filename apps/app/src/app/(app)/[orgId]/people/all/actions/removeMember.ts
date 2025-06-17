@@ -19,7 +19,7 @@ export const removeMember = authActionClient
       channel: 'organization',
     },
   })
-  .schema(removeMemberSchema)
+  .inputSchema(removeMemberSchema)
   .action(async ({ parsedInput, ctx }): Promise<ActionResponse<{ removed: boolean }>> => {
     if (!ctx.session.activeOrganizationId) {
       return {

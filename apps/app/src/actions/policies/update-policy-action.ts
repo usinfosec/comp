@@ -52,7 +52,7 @@ function processContent(content: ContentNode | ContentNode[]): ContentNode | Con
 }
 
 export const updatePolicyAction = authActionClient
-  .schema(updatePolicySchema)
+  .inputSchema(updatePolicySchema)
   .metadata({
     name: 'update-policy',
     track: {

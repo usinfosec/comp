@@ -74,7 +74,7 @@ export const authActionClient = actionClientWithMeta
 
     const headersList = await headers();
 
-    const { success, remaining } = await ratelimit.limit(
+    const { success, remaining: rateLimitRemaining } = await ratelimit.limit(
       `${headersList.get('x-forwarded-for')}-${metadata.name}`,
     );
 
@@ -87,7 +87,7 @@ export const authActionClient = actionClientWithMeta
         ip: headersList.get('x-forwarded-for'),
         userAgent: headersList.get('user-agent'),
         ratelimit: {
-          remaining,
+          remaining: rateLimitRemaining,
         },
       },
     });

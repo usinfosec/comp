@@ -10,7 +10,7 @@ import { authActionClient } from '../safe-action';
 import { createRiskSchema } from '../schema';
 
 export const createRiskAction = authActionClient
-  .schema(createRiskSchema)
+  .inputSchema(createRiskSchema)
   .metadata({
     name: 'create-risk',
     track: {

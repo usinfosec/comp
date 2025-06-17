@@ -20,7 +20,7 @@ interface InviteResult {
 }
 
 export const bulkInviteEmployees = createSafeActionClient()
-  .schema(schema)
+  .inputSchema(schema)
   .action(async ({ parsedInput }) => {
     const { organizationId, emails } = parsedInput;
 

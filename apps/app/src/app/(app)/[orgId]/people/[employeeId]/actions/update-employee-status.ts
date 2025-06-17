@@ -14,7 +14,7 @@ const schema = z.object({
 });
 
 export const updateEmployeeStatus = authActionClient
-  .schema(schema)
+  .inputSchema(schema)
   .metadata({
     name: 'update-employee-status',
     track: {

@@ -9,7 +9,7 @@ import { authActionClient } from '../../safe-action';
 import { updateTaskSchema } from '../../schema';
 
 export const updateTaskAction = authActionClient
-  .schema(updateTaskSchema)
+  .inputSchema(updateTaskSchema)
   .metadata({
     name: 'update-task',
     track: {

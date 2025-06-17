@@ -13,7 +13,7 @@ type DeleteOrganizationResult = {
 };
 
 export const deleteOrganizationAction = authActionClient
-  .schema(deleteOrganizationSchema)
+  .inputSchema(deleteOrganizationSchema)
   .metadata({
     name: 'delete-organization',
     track: {

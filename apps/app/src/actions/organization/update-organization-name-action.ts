@@ -8,7 +8,7 @@ import { authActionClient } from '../safe-action';
 import { organizationNameSchema } from '../schema';
 
 export const updateOrganizationNameAction = authActionClient
-  .schema(organizationNameSchema)
+  .inputSchema(organizationNameSchema)
   .metadata({
     name: 'update-organization-name',
     track: {

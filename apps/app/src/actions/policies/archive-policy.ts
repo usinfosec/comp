@@ -12,7 +12,7 @@ const archivePolicySchema = z.object({
 });
 
 export const archivePolicyAction = authActionClient
-  .schema(archivePolicySchema)
+  .inputSchema(archivePolicySchema)
   .metadata({
     name: 'archive-policy',
     track: {

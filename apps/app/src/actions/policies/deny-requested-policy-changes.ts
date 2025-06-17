@@ -14,7 +14,7 @@ const denyRequestedPolicyChangesSchema = z.object({
 });
 
 export const denyRequestedPolicyChangesAction = authActionClient
-  .schema(denyRequestedPolicyChangesSchema)
+  .inputSchema(denyRequestedPolicyChangesSchema)
   .metadata({
     name: 'deny-requested-policy-changes',
     track: {

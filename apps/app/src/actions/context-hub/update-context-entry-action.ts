@@ -7,7 +7,7 @@ import { updateContextEntrySchema } from '../schema';
 import { db } from '@comp/db';
 
 export const updateContextEntryAction = authActionClient
-  .schema(updateContextEntrySchema)
+  .inputSchema(updateContextEntrySchema)
   .metadata({ name: 'update-context-entry' })
   .action(async ({ parsedInput, ctx }) => {
     const { id, question, answer, tags } = parsedInput;

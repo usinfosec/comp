@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { authActionClient } from '../safe-action';
 
 export const updateIntegrationSettingsAction = authActionClient
-  .schema(
+  .inputSchema(
     z.object({
       integration_id: z.string(),
       option: z.object({

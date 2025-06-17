@@ -8,7 +8,7 @@ import { authActionClient } from '../safe-action';
 import { updateRiskSchema } from '../schema';
 
 export const updateRiskAction = authActionClient
-  .schema(updateRiskSchema)
+  .inputSchema(updateRiskSchema)
   .metadata({
     name: 'update-risk',
     track: {

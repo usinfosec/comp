@@ -7,7 +7,7 @@ import { headers } from 'next/headers';
 import { appErrors, policyDetailsInputSchema } from '../types';
 
 export const getPolicyDetails = authActionClient
-  .schema(policyDetailsInputSchema)
+  .inputSchema(policyDetailsInputSchema)
   .metadata({
     name: 'get-policy-details',
     track: {

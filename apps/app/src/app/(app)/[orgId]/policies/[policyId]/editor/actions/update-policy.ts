@@ -29,7 +29,7 @@ function cleanContent(content: any): any {
 }
 
 export const updatePolicy = authActionClient
-  .schema(updatePolicySchema)
+  .inputSchema(updatePolicySchema)
   .metadata({
     name: 'update-policy',
     track: {

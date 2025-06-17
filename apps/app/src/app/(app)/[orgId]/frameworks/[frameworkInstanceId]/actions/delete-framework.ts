@@ -11,7 +11,7 @@ const deleteFrameworkSchema = z.object({
 });
 
 export const deleteFrameworkAction = authActionClient
-  .schema(deleteFrameworkSchema)
+  .inputSchema(deleteFrameworkSchema)
   .metadata({
     name: 'delete-framework',
     track: {

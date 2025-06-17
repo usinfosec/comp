@@ -18,7 +18,7 @@ export const removeEmployeeRoleOrMember = authActionClient
       channel: 'organization',
     },
   })
-  .schema(removeEmployeeSchema)
+  .inputSchema(removeEmployeeSchema)
   .action(
     async ({
       parsedInput,

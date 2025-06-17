@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { authActionClient } from './safe-action';
 
 export const researchVendorAction = authActionClient
-  .schema(
+  .inputSchema(
     z.object({
       website: z.string().url({ message: 'Invalid URL format' }),
     }),

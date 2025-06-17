@@ -10,7 +10,7 @@ const isFriendlyAvailableSchema = z.object({
 });
 
 export const isFriendlyAvailable = authActionClient
-  .schema(isFriendlyAvailableSchema)
+  .inputSchema(isFriendlyAvailableSchema)
   .metadata({
     name: 'check-friendly-url',
     track: {

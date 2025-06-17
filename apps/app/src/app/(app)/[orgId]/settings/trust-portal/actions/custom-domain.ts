@@ -18,7 +18,7 @@ const vercel = new Vercel({
 });
 
 export const customDomainAction = authActionClient
-  .schema(customDomainSchema)
+  .inputSchema(customDomainSchema)
   .metadata({
     name: 'custom-domain',
     track: {

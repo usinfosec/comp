@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { authActionClient } from './safe-action';
 
 export const changeOrganizationAction = authActionClient
-  .schema(
+  .inputSchema(
     z.object({
       organizationId: z.string(),
     }),

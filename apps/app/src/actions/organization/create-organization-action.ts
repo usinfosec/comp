@@ -11,7 +11,7 @@ import { initializeOrganization } from './lib/initialize-organization';
 import { createFleetLabelForOrg } from '@/jobs/tasks/device/create-fleet-label-for-org';
 
 export const createOrganizationAction = authActionClient
-  .schema(organizationSchema)
+  .inputSchema(organizationSchema)
   .metadata({
     name: 'create-organization',
     track: {

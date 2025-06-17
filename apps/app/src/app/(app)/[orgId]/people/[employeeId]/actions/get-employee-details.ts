@@ -12,7 +12,7 @@ export type ActionResponse<T> = Promise<
 >;
 
 export const getEmployeeDetails = authActionClient
-  .schema(employeeDetailsInputSchema)
+  .inputSchema(employeeDetailsInputSchema)
   .metadata({
     name: 'get-employee-details',
     track: {

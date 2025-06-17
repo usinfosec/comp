@@ -8,7 +8,7 @@ import { authActionClient } from '../safe-action';
 import { deleteIntegrationConnectionSchema } from '../schema';
 
 export const deleteIntegrationConnectionAction = authActionClient
-  .schema(deleteIntegrationConnectionSchema)
+  .inputSchema(deleteIntegrationConnectionSchema)
   .metadata({
     name: 'delete-integration-connection',
     track: {
