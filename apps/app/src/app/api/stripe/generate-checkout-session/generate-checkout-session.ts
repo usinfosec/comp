@@ -87,6 +87,8 @@ export const generateCheckoutSessionAction = authWithOrgAccessClient
 
       if (organization.stripeCustomerId) {
         stripeCustomerId = organization.stripeCustomerId;
+        // Sync the stripeCustomerId to KV store since it was missing there
+        await client.set(`stripe:organization:${organizationId}`, stripeCustomerId);
       }
     }
 

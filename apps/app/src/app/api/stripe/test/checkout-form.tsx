@@ -4,6 +4,7 @@ import { Button } from '@comp/ui/button';
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
 import { useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
+import { env } from '@/env.mjs';
 
 export function CheckoutForm({ organizationId }: { organizationId: string }) {
   const router = useRouter();
@@ -51,6 +52,7 @@ export function CheckoutForm({ organizationId }: { organizationId: string }) {
             successUrl: `${baseUrl}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
             cancelUrl: `${baseUrl}/billing`,
             allowPromotionCodes: true,
+            priceId: env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID,
           })
         }
         disabled={isExecuting}

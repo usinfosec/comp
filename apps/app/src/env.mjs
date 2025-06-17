@@ -43,6 +43,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
     NEXT_PUBLIC_NOVU_IDENTIFIER: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -58,6 +59,7 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
     TRIGGER_API_KEY: process.env.TRIGGER_API_KEY,
