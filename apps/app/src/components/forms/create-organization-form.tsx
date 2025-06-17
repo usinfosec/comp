@@ -2,6 +2,7 @@
 
 import { createOrganizationAction } from '@/actions/organization/create-organization-action';
 import { organizationSchema } from '@/actions/schema';
+import { FrameworkCard } from '@/components/framework-card';
 import { authClient } from '@/utils/auth-client';
 import type { FrameworkEditorFramework } from '@comp/db/types';
 import { Button } from '@comp/ui/button';
@@ -18,7 +19,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 import { LogoSpinner } from '../logo-spinner';
-import { FrameworkCard } from '@/components/framework-card';
 
 interface OnboardingClientProps {
   frameworks: Pick<
