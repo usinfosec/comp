@@ -92,7 +92,7 @@
   "devDependencies": {
     "@trigger.dev/build": "3.3.17",
     "@types/d3": "^7.4.3",
-    "@types/node": "^22.13.2",
+    "@types/node": "^24.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.4.0-canary.85",
     "fleetctl": "^4.68.1",
