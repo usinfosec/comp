@@ -22,6 +22,13 @@ export async function middleware(request: NextRequest) {
   // Add x-path-name
   response.headers.set('x-pathname', nextUrl.pathname);
 
+  // Handle old invite route format - but only for direct visits to /auth with inviteCode
+  // Don't interfere with the auth flow that might be using inviteCode internally
+  const inviteCode = nextUrl.searchParams.get('inviteCode');
+  if (inviteCode && nextUrl.pathname === '/auth') {
+    return NextResponse.redirect(new URL(`/invite/${inviteCode}`, request.url));
+  }
+
   // Allow unauthenticated access to invite routes
   if (nextUrl.pathname.startsWith('/invite/')) {
     return response;
