@@ -1463,7 +1463,7 @@
   devDependencies:
     "@trigger.dev/build" "3.3.17"
     "@types/d3" "^7.4.3"
-    "@types/node" "^22.13.2"
+    "@types/node" "^24.0.3"
     eslint "^9"
     eslint-config-next "15.4.0-canary.85"
     fleetctl "^4.68.1"
@@ -1484,10 +1484,8 @@
     "@browserbasehq/sdk" "^2.5.0"
     "@calcom/atoms" "^1.0.102-framer"
     "@calcom/embed-react" "^1.5.3"
-  dependencies:
     "@comp/db" "workspace:*"
     "@comp/notifications" "workspace:*"
-  dependencies:
     "@date-fns/tz" "^1.2.0"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
@@ -1598,7 +1596,7 @@
   version "workspace:apps/framework-editor"
   resolved "workspace:apps/framework-editor"
   devDependencies:
-    "@types/node" "^22.13.2"
+    "@types/node" "^24.0.3"
     eslint "^9"
     eslint-config-next "15.4.0-canary.85"
     postcss "^8.5.4"
@@ -1671,16 +1669,14 @@
   version "workspace:packages/integrations"
   resolved "workspace:packages/integrations"
   devDependencies:
-    "@types/node" "^22.13.2"
+    "@types/node" "^24.0.3"
     "@types/node-fetch" "^2.6.2"
     typescript "^5.8.3"
   dependencies:
     "@ai-sdk/openai" "^1.3.19"
     "@aws-sdk/client-securityhub" "^3.0.0"
     "@azure/identity" "^4.10.0"
-  dependencies:
     "@comp/app" "workspace:*"
-  dependencies:
     "@slack/bolt" "^3.22.0"
     "@slack/web-api" "^7.8.0"
     ai "^4.3.16"
@@ -1712,9 +1708,8 @@
   devDependencies:
     "@comp/db" "workspace:*"
     "@comp/ui" "workspace:*"
-  devDependencies:
     "@types/archiver" "^6.0.3"
-    "@types/node" "^22.13.2"
+    "@types/node" "^24.0.3"
     eslint "^9"
     eslint-config-next "15.4.0-canary.85"
     postcss "^8.5.4"
@@ -1737,7 +1732,7 @@
   version "workspace:apps/trust"
   resolved "workspace:apps/trust"
   devDependencies:
-    "@types/node" "^22.13.2"
+    "@types/node" "^24.0.3"
     eslint "^9"
     eslint-config-next "15.4.0-canary.85"
     postcss "^8.5.4"
@@ -7040,12 +7035,19 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@*", "@types/node@>= 12", "@types/node@>=10.0.0", "@types/node@>=12", "@types/node@>=13.7.0", "@types/node@>=18.0.0", "@types/node@^22.10.6", "@types/node@^22.13.2":
+"@types/node@*", "@types/node@>= 12", "@types/node@>=10.0.0", "@types/node@>=12", "@types/node@>=13.7.0", "@types/node@>=18.0.0", "@types/node@^22.10.6":
   version "22.15.32"
   resolved "https://registry.npmjs.org/@types/node/-/node-22.15.32.tgz"
   integrity sha512-3jigKqgSjsH6gYZv2nEsqdXfZqIFGAV36XYYjf9KGZ3PSG+IhLecqPnI310RvjutyMwifE2hhhNEklOUrvx/wA==
   dependencies:
     undici-types "~6.21.0"
+
+"@types/node@^24.0.3":
+  version "24.0.3"
+  resolved "https://registry.npmjs.org/@types/node/-/node-24.0.3.tgz"
+  integrity sha512-R4I/kzCYAdRLzfiCabn9hxWfbuHS573x+r0dJMkkzThEa7pbrcDWK+9zu3e7aBOouf+rQAciqPFMnxwr0aWgKg==
+  dependencies:
+    undici-types "~7.8.0"
 
 "@types/node-fetch@^2.5.0", "@types/node-fetch@^2.6.2", "@types/node-fetch@^2.6.4":
   version "2.6.12"
@@ -18556,6 +18558,11 @@ undici-types@~6.21.0:
   version "6.21.0"
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz"
   integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
+
+undici-types@~7.8.0:
+  version "7.8.0"
+  resolved "https://registry.npmjs.org/undici-types/-/undici-types-7.8.0.tgz"
+  integrity sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==
 
 unicode-emoji-modifier-base@^1.0.0:
   version "1.0.0"
