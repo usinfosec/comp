@@ -127,11 +127,9 @@ export function CreateApiKeyDialog({ open, onOpenChange, onSuccess }: CreateApiK
                   </Select>
                 </div>
               </div>
-              <div className="flex flex-col justify-end gap-2 pt-2 sm:flex-row">
-                <Button type="button" variant="outline" onClick={handleClose}>
-                  {'Cancel'}
-                </Button>
-              </div>
+              <Button type="submit" className="justify-self-end w-full">
+                {'Create'}
+              </Button>
             </form>
           </AccordionContent>
         </AccordionItem>
