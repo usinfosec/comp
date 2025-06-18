@@ -43,6 +43,41 @@ export const auth = betterAuth({
       generateId: false,
     },
   },
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => {
+          // Get the user's most recent organization
+          const userOrg = await db.organization.findFirst({
+            where: {
+              members: {
+                some: {
+                  userId: session.userId,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          });
+
+          // Set the active organization if user has one
+          if (userOrg) {
+            return {
+              data: {
+                ...session,
+                activeOrganizationId: userOrg.id,
+              },
+            };
+          }
+
+          return {
+            data: session,
+          };
+        },
+      },
+    },
+  },
   secret: process.env.AUTH_SECRET!,
   plugins: [
     organization({
