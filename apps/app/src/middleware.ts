@@ -22,6 +22,11 @@ export async function middleware(request: NextRequest) {
   // Add x-path-name
   response.headers.set('x-pathname', nextUrl.pathname);
 
+  // Allow unauthenticated access to invite routes
+  if (nextUrl.pathname.startsWith('/invite/')) {
+    return response;
+  }
+
   // 1. Not authenticated
   if (!session && nextUrl.pathname !== '/auth') {
     const url = new URL('/auth', request.url);
