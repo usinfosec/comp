@@ -1,16 +1,37 @@
 'use client';
 
+import { changeOrganizationAction } from '@/actions/change-organization';
 import { LogoSpinner } from '@/components/logo-spinner';
+import type { Organization } from '@comp/db/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@comp/ui/card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@comp/ui/form';
-import { motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useOnboardingForm } from '../hooks/useOnboardingForm';
+import { CreateOrganizationMinimalDialog } from './CreateOrganizationMinimalDialog';
 import { OnboardingFormActions } from './OnboardingFormActions';
 import { OnboardingStepInput } from './OnboardingStepInput';
-import { SkipOnboardingDialog } from './SkipOnboardingDialog';
 
-export function OnboardingForm() {
+interface OrganizationSetupFormProps {
+  existingOrganizations?: Organization[];
+}
+
+export function OrganizationSetupForm({ existingOrganizations = [] }: OrganizationSetupFormProps) {
+  const [isLoadingFrameworks, setIsLoadingFrameworks] = useState(false);
+  const router = useRouter();
+
+  const changeOrgAction = useAction(changeOrganizationAction, {
+    onSuccess: (result) => {
+      const orgId = result.data?.data?.id;
+      if (orgId) {
+        router.push(`/${orgId}/`);
+      }
+    },
+  });
+
   const {
     stepIndex,
     steps,
@@ -30,16 +51,47 @@ export function OnboardingForm() {
     isLastStep,
   } = useOnboardingForm();
 
+  const hasExistingOrgs = existingOrganizations.length > 0;
+
   return isFinalizing ? (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-        <span className="text-muted-foreground">Redirecting...</span>
-      </div>
+      <LogoSpinner />
     </div>
   ) : (
-    <div className="scrollbar-hide flex min-h-screen items-center justify-center p-4">
-      <Card className="scrollbar-hide flex w-full max-w-2xl flex-col">
+    <div className="scrollbar-hide flex min-h-screen flex-col items-center justify-center p-4">
+      {/* Subtle link to go back to existing organizations */}
+      <AnimatePresence>
+        {hasExistingOrgs && mounted && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-4"
+          >
+            <button
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() =>
+                changeOrgAction.execute({ organizationId: existingOrganizations[0].id })
+              }
+              disabled={changeOrgAction.status === 'executing'}
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {existingOrganizations.length === 1 ? (
+                <>Continue with {existingOrganizations[0].name || 'your organization'}</>
+              ) : (
+                <>Back to your organizations</>
+              )}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <Card className="scrollbar-hide relative flex w-full max-w-2xl flex-col">
+        {isLoadingFrameworks && step.key === 'frameworkIds' && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm">
+            <LogoSpinner />
+          </div>
+        )}
         <CardHeader className="flex min-h-[140px] flex-col items-center justify-center pb-0">
           <div className="flex flex-col items-center gap-2">
             <LogoSpinner />
@@ -68,6 +120,7 @@ export function OnboardingForm() {
                         currentStep={step}
                         form={form}
                         savedAnswers={savedAnswers}
+                        onLoadingChange={setIsLoadingFrameworks}
                       />
                     </FormControl>
                     <div className="min-h-[20px]">
@@ -87,12 +140,11 @@ export function OnboardingForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
-                <SkipOnboardingDialog
+                <CreateOrganizationMinimalDialog
                   open={showSkipDialog}
                   onOpenChange={setShowSkipDialog}
                   onConfirmSkip={handleSkipOnboardingAction}
-                  isSkipping={isSkipping}
-                  triggerDisabled={isSkipping || isOnboarding}
+                  loading={isSkipping || isOnboarding}
                 />
               </motion.div>
             )}
