@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { OrganizationSetupForm } from './components/OrganizationSetupForm';
+import { SetupHeader } from './components/SetupHeader';
 
 export const metadata: Metadata = {
   title: 'Setup Your Organization | Comp AI',
@@ -18,8 +19,9 @@ export default async function SetupPage({ searchParams }: SetupPageProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const user = session?.user;
 
-  if (!session || !session.session) {
+  if (!session || !session.session || !user) {
     return redirect('/auth');
   }
 
@@ -40,5 +42,10 @@ export default async function SetupPage({ searchParams }: SetupPageProps) {
     console.error('Failed to fetch organizations:', error);
   }
 
-  return <OrganizationSetupForm existingOrganizations={organizations} />;
+  return (
+    <>
+      <SetupHeader user={user} existingOrganizations={organizations} />
+      <OrganizationSetupForm existingOrganizations={organizations} />
+    </>
+  );
 }
