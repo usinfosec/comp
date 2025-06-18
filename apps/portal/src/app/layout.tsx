@@ -63,7 +63,7 @@ export const viewport = {
 };
 
 const font = localFont({
-  src: '/../../../public/fonts/GeneralSans-Variable.ttf',
+  src: '../../public/fonts/GeneralSans-Variable.ttf',
   display: 'swap',
   variable: '--font-general-sans',
 });
@@ -77,18 +77,11 @@ if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST) {
   });
 }
 
-export default async function Layout(props: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
-  const params = await props.params;
-
-  const { locale } = params;
-
+export default async function Layout(props: { children: React.ReactNode }) {
   const { children } = props;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           `${GeistMono.variable} ${font.variable}`,
@@ -96,7 +89,7 @@ export default async function Layout(props: {
         )}
       >
         <NuqsAdapter>
-          <Providers locale={locale}>
+          <Providers>
             <main>{children}</main>
           </Providers>
         </NuqsAdapter>
