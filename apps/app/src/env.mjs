@@ -42,6 +42,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
   },
 
   runtimeEnv: {
