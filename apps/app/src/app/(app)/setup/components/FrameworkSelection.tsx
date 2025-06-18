@@ -1,8 +1,8 @@
 'use client';
 
 import { FrameworkCard } from '@/components/framework-card';
+import { LogoSpinner } from '@/components/logo-spinner';
 import type { FrameworkEditorFramework } from '@comp/db/types';
-import { Skeleton } from '@comp/ui/skeleton';
 import { useEffect, useState } from 'react';
 
 interface FrameworkSelectionProps {
@@ -35,10 +35,8 @@ export function FrameworkSelection({ value, onChange }: FrameworkSelectionProps)
 
   if (isLoading) {
     return (
-      <div className="space-y-3">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-20 w-full" />
-        ))}
+      <div className="flex h-48 w-full items-center justify-center">
+        <LogoSpinner />
       </div>
     );
   }

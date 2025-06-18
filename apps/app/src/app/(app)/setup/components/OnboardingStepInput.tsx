@@ -32,10 +32,10 @@ export function OnboardingStepInput({ currentStep, form, savedAnswers }: Onboard
     return (
       <Textarea
         {...form.register(currentStep.key)}
-        placeholder={`${savedAnswers.legalName || ''} is a company that...`}
+        placeholder={`${savedAnswers.organizationName || ''} is a company that...`}
         rows={2}
         maxLength={300}
-        className="resize-none"
+        className="h-24 resize-none"
       />
     );
   }

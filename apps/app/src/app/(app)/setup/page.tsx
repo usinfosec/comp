@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   title: 'Organization Setup | Comp AI',
 };
 
-interface SearchParams {
-  intent?: string;
-}
-
 export default function SetupPage() {
   return <OnboardingForm />;
 }

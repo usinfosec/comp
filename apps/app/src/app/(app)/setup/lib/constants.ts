@@ -5,7 +5,7 @@ export const STORAGE_KEY = 'onboarding_answers';
 
 export const companyDetailsSchema = z.object({
   frameworkIds: z.array(z.string()).min(1, 'Please select at least one framework'),
-  legalName: z.string().min(2, 'Company name must be at least 2 characters'),
+  organizationName: z.string().min(2, 'Organization name must be at least 2 characters'),
   website: z.string().url('Please enter a valid URL'),
   describe: z
     .string()
@@ -28,8 +28,8 @@ export const steps: Step[] = [
     placeholder: 'Select the frameworks that apply to your business',
   },
   {
-    key: 'legalName',
-    question: "What's your company name?",
+    key: 'organizationName',
+    question: 'What is your company name?',
     placeholder: 'e.g., Acme Inc.',
   },
   {

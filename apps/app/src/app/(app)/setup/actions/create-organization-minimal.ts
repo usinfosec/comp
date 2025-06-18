@@ -2,21 +2,25 @@
 
 import { createStripeCustomer } from '@/actions/organization/lib/create-stripe-customer';
 import { initializeOrganization } from '@/actions/organization/lib/initialize-organization';
-import { authActionClient } from '@/actions/safe-action';
-import { onboardOrganization as onboardOrganizationTask } from '@/jobs/tasks/onboarding/onboard-organization';
+import { authActionClientWithoutOrg } from '@/actions/safe-action';
 import { auth } from '@/utils/auth';
 import { db } from '@comp/db';
-import { tasks } from '@trigger.dev/sdk/v3';
 import { revalidatePath } from 'next/cache';
-import { cookies, headers } from 'next/headers';
-import { companyDetailsSchema, steps } from '../lib/constants';
+import { headers } from 'next/headers';
+import { z } from 'zod';
 
-export const onboardOrganization = authActionClient
-  .inputSchema(companyDetailsSchema)
+const createOrganizationMinimalSchema = z.object({
+  organizationName: z.string().min(1, 'Organization name is required'),
+  website: z.string().url('Please enter a valid URL'),
+  frameworkIds: z.array(z.string()).default([]),
+});
+
+export const createOrganizationMinimal = authActionClientWithoutOrg
+  .inputSchema(createOrganizationMinimalSchema)
   .metadata({
-    name: 'onboard-organization',
+    name: 'create-organization-minimal',
     track: {
-      event: 'onboard-organization',
+      event: 'create-organization-minimal',
       channel: 'server',
     },
   })
@@ -38,7 +42,7 @@ export const onboardOrganization = authActionClient
 
       const newOrg = await db.organization.create({
         data: {
-          name: parsedInput.legalName,
+          name: parsedInput.organizationName,
           website: parsedInput.website,
           members: {
             create: {
@@ -46,34 +50,22 @@ export const onboardOrganization = authActionClient
               role: 'owner',
             },
           },
-          context: {
-            create: steps
-              .filter((step) => step.key !== 'legalName' && step.key !== 'website')
-              .map((step) => ({
-                question: step.question,
-                answer:
-                  step.key === 'frameworkIds'
-                    ? parsedInput.frameworkIds.join(', ')
-                    : (parsedInput[step.key as keyof typeof parsedInput] as string),
-                tags: ['onboarding'],
-              })),
-          },
         },
       });
 
       const orgId = newOrg.id;
 
-      // Create onboarding record for new org
+      // Create onboarding record for new org (mark as completed since they're skipping)
       await db.onboarding.create({
         data: {
           organizationId: orgId,
-          completed: false,
+          completed: true,
         },
       });
 
       // Create Stripe customer for new org
       const stripeCustomerId = await createStripeCustomer({
-        name: parsedInput.legalName,
+        name: parsedInput.organizationName,
         email: session.user.email,
         organizationId: orgId,
       });
@@ -85,7 +77,7 @@ export const onboardOrganization = authActionClient
         });
       }
 
-      // Initialize frameworks using the existing function
+      // Initialize frameworks if provided
       if (parsedInput.frameworkIds && parsedInput.frameworkIds.length > 0) {
         await initializeOrganization({
           frameworkIds: parsedInput.frameworkIds,
@@ -114,42 +106,16 @@ export const onboardOrganization = authActionClient
         revalidatePath(`/${org.organizationId}`);
       }
 
-      const handle = await tasks.trigger<typeof onboardOrganizationTask>(
-        'onboard-organization',
-        {
-          organizationId: orgId,
-        },
-        {
-          queue: {
-            name: 'onboard-organization',
-            concurrencyLimit: 5,
-          },
-          concurrencyKey: orgId,
-        },
-      );
-
-      // Set triggerJobId to signal that the job is running.
-      await db.onboarding.update({
-        where: {
-          organizationId: orgId,
-        },
-        data: { triggerJobId: handle.id },
-      });
-
       revalidatePath('/');
       revalidatePath(`/${orgId}`);
       revalidatePath('/setup');
 
-      (await cookies()).set('publicAccessToken', handle.publicAccessToken);
-
       return {
         success: true,
-        handle: handle.id,
-        publicAccessToken: handle.publicAccessToken,
         organizationId: orgId,
       };
     } catch (error) {
-      console.error('Error during organization creation/update:', error);
+      console.error('Error during organization setup:', error);
 
       // Return the actual error message for debugging
       if (error instanceof Error) {
@@ -161,7 +127,7 @@ export const onboardOrganization = authActionClient
 
       return {
         success: false,
-        error: 'Failed to create or update organization structure',
+        error: 'Failed to setup organization',
       };
     }
   });
