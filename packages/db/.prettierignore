@@ -8,4 +8,7 @@ coverage
 .env*
 docker
 *.prisma
-prisma/ 
+prisma/
+# Generated Prisma client files
+src/index.js
+src/types.js 
