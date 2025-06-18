@@ -6,8 +6,8 @@ import type { UseFormReturn } from 'react-hook-form';
 import type { CompanyDetails, Step } from '../lib/types';
 import { FrameworkSelection } from './FrameworkSelection';
 
-// It's often better to move shared types to a central location (e.g., ../lib/types.ts)
-// For now, defining it here to match OnboardingForm.tsx structure.
+// Type for form fields used in this component.
+// For now, defining it here to match OrganizationSetupForm.tsx structure.
 export type OnboardingFormFields = Partial<CompanyDetails> & {
   [K in keyof CompanyDetails as `${K}Other`]?: string;
 };

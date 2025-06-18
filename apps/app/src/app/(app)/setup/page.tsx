@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
-import { OnboardingForm } from './components/OnboardingForm';
+import { Metadata } from 'next';
+import { OrganizationSetupForm } from './components/OrganizationSetupForm';
 
 export const metadata: Metadata = {
-  title: 'Organization Setup | Comp AI',
+  title: 'Setup Your Organization | Comp AI',
 };
 
 export default function SetupPage() {
-  return <OnboardingForm />;
+  return <OrganizationSetupForm />;
 }
