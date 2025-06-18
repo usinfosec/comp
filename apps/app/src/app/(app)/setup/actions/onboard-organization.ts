@@ -40,9 +40,6 @@ export const onboardOrganization = authActionClient
         data: {
           name: parsedInput.legalName,
           website: parsedInput.website,
-          metadata: JSON.stringify({
-            slug: `my-organization-${randomSuffix}`,
-          }),
           members: {
             create: {
               userId: session.user.id,

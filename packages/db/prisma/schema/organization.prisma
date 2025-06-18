@@ -1,7 +1,6 @@
 model Organization {
   id               String      @id @default(dbgenerated("generate_prefixed_cuid('org'::text)"))
   name             String
-  slug             String      @unique
   logo             String?
   createdAt        DateTime
   metadata         String?
@@ -28,6 +27,4 @@ model Organization {
   attachments        Attachment[]
   trust              Trust[]
   context            Context[]
-
-  @@index([slug])
 }
