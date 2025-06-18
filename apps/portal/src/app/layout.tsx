@@ -6,6 +6,7 @@ import { GeistMono } from 'geist/font/mono';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { Providers } from './providers';
 
@@ -88,11 +89,13 @@ export default async function Layout(props: { children: React.ReactNode }) {
           'overscroll-none whitespace-pre-line antialiased',
         )}
       >
-        <NuqsAdapter>
-          <Providers>
-            <main>{children}</main>
-          </Providers>
-        </NuqsAdapter>
+        <Suspense>
+          <NuqsAdapter>
+            <Providers>
+              <main>{children}</main>
+            </Providers>
+          </NuqsAdapter>
+        </Suspense>
         <Toaster richColors />
       </body>
     </html>
