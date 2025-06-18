@@ -93,35 +93,39 @@ export function CreateApiKeyDialog({ open, onOpenChange, onSuccess }: CreateApiK
                 <label htmlFor="name" className="text-sm leading-none font-medium">
                   {'Name'}
                 </label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={'Enter a name for this API key'}
-                  required
-                  className="w-full"
-                />
+                <div className="mt-3">
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder={'Enter a name for this API key'}
+                    required
+                    className="w-full"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="expiration" className="text-sm leading-none font-medium">
                   {'Expiration'}
                 </label>
-                <Select
-                  value={expiration}
-                  onValueChange={(value) =>
-                    setExpiration(value as 'never' | '30days' | '90days' | '1year')
-                  }
-                >
-                  <SelectTrigger id="expiration" className="w-full">
-                    <SelectValue placeholder={'Select expiration'} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="never">{'Never'}</SelectItem>
-                    <SelectItem value="30days">{'30 days'}</SelectItem>
-                    <SelectItem value="90days">{'90 days'}</SelectItem>
-                    <SelectItem value="1year">{'1 year'}</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="mt-3">
+                  <Select
+                    value={expiration}
+                    onValueChange={(value) =>
+                      setExpiration(value as 'never' | '30days' | '90days' | '1year')
+                    }
+                  >
+                    <SelectTrigger id="expiration" className="w-full">
+                      <SelectValue placeholder={'Select expiration'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="never">{'Never'}</SelectItem>
+                      <SelectItem value="30days">{'30 days'}</SelectItem>
+                      <SelectItem value="90days">{'90 days'}</SelectItem>
+                      <SelectItem value="1year">{'1 year'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="flex flex-col justify-end gap-2 pt-2 sm:flex-row">
                 <Button type="button" variant="outline" onClick={handleClose}>
