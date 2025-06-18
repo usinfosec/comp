@@ -19,6 +19,6 @@ export async function GET(request: Request) {
     return redirect(`/auth?inviteCode=${encodeURIComponent(inviteCode)}`);
   }
 
-  // If logged in, redirect to the invitation page
+  // If logged in, redirect to the invitation page, which will handle validation
   return redirect(`/invite/${inviteCode}`);
 }
