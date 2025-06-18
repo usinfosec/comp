@@ -4,12 +4,15 @@ import { LogoSpinner } from '@/components/logo-spinner';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@comp/ui/card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@comp/ui/form';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useOnboardingForm } from '../hooks/useOnboardingForm';
 import { CreateOrganizationMinimalDialog } from './CreateOrganizationMinimalDialog';
 import { OnboardingFormActions } from './OnboardingFormActions';
 import { OnboardingStepInput } from './OnboardingStepInput';
 
 export function OrganizationSetupForm() {
+  const [isLoadingFrameworks, setIsLoadingFrameworks] = useState(false);
+
   const {
     stepIndex,
     steps,
@@ -35,7 +38,12 @@ export function OrganizationSetupForm() {
     </div>
   ) : (
     <div className="scrollbar-hide flex min-h-screen items-center justify-center p-4">
-      <Card className="scrollbar-hide flex w-full max-w-2xl flex-col">
+      <Card className="scrollbar-hide relative flex w-full max-w-2xl flex-col">
+        {isLoadingFrameworks && step.key === 'frameworkIds' && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm">
+            <LogoSpinner />
+          </div>
+        )}
         <CardHeader className="flex min-h-[140px] flex-col items-center justify-center pb-0">
           <div className="flex flex-col items-center gap-2">
             <LogoSpinner />
@@ -64,6 +72,7 @@ export function OrganizationSetupForm() {
                         currentStep={step}
                         form={form}
                         savedAnswers={savedAnswers}
+                        onLoadingChange={setIsLoadingFrameworks}
                       />
                     </FormControl>
                     <div className="min-h-[20px]">

@@ -1,16 +1,16 @@
 'use client';
 
 import { FrameworkCard } from '@/components/framework-card';
-import { LogoSpinner } from '@/components/logo-spinner';
 import type { FrameworkEditorFramework } from '@comp/db/types';
 import { useEffect, useState } from 'react';
 
 interface FrameworkSelectionProps {
   value: string[];
   onChange: (value: string[]) => void;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
-export function FrameworkSelection({ value, onChange }: FrameworkSelectionProps) {
+export function FrameworkSelection({ value, onChange, onLoadingChange }: FrameworkSelectionProps) {
   const [frameworks, setFrameworks] = useState<
     Pick<FrameworkEditorFramework, 'id' | 'name' | 'description' | 'version' | 'visible'>[]
   >([]);
@@ -19,6 +19,7 @@ export function FrameworkSelection({ value, onChange }: FrameworkSelectionProps)
   useEffect(() => {
     async function fetchFrameworks() {
       try {
+        onLoadingChange?.(true);
         const response = await fetch('/api/frameworks');
         if (!response.ok) throw new Error('Failed to fetch frameworks');
         const data = await response.json();
@@ -27,18 +28,15 @@ export function FrameworkSelection({ value, onChange }: FrameworkSelectionProps)
         console.error('Error fetching frameworks:', error);
       } finally {
         setIsLoading(false);
+        onLoadingChange?.(false);
       }
     }
 
     fetchFrameworks();
-  }, []);
+  }, [onLoadingChange]);
 
   if (isLoading) {
-    return (
-      <div className="flex h-48 w-full items-center justify-center">
-        <LogoSpinner />
-      </div>
-    );
+    return null;
   }
 
   return (

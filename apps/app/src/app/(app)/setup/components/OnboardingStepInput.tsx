@@ -16,14 +16,21 @@ interface OnboardingStepInputProps {
   currentStep: Step;
   form: UseFormReturn<OnboardingFormFields>; // Or a more generic form type if preferred
   savedAnswers: Partial<CompanyDetails>;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
-export function OnboardingStepInput({ currentStep, form, savedAnswers }: OnboardingStepInputProps) {
+export function OnboardingStepInput({
+  currentStep,
+  form,
+  savedAnswers,
+  onLoadingChange,
+}: OnboardingStepInputProps) {
   if (currentStep.key === 'frameworkIds') {
     return (
       <FrameworkSelection
-        value={form.watch('frameworkIds') || []}
-        onChange={(value) => form.setValue('frameworkIds', value)}
+        value={form.getValues(currentStep.key) || []}
+        onChange={(value) => form.setValue(currentStep.key, value)}
+        onLoadingChange={onLoadingChange}
       />
     );
   }
