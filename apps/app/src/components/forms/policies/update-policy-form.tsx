@@ -37,10 +37,12 @@ export function UpdatePolicyForm({ policy }: { policy: Policy }) {
       title: policy.name,
       description: policy.description ?? '',
       isRequiredToSign: policy.isRequiredToSign ? 'required' : 'not_required',
+      entityId: policy.id,
     },
   });
 
   const onSubmit = (data: z.infer<typeof updatePolicyOverviewSchema>) => {
+    console.log(data);
     updatePolicy.execute({
       id: data.id,
       title: data.title,
