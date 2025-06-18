@@ -62,20 +62,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(`/${hasOrg.id}/frameworks`, request.url));
       }
     }
-
-    // Check if user needs onboarding
-    if (session.session.activeOrganizationId && !nextUrl.pathname.startsWith('/setup')) {
-      const onboarding = await db.onboarding.findFirst({
-        where: {
-          organizationId: session.session.activeOrganizationId as string,
-        },
-      });
-
-      // Redirect to setup if onboarding not completed
-      if (onboarding && !onboarding.completed && !onboarding.triggerJobId) {
-        return NextResponse.redirect(new URL('/setup', request.url));
-      }
-    }
   }
 
   return response;
