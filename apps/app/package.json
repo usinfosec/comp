@@ -120,7 +120,7 @@
     "apply-migrations": "cd ../../packages/db && bunx prisma migrate dev && cd ../../apps/app",
     "build": "next build --turbopack",
     "deploy:trigger-prod": "npx trigger.dev@latest deploy",
-    "dev": "bun i && bun run apply-migrations && bunx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"next dev --turbo -p 3000\" \"bun run trigger:dev\"",
+    "dev": "next dev --turbo -p 3000",
     "lint": "next lint && prettier --check .",
     "start": "next start",
     "trigger:dev": "npx trigger.dev@latest dev",
