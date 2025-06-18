@@ -6,4 +6,6 @@ generated
 coverage
 *.log
 .env*
-docker 
+docker
+*.prisma
+prisma/ 
