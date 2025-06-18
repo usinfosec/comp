@@ -1,5 +1,7 @@
 'use server';
 
+import { createStripeCustomer } from '@/actions/organization/lib/create-stripe-customer';
+import { initializeOrganization } from '@/actions/organization/lib/initialize-organization';
 import { authActionClient } from '@/actions/safe-action';
 import { onboardOrganization as onboardOrganizationTask } from '@/jobs/tasks/onboarding/onboard-organization';
 import { auth } from '@/utils/auth';
@@ -24,34 +26,77 @@ export const onboardOrganization = authActionClient
         headers: await headers(),
       });
 
-      if (!session?.session?.activeOrganizationId) {
+      if (!session) {
         return {
           success: false,
-          error: 'Not authorized - no active organization found.',
+          error: 'Not authorized.',
         };
       }
 
-      const orgId = session.session.activeOrganizationId;
+      // Create a new organization directly in the database
+      const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
 
-      await db.organization.update({
-        where: {
-          id: orgId,
-        },
+      const newOrg = await db.organization.create({
         data: {
           name: parsedInput.legalName,
           website: parsedInput.website,
+          metadata: JSON.stringify({
+            slug: `my-organization-${randomSuffix}`,
+          }),
+          members: {
+            create: {
+              userId: session.user.id,
+              role: 'owner',
+            },
+          },
           context: {
             create: steps
               .filter((step) => step.key !== 'legalName' && step.key !== 'website')
               .map((step) => ({
                 question: step.question,
-                answer: parsedInput[step.key as keyof typeof parsedInput],
+                answer:
+                  step.key === 'frameworkIds'
+                    ? parsedInput.frameworkIds.join(', ')
+                    : (parsedInput[step.key as keyof typeof parsedInput] as string),
                 tags: ['onboarding'],
               })),
           },
         },
       });
 
+      const orgId = newOrg.id;
+
+      // Create onboarding record for new org
+      await db.onboarding.create({
+        data: {
+          organizationId: orgId,
+          completed: false,
+        },
+      });
+
+      // Create Stripe customer for new org
+      const stripeCustomerId = await createStripeCustomer({
+        name: parsedInput.legalName,
+        email: session.user.email,
+        organizationId: orgId,
+      });
+
+      if (stripeCustomerId) {
+        await db.organization.update({
+          where: { id: orgId },
+          data: { stripeCustomerId },
+        });
+      }
+
+      // Initialize frameworks using the existing function
+      if (parsedInput.frameworkIds && parsedInput.frameworkIds.length > 0) {
+        await initializeOrganization({
+          frameworkIds: parsedInput.frameworkIds,
+          organizationId: orgId,
+        });
+      }
+
+      // Set new org as active
       await auth.api.setActiveOrganization({
         headers: await headers(),
         body: {
@@ -96,7 +141,7 @@ export const onboardOrganization = authActionClient
 
       revalidatePath('/');
       revalidatePath(`/${orgId}`);
-      revalidatePath('/setup/onboarding');
+      revalidatePath('/setup');
 
       (await cookies()).set('publicAccessToken', handle.publicAccessToken);
 
@@ -109,6 +154,17 @@ export const onboardOrganization = authActionClient
     } catch (error) {
       console.error('Error during organization creation/update:', error);
 
-      throw new Error('Failed to create or update organization structure');
+      // Return the actual error message for debugging
+      if (error instanceof Error) {
+        return {
+          success: false,
+          error: error.message,
+        };
+      }
+
+      return {
+        success: false,
+        error: 'Failed to create or update organization structure',
+      };
     }
   });

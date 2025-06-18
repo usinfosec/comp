@@ -1,4 +1,5 @@
 export type CompanyDetails = {
+  frameworkIds: string[];
   legalName: string;
   website: string;
   describe: string;

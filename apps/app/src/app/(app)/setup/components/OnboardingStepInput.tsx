@@ -4,6 +4,7 @@ import { SelectPills } from '@comp/ui/select-pills';
 import { Textarea } from '@comp/ui/textarea';
 import type { UseFormReturn } from 'react-hook-form';
 import type { CompanyDetails, Step } from '../lib/types';
+import { FrameworkSelection } from './FrameworkSelection';
 
 // It's often better to move shared types to a central location (e.g., ../lib/types.ts)
 // For now, defining it here to match OnboardingForm.tsx structure.
@@ -18,6 +19,15 @@ interface OnboardingStepInputProps {
 }
 
 export function OnboardingStepInput({ currentStep, form, savedAnswers }: OnboardingStepInputProps) {
+  if (currentStep.key === 'frameworkIds') {
+    return (
+      <FrameworkSelection
+        value={form.watch('frameworkIds') || []}
+        onChange={(value) => form.setValue('frameworkIds', value)}
+      />
+    );
+  }
+
   if (currentStep.key === 'describe') {
     return (
       <Textarea

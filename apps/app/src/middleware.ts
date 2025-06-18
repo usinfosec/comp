@@ -25,34 +25,50 @@ export async function middleware(request: NextRequest) {
   // 1. Not authenticated
   if (!session && nextUrl.pathname !== '/auth') {
     const url = new URL('/auth', request.url);
-
     return NextResponse.redirect(url);
   }
 
-  // 2. Authenticated; handle different scenarios
+  // 2. Authenticated users
   if (session) {
-    // Allow access to /setup when user intentionally wants to create additional org
-    const isIntentionalSetup =
-      nextUrl.pathname === '/setup' && nextUrl.searchParams.get('intent') === 'create-additional';
+    // Special handling for /setup path - it's used for creating organizations
+    if (nextUrl.pathname.startsWith('/setup')) {
+      // Check if user already has an organization
+      const hasOrg = await db.organization.findFirst({
+        where: {
+          members: {
+            some: {
+              userId: session.user.id,
+            },
+          },
+        },
+      });
 
-    if (isIntentionalSetup) {
-      return response;
+      // Allow access if:
+      // - User has no organization (new user)
+      // - User is intentionally creating additional org (intent=create-additional)
+      const isIntentionalSetup = nextUrl.searchParams.get('intent') === 'create-additional';
+
+      if (!hasOrg || isIntentionalSetup) {
+        return response;
+      }
+
+      // If user has org and not intentionally creating new one, redirect to their org
+      if (hasOrg && !isIntentionalSetup) {
+        return NextResponse.redirect(new URL(`/${hasOrg.id}/frameworks`, request.url));
+      }
     }
 
-    // 2.1. If the user has an active organization, redirect to implementation
-    if (
-      session.session.activeOrganizationId &&
-      nextUrl.pathname !== '/auth' &&
-      !nextUrl.pathname.startsWith('/setup/onboarding')
-    ) {
+    // Check if user needs onboarding
+    if (session.session.activeOrganizationId && !nextUrl.pathname.startsWith('/setup')) {
       const onboarding = await db.onboarding.findFirst({
         where: {
           organizationId: session.session.activeOrganizationId as string,
         },
       });
 
+      // Redirect to setup if onboarding not completed
       if (onboarding && !onboarding.completed && !onboarding.triggerJobId) {
-        return NextResponse.redirect(new URL('/setup/onboarding', request.url));
+        return NextResponse.redirect(new URL('/setup', request.url));
       }
     }
   }

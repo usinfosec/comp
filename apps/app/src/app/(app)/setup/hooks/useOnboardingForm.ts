@@ -44,13 +44,21 @@ export function useOnboardingForm() {
   }, [savedAnswers, step.key, form]);
 
   const skipOnboardingAction = useAction(skipOnboarding, {
-    onSuccess: () => {
-      setIsFinalizing(true);
-      sendGTMEvent({ event: 'conversion' });
-      router.push('/');
+    onSuccess: (result) => {
+      if (result.data?.success) {
+        setIsFinalizing(true);
+        sendGTMEvent({ event: 'conversion' });
+        router.push('/');
+      } else {
+        // Handle the error response
+        toast.error(result.data?.error || 'Failed to skip onboarding');
+        setIsSkipping(false);
+      }
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('Skip onboarding error:', error);
       toast.error('Failed to skip onboarding');
+      setIsSkipping(false);
     },
     onExecute: () => {
       setIsSkipping(true);
@@ -82,6 +90,7 @@ export function useOnboardingForm() {
 
   const handleOnboardOrganizationAction = (currentAnswers: Partial<CompanyDetails>) => {
     onboardOrganizationAction.execute({
+      frameworkIds: currentAnswers.frameworkIds || [],
       legalName: currentAnswers.legalName || '',
       website: currentAnswers.website || '',
       describe: currentAnswers.describe || '',
@@ -100,6 +109,7 @@ export function useOnboardingForm() {
     skipOnboardingAction.execute({
       legalName: savedAnswers.legalName || 'My Organization',
       website: savedAnswers.website || 'https://my-organization.com',
+      frameworkIds: savedAnswers.frameworkIds || [],
     });
     setSavedAnswers({});
   };
@@ -108,7 +118,7 @@ export function useOnboardingForm() {
     const newAnswers: OnboardingFormFields = { ...savedAnswers, ...data };
 
     for (const key of Object.keys(newAnswers)) {
-      if (step.options && step.key === key) {
+      if (step.options && step.key === key && key !== 'frameworkIds') {
         const customValue = newAnswers[`${key}Other`] || '';
         const values = (newAnswers[key] || '').split(',').filter(Boolean);
 
@@ -135,7 +145,12 @@ export function useOnboardingForm() {
     if (stepIndex > 0) setStepIndex(stepIndex - 1);
   };
 
-  const canShowSkipButton = Boolean(savedAnswers.legalName && savedAnswers.website);
+  const canShowSkipButton = Boolean(
+    savedAnswers.frameworkIds &&
+      savedAnswers.frameworkIds.length > 0 &&
+      savedAnswers.legalName &&
+      savedAnswers.website,
+  );
   const isLastStep = stepIndex === steps.length - 1;
 
   return {
