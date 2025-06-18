@@ -34,34 +34,31 @@ export function AcceptInvite({
   };
 
   return (
-    <div className="bg-background flex min-h-screen items-center justify-center p-6 md:p-8">
-      <div className="bg-card relative w-full max-w-[440px] rounded-sm border p-8 shadow-lg">
-        <div className="mb-8 flex justify-between">
-          <Link href="/">
-            <Icons.Logo />
-          </Link>
-        </div>
-
-        <div className="mb-8 space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            You have been invited to join {organizationName || 'an organization'}.
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            Please accept the invitation to join the organization.
-          </p>
-        </div>
-
-        <Button onClick={handleAccept} className="w-full" disabled={isPending}>
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Accepting...
-            </>
-          ) : (
-            'Accept Invitation'
-          )}
-        </Button>
+    <div className="bg-card relative w-full max-w-[440px] rounded-sm border p-8 shadow-lg">
+      <div className="mb-8 flex justify-between">
+        <Link href="/">
+          <Icons.Logo />
+        </Link>
       </div>
+
+      <div className="mb-8 space-y-2">
+        <h1 className="text-2xl font-semibold tracking-tight">You have been invited to join</h1>
+        <p className="text-xl font-medium line-clamp-1">{organizationName || 'an organization'}</p>
+        <p className="text-muted-foreground text-sm">
+          Please accept the invitation to join the organization.
+        </p>
+      </div>
+
+      <Button onClick={handleAccept} className="w-full" disabled={isPending}>
+        {isPending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Accepting...
+          </>
+        ) : (
+          'Accept Invitation'
+        )}
+      </Button>
     </div>
   );
 }
