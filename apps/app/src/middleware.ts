@@ -62,6 +62,39 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(`/${hasOrg.id}/frameworks`, request.url));
       }
     }
+
+    // Heal sessions for organization-dependent routes
+    const isOrgRoute = nextUrl.pathname.includes('/org_');
+    const isRootPath = nextUrl.pathname === '/';
+
+    if ((isOrgRoute || isRootPath) && !session.session.activeOrganizationId) {
+      // Try to find and set an organization for the user
+      const userOrg = await db.organization.findFirst({
+        where: {
+          members: {
+            some: {
+              userId: session.user.id,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      if (userOrg) {
+        // Set the active organization
+        await auth.api.setActiveOrganization({
+          headers: await headers(),
+          body: {
+            organizationId: userOrg.id,
+          },
+        });
+
+        // Refresh to get the updated session
+        return NextResponse.redirect(new URL(nextUrl.pathname, request.url));
+      }
+    }
   }
 
   return response;
