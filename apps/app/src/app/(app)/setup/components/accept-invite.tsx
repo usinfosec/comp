@@ -1,6 +1,7 @@
 'use client';
 
 import { completeInvitation } from '@/actions/organization/accept-invitation';
+import { authClient } from '@/utils/auth-client';
 import { Button } from '@comp/ui/button';
 import { Icons } from '@comp/ui/icons';
 import { Loader2 } from 'lucide-react';
@@ -19,9 +20,14 @@ export function AcceptInvite({
   const router = useRouter();
 
   const { execute, isPending } = useAction(completeInvitation, {
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (result.data?.data?.organizationId) {
-        router.push(`/${result.data.data.organizationId}/frameworks`);
+        // Set the active organization before redirecting
+        await authClient.organization.setActive({
+          organizationId: result.data.data.organizationId,
+        });
+        // Redirect to the organization's root path
+        router.push(`/${result.data.data.organizationId}/`);
       }
     },
     onError: (error) => {
