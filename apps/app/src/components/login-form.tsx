@@ -23,7 +23,6 @@ export function LoginForm({ inviteCode, showGoogle, showGithub }: LoginFormProps
     setMagicLinkState({ sent: true, email });
   };
 
-  // If the magic link has been sent, show the minimal confirmation card
   if (magicLinkState.sent) {
     return (
       <Card className="w-full max-w-md">
@@ -39,6 +38,9 @@ export function LoginForm({ inviteCode, showGoogle, showGithub }: LoginFormProps
               magic link to sign in.
             </CardDescription>
           </div>
+          <Button variant="link" onClick={() => setMagicLinkState({ sent: false, email: '' })}>
+            Use another method
+          </Button>
         </CardContent>
       </Card>
     );
