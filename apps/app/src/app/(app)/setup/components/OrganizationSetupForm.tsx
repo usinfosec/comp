@@ -16,9 +16,17 @@ import { OnboardingStepInput } from './OnboardingStepInput';
 
 interface OrganizationSetupFormProps {
   existingOrganizations?: Organization[];
+  setupId?: string;
+  initialData?: Record<string, any>;
+  currentStep?: string;
 }
 
-export function OrganizationSetupForm({ existingOrganizations = [] }: OrganizationSetupFormProps) {
+export function OrganizationSetupForm({
+  existingOrganizations = [],
+  setupId,
+  initialData,
+  currentStep,
+}: OrganizationSetupFormProps) {
   const [isLoadingFrameworks, setIsLoadingFrameworks] = useState(false);
   const router = useRouter();
 
@@ -48,7 +56,11 @@ export function OrganizationSetupForm({ existingOrganizations = [] }: Organizati
     handleSkipOnboardingAction,
     canShowSkipButton,
     isLastStep,
-  } = useOnboardingForm();
+  } = useOnboardingForm({
+    setupId,
+    initialData,
+    currentStep,
+  });
 
   const hasExistingOrgs = existingOrganizations.length > 0;
 

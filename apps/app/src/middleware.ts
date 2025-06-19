@@ -1,3 +1,4 @@
+import { getSubscriptionData } from '@/app/api/stripe/getSubscriptionData';
 import { auth } from '@/utils/auth';
 import { db } from '@comp/db';
 import { headers } from 'next/headers';
@@ -10,6 +11,13 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|monitoring|ingest|onboarding|research).*)',
   ],
 };
+
+// Routes that don't require subscription
+const SUBSCRIPTION_EXEMPT_ROUTES = ['/auth', '/invite', '/setup', '/upgrade', '/settings/billing'];
+
+function isSubscriptionExempt(pathname: string): boolean {
+  return SUBSCRIPTION_EXEMPT_ROUTES.some((route) => pathname.includes(route));
+}
 
 export async function middleware(request: NextRequest) {
   const session = await auth.api.getSession({
@@ -51,15 +59,44 @@ export async function middleware(request: NextRequest) {
       // Allow access if:
       // - User has no organization (new user)
       // - User is intentionally creating additional org (intent=create-additional)
+      // - User is in a setup session (has setupId in path)
       const isIntentionalSetup = nextUrl.searchParams.get('intent') === 'create-additional';
+      const isSetupSession = nextUrl.pathname.match(/^\/setup\/[a-zA-Z0-9]+/);
 
-      if (!hasOrg || isIntentionalSetup) {
+      if (!hasOrg || isIntentionalSetup || isSetupSession) {
         return response;
       }
 
       // If user has org and not intentionally creating new one, redirect to their org
-      if (hasOrg && !isIntentionalSetup) {
+      if (hasOrg && !isIntentionalSetup && !isSetupSession) {
         return NextResponse.redirect(new URL(`/${hasOrg.id}/frameworks`, request.url));
+      }
+    }
+
+    // Check subscription status for organization routes
+    const orgMatch = nextUrl.pathname.match(/^\/org_[a-zA-Z0-9]+/);
+    if (orgMatch && !isSubscriptionExempt(nextUrl.pathname)) {
+      const orgId = orgMatch[0].substring(1); // Remove leading slash
+
+      // Get organization's Stripe customer ID
+      const org = await db.organization.findUnique({
+        where: { id: orgId },
+        select: { stripeCustomerId: true },
+      });
+
+      if (org?.stripeCustomerId) {
+        const subscription = await getSubscriptionData(org.stripeCustomerId);
+
+        // If no active subscription, redirect to upgrade page
+        if (
+          !subscription ||
+          (subscription.status !== 'active' && subscription.status !== 'trialing')
+        ) {
+          return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
+        }
+      } else {
+        // No Stripe customer ID means no subscription attempt yet
+        return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
       }
     }
 
