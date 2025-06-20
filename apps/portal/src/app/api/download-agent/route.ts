@@ -1,12 +1,14 @@
 import { auth } from '@/app/lib/auth';
 import { logger } from '@/utils/logger';
+import { BUCKET_NAME, getPresignedDownloadUrl } from '@/utils/s3';
 import { type NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import { tmpdir } from 'node:os';
-import path from 'node:path';
-import { createAgentArchive } from './archive';
 import { createFleetLabel } from './fleet-label';
-import { generateMacScript, generateWindowsScript } from './scripts';
+import {
+  generateMacScript,
+  generateWindowsScript,
+  getPackageFilename,
+  getScriptFilename,
+} from './scripts';
 import type { DownloadAgentRequest, SupportedOS } from './types';
 import { detectOSFromUserAgent, validateMemberAndOrg } from './utils';
 
@@ -44,6 +46,7 @@ export async function POST(req: NextRequest) {
   // Check environment configuration
   const fleetDevicePathMac = process.env.FLEET_DEVICE_PATH_MAC;
   const fleetDevicePathWindows = process.env.FLEET_DEVICE_PATH_WINDOWS;
+  const fleetBucketName = process.env.FLEET_AGENT_BUCKET_NAME;
 
   if (!fleetDevicePathMac || !fleetDevicePathWindows) {
     logger(
@@ -55,6 +58,12 @@ export async function POST(req: NextRequest) {
         status: 500,
       },
     );
+  }
+
+  if (!fleetBucketName || !BUCKET_NAME) {
+    return new NextResponse('Server configuration error: S3 bucket names are missing.', {
+      status: 500,
+    });
   }
 
   // Validate member and organization
@@ -70,18 +79,7 @@ export async function POST(req: NextRequest) {
       ? generateMacScript({ orgId, employeeId, fleetDevicePath })
       : generateWindowsScript({ orgId, employeeId, fleetDevicePath });
 
-  // Create temporary directory
-  const tempDir = path.join(tmpdir(), `compai-agent-${Date.now()}`);
-  await fs.mkdir(tempDir, { recursive: true });
-
   try {
-    // Create the archive
-    const stream = await createAgentArchive({
-      os: os as SupportedOS,
-      script,
-      tempDir,
-    });
-
     // Create Fleet label
     await createFleetLabel({
       employeeId,
@@ -91,20 +89,26 @@ export async function POST(req: NextRequest) {
       fleetDevicePathWindows,
     });
 
-    const filename = `compai-device-agent-${os}.zip`;
+    // Get script filename
+    const scriptFilename = getScriptFilename(os);
 
-    return new NextResponse(stream as unknown as ReadableStream, {
-      headers: {
-        'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="${filename}"`,
-      },
+    // Get presigned URL for the Fleet agent package
+    const packageFilename = getPackageFilename(os);
+    const packageKey = `${os}/fleet-osquery.${os === 'macos' ? 'pkg' : 'msi'}`;
+    const packageDownloadUrl = await getPresignedDownloadUrl({
+      bucketName: fleetBucketName,
+      key: packageKey,
+      expiresIn: 3600, // 1 hour
     });
-  } finally {
-    // Clean up temp directory
-    try {
-      await fs.rm(tempDir, { recursive: true, force: true });
-    } catch (cleanupError) {
-      logger('Failed to clean up temp directory', { error: cleanupError, tempDir });
-    }
+
+    return NextResponse.json({
+      scriptContent: script,
+      scriptFilename,
+      packageDownloadUrl,
+      packageFilename,
+    });
+  } catch (error) {
+    logger('Error generating presigned URLs', { error });
+    return new NextResponse('Failed to generate download URLs', { status: 500 });
   }
 }
