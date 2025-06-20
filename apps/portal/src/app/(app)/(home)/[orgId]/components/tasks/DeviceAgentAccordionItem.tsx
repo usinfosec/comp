@@ -5,7 +5,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@c
 import { Button } from '@comp/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@comp/ui/card';
 import { cn } from '@comp/ui/cn';
-import { CheckCircle2, Circle, Download, XCircle } from 'lucide-react';
+import { Progress } from '@comp/ui/progress';
+import JSZip from 'jszip';
+import { CheckCircle2, Circle, Download, Loader2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -17,12 +19,15 @@ interface DeviceAgentAccordionItemProps {
   fleetPolicies?: FleetPolicy[];
 }
 
+type DownloadStatus = 'idle' | 'preparing' | 'downloading' | 'creating-zip' | 'complete';
+
 export function DeviceAgentAccordionItem({
   member,
   host,
   fleetPolicies = [],
 }: DeviceAgentAccordionItemProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>('idle');
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const hasInstalledAgent = host !== null;
   const allPoliciesPass =
@@ -30,8 +35,11 @@ export function DeviceAgentAccordionItem({
   const isCompleted = hasInstalledAgent && allPoliciesPass;
 
   const handleDownload = async () => {
-    setIsDownloading(true);
+    setDownloadStatus('preparing');
+    setDownloadProgress(0);
+
     try {
+      // Step 1: Get download URL and script content from the API
       const response = await fetch('/api/download-agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,11 +51,105 @@ export function DeviceAgentAccordionItem({
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || 'Failed to download agent.');
+        throw new Error(errorText || 'Failed to get download information.');
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const { scriptContent, scriptFilename, packageDownloadUrl, packageFilename } =
+        await response.json();
+
+      // Step 2: Download the package file
+      setDownloadStatus('downloading');
+      setDownloadProgress(10);
+
+      const packageResponse = await fetch(packageDownloadUrl);
+
+      if (!packageResponse.ok) {
+        throw new Error('Failed to download agent package.');
+      }
+
+      // Get the content length for progress tracking
+      const contentLength = packageResponse.headers.get('content-length');
+      const total = contentLength ? parseInt(contentLength, 10) : 0;
+
+      // Read the response with progress tracking
+      const reader = packageResponse.body?.getReader();
+      if (!reader) {
+        throw new Error('Failed to read package data.');
+      }
+
+      const chunks: Uint8Array[] = [];
+      let receivedLength = 0;
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        chunks.push(value);
+        receivedLength += value.length;
+
+        if (total > 0) {
+          // Update progress (10-70% range for download)
+          const downloadPercent = (receivedLength / total) * 60 + 10;
+          setDownloadProgress(Math.round(downloadPercent));
+        }
+      }
+
+      // Combine chunks into a single Uint8Array
+      const chunksAll = new Uint8Array(receivedLength);
+      let position = 0;
+      for (const chunk of chunks) {
+        chunksAll.set(chunk, position);
+        position += chunk.length;
+      }
+
+      const packageBlob = new Blob([chunksAll]);
+
+      // Step 3: Create zip file using JSZip
+      setDownloadStatus('creating-zip');
+      setDownloadProgress(75);
+
+      const zip = new JSZip();
+
+      // Add the script file
+      const scriptBlob = new Blob([scriptContent], { type: 'text/plain' });
+      zip.file(scriptFilename, scriptBlob);
+
+      // Add the package file
+      zip.file(packageFilename, packageBlob);
+
+      // Add README
+      const readmeContent = `Comp AI Device Agent Installation Instructions
+
+1. Extract this zip file to a folder on your computer
+2. Run the "Install Me First" file first
+3. Then run the Fleet installer package
+
+For macOS:
+- Run: ./${scriptFilename}
+- Then open the .pkg file
+
+For Windows:
+- Run: ${scriptFilename}
+- Then run the .msi installer
+
+If you have any issues, please contact your IT administrator.`;
+
+      zip.file('README.txt', readmeContent);
+
+      setDownloadProgress(85);
+
+      // Step 4: Generate and download the zip
+      const zipBlob = await zip.generateAsync({
+        type: 'blob',
+        compression: 'DEFLATE',
+        compressionOptions: { level: 9 },
+      });
+
+      setDownloadProgress(100);
+
+      // Create download link
+      const url = window.URL.createObjectURL(zipBlob);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'compai-device-agent.zip';
@@ -55,11 +157,60 @@ export function DeviceAgentAccordionItem({
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
+
+      setDownloadStatus('complete');
+      toast.success('Download completed successfully!');
+
+      // Reset after a delay
+      setTimeout(() => {
+        setDownloadStatus('idle');
+        setDownloadProgress(0);
+      }, 3000);
     } catch (error) {
       console.error(error);
       toast.error(error instanceof Error ? error.message : 'An unknown error occurred.');
-    } finally {
-      setIsDownloading(false);
+      setDownloadStatus('idle');
+      setDownloadProgress(0);
+    }
+  };
+
+  const getButtonContent = () => {
+    switch (downloadStatus) {
+      case 'preparing':
+        return (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Preparing download...
+          </>
+        );
+      case 'downloading':
+        return (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Downloading package...
+          </>
+        );
+      case 'creating-zip':
+        return (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Creating installer...
+          </>
+        );
+      case 'complete':
+        return (
+          <>
+            <CheckCircle2 className="h-4 w-4" />
+            Download complete!
+          </>
+        );
+      default:
+        return (
+          <>
+            <Download className="h-4 w-4" />
+            Download Agent
+          </>
+        );
     }
   };
 
@@ -101,12 +252,14 @@ export function DeviceAgentAccordionItem({
                     size="sm"
                     variant="default"
                     onClick={handleDownload}
-                    disabled={isDownloading || hasInstalledAgent}
+                    disabled={downloadStatus !== 'idle' || hasInstalledAgent}
                     className="gap-2 mt-2"
                   >
-                    <Download className="h-4 w-4" />
-                    {isDownloading ? 'Downloading...' : 'Download Agent'}
+                    {getButtonContent()}
                   </Button>
+                  {downloadStatus !== 'idle' && downloadStatus !== 'complete' && (
+                    <Progress value={downloadProgress} className="mt-2 h-2" />
+                  )}
                 </li>
                 <li>
                   <strong>Run the "Install Me First" file</strong>
