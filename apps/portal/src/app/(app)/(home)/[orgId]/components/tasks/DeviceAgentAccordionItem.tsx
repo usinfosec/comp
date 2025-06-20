@@ -5,8 +5,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@c
 import { Button } from '@comp/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@comp/ui/card';
 import { cn } from '@comp/ui/cn';
-import { Progress } from '@comp/ui/progress';
-import JSZip from 'jszip';
 import { CheckCircle2, Circle, Download, Loader2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -19,15 +17,12 @@ interface DeviceAgentAccordionItemProps {
   fleetPolicies?: FleetPolicy[];
 }
 
-type DownloadStatus = 'idle' | 'preparing' | 'downloading' | 'creating-zip' | 'complete';
-
 export function DeviceAgentAccordionItem({
   member,
   host,
   fleetPolicies = [],
 }: DeviceAgentAccordionItemProps) {
-  const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>('idle');
-  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const hasInstalledAgent = host !== null;
   const allPoliciesPass =
@@ -35,12 +30,11 @@ export function DeviceAgentAccordionItem({
   const isCompleted = hasInstalledAgent && allPoliciesPass;
 
   const handleDownload = async () => {
-    setDownloadStatus('preparing');
-    setDownloadProgress(0);
+    setIsDownloading(true);
 
     try {
-      // Step 1: Get download URL and script content from the API
-      const response = await fetch('/api/download-agent', {
+      // First, we need to get a download token/session from the API
+      const tokenResponse = await fetch('/api/download-agent/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -49,168 +43,52 @@ export function DeviceAgentAccordionItem({
         }),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to get download information.');
+      if (!tokenResponse.ok) {
+        const errorText = await tokenResponse.text();
+        throw new Error(errorText || 'Failed to prepare download.');
       }
 
-      const { scriptContent, scriptFilename, packageDownloadUrl, packageFilename } =
-        await response.json();
+      const { token } = await tokenResponse.json();
 
-      // Step 2: Download the package file
-      setDownloadStatus('downloading');
-      setDownloadProgress(10);
+      // Now trigger the actual download using the browser's native download mechanism
+      // This will show in the browser's download UI immediately
+      const downloadUrl = `/api/download-agent?token=${encodeURIComponent(token)}`;
 
-      const packageResponse = await fetch(packageDownloadUrl);
-
-      if (!packageResponse.ok) {
-        throw new Error('Failed to download agent package.');
-      }
-
-      // Get the content length for progress tracking
-      const contentLength = packageResponse.headers.get('content-length');
-      const total = contentLength ? parseInt(contentLength, 10) : 0;
-
-      // Read the response with progress tracking
-      const reader = packageResponse.body?.getReader();
-      if (!reader) {
-        throw new Error('Failed to read package data.');
-      }
-
-      const chunks: Uint8Array[] = [];
-      let receivedLength = 0;
-
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        chunks.push(value);
-        receivedLength += value.length;
-
-        if (total > 0) {
-          // Update progress (10-70% range for download)
-          const downloadPercent = (receivedLength / total) * 60 + 10;
-          setDownloadProgress(Math.round(downloadPercent));
-        }
-      }
-
-      // Combine chunks into a single Uint8Array
-      const chunksAll = new Uint8Array(receivedLength);
-      let position = 0;
-      for (const chunk of chunks) {
-        chunksAll.set(chunk, position);
-        position += chunk.length;
-      }
-
-      const packageBlob = new Blob([chunksAll]);
-
-      // Step 3: Create zip file using JSZip
-      setDownloadStatus('creating-zip');
-      setDownloadProgress(75);
-
-      const zip = new JSZip();
-
-      // Add the script file
-      const scriptBlob = new Blob([scriptContent], { type: 'text/plain' });
-      zip.file(scriptFilename, scriptBlob);
-
-      // Add the package file
-      zip.file(packageFilename, packageBlob);
-
-      // Add README
-      const readmeContent = `Comp AI Device Agent Installation Instructions
-
-1. Extract this zip file to a folder on your computer
-2. Run the "Install Me First" file first
-3. Then run the Fleet installer package
-
-For macOS:
-- Run: ./${scriptFilename}
-- Then open the .pkg file
-
-For Windows:
-- Run: ${scriptFilename}
-- Then run the .msi installer
-
-If you have any issues, please contact your IT administrator.`;
-
-      zip.file('README.txt', readmeContent);
-
-      setDownloadProgress(85);
-
-      // Step 4: Generate and download the zip
-      const zipBlob = await zip.generateAsync({
-        type: 'blob',
-        compression: 'DEFLATE',
-        compressionOptions: { level: 9 },
-      });
-
-      setDownloadProgress(100);
-
-      // Create download link
-      const url = window.URL.createObjectURL(zipBlob);
+      // Method 1: Using a temporary link (most reliable)
       const a = document.createElement('a');
-      a.href = url;
+      a.href = downloadUrl;
       a.download = 'compai-device-agent.zip';
       document.body.appendChild(a);
       a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
 
-      setDownloadStatus('complete');
-      toast.success('Download completed successfully!');
-
-      // Reset after a delay
-      setTimeout(() => {
-        setDownloadStatus('idle');
-        setDownloadProgress(0);
-      }, 3000);
+      toast.success('Download started! Check your downloads folder.');
     } catch (error) {
       console.error(error);
-      toast.error(error instanceof Error ? error.message : 'An unknown error occurred.');
-      setDownloadStatus('idle');
-      setDownloadProgress(0);
+      toast.error(error instanceof Error ? error.message : 'Failed to download agent.');
+    } finally {
+      // Reset after a short delay to allow download to start
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 1000);
     }
   };
 
   const getButtonContent = () => {
-    switch (downloadStatus) {
-      case 'preparing':
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Preparing download...
-          </>
-        );
-      case 'downloading':
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Downloading package...
-          </>
-        );
-      case 'creating-zip':
-        return (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Creating installer...
-          </>
-        );
-      case 'complete':
-        return (
-          <>
-            <CheckCircle2 className="h-4 w-4" />
-            Download complete!
-          </>
-        );
-      default:
-        return (
-          <>
-            <Download className="h-4 w-4" />
-            Download Agent
-          </>
-        );
+    if (isDownloading) {
+      return (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Downloading...
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Download className="h-4 w-4" />
+          Download Agent
+        </>
+      );
     }
   };
 
@@ -252,14 +130,11 @@ If you have any issues, please contact your IT administrator.`;
                     size="sm"
                     variant="default"
                     onClick={handleDownload}
-                    disabled={downloadStatus !== 'idle' || hasInstalledAgent}
+                    disabled={isDownloading || hasInstalledAgent}
                     className="gap-2 mt-2"
                   >
                     {getButtonContent()}
                   </Button>
-                  {downloadStatus !== 'idle' && downloadStatus !== 'complete' && (
-                    <Progress value={downloadProgress} className="mt-2 h-2" />
-                  )}
                 </li>
                 <li>
                   <strong>Run the "Install Me First" file</strong>
