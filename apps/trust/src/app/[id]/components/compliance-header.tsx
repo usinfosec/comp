@@ -11,19 +11,26 @@ interface ComplianceHeaderProps {
   title: string;
 }
 
+const hasLogo = process.env.LOGO_DEV === 'true';
+
 export default function ComplianceHeader({ organization, title }: ComplianceHeaderProps) {
   return (
     <div className="border-t-primary flex flex-col gap-4 rounded-sm border border-t-4 p-4">
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-4">
           <div className="flex h-10 w-10 items-center justify-center">
-            {organization.logo ? (
+            {organization.website ? (
               <Image
-                src={organization.logo || '/placeholder.svg'}
+                src={
+                  organization.logo ||
+                  (hasLogo
+                    ? `https://img.logo.dev/${organization.website.replace('https://', '')}?token=${process.env.LOGO_DEV}&retina=true&format=png`
+                    : `https://img.logo.dev/${organization.website.replace('https://', '')}?token=${process.env.LOGO_DEV}&retina=true&format=png`)
+                }
                 alt={`${organization.name} logo`}
                 width={40}
                 height={40}
-                className="object-contain"
+                className="object-contain border rounded-sm"
               />
             ) : (
               <div className="bg-muted-foreground flex h-10 w-10 items-center justify-center rounded-md font-bold text-white">
