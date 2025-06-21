@@ -40,9 +40,7 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
           </div>
           <div className="flex flex-col">
             <h1 className="text-xl font-bold">{title}</h1>
-            <ComplianceSummary
-              text={`Find out the compliance and security posture of ${organization.name}.`}
-            />
+            <ComplianceSummary text={`Compliance and Security Portal for ${organization.name}.`} />
           </div>
         </div>
 
