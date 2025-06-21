@@ -18,7 +18,7 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
     <div className="border-t-primary flex flex-col gap-4 rounded-sm border border-t-4 p-4">
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-4">
-          <div className="flex h-10 w-10 items-center justify-center">
+          <div className="flex h-14 w-14 items-center justify-center">
             {organization.website ? (
               <Image
                 src={
@@ -28,9 +28,9 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
                     : `https://img.logo.dev/${organization.website.replace('https://', '')}?token=${process.env.LOGO_DEV}&retina=true&format=png`)
                 }
                 alt={`${organization.name} logo`}
-                width={40}
-                height={40}
-                className="object-contain border rounded-sm"
+                width={128}
+                height={128}
+                className="object-contain rounded-md"
               />
             ) : (
               <div className="bg-muted-foreground flex h-10 w-10 items-center justify-center rounded-md font-bold text-white">
@@ -46,7 +46,7 @@ export default function ComplianceHeader({ organization, title }: ComplianceHead
           </div>
         </div>
 
-        <div className="grid gap-2 sm:flex">
+        <div className="grid gap-2 sm:flex w-full md:justify-end md:w-auto">
           <Link
             className={buttonVariants({
               variant: 'outline',
