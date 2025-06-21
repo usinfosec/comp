@@ -28,7 +28,7 @@ const getCachedSites = cache(async () => {
     .filter((website): website is string => Boolean(website))
     .map((website) => {
       const domain = website.replace(/^https?:\/\//, '').replace(/^www\./, '');
-      return `https://img.logo.dev/${domain}?token=pk_QtKMUKc7QOKZmbzLG3Q8NQ&retina=true4`;
+      return `https://img.logo.dev/${domain}?token=pk_QtKMUKc7QOKZmbzLG3Q8NQ&retina=true`;
     });
 
   return logoUrls;
