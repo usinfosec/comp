@@ -55,7 +55,7 @@ export default async function UpgradePage({ params }: PageProps) {
 
   return (
     <>
-      <AnimatedGradientBackground scale={1.5} />
+      <AnimatedGradientBackground scale={1} />
       <div className="mx-auto px-4 py-8 max-w-7xl">
         <div className="relative">
           <div className="relative bg-transparent p-8">
