@@ -1,5 +1,4 @@
 import { AnimatedGradientBackground } from '@/app/(app)/setup/components/AnimatedGradientBackground';
-import { SetupHeader } from '@/app/(app)/setup/components/SetupHeader';
 import { SetupLoadingStep } from '@/app/(app)/setup/components/SetupLoadingStep';
 import { getOrganizations } from '@/data/getOrganizations';
 import { auth } from '@/utils/auth';
@@ -37,7 +36,6 @@ export default async function SetupLoadingPage({ params }: SetupLoadingPageProps
   return (
     <>
       <AnimatedGradientBackground scale={2} />
-      <SetupHeader user={user} existingOrganizations={organizations} />
       <SetupLoadingStep organizationId={orgId} />
     </>
   );

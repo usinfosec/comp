@@ -142,7 +142,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
         >
           {/* Starter Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col backdrop-blur-lg ${selectedPlan === 'starter' ? 'ring-2 ring-primary shadow-lg border-primary bg-primary/10 dark:bg-primary/15' : 'hover:shadow-md bg-card/70 dark:bg-card/60'} border-white/20 dark:border-white/10`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col backdrop-blur-lg ${selectedPlan === 'starter' ? 'ring-2 ring-primary shadow-lg border-transparent bg-primary/10' : 'hover:shadow-md bg-transparent border-dashed'} border`}
             onClick={() => setSelectedPlan('starter')}
           >
             <CardHeader className="pb-2">
@@ -174,7 +174,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 )}
               </div>
 
-              <div className="border-t pt-4 mb-4"></div>
+              <div
+                className={`pt-4 mb-4 ${selectedPlan === 'starter' ? 'border-primary/20' : 'border-border'} border-t`}
+              ></div>
 
               <ul className="space-y-2 flex-1">
                 {starterFeatures.map((feature) => (
@@ -185,7 +187,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="mt-6 pt-4 border-t">
+              <div
+                className={`mt-6 pt-4 ${selectedPlan === 'starter' ? 'border-primary/20' : 'border-border'} border-t`}
+              >
                 <p className="text-xs text-center text-muted-foreground">
                   Everything you need to start
                 </p>
@@ -195,7 +199,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
 
           {/* Professional Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col backdrop-blur-lg ${selectedPlan === 'professional' ? 'ring-2 ring-primary shadow-lg border-primary bg-primary/10 dark:bg-primary/15' : 'hover:shadow-md bg-card/70 dark:bg-card/60'} border-white/20 dark:border-white/10`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col backdrop-blur-lg ${selectedPlan === 'professional' ? 'ring-2 ring-primary shadow-lg border-transparent bg-primary/10' : 'hover:shadow-md bg-transparent border-dashed'} border`}
             onClick={() => setSelectedPlan('professional')}
           >
             <CardHeader className="pb-2">
@@ -232,7 +236,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 )}
               </div>
 
-              <div className="border-t pt-4 mb-4"></div>
+              <div
+                className={`pt-4 mb-4 ${selectedPlan === 'professional' ? 'border-primary/20' : 'border-border'} border-t`}
+              ></div>
 
               <ul className="space-y-2 flex-1">
                 {professionalFeatures.map((feature, idx) => (
@@ -249,7 +255,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="mt-6 pt-4 border-t">
+              <div
+                className={`mt-6 pt-4 ${selectedPlan === 'professional' ? 'border-primary/20' : 'border-border'} border-t`}
+              >
                 <p className="text-xs text-center text-muted-foreground">Best for growing teams</p>
               </div>
             </CardContent>
@@ -260,7 +268,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
         <div className="space-y-3">
           {/* Audit Add-on */}
           <Card
-            className={`cursor-pointer transition-all backdrop-blur-lg ${includeAudit ? 'ring-2 ring-primary shadow-lg border-primary bg-primary/10 dark:bg-primary/15' : 'hover:shadow-md bg-card/70 dark:bg-card/60'} border-white/20 dark:border-white/10`}
+            className={`cursor-pointer transition-all backdrop-blur-lg ${includeAudit ? 'ring-2 ring-primary shadow-lg border-transparent bg-primary/10' : 'hover:shadow-md bg-transparent border-dashed'} border`}
             onClick={() => setIncludeAudit(!includeAudit)}
           >
             <CardHeader className="pb-2 pt-3">

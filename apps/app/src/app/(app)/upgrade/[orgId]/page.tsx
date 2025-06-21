@@ -58,10 +58,10 @@ export default async function UpgradePage({ params }: PageProps) {
       <AnimatedGradientBackground scale={1.5} />
       <div className="mx-auto px-4 py-8 max-w-7xl">
         <div className="relative">
-          <div className="relative bg-card/80 dark:bg-card/70 backdrop-blur-xl border border-border/50 shadow-2xl rounded-2xl p-8">
+          <div className="relative bg-transparent p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Choose Your Plan</h1>
-              <p className="text-lg text-muted-foreground">
+              <h1 className="text-2xl font-bold mb-2">Upgrade Your Plan</h1>
+              <p className="text-xl text-muted-foreground">
                 Get audit-ready with AI-powered compliance automation
               </p>
             </div>
