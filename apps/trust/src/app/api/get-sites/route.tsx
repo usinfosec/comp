@@ -2,16 +2,6 @@ import { db } from '@comp/db';
 import { NextRequest, NextResponse } from 'next/server';
 import { cache } from 'react';
 
-async function checkLogoExists(url: string): Promise<boolean> {
-  try {
-    const response = await fetch(url);
-    return response.status !== 404;
-  } catch (error) {
-    console.error(`Error checking logo for ${url}:`, error);
-    return false;
-  }
-}
-
 const getCachedSites = cache(async () => {
   const sites = await db.trust.findMany({
     where: {
@@ -38,17 +28,10 @@ const getCachedSites = cache(async () => {
     .filter((website): website is string => Boolean(website))
     .map((website) => {
       const domain = website.replace(/^https?:\/\//, '').replace(/^www\./, '');
-      return `https://img.logo.dev/${domain}?token=pk_QtKMUKc7QOKZmbzLG3Q8NQ&retina=true&fallback=404`;
+      return `https://img.logo.dev/${domain}?token=pk_QtKMUKc7QOKZmbzLG3Q8NQ&retina=true4`;
     });
 
-  const validLogos = await Promise.all(
-    logoUrls.map(async (url) => {
-      const exists = await checkLogoExists(url);
-      return exists ? url : null;
-    }),
-  );
-
-  return validLogos.filter((url): url is string => url !== null);
+  return logoUrls;
 });
 
 export async function GET(request: NextRequest) {
