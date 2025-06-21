@@ -31,6 +31,29 @@ export async function syncStripeDataToKV(customerId: string): Promise<STRIPE_SUB
       return subData;
     }
 
+    const priceId = firstItem.price?.id;
+    let priceDetails = null;
+    let productDetails = null;
+
+    if (priceId) {
+      try {
+        const price = await stripe.prices.retrieve(priceId, { expand: ['product'] });
+        if (price.product && typeof price.product === 'object' && !price.product.deleted) {
+          priceDetails = {
+            nickname: price.nickname,
+            unit_amount: price.unit_amount,
+            currency: price.currency,
+            interval: price.recurring?.interval ?? null,
+          };
+          productDetails = {
+            name: price.product.name,
+          };
+        }
+      } catch (priceError) {
+        console.error(`[STRIPE] Failed to retrieve price ${priceId} or its product:`, priceError);
+      }
+    }
+
     // Store complete subscription state
     const subData: STRIPE_SUB_CACHE = {
       subscriptionId: subscription.id,
@@ -39,6 +62,8 @@ export async function syncStripeDataToKV(customerId: string): Promise<STRIPE_SUB
       currentPeriodEnd: firstItem.current_period_end ?? null,
       currentPeriodStart: firstItem.current_period_start ?? null,
       cancelAtPeriodEnd: subscription.cancel_at_period_end,
+      price: priceDetails,
+      product: productDetails,
       paymentMethod:
         subscription.default_payment_method &&
         typeof subscription.default_payment_method !== 'string'

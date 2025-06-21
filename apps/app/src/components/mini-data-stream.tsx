@@ -149,11 +149,9 @@ export function MiniDataStream({ taskType, itemTitle }: MiniDataStreamProps) {
 
   return (
     <div
-      className="h-16 w-full bg-slate-900/80 dark:bg-slate-800/80 rounded overflow-hidden relative font-mono text-[10px] leading-tight"
+      className="h-14 w-full bg-muted/30 rounded-md overflow-hidden relative font-mono text-xs leading-relaxed"
       aria-hidden="true"
     >
-      <div className="absolute inset-x-0 top-0 h-3 bg-gradient-to-b from-slate-900 dark:from-slate-800 to-transparent z-10" />
-      <div className="absolute inset-x-0 bottom-0 h-3 bg-gradient-to-t from-slate-900 dark:from-slate-800 to-transparent z-10" />
       <motion.div
         animate={{
           y: [0, -LINE_HEIGHT],
@@ -166,16 +164,15 @@ export function MiniDataStream({ taskType, itemTitle }: MiniDataStreamProps) {
             ease: 'linear',
           },
         }}
+        className="py-1"
       >
         {/* Render extra lines to ensure smooth scrolling */}
         {[...lines, lines[0]].map((line, index) => (
           <div
             key={`${line.id}-${index}`}
             className={cn(
-              'whitespace-nowrap px-2 truncate',
-              line.highlight
-                ? 'text-purple-400 dark:text-purple-300 opacity-90'
-                : 'text-slate-500 dark:text-slate-400 opacity-80',
+              'whitespace-nowrap px-3 truncate',
+              line.highlight ? 'text-primary opacity-90' : 'text-muted-foreground/60',
             )}
             style={{ height: LINE_HEIGHT, lineHeight: `${LINE_HEIGHT}px` }}
           >

@@ -5,7 +5,6 @@ import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { OrganizationSetupForm } from '../components/OrganizationSetupForm';
-import { SetupHeader } from '../components/SetupHeader';
 import { getSetupSession } from '../lib/setup-session';
 
 export const metadata: Metadata = {
@@ -54,14 +53,11 @@ export default async function SetupWithIdPage({ params, searchParams }: SetupPag
   }
 
   return (
-    <>
-      <SetupHeader user={user} existingOrganizations={organizations} />
-      <OrganizationSetupForm
-        existingOrganizations={organizations}
-        setupId={setupId}
-        initialData={setupSession.formData}
-        currentStep={setupSession.currentStep}
-      />
-    </>
+    <OrganizationSetupForm
+      existingOrganizations={organizations}
+      setupId={setupId}
+      initialData={setupSession.formData}
+      currentStep={setupSession.currentStep}
+    />
   );
 }

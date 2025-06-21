@@ -4,7 +4,6 @@ import { cancelSubscriptionAction } from '@/app/api/stripe/cancel-subscription/c
 import { createPortalSessionAction } from '@/app/api/stripe/create-portal-session/create-portal-session';
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
 import { resumeSubscriptionAction } from '@/app/api/stripe/resume-subscription/resume-subscription';
-import PageCore from '@/components/pages/PageCore.tsx';
 import { useSubscription } from '@/context/subscription-context';
 import { env } from '@/env.mjs';
 import { Alert, AlertDescription } from '@comp/ui/alert';
@@ -124,7 +123,7 @@ export default function BillingPage() {
   // Show upgrade prompt if no active subscription
   if (!hasActiveSubscription && subscription.status !== 'canceled') {
     return (
-      <PageCore title="Billing" description="Manage your subscription and billing information">
+      <div className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle>No Active Subscription</CardTitle>
@@ -158,7 +157,7 @@ export default function BillingPage() {
             </Button>
           </CardContent>
         </Card>
-      </PageCore>
+      </div>
     );
   }
 
@@ -210,13 +209,22 @@ export default function BillingPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4">
-            {'priceId' in subscription && subscription.priceId && (
+            {'price' in subscription && subscription.price && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CreditCard className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm font-medium">Plan</span>
                 </div>
-                <span className="text-sm text-muted-foreground">{subscription.priceId}</span>
+                <span className="text-sm text-muted-foreground">
+                  {subscription.product?.name} (
+                  {subscription.price.unit_amount
+                    ? new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: subscription.price.currency,
+                      }).format(subscription.price.unit_amount / 100)
+                    : 'Free'}
+                  {subscription.price.interval ? `/${subscription.price.interval}` : ''})
+                </span>
               </div>
             )}
 

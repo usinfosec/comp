@@ -82,8 +82,8 @@ export function useOnboardingForm({
         setIsFinalizing(true);
         sendGTMEvent({ event: 'conversion' });
 
-        // Organization created, now redirect to upgrade page
-        router.push(`/upgrade/${data.organizationId}`);
+        // Organization created, now redirect to loading step
+        router.push(`/setup/loading/${data.organizationId}`);
       } else {
         toast.error(data?.error || 'Failed to create organization minimal');
         setIsSkipping(false);
@@ -105,8 +105,8 @@ export function useOnboardingForm({
         setIsFinalizing(true);
         sendGTMEvent({ event: 'conversion' });
 
-        // Organization created, now redirect to upgrade page
-        router.push(`/upgrade/${data.organizationId}`);
+        // Organization created, now redirect to loading step
+        router.push(`/setup/loading/${data.organizationId}`);
 
         setSavedAnswers({});
       } else {
@@ -179,7 +179,19 @@ export function useOnboardingForm({
   };
 
   const handleBack = () => {
-    if (stepIndex > 0) setStepIndex(stepIndex - 1);
+    if (stepIndex > 0) {
+      // Save current form values before going back
+      const currentValues = form.getValues();
+      if (currentValues[step.key]) {
+        setSavedAnswers({ ...savedAnswers, [step.key]: currentValues[step.key] });
+      }
+
+      // Clear form errors
+      form.clearErrors();
+
+      // Go to previous step
+      setStepIndex(stepIndex - 1);
+    }
   };
 
   const canShowSkipButton = Boolean(
