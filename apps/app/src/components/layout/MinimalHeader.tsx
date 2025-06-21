@@ -52,7 +52,7 @@ export function MinimalHeader({
   const hasExistingOrgs = organizations.length > 0;
 
   return (
-    <header className="bg-card/80 dark:bg-card/70 border border-border/50 sticky top-0 z-10 flex items-center justify-between border-b px-4 py-2 backdrop-blur-sm">
+    <header className="bg-background/95 sticky top-0 z-10 flex items-center justify-between border-b px-4 py-2 backdrop-blur-sm">
       <div className="flex items-center gap-4">
         <Link href="/" className="flex items-center gap-2">
           <Icons.Logo className="h-6 w-6" />
@@ -67,7 +67,7 @@ export function MinimalHeader({
           </div>
         ) : hasExistingOrgs ? (
           <button
-            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-sm text-foreground/80 hover:text-foreground transition-colors"
             onClick={() => changeOrgAction.execute({ organizationId: organizations[0].id })}
             disabled={changeOrgAction.status === 'executing'}
           >
@@ -86,11 +86,11 @@ export function MinimalHeader({
 
       <div className="flex items-center gap-3">
         <ThemeSwitch />
-        <span className="hidden lg:inline text-sm text-muted-foreground">{user.email}</span>
+        <span className="hidden lg:inline text-sm text-foreground/80">{user.email}</span>
         <button
           onClick={handleSignOut}
           disabled={isSigningOut}
-          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 text-sm text-foreground/80 hover:text-foreground transition-colors disabled:opacity-50"
         >
           <LogOut className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">{isSigningOut ? 'Signing out...' : 'Sign out'}</span>
