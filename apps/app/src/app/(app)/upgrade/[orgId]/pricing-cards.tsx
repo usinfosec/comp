@@ -1,6 +1,7 @@
 'use client';
 
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
+import { SelectionIndicator } from '@/components/layout/SelectionIndicator';
 import { env } from '@/env.mjs';
 import { Badge } from '@comp/ui/badge';
 import { Button } from '@comp/ui/button';
@@ -12,8 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@comp/ui/card';
-import { Checkbox } from '@comp/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '@comp/ui/radio-group';
 import { Switch } from '@comp/ui/switch';
 import { CheckIcon, Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
@@ -135,26 +134,22 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
       {/* Main Grid */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Plan Selection */}
-        <RadioGroup
-          value={selectedPlan}
-          onValueChange={(value) => setSelectedPlan(value as 'starter' | 'professional')}
-          className="lg:col-span-2 grid md:grid-cols-2 gap-3"
-        >
+        <div className="lg:col-span-2 grid md:grid-cols-2 gap-3">
           {/* Starter Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('starter')}
           >
             <CardHeader className="pb-2">
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="starter" id="starter" />
+              <div className="flex items-start gap-4">
+                <SelectionIndicator isSelected={selectedPlan === 'starter'} variant="radio" />
                 <div className="flex-1">
                   <CardTitle className="text-lg">Starter</CardTitle>
                   <CardDescription className="text-sm">Essential compliance</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4">
+            <CardContent className="flex flex-col h-full pb-4 pl-14">
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
@@ -162,19 +157,10 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   </span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
-                {!isYearly && (
-                  <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                    Save ${starterMonthly * 12 - starterYearly * 12}/yr with annual
-                  </p>
-                )}
-                {isYearly && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    ${starterYearly * 12} billed annually
-                  </p>
-                )}
+                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                  Save ${starterMonthly * 12 - starterYearly * 12}/yr with annual
+                </p>
               </div>
-
-              <div className="border-t border-border pt-4 mb-4"></div>
 
               <ul className="space-y-2 flex-1">
                 {starterFeatures.map((feature) => (
@@ -185,7 +171,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="border-t border-border mt-6 pt-4">
+              <div className="mt-6">
                 <p className="text-xs text-center text-muted-foreground">
                   Everything you need to start
                 </p>
@@ -195,16 +181,16 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
 
           {/* Professional Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('professional')}
           >
             <CardHeader className="pb-2">
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="professional" id="professional" />
+              <div className="flex items-start gap-4">
+                <SelectionIndicator isSelected={selectedPlan === 'professional'} variant="radio" />
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <CardTitle className="text-lg">Professional</CardTitle>
-                    <Badge className="bg-primary/20 text-primary dark:bg-primary/20 text-xs px-1.5 py-0">
+                    <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
                       Popular
                     </Badge>
                   </div>
@@ -212,7 +198,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4">
+            <CardContent className="flex flex-col h-full pb-4 pl-14">
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
@@ -220,19 +206,10 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   </span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
-                {!isYearly && (
-                  <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                    Save ${professionalMonthly * 12 - professionalYearly * 12}/yr with annual
-                  </p>
-                )}
-                {isYearly && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    ${professionalYearly * 12} billed annually
-                  </p>
-                )}
+                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                  Save ${professionalMonthly * 12 - professionalYearly * 12}/yr with annual
+                </p>
               </div>
-
-              <div className="border-t border-border pt-4 mb-4"></div>
 
               <ul className="space-y-2 flex-1">
                 {professionalFeatures.map((feature, idx) => (
@@ -249,29 +226,25 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="border-t border-border mt-6 pt-4">
+              <div className="mt-6">
                 <p className="text-xs text-center text-muted-foreground">Best for growing teams</p>
               </div>
             </CardContent>
           </Card>
-        </RadioGroup>
+        </div>
 
         {/* Right Column - Checkout & Audit */}
         <div className="space-y-3">
           {/* Audit Add-on */}
           <Card
-            className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setIncludeAudit(!includeAudit)}
           >
             <CardHeader className="pb-2 pt-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="audit-addon"
-                    checked={includeAudit}
-                    onCheckedChange={(checked) => setIncludeAudit(checked as boolean)}
-                  />
-                  <div className="space-y-0.5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <SelectionIndicator isSelected={includeAudit} variant="checkbox" />
+                  <div className="space-y-0.5 flex-1">
                     <p className="text-base font-medium">SOC 2 Audit</p>
                     <p className="text-sm text-muted-foreground">Can add anytime later</p>
                   </div>
@@ -281,7 +254,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="pb-4">
+            <CardContent className="pb-4 pl-14">
               <p className="text-sm text-muted-foreground mb-4">
                 Add now or purchase later when you're ready
               </p>
