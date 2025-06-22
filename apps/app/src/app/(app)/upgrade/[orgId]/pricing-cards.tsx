@@ -142,7 +142,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
         >
           {/* Starter Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('starter')}
           >
             <CardHeader className="pb-2">
@@ -195,7 +195,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
 
           {/* Professional Plan */}
           <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('professional')}
           >
             <CardHeader className="pb-2">
@@ -260,7 +260,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
         <div className="space-y-3">
           {/* Audit Add-on */}
           <Card
-            className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15' : 'hover:shadow-md bg-card'} border border-border`}
+            className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-primary shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setIncludeAudit(!includeAudit)}
           >
             <CardHeader className="pb-2 pt-3">

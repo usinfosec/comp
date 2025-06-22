@@ -3,7 +3,6 @@ import { getOrganizations } from '@/data/getOrganizations';
 import { auth } from '@/utils/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { AnimatedGradientBackground } from '../setup/components/AnimatedGradientBackground';
 
 export default async function UpgradeLayout({ children }: { children: React.ReactNode }) {
   // Check auth
@@ -28,7 +27,6 @@ export default async function UpgradeLayout({ children }: { children: React.Reac
 
   return (
     <div className="min-h-screen">
-      <AnimatedGradientBackground />
       <MinimalHeader
         user={user}
         organizations={organizations}
