@@ -140,16 +140,16 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('starter')}
           >
-            <CardHeader className="pb-2">
-              <div className="flex items-start gap-4">
+            <CardHeader className="pb-3">
+              <div className="flex items-start gap-3">
                 <SelectionIndicator isSelected={selectedPlan === 'starter'} variant="radio" />
-                <div className="flex-1">
-                  <CardTitle className="text-lg">Starter</CardTitle>
-                  <CardDescription className="text-sm">Essential compliance</CardDescription>
+                <div className="flex-1 -mt-0.5">
+                  <CardTitle className="text-lg font-semibold">Starter</CardTitle>
+                  <CardDescription className="text-sm mt-0.5">Essential compliance</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4 pl-14">
+            <CardContent className="flex flex-col h-full pb-4 px-6">
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
@@ -162,6 +162,10 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 </p>
               </div>
 
+              <div
+                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mb-4`}
+              ></div>
+
               <ul className="space-y-2 flex-1">
                 {starterFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
@@ -171,7 +175,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="mt-6">
+              <div
+                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mt-6 pt-4`}
+              >
                 <p className="text-xs text-center text-muted-foreground">
                   Everything you need to start
                 </p>
@@ -184,21 +190,21 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('professional')}
           >
-            <CardHeader className="pb-2">
-              <div className="flex items-start gap-4">
+            <CardHeader className="pb-3">
+              <div className="flex items-start gap-3">
                 <SelectionIndicator isSelected={selectedPlan === 'professional'} variant="radio" />
-                <div className="flex-1">
+                <div className="flex-1 -mt-0.5">
                   <div className="flex items-center gap-2">
-                    <CardTitle className="text-lg">Professional</CardTitle>
+                    <CardTitle className="text-lg font-semibold">Professional</CardTitle>
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
                       Popular
                     </Badge>
                   </div>
-                  <CardDescription className="text-sm">With Slack support</CardDescription>
+                  <CardDescription className="text-sm mt-0.5">With Slack support</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4 pl-14">
+            <CardContent className="flex flex-col h-full pb-4 px-6">
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
@@ -210,6 +216,10 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   Save ${professionalMonthly * 12 - professionalYearly * 12}/yr with annual
                 </p>
               </div>
+
+              <div
+                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mb-4`}
+              ></div>
 
               <ul className="space-y-2 flex-1">
                 {professionalFeatures.map((feature, idx) => (
@@ -226,7 +236,9 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 ))}
               </ul>
 
-              <div className="mt-6">
+              <div
+                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mt-6 pt-4`}
+              >
                 <p className="text-xs text-center text-muted-foreground">Best for growing teams</p>
               </div>
             </CardContent>
@@ -240,22 +252,19 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setIncludeAudit(!includeAudit)}
           >
-            <CardHeader className="pb-2 pt-3">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-4">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3">
                   <SelectionIndicator isSelected={includeAudit} variant="checkbox" />
-                  <div className="space-y-0.5 flex-1">
-                    <p className="text-base font-medium">SOC 2 Audit</p>
-                    <p className="text-sm text-muted-foreground">Can add anytime later</p>
+                  <div className="flex-1 -mt-0.5">
+                    <p className="text-lg font-semibold">SOC 2 Audit</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold">$1,500</p>
-                </div>
+                <p className="text-lg font-bold">$1,500</p>
               </div>
             </CardHeader>
-            <CardContent className="pb-4 pl-14">
-              <p className="text-sm text-muted-foreground mb-4">
+            <CardContent className="pt-0 pb-4 px-6">
+              <p className="text-sm text-muted-foreground mb-3">
                 Add now or purchase later when you're ready
               </p>
               <ul className="space-y-2">
