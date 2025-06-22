@@ -140,7 +140,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('starter')}
           >
-            <CardHeader className="pb-3">
+            <CardHeader className="p-6 pb-4">
               <div className="flex items-start gap-3">
                 <SelectionIndicator isSelected={selectedPlan === 'starter'} variant="radio" />
                 <div className="flex-1 -mt-0.5">
@@ -148,9 +148,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   <CardDescription className="text-sm mt-0.5">Essential compliance</CardDescription>
                 </div>
               </div>
-            </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4 px-6">
-              <div className="mb-6">
+              <div className="mt-4">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
                     ${isYearly ? starterYearly : starterMonthly}
@@ -161,11 +159,13 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   Save ${starterMonthly * 12 - starterYearly * 12}/yr with annual
                 </p>
               </div>
+            </CardHeader>
 
-              <div
-                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mb-4`}
-              ></div>
+            <div
+              className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mx-6 mb-4`}
+            ></div>
 
+            <CardContent className="px-6 flex flex-col h-full">
               <ul className="space-y-2 flex-1">
                 {starterFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
@@ -174,9 +174,8 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   </li>
                 ))}
               </ul>
-
               <div
-                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mt-6 pt-4`}
+                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mt-auto pt-4`}
               >
                 <p className="text-xs text-center text-muted-foreground">
                   Everything you need to start
@@ -190,7 +189,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setSelectedPlan('professional')}
           >
-            <CardHeader className="pb-3">
+            <CardHeader className="p-6 pb-4">
               <div className="flex items-start gap-3">
                 <SelectionIndicator isSelected={selectedPlan === 'professional'} variant="radio" />
                 <div className="flex-1 -mt-0.5">
@@ -203,9 +202,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   <CardDescription className="text-sm mt-0.5">With Slack support</CardDescription>
                 </div>
               </div>
-            </CardHeader>
-            <CardContent className="flex flex-col h-full pb-4 px-6">
-              <div className="mb-6">
+              <div className="mt-4">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">
                     ${isYearly ? professionalYearly : professionalMonthly}
@@ -216,28 +213,27 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                   Save ${professionalMonthly * 12 - professionalYearly * 12}/yr with annual
                 </p>
               </div>
-
-              <div
-                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mb-4`}
-              ></div>
-
+            </CardHeader>
+            <div
+              className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mx-6 mb-4`}
+            ></div>
+            <CardContent className="px-6 flex flex-col h-full">
               <ul className="space-y-2 flex-1">
                 {professionalFeatures.map((feature, idx) => (
-                  <li key={feature} className={idx === 0 ? '' : 'flex items-start gap-2'}>
+                  <li key={feature} className={idx === 0 ? 'pb-1' : 'flex items-start gap-2'}>
                     {idx !== 0 && (
                       <CheckIcon className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     )}
                     <span
-                      className={`text-sm leading-relaxed ${idx === 0 ? 'font-semibold text-muted-foreground block' : ''} ${feature.includes('Slack') ? 'font-semibold text-primary' : ''}`}
+                      className={`text-sm leading-relaxed ${idx === 0 ? 'font-semibold text-muted-foreground block' : ''}`}
                     >
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
-
               <div
-                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mt-6 pt-4`}
+                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mt-auto pt-4`}
               >
                 <p className="text-xs text-center text-muted-foreground">Best for growing teams</p>
               </div>
@@ -252,7 +248,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
             onClick={() => setIncludeAudit(!includeAudit)}
           >
-            <CardHeader className="pb-3">
+            <CardHeader className="p-6 pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <SelectionIndicator isSelected={includeAudit} variant="checkbox" />
@@ -263,7 +259,7 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                 <p className="text-lg font-bold">$1,500</p>
               </div>
             </CardHeader>
-            <CardContent className="pt-0 pb-4 px-6">
+            <CardContent className="px-6 pt-0 pb-4">
               <p className="text-sm text-muted-foreground mb-3">
                 Add now or purchase later when you're ready
               </p>
