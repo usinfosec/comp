@@ -42,7 +42,9 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
-    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRO_PRICE_ID: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_AUDIT_PRICE_ID: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -58,7 +60,6 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
     TRIGGER_API_KEY: process.env.TRIGGER_API_KEY,
@@ -83,6 +84,11 @@ export const env = createEnv({
     ZAPIER_HUBSPOT_WEBHOOK_URL: process.env.ZAPIER_HUBSPOT_WEBHOOK_URL,
     FLEET_URL: process.env.FLEET_URL,
     FLEET_TOKEN: process.env.FLEET_TOKEN,
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRO_PRICE_ID:
+      process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRO_PRICE_ID,
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID:
+      process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID,
+    NEXT_PUBLIC_STRIPE_AUDIT_PRICE_ID: process.env.NEXT_PUBLIC_STRIPE_AUDIT_PRICE_ID,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
