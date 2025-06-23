@@ -78,12 +78,21 @@ export async function middleware(request: NextRequest) {
     if (orgMatch && !isSubscriptionExempt(nextUrl.pathname)) {
       const orgId = orgMatch[0].substring(1); // Remove leading slash
 
-      // Get organization's Stripe customer ID
+      // Get organization's subscription details
       const org = await db.organization.findUnique({
         where: { id: orgId },
-        select: { stripeCustomerId: true },
+        select: {
+          stripeCustomerId: true,
+          choseSelfServe: true,
+        },
       });
 
+      // Allow access if they chose self-serve (free plan)
+      if (org?.choseSelfServe) {
+        return response;
+      }
+
+      // Check paid subscription status
       if (org?.stripeCustomerId) {
         const subscription = await getSubscriptionData(org.stripeCustomerId);
 
@@ -95,7 +104,7 @@ export async function middleware(request: NextRequest) {
           return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
         }
       } else {
-        // No Stripe customer ID means no subscription attempt yet
+        // No Stripe customer ID and not self-serve means no plan selected yet
         return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
       }
     }

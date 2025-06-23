@@ -48,8 +48,25 @@ async function getStripeCustomerId(organizationId: string): Promise<string | nul
  */
 export async function getSubscriptionData(organizationId: string): Promise<STRIPE_SUB_CACHE> {
   try {
+    // First check if organization chose self-serve (free plan)
+    const organization = await db.organization.findUnique({
+      where: {
+        id: organizationId,
+      },
+      select: {
+        choseSelfServe: true,
+        stripeCustomerId: true,
+      },
+    });
+
+    // If they chose self-serve, return a special status
+    if (organization?.choseSelfServe) {
+      return { status: 'self-serve' };
+    }
+
     // Step 1: Get the Stripe customer ID
-    const stripeCustomerId = await getStripeCustomerId(organizationId);
+    const stripeCustomerId =
+      organization?.stripeCustomerId || (await getStripeCustomerId(organizationId));
 
     if (!stripeCustomerId) {
       // No Stripe customer associated with this organization

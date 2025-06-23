@@ -68,6 +68,8 @@ export default async function Layout({
   // Log subscription status for monitoring
   if (subscriptionData.status === 'none') {
     console.log(`[SUBSCRIPTION] No subscription for org ${requestedOrgId}`);
+  } else if (subscriptionData.status === 'self-serve') {
+    console.log(`[SUBSCRIPTION] Org ${requestedOrgId} is on self-serve (free) plan`);
   } else {
     console.log(`[SUBSCRIPTION] Org ${requestedOrgId} status: ${subscriptionData.status}`);
   }

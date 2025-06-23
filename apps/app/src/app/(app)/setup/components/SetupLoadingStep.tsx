@@ -15,12 +15,20 @@ export function SetupLoadingStep({ organizationId }: SetupLoadingStepProps) {
   const [canContinue, setCanContinue] = useState(false);
 
   useEffect(() => {
-    // Enable continue after a longer time (8 seconds) to emphasize this takes time
+    // Set a random duration between 2 and 7 minutes (in milliseconds)
+    const minDurationMs = 2 * 60 * 1000; // 2 minutes
+    const maxDurationMs = 7 * 60 * 1000; // 7 minutes
+    const randomDuration =
+      Math.floor(Math.random() * (maxDurationMs - minDurationMs + 1)) + minDurationMs;
+
+    // For the rest of the UI, keep the random duration
     const minTimeTimer = setTimeout(() => {
       setCanContinue(true);
-    }, 8000);
+    }, randomDuration);
 
-    return () => clearTimeout(minTimeTimer);
+    return () => {
+      clearTimeout(minTimeTimer);
+    };
   }, []);
 
   const handleContinue = () => {
@@ -51,8 +59,8 @@ export function SetupLoadingStep({ organizationId }: SetupLoadingStepProps) {
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground">
                 {canContinue
-                  ? 'AI is working in the background (this will take 15-30 minutes)'
-                  : 'AI workspace setup in progress...'}
+                  ? 'AI is working in the background (this will take 2-7 minutes)'
+                  : 'AI workspace setup in progress... (2-7 minutes)'}
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {canContinue
@@ -62,23 +70,17 @@ export function SetupLoadingStep({ organizationId }: SetupLoadingStepProps) {
             </div>
             <Button
               onClick={handleContinue}
-              disabled={!canContinue}
+              disabled={false}
               size="default"
-              variant={canContinue ? 'default' : 'outline'}
+              variant={'default'}
               className={
-                canContinue
-                  ? 'min-w-[160px] shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all'
-                  : 'min-w-[160px]'
+                'min-w-[160px] shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all'
               }
             >
-              {canContinue ? (
-                <>
-                  Continue to Plans
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              ) : (
-                <>Please wait...</>
-              )}
+              <>
+                Continue to Plans
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </>
             </Button>
           </div>
         </div>

@@ -118,7 +118,7 @@ export function AiWorkPreviewAuthentic() {
       );
     }, 2000);
 
-    // Simulate very slow progress for realism - actually takes 15-30 minutes
+    // Simulate very slow progress for realism - actually takes 2-7 minutes
     const progressInterval = setInterval(() => {
       setWorkItems((items) => {
         let hasChanges = false;
@@ -131,8 +131,8 @@ export function AiWorkPreviewAuthentic() {
               return item;
             }
 
-            // Extremely slow progress: 0.1-0.5% per interval
-            const increment = Math.random() * 0.4 + 0.1;
+            // Progress rate calibrated for 2-7 minute completion
+            const increment = Math.random() * 4.0 + 1.5; // 1.5-5.5% per interval for 2-7 minute completion
             const newProgress = Math.min(100, item.progress + increment);
 
             if (newProgress >= 100) {
@@ -165,7 +165,7 @@ export function AiWorkPreviewAuthentic() {
 
         return updated;
       });
-    }, 2000); // Update every 2 seconds for very slow progress
+    }, 2000); // Update every 2 seconds
 
     return () => {
       clearInterval(progressInterval);
@@ -188,7 +188,7 @@ export function AiWorkPreviewAuthentic() {
         <div className="flex-1">
           <h2 className="text-2xl font-semibold">AI is building your compliance program</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            This process typically takes 15-30 minutes to complete
+            This process typically takes 2-7 minutes to complete
           </p>
           <p className="text-xs text-muted-foreground/70 mt-1">
             We're thoroughly analyzing your infrastructure to create accurate, personalized policies
@@ -206,17 +206,17 @@ export function AiWorkPreviewAuthentic() {
         <p className="text-xs text-muted-foreground/70">
           {completedCount} of {workItems.length} tasks completed • Estimated time remaining:{' '}
           {overallProgress < 10
-            ? '25-30 min'
+            ? '6-7 min'
             : overallProgress < 20
-              ? '20-25 min'
+              ? '5-6 min'
               : overallProgress < 40
-                ? '15-20 min'
+                ? '4-5 min'
                 : overallProgress < 60
-                  ? '10-15 min'
+                  ? '3-4 min'
                   : overallProgress < 80
-                    ? '5-10 min'
+                    ? '2-3 min'
                     : overallProgress < 90
-                      ? '2-5 min'
+                      ? '1-2 min'
                       : 'Almost done...'}
         </p>
       </div>

@@ -24,4 +24,7 @@ export type STRIPE_SUB_CACHE =
     }
   | {
       status: 'none';
+    }
+  | {
+      status: 'self-serve';
     };

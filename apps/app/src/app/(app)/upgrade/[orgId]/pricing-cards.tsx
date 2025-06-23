@@ -1,8 +1,8 @@
 'use client';
 
+import { chooseSelfServeAction } from '@/actions/organization/choose-self-serve';
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
 import { SelectionIndicator } from '@/components/layout/SelectionIndicator';
-import { env } from '@/env.mjs';
 import { Badge } from '@comp/ui/badge';
 import { Button } from '@comp/ui/button';
 import {
@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@comp/ui/card';
-import { Switch } from '@comp/ui/switch';
 import { CheckIcon, Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
@@ -22,42 +21,186 @@ import { toast } from 'sonner';
 
 interface PricingCardsProps {
   organizationId: string;
+  priceDetails: {
+    monthlyPrice: {
+      id: string;
+      unitAmount: number | null;
+      currency: string;
+      interval: string | null;
+      productName: string | null;
+    } | null;
+    yearlyPrice: {
+      id: string;
+      unitAmount: number | null;
+      currency: string;
+      interval: string | null;
+      productName: string | null;
+    } | null;
+  };
 }
 
-const starterFeatures = [
-  'Every framework included',
+interface PricingCardProps {
+  planType: 'free' | 'paid';
+  isSelected: boolean;
+  onClick: () => void;
+  title: string;
+  description: string;
+  price: number;
+  priceLabel: string;
+  subtitle?: string;
+  features: string[];
+  badge?: string;
+  footerText: string;
+  yearlyPrice?: number;
+  isYearly?: boolean;
+}
+
+const PricingCard = ({
+  planType,
+  isSelected,
+  onClick,
+  title,
+  description,
+  price,
+  priceLabel,
+  subtitle,
+  features,
+  badge,
+  footerText,
+  yearlyPrice,
+  isYearly,
+}: PricingCardProps) => {
+  return (
+    <Card
+      className={`relative cursor-pointer transition-all h-full flex flex-col ${
+        isSelected
+          ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg'
+          : 'hover:shadow-md bg-card'
+      } border border-border`}
+      onClick={onClick}
+    >
+      <CardHeader className="p-6 pb-4">
+        <div className="flex items-start gap-3">
+          <SelectionIndicator isSelected={isSelected} variant="radio" />
+          <div className="flex-1 -mt-0.5">
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+              {badge && (
+                <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
+                  {badge}
+                </Badge>
+              )}
+            </div>
+            <CardDescription className="text-sm mt-0.5">{description}</CardDescription>
+          </div>
+        </div>
+        <div className="mt-4">
+          {isYearly && yearlyPrice ? (
+            <>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-bold">${yearlyPrice.toLocaleString()}</span>
+                <span className="text-sm text-muted-foreground">/year</span>
+              </div>
+              <div className="space-y-1 mt-1">
+                <p className="text-sm text-muted-foreground">
+                  ${price.toLocaleString()}/mo when paid annually
+                </p>
+                {planType === 'paid' && (
+                  <p className="text-sm font-medium text-green-600 dark:text-green-400">
+                    Save 20% vs monthly billing
+                  </p>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-bold">${price.toLocaleString()}</span>
+                <span className="text-sm text-muted-foreground">/{priceLabel}</span>
+              </div>
+              {subtitle && (
+                <p className="text-sm text-green-600 dark:text-green-400 mt-1">{subtitle}</p>
+              )}
+            </>
+          )}
+        </div>
+      </CardHeader>
+
+      <div className={`border-t ${isSelected ? 'border-green-500/30' : 'border-border'} mx-6`} />
+
+      <CardContent className="px-6 flex flex-col h-full">
+        <ul className="space-y-2 flex-1 py-3">
+          {features.map((feature, idx) => {
+            const isEverythingIn = idx === 0 && feature.includes('Everything in');
+            const isAuditNote = feature.includes('Pay for your audit');
+
+            return (
+              <li
+                key={feature}
+                className={
+                  isEverythingIn
+                    ? 'pb-1'
+                    : isAuditNote
+                      ? 'mt-2 pt-2 border-t border-border'
+                      : 'flex items-start gap-2'
+                }
+              >
+                {!isEverythingIn && !isAuditNote && (
+                  <CheckIcon className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                )}
+                <span
+                  className={`text-sm leading-relaxed ${
+                    isEverythingIn
+                      ? 'font-semibold text-muted-foreground block'
+                      : isAuditNote
+                        ? 'text-muted-foreground italic'
+                        : ''
+                  }`}
+                >
+                  {feature}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        <div
+          className={`border-t ${
+            isSelected ? 'border-green-500/30' : 'border-border'
+          } mt-auto pt-4`}
+        >
+          <p className="text-xs text-center text-muted-foreground">{footerText}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const freeFeatures = [
+  'Access to all frameworks',
   'Trust & Security Portal',
-  'Automated AI-Powered Onboarding',
   'AI Vendor Management',
   'AI Risk Management',
   'Unlimited team members',
   'API access',
-  'Discord Support',
+  'Community Support',
+  'Pay for your audit or bring your own 3rd party auditor when ready',
 ];
 
-const professionalFeatures = [
+const paidFeatures = [
   'Everything in Starter plus:',
-  'White-glove onboarding',
-  'Private Slack Channel with Comp AI',
-  "We Guarantee You'll Get Compliant",
-  'Unlimited, Private Support',
-  '3rd Party Penetration Test',
-  '3rd Party Audit Discount',
-  'Custom Integrations',
+  'SOC 2 or ISO 27001 Done For You',
+  '3rd Party Audit Included',
+  'Compliant in 14 Days or Less',
+  '14 Day Money Back Guarantee',
+  'Dedicated Success Team',
+  '24x7x365 Support & SLA',
+  'Slack Channel with Comp AI',
 ];
 
-const auditFeatures = [
-  'SOC 2 Type II certification',
-  'Dedicated audit manager',
-  'Evidence packaging',
-  'Live audit support',
-];
-
-export function PricingCards({ organizationId }: PricingCardsProps) {
+export function PricingCards({ organizationId, priceDetails }: PricingCardsProps) {
   const router = useRouter();
   const [isYearly, setIsYearly] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'professional'>('professional');
-  const [includeAudit, setIncludeAudit] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'free' | 'paid'>('paid');
 
   const { execute, isExecuting } = useAction(generateCheckoutSessionAction, {
     onSuccess: ({ data }) => {
@@ -70,224 +213,143 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
     },
   });
 
+  const { execute: executeChooseSelfServe, isExecuting: isChoosingFree } = useAction(
+    chooseSelfServeAction,
+    {
+      onSuccess: () => {
+        router.push(`/${organizationId}`);
+      },
+      onError: ({ error }) => {
+        toast.error(error.serverError || 'Failed to set up free plan');
+      },
+    },
+  );
+
   const baseUrl =
     typeof window !== 'undefined'
       ? `${window.location.protocol}//${window.location.host}`
       : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
-  // Get price IDs from env package
-  const starterPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID;
-  const proPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRO_PRICE_ID;
-  const auditPriceId = env.NEXT_PUBLIC_STRIPE_AUDIT_PRICE_ID;
-
   const handleSubscribe = () => {
-    // Determine which plan price ID to use
-    const planPriceId = selectedPlan === 'starter' ? starterPriceId : proPriceId;
-    // Build array of price IDs
-    const priceIds = [planPriceId].filter(Boolean);
-    if (includeAudit && auditPriceId) {
-      priceIds.push(auditPriceId);
+    if (selectedPlan === 'free') {
+      // For free plan, update the database and redirect
+      executeChooseSelfServe({ organizationId });
+      return;
     }
-    // TODO: Update backend to accept priceIds: string[]
-    const priceId = priceIds.length > 1 ? priceIds.join(',') : priceIds[0];
+
+    // Determine which price ID to use based on yearly/monthly selection
+    const priceId = isYearly ? priceDetails.yearlyPrice?.id : priceDetails.monthlyPrice?.id;
+
+    if (!priceId) {
+      toast.error('Price information not available');
+      return;
+    }
 
     execute({
       organizationId,
       mode: 'subscription',
-      priceId, // send as string for now
+      priceId,
       successUrl: `${baseUrl}/${organizationId}/settings/billing?success=true`,
       cancelUrl: `${baseUrl}/upgrade/${organizationId}`,
       allowPromotionCodes: true,
       metadata: {
         organizationId,
-        plan: selectedPlan,
-        includeAudit: includeAudit.toString(),
+        plan: 'paid',
+        billingPeriod: isYearly ? 'yearly' : 'monthly',
       },
     });
   };
 
-  const starterMonthly = 399;
-  const professionalMonthly = 499;
-  const yearlyDiscount = 0.2;
+  // Calculate prices from Stripe data
+  const monthlyPrice = priceDetails.monthlyPrice?.unitAmount
+    ? Math.round(priceDetails.monthlyPrice.unitAmount / 100)
+    : 997; // fallback to $997
 
-  const starterYearly = Math.round(starterMonthly * (1 - yearlyDiscount));
-  const professionalYearly = Math.round(professionalMonthly * (1 - yearlyDiscount));
+  // Yearly price from Stripe is the total yearly amount
+  const yearlyPriceTotal = priceDetails.yearlyPrice?.unitAmount
+    ? Math.round(priceDetails.yearlyPrice.unitAmount / 100)
+    : 9564; // fallback with 20% discount (997 * 12 * 0.8)
 
-  const currentMonthlyPrice = selectedPlan === 'starter' ? starterMonthly : professionalMonthly;
-  const currentYearlyPrice = selectedPlan === 'starter' ? starterYearly : professionalYearly;
-  const currentPrice = isYearly ? currentYearlyPrice : currentMonthlyPrice;
+  // Calculate monthly equivalent for yearly pricing display
+  const yearlyPriceMonthly = Math.round(yearlyPriceTotal / 12);
 
-  const yearlyTotal = currentYearlyPrice * 12;
+  const currentPrice = selectedPlan === 'free' ? 0 : isYearly ? yearlyPriceMonthly : monthlyPrice;
+  const yearlySavings = monthlyPrice * 12 - yearlyPriceTotal;
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Pricing Toggle */}
-      <div className="flex items-center justify-center gap-3">
-        <span
-          className={`text-sm transition-colors ${!isYearly ? 'font-medium' : 'text-muted-foreground'}`}
-        >
-          Monthly
-        </span>
-        <Switch
-          checked={isYearly}
-          onCheckedChange={setIsYearly}
-          className="data-[state=checked]:bg-primary"
-        />
-        <div className="flex items-center gap-2">
-          <span
-            className={`text-sm transition-colors ${isYearly ? 'font-medium' : 'text-muted-foreground'}`}
+      <div className="flex flex-col items-center gap-2">
+        <div className="bg-muted/50 p-1 rounded-lg flex items-center justify-center gap-1">
+          <button
+            onClick={() => setIsYearly(false)}
+            className={`px-4 py-2 text-sm rounded-md transition-all ${
+              !isYearly
+                ? 'bg-background font-medium shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setIsYearly(true)}
+            className={`px-4 py-2 text-sm rounded-md transition-all flex items-center gap-2 ${
+              isYearly
+                ? 'bg-background font-medium shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
           >
             Yearly
-          </span>
-          <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
-            Save 20%
-          </Badge>
+            <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
+              Save 20%
+            </Badge>
+          </button>
         </div>
+        <p className="text-xs text-muted-foreground text-center">
+          {selectedPlan === 'paid'
+            ? isYearly
+              ? `Pay $${yearlyPriceTotal.toLocaleString()} once • Save $${yearlySavings.toLocaleString()} per year`
+              : `Switch to yearly billing to save $${yearlySavings.toLocaleString()} per year`
+            : 'Start free • No credit card required'}
+        </p>
       </div>
 
       {/* Main Grid */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Plan Selection */}
         <div className="lg:col-span-2 grid md:grid-cols-2 gap-3">
-          {/* Starter Plan */}
-          <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'starter' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
-            onClick={() => setSelectedPlan('starter')}
-          >
-            <CardHeader className="p-6 pb-4">
-              <div className="flex items-start gap-3">
-                <SelectionIndicator isSelected={selectedPlan === 'starter'} variant="radio" />
-                <div className="flex-1 -mt-0.5">
-                  <CardTitle className="text-lg font-semibold">Starter</CardTitle>
-                  <CardDescription className="text-sm mt-0.5">Essential compliance</CardDescription>
-                </div>
-              </div>
-              <div className="mt-4">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">
-                    ${isYearly ? starterYearly : starterMonthly}
-                  </span>
-                  <span className="text-sm text-muted-foreground">/mo</span>
-                </div>
-                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                  Save ${starterMonthly * 12 - starterYearly * 12}/yr with annual
-                </p>
-              </div>
-            </CardHeader>
+          <PricingCard
+            planType="free"
+            isSelected={selectedPlan === 'free'}
+            onClick={() => setSelectedPlan('free')}
+            title="Starter"
+            description="Everything you need to get compliant, fast."
+            price={0}
+            priceLabel="month"
+            subtitle="DIY (Do It Yourself) Compliance"
+            features={freeFeatures}
+            footerText="DIY Compliance Solution"
+          />
 
-            <div
-              className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mx-6 mb-4`}
-            ></div>
-
-            <CardContent className="px-6 flex flex-col h-full">
-              <ul className="space-y-2 flex-1">
-                {starterFeatures.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2">
-                    <CheckIcon className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm leading-relaxed">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <div
-                className={`border-t ${selectedPlan === 'starter' ? 'border-green-500/30' : 'border-border'} mt-auto pt-4`}
-              >
-                <p className="text-xs text-center text-muted-foreground">
-                  Everything you need to start
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Professional Plan */}
-          <Card
-            className={`relative cursor-pointer transition-all h-full flex flex-col ${selectedPlan === 'professional' ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
-            onClick={() => setSelectedPlan('professional')}
-          >
-            <CardHeader className="p-6 pb-4">
-              <div className="flex items-start gap-3">
-                <SelectionIndicator isSelected={selectedPlan === 'professional'} variant="radio" />
-                <div className="flex-1 -mt-0.5">
-                  <div className="flex items-center gap-2">
-                    <CardTitle className="text-lg font-semibold">Professional</CardTitle>
-                    <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 text-xs px-1.5 py-0">
-                      Popular
-                    </Badge>
-                  </div>
-                  <CardDescription className="text-sm mt-0.5">With Slack support</CardDescription>
-                </div>
-              </div>
-              <div className="mt-4">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">
-                    ${isYearly ? professionalYearly : professionalMonthly}
-                  </span>
-                  <span className="text-sm text-muted-foreground">/mo</span>
-                </div>
-                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                  Save ${professionalMonthly * 12 - professionalYearly * 12}/yr with annual
-                </p>
-              </div>
-            </CardHeader>
-            <div
-              className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mx-6 mb-4`}
-            ></div>
-            <CardContent className="px-6 flex flex-col h-full">
-              <ul className="space-y-2 flex-1">
-                {professionalFeatures.map((feature, idx) => (
-                  <li key={feature} className={idx === 0 ? 'pb-1' : 'flex items-start gap-2'}>
-                    {idx !== 0 && (
-                      <CheckIcon className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    )}
-                    <span
-                      className={`text-sm leading-relaxed ${idx === 0 ? 'font-semibold text-muted-foreground block' : ''}`}
-                    >
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <div
-                className={`border-t ${selectedPlan === 'professional' ? 'border-green-500/30' : 'border-border'} mt-auto pt-4`}
-              >
-                <p className="text-xs text-center text-muted-foreground">Best for growing teams</p>
-              </div>
-            </CardContent>
-          </Card>
+          <PricingCard
+            planType="paid"
+            isSelected={selectedPlan === 'paid'}
+            onClick={() => setSelectedPlan('paid')}
+            title="Done For You"
+            description="For companies up to 25 people."
+            price={isYearly ? yearlyPriceMonthly : monthlyPrice}
+            priceLabel="month"
+            subtitle={undefined}
+            features={paidFeatures}
+            badge="Popular"
+            footerText="Done-for-you compliance"
+            yearlyPrice={isYearly ? yearlyPriceTotal : undefined}
+            isYearly={isYearly && selectedPlan === 'paid'}
+          />
         </div>
 
-        {/* Right Column - Checkout & Audit */}
+        {/* Right Column - Checkout */}
         <div className="space-y-3">
-          {/* Audit Add-on */}
-          <Card
-            className={`cursor-pointer transition-all ${includeAudit ? 'ring-2 ring-green-500 shadow-lg bg-green-50/50 dark:bg-primary/15 backdrop-blur-lg' : 'hover:shadow-md bg-card'} border border-border`}
-            onClick={() => setIncludeAudit(!includeAudit)}
-          >
-            <CardHeader className="p-6 pb-3">
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-3">
-                  <SelectionIndicator isSelected={includeAudit} variant="checkbox" />
-                  <div className="flex-1 -mt-0.5">
-                    <p className="text-lg font-semibold">SOC 2 Audit</p>
-                  </div>
-                </div>
-                <p className="text-lg font-bold">$1,500</p>
-              </div>
-            </CardHeader>
-            <CardContent className="px-6 pt-0 pb-4">
-              <p className="text-sm text-muted-foreground mb-3">
-                Add now or purchase later when you're ready
-              </p>
-              <ul className="space-y-2">
-                {auditFeatures.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2">
-                    <CheckIcon className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm leading-relaxed">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
           {/* Checkout Summary */}
           <Card className="bg-card/90 dark:bg-card/80 backdrop-blur-lg border-2 border-white/20 dark:border-white/10 shadow-xl">
             <CardHeader className="pb-3 pt-4 bg-muted/50 dark:bg-muted/40 backdrop-blur-sm rounded-t-lg">
@@ -297,26 +359,37 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">
-                    {selectedPlan === 'starter' ? 'Starter' : 'Professional'} Plan
+                    {selectedPlan === 'free' ? 'Starter' : 'Done For You'} Plan
                   </span>
-                  <span className="text-sm font-semibold">${currentPrice}/mo</span>
+                  {selectedPlan === 'paid' && isYearly ? (
+                    <span className="text-sm font-semibold">
+                      ${yearlyPriceTotal.toLocaleString()}/year
+                    </span>
+                  ) : (
+                    <span className="text-sm font-semibold">
+                      ${currentPrice.toLocaleString()}/month
+                    </span>
+                  )}
                 </div>
-                {!isYearly && (
-                  <p className="text-sm text-green-600 dark:text-green-400">
-                    Save ${currentMonthlyPrice * 12 - currentYearlyPrice * 12}/yr with annual
-                  </p>
-                )}
-                {isYearly && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Annual billing</span>
-                    <span className="text-sm text-muted-foreground">${yearlyTotal}/yr</span>
-                  </div>
-                )}
-                {includeAudit && (
-                  <div className="flex justify-between items-center pt-1">
-                    <span className="text-sm text-muted-foreground">SOC 2 Audit</span>
-                    <span className="text-sm font-semibold">$1,500</span>
-                  </div>
+                {selectedPlan === 'paid' && isYearly && (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Billing period</span>
+                      <span className="text-sm text-muted-foreground">12 months</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Monthly equivalent</span>
+                      <span className="text-sm text-muted-foreground">
+                        ${yearlyPriceMonthly.toLocaleString()}/mo
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-green-600 dark:text-green-400">
+                      <span className="text-sm font-medium">You save</span>
+                      <span className="text-sm font-medium">
+                        ${yearlySavings.toLocaleString()} (20%)
+                      </span>
+                    </div>
+                  </>
                 )}
                 <div className="border-t-2 pt-3 mt-2">
                   <div className="flex justify-between items-baseline">
@@ -324,13 +397,20 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
                     <div className="text-right">
                       <span className="text-2xl font-bold">
                         $
-                        {isYearly
-                          ? yearlyTotal + (includeAudit ? 1500 : 0)
-                          : currentPrice + (includeAudit ? 1500 : 0)}
+                        {selectedPlan === 'free'
+                          ? 0
+                          : isYearly
+                            ? yearlyPriceTotal.toLocaleString()
+                            : currentPrice.toLocaleString()}
                       </span>
-                      {!isYearly && (
+                      {selectedPlan === 'paid' && !isYearly && (
                         <span className="text-sm text-muted-foreground block">
-                          then ${currentPrice}/mo
+                          then ${currentPrice.toLocaleString()}/month
+                        </span>
+                      )}
+                      {selectedPlan === 'paid' && isYearly && (
+                        <span className="text-sm font-medium text-green-600 dark:text-green-400 block">
+                          One-time payment
                         </span>
                       )}
                     </div>
@@ -341,24 +421,23 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
             <CardFooter className="pt-0 pb-3 flex flex-col gap-3">
               <Button
                 onClick={handleSubscribe}
-                disabled={isExecuting}
+                disabled={isExecuting || isChoosingFree}
                 size="default"
                 className="w-full"
               >
-                {isExecuting ? (
+                {isExecuting || isChoosingFree ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Processing...
                   </>
+                ) : selectedPlan === 'free' ? (
+                  'Start Free'
+                ) : isYearly ? (
+                  'Start Annual Plan'
                 ) : (
-                  'Subscribe Now'
+                  'Start Monthly Plan'
                 )}
               </Button>
-              {!includeAudit && (
-                <p className="text-xs text-muted-foreground text-center px-2">
-                  Once audit-ready, you can add SOC 2 certification or work with your own auditors
-                </p>
-              )}
             </CardFooter>
           </Card>
 

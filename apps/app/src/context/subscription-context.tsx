@@ -7,6 +7,7 @@ interface SubscriptionContextValue {
   subscription: STRIPE_SUB_CACHE;
   hasActiveSubscription: boolean;
   isTrialing: boolean;
+  isSelfServe: boolean;
 }
 
 const SubscriptionContext = createContext<SubscriptionContextValue | undefined>(undefined);
@@ -19,9 +20,12 @@ export function SubscriptionProvider({
   subscription: STRIPE_SUB_CACHE;
 }) {
   const hasActiveSubscription =
-    subscription.status === 'active' || subscription.status === 'trialing';
+    subscription.status === 'active' ||
+    subscription.status === 'trialing' ||
+    subscription.status === 'self-serve';
 
   const isTrialing = subscription.status === 'trialing';
+  const isSelfServe = subscription.status === 'self-serve';
 
   return (
     <SubscriptionContext.Provider
@@ -29,6 +33,7 @@ export function SubscriptionProvider({
         subscription,
         hasActiveSubscription,
         isTrialing,
+        isSelfServe,
       }}
     >
       {children}
