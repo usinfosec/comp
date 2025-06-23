@@ -7,9 +7,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@comp/ui/c
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@comp/ui/form';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useOnboardingForm } from '../hooks/useOnboardingForm';
-import { AnimatedGradientBackground } from './AnimatedGradientBackground';
 import { OnboardingFormActions } from './OnboardingFormActions';
 import { OnboardingStepInput } from './OnboardingStepInput';
 
@@ -63,80 +62,100 @@ export function OrganizationSetupForm({
 
   const hasExistingOrgs = existingOrganizations.length > 0;
 
-  // Calculate scale based on step progress (0.7 to 1.5)
-  const progressScale = 0.7 + (stepIndex / (steps.length - 1)) * 0.8;
+  // Save step progress to localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (isFinalizing) {
+        // Set to max scale when finalizing
+        localStorage.setItem('onboarding-progress', '1');
+        window.dispatchEvent(
+          new CustomEvent('onboarding-step-change', {
+            detail: { stepIndex: steps.length - 1, totalSteps: steps.length, progress: 1 },
+          }),
+        );
+      } else {
+        const progress = stepIndex / (steps.length - 1);
+        localStorage.setItem('onboarding-step-index', stepIndex.toString());
+        localStorage.setItem('onboarding-total-steps', steps.length.toString());
+        localStorage.setItem('onboarding-progress', progress.toString());
+
+        // Dispatch custom event to notify the background wrapper
+        window.dispatchEvent(
+          new CustomEvent('onboarding-step-change', {
+            detail: { stepIndex, totalSteps: steps.length, progress },
+          }),
+        );
+      }
+    }
+  }, [stepIndex, steps.length, isFinalizing]);
 
   return isFinalizing ? (
     <div className="flex min-h-screen items-center justify-center">
-      <AnimatedGradientBackground scale={1.5} />
       <LogoSpinner />
     </div>
   ) : (
-    <>
-      <AnimatedGradientBackground scale={progressScale} />
-      <div className="scrollbar-hide flex min-h-[calc(100vh-42px)] flex-col items-center justify-center p-4">
-        <div className="relative w-full max-w-2xl">
-          <Card className="scrollbar-hide relative flex w-full flex-col bg-card/80 dark:bg-card/70 backdrop-blur-xl border border-border/50 shadow-2xl">
-            {isLoadingFrameworks && step.key === 'frameworkIds' && (
-              <div className="absolute inset-0 z-50 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm">
-                <LogoSpinner />
+    <div className="scrollbar-hide flex min-h-[calc(100vh-50px)] flex-col items-center justify-center p-4">
+      <div className="relative w-full max-w-2xl">
+        <Card className="scrollbar-hide relative flex w-full flex-col bg-card/80 dark:bg-card/70 backdrop-blur-xl border border-border/50 shadow-2xl">
+          {isLoadingFrameworks && step.key === 'frameworkIds' && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm">
+              <LogoSpinner />
+            </div>
+          )}
+          <CardHeader className="flex min-h-[140px] flex-col items-center justify-center pb-0">
+            <div className="flex flex-col items-center gap-2">
+              <LogoSpinner />
+              <div className="text-muted-foreground text-sm">
+                Step {stepIndex + 1} of {steps.length}
               </div>
-            )}
-            <CardHeader className="flex min-h-[140px] flex-col items-center justify-center pb-0">
-              <div className="flex flex-col items-center gap-2">
-                <LogoSpinner />
-                <div className="text-muted-foreground text-sm">
-                  Step {stepIndex + 1} of {steps.length}
-                </div>
-                <CardTitle className="flex min-h-[56px] items-center justify-center text-center">
-                  {step.question}
-                </CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="flex min-h-[150px] flex-1 flex-col overflow-y-auto">
-              <Form {...form} key={step.key}>
-                <form
-                  id="onboarding-form"
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="mt-4 w-full"
-                  autoComplete="off"
-                >
-                  <FormField
-                    name={step.key}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <OnboardingStepInput
-                            currentStep={step}
-                            form={form}
-                            savedAnswers={savedAnswers}
-                            onLoadingChange={setIsLoadingFrameworks}
-                          />
-                        </FormControl>
-                        <div className="min-h-[20px]">
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </form>
-              </Form>
-            </CardContent>
-            <CardFooter>
-              <div className="flex flex-1 items-center" suppressHydrationWarning>
-                {/* Skip button removed - forcing all questions */}
-              </div>
-              <OnboardingFormActions
-                onBack={handleBack}
-                isSubmitting={isOnboarding || isFinalizing}
-                stepIndex={stepIndex}
-                isLastStep={isLastStep}
-                isOnboarding={isOnboarding}
-              />
-            </CardFooter>
-          </Card>
-        </div>
+              <CardTitle className="flex min-h-[56px] items-center justify-center text-center">
+                {step.question}
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="flex min-h-[150px] flex-1 flex-col overflow-y-auto">
+            <Form {...form} key={step.key}>
+              <form
+                id="onboarding-form"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-4 w-full"
+                autoComplete="off"
+              >
+                <FormField
+                  name={step.key}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <OnboardingStepInput
+                          currentStep={step}
+                          form={form}
+                          savedAnswers={savedAnswers}
+                          onLoadingChange={setIsLoadingFrameworks}
+                        />
+                      </FormControl>
+                      <div className="min-h-[20px]">
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
+          </CardContent>
+          <CardFooter>
+            <div className="flex flex-1 items-center" suppressHydrationWarning>
+              {/* Skip button removed - forcing all questions */}
+            </div>
+            <OnboardingFormActions
+              onBack={handleBack}
+              isSubmitting={isOnboarding || isFinalizing}
+              stepIndex={stepIndex}
+              isLastStep={isLastStep}
+              isOnboarding={isOnboarding}
+            />
+          </CardFooter>
+        </Card>
       </div>
-    </>
+    </div>
   );
 }
