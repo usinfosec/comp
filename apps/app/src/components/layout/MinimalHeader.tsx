@@ -2,7 +2,6 @@
 
 import { changeOrganizationAction } from '@/actions/change-organization';
 import { MinimalOrganizationSwitcher } from '@/components/layout/MinimalOrganizationSwitcher';
-import { ThemeSwitch } from '@/components/theme-switch';
 import { authClient } from '@/utils/auth-client';
 import type { Organization } from '@comp/db/types';
 import { Icons } from '@comp/ui/icons';
@@ -85,7 +84,7 @@ export function MinimalHeader({
       </div>
 
       <div className="flex items-center gap-3">
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <span className="hidden lg:inline text-sm text-foreground/80">{user.email}</span>
         <button
           onClick={handleSignOut}

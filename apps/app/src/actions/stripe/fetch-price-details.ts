@@ -22,7 +22,12 @@ export type CachedPrices = {
 const CACHE_DURATION = 30 * 60; // 30 minutes in seconds
 
 export async function fetchStripePriceDetails(): Promise<CachedPrices> {
-  const cacheKey = 'stripe:managed-prices';
+  // Fetch from Stripe
+  const monthlyPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_MONTHLY_PRICE_ID;
+  const yearlyPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_YEARLY_PRICE_ID;
+
+  // Create a unique cache key that includes the price IDs
+  const cacheKey = `stripe:managed-prices:${monthlyPriceId || 'none'}:${yearlyPriceId || 'none'}`;
 
   try {
     // Check cache first
@@ -33,10 +38,6 @@ export async function fetchStripePriceDetails(): Promise<CachedPrices> {
   } catch (error) {
     console.error('[STRIPE] Error reading from cache:', error);
   }
-
-  // Fetch from Stripe
-  const monthlyPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_MONTHLY_PRICE_ID;
-  const yearlyPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_YEARLY_PRICE_ID;
 
   let monthlyPrice: PriceDetails | null = null;
   let yearlyPrice: PriceDetails | null = null;

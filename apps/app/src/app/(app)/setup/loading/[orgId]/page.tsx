@@ -1,4 +1,3 @@
-import { AnimatedGradientBackground } from '@/app/(app)/setup/components/AnimatedGradientBackground';
 import { SetupLoadingStep } from '@/app/(app)/setup/components/SetupLoadingStep';
 import { getOrganizations } from '@/data/getOrganizations';
 import { auth } from '@/utils/auth';
@@ -33,10 +32,5 @@ export default async function SetupLoadingPage({ params }: SetupLoadingPageProps
     console.error('Failed to fetch organizations:', error);
   }
 
-  return (
-    <>
-      <AnimatedGradientBackground scale={2} />
-      <SetupLoadingStep organizationId={orgId} />
-    </>
-  );
+  return <SetupLoadingStep organizationId={orgId} />;
 }
