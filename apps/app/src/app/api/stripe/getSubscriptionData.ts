@@ -1,111 +1,60 @@
 import { db } from '@comp/db';
-import { client } from '@comp/kv';
 import { STRIPE_SUB_CACHE } from './stripeDataToKv.type';
-import { syncStripeDataToKV } from './syncStripeDataToKv';
 
 /**
- * Gets the Stripe customer ID for an organization, checking KV cache first,
- * then falling back to database if needed.
- */
-async function getStripeCustomerId(organizationId: string): Promise<string | null> {
-  // First, check the KV store for the stripeCustomerId
-  let stripeCustomerId = await client.get(`stripe:organization:${organizationId}`);
-
-  // If not present in KV, check the database
-  if (!stripeCustomerId) {
-    const organization = await db.organization.findUnique({
-      where: {
-        id: organizationId,
-      },
-      select: {
-        stripeCustomerId: true,
-      },
-    });
-
-    if (!organization?.stripeCustomerId) {
-      return null;
-    }
-
-    stripeCustomerId = organization.stripeCustomerId;
-
-    // Cache the customer ID in KV for future use
-    await client.set(`stripe:organization:${organizationId}`, stripeCustomerId);
-  }
-
-  // Ensure we return a string or null, not undefined
-  return typeof stripeCustomerId === 'string' ? stripeCustomerId : null;
-}
-
-/**
- * Gets subscription data for an organization with automatic fallback to Stripe API
- * if the data is not in KV cache (e.g., due to eviction).
- *
- * This implements a cache-aside pattern:
- * 1. Try to get from cache
- * 2. If cache miss, fetch from source (Stripe)
- * 3. Update cache with fresh data
- * 4. Return the data
+ * Gets subscription data for an organization from the database.
+ * This is now a simple database lookup with no KV caching.
  */
 export async function getSubscriptionData(organizationId: string): Promise<STRIPE_SUB_CACHE> {
   try {
-    // First check if organization chose self-serve (free plan)
     const organization = await db.organization.findUnique({
-      where: {
-        id: organizationId,
-      },
+      where: { id: organizationId },
       select: {
-        choseSelfServe: true,
-        stripeCustomerId: true,
+        subscriptionType: true,
+        stripeSubscriptionData: true,
       },
     });
 
-    // If they chose self-serve, return a special status
-    if (organization?.choseSelfServe) {
-      return { status: 'self-serve' };
-    }
-
-    // Step 1: Get the Stripe customer ID
-    const stripeCustomerId =
-      organization?.stripeCustomerId || (await getStripeCustomerId(organizationId));
-
-    if (!stripeCustomerId) {
-      // No Stripe customer associated with this organization
+    if (!organization) {
+      console.log(`[SUBSCRIPTION] Organization ${organizationId} not found`);
       return { status: 'none' };
     }
 
-    // Step 2: Try to get subscription data from KV cache
-    const cachedData = await client.get(`stripe:customer:${stripeCustomerId}`);
+    // Return based on subscription type
+    switch (organization.subscriptionType) {
+      case 'SELF_SERVE':
+        console.log(`[SUBSCRIPTION] Org ${organizationId} is on self-serve plan`);
+        return { status: 'self-serve' };
 
-    if (cachedData) {
-      // Cache hit - return the cached data
-      return cachedData as STRIPE_SUB_CACHE;
+      case 'STRIPE':
+        if (organization.stripeSubscriptionData) {
+          const data = organization.stripeSubscriptionData as STRIPE_SUB_CACHE;
+          console.log(
+            `[SUBSCRIPTION] Org ${organizationId} has Stripe subscription with status: ${data.status}`,
+          );
+          return data;
+        }
+        console.log(`[SUBSCRIPTION] Org ${organizationId} has STRIPE type but no data`);
+        return { status: 'none' };
+
+      case 'NONE':
+      default:
+        console.log(`[SUBSCRIPTION] Org ${organizationId} has no subscription`);
+        return { status: 'none' };
     }
-
-    // Step 3: Cache miss - fetch from Stripe and update cache
-    console.log(`[STRIPE] Cache miss for customer ${stripeCustomerId}, fetching from Stripe API`);
-
-    const freshData = await syncStripeDataToKV(stripeCustomerId);
-    return freshData;
   } catch (error) {
-    console.error('[STRIPE] Error fetching subscription data:', error);
-
-    // Return a safe default if there's an error
+    console.error('[SUBSCRIPTION] Error fetching subscription data:', error);
     return { status: 'none' };
   }
 }
 
 /**
  * Invalidates the cached subscription data for an organization.
- * Useful when you know the data has changed and want to force a refresh.
+ * With the DB approach, this is now a no-op but kept for compatibility.
  */
 export async function invalidateSubscriptionCache(organizationId: string): Promise<void> {
-  try {
-    const stripeCustomerId = await getStripeCustomerId(organizationId);
-
-    if (stripeCustomerId) {
-      await client.del(`stripe:customer:${stripeCustomerId}`);
-    }
-  } catch (error) {
-    console.error('[STRIPE] Error invalidating subscription cache:', error);
-  }
+  // No-op - data is always fresh from DB
+  console.log(
+    `[SUBSCRIPTION] Cache invalidation requested for ${organizationId} (no-op with DB approach)`,
+  );
 }

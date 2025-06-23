@@ -89,13 +89,11 @@ export default async function UpgradePage({ params }: PageProps) {
     redirect('/');
   }
 
-  // Check if they already have an active subscription
-  if (member.organization.stripeCustomerId) {
-    const subscription = await getSubscriptionData(member.organization.stripeCustomerId);
-    if (subscription && (subscription.status === 'active' || subscription.status === 'trialing')) {
-      // Already subscribed, redirect to dashboard
-      redirect(`/${orgId}`);
-    }
+  // Check if they already have an active subscription (excluding self-serve)
+  const subscription = await getSubscriptionData(orgId);
+  if (subscription && (subscription.status === 'active' || subscription.status === 'trialing')) {
+    // Already have a paid subscription, redirect to dashboard
+    redirect(`/${orgId}`);
   }
 
   // Fetch price details from Stripe

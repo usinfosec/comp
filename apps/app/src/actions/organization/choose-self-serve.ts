@@ -30,7 +30,7 @@ export const chooseSelfServeAction = authWithOrgAccessClient
         id: organizationId,
       },
       data: {
-        choseSelfServe: true,
+        subscriptionType: 'SELF_SERVE',
       },
     });
 

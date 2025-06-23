@@ -2,10 +2,9 @@
 
 import { stripe } from '@/actions/organization/lib/stripe';
 import { authWithOrgAccessClient } from '@/actions/safe-action';
-import {
-  getSubscriptionData,
-  invalidateSubscriptionCache,
-} from '@/app/api/stripe/getSubscriptionData';
+import { getSubscriptionData } from '@/app/api/stripe/getSubscriptionData';
+import { syncStripeDataToKV } from '@/app/api/stripe/syncStripeDataToKv';
+import { db } from '@comp/db';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { z } from 'zod';
@@ -48,8 +47,16 @@ export const resumeSubscriptionAction = authWithOrgAccessClient
         cancel_at_period_end: false,
       });
 
-      // Invalidate the cache to force fresh data
-      await invalidateSubscriptionCache(organizationId);
+      // Get the organization's Stripe customer ID
+      const organization = await db.organization.findUnique({
+        where: { id: organizationId },
+        select: { stripeCustomerId: true },
+      });
+
+      if (organization?.stripeCustomerId) {
+        // Sync the updated subscription data to the database
+        await syncStripeDataToKV(organization.stripeCustomerId);
+      }
 
       // Revalidate the current path
       const headersList = await headers();
@@ -57,6 +64,8 @@ export const resumeSubscriptionAction = authWithOrgAccessClient
       path = path.replace(/\/[a-z]{2}\//, '/');
 
       revalidatePath(path);
+      // Also specifically revalidate the billing page
+      revalidatePath(`/${organizationId}/settings/billing`);
 
       return {
         success: true,

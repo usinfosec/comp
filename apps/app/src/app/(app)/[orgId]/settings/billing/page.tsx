@@ -5,13 +5,12 @@ import { createPortalSessionAction } from '@/app/api/stripe/create-portal-sessio
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
 import { resumeSubscriptionAction } from '@/app/api/stripe/resume-subscription/resume-subscription';
 import { useSubscription } from '@/context/subscription-context';
-import { env } from '@/env.mjs';
 import { Alert, AlertDescription } from '@comp/ui/alert';
 import { Badge } from '@comp/ui/badge';
 import { Button } from '@comp/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@comp/ui/card';
 import { Separator } from '@comp/ui/separator';
-import { AlertCircle, Calendar, Clock, CreditCard, Loader2 } from 'lucide-react';
+import { AlertCircle, Calendar, Check, Clock, CreditCard, Loader2, Sparkles } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -19,7 +18,7 @@ import { toast } from 'sonner';
 import { CancelSubscriptionDialog } from './cancel-subscription-dialog';
 
 export default function BillingPage() {
-  const { subscription, hasActiveSubscription, isTrialing } = useSubscription();
+  const { subscription, hasActiveSubscription, isTrialing, isSelfServe } = useSubscription();
   const router = useRouter();
   const params = useParams();
   const organizationId = params.orgId as string;
@@ -33,7 +32,6 @@ export default function BillingPage() {
         if (data?.success) {
           toast.success(data.message);
           setShowCancelDialog(false);
-          router.refresh();
         }
       },
       onError: ({ error }) => {
@@ -49,7 +47,6 @@ export default function BillingPage() {
       onSuccess: ({ data }) => {
         if (data?.success) {
           toast.success(data.message);
-          router.refresh();
         }
       },
       onError: ({ error }) => {
@@ -93,6 +90,10 @@ export default function BillingPage() {
       return <Badge variant="secondary">No subscription</Badge>;
     }
 
+    if (subscription.status === 'self-serve') {
+      return <Badge variant="secondary">Free Plan</Badge>;
+    }
+
     const statusConfig = {
       active: { variant: 'default' as const, label: 'Active' },
       trialing: { variant: 'outline' as const, label: 'Trial' },
@@ -120,6 +121,66 @@ export default function BillingPage() {
     });
   };
 
+  // Handle self-serve (free plan) users
+  if (isSelfServe) {
+    return (
+      <div className="space-y-4">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Free Plan (Starter)</CardTitle>
+              {getStatusBadge()}
+            </div>
+            <CardDescription>You're currently on our free self-serve plan</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">Your plan includes:</p>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                  <span className="text-sm">Complete access to manage your compliance program</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                  <span className="text-sm">Generate policies and documentation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                  <span className="text-sm">Basic integrations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                  <span className="text-sm">Community support</span>
+                </li>
+              </ul>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-3">
+              <p className="text-sm font-medium">Want more features?</p>
+              <Alert>
+                <Sparkles className="h-4 w-4" />
+                <AlertDescription>
+                  Upgrade to our Done For You plan for expert assistance, priority support, and
+                  advanced features.
+                </AlertDescription>
+              </Alert>
+              <Button
+                onClick={() => router.push(`/upgrade/${organizationId}`)}
+                className="w-full sm:w-auto"
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                View Upgrade Options
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Show upgrade prompt if no active subscription
   if (!hasActiveSubscription && subscription.status !== 'canceled') {
     return (
@@ -127,33 +188,21 @@ export default function BillingPage() {
         <Card>
           <CardHeader>
             <CardTitle>No Active Subscription</CardTitle>
-            <CardDescription>Choose a plan to unlock all features</CardDescription>
+            <CardDescription>Choose a plan to get started</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                You're currently on the free plan. Upgrade to access premium features and remove
-                limitations.
+                Choose a plan to start managing your compliance program.
               </AlertDescription>
             </Alert>
             <Button
-              onClick={() =>
-                createCheckout({
-                  organizationId,
-                  mode: 'subscription',
-                  priceId: env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID,
-                  allowPromotionCodes: true,
-                })
-              }
-              disabled={isCreatingCheckout}
+              onClick={() => router.push(`/upgrade/${organizationId}`)}
+              className="w-full sm:w-auto"
             >
-              {isCreatingCheckout ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <CreditCard className="mr-2 h-4 w-4" />
-              )}
-              Choose a Plan
+              <CreditCard className="mr-2 h-4 w-4" />
+              Browse Plans
             </Button>
           </CardContent>
         </Card>

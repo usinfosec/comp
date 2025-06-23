@@ -77,34 +77,21 @@ export async function middleware(request: NextRequest) {
     const orgMatch = nextUrl.pathname.match(/^\/org_[a-zA-Z0-9]+/);
     if (orgMatch && !isSubscriptionExempt(nextUrl.pathname)) {
       const orgId = orgMatch[0].substring(1); // Remove leading slash
+      console.log(
+        `[MIDDLEWARE] Checking subscription for path: ${nextUrl.pathname}, orgId: ${orgId}`,
+      );
 
-      // Get organization's subscription details
-      const org = await db.organization.findUnique({
-        where: { id: orgId },
-        select: {
-          stripeCustomerId: true,
-          choseSelfServe: true,
-        },
-      });
+      // Check subscription status (handles both Stripe and self-serve)
+      const subscription = await getSubscriptionData(orgId);
 
-      // Allow access if they chose self-serve (free plan)
-      if (org?.choseSelfServe) {
-        return response;
-      }
+      // Allow access for valid statuses
+      const validStatuses = ['active', 'trialing', 'self-serve', 'past_due', 'paused'];
 
-      // Check paid subscription status
-      if (org?.stripeCustomerId) {
-        const subscription = await getSubscriptionData(org.stripeCustomerId);
-
-        // If no active subscription, redirect to upgrade page
-        if (
-          !subscription ||
-          (subscription.status !== 'active' && subscription.status !== 'trialing')
-        ) {
-          return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
-        }
-      } else {
-        // No Stripe customer ID and not self-serve means no plan selected yet
+      // Redirect to upgrade page only if they have no valid subscription
+      if (!subscription || !validStatuses.includes(subscription.status)) {
+        console.log(
+          `[MIDDLEWARE] Redirecting org ${orgId} to upgrade. Status: ${subscription?.status}`,
+        );
         return NextResponse.redirect(new URL(`/upgrade/${orgId}`, request.url));
       }
     }

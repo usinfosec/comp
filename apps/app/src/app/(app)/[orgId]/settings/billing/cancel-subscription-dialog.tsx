@@ -53,7 +53,7 @@ export function CancelSubscriptionDialog({
             </p>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="gap-2 sm:gap-0">
+        <DialogFooter className="gap-2">
           <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={isLoading}>
             Keep Subscription
           </Button>
