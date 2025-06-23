@@ -8,6 +8,8 @@ const vertexShader = `
 uniform float u_time;
 uniform float u_scale;
 uniform vec2 u_mouse;
+uniform float u_pulse;
+uniform float u_glow;
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying float vNoise;
@@ -79,6 +81,10 @@ void main() {
   float stretchFactor = 1.0 + stretchAmount * max(0.0, dotProduct);
   pos *= stretchFactor;
   
+  // Click pulse effect - expands the orb outward
+  float pulseExpansion = u_pulse * 0.06 * (1.0 + sin(length(pos) * 3.0 - u_time * 1.0) * 0.2);
+  pos *= 1.0 + pulseExpansion;
+  
   // Dynamic geometric distortions
   float angle = atan(pos.y, pos.x);
   float radius = length(pos.xy);
@@ -96,10 +102,14 @@ void main() {
   float spikes = pow(sin(angle * 8.0 + u_time * 0.5 - atan(mouseOffset.y, mouseOffset.x)), 4.0) * 0.15;
   spikes *= smoothstep(0.3, 0.7, sin(pos.z * 4.0 + u_time));
   
+  // Keyboard glow adds extra turbulence
+  float keyboardTurbulence = u_glow * snoise(pos * 3.0 + u_time * 2.0) * 0.06;
+  
   // Turbulent noise for organic chaos
   float noise = snoise(pos * 1.2 + u_time * 0.3 + vec3(mouseOffset, 0.0)) * 0.08;
   noise += snoise(pos * 2.5 - u_time * 0.4) * 0.05;
   noise += snoise(pos * 5.0 + u_time * 0.6) * 0.03;
+  noise += keyboardTurbulence;
   
   // Combine all deformations
   float totalDisplacement = hex + wave1 + wave2 + wave3 + spikes + noise;
@@ -119,6 +129,8 @@ void main() {
 const fragmentShader = `
 uniform float u_time;
 uniform vec2 u_mouse;
+uniform float u_pulse;
+uniform float u_glow;
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying float vNoise;
@@ -140,44 +152,69 @@ void main() {
   vec3 color2 = vec3(0.0, 0.7, 0.5);    // Teal accent
   vec3 color3 = vec3(0.3, 1.0, 0.3);    // Electric green
   
+  // Keyboard glow effect - more subtle cyan tint
+  vec3 glowColor = vec3(0.3, 0.9, 0.8);
+  float glowIntensity = u_glow * 0.25;
+  
+  // Pulse effect - very subtle white tint
+  vec3 pulseColor = vec3(1.0, 1.0, 0.95);
+  float pulseIntensity = u_pulse * 0.15;
+  
   // Color based on deformation intensity and mouse proximity
   float deformIntensity = abs(vNoise) * 5.0;
   vec3 baseColor = mix(color1, color2, sin(deformIntensity + u_time * 0.5) * 0.5 + 0.5);
   baseColor = mix(baseColor, color3, smoothstep(0.1, 0.3, abs(vNoise)));
   
+  // Boost base color saturation
+  baseColor = baseColor * 1.2;
+  
+  // Mix in glow color based on keyboard activity - very subtle to preserve vibrancy
+  baseColor = mix(baseColor, glowColor, glowIntensity * rimLight * 0.3);
+  
+  // Add pulse flash - even more subtle
+  baseColor = mix(baseColor, pulseColor, pulseIntensity * 0.3);
+  
   // Extra glow where stretched towards mouse
   float stretchGlow = smoothstep(0.3, 0.7, dot(normalize(vPosition), normalize(vec3(mouseOffset, 0.0))));
-  baseColor += vec3(0.1, 0.3, 0.2) * stretchGlow * 0.3;
+  baseColor += vec3(0.1, 0.4, 0.2) * stretchGlow * 0.4;
   
-  // Holographic interference patterns
+  // Holographic interference patterns enhanced by keyboard glow
   float interference = sin(vPosition.x * 15.0 + u_time) * sin(vPosition.y * 15.0 - u_time * 0.7);
-  interference *= 0.1 * rimLight;
+  interference *= 0.1 * rimLight * (1.0 + u_glow * 1.5);
   baseColor += vec3(interference * 0.2, interference * 0.5, interference * 0.3);
   
-  // Electric rim effect enhanced by mouse proximity
+  // Electric rim effect enhanced by mouse proximity and keyboard glow
   float electricRim = pow(rimLight, 0.5);
   vec3 electricColor = vec3(0.4, 1.0, 0.6);
   float electric = sin(atan(vPosition.y, vPosition.x) * 20.0 + u_time * 3.0) * electricRim;
   electric = smoothstep(0.6, 1.0, electric) * 0.3;
-  electric *= 1.0 + (1.0 - mouseDistance) * 0.5;
+  electric *= 1.0 + (1.0 - mouseDistance) * 0.5 + u_glow * 0.5;
   
   // Core energy with color variation
   float centerDistance = length(vPosition) / 2.2;
-  float coreGlow = smoothstep(1.0, 0.0, centerDistance) * 0.4;
+  float coreGlow = smoothstep(1.0, 0.0, centerDistance) * 0.5;
   vec3 coreColor = mix(vec3(0.5, 1.0, 0.7), vec3(0.3, 0.8, 1.0), sin(u_time * 1.5) * 0.5 + 0.5);
+  coreColor = mix(coreColor, glowColor, u_glow * 0.3);
   
   // Combine all effects
   vec3 finalColor = baseColor;
   finalColor += electricColor * electric;
-  finalColor += coreColor * coreGlow;
-  finalColor += electricColor * electricRim * 0.5;
+  finalColor += coreColor * coreGlow * (1.0 + u_pulse * 0.3);
+  finalColor += electricColor * electricRim * 0.6;
+  
+  // Keyboard effect - flowing energy waves instead of dots
+  float flowingEnergy = sin(vPosition.x * 10.0 - u_time * 5.0 + vPosition.y * 5.0) * 
+                        cos(vPosition.y * 8.0 + u_time * 4.0 - vPosition.z * 3.0);
+  flowingEnergy = smoothstep(0.7, 1.0, abs(flowingEnergy)) * u_glow;
+  vec3 energyColor = mix(vec3(0.2, 1.0, 0.8), vec3(0.5, 0.8, 1.0), sin(u_time * 2.0) * 0.5 + 0.5);
+  finalColor += energyColor * flowingEnergy * rimLight * 0.6;
   
   // Energy fluctuations
   float fluctuation = sin(u_time * 4.0 + vPosition.z * 10.0) * 0.1 + 0.9;
   finalColor *= fluctuation;
   
-  // Dynamic alpha
-  float alpha = 0.2 + rimLight * 0.35 + coreGlow * 0.2 + electric * 0.3;
+  // Dynamic alpha - increased base alpha for better visibility
+  float alpha = 0.25 + rimLight * 0.4 + coreGlow * 0.25 + electric * 0.35 + u_glow * 0.15 + u_pulse * 0.2;
   
   gl_FragColor = vec4(finalColor, alpha);
 }
@@ -191,12 +228,18 @@ function AnimatedOrb({ scale = 1 }: AnimatedOrbProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const currentScale = useRef(scale);
   const mousePosition = useRef({ x: 0, y: 0 });
+  const pulseValue = useRef(0);
+  const targetPulse = useRef(0);
+  const glowValue = useRef(0);
+  const keyboardTimer = useRef<NodeJS.Timeout | null>(null);
 
   const uniforms = useMemo(
     () => ({
       u_time: { value: 0.0 },
       u_scale: { value: 1.0 },
       u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
+      u_pulse: { value: 0.0 },
+      u_glow: { value: 0.0 },
     }),
     [],
   );
@@ -212,6 +255,45 @@ function AnimatedOrb({ scale = 1 }: AnimatedOrbProps) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Handle clicks for pulse effect
+  useEffect(() => {
+    const handleClick = () => {
+      targetPulse.current = 1.0;
+      // Start decay after a short hold
+      setTimeout(() => {
+        targetPulse.current = 0;
+      }, 100);
+    };
+
+    window.addEventListener('click', handleClick);
+    return () => window.removeEventListener('click', handleClick);
+  }, []);
+
+  // Handle keyboard for glow effect
+  useEffect(() => {
+    const handleKeyDown = () => {
+      glowValue.current = 1.0;
+
+      // Clear existing timer
+      if (keyboardTimer.current) {
+        clearTimeout(keyboardTimer.current);
+      }
+
+      // Set new timer to fade out glow
+      keyboardTimer.current = setTimeout(() => {
+        glowValue.current = 0;
+      }, 150);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      if (keyboardTimer.current) {
+        clearTimeout(keyboardTimer.current);
+      }
+    };
+  }, []);
+
   useFrame((state) => {
     if (meshRef.current) {
       const time = state.clock.getElapsedTime();
@@ -223,6 +305,21 @@ function AnimatedOrb({ scale = 1 }: AnimatedOrbProps) {
       // Smooth mouse position updates
       uniforms.u_mouse.value.x += (mousePosition.current.x - uniforms.u_mouse.value.x) * 0.05;
       uniforms.u_mouse.value.y += (mousePosition.current.y - uniforms.u_mouse.value.y) * 0.05;
+
+      // Smooth pulse transitions with easing
+      const pulseDiff = targetPulse.current - pulseValue.current;
+      if (Math.abs(pulseDiff) > 0.001) {
+        // Faster rise, slower fall
+        const easing = pulseDiff > 0 ? 0.12 : 0.08;
+        pulseValue.current += pulseDiff * easing;
+      } else {
+        pulseValue.current = targetPulse.current;
+      }
+      uniforms.u_pulse.value = pulseValue.current;
+
+      // Smooth glow transitions
+      const targetGlow = glowValue.current;
+      uniforms.u_glow.value += (targetGlow - uniforms.u_glow.value) * 0.15;
 
       // Subtle multi-axis rotation influenced by mouse
       const mouseInfluenceX = (uniforms.u_mouse.value.x - 0.5) * 0.3;

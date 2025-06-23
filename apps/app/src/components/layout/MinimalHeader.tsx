@@ -2,15 +2,14 @@
 
 import { changeOrganizationAction } from '@/actions/change-organization';
 import { MinimalOrganizationSwitcher } from '@/components/layout/MinimalOrganizationSwitcher';
-import { authClient } from '@/utils/auth-client';
+import { MinimalUserMenu } from '@/components/layout/MinimalUserMenu';
 import type { Organization } from '@comp/db/types';
 import { Icons } from '@comp/ui/icons';
 import type { User } from 'better-auth';
-import { ArrowLeft, LogOut } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 interface MinimalHeaderProps {
   user: User;
@@ -26,7 +25,6 @@ export function MinimalHeader({
   variant = 'upgrade',
 }: MinimalHeaderProps) {
   const router = useRouter();
-  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const changeOrgAction = useAction(changeOrganizationAction, {
     onSuccess: (result) => {
@@ -36,17 +34,6 @@ export function MinimalHeader({
       }
     },
   });
-
-  const handleSignOut = async () => {
-    setIsSigningOut(true);
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push('/auth');
-        },
-      },
-    });
-  };
 
   const hasExistingOrgs = organizations.length > 0;
 
@@ -83,18 +70,7 @@ export function MinimalHeader({
         ) : null}
       </div>
 
-      <div className="flex items-center gap-3">
-        {/* <ThemeSwitch /> */}
-        <span className="hidden lg:inline text-sm text-foreground/80">{user.email}</span>
-        <button
-          onClick={handleSignOut}
-          disabled={isSigningOut}
-          className="flex items-center gap-1.5 text-sm text-foreground/80 hover:text-foreground transition-colors disabled:opacity-50"
-        >
-          <LogOut className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">{isSigningOut ? 'Signing out...' : 'Sign out'}</span>
-        </button>
-      </div>
+      <MinimalUserMenu user={user} />
     </header>
   );
 }
