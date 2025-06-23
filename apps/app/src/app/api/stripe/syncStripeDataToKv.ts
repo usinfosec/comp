@@ -1,5 +1,6 @@
 import { stripe } from '@/actions/organization/lib/stripe';
 import { db } from '@comp/db';
+import { Prisma } from '@comp/db/types';
 import { STRIPE_SUB_CACHE } from './stripeDataToKv.type';
 
 /**
@@ -32,7 +33,7 @@ export async function syncStripeDataToKV(customerId: string): Promise<STRIPE_SUB
         where: { id: organization.id },
         data: {
           subscriptionType: 'NONE',
-          stripeSubscriptionData: null,
+          stripeSubscriptionData: Prisma.JsonNull,
         },
       });
 
@@ -52,7 +53,7 @@ export async function syncStripeDataToKV(customerId: string): Promise<STRIPE_SUB
         where: { id: organization.id },
         data: {
           subscriptionType: 'NONE',
-          stripeSubscriptionData: null,
+          stripeSubscriptionData: Prisma.JsonNull,
         },
       });
       return subData;
