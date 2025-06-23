@@ -25,24 +25,25 @@ interface PricingCardsProps {
 }
 
 const starterFeatures = [
-  'AI-powered policy generation',
-  'Automated vendor research',
-  'Risk assessment & compliance',
-  'Task tracking & trust portal',
+  'Every framework included',
+  'Trust & Security Portal',
+  'Automated AI-Powered Onboarding',
+  'AI Vendor Management',
+  'AI Risk Management',
   'Unlimited team members',
-  'Real-time compliance monitoring',
-  'Basic integrations (AWS, GitHub)',
-  'API access & email support',
+  'API access',
+  'Discord Support',
 ];
 
 const professionalFeatures = [
-  'Everything in Starter, plus:',
-  'Priority Slack support',
-  'Dedicated success manager',
-  'Custom integrations',
-  'Advanced analytics & reporting',
-  'Premium integrations (100+)',
+  'Everything in Starter plus:',
   'White-glove onboarding',
+  'Private Slack Channel with Comp AI',
+  "We Guarantee You'll Get Compliant",
+  'Unlimited, Private Support',
+  '3rd Party Penetration Test',
+  '3rd Party Audit Discount',
+  'Custom Integrations',
 ];
 
 const auditFeatures = [
@@ -74,13 +75,26 @@ export function PricingCards({ organizationId }: PricingCardsProps) {
       ? `${window.location.protocol}//${window.location.host}`
       : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
+  // Get price IDs from env package
+  const starterPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID;
+  const proPriceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRO_PRICE_ID;
+  const auditPriceId = env.NEXT_PUBLIC_STRIPE_AUDIT_PRICE_ID;
+
   const handleSubscribe = () => {
-    const priceId = env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID;
+    // Determine which plan price ID to use
+    const planPriceId = selectedPlan === 'starter' ? starterPriceId : proPriceId;
+    // Build array of price IDs
+    const priceIds = [planPriceId].filter(Boolean);
+    if (includeAudit && auditPriceId) {
+      priceIds.push(auditPriceId);
+    }
+    // TODO: Update backend to accept priceIds: string[]
+    const priceId = priceIds.length > 1 ? priceIds.join(',') : priceIds[0];
 
     execute({
       organizationId,
       mode: 'subscription',
-      priceId,
+      priceId, // send as string for now
       successUrl: `${baseUrl}/${organizationId}/settings/billing?success=true`,
       cancelUrl: `${baseUrl}/upgrade/${organizationId}`,
       allowPromotionCodes: true,
