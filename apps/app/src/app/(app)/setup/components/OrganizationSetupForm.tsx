@@ -142,17 +142,40 @@ export function OrganizationSetupForm({
               </form>
             </Form>
           </CardContent>
-          <CardFooter>
-            <div className="flex flex-1 items-center" suppressHydrationWarning>
-              {/* Skip button removed - forcing all questions */}
+          <CardFooter className="flex flex-col gap-4">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-1 items-center" suppressHydrationWarning>
+                {/* Skip button removed - forcing all questions */}
+              </div>
+              <OnboardingFormActions
+                onBack={handleBack}
+                isSubmitting={isOnboarding || isFinalizing}
+                stepIndex={stepIndex}
+                isLastStep={isLastStep}
+                isOnboarding={isOnboarding}
+              />
             </div>
-            <OnboardingFormActions
-              onBack={handleBack}
-              isSubmitting={isOnboarding || isFinalizing}
-              stepIndex={stepIndex}
-              isLastStep={isLastStep}
-              isOnboarding={isOnboarding}
-            />
+            <div className="w-full border-t border-border/30 pt-3">
+              <p className="text-center text-xs text-muted-foreground/70">
+                <span className="inline-flex items-center gap-1">
+                  <svg
+                    className="h-3 w-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  Your answers will be used by our AI to create a personalized compliance plan
+                </span>
+              </p>
+            </div>
           </CardFooter>
         </Card>
       </div>
