@@ -13,9 +13,9 @@ import {
 } from '@comp/ui/dialog';
 import confetti from 'canvas-confetti';
 import {
-  BookOpen,
+  Brain,
   CheckCircle2,
-  Code2,
+  FileText,
   Headphones,
   LucideIcon,
   MessageSquare,
@@ -23,8 +23,6 @@ import {
   Shield,
   Sparkles,
   Users,
-  Brain,
-  FileText,
   Zap,
 } from 'lucide-react';
 import { useQueryState } from 'nuqs';
@@ -58,10 +56,14 @@ export function CheckoutCompleteDialog() {
     clearOnDefault: true,
   });
   const [open, setOpen] = useState(false);
+  const [planType, setPlanType] = useState<PlanType | null>(null);
 
   useEffect(() => {
     if (checkoutComplete === 'starter' || checkoutComplete === 'done-for-you') {
-      const planType = checkoutComplete as PlanType;
+      const detectedPlanType = checkoutComplete as PlanType;
+
+      // Store the plan type before clearing the query param
+      setPlanType(detectedPlanType);
 
       // Show the dialog
       setOpen(true);
@@ -85,7 +87,7 @@ export function CheckoutCompleteDialog() {
         const particleCount = 50 * (timeLeft / duration);
         // Use different colors based on plan type
         const colors =
-          planType === 'done-for-you'
+          detectedPlanType === 'done-for-you'
             ? ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#d1fae5'] // Green for paid
             : ['#3b82f6', '#60a5fa', '#93bbfc', '#bfdbfe', '#dbeafe']; // Blue for starter
 
@@ -148,9 +150,10 @@ export function CheckoutCompleteDialog() {
       buttonText: 'Get Started',
       footerText: 'Your success team will reach out within 24 hours',
     },
-    'starter': {
+    starter: {
       title: 'Welcome to Starter!',
-      description: "Everything you need to get compliant, fast. Let's begin your DIY compliance journey!",
+      description:
+        "Everything you need to get compliant, fast. Let's begin your DIY compliance journey!",
       badge: 'DIY (Do It Yourself) Compliance',
       badgeDescription: 'Build your compliance program at your own pace',
       badgeClass: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
@@ -184,12 +187,12 @@ export function CheckoutCompleteDialog() {
     },
   };
 
-  // Get current content, default to done-for-you if the value is not a valid plan type
-  const validPlanType =
-    checkoutComplete === 'starter' || checkoutComplete === 'done-for-you'
-      ? checkoutComplete
-      : 'done-for-you';
-  const currentContent = content[validPlanType];
+  // Only render content if we have a valid plan type stored
+  if (!planType) {
+    return null;
+  }
+
+  const currentContent = content[planType];
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -220,7 +223,7 @@ export function CheckoutCompleteDialog() {
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-muted-foreground">
-              {validPlanType === 'starter' ? 'What you get:' : 'What's included:'}
+              {planType === 'starter' ? 'What you get:' : "What's included:"}
             </h3>
             <div className="grid gap-3">
               {currentContent.features.map((feature: Feature) => {
@@ -242,7 +245,7 @@ export function CheckoutCompleteDialog() {
             </div>
           </div>
 
-          {validPlanType === 'starter' && (
+          {planType === 'starter' && (
             <div className="mt-4 p-3 bg-muted/50 rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
                 <MessageSquare className="h-3 w-3 inline mr-1" />
