@@ -21,16 +21,20 @@ export function BookingDialog() {
           Book a Call with Our Team
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-7xl w-full h-[90vh] p-0">
-        <DialogHeader className="px-6 pt-6 pb-4">
-          <DialogTitle>Schedule a Call with Our Compliance Experts</DialogTitle>
-          <DialogDescription>
-            Have questions about our plans? Want to learn how we can help you achieve compliance in
-            14 days? Book a 15-30 minute call with our team.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex-1 px-6 pb-6 h-[calc(100%-120px)]">
-          <CalendarEmbed />
+      <DialogContent className="sm:max-w-4xl md:max-w-5xl lg:max-w-6xl w-[95vw] h-[70vh] p-0 overflow-y-auto">
+        <div className="flex flex-col h-full">
+          <DialogHeader className="px-8 py-6 border-b">
+            <DialogTitle className="text-xl font-semibold">
+              Schedule a Call with Our Compliance Experts
+            </DialogTitle>
+            <DialogDescription className="mt-2">
+              Have questions about our plans? Want to learn how we can help you achieve compliance
+              in 14 days? Book a call with our team.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex-1 mx-auto w-full">
+            <CalendarEmbed />
+          </div>
         </div>
       </DialogContent>
     </Dialog>
