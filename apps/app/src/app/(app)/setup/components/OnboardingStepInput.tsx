@@ -93,7 +93,7 @@ export function OnboardingStepInput({
         onValueChange={(values: string[]) => {
           form.setValue(currentStep.key, values.join(','));
         }}
-        placeholder={`Type anything and press enter to add it, ${currentStep.placeholder}`}
+        placeholder={`Search or add custom (press Enter) • ${currentStep.placeholder}`}
       />
     );
   }
