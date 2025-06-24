@@ -5,6 +5,7 @@ import { db } from '@comp/db';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@comp/ui/accordion';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { AnimatedPricingBanner } from './components/AnimatedPricingBanner';
 import { PricingCards } from './pricing-cards';
 
 interface PageProps {
@@ -100,39 +101,42 @@ export default async function UpgradePage({ params }: PageProps) {
   const priceDetails = await fetchStripePriceDetails();
 
   return (
-    <div className="mx-auto px-4 py-8 max-w-7xl">
-      <div className="relative">
-        <div className="relative bg-transparent p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold mb-2">Choose Your Plan</h1>
-            <p className="text-xl text-muted-foreground">
-              Get compliant fast with our DIY or Done-For-You solutions
-            </p>
-          </div>
-          <PricingCards organizationId={orgId} priceDetails={priceDetails} />
-
-          {/* FAQ Section */}
-          <div className="mt-16 max-w-3xl mx-auto">
+    <>
+      <AnimatedPricingBanner />
+      <div className="mx-auto px-4 py-8 max-w-7xl">
+        <div className="relative">
+          <div className="relative bg-transparent p-8">
             <div className="text-center mb-8">
-              <h2 className="text-xl font-bold mb-2">Frequently Asked Questions</h2>
-              <p className="text-sm text-muted-foreground">
-                Everything you need to know about our pricing and plans
+              <h1 className="text-2xl font-bold mb-2">Choose Your Plan</h1>
+              <p className="text-xl text-muted-foreground">
+                Get compliant fast with our DIY or Done-For-You solutions
               </p>
             </div>
+            <PricingCards organizationId={orgId} priceDetails={priceDetails} />
 
-            <Accordion type="single" collapsible className="w-full">
-              {pricingFaqData.map((faq) => (
-                <AccordionItem key={faq.id} value={faq.id}>
-                  <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            {/* FAQ Section */}
+            <div className="mt-16 max-w-3xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-xl font-bold mb-2">Frequently Asked Questions</h2>
+                <p className="text-sm text-muted-foreground">
+                  Everything you need to know about our pricing and plans
+                </p>
+              </div>
+
+              <Accordion type="single" collapsible className="w-full">
+                {pricingFaqData.map((faq) => (
+                  <AccordionItem key={faq.id} value={faq.id}>
+                    <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
