@@ -196,6 +196,7 @@ const paidFeatures = [
   'Dedicated Success Team',
   '24x7x365 Support & SLA',
   'Slack Channel with Comp AI',
+  '12-month minimum term',
 ];
 
 export function PricingCards({ organizationId, priceDetails }: PricingCardsProps) {
