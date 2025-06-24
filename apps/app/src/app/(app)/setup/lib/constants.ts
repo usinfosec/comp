@@ -35,7 +35,7 @@ export const steps: Step[] = [
   {
     key: 'website',
     question: "What's your company website?",
-    placeholder: 'e.g., https://www.acme.com',
+    placeholder: 'example.com',
   },
   {
     key: 'describe',
