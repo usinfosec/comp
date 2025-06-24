@@ -90,7 +90,7 @@ export function OrganizationSetupForm({
   }, [stepIndex, steps.length, isFinalizing]);
 
   return isFinalizing ? (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-dvh items-center justify-center">
       <LogoSpinner />
     </div>
   ) : (
