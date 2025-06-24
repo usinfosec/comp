@@ -1,12 +1,15 @@
 'use client';
 
+import { Skeleton } from '@comp/ui/skeleton';
 import { DubEmbed } from '@dub/embed-react';
+import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 export const DubReferral = () => {
   const [publicToken, setPublicToken] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchPublicToken = async () => {
@@ -39,7 +42,11 @@ export const DubReferral = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center">
+        <Skeleton className="h-[100vh] w-full max-w-[1024px] rounded-none" />
+      </div>
+    );
   }
 
   if (error) {
@@ -75,5 +82,15 @@ export const DubReferral = () => {
     );
   }
 
-  return <DubEmbed data="referrals" token={publicToken} />;
+  const dubTheme = theme === 'dark' ? 'dark' : 'light';
+
+  return (
+    <DubEmbed
+      data="referrals"
+      token={publicToken}
+      options={{
+        theme: dubTheme,
+      }}
+    />
+  );
 };
