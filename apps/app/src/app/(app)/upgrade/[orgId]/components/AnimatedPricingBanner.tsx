@@ -33,7 +33,7 @@ export function AnimatedPricingBanner() {
   if (!mounted) return null;
 
   return (
-    <div className="sticky top-[49px] z-[9] w-full h-14 overflow-hidden select-none">
+    <div className="sticky top-[49px] z-[9] w-full h-10 overflow-hidden select-none">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 backdrop-blur-md" />
 
