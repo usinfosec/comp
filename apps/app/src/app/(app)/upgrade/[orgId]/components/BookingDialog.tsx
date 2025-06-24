@@ -17,7 +17,7 @@ export function BookingDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="w-full">
-          <Phone className="mr-2 h-4 w-4" />
+          <Phone className="h-4 w-4" />
           Book a Call with Our Team
         </Button>
       </DialogTrigger>
