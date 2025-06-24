@@ -36,14 +36,16 @@ export const env = createEnv({
     ZAPIER_HUBSPOT_WEBHOOK_URL: z.string().optional(),
     FLEET_URL: z.string().optional(),
     FLEET_TOKEN: z.string().optional(),
+    DUB_API_KEY: z.string().optional(),
+    DUB_PROGRAM_ID: z.string().optional(),
   },
 
   client: {
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
-    NEXT_PUBLIC_NOVU_IDENTIFIER: z.string().optional(),
-    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_MONTHLY_PRICE_ID: z.string().optional(),
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_YEARLY_PRICE_ID: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -59,7 +61,6 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID: process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
     TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
     TRIGGER_API_KEY: process.env.TRIGGER_API_KEY,
@@ -72,7 +73,6 @@ export const env = createEnv({
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     TRUST_PORTAL_PROJECT_ID: process.env.TRUST_PORTAL_PROJECT_ID,
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
-    NEXT_PUBLIC_NOVU_IDENTIFIER: process.env.NEXT_PUBLIC_NOVU_IDENTIFIER,
     NODE_ENV: process.env.NODE_ENV,
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
@@ -85,6 +85,12 @@ export const env = createEnv({
     ZAPIER_HUBSPOT_WEBHOOK_URL: process.env.ZAPIER_HUBSPOT_WEBHOOK_URL,
     FLEET_URL: process.env.FLEET_URL,
     FLEET_TOKEN: process.env.FLEET_TOKEN,
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_MONTHLY_PRICE_ID:
+      process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_MONTHLY_PRICE_ID,
+    NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_YEARLY_PRICE_ID:
+      process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_MANAGED_YEARLY_PRICE_ID,
+    DUB_API_KEY: process.env.DUB_API_KEY,
+    DUB_PROGRAM_ID: process.env.DUB_PROGRAM_ID,
   },
 
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,

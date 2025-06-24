@@ -20,7 +20,7 @@
     ·
     <a href="https://github.com/trycompai/comp/issues">Issues</a>
     ·
-    <a href="https://github.com/orgs/trycompai/projects/1">Roadmap</a>
+    <a href="https://roadmap.trycomp.ai/roadmap">Roadmap</a>
   </p>
 </p>
 
@@ -53,7 +53,6 @@ We transform compliance from a vendor checkbox into an engineering problem solve
 - [Tailwind CSS](https://tailwindcss.com/?ref=trycomp.ai)
 - [Upstash](https://upstash.com/?ref=trycomp.ai)
 - [Vercel](https://vercel.com/?ref=trycomp.ai)
-- [Novu](https://novu.co/?ref=trycomp.ai)
 
 ## Contact us
 
