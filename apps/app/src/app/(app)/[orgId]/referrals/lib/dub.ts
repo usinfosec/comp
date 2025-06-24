@@ -1,5 +1,6 @@
+import { env } from '@/env.mjs';
 import { Dub } from 'dub';
 
 export const dub = new Dub({
-  token: process.env.DUB_API_KEY as string,
+  token: env.DUB_API_KEY,
 });

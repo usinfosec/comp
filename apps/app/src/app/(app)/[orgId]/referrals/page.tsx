@@ -1,3 +1,4 @@
+import { env } from '@/env.mjs';
 import { auth } from '@/utils/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -17,8 +18,12 @@ async function createPublicToken() {
     redirect('/');
   }
 
+  if (!env.DUB_PROGRAM_ID || !env.DUB_API_KEY) {
+    return null;
+  }
+
   const { publicToken } = await dub.embedTokens.referrals({
-    programId: process.env.DUB_PROGRAM_ID as string,
+    programId: env.DUB_PROGRAM_ID,
     partner: {
       tenantId: session.user.id,
       name: session.user.name || '',
