@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, Suspense } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 interface SenjaReviewWidgetProps {
   widgetId: string;
@@ -18,7 +18,7 @@ const scriptLoadingState = {
   loading: false,
   loaded: false,
   error: null as Error | null,
-  promises: [] as Array<{ resolve: () => void; reject: (error: Error) => void }>
+  promises: [] as Array<{ resolve: () => void; reject: (error: Error) => void }>,
 };
 
 function loadSenjaScript(widgetId: string): Promise<void> {
@@ -88,7 +88,7 @@ function SenjaReviewWidgetContent({
   className = '',
   style = {},
   onLoad,
-  onError
+  onError,
 }: SenjaReviewWidgetProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -126,7 +126,7 @@ function SenjaReviewWidgetContent({
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
 
       observer.observe(containerRef.current);
@@ -163,7 +163,7 @@ function SenjaReviewWidgetContent({
         width: '100%',
         minHeight: '80px',
         transition: 'opacity 0.3s ease-in-out',
-        ...style
+        ...style,
       }}
     />
   );
