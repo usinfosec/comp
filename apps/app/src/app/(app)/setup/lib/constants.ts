@@ -100,7 +100,7 @@ export const steps: Step[] = [
     key: 'workLocation',
     question: 'How does your team work?',
     placeholder: 'e.g., Remote',
-    options: ['Fully remote', 'Hybrid (office + remote)', 'Office-based', 'Other'],
+    options: ['Fully remote', 'Hybrid (office + remote)', 'Office-based'],
   },
   {
     key: 'infrastructure',
