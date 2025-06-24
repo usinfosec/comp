@@ -33,14 +33,14 @@ export function AnimatedPricingBanner() {
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full h-14 overflow-hidden select-none">
+    <div className="sticky top-[49px] z-[9] w-full h-14 overflow-hidden select-none">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 backdrop-blur-md" />
 
       {/* Clipped animated background */}
       <div className="absolute inset-0 overflow-hidden opacity-60">
         <div className="absolute inset-0 scale-[3] translate-y-1/2">
-          <AnimatedGradientBackground scale={1} />
+          <AnimatedGradientBackground scale={2} />
         </div>
       </div>
 
@@ -48,6 +48,9 @@ export function AnimatedPricingBanner() {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 -translate-x-full animate-[shimmer_3s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
       </div>
+
+      {/* Top border for depth when sticky */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity duration-300 group-[.scrolled]:opacity-100" />
 
       {/* Bottom border with glow */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
