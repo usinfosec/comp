@@ -22,8 +22,8 @@ export function FrameworkCard({
       className={cn(
         'relative rounded-md border transition-all',
         isSelected
-          ? 'border-primary bg-primary/5 dark:bg-primary/10 shadow-sm'
-          : 'border-border bg-card hover:bg-muted/30 hover:border-muted-foreground/20',
+          ? 'border-primary bg-primary/10 dark:bg-primary/15 shadow-sm backdrop-blur-sm'
+          : 'border-border bg-card/60 dark:bg-card/50 hover:bg-card/80 dark:hover:bg-card/70 hover:border-muted-foreground/20 backdrop-blur-sm',
         className,
       )}
     >
@@ -41,7 +41,14 @@ export function FrameworkCard({
           <div className="flex items-center justify-between gap-3">
             <h4 className="text-sm leading-tight font-medium">{framework.name}</h4>
             <div className="flex-shrink-0">
-              <span className="bg-muted text-muted-foreground inline-flex items-center rounded-xs px-2 py-1 text-xs">
+              <span
+                className={cn(
+                  'inline-flex items-center rounded-xs px-2 py-1 text-xs transition-colors',
+                  isSelected
+                    ? 'bg-primary/20 text-primary dark:bg-primary/25 dark:text-primary-foreground font-medium'
+                    : 'bg-muted text-muted-foreground',
+                )}
+              >
                 v{framework.version}
               </span>
             </div>
