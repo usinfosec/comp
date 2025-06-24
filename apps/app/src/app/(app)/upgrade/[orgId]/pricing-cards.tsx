@@ -3,6 +3,7 @@
 import { chooseSelfServeAction } from '@/actions/organization/choose-self-serve';
 import { generateCheckoutSessionAction } from '@/app/api/stripe/generate-checkout-session/generate-checkout-session';
 import { SelectionIndicator } from '@/components/layout/SelectionIndicator';
+import { SenjaReviewWidget } from '@/components/senja-review-widget';
 import { Badge } from '@comp/ui/badge';
 import { Button } from '@comp/ui/button';
 import {
@@ -440,6 +441,14 @@ export function PricingCards({ organizationId, priceDetails }: PricingCardsProps
               </Button>
             </CardFooter>
           </Card>
+
+          {/* Senja Review Widget */}
+          <SenjaReviewWidget
+            widgetId="13c51a85-da06-4bd9-9ec1-de5b9670ca99"
+            mode="shadow"
+            lazyLoad={false}
+            className="mt-2"
+          />
 
           {/* Trust Signals */}
           <div className="text-center">
