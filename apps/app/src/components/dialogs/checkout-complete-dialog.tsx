@@ -23,6 +23,9 @@ import {
   Shield,
   Sparkles,
   Users,
+  Brain,
+  FileText,
+  Zap,
 } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { useEffect, useState } from 'react';
@@ -138,18 +141,18 @@ export function CheckoutCompleteDialog() {
         },
         {
           icon: Headphones,
-          title: '24x7x365 Support',
-          description: "We're here whenever you need us",
+          title: '24x7x365 Support & SLA',
+          description: 'Priority support with guaranteed response times',
         },
       ],
       buttonText: 'Get Started',
       footerText: 'Your success team will reach out within 24 hours',
     },
-    starter: {
-      title: 'Welcome to Comp AI!',
-      description: "You're all set up with the Starter plan. Let's get you compliant!",
-      badge: 'DIY Compliance',
-      badgeDescription: 'Everything you need to achieve compliance on your own',
+    'starter': {
+      title: 'Welcome to Starter!',
+      description: "Everything you need to get compliant, fast. Let's begin your DIY compliance journey!",
+      badge: 'DIY (Do It Yourself) Compliance',
+      badgeDescription: 'Build your compliance program at your own pace',
       badgeClass: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
       cardClass: 'bg-blue-50/50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/50',
       iconClass: 'bg-blue-100 dark:bg-blue-900/30',
@@ -158,26 +161,26 @@ export function CheckoutCompleteDialog() {
         {
           icon: Rocket,
           title: 'Access to all frameworks',
-          description: 'SOC 2, ISO 27001, HIPAA, and more',
+          description: 'SOC 2, ISO 27001, HIPAA, GDPR, and more',
         },
         {
-          icon: Code2,
-          title: 'API access',
-          description: 'Integrate compliance into your workflow',
+          icon: Brain,
+          title: 'AI Vendor & Risk Management',
+          description: 'Streamline your vendor assessments and risk tracking',
         },
         {
-          icon: BookOpen,
+          icon: FileText,
           title: 'Trust & Security Portal',
           description: 'Share your compliance status with customers',
         },
         {
-          icon: MessageSquare,
-          title: 'Community Support',
-          description: 'Get help from the Comp AI community',
+          icon: Zap,
+          title: 'Unlimited team members',
+          description: 'Collaborate with your entire team at no extra cost',
         },
       ],
-      buttonText: 'Explore Frameworks',
-      footerText: 'Upgrade anytime for Done-for-You compliance',
+      buttonText: 'Start Building',
+      footerText: 'Upgrade to Done For You anytime for expert assistance',
     },
   };
 
@@ -216,7 +219,9 @@ export function CheckoutCompleteDialog() {
           </Card>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-muted-foreground">What's included:</h3>
+            <h3 className="text-sm font-semibold text-muted-foreground">
+              {validPlanType === 'starter' ? 'What you get:' : 'What's included:'}
+            </h3>
             <div className="grid gap-3">
               {currentContent.features.map((feature: Feature) => {
                 const Icon = feature.icon;
@@ -236,6 +241,15 @@ export function CheckoutCompleteDialog() {
               })}
             </div>
           </div>
+
+          {validPlanType === 'starter' && (
+            <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+              <p className="text-xs text-muted-foreground text-center">
+                <MessageSquare className="h-3 w-3 inline mr-1" />
+                Join our community for support • Pay for your audit when ready
+              </p>
+            </div>
+          )}
         </div>
 
         <DialogFooter className="flex-col gap-2 sm:flex-col">
