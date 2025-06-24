@@ -89,7 +89,7 @@ export const DubReferral = () => {
       data="referrals"
       token={publicToken}
       options={{
-        theme: dubTheme,
+        theme: 'system',
       }}
     />
   );
